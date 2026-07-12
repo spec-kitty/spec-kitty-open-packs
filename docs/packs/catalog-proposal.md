@@ -62,6 +62,7 @@ pack-ecosystem epics:
 | 13 | `planning-and-analysis` | Scoping, risk, prioritisation, requirements validation, tracing. | core-engineering |
 | 14 | `structured-prompt-driven-development` | SPDD paradigm + REASONS canvas. | core-engineering |
 | 15 | `doctrine-authoring` | Meta-pack for pack/skill authors and doctrine maintainers. | core-engineering |
+| 16 | `spec-kitty-internal` | Spec Kitty's own dogfooded doctrine + charter: contributor/maintainer workflow, review process, tracker processing. | core-engineering, doctrine-authoring, git-delivery-workflow, adversarial-review |
 
 ### 1. `core-engineering`
 
@@ -211,7 +212,38 @@ Meta-pack for people who *build* packs, skills, and doctrine.
 - **Procedures:** `onboard-external-agent-to-pack`.
 - **Agent profiles:** `doctrine-daphne`.
 
+### 16. `spec-kitty-internal`
+
+Spec Kitty's **own** doctrine, dogfooded as an open pack — the encoded version of how the
+Spec Kitty project itself is run, so contributors and downstream teams can adopt (or study)
+its way of working. Partly a curation of built-in artifacts that describe the project's
+process, partly **net-new artifacts** derived from the repository's own maintainer/contributor
+material (`HOW_TO_MAINTAIN.md`, `CONTRIBUTING.md`, `RELEASE_CHECKLIST.md`, tracker
+conventions). Ships the project's own `org-charter.yaml`. Grounded in the catfooding epic
+[core #2196](https://github.com/Priivacy-ai/spec-kitty/issues/2196).
+
+- **Directives:** `039-lynn-cole-engineering-culture`, `025-boy-scout-rule` (curated),
+  `044-canonical-sources-and-unification` (curated); net-new: contributor-workflow and
+  maintainer-workflow directives encoding PR-landing, review gates, and release discipline.
+- **Styleguides:** `planning-and-tracking`, `adversarial-squad-cadence`, `tiered-standards`;
+  net-new: review-process and issue-tracker-processing styleguides.
+- **Tactics:** `autonomous-operation-protocol`, `clean-linear-commit-history`,
+  `pr-agent-worktree-isolation`, `frozen-baseline-shrink-only-ratchet`, `ownership-map-leeway`.
+- **Procedures:** `tracker-organisation-workflow`, `issue-triage-state-machine`,
+  `mission-wrap-up-sequence`, `post-merge-arch-gate-adjudication`,
+  `adversarial-squad-deployment`, `development-assist-test-cleanup`.
+- **Agent profiles:** `human-in-charge`, `reviewer-renata`, `doctrine-daphne`,
+  `retrospective-facilitator`.
+- **Charter:** ships `org-charter.yaml` — the compiled Spec Kitty charter (catfooding).
+
+This pack doubles as the reference example for "how do I encode my team's whole way of
+working as a pack," and as the eventual self-governance pack for this very repository.
+
 ## Compound packs (horizontal composition)
+
+The four compound packs below are tracked together under a **single epic** rather than one
+issue each — they are demonstrations of horizontal composition over the base packs and move
+as a group once their constituents exist.
 
 These declare `depends_on` over base packs; a consumer configures **one** name.
 
@@ -227,12 +259,14 @@ These declare `depends_on` over base packs; a consumer configures **one** name.
 Some built-in artifacts are foundational runtime mechanics rather than domain doctrine, and
 are expected to remain built-in (or move only when core decides). Examples:
 `035-bulk-edit-occurrence-classification` and its `occurrence-classification-workflow`,
-`model-task-routing`, `autonomous-operation-protocol`, mission-type/step-contract machinery,
-and the retrospective mechanics. This proposal does **not** claim them.
+`model-task-routing`, mission-type/step-contract machinery, and the retrospective mechanics.
+This proposal does **not** claim them.
 
 ## From proposal to issues
 
-Each base and compound pack above maps to a tracking issue in this repository, labelled
-`pack` + `doctrine`, cross-referencing the relevant core epic. See the
+Each of the **16 base packs** above maps to its own tracking issue in this repository,
+labelled `pack` + `doctrine` and cross-referencing the relevant core epic. The **four
+compound packs** are tracked under a single `epic` + `compound-pack` umbrella issue rather
+than one issue each. See the
 [issue tracker](https://github.com/spec-kitty/spec-kitty-open-packs/issues). Membership lists
 here are a **starting point** — each issue refines its own pack's contents during authoring.

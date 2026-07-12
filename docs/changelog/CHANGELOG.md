@@ -27,7 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   frontmatter, root `CHANGELOG.md` / `CONTRIBUTING.md` symlinks, `.github` artifacts).
 - **Documentation scaffold.** Added `docs/guides/` with usage guides (use a pack, compose
   packs) and authoring guides (author, validate, publish a pack).
-- **Pack catalog proposal.** Added `docs/packs/catalog-proposal.md` — the proposed set of
-  domain/purpose packs carved from the current built-in doctrine corpus, cross-referenced to
-  the core pack-ecosystem epics ([#2466](https://github.com/Priivacy-ai/spec-kitty/issues/2466),
+- **Pack catalog proposal.** Added `docs/packs/catalog-proposal.md` — 16 base packs (incl. a
+  `spec-kitty-internal` dogfooding pack) + 4 compound stacks, carved from the current built-in
+  doctrine corpus and cross-referenced to the core pack-ecosystem epics
+  ([#2466](https://github.com/Priivacy-ai/spec-kitty/issues/2466),
   [#2467](https://github.com/Priivacy-ai/spec-kitty/issues/2467)).
+- **Tracker seed.** Filed one tracking issue per base pack (open-packs #1–#16) plus a single
+  compound-pack epic (#17), with `pack` / `doctrine` / `epic` / `compound-pack` labels.
