@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spk-admin-dashboard/references/dashboard-daemon.md

@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spec-kitty-bulk-edit-classification/SKILL.md

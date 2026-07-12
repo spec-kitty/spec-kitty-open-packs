@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/adversarial-squad/SKILL.md

@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spk-doctrine-bulk-edit/SKILL.md

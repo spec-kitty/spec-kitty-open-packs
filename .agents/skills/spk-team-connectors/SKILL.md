@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spk-team-connectors/SKILL.md

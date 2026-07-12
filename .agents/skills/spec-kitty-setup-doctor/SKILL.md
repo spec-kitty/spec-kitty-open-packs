@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spec-kitty-setup-doctor/SKILL.md

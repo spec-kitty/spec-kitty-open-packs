@@ -1,0 +1,15 @@
+project:
+  uuid: 6578ac86-9932-464f-85e3-472f38c9990d
+  slug: spec-kitty-open-packs
+  node_id: 6ad7860a01ff
+  build_id: dd528a4a-a565-571f-bf0e-da64e2fc5927
+vcs:
+  type: git
+agents:
+  available:
+  - claude
+  - gemini
+  - copilot
+  - codex
+  auto_commit: true
+  lint_on_edit: false

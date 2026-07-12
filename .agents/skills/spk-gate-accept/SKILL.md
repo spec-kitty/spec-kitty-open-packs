@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spk-gate-accept/SKILL.md

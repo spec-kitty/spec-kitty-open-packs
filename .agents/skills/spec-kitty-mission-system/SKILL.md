@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spec-kitty-mission-system/SKILL.md

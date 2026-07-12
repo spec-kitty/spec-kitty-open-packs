@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spk-mission-types/SKILL.md

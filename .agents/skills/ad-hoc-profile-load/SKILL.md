@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/ad-hoc-profile-load/SKILL.md

@@ -1,0 +1,82 @@
+---
+title: Publish a pack
+description: Distribute a Spec Kitty doctrine pack via git, HTTPS bundle, or a custom API; version it for reproducibility; and account for the pack trust surface.
+doc_status: wip
+updated: '2026-07-12'
+related:
+- docs/guides/validate-a-pack.md
+- docs/guides/use-a-doctrine-pack.md
+- SECURITY.md
+---
+# Publish a pack
+
+Once a pack [validates](validate-a-pack.md) cleanly, distribute it so consumers can fetch it.
+Spec Kitty's org layer supports three transports.
+
+## Option A — Git repository (recommended)
+
+Push the pack to a git remote and tag releases. In this marketplace, most open packs live as
+directories inside `spec-kitty-open-packs` and are pinned by tag or commit SHA.
+
+```bash
+git tag pack/domain-driven-design/v0.1.0
+git push origin pack/domain-driven-design/v0.1.0
+```
+
+Consumers point at the remote and pin the ref (see [Use a doctrine pack](use-a-doctrine-pack.md)).
+
+> **Subdirectory packs.** Serving a pack from a repository subdirectory (rather than a
+> dedicated repo) is tracked upstream in
+> [core #2083](https://github.com/Priivacy-ai/spec-kitty/issues/2083) /
+> [#1921](https://github.com/Priivacy-ai/spec-kitty/issues/1921). Until a `pack_path` field
+> lands, a pack may need its own repo or tag scheme to be fetchable in isolation.
+
+## Option B — HTTPS bundle
+
+Upload a tarball to an HTTPS location (object storage, releases page); consumers download and
+extract.
+
+```bash
+tar czf domain-driven-design-v0.1.0.tar.gz -C ./packs/domain-driven-design .
+```
+
+## Option C — Custom HTTP API
+
+For organisations with a governance API server, expose pack contents under a base URL. The
+contract is defined in Spec Kitty core's org-doctrine source-API contract.
+
+## Assemble a compound distributable
+
+To ship several packs as one artifact, assemble them:
+
+```bash
+spec-kitty doctrine pack assemble ./out ./packs/core-engineering ./packs/domain-driven-design
+```
+
+The first argument is the output directory; the rest are inputs. Conflicts fail by default;
+use `--conflicts-out conflicts.json` to inspect or `--force` for last-pack-wins. The
+assembled output is validated before exit.
+
+## Versioning
+
+**Pin versions** in consumer config. Use a git tag or commit SHA; branch names are accepted
+but discouraged — a moving target on `main` silently changes behaviour for every consumer on
+every fetch.
+
+## Trust & integrity
+
+Publishing a pack that others run is a supply-chain action. As the pack ecosystem matures:
+
+- Packs that ship **executable gate assets** must declare their executable paths/requirements,
+  and consumers are warned at activation
+  ([core #2536](https://github.com/Priivacy-ai/spec-kitty/issues/2536),
+  [#2542](https://github.com/Priivacy-ai/spec-kitty/issues/2542)).
+- **Content-hash integrity / tamper-evidence** and a graduated trust signal
+  (built-in / org-pack / third-party / verified) are on the roadmap
+  ([core #2539](https://github.com/Priivacy-ai/spec-kitty/issues/2539)).
+
+Read the [security position](../../SECURITY.md) before publishing a code-bearing pack.
+
+## Next
+
+- [Use a doctrine pack](use-a-doctrine-pack.md) — the consumer side of what you just published.

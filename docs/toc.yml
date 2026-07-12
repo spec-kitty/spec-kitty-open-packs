@@ -1,0 +1,8 @@
+- name: Home
+  href: index.md
+- name: Guides
+  href: guides/index.md
+- name: Pack Catalog
+  href: packs/catalog-proposal.md
+- name: Changelog
+  href: changelog/index.md

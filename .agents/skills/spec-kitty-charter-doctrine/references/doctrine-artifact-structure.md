@@ -1,0 +1,1 @@
+/home/stijn/.agents/skills/spec-kitty-charter-doctrine/references/doctrine-artifact-structure.md
