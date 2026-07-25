@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Repository bootstrap.** Initialized `spec-kitty-open-packs` with `spec-kitty init`
   (Claude Code, Codex, Gemini, Copilot surfaces), MIT license, Code of Conduct, security
-  position, and the documentation convention mirrored from Spec Kitty core (docfx `toc.yml`,
+  position, and the documentation convention mirrored from Spec Kitty core (`toc.yml` nav skeleton,
   frontmatter, root `CHANGELOG.md` / `CONTRIBUTING.md` symlinks, `.github` artifacts).
 - **Documentation scaffold.** Added `docs/guides/` with usage guides (use a pack, compose
   packs) and authoring guides (author, validate, publish a pack).
@@ -34,3 +34,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2467](https://github.com/Priivacy-ai/spec-kitty/issues/2467)).
 - **Tracker seed.** Filed one tracking issue per base pack (open-packs #1–#16) plus a single
   compound-pack epic (#17), with `pack` / `doctrine` / `epic` / `compound-pack` labels.
+- **Docsite research & architecture.** Investigated a content-from-code, checksum-tagged docsite
+  via a three-lens research squad (feasibility & generator, blockers & core dependencies,
+  information architecture) and recorded the outcome under Common Docs structure:
+  `docs/research/` (three findings docs), `docs/architecture/` (vision, docsite design), and
+  `docs/architecture/adr/` (ADR-1 docsite generator, ADR-2 generated-from-source pack reference,
+  ADR-3 build-time checksum tagging, ADR-4 information architecture). Extended `docs/toc.yml`
+  with Architecture + Research sections. Decision: **MkDocs Material** — single Python toolchain,
+  purpose-built content-from-code plugins, largest OSS ecosystem — with DocFX (consistency-with-core)
+  recorded as considered-but-deferred and Hugo rejected; one hand-authored `pack.yaml` is the
+  content-from-code prerequisite; generate an interim sha256 content hash pending core verified
+  distribution. (ADR-1 revised from an initial DocFX draft following maintainer review.)
+- **Docsite tracker tickets.** Opened epic #19 (content-from-code docsite) with scoping children
+  #20–#25, cross-referencing core epics
+  ([#2314](https://github.com/Priivacy-ai/spec-kitty/issues/2314) pipeline,
+  [#2467](https://github.com/Priivacy-ai/spec-kitty/issues/2467) manifest,
+  [#2471](https://github.com/Priivacy-ai/spec-kitty/issues/2471) validator,
+  [#2539](https://github.com/Priivacy-ai/spec-kitty/issues/2539) trust). Candidate new **core**
+  tickets are drafted for HiC approval only and were **not** filed.

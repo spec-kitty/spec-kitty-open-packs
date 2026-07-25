@@ -6,6 +6,8 @@ updated: '2026-07-12'
 related:
 - docs/guides/index.md
 - docs/packs/catalog-proposal.md
+- docs/architecture/index.md
+- docs/research/index.md
 - docs/changelog/index.md
 ---
 # Spec Kitty Open Packs
@@ -34,6 +36,8 @@ LLM session's context.
 | --- | --- |
 | `docs/guides/` | Usage and authoring how-to guides. |
 | `docs/packs/` | The pack catalog proposal and (later) per-pack reference. |
+| `docs/architecture/` | Vision, docsite design, and decision records (`adr/`). |
+| `docs/research/` | Pre-decision investigations that ground the architecture. |
 | `docs/changelog/` | Canonical changelog (root `CHANGELOG.md` symlinks here). |
 | `packs/` | The doctrine packs themselves (materialized incrementally). |
 
