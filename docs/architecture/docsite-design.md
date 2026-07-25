@@ -27,8 +27,10 @@ choice is recorded as an [ADR](adr/index.md).
    internal package layout ([ADR-2](adr/2026-07-18-2-pack-reference-generated-from-source.md)).
 3. **Adopt core's canonical mechanisms as they land.** Interim solutions (own checksum, shelled-out
    validator) are explicitly labelled as bridges to core #2467/#2471/#2539.
-4. **Consistency with core** — Common Docs conventions, DocFX, GitHub Pages
-   ([ADR-1](adr/2026-07-18-1-docfx-as-docsite-generator.md)).
+4. **One Python toolchain** — Common Docs conventions, MkDocs Material, GitHub Pages
+   ([ADR-1](adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md)). Consistency with core's
+   *current* DocFX site is a resource-bounded constraint, not a driver; the long-term target is
+   standardizing both repos on MkDocs Material.
 
 ## Source-of-truth model
 
@@ -57,9 +59,9 @@ GENERATE                scripts/docs/generate_pack_reference.py   (net-new, Pyth
   machine  →  docs/packs/reference/checksums.json
   contracts→  docs/api/pack-validator.md (taxonomy + captured --help), docs/api/pack-manifest-schema.md
         │
-BUILD                   docfx docfx.json                          (MkDocs build under the fallback)
+BUILD                   mkdocs build (Material theme)             (generated Markdown consumed as-is)
         │
-PUBLISH                 GitHub Actions → Pages                    (copy core's docs-pages.yml; generate step precedes build)
+PUBLISH                 GitHub Actions → Pages                    (mkdocs gh-deploy / Pages workflow; generate step precedes build)
 ```
 
 ## Generated vs authored boundary
@@ -108,7 +110,7 @@ codified in [ADR-4](adr/2026-07-18-4-docsite-information-architecture.md).
 | Stable pack manifest schema (`pack_id`/`version`/`depends_on`) | #2467 planned, not landed | Interim `pack.yaml` in open-packs; adopt core fields when they land |
 | Reusable validator surface | #2471 planned; logic exists inside `specify_cli` | Shell out to `spec-kitty doctrine pack validate --json` now; swap to `doctrine-validate` later |
 | Checksum / verified distribution | #2539/#2543 planned, P3, exec-asset-scoped | Generate own interim content hash; defer to canonical scheme later |
-| Docsite pipeline | core #2314 runs it for core's own site | Reuse the DocFX+Pages pattern |
+| Docsite pipeline | core #2314 runs it (DocFX) for core's own site | Reuse the generate → build → Pages *pattern* on a MkDocs Material toolchain ([ADR-1](adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md)) |
 
 See [blockers & core dependencies](../research/blockers-and-core-dependencies.md) for the ranked
 blocker list and the candidate core tickets flagged for HiC approval.

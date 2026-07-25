@@ -28,7 +28,7 @@ context, the options considered, the chosen option, and its consequences.
 
 | Date | # | Title | Status |
 | --- | --- | --- | --- |
-| 2026-07-18 | 1 | [DocFX as the docsite generator](2026-07-18-1-docfx-as-docsite-generator.md) | Proposed |
+| 2026-07-18 | 1 | [MkDocs Material as the docsite generator](2026-07-18-1-mkdocs-material-as-docsite-generator.md) | Proposed |
 | 2026-07-18 | 2 | [Pack reference is generated from source, not hand-authored](2026-07-18-2-pack-reference-generated-from-source.md) | Proposed |
 | 2026-07-18 | 3 | [Build-time checksum tagging as an interim integrity mechanism](2026-07-18-3-build-time-checksum-tagging.md) | Proposed |
 | 2026-07-18 | 4 | [Docsite information architecture & ADR placement](2026-07-18-4-docsite-information-architecture.md) | Proposed |

@@ -53,7 +53,8 @@ between the two repositories is expected.
 ## Documentation conventions
 
 Docs follow the Spec Kitty core convention: Markdown with YAML frontmatter
-(`title`, `description`, `doc_status`, `updated`, optional `related`), a docfx `toc.yml`, and
+(`title`, `description`, `doc_status`, `updated`, optional `related`), an ordered nav in `docs/toc.yml`
+(the interim nav skeleton, realized as MkDocs `nav:` at build — see [ADR-1](../architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md)), and
 a canonical changelog under `docs/changelog/` symlinked from the repository root.
 
 ## Code of Conduct

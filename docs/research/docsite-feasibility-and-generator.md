@@ -7,7 +7,7 @@ related:
 - docs/research/index.md
 - docs/research/blockers-and-core-dependencies.md
 - docs/architecture/docsite-design.md
-- docs/architecture/adr/2026-07-18-1-docfx-as-docsite-generator.md
+- docs/architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md
 - docs/architecture/adr/2026-07-18-2-pack-reference-generated-from-source.md
 ---
 # Docsite feasibility & generator selection
@@ -15,8 +15,14 @@ related:
 > Research capture, 2026-07-18. Grounded in `spec-kitty-open-packs` (`README.md`, `docs/`,
 > `packs/`) and the sibling core repo (`src/doctrine/**`, `src/specify_cli/doctrine/**`,
 > `docs/docfx.json`, `.github/workflows/docs-pages.yml`). Feeds
-> [ADR-1 (DocFX)](../architecture/adr/2026-07-18-1-docfx-as-docsite-generator.md) and
+> [ADR-1 (docsite generator)](../architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md) and
 > [ADR-2 (generated pack reference)](../architecture/adr/2026-07-18-2-pack-reference-generated-from-source.md).
+>
+> **Superseded (2026-07-25):** the recommendation below leaned DocFX on *consistency with core*.
+> Following maintainer review, [ADR-1](../architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md)
+> revised the decision to **MkDocs Material** (single Python toolchain; consistency-with-core is a
+> resource-bounded constraint, not a durable merit). This section is kept as the original analysis of
+> record; the ADR is the authoritative decision.
 
 ## What a pack is on disk (the raw material)
 
