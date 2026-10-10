@@ -1,12 +1,14 @@
 ---
 title: 'ADR: Pack reference is generated from source, not hand-authored'
-description: Decision to generate per-pack reference pages and the catalog table from the pack directories plus a new author-facing pack.yaml, parsing YAML with a light local schema and shelling out to the validator, to keep docs from drifting and eliminate per-pack doc authoring.
+description: 'Decision to generate per-pack reference pages and the catalog from pack directories plus an author-facing pack.yaml, so docs cannot drift.'
 doc_status: active
 updated: '2026-07-18'
+type: ADR
+kind: ADR
 related:
-- docs/architecture/docsite-design.md
-- docs/research/docsite-feasibility-and-generator.md
-- docs/research/docsite-information-architecture.md
+- architecture/docsite-design
+- research/docsite-feasibility-and-generator
+- research/docsite-information-architecture
 ---
 # Pack reference is generated from source, not hand-authored
 

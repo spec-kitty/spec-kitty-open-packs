@@ -3,8 +3,12 @@ title: '[Short descriptive title]'
 description: 'ADR authoring template for spec-kitty-open-packs: filename convention, status/date/decider header, and the section structure every architecture decision record follows.'
 doc_status: active
 updated: '2026-07-18'
+type: ADR
+kind: Reference
+agent:
+  discoverable: false
 related:
-- docs/architecture/index.md
+- architecture
 ---
 # [Short descriptive title]
 

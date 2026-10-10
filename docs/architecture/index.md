@@ -3,11 +3,13 @@ title: Architecture
 description: Design, vision, and architecture decision records for spec-kitty-open-packs — including the direction for a content-from-code, checksum-tagged docsite.
 doc_status: active
 updated: '2026-07-18'
+type: Architecture
+kind: Hub
 related:
-- docs/architecture/vision.md
-- docs/architecture/docsite-design.md
-- docs/architecture/adr/index.md
-- docs/research/index.md
+- architecture/vision
+- architecture/docsite-design
+- architecture/adr
+- research
 ---
 # Architecture
 
