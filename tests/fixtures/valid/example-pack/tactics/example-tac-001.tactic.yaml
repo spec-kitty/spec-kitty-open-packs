@@ -1,5 +1,5 @@
 schema_version: "1.0"
-id: acme-tac-001-scan-staged
+id: example-tac-001-scan-staged
 name: Scan staged content for credentials
 steps:
   - title: Run the scanner

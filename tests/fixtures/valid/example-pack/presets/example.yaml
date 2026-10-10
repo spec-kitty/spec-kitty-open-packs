@@ -1,0 +1,3 @@
+name: example
+description: Turn on the example rules.
+activated_directives: [EXAMPLE_001_SECRET_HANDLING]
