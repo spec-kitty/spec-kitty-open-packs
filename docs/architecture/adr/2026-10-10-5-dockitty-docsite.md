@@ -106,7 +106,8 @@ How it is wired (following doc-kitty's consumer-setup guide):
 * **`doc_status`.** The DocFX-era `wip` is not a DocKitty status. The guides refreshed for the 4.x
   Charter Pack cutover, the home page, and the changelog become `active`. The catalog proposal
   becomes `draft`: it is explicitly unratified. DocKitty (toolkit 0.1.1) keeps drafts out of the
-  sitemap, RSS, `llms.txt` and the agent-API *index* (`/api/index.json`), but still renders the
+  sitemap, RSS, `llms.txt` and the page list of the agent-API index (`/api/index.json`; other
+  pages' `related` refs there still name it, marked `draft`), but still renders the
   page and still publishes its per-page agent-API document (`/api/pages/<slug>.json`, full body).
   Draft therefore means "not advertised", not "not published"; closing that gap is a doc-kitty
   follow-up. The research pages were already `active` and stay that way: they are finished
