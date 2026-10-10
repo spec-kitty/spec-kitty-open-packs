@@ -5,8 +5,8 @@ at commit `e9ed31c` (2026-09-02), authored almost entirely by MOES-Media through
 missions. It was first ported to `spec-kitty/private-packs` (draft PR #1, commit `e1aadcb`), which
 added the promise layer, and then moved here: the source pack was prepared for donation upstream
 (its `pack-donation-readiness` mission), and this repository is its public home. The source
-repository carries no licence; distributing the pack under this repository's MIT licence requires
-the author's agreement, which must be recorded here before this pack is merged.
+repository carries no licence. **The author, MOES-Media, agreed on 2026-10-10 to distribute the pack
+under this repository's MIT licence** (confirmed to the maintainers on that date).
 
 The source repository keeps the full mission trail (`kitty-specs/`, `_rnd/`, `docs/install/`), the
 authoring conventions (`CONVENTIONS.md`) and the pack's own 21-gate CI; this port does not copy
