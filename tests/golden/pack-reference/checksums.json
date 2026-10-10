@@ -1,0 +1,9 @@
+{
+  "packs": {
+    "example-pack": {
+      "files": 5,
+      "sha256": "915faabb7857b6df96bd2ff1907ea848526777b4639a1c4ce5ab9ff1bd8fef60"
+    }
+  },
+  "recipe": "open-packs-sha256-v1"
+}
