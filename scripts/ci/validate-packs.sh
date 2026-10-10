@@ -4,8 +4,8 @@
 #   1. `charter pack validate` on each pack (and `charter org validate` when it has
 #      an org-charter.yaml).
 #   2. Register all packs together in a scratch consumer project and run
-#      `doctor charter-packs`, which catches collisions between sibling packs that a
-#      per-pack validate cannot see.
+#      `doctor charter-packs`; fail on ids declared by more than one pack, DRG errors
+#      and dangling endpoints, which a per-pack validate cannot see.
 #   3. Non-vacuity: every pack under tests/fixtures/invalid/ must FAIL validation,
 #      so a validator that silently passes everything turns this job red.
 #
@@ -57,6 +57,28 @@ git -C "$consumer" init -q
 } >>"$consumer/.kittify/config.yaml"
 if ! (cd "$consumer" && spec-kitty doctor charter-packs); then
   echo "::error::doctor charter-packs reported errors with all packs registered together"
+  failed=1
+fi
+# doctor exits 0 when one org pack silently shadows a sibling's id, so read its JSON
+# and fail on org-vs-org collisions, DRG errors and dangling endpoints.
+if ! (cd "$consumer" && spec-kitty doctor charter-packs --json) >"$consumer/doctor.json" \
+  || ! python3 - "$consumer/doctor.json" <<'PY'
+import json, sys
+
+report = json.load(open(sys.argv[1]))
+problems = [
+    f"{c['kind']} {c['item_id']} is declared by more than one org pack"
+    for c in report.get("collisions", [])
+    if c.get("higher_layer") == "org" and c.get("lower_layer") == "org"
+]
+drg = report.get("org_drg") or {}
+problems += [f"DRG error: {e}" for e in drg.get("errors", [])]
+problems += [f"dangling DRG endpoint: {e}" for e in drg.get("dangling_endpoints", [])]
+for problem in problems:
+    print(f"::error::{problem}")
+sys.exit(1 if problems else 0)
+PY
+then
   failed=1
 fi
 echo "::endgroup::"
