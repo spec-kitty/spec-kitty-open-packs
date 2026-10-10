@@ -2,7 +2,7 @@
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author, and submit doctrine packs and documentation to the Spec Kitty Open Packs repository, including the WIP status and where doctrine logic lives.
 doc_status: wip
-updated: '2026-07-12'
+updated: '2026-10-10'
 related:
 - docs/guides/author-a-doctrine-pack.md
 - docs/guides/validate-a-pack.md
@@ -11,7 +11,7 @@ related:
 # Contributing to Spec Kitty Open Packs
 
 Thanks for your interest. This repository distributes **open, free doctrine packs** for
-[Spec Kitty](https://github.com/Priivacy-ai/spec-kitty). It is deliberately **early and
+[Spec Kitty](https://github.com/spec-kitty/spec-kitty). It is deliberately **early and
 in-the-open** — a product-direction shift toward doctrine-packs-as-a-marketplace. Conventions
 here will change; contributions that help shape them are welcome.
 
@@ -21,8 +21,8 @@ here will change; contributions that help shape them are welcome.
 | --- | --- |
 | Propose or author a doctrine pack | **this repository** |
 | Improve a usage or authoring guide | **this repository** |
-| Change how doctrine is resolved, validated, or composed | [`Priivacy-ai/spec-kitty`](https://github.com/Priivacy-ai/spec-kitty) |
-| Change the pack manifest schema or the validator | [`Priivacy-ai/spec-kitty`](https://github.com/Priivacy-ai/spec-kitty) |
+| Change how doctrine is resolved, validated, or composed | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
+| Change the pack manifest schema or the validator | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
 
 If you are unsure, open an issue here first and we will help route it. Cross-referencing
 between the two repositories is expected.
@@ -36,7 +36,7 @@ between the two repositories is expected.
    artifacts it would contain (ideally referencing existing built-in artifacts), any
    `depends_on` packs, and the intended consumer.
 3. Once the scope is agreed, author the pack following
-   [Author a doctrine pack](author-a-doctrine-pack.md).
+   [Author a Charter Pack](author-a-doctrine-pack.md).
 
 ## Authoring standards
 

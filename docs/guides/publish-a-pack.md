@@ -2,7 +2,7 @@
 title: Publish a pack
 description: Distribute a Spec Kitty doctrine pack via git, HTTPS bundle, or a custom API; version it for reproducibility; and account for the pack trust surface.
 doc_status: wip
-updated: '2026-07-12'
+updated: '2026-10-10'
 related:
 - docs/guides/validate-a-pack.md
 - docs/guides/use-a-doctrine-pack.md
@@ -23,13 +23,11 @@ git tag pack/domain-driven-design/v0.1.0
 git push origin pack/domain-driven-design/v0.1.0
 ```
 
-Consumers point at the remote and pin the ref (see [Use a doctrine pack](use-a-doctrine-pack.md)).
+Consumers point at the remote and pin the ref (see [Use a Charter Pack](use-a-doctrine-pack.md)).
 
-> **Subdirectory packs.** Serving a pack from a repository subdirectory (rather than a
-> dedicated repo) is tracked upstream in
-> [core #2083](https://github.com/Priivacy-ai/spec-kitty/issues/2083) /
-> [#1921](https://github.com/Priivacy-ai/spec-kitty/issues/1921). Until a `pack_path` field
-> lands, a pack may need its own repo or tag scheme to be fetchable in isolation.
+> **Subdirectory packs.** Consumers fetch one pack out of this repository with the `subdir`
+> field of their `charter_packs.org.packs` entry (for example `subdir: packs/domain-driven-design`),
+> so a pack does not need its own repository.
 
 ## Option B — HTTPS bundle
 
@@ -50,7 +48,7 @@ contract is defined in Spec Kitty core's org-doctrine source-API contract.
 To ship several packs as one artifact, assemble them:
 
 ```bash
-spec-kitty doctrine pack assemble ./out ./packs/core-engineering ./packs/domain-driven-design
+spec-kitty charter pack assemble ./out ./packs/core-engineering ./packs/domain-driven-design
 ```
 
 The first argument is the output directory; the rest are inputs. Conflicts fail by default;
@@ -69,14 +67,14 @@ Publishing a pack that others run is a supply-chain action. As the pack ecosyste
 
 - Packs that ship **executable gate assets** must declare their executable paths/requirements,
   and consumers are warned at activation
-  ([core #2536](https://github.com/Priivacy-ai/spec-kitty/issues/2536),
-  [#2542](https://github.com/Priivacy-ai/spec-kitty/issues/2542)).
+  ([core #2536](https://github.com/spec-kitty/spec-kitty/issues/2536),
+  [#2542](https://github.com/spec-kitty/spec-kitty/issues/2542)).
 - **Content-hash integrity / tamper-evidence** and a graduated trust signal
   (built-in / org-pack / third-party / verified) are on the roadmap
-  ([core #2539](https://github.com/Priivacy-ai/spec-kitty/issues/2539)).
+  ([core #2539](https://github.com/spec-kitty/spec-kitty/issues/2539)).
 
 Read the [security position](../../SECURITY.md) before publishing a code-bearing pack.
 
 ## Next
 
-- [Use a doctrine pack](use-a-doctrine-pack.md) — the consumer side of what you just published.
+- [Use a Charter Pack](use-a-doctrine-pack.md) — the consumer side of what you just published.

@@ -8,7 +8,7 @@ assignees: []
 
 <!--
 If the problem is in doctrine resolution, the pack validator, or the manifest schema,
-file it in Priivacy-ai/spec-kitty instead — that is where doctrine logic lives.
+file it in spec-kitty/spec-kitty instead — that is where doctrine logic lives.
 -->
 
 ## What's wrong

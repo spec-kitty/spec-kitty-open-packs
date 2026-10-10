@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/docs/guides/contributing.md
     about: How to propose, author, and submit doctrine packs and docs.
   - name: 🧠 Doctrine logic & pack mechanics (Spec Kitty core)
-    url: https://github.com/Priivacy-ai/spec-kitty/issues
+    url: https://github.com/spec-kitty/spec-kitty/issues
     about: Changes to resolution, the pack validator, or the manifest schema belong in the core repository.
