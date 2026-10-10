@@ -29,13 +29,16 @@ repository live in subdirectories of one git repository, so name the pack's dire
 charter_packs:
   org:
     packs:
-      - name: domain-driven-design
-        local_path: "${SPEC_KITTY_PACK_HOME}/domain-driven-design"
+      - name: qa
+        local_path: "${SPEC_KITTY_PACK_HOME}/qa"
         source_type: git
         url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
-        ref: "pack/domain-driven-design/v0.1.0"   # pin a tag or commit SHA, never a branch
-        subdir: packs/domain-driven-design
+        ref: "<commit SHA or pack/qa/vX.Y.Z tag>"   # never a branch
+        subdir: packs/qa
 ```
+
+`SPEC_KITTY_PACK_HOME` is any directory you choose for fetched packs (for example
+`export SPEC_KITTY_PACK_HOME=~/.cache/spec-kitty-packs`); an unset variable fails the fetch.
 
 | Field | Required | Purpose |
 | --- | --- | --- |
@@ -52,7 +55,7 @@ Only this named-list form is read. A single-pack `charter_packs.org.local_path` 
 
 ```bash
 spec-kitty charter fetch                              # fetch all configured packs
-spec-kitty charter fetch --pack domain-driven-design  # one pack
+spec-kitty charter fetch --pack qa                    # one pack
 spec-kitty charter fetch --dry-run                    # preview without contacting any remote
 ```
 
@@ -72,7 +75,7 @@ If the pack ships activation presets, list and apply them:
 
 ```bash
 spec-kitty charter pack list                                  # packs and their presets
-spec-kitty charter activate --pack domain-driven-design --preset <preset>
+spec-kitty charter activate --pack <pack> --preset <preset>
 ```
 
 A preset writes ordinary `activated_<kind>` keys into `.kittify/config.yaml`; edit them

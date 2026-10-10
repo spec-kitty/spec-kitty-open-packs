@@ -16,8 +16,8 @@ Most doctrine artifacts are inert data. Two categories carry a real trust surfac
 treated with care here:
 
 1. **Executable gate assets.** As the doctrine-controlled transition-gate work matures
-   (see [`Priivacy-ai/spec-kitty#2535`](https://github.com/Priivacy-ai/spec-kitty/issues/2535)
-   and the trust epic [`#2539`](https://github.com/Priivacy-ai/spec-kitty/issues/2539)),
+   (see [`spec-kitty/spec-kitty#2535`](https://github.com/spec-kitty/spec-kitty/issues/2535)
+   and the trust epic [`#2539`](https://github.com/spec-kitty/spec-kitty/issues/2539)),
    packs may ship code that runs behind a trust envelope. Any such asset in this repository
    must declare its executable paths and requirements, and consumers are warned at
    activation time.
@@ -30,7 +30,7 @@ treated with care here:
 
 Report suspected security issues (a malicious pack, an integrity concern, or an
 unconfined executable asset) privately to the maintainers rather than opening a public
-issue. See the upstream [Spec Kitty security position](https://github.com/Priivacy-ai/spec-kitty/blob/main/SECURITY-POSITION.md)
+issue. See the upstream [Spec Kitty security position](https://github.com/spec-kitty/spec-kitty/blob/main/SECURITY-POSITION.md)
 for the broader core stance.
 
 ## Operator guidance
