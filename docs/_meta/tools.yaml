@@ -1,0 +1,9 @@
+# Tools catalog (DocKitty citation catalog; doc-kitty ADR-0018).
+- id: spec-kitty
+  name: Spec Kitty
+  url: https://github.com/spec-kitty/spec-kitty
+  note: the CLI that resolves, validates, and activates Charter Packs
+- id: doc-toolkit
+  name: "@spec-kitty/doc-toolkit"
+  url: https://github.com/spec-kitty/doc-kitty
+  note: the DocKitty toolkit (Astro + Starlight) that renders this docsite

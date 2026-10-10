@@ -1,12 +1,16 @@
 ---
 title: Pack Catalog Proposal
 description: Proposed set of domain and purpose doctrine packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
-doc_status: wip
+doc_status: draft
 updated: '2026-07-12'
+type: Plan
+kind: Planning
 related:
-- docs/guides/author-a-doctrine-pack.md
-- docs/guides/compose-packs.md
-- README.md
+- guides/author-a-doctrine-pack
+- guides/compose-packs
+external_references:
+- url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/README.md
+  title: README.md
 ---
 # Pack Catalog Proposal
 

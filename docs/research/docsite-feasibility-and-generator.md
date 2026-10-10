@@ -1,14 +1,16 @@
 ---
 title: Docsite feasibility & generator selection
-description: Findings on whether pack and validator reference pages can be generated from the actual code structure, the minimum machine-readable input required, and a comparison of DocFX, Hugo, and MkDocs Material with a recommendation.
+description: 'Can pack and validator reference be generated from code, what minimum input it needs, and a DocFX vs Hugo vs MkDocs Material comparison.'
 doc_status: active
 updated: '2026-07-18'
+type: Context
+kind: Explanation
 related:
-- docs/research/index.md
-- docs/research/blockers-and-core-dependencies.md
-- docs/architecture/docsite-design.md
-- docs/architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md
-- docs/architecture/adr/2026-07-18-2-pack-reference-generated-from-source.md
+- research
+- research/blockers-and-core-dependencies
+- architecture/docsite-design
+- architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator
+- architecture/adr/2026-07-18-2-pack-reference-generated-from-source
 ---
 # Docsite feasibility & generator selection
 

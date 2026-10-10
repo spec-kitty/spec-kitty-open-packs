@@ -1,13 +1,17 @@
 ---
 title: Blockers & core dependencies
-description: What missing Spec Kitty core functionality stands between today and a content-from-code docsite with checksum-tagged packs — a capability-to-epic map, a ranked blocker list, and cross-reference recommendations including candidate core tickets that require HiC approval.
+description: 'Missing Spec Kitty core functionality blocking a content-from-code, checksum-tagged docsite: capability-to-epic map, ranked blockers, cross-references.'
 doc_status: active
 updated: '2026-07-18'
+type: Context
+kind: Explanation
 related:
-- docs/research/index.md
-- docs/research/docsite-feasibility-and-generator.md
-- docs/architecture/adr/2026-07-18-3-build-time-checksum-tagging.md
-- README.md
+- research
+- research/docsite-feasibility-and-generator
+- architecture/adr/2026-07-18-3-build-time-checksum-tagging
+external_references:
+- url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/README.md
+  title: README.md
 ---
 # Blockers & core dependencies
 

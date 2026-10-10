@@ -1,11 +1,13 @@
 ---
 title: Use a Charter Pack
 description: Configure a Spec Kitty 4.x consumer project to fetch an open Charter Pack, activate it, and confirm it participates in context resolution.
-doc_status: wip
+doc_status: active
 updated: '2026-10-10'
+type: Guide
+kind: How-To
 related:
-- docs/guides/compose-packs.md
-- docs/guides/index.md
+- guides/compose-packs
+- guides
 ---
 # Use a Charter Pack
 

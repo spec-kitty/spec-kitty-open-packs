@@ -1,14 +1,16 @@
 ---
 title: Spec Kitty Open Packs
 description: Documentation home for the open, free doctrine packs distributed for Spec Kitty — usage guides, authoring guides, and the pack catalog proposal.
-doc_status: wip
+doc_status: active
 updated: '2026-10-10'
+okf_version: '0.2'
+kind: Hub
 related:
-- docs/guides/index.md
-- docs/packs/catalog-proposal.md
-- docs/architecture/index.md
-- docs/research/index.md
-- docs/changelog/index.md
+- guides
+- packs/catalog-proposal
+- architecture
+- research
+- changelog
 ---
 # Spec Kitty Open Packs
 
@@ -32,13 +34,18 @@ LLM session's context.
 
 ## How this repository is organized
 
+This tree is published as the docsite at
+<https://spec-kitty.github.io/spec-kitty-open-packs/>, built with DocKitty
+([ADR-5](architecture/adr/2026-10-10-5-dockitty-docsite.md)).
+
 | Path | Contents |
 | --- | --- |
 | `docs/guides/` | Usage and authoring how-to guides. |
-| `docs/packs/` | The pack catalog proposal and (later) per-pack reference. |
+| `docs/packs/` | The pack catalog proposal and the generated per-pack [reference](packs/reference/index.md). |
 | `docs/architecture/` | Vision, docsite design, and decision records (`adr/`). |
 | `docs/research/` | Pre-decision investigations that ground the architecture. |
 | `docs/changelog/` | Canonical changelog (root `CHANGELOG.md` symlinks here). |
+| `docs/_meta/charter.yaml` | Docsite navigation and section mapping (DocKitty documentation charter). |
 | `packs/` | The doctrine packs themselves (materialized incrementally). |
 
 ## Relationship to Spec Kitty core

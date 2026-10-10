@@ -1,11 +1,12 @@
 ---
 title: Changelog
 description: Changelog landing page pointing to the canonical docs/changelog/CHANGELOG.md and explaining the root CHANGELOG.md symlink.
-doc_status: wip
+doc_status: active
 updated: '2026-07-12'
+type: Changelog
+kind: Hub
 related:
-- docs/changelog/CHANGELOG.md
-- docs/index.md
+- changelog/CHANGELOG
 ---
 # Changelog
 

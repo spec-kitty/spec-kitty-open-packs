@@ -1,12 +1,16 @@
 ---
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author, and submit doctrine packs and documentation to the Spec Kitty Open Packs repository, including the WIP status and where doctrine logic lives.
-doc_status: wip
+doc_status: active
 updated: '2026-10-10'
+type: Guide
+kind: How-To
 related:
-- docs/guides/author-a-doctrine-pack.md
-- docs/guides/validate-a-pack.md
-- README.md
+- guides/author-a-doctrine-pack
+- guides/validate-a-pack
+external_references:
+- url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/README.md
+  title: README.md
 ---
 # Contributing to Spec Kitty Open Packs
 
@@ -52,10 +56,16 @@ between the two repositories is expected.
 
 ## Documentation conventions
 
-Docs follow the Spec Kitty core convention: Markdown with YAML frontmatter
-(`title`, `description`, `doc_status`, `updated`, optional `related`), an ordered nav in `docs/toc.yml`
-(the interim nav skeleton, realized as MkDocs `nav:` at build — see [ADR-1](../architecture/adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md)), and
-a canonical changelog under `docs/changelog/` symlinked from the repository root.
+Docs follow the [DocKitty convention](https://github.com/spec-kitty/doc-kitty/blob/main/docs/context/convention.md)
+and are published with `@spec-kitty/doc-toolkit` (see [ADR-5](../architecture/adr/2026-10-10-5-dockitty-docsite.md)):
+Markdown with YAML frontmatter (`title`, `description` of at most 180 characters, `doc_status` —
+`draft` | `active` | `deprecated` | `superseded` | `durable` — `updated`, `type`, `kind`, optional
+`related` as docs-root-relative slugs such as `guides/validate-a-pack`), an `index.md` per section,
+nav order and section labels in [`docs/_meta/charter.yaml`](../_meta/charter.yaml), and a canonical
+changelog under `docs/changelog/` symlinked from the repository root. Pages under
+`docs/packs/reference/` are generated — never edit them; run
+`python3 scripts/docs/generate_pack_reference.py` instead. Build the site locally with
+`pnpm install && pnpm build`, and run `pnpm docs:validate` and `pnpm docs:links` before you push.
 
 ## Code of Conduct
 

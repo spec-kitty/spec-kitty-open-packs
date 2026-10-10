@@ -1,11 +1,13 @@
 ---
 title: Compose packs
 description: How Spec Kitty 4.x composes Charter Packs vertically (built-in, org, project) and horizontally (independent packs and compound depends_on packs), and how conflicts resolve.
-doc_status: wip
+doc_status: active
 updated: '2026-10-10'
+type: Guide
+kind: Explanation
 related:
-- docs/guides/use-a-doctrine-pack.md
-- docs/packs/catalog-proposal.md
+- guides/use-a-doctrine-pack
+- packs/catalog-proposal
 ---
 # Compose packs
 

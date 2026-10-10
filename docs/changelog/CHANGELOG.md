@@ -1,8 +1,10 @@
 ---
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
-doc_status: wip
-updated: '2026-07-12'
+doc_status: active
+updated: '2026-10-10'
+type: Changelog
+kind: Changelog
 ---
 # Changelog
 
@@ -21,6 +23,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **DocKitty docsite** (ADR-5; refs #19, #20, #25). The repository root is now an Astro project
+  built on `@spec-kitty/doc-toolkit@^0.1.1` (Astro + Starlight, Spec Kitty theme). It renders
+  `docs/` and publishes to GitHub Pages at `/spec-kitty-open-packs` through
+  `.github/workflows/docsite.yml`, which builds on pull requests and deploys from `main`. Section
+  order and labels move from the DocFX-era `docs/toc.yml` (removed) to
+  `docs/_meta/charter.yaml`. Every page now carries DocKitty `type`/`kind` frontmatter.
+- **Generated pack reference** (ADR-2; refs #22, #23). `scripts/docs/generate_pack_reference.py`
+  renders one page per pack under `packs/` into `docs/packs/reference/`, plus a catalog index and
+  `checksums.json` with a published, re-runnable `sha256` recipe. `--check` fails CI when the
+  committed pages drift from the packs. The fixture pack's rendering is pinned by
+  `tests/golden/pack-reference/` and `tests/docs/`.
 - **Pack validation CI** (#27). `.github/workflows/validate-packs.yml` runs
   `scripts/ci/validate-packs.sh` on every pull request against a pinned spec-kitty commit: it
   validates each pack under `packs/`, loads all packs together in a scratch project with
@@ -57,8 +70,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2471](https://github.com/Priivacy-ai/spec-kitty/issues/2471) validator,
   [#2539](https://github.com/Priivacy-ai/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
+
 ### 🔄 Changed
 
+- **ADR-1 (MkDocs Material) is superseded by ADR-5 (DocKitty).** The maintainer chose DocKitty so
+  that all Spec Kitty repos share one docs toolchain. ADRs 2–4 stand; ADR-2's generator now emits
+  DocKitty pages.
+- **Docs frontmatter follows the DocKitty contract.** `doc_status: wip` became `active` for the
+  current guides, home, and changelog, and `draft` for the catalog proposal. Over-length
+  descriptions were shortened to 180 characters. `related` refs became docs-root-relative slugs,
+  and links to repo files moved to `external_references`.
 - **Guides follow the Spec Kitty 4.x Charter Pack cutover.** `spec-kitty doctrine …` became
   `spec-kitty charter …`, `doctrine.org.packs` became `charter_packs.org.packs` (with `subdir`
   for packs in this repository), `doctor doctrine` became `doctor charter-packs`, the DRG lives
