@@ -1,0 +1,6 @@
+# 3.x-era guide example: lowercase id, no schema_version/intent/enforcement.
+id: legacy-001-secret-handling
+title: Never commit credentials to the repository
+severity: high
+description: Secrets come from the environment.
+action_scope: [implement]

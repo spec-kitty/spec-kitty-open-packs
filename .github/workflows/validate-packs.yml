@@ -1,0 +1,32 @@
+name: Validate packs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Charter Pack validation
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # A pinned spec-kitty/spec-kitty commit with the 4.x Charter Pack cutover
+        # (#3732). The 4.0.0rc6 wheel on PyPI predates `charter pack validate` and
+        # `doctor charter-packs`; switch to a PyPI pin once a release ships them.
+        # Bump deliberately; never float to a branch.
+        spec-kitty: ["3b7c6dde79f41c4fceae6d5765bc93393f44bb83"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install spec-kitty-cli
+        run: pip install "spec-kitty-cli @ git+https://github.com/spec-kitty/spec-kitty@${{ matrix.spec-kitty }}"
+      - name: Validate packs
+        run: scripts/ci/validate-packs.sh
