@@ -1,8 +1,9 @@
 # Packs
 
-This directory holds the materialized doctrine packs. It is **intentionally near-empty** for
-now — the catalog is still a [proposal](../docs/packs/catalog-proposal.md), and packs are
-carved from the Spec Kitty built-in corpus incrementally, one tracking issue at a time.
+This directory holds the materialized Charter Packs. It ships one pack so far,
+[`qa/`](qa/README.md); the rest of the catalog is still a
+[proposal](../docs/packs/catalog-proposal.md), carved from the Spec Kitty built-in corpus
+incrementally, one tracking issue at a time.
 
 Each pack is a directory using the canonical layout:
 

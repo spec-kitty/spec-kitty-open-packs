@@ -5,14 +5,7 @@ mission: qa
 steps:
   - id: bootstrap
     description: Load charter context for this action
-    command: "spec-kitty charter context --action plan --role plan --json"
-    inputs:
-      - flag: --profile
-        source: wp.agent_profile
-        optional: true
-      - flag: --tool
-        source: env.agent_tool
-        optional: true
+    command: "spec-kitty charter context --action plan --mission-type qa --json"
 
   - id: prioritize_by_risk
     description: Structure the QA test plan using risk-based prioritization

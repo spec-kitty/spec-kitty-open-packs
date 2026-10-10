@@ -5,14 +5,7 @@ mission: qa
 steps:
   - id: bootstrap
     description: Load charter context for this action
-    command: "spec-kitty charter context --action discovery --role discovery --json"
-    inputs:
-      - flag: --profile
-        source: wp.agent_profile
-        optional: true
-      - flag: --tool
-        source: env.agent_tool
-        optional: true
+    command: "spec-kitty charter context --action discovery --mission-type qa --json"
 
   - id: scope_qa_charter
     description: Scope a timeboxed exploratory QA charter for this mission
