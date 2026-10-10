@@ -1,3 +1,0 @@
-name: acme
-description: Turn on the Acme rules.
-activated_directives: [ACME_001_SECRET_HANDLING]
