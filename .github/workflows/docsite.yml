@@ -1,0 +1,84 @@
+# DocKitty docsite: build on every pull request, deploy to GitHub Pages from main.
+#
+# Mirrors spec-kitty/doc-kitty's deploy.yml: actions pinned by commit SHA,
+# least-privilege Pages/OIDC permissions only on the deploy job, one Pages
+# publish at a time and never cancel an in-flight publish. PRs (including fork
+# PRs) only run the read-only build job; the deploy job runs on main only.
+#
+# Decision: docs/architecture/adr/2026-10-10-5-dockitty-docsite.md
+#
+# NOTE: the build installs @spec-kitty/doc-toolkit@^0.1.1 from npm. Until that
+# version is published (spec-kitty/doc-kitty#108) this job fails at install.
+# There is no committed pnpm-lock.yaml yet for the same reason (a lockfile must
+# resolve against the registry); once 0.1.1 is published, commit the lockfile
+# and switch the install to `--frozen-lockfile` (plus `cache: pnpm` below).
+name: Docsite
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build docsite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Set up Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+
+      - name: Enable corepack (pnpm from package.json "packageManager")
+        run: corepack enable
+
+      - name: Install dependencies
+        # TODO(after doc-kitty#108 publishes 0.1.1): commit pnpm-lock.yaml and use --frozen-lockfile.
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Validate frontmatter (DocKitty contract)
+        run: pnpm docs:validate
+
+      - name: Check source links and related refs
+        run: pnpm docs:links
+
+      - name: Build the site
+        run: pnpm build
+
+      - name: Check built links (base-aware)
+        run: pnpm docs:built-links
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Least privilege for Pages publishing via OIDC — only on this job.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    # One Pages publish at a time; never cancel an in-progress publish.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
