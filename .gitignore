@@ -36,5 +36,6 @@ kitty-ops/ops-index.jsonl
 node_modules/
 dist/
 .astro/
-# Python bytecode from scripts/docs and tests
+# Python bytecode (scripts/docs, tests, pack assets)
 __pycache__/
+*.py[cod]

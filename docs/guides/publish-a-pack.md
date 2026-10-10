@@ -15,7 +15,7 @@ external_references:
 # Publish a pack
 
 Once a pack [validates](validate-a-pack.md) cleanly, distribute it so consumers can fetch it.
-Spec Kitty's org layer supports three transports.
+Spec Kitty's org layer fetches packs over git, HTTPS, Artifactory or a custom API (`source_type`).
 
 ## Option A — Git repository (recommended)
 
@@ -23,14 +23,14 @@ Push the pack to a git remote and tag releases. In this marketplace, most open p
 directories inside `spec-kitty-open-packs` and are pinned by tag or commit SHA.
 
 ```bash
-git tag pack/domain-driven-design/v0.1.0
-git push origin pack/domain-driven-design/v0.1.0
+git tag pack/<pack>/v0.1.0
+git push origin pack/<pack>/v0.1.0
 ```
 
 Consumers point at the remote and pin the ref (see [Use a Charter Pack](use-a-doctrine-pack.md)).
 
 > **Subdirectory packs.** Consumers fetch one pack out of this repository with the `subdir`
-> field of their `charter_packs.org.packs` entry (for example `subdir: packs/domain-driven-design`),
+> field of their `charter_packs.org.packs` entry (for example `subdir: packs/qa`),
 > so a pack does not need its own repository.
 
 ## Option B — HTTPS bundle
@@ -39,7 +39,7 @@ Upload a tarball to an HTTPS location (object storage, releases page); consumers
 extract.
 
 ```bash
-tar czf domain-driven-design-v0.1.0.tar.gz -C ./packs/domain-driven-design .
+tar czf <pack>-v0.1.0.tar.gz -C ./packs/<pack> .
 ```
 
 ## Option C — Custom HTTP API

@@ -16,7 +16,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](LICENSE)
 [![Status: WIP](https://img.shields.io/badge/status-work_in_progress-orange?style=flat-square)](#-work-in-progress--this-is-a-product-direction-shift-not-a-finished-repository)
-[![Doctrine logic: upstream](https://img.shields.io/badge/doctrine_logic-Priivacy--ai%2Fspec--kitty-blue?style=flat-square)](https://github.com/spec-kitty/spec-kitty)
+[![Doctrine logic: upstream](https://img.shields.io/badge/doctrine_logic-spec--kitty%2Fspec--kitty-blue?style=flat-square)](https://github.com/spec-kitty/spec-kitty)
 
 ## Why this repository exists
 
@@ -95,7 +95,7 @@ my-pack/
 └── org-charter.yaml            # optional: policy / required artifacts
 ```
 
-All directories are optional; a valid pack is any non-empty subset. Consumers register a pack
+Artifact directories are optional; every pack ships `drg/fragment.yaml` (empty is fine). Consumers register a pack
 under `charter_packs.org.packs` in `.kittify/config.yaml` (git ref plus `subdir`, HTTPS
 bundle, or API), pin a version, and validate with `spec-kitty charter pack validate`.
 

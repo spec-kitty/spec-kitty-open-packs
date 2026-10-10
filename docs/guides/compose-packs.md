@@ -32,9 +32,10 @@ built-in   →   org (packs)   →   project (local overlay)
 - **project** — local, in-repo overrides under `.kittify/charter-packs/` for one project only.
 
 An org pack artifact whose `id` collides with a built-in id field-merges into it and the
-validator raises a `same_id_collision` advisory. Declare `enhances: <id>` to keep the merge, or
-`overrides: <id>` for a full replacement. `doctor charter-packs` fails on an override that the
-pack does not sanction in its `replaceable-builtins.yaml`. Keep such overrides intentional and
+validator raises a `same_id_collision` advisory. Declare the intent as a DRG edge in the pack's
+`drg/fragment.yaml` (`relation: enhances` to keep the merge, `overrides` for a full replacement);
+`doctor charter-packs` fails on an override that the pack does not sanction in its
+`replaceable-builtins.yaml`. Keep such overrides intentional and
 rare — namespaced IDs avoid them.
 
 ## Horizontal composition (the pack direction)
@@ -46,6 +47,14 @@ Two mechanisms let independent packs combine *within* the org layer:
 List several packs under `charter_packs.org.packs`. Each contributes its artifacts additively;
 there is no dependency between them. This is how you assemble, say, a DDD pack + a Java pack +
 a testing pack for a single project.
+
+Two packs must not declare the same artifact id: the later-listed pack silently shadows the
+earlier one, and `doctor charter-packs` only reports it (this repository's CI fails on it).
+
+> **Known gap ([spec-kitty#5779](https://github.com/spec-kitty/spec-kitty/issues/5779)).** Up to
+> 4.0.0rc7, `charter context --include` and `charter activate KIND ID` see only the
+> first-listed org pack; the action context and `doctor charter-packs` see all of them. Fixed by
+> spec-kitty#6005.
 
 ### 2. Compound packs (`depends_on`)
 

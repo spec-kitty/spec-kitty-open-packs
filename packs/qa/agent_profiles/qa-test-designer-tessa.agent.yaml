@@ -64,7 +64,7 @@ directive-references:
       timebox — before any exploratory session starts.
 
 tactic-references:
-  - id: behavior-driven-development
+  - id: bdd-scenario-formulation
     rationale: >
       General-purpose BDD collaboration content (Three Amigos,
       discovery/formulation/automation) — cited here specifically for its

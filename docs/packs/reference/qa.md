@@ -34,7 +34,7 @@ related:
 
 ## Provenance & integrity
 
-- **Content checksum** (`open-packs-sha256-v1`, 82 file(s)): `sha256:b79dfc6f861e939d004c74d3a9d79db55fa14f202c9e2f34a8ccae52240dc109`
+- **Content checksum** (`open-packs-sha256-v1`, 82 file(s)): `sha256:b2708d2910511618a62cadf6b358f3e62d20f2efb8ac7dcc254f6648e30321aa`
 - **File set:** the git-shipped files (tracked, plus untracked files that are not ignored). A clean checkout or release tarball of the pack contains exactly
   these files. Symlinks and file names containing a backslash or newline are rejected.
 - **Verify** a fetched copy from inside the pack directory:

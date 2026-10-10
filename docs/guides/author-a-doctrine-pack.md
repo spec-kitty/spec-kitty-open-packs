@@ -20,8 +20,9 @@ for the open-packs marketplace. Where that guide and the artifact schemas disagr
 
 ## 1. Lay out the directory
 
-One directory per artifact kind, directly under the pack root. All are optional; a valid pack
-is any non-empty subset. Spec Kitty 4.x reads only this flat layout: the 3.x nested
+One directory per artifact kind, directly under the pack root. The artifact directories are
+optional, but every pack ships `drg/fragment.yaml` (see step 4); a valid pack is any non-empty
+subset of the artifact kinds plus that fragment. Spec Kitty 4.x reads only this flat layout: the 3.x nested
 `<pack>/doctrine/<kind>/<layer>/` layout is ignored.
 
 ```
@@ -44,8 +45,8 @@ my-pack/
 ```
 
 > **Do not hand-write `pack-manifest.yaml`.** It is written by tooling (`charter fetch` for
-> non-git sources, `charter pack assemble`). Manual edits surface as an advisory in
-> `charter pack validate`.
+> non-git sources, `charter pack assemble`); `charter pack validate` does not read it, so a
+> hand-edited manifest goes unnoticed rather than flagged.
 
 ## 2. Write artifacts — one rule per file
 
@@ -95,12 +96,28 @@ collisions visible:
 | Agent profiles | `*.agent.yaml` | `<org>-<role>` |
 | Mission step contracts | `*.step-contract.yaml` | `<org>-msc-<seq>` |
 
-Colliding with a built-in id is *permitted* but raises a `same_id_collision` advisory; declare
-`enhances:` or `overrides:` to make the intent explicit. Keep such overrides intentional.
+Colliding with a built-in id is *permitted* but raises a `same_id_collision` advisory, and the
+artifact field-merges into the built-in. Say what you mean with a DRG edge from your artifact to
+the built-in in `drg/fragment.yaml` (`relation: enhances` to keep the merge, `overrides` for a full
+replacement; the schemas reject `enhances:`/`overrides:` as artifact fields, whatever the advisory
+text suggests). `doctor charter-packs` then fails on the override until the pack sanctions it in a
+`replaceable-builtins.yaml` at the pack root:
 
-## 4. Add a DRG fragment (optional)
+```yaml
+# replaceable-builtins.yaml
+replaceable_builtins:
+  - urn: directive:DIRECTIVE_001
+    reason: Why this pack replaces the built-in rule (mandatory for directives).
+```
 
-If your pack contributes typed graph relations, add them to `drg/fragment.yaml`:
+Keep such overrides intentional.
+
+## 4. Add the DRG fragment
+
+Ship a `drg/fragment.yaml` even when the pack adds no relations: `charter pack validate` accepts a
+pack without one, but a consumer's `doctor charter-packs` fails with "org pack missing:
+…/drg/fragment.yaml not found". An empty fragment is `nodes: []` and `edges: []`. Add the pack's
+typed graph relations there:
 
 ```yaml
 # drg/fragment.yaml

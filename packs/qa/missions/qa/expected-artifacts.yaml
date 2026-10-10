@@ -31,7 +31,8 @@ required_by_step:
   # profile produces qa-traceability.yaml at all. An empty implement list is therefore
   # correct, not accidental: QA_003 governs execution outcomes, and implement's own
   # artifacts are conditional (a clean run produces no defect log either). See
-  # CONVENTIONS.md Known-Limitations (o) for the resolution record. Do not re-add a
+  # CONVENTIONS.md Known-Limitations (o) in spec-kitty/spec-kitty-qa-pack (not ported here) for
+  # the resolution record. Do not re-add a
   # blocking implement entry for qa-traceability.yaml without new grounding that survives
   # the checks above.
   implement: []

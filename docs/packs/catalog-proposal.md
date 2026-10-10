@@ -20,7 +20,7 @@ external_references:
 > Kitty **built-in** doctrine corpus could be carved into coherent, composable **packs**. It
 > is the grounding for the per-pack tracking issues in this repository. Names, boundaries,
 > and membership are **subject to change** and will be refined issue-by-issue. Doctrine
-> *logic* stays in [`Priivacy-ai/spec-kitty`](https://github.com/Priivacy-ai/spec-kitty); this
+> *logic* stays in [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty); this
 > repository owns the *content* and *packaging*.
 
 ## Why carve the monolith
@@ -31,10 +31,10 @@ inherits the whole multi-domain corpus and floods every session's context. Packs
 monolith with opt-in slices. This proposal is the downstream content plan for the core
 pack-ecosystem epics:
 
-- [#2466 — Doctrine/Charter extensibility & pack ecosystem](https://github.com/Priivacy-ai/spec-kitty/issues/2466) (umbrella)
-- [#2467 — Split built-in doctrine into packs + compound packs (KEYSTONE)](https://github.com/Priivacy-ai/spec-kitty/issues/2467)
-- [#2471 — Standalone pack validator](https://github.com/Priivacy-ai/spec-kitty/issues/2471)
-- [#2539 — Pack trust, verifiability & verified distribution](https://github.com/Priivacy-ai/spec-kitty/issues/2539)
+- [#2466 — Doctrine/Charter extensibility & pack ecosystem](https://github.com/spec-kitty/spec-kitty/issues/2466) (umbrella)
+- [#2467 — Split built-in doctrine into packs + compound packs (KEYSTONE)](https://github.com/spec-kitty/spec-kitty/issues/2467)
+- [#2471 — Standalone pack validator](https://github.com/spec-kitty/spec-kitty/issues/2471)
+- [#2539 — Pack trust, verifiability & verified distribution](https://github.com/spec-kitty/spec-kitty/issues/2539)
 
 ## Design principles
 
@@ -226,7 +226,7 @@ its way of working. Partly a curation of built-in artifacts that describe the pr
 process, partly **net-new artifacts** derived from the repository's own maintainer/contributor
 material (`HOW_TO_MAINTAIN.md`, `CONTRIBUTING.md`, `RELEASE_CHECKLIST.md`, tracker
 conventions). Ships the project's own `org-charter.yaml`. Grounded in the catfooding epic
-[core #2196](https://github.com/Priivacy-ai/spec-kitty/issues/2196).
+[core #2196](https://github.com/spec-kitty/spec-kitty/issues/2196).
 
 - **Directives:** `039-lynn-cole-engineering-culture`, `025-boy-scout-rule` (curated),
   `044-canonical-sources-and-unification` (curated); net-new: contributor-workflow and

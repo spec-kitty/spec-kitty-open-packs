@@ -27,4 +27,4 @@ the machine-readable list is [`checksums.json`](checksums.json).
 
 | Pack | Purpose | Depends on | Artifacts | Executable assets | Checksum |
 | --- | --- | --- | --- | --- | --- |
-| [qa](qa.md) | — | — | 8 directives, 8 tactics, 5 procedures, 1 styleguide, 3 toolguides, 5 agent profiles, 1 glossary pack, 7 mission step contracts, 3 assets, 1 mission type, 1 mission, 7 mission steps | **3** | `b79dfc6f861e…` |
+| [qa](qa.md) | — | — | 8 directives, 8 tactics, 5 procedures, 1 styleguide, 3 toolguides, 5 agent profiles, 1 glossary pack, 7 mission step contracts, 3 assets, 1 mission type, 1 mission, 7 mission steps | **3** | `b2708d291051…` |
