@@ -1,0 +1,23 @@
+schema_version: "1.0"
+id: qa-specify
+action: specify
+mission: qa
+steps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: "spec-kitty charter context --action specify --role specify --json"
+    inputs:
+      - flag: --profile
+        source: wp.agent_profile
+        optional: true
+      - flag: --tool
+        source: env.agent_tool
+        optional: true
+
+  - id: define_traceable_exit_criteria
+    description: Write the QA spec with traceable requirements and exit criteria that precede execution
+    delegates_to:
+      kind: directive
+      candidates:
+        - QA_001
+        - QA_004

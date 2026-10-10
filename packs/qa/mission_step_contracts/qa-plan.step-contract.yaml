@@ -1,0 +1,36 @@
+schema_version: "1.0"
+id: qa-plan
+action: plan
+mission: qa
+steps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: "spec-kitty charter context --action plan --role plan --json"
+    inputs:
+      - flag: --profile
+        source: wp.agent_profile
+        optional: true
+      - flag: --tool
+        source: env.agent_tool
+        optional: true
+
+  - id: prioritize_by_risk
+    description: Structure the QA test plan using risk-based prioritization
+    delegates_to:
+      kind: directive
+      candidates:
+        - QA_005
+
+  - id: apply_prioritization_tactic
+    description: Apply the risk-based test prioritization technique to the plan's structure
+    delegates_to:
+      kind: tactic
+      candidates:
+        - qa-risk-based-test-prioritization
+
+  - id: review_test_plan
+    description: Review the drafted test plan before it is handed off to task decomposition
+    delegates_to:
+      kind: procedure
+      candidates:
+        - qa-test-plan-review-workshop
