@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`qa` Charter Pack** (`packs/qa/`). A `qa` mission type that redefines the seven canonical
+  steps in QA terms, eight QA directives (`QA_001`–`QA_008`), test-design tactics, procedures, five
+  QA agent profiles, an ISTQB-grounded glossary, and three evidence tools (`qa-result-ingest`,
+  `qa-traceability-lint`, `qa-promise-trace-lint`), plus a promise-page → scenario → acceptance CI
+  loop. Ported from `spec-kitty/spec-kitty-qa-pack` at `e9ed31c` via `spec-kitty/private-packs`
+  PR #1; the ingester now reads the template-mandated body-fenced test cases
+  (spec-kitty-qa-pack#5). See `packs/qa/PROVENANCE.md`.
 - **Pack validation CI** (#27). `.github/workflows/validate-packs.yml` runs
   `scripts/ci/validate-packs.sh` on every pull request against a pinned spec-kitty commit: it
   validates each pack under `packs/`, loads all packs together in a scratch project with
