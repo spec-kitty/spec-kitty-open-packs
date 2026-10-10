@@ -25,7 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `scripts/ci/validate-packs.sh` on every pull request against a pinned spec-kitty commit: it
   validates each pack under `packs/`, loads all packs together in a scratch project with
   `doctor charter-packs`, and requires the fixtures under `tests/fixtures/invalid/` to fail, so the
-  gate cannot pass vacuously.
+  gate cannot pass vacuously. It also fails when two packs declare the same id (which
+  `doctor charter-packs` only reports), runs every spec-kitty call under a throwaway `HOME`, and
+  pins its actions by commit SHA.
 - **Repository bootstrap.** Initialized `spec-kitty-open-packs` with `spec-kitty init`
   (Claude Code, Codex, Gemini, Copilot surfaces), MIT license, Code of Conduct, security
   position, and the documentation convention mirrored from Spec Kitty core (`toc.yml` nav skeleton,
@@ -63,5 +65,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `spec-kitty charter …`, `doctrine.org.packs` became `charter_packs.org.packs` (with `subdir`
   for packs in this repository), `doctor doctrine` became `doctor charter-packs`, the DRG lives
   in `drg/fragment.yaml`, the directive example matches the schema, and presets replace
-  activation defaults. Core links point at `spec-kitty/spec-kitty`.
+  activation defaults. Core links point at `spec-kitty/spec-kitty`. Built-in overrides are declared
+  as DRG edges and sanctioned in `replaceable-builtins.yaml` (the schemas reject `enhances:` /
+  `overrides:` fields), `drg/fragment.yaml` is documented as required, examples use the real `qa`
+  pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 

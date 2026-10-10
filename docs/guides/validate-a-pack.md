@@ -44,10 +44,9 @@ spec-kitty charter pack validate ./my-pack --json
 | Duplicate `id` within the pack | **Error** |
 | DRG content under `drg/*.graph.yaml` (org packs use `drg/fragment.yaml` only) | **Error** |
 | `org-charter.yaml` or `presets/*.yaml` schema violation | **Error** |
-| A retired field such as `accompanies_doctrine_pack` or `doctrine_pack_id` (`RETIRED_PACK_FIELD`) | **Error** |
+| A retired field: `accompanies_doctrine_pack` in `pack.yaml` or `doctrine_pack_id` in `org-charter.yaml` `activations` (`RETIRED_PACK_FIELD`) | **Error** |
 | DRG edge endpoint that is neither built-in nor in this pack (`drg_external_endpoint`) | Advisory |
-| Artifact ID collides with a built-in ID (`same_id_collision`; declare `enhances:` or `overrides:` to say which you mean) | Advisory |
-| `pack-manifest.yaml` exists and was author-edited | Advisory |
+| Artifact ID collides with a built-in ID (`same_id_collision`; declare an `enhances` or `overrides` DRG edge to say which you mean) | Advisory |
 
 ### Common errors
 
