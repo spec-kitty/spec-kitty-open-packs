@@ -31,3 +31,7 @@
 .kittify/sync-state.json
 .kittify/workspaces/
 kitty-ops/ops-index.jsonl
+
+# Python bytecode (e.g. from running a pack's assets)
+__pycache__/
+*.py[cod]
