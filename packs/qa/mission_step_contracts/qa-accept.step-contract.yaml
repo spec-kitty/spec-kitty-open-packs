@@ -5,14 +5,7 @@ mission: qa
 steps:
   - id: bootstrap
     description: Load charter context for this action
-    command: "spec-kitty charter context --action accept --role accept --json"
-    inputs:
-      - flag: --profile
-        source: wp.agent_profile
-        optional: true
-      - flag: --tool
-        source: env.agent_tool
-        optional: true
+    command: "spec-kitty charter context --action accept --mission-type qa --json"
 
   - id: confirm_evidence_integrity
     description: Confirm the no-fake-green principle holds one last time before go/no-go sign-off
