@@ -66,6 +66,14 @@ jobs:
       - name: Check built links (base-aware)
         run: pnpm docs:built-links
 
+      # Defence in depth for pack-sourced text (the generator escapes it): no
+      # built page may carry a script-scheme link.
+      - name: No javascript:/data: links in the built site
+        run: |
+          if grep -rIlE 'href="(javascript|vbscript|data):' dist; then
+            echo "::error::script-scheme href found in dist (see files above)"; exit 1
+          fi
+
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
