@@ -1,6 +1,6 @@
 ---
-title: 'Pack: example-pack'
-description: 'Generated reference for the example-pack Charter Pack: 1 directive, 1 tactic, 1 preset.'
+title: "Pack: example-pack"
+description: "Generated reference for the example-pack Charter Pack: 1 directive, 1 tactic, 1 preset."
 doc_status: active
 updated: '2026-10-10'
 type: API
@@ -15,7 +15,7 @@ related:
 - packs/reference
 ---
 
-# Pack: example-pack
+# Pack: example\-pack
 
 > **Generated — do not edit.** This page is rendered from `tests/fixtures/valid/` by `scripts/docs/generate_pack_reference.py`; CI fails on drift. Change the pack, then re-run the generator.
 
@@ -33,9 +33,15 @@ related:
 ## Provenance & integrity
 
 - **Content checksum** (`open-packs-sha256-v1`, 5 file(s)): `sha256:915faabb7857b6df96bd2ff1907ea848526777b4639a1c4ce5ab9ff1bd8fef60`
+- **File set:** the git-shipped files (tracked, plus untracked files that are not ignored). A clean checkout or release tarball of the pack contains exactly
+  these files. Symlinks and file names containing a backslash or newline are rejected.
 - **Verify** a fetched copy from inside the pack directory:
 
   ```sh
+  # in a git checkout (matches what CI hashes):
+  git ls-files -z --cached --others --exclude-standard -- . | tr '\0' '\n' | LC_ALL=C sort \
+    | while IFS= read -r f; do sha256sum "./$f"; done | sha256sum
+  # in a plain download of exactly those files:
   find . -type f ! -path '*/.*' | LC_ALL=C sort \
     | while IFS= read -r f; do sha256sum "$f"; done | sha256sum
   ```
@@ -48,7 +54,7 @@ related:
 
 | ID | Title | Summary | Enforcement | Source |
 | --- | --- | --- | --- | --- |
-| `ACME_001_SECRET_HANDLING` | Never commit credentials to the repository | Secrets come from the environment or a secret manager, never from the repository. | `required` | [`directives/acme-001-secret-handling.directive.yaml`](../../fixtures/valid/example-pack/directives/acme-001-secret-handling.directive.yaml) |
+| `ACME_001_SECRET_HANDLING` | Never commit credentials to the repository | Secrets come from the environment or a secret manager\, never from the repository\. | `required` | [`directives/acme-001-secret-handling.directive.yaml`](../../fixtures/valid/example-pack/directives/acme-001-secret-handling.directive.yaml) |
 
 ## Tactics
 
@@ -60,4 +66,4 @@ related:
 
 | ID | Title | Summary | Activates | Source |
 | --- | --- | --- | --- | --- |
-| `acme` | acme | Turn on the Acme rules. | 1 directive | [`presets/acme.yaml`](../../fixtures/valid/example-pack/presets/acme.yaml) |
+| `acme` | acme | Turn on the Acme rules\. | 1 directive | [`presets/acme.yaml`](../../fixtures/valid/example-pack/presets/acme.yaml) |
