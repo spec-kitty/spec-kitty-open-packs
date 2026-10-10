@@ -15,8 +15,10 @@
  *   - a relative link that leaves the docs root (`../../SECURITY.md`,
  *     `../../packs/`) becomes a GitHub URL on the default branch, because those
  *     files are not part of the site;
- *   - a relative link to a non-page file under docs/ (e.g. `_meta/charter.yaml`)
- *     becomes a GitHub URL too, since only pages are served;
+ *   - a relative link to a non-page file under docs/, or to anything under the
+ *     reserved docs/_meta/, becomes a GitHub URL too, since only pages are served;
+ *   - malformed percent-encoding leaves the link untouched; route and URL path
+ *     segments are re-encoded, and `?query` / `#fragment` are carried over;
  *   - everything else (external, root-absolute, anchors)
  *     is left untouched.
  *
@@ -39,36 +41,44 @@ export default function rehypeRepoLinks(options) {
   const blobBase = `${options.repoUrl.replace(/\/+$/, '')}/blob/${options.branch ?? 'main'}`;
   const treeBase = `${options.repoUrl.replace(/\/+$/, '')}/tree/${options.branch ?? 'main'}`;
 
+  /** Percent-encode each path segment (the source href is decoded first). */
+  const encodePath = (rel) => rel.split('/').map((seg) => encodeURIComponent(seg)).join('/');
+
   /** @param {string} href @param {string} sourceFile */
   function rewrite(href, sourceFile) {
     if (!href || href.startsWith('#') || href.startsWith('/') || SCHEME.test(href)) return null;
-    const hashAt = href.indexOf('#');
-    const rawPath = hashAt === -1 ? href : href.slice(0, hashAt);
-    const fragment = hashAt === -1 ? '' : href.slice(hashAt);
+    // Split off `?query` and `#fragment`; both are carried over verbatim.
+    const cut = href.search(/[?#]/);
+    const rawPath = cut === -1 ? href : href.slice(0, cut);
+    const suffix = cut === -1 ? '' : href.slice(cut);
     if (!rawPath) return null;
-    const target = path.resolve(path.dirname(sourceFile), decodeURI(rawPath));
+    let decoded;
+    try {
+      decoded = decodeURI(rawPath);
+    } catch {
+      return null; // malformed percent-encoding (`bad%zz.md`): leave the link as authored
+    }
+    const target = path.resolve(path.dirname(sourceFile), decoded);
     const insideDocs = target === docsRoot || target.startsWith(docsRoot + path.sep);
+    const isFolder = rawPath.endsWith('/') || !path.extname(target);
+    const relRepo = path.relative(repoRoot, target).split(path.sep).join('/');
 
     if (insideDocs) {
-      const isFolder = rawPath.endsWith('/') || !path.extname(target);
-      if (!isFolder && !PAGE_EXT.test(target)) {
-        // A non-page file under docs/ (e.g. docs/_meta/charter.yaml) is not served
-        // by the site — point at it on GitHub instead.
-        const relFile = path.relative(repoRoot, target).split(path.sep).join('/');
-        return `${blobBase}/${relFile}${fragment}`;
-      }
       const rel = path.relative(docsRoot, target).split(path.sep).join('/');
+      // docs/_meta/ is reserved (not part of the site), and only pages are served:
+      // point both at GitHub instead.
+      if (rel === '_meta' || rel.startsWith('_meta/') || (!isFolder && !PAGE_EXT.test(target))) {
+        return `${isFolder ? treeBase : blobBase}/${encodePath(relRepo)}${suffix}`;
+      }
       const parts = rel.replace(PAGE_EXT, '').split('/').filter(Boolean);
       if (!isFolder && parts.length && INDEX_BASENAMES.has(parts[parts.length - 1].toLowerCase())) parts.pop();
-      const route = parts.join('/');
-      return `${base}/${route ? `${route}/` : ''}${fragment}`;
+      const route = encodePath(parts.join('/'));
+      return `${base}/${route ? `${route}/` : ''}${suffix}`;
     }
 
     const insideRepo = target.startsWith(repoRoot + path.sep);
     if (!insideRepo) return null;
-    const rel = path.relative(repoRoot, target).split(path.sep).join('/');
-    const isDir = rawPath.endsWith('/') || !path.extname(target);
-    return `${isDir ? treeBase : blobBase}/${rel}${fragment}`;
+    return `${isFolder ? treeBase : blobBase}/${encodePath(relRepo)}${suffix}`;
   }
 
   /** @param {any} node @param {string} sourceFile */
