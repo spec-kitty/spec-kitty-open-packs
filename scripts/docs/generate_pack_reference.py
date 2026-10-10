@@ -97,14 +97,28 @@ def _clean(value: Any, limit: int = SUMMARY_MAX) -> str:
     return text
 
 
+# GFM autolink literals (URLs, www., e-mail) are found in *decoded* text by
+# remark-gfm, so escaping cannot stop them; such tokens go into code spans.
+_AUTOLINKISH = re.compile(
+    r"(?i)(?:\b(?:https?|ftp|mailto|xmpp):\S*|\bwww\.\S*|[\w.+-]+@[\w-]+(?:\.[\w-]+)+)"
+)
+
+
 def _text(value: str) -> str:
-    """Escape text for Markdown (incl. a GFM table cell): it renders literally.
+    """Render untrusted text for Markdown (incl. a GFM table cell) literally.
 
     Backslash-escaping every ASCII punctuation character is valid CommonMark and
-    neutralises links, images, emphasis, raw HTML, entities, autolink literals
-    (``https\\://``, ``www\\.``) and table pipes in one rule.
+    neutralises links, images, emphasis, raw HTML, entities and table pipes in
+    one rule. URL- and e-mail-like tokens, which GFM would autolink even when
+    escaped, are emitted as code spans instead.
     """
-    return _PUNCT.sub(r"\\\1", value)
+    out, pos = [], 0
+    for m in _AUTOLINKISH.finditer(value):
+        out.append(_PUNCT.sub(r"\\\1", value[pos:m.start()]))
+        out.append(_code(m.group(0)))
+        pos = m.end()
+    out.append(_PUNCT.sub(r"\\\1", value[pos:]))
+    return "".join(out)
 
 
 def _code(value: str) -> str:

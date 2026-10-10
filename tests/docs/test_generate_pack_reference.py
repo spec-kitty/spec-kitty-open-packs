@@ -191,11 +191,16 @@ class UntrustedPackContent(unittest.TestCase):
         )
         page = self.render()
         body = page.split("\n---\n", 1)[1]
-        for raw in ("[click](", "![i](", "<img", "**bold**", "https://evil", "www.evil"):
+        for raw in ("[click](", "![i](", "<img", "**bold**"):
             # Present only in backslash-escaped form, never as live syntax.
             self.assertIsNone(re.search(r"(?<!\\)" + re.escape(raw), body), f"unescaped {raw!r} in rendered page")
+        for raw in ("https://evil", "www.evil"):
+            # GFM autolinks decoded text, so URL-like tokens must sit in code spans.
+            self.assertIsNone(re.search(r"(?<!`)" + re.escape(raw), body), f"{raw!r} outside a code span")
         self.assertIn(r"\[click\]\(javascript\:alert\(1\)\)", body)
-        self.assertIn(r"\!\[i\]\(https\:\/\/evil\.example\/x\.png\)", body)
+        self.assertIn(r"\!\[i\]\(`https://evil.example/x.png)`", body)
+        self.assertIn("`https://evil.example/auto`", body)
+        self.assertIn("`www.evil.example`", body)
         self.assertIn(r"\<img src\=x onerror\=alert\(1\)\>", body)
 
     def test_code_spans_keep_angle_brackets_and_survive_backticks_and_pipes(self):
