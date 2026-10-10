@@ -22,6 +22,9 @@ them. Read them there for the reasoning behind each artifact.
 | Added QA_007 (promise traceability), QA_008 (reproductions gate releases), the `qa-promise-elicitation` tactic, the `qa-promise-page` styleguide, the `qa-description-to-acceptance-ci` procedure, the `qa-promise-trace-lint` asset and toolguide, and two templates. | The promise -> scenario -> acceptance CI layer (from private-packs PR #1). |
 | `qa_result_ingest.py` reads test cases from fenced ```yaml blocks in the work-package body, with self-test Pair15. | Fixes spec-kitty-qa-pack#5: the template puts cases in the body (WPMetadata forbids them in the frontmatter), but the ingester read only the frontmatter, so a template-conformant mission ingested `cases_total: 0` with exit 0. |
 | Removed `qa.graph.yaml`, `missions/qa/governance-profile.yaml`, the `qa-reviewer-quinn` placeholder profile, the empty `paradigms/` and every `.gitkeep`. | The empty pack-root graph and the duplicate governance profile are not read (the mission type still activates and creates missions without them); the placeholder profile carried no content and nothing referenced it. |
+| Step-contract bootstrap commands are `charter context --action <a> --mission-type qa --json`. | The source's `--role` flag and `--profile`/`--tool` inputs do not exist on 4.x; all seven bootstrap commands failed with "No such option". |
+| `qa-test-designer-tessa` cites the tactic `bdd-scenario-formulation`. | Its old reference, `behavior-driven-development`, was retired in 4.0.0rc5 in favour of that tactic. |
+| The `test-case-template.md` examples (`TC-014`, `TC-015`) use `text` fences, and the ingester reads every CommonMark yaml fence form (`YAML`, `yml`, info-string attributes, tildes, longer and indented fences), warning on a repeated case id or an unclosed fence (self-test Pair16). | With the #5 fix the template's own examples would otherwise be ingested as cases, and other valid fence forms were dropped without a word. |
 | Internal finding ids (`SK-NNN`) replaced by plain descriptions. | They point at a ledger outside this repository. |
 | Not ported: `scripts/`, `kitty-specs/`, `_rnd/`, `kitty-ops/`, `.kittify/`, `docs/install/`, `CONVENTIONS.md`. | History and tooling pinned to older Spec Kitty builds; `pack_ci.py` imports APIs that no longer exist (`DoctrineService`, `save_pack_registry`). This repository's `scripts/ci/validate-packs.sh` replaces its validation role. |
 
@@ -48,5 +51,5 @@ under `charter_packs.org.packs`:
   their blocking artifacts existed; on a work package written to `test-case-template.md`,
   `qa-result-ingest` reported `cases_total: 1` (0 before the #5 fix) and `qa-traceability-lint`
   reported `verdict: ready`, 1 of 1 requirements covered.
-- Asset self-tests: `qa_result_ingest.py` 15 of 15, `qa_carrier_lint.py` 38 of 38,
+- Asset self-tests: `qa_result_ingest.py` 16 of 16, `qa_carrier_lint.py` 38 of 38,
   `qa_promise_trace_lint.py` 12 of 12.

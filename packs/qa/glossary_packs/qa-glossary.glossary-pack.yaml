@@ -6,7 +6,7 @@ description: >-
   (glossary.istqb.org), at authoring time; a later ISTQB edition that revises
   any cited definition is a stated re-verify condition for this file, not
   silent drift. This glossary pack is reference data consulted by doctrine
-  tooling (e.g. doctor doctrine, charter status/lint) and by
+  tooling (e.g. doctor charter-packs, charter status/lint) and by
   glossary-curation workflows; it is not delivered into any dispatched
   agent's context today.
 id: qa-glossary

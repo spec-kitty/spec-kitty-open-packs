@@ -60,9 +60,13 @@ type: functional
 preconditions: []
 ```
 
+The two examples below use `text` fences on purpose: `qa-result-ingest` reads every ```yaml block
+in a work-package body as a case, so a work package that keeps these examples would ingest them.
+Write your own cases as ```yaml blocks, like the `TC-001` block above.
+
 ### Example: automated case
 
-```yaml
+```text
 id: TC-014
 requirement_refs: [FR-007]
 priority: P1
@@ -78,7 +82,7 @@ JUnit-XML results.
 
 ### Example: exploratory/manual case, no automated evidence
 
-```yaml
+```text
 id: TC-015
 requirement_refs: [FR-006]
 priority: P2

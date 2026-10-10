@@ -778,25 +778,53 @@ def _iter_wp_case_frontmatter(tasks_dir: Path) -> Iterator[tuple[str, dict]]:
         # case in the WP body, because the WP's own frontmatter belongs to WPMetadata, which
         # forbids extra keys. Frontmatter cases come first; a body block repeating a case id
         # already yielded for this WP is skipped (first occurrence wins).
-        for case in _body_yaml_case_blocks(parts[2]):
+        for case in _body_yaml_case_blocks(parts[2], wp_path):
             case_id = str(case["id"])
             if case_id in seen:
+                sys.stderr.write(
+                    f"warning: {wp_path} repeats case id {case_id!r}; the first occurrence is used\n"
+                )
                 continue
             seen.add(case_id)
             yield str(wp_id), case
 
 
-_BODY_YAML_FENCE_RE = re.compile(r"^```ya?ml[ \t]*\n(.*?)^```[ \t]*$", re.MULTILINE | re.DOTALL)
+_FENCE_OPEN_RE = re.compile(r"^(?P<indent>[ \t]*)(?P<fence>`{3,}|~{3,})[ \t]*(?P<info>[^\n]*)$")
 
 
-def _body_yaml_case_blocks(body: str) -> Iterator[dict]:
-    """Yield every fenced ```yaml block in a WP body that parses to a mapping with an `id`.
+def _body_yaml_case_blocks(body: str, wp_path: Path | None = None) -> Iterator[dict]:
+    """Yield every fenced yaml block in a WP body that parses to a mapping with an `id`.
 
-    Blocks that fail to parse, parse to a non-mapping, or carry no `id` are not cases and are
-    skipped silently, as prose and other code fences are."""
-    for match in _BODY_YAML_FENCE_RE.finditer(body):
+    Fences follow CommonMark: three or more backticks or tildes, closed by a run of the same
+    character at least as long; the info string's first word is `yaml` or `yml` in any case
+    (`yaml title=x` counts). An indented fence (inside a list item) is read too, with its
+    indentation removed. Blocks that fail to parse, parse to a non-mapping, or carry no `id`
+    are not cases and are skipped, as prose and other code fences are. A yaml fence left open
+    runs to the end of the body and is reported on stderr, since it hides any case after it."""
+    lines = body.splitlines()
+    i = 0
+    while i < len(lines):
+        opening = _FENCE_OPEN_RE.match(lines[i])
+        i += 1
+        if opening is None or (opening["fence"][0] == "`" and "`" in opening["info"]):
+            continue
+        fence, indent = opening["fence"], len(opening["indent"].expandtabs(4))
+        language = opening["info"].split(maxsplit=1)[0].lower() if opening["info"].strip() else ""
+        closing = re.compile(rf"^[ \t]*{re.escape(fence[0])}{{{len(fence)},}}[ \t]*$")
+        block: list[str] = []
+        while i < len(lines) and closing.match(lines[i]) is None:
+            line = lines[i].expandtabs(4)
+            block.append(line[min(indent, len(line) - len(line.lstrip(" "))):])
+            i += 1
+        closed = i < len(lines)
+        i += 1
+        if language not in ("yaml", "yml"):
+            continue
+        if not closed:
+            where = f"{wp_path}: " if wp_path is not None else ""
+            sys.stderr.write(f"warning: {where}a {fence}{language} block is never closed\n")
         try:
-            doc = _yaml().load(match.group(1))
+            doc = _yaml().load("\n".join(block))
         except Exception:
             continue
         if isinstance(doc, dict) and "id" in doc:
@@ -1655,7 +1683,8 @@ def self_test() -> int:
             "---\nid: TC-010\nrequirement_refs: [FR-010]\nautomation_ref: m::t_ten\n---\n\n"
             "```yaml\nid: TC-010\nrequirement_refs: [FR-010]\nautomation_ref: m::t_ten\n```\n"
         )
-        p15_refs = read_wp_automation_refs(p15_tasks)
+        with contextlib.redirect_stderr(io.StringIO()) as p15_stderr:
+            p15_refs = read_wp_automation_refs(p15_tasks)
         p15_wp01 = sorted(case_id for wp, case_id, _ in p15_refs if wp == "WP01")
         ok(
             "Pair15",
@@ -1675,8 +1704,48 @@ def self_test() -> int:
         )
         ok(
             "Pair15",
+            "the repeated case id is reported on stderr, not dropped silently",
+            "repeats case id 'TC-010'" in p15_stderr.getvalue(),
+        )
+        with contextlib.redirect_stderr(io.StringIO()):
+            p15_requirement_refs = read_wp_case_requirement_refs(p15_tasks)
+        ok(
+            "Pair15",
             "read_wp_case_requirement_refs inherits the body-fence reader through the shared traversal",
-            read_wp_case_requirement_refs(p15_tasks).get(("WP01", "TC-002")) == ["FR-002"],
+            p15_requirement_refs.get(("WP01", "TC-002")) == ["FR-002"],
+        )
+
+        # --- Pair16 -- CommonMark fence variants: case-insensitive `yaml`/`yml`, info-string
+        # attributes, tildes, longer fences, indented fences; an unclosed fence is reported. ---
+        p16_tasks = root / "pair16" / "tasks"
+        p16_tasks.mkdir(parents=True)
+        p16_cases = [
+            ("WP01-upper.md", "```YAML\nid: TC-101\nrequirement_refs: [FR-1]\n```\n"),
+            ("WP02-attrs.md", "```yaml title=case\nid: TC-102\nrequirement_refs: [FR-1]\n```\n"),
+            ("WP03-tilde.md", "~~~yml\nid: TC-103\nrequirement_refs: [FR-1]\n~~~\n"),
+            ("WP04-long.md", "````yaml\nid: TC-104\nrequirement_refs: [FR-1]\nnotes: |\n  ```\n  a shorter fence does not close this block\n  ```\n````\n"),
+            ("WP05-indent.md", "- a case:\n\n    ```yaml\n    id: TC-105\n    requirement_refs: [FR-1]\n    ```\n"),
+            ("WP06-crlf.md", "```yaml\r\nid: TC-106\r\nrequirement_refs: [FR-1]\r\n```\r\n"),
+        ]
+        for name, body in p16_cases:
+            (p16_tasks / name).write_text(f"---\nwork_package_id: {name[:4]}\n---\n\n{body}", newline="")
+        p16_ids = sorted(read_wp_case_requirement_refs(p16_tasks))
+        ok(
+            "Pair16",
+            "every CommonMark yaml fence variant yields its case",
+            [case_id for _, case_id in p16_ids] == ["TC-101", "TC-102", "TC-103", "TC-104", "TC-105", "TC-106"],
+        )
+        p16_open = root / "pair16" / "open"
+        p16_open.mkdir()
+        (p16_open / "WP01-open.md").write_text(
+            "---\nwork_package_id: WP01\n---\n\n```yaml\nid: TC-201\nrequirement_refs: [FR-1]\n"
+        )
+        with contextlib.redirect_stderr(io.StringIO()) as p16_stderr:
+            read_wp_automation_refs(p16_open)
+        ok(
+            "Pair16",
+            "a yaml fence that is never closed is reported on stderr",
+            "never closed" in p16_stderr.getvalue(),
         )
 
         # --- WP02 review finding 3: malformed-but-present timestamp disclosure demo. Not a

@@ -6,7 +6,7 @@ a product's acceptance tests tied to what the product promises.
 It does two jobs:
 
 1. **A `qa` mission type.** The seven canonical steps redefined in QA terms (discovery, test
-   strategy, test plan, test design, test execution, test report review, acceptance), with six
+   strategy, test plan, test design, test execution, test report review, acceptance), with five
    QA agent profiles, step contracts, templates, and two evidence tools. Ported from
    `spec-kitty-qa-pack`; see [PROVENANCE.md](PROVENANCE.md).
 2. **Description to acceptance CI.** A standing loop from a human-readable product description to
@@ -51,7 +51,7 @@ charter_packs:
         local_path: "${SPEC_KITTY_PACK_HOME}/qa"
         source_type: git
         url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
-        ref: "pack/qa/v0.1.0"        # a tag or commit SHA, never a branch
+        ref: "<commit SHA or pack/qa/vX.Y.Z tag>"   # never a branch; SPEC_KITTY_PACK_HOME is any directory
         subdir: packs/qa
 ```
 
@@ -87,8 +87,8 @@ the list of what to fix; 2 when it cannot measure. Details: [toolguides/QA-PROMI
 
 ## Status
 
-Pre-release. On Spec Kitty 4.0.0rc7 (`spec-kitty/spec-kitty@3b7c6dde`) the pack validates
-cleanly, and a scratch `qa` mission was driven through all seven steps to `terminal: done`:
+Pre-release. On Spec Kitty 4.0.0rc7 (`spec-kitty/spec-kitty@3b7c6dde`, plus spec-kitty#6004 where
+`charter activate` is used on typer ≥ 0.26) the pack validates cleanly, and a scratch `qa` mission was driven through all seven steps to `terminal: done`:
 `next` served the pack's own step prompts, the pack's plan-field declaration refused the unfilled
 test-plan template, `review` held until `qa-traceability.yaml` and `test-report.md` existed,
 `accept` held until `qa-coverage.json` existed, and `qa-result-ingest` plus
