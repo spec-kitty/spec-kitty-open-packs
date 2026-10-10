@@ -15,11 +15,23 @@ set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$root"
 
+# Some spec-kitty commands write under $HOME (`init` installs agent skills there, others
+# keep locks in ~/.kittify); keep a local run from touching the developer's own files.
+scratch="$(mktemp -d)"
+trap 'rm -rf "$scratch"' EXIT
+export HOME="$scratch/home"
+mkdir -p "$HOME"
+
+for dir in packs tests/fixtures/valid tests/fixtures/invalid; do
+  [[ -d "$dir" ]] || { echo "::error::$dir/ is missing; run from a repository checkout"; exit 1; }
+done
+
 spec-kitty --version
 spec-kitty charter pack validate --help >/dev/null  # fail fast on a pre-cutover CLI
 
 mapfile -t packs < <(find packs tests/fixtures/valid -mindepth 1 -maxdepth 1 -type d | sort)
 mapfile -t invalid < <(find tests/fixtures/invalid -mindepth 1 -maxdepth 1 -type d | sort)
+(( ${#invalid[@]} > 0 )) || { echo "::error::tests/fixtures/invalid/ holds no fixture; the non-vacuity check would prove nothing"; exit 1; }
 
 failed=0
 
@@ -38,12 +50,8 @@ done
 echo "::endgroup::"
 
 echo "::group::doctor charter-packs (all packs in one consumer)"
-consumer="$(mktemp -d)"
-trap 'rm -rf "$consumer"' EXIT
-# `spec-kitty init` installs agent skills under $HOME; keep a local run from
-# rewriting the developer's own ~/.claude and ~/.agents.
-export HOME="$consumer/home"
-mkdir -p "$HOME"
+consumer="$scratch/consumer"
+mkdir -p "$consumer"
 git -C "$consumer" init -q
 (cd "$consumer" && spec-kitty init --ai claude --non-interactive >/dev/null)
 {
