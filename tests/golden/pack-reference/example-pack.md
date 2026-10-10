@@ -28,11 +28,11 @@ related:
 | Depends on | — |
 | Artifacts | 1 directive, 1 tactic, 1 preset |
 | DRG fragment | 0 node(s), 1 edge(s) ([`drg/fragment.yaml`](../../fixtures/valid/example-pack/drg/fragment.yaml)) |
-| Org charter | org `acme`; keys: `org_name`, `schema_version` ([`org-charter.yaml`](../../fixtures/valid/example-pack/org-charter.yaml)) |
+| Org charter | org `example`; keys: `org_name`, `schema_version` ([`org-charter.yaml`](../../fixtures/valid/example-pack/org-charter.yaml)) |
 
 ## Provenance & integrity
 
-- **Content checksum** (`open-packs-sha256-v1`, 5 file(s)): `sha256:915faabb7857b6df96bd2ff1907ea848526777b4639a1c4ce5ab9ff1bd8fef60`
+- **Content checksum** (`open-packs-sha256-v1`, 5 file(s)): `sha256:7c6cebf4a375ef4301f60c1f9438cd5c4ae5aa8264fb4515200695c2d96232af`
 - **File set:** the git-shipped files (tracked, plus untracked files that are not ignored). A clean checkout or release tarball of the pack contains exactly
   these files. Symlinks and file names containing a backslash or newline are rejected.
 - **Verify** a fetched copy from inside the pack directory:
@@ -54,16 +54,16 @@ related:
 
 | ID | Title | Summary | Enforcement | Source |
 | --- | --- | --- | --- | --- |
-| `ACME_001_SECRET_HANDLING` | Never commit credentials to the repository | Secrets come from the environment or a secret manager\, never from the repository\. | `required` | [`directives/acme-001-secret-handling.directive.yaml`](../../fixtures/valid/example-pack/directives/acme-001-secret-handling.directive.yaml) |
+| `EXAMPLE_001_SECRET_HANDLING` | Never commit credentials to the repository | Secrets come from the environment or a secret manager\, never from the repository\. | `required` | [`directives/example-001-secret-handling.directive.yaml`](../../fixtures/valid/example-pack/directives/example-001-secret-handling.directive.yaml) |
 
 ## Tactics
 
 | ID | Title | Summary | Steps | Source |
 | --- | --- | --- | --- | --- |
-| `acme-tac-001-scan-staged` | Scan staged content for credentials | — | 1 step | [`tactics/acme-tac-001.tactic.yaml`](../../fixtures/valid/example-pack/tactics/acme-tac-001.tactic.yaml) |
+| `example-tac-001-scan-staged` | Scan staged content for credentials | — | 1 step | [`tactics/example-tac-001.tactic.yaml`](../../fixtures/valid/example-pack/tactics/example-tac-001.tactic.yaml) |
 
 ## Presets
 
 | ID | Title | Summary | Activates | Source |
 | --- | --- | --- | --- | --- |
-| `acme` | acme | Turn on the Acme rules\. | 1 directive | [`presets/acme.yaml`](../../fixtures/valid/example-pack/presets/acme.yaml) |
+| `example` | example | Turn on the example rules\. | 1 directive | [`presets/example.yaml`](../../fixtures/valid/example-pack/presets/example.yaml) |

@@ -27,4 +27,4 @@ the machine-readable list is [`checksums.json`](checksums.json).
 
 | Pack | Purpose | Depends on | Artifacts | Executable assets | Checksum |
 | --- | --- | --- | --- | --- | --- |
-| [example\-pack](example-pack.md) | — | — | 1 directive, 1 tactic, 1 preset | 0 | `915faabb7857…` |
+| [example\-pack](example-pack.md) | — | — | 1 directive, 1 tactic, 1 preset | 0 | `7c6cebf4a375…` |

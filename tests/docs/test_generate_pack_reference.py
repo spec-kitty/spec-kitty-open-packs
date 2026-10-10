@@ -53,14 +53,14 @@ class FixturePackRendering(unittest.TestCase):
         page = files["example-pack.md"]
         for needle in (
             "# Pack: example\\-pack",
-            "`ACME_001_SECRET_HANDLING` | Never commit credentials to the repository",
+            "`EXAMPLE_001_SECRET_HANDLING` | Never commit credentials to the repository",
             "Secrets come from the environment or a secret manager\\, never from the repository\\.",
             "| `required` |",
-            "`acme-tac-001-scan-staged` | Scan staged content for credentials",
+            "`example-tac-001-scan-staged` | Scan staged content for credentials",
             "| 1 step |",
-            "| `acme` | acme | Turn on the Acme rules\\. | 1 directive |",
+            "| `example` | example | Turn on the example rules\\. | 1 directive |",
             "| DRG fragment | 0 node(s), 1 edge(s)",
-            "org `acme`; keys: `org_name`, `schema_version`",
+            "org `example`; keys: `org_name`, `schema_version`",
             "Generated — do not edit.",
         ):
             self.assertIn(needle, page)
@@ -115,7 +115,7 @@ class DeterminismAndDrift(unittest.TestCase):
 
     def test_changed_pack_gets_a_new_date_and_check_fails_until_regenerated(self):
         self.run_gen(epoch=EPOCH_A)
-        tactic = self.packs / "example-pack" / "tactics" / "acme-tac-001.tactic.yaml"
+        tactic = self.packs / "example-pack" / "tactics" / "example-tac-001.tactic.yaml"
         tactic.write_text(tactic.read_text().replace("Scan staged content", "Scan every staged file"))
         self.assertEqual(self.run_gen("--check", epoch=EPOCH_B), 1)
         self.run_gen(epoch=EPOCH_B)
@@ -186,7 +186,7 @@ class UntrustedPackContent(unittest.TestCase):
 
     def test_markdown_and_html_in_pack_text_is_escaped(self):
         self.write(
-            "directives/acme-001-secret-handling.directive.yaml",
+            "directives/example-001-secret-handling.directive.yaml",
             yaml.safe_dump({"schema_version": "1.0", "id": "ACME_001", "title": XSS_PAYLOAD, "intent": XSS_PAYLOAD, "enforcement": "required"}),
         )
         page = self.render()
@@ -203,12 +203,12 @@ class UntrustedPackContent(unittest.TestCase):
         self.assertEqual(gen._code("a`b"), "``a`b``")
         self.assertEqual(gen._code("`x`"), "`` `x` ``")
         self.assertEqual(gen._code("a|b"), "`a\\|b`")
-        self.write("directives/acme-001-secret-handling.directive.yaml",
+        self.write("directives/example-001-secret-handling.directive.yaml",
                    yaml.safe_dump({"id": "ID`<x>|y", "title": "t", "enforcement": "required"}))
         self.assertIn("| ``ID`<x>\\|y`` |", self.render())
 
     def test_non_scalar_values_never_leak_as_python_repr(self):
-        self.write("directives/acme-001-secret-handling.directive.yaml",
+        self.write("directives/example-001-secret-handling.directive.yaml",
                    yaml.safe_dump({"id": "ACME_001", "title": {"nested": "x"}, "intent": ["a", "b"], "enforcement": {"k": 1}}))
         page = self.render()
         self.assertNotIn("{'", page)
@@ -279,7 +279,7 @@ class MalformedInput(unittest.TestCase):
             return gen.main(["--packs-root", str(self.packs), "--out", str(self.out)])
 
     def test_non_mapping_yaml_is_exit_2(self):
-        for rel in ("drg/fragment.yaml", "org-charter.yaml", "directives/acme-001-secret-handling.directive.yaml", "pack.yaml"):
+        for rel in ("drg/fragment.yaml", "org-charter.yaml", "directives/example-001-secret-handling.directive.yaml", "pack.yaml"):
             with self.subTest(rel=rel):
                 path = self.pack / rel
                 backup = path.read_text() if path.exists() else None
