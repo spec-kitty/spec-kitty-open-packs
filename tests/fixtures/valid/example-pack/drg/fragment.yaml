@@ -1,0 +1,5 @@
+nodes: []
+edges:
+  - source: directive:ACME_001_SECRET_HANDLING
+    target: tactic:acme-tac-001-scan-staged
+    relation: requires
