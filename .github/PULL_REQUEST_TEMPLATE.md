@@ -2,7 +2,7 @@
 Use this template for pull requests to spec-kitty-open-packs.
 
 This repository distributes doctrine *content* (packs) and docs. Doctrine *logic*
-lives in Priivacy-ai/spec-kitty — if your change is about resolution, validation,
+lives in spec-kitty/spec-kitty — if your change is about resolution, validation,
 or the manifest schema, it probably belongs there instead.
 -->
 
@@ -20,7 +20,7 @@ or the manifest schema, it probably belongs there instead.
 ## Pack changes (if applicable)
 
 - Pack name(s):
-- [ ] `spec-kitty doctrine pack validate ./<pack>` passes with exit code 0
+- [ ] `scripts/ci/validate-packs.sh` passes locally (it runs `spec-kitty charter pack validate` on every pack)
 - [ ] IDs are namespaced (or intentional built-in overrides are called out)
 - [ ] No pack ships executable gate assets, OR the executable surface is declared and the [security position](../SECURITY.md) was reviewed
 

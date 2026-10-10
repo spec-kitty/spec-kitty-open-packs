@@ -15,9 +15,11 @@ packs/<pack-name>/
 ├── paradigms/           # *.paradigm.yaml
 ├── procedures/          # *.procedure.yaml
 ├── agent_profiles/      # *.agent.yaml
-├── drg/                 # *.graph.yaml (additive fragments)
-└── org-charter.yaml     # optional activation defaults
+├── presets/             # <name>.yaml activation presets
+├── drg/fragment.yaml    # additive DRG fragment
+└── org-charter.yaml     # optional policy / required artifacts
 ```
 
-See [Author a doctrine pack](../docs/guides/author-a-doctrine-pack.md) to add one, and
-[Validate a pack](../docs/guides/validate-a-pack.md) before you open a PR.
+See [Author a Charter Pack](../docs/guides/author-a-doctrine-pack.md) to add one, and
+[Validate a pack](../docs/guides/validate-a-pack.md) before you open a PR. CI validates every
+directory here on each pull request (`scripts/ci/validate-packs.sh`).

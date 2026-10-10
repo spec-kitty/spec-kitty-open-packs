@@ -36,7 +36,7 @@ Reference existing built-in artifacts by ID where possible; note anything net-ne
 
 ## Cross-references
 
-- **Core epic / issue:** e.g. Priivacy-ai/spec-kitty#2466
+- **Core epic / issue:** e.g. spec-kitty/spec-kitty#2466
 - **Related open-packs issues:**
 
 ## Notes

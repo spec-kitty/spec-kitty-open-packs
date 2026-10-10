@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Pack validation CI** (#27). `.github/workflows/validate-packs.yml` runs
+  `scripts/ci/validate-packs.sh` on every pull request against a pinned spec-kitty commit: it
+  validates each pack under `packs/`, loads all packs together in a scratch project with
+  `doctor charter-packs`, and requires the fixtures under `tests/fixtures/invalid/` to fail, so the
+  gate cannot pass vacuously.
 - **Repository bootstrap.** Initialized `spec-kitty-open-packs` with `spec-kitty init`
   (Claude Code, Codex, Gemini, Copilot surfaces), MIT license, Code of Conduct, security
   position, and the documentation convention mirrored from Spec Kitty core (`toc.yml` nav skeleton,
@@ -52,3 +57,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2471](https://github.com/Priivacy-ai/spec-kitty/issues/2471) validator,
   [#2539](https://github.com/Priivacy-ai/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
+### 🔄 Changed
+
+- **Guides follow the Spec Kitty 4.x Charter Pack cutover.** `spec-kitty doctrine …` became
+  `spec-kitty charter …`, `doctrine.org.packs` became `charter_packs.org.packs` (with `subdir`
+  for packs in this repository), `doctor doctrine` became `doctor charter-packs`, the DRG lives
+  in `drg/fragment.yaml`, the directive example matches the schema, and presets replace
+  activation defaults. Core links point at `spec-kitty/spec-kitty`.
+

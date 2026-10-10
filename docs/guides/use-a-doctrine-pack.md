@@ -1,83 +1,102 @@
 ---
-title: Use a doctrine pack
-description: Configure a Spec Kitty consumer project to fetch and activate an open doctrine pack, then confirm it participates in context resolution.
+title: Use a Charter Pack
+description: Configure a Spec Kitty 4.x consumer project to fetch an open Charter Pack, activate it, and confirm it participates in context resolution.
 doc_status: wip
-updated: '2026-07-12'
+updated: '2026-10-10'
 related:
 - docs/guides/compose-packs.md
 - docs/guides/index.md
 ---
-# Use a doctrine pack
+# Use a Charter Pack
 
-This guide shows how a Spec Kitty **consumer project** pulls in an open doctrine pack instead
-of inheriting the entire built-in corpus. It assumes you already have Spec Kitty installed
-(`spec-kitty --version`) and a project initialized (`spec-kitty init`).
+This guide shows how a Spec Kitty **consumer project** pulls in an open Charter Pack instead
+of inheriting the entire built-in corpus. It assumes Spec Kitty 4.x with the Charter Pack
+cutover (`spec-kitty charter pack validate --help` works) and an initialized project
+(`spec-kitty init`).
 
-> **🚧 WIP.** The open-packs catalog is still being materialized. Until packs are published
-> here, use the [org doctrine pack workflow](https://github.com/Priivacy-ai/spec-kitty/blob/main/docs/guides/create-an-org-doctrine-pack.md)
-> upstream — the consumer configuration below is the same surface.
+> **Spec Kitty 3.x?** The `spec-kitty doctrine …` commands and the `doctrine.org` config key
+> were removed in 4.x without aliases. Run `spec-kitty upgrade` once and follow the
+> [Charter Pack cutover runbook](https://github.com/spec-kitty/spec-kitty/blob/main/docs/migrations/charter-pack-cutover.md).
 
 ## 1. Point your config at the pack
 
-A consumer enables the org layer by adding a `doctrine.org` block to
-`.kittify/config.yaml`, listing each pack and pinning a version:
+Register each pack under `charter_packs.org.packs` in `.kittify/config.yaml`. Packs in this
+repository live in subdirectories of one git repository, so name the pack's directory with
+`subdir` and pin a ref:
 
 ```yaml
 # .kittify/config.yaml
-doctrine:
+charter_packs:
   org:
     packs:
       - name: domain-driven-design
         local_path: "${SPEC_KITTY_PACK_HOME}/domain-driven-design"
         source_type: git
-        url: "git@github.com:spec-kitty/spec-kitty-open-packs.git"
-        ref: "v0.1.0"          # pin a tag or commit SHA — never a moving branch
+        url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
+        ref: "pack/domain-driven-design/v0.1.0"   # pin a tag or commit SHA, never a branch
+        subdir: packs/domain-driven-design
 ```
 
 | Field | Required | Purpose |
 | --- | --- | --- |
-| `name` | yes | Unique pack name (used by `--pack`, shown in `doctor doctrine`). |
+| `name` | yes | Unique pack name (used by `--pack`, shown in `doctor charter-packs`). |
 | `local_path` | yes | Where the snapshot lives. Supports `~` and `${VAR}` / `$VAR` indirection. |
-| `source_type` | no | One of `git`, `https`, `api`. Omit if pre-provisioned. |
+| `source_type` | no | One of `git`, `https`, `artifactory`, `api`. Omit if the pack is already on disk. |
 | `url` | if `source_type` set | Remote URL. |
-| `ref` | no | Version pin (git tag/SHA recommended). |
+| `ref` | no | Version pin (git tag or SHA recommended). |
+| `subdir` | no | The pack's directory inside the fetched source, for multi-pack repositories. |
+
+Only this named-list form is read. A single-pack `charter_packs.org.local_path` is ignored.
 
 ## 2. Fetch the pack
 
 ```bash
-spec-kitty doctrine fetch                 # fetch all configured packs
-spec-kitty doctrine fetch --pack domain-driven-design   # one pack
-spec-kitty doctrine fetch --dry-run       # preview without contacting any remote
+spec-kitty charter fetch                              # fetch all configured packs
+spec-kitty charter fetch --pack domain-driven-design  # one pack
+spec-kitty charter fetch --dry-run                    # preview without contacting any remote
 ```
 
 ## 3. Verify the install
 
 ```bash
-spec-kitty doctor doctrine
+spec-kitty doctor charter-packs
 ```
 
-This enumerates each configured pack, its on-disk version, per-artifact counts, and
-`org-charter.yaml` status. Add `--json` for scripting.
+This lists each configured pack with its artifact counts and `org-charter.yaml` status, and
+reports collisions between layers and dangling DRG endpoints. Add `--json` for scripting.
 
-## 4. Confirm it participates in resolution
+## 4. Activate what you want
+
+A pack contributes artifacts to the charter offering; your project decides what is active.
+If the pack ships activation presets, list and apply them:
+
+```bash
+spec-kitty charter pack list                                  # packs and their presets
+spec-kitty charter activate --pack domain-driven-design --preset <preset>
+```
+
+A preset writes ordinary `activated_<kind>` keys into `.kittify/config.yaml`; edit them
+afterwards as you like. A pack's `org-charter.yaml` can also put artifacts in force through
+its `required_*` lists.
+
+## 5. Confirm it participates in resolution
 
 ```bash
 spec-kitty charter context --action implement --json
+spec-kitty charter context --include directive:<ID>
 ```
 
-Resolved artifacts carry a `source` field of `builtin`, `org`, or `project`. Artifacts your
-pack contributes appear with `source: org`.
+Resolved artifacts carry a `source` of `builtin`, `org`, or `project`. Artifacts your pack
+contributes appear with `source: org`.
 
 ## Why pin, and why opt in
 
 - **Pin versions** so a moving `main` doesn't silently change behaviour for every consumer on
   every fetch.
-- **Opt in deliberately.** The entire point of packs is to *avoid* loading doctrine you don't
-  need. Add only the packs whose domain matches your project, and constrain further with a
-  [charter](https://github.com/Priivacy-ai/spec-kitty/blob/main/docs/guides/charter-governed-workflow.md)
-  so context stays lean.
+- **Opt in deliberately.** The point of packs is to *avoid* loading doctrine you don't need.
+  Add only the packs whose domain matches your project, and activate only what you use, so
+  context stays lean.
 
 ## Next
 
-- [Compose packs](compose-packs.md) — combine several packs, and use compound packs that
-  declare `depends_on`.
+- [Compose packs](compose-packs.md) — combine several packs, and see how collisions resolve.
