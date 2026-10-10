@@ -5,6 +5,11 @@ doc_status: active
 updated: '2026-10-10'
 okf_version: '0.2'
 kind: Hub
+# The bundle root is exempt from `type` by the DocKitty convention (it carries
+# okf_version instead). It sits in no section, so llms.txt would list it under an
+# empty heading; the llms.txt header already carries the site title/description.
+agent:
+  discoverable: false
 related:
 - guides
 - packs/catalog-proposal

@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-07-18'
 type: Context
 kind: Hub
+sidebar:
+  order: 1
 related:
 - architecture
 - architecture/vision

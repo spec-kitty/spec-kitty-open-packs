@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-10-10'
 type: ADR
 kind: Hub
+sidebar:
+  order: 4
 related:
 - architecture
 - architecture/docsite-design
@@ -19,7 +21,7 @@ context, the options considered, the chosen option, and its consequences.
 - **Filename:** `YYYY-MM-DD-N-descriptive-title-with-dashes.md` (`N` = 1, 2, 3… per day).
 - **Status:** `Proposed` → `Accepted` → (`Superseded` | `Deprecated`). Superseded files are kept
   for history; do not implement from them.
-- Use the [template](adr-template.md).
+- Use the [template](../../../.github/ADR_TEMPLATE.md) (kept outside `docs/` so it is not published as a page; copy its frontmatter too).
 
 > **Placement note.** The Common Docs standard and core's live docsite place ADRs at top-level
 > `docs/adr/`. This repository nests them under `docs/architecture/adr/` per the project brief,

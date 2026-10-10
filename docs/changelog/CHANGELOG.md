@@ -5,6 +5,9 @@ doc_status: active
 updated: '2026-10-10'
 type: Changelog
 kind: Changelog
+sidebar:
+  order: 2
+  label: Release history
 ---
 # Changelog
 

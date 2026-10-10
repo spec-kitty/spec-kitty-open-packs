@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-10-10'
 type: Guide
 kind: Hub
+sidebar:
+  order: 1
 related:
 - packs/catalog-proposal
 - guides/author-a-doctrine-pack

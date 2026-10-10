@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-07-18'
 type: Architecture
 kind: Hub
+sidebar:
+  order: 1
 related:
 - architecture/vision
 - architecture/docsite-design

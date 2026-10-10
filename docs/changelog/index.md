@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-07-12'
 type: Changelog
 kind: Hub
+sidebar:
+  order: 1
 related:
 - changelog/CHANGELOG
 ---

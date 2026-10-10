@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-10-10'
 type: Architecture
 kind: Explanation
+sidebar:
+  order: 3
 related:
 - architecture/adr/2026-10-10-5-dockitty-docsite
 - architecture/vision

@@ -5,6 +5,8 @@ doc_status: active
 updated: '2026-10-10'
 type: Plan
 kind: Hub
+sidebar:
+  order: 1
 related:
 - packs/catalog-proposal
 - packs/reference
@@ -28,13 +30,17 @@ whose committed pages drift from the source
 
 - **Summary** — the pack's purpose and `depends_on` list (from an optional `pack.yaml`, when present)
   and a count of artifacts per kind.
-- **Provenance & integrity** — a `sha256` over the pack's files, computed with the recipe on the page,
+- **Provenance & integrity** — a `sha256` over the pack's git-shipped files, computed with the recipe on the page,
   so you can re-hash a downloaded copy and compare
   ([ADR-3](../architecture/adr/2026-07-18-3-build-time-checksum-tagging.md)). This is tamper-evidence,
   not a trust signature.
+- **Executable code warning** — a pack that ships runnable assets (scripts, binaries) says so at the
+  top of its page and lists them; read them before you adopt the pack.
 - **Artifacts** — one table per artifact kind (directives, tactics, procedures, styleguides,
-  toolguides, paradigms, agent profiles, glossary packs, mission types, presets, skills), plus the DRG
-  fragment and `org-charter.yaml` summary.
+  toolguides, paradigms, agent profiles, glossary packs, mission step contracts, presets, skills,
+  assets, mission types, missions, mission steps), plus the DRG fragment and `org-charter.yaml`
+  summary. All text on these pages comes from the pack and is rendered literally (no links or
+  markup from pack content).
 
 To add a pack, follow [Author a Charter Pack](../guides/author-a-doctrine-pack.md); the reference page
 appears when you run the generator.

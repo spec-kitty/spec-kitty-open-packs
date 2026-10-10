@@ -1,4 +1,5 @@
-# Documentation charter for the spec-kitty-open-packs docsite (DocKitty, ADR-0042).
+# Documentation charter for the spec-kitty-open-packs docsite (DocKitty; see
+# doc-kitty's ADR-0042 "native documentation charter", not an ADR of this repo).
 # Supersedes the DocFX-era docs/toc.yml: nav order and labels now come from here.
 #
 # Section set and names follow ADR 2026-07-18-4 (Common Docs names, weight-bearing

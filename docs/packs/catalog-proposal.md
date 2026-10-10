@@ -5,6 +5,8 @@ doc_status: draft
 updated: '2026-07-12'
 type: Plan
 kind: Planning
+sidebar:
+  order: 2
 related:
 - guides/author-a-doctrine-pack
 - guides/compose-packs
