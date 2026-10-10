@@ -31,3 +31,10 @@
 .kittify/sync-state.json
 .kittify/workspaces/
 kitty-ops/ops-index.jsonl
+
+# DocKitty docsite (Astro) build + install outputs
+node_modules/
+dist/
+.astro/
+# Python bytecode from scripts/docs and tests
+__pycache__/
