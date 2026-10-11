@@ -1,0 +1,10 @@
+{
+  "packs": {
+    "qa": {
+      "file_set": "git",
+      "files": 82,
+      "sha256": "b2708d2910511618a62cadf6b358f3e62d20f2efb8ac7dcc254f6648e30321aa"
+    }
+  },
+  "recipe": "open-packs-sha256-v1"
+}

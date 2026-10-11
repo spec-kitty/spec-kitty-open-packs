@@ -1,0 +1,15 @@
+# Bibliography catalog (DocKitty citation catalog, CSL-JSON-lite; doc-kitty ADR-0018).
+# Pages cite an entry with `external_references: [{ type: bibliography, id: <id> }]`.
+- id: common-docs-spec
+  type: webpage
+  title: Common Docs specification v1.2
+  authors: [Christopher Skene]
+  container: velvet-tiger/common-docs
+  url: https://github.com/velvet-tiger/common-docs
+  note: the base documentation convention DocKitty adapts
+- id: dockitty-convention
+  type: webpage
+  title: DocKitty documentation convention
+  container: spec-kitty/doc-kitty
+  url: https://github.com/spec-kitty/doc-kitty/blob/main/docs/context/convention.md
+  note: the convention this docs tree follows (ADR 2026-10-10-5)

@@ -16,3 +16,5 @@ kitty-specs/**/canary-evidence/** linguist-generated=true
 .kittify/workspaces/** -diff
 .kittify/migrations/** linguist-generated=true
 .kittify/migrations/** -diff
+docs/packs/reference/** linguist-generated=true
+tests/golden/pack-reference/** linguist-generated=true

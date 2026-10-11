@@ -1,12 +1,16 @@
 ---
 title: Publish a pack
 description: Distribute a Spec Kitty doctrine pack via git, HTTPS bundle, or a custom API; version it for reproducibility; and account for the pack trust surface.
-doc_status: wip
+doc_status: active
 updated: '2026-10-10'
+type: Guide
+kind: How-To
 related:
-- docs/guides/validate-a-pack.md
-- docs/guides/use-a-doctrine-pack.md
-- SECURITY.md
+- guides/validate-a-pack
+- guides/use-a-doctrine-pack
+external_references:
+- url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/SECURITY.md
+  title: SECURITY.md
 ---
 # Publish a pack
 

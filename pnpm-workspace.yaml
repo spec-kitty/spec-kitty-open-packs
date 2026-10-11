@@ -1,0 +1,15 @@
+# Single-package workspace for the docsite (the repo root IS the Astro project,
+# per doc-kitty's consumer-setup guide: Astro reads the repo-root docs/ tree).
+#
+# pnpm 11 blocks dependency build scripts unless allowed. Astro needs esbuild,
+# and its image service needs sharp — the same two doc-kitty allows.
+allowBuilds:
+  esbuild: true
+  sharp: true
+# Hoist Astro's sharp image service and its @img/* platform binaries so the
+# build can resolve them (same setting as doc-kitty's workspace). Without it,
+# pnpm's strict linking leaves sharp unresolvable and `astro build` fails with
+# MissingSharp when the theme's images are optimized.
+publicHoistPattern:
+  - "*sharp*"
+  - "@img/*"

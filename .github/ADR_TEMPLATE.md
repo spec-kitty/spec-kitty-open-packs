@@ -1,10 +1,15 @@
 ---
-title: '[Short descriptive title]'
-description: 'ADR authoring template for spec-kitty-open-packs: filename convention, status/date/decider header, and the section structure every architecture decision record follows.'
+# Copy this file to docs/architecture/adr/YYYY-MM-DD-N-title.md and fill it in.
+# Frontmatter follows the DocKitty contract (description <= 180 characters).
+# doc_status is the document lifecycle (active); the decision status lives in the body.
+title: 'ADR: [Short descriptive title]'
+description: '[One sentence: the decision and its main reason.]'
 doc_status: active
-updated: '2026-07-18'
+updated: 'YYYY-MM-DD'
+type: ADR
+kind: ADR
 related:
-- docs/architecture/index.md
+- architecture/adr
 ---
 # [Short descriptive title]
 

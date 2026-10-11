@@ -32,6 +32,10 @@
 .kittify/workspaces/
 kitty-ops/ops-index.jsonl
 
-# Python bytecode (e.g. from running a pack's assets)
+# DocKitty docsite (Astro) build + install outputs
+node_modules/
+dist/
+.astro/
+# Python bytecode (scripts/docs, tests, pack assets)
 __pycache__/
 *.py[cod]

@@ -99,7 +99,10 @@ Artifact directories are optional; every pack ships `drg/fragment.yaml` (empty i
 under `charter_packs.org.packs` in `.kittify/config.yaml` (git ref plus `subdir`, HTTPS
 bundle, or API), pin a version, and validate with `spec-kitty charter pack validate`.
 
-New to packs? Start with the guides:
+New to packs? Start with the guides. They are also published as the docsite at
+**<https://spec-kitty.github.io/spec-kitty-open-packs/>**, built from [`docs/`](docs/index.md) with
+[DocKitty](https://github.com/spec-kitty/doc-kitty) (see [ADR-5](docs/architecture/adr/2026-10-10-5-dockitty-docsite.md)).
+That site also carries a generated [pack reference](docs/packs/reference/index.md):
 
 - **Usage:** [Use a Charter Pack](docs/guides/use-a-doctrine-pack.md) · [Compose packs](docs/guides/compose-packs.md)
 - **Authoring:** [Author a Charter Pack](docs/guides/author-a-doctrine-pack.md) · [Validate a pack](docs/guides/validate-a-pack.md) · [Publish a pack](docs/guides/publish-a-pack.md)
@@ -111,7 +114,8 @@ New to packs? Start with the guides:
 | Repository | Bootstrapping — structure and conventions being established. |
 | Pack catalog | **Proposed**, not yet materialized. See the [catalog proposal](docs/packs/catalog-proposal.md). |
 | Manifest schema / composition | Defined upstream in core (`#2467`), tracked, subject to change. |
-| Validation tooling | Consumed from core (`#2471`); not yet wired into this repo's CI. |
+| Validation tooling | Consumed from core (`#2471`); every pack is validated in CI (`scripts/ci/validate-packs.sh`). |
+| Docsite | DocKitty site built from `docs/` (`pnpm install && pnpm build`); pack reference generated from `packs/`. |
 | Trust / verified distribution | Roadmap only (`#2539`). |
 
 ## Contributing

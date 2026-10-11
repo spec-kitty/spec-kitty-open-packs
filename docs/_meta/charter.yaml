@@ -1,0 +1,54 @@
+# Documentation charter for the spec-kitty-open-packs docsite (DocKitty; see
+# doc-kitty's ADR-0042 "native documentation charter", not an ADR of this repo).
+# Supersedes the DocFX-era docs/toc.yml: nav order and labels now come from here.
+#
+# Section set and names follow ADR 2026-07-18-4 (Common Docs names, weight-bearing
+# sections only, consumer path front-loaded, ADRs nested under architecture/adr).
+# The mapping onto DocKitty's twelve canonical sections is recorded in
+# ADR 2026-10-10-5:
+#
+#   guides/        -> canonical `guides`        (type Guide)
+#   packs/         -> repo section "Pack Catalog" (type Plan; the catalog is a
+#                     proposal). Its generated packs/reference/ sub-path is the
+#                     pack reference surface (subtype API).
+#   architecture/  -> canonical `architecture`  (type Architecture); the nested
+#                     architecture/adr/ sub-path carries type ADR (ADR-4 keeps
+#                     ADRs nested instead of the canonical top-level adr/).
+#   research/      -> repo section "Research"   (type Context: background
+#                     investigations that ground the decisions).
+#   changelog/     -> canonical `changelog`     (type Changelog)
+#
+# Deferred canonical sections (context, plans, api, configuration, integrations,
+# security, operations, migrations) are added only when they carry content
+# (ADR-4 anti-sprawl).
+version: 1
+sections:
+  entries:
+    - id: guides
+      label: Guides
+      order: 10
+      type: Guide
+      purpose: How to use, compose, author, validate, and publish Charter Packs.
+    - id: packs
+      label: Pack Catalog
+      order: 20
+      type: Plan
+      purpose: The proposed pack catalog and the generated per-pack reference.
+      subtypes:
+        - { match: reference, type: API }
+    - id: architecture
+      label: Architecture
+      order: 30
+      type: Architecture
+      purpose: Vision, docsite design, and architecture decision records.
+      subtypes:
+        - { match: adr, type: ADR }
+    - id: research
+      label: Research
+      order: 40
+      type: Context
+      purpose: Pre-decision investigations that ground the ADRs.
+    - id: changelog
+      label: Changelog
+      order: 50
+      type: Changelog

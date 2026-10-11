@@ -1,11 +1,13 @@
 ---
 title: Validate a pack
 description: Run the Spec Kitty 4.x Charter Pack validator, read errors vs advisories, and understand the CI gate this repository runs on every pull request.
-doc_status: wip
+doc_status: active
 updated: '2026-10-10'
+type: Guide
+kind: How-To
 related:
-- docs/guides/author-a-doctrine-pack.md
-- docs/guides/publish-a-pack.md
+- guides/author-a-doctrine-pack
+- guides/publish-a-pack
 ---
 # Validate a pack
 

@@ -1,0 +1,10 @@
+{
+  "packs": {
+    "example-pack": {
+      "file_set": "git",
+      "files": 5,
+      "sha256": "7c6cebf4a375ef4301f60c1f9438cd5c4ae5aa8264fb4515200695c2d96232af"
+    }
+  },
+  "recipe": "open-packs-sha256-v1"
+}

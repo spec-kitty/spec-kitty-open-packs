@@ -1,17 +1,23 @@
 ---
 title: 'ADR: MkDocs Material as the docsite generator'
-description: Decision to build the spec-kitty-open-packs docsite with MkDocs Material — a single Python toolchain, purpose-built content-from-code plugins, and the largest OSS ecosystem — with DocFX (consistency-with-core) recorded as a considered-but-deferred option and Hugo rejected.
-doc_status: active
-updated: '2026-07-25'
+description: 'Superseded by ADR-5 (DocKitty). Proposed MkDocs Material as the docsite generator over DocFX and Hugo, for a single Python toolchain.'
+doc_status: superseded
+updated: '2026-10-10'
+type: ADR
+kind: ADR
 related:
-- docs/architecture/docsite-design.md
-- docs/research/docsite-feasibility-and-generator.md
+- architecture/adr/2026-10-10-5-dockitty-docsite
+- architecture/docsite-design
+- research/docsite-feasibility-and-generator
 ---
 # MkDocs Material as the docsite generator
 
+> **Superseded (2026-10-10).** This decision was never implemented. The docsite is built with
+> DocKitty instead — see [ADR 2026-10-10-5](2026-10-10-5-dockitty-docsite.md).
+
 **Filename:** `2026-07-18-1-mkdocs-material-as-docsite-generator.md`
 
-**Status:** Proposed
+**Status:** Superseded by [ADR 2026-10-10-5 — DocKitty (Astro + Starlight) as the docsite toolchain](2026-10-10-5-dockitty-docsite.md) (2026-10-10). Kept for history; do not implement from it.
 
 **Date:** 2026-07-18 (decision revised 2026-07-25)
 

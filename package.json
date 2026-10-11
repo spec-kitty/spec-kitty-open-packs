@@ -1,0 +1,27 @@
+{
+  "name": "spec-kitty-open-packs-docsite",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "description": "DocKitty (Astro + Starlight) docsite for spec-kitty-open-packs. Renders the repo-root docs/ tree; see docs/architecture/adr/2026-10-10-5-dockitty-docsite.md.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "docs:generate": "python3 scripts/docs/generate_pack_reference.py",
+    "docs:check-generated": "python3 scripts/docs/generate_pack_reference.py --check",
+    "docs:validate": "node scripts/docs/dockitty-gate.mjs validate-frontmatter --index-basename README,index docs",
+    "docs:links": "node scripts/docs/dockitty-gate.mjs check-links docs",
+    "docs:built-links": "node scripts/docs/dockitty-gate.mjs assert-no-broken-links dist --base /spec-kitty-open-packs --site https://spec-kitty.github.io"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.0",
+    "@astrojs/starlight": "^0.32.6",
+    "@spec-kitty/doc-toolkit": "^0.1.1",
+    "astro": "^5.2.0"
+  }
+}
