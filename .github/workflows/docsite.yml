@@ -79,7 +79,10 @@ jobs:
       # built page may carry a script-scheme link.
       - name: "No javascript:/data: links in the built site"
         run: |
-          if grep -rIlE 'href="(javascript|vbscript|data):' dist; then
+          # Case-insensitive; double, single or no quotes; whitespace around = and
+          # before the scheme (browsers strip it). Entity-encoded schemes are the
+          # generator's job: it escapes all pack text.
+          if grep -rIliE "href[[:space:]]*=[[:space:]]*[\"']?[[:space:]]*(javascript|vbscript|data):" dist; then
             echo "::error::script-scheme href found in dist (see files above)"; exit 1
           fi
 
