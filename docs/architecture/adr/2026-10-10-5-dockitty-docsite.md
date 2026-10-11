@@ -2,7 +2,7 @@
 title: 'ADR: DocKitty (Astro + Starlight) as the docsite toolchain'
 description: 'Decision to build the docsite with DocKitty (@spec-kitty/doc-toolkit on Astro + Starlight), one docs toolchain across Spec Kitty repos. Supersedes ADR-1.'
 doc_status: active
-updated: '2026-10-10'
+updated: '2026-10-11'
 type: ADR
 kind: ADR
 related:
@@ -44,8 +44,9 @@ renders a repo's `docs/` tree with Astro + Starlight. It also produces `sitemap.
 
 ADR-1's main driver was "standardize both repos on one toolchain". That driver now points at
 DocKitty, because it is the toolchain Spec Kitty repos are converging on. The maintainer decided
-that this repository adopts DocKitty, and that the toolkit is published to npm (0.1.1, doc-kitty#108)
-before this repository depends on it.
+that this repository adopts DocKitty, and that the toolkit is published (0.1.1, doc-kitty#108)
+before this repository depends on it. It is published to the GitHub Packages npm registry
+(`npm.pkg.github.com`), not the public npm registry.
 
 ## Decision Drivers
 
@@ -56,7 +57,7 @@ before this repository depends on it.
   so it can feed any renderer. Only the page *contract* (frontmatter) has to match.
 * **Low migration cost.** The existing tree already follows Common Docs. DocKitty reads it in place,
   including `index.md` section indexes (its `indexBasename` option), so no files have to move.
-* **A published, versioned dependency.** We consume a released npm package, not a git checkout.
+* **A published, versioned dependency.** We consume a released package, not a git checkout.
 
 ## Considered Options
 
@@ -80,7 +81,8 @@ How it is wired (following doc-kitty's consumer-setup guide):
 * **Dependencies:** `@spec-kitty/doc-toolkit@^0.1.1`, `astro@^5.2.0`, `@astrojs/starlight@^0.32.6`
   (the toolkit's peer range is `>=0.32.0 <0.33.0`), and `@astrojs/sitemap@^3.2.0`, managed with
   pnpm as the toolkit does. The integrations come from `defineDocKittyIntegrations` with the
-  Spec Kitty theme and `base: /spec-kitty-open-packs` for GitHub Pages.
+  Spec Kitty theme and `base: /spec-kitty-open-packs` for GitHub Pages. A committed `.npmrc` maps
+  the `@spec-kitty` scope to GitHub Packages; CI authenticates with the workflow's `GITHUB_TOKEN`.
 * **Navigation and section mapping** live in `docs/_meta/charter.yaml` (DocKitty's documentation
   charter, doc-kitty's ADR-0042). It replaces `docs/toc.yml`. The top-level section names and
   order from [ADR-4](2026-07-18-4-docsite-information-architecture.md) are kept: Guides →
@@ -143,9 +145,10 @@ How it is wired (following doc-kitty's consumer-setup guide):
 * **A Node toolchain sits next to the Python generator and validator.** CI needs Node 22 and pnpm
   as well as Python. ADR-1 had optimised for a single language. We accept this in exchange for
   cross-repo consistency.
-* **Depends on a pre-1.0 toolkit release.** The site cannot build until
-  `@spec-kitty/doc-toolkit@0.1.1` is on npm. No lockfile is committed until the package can be
-  resolved from the registry.
+* **Depends on a pre-1.0 toolkit release on GitHub Packages.** GitHub Packages never serves npm
+  packages anonymously, so a local build needs a classic PAT with `read:packages` in the user-level
+  `~/.npmrc`, and the package must grant this repository Actions read access. No lockfile is
+  committed yet, because generating one needs that token.
 * **ADRs are not a top-level nav group, and nested groups show folder names.** DocKitty's
   section registry keys sidebar groups by top-level folder, so `architecture/adr/` shows up as a
   sub-group of Architecture labelled `adr` (and the pack reference as `reference`). ADR-4 asked for
@@ -175,7 +178,7 @@ packed tarball.
 
 **Pros:** the shared Spec Kitty toolchain; reads the existing tree in place; agent-API, `llms.txt`
 and feeds built in; Spec Kitty theme.
-**Cons:** adds Node to CI; pre-1.0 dependency that is not on npm until doc-kitty#108 ships; ADRs
+**Cons:** adds Node to CI; pre-1.0 dependency on GitHub Packages, so installing it needs a `read:packages` token; ADRs
 render as a nested group.
 
 ### MkDocs Material

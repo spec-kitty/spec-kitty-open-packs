@@ -27,10 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### ✨ Added
 
 - **DocKitty docsite** (ADR-5; refs #19, #20, #25). The repository root is now an Astro project
-  built on `@spec-kitty/doc-toolkit@^0.1.1` (Astro + Starlight, Spec Kitty theme). It renders
-  `docs/` and publishes to GitHub Pages at `/spec-kitty-open-packs` through
-  `.github/workflows/docsite.yml`, which builds on pull requests and deploys from `main`. Section
-  order and labels move from the DocFX-era `docs/toc.yml` (removed) to
+  built on `@spec-kitty/doc-toolkit@^0.1.1`, installed from GitHub Packages (Astro + Starlight,
+  Spec Kitty theme). It renders `docs/` and publishes to GitHub Pages at `/spec-kitty-open-packs`
+  through `.github/workflows/docsite.yml`, which builds on pull requests and deploys from `main`.
+  Section order and labels move from the DocFX-era `docs/toc.yml` (removed) to
   `docs/_meta/charter.yaml`. Every page now carries DocKitty `type`/`kind` frontmatter.
 - **Generated pack reference** (ADR-2; refs #22, #23). `scripts/docs/generate_pack_reference.py`
   renders one page per pack under `packs/` into `docs/packs/reference/`, plus a catalog index and

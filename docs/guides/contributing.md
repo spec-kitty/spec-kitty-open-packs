@@ -2,7 +2,7 @@
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author, and submit doctrine packs and documentation to the Spec Kitty Open Packs repository, including the WIP status and where doctrine logic lives.
 doc_status: active
-updated: '2026-10-10'
+updated: '2026-10-11'
 type: Guide
 kind: How-To
 related:
@@ -66,6 +66,9 @@ changelog under `docs/changelog/` symlinked from the repository root. Pages unde
 `docs/packs/reference/` are generated — never edit them; run
 `python3 scripts/docs/generate_pack_reference.py` instead. Build the site locally with
 `pnpm install && pnpm build`, and run `pnpm docs:validate` and `pnpm docs:links` before you push.
+The toolkit installs from GitHub Packages, which needs a classic personal access token with
+`read:packages` in your user-level `~/.npmrc` (`//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}`);
+the repository's `.npmrc` already maps the `@spec-kitty` scope.
 
 ## Code of Conduct
 
