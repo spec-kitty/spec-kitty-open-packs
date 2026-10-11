@@ -2,15 +2,15 @@
 title: "Pack: qa"
 description: "Generated reference for the qa Charter Pack: 8 directives, 8 tactics, 5 procedures, 1 styleguide, 3 toolguides, 5 agent profiles, 1 glossary pack, 7 mission step contracts, 3 asse…"
 doc_status: active
-updated: '2026-10-10'
+updated: '2026-10-11'
 type: API
 kind: Reference
 tags:
 - pack-reference
 - generated
 generated:
-  by: agent/generate_pack_reference.py
-  at: '2026-10-10'
+  by: scripts/docs/generate_pack_reference.py
+  at: '2026-10-11'
 related:
 - packs/reference
 ---
@@ -44,7 +44,7 @@ related:
   git ls-files -z --cached --others --exclude-standard -- . | tr '\0' '\n' | LC_ALL=C sort \
     | while IFS= read -r f; do sha256sum "./$f"; done | sha256sum
   # in a plain download of exactly those files:
-  find . -type f ! -path '*/.*' | LC_ALL=C sort \
+  find . -type f ! -path './.git/*' | LC_ALL=C sort \
     | while IFS= read -r f; do sha256sum "$f"; done | sha256sum
   ```
 

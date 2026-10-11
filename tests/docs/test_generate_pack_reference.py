@@ -89,6 +89,10 @@ class FixturePackRendering(unittest.TestCase):
         self.assertEqual(gen.pack_checksum(pack)[0], shell)
         self.assertIn(f"sha256:{shell}", gen.build(FIXTURES, GOLDEN)["example-pack.md"])
 
+    def test_generated_by_names_the_real_script(self):
+        stamp = frontmatter(gen.build(FIXTURES, GOLDEN)["example-pack.md"])["generated"]["by"]
+        self.assertTrue((REPO_ROOT / stamp).is_file(), stamp)
+
 
 class DeterminismAndDrift(unittest.TestCase):
     def setUp(self):
@@ -308,6 +312,30 @@ class MalformedInput(unittest.TestCase):
         (self.pack / "link.yaml").symlink_to(self.pack / "org-charter.yaml")
         self.assertEqual(self.rc(), 2)
 
+    def test_asset_paths_outside_the_pack_are_exit_2(self):
+        (self.pack / "assets").mkdir(exist_ok=True)
+        for target in ("/etc/passwd", "../../outside.py", "..\\..\\outside.py"):
+            with self.subTest(target=target):
+                (self.pack / "assets" / "x.asset.yaml").write_text(yaml.safe_dump({"id": "x", "path": target}))
+                self.assertEqual(self.rc(), 2)
+
+    def test_asset_paths_inside_the_pack_are_allowed(self):
+        (self.pack / "assets").mkdir(exist_ok=True)
+        (self.pack / "assets" / "x.asset.yaml").write_text(yaml.safe_dump({"id": "x", "path": "../org-charter.yaml"}))
+        self.assertEqual(self.rc(), 0)
+
+    def test_mission_type_ids_that_leave_missions_dir_are_exit_2(self):
+        outside = self.tmp / "evil"
+        outside.mkdir()
+        (outside / "mission.yaml").write_text("steps: [leaked]\n")
+        (self.pack / "missions").mkdir(exist_ok=True)
+        (self.pack / "mission_types").mkdir(exist_ok=True)
+        for ident in ("../../../evil", "a/b", ".."):
+            with self.subTest(ident=ident):
+                (self.pack / "mission_types" / "m.yaml").write_text(yaml.safe_dump({"id": ident}))
+                self.assertEqual(self.rc(), 2)
+                self.assertFalse(any("leaked" in f.read_text() for f in self.out.glob("*.md")))
+
 
 @unittest.skipIf(shutil.which("git") is None, "git not available")
 class ChecksumFileSet(unittest.TestCase):
@@ -340,6 +368,25 @@ class ChecksumFileSet(unittest.TestCase):
         (cache / "x.cpython-312.pyc").write_bytes(b"\x00junk")
         self.assertEqual(gen.pack_checksum(self.packs / "example-pack"), before)
         self.assertEqual(self.run_gen("--check"), 0)
+
+    def test_download_recipe_matches_the_checksum_with_tracked_dotfiles(self):
+        if shutil.which("sha256sum") is None or shutil.which("bash") is None:
+            self.skipTest("sha256sum/bash not available")
+        pack = self.packs / "example-pack"
+        (pack / ".gitkeep").write_text("")
+        (pack / ".kittify").mkdir()
+        (pack / ".kittify" / "config.yaml").write_text("a: 1\n")
+        digest = gen.pack_checksum(pack)[0]
+        page = gen.build(self.packs, self.out)["example-pack.md"]
+        find = re.search(r"^  (find \. .*) \| LC_ALL=C sort \\$", page, re.M).group(1)
+        # A plain download: copy the files out of the work tree, without .git.
+        copy = self.tmp / "download"
+        shutil.copytree(pack, copy)
+        shell = subprocess.run(
+            ["bash", "-c", f"{find} | LC_ALL=C sort | while IFS= read -r f; do sha256sum \"$f\"; done | sha256sum"],
+            cwd=copy, capture_output=True, text=True, check=True,
+        ).stdout.split()[0]
+        self.assertEqual(shell, digest)
 
     def test_untracked_unignored_files_count(self):
         before = gen.pack_checksum(self.packs / "example-pack")

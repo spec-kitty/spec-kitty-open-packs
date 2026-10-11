@@ -14,8 +14,8 @@ rendered either as escaped Markdown text (all ASCII punctuation backslash-escape
 so it cannot form links, images, emphasis, autolinks, or raw HTML) or as a code
 span with an adaptive backtick fence; link targets are percent-encoded paths the
 generator computes itself. Malformed input (unparseable YAML, a non-mapping
-where a mapping is required, wrongly typed ``pack.yaml`` fields, symlinks) is a
-generator error: exit 2, never a silent "drift" exit 1.
+where a mapping is required, wrongly typed ``pack.yaml`` fields, symlinks, a
+path or id that would reach outside the pack) is a generator error: exit 2, never a silent "drift" exit 1.
 
 Determinism. Output is a pure function of the pack files plus the committed
 output: artifacts are sorted, YAML is parsed (never re-serialised), and no wall
@@ -56,7 +56,7 @@ from urllib.parse import quote
 
 import yaml
 
-GENERATOR = "agent/generate_pack_reference.py"
+GENERATOR = "scripts/docs/generate_pack_reference.py"
 CHECKSUM_RECIPE = "open-packs-sha256-v1"
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PACKS_ROOT = "packs"
@@ -415,6 +415,23 @@ def _ident(data: dict[str, Any], path: Path, *keys: str) -> str:
     return _clean(_first(data, *keys) or path.name.split(".")[0])
 
 
+def _inside(base: Path, rel: str, where: str, *, root: Path) -> Path:
+    """``base / rel``, refusing absolute paths and anything that resolves outside the pack ``root``."""
+    if Path(rel).is_absolute() or "\\" in rel:
+        raise GeneratorError(f"{where}: path {rel!r} must be relative, with forward slashes")
+    target = base / rel
+    if not target.resolve().is_relative_to(root.resolve()):
+        raise GeneratorError(f"{where}: path {rel!r} points outside the pack")
+    return target
+
+
+def _segment(ident: str, where: str) -> str:
+    """An id that is used as a single directory name."""
+    if not ident or ident in {".", ".."} or "/" in ident or "\\" in ident:
+        raise GeneratorError(f"{where}: id {ident!r} must be a single path segment")
+    return ident
+
+
 def _is_executable(target: Path, mime: str) -> bool:
     if target.suffix.lower() in EXECUTABLE_EXTS or EXECUTABLE_MIME.search(mime or ""):
         return True
@@ -484,6 +501,7 @@ def load_pack(root: Path) -> Pack:
         for path in sorted(assets_dir.glob("*.asset.yaml"), key=lambda p: p.name):
             data = _load_mapping(path)
             target = _clean(_first(data, "path", "file")) or path.name[: -len(".asset.yaml")]
+            _inside(assets_dir, target, f"{path}: path", root=root)
             mime = _clean(_first(data, "mime", "media_type", "content_type"))
             pack.assets.append(Asset(
                 path=path,
@@ -498,7 +516,7 @@ def load_pack(root: Path) -> Pack:
     if mt_dir.is_dir():
         for path in sorted(mt_dir.glob("*.yaml"), key=lambda p: p.name):
             data = _load_mapping(path)
-            ident = _ident(data, path, "id", "name")
+            ident = _segment(_ident(data, path, "id", "name"), str(path))
             actions, source = _mission_actions(root, ident, data)
             pack.mission_types.append(MissionType(
                 path=path, ident=ident,
@@ -659,6 +677,15 @@ class Renderer:
         label = path.relative_to(pack.root).as_posix() + ("/" if folder else "")
         return f"[{_code(label)}]({self.link(path, folder=folder)})"
 
+    @staticmethod
+    def find_recipe(pack: Pack) -> str:
+        """The ``find`` that lists the same files the checksum covers, in a plain copy."""
+        if pack.file_set == "git":
+            # Git-shipped files include tracked dotfiles; only git's own metadata is excluded.
+            return "find . -type f ! -path './.git/*'"
+        # Mirrors _walk_files: no hidden paths, no Python bytecode.
+        return "find . -type f ! -path '*/.*' ! -path '*/__pycache__/*' ! -name '*.pyc' ! -name '*.pyo'"
+
     def pack_page(self, pack: Pack, date: str) -> str:
         counts = _counts(pack)
         description = (
@@ -725,7 +752,7 @@ class Renderer:
             "  git ls-files -z --cached --others --exclude-standard -- . | tr '\\0' '\\n' | LC_ALL=C sort \\",
             '    | while IFS= read -r f; do sha256sum "./$f"; done | sha256sum',
             "  # in a plain download of exactly those files:",
-            "  find . -type f ! -path '*/.*' | LC_ALL=C sort \\",
+            f"  {self.find_recipe(pack)} | LC_ALL=C sort \\",
             '    | while IFS= read -r f; do sha256sum "$f"; done | sha256sum',
             "  ```\n",
             "  (`shasum -a 256` in place of `sha256sum` on macOS.) This is tamper-evidence for the published",

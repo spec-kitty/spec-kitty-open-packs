@@ -2,15 +2,15 @@
 title: "Pack reference"
 description: "Generated reference for every Charter Pack in this repository: artifacts per kind, dependencies, and content checksums."
 doc_status: active
-updated: '2026-10-10'
+updated: '2026-10-11'
 type: API
 kind: Hub
 tags:
 - pack-reference
 - generated
 generated:
-  by: agent/generate_pack_reference.py
-  at: '2026-10-10'
+  by: scripts/docs/generate_pack_reference.py
+  at: '2026-10-11'
 sidebar:
   order: 3
 related:

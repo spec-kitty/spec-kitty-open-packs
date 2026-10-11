@@ -2,15 +2,15 @@
 title: "Pack: example-pack"
 description: "Generated reference for the example-pack Charter Pack: 1 directive, 1 tactic, 1 preset."
 doc_status: active
-updated: '2026-10-10'
+updated: '2026-10-11'
 type: API
 kind: Reference
 tags:
 - pack-reference
 - generated
 generated:
-  by: agent/generate_pack_reference.py
-  at: '2026-10-10'
+  by: scripts/docs/generate_pack_reference.py
+  at: '2026-10-11'
 related:
 - packs/reference
 ---
@@ -42,7 +42,7 @@ related:
   git ls-files -z --cached --others --exclude-standard -- . | tr '\0' '\n' | LC_ALL=C sort \
     | while IFS= read -r f; do sha256sum "./$f"; done | sha256sum
   # in a plain download of exactly those files:
-  find . -type f ! -path '*/.*' | LC_ALL=C sort \
+  find . -type f ! -path './.git/*' | LC_ALL=C sort \
     | while IFS= read -r f; do sha256sum "$f"; done | sha256sum
   ```
 
