@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Seeded `built-in/`** (#31). The Spec Kitty consumer built-in pack, byte-identical to core
+  `packs/built-in/` at `82fee752`, so core can vendor it from a pinned commit here
+  (spec-kitty/spec-kitty#3504). It sits outside `packs/` because CI registers every `packs/*`
+  directory as an org pack. `built-in.source.yaml` records the source commit, the tree digest
+  and the supported core range, and `scripts/ci/check-built-in.sh` validates the pack and checks
+  the digest. Core is still where built-in content is edited until the authoring flip.
 - **`qa` Charter Pack** (`packs/qa/`). A `qa` mission type that redefines the seven canonical
   steps in QA terms, eight QA directives (`QA_001`–`QA_008`), test-design tactics, procedures, five
   QA agent profiles, an ISTQB-grounded glossary, and three evidence tools (`qa-result-ingest`,
