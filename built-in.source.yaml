@@ -1,0 +1,23 @@
+# Provenance of built-in/ (spec-kitty-open-packs#31, core ADR 2026-08-16-2 Option B).
+#
+# built-in/ is the Spec Kitty consumer built-in pack, seeded byte-identical from core
+# `packs/built-in/` at the commit below. Core's release vendors it back from a pinned
+# commit of this repository (spec-kitty/spec-kitty#3504).
+#
+# Transition rule: until the authoring flip is ruled on, core is still where
+# built-in content is edited. Re-seed from core; do not edit built-in/ here, or the
+# two copies diverge. scripts/ci/check-built-in.sh enforces the digest below.
+seeded_from:
+  repository: https://github.com/spec-kitty/spec-kitty
+  path: packs/built-in
+  commit: 82fee75295baacf8ed1da6d43ac861e42548bce9
+  date: '2026-10-11'
+# snapshot_sha256 from charter.offering.packs.pack_manifest over built-in/
+# (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
+tree_digest:
+  algorithm: spec-kitty-snapshot-sha256
+  value: 940d3614479bf81508c771de522fcbe73ab9b1b92a824ed4d298652e0aee8bd0
+# The core versions this content is written against. Mission-step prompts name CLI
+# commands, and step contracts bind to runtime code. It lives here, not in
+# built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
+requires_core: '>=4.0.0rc7,<5'
