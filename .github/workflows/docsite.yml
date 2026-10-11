@@ -7,11 +7,13 @@
 #
 # Decision: docs/architecture/adr/2026-10-10-5-dockitty-docsite.md
 #
-# NOTE: the build installs @spec-kitty/doc-toolkit@^0.1.1 from npm. Until that
-# version is published (spec-kitty/doc-kitty#108) this job fails at install.
-# There is no committed pnpm-lock.yaml yet for the same reason (a lockfile must
-# resolve against the registry); once 0.1.1 is published, commit the lockfile
-# and switch the install to `--frozen-lockfile` (plus `cache: pnpm` below).
+# The build installs @spec-kitty/doc-toolkit@^0.1.1 from GitHub Packages
+# (npm.pkg.github.com; doc-kitty#108), authenticated with the workflow's
+# GITHUB_TOKEN. The package must grant this repository read access
+# (package settings -> Manage Actions access).
+# No pnpm-lock.yaml is committed yet: generating one needs a read:packages
+# token. Once it is committed, switch the install to `--frozen-lockfile`
+# (plus `cache: pnpm` below).
 name: Docsite
 
 on:
@@ -27,6 +29,9 @@ jobs:
   build:
     name: Build docsite
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -46,13 +51,17 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
+          registry-url: https://npm.pkg.github.com
+          scope: "@spec-kitty"
 
       - name: Enable corepack (pnpm from package.json "packageManager")
         run: corepack enable
 
       - name: Install dependencies
-        # TODO(after doc-kitty#108 publishes 0.1.1): commit pnpm-lock.yaml and use --frozen-lockfile.
+        # TODO: commit pnpm-lock.yaml (needs a read:packages token) and use --frozen-lockfile.
         run: pnpm install --no-frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate frontmatter (DocKitty contract)
         run: pnpm docs:validate
@@ -68,7 +77,7 @@ jobs:
 
       # Defence in depth for pack-sourced text (the generator escapes it): no
       # built page may carry a script-scheme link.
-      - name: No javascript:/data: links in the built site
+      - name: "No javascript:/data: links in the built site"
         run: |
           if grep -rIlE 'href="(javascript|vbscript|data):' dist; then
             echo "::error::script-scheme href found in dist (see files above)"; exit 1
