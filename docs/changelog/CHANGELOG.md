@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-07-12'
+updated: '2026-10-14'
 ---
 # Changelog
 
@@ -21,6 +21,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`event-driven` Charter Pack** (`packs/event-driven/`). Event-sourced design as opt-in
+  doctrine: an `evd-event-sourced-design` paradigm, six directives (`EVD_001`–`EVD_006`: schema
+  version on every event, one canonical writer per stream, immutable past-tense facts,
+  producers emit the latest version while consumers declare what they accept, side effects in
+  consumers, shared contracts only), four tactics (versioning and upcasting, ports-and-adapters
+  event bridge, projection replay, idempotent consumers), an event naming and payload
+  styleguide, a glossary, an `event-driven` activation preset, and a worked example after
+  Martin Fowler's *Event Sourcing* article set on a Spec Kitty lane board. Links to built-in
+  `domain-event-capture`, `event-storming-discovery` and related doctrine rather than restating it.
 - **Seeded `built-in/`** (#31). The Spec Kitty consumer built-in pack, byte-identical to core
   `packs/built-in/` at `82fee752`, so core can vendor it from a pinned commit here
   (spec-kitty/spec-kitty#3504). It sits outside `packs/` because CI registers every `packs/*`
