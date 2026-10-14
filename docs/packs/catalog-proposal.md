@@ -2,7 +2,7 @@
 title: Pack Catalog Proposal
 description: Proposed set of domain and purpose doctrine packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
 doc_status: wip
-updated: '2026-07-12'
+updated: '2026-10-14'
 related:
 - docs/guides/author-a-doctrine-pack.md
 - docs/guides/compose-packs.md
@@ -63,6 +63,7 @@ pack-ecosystem epics:
 | 14 | `structured-prompt-driven-development` | SPDD paradigm + REASONS canvas. | core-engineering |
 | 15 | `doctrine-authoring` | Meta-pack for pack/skill authors and doctrine maintainers. | core-engineering |
 | 16 | `spec-kitty-internal` | Spec Kitty's own dogfooded doctrine + charter: contributor/maintainer workflow, review process, tracker processing. | core-engineering, doctrine-authoring, git-delivery-workflow, adversarial-review |
+| 17 | `event-driven` | Event-sourced design: versioned events, one canonical writer, projections, upcasting, idempotent consumers. | core-engineering, domain-driven-design |
 
 ### 1. `core-engineering`
 
@@ -239,6 +240,26 @@ conventions). Ships the project's own `org-charter.yaml`. Grounded in the catfoo
 This pack doubles as the reference example for "how do I encode my team's whole way of
 working as a pack," and as the eventual self-governance pack for this very repository.
 
+### 17. `event-driven`
+
+**Materialized** in [`packs/event-driven/`](../../packs/event-driven/README.md). Mostly
+**net-new** content: the built-in corpus has the event *capture* tactic but no rules for
+versioning, writing, projecting and consuming events. It encodes the event-native direction of
+Spec Kitty core (one canonical writer behind an event-bridge port, versioned events, side effects
+in consumers) for any team that builds that way.
+
+- **Paradigms:** net-new `evd-event-sourced-design`.
+- **Directives:** net-new `EVD_001`–`EVD_006` (schema version on every event, one canonical
+  writer, immutable past-tense facts, latest-version producers and declared-version consumers,
+  side effects in consumers, shared contracts only).
+- **Styleguides:** net-new `evd-event-naming-and-payload`.
+- **Tactics:** net-new `evd-event-versioning-and-upcasting`, `evd-event-bridge-port`,
+  `evd-projection-replay`, `evd-idempotent-consumer`; built-in `domain-event-capture`,
+  `anti-corruption-layer`, `reference-architectural-patterns` (referenced by DRG edge).
+- **Procedures:** built-in `event-storming-discovery` (referenced by DRG edge).
+- **Assets:** a worked example after Fowler's *Event Sourcing* article, set on a Spec Kitty
+  lane board.
+
 ## Compound packs (horizontal composition)
 
 The four compound packs below are tracked together under a **single epic** rather than one
@@ -264,7 +285,7 @@ This proposal does **not** claim them.
 
 ## From proposal to issues
 
-Each of the **16 base packs** above maps to its own tracking issue in this repository,
+Each of the **17 base packs** above maps to its own tracking issue in this repository,
 labelled `pack` + `doctrine` and cross-referencing the relevant core epic. The **four
 compound packs** are tracked under a single `epic` + `compound-pack` umbrella issue rather
 than one issue each. See the
