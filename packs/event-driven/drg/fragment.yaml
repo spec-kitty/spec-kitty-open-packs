@@ -169,3 +169,6 @@ edges:
 - source: tactic:evd-projection-replay
   target: asset:evd-worked-example-lane-board
   relation: suggests
+- source: tactic:evd-idempotent-consumer
+  target: asset:evd-worked-example-lane-board
+  relation: suggests
