@@ -1,0 +1,67 @@
+schema_version: "1.0"
+id: evd-event-bridge-port
+name: Ports-and-Adapters Event Bridge
+purpose: >
+  Keep the domain core pure and give every event stream one writer by putting a
+  port between them. The core decides which events happened and hands them to
+  an event-bridge port it owns; one adapter behind that port validates,
+  orders and appends them to the ledger, then publishes them to subscribers.
+  Side effects run in subscribers, not in the core. Apply when introducing
+  events into a codebase, or when events are written from more than one place.
+steps:
+  - title: Define the port in the domain's terms
+    description: >
+      The core owns a narrow interface such as `EventBridge.emit(events)` that
+      accepts domain events and returns nothing the core must interpret beyond
+      success or a named refusal. It mentions no file, broker or database.
+    examples:
+      - "class EventBridge(Protocol): def emit(self, events: Sequence[DomainEvent]) -> None: ..."
+  - title: Make domain operations return events
+    description: >
+      Rewrite each state-changing operation as a decision function: given the
+      current state (a projection) and a request, return the events that
+      happened or a refusal. The calling application service passes the
+      result to the port. The function stays testable with plain values.
+  - title: Build the one writer adapter
+    description: >
+      Implement the port once per stream. The adapter fills the envelope
+      (event id, type, schema version, ordering key, timestamp), checks
+      ordering or the expected stream version, appends durably, and only then
+      publishes to subscribers. It is the stream's canonical writer (EVD_002).
+  - title: Route side effects to subscribers
+    description: >
+      Move filesystem, git, network and notification code out of the core into
+      subscribers that react to specific event types. Each subscriber is an
+      adapter of its own and is idempotent per event id.
+  - title: Provide an in-memory adapter for tests
+    description: >
+      A test adapter records emitted events in a list. Domain tests then assert
+      on the events produced, with no I/O, and the real adapter gets its own
+      narrow contract tests.
+  - title: Lock the boundary
+    description: >
+      Add an import rule or architecture test: domain packages may not import
+      the ledger, broker or filesystem modules, and nothing but the writer
+      adapter may open the ledger for writing.
+failure_modes:
+  - "A port shaped like the storage (`append_line(str)`), which leaks the ledger format into the core."
+  - "Publishing before the append is durable: a subscriber acts on an event that is then lost."
+  - "A second writer added 'just for the migration' or 'just for the CLI' that bypasses the adapter's checks."
+  - "Side effects left in the decision function because they were convenient there, which makes replay unsafe."
+references:
+  - name: One Canonical Writer per Event Stream
+    type: directive
+    id: EVD_002
+    when: the rule this tactic implements
+  - name: Side Effects Live in Consumers, Not in the Domain Core
+    type: directive
+    id: EVD_005
+    when: when moving effects out of the core
+  - name: Idempotent Consumers
+    type: tactic
+    id: evd-idempotent-consumer
+    when: when writing the subscribers that perform effects
+  - name: Reference Architectural Patterns Selection
+    type: tactic
+    id: reference-architectural-patterns
+    when: when deciding whether ports-and-adapters fits the system at all

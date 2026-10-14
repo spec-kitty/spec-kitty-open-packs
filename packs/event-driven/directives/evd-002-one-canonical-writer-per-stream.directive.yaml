@@ -1,0 +1,30 @@
+id: EVD_002
+schema_version: "1.0"
+title: One Canonical Writer per Event Stream
+enforcement: required
+intent: >
+  An event stream is trustworthy only if one piece of code decides what may be
+  appended to it, in what order, under which checks. Two writers produce two
+  orderings, two validation rules and, eventually, a split brain. Each stream has
+  exactly one writer, reached through a port, and every producer appends through
+  it.
+scope: >
+  Every append-only event log, ledger or stream that other code treats as a source
+  of truth, including local files such as JSONL ledgers.
+validation_criteria:
+  - "For each stream, name the one writer (module, adapter or service) that appends to
+    it. No other code opens the stream for writing."
+  - "Domain code reaches the writer through a port (an interface it owns); it does not
+    import a file, database or broker client to write events itself."
+  - "The writer validates the envelope (type, version, identity, ordering key) before
+    the append, and assigns or checks the ordering (sequence number, Lamport clock or
+    expected-version check) in one place."
+  - "A second writer is a defect to remove, not a convenience to document; an
+    architecture test or import rule keeps writes behind the port."
+explicit_allowances:
+  - "Migration tooling may rewrite a stream offline, through the same writer's validation,
+    when the rewrite is recorded and reviewed."
+references:
+  - type: tactic
+    id: evd-event-bridge-port
+    when: when wiring producers to the writer

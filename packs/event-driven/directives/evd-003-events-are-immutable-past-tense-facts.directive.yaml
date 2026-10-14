@@ -1,0 +1,30 @@
+id: EVD_003
+schema_version: "1.0"
+title: Events Are Immutable Facts Named in the Past Tense
+enforcement: required
+intent: >
+  An event records something that already happened. It cannot be refused, edited or
+  deleted after the fact, only answered by a later event. Naming it in the past tense
+  keeps that clear to every reader and keeps commands ("please do X") out of the log.
+scope: >
+  Event type names, event payloads and every operation on a stored event.
+validation_criteria:
+  - "Event types are named as past-tense facts in the domain's language
+    (`WorkPackageClaimed`, `ReviewRejected`), never as commands (`ClaimWorkPackage`) or
+    CRUD verbs (`WorkPackageUpdated`)."
+  - "A stored event is never edited or deleted in place. A mistake is corrected by
+    appending a compensating event that names what it reverses."
+  - "An event carries the facts a consumer needs to react to it at the time it happened;
+    it does not point to mutable state that may have changed since."
+  - "Validation that can refuse a change runs before the event is appended. Once appended,
+    the event is accepted as history by every consumer."
+explicit_allowances:
+  - "Personal data subject to erasure law may be held outside the event (by reference or
+    under a per-subject key that can be destroyed) so the event itself stays immutable."
+references:
+  - type: styleguide
+    id: evd-event-naming-and-payload
+    when: when naming an event or shaping its payload
+  - type: tactic
+    id: domain-event-capture
+    when: when deciding which state changes deserve an event at all

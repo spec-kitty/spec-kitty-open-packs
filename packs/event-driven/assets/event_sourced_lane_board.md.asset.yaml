@@ -1,0 +1,4 @@
+id: evd-worked-example-lane-board
+mime: text/markdown
+path: event_sourced_lane_board.md
+title: "Worked example: an event-sourced work-package board (after Fowler's Event Sourcing)"

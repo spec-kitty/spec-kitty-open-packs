@@ -1,0 +1,61 @@
+schema_version: "1.0"
+id: evd-projection-replay
+name: Projection Replay and State Rebuild
+purpose: >
+  Derive current state from the ledger and keep the ability to throw it away
+  and rebuild it. A projection is a fold of events into a read model; because
+  the ledger is complete, any projection can be rebuilt from scratch, as of a
+  past point, or in a new shape after a bug fix. Apply when adding a read
+  model, changing one, or recovering from a projection that drifted.
+steps:
+  - title: Write the projection as a pure fold
+    description: >
+      A projection is `apply(state, event) -> state` plus an initial state.
+      It reads only the event and the state it is building: no clock, no I/O,
+      no other projection. Events reach it already upcast to the version it
+      declares.
+    examples:
+      - "board = reduce(apply, upcast_all(read_ledger()), empty_board())"
+  - title: Define the ordering the fold relies on
+    description: >
+      State which order the projection consumes: the stream's sequence
+      number, a Lamport or vector clock for merged logs, never wall-clock
+      time alone. Ties are broken by a deterministic key such as the event id.
+  - title: Treat the stored projection as a cache
+    description: >
+      Persist a projection (or a snapshot) only to save time. Record the
+      position in the ledger it reflects, so a reader can catch up from there,
+      and never let anything write the projection except the fold.
+  - title: Rebuild on demand
+    description: >
+      Provide one command that drops a projection and rebuilds it from the
+      ledger. Use it after fixing a projection bug, after adding an upcaster,
+      and to answer "what did the board look like at position N" by stopping
+      the fold there.
+  - title: Keep replay free of side effects
+    description: >
+      Replay feeds projections only. Side-effecting subscribers either do not
+      receive replayed events or recognise them as already handled (EVD_005).
+  - title: Check determinism
+    description: >
+      Test that folding the same events twice gives the same state, and that
+      a rebuilt projection equals the incrementally maintained one. A
+      difference means hidden input, such as the clock or a lookup.
+failure_modes:
+  - "Projections that are updated by hand or by a second code path, so a rebuild silently changes the answer."
+  - "Ordering by wall-clock timestamps across writers: clock skew reorders causally related events."
+  - "Snapshots without the ledger position they reflect, so catching up applies events twice or skips some."
+  - "Rebuilding through the live subscriber path, which re-sends notifications and re-runs git operations."
+references:
+  - name: Side Effects Live in Consumers, Not in the Domain Core
+    type: directive
+    id: EVD_005
+    when: when separating replay from live delivery
+  - name: Event Versioning and Upcasting
+    type: tactic
+    id: evd-event-versioning-and-upcasting
+    when: when a fold meets events written under an older contract
+  - name: Idempotent Consumers
+    type: tactic
+    id: evd-idempotent-consumer
+    when: when a projection is also fed by live, possibly redelivered, events

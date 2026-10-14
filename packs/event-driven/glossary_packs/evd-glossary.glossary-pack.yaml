@@ -1,0 +1,110 @@
+description: >-
+  Vocabulary for the event-driven pack's paradigm, directives, tactics and
+  styleguide. Definitions are written for this pack in plain terms and follow
+  common usage in the event-sourcing literature. This glossary pack is
+  reference data consulted by doctrine tooling (e.g. doctor charter-packs,
+  charter status/lint) and by glossary-curation workflows.
+id: evd-glossary
+provenance: org
+terms:
+- confidence: 0.9
+  definition: >-
+    A record of something that happened in the domain, named in the past tense
+    and immutable once stored. An event carries an envelope (id, type, schema
+    version, stream, ordering key, time, actor) and a payload with the facts of
+    the change. It is answered by later events, never edited.
+  status: active
+  surface: event
+- confidence: 0.9
+  definition: >-
+    The ordered sequence of events that belong to one aggregate, entity or
+    other consistency boundary, appended by exactly one canonical writer. The
+    stream's order is the order in which its events are folded into state.
+  status: active
+  surface: event stream
+- confidence: 0.9
+  definition: >-
+    The durable, append-only store of events that serves as the source of
+    truth; also called the event log or event store. Everything else
+    (current state, read models, reports) is derived from it and can be
+    rebuilt from it.
+  status: active
+  surface: ledger
+- confidence: 0.9
+  definition: >-
+    Synonym of ledger: the append-only, ordered store of events. Used when the
+    storage is a log file or log-structured system, for example a JSONL file
+    with one event per line.
+  status: active
+  surface: event log
+- confidence: 0.9
+  definition: >-
+    State derived from the ledger by folding events, in order, through a pure
+    function `apply(state, event) -> state`; also called a read model. A
+    projection may be stored as a cache, but the ledger stays authoritative
+    and the projection can always be dropped and rebuilt.
+  status: active
+  surface: projection
+- confidence: 0.9
+  definition: >-
+    Processing stored events again, from the start or from a recorded
+    position, to rebuild a projection, to answer a question about a past
+    point in time, or to test a changed consumer. Replay feeds projections
+    only and must not repeat side effects.
+  status: active
+  surface: replay
+- confidence: 0.9
+  definition: >-
+    A pure function that converts a stored event from schema version N of its
+    type to version N+1, applied on read. Upcasters are chained so that a
+    consumer sees only the version it declares, and the stored event is never
+    rewritten.
+  status: active
+  surface: upcaster
+- confidence: 0.95
+  definition: >-
+    The integer version of an event type's published contract, carried in
+    every event's envelope. Once events of a version exist, the meaning of
+    that version is fixed; any change to it is a new version.
+  status: active
+  surface: schema version
+- confidence: 0.9
+  definition: >-
+    The component that emits events: it decides that something happened and
+    hands the event to the canonical writer through a port. A publisher (or
+    producer) always emits the latest published version of an event type and
+    knows nothing about who consumes it.
+  status: active
+  surface: publisher
+- confidence: 0.9
+  definition: >-
+    The component that consumes events from the ledger and reacts to them:
+    updating a projection or performing a side effect. A subscriber (or
+    consumer) declares which event types and schema versions it accepts and
+    is idempotent per event id.
+  status: active
+  surface: subscriber
+- confidence: 0.9
+  definition: >-
+    A delivery guarantee under which every event reaches a subscriber one or
+    more times. Nothing is lost, but duplicates are possible after retries,
+    restarts or replays, so subscribers must be idempotent. The usual
+    guarantee between a ledger and its subscribers.
+  status: active
+  surface: at-least-once delivery
+- confidence: 0.9
+  definition: >-
+    A delivery guarantee under which every event reaches a subscriber zero or
+    one times. Duplicates cannot occur but events can be lost, for example
+    when a fire-and-forget publish fails. Acceptable only for effects whose
+    loss is harmless, such as a best-effort live notification.
+  status: active
+  surface: at-most-once delivery
+- confidence: 0.9
+  definition: >-
+    The single component allowed to append to an event stream. It validates
+    the envelope, fixes the ordering and makes the append durable before
+    anything is published, so a stream has one ordering and one set of
+    checks.
+  status: active
+  surface: canonical writer

@@ -1,0 +1,52 @@
+schema_version: "1.0"
+id: evd-idempotent-consumer
+name: Idempotent Consumers
+purpose: >
+  Make every consumer safe to receive the same event more than once. Delivery
+  between a ledger and its subscribers is at-least-once in practice (retries,
+  restarts, replays, merged copies of a log), so a consumer that repeats its
+  effect on a duplicate will eventually double-commit, double-notify or
+  double-count. Apply to every subscriber and to every projection fed by live
+  delivery.
+steps:
+  - title: Give every event a stable, unique id
+    description: >
+      The writer assigns an id (for example a ULID) when the event is appended.
+      The id never changes, including across copies and upcasting.
+  - title: Record what the consumer has handled
+    description: >
+      Keep, per consumer, either the set of handled event ids or the highest
+      contiguous ledger position processed. Store it with the consumer's own
+      state, in the same transaction where possible.
+  - title: Check before acting, record after acting
+    description: >
+      On delivery, skip an event already recorded as handled. After the effect
+      succeeds, record the event as handled. If the effect and the record
+      cannot share a transaction, make the effect itself idempotent.
+  - title: Make the effect idempotent where you can
+    description: >
+      Prefer effects that converge: "set the file to this content", "ensure the
+      branch points at this commit", "upsert by event id". An effect keyed by
+      the event id can be repeated without harm.
+    examples:
+      - "git: update the ref only if it still points at the expected old commit (compare-and-swap)."
+      - "notification: send with an idempotency key derived from the event id."
+  - title: Test redelivery explicitly
+    description: >
+      For each consumer, a test delivers the same event twice, and out of
+      order with its neighbours where ordering is not guaranteed, and asserts
+      the effect happened once.
+failure_modes:
+  - "Deduplicating on payload equality: two genuine identical events (two claims of the same WP after a release) collapse into one."
+  - "Recording the event as handled before the effect succeeds: a crash in between loses the effect forever."
+  - "Relying on exactly-once delivery from the transport: it holds until the first restart."
+  - "Counters and appends with no key: a replay doubles them."
+references:
+  - name: Side Effects Live in Consumers, Not in the Domain Core
+    type: directive
+    id: EVD_005
+    when: the rule that puts effects in consumers
+  - name: Projection Replay and State Rebuild
+    type: tactic
+    id: evd-projection-replay
+    when: when the same consumer is fed both live and replayed events

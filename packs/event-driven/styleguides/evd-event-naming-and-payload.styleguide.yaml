@@ -1,0 +1,70 @@
+schema_version: "1.0"
+id: evd-event-naming-and-payload
+title: Event Naming and Payload Shape
+scope: architecture
+applies_to_languages: []
+
+principles:
+  - "Name an event type as a past-tense fact in the domain's language: subject plus
+    past participle (`WorkPackageClaimed`, `ReviewRejected`, `MissionCreated`). The
+    name says what happened, not what the code did."
+  - "One event per business-meaningful change. A generic `<Thing>Updated` with a bag of
+    changed fields hides intent; split it into the facts a domain expert would name."
+  - "Separate the envelope from the payload. The envelope is the same for every type:
+    `event_id`, `event_type`, `schema_version`, the stream or aggregate id, the ordering
+    key, `occurred_at`, `actor`. The payload holds only what is specific to this type."
+  - "Carry the facts a consumer needs at the time it happened (the lane moved from and
+    to, the reviewer's verdict), not a pointer to mutable state it would have to look
+    up later."
+  - "Keep payloads small and flat. Use ids to refer to other aggregates; do not embed
+    their current state, which is someone else's to change."
+  - "Use explicit, typed values: enumerations as closed string sets documented in the
+    contract, timestamps in ISO 8601 UTC, durations and amounts with their unit in the
+    field name (`timeout_seconds`)."
+  - "Field names are stable for the life of a version. A rename is a new version and an
+    upcaster (`evd-event-versioning-and-upcasting`)."
+  - "Every published contract ships with a minimal valid example per version; the example
+    is checked in CI against the schema."
+
+patterns:
+  - name: Past-tense fact with a typed envelope
+    description: >
+      The type name states the fact, the envelope is uniform, and the payload holds
+      only the facts of the transition.
+    good_example: |
+      {"event_id": "01JA0000000000000000000001", "event_type": "WorkPackageClaimed",
+       "schema_version": 2, "stream_id": "mission-042", "seq": 17,
+       "occurred_at": "2026-10-14T09:12:00Z", "actor": "claude",
+       "payload": {"wp_id": "WP03", "from_lane": "planned", "to_lane": "claimed"}}
+  - name: Compensating event instead of an edit
+    description: >
+      A wrong fact is answered by a new fact that names what it reverses.
+    good_example: |
+      {"event_type": "WorkPackageClaimReleased", "schema_version": 1,
+       "payload": {"wp_id": "WP03", "reverses_event_id": "01JA0000000000000000000001",
+                   "reason": "claimed by mistake"}}
+
+anti_patterns:
+  - name: Command named as an event
+    description: >
+      An imperative name reads as a request that might be refused, so consumers cannot
+      tell whether it happened.
+    bad_example: '{"event_type": "ClaimWorkPackage", "payload": {"wp_id": "WP03"}}'
+    good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned", "to_lane": "claimed"}}'
+  - name: CRUD event with a field bag
+    description: >
+      A generic update with changed fields forces every consumer to reverse-engineer
+      which business fact occurred.
+    bad_example: '{"event_type": "WorkPackageUpdated", "payload": {"wp_id": "WP03", "changes": {"lane": "approved", "notes": "..."}}}'
+    good_example: '{"event_type": "WorkPackageApproved", "schema_version": 1, "payload": {"wp_id": "WP03", "reviewer": "renata"}}'
+  - name: Version inferred from shape
+    description: >
+      Without an explicit version, readers guess the contract from which fields are
+      present, and the guess fails silently when a field becomes optional.
+    bad_example: '{"event_type": "WorkPackageClaimed", "payload": {"wp": "WP03", "lane": "doing"}}'
+    good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned", "to_lane": "claimed"}}'
+
+quality_test: >
+  Show the event type name and payload to a domain expert with no code. They can say
+  what happened, to what, by whom and when, and the reader of the contract can tell
+  which version it is without looking at a single field of the payload.

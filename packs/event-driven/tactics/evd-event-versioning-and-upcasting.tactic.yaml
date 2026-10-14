@@ -1,0 +1,66 @@
+schema_version: "1.0"
+id: evd-event-versioning-and-upcasting
+name: Event Versioning and Upcasting
+purpose: >
+  Change an event contract without rewriting history and without making every
+  consumer handle every version. Producers move to the new version at once;
+  stored older events are lifted to the newest version on read by a chain of
+  small, pure upcasters, so handlers are written against one version. Apply
+  whenever an event type's payload or meaning has to change after events of
+  that type have been stored.
+steps:
+  - title: Decide whether the change needs a new version
+    description: >
+      A new optional field every consumer may ignore can ship under the same
+      version if the contract says unknown fields are ignored. A renamed,
+      removed, retyped or reinterpreted field is a new version. When in doubt,
+      bump: a spare version costs nothing, a silently changed meaning corrupts
+      every replay.
+  - title: Publish the new contract next to the old one
+    description: >
+      Add version N+1 of the schema, an example event and a one-line change
+      note to the published contract. Keep version N; it still describes events
+      already in the ledger.
+  - title: Write the upcaster from N to N+1
+    description: >
+      An upcaster is a pure function from one stored event at version N to the
+      same event at version N+1. It reads only the event: no clock, no lookup,
+      no ledger access. A missing value gets a documented default, never a
+      guess from current state.
+    examples:
+      - "v1 {wp: WP01, lane: doing} -> v2 {wp_id: WP01, to_lane: in_progress, actor: unknown}"
+  - title: Register the upcaster in a chain applied on read
+    description: >
+      The reader applies upcasters in sequence (1->2, 2->3, ...) until the
+      event reaches the version the consumer declares. Each step stays small
+      and is tested once with a v-N fixture.
+  - title: Switch the producer to the new version
+    description: >
+      Producers emit only the latest version (EVD_004). Ship the upcaster
+      before or with the producer change, so no reader ever meets an event it
+      cannot lift.
+  - title: Prove it against real history
+    description: >
+      Replay a copy of a real ledger through the chain and the projections,
+      and compare the rebuilt state with the state built before the change.
+      A difference is a bug in the upcaster or a meaning change that was not
+      declared.
+failure_modes:
+  - "Editing stored events to the new shape: history is rewritten, signatures and hashes break, and other copies of the ledger disagree."
+  - "Upcasters that consult current state or the clock: replaying the same ledger gives different results on different days."
+  - "Producers writing old versions 'for compatibility': the slowest consumer freezes the contract for everyone."
+  - "Handlers with a branch per version instead of one upcaster chain: version logic spreads across every consumer."
+  - "Reusing a version number for a changed meaning: old events are read with the new meaning and nothing fails loudly."
+references:
+  - name: Every Event Carries a Schema Version
+    type: directive
+    id: EVD_001
+    when: the version field this tactic depends on
+  - name: Producers Emit the Latest Version, Consumers Declare What They Accept
+    type: directive
+    id: EVD_004
+    when: when deciding who converts what
+  - name: Projection Replay and State Rebuild
+    type: tactic
+    id: evd-projection-replay
+    when: to prove the change against real history
