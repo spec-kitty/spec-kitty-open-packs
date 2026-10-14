@@ -46,7 +46,7 @@ charter_packs:
         local_path: "${SPEC_KITTY_PACK_HOME}/event-driven"
         source_type: git
         url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
-        ref: "<commit SHA or pack/event-driven/vX.Y.Z tag>"   # never a branch
+        ref: "<commit SHA or pack/event-driven/vX.Y.Z tag>"   # never a branch; SPEC_KITTY_PACK_HOME is any directory
         subdir: packs/event-driven
 ```
 
