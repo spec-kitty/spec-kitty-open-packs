@@ -32,3 +32,22 @@ jobs:
         run: scripts/ci/validate-packs.sh
       - name: Check the built-in pack
         run: scripts/ci/check-built-in.sh
+
+  # Fixed-name gate so branch protection can require ONE stable check that does not
+  # move when the spec-kitty matrix pin is bumped. Require "Validate packs gate" as
+  # the protected status check, never a matrix leg like
+  # "Charter Pack validation (<pin>)", whose name changes with the pin.
+  gate:
+    name: Validate packs gate
+    needs: [validate]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every validation leg to have passed
+        run: |
+          result='${{ needs.validate.result }}'
+          if [[ "$result" != "success" ]]; then
+            echo "::error::Charter Pack validation did not succeed (result: $result)"
+            exit 1
+          fi
+          echo "All Charter Pack validation legs passed."

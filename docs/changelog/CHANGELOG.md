@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Stable `Validate packs gate` CI check** (#34). The pack-validation workflow now ends in a
+  fixed-name gate job, so branch protection on `main` can require one status check that does not
+  rename itself when the pinned `spec-kitty` commit is bumped (the old matrix-leg name carried the
+  pin). Require `Validate packs gate` as the protected check.
 - **`event-driven` Charter Pack** (`packs/event-driven/`). Event-sourced design as opt-in
   doctrine: an `evd-event-sourced-design` paradigm, six directives (`EVD_001`–`EVD_006`: schema
   version on every event, one canonical writer per stream, immutable past-tense facts,
