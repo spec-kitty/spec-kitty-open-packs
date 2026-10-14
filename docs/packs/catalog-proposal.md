@@ -248,7 +248,8 @@ versioning, writing, projecting and consuming events. It encodes the event-nativ
 Spec Kitty core (one canonical writer behind an event-bridge port, versioned events, side effects
 in consumers) for any team that builds that way.
 
-- **Paradigms:** net-new `evd-event-sourced-design`.
+- **Paradigms:** net-new `evd-event-sourced-design`; built-in `domain-driven-design`,
+  `deep-module-design` (referenced by DRG edge).
 - **Directives:** net-new `EVD_001`–`EVD_006` (schema version on every event, one canonical
   writer, immutable past-tense facts, latest-version producers and declared-version consumers,
   side effects in consumers, shared contracts only).
@@ -257,6 +258,7 @@ in consumers) for any team that builds that way.
   `evd-projection-replay`, `evd-idempotent-consumer`; built-in `domain-event-capture`,
   `anti-corruption-layer`, `reference-architectural-patterns` (referenced by DRG edge).
 - **Procedures:** built-in `event-storming-discovery` (referenced by DRG edge).
+- **Glossary:** net-new `evd-glossary`.
 - **Assets:** a worked example after Fowler's *Event Sourcing* article, set on a Spec Kitty
   lane board.
 
