@@ -1,0 +1,171 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# pack_name/source_kind/source_ref/layer_index are overwritten at load time
+# by the operator-side org-pack loader; the values below are placeholders.
+pack_name: event-driven
+source_kind: local_path
+source_ref: "."
+layer_index: 1
+nodes:
+- id: evd-event-sourced-design
+  kind: paradigms
+  title: "Event-Driven, Event-Sourced Design"
+  body_path: paradigms/evd-event-sourced-design.paradigm.yaml
+- id: EVD_001
+  kind: directives
+  title: "Every Event Carries a Schema Version"
+  body_path: directives/evd-001-events-carry-schema-version.directive.yaml
+- id: EVD_002
+  kind: directives
+  title: "One Canonical Writer per Event Stream"
+  body_path: directives/evd-002-one-canonical-writer-per-stream.directive.yaml
+- id: EVD_003
+  kind: directives
+  title: "Events Are Immutable Facts Named in the Past Tense"
+  body_path: directives/evd-003-events-are-immutable-past-tense-facts.directive.yaml
+- id: EVD_004
+  kind: directives
+  title: "Producers Emit the Latest Version, Consumers Declare What They Accept"
+  body_path: directives/evd-004-producers-emit-latest-consumers-declare-versions.directive.yaml
+- id: EVD_005
+  kind: directives
+  title: "Side Effects Live in Consumers, Not in the Domain Core"
+  body_path: directives/evd-005-side-effects-live-in-consumers.directive.yaml
+- id: EVD_006
+  kind: directives
+  title: "Producers and Consumers Share Only Published Event Contracts"
+  body_path: directives/evd-006-share-only-published-event-contracts.directive.yaml
+- id: evd-event-versioning-and-upcasting
+  kind: tactics
+  title: "Event Versioning and Upcasting"
+  body_path: tactics/evd-event-versioning-and-upcasting.tactic.yaml
+- id: evd-event-bridge-port
+  kind: tactics
+  title: "Ports-and-Adapters Event Bridge"
+  body_path: tactics/evd-event-bridge-port.tactic.yaml
+- id: evd-projection-replay
+  kind: tactics
+  title: "Projection Replay and State Rebuild"
+  body_path: tactics/evd-projection-replay.tactic.yaml
+- id: evd-idempotent-consumer
+  kind: tactics
+  title: "Idempotent Consumers"
+  body_path: tactics/evd-idempotent-consumer.tactic.yaml
+- id: evd-event-naming-and-payload
+  kind: styleguides
+  title: "Event Naming and Payload Shape"
+  body_path: styleguides/evd-event-naming-and-payload.styleguide.yaml
+- id: evd-glossary
+  kind: glossary_packs
+  title: "Event-Driven Glossary"
+  body_path: glossary_packs/evd-glossary.glossary-pack.yaml
+- id: evd-worked-example-lane-board
+  kind: assets
+  title: "Worked Example: Event-Sourced Work-Package Board"
+  body_path: assets/event_sourced_lane_board.md.asset.yaml
+edges:
+# The paradigm pulls in its rules and its styleguide, and suggests its tactics.
+- source: paradigm:evd-event-sourced-design
+  target: directive:EVD_001
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: directive:EVD_002
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: directive:EVD_003
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: directive:EVD_004
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: directive:EVD_005
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: directive:EVD_006
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: styleguide:evd-event-naming-and-payload
+  relation: requires
+- source: paradigm:evd-event-sourced-design
+  target: tactic:evd-event-versioning-and-upcasting
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: tactic:evd-event-bridge-port
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: tactic:evd-projection-replay
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: tactic:evd-idempotent-consumer
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: asset:evd-worked-example-lane-board
+  relation: suggests
+# Built-in doctrine this pack builds on rather than restating.
+- source: paradigm:evd-event-sourced-design
+  target: tactic:domain-event-capture
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: procedure:event-storming-discovery
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: paradigm:domain-driven-design
+  relation: suggests
+- source: paradigm:evd-event-sourced-design
+  target: paradigm:deep-module-design
+  relation: suggests
+# Directives and the tactics or styleguide that carry them out.
+- source: directive:EVD_001
+  target: tactic:evd-event-versioning-and-upcasting
+  relation: requires
+- source: directive:EVD_001
+  target: styleguide:evd-event-naming-and-payload
+  relation: suggests
+- source: directive:EVD_002
+  target: tactic:evd-event-bridge-port
+  relation: requires
+- source: directive:EVD_003
+  target: styleguide:evd-event-naming-and-payload
+  relation: requires
+- source: directive:EVD_003
+  target: tactic:domain-event-capture
+  relation: suggests
+- source: directive:EVD_004
+  target: directive:EVD_001
+  relation: requires
+- source: directive:EVD_004
+  target: tactic:evd-event-versioning-and-upcasting
+  relation: requires
+- source: directive:EVD_005
+  target: tactic:evd-event-bridge-port
+  relation: requires
+- source: directive:EVD_005
+  target: tactic:evd-idempotent-consumer
+  relation: requires
+- source: directive:EVD_006
+  target: styleguide:evd-event-naming-and-payload
+  relation: suggests
+- source: directive:EVD_006
+  target: tactic:anti-corruption-layer
+  relation: suggests
+# Tactics that lean on each other, on built-in doctrine and on the worked example.
+- source: tactic:evd-event-versioning-and-upcasting
+  target: tactic:evd-projection-replay
+  relation: suggests
+- source: tactic:evd-event-bridge-port
+  target: tactic:evd-idempotent-consumer
+  relation: suggests
+- source: tactic:evd-event-bridge-port
+  target: tactic:reference-architectural-patterns
+  relation: suggests
+- source: tactic:evd-projection-replay
+  target: tactic:evd-idempotent-consumer
+  relation: suggests
+- source: tactic:evd-event-versioning-and-upcasting
+  target: asset:evd-worked-example-lane-board
+  relation: suggests
+- source: tactic:evd-event-bridge-port
+  target: asset:evd-worked-example-lane-board
+  relation: suggests
+- source: tactic:evd-projection-replay
+  target: asset:evd-worked-example-lane-board
+  relation: suggests

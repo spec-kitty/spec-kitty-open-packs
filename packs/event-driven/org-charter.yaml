@@ -1,0 +1,5 @@
+# org-charter for the `event-driven` open pack.
+# Deliberately activates nothing on its own: a consumer opts in per project with the
+# `event-driven` preset or `spec-kitty charter activate ...` (see README.md, "Adopt").
+schema_version: 2
+org_name: spec-kitty-event-driven

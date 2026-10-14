@@ -1,0 +1,12 @@
+name: event-driven
+description: >-
+  Put the event-driven pack in force: the event-sourced design paradigm, its six
+  directives, its tactics and the event naming styleguide.
+activated_paradigms: [evd-event-sourced-design]
+activated_directives: [EVD_001, EVD_002, EVD_003, EVD_004, EVD_005, EVD_006]
+activated_tactics:
+  - evd-event-versioning-and-upcasting
+  - evd-event-bridge-port
+  - evd-projection-replay
+  - evd-idempotent-consumer
+activated_styleguides: [evd-event-naming-and-payload]

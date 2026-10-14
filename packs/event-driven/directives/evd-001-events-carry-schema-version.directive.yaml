@@ -1,0 +1,32 @@
+id: EVD_001
+schema_version: "1.0"
+title: Every Event Carries a Schema Version
+enforcement: required
+intent: >
+  A stored event outlives the code that wrote it. Without a version on the event
+  itself, a consumer reading an old line from the ledger has to guess its shape,
+  and the guess breaks silently the first time the payload changes. Every event
+  names its type and the version of that type's contract, so any reader can tell
+  exactly what it is holding.
+scope: >
+  Every event written to a ledger, published to subscribers, or exported to another
+  system. Applies to the event envelope, not only the payload.
+validation_criteria:
+  - "Every event envelope carries `event_type` and an integer `schema_version` for that
+    type, written by the producer; neither is inferred from the payload's shape."
+  - "A version is a contract: once events of version N exist in any ledger, the meaning
+    of version N never changes. A changed meaning is a new version."
+  - "Each event type has one published contract per version (schema, example, change
+    note), kept beside the code that emits it."
+  - "A reader that meets a type or version it does not declare support for refuses or
+    parks the event with a named error; it never processes it on a best guess."
+explicit_allowances:
+  - "Additive optional fields that every existing consumer ignores may ship without a
+    version bump when the contract states that unknown fields are ignored."
+references:
+  - type: tactic
+    id: evd-event-versioning-and-upcasting
+    when: when a contract has to change
+  - type: styleguide
+    id: evd-event-naming-and-payload
+    when: when deciding what goes in the envelope and what in the payload

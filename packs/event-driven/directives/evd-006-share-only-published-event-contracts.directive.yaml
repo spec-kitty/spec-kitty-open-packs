@@ -1,0 +1,32 @@
+id: EVD_006
+schema_version: "1.0"
+title: Producers and Consumers Share Only Published Event Contracts
+enforcement: required
+intent: >
+  A subscriber that imports the producer's internals is coupled to every refactor of
+  them, and the event log stops being the boundary. Producers and consumers agree on
+  published event contracts and nothing else: no shared domain classes, no reads of
+  each other's storage, no direct calls.
+scope: >
+  Code and packages on either side of an event stream, including projections and
+  read models owned by other teams or modules.
+validation_criteria:
+  - "Each event type's contract (envelope fields, payload schema per version, an example)
+    is published in one place both sides consume, such as a contract package or schema
+    directory."
+  - "A consumer imports the contract, never the producer's domain model, persistence
+    layer or private helpers. An import rule or architecture test enforces this."
+  - "Consumers do not call producers to fetch state that should have been in the event;
+    when they need it, the contract grows (EVD_001, EVD_004)."
+  - "A contract change is reviewed as a published-API change: versioned, with a change
+    note and the consumer impact listed."
+explicit_allowances:
+  - "Within one module the producer and its own projections may share code, as long as
+    nothing outside the module depends on it."
+references:
+  - type: styleguide
+    id: evd-event-naming-and-payload
+    when: when writing the published contract
+  - type: tactic
+    id: anti-corruption-layer
+    when: when a consumer must translate a foreign contract into its own model

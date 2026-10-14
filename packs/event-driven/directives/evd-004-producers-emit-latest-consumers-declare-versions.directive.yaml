@@ -1,0 +1,34 @@
+id: EVD_004
+schema_version: "1.0"
+title: Producers Emit the Latest Version, Consumers Declare What They Accept
+enforcement: required
+intent: >
+  Producers and consumers evolve on different schedules. If producers kept writing
+  old versions for old readers, every contract change would wait for the slowest
+  consumer. Instead a producer always writes the latest version of an event type,
+  and each consumer states which versions it accepts and upcasts older ones it
+  still has to read.
+scope: >
+  Every producer that appends events and every consumer, projection or subscriber
+  that reads them, including replay of historical events.
+validation_criteria:
+  - "A producer writes exactly one version of each event type: the latest published one.
+    Writing an older version for compatibility is a defect."
+  - "Every consumer declares, in code next to its handler, the set of `(event_type,
+    schema_version)` pairs it accepts."
+  - "Older versions a consumer must still read (the ledger keeps them forever) are
+    converted by an upcaster chain before the handler sees them; the handler is written
+    against one version only."
+  - "Publishing a new version is not done until each consumer either accepts it or is
+    listed with the version it is pinned to; an unlisted consumer that refuses the new
+    version is a release blocker, not a runtime surprise."
+explicit_allowances:
+  - "A consumer may accept several versions directly, without upcasting, when the
+    difference is one it handles in a single obvious branch."
+references:
+  - type: directive
+    id: EVD_001
+    when: the version this rule depends on
+  - type: tactic
+    id: evd-event-versioning-and-upcasting
+    when: when writing the upcaster chain

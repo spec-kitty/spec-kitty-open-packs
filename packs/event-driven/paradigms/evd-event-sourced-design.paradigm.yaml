@@ -1,0 +1,45 @@
+schema_version: "1.0"
+id: evd-event-sourced-design
+name: Event-Driven, Event-Sourced Design
+summary: >
+  Treat the ordered log of domain events as the source of truth and every other
+  piece of state as a projection derived from it. A change is recorded once, as
+  an immutable, versioned fact appended by the one writer that owns its stream;
+  current state, read models and side effects (files, git, notifications,
+  remote calls) are rebuilt or triggered by consumers that read the log. The
+  flow is publish -> ledger -> subscribe: producers and consumers never call
+  each other and share nothing but published event contracts. The domain core
+  stays pure: it decides which events happened and hands them to a port; an
+  adapter behind that port is the only code that writes the ledger. Because
+  the log is complete, state can be rebuilt from scratch, inspected as of any
+  past point, and re-derived after a projection bug is fixed. Adopt it where an
+  audit trail, replay, or independent consumers are worth the cost of
+  versioning events forever; a plain CRUD store is the better default
+  elsewhere.
+references:
+  - type: directive
+    id: EVD_001
+  - type: directive
+    id: EVD_002
+  - type: directive
+    id: EVD_003
+  - type: directive
+    id: EVD_004
+  - type: directive
+    id: EVD_005
+  - type: directive
+    id: EVD_006
+  - type: styleguide
+    id: evd-event-naming-and-payload
+  - type: tactic
+    id: evd-event-versioning-and-upcasting
+  - type: tactic
+    id: evd-event-bridge-port
+  - type: tactic
+    id: evd-projection-replay
+  - type: tactic
+    id: evd-idempotent-consumer
+  - type: tactic
+    id: domain-event-capture
+  - type: procedure
+    id: event-storming-discovery
