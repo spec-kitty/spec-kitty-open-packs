@@ -1,0 +1,21 @@
+# INVARIANT (from the qa pack's WP05 convention): id == mission_type for every
+# governance-profile.yaml.
+id: cave-dev
+mission_type: cave-dev
+template_set: null
+# The two cave-kitty artifacts that make this mission type speak caveman. The
+# agent profiles and the rest of the engineering doctrine are the consumer's
+# built-in defaults — cave-dev re-voices the software-dev lifecycle, it does not
+# replace its roles.
+selected_directives:
+  - CAVE_001
+selected_agent_profiles: []
+selected_tactics: []
+selected_styleguides:
+  - cave-sty-001-communication
+selected_toolguides: []
+selected_procedures: []
+selected_paradigms: []
+selected_mission_step_contracts: []
+available_tools: []
+activations: []

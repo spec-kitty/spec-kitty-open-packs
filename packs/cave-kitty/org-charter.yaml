@@ -1,0 +1,9 @@
+# org-charter for the `cave-kitty` open pack.
+# Deliberately activates nothing on its own: a consumer opts in per project with
+# `spec-kitty charter activate styleguide cave-sty-001-communication` (voice only),
+# `spec-kitty charter activate directive CAVE_001` (enforce the voice), or by
+# running a mission with `--type cave-dev` (the re-voiced lifecycle). Keeping the
+# pack inert by default lets it sit beside a team's existing doctrine without
+# changing it. See README.md, "Adopt".
+schema_version: 2
+org_name: spec-kitty-cave

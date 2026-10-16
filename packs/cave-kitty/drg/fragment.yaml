@@ -1,0 +1,26 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Read by `charter pack validate`, `doctor charter-packs`, `charter context`
+# and profile health. pack_name/source_kind/source_ref/layer_index are
+# overwritten at load time by the operator-side org-pack loader; the values
+# below are placeholders.
+pack_name: cave-kitty
+source_kind: local_path
+source_ref: "."
+layer_index: 1
+nodes:
+  - id: CAVE_001
+    kind: directives
+    title: "Caveman Terse Output"
+    body_path: directives/cave-001-terse-output.directive.yaml
+  - id: cave-sty-001-communication
+    kind: styleguides
+    title: "Caveman Communication Styleguide"
+    body_path: styleguides/cave-sty-001-communication.styleguide.yaml
+  - id: cave-dev
+    kind: mission_types
+    title: "Cave Dev Mission Type"
+    body_path: mission_types/cave-dev/governance-profile.yaml
+edges:
+  - source: directive:CAVE_001
+    target: styleguide:cave-sty-001-communication
+    relation: requires

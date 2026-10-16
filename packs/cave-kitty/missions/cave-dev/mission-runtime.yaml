@@ -1,0 +1,55 @@
+# Schema C — the runtime MissionTemplate `spec-kitty next`'s planner reads.
+# The seven step ids are the canonical ids the planner special-cases
+# (implement/review for work-package discovery, specify/plan for artifact-presence
+# guards); cave-dev's identity lives in title/description, never in id. Agent
+# profiles are the consumer's built-in engineering roles — cave-dev re-voices the
+# lifecycle, it does not ship its own personas. Every step cites
+# cave-sty-001-communication through CAVE_001; the per-step prompt restates the
+# canonical software-dev action in caveman voice.
+mission:
+  key: cave-dev
+  name: "Cave Dev"
+  version: "1.0.0"
+steps:
+  - id: discovery
+    title: "Discovery (caveman)"
+    description: "Investigate before specifying; report findings outcome-first, quoted source verbatim."
+    agent-profile: researcher-robbie
+    depends_on: []
+    prompt_template: discovery.md
+  - id: specify
+    title: "Specify (caveman)"
+    description: "Write the spec. Acceptance criteria precise and complete; surrounding prose terse."
+    agent-profile: analyst-annie
+    depends_on: [discovery]
+    prompt_template: specify.md
+  - id: plan
+    title: "Plan (caveman)"
+    description: "Produce the implementation plan; decisions stated outcome-first."
+    agent-profile: planner-priti
+    depends_on: [specify]
+    prompt_template: plan.md
+  - id: tasks
+    title: "Tasks (caveman)"
+    description: "Decompose into work packages."
+    agent-profile: planner-priti
+    depends_on: [plan]
+    prompt_template: tasks.md
+  - id: implement
+    title: "Implement (caveman)"
+    description: "Build the work package; progress replies terse, code and commands exact."
+    agent-profile: implementer-ivan
+    depends_on: [tasks]
+    prompt_template: implement.md
+  - id: review
+    title: "Review (caveman)"
+    description: "Review the work; findings outcome-first, evidence exact, risks in full sentences."
+    agent-profile: reviewer-renata
+    depends_on: [implement]
+    prompt_template: review.md
+  - id: accept
+    title: "Accept (caveman)"
+    description: "Confirm the result against the spec and record the decision."
+    agent-profile: reviewer-renata
+    depends_on: [review]
+    prompt_template: accept.md

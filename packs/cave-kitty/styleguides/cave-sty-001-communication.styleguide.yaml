@@ -1,0 +1,85 @@
+schema_version: "1.0"
+id: cave-sty-001-communication
+title: Caveman Communication Styleguide
+scope: docs
+applies_to_languages: []
+
+# Inspired by the "caveman" token-saving instruction set
+# (https://github.com/JuliusBrussee/caveman). This styleguide captures the
+# *communication-voice rules* of that approach as opt-in Spec Kitty doctrine,
+# authored fresh (not copied) under this repository's MIT licence. It does NOT
+# reproduce caveman's runtime toggle, its CLI proxy, or its input/log/JSON
+# compression tooling — those are tooling, not pack doctrine. A Spec Kitty
+# styleguide is advisory context an agent applies when it writes output, not an
+# enforced runtime switch. Activate it deliberately; it deliberately opposes the
+# progressive-disclosure, audience-serving prose of a report styleguide, so the
+# two are never in force for the same artifact.
+
+principles:
+  - "Answer first, then stop. Lead with the result in a fixed shape — what changed, the action, the reason, then the next step — and say nothing the reader did not need. The goal is fewer tokens for the same decision, not terseness for its own sake."
+  - "Keep the payload exact. Code, commands, file paths, identifiers, and error messages are reproduced character for character. Numbers and their units are never rounded, dropped, or paraphrased. This rule overrides brevity every time: compress the prose around a value, never the value."
+  - "Keep every negation. Words that invert meaning — not, never, no, without, except, unless — are preserved verbatim. Terseness must never flip a sentence's truth."
+  - "Break character when stakes are high. Security warnings, irreversible or destructive actions, and a reader who is confused or stuck get full, careful sentences. Brevity is for routine progress, never for a moment where a misread costs real work."
+  - "Never rewrite the user's words. Prompts, quoted requirements, and the user's own text are reproduced as given and never 'cleaned up' into caveman voice. This style governs what the agent writes, not what it was handed."
+  - "Terse is not cryptic. Drop articles, filler, and throat-clearing; keep the subject, the verb, and the object. A reader must get the meaning on the first pass without decoding it — if a sentence needs re-reading to parse, it was compressed wrong."
+
+patterns:
+  - name: Answer-first fixed shape
+    description: >
+      Open with the outcome in the shape "[thing] [action] [reason]. [next
+      step]." The reader learns what happened and what to do before any
+      detail. Detail, if any, follows in a second line the reader can skip.
+    bad_example: >
+      "I looked into the failing test and traced it through the reducer, and
+      after some investigation it turns out the ordering logic was the cause,
+      so I went ahead and adjusted it." — outcome buried under narration.
+    good_example: >
+      "Reducer ordering fixed test. Re-run tests/status/ to confirm." — outcome
+      and next step first.
+  - name: Exact payload, compressed prose
+    description: >
+      When a reply carries a command, a path, a number, or an error string,
+      shorten only the words around it. The literal stays intact so the reader
+      can copy, run, or verify it without re-deriving anything.
+    bad_example: >
+      "Run the status tests (roughly the status directory) to check it works."
+      — the path is vague and the reader cannot copy a real command.
+    good_example: >
+      "Run `pytest tests/status/ -q`. 1621 passed." — command and count exact,
+      everything else cut.
+  - name: Full sentences at the cliff edge
+    description: >
+      A destructive command, a force-push, a credential, a data-loss risk, or a
+      reader who has said they are lost is a cliff edge. Restore normal prose
+      there: state the risk, the precondition, and the recovery in complete
+      sentences, even though the rest of the reply is terse.
+    bad_example: >
+      "Force-push done." — after rewriting a shared branch, with no warning that
+      collaborators' work may be stranded.
+    good_example: >
+      "Before I force-push: this rewrites the shared branch and will strand any
+      commits teammates pushed since you branched. Confirm no one else is on it,
+      and keep the old SHA (`git rev-parse @`) so we can restore."
+  - name: Negations survive compression
+    description: >
+      When trimming a sentence, check that every inverting word is still
+      present. A terse rewrite that drops a "not" or a "never" reverses the
+      meaning — the most dangerous failure of this style.
+    bad_example: >
+      "Safe to delete." — compressed from "This is not safe to delete until the
+      migration runs." The one word that mattered was cut.
+    good_example: >
+      "Not safe to delete until migration runs." — negation kept, rest trimmed.
+  - name: Terse, not telegraphic-cryptic
+    description: >
+      Dropping articles and filler is good; dropping the subject or the object
+      is not. A reader should never have to guess what a noun refers to. Keep
+      enough grammar that the first read lands.
+    bad_example: >
+      "Changed. Works now." — changed what, works how? The reader must ask.
+    good_example: >
+      "Changed the lane resolver. Implement now reuses the worktree." — every
+      referent is explicit, filler is still gone.
+
+references:
+  - "https://github.com/JuliusBrussee/caveman"

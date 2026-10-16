@@ -1,0 +1,27 @@
+schema_version: "1.0"
+mission_type: "cave-dev"
+manifest_version: "1"
+
+required_always: []
+
+required_by_step:
+  specify:
+    - artifact_key: "input.spec.cave-dev"
+      artifact_class: "input"
+      path_pattern: "spec.md"
+      blocking: true
+  plan:
+    - artifact_key: "workflow.plan.cave-dev"
+      artifact_class: "workflow"
+      path_pattern: "plan.md"
+      blocking: true
+  tasks:
+    - artifact_key: "workflow.tasks.cave-dev"
+      artifact_class: "workflow"
+      path_pattern: "tasks.md"
+      blocking: true
+  implement: []
+  review: []
+  accept: []
+
+optional_always: []
