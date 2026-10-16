@@ -1,11 +1,26 @@
 # Schema C — the runtime MissionTemplate `spec-kitty next`'s planner reads.
-# The seven step ids are the canonical ids the planner special-cases
+# The eight step ids are the canonical ids the planner special-cases
 # (implement/review for work-package discovery, specify/plan for artifact-presence
 # guards); cave-dev's identity lives in title/description, never in id. Agent
 # profiles are the consumer's built-in engineering roles — cave-dev re-voices the
 # lifecycle, it does not ship its own personas. Every step cites
 # cave-sty-001-communication through CAVE_001; the per-step prompt restates the
 # canonical software-dev action in caveman voice.
+#
+# Summarises the built-in `software-dev` mission contract as of software-dev
+# mission-runtime version 2.2.0. The command templates re-state that contract as
+# prose; they do not reproduce it, and there is no mechanical link, so when
+# software-dev evolves these summaries must be reconciled by hand. If you bump the
+# pinned version, re-read software-dev's steps and prompts and reconcile.
+#
+# Runtime caveat (a CLI-level coupling this pack cannot fix): the per-WP iteration
+# and the step guards `spec-kitty next` runs for `implement`/`review`, and the
+# analysis-currency gate ahead of `implement`, are keyed to the built-in
+# `software-dev` family in the CLI. A `cave-dev`-typed mission does NOT get them
+# from the `next` loop — its `implement`/`review` steps advance as generic
+# single-shot DAG steps. The lane/worktree execution path (`spec-kitty implement
+# WP##`) is unaffected. To drive a WP-iterating, guarded run in the caveman voice,
+# run `--type software-dev` with CAVE_001 + the styleguide activated.
 mission:
   key: cave-dev
   name: "Cave Dev"
@@ -35,11 +50,17 @@ steps:
     agent-profile: planner-priti
     depends_on: [plan]
     prompt_template: tasks.md
+  - id: analyze
+    title: "Analyze (caveman)"
+    description: "Cross-artifact consistency and readiness check before implement; verdict outcome-first, references exact."
+    agent-profile: reviewer-renata
+    depends_on: [tasks]
+    prompt_template: analyze.md
   - id: implement
     title: "Implement (caveman)"
     description: "Build the work package; progress replies terse, code and commands exact."
     agent-profile: implementer-ivan
-    depends_on: [tasks]
+    depends_on: [analyze]
     prompt_template: implement.md
   - id: review
     title: "Review (caveman)"
