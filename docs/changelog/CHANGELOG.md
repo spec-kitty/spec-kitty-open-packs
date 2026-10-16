@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`cave-kitty` Charter Pack** (`packs/cave-kitty/`, #35). A "caveman" communication voice as
+  opt-in doctrine: an agent answers outcome-first with filler cut, while every payload (code,
+  paths, numbers), every negation, and the user's own words stay exact, and it restores full
+  sentences at a cliff edge (destructive or irreversible actions, a confused reader). Ships a
+  styleguide (`cave-sty-001-communication`), a directive (`CAVE_001`) that governs the agent's
+  output prose only, and a `cave-dev` mission type that re-voices the eight-step `software-dev`
+  lifecycle without touching its engineering rigour. Activate the voice on `--type software-dev`
+  for a clean token-impact comparison, or run `--type cave-dev` for the re-voiced lifecycle —
+  note `--type cave-dev` does not inherit software-dev's `next`-loop WP iteration or guards (a
+  CLI-level coupling), so the voice-activation path is the instrument for a token A/B.
 - **Stable `Validate packs gate` CI check** (#34). The pack-validation workflow now ends in a
   fixed-name gate job, so branch protection on `main` can require one status check that does not
   rename itself when the pinned `spec-kitty` commit is bumped (the old matrix-leg name carried the
