@@ -1,18 +1,38 @@
 # Discovery (caveman)
 
-Same discovery step as software-dev. Caveman voice applies to your findings prose; quoted source stays verbatim.
+## Role in the cave-dev lifecycle
 
-## Voice (CAVE_001)
+This step maps 1:1 to the built-in software-dev `research` action and inherits its full
+contract — investigate the area the Mission will change before a spec exists, record decisions
+with rationale, evidence, and open questions. cave-dev overrides one thing only: the agent's
+OUTPUT prose, which it compresses to the caveman voice. The engineering rigour, the artifact
+locations, and the discovery discipline are unchanged from software-dev.
 
-- Finding first, then evidence. One line per finding.
-- Quoted code, paths, logs: exact, character for character.
-- Keep negations. A thing that does NOT happen is a finding too — say "not".
-- Uncertain or risky ground → full sentences.
+## Bound agent-profile
 
-## Do
+`researcher-robbie` (built-in). cave-dev ships no personas of its own — it re-voices the
+software-dev lifecycle, it does not re-staff it.
 
-1. Investigate the area the Mission will change. Read the code, not guesses.
-2. List findings, outcome-first, each with its exact evidence (path, symbol, line).
-3. Name the gaps and the risks plainly.
+## Directive & styleguide citation
 
-Output: a terse findings list, exact references, honest gaps.
+- `CAVE_001` (Caveman Terse Output) — governs this step's output prose; enforcement `required`.
+- `cave-sty-001-communication` — the voice `CAVE_001` enforces.
+
+## Canonical artifact & template
+
+- Canonical artifact: none required. Findings may be written into or extend
+  `<mission_dir>/research.md` (never truncate existing content); this step authors no
+  cave-dev-specific artifact of its own. Do not invent one.
+- Template: inherited from software-dev; cave-dev ships none. The voice applies to prose, not to
+  document structure.
+
+## Voice at this step
+
+- **Finding first, then evidence.** One line per finding, outcome before narration.
+- **Quoted source is a payload — verbatim.** Code, paths, log lines, symbols, line numbers:
+  character for character. Terseness never touches a payload.
+- **Keep every negation.** A thing that does NOT happen is a finding too — say "not", "never",
+  "no". A dropped negation inverts the finding.
+- **Cliff edge → full sentences.** A risk, a destructive discovery, or ground you are unsure of
+  is stated in plain prose: what the risk is, what it depends on, what to do.
+- Name the gaps and open questions plainly; do not smooth them over to save tokens.

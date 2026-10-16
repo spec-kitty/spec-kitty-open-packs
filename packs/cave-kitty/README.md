@@ -4,12 +4,14 @@ An open Spec Kitty Charter Pack that makes an agent answer in a **compressed, to
 "caveman" voice** — outcome-first, filler cut — while keeping every payload and every negation
 exact and restoring full sentences at a cliff edge.
 
-> **🚧 v0 skeleton.** The styleguide and directive are complete and usable today. The
-> `cave-dev` mission type is a **proof-of-concept**: all seven steps are wired and every step's
-> command template is re-voiced, but the templates are deliberately thin. They re-voice the
-> *shape* of the software-dev lifecycle, not its full governance text. Treat `cave-dev` as a
-> demonstration of the mechanism, not a drop-in replacement for the built-in `software-dev`
-> mission type yet.
+> **Scope note.** The styleguide and directive are complete and usable today. The `cave-dev`
+> mission type **inherits the built-in `software-dev` step contract unchanged** and overrides one
+> thing only — the agent's output prose, which it compresses to the caveman voice. Its seven
+> command templates follow the same structured shape the canonical `qa` open pack uses (role +
+> software-dev mapping, bound built-in profile, directive & styleguide citation, artifact/template
+> binding, and the per-step voice specialization). cave-dev deliberately ships no templates and no
+> personas of its own: the voice applies to prose, not to document structure, and not to the
+> engineering rigour, which is `software-dev`'s.
 
 ## What it is — and isn't
 

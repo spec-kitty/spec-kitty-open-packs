@@ -27,6 +27,11 @@ project is referenced for attribution of the idea; no code or prose from it is i
 
 ## Status
 
-v0 skeleton (see README.md). The `cave-dev` mission type's command templates are intentionally
-thin proofs-of-concept; fleshing them into full re-voiced governance text for all seven steps is
-the next increment.
+Complete for its stated scope (see README.md). The styleguide and directive are usable today.
+The `cave-dev` mission type inherits the built-in `software-dev` step contract unchanged and
+overrides only the output voice; its seven command templates follow the same structured shape
+the canonical `qa` open pack uses — role + software-dev mapping, bound built-in profile,
+directive & styleguide citation, artifact/template binding, and a per-step voice specialization.
+They deliberately do not duplicate `software-dev`'s inherited governance into each file, which
+would drift from the canonical source; they layer the caveman voice on top of it, exactly as `qa`
+layers its QA doctrine.
