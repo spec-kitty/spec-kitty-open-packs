@@ -22,7 +22,8 @@ voice. The phase discipline and supply-chain evidence (`DIRECTIVE_051`) are unch
 
 - Canonical artifact: `plan.md` (blocking at this step). Phase 1 may add `data-model.md`,
   `contracts/`, `quickstart.md` per the software-dev contract.
-- Template: inherited from software-dev's `plan-template.md`; cave-dev ships none.
+- Template: resolved from the default built-in template chain (software-dev's `plan-template.md`);
+  cave-dev ships none and pins none (`template_set: null`).
 
 ## Voice at this step
 

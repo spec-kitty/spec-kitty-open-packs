@@ -22,15 +22,17 @@ compresses to the caveman voice. The decomposition rules and the analyze gate ar
 ## Canonical artifact & template
 
 - Canonical artifact: `tasks.md` plus the per-WP files `tasks/WP##*.md` (blocking at this step).
-- Template: inherited from software-dev's `tasks-template.md` / `task-prompt-template.md`;
-  cave-dev ships none.
+- Template: resolved from the default built-in template chain (software-dev's `tasks-template.md`
+  / `task-prompt-template.md`); cave-dev ships none and pins none (`template_set: null`).
 
 ## Voice at this step
 
 - **Each work package: one line of intent, then its exact deps and acceptance.** Compress the
   intent, never the wiring.
-- **Dependencies, repo-root-relative file paths, requirement IDs, owned-files sets are payload —
-  exact.** They must match the form the ownership validator accepts; a paraphrased path fails.
+- **Dependencies, repo-root-relative file paths, requirement IDs, owned-files sets, and the WP's
+  own acceptance-criteria text (including any Given/When/Then scenarios) are payload — exact.**
+  They must match the form the ownership validator accepts; a paraphrased path fails, and an
+  acceptance criterion is a testable statement, not compressible "intent".
 - **Keep every negation** in scope notes — "this WP does not touch the reducer" is a boundary,
   not filler.
 - **Cliff edge → full sentences.** A dependency cycle, an oversized WP, or an unresolved
