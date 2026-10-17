@@ -112,7 +112,7 @@ jobs:
         # each pack's validation status; without spec-kitty on PATH it emits an
         # "unavailable" note and reports false drift. Bump deliberately; never
         # float to a branch.
-        spec-kitty: ["3b7c6dde79f41c4fceae6d5765bc93393f44bb83"]
+        spec-kitty: ["83ca247ebc0d06b3e11010840a7a99510b5a1b58"]
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
