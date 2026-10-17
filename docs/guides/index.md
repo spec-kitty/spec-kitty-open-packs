@@ -6,12 +6,20 @@ updated: '2026-10-10'
 related:
 - ""
 - packs/catalog-proposal
+- guides/getting-started
 - guides/author-a-doctrine-pack
 - guides/use-a-doctrine-pack
 ---
 # Guides
 
-Task-oriented how-tos for working with Spec Kitty open doctrine packs. Two audiences:
+Task-oriented how-tos for working with Spec Kitty open doctrine packs. New here? Start with the
+tutorial, then reach for the reference guides below by audience.
+
+## Start here
+
+- [Getting started: adopt your first pack](getting-started.md) — a <15-minute, no-prior-knowledge
+  walkthrough that fetches a real pack, activates one rule through the charter, and confirms it
+  is in force.
 
 ## Using packs
 
