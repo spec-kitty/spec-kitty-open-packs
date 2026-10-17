@@ -1,0 +1,24 @@
+{
+  "coordination_branch": "kitty/mission-docsite-bootstrap-01M55JVF",
+  "created_at": "2026-10-17T18:44:14.487812+00:00",
+  "documentation_state": {
+    "coverage_percentage": 0.0,
+    "divio_types_selected": [],
+    "generators_configured": [],
+    "iteration_mode": "initial",
+    "last_audit_date": null,
+    "target_audience": "developers"
+  },
+  "flattened": false,
+  "friendly_name": "Docsite bootstrap (doc-kitty/Astro)",
+  "mid8": "01M55JVF",
+  "mission_id": "01M55JVFJQ54NMZ5RST76DCJTZ",
+  "mission_number": null,
+  "mission_slug": "docsite-bootstrap-01M55JVF",
+  "mission_type": "documentation",
+  "purpose_context": "This mission advances Docsite bootstrap (doc-kitty/Astro) on mission/docsite-bootstrap so stakeholders can track the work from mission creation onward.",
+  "purpose_tldr": "Stand up the open-packs documentation site with doc-kitty/Astro, a packs hub, and pack-usage guides.",
+  "slug": "docsite-bootstrap-01M55JVF",
+  "target_branch": "mission/docsite-bootstrap",
+  "topology": "coord"
+}
