@@ -45,10 +45,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DOCS_PACKS_DIR = REPO_ROOT / "docs" / "packs"
 GENERATOR_REL = "scripts/docs/gen_pack_reference.py"
 
-#: Fallback date used only when git cannot report a pack's last-change date
-#: (e.g. an uncommitted pack). Keeps output deterministic in that edge case.
-FALLBACK_DATE = "2026-01-01"
-
 #: Fixed generation-baseline date stamped into every generated page's `updated`
 #: and `generated.at`. Deliberately NOT git-derived: a git date is ref-dependent
 #: (it changes when main moves under the branch and differs on a PR merge ref),
@@ -109,7 +105,6 @@ class PackReference:
     directory: Path
     rel_directory: str
     checksum: str
-    updated: str
     descriptor: PackDescriptor
     counts: list[tuple[str, int]] = field(default_factory=list)
     inventory: list[tuple[str, list[str]]] = field(default_factory=list)
@@ -294,28 +289,6 @@ def build_inventory(
     return counts, inventory, total
 
 
-def git_last_change_date(repo_root: Path, directory: Path) -> str:
-    """Committer date (``YYYY-MM-DD``) of the last commit touching the pack.
-
-    Deterministic for a given repo state and honest about when the pack last
-    changed. Falls back to :data:`FALLBACK_DATE` when git is unavailable or the
-    pack is not yet committed, keeping output reproducible.
-    """
-
-    try:
-        result = subprocess.run(
-            ["git", "log", "-1", "--format=%cs", "--", str(directory)],
-            cwd=repo_root,
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-    except (OSError, ValueError):
-        return FALLBACK_DATE
-    date = result.stdout.strip()
-    return date if date else FALLBACK_DATE
-
-
 # ---------------------------------------------------------------------------
 # Validation (shell out to the CLI)
 # ---------------------------------------------------------------------------
@@ -383,7 +356,6 @@ def build_reference(repo_root: Path, slug: str, directory: Path) -> PackReferenc
         directory=directory,
         rel_directory=rel_directory,
         checksum=compute_checksum(directory),
-        updated=git_last_change_date(repo_root, directory),
         descriptor=read_pack_descriptor(directory),
         counts=counts,
         inventory=inventory,
