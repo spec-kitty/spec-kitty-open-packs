@@ -1,0 +1,142 @@
+name: Docs site
+
+# Builds the doc-kitty / Astro docsite from docs/, enforces the generated-content
+# drift gate, and publishes to GitHub Pages from main.
+#
+# On pull requests: the `build` and `drift-gate` jobs run so they protect the
+# mission PR; the `deploy` job is skipped. On pushes to main: all three run and
+# the site is published.
+#
+# ONE-TIME SETUP (repo admin, cannot be done from this workflow):
+#   Settings -> Pages -> "Build and deployment" -> Source: "GitHub Actions".
+#   Until that is set, the `deploy` job will fail with a Pages-not-enabled error;
+#   the `build` + `drift-gate` gates work regardless.
+#
+# PRIVATE PACKAGE AUTH:
+#   @spec-kitty/doc-toolkit is a private GitHub Packages dependency. `npm ci`
+#   authenticates with NODE_AUTH_TOKEN. The default GITHUB_TOKEN (packages: read)
+#   can read packages published in THIS repo's org (spec-kitty). If the package
+#   lives in a different org that GITHUB_TOKEN cannot read, create a repo secret
+#   DOC_TOOLKIT_TOKEN (a PAT with read:packages on that org) and change the
+#   NODE_AUTH_TOKEN lines below to: ${{ secrets.DOC_TOOLKIT_TOKEN }}.
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'site/**'
+      - 'scripts/docs/**'
+      - '.github/workflows/docs-site.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'site/**'
+      - 'scripts/docs/**'
+      - '.github/workflows/docs-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One Pages publish at a time; never cancel one in flight.
+concurrency:
+  group: docs-site-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      # @spec-kitty/doc-toolkit is installed from GitHub Packages.
+      packages: read
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - name: Set up Node 22 with the GitHub Packages registry
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          scope: '@spec-kitty'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install
+        # Exactly what site/package-lock.json records, so a build on main uses the
+        # same dependencies as the pull request check did.
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm ci
+      - name: Validate frontmatter and source links
+        # dockitty-check-links over docs/ (the SOURCE tree) is the gating link
+        # check; see npm run validate in site/package.json.
+        run: npm run validate
+      - name: Build
+        # Most pages are drafts during the bootstrap, so drafts are published
+        # (as noindex pages) rather than dropped.
+        env:
+          DK_PUBLISH_DRAFTS: 'on'
+          # Render Mermaid in the browser; the build needs no Chromium.
+          DK_DIAGRAM_BUILD_RENDER: client
+        run: npm run build
+      - name: Check links in the built site (advisory)
+        # Non-blocking: the dist-level checker reports ~115 pre-existing tree-wide
+        # failures from the [x](foo.md) relative-link convention every shipped
+        # guide uses (pre-existing, not introduced by this mission).
+        # TODO(follow-up): reconcile dist-level .md relative links, then gate.
+        continue-on-error: true
+        run: npm run check:built-links
+      - name: Upload the Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: site/dist
+
+  drift-gate:
+    # The generated-content boundary gate: re-run the deterministic generator and
+    # fail on any difference from the committed docs/packs/ pages. Runs on PRs and
+    # on main so it protects the mission PR as well as the published tree.
+    name: Generated-content drift gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        # Same pinned spec-kitty/spec-kitty commit as validate-packs.yml. The
+        # generator shells to `spec-kitty charter pack validate <dir> --json` for
+        # each pack's validation status; without spec-kitty on PATH it emits an
+        # "unavailable" note and reports false drift. Bump deliberately; never
+        # float to a branch.
+        spec-kitty: ["3b7c6dde79f41c4fceae6d5765bc93393f44bb83"]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install spec-kitty-cli
+        run: pip install "spec-kitty-cli @ git+https://github.com/spec-kitty/spec-kitty@${{ matrix.spec-kitty }}"
+      - name: Check generated pack pages are up to date
+        # --check exits non-zero on any drift (equivalent to re-running the
+        # generator and `git diff --exit-code docs/packs/`).
+        run: python3 scripts/docs/gen_pack_reference.py --check
+
+  deploy:
+    # Publish only from main; PR runs stop after build + drift-gate.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: [build, drift-gate]
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
