@@ -167,8 +167,5 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
 
 - Errors: 0
-- Advisories: 1
 
-### Advisories
-
-- {'artifact_id': None, 'artifact_type': 'pack', 'category': 'PACK_LEVEL_MISSING', 'file': '/home/stijn/Documents/_code/SDD/fork/spec-kitty-open-packs/packs/internal/pack.yaml', 'message': "PACK_LEVEL_MISSING: pack.yaml has no 'pack_level'; add 'pack_level: built-in|org|project' (required once the deprecation window closes)", 'severity': 'advisory'}
+Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
