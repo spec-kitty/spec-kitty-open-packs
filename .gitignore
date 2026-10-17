@@ -35,3 +35,6 @@ kitty-ops/ops-index.jsonl
 # Python bytecode (e.g. from running a pack's assets)
 __pycache__/
 *.py[cod]
+.worktrees/
+site/node_modules/
+site/dist/

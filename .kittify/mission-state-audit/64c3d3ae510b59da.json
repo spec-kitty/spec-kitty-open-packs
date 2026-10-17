@@ -1,0 +1,60 @@
+{
+  "cli_version": "4.0.0rc7",
+  "command_args": [
+    "doctor",
+    "mission-state",
+    "--fix",
+    "--allow-dirty",
+    "--mission",
+    "docsite-bootstrap-01M55JVF"
+  ],
+  "generated_ids": [
+    "64c3d3ae510b59da"
+  ],
+  "manifest_path": ".kittify/mission-state-audit/64c3d3ae510b59da.json",
+  "missions": [
+    {
+      "file_changes": [],
+      "meta_actions": [],
+      "mission_id": "01M55JVFJQ54NMZ5RST76DCJTZ",
+      "mission_slug": "docsite-bootstrap-01M55JVF",
+      "quarantine_written": false,
+      "quarantined_rows": 0,
+      "row_transformations": [],
+      "status": "unchanged",
+      "validation_errors": []
+    }
+  ],
+  "policy": {
+    "ignored": [
+      "*.pyc",
+      ".git/",
+      ".worktrees/",
+      "__pycache__/"
+    ],
+    "optional": [
+      "kitty-specs/*/status.json"
+    ],
+    "tracked": [
+      ".kittify/mission-state-audit/*.json",
+      "kitty-specs/*/meta.json",
+      "kitty-specs/*/status.events.jsonl",
+      "kitty-specs/*/status.json"
+    ]
+  },
+  "quarantine_root_path": null,
+  "repo_head": "09b043e4c11176ce492363aca151cb6f52408eb9",
+  "residue_directories": [],
+  "run_id": "64c3d3ae510b59da",
+  "schema_version": "1.0.0",
+  "summary": {
+    "missions_error": 0,
+    "missions_total": 1,
+    "missions_unchanged": 1,
+    "missions_updated": 0,
+    "quarantined_rows": 0
+  },
+  "target_missions": [
+    "docsite-bootstrap-01M55JVF"
+  ]
+}
