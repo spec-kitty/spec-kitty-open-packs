@@ -113,4 +113,5 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
 
 - Errors: 0
-- Advisories: 0
+
+Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.

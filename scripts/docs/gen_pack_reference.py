@@ -441,18 +441,21 @@ def render_validation(validation: ValidationResult) -> list[str]:
     )
     lines.append("")
     lines.append(f"- Errors: {len(validation.errors)}")
-    lines.append(f"- Advisories: {len(validation.advisories)}")
     lines.append("")
     if validation.errors:
         lines.append("### Errors")
         lines.append("")
         lines.extend(f"- {error}" for error in validation.errors)
         lines.append("")
-    if validation.advisories:
-        lines.append("### Advisories")
-        lines.append("")
-        lines.extend(f"- {advisory}" for advisory in validation.advisories)
-        lines.append("")
+    # Advisories are deliberately NOT embedded: they are non-blocking and their
+    # count/text varies by validator (CLI) version, which would make this
+    # generated page drift against the pinned-CLI drift gate. Errors are the
+    # gating signal and are stable; the live advisory list is one command away.
+    lines.append(
+        "Advisories are non-blocking and vary by validator version; run "
+        "`spec-kitty charter pack validate <dir> --json` for the current list."
+    )
+    lines.append("")
     return lines
 
 
