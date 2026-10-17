@@ -1,9 +1,10 @@
 # Packs
 
-This directory holds the materialized Charter Packs. It ships two packs so far,
-[`qa/`](qa/README.md) and [`event-driven/`](event-driven/README.md); the rest of the catalog
-is still a [proposal](../docs/packs/catalog-proposal.md), carved from the Spec Kitty built-in
-corpus incrementally, one tracking issue at a time.
+This directory holds the materialized Charter Packs. It ships three packs so far,
+[`cave-kitty/`](cave-kitty/README.md), [`event-driven/`](event-driven/README.md) and
+[`qa/`](qa/README.md); the rest of the catalog is still a
+[proposal](../docs/packs/catalog-proposal.md), carved from the Spec Kitty built-in corpus
+incrementally, one tracking issue at a time.
 
 Each pack is a directory using the canonical layout:
 
@@ -16,6 +17,8 @@ packs/<pack-name>/
 ├── paradigms/           # *.paradigm.yaml
 ├── procedures/          # *.procedure.yaml
 ├── agent_profiles/      # *.agent.yaml
+├── assets/              # asset files + *.asset.yaml sidecars
+├── glossary_packs/      # *.glossary-pack.yaml
 ├── presets/             # <name>.yaml activation presets
 ├── drg/fragment.yaml    # additive DRG fragment
 └── org-charter.yaml     # optional policy / required artifacts
