@@ -4,9 +4,9 @@ description: How to propose, author, and submit doctrine packs and documentation
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/author-a-doctrine-pack.md
-- docs/guides/validate-a-pack.md
-- README.md
+- guides/author-a-doctrine-pack
+- guides/validate-a-pack
+- ""
 ---
 # Contributing to Spec Kitty Open Packs
 

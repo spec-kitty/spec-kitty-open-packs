@@ -1,12 +1,11 @@
 ---
 title: 'ADR: Build-time checksum tagging as an interim integrity mechanism'
-description: Decision for spec-kitty-open-packs to generate its own deterministic sha256 content hash per pack at docsite build time — displayed and published for user verification — as a bridge until core's verified-distribution scheme (#2539/#2543) lands.
+description: Decision for open-packs to generate its own sha256 content hash per pack at build time — published for user verification — until core's verified-distribution scheme lands.
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/docsite-design.md
-- docs/research/blockers-and-core-dependencies.md
-- SECURITY.md
+- architecture/docsite-design
+- research/blockers-and-core-dependencies
 ---
 # Build-time checksum tagging as an interim integrity mechanism
 

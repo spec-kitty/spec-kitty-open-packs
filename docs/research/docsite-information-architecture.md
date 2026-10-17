@@ -1,13 +1,12 @@
 ---
 title: Docsite information architecture
-description: Audience analysis, proposed navigation, and the generated-versus-authored separation for the spec-kitty-open-packs docsite, reconciled with the existing docs tree and the Common Docs standard.
+description: Audience analysis, proposed navigation, and the generated-versus-authored separation for the open-packs docsite, reconciled with the existing docs tree and Common Docs.
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/research/index.md
-- docs/architecture/docsite-design.md
-- docs/architecture/adr/2026-07-18-4-docsite-information-architecture.md
-- docs/toc.yml
+- research
+- architecture/docsite-design
+- architecture/adr/2026-07-18-4-docsite-information-architecture
 ---
 # Docsite information architecture
 

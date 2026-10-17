@@ -4,10 +4,10 @@ description: Design, vision, and architecture decision records for spec-kitty-op
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/vision.md
-- docs/architecture/docsite-design.md
-- docs/architecture/adr/index.md
-- docs/research/index.md
+- architecture/vision
+- architecture/docsite-design
+- architecture/adr
+- research
 ---
 # Architecture
 

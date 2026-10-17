@@ -4,8 +4,8 @@ description: Index of architecture decision records for spec-kitty-open-packs, c
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/index.md
-- docs/architecture/docsite-design.md
+- architecture
+- architecture/docsite-design
 ---
 # Architecture Decision Records
 

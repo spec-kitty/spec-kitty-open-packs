@@ -4,8 +4,8 @@ description: Run the Spec Kitty 4.x Charter Pack validator, read errors vs advis
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/author-a-doctrine-pack.md
-- docs/guides/publish-a-pack.md
+- guides/author-a-doctrine-pack
+- guides/publish-a-pack
 ---
 # Validate a pack
 

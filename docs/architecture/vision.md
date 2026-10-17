@@ -1,13 +1,13 @@
 ---
 title: Vision — canonical publishing home for Spec Kitty doctrine packs
-description: The product vision for spec-kitty-open-packs as the curated, community-friendly, checksum-verifiable publishing home for Spec Kitty doctrine packs, and the role a low-maintenance content-from-code docsite plays in it.
+description: The product vision for spec-kitty-open-packs as the curated, checksum-verifiable publishing home for Spec Kitty doctrine packs, served by a content-from-code docsite.
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/index.md
-- docs/architecture/docsite-design.md
-- README.md
-- docs/packs/catalog-proposal.md
+- architecture
+- architecture/docsite-design
+- ""
+- packs/catalog-proposal
 ---
 # Vision
 

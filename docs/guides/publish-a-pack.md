@@ -4,9 +4,8 @@ description: Distribute a Spec Kitty doctrine pack via git, HTTPS bundle, or a c
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/validate-a-pack.md
-- docs/guides/use-a-doctrine-pack.md
-- SECURITY.md
+- guides/validate-a-pack
+- guides/use-a-doctrine-pack
 ---
 # Publish a pack
 

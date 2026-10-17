@@ -4,9 +4,9 @@ description: Proposed set of domain and purpose doctrine packs carved from the S
 doc_status: wip
 updated: '2026-10-14'
 related:
-- docs/guides/author-a-doctrine-pack.md
-- docs/guides/compose-packs.md
-- README.md
+- guides/author-a-doctrine-pack
+- guides/compose-packs
+- ""
 ---
 # Pack Catalog Proposal
 
