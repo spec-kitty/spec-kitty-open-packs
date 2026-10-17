@@ -45,6 +45,15 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DOCS_PACKS_DIR = REPO_ROOT / "docs" / "packs"
 GENERATOR_REL = "scripts/docs/gen_pack_reference.py"
 
+#: Exact opening of the do-not-edit banner every generated page carries. Used
+#: both to render the banner and to recognise generated pages on disk (orphan
+#: detection), so the two can never drift apart.
+GENERATED_BANNER_PREFIX = "> **Generated page — do not edit by hand.**"
+
+#: Hand-authored pages that live beside the generated ones in docs/packs/. A
+#: pack slugged like one of these would overwrite it, so it is rejected.
+RESERVED_SLUGS = frozenset({"index", "catalog-proposal"})
+
 #: Fixed generation-baseline date stamped into every generated page's `updated`
 #: and `generated.at`. Deliberately NOT git-derived: a git date is ref-dependent
 #: (it changes when main moves under the branch and differs on a PR merge ref),
@@ -481,7 +490,7 @@ def render_page(ref: PackReference) -> str:
     lines.append(f"# {ref.slug} pack reference")
     lines.append("")
     lines.append(
-        "> **Generated page — do not edit by hand.** This file is produced by "
+        f"{GENERATED_BANNER_PREFIX} This file is produced by "
         f"`{GENERATOR_REL}` from the pack source. Hand edits are overwritten on "
         "regeneration, and the CI drift gate fails on any difference."
     )
@@ -541,6 +550,13 @@ def generate(
         print("No packs discovered — nothing to generate.", file=sys.stderr)
         return 1
 
+    clashes = sorted(slug for slug, _ in packs if slug in RESERVED_SLUGS)
+    if clashes:
+        raise ValueError(
+            "Pack slug(s) collide with hand-authored docs/packs pages: "
+            + ", ".join(clashes)
+        )
+
     docs_packs_dir.mkdir(parents=True, exist_ok=True)
     drifted: list[str] = []
     written: list[str] = []
@@ -561,12 +577,27 @@ def generate(
             written.append(slug)
 
     if check:
-        if drifted:
-            print(
-                "Drift detected in generated pack pages: "
-                + ", ".join(sorted(drifted)),
-                file=sys.stderr,
-            )
+        known = {slug for slug, _ in packs}
+        orphaned = sorted(
+            page.name
+            for page in docs_packs_dir.glob("*.md")
+            if page.stem not in known
+            and page.stem not in RESERVED_SLUGS
+            and GENERATED_BANNER_PREFIX in page.read_text(encoding="utf-8")
+        )
+        if drifted or orphaned:
+            if drifted:
+                print(
+                    "Drift detected in generated pack pages: "
+                    + ", ".join(sorted(drifted)),
+                    file=sys.stderr,
+                )
+            if orphaned:
+                print(
+                    "Orphaned generated pack pages (pack no longer exists): "
+                    + ", ".join(f"docs/packs/{name}" for name in orphaned),
+                    file=sys.stderr,
+                )
             return 1
         print(f"No drift: {len(packs)} pack page(s) up to date.")
         return 0
