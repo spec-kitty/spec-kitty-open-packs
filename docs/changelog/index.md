@@ -4,8 +4,8 @@ description: Changelog landing page pointing to the canonical docs/changelog/CHA
 doc_status: wip
 updated: '2026-07-12'
 related:
-- docs/changelog/CHANGELOG.md
-- docs/index.md
+- changelog/CHANGELOG
+- ""
 ---
 # Changelog
 

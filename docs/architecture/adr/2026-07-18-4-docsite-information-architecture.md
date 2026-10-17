@@ -1,12 +1,11 @@
 ---
 title: 'ADR: Docsite information architecture & ADR placement'
-description: Decision to adopt Common Docs section names with a generated Pack Reference and API reference, front-loaded for consumers, deferring weightless sections, and to nest ADRs under docs/architecture/adr per the project brief while surfacing them as a top-level nav node.
+description: Decision to adopt Common Docs section names with generated Pack and API reference, front-loaded for consumers, and to nest ADRs under docs/architecture/adr, surfaced in nav.
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/docsite-design.md
-- docs/research/docsite-information-architecture.md
-- docs/toc.yml
+- architecture/docsite-design
+- research/docsite-information-architecture
 ---
 # Docsite information architecture & ADR placement
 

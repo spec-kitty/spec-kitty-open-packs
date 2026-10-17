@@ -1,14 +1,14 @@
 ---
 title: Docsite design — content-from-code publishing with checksum tagging
-description: The architecture of the spec-kitty-open-packs docsite — the source-of-truth model, the generation pipeline, the generated-versus-authored boundary, checksum tagging, and the CI drift gate — with the open decisions deferred to core.
+description: "The architecture of the open-packs docsite: the source-of-truth model, the generation pipeline, the generated-versus-authored boundary, checksum tagging, and the CI drift gate."
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/vision.md
-- docs/architecture/adr/index.md
-- docs/research/docsite-feasibility-and-generator.md
-- docs/research/docsite-information-architecture.md
-- docs/research/blockers-and-core-dependencies.md
+- architecture/vision
+- architecture/adr
+- research/docsite-feasibility-and-generator
+- research/docsite-information-architecture
+- research/blockers-and-core-dependencies
 ---
 # Docsite design
 

@@ -1,12 +1,12 @@
 ---
 title: Research
-description: Pre-decision investigations for spec-kitty-open-packs — feasibility studies, blocker analysis, and structural advice that ground the architecture decisions recorded under docs/architecture/adr.
+description: "Pre-decision investigations for spec-kitty-open-packs: feasibility studies, blocker analysis, and structural advice grounding the decisions recorded under docs/architecture/adr."
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/index.md
-- docs/architecture/vision.md
-- docs/packs/catalog-proposal.md
+- architecture
+- architecture/vision
+- packs/catalog-proposal
 ---
 # Research
 

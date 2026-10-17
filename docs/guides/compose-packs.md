@@ -4,8 +4,8 @@ description: How Spec Kitty 4.x composes Charter Packs vertically (built-in, org
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/use-a-doctrine-pack.md
-- docs/packs/catalog-proposal.md
+- guides/use-a-doctrine-pack
+- packs/catalog-proposal
 ---
 # Compose packs
 

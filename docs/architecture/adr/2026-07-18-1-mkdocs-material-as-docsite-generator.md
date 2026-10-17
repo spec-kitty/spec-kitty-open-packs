@@ -1,11 +1,11 @@
 ---
 title: 'ADR: MkDocs Material as the docsite generator'
-description: Decision to build the spec-kitty-open-packs docsite with MkDocs Material — a single Python toolchain, purpose-built content-from-code plugins, and the largest OSS ecosystem — with DocFX (consistency-with-core) recorded as a considered-but-deferred option and Hugo rejected.
+description: Decision to build the open-packs docsite with MkDocs Material — one Python toolchain, content-from-code plugins, the largest OSS ecosystem; DocFX deferred, Hugo rejected.
 doc_status: active
 updated: '2026-07-25'
 related:
-- docs/architecture/docsite-design.md
-- docs/research/docsite-feasibility-and-generator.md
+- architecture/docsite-design
+- research/docsite-feasibility-and-generator
 ---
 # MkDocs Material as the docsite generator
 

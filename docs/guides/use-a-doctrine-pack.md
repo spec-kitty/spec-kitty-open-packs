@@ -4,8 +4,8 @@ description: Configure a Spec Kitty 4.x consumer project to fetch an open Charte
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/compose-packs.md
-- docs/guides/index.md
+- guides/compose-packs
+- guides
 ---
 # Use a Charter Pack
 

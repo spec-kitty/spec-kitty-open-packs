@@ -4,7 +4,7 @@ description: 'ADR authoring template for spec-kitty-open-packs: filename convent
 doc_status: active
 updated: '2026-07-18'
 related:
-- docs/architecture/index.md
+- architecture
 ---
 # [Short descriptive title]
 

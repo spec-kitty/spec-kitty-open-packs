@@ -4,11 +4,11 @@ description: Documentation home for the open, free doctrine packs distributed fo
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/index.md
-- docs/packs/catalog-proposal.md
-- docs/architecture/index.md
-- docs/research/index.md
-- docs/changelog/index.md
+- guides
+- packs/catalog-proposal
+- architecture
+- research
+- changelog
 ---
 # Spec Kitty Open Packs
 

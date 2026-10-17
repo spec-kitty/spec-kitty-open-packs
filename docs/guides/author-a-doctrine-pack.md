@@ -4,9 +4,9 @@ description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts
 doc_status: wip
 updated: '2026-10-10'
 related:
-- docs/guides/validate-a-pack.md
-- docs/guides/publish-a-pack.md
-- docs/packs/catalog-proposal.md
+- guides/validate-a-pack
+- guides/publish-a-pack
+- packs/catalog-proposal
 ---
 # Author a Charter Pack
 

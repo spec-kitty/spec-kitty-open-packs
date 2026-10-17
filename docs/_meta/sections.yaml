@@ -1,0 +1,36 @@
+# Authored section registry for this docs tree, following doc-kitty's convention
+# (doc-kitty ADR-0004). It decouples display (label, order) and section type from
+# the folder layout. Reserved, non-content: a doc-kitty build excludes it from the
+# docs collection. Home is the docs-root index.md; the sections below are the
+# top-level folders under docs/, in nav order.
+version: 1
+sections:
+  - id: packs
+    label: Packs
+    order: 10
+    type: Reference
+    purpose: The open doctrine pack catalog — what each pack is, and the proposed catalog shape.
+
+  - id: guides
+    label: Guides
+    order: 20
+    type: Guide
+    purpose: Task-oriented how-tos for consuming, composing, authoring, validating, and publishing doctrine packs.
+
+  - id: architecture
+    label: Architecture
+    order: 30
+    type: Architecture
+    purpose: The design, vision, and decision records for the open-packs repository and its docsite.
+
+  - id: research
+    label: Research
+    order: 40
+    type: Research
+    purpose: Discovery findings behind the docsite and pack-distribution direction.
+
+  - id: changelog
+    label: Changelog
+    order: 50
+    type: Changelog
+    purpose: What changed and when, newest first.
