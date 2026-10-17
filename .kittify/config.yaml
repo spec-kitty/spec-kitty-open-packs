@@ -28,4 +28,10 @@ charter_packs:
     # report-debrief, semi-auto) and required_procedures come into force on sync.
     - name: internal
       local_path: packs/internal
+    # spec-kitty-qa (org tier): the QA / promise-traceability doctrine pack that
+    # lives here. Registered for the repo's own governance; inert by default
+    # (its org-charter forces nothing), with specific entries opted in per
+    # mission via `charter activate`.
+    - name: qa
+      local_path: packs/qa
 charter: .kittify/charter/charter.yaml
