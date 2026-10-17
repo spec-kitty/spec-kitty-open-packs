@@ -28,10 +28,13 @@ context, the options considered, the chosen option, and its consequences.
 
 | Date | # | Title | Status |
 | --- | --- | --- | --- |
-| 2026-07-18 | 1 | [MkDocs Material as the docsite generator](2026-07-18-1-mkdocs-material-as-docsite-generator.md) | Proposed |
+| 2026-07-18 | 1 | [MkDocs Material as the docsite generator](2026-07-18-1-mkdocs-material-as-docsite-generator.md) | Superseded |
 | 2026-07-18 | 2 | [Pack reference is generated from source, not hand-authored](2026-07-18-2-pack-reference-generated-from-source.md) | Proposed |
 | 2026-07-18 | 3 | [Build-time checksum tagging as an interim integrity mechanism](2026-07-18-3-build-time-checksum-tagging.md) | Proposed |
 | 2026-07-18 | 4 | [Docsite information architecture & ADR placement](2026-07-18-4-docsite-information-architecture.md) | Proposed |
+| 2026-10-17 | 1 | [doc-kitty (Astro) as the docsite generator](2026-10-17-1-doc-kitty-astro-as-docsite-generator.md) | Accepted |
 
-All four ADRs are **Proposed**: they emerge from the 2026-07-18 docsite research and await HiC
-ratification. They document a recommended direction, not yet-implemented policy.
+The 2026-07-18 ADRs emerge from the docsite research and await HiC ratification; they document a
+recommended direction, not yet-implemented policy. **ADR 2026-07-18-1 (MkDocs Material) is
+Superseded** by [ADR 2026-10-17-1](2026-10-17-1-doc-kitty-astro-as-docsite-generator.md), which
+adopts doc-kitty (Astro) as the shared product-line docs toolchain.
