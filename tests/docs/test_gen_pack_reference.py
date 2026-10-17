@@ -62,6 +62,22 @@ class GeneratorDeterminismTest(unittest.TestCase):
             checksum = gen.compute_checksum(root / "built-in")
             self.assertIn(checksum, first)
 
+    def test_check_gate_fails_closed_on_orphaned_generated_page(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            docs = root / "docs" / "packs"
+            self.assertEqual(gen.generate(root, docs, check=False), 0)
+            self.assertEqual(gen.generate(root, docs, check=True), 0)
+            # A page for a pack that no longer exists (carries the real banner)
+            # must be flagged, not silently ignored; hand-authored hub pages
+            # without the banner must not be.
+            (docs / "index.md").write_text("# Packs hub\n", encoding="utf-8")
+            self.assertEqual(gen.generate(root, docs, check=True), 0)
+            orphan = gen.render_page(gen.build_reference(root, "removed-pack", pack))
+            (docs / "removed-pack.md").write_text(orphan, encoding="utf-8")
+            self.assertNotEqual(gen.generate(root, docs, check=True), 0)
+
     def test_checksum_changes_with_content(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
