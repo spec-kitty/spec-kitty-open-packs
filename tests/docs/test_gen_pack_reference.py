@@ -69,14 +69,37 @@ class GeneratorDeterminismTest(unittest.TestCase):
             docs = root / "docs" / "packs"
             self.assertEqual(gen.generate(root, docs, check=False), 0)
             self.assertEqual(gen.generate(root, docs, check=True), 0)
-            # A page for a pack that no longer exists (carries the real banner)
-            # must be flagged, not silently ignored; hand-authored hub pages
-            # without the banner must not be.
+            # Hand-authored pages that lack the generated banner must never be
+            # flagged as orphans: not the reserved hub page, and not a
+            # non-reserved page that merely mentions the word "generated". The
+            # latter pins banner-EXACTNESS — a loose "generated"-substring match
+            # would wrongly flag it and turn this red.
             (docs / "index.md").write_text("# Packs hub\n", encoding="utf-8")
+            (docs / "my-notes.md").write_text(
+                "# My notes\n\nHand-authored notes about the generated reference pages.\n",
+                encoding="utf-8",
+            )
             self.assertEqual(gen.generate(root, docs, check=True), 0)
+            # A banner-bearing page whose pack no longer exists is drift.
             orphan = gen.render_page(gen.build_reference(root, "removed-pack", pack))
             (docs / "removed-pack.md").write_text(orphan, encoding="utf-8")
             self.assertNotEqual(gen.generate(root, docs, check=True), 0)
+
+    def test_reserved_slug_collision_raises(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _make_pack(root)
+            # A discovered pack whose slug collides with a hand-authored
+            # docs/packs page (index, catalog-proposal) must be rejected, not
+            # silently overwrite the page.
+            clash = root / "packs" / "index"
+            (clash / "directives").mkdir(parents=True)
+            (clash / "directives" / "d.directive.yaml").write_text(
+                "id: D_009\ntitle: X\n", encoding="utf-8"
+            )
+            docs = root / "docs" / "packs"
+            with self.assertRaises(ValueError):
+                gen.generate(root, docs, check=False)
 
     def test_checksum_changes_with_content(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
