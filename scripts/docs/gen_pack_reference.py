@@ -49,6 +49,14 @@ GENERATOR_REL = "scripts/docs/gen_pack_reference.py"
 #: (e.g. an uncommitted pack). Keeps output deterministic in that edge case.
 FALLBACK_DATE = "2026-01-01"
 
+#: Fixed generation-baseline date stamped into every generated page's `updated`
+#: and `generated.at`. Deliberately NOT git-derived: a git date is ref-dependent
+#: (it changes when main moves under the branch and differs on a PR merge ref),
+#: which makes a drift-gated generated page fail spuriously. The on-page content
+#: checksum is the real per-change freshness signal. Bump only on a deliberate
+#: generator change.
+GENERATED_PAGE_DATE = "2026-10-17"
+
 #: Artifact-kind subdirectories understood by the doctrine model, in the order
 #: the design document lists them. Any *other* subdirectory a pack contains is
 #: still reported (appended, sorted) so the inventory never silently hides
@@ -410,7 +418,7 @@ def render_frontmatter(ref: PackReference) -> list[str]:
         f"title: {_yaml_quote(title)}",
         f"description: {_yaml_quote(description)}",
         "doc_status: active",
-        f"updated: '{ref.updated}'",
+        f"updated: '{GENERATED_PAGE_DATE}'",
         "kind: Reference",
         "related:",
         "- packs",
@@ -418,9 +426,14 @@ def render_frontmatter(ref: PackReference) -> list[str]:
         "- packs/catalog-proposal",
         "generated:",
         f"  by: {GENERATOR_REL}",
-        f"  at: '{ref.updated}'",
+        f"  at: '{GENERATED_PAGE_DATE}'",
         "---",
     ]
+    # NOTE: `updated`/`generated.at` use a fixed generation-baseline constant,
+    # not a git-derived date. A git date is ref-dependent (changes when main
+    # moves under the branch, differs on a PR merge ref), which would make this
+    # drift-gated page fail spuriously. The on-page content checksum is the real
+    # per-change freshness signal.
     return lines
 
 
