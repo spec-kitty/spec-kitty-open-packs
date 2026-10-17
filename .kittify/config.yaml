@@ -13,3 +13,19 @@ agents:
   - codex
   auto_commit: true
   lint_on_edit: false
+mission_type_activations:
+- software-dev
+- documentation
+- research
+- plan
+charter_packs:
+  org:
+    packs:
+    # spec-kitty-internal (org tier): the in-house / maintainer doctrine pack.
+    # This repository is its CANONICAL home (see packs/internal/PROVENANCE.md);
+    # it is registered here for the repo's own maintainer governance. Its
+    # org-charter's required_skills (land-pr, issue-triage, mission-from-issue,
+    # report-debrief, semi-auto) and required_procedures come into force on sync.
+    - name: internal
+      local_path: packs/internal
+charter: .kittify/charter/charter.yaml
