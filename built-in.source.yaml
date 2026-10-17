@@ -10,13 +10,13 @@
 seeded_from:
   repository: https://github.com/spec-kitty/spec-kitty
   path: packs/built-in
-  commit: 82fee75295baacf8ed1da6d43ac861e42548bce9
-  date: '2026-10-11'
+  commit: 83ca247ebc0d06b3e11010840a7a99510b5a1b58
+  date: '2026-10-17'
 # snapshot_sha256 from charter.offering.packs.pack_manifest over built-in/
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: 940d3614479bf81508c771de522fcbe73ab9b1b92a824ed4d298652e0aee8bd0
+  value: 99e5e97ca8d0b29d9db8ff7b6f46496baca811a0f5a348f5c1363107ca8a9dc9
 # The core versions this content is written against. Mission-step prompts name CLI
 # commands, and step contracts bind to runtime code. It lives here, not in
 # built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
