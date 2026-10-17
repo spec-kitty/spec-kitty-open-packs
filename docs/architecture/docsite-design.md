@@ -57,10 +57,10 @@ optional `maturity`). Everything else is derived. This closes the one true feasi
 ```
 SOURCE (versioned)      packs/<name>/{<kind>/*.yaml, pack.yaml, org-charter.yaml?}
         │
-GENERATE                scripts/docs/generate_pack_reference.py   (net-new, Python; models core's generate_kitty_specs_docs.py)
-  per pack →  read pack.yaml · parse artifacts · validate --json · sha256 · emit docs/packs/reference/<name>.md
-  catalog  →  docs/packs/reference/index.md (table: pack · purpose · depends_on · counts · checksum · validation)
-  machine  →  docs/packs/reference/checksums.json
+GENERATE                scripts/docs/gen_pack_reference.py   (Python; models core's generate_kitty_specs_docs.py)
+  per pack →  read pack.yaml · parse artifacts · validate --json · sha256 · emit docs/packs/<name>.md
+  catalog  →  docs/packs/index.md (table: pack · purpose · depends_on · counts · checksum · validation)
+  machine  →  docs/packs/reference/checksums.json   (planned; not emitted by the as-built generator)
   contracts→  docs/api/pack-validator.md (taxonomy + captured --help), docs/api/pack-manifest-schema.md
         │
 BUILD                   doc-kitty (Astro) build                   (generated Markdown consumed as-is)
@@ -70,7 +70,7 @@ PUBLISH                 GitHub Actions → Pages                    (Pages workf
 
 ## Generated vs authored boundary
 
-- **Generated (never hand-edited):** `docs/packs/reference/**`, `docs/packs/reference/checksums.json`,
+- **Generated (never hand-edited):** the per-pack `docs/packs/<name>.md` pages,
   the generated portions of `docs/api/pack-validator.md`, `docs/api/pack-manifest-schema.md`, and the
   generated `toc` partial for packs. Marked `linguist-generated=true`, `doc_status: generated`, with
   a "do not edit" banner.

@@ -6,7 +6,6 @@ updated: '2026-10-10'
 related:
 - guides/author-a-doctrine-pack
 - guides/validate-a-pack
-- ""
 ---
 # Contributing to Spec Kitty Open Packs
 
