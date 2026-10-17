@@ -2,18 +2,26 @@
 title: 'ADR: MkDocs Material as the docsite generator'
 description: Decision to build the open-packs docsite with MkDocs Material — one Python toolchain, content-from-code plugins, the largest OSS ecosystem; DocFX deferred, Hugo rejected.
 doc_status: active
-updated: '2026-07-25'
+updated: '2026-10-17'
 related:
 - architecture/docsite-design
+- architecture/adr/2026-10-17-1-doc-kitty-astro-as-docsite-generator
 - research/docsite-feasibility-and-generator
 ---
 # MkDocs Material as the docsite generator
 
 **Filename:** `2026-07-18-1-mkdocs-material-as-docsite-generator.md`
 
-**Status:** Proposed
+**Status:** Superseded
 
-**Date:** 2026-07-18 (decision revised 2026-07-25)
+> **Superseded (2026-10-17)** by
+> [ADR 2026-10-17-1 — doc-kitty (Astro) as the docsite generator](2026-10-17-1-doc-kitty-astro-as-docsite-generator.md).
+> The product line standardized on doc-kitty (Astro) with shared Brain Kitty branding and one shared
+> toolchain. The SSG choice is decoupled from the content-from-code generator, so only the SSG
+> changed; the generated-vs-authored boundary and checksum design below are unchanged. Kept for
+> history — do not implement from this record.
+
+**Date:** 2026-07-18 (decision revised 2026-07-25; superseded 2026-10-17)
 
 **Deciders:** architect squad (initial DocFX-leaning draft) → revised to MkDocs Material following
 maintainer review ([@zohar](https://github.com/zohar)) and operator direction — pending HiC ratification
