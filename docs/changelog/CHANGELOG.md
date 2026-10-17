@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-10-14'
+updated: '2026-10-17'
 ---
 # Changelog
 
@@ -21,6 +21,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Published documentation site for the open packs** (#40). `spec-kitty-open-packs` now has a
+  browsable, Brain Kitty-branded docs site built with **doc-kitty/Astro** (the same stack as the
+  charter site), so anyone adopting a pack has a real home for the material instead of reading
+  raw files. It surfaces the existing guides, adds a **packs hub**, and ships
+  **generated-from-source per-pack reference** pages — inventory, per-kind counts, validation
+  status, and a content checksum derived straight from each pack, kept honest by a CI
+  drift gate so the pages can never silently diverge from the packs. A getting-started tutorial
+  walks a newcomer through adopting a pack with the `spec-kitty` CLI and a charter. This
+  supersedes the earlier MkDocs direction (new ADR
+  `2026-10-17-1-doc-kitty-astro-as-docsite-generator`, superseding ADR-1). The site publishes to
+  GitHub Pages from `main` once a repo admin turns Pages on (Settings → Pages → Source: GitHub
+  Actions).
 - **`cave-kitty` Charter Pack** (`packs/cave-kitty/`, #35). A "caveman" communication voice as
   opt-in doctrine: an agent answers outcome-first with filler cut, while every payload (code,
   paths, numbers), every negation, and the user's own words stay exact, and it restores full
