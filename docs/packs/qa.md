@@ -2,7 +2,7 @@
 title: qa pack reference
 description: "Generated reference for the qa doctrine pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-10'
+updated: '2026-10-17'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-10'
+  at: '2026-10-17'
 ---
 
 # qa pack reference
