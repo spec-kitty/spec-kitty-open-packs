@@ -1,0 +1,88 @@
+schema_version: 1.0.0
+mission: documentation
+profile: comprehensive
+answers:
+  project_intent: >
+    spec-kitty-open-packs is the open, free doctrine-pack marketplace for Spec Kitty.
+    It holds CONTENT and PACKAGING — doctrine artifacts, individual and compound packs
+    (built-in, cave-kitty, event-driven, qa), authoring/usage guides, and a published
+    documentation site. The doctrine LOGIC (resolution, DRG, activation, manifest schema,
+    the pack validator) stays upstream in spec-kitty/spec-kitty and is consumed here.
+    The repository is public, MIT-licensed, and explicitly work-in-progress: pack names,
+    boundaries, and composition mechanics are expected to churn while the direction is
+    shaped in the open. Issues here track pack creation; core's issues track doctrine
+    functionality.
+  languages_frameworks: >
+    Content-first: schema-validated YAML doctrine artifacts (validated against upstream
+    core schemas) and Markdown documentation. CI is shell (scripts/ci/validate-packs.sh,
+    scripts/ci/check-built-in.sh). The documentation site is built with doc-kitty
+    (Astro-based, latest released version) and a content-from-code generator (Python)
+    that emits per-pack reference pages from the pack YAML. No application runtime of the
+    repository's own.
+  testing_requirements: >
+    Lightweight and content-appropriate. Every pack must pass the canonical validator
+    (spec-kitty doctrine pack validate --json; errors=0, advisories tolerated) and the
+    built-in parity check. The docsite must build clean, and generated reference content
+    must match its source (a checksum/drift gate), so hand-edits to generated pages are
+    caught. Do not manufacture unit-test suites for static content; tests exist only where
+    they guard real behaviour or a standing invariant (DIRECTIVE_041).
+  quality_gates: >
+    Merge-blocking: pack validation (errors=0) and built-in parity; docsite build succeeds;
+    docs freshness / link / terminology gates green; the generated-vs-authored boundary is
+    respected (no generated page hand-edited, enforced by the drift gate); a changelog entry
+    for any user-facing change. Markdown lint is advisory.
+  review_policy: >
+    Maintainer review before merge (main is protected; maintainer admin-merges own work).
+    Substantive or architectural changes — docsite design/generator, pack boundaries, a new
+    pack, a manifest/identity decision — get a second-opinion (adversarial) review and an ADR.
+    PR bodies are consumer-focused and BLUF.
+  performance_targets: >
+    None material (static content and a static site). The operative performance concern is
+    LLM-context economy: packs are opt-in, composable slices, so no pack should bloat a
+    consumer's session with doctrine it did not ask for. Keep packs coherent and minimal.
+  deployment_constraints: >
+    The documentation site publishes to GitHub Pages. Packs are consumed downstream by the
+    spec-kitty CLI (fetch / activate). Nothing is production-critical; everything is public
+    and MIT-licensed. Pack identities (pack_id) are minted once, upstream, and never
+    fabricated locally.
+  documentation_policy: >
+    Documentation is a first-class deliverable, not an afterthought. Follow Common Docs
+    conventions (DIRECTIVE_042) and the generated-evidence / authored-explanation split
+    (DIRECTIVE_044): facts derivable from code (pack inventories, counts, checksums,
+    validation status) are GENERATED; purpose, rationale, and how-to are AUTHORED, and the
+    two never restate the same datum. Guides cover use / author / compose / publish / validate
+    a pack and how packs work with the spec-kitty CLI and charter; a pack catalog/hub page
+    gives the cross-pack overview. Write for the stated audience (DIRECTIVE_047) and keep docs
+    in sync with shipped behaviour (DIRECTIVE_037). The canonical changelog is
+    docs/changelog/CHANGELOG.md (root CHANGELOG.md symlinks it).
+  risk_boundaries: >
+    The most costly failure is eroding trust in the marketplace: publishing inaccurate or
+    misleading pack guidance, or a pack that fails validation downstream. Fail CLOSED on pack
+    validation and on generated-content drift. Never fabricate a pack identity. Hold the
+    division of responsibility with core — no doctrine logic is reimplemented here; interim
+    bridges (local checksum, shelled-out validator) are labelled as bridges to core.
+  amendment_process: >
+    Charter changes go through /spec-kitty.charter (edit answers.yaml, regenerate) and are
+    committed explicitly. Material architecture or process decisions are recorded as ADRs
+    under docs/architecture/adr (DIRECTIVE_003); an ADR is superseded, never silently edited.
+  exception_policy: >
+    Deviations are documented in the PR or an ADR with their rationale and, where possible, a
+    tracked follow-up. Pack validation and built-in parity are non-negotiable gates and are
+    not waived.
+selected_paradigms:
+  - extract-then-publish-separation
+  - behaviour-driven-development
+  - specification-by-example
+selected_directives:
+  - DIRECTIVE_042
+  - DIRECTIVE_044
+  - DIRECTIVE_037
+  - DIRECTIVE_047
+  - DIRECTIVE_003
+  - DIRECTIVE_046
+  - DIRECTIVE_045
+  - DIRECTIVE_018
+  - DIRECTIVE_041
+  - DIRECTIVE_053
+available_tools:
+  - git
