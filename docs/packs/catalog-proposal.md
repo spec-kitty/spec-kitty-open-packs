@@ -6,7 +6,6 @@ updated: '2026-10-14'
 related:
 - guides/author-a-doctrine-pack
 - guides/compose-packs
-- ""
 ---
 # Pack Catalog Proposal
 

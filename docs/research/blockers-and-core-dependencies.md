@@ -7,7 +7,6 @@ related:
 - research
 - research/docsite-feasibility-and-generator
 - architecture/adr/2026-07-18-3-build-time-checksum-tagging
-- ""
 ---
 # Blockers & core dependencies
 

@@ -4,7 +4,6 @@ description: Usage and authoring how-to guides for Spec Kitty open doctrine pack
 doc_status: wip
 updated: '2026-10-10'
 related:
-- ""
 - packs/catalog-proposal
 - guides/getting-started
 - guides/author-a-doctrine-pack
