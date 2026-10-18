@@ -86,7 +86,7 @@ See [Organisations](../organisations/index.md) for how these are used.
 | `edges` | `{source, target, relation}`. Endpoints are DRG URNs (`<kind>:<id>`) or ids declared in `nodes`; anything else is refused as `unresolved_edge_endpoint`. |
 
 Relations include `requires`, `suggests`, `applies`, `scope`, `vocabulary`, `delegates_to`,
-`specializes_from`, `enhances`, `overrides`, `refines`, `replaces`, `rejects`,
+`specializes_from`, `enhances`, `overrides`, `refines`, `replaces`, `rejects`, `instantiates`,
 `in_tension_with` and `reconciles_tension`.
 
 ## Consumer registration — `.kittify/config.yaml`
