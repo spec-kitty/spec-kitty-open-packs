@@ -22,10 +22,15 @@ seeded_from:
 local_patches:
   - description: >
       Add the plan mission's four step contracts (plan-specify, plan-research,
-      plan-plan, plan-review) under built-in/missions/built_in_step_contracts/.
-      The seeded-from core commit ships the plan mission type but omits these
-      contracts, so StepContractExecutor composition fails for every plan action
-      ("No step contract found for mission/action plan/<action>"). Core lacks them
+      plan-plan, plan-review) under built-in/missions/built_in_step_contracts/,
+      and regenerate built-in/mission_step_contract.graph.yaml so it carries the
+      four matching mission_step_contract:plan/* nodes. The seeded-from core
+      commit ships the plan mission type but omits these contracts, so
+      StepContractExecutor composition fails for every plan action ("No step
+      contract found for mission/action plan/<action>"). The initial patch added
+      the contracts but left the DRG graph fragment stale (open-packs CI has no
+      regenerate-graph gate, so it passed here; core's `charter pack
+      regenerate-graph --check` caught it on re-pin). Core lacks the contracts
       too; the durable fix is core-side, after which this patch drops on re-seed.
     core_revendor: spec-kitty/spec-kitty#3504
 # snapshot_sha256 from charter.offering.packs.pack_manifest over built-in/
@@ -33,7 +38,7 @@ local_patches:
 # Recomputed over the patched tree (see local_patches above).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: fae0c298d0fb54882d41b0c859ea44fc380655d2dfb895570ac3cdcfa68adbcf
+  value: c88efc66f872830a3bc0c8890bea6ee3746b10c88038c7b9574c39668dd515ad
 # The core versions this content is written against. Mission-step prompts name CLI
 # commands, and step contracts bind to runtime code. It lives here, not in
 # built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
