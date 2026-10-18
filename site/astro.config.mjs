@@ -14,20 +14,24 @@ export default defineConfig({
   base: BASE,
   integrations: defineDocKittyIntegrations({
     title: 'spec-kitty-open-packs',
-    description: 'Open, free doctrine packs for Spec Kitty: usage guides, authoring guides, and the pack catalog.',
+    description: 'Open Charter Packs for Spec Kitty (Brain Kitty): the pack catalog, artefact and contract reference, organisational support, and usage and authoring guides.',
     // MUST equal the site `base` above.
     base: BASE,
     // MUST equal the loader `base` in src/content.config.ts. Without it the toolkit
     // looks for site/docs, ignores docs/_meta/sections.yaml and lists drafts in the sitemap.
     docsDir: '../docs',
-    // Brain Kitty brand mark (olive bow tie) over the Spec Kitty theme.
-    theme: { extends: specKittyTheme, assets: { logo: './src/assets/brain-kitty.png' } },
+    // Brain Kitty brand mark (olive bow tie) and olive colourway over the Spec Kitty theme.
+    theme: {
+      extends: specKittyTheme,
+      assets: { logo: './src/assets/brain-kitty.png' },
+      customCss: ['./src/styles/brain-kitty.css'],
+    },
     markua: true,
     // Mermaid fences render in the browser (doc-kitty's client renderer); no PlantUML
     // or Chromium is needed at build time. PlantUML diagrams are committed as SVGs.
     diagrams: true,
-    // MUST match the loader in src/content.config.ts. The open-packs docs tree
-    // uses index.md as the section landing page (README kept as a fallback).
+    // The single source of index basenames (the loader and the dockitty-* CLI
+    // read it from here). The docs tree uses index.md as the section landing page.
     indexBasename: ['index', 'README'],
   }),
 });

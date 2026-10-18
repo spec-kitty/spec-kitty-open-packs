@@ -1,0 +1,29 @@
+/*
+ * Brain Kitty colourway: an olive overlay on the Spec Kitty theme.
+ *
+ * The Spec Kitty theme signals with yellow (#F5C518). Brain Kitty is the olive
+ * line of the brand (the bow tie in the logo), so this sheet re-declares only
+ * the accent tokens; surfaces, type and every other token stay the theme's.
+ * It is loaded through `theme.customCss`, after the theme's own tokens.css,
+ * and repeats the theme's two selectors so it wins by source order.
+ *
+ * Contrast (WCAG 2.x):
+ *   light link  #5A6618 on paper #FBFAF7 ......... 6.0:1 (AA)
+ *   dark link   #B5C44A on nav   #121317 ......... 9.7:1 (AAA)
+ *   CTA ink     #141A05 on accent #A3B536 ........ 7.8:1 (AAA, both modes)
+ */
+:root {
+  --dk-color-text-accent: #5A6618;  /* deep olive: link text on paper */
+  --dk-color-accent-low: #EEF2D6;   /* pale olive tint */
+  --dk-color-accent: #A3B536;       /* the olive signal (both modes) */
+  --dk-color-accent-high: #6B7A1F;  /* logo olive: hover/strong */
+  --dk-color-accent-text: #141A05;  /* dark ink on olive (both modes) */
+}
+
+:root[data-theme='dark'] {
+  --dk-color-text-accent: #B5C44A;  /* light olive: link text on dark */
+  --dk-color-accent-low: #23280F;   /* deep olive tint */
+  --dk-color-accent: #A3B536;
+  --dk-color-accent-high: #C3D35A;  /* brighter on dark */
+  --dk-color-accent-text: #141A05;
+}
