@@ -96,7 +96,7 @@ contributes appear with `source: org`.
 
 - **Pin versions** so a moving `main` doesn't silently change behaviour for every consumer on
   every fetch.
-- **Opt in deliberately.** The point of packs is to *avoid* loading doctrine you don't need.
+- **Opt in deliberately.** The point of packs is to *avoid* loading charter artefacts you don't need.
   Add only the packs whose domain matches your project, and activate only what you use, so
   context stays lean.
 

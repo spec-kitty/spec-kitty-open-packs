@@ -4,12 +4,12 @@ description: How Spec Kitty 4.x composes Charter Packs vertically (built-in, org
 doc_status: wip
 updated: '2026-10-10'
 related:
-- guides/use-a-doctrine-pack
+- guides/use-a-charter-pack
 - packs/catalog-proposal
 ---
 # Compose packs
 
-Spec Kitty composes doctrine along two axes. Understanding both is the key to keeping a
+Spec Kitty composes charter artefacts along two axes. Understanding both is the key to keeping a
 project's context lean while still pulling in exactly the governance you want.
 
 > **🚧 WIP.** Horizontal composition via compound `depends_on` packs is being established by
@@ -18,7 +18,7 @@ project's context lean while still pulling in exactly the governance you want.
 
 ## Vertical composition (today)
 
-Doctrine resolves in layers, later layers overriding earlier ones by artifact `id`:
+Charter artefacts resolve in layers, later layers overriding earlier ones by artifact `id`:
 
 ```
 built-in   →   org (packs)   →   project (local overlay)
@@ -90,7 +90,7 @@ the assembled graph.
 
 ## Keeping context lean
 
-Composition multiplies the doctrine in play. Two habits keep sessions from flooding:
+Composition multiplies the charter artefacts in play. Two habits keep sessions from flooding:
 
 1. **Add only the packs your project's domain needs.** Prefer a focused stack over "activate
    everything."
@@ -100,6 +100,6 @@ Composition multiplies the doctrine in play. Two habits keep sessions from flood
 
 ## See also
 
-- [Use a Charter Pack](use-a-doctrine-pack.md)
+- [Use a Charter Pack](use-a-charter-pack.md)
 - [Pack catalog proposal](../packs/catalog-proposal.md) — proposed packs and the compound
   stacks built on them.
