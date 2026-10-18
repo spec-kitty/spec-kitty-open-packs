@@ -1,127 +1,124 @@
 <div align="center">
-    <img src="https://github.com/spec-kitty/spec-kitty/raw/main/docs/assets/logo_small.webp" alt="Spec Kitty logo"/>
+    <img src="site/src/assets/brain-kitty.png" alt="Brain Kitty logo" width="160"/>
     <h1>Spec Kitty Open Packs</h1>
-    <p><strong>Open, free doctrine packs for Spec Kitty — domain- and purpose-specific behavioural configuration you compose into your own codebase.</strong></p>
+    <p><strong>Open, free Charter Packs for Spec Kitty — the governed, distributable behavioural configuration of the Brain Kitty line.</strong></p>
 </div>
 
-> [!WARNING]
-> **🚧 Work in progress — this is a product-direction shift, not a finished repository.**
->
-> `spec-kitty-open-packs` is the seed of a **doctrine-packs-as-a-marketplace** direction for
-> Spec Kitty. It is being stood up in the open, deliberately early, so the design can be
-> shaped in public. Expect churn: pack names, boundaries, the manifest schema, and the
-> composition mechanics **will change**. Nothing here is stable or versioned for production
-> use yet. Track the direction through the [open epics](#where-this-is-going) and the
-> [pack catalog proposal](docs/packs/catalog-proposal.md).
-
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow?style=flat-square)](LICENSE)
-[![Status: WIP](https://img.shields.io/badge/status-work_in_progress-orange?style=flat-square)](#-work-in-progress--this-is-a-product-direction-shift-not-a-finished-repository)
-[![Doctrine logic: upstream](https://img.shields.io/badge/doctrine_logic-spec--kitty%2Fspec--kitty-blue?style=flat-square)](https://github.com/spec-kitty/spec-kitty)
+[![Status: WIP](https://img.shields.io/badge/status-work_in_progress-orange?style=flat-square)](#status)
+[![Docs](https://img.shields.io/badge/docs-spec--kitty.github.io-6B7A1F?style=flat-square)](https://spec-kitty.github.io/spec-kitty-open-packs/)
 
-## Why this repository exists
+> [!WARNING]
+> **Work in progress.** Pack boundaries, the manifest schema and the composition mechanics are
+> still moving. Nothing here is versioned for production use yet.
 
-[Spec Kitty](https://github.com/spec-kitty/spec-kitty) ships a large, multi-domain set of
-**built-in doctrine** — the directives, tactics, styleguides, paradigms, procedures,
-toolguides, and agent profiles that shape how AI coding agents behave under governance.
+## What this is
 
-That built-in set is a single monolithic bundle. Spec Kitty's default charter behaviour is
-**"activate everything when not explicitly constrained"**, and while every project is guided
-to author a charter, doing so is *not enforced* (by design). The consequence: a consumer
-project that skips the charter step inherits the whole multi-domain corpus and **floods every
-LLM session's context** with doctrine it does not need.
+A **Charter Pack** is a distributable bundle of charter artefacts — directives, tactics,
+styleguides, toolguides, paradigms, procedures, agent profiles, skills, glossary packs and
+presets — that shapes how AI agents work on a governed [Spec Kitty](https://github.com/spec-kitty/spec-kitty)
+project. This repository is where those packs are **authored, validated and published**.
 
-This repository is the answer to that problem. Instead of one monolith, doctrine becomes a
-set of **coherent, composable, opt-in packs** that consumers pull in deliberately:
+Spec Kitty has three product lines:
 
-- **Domain / purpose packs** — e.g. a Domain-Driven Design pack, a Java development pack, a
-  web/frontend pack, a testing & BDD pack — each a self-consistent slice you can adopt on its
-  own.
-- **Vertical *and* horizontal composition** — Spec Kitty core today composes doctrine
-  *vertically* (built-in → org → project layers). Packs add *horizontal* composition:
-  independent packs, and **compound packs** that declare `depends_on` other packs, resolved
-  as a DAG.
-- **Shared validation** — a single canonical place to validate a pack, so downstream authors
-  can lint their work against the same rules instead of each maintaining a bespoke suite.
-
-## Division of responsibility
-
-This repository holds **content and packaging**. The **logic** that makes doctrine work stays
-in Spec Kitty core.
-
-| Concern | Lives in |
+| Line | What it is |
 | --- | --- |
-| Doctrine artifacts, packs, compound packs | **this repo** (`spec-kitty-open-packs`) |
-| Pack authoring & usage guides | **this repo** (`docs/guides/`) |
-| Doctrine mechanics, resolution, DRG, activation engine | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
-| Pack manifest schema, validator, assembler | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) (consumed here) |
+| **Build Kitty** | The free CLI that runs Missions, and its Mission Status Read API. |
+| **Brain Kitty** | Governance: the charter ([`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)) and the Charter Packs it serves — **this repository**. |
+| **Team Kitty** | "Multiplayer Mode": UI and multiplayer surfaces that consume the open-core APIs. |
 
-Cross-referencing between the two repositories is expected and encouraged. Issues here track
-**pack creation**; issues in core track **doctrine functionality and logic**.
+## How packs reach the CLI
 
-## Where this is going
-
-The direction is grounded in these open epics in Spec Kitty core (this repository is the
-downstream home for the *content* they enable):
-
-| Epic | What it establishes |
-| --- | --- |
-| [#2466 — Doctrine/Charter extensibility & pack ecosystem](https://github.com/spec-kitty/spec-kitty/issues/2466) | The umbrella: turn the scattered doctrine substrate into an author-able pack ecosystem. |
-| [#2467 — Split built-in doctrine into packs + compound packs (KEYSTONE)](https://github.com/spec-kitty/spec-kitty/issues/2467) | Split the monolith into named packs; give packs a `depends_on` DAG. |
-| [#2471 — Standalone pack validator as a lightweight CI entry point](https://github.com/spec-kitty/spec-kitty/issues/2471) | The canonical validation surface authors reuse. |
-| [#2539 — Pack trust, verifiability & verified distribution](https://github.com/spec-kitty/spec-kitty/issues/2539) | Provenance, integrity, and a graduated trust signal for packs. |
-| [#2519 — Charter authoring & lifecycle robustness](https://github.com/spec-kitty/spec-kitty/issues/2519) | Making the charter that *selects* packs easy and robust to author. |
-
-See the [pack catalog proposal](docs/packs/catalog-proposal.md) for the concrete set of packs
-we intend to carve out of the current built-in corpus, and the
-[open-packs issue tracker](https://github.com/spec-kitty/spec-kitty-open-packs/issues) for
-per-pack progress.
-
-## What a pack looks like
-
-A pack is a directory with one subdirectory per artifact kind — the same canonical layout
-Spec Kitty 4.x resolves for org Charter Packs:
-
-```
-my-pack/
-├── directives/                 # *.directive.yaml
-├── tactics/                    # *.tactic.yaml
-├── styleguides/                # *.styleguide.yaml
-├── toolguides/                 # *.toolguide.yaml
-├── paradigms/                  # *.paradigm.yaml
-├── procedures/                 # *.procedure.yaml
-├── agent_profiles/             # *.agent.yaml
-├── presets/                    # <name>.yaml — activation presets
-├── drg/fragment.yaml           # additive DRG fragment
-└── org-charter.yaml            # optional: policy / required artifacts
+```mermaid
+flowchart LR
+  BI["built-in/"] -- vendored at release --> OF
+  PK["packs/*"] -- registered + fetched --> OF
+  OF["Charter Offering<br/>built-in + org + project"] -- charter activate --> AC["Active Charter"]
+  AC -- charter context --> CLI["Spec Kitty CLI"]
 ```
 
-Artifact directories are optional; every pack ships `drg/fragment.yaml` (empty is fine). Consumers register a pack
-under `charter_packs.org.packs` in `.kittify/config.yaml` (git ref plus `subdir`, HTTPS
-bundle, or API), pin a version, and validate with `spec-kitty charter pack validate`.
+- **`built-in/`** is the source of the built-in pack. The CLI vendors a pinned, checksummed ref
+  of it, so every install carries it.
+- **`packs/*`** are opt-in org-tier packs. A project registers them in `.kittify/config.yaml`
+  and fetches them with `spec-kitty charter fetch`.
+- Together with the project's own layer they form the project's **Charter Offering**; what the
+  project activates from it is its **Active Charter**. At each Mission step the CLI asks the
+  charter for the guidance that applies.
 
-New to packs? Start with the guides:
+The **logic** — resolution, the Doctrine Relationship Graph (DRG), activation, the manifest
+schema and the validator — belongs to the charter, today inside the core CLI and moving to
+`spec-kitty-charter`. This repository holds **content and packaging**.
 
-- **Usage:** [Use a Charter Pack](docs/guides/use-a-doctrine-pack.md) · [Compose packs](docs/guides/compose-packs.md)
-- **Authoring:** [Author a Charter Pack](docs/guides/author-a-doctrine-pack.md) · [Validate a pack](docs/guides/validate-a-pack.md) · [Publish a pack](docs/guides/publish-a-pack.md)
+## The packs
 
-## Status & stability
+| Pack | Tier | What it is |
+| --- | --- | --- |
+| [`built-in`](built-in/) | built-in | Spec Kitty's built-in charter corpus; ships with the CLI. |
+| [`qa`](packs/qa/) | org (opt-in) | QA and promise traceability. |
+| [`event-driven`](packs/event-driven/) | org (opt-in) | Event-sourced design: versioned events, projections, idempotent consumers. |
+| [`cave-kitty`](packs/cave-kitty/) | org (opt-in) | A terse, outcome-first communication voice. |
+| [`internal`](packs/internal/) | org (maintainers) | Spec Kitty's own maintainer pack; never shipped in the CLI. |
+
+Generated per-pack reference: [Packs](https://spec-kitty.github.io/spec-kitty-open-packs/packs/).
+
+## Quick start
+
+```yaml
+# .kittify/config.yaml
+charter_packs:
+  org:
+    packs:
+      - name: qa
+        local_path: "${SPEC_KITTY_PACK_HOME}/qa"
+        source_type: git
+        url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
+        ref: "<commit SHA or tag>"   # never a branch
+        subdir: packs/qa
+```
+
+```bash
+spec-kitty charter fetch --pack qa
+spec-kitty charter pack list
+spec-kitty charter activate directive QA_001
+```
+
+Full walkthrough: [Getting started](https://spec-kitty.github.io/spec-kitty-open-packs/guides/getting-started/).
+
+## For organisations
+
+Packs are layered **built-in → org → project**. An org pack's `org-charter.yaml` can make
+artefacts mandatory for every project that registers it (`required_<kind>`) and namespaces the
+skills it ships; the built-in pack ships `default` and `minimal` presets as standard
+provisionings. See [Organisations](https://spec-kitty.github.io/spec-kitty-open-packs/organisations/).
+
+## Documentation
+
+The docsite is built with [doc-kitty](https://github.com/spec-kitty/doc-kitty) from [`docs/`](docs/):
+
+- [Overview](https://spec-kitty.github.io/spec-kitty-open-packs/) and [architecture](https://spec-kitty.github.io/spec-kitty-open-packs/architecture/overview/)
+- [Charter artefacts](https://spec-kitty.github.io/spec-kitty-open-packs/artefacts/) — the structure of each kind
+- [Contracts](https://spec-kitty.github.io/spec-kitty-open-packs/contracts/) — pack files, registration, commands, charter seams
+- [Guides](https://spec-kitty.github.io/spec-kitty-open-packs/guides/) — use, compose, author, validate, publish
+- [Glossary](https://spec-kitty.github.io/spec-kitty-open-packs/glossary/)
+
+## Status
 
 | Aspect | State |
 | --- | --- |
-| Repository | Bootstrapping — structure and conventions being established. |
-| Pack catalog | **Proposed**, not yet materialized. See the [catalog proposal](docs/packs/catalog-proposal.md). |
-| Manifest schema / composition | Defined upstream in core (`#2467`), tracked, subject to change. |
-| Validation tooling | Consumed from core (`#2471`); not yet wired into this repo's CI. |
-| Trust / verified distribution | Roadmap only (`#2539`). |
+| Packs | `built-in`, `qa`, `event-driven`, `cave-kitty`, `internal` exist; the wider [catalog](docs/packs/catalog-proposal.md) is proposed. |
+| Validation | `spec-kitty charter pack validate` runs in CI for every pack. |
+| Compound packs (`depends_on`) | Planned ([spec-kitty#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)). |
+| Trust / verified distribution | Planned ([spec-kitty#2539](https://github.com/spec-kitty/spec-kitty/issues/2539)). |
+
+Issues here track **pack content**; issues in [core](https://github.com/spec-kitty/spec-kitty/issues)
+track **charter behaviour**.
 
 ## Contributing
 
-This is an open, community-facing repository. Pack proposals, corrections, and authoring
-feedback are welcome — see [CONTRIBUTING](CONTRIBUTING.md) and the
-[Code of Conduct](CODE_OF_CONDUCT.md). Because packs can eventually ship executable gate
-assets, please read the [security position](SECURITY.md) before proposing code-bearing
-artifacts.
+Pack proposals, corrections and authoring feedback are welcome — see
+[CONTRIBUTING](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Packs can ship
+executable assets, so read the [security position](SECURITY.md) before proposing one.
 
 ## License
 
-[MIT](LICENSE). Doctrine content is free to use, adapt, and redistribute.
+[MIT](LICENSE). Charter content is free to use, adapt and redistribute.

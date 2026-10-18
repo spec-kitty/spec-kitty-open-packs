@@ -1,11 +1,11 @@
 ---
 title: Publish a pack
-description: Distribute a Spec Kitty doctrine pack via git, HTTPS bundle, or a custom API; version it for reproducibility; and account for the pack trust surface.
+description: Distribute a Spec Kitty Charter Pack via git, HTTPS bundle, or a custom API; version it for reproducibility; and account for the pack trust surface.
 doc_status: wip
 updated: '2026-10-10'
 related:
 - guides/validate-a-pack
-- guides/use-a-doctrine-pack
+- guides/use-a-charter-pack
 ---
 # Publish a pack
 
@@ -22,7 +22,7 @@ git tag pack/<pack>/v0.1.0
 git push origin pack/<pack>/v0.1.0
 ```
 
-Consumers point at the remote and pin the ref (see [Use a Charter Pack](use-a-doctrine-pack.md)).
+Consumers point at the remote and pin the ref (see [Use a Charter Pack](use-a-charter-pack.md)).
 
 > **Subdirectory packs.** Consumers fetch one pack out of this repository with the `subdir`
 > field of their `charter_packs.org.packs` entry (for example `subdir: packs/qa`),
@@ -40,7 +40,7 @@ tar czf <pack>-v0.1.0.tar.gz -C ./packs/<pack> .
 ## Option C — Custom HTTP API
 
 For organisations with a governance API server, expose pack contents under a base URL. The
-contract is defined in Spec Kitty core's org-doctrine source-API contract.
+contract is defined in Spec Kitty core's org Charter Pack source-API contract.
 
 ## Assemble a compound distributable
 
@@ -76,4 +76,4 @@ Read the [security position](../../SECURITY.md) before publishing a code-bearing
 
 ## Next
 
-- [Use a Charter Pack](use-a-doctrine-pack.md) — the consumer side of what you just published.
+- [Use a Charter Pack](use-a-charter-pack.md) — the consumer side of what you just published.

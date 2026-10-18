@@ -5,7 +5,7 @@ doc_status: wip
 updated: '2026-10-17'
 related:
 - guides
-- guides/use-a-doctrine-pack
+- guides/use-a-charter-pack
 - guides/compose-packs
 ---
 # Getting started: adopt your first pack
@@ -16,8 +16,8 @@ you will have fetched a real pack from this repository, activated one of its rul
 confirmed the charter is putting it in force.
 
 We use the **`qa`** pack as the example. It is deliberately *inert*: it ships quality-assurance
-doctrine but activates nothing on its own, so you can adopt it beside your team's existing
-doctrine and turn on exactly the one rule this tutorial activates.
+charter artefacts but activates nothing on its own, so you can adopt it beside your team's existing
+charter and turn on exactly the one rule this tutorial activates.
 
 ## Before you start
 
@@ -57,7 +57,7 @@ export SPEC_KITTY_PACK_HOME=~/.cache/spec-kitty-packs
 ```
 
 An unset variable fails the fetch in the next step. For the full field reference, see
-[Use a Charter Pack](use-a-doctrine-pack.md).
+[Use a Charter Pack](use-a-charter-pack.md).
 
 ## Step 2 — Fetch the pack
 
@@ -80,7 +80,7 @@ This lists the `qa` pack with its on-disk version and per-artifact counts, and r
 collisions or unsanctioned overrides. A healthy report exits `0`; an unhealthy one exits `1`
 and prints the finding. Add `--json` if you want to script the check.
 
-At this point the pack's doctrine is *offered* to your project — but, because `qa` is inert,
+At this point the pack's artefacts are *offered* to your project — but, because `qa` is inert,
 nothing is active yet.
 
 ## Step 4 — Activate one rule
@@ -127,6 +127,6 @@ activated → in force.**
 
 ## Next
 
-- [Use a Charter Pack](use-a-doctrine-pack.md) — the full consumer reference: every config
+- [Use a Charter Pack](use-a-charter-pack.md) — the full consumer reference: every config
   field, preset activation, and resolution detail.
 - [Compose packs](compose-packs.md) — add several packs at once and see how conflicts resolve.

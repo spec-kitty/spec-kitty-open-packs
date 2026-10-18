@@ -24,7 +24,7 @@ packs/<pack-name>/
 └── org-charter.yaml     # optional policy / required artifacts
 ```
 
-See [Author a Charter Pack](../docs/guides/author-a-doctrine-pack.md) to add one, and
+See [Author a Charter Pack](../docs/guides/author-a-charter-pack.md) to add one, and
 [Validate a pack](../docs/guides/validate-a-pack.md) before you open a PR. CI validates every
 directory here on each pull request (`scripts/ci/validate-packs.sh`).
 

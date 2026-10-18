@@ -12,7 +12,7 @@ related:
 
 This guide walks a pack author from an empty directory to a validated pack. It adapts the
 canonical upstream reference,
-[How to Create an Org Doctrine Pack](https://github.com/spec-kitty/spec-kitty/blob/main/docs/guides/how-to/governance/create-an-org-doctrine-pack.md),
+[How to create an org Charter Pack (core)](https://github.com/spec-kitty/spec-kitty/blob/main/docs/guides/how-to/governance/create-an-org-doctrine-pack.md),
 for the open-packs marketplace. Where that guide and the artifact schemas disagree, the schemas
 (`src/charter/offering/schemas/`) and `spec-kitty charter pack validate` win. You do **not** need a Spec Kitty project to author a pack.
 

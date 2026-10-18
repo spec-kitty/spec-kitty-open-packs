@@ -1,26 +1,26 @@
 ---
 title: Contributing to Spec Kitty Open Packs
-description: How to propose, author, and submit doctrine packs and documentation to the Spec Kitty Open Packs repository, including the WIP status and where doctrine logic lives.
+description: How to propose, author, and submit Charter Packs and documentation to the Spec Kitty Open Packs repository, including the WIP status and where charter logic lives.
 doc_status: wip
 updated: '2026-10-10'
 related:
-- guides/author-a-doctrine-pack
+- guides/author-a-charter-pack
 - guides/validate-a-pack
 ---
 # Contributing to Spec Kitty Open Packs
 
-Thanks for your interest. This repository distributes **open, free doctrine packs** for
+Thanks for your interest. This repository distributes **open, free Charter Packs** for
 [Spec Kitty](https://github.com/spec-kitty/spec-kitty). It is deliberately **early and
-in-the-open** — a product-direction shift toward doctrine-packs-as-a-marketplace. Conventions
+in-the-open** — a product-direction shift toward Charter-Packs-as-a-marketplace. Conventions
 here will change; contributions that help shape them are welcome.
 
 ## What belongs here vs. in core
 
 | You want to… | Contribute to |
 | --- | --- |
-| Propose or author a doctrine pack | **this repository** |
+| Propose or author a Charter Pack | **this repository** |
 | Improve a usage or authoring guide | **this repository** |
-| Change how doctrine is resolved, validated, or composed | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
+| Change how charter artefacts are resolved, validated, or composed | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
 | Change the pack manifest schema or the validator | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
 
 If you are unsure, open an issue here first and we will help route it. Cross-referencing
@@ -35,12 +35,12 @@ between the two repositories is expected.
    artifacts it would contain (ideally referencing existing built-in artifacts), any
    `depends_on` packs, and the intended consumer.
 3. Once the scope is agreed, author the pack following
-   [Author a Charter Pack](author-a-doctrine-pack.md).
+   [Author a Charter Pack](author-a-charter-pack.md).
 
 ## Authoring standards
 
 - **Namespace your IDs.** Use an organisation/pack prefix so IDs don't collide silently with
-  built-in or project doctrine. See the authoring guide for the recommended patterns.
+  built-in or project charter artefacts. See the authoring guide for the recommended patterns.
 - **One rule per file.** Resist dumping a whole policy page into a single artifact — split so
   each rule can be cited individually.
 - **Validate before you push.** Run the canonical validator (see
