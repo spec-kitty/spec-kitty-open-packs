@@ -7,8 +7,8 @@ assignees: []
 ---
 
 <!--
-If the problem is in doctrine resolution, the pack validator, or the manifest schema,
-file it in spec-kitty/spec-kitty instead — that is where doctrine logic lives.
+If the problem is in charter resolution, the pack validator, or the manifest schema,
+file it in spec-kitty/spec-kitty instead — that is where charter logic lives.
 -->
 
 ## What's wrong

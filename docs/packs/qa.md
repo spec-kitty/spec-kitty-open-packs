@@ -1,6 +1,6 @@
 ---
 title: qa pack reference
-description: "Generated reference for the qa doctrine pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the qa Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
 updated: '2026-10-17'
 kind: Reference
@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `1835df5cb8517f2949c094f2ec9b35d533e9b6be6adf60f7bf38481d54c63b89`
+- **Content checksum (sha256):** `2ab6ccf801c66a451aac0f104d70c4bc8e27d887f12b09b97349b713636d5400`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

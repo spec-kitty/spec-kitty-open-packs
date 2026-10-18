@@ -1,6 +1,6 @@
 ---
-title: Vision — canonical publishing home for Spec Kitty doctrine packs
-description: The product vision for spec-kitty-open-packs as the curated, checksum-verifiable publishing home for Spec Kitty doctrine packs, served by a content-from-code docsite.
+title: Vision — canonical publishing home for Spec Kitty Charter Packs
+description: The product vision for spec-kitty-open-packs as the curated, checksum-verifiable publishing home for Spec Kitty Charter Packs, served by a content-from-code docsite.
 doc_status: active
 updated: '2026-07-18'
 related:
@@ -12,10 +12,10 @@ related:
 
 ## The problem this repository answers
 
-Spec Kitty ships a large, multi-domain set of **built-in doctrine** as a single monolithic bundle,
+Spec Kitty ships a large, multi-domain set of **built-in charter artefacts** as a single monolithic bundle,
 and its default behaviour is "activate everything when not explicitly constrained." A consumer
 project that skips the (unenforced) charter step inherits the whole corpus and **floods every LLM
-session's context** with doctrine it does not need.
+session's context** with charter artefacts it does not need.
 
 `spec-kitty-open-packs` replaces the monolith with **coherent, composable, opt-in packs** — domain
 and purpose slices a team adopts deliberately, composed both **vertically** (built-in → org →
@@ -24,7 +24,7 @@ project) and **horizontally** (independent packs, and compound packs via `depend
 ## The vision statement
 
 > **`spec-kitty-open-packs` is the canonical, curated, community-friendly publishing home for Spec
-> Kitty doctrine packs — where every pack is discoverable, documented straight from its source, and
+> Kitty Charter Packs — where every pack is discoverable, documented straight from its source, and
 > verifiable by checksum before it is trusted.**
 
 Three commitments follow from that sentence:
@@ -57,9 +57,9 @@ The docsite is the **public face** of these commitments. It must be:
 
 | Concern | Lives in |
 | --- | --- |
-| Doctrine artifacts, packs, compound packs, **the docsite** | **this repo** (`spec-kitty-open-packs`) |
+| Charter artefacts, packs, compound packs, **the docsite** | **this repo** (`spec-kitty-open-packs`) |
 | Pack authoring & usage guides | **this repo** (`docs/guides/`) |
-| Doctrine mechanics, resolution, DRG, activation | core (`Priivacy-ai/spec-kitty`) |
+| Charter mechanics, resolution, DRG, activation | core (`spec-kitty/spec-kitty`) |
 | Pack **manifest schema, validator, checksum/verified distribution** | core (consumed here) |
 
 The docsite direction leans on core work that is **planned but not fully landed** — the pack
