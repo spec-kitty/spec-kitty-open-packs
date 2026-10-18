@@ -116,7 +116,7 @@ the navigation source of truth; it is retained only as historical input to the I
 | Need | Core status | Design response |
 | --- | --- | --- |
 | Stable pack manifest schema (`pack_id`/`version`/`depends_on`) | #2467 planned, not landed | Interim `pack.yaml` in open-packs; adopt core fields when they land |
-| Reusable validator surface | #2471 planned; logic exists inside `specify_cli` | Shell out to `spec-kitty charter pack validate --json` now; swap to `doctrine-validate` later |
+| Reusable validator surface | #2471 planned; logic exists inside `specify_cli` | Shell out to `spec-kitty charter pack validate --json` now; swap to the standalone validator (#2471) when it lands |
 | Checksum / verified distribution | #2539/#2543 planned, P3, exec-asset-scoped | Generate own interim content hash; defer to canonical scheme later |
 | Docsite pipeline | core #2314 runs it (DocFX) for core's own site | Reuse the generate → build → Pages *pattern* on the shared doc-kitty (Astro) toolchain ([ADR 2026-10-17-1](adr/2026-10-17-1-doc-kitty-astro-as-docsite-generator.md), superseding [ADR-1](adr/2026-07-18-1-mkdocs-material-as-docsite-generator.md)) |
 

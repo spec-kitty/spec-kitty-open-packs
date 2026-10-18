@@ -68,7 +68,9 @@ is used.
 The offering is everything **available**; the Active Charter is what is **in force**. A kind
 with no activation key is unrestricted (every offered artefact of that kind is effective) —
 except skills, where only org-required skills are in force until the project activates more.
-Org `required_<kind>` lists are always in force for projects that register the pack.
+Org `required_<kind>` lists are in force for projects that register the pack; for most kinds
+they also join the project's selection, while required skills, glossary packs and assets are
+required without being merged into it (see [Organisations](../organisations/index.md)).
 
 ## The charter entry seams
 
