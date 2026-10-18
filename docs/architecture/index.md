@@ -2,8 +2,9 @@
 title: Architecture
 description: Design, vision, and architecture decision records for spec-kitty-open-packs — including the direction for a content-from-code, checksum-tagged docsite.
 doc_status: active
-updated: '2026-07-18'
+updated: '2026-10-18'
 related:
+- architecture/overview
 - architecture/vision
 - architecture/docsite-design
 - architecture/adr
@@ -11,16 +12,17 @@ related:
 ---
 # Architecture
 
-The design and decision surface for `spec-kitty-open-packs`. This repository holds doctrine-pack
-**content and packaging**; doctrine **logic** (resolution, the DRG, activation, the manifest
-schema, the validator) lives in [`Priivacy-ai/spec-kitty`](https://github.com/Priivacy-ai/spec-kitty)
+The design and decision surface for `spec-kitty-open-packs`. This repository holds Charter Pack
+**content and packaging**; charter **logic** (resolution, the DRG, activation, the manifest
+schema, the validator) lives in [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty)
 core. The architecture here is therefore mostly about **how content is organized, published, and
-trusted** — not about doctrine mechanics.
+trusted** — not about charter mechanics.
 
 ## Contents
 
 | Document | Purpose |
 | --- | --- |
+| [Architectural overview](overview.md) | How a Charter Pack reaches a running Mission: tiers, the Charter Offering, the Active Charter and the charter entry seams. |
 | [Vision](vision.md) | Why this repository exists and where the docsite fits in the pack-marketplace direction. |
 | [Docsite design](docsite-design.md) | The content-from-code docsite: pipeline, generated-vs-authored split, checksum tagging. |
 | [ADRs](adr/index.md) | Architecture Decision Records — the durable rationale behind each choice. |
