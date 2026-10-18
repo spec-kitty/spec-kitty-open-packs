@@ -129,7 +129,7 @@ charter_packs:
 | Seam | Purpose |
 | --- | --- |
 | `charter.offering.api` | The only entry point for CLI reads of the offering. |
-| `charter.activation` | Reads and changes the Active Charter. |
+| `charter.activation.api` | Reads and changes the Active Charter. |
 
 Both are Python packages in the core CLI today. The
 [`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) repository will hold
