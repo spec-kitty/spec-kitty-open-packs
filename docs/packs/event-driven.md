@@ -1,6 +1,6 @@
 ---
 title: event-driven pack reference
-description: "Generated reference for the event-driven doctrine pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the event-driven Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
 updated: '2026-10-17'
 kind: Reference

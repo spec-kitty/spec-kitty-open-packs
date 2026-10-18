@@ -1,6 +1,6 @@
 ---
 title: built-in pack reference
-description: "Generated reference for the built-in doctrine pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the built-in Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
 updated: '2026-10-17'
 kind: Reference

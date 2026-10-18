@@ -1,7 +1,7 @@
 <!--
 Use this template for pull requests to spec-kitty-open-packs.
 
-This repository distributes doctrine *content* (packs) and docs. Doctrine *logic*
+This repository distributes charter *content* (packs) and docs. Charter *logic*
 lives in spec-kitty/spec-kitty — if your change is about resolution, validation,
 or the manifest schema, it probably belongs there instead.
 -->
@@ -12,7 +12,7 @@ or the manifest schema, it probably belongs there instead.
 
 ## Type of change
 
-- [ ] New or updated doctrine pack
+- [ ] New or updated Charter Pack
 - [ ] Documentation (guide, README, changelog)
 - [ ] Repository scaffolding / tooling
 - [ ] Other (describe)

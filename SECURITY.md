@@ -5,24 +5,24 @@
 
 ## What this repository is
 
-`spec-kitty-open-packs` distributes **doctrine content** — YAML artifacts (directives,
+`spec-kitty-open-packs` distributes **charter content** — YAML artifacts (directives,
 tactics, styleguides, paradigms, procedures, toolguides, agent profiles) plus, over time,
-shared **pack-validation code** that pack authors can reuse. Doctrine content is data that
+shared **pack-validation code** that pack authors can reuse. Charter content is data that
 Spec Kitty resolves into agent context; it does not, by itself, execute.
 
 ## Trust surface
 
-Most doctrine artifacts are inert data. Two categories carry a real trust surface and are
+Most charter artefacts are inert data. Two categories carry a real trust surface and are
 treated with care here:
 
-1. **Executable gate assets.** As the doctrine-controlled transition-gate work matures
+1. **Executable gate assets.** As the charter-controlled transition-gate work matures
    (see [`spec-kitty/spec-kitty#2535`](https://github.com/spec-kitty/spec-kitty/issues/2535)
    and the trust epic [`#2539`](https://github.com/spec-kitty/spec-kitty/issues/2539)),
    packs may ship code that runs behind a trust envelope. Any such asset in this repository
    must declare its executable paths and requirements, and consumers are warned at
    activation time.
 2. **Pack integrity.** Pack authors and operators need provenance and tamper-evidence
-   before running third-party doctrine. Content-hash integrity and a graduated trust signal
+   before running third-party charter content. Content-hash integrity and a graduated trust signal
    (built-in / org-pack / third-party / verified) are tracked upstream and will be reflected
    in this repository's authoring and validation guidance as they land.
 
@@ -39,4 +39,4 @@ for the broader core stance.
 - Review a pack's contents before activation; prefer packs whose IDs are namespaced and
   whose artifacts are inert data.
 - Run any AI coding agent under your organization's approved sandbox / approval / network
-  controls, independent of the doctrine it loads.
+  controls, independent of the charter content it loads.

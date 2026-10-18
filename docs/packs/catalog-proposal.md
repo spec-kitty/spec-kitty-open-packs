@@ -1,16 +1,16 @@
 ---
 title: Pack Catalog Proposal
-description: Proposed set of domain and purpose doctrine packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
+description: Proposed set of domain and purpose Charter Packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
 doc_status: wip
 updated: '2026-10-14'
 related:
-- guides/author-a-doctrine-pack
+- guides/author-a-charter-pack
 - guides/compose-packs
 ---
 # Pack Catalog Proposal
 
 > **🚧 Proposal, not a materialized catalog.** This document proposes how the current Spec
-> Kitty **built-in** doctrine corpus could be carved into coherent, composable **packs**. It
+> Kitty **built-in** charter corpus could be carved into coherent, composable **packs**. It
 > is the grounding for the per-pack tracking issues in this repository. Names, boundaries,
 > and membership are **subject to change** and will be refined issue-by-issue. Doctrine
 > *logic* stays in [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty); this
@@ -18,7 +18,7 @@ related:
 
 ## Why carve the monolith
 
-Spec Kitty ships built-in doctrine as one bundle, and its default is "activate everything
+Spec Kitty ships its built-in charter artefacts as one bundle, and its default is "activate everything
 when not explicitly constrained." A consumer that skips the (unenforced) charter step
 inherits the whole multi-domain corpus and floods every session's context. Packs replace the
 monolith with opt-in slices. This proposal is the downstream content plan for the core
@@ -60,8 +60,8 @@ pack-ecosystem epics:
 | 12 | `brownfield-onboarding` | Legacy triage, forensic audit, reverse-speccing, migration. | core-engineering |
 | 13 | `planning-and-analysis` | Scoping, risk, prioritisation, requirements validation, tracing. | core-engineering |
 | 14 | `structured-prompt-driven-development` | SPDD paradigm + REASONS canvas. | core-engineering |
-| 15 | `doctrine-authoring` | Meta-pack for pack/skill authors and doctrine maintainers. | core-engineering |
-| 16 | `spec-kitty-internal` | Spec Kitty's own dogfooded doctrine + charter: contributor/maintainer workflow, review process, tracker processing. | core-engineering, doctrine-authoring, git-delivery-workflow, adversarial-review |
+| 15 | `doctrine-authoring` | Meta-pack for pack/skill authors and charter maintainers. | core-engineering |
+| 16 | `spec-kitty-internal` | Spec Kitty's own dogfooded charter: contributor/maintainer workflow, review process, tracker processing. | core-engineering, doctrine-authoring, git-delivery-workflow, adversarial-review |
 | 17 | `event-driven` | Event-sourced design: versioned events, one canonical writer, projections, upcasting, idempotent consumers. | core-engineering, domain-driven-design |
 
 ### 1. `core-engineering`
@@ -204,7 +204,7 @@ The lean default every project can adopt without domain flooding.
 
 ### 15. `doctrine-authoring`
 
-Meta-pack for people who *build* packs, skills, and doctrine.
+Meta-pack for people who *build* packs, skills, and charter artefacts.
 
 - **Directives:** `018-doctrine-versioning-requirement`, `028-search-tool-discipline`.
 - **Styleguides:** `deployable-skill-authoring`.
@@ -214,7 +214,7 @@ Meta-pack for people who *build* packs, skills, and doctrine.
 
 ### 16. `spec-kitty-internal`
 
-Spec Kitty's **own** doctrine, dogfooded as an open pack — the encoded version of how the
+Spec Kitty's **own** charter, dogfooded as an open pack — the encoded version of how the
 Spec Kitty project itself is run, so contributors and downstream teams can adopt (or study)
 its way of working. Partly a curation of built-in artifacts that describe the project's
 process, partly **net-new artifacts** derived from the repository's own maintainer/contributor
@@ -278,7 +278,7 @@ These declare `depends_on` over base packs; a consumer configures **one** name.
 
 ## Intentionally staying in core (not packaged here)
 
-Some built-in artifacts are foundational runtime mechanics rather than domain doctrine, and
+Some built-in artifacts are foundational runtime mechanics rather than domain guidance, and
 are expected to remain built-in (or move only when core decides). Examples:
 `035-bulk-edit-occurrence-classification` and its `occurrence-classification-workflow`,
 `model-task-routing`, mission-type/step-contract machinery, and the retrospective mechanics.

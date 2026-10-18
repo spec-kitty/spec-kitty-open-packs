@@ -391,7 +391,7 @@ def _yaml_quote(value: str) -> str:
 def render_frontmatter(ref: PackReference) -> list[str]:
     title = f"{ref.slug} pack reference"
     description = (
-        f"Generated reference for the {ref.slug} doctrine pack: artifact "
+        f"Generated reference for the {ref.slug} Charter Pack: artifact "
         f"inventory, per-kind counts, content checksum, and validation status."
     )
     lines = [

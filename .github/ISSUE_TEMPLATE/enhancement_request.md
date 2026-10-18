@@ -8,7 +8,7 @@ assignees: []
 
 <!--
 Proposing a whole new pack? Use the "Pack proposal" template instead.
-Changing doctrine mechanics? File in spec-kitty/spec-kitty.
+Changing charter mechanics? File in spec-kitty/spec-kitty.
 -->
 
 ## What & why

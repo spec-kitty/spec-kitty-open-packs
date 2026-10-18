@@ -1,6 +1,6 @@
 ---
 name: 📦 Pack proposal
-about: Propose a new doctrine pack (or a compound pack) for the open-packs catalog.
+about: Propose a new Charter Pack (or a compound pack) for the open-packs catalog.
 title: "pack: <pack-name>"
 labels: ["pack", "doctrine"]
 assignees: []

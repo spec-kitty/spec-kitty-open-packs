@@ -2,7 +2,7 @@ blank_issues_enabled: true
 contact_links:
   - name: 📖 Contributing guide
     url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/docs/guides/contributing.md
-    about: How to propose, author, and submit doctrine packs and docs.
-  - name: 🧠 Doctrine logic & pack mechanics (Spec Kitty core)
+    about: How to propose, author, and submit Charter Packs and docs.
+  - name: 🧠 Charter logic & pack mechanics (Spec Kitty core)
     url: https://github.com/spec-kitty/spec-kitty/issues
     about: Changes to resolution, the pack validator, or the manifest schema belong in the core repository.

@@ -11,7 +11,7 @@ related:
 # Blockers & core dependencies
 
 > Research capture, 2026-07-18. Read-only investigation of `spec-kitty-open-packs` and the core
-> tracker/codebase (`Priivacy-ai/spec-kitty`). Issue states verified at time of writing. Feeds
+> tracker/codebase (`spec-kitty/spec-kitty`). Issue states verified at time of writing. Feeds
 > [ADR-3 (build-time checksum tagging)](../architecture/adr/2026-07-18-3-build-time-checksum-tagging.md)
 > and the open-packs docsite epic.
 
