@@ -77,7 +77,7 @@ required without being merged into it (see [Organisations](../organisations/inde
 The CLI does not reach into charter internals. It calls two seams:
 
 - `charter.offering.api` — read the offering: packs, artefacts, the merged graph.
-- `charter.activation` — read and change what is active.
+- `charter.activation.api` — read and change what is active.
 
 Today these are Python packages inside the core CLI. The charter is being extracted into
 [`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter): first as an external
