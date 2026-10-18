@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-10-17'
+updated: '2026-10-18'
 ---
 # Changelog
 
@@ -21,6 +21,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Docsite and README overhaul for the Brain Kitty line.** The README and the docsite now
+  describe open packs as the content half of **Brain Kitty**, and show how a pack reaches the
+  Spec Kitty CLI: vendored or registered, merged into the **Charter Offering**, activated into
+  the **Active Charter**, and served through the charter's entry seams. The landing page is that
+  overview. New sections: **Charter artefacts** (the structure of every artefact kind),
+  **Organisations** (built-in → org → project tiers, `required_<kind>`, skill namespaces and the
+  standard provisionings that ship), **Contracts** (pack, org-charter, preset, manifest and DRG
+  files, consumer registration, commands, charter seams), an **architectural overview** and a
+  **Glossary**. The nav is reordered with the changelog last, and the site wears an olive Brain
+  Kitty colourway over the Spec Kitty theme. Live docs use canonical Charter terminology
+  ("doctrine pack" is now "Charter Pack"; the guides moved to `use-a-charter-pack` and
+  `author-a-charter-pack`), and links to the retired `Priivacy-ai` organisation now point at
+  `spec-kitty`. The site builds on doc-kitty **0.3.0**; the stale `docs/toc.yml` is removed.
 - **Published documentation site for the open packs** (#40). `spec-kitty-open-packs` now has a
   browsable, Brain Kitty-branded docs site built with **doc-kitty/Astro** (the same stack as the
   charter site), so anyone adopting a pack has a real home for the material instead of reading
@@ -85,8 +98,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Pack catalog proposal.** Added `docs/packs/catalog-proposal.md` — 16 base packs (incl. a
   `spec-kitty-internal` dogfooding pack) + 4 compound stacks, carved from the current built-in
   doctrine corpus and cross-referenced to the core pack-ecosystem epics
-  ([#2466](https://github.com/Priivacy-ai/spec-kitty/issues/2466),
-  [#2467](https://github.com/Priivacy-ai/spec-kitty/issues/2467)).
+  ([#2466](https://github.com/spec-kitty/spec-kitty/issues/2466),
+  [#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)).
 - **Tracker seed.** Filed one tracking issue per base pack (open-packs #1–#16) plus a single
   compound-pack epic (#17), with `pack` / `doctrine` / `epic` / `compound-pack` labels.
 - **Docsite research & architecture.** Investigated a content-from-code, checksum-tagged docsite
@@ -102,10 +115,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   distribution. (ADR-1 revised from an initial DocFX draft following maintainer review.)
 - **Docsite tracker tickets.** Opened epic #19 (content-from-code docsite) with scoping children
   #20–#25, cross-referencing core epics
-  ([#2314](https://github.com/Priivacy-ai/spec-kitty/issues/2314) pipeline,
-  [#2467](https://github.com/Priivacy-ai/spec-kitty/issues/2467) manifest,
-  [#2471](https://github.com/Priivacy-ai/spec-kitty/issues/2471) validator,
-  [#2539](https://github.com/Priivacy-ai/spec-kitty/issues/2539) trust). Candidate new **core**
+  ([#2314](https://github.com/spec-kitty/spec-kitty/issues/2314) pipeline,
+  [#2467](https://github.com/spec-kitty/spec-kitty/issues/2467) manifest,
+  [#2471](https://github.com/spec-kitty/spec-kitty/issues/2471) validator,
+  [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
