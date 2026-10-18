@@ -133,6 +133,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **`plan` missions advance past `specify`.** The `plan` mission's artifact manifest named the
+  old phases (`goals`/`structure`/`draft`) and asked for `goals.md`, so `spec-kitty next` blocked
+  a committed `spec.md` with `Required artifact missing: spec.md`. The manifest now keys on the
+  runtime steps (`specify` → `spec.md`, `research` → `research.md`, `plan` → `plan.md`), and the
+  plan `mission.yaml` and README match. Re-seeded from core (spec-kitty/spec-kitty#6395), which
+  also absorbs the interim plan step-contract patch below: `built-in/` is byte-identical to core
+  again.
 - **`plan` missions now compose and run (`#42`).** The built-in pack shipped the `plan` mission
   type but none of its four step contracts, so every `plan` action failed at runtime with
   `No step contract found for mission/action plan/<action>` and plan missions were unusable for
