@@ -7,38 +7,16 @@
 # Transition rule: until the authoring flip is ruled on, core is still where
 # built-in content is edited. Re-seed from core; do not edit built-in/ here, or the
 # two copies diverge. scripts/ci/check-built-in.sh enforces the digest below.
-#
-# DELIBERATE LOCAL PATCH (see local_patches below): built-in/ now carries a fix
-# that is NOT YET in the seeded-from core commit, so the tree is no longer
-# byte-identical to core. The digest below has been recomputed over the patched
-# tree so check-built-in.sh passes. This is an intentional divergence from the
-# transition rule above, pending a core-side fix + re-seed; a reviewer must decide
-# whether to keep it here or redirect the fix to core first.
 seeded_from:
   repository: https://github.com/spec-kitty/spec-kitty
   path: packs/built-in
-  commit: 83ca247ebc0d06b3e11010840a7a99510b5a1b58
-  date: '2026-10-17'
-local_patches:
-  - description: >
-      Add the plan mission's four step contracts (plan-specify, plan-research,
-      plan-plan, plan-review) under built-in/missions/built_in_step_contracts/,
-      and regenerate built-in/mission_step_contract.graph.yaml so it carries the
-      four matching mission_step_contract:plan/* nodes. The seeded-from core
-      commit ships the plan mission type but omits these contracts, so
-      StepContractExecutor composition fails for every plan action ("No step
-      contract found for mission/action plan/<action>"). The initial patch added
-      the contracts but left the DRG graph fragment stale (open-packs CI has no
-      regenerate-graph gate, so it passed here; core's `charter pack
-      regenerate-graph --check` caught it on re-pin). Core lacks the contracts
-      too; the durable fix is core-side, after which this patch drops on re-seed.
-    core_revendor: spec-kitty/spec-kitty#3504
+  commit: cd27dbcbfbb42654307aeb93d7378acbf671a10f
+  date: '2026-10-18'
 # snapshot_sha256 from charter.offering.packs.pack_manifest over built-in/
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
-# Recomputed over the patched tree (see local_patches above).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: c88efc66f872830a3bc0c8890bea6ee3746b10c88038c7b9574c39668dd515ad
+  value: 32f7d0e47294d913a138228d53a661ef3467bab69545f302ea94de6ed65c8480
 # The core versions this content is written against. Mission-step prompts name CLI
 # commands, and step contracts bind to runtime code. It lives here, not in
 # built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
