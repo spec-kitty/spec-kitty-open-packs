@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `14299660df0ed3324326682a56d6b329973dbee6851558f3be81762aeb9b837a`
+- **Content checksum (sha256):** `b6571b4fc03f160dda65bfe1e275872b6eda8065a62ee830d5cb2747dd658df6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -41,11 +41,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
-| `missions` | 177 |
+| `missions` | 181 |
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **501** |
+| **Total files** | **505** |
 
 ### Full listing
 
@@ -406,7 +406,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>missions</code> (177)</summary>
+<summary><code>missions</code> (181)</summary>
 
 - `README.md`
 - `built_in_step_contracts/__init__.py`
@@ -418,6 +418,10 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `built_in_step_contracts/documentation-publish.step-contract.yaml`
 - `built_in_step_contracts/documentation-validate.step-contract.yaml`
 - `built_in_step_contracts/implement.step-contract.yaml`
+- `built_in_step_contracts/plan-plan.step-contract.yaml`
+- `built_in_step_contracts/plan-research.step-contract.yaml`
+- `built_in_step_contracts/plan-review.step-contract.yaml`
+- `built_in_step_contracts/plan-specify.step-contract.yaml`
 - `built_in_step_contracts/plan.step-contract.yaml`
 - `built_in_step_contracts/research-gathering.step-contract.yaml`
 - `built_in_step_contracts/research-methodology.step-contract.yaml`
