@@ -1,36 +1,61 @@
 # Authored section registry for this docs tree, following doc-kitty's convention
-# (doc-kitty ADR-0004). It decouples display (label, order) and section type from
-# the folder layout. Reserved, non-content: a doc-kitty build excludes it from the
-# docs collection. Home is the docs-root index.md; the sections below are the
-# top-level folders under docs/, in nav order.
+# (doc-kitty ADR-0004). It is the nav source of truth: it decouples display
+# (label, order) and section type from the folder layout. Reserved, non-content:
+# a doc-kitty build excludes it from the docs collection. Home is the docs-root
+# index.md (the overview, served at the site base); the sections below are the
+# top-level folders under docs/, in nav order. The changelog stays last.
 version: 1
 sections:
   - id: packs
     label: Packs
     order: 10
     type: Reference
-    purpose: The open doctrine pack catalog — what each pack is, and the proposed catalog shape.
+    purpose: The open Charter Pack catalog — what each pack is, its generated reference, and the proposed catalog shape.
 
   - id: guides
     label: Guides
     order: 20
     type: Guide
-    purpose: Task-oriented how-tos for consuming, composing, authoring, validating, and publishing doctrine packs.
+    purpose: Task-oriented how-tos for consuming, composing, authoring, validating, and publishing Charter Packs.
+
+  - id: artefacts
+    label: Charter artefacts
+    order: 30
+    type: Reference
+    purpose: The structure of every charter artefact kind a pack can carry — file naming, directory, and fields.
+
+  - id: organisations
+    label: Organisations
+    order: 40
+    type: Explanation
+    purpose: How organisations govern many projects — multi-tier packs, the org charter, and the standard provisionings that ship.
+
+  - id: contracts
+    label: Contracts
+    order: 50
+    type: Reference
+    purpose: The machine contracts a pack meets — pack, org-charter, preset and manifest files, consumer registration, the validator, and the charter entry seams.
 
   - id: architecture
     label: Architecture
-    order: 30
+    order: 60
     type: Architecture
-    purpose: The design, vision, and decision records for the open-packs repository and its docsite.
+    purpose: How open packs reach the Spec Kitty CLI through the Charter Offering, plus the vision and decision records.
 
   - id: research
     label: Research
-    order: 40
+    order: 70
     type: Research
     purpose: Discovery findings behind the docsite and pack-distribution direction.
 
+  - id: glossary
+    label: Glossary
+    order: 80
+    type: Reference
+    purpose: The canonical Charter vocabulary used across these docs.
+
   - id: changelog
     label: Changelog
-    order: 50
+    order: 90
     type: Changelog
     purpose: What changed and when, newest first.
