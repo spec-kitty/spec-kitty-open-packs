@@ -12,13 +12,13 @@
     "build": "astro build",
     "build:astro": "astro build",
     "preview": "astro preview",
-    "validate": "dockitty-validate-frontmatter ../docs && dockitty-check-links ../docs",
+    "validate": "dockitty-validate-frontmatter ../docs --astro-config astro.config.mjs && dockitty-check-links ../docs --astro-config astro.config.mjs",
     "check:built-links": "dockitty-assert-no-broken-links dist --base /spec-kitty-open-packs --site https://spec-kitty.github.io"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.0",
     "@astrojs/starlight": "^0.32.6",
-    "@spec-kitty/doc-toolkit": "0.2.0",
+    "@spec-kitty/doc-toolkit": "0.3.0",
     "astro": "^5.2.0",
     "sharp": "^0.34.5"
   },

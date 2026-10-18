@@ -7,8 +7,9 @@ import {
 export const collections = {
   docs: defineCollection({
     // The content root is the repository's docs/ tree, one level up from site/.
-    // `indexBasename` MUST match astro.config.mjs.
-    loader: docKittyDocsLoader({ base: '../docs', indexBasename: ['index', 'README'] }),
+    // Index basenames are set once, on the integration in astro.config.mjs
+    // (doc-toolkit >= 0.3.0 refuses a differing loader value).
+    loader: docKittyDocsLoader({ base: '../docs' }),
     schema: docKittyDocsSchema(),
   }),
 };
