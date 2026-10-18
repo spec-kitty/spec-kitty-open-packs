@@ -118,3 +118,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `overrides:` fields), `drg/fragment.yaml` is documented as required, examples use the real `qa`
   pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 
+### 🐛 Fixed
+
+- **`plan` missions now compose and run (`#42`).** The built-in pack shipped the `plan` mission
+  type but none of its four step contracts, so every `plan` action failed at runtime with
+  `No step contract found for mission/action plan/<action>` and plan missions were unusable for
+  consumers. The pack now carries `plan-specify`, `plan-research`, `plan-plan`, and `plan-review`
+  contracts keyed `mission: plan`, mirroring the `research-*` shape; `plan-review` deliberately
+  omits the work-package `move-task` transition and pre-review gate, which a plan mission (no work
+  packages) has no use for. Shipped as a deliberate interim override of the byte-identical core
+  seed — the gap originates upstream, and the durable fix re-vendors from core via
+  spec-kitty/spec-kitty#3504.
+
