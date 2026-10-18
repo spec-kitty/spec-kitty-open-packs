@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-10-18T05:54:35.739644+00:00",
+  "documentation_state": {
+    "coverage_percentage": 0.0,
+    "divio_types_selected": [],
+    "generators_configured": [],
+    "iteration_mode": "initial",
+    "last_audit_date": null,
+    "target_audience": "developers"
+  },
+  "flattened": false,
+  "friendly_name": "Docsite & README overhaul (Brain Kitty, Charter terminology)",
+  "mid8": "01M56S6Z",
+  "mission_id": "01M56S6ZV0HRANMAYGSQY9XWNQ",
+  "mission_number": null,
+  "mission_slug": "docs-overhaul-charter-terminology-01M56S6Z",
+  "mission_type": "documentation",
+  "purpose_context": "This mission advances Docsite & README overhaul (Brain Kitty, Charter terminology) on claude/jolly-carson-sg0zu2 so stakeholders can track the work from mission creation onward.",
+  "purpose_tldr": "Rewrite the open-packs README and restructure the docsite around Charter terminology, Brain Kitty positioning, contracts, architecture, artefact structures and org multi-tier support.",
+  "slug": "docs-overhaul-charter-terminology-01M56S6Z",
+  "target_branch": "claude/jolly-carson-sg0zu2",
+  "topology": "single_branch"
+}
