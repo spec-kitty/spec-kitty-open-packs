@@ -24,7 +24,9 @@ jobs:
         # 83ca247ebc (core main) succeeds c3fc8aa349 (#6048/#6046), which added the
         # `pack_level` PackDescriptor field the re-seeded built-in pack now carries;
         # the prior pin 3b7c6dde (pre-pack_level rc7) rejected it as an extra input.
-        spec-kitty: ["83ca247ebc0d06b3e11010840a7a99510b5a1b58"]
+        # f166339300 (core main, 2026-10-19) also accepts the internal pack's explicit
+        # pack_level/active_charter/pack_drg, which core's own loader requires.
+        spec-kitty: ["f166339300dfe207ea7635a285e498beb877f1a0"]
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
