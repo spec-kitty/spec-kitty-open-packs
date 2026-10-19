@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-07-12T11:46:19.204072+00:00",
-  "updated_at": "2026-10-19T04:52:41.712854+00:00",
+  "updated_at": "2026-10-19T20:19:23.314404+00:00",
   "spec_kitty_version": "3.2.5",
   "entries": [
     {
@@ -2670,12 +2670,12 @@
       "installed_path": ".agents/skills/kitty-issue-triage/SKILL.md",
       "installation_class": "shared-root-capable",
       "agent_key": "codex",
-      "content_hash": "sha256:6314e0cb84ae6941787c4884ad02a50309ce4e3161c9527fe10575ca087225a3",
+      "content_hash": "sha256:a0dd74214e5c6a87b19320946fe87399f01bf4c0d38cc566bb8f288d2dc51d9a",
       "installed_at": "2026-10-19T04:52:41.712854+00:00",
       "delivery_mode": "copy",
       "origin": "pack",
       "source_ref": "packs/internal/skills/issue-triage.skill.yaml",
-      "source_hash": "sha256:fbdaab061961a5abed31d85838a01765f1f7c274ddca32bb5901edd2758edbc5"
+      "source_hash": "sha256:e5008e86f49d85ecca0c571fde591413470de5b835cd2f573bafbba60b07b1d7"
     },
     {
       "skill_name": "kitty-issue-triage",
@@ -2683,12 +2683,12 @@
       "installed_path": ".agents/skills/kitty-issue-triage/SKILL.md",
       "installation_class": "shared-root-capable",
       "agent_key": "copilot",
-      "content_hash": "sha256:6314e0cb84ae6941787c4884ad02a50309ce4e3161c9527fe10575ca087225a3",
+      "content_hash": "sha256:a0dd74214e5c6a87b19320946fe87399f01bf4c0d38cc566bb8f288d2dc51d9a",
       "installed_at": "2026-10-19T04:52:41.712854+00:00",
       "delivery_mode": "copy",
       "origin": "pack",
       "source_ref": "packs/internal/skills/issue-triage.skill.yaml",
-      "source_hash": "sha256:fbdaab061961a5abed31d85838a01765f1f7c274ddca32bb5901edd2758edbc5"
+      "source_hash": "sha256:e5008e86f49d85ecca0c571fde591413470de5b835cd2f573bafbba60b07b1d7"
     },
     {
       "skill_name": "kitty-issue-triage",
@@ -2696,12 +2696,12 @@
       "installed_path": ".agents/skills/kitty-issue-triage/SKILL.md",
       "installation_class": "shared-root-capable",
       "agent_key": "gemini",
-      "content_hash": "sha256:6314e0cb84ae6941787c4884ad02a50309ce4e3161c9527fe10575ca087225a3",
+      "content_hash": "sha256:a0dd74214e5c6a87b19320946fe87399f01bf4c0d38cc566bb8f288d2dc51d9a",
       "installed_at": "2026-10-19T04:52:41.712854+00:00",
       "delivery_mode": "copy",
       "origin": "pack",
       "source_ref": "packs/internal/skills/issue-triage.skill.yaml",
-      "source_hash": "sha256:fbdaab061961a5abed31d85838a01765f1f7c274ddca32bb5901edd2758edbc5"
+      "source_hash": "sha256:e5008e86f49d85ecca0c571fde591413470de5b835cd2f573bafbba60b07b1d7"
     },
     {
       "skill_name": "kitty-land-pr",
@@ -2865,12 +2865,12 @@
       "installed_path": ".claude/skills/kitty-issue-triage/SKILL.md",
       "installation_class": "native-root-required",
       "agent_key": "claude",
-      "content_hash": "sha256:6314e0cb84ae6941787c4884ad02a50309ce4e3161c9527fe10575ca087225a3",
+      "content_hash": "sha256:a0dd74214e5c6a87b19320946fe87399f01bf4c0d38cc566bb8f288d2dc51d9a",
       "installed_at": "2026-10-19T04:52:41.712854+00:00",
       "delivery_mode": "copy",
       "origin": "pack",
       "source_ref": "packs/internal/skills/issue-triage.skill.yaml",
-      "source_hash": "sha256:fbdaab061961a5abed31d85838a01765f1f7c274ddca32bb5901edd2758edbc5"
+      "source_hash": "sha256:e5008e86f49d85ecca0c571fde591413470de5b835cd2f573bafbba60b07b1d7"
     },
     {
       "skill_name": "kitty-land-pr",

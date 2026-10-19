@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-10-18'
+updated: '2026-10-19'
 ---
 # Changelog
 
@@ -122,6 +122,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The internal pack's tracker-label doctrine matches the 2026-10-19 label clean-up on
+  `spec-kitty/spec-kitty`** ([spec-kitty#6503](https://github.com/spec-kitty/spec-kitty/pull/6503)).
+  The `spec-kitty-tracker-labels` styleguide no longer offers `bug` or `enhancement` as kind
+  labels (kind is the native issue type; `bug`, `enhancement` and `type:*` were deleted), names
+  `deferred` instead of the non-existent `future`, adds `triage:needs-decision` (formerly
+  `type:decision`), and gains a "Renamed and retired labels" pattern (`domain:merge` →
+  `domain:consolidation`, `domain:dashboard` → `domain:status-api`, `domain:hosted` →
+  `legacy:hosted`, `documentation` merged into `domain:docs`, and the deleted `squad:*`,
+  `needs:*`, `ci:green`/`ci:red`, fleet `from:*`, `launch-window`, `question`, `help wanted`,
+  `invalid` and `wontfix`). The `issue-triage-pass` procedure and the `kitty-issue-triage` skill
+  no longer call `status:*` fleet-owned: the SkyKitty fleet is switched off, `status:*`,
+  `taken-by-human` and `ready-for-squad` are human workflow state, and a triage pass removes
+  `status:triage` once an issue is decided. `issue-to-mission-delivery` and
+  `landing-contributor-prs` drop their fleet-dispatcher and `squad:*` wording to match.
 - **Built-in doctrine no longer sends agents to the closed `docs/adr/3.x/` folder**
   ([spec-kitty#5428](https://github.com/spec-kitty/spec-kitty/issues/5428)). The software-dev
   review prompt pointed reviewers at `docs/adr/3.x/` for architectural intent, and the
