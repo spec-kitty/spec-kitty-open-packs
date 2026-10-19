@@ -79,6 +79,11 @@ See [Organisations](../organisations/index.md) for how these are used.
 
 ## `drg/fragment.yaml` — DRG fragment
 
+This covers org Charter Pack fragments; the built-in pack's `<kind>.graph.yaml` shards are a
+separate, generated format. The authoritative schema is spec-kitty-charter's pack schema
+([charter#114](https://github.com/spec-kitty/spec-kitty-charter/issues/114), charter ADR-0017);
+this table summarises it.
+
 | Field | Meaning |
 | --- | --- |
 | `nodes` | `{id, kind, title, body_path}` per artefact. |
@@ -86,8 +91,9 @@ See [Organisations](../organisations/index.md) for how these are used.
 
 A fragment carries no provenance header. The pack's name, source and layer come from the
 consumer's registration (`.kittify/config.yaml`), so `pack_name`, `source_kind`, `source_ref`,
-`layer_index` and `provenance_marker` are not written here. The charter service refuses them,
-and refuses a bare-id endpoint, as a schema error.
+`layer_index` and `provenance_marker` are not written here. The charter's pack schema refuses
+them and bare-id endpoints. Core still accepts both (it overwrites the header and resolves a bare
+id), so `scripts/ci/validate-packs.sh` enforces the rule for the packs in this repository.
 
 Relations include `requires`, `suggests`, `applies`, `scope`, `vocabulary`, `delegates_to`,
 `specializes_from`, `enhances`, `overrides`, `refines`, `replaces`, `rejects`, `instantiates`,
