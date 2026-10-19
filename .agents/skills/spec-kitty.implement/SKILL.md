@@ -42,6 +42,27 @@ In non-interactive hosts, choose `not_now` and continue.
 
 **Version**: 0.12.0+
 
+
+### REASONS Guidance — Implement WP<id>
+
+Before coding, load the WP-scoped REASONS section from
+`kitty-specs/<mission>/reasons-canvas.md`:
+
+- Requirements (WP-scoped)
+- Entities (WP-relevant)
+- Approach (chosen strategy for this WP)
+- Structure (files this WP owns)
+- Operations (ordered steps)
+- Norms (testing, observability, style)
+- Safeguards (hard constraints — what not to break)
+
+If the canvas is missing, invoke the `spk-charter-spdd-reasons` skill to
+generate it before continuing.
+
+Do not invent files, entities, or scope outside the canvas without recording a
+deviation.
+
+
 ## Purpose
 
 Execute the implementation of a work package according to its prompt file.
@@ -53,7 +74,14 @@ guardrails for bulk operations.
 ## Working Directory
 
 **IMPORTANT**: This step works inside the execution workspace (worktree)
-allocated by `spec-kitty agent action implement WPxx --agent <name>`. Prefer to stay within
+allocated by `spec-kitty agent action implement WPxx --agent <name>`. For a `single_branch` mission the WP instead runs in the repository root checkout, which must be on the mission's write branch and clean, and only one WP may be in progress at a time.
+
+**One writer per checkout.** Concurrent implementers and reviewers each work in their own checkout
+(a lane worktree, or a harness-isolated worktree). On `single_branch` the repository root checkout has
+one writer at a time: `implement` refuses a second claim there (`WRITE_CHECKOUT_OCCUPIED`) while
+`agent action implement` and `agent action review` warn when another actor is working in it.
+
+Prefer to stay within
 your `owned_files` boundaries. If a small, well-justified change to a file outside the map is
 genuinely needed to deliver the WP (e.g. a one-line prerequisite or a stale assertion that
 pins a now-deleted internal), make it and record a one-line rationale in the commit message —
@@ -61,7 +89,7 @@ that is better than a convoluted in-bounds workaround or a duplicated local re-i
 The finalize ownership-overlap gate remains the guard against *parallel* WPs colliding on the
 same file.
 
-**In repos with multiple missions, always pass `--mission <handle>` to every spec-kitty command.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
 
 ## User Input
 
@@ -101,12 +129,10 @@ WP frontmatter selects an `agent_profile`):
 
 **Guaranteed authority pointers** (path + when-doing conditional):
 
-- `docs/context/` — canonical terminology. Consult when you encounter a
-  domain term in the diff or are about to introduce a new one.
-- `docs/adr/3.x/` — architectural intent. Consult when you change a
-  structural boundary (package layout, public API surface, dependency edges).
-- Any additional paths declared in the charter's `authority_paths:` block are
-  emitted alongside these defaults.
+- Any paths declared in the charter's `authority_paths:` block are emitted,
+  each with a when-doing conditional describing when to consult it (for
+  example canonical-terminology or architectural-intent directories the
+  project configures).
 
 **Fetch commands** (the prompt may substitute these for bodies that exceed the
 token budget; whenever a fetch command appears, the accompanying
@@ -118,6 +144,14 @@ token budget; whenever a fetch command appears, the accompanying
 
 ## Execution Steps
 
+> **Analysis-report gate (software-dev).** `spec-kitty implement` (and
+> `spec-kitty agent action implement`) refuses to claim a work package until a
+> current analysis report exists — it fails with `analysis_report_required`
+> otherwise. Run `/spec-kitty.analyze` and record the report first; if the
+> spec, plan, tasks or charter changed after the recorded `analysis-report.md`
+> it is stale and must be re-run. `spec-kitty next` issues the analyze step
+> before implement for exactly this reason.
+
 ### 1. Setup
 
 Run:
@@ -127,7 +161,7 @@ spec-kitty agent context resolve --action implement --mission <handle> --json
 ```
 
 Then execute the returned `check_prerequisites` command and capture
-`feature_dir`. All paths must be absolute.
+`mission_dir`. All paths must be absolute.
 
 The output of `spec-kitty agent action implement ...` is the authoritative work
 package prompt and execution context. Do **not** separately call
@@ -138,7 +172,7 @@ guaranteed to carry.
 
 ### 2. Load Work Package Prompt
 
-Read the WP prompt file from `feature_dir/tasks/WPxx-slug.md`.
+Read the WP prompt file from `mission_dir/tasks/WPxx-slug.md`.
 Parse frontmatter for:
 - `owned_files` -- prefer to modify files matching these globs; out-of-map edits are allowed when small and well-justified (record a one-line rationale)
 - `authoritative_surface` -- primary directory for this WP
@@ -152,7 +186,7 @@ Parse frontmatter for:
 
 ### 2a. Load Agent Profile
 
-Before proceeding, load the agent profile from the WP frontmatter using the `/ad-hoc-profile-load` skill (or `spec-kitty agent profile list` to find user-defined profiles). Apply the profile's guidance for the rest of this implementation session.
+Before proceeding, load the agent profile from the WP frontmatter using the `/spk-charter-profile-load` skill (or `spec-kitty agent profile list` to find user-defined profiles). Apply the profile's guidance for the rest of this implementation session.
 
 If `agent_profile` is empty, run `spec-kitty agent profile list` and select the best
 available profile for the WP's `task_type` and `authoritative_surface`.
@@ -170,28 +204,42 @@ Work through each subtask in order:
 3. Implement the code to pass the tests
 4. Verify tests pass before moving to the next subtask
 
+### 4a. Supply-Chain Security Check (dependency changes)
+
+If this WP adds, upgrades, or removes a dependency (any ecosystem — npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` — this mirrors the `supply_chain_security_check` step already present in the `implement` step contract. Use the matching ecosystem toolguide (for example `javascript-supply-chain`, `python-supply-chain`, `java-supply-chain`) for the exact commands and file names.
+
+- **Risk disclosure**: record what was checked and the resulting decision for every control DIRECTIVE_051 names in the WP implementation notes or commit message, so a reviewer does not have to re-derive the analysis.
+
+This is advisory in v1 — it does not add a new fail-closed gate — but skipping the checklist for a dependency change is a gap the reviewer will flag, not a neutral outcome.
+
 ### 5. Self-Check
 
 After all subtasks are complete:
 - All tests pass
 - Any files modified outside `owned_files` are small, justified, and have a one-line rationale in the commit message
 - Code follows project conventions (run linter if configured)
-- **Diff-scoped ruff sweep (MANDATORY before moving to `for_review`)** —
-  catches lint regressions before they reach the cycle-1 reviewer. The WP06
-  cycle-1 `textwrap` F401 in `tests/specify_cli/doctrine/test_missing_pack_policy.py`
-  would have been caught by this step. Scope is the diff only so the implementer
-  does not drown in pre-existing warnings owned by other WPs.
+- **Diff-scoped lint/format sweep (MANDATORY before moving to `for_review`)** —
+  catches lint regressions before they reach the cycle-1 reviewer. Run the
+  project's own lint and format commands over the changed files only, using the
+  project's own tool configuration and execution environment, so the
+  implementer does not drown in pre-existing warnings owned by other work
+  packages.
   ```bash
-  CHANGED_PY=$(git diff --name-only --diff-filter=AMR HEAD | grep -E '[.]py$' || true)
-  if [ -n "$CHANGED_PY" ]; then
-    .venv/bin/ruff check $CHANGED_PY
+  CHANGED=$(git diff --name-only --diff-filter=AMR HEAD || true)
+  if [ -n "$CHANGED" ]; then
+    # Run the project's configured lint and format checks over $CHANGED.
+    echo "$CHANGED"
   fi
   ```
-  - The command MUST exit 0. If it does not, fix or `ruff check --fix` and re-run.
-  - Paste the final command + exit code into your handoff note
-    (e.g. `"ruff diff-scoped check: 0 issues, exit 0"`).
-  - On cycle-N re-implementation, diff against the WP's planning base instead
-    of `HEAD`: `git diff --name-only $(git merge-base HEAD main)`.
+  - The project's own lint and format commands MUST pass. If they do not, fix
+    (or auto-fix) introduced findings and re-run the check.
+  - Paste the final commands, their exit codes, and any findings into your
+    handoff note (e.g. `"diff-scoped lint: 0 issues"`).
+  - On cycle-N re-implementation, diff against the WP's planning base — the
+    mission's target branch from the setup JSON — instead of `HEAD`, so earlier
+    cycle changes are included:
+    `git diff --name-only "$(git merge-base HEAD "$TARGET_BRANCH")"`, where
+    `$TARGET_BRANCH` is the mission's `target_branch`/`merge_target_branch`.
 
 ---
 
@@ -201,7 +249,7 @@ If this mission has `change_mode: bulk_edit` in its `meta.json`, an occurrence
 classification artifact is required before implementation can begin.
 
 **What to check**:
-1. Read `meta.json` in the feature directory — look for `"change_mode": "bulk_edit"`
+1. Read `meta.json` in the mission directory — look for `"change_mode": "bulk_edit"`
 2. If present, verify `occurrence_map.yaml` exists in the same directory
 3. The occurrence map classifies the target term by semantic category with
    per-category actions: `rename`, `manual_review`, `do_not_change`, `rename_if_user_visible`
@@ -283,16 +331,22 @@ After completing bulk renames:
    - **Missed rename**: Fix it
    - **New occurrence**: Introduced by parallel work -- rename if appropriate
 
-3. **Search command template and agent directories** explicitly:
+3. **Search the template source directories** explicitly. Command templates now
+   live as step prompts under `packs/built-in/missions/mission-steps/`; edit
+   those SOURCE files, never the generated agent copies:
    ```bash
-   grep -rn "old_term" src/specify_cli/missions/*/command-templates/
-   grep -rn "old_term" .claude/commands/ .agents/skills/ .opencode/command/
-   grep -rn "old_term" .github/prompts/ .gemini/commands/ .cursor/commands/
-   grep -rn "old_term" .qwen/commands/ .kilocode/workflows/ .windsurf/workflows/
-   grep -rn "old_term" .augment/commands/ .roo/commands/ .amazonq/prompts/
+   grep -rn "old_term" packs/built-in/missions/mission-steps/
    ```
 
-4. **Produce a verification report**:
+4. **Search the configured agent directories** explicitly. Resolve the agent
+   command/skill directories this project actually has with
+   `spec-kitty agent config list`, then grep each one for the old term, for
+   example:
+   ```bash
+   grep -rn "old_term" .claude/commands/ .agents/skills/
+   ```
+
+5. **Produce a verification report**:
    - Total occurrences found: N
    - Intentionally preserved: M (with reasons for each)
    - Missed renames fixed: K
@@ -306,7 +360,7 @@ After completing bulk renames:
 
 Before moving this WP to `for_review`, update the `agent_profile` field in the WP
 prompt frontmatter to a reviewer profile so the reviewing agent loads the correct
-persona automatically.
+agent profile automatically.
 
 1. Identify the appropriate reviewer profile:
    ```bash
@@ -321,20 +375,28 @@ persona automatically.
    role: "reviewer"
    ```
 
-3. Commit the updated frontmatter together with your implementation changes **before**
+3. Commit the updated frontmatter together with your implementation changes with
+   `spec-kitty safe-commit <files> -m "<msg>" --to-branch <lane branch>` **before**
    running `spec-kitty agent tasks move-task WPxx --to for_review`.
 
 ### GitHub Actions Workflow Changes
 
-If this WP adds or modifies `.github/workflows/*`, use a draft PR before review hand-off:
+If this WP adds or modifies `.github/workflows/*`, the changed workflow must be
+exercised on a real GitHub Actions runner before review hand-off. Per
+`DIRECTIVE_045` and `mission-wrap-up-sequence`, the WP agent pushes and reports;
+the orchestrator opens the draft PR:
 
-1. Push the WP branch.
-2. Open a draft PR so the workflow runs on a real GitHub Actions runner.
-3. Iterate on the draft PR until the changed workflow has a successful run.
-4. Record the successful run ID or Actions URL in `kitty-specs/<mission>/workflow-evidence.md`.
-5. Only then move the WP to `for_review`.
+1. Commit with `spec-kitty safe-commit <files> -m "<msg>" --to-branch <lane branch>`,
+   then push the WP branch.
+2. Report to the orchestrator that this WP needs a draft PR to exercise the
+   changed workflow on a real runner.
+3. The orchestrator opens the draft PR and iterates until the changed workflow
+   has a successful run, then records the successful run ID or Actions URL in
+   `kitty-specs/<mission>/workflow-evidence.md`.
+4. Only after the orchestrator confirms the recorded evidence does the WP move
+   to `for_review`.
 
-The reviewer will then use `/ad-hoc-profile-load` with the reviewer profile and apply
+The reviewer will then use `/spk-charter-profile-load` with the reviewer profile and apply
 its self-review gates automatically.
 
 ---
@@ -346,4 +408,4 @@ After completing implementation:
 - Bulk edit classification and verification reports (if applicable)
 - Commit changes with a descriptive message
 
-**Next step**: `spec-kitty next --agent <name>` will advance to review.
+**Next step**: `spec-kitty next --agent <name> --mission <handle>` will advance to review.

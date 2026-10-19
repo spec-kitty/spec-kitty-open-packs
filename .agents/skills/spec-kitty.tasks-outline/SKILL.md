@@ -40,8 +40,6 @@ In non-interactive hosts, choose `not_now` and continue.
 
 # /spec-kitty.tasks-outline - Create Work Package Manifest
 
-**Version**: 3.2.0
-
 ## Purpose
 
 Create `wps.yaml` — the structured work package manifest that defines WP metadata,
@@ -54,10 +52,10 @@ manifest by `finalize-tasks`.
 ## ⚠️ CRITICAL: THIS IS THE MOST IMPORTANT PLANNING WORK
 
 **You are creating the blueprint for implementation**. The quality of work packages determines:
-- How easily agents can implement the feature
+- How easily agents can implement the mission
 - How parallelizable the work is
 - How reviewable the code will be
-- Whether the feature succeeds or fails
+- Whether the mission succeeds or fails
 
 **QUALITY OVER SPEED**: Take your time to understand the full scope deeply,
 break work into clear pieces, and write detailed guidance.
@@ -70,7 +68,7 @@ break work into clear pieces, and write detailed guidance.
 
 **Do NOT cd anywhere**. Stay in the repository root checkout.
 
-**In repos with multiple missions, always pass `--mission <handle>` to every spec-kitty command.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
 
 ## User Input
 
@@ -86,7 +84,7 @@ Before proceeding, resolve canonical command context:
 spec-kitty agent context resolve --action tasks_outline --mission <mission-slug> --json
 ```
 
-Treat that JSON as canonical for feature slug, feature directory, and target branch.
+Treat that JSON as canonical for mission slug, mission directory, and target branch.
 Do not probe git branch state manually inside the prompt.
 
 ## Steps
@@ -94,17 +92,17 @@ Do not probe git branch state manually inside the prompt.
 ### 1. Setup
 
 Run the exact `check_prerequisites` command returned by the resolver. Capture
-`feature_dir` plus `available_docs`. All paths must be absolute.
+`mission_dir` plus `available_docs`. All paths must be absolute.
 
-**CRITICAL**: The command returns JSON with `feature_dir` as an ABSOLUTE path. **YOU MUST USE THIS PATH** for ALL subsequent file operations.
+**CRITICAL**: The command returns JSON with `mission_dir` as an ABSOLUTE path. **YOU MUST USE THIS PATH** for ALL subsequent file operations.
 
 ### 2. Load Design Documents
 
-Read from `feature_dir` (only those present):
+Read from `mission_dir` (only those present):
 - **Required**: plan.md (tech architecture, stack), spec.md (user stories & priorities)
 - **Optional**: data-model.md (entities), contracts/ (API schemas), research.md (decisions), quickstart.md (validation scenarios)
 
-Scale your effort to the feature: simple UI tweaks deserve lighter coverage, multi-system releases require deeper decomposition.
+Scale your effort to the mission: simple UI tweaks deserve lighter coverage, multi-system releases require deeper decomposition.
 
 ### 3. Derive Fine-Grained Subtasks
 
@@ -128,7 +126,7 @@ Group subtasks into work packages (IDs `WP01`, `WP02`, ...):
 - Ensure every subtask appears in exactly one work package
 - Name with succinct goal (e.g., "User Story 1 – Real-time chat happy path")
 - Record metadata: priority, success criteria, risks, dependencies, included subtasks, and requirement references
-- Every WP must include a `requirement_refs` list referencing IDs from `spec.md` (FR/NFR/C)
+- Every WP must include a `requirement_refs` list referencing IDs declared in `spec.md` (FR/NFR/C/SC, with an optional lowercase letter suffix such as `FR-###a`)
 
 ### 4a. Cite plan concern refs for each WP
 
@@ -146,7 +144,7 @@ declare itself cross-cutting.
 
 ### 5. Write `wps.yaml`
 
-Write to `feature_dir/wps.yaml` following the schema below. This is the **single
+Write to `mission_dir/wps.yaml` following the schema below. This is the **single
 authoritative source** for WP metadata in the planning pipeline.
 
 **Do NOT write `tasks.md` — it is generated automatically by `finalize-tasks` from `wps.yaml`.**
@@ -209,14 +207,19 @@ work_packages:
 - `id`: Work package identifier (`WP01`, `WP02`, …)
 - `title`: Short human-readable name
 - `dependencies`: List of WP IDs this WP depends on. `[]` = explicitly no deps (authoritative); if the key is **absent**, `tasks-packages` may fill it based on analysis.
-- `owned_files`: Glob patterns for files this WP touches — no two WPs may overlap.
-- `requirement_refs`: Requirement IDs from `spec.md` (FR/NFR/C) addressed by this WP.
+- `owned_files`: Glob patterns for files this WP touches — no two WPs may overlap. A `code_change` WP must NOT list any `kitty-specs/` path here (see the staged ownership rule below).
+- `requirement_refs`: Requirement IDs declared in `spec.md` (kinds FR/NFR/C/SC, digits, an optional single lowercase letter suffix) addressed by this WP. Success criteria are tracked, not gating. A `<mission-slug>#<ID>` citation of another mission's ID is kept and reported as `foreign_qualified`, but never counts as this mission's coverage. Items are kept exactly as written.
 - `plan_concern_refs`: Implementation concern IDs from `plan.md` (IC-##) addressed by this WP. Use `cross_cutting: true` instead if the WP is shared infrastructure with no specific concern.
 - `cross_cutting`: Set to `true` for infrastructure WPs that span all concerns and have no specific IC-## ref.
 - `subtasks`: Ordered list of subtask IDs included in this WP.
-- `prompt_file`: Relative path (from `feature_dir`) to the WP prompt file — set by `tasks-packages` in the next step.
+- `prompt_file`: Relative path (from `mission_dir`) to the WP prompt file — set by `tasks-packages` in the next step.
 
 **IMPORTANT**: Leave `prompt_file` as `null` or omit it — `tasks-packages` fills this field.
+
+**Staged ownership rule**:
+- A `code_change` WP must NOT list any `kitty-specs/` path in `owned_files` — `finalize-tasks --validate-only` rejects it with `INVALID_WP_OWNED_FILES_KITTY_SPECS`.
+- The only exemption is a `planning_artifact` WP whose **every** `owned_files` entry is confined to `kitty-specs/` or `docs/`. A planning WP that also owns a `src/`, `tests/`, or any other non-planning path is not exempt and is rejected the same way.
+- Per-WP design notes, plan-marker edits, and other `kitty-specs/` deliverables belong in their own separate confined `planning_artifact` WP. Split a mixed WP into a planning WP plus a code WP rather than mixing the two ownership kinds.
 
 ### 6. Analyze Dependencies
 
@@ -233,15 +236,22 @@ Rules:
 
 **DO NOT generate WP prompt files in this step.** That happens in the next step.
 
+### 7. Validate the outline
+
+Run `spec-kitty agent mission finalize-tasks --validate-only --mission <mission-slug> --json`.
+With no WP prompt files yet, this checks requirement refs and dependencies from
+`wps.yaml` and reports `validation_stage: tasks-outline`. Full WP prompt,
+ownership, and lane validation runs after `tasks-packages`.
+
 ## Output
 
 After completing this step:
-- `feature_dir/wps.yaml` exists with all work package definitions
+- `mission_dir/wps.yaml` exists with all work package definitions
 - Each WP has `id`, `title`, `dependencies`, `owned_files`, `requirement_refs`, `subtasks`
 - `prompt_file` fields are absent or `null` (filled by `tasks-packages`)
 - No WP prompt files have been created yet
 
-**Next step**: `spec-kitty next --agent <name>` will advance to work package generation.
+**Next step**: run `/spec-kitty.tasks-packages` to materialize the WP prompt files. These tasks sub-steps are stages of the top-level `tasks` action, not separate steps that `spec-kitty next` issues.
 
 ## Work Package Sizing Guidelines
 
