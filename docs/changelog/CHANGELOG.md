@@ -122,6 +122,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The built-in pack now lives at `packs/built-in/`, next to the other packs.** It used to sit at
+  the repository root as `built-in/`, with its pin at `built-in.source.yaml`. Both are now under
+  `packs/`: `packs/built-in/` and `packs/built-in.source.yaml`. The content and digest are
+  unchanged. `validate-packs.sh` skips it, because it is the built-in tier and not an org pack.
+  Core's vendoring has to read the new path; spec-kitty/spec-kitty#6451 tracks sourcing it from
+  here directly.
 - **Guides follow the Spec Kitty 4.x Charter Pack cutover.** `spec-kitty doctrine …` became
   `spec-kitty charter …`, `doctrine.org.packs` became `charter_packs.org.packs` (with `subdir`
   for packs in this repository), `doctor doctrine` became `doctor charter-packs`, the DRG lives

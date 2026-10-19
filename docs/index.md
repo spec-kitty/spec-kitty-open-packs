@@ -40,8 +40,8 @@ belongs to the charter.
 ```mermaid
 flowchart LR
   subgraph OP["spec-kitty-open-packs"]
-    BI["built-in/"]
-    PK["packs/*"]
+    BI["packs/built-in/"]
+    PK["packs/* (org)"]
   end
   subgraph CH["Charter (Brain Kitty)"]
     OF["Charter Offering<br/>built-in + org packs + project layer"]
@@ -54,9 +54,9 @@ flowchart LR
   AC -- "charter context --action" --> CLI
 ```
 
-1. **Built-in** content (`built-in/`) is vendored into the CLI at a pinned, checksummed ref,
+1. **Built-in** content (`packs/built-in/`) is vendored into the CLI at a pinned, checksummed ref,
    so every consumer install carries it.
-2. **Opt-in** packs (`packs/*`) are registered by a project or organisation under
+2. **Opt-in** packs (every other `packs/*`) are registered by a project or organisation under
    `charter_packs.org.packs` and fetched with `spec-kitty charter fetch`.
 3. Together with the project's own layer, they form the project's **Charter Offering**:
    everything it *can* draw from.

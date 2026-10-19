@@ -31,15 +31,15 @@ Spec Kitty has three product lines:
 
 ```mermaid
 flowchart LR
-  BI["built-in/"] -- vendored at release --> OF
-  PK["packs/*"] -- registered + fetched --> OF
+  BI["packs/built-in/"] -- vendored at release --> OF
+  PK["packs/* (org)"] -- registered + fetched --> OF
   OF["Charter Offering<br/>built-in + org + project"] -- charter activate --> AC["Active Charter"]
   AC -- charter context --> CLI["Spec Kitty CLI"]
 ```
 
-- **`built-in/`** is the source of the built-in pack. The CLI vendors a pinned, checksummed ref
+- **`packs/built-in/`** is the source of the built-in pack. The CLI vendors a pinned, checksummed ref
   of it, so every install carries it.
-- **`packs/*`** are opt-in org-tier packs. A project registers them in `.kittify/config.yaml`
+- **Every other `packs/*`** is an opt-in org-tier pack. A project registers them in `.kittify/config.yaml`
   and fetches them with `spec-kitty charter fetch`.
 - Together with the project's own layer they form the project's **Charter Offering**; what the
   project activates from it is its **Active Charter**. At each Mission step the CLI asks the
@@ -53,7 +53,7 @@ schema and the validator — belongs to the charter, today inside the core CLI a
 
 | Pack | Tier | What it is |
 | --- | --- | --- |
-| [`built-in`](built-in/) | built-in | Spec Kitty's built-in charter corpus; ships with the CLI. |
+| [`built-in`](packs/built-in/) | built-in | Spec Kitty's built-in charter corpus; ships with the CLI. |
 | [`qa`](packs/qa/) | org (opt-in) | QA and promise traceability. |
 | [`event-driven`](packs/event-driven/) | org (opt-in) | Event-sourced design: versioned events, projections, idempotent consumers. |
 | [`cave-kitty`](packs/cave-kitty/) | org (opt-in) | A terse, outcome-first communication voice. |

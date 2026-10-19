@@ -1,23 +1,24 @@
-# Provenance of built-in/ (spec-kitty-open-packs#31, core ADR 2026-08-16-2 Option B).
+# Provenance of packs/built-in/ (spec-kitty-open-packs#31, core ADR 2026-08-16-2 Option B).
 #
-# built-in/ is the Spec Kitty consumer built-in pack, seeded byte-identical from core
+# packs/built-in/ is the Spec Kitty consumer built-in pack, seeded byte-identical from core
 # `packs/built-in/` at the commit below. Core's release vendors it back from a pinned
-# commit of this repository (spec-kitty/spec-kitty#3504).
+# commit of this repository (spec-kitty/spec-kitty#3504). spec-kitty/spec-kitty#6451
+# replaces core's vendored copy with a direct source from this repository.
 #
 # Transition rule: until the authoring flip is ruled on, core is still where
-# built-in content is edited. Re-seed from core; do not edit built-in/ here, or the
+# built-in content is edited. Re-seed from core; do not edit packs/built-in/ here, or the
 # two copies diverge. scripts/ci/check-built-in.sh enforces the digest below.
 seeded_from:
   repository: https://github.com/spec-kitty/spec-kitty
   path: packs/built-in
   commit: cd27dbcbfbb42654307aeb93d7378acbf671a10f
   date: '2026-10-18'
-# snapshot_sha256 from charter.offering.packs.pack_manifest over built-in/
+# snapshot_sha256 from charter.offering.packs.pack_manifest over packs/built-in/
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
   value: 32f7d0e47294d913a138228d53a661ef3467bab69545f302ea94de6ed65c8480
 # The core versions this content is written against. Mission-step prompts name CLI
 # commands, and step contracts bind to runtime code. It lives here, not in
-# built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
+# packs/built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
 requires_core: '>=4.0.0rc7,<5'

@@ -131,19 +131,19 @@ class PackReference:
 def discover_packs(repo_root: Path) -> list[tuple[str, Path]]:
     """Return ``(slug, directory)`` for built-in plus every ``packs/*`` dir.
 
-    built-in (at the repo root) is always first; the rest follow sorted by
+    built-in (``packs/built-in``) is always first; the rest follow sorted by
     slug so the catalog order is stable.
     """
 
     packs: list[tuple[str, Path]] = []
-    built_in = repo_root / "built-in"
+    packs_root = repo_root / "packs"
+    built_in = packs_root / "built-in"
     if built_in.is_dir():
         packs.append(("built-in", built_in))
 
-    packs_root = repo_root / "packs"
     if packs_root.is_dir():
         for child in sorted(packs_root.iterdir(), key=lambda p: p.name):
-            if child.is_dir():
+            if child.is_dir() and child != built_in:
                 packs.append((child.name, child))
     return packs
 
