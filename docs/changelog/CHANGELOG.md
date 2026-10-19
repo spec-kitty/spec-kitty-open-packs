@@ -122,6 +122,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The charter step says up front that activation is additive (core `#6408`).** The
+  `software-dev` charter prompt never said that interview selections only add to what is
+  already active, or that the first activation list is frozen, so later built-ins seemed to go
+  missing. It now says so, and names the narrow paths: `charter interview --narrow-activation`,
+  `charter activate <kind> <id> --only` and `charter activate --preset minimal`.
+- **The `internal` pack declares `pack_level: org`, `active_charter` and `pack_drg` again.**
+  Core's loader needs these fields to fetch the pack from this repository
+  (spec-kitty/spec-kitty#6451). CI now validates against core `f166339`, which accepts them.
 - **The built-in pack now lives at `packs/built-in/`, next to the other packs.** It used to sit at
   the repository root as `built-in/`, with its pin at `built-in.source.yaml`. Both are now under
   `packs/`: `packs/built-in/` and `packs/built-in.source.yaml`. The content and digest are
