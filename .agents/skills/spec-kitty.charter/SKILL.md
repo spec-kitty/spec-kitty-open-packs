@@ -78,7 +78,7 @@ explicitly wants a different mission blueprint.
 
 ## Skill Load
 
-Before proceeding, load the `spec-kitty-charter-doctrine` skill for the charter
+Before proceeding, load the `spk-charter-governance` skill for the charter
 lifecycle model, doctrine access patterns, and action-context rules.
 
 If the skill conflicts with this command contract, follow this command contract.
@@ -124,10 +124,15 @@ If no built-in paradigm or directive cleanly fits the user's needs:
 
 ### Output location
 
-- Charter markdown: `.kittify/charter/charter.md`
+- Structured charter (authoritative): `.kittify/charter/charter.yaml` —
+  `governance`/`directives`/activation/`overrides` sections. Edit these
+  directly for policy changes; `charter generate` only refreshes the
+  `catalog`/`metadata` sections.
+- Curated companion (write this yourself when authoring/updating the
+  charter): `.kittify/charter/charter.md` — a human-readable narrative.
+  `charter generate` never writes this file; the runtime never reads it for
+  policy.
 - Interview answers: `.kittify/charter/interview/answers.yaml`
-- Reference manifest: `.kittify/charter/references.yaml`
-- Local reference docs: `.kittify/charter/library/*.md`
 
 ## Execution Paths
 
@@ -217,10 +222,13 @@ Use this for normal `/spec-kitty.charter` runs.
 spec-kitty charter generate --from-interview --json
 spec-kitty charter status --json
 ```
-5. Treat the generated charter bundle as a real repository change. If
-   `.kittify/charter/charter.md` or other generated charter artifacts changed,
-   stage and commit them before concluding the command unless the user
-   explicitly asked not to commit.
+5. Update `.kittify/charter/charter.md` yourself (this command owns it — it is a
+   curated companion `generate` never writes). Keep it in sync with the same
+   policy you just wrote into `charter.yaml`'s `governance`/`directives`
+   sections, in narrative form. Treat both `charter.yaml` (refreshed by
+   `generate`) and `charter.md` (hand-updated by you) as a real repository
+   change — stage and commit them before concluding the command unless the
+   user explicitly asked not to commit.
 
 ### Commit expectation
 
@@ -232,8 +240,8 @@ spec-kitty charter status --json
 ```bash
 spec-kitty safe-commit --message "chore: generate project charter" \
   .kittify/charter/interview/answers.yaml \
+  .kittify/charter/charter.yaml \
   .kittify/charter/charter.md \
-  .kittify/charter/references.yaml \
   .gitignore
 ```
 
@@ -266,9 +274,12 @@ When you use defaults, say clearly that no real interview happened.
 ## Editing Rules
 
 - The preferred editable source for this command is `.kittify/charter/interview/answers.yaml`.
-- To revise policy inputs, edit `answers.yaml` (or rerun `charter interview`) and regenerate.
-- Use `--force` with generate if the charter already exists and must be replaced.
-- Keep charter concise; full detail belongs in reference docs listed in `references.yaml`.
+- To revise policy inputs, edit `answers.yaml` (or rerun `charter interview`) and regenerate —
+  or edit `charter.yaml`'s `governance`/`directives` sections directly for a targeted change.
+- `--force` with generate no longer gates a destructive overwrite (there is none left to gate);
+  it is accepted for CLI back-compat only.
+- Keep `charter.md` concise; full detail belongs in `charter.yaml`'s `catalog` reference list and
+  the doctrine artifacts it points at.
 
 ## Validation + Status
 

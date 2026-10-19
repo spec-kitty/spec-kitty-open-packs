@@ -52,17 +52,25 @@ Identify inconsistencies, duplications, ambiguities, and underspecified items ac
 
 **NON-REMEDIATING**: Do **not** modify `spec.md`, `plan.md`, `tasks.md`, WP files, source code, or any remediation target. The only permitted file mutation is persisting this command's report to `kitty-specs/<mission>/analysis-report.md` via `spec-kitty agent mission record-analysis`. Offer an optional remediation plan only after the report is persisted (user must explicitly approve before any follow-up editing commands would be invoked manually).
 
-**Charter Authority**: The project charter (`/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks—not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
+**Charter Authority**: The project charter (`.kittify/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks—not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
+
+**Issue-Matrix Approval Heads-Up (non-gating, #3469)**: if any artifact cites a GitHub
+issue number (`#NNNN`), a bare/unmarked reference will later require an issue-matrix row
+before its owning work package can be approved. A context-only citation (e.g.
+`Follow-up:`, `see #`, `parent`, `epic`) or a PR/commit reference (`PR #NNNN`, a
+`/pull/NNNN` URL) is non-gating and needs no row; if an issue genuinely owes the mission
+no work, it can later be recorded with the `not-applicable` verdict. This is
+informational only — it does not gate `/spec-kitty.analyze`.
 
 ## Execution Steps
 
 ### 1. Initialize Analysis Context
 
-Run `spec-kitty agent mission check-prerequisites --json --include-tasks --mission <mission-slug>` once from repo root and parse JSON for feature_dir, available_docs, target_branch, and base_branch. Derive absolute paths:
+Run `spec-kitty agent mission check-prerequisites --json --include-tasks --mission <mission-slug>` once from repo root and parse JSON for mission_dir, available_docs, target_branch, and base_branch. Derive absolute paths:
 
-- SPEC = feature_dir/spec.md
-- PLAN = feature_dir/plan.md
-- TASKS = feature_dir/tasks.md
+- SPEC = mission_dir/spec.md
+- PLAN = mission_dir/plan.md
+- TASKS = mission_dir/tasks.md
 
 Abort with an error message if any required file is missing (instruct the user to run missing prerequisite command).
 
@@ -95,7 +103,7 @@ Load only the minimal necessary context from each artifact:
 
 **From charter:**
 
-- Load `/charter/charter.md` for principle validation
+- Load `.kittify/charter/charter.md` for principle validation
 
 ### 3. Build Semantic Models
 
@@ -223,18 +231,34 @@ The report file you pass MUST start with the `analysis-findings/v1` carrier from
 
 Treat persistence failure as command failure. The command is not complete until the JSON response reports success and names `analysis-report.md`.
 
-> **⚠️ Caution — Do not write `analysis-report.md` directly**
+> **⚠️ Caution — write the report to a path OUTSIDE the repository checkout**
 >
 > The `analysis-findings/v1` carrier (step 6) is the **input format** for `record-analysis`,
 > not the **persisted format**. `record-analysis` wraps the carrier in the outer-wrapper
 > format (`artifact_type: spec-kitty.analysis-report`) that the implement gate accepts.
 >
-> Writing `analysis-report.md` directly — without piping through `record-analysis` — leaves
-> the file in carrier format, which the implement gate rejects with `carrier_format_not_wrapped`.
-> If this happens, recover by running:
+> Write the report body to a scratch file **outside the repository checkout** (a temp or
+> scratch directory) and pass that path to `record-analysis`. Writing the report body into
+> the checkout — including writing `analysis-report.md` directly — both leaves the file in
+> carrier format (the implement gate then rejects it with `carrier_format_not_wrapped`) and
+> dirties the worktree, so `record-analysis` refuses with `DIRTY_WORKTREE`. Recover by
+> writing the body to a path outside the repository checkout and re-running `record-analysis`
+> against that path:
 > ```bash
-> spec-kitty agent mission record-analysis --mission <mission-slug> --input-file analysis-report.md --json
+> TMP_REPORT="$(mktemp -t analysis-report.XXXXXX.md)"   # outside the repository checkout
+> # write the report body (starting with the analysis-findings/v1 carrier) to "$TMP_REPORT"
+> spec-kitty agent mission record-analysis --mission <mission-slug> --input-file "$TMP_REPORT" --json
 > ```
+
+### 7a. Report Currency (staleness rule)
+
+The recorded `analysis-report.md` is current only while the planning inputs it
+was computed against are unchanged. Editing the spec, plan, tasks or the
+charter after the report is recorded makes it **stale**. A stale (or missing)
+report is refused downstream: `spec-kitty next` re-issues the analyze step, and
+`spec-kitty implement` refuses to claim a work package with
+`analysis_report_required`. Re-run `/spec-kitty.analyze` and record a fresh
+report whenever any of those inputs change.
 
 ### 8. Provide Next Actions
 

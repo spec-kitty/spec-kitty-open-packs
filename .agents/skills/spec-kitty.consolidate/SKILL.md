@@ -1,6 +1,6 @@
 ---
-name: spec-kitty.dashboard
-description: Open the mission dashboard
+name: spec-kitty.consolidate
+description: Consolidate an accepted mission
 user-invocable: true
 ---
 
@@ -39,7 +39,7 @@ If no host-native question UI is available, present the same four choices in pla
 In non-interactive hosts, choose `not_now` and continue.
 
 
-# /spec-kitty.dashboard - Open the mission dashboard
+# /spec-kitty.consolidate - Consolidate an accepted mission
 
 ## Purpose
 
@@ -56,7 +56,7 @@ The content of the user's message that invoked this skill is the User Input. Con
 Run this command from the repository root:
 
 ```bash
-spec-kitty dashboard <user-provided-args-if-any>
+spec-kitty consolidate <user-provided-args-if-any>
 ```
 
 Report the command output and follow any next-step instructions it prints.

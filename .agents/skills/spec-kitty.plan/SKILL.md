@@ -42,6 +42,17 @@ In non-interactive hosts, choose `not_now` and continue.
 
 **Version**: 0.11.0+
 
+
+### REASONS Guidance — Plan
+
+While composing the plan, fill or update:
+
+- **Approach** — chosen strategy and rejected alternatives with rationale.
+- **Structure** — code surfaces, components, dependencies, ownership boundaries.
+
+Link to source artifacts (spec, contracts) instead of duplicating them.
+
+
 ## 📍 WORKING DIRECTORY: Stay in the repository root checkout
 
 **IMPORTANT**: Plan works in the repository root checkout. NO worktrees created.
@@ -90,9 +101,19 @@ gates pass:
 
 2. **Exit gate.** `plan.md` is only auto-committed when its Technical Context
    section contains a real `Language/Version` value (and at least one peer
-   field) — not the `[e.g., …]` / `[NEEDS CLARIFICATION …]` placeholders. If
-   the plan is left as scaffold, it stays untracked on disk and the CLI
-   returns `phase_complete=false` with a substantive-plan `blocked_reason`.
+   field) — not the `[e.g., …]` / `[NEEDS CLARIFICATION …]` placeholders.
+
+   - The FIRST `setup-plan` call after the entry gate passes scaffolds
+     `plan.md` from the template. This is a **non-error** state: the CLI
+     returns `result: "success"` with `scaffold_only: true` and
+     `phase_complete: false` — it means "plan.md is ready for you to
+     populate", not a failure. Do **not** treat this call as blocked; proceed
+     to fill in the Technical Context.
+   - Once `plan.md` has been edited but its Technical Context is still not
+     substantive, the CLI returns `result: "blocked"` with
+     `phase_complete: false` and a populated-but-insufficient
+     `blocked_reason` naming the missing field(s) — populate the section and
+     re-run.
 
 Section presence is the only signal — adding arbitrary prose without the
 required structural rows does **not** count as substantive (no byte-length
@@ -102,14 +123,22 @@ To advance: populate the Technical Context with real values, then re-run
 `spec-kitty agent mission setup-plan --mission <mission-slug> --json`. The substantive plan will be
 auto-committed and `phase_complete` will report `true`.
 
-Reference: `kitty-specs/charter-e2e-827-followups-01KQAJA0/contracts/specify-plan-commit-boundary.md`.
+## Issue-Matrix Approval Heads-Up (non-gating, #3469)
+
+If `plan.md`/`research.md` cite a GitHub issue number (`#NNNN`), a bare/unmarked
+reference will later require an issue-matrix row before its owning work package can be
+approved. A context-only citation (e.g. `Follow-up:`, `see #`, `parent`, `epic`) or a
+PR/commit reference (`PR #NNNN`, a `/pull/NNNN` URL) is non-gating and needs no row; if
+an issue genuinely owes the mission no work, it can later be recorded with the
+`not-applicable` verdict. This is informational only — it does not gate
+`/spec-kitty.plan`.
 
 ## Branch Strategy Confirmation (MANDATORY)
 
 Before asking planning questions or generating artifacts, you must make the branch contract explicit.
 
 - Never describe the landing branch vaguely. Always name the actual branch value.
-- If the user says the feature should land somewhere else, stop and resolve that before writing `plan.md`.
+- If the user says the mission should land somewhere else, stop and resolve that before writing `plan.md`.
 - You must repeat the branch contract twice during this command:
   1. immediately after parsing `setup-plan --json`
   2. again in the final report before suggesting `/spec-kitty.tasks`
@@ -124,6 +153,17 @@ spec-kitty charter context --action plan --json
 
 - If JSON `mode` is `bootstrap`, apply JSON `text` as first-run governance context and follow referenced docs as needed.
 - If JSON `mode` is `compact`, continue with condensed governance context.
+
+## Visual Communication (recommended)
+
+Apply the visual doctrine for non-trivial architecture, data/control flow,
+boundaries, migrations, or risky interactions. Load `spk-practice-show-me` and
+use the smallest diagram
+that materially reduces prose. Prefer Mermaid in Markdown; use PlantUML when
+richer layout, mature C4 support, or its DSL earns the added rendering cost.
+Apply C4 progressive zoom for architecture and stop at the first level that
+answers the planning question. Text contracts and plan decisions remain
+authoritative; do not generate speculative diagrams.
 
 ## Location Check (0.11.0+)
 
@@ -206,7 +246,7 @@ Before asking **any** clarifying question during plan elaboration, you MUST:
 
 Before executing any scripts or generating artifacts you must interrogate the specification and stakeholders.
 
-- **Scope proportionality (CRITICAL)**: FIRST, assess the feature's complexity from the spec:
+- **Scope proportionality (CRITICAL)**: FIRST, assess the request's complexity from the spec:
   - **Trivial/Test Features** (hello world, simple static pages, basic demos): Ask 1-2 questions maximum about tech stack preference, then proceed with sensible defaults
   - **Simple Features** (small components, minor API additions): Ask 2-3 questions about tech choices and constraints
   - **Complex Features** (new subsystems, multi-component features): Ask 3-5 questions covering architecture, NFRs, integrations
@@ -229,20 +269,20 @@ Before executing any scripts or generating artifacts you must interrogate the sp
 
 - If the user has not provided plan context, keep interrogating with one question at a time.
 
-- **Conversational cadence**: After each reply, assess if you have SUFFICIENT context for this feature's scope. For trivial features, knowing the basic stack is enough. Only continue if critical unknowns remain.
+- **Conversational cadence**: After each reply, assess if you have SUFFICIENT context for this mission's scope. For trivial features, knowing the basic stack is enough. Only continue if critical unknowns remain.
 
 Planning requirements (scale to complexity):
 
-1. Maintain a **Planning Questions** table internally covering questions appropriate to the feature's complexity (1-2 for trivial, up to 5+ for platform-level). Track columns `#`, `Question`, `Why it matters`, and `Current insight`. Do **not** render this table to the user.
+1. Maintain a **Planning Questions** table internally covering questions appropriate to the mission's complexity (1-2 for trivial, up to 5+ for platform-level). Track columns `#`, `Question`, `Why it matters`, and `Current insight`. Do **not** render this table to the user.
 2. For trivial features, standard practices are acceptable (vanilla HTML, simple file structure, no build tools). Only probe if the user's request suggests otherwise.
 3. When you have sufficient context for the scope, summarize into an **Engineering Alignment** note and confirm. Include invariant, state-transition, or event assumptions when they materially affect the design.
-4. If user explicitly asks to skip questions or use defaults, acknowledge and proceed with best practices for that feature type.
+4. If user explicitly asks to skip questions or use defaults, acknowledge and proceed with best practices for that kind of work.
 
 ## Bulk-Edit Check (if applicable)
 
 If this mission is marked `change_mode: bulk_edit` in `meta.json` — or if the
 spec describes renaming the same string (identifier, path, key, label, term)
-across many files — load the `spec-kitty-bulk-edit-classification` skill and
+across many files — load the `spk-practice-bulk-edit` skill and
 follow it. You will produce `kitty-specs/<mission>/occurrence_map.yaml`
 alongside the other planning artifacts. Every one of the 8 standard categories
 (code_symbols, import_paths, filesystem_paths, serialized_keys, cli_commands,
@@ -251,6 +291,14 @@ action. Without that artifact, the `implement` command will refuse to start
 the first WP.
 
 If the mission is not a bulk edit, skip this step.
+
+## Supply-Chain Security & Adversarial Evidence (Planning)
+
+Apply this section whenever the plan adds, upgrades, or removes a dependency, in any ecosystem (npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.).
+
+- **Security checks**: Reference `DIRECTIVE_051` and the `supply-chain-install-safety` tactic. Planning output (Technical Context and/or `research.md`) must surface a result for every control the directive names for any dependency decision — this mirrors the `supply_chain_security_check` step already present in the `plan` step contract. Use the matching ecosystem toolguide for the exact commands.
+- **Advisory posture**: This is advisory in v1 — it does not add a new blocking gate to the Commit Boundary gates above — but an unexamined default is a gap in the plan, not a pass. Silence is not compliance.
+- **Adversarial evidence (mandatory for plan/research)**: When a security-impacting dependency decision is made, run (or explicitly document deferral of) an adversarial-squad challenge pass before claiming plan readiness, per the `adversarial-squad-deployment` procedure. Record each contested finding's disposition in `research.md` per that procedure's findings-disposition contract (load it with `spec-kitty charter context --include procedure:adversarial-squad-deployment`). No contested finding may be silently dropped.
 
 ## Outline
 
@@ -264,12 +312,13 @@ If the mission is not a bulk edit, skip this step.
    - Resolve the handle first: `spec-kitty agent context resolve --action plan --mission <handle> --json`, then pass the resolved slug to `setup-plan`
    - If the context resolve call returns an ambiguity error with `available_missions`, stop and pick one explicit mission slug before continuing
 
-3. **Setup**: If step 2 did not already return a successful setup payload, run `spec-kitty agent mission setup-plan --mission <mission-slug> --json` from the repository root and parse JSON for:
+3. **Setup**: Run `spec-kitty agent mission setup-plan --mission <mission-slug> --json` from the repository root and parse JSON for:
    - `result`: "success" or error message
-   - `mission_slug`: Resolved feature slug
+   - `scaffold_only`: `true` only on the first happy-path scaffold write (plan.md freshly copied from the template, untouched). This is `result: "success"` and NOT an error — populate the Technical Context and re-run `setup-plan` to commit. `phase_complete` stays `false` until then.
+   - `mission_slug`: Resolved mission slug
    - `spec_file`: Absolute path to resolved spec.md
    - `plan_file`: Absolute path to the created plan.md
-   - `feature_dir`: Absolute path to the feature directory
+   - `mission_dir`: Absolute path to the mission directory (`feature_dir` is a legacy alias key)
    - `current_branch`: branch checked out when planning started
    - `target_branch` / `base_branch` (deterministic branch contract for downstream commands)
    - `planning_base_branch` / `merge_target_branch`: explicit aliases for planning and merge intent
@@ -299,7 +348,7 @@ If the mission is not a bulk edit, skip this step.
    - Update Technical Context with explicit statements from the user or discovery research; mark `[NEEDS CLARIFICATION: …] <!-- decision_id: <id> -->` only when the user deliberately postpones a decision (call `decision defer` before writing each such marker)
    - If a charter exists, fill Charter Check section from it and challenge any conflicts directly with the user. If no charter exists, mark the section as skipped.
    - Evaluate gates (ERROR if violations unjustified or questions remain unanswered)
-   - Phase 0: Generate research.md (commission research to resolve every outstanding clarification, prioritizing unresolved domain rules, lifecycle questions, and event/integration behavior before generic tech comparisons)
+   - Phase 0: Generate research.md — extend it if the discovery step already created one; do not replace existing content (commission research to resolve every outstanding clarification, prioritizing unresolved domain rules, lifecycle questions, and event/integration behavior before generic tech comparisons)
    - Phase 1: Generate data-model.md, contracts/, quickstart.md based on confirmed intent; when applicable, capture entities/value objects, invariants, state transitions, and externally visible events in the design artifacts
    - Re-evaluate Charter Check post-design, asking the user to resolve new gaps before proceeding
 
@@ -320,14 +369,14 @@ If the mission is not a bulk edit, skip this step.
 2. **Generate and dispatch research agents**:
    ```
    For each unknown in Technical Context:
-     Task: "Research {unknown} for {feature context}"
+     Task: "Research {unknown} for {mission context}"
    For each unresolved domain rule:
-     Task: "Clarify invariant, state transition, or event behavior for {feature context}"
+     Task: "Clarify invariant, state transition, or event behavior for {mission context}"
    For each technology choice:
      Task: "Find best practices for {tech} in {domain}"
    ```
 
-3. **Consolidate findings** in `research.md` using format:
+3. **Consolidate findings** in `research.md`: extend the file if discovery already created it; do not replace existing content. Use format:
    - Decision: [what was chosen]
    - Rationale: [why chosen]
    - Alternatives considered: [what else evaluated]
@@ -338,7 +387,7 @@ If the mission is not a bulk edit, skip this step.
 
 **Prerequisites:** `research.md` complete
 
-1. **Extract entities from feature spec** → `data-model.md`:
+1. **Extract entities from mission spec** → `data-model.md`:
    - Entity name, fields, relationships
    - Validation rules from requirements
    - Invariants or atomicity boundaries if applicable
@@ -349,6 +398,10 @@ If the mission is not a bulk edit, skip this step.
    - For each externally visible event, webhook, or integration callback → contract or payload shape when applicable
    - Use standard REST/GraphQL patterns
    - Output OpenAPI/GraphQL schema to `/contracts/`
+   - If the Mission defines no interfaces (test remediation, refactor), do not
+     create an empty `contracts/`. Instead add `"contracts": "none"` and a
+     non-empty `"contracts_rationale"` to the Mission's `meta.json`, so strict
+     `spec-kitty accept` waives the `contracts/` requirement.
 
 **Output**: data-model.md, /contracts/*, quickstart.md
 
