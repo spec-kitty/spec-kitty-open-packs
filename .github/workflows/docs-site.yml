@@ -26,6 +26,9 @@ on:
       - 'docs/**'
       - 'site/**'
       - 'scripts/docs/**'
+      # docs/packs/*.md is generated from packs/**: a pack-only change must still
+      # run the drift gate, and republish on main.
+      - 'packs/**'
       - '.github/workflows/docs-site.yml'
   push:
     branches: [main]
@@ -33,6 +36,7 @@ on:
       - 'docs/**'
       - 'site/**'
       - 'scripts/docs/**'
+      - 'packs/**'
       - '.github/workflows/docs-site.yml'
   workflow_dispatch:
 
