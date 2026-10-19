@@ -50,6 +50,36 @@ for pack in "${packs[@]}"; do
 done
 echo "::endgroup::"
 
+echo "::group::DRG fragment shape (URN endpoints, no provenance header)"
+# Core still resolves bare ids and overwrites the header, so its validator accepts both;
+# the charter pack schema refuses them (docs/contracts/index.md). Enforce it here.
+if ! python3 - "${packs[@]}" <<'PY'
+import sys
+from pathlib import Path
+
+import yaml
+
+HEADER = ("pack_name", "source_kind", "source_ref", "layer_index", "provenance_marker")
+problems = []
+for pack in sys.argv[1:]:
+    path = Path(pack) / "drg" / "fragment.yaml"
+    if not path.is_file():
+        continue
+    data = yaml.safe_load(path.read_text()) or {}
+    problems += [f"{path}: provenance header field `{key}`" for key in HEADER if key in data]
+    for edge in data.get("edges") or []:
+        for end in ("source", "target"):
+            if ":" not in str(edge.get(end, "")):
+                problems.append(f"{path}: bare-id edge {end} `{edge.get(end)}`; write `<kind>:<id>`")
+for problem in problems:
+    print(f"::error::{problem}")
+sys.exit(1 if problems else 0)
+PY
+then
+  failed=1
+fi
+echo "::endgroup::"
+
 echo "::group::doctor charter-packs (all packs in one consumer)"
 consumer="$scratch/consumer"
 mkdir -p "$consumer"
