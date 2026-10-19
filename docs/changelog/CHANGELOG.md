@@ -122,6 +122,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The shared JVM toolguides now apply to Kotlin projects** (spec-kitty/spec-kitty#6444).
+  **Before:** `java-supply-chain` and `maven-review-checks` were tagged `java`, so a Kotlin
+  project, or one that declares only Gradle or Maven, never received them. **After:** both are
+  tagged `jvm`. Core expands `java` and `kotlin` to the `jvm` family when it matches doctrine,
+  so Java and Kotlin projects both get them; `java-jenny` and `java-conventions` stay
+  Java-only. Needs a core that knows the `jvm` family (spec-kitty/spec-kitty#6444).
+
 - **Org DRG fragments now match the charter's pack schema**
   ([spec-kitty-charter#114](https://github.com/spec-kitty/spec-kitty-charter/issues/114)), so the
   charter service can load every pack here. Before, `packs/internal/drg/fragment.yaml` had 84
