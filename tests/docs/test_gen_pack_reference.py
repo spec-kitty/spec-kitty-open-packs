@@ -35,7 +35,7 @@ _spec.loader.exec_module(gen)
 def _make_pack(root: Path) -> Path:
     """Create a small but realistic pack (two kinds, a pack.yaml) on disk."""
 
-    pack = root / "built-in"
+    pack = root / "packs" / "built-in"
     (pack / "directives").mkdir(parents=True)
     (pack / "tactics").mkdir(parents=True)
     (pack / "directives" / "d-001.directive.yaml").write_text(
@@ -55,11 +55,11 @@ class GeneratorDeterminismTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             _make_pack(root)
-            first = gen.render_page(gen.build_reference(root, "built-in", root / "built-in"))
-            second = gen.render_page(gen.build_reference(root, "built-in", root / "built-in"))
+            first = gen.render_page(gen.build_reference(root, "built-in", root / "packs" / "built-in"))
+            second = gen.render_page(gen.build_reference(root, "built-in", root / "packs" / "built-in"))
             self.assertEqual(first, second)
             # The checksum must actually appear in the rendered page.
-            checksum = gen.compute_checksum(root / "built-in")
+            checksum = gen.compute_checksum(root / "packs" / "built-in")
             self.assertIn(checksum, first)
 
     def test_check_gate_fails_closed_on_orphaned_generated_page(self) -> None:

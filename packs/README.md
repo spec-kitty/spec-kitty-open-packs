@@ -28,5 +28,6 @@ See [Author a Charter Pack](../docs/guides/author-a-charter-pack.md) to add one,
 [Validate a pack](../docs/guides/validate-a-pack.md) before you open a PR. CI validates every
 directory here on each pull request (`scripts/ci/validate-packs.sh`).
 
-The Spec Kitty consumer built-in pack is not here: it lives in [`../built-in/`](../built-in.source.yaml),
-outside `packs/`, because it is not an org pack. See `built-in.source.yaml` for its provenance.
+The exception is [`built-in/`](built-in/), the Spec Kitty consumer built-in pack. It is not an org pack:
+`validate-packs.sh` skips it and `scripts/ci/check-built-in.sh` checks it instead. See
+[`built-in.source.yaml`](built-in.source.yaml) for its provenance.

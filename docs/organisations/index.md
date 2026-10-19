@@ -68,8 +68,8 @@ What ships for an organisation to start from:
 
 | Provisioning | Where | What it gives |
 | --- | --- | --- |
-| Built-in `default` preset | `built-in/presets/default.yaml` | Every built-in artefact effective; activates the `software-dev`, `documentation`, `research` and `plan` Mission types. |
-| Built-in `minimal` preset | `built-in/presets/minimal.yaml` | A small curated baseline of foundational directives and tactics for `software-dev`. |
+| Built-in `default` preset | `packs/built-in/presets/default.yaml` | Every built-in artefact effective; activates the `software-dev`, `documentation`, `research` and `plan` Mission types. |
+| Built-in `minimal` preset | `packs/built-in/presets/minimal.yaml` | A small curated baseline of foundational directives and tactics for `software-dev`. |
 | `event-driven` preset | `packs/event-driven/presets/` | The event-sourced design paradigm, its directives, tactics and naming styleguide. |
 | Opt-in packs | `packs/qa`, `packs/event-driven`, `packs/cave-kitty` | Domain slices you activate artefact by artefact. |
 | Maintainer pack | `packs/internal` | Spec Kitty's own in-house org pack — a worked example of `required_*` and `skill_namespace` (not shipped in the CLI). |

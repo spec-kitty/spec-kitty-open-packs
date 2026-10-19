@@ -12,8 +12,7 @@ related:
 
 A Charter Pack is a set of **charter artefacts**, one YAML file each, grouped in one directory
 per kind. The kind vocabulary is owned by the charter (`ArtifactKind`); every pack, whatever its
-tier, uses the same layout. Field lists below are taken from real files in `built-in/` and
-`packs/`; scaffold a new one with `spec-kitty charter new` and validate with
+tier, uses the same layout. Field lists below are taken from real files under `packs/`; scaffold a new one with `spec-kitty charter new` and validate with
 `spec-kitty charter pack validate`.
 
 ## Kinds at a glance

@@ -19,7 +19,7 @@ generated:
 
 ## Provenance & integrity
 
-- **Pack directory:** `built-in`
+- **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
 - **Content checksum (sha256):** `46c2bf36e610e034221693b5b970a6b87db9c1cdbddccedde0f0a4f6388fb54a`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.

@@ -29,7 +29,8 @@ done
 spec-kitty --version
 spec-kitty charter pack validate --help >/dev/null  # fail fast on a pre-cutover CLI
 
-mapfile -t packs < <(find packs tests/fixtures/valid -mindepth 1 -maxdepth 1 -type d | sort)
+# packs/built-in is the built-in tier, not an org pack; check-built-in.sh validates it.
+mapfile -t packs < <(find packs tests/fixtures/valid -mindepth 1 -maxdepth 1 -type d -not -path packs/built-in | sort)
 mapfile -t invalid < <(find tests/fixtures/invalid -mindepth 1 -maxdepth 1 -type d | sort)
 (( ${#invalid[@]} > 0 )) || { echo "::error::tests/fixtures/invalid/ holds no fixture; the non-vacuity check would prove nothing"; exit 1; }
 

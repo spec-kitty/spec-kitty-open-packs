@@ -18,9 +18,9 @@ receives during a Mission.
 
 | Component | Owner | Role |
 | --- | --- | --- |
-| Pack source (`built-in/`, `packs/<name>/`) | this repository | Authored charter artefacts, DRG fragments, presets, `pack.yaml`. |
+| Pack source (`packs/built-in/`, `packs/<name>/`) | this repository | Authored charter artefacts, DRG fragments, presets, `pack.yaml`. |
 | Pack validator | the charter (core CLI) | `spec-kitty charter pack validate` — schema and DRG checks, run here in CI. |
-| Vendored built-in pack | core CLI (`packs/built-in/`) | A pinned, checksummed copy of `built-in/`, shipped in every wheel. |
+| Vendored built-in pack | core CLI (`packs/built-in/`) | A pinned, checksummed copy of this repository's `packs/built-in/`, shipped in every wheel. |
 | Org pack cache | consumer machine | Packs fetched by `spec-kitty charter fetch` into `local_path`. |
 | Project layer | consumer project (`.kittify/charter-packs/`) | Project-local artefacts, pack id `project`. |
 | Charter Offering | the charter | The merged set a project can draw from. |
@@ -39,7 +39,7 @@ sequenceDiagram
   participant Ch as Charter
   A->>R: author artefacts + drg/fragment.yaml
   R->>R: CI: charter pack validate, built-in parity
-  R-->>C: built-in/ vendored at a pinned ref
+  R-->>C: packs/built-in/ vendored at a pinned ref
   P->>P: register packs in .kittify/config.yaml
   P->>Ch: charter fetch (git ref + subdir)
   Ch->>Ch: merge built-in → org → project (Charter Offering)
@@ -88,7 +88,8 @@ The charter service is not an event producer: Mission events come from the CLI a
 
 ## Where built-in content comes from
 
-`built-in/` here is the source; the core CLI re-vendors a pinned, checksummed ref into its
-`packs/built-in/` at release (see [`built-in.source.yaml`](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/built-in.source.yaml)).
+`packs/built-in/` here is the source; the core CLI re-vendors a pinned, checksummed ref into its
+`packs/built-in/` at release (see [`packs/built-in.source.yaml`](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/packs/built-in.source.yaml)).
+spec-kitty/spec-kitty#6451 replaces that vendored copy with a direct source from this repository.
 The maintainer-only `internal` pack is also authored here, but it is an org pack and never
 ships in the CLI wheel.
