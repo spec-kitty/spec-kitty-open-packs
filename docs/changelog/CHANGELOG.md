@@ -122,6 +122,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **Built-in doctrine no longer sends agents to the closed `docs/adr/3.x/` folder**
+  ([spec-kitty#5428](https://github.com/spec-kitty/spec-kitty/issues/5428)). The software-dev
+  review prompt pointed reviewers at `docs/adr/3.x/` for architectural intent, and the
+  `common-docs-scaffold` tactic used `adr/3.x/` as the home of a new ADR, though that era takes
+  no new records. The prompt now names `docs/adr/`, filed by era, and the tactic's examples use
+  `adr/4.x/`. `packs/built-in.source.yaml` records the new tree digest.
 - **The shared JVM toolguides now apply to Kotlin projects** (spec-kitty/spec-kitty#6444).
   **Before:** `java-supply-chain` and `maven-review-checks` were tagged `java`, so a Kotlin
   project, or one that declares only Gradle or Maven, never received them. **After:** both are
