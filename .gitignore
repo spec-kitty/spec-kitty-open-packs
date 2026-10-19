@@ -1,5 +1,8 @@
 # Added by Spec Kitty CLI (auto-managed)
-.claude/
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/kitty-*/
 .codex/
 .vibe/
 .pi/
