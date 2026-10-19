@@ -12,9 +12,11 @@ purpose: >
   `issue-triage` pack skill is the thin entry point to this procedure.
   Terms used here. The operator is the human in charge of the run: the maintainer who
   invoked it. The canonical remote is the git remote that points at
-  `spec-kitty/spec-kitty`; find it with `git remote -v`. The fleet is the SkyKitty
-  agent fleet (docs/development/agent-fleet.md), whose bots own the `status:*`,
-  `squad:*` and `needs:*` labels.
+  `spec-kitty/spec-kitty`; find it with `git remote -v`. The workflow-state labels
+  are the issue-side `status:*` labels and `taken-by-human`: human workflow state
+  (docs/development/how-to/manage-issue-tracker.md, "Issue workflow-state labels"),
+  set by a person or by contributor tooling. The SkyKitty agent fleet that once
+  consumed them is switched off.
 entry_condition: >
   The operator has asked for a set of issues to be triaged: an explicit list of
   numbers, a time window such as `14d` (open issues created in the last 14 days), a
@@ -92,9 +94,15 @@ steps:
       (for a PR, link the issue the PR closes); for a related twin, comment a
       cross-reference on both issues. Assign a milestone only when obvious, per
       docs/plans/4-0-0-milestone-roadmap.md (`4.0.0 release scope` only for a true GA
-      blocker); otherwise leave it unset and say so. Do not add or remove `status:*`,
-      `squad:*`, `needs:*` or `ready-for-squad` labels: the fleet owns them as leases,
-      so report one that looks stale and leave it.
+      blocker); otherwise leave it unset and say so. Once the issue is triaged and
+      no operator decision is pending on it, remove `status:triage`; leave it on an
+      issue you flagged. Do not add or remove any other workflow-state label
+      (`status:ready`, `status:claimed`, `status:blocked`, `taken-by-human`) or
+      `ready-for-squad`: they are leases and queue state set by a person or by
+      contributor tooling, so report one that looks stale and leave it. Never apply
+      a retired or renamed label (spec-kitty-tracker-labels, "Renamed and retired
+      labels"); strip a retired kind label (`bug`, `enhancement`, `type:*`) and set
+      the native type instead. A pending human call is `triage:needs-decision`.
       Brief, health scan: flag with evidence descriptions that are deprecated or
       superseded (mark `triage:repro-needed` if the issue may already be fixed, or
       `triage:stale` if it may be dead), internal inconsistencies between title, body
@@ -133,7 +141,8 @@ steps:
       question enough context to decide without opening the issue: what the issue is,
       the concrete evidence (file and line, PR, sibling issues), the blast radius and
       what each option means. After each ruling, re-check the issue's state and apply
-      it yourself, then report the final state. Once the operator confirms a P0 Bug,
+      it yourself, then report the final state; remove `status:triage` from an issue
+      once its ruling is applied. Once the operator confirms a P0 Bug,
       the red-first reproduction test goes in a PR labelled `pr:p0-repro`, with
       `Refs #<n>` and not `Closes`, and the test carries
       `@pytest.mark.p0_repro(issue=<n>)` (docs/development/how-to/manage-issue-tracker.md,
@@ -155,10 +164,12 @@ anti_patterns:
   - name: Writing to an issue that closed mid-pass
     description: >
       Re-read the state immediately before each write.
-  - name: Touching fleet-owned labels
+  - name: Touching workflow-state leases
     description: >
-      `status:*`, `squad:*` and `needs:*` are leases and queue state owned by the
-      fleet. Report a stale one; do not remove it.
+      `status:ready`, `status:claimed`, `status:blocked` and `taken-by-human` are
+      leases and queue state set by a person or by contributor tooling. Report a
+      stale one; do not remove it. The one exception is `status:triage`, which the
+      pass removes once an issue is triaged and nothing is pending on it.
   - name: Parenting under a meta-tracker or in a body checklist
     description: >
       Parent real work under a functional epic with a native sub-issue link.

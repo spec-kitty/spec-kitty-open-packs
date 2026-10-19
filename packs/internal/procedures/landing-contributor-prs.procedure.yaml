@@ -113,11 +113,12 @@ steps:
       subagent brief: a scheduled CI job owns that file (pr-landing.md, Gotchas). On a
       rebase conflict in that file, keep the rows from main. Note a count drift in the
       hand-off as owned by automation.
-      If the PR was prepared by the SkyKitty agent fleet (a `squad:*` or
-      `ready-for-squad` label, or a bot author; see docs/development/agent-fleet.md),
-      a `squad:passed` label means its review passed against the base the PR had at
-      that time, not that it is ready now. Also search for the follow-up issues the
-      fleet files for its smaller findings (`gh issue list --repo
+      If the PR was prepared by the SkyKitty agent fleet (a bot author; see
+      docs/development/agent-fleet.md; the fleet is switched off and its `squad:*`
+      labels were deleted on 2026-10-19), a squad review recorded on it passed
+      against the base the PR had at that time, not that it is ready now. Also
+      search for the follow-up issues the fleet filed for its smaller findings
+      (`gh issue list --repo
       spec-kitty/spec-kitty --search "#<PR number>"`, plus the PR's own comments and
       links). Fix each one in this landing, or at least make the PR-body correction it
       asks for, and add `Closes #<n>` to the PR body next to the PR's own issue line.

@@ -72,9 +72,10 @@ steps:
       --repo spec-kitty/spec-kitty --add-assignee <login>`, keeping existing
       assignees; if the issue is assigned to someone else who is active on it, stop
       and ask; (3) add the labels `status:claimed` and `taken-by-human` and comment
-      `claimed by <harness>/<model> on <machine>`; the fleet's dispatcher reads those
-      labels, and without them a fleet VM can pick up the same issue
-      (docs/development/how-to/manage-issue-tracker.md, "The `status:*` lifecycle").
+      `claimed by <harness>/<model> on <machine>`; the claim is a lease that tells
+      other contributors and their tooling the issue is taken
+      (docs/development/how-to/manage-issue-tracker.md, "Issue workflow-state
+      labels").
       Then re-read `gh issue view <n> --repo spec-kitty/spec-kitty --json
       assignees,labels` for every issue and confirm the operator and both labels are
       present. If any claim failed, stop and report. If `gh` reports missing token
@@ -180,15 +181,16 @@ steps:
       reds, CI-environment failures and stale-install false reds are not your diff.
       Fix what is yours.
       Add the `taken-by-human` label to the PR when you open it, and keep it on the
-      issues: the fleet's PR-routed fix and recovery lanes select on the PR's own
-      labels and never see the linked issue's `status:claimed`, so this label is
-      what keeps them off a human-driven PR
-      (docs/development/how-to/manage-issue-tracker.md).
+      issues: it marks the PR as human-owned workflow state
+      (docs/development/how-to/manage-issue-tracker.md, "Issue workflow-state
+      labels").
       Then flip the PR to ready for review. The flip is the hand-off to the
       maintainers: it signals that a landing pass is safe to start. Flip only when the
       PR is green and complete. Never flip a PR that is red or still being changed.
       When the scope is complete and the tests have run, label the PR
-      `ready-for-squad` (docs/development/agent-fleet.md).
+      `ready-for-squad`: the implementer has run the required tests and
+      self-review, and the PR is finished and independently testable
+      (docs/development/how-to/manage-issue-tracker.md, "PR-workflow labels").
     actor: agent
 
   - title: Report and stop
@@ -204,7 +206,7 @@ steps:
 anti_patterns:
   - name: Specifying before the claim
     description: >
-      An unclaimed issue invites a second runner (a fleet VM or a person) onto the
+      An unclaimed issue invites a second runner (another agent or a person) onto the
       same work. Claim and verify first.
   - name: Starting from a stale or wrong remote
     description: >
