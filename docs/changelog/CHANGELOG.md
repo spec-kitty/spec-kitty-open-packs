@@ -122,15 +122,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
-- **Org DRG fragments use URN endpoints only and carry no provenance header**
-  ([spec-kitty-charter#114](https://github.com/spec-kitty/spec-kitty-charter/issues/114)). The
-  84 bare-id edge endpoints of `packs/internal/drg/fragment.yaml` are now the URNs core already
-  resolved them to (`landing-contributor-prs` → `procedure:landing-contributor-prs`), and the four
-  org fragments drop `pack_name`, `source_kind`, `source_ref`, `layer_index` and
-  `provenance_marker`, which core overwrites from the consumer's registration. Core's verdicts
-  are unchanged: `charter pack validate` passes every pack, and the merged graph is identical
-  before and after (461 nodes, 1235 edges). The charter service, which now owns the pack
-  schemas (charter ADR-0015, ADR-0017), refuses bare-id endpoints and the header fields.
+- **Org DRG fragments now match the charter's pack schema**
+  ([spec-kitty-charter#114](https://github.com/spec-kitty/spec-kitty-charter/issues/114)), so the
+  charter service can load every pack here. Before, `packs/internal/drg/fragment.yaml` had 84
+  bare-id edge endpoints and the org fragments carried provenance header fields, which that
+  schema refuses. Endpoints are now the URNs core already resolved them to
+  (`landing-contributor-prs` → `procedure:landing-contributor-prs`), and the fragments drop the
+  header fields they carried; core overwrites those from the consumer's registration. Core's
+  merged graph is unchanged (461 nodes, 1235 edges). `validate-packs.sh` now fails on a bare-id
+  endpoint or a header field, because core still accepts both.
 - **The charter step says up front that activation is additive (core `#6408`).** The
   `software-dev` charter prompt never said that interview selections only add to what is
   already active, or that the first activation list is frozen, so later built-ins seemed to go
