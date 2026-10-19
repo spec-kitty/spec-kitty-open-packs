@@ -2,7 +2,7 @@
 title: Contracts
 description: "The machine contracts a Charter Pack meets: pack, org-charter, preset, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
-updated: '2026-10-18'
+updated: '2026-10-19'
 related:
 - artefacts
 - organisations
@@ -81,9 +81,13 @@ See [Organisations](../organisations/index.md) for how these are used.
 
 | Field | Meaning |
 | --- | --- |
-| `pack_name`, `source_kind`, `source_ref`, `layer_index` | Placeholders; overwritten at load time. |
 | `nodes` | `{id, kind, title, body_path}` per artefact. |
-| `edges` | `{source, target, relation}`. Endpoints are DRG URNs (`<kind>:<id>`) or ids declared in `nodes`; anything else is refused as `unresolved_edge_endpoint`. |
+| `edges` | `{source, target, relation}`. Endpoints are DRG URNs (`<kind>:<id>`, singular kind), a node of this fragment included: write `procedure:my-procedure`, not `my-procedure`. |
+
+A fragment carries no provenance header. The pack's name, source and layer come from the
+consumer's registration (`.kittify/config.yaml`), so `pack_name`, `source_kind`, `source_ref`,
+`layer_index` and `provenance_marker` are not written here. The charter service refuses them,
+and refuses a bare-id endpoint, as a schema error.
 
 Relations include `requires`, `suggests`, `applies`, `scope`, `vocabulary`, `delegates_to`,
 `specializes_from`, `enhances`, `overrides`, `refines`, `replaces`, `rejects`, `instantiates`,
