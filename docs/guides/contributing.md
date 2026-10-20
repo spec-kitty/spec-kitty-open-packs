@@ -67,13 +67,16 @@ To cut a release:
 
 1. Rename `## [Unreleased]` in the changelog to `## [X.Y.Z] - YYYY-MM-DD`, add a fresh empty
    `## [Unreleased]` above it, and merge that to `main`. The release fails if the changelog has
-   no section for the version; that section becomes the release notes.
+   no section for the version; that section becomes the release notes. On the first release,
+   also remove the changelog's "no released version yet" banner in the same change.
 2. Tag the merged commit and push the tag: `git tag vX.Y.Z <sha> && git push origin vX.Y.Z`.
 
 The archives are reproducible: each one is built from the tagged commit's git tree (sorted
 entries, fixed mtimes, no owner, fixed gzip header), so rebuilding a tag gives the same
 sha256. Build them locally with `scripts/release/release_assets.py build vX.Y.Z --rev HEAD`.
-A pack may hold only regular files; a symlink fails the release.
+A pack may hold only regular files; a symlink or submodule fails the release. Prerelease tags
+(`vX.Y.Z-rc1`) are not released. Assets are uploaded to a draft that is published only once
+every archive is present, so a failed run never leaves a half-published release.
 
 **Tag policy: a release tag is never moved or deleted**, and a published release's assets are
 never replaced. Consumers, Spec Kitty core among them, pin a tag together with its commit and

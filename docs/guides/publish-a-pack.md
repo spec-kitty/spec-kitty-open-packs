@@ -40,7 +40,7 @@ Every `spec-kitty-open-packs` release already does this: the release page carrie
 single `<pack>/` top-level directory and is reproducible from the tag. For your own pack:
 
 ```bash
-tar czf <pack>-v0.1.0.tar.gz -C ./packs/<pack> .
+tar czf <pack>-v0.1.0.tar.gz -C ./packs <pack>   # one <pack>/ top-level directory
 ```
 
 ## Option C — Custom HTTP API
