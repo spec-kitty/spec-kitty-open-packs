@@ -96,8 +96,10 @@ contributes appear with `source: org`.
 
 - **Pin versions** so a moving `main` doesn't silently change behaviour for every consumer on
   every fetch. Each `vX.Y.Z` release also publishes every pack as a reproducible
-  `<pack>-vX.Y.Z.tar.gz` with a `.sha256`, so you can pin and verify the archive digest
-  instead of fetching the repository. Release tags are never moved.
+  `<pack>-vX.Y.Z.tar.gz` with a `.sha256`. Once core can fetch release archives
+  ([spec-kitty/spec-kitty#6492](https://github.com/spec-kitty/spec-kitty/issues/6492)), you
+  will be able to pin and verify the archive digest instead of fetching the repository.
+  Release tags are never moved.
 - **Opt in deliberately.** The point of packs is to *avoid* loading charter artefacts you don't need.
   Add only the packs whose domain matches your project, and activate only what you use, so
   context stays lean.
