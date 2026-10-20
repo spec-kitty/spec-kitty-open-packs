@@ -2,7 +2,7 @@
 title: Architecture Decision Records
 description: Index of architecture decision records for spec-kitty-open-packs, covering the content-from-code docsite direction and its integrity model.
 doc_status: active
-updated: '2026-07-18'
+updated: '2026-10-20'
 related:
 - architecture
 - architecture/docsite-design
@@ -33,6 +33,7 @@ context, the options considered, the chosen option, and its consequences.
 | 2026-07-18 | 3 | [Build-time checksum tagging as an interim integrity mechanism](2026-07-18-3-build-time-checksum-tagging.md) | Proposed |
 | 2026-07-18 | 4 | [Docsite information architecture & ADR placement](2026-07-18-4-docsite-information-architecture.md) | Proposed |
 | 2026-10-17 | 1 | [doc-kitty (Astro) as the docsite generator](2026-10-17-1-doc-kitty-astro-as-docsite-generator.md) | Accepted |
+| 2026-10-20 | 1 | [Semver releases with a reproducible archive per pack](2026-10-20-1-semver-releases-with-per-pack-archives.md) | Accepted |
 
 The 2026-07-18 ADRs emerge from the docsite research and await HiC ratification; they document a
 recommended direction, not yet-implemented policy. **ADR 2026-07-18-1 (MkDocs Material) is

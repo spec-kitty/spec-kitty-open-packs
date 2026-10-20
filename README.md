@@ -38,7 +38,9 @@ flowchart LR
 ```
 
 - **`packs/built-in/`** is the source of the built-in pack. Core fetches it at a pinned,
-  checksummed commit and ships it in every wheel, so every install carries it.
+  checksummed commit and ships it in every wheel, so every install carries it. Each `vX.Y.Z`
+  release publishes every pack as a reproducible archive with a `.sha256`, so a consumer can
+  pin a release instead of a commit.
 - **Every other `packs/*`** is an opt-in org-tier pack. A project registers them in `.kittify/config.yaml`
   and fetches them with `spec-kitty charter fetch`.
 - Together with the project's own layer they form the project's **Charter Offering**; what the
