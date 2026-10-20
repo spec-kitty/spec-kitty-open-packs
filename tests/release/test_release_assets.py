@@ -8,6 +8,7 @@ Stdlib ``unittest`` only. Run it with::
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import io
 import os
@@ -97,11 +98,9 @@ class ReleaseAssetsTest(unittest.TestCase):
     def test_sha256_file_matches_its_archive(self) -> None:
         out = self.repo / "dist"
         release.write_assets(self.repo, "v1.2.3", "v1.2.3", out)
-        line = (out / "qa-v1.2.3.tar.gz.sha256").read_text()
-        digest, name = line.split()
+        digest, name = (out / "qa-v1.2.3.tar.gz.sha256").read_text().split()
         self.assertEqual(name, "qa-v1.2.3.tar.gz")
-        result = subprocess.run(["sha256sum", "--check", "--status"], cwd=out, input=line.encode())
-        self.assertEqual(result.returncode, 0, digest)
+        self.assertEqual(digest, hashlib.sha256((out / name).read_bytes()).hexdigest())
 
     def test_changelog_section_is_extracted(self) -> None:
         changelog = "# Changelog\n\n## [Unreleased]\n\n## [1.2.3] - 2026-10-20\n\n- Shipped.\n\n## [1.2.2]\n\n- Old.\n"
@@ -110,6 +109,8 @@ class ReleaseAssetsTest(unittest.TestCase):
     def test_missing_changelog_section_fails(self) -> None:
         with self.assertRaisesRegex(release.ReleaseError, r"no '## \[1.2.3\]'"):
             release.changelog_section("# Changelog\n\n## [Unreleased]\n\n- Pending.\n", "1.2.3")
+        with self.assertRaisesRegex(release.ReleaseError, "is empty"):
+            release.changelog_section("## [1.2.3] - 2026-10-20\n\n## [1.2.2]\n\n- Old.\n", "1.2.3")
 
     def test_tag_must_be_semver(self) -> None:
         for tag in ("1.2.3", "v1.2", "v01.2.3", "v1.2.3-rc1"):
