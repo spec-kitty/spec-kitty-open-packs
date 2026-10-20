@@ -130,7 +130,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `type:decision`), and gains a "Renamed and retired labels" pattern (`domain:merge` →
   `domain:consolidation`, `domain:dashboard` → `domain:status-api`, `domain:hosted` →
   `legacy:hosted`, `documentation` merged into `domain:docs`, and the deleted `squad:*`,
-  `needs:*`, `ci:green`/`ci:red`, fleet `from:*`, `launch-window`, `question`, `help wanted`,
+  `needs:*`, `ci:green`/`ci:red`, fleet `from:*` labels outside the provenance set, `launch-window`, `question`, `help wanted`,
   `invalid` and `wontfix`). The `issue-triage-pass` procedure and the `kitty-issue-triage` skill
   no longer call `status:*` fleet-owned: the SkyKitty fleet is switched off, `status:*`,
   `taken-by-human` and `ready-for-squad` are human workflow state, and a triage pass removes
