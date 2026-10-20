@@ -2,7 +2,7 @@
 title: Use a Charter Pack
 description: Configure a Spec Kitty 4.x consumer project to fetch an open Charter Pack, activate it, and confirm it participates in context resolution.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-10-20'
 related:
 - guides/compose-packs
 - guides
@@ -33,7 +33,7 @@ charter_packs:
         local_path: "${SPEC_KITTY_PACK_HOME}/qa"
         source_type: git
         url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
-        ref: "<commit SHA or pack/qa/vX.Y.Z tag>"   # never a branch
+        ref: "<vX.Y.Z release tag or commit SHA>"   # never a branch
         subdir: packs/qa
 ```
 
@@ -95,7 +95,9 @@ contributes appear with `source: org`.
 ## Why pin, and why opt in
 
 - **Pin versions** so a moving `main` doesn't silently change behaviour for every consumer on
-  every fetch.
+  every fetch. Each `vX.Y.Z` release also publishes every pack as a reproducible
+  `<pack>-vX.Y.Z.tar.gz` with a `.sha256`, so you can pin and verify the archive digest
+  instead of fetching the repository. Release tags are never moved.
 - **Opt in deliberately.** The point of packs is to *avoid* loading charter artefacts you don't need.
   Add only the packs whose domain matches your project, and activate only what you use, so
   context stays lean.

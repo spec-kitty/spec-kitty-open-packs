@@ -1,0 +1,59 @@
+name: Release
+
+# A vX.Y.Z tag publishes one GitHub release carrying, for every pack under packs/,
+# a deterministic <pack>-vX.Y.Z.tar.gz and its .sha256 (spec-kitty-open-packs#53).
+# Core pins {tag, commit, archive_sha256}, so a release tag is never moved or
+# deleted: a bad release is superseded by a new version (see CONTRIBUTING.md).
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    uses: ./.github/workflows/validate-packs.yml
+
+  release:
+    name: Publish release assets
+    needs: [validate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Tag is a released commit on main
+        run: |
+          if ! git merge-base --is-ancestor "$TAG^{commit}" origin/main; then
+            echo "::error::$TAG does not point at a commit on main"
+            exit 1
+          fi
+      - name: Release notes from CHANGELOG.md
+        run: scripts/release/release_assets.py notes "$TAG" > release-notes.md
+      - name: Guard the release tooling
+        run: python3 -m unittest discover -s tests/release
+      - name: Build archives
+        run: scripts/release/release_assets.py build "$TAG" --out dist
+      - name: Archives are reproducible
+        run: |
+          scripts/release/release_assets.py build "$TAG" --out dist-rebuild > /dev/null
+          diff <(cd dist && sha256sum *.tar.gz) <(cd dist-rebuild && sha256sum *.tar.gz)
+          (cd dist && sha256sum --check *.sha256)
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # Fails if the release already exists: assets of a published tag are never replaced.
+        run: gh release create "$TAG" dist/* --verify-tag --title "$TAG" --notes-file release-notes.md

@@ -2,7 +2,7 @@
 title: "Getting started: adopt your first pack"
 description: "Adopt your first Spec Kitty Charter Pack end to end: register it, fetch it, activate one rule through the charter, and confirm it is in force. For first-time pack users."
 doc_status: wip
-updated: '2026-10-17'
+updated: '2026-10-20'
 related:
 - guides
 - guides/use-a-charter-pack
@@ -45,7 +45,7 @@ charter_packs:
         local_path: "${SPEC_KITTY_PACK_HOME}/qa"
         source_type: git
         url: "https://github.com/spec-kitty/spec-kitty-open-packs.git"
-        ref: "<commit SHA or pack/qa/vX.Y.Z tag>"   # pin a tag or SHA, never a branch
+        ref: "<vX.Y.Z release tag or commit SHA>"   # pin a tag or SHA, never a branch
         subdir: packs/qa
 ```
 

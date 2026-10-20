@@ -2,7 +2,7 @@
 title: Publish a pack
 description: Distribute a Spec Kitty Charter Pack via git, HTTPS bundle, or a custom API; version it for reproducibility; and account for the pack trust surface.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-10-20'
 related:
 - guides/validate-a-pack
 - guides/use-a-charter-pack
@@ -14,12 +14,14 @@ Spec Kitty's org layer fetches packs over git, HTTPS, Artifactory or a custom AP
 
 ## Option A — Git repository (recommended)
 
-Push the pack to a git remote and tag releases. In this marketplace, most open packs live as
-directories inside `spec-kitty-open-packs` and are pinned by tag or commit SHA.
+Push the pack to a git remote and tag releases. In this marketplace, the open packs live as
+directories inside `spec-kitty-open-packs` and are pinned by a repository-wide `vX.Y.Z`
+release tag or a commit SHA. The [contributing guide](contributing.md#releases) describes how
+a release is cut and the rule that a release tag is never moved.
 
 ```bash
-git tag pack/<pack>/v0.1.0
-git push origin pack/<pack>/v0.1.0
+git tag vX.Y.Z <sha>
+git push origin vX.Y.Z
 ```
 
 Consumers point at the remote and pin the ref (see [Use a Charter Pack](use-a-charter-pack.md)).
@@ -32,6 +34,10 @@ Consumers point at the remote and pin the ref (see [Use a Charter Pack](use-a-ch
 
 Upload a tarball to an HTTPS location (object storage, releases page); consumers download and
 extract.
+
+Every `spec-kitty-open-packs` release already does this: the release page carries a
+`<pack>-vX.Y.Z.tar.gz` and its `.sha256` for each pack. The archive holds the pack under a
+single `<pack>/` top-level directory and is reproducible from the tag. For your own pack:
 
 ```bash
 tar czf <pack>-v0.1.0.tar.gz -C ./packs/<pack> .
