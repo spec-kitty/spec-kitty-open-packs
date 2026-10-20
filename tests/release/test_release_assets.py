@@ -57,6 +57,14 @@ class ReleaseAssetsTest(unittest.TestCase):
 
     def test_every_pack_directory_is_released(self) -> None:
         self.assertEqual(release.list_packs(self.repo, "v1.2.3"), ["built-in", "qa"])
+        self._add_gitlink("packs/vendored")  # a pack that is not a directory must fail, not vanish
+        with self.assertRaisesRegex(release.ReleaseError, "packs/vendored is a commit"):
+            release.list_packs(self.repo, "HEAD")
+
+    def _add_gitlink(self, path: str) -> None:
+        head = subprocess.run(["git", "-C", str(self.repo), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+        _git(self.repo, "update-index", "--add", "--cacheinfo", f"160000,{head},{path}")
+        _git(self.repo, "commit", "-qm", f"gitlink {path}")
 
     def test_archive_is_reproducible(self) -> None:
         first = release.build_archive(self.repo, "v1.2.3", "qa")
@@ -76,12 +84,15 @@ class ReleaseAssetsTest(unittest.TestCase):
             self.assertEqual(members[0].mode, 0o755)
             self.assertEqual(tar.extractfile("qa/pack.yaml").read(), b"name: qa\n")
 
-    def test_symlink_in_a_pack_fails(self) -> None:
+    def test_symlink_or_submodule_in_a_pack_fails(self) -> None:
         os.symlink("pack.yaml", self.repo / "packs/qa/link.yaml")
         _git(self.repo, "add", ".")
         _git(self.repo, "commit", "-qm", "link")
-        with self.assertRaisesRegex(release.ReleaseError, "link.yaml"):
+        with self.assertRaisesRegex(release.ReleaseError, "packs/qa/link.yaml"):
             release.build_archive(self.repo, "HEAD", "qa")
+        self._add_gitlink("packs/built-in/vendor")
+        with self.assertRaisesRegex(release.ReleaseError, "packs/built-in/vendor is a commit"):
+            release.build_archive(self.repo, "HEAD", "built-in")
 
     def test_sha256_file_matches_its_archive(self) -> None:
         out = self.repo / "dist"
