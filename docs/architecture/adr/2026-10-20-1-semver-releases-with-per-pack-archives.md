@@ -60,7 +60,22 @@ version with one changelog section behind it, and every pack (`built-in`, `inter
   symlink or submodule in a pack fails the build.
 * The release notes are the `## [X.Y.Z]` changelog section; the release fails without one.
 * **A release tag is never moved or deleted, and a published release's assets are never
-  replaced.** A bad release is superseded by a new version.
+  replaced.** A bad release is superseded by a new version. Assets are uploaded to a draft that
+  is published only once every archive is present.
+* Prerelease tags (`vX.Y.Z-rc1`) are not released.
+
+### Which digest proves what
+
+A pack now has up to three integrity values, and each answers a different question:
+
+* **`archive_sha256`** (the published `.sha256`) proves **transport**: the downloaded bytes are
+  the published bytes. It covers every file and is checked before anything is extracted. The
+  published value is authoritative; nobody needs to rebuild the archive to check it.
+* **`tree_digest`** (`spec-kitty-snapshot-sha256`, recorded for `built-in` in
+  `packs/built-in.source.yaml`) proves **content identity** after extraction. It hashes every
+  file except `pack-manifest.yaml`, so it is not a substitute for the archive digest.
+* The **build-time checksum** of [ADR 2026-07-18-3](2026-07-18-3-build-time-checksum-tagging.md)
+  stays a docsite-side display of pack content. This ADR does not replace it.
 
 ### Consequences
 
@@ -68,19 +83,21 @@ version with one changelog section behind it, and every pack (`built-in`, `inter
 
 * Core can drop sparse checkout and the git dependency at fetch time (core #6492).
 * Pin bumps read as versions, with release notes behind them.
-* The archive digest covers every file, including paths a tree digest might skip.
+* The archive digest covers every file, including `pack-manifest.yaml`, which `tree_digest`
+  skips.
 
 #### Negative
 
 * A change to one pack releases a new version of all of them, even when the others are unchanged.
 * Byte-reproducibility relies on the runner's Python `zlib`; a rebuild elsewhere could compress
-  differently. The published `.sha256` stays authoritative, not a local rebuild.
+  differently. The release job's rebuild check only catches nondeterminism within one run. The
+  published `.sha256` is authoritative, and `tree_digest` gives content equality across tools.
 
 #### Neutral
 
 * `internal` is released alongside the others; consumers that do not want it ignore its asset.
-* This puts a release-time digest beside the build-time checksum of
-  [ADR 2026-07-18-3](2026-07-18-3-build-time-checksum-tagging.md) without replacing it.
+* This puts a release-time digest beside the build-time checksum of ADR 2026-07-18-3 without
+  replacing it (see "Which digest proves what").
 
 ### Confirmation
 
