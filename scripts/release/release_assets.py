@@ -71,7 +71,7 @@ def list_packs(repo: Path, rev: str) -> list[str]:
 def _pack_blobs(repo: Path, rev: str, pack: str) -> list[tuple[str, int, str]]:
     """``(path inside the pack, mode, blob sha)`` for every file, sorted by path."""
     prefix = f"{PACKS_DIR}/{pack}/"
-    # The tree object, not a pathspec: a pack name with glob characters must not match a sibling.
+    # List the pack's tree object, so the paths come back relative to the pack.
     out = _git(repo, "ls-tree", "-r", "-z", "--full-tree", f"{rev}:{PACKS_DIR}/{pack}")
     blobs = []
     for entry in out.split(b"\0"):
