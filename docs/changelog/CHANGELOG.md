@@ -191,7 +191,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
-- **A PR body without a `closes #<n>` line is a warning, not a failure (`internal`).** The
+- **A PR body without a `closes #<n>` line is a warning, not a failure** (`internal`, #59). The
   `validate-pr-body` asset refused any body without an issue link, which blocked
   decision-recording PRs that legitimately close no issue. A missing link now prints
   `warning: ...` and exits 0, and the match covers GitHub's full keyword set (`close`, `fix`,
