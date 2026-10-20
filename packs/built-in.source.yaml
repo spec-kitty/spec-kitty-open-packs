@@ -1,13 +1,12 @@
 # Provenance of packs/built-in/ (spec-kitty-open-packs#31, core ADR 2026-08-16-2 Option B).
 #
-# packs/built-in/ is the Spec Kitty consumer built-in pack, seeded byte-identical from core
-# `packs/built-in/` at the commit below. Core's release vendors it back from a pinned
-# commit of this repository (spec-kitty/spec-kitty#3504). spec-kitty/spec-kitty#6451
-# replaces core's vendored copy with a direct source from this repository.
+# packs/built-in/ is the Spec Kitty consumer built-in pack, and this repository is where it
+# is authored. Since spec-kitty/spec-kitty#6451 core keeps no copy: it fetches packs/built-in/
+# from a pinned commit of this repository (core's own packs/built-in.source.yaml).
 #
-# Transition rule: until the authoring flip is ruled on, core is still where
-# built-in content is edited. Re-seed from core; do not edit packs/built-in/ here, or the
-# two copies diverge. scripts/ci/check-built-in.sh enforces the digest below.
+# seeded_from records the last core commit this tree was seeded from, before the
+# authoring flip; it is history, not a re-seed instruction. Edit packs/built-in/ here and
+# update tree_digest below; scripts/ci/check-built-in.sh enforces it.
 seeded_from:
   repository: https://github.com/spec-kitty/spec-kitty
   path: packs/built-in

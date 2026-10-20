@@ -37,8 +37,8 @@ flowchart LR
   AC -- charter context --> CLI["Spec Kitty CLI"]
 ```
 
-- **`packs/built-in/`** is the source of the built-in pack. The CLI vendors a pinned, checksummed ref
-  of it, so every install carries it.
+- **`packs/built-in/`** is the source of the built-in pack. Core fetches it at a pinned,
+  checksummed commit and ships it in every wheel, so every install carries it.
 - **Every other `packs/*`** is an opt-in org-tier pack. A project registers them in `.kittify/config.yaml`
   and fetches them with `spec-kitty charter fetch`.
 - Together with the project's own layer they form the project's **Charter Offering**; what the
