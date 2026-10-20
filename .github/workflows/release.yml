@@ -58,8 +58,6 @@ jobs:
           fi
       - name: Release notes from CHANGELOG.md
         run: scripts/release/release_assets.py notes "$TAG" > release-notes.md
-      - name: Guard the release tooling
-        run: python3 -m unittest discover -s tests/release
       - name: Build archives
         run: scripts/release/release_assets.py build "$TAG" --out dist
       - name: Archives are reproducible

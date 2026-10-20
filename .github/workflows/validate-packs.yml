@@ -50,6 +50,8 @@ jobs:
         run: scripts/ci/validate-packs.sh
       - name: Check the built-in pack
         run: scripts/ci/check-built-in.sh
+      - name: Release tooling tests
+        run: python3 -m unittest discover -s tests/release
 
   # Fixed-name gate so branch protection can require ONE stable check that does not
   # move when the spec-kitty matrix pin is bumped. Require "Validate packs gate" as
