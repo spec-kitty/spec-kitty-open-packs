@@ -5,6 +5,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # release.yml runs the same gates before it publishes anything.
+  workflow_call:
 
 permissions:
   contents: read

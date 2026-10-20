@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-10-19'
+updated: '2026-10-20'
 ---
 # Changelog
 
@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### ✨ Added
+
+- **Semver releases with a reproducible archive per pack** (#53). Pushing a `vX.Y.Z` tag runs
+  a release workflow that re-validates the packs and publishes a GitHub release with a
+  deterministic `<pack>-vX.Y.Z.tar.gz` and `.sha256` for every pack: `built-in`, `internal`,
+  `qa`, `event-driven` and `cave-kitty`. The release notes come from the matching changelog
+  section, and a release without one fails. Core can now pin a tag and verify the archive
+  digest instead of pinning a raw commit and using sparse checkout. Release tags are never
+  moved or deleted; the policy is in the contributing guide.
 
 - **Docsite and README overhaul for the Brain Kitty line.** The README and the docsite now
   describe open packs as the content half of **Brain Kitty**, and show how a pack reaches the
