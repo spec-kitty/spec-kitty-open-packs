@@ -60,15 +60,19 @@ def list_packs(repo: Path, rev: str) -> list[str]:
         if not entry:
             continue
         meta, name = entry.split(b"\t", 1)
-        if meta.split()[1] == b"tree":
+        kind = meta.split()[1]
+        if kind == b"tree":
             packs.append(name.decode())
+        elif kind != b"blob":
+            raise ReleaseError(f"{PACKS_DIR}/{name.decode()} is a {kind.decode()}; a pack must be a directory")
     return sorted(packs)
 
 
 def _pack_blobs(repo: Path, rev: str, pack: str) -> list[tuple[str, int, str]]:
     """``(path inside the pack, mode, blob sha)`` for every file, sorted by path."""
     prefix = f"{PACKS_DIR}/{pack}/"
-    out = _git(repo, "ls-tree", "-r", "-z", rev, "--", prefix)
+    # The tree object, not a pathspec: a pack name with glob characters must not match a sibling.
+    out = _git(repo, "ls-tree", "-r", "-z", "--full-tree", f"{rev}:{PACKS_DIR}/{pack}")
     blobs = []
     for entry in out.split(b"\0"):
         if not entry:
@@ -76,8 +80,8 @@ def _pack_blobs(repo: Path, rev: str, pack: str) -> list[tuple[str, int, str]]:
         meta, path = entry.decode().split("\t", 1)
         mode, kind, sha = meta.split()
         if kind != "blob" or mode not in ("100644", "100755"):
-            raise ReleaseError(f"{path} is a {kind} with mode {mode}; a pack may hold only regular files")
-        blobs.append((path[len(prefix):], 0o755 if mode == "100755" else 0o644, sha))
+            raise ReleaseError(f"{prefix}{path} is a {kind} with mode {mode}; a pack may hold only regular files")
+        blobs.append((path, 0o755 if mode == "100755" else 0o644, sha))
     if not blobs:
         raise ReleaseError(f"{prefix} has no files at {rev}")
     return sorted(blobs)
@@ -93,7 +97,10 @@ def _read_blobs(repo: Path, shas: list[str]) -> dict[str, bytes]:
     data, pos, blobs = proc.stdout, 0, {}
     for sha in shas:
         header_end = data.index(b"\n", pos)
-        _, _, size = data[pos:header_end].split()
+        header = data[pos:header_end].split()
+        if len(header) != 3 or header[0].decode() != sha or header[1] != b"blob":
+            raise ReleaseError(f"git cat-file returned {data[pos:header_end]!r} for blob {sha}")
+        size = header[2]
         start = header_end + 1
         blobs[sha] = data[start:start + int(size)]
         pos = start + int(size) + 1
