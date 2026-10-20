@@ -21,13 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
-- **Semver releases with a reproducible archive per pack** (#53). Pushing a `vX.Y.Z` tag runs
-  a release workflow that re-validates the packs and publishes a GitHub release with a
-  deterministic `<pack>-vX.Y.Z.tar.gz` and `.sha256` for every pack: `built-in`, `internal`,
-  `qa`, `event-driven` and `cave-kitty`. The release notes come from the matching changelog
-  section, and a release without one fails. Core can now pin a tag and verify the archive
-  digest instead of pinning a raw commit and using sparse checkout. Release tags are never
-  moved or deleted; the policy is in the contributing guide.
+- **Semver releases with a reproducible archive per pack** (#53). Until now this repository
+  could only be pinned by a raw commit, with no release notes and a fragile sparse checkout to
+  fetch one pack. Pushing a `vX.Y.Z` tag now re-validates the packs and publishes a GitHub
+  release with a reproducible `<pack>-vX.Y.Z.tar.gz` and `.sha256` for every pack: `built-in`,
+  `internal`, `qa`, `event-driven` and `cave-kitty`. The notes come from the matching changelog
+  section, and a release without one fails. The release stays a draft until every archive has
+  uploaded. Release tags are never moved or deleted; prereleases are not released.
 
 - **Docsite and README overhaul for the Brain Kitty line.** The README and the docsite now
   describe open packs as the content half of **Brain Kitty**, and show how a pack reaches the
