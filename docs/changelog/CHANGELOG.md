@@ -191,6 +191,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **A PR body without a `closes #<n>` line is a warning, not a failure (`internal`).** The
+  `validate-pr-body` asset refused any body without an issue link, which blocked
+  decision-recording PRs that legitimately close no issue. A missing link now prints
+  `warning: ...` and exits 0, and the match covers GitHub's full keyword set (`close`, `fix`,
+  `resolve` and their forms). A real structural violation still fails. The fragment title and the
+  `semi-auto-delivery` procedure say the link is advisory. Upstreams the copy vendored in
+  spec-kitty-charter (commit `19cc37f`).
 - **`plan` missions advance past `specify`.** The `plan` mission's artifact manifest named the
   old phases (`goals`/`structure`/`draft`) and asked for `goals.md`, so `spec-kitty next` blocked
   a committed `spec.md` with `Required artifact missing: spec.md`. The manifest now keys on the
