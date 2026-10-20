@@ -130,6 +130,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The internal pack's README names the spec-conformant command-skill folders**
+  ([spec-kitty#6475](https://github.com/spec-kitty/spec-kitty/issues/6475),
+  [spec-kitty#6470](https://github.com/spec-kitty/spec-kitty/issues/6470)). Spec Kitty now
+  generates its command skills as `.agents/skills/spec-kitty-<command>` instead of the dotted
+  `spec-kitty.<command>`, which several harnesses silently dropped. The recovery note for the
+  untracked command-skill ledger now names both forms and warns not to remove the shipped
+  `spec-kitty-*` charter skills. Mission-step prompts keep their `/spec-kitty.<command>`
+  invocations: they are correct for the slash-command agents, and core rewrites them to the
+  skill name when it renders a command skill.
+
 - **The internal pack's tracker-label doctrine matches the 2026-10-19 label clean-up on
   `spec-kitty/spec-kitty`** ([spec-kitty#6503](https://github.com/spec-kitty/spec-kitty/pull/6503)).
   The `spec-kitty-tracker-labels` styleguide no longer offers `bug` or `enhancement` as kind
