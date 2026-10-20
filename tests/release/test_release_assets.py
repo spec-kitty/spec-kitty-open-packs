@@ -103,8 +103,10 @@ class ReleaseAssetsTest(unittest.TestCase):
         self.assertEqual(digest, hashlib.sha256((out / name).read_bytes()).hexdigest())
 
     def test_changelog_section_is_extracted(self) -> None:
-        changelog = "# Changelog\n\n## [Unreleased]\n\n## [1.2.3] - 2026-10-20\n\n- Shipped.\n\n## [1.2.2]\n\n- Old.\n"
-        self.assertEqual(release.changelog_section(changelog, "1.2.3"), "- Shipped.\n")
+        changelog = ("# Changelog\n\n## [Unreleased]\n\n## [1.2.3] - 2026-10-20\n\n- Shipped, see [ADR].\n\n"
+                     "[ADR]: docs/adr.md\n\n## [1.2.2]\n\n- Old.\n\n[1.2.3]: https://example.test/v1.2.3\n")
+        self.assertEqual(release.changelog_section(changelog, "1.2.3"), "- Shipped, see [ADR].\n\n[ADR]: docs/adr.md\n")
+        self.assertEqual(release.changelog_section(changelog, "1.2.2"), "- Old.\n")
 
     def test_missing_changelog_section_fails(self) -> None:
         with self.assertRaisesRegex(release.ReleaseError, r"no '## \[1.2.3\]'"):

@@ -134,7 +134,9 @@ def changelog_section(changelog: str, version: str) -> str:
     match = heading.search(changelog)
     if not match:
         raise ReleaseError(f"CHANGELOG.md has no '## [{version}]' section")
-    following = re.compile(r"^## \[|^\[[^\]]+\]:", re.MULTILINE).search(changelog, match.end())
+    # The section ends at the next version heading or at the link-reference footer, which
+    # Keep a Changelog keys by version ("[1.2.3]: https://..."), not at any "[x]:" line.
+    following = re.compile(r"^## \[|^\[(?:Unreleased|\d+\.\d+\.\d+)\]: ", re.MULTILINE).search(changelog, match.end())
     body = changelog[match.end():following.start() if following else len(changelog)].strip()
     if not body:
         raise ReleaseError(f"CHANGELOG.md section '## [{version}]' is empty")
