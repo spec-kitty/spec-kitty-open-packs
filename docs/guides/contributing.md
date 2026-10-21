@@ -2,7 +2,7 @@
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author, and submit Charter Packs and documentation to the Spec Kitty Open Packs repository, including the WIP status and where charter logic lives.
 doc_status: wip
-updated: '2026-10-20'
+updated: '2026-10-21'
 related:
 - guides/author-a-charter-pack
 - guides/validate-a-pack
@@ -45,6 +45,10 @@ between the two repositories is expected.
   each rule can be cited individually.
 - **Validate before you push.** Run the canonical validator (see
   [Validate a pack](validate-a-pack.md)). Packs must pass with exit code `0`.
+- **Keep retired names out.** `python3 scripts/ci/check_vocabulary.py` fails on a retired
+  doctrine id, the renamed `spec-kitty merge` command (use `spec-kitty consolidate`) or the
+  retired governing glossary surface in any pack. This repository owns that check for pack
+  content; core mirrors it over the synced built-in and internal trees after a pin bump.
 - **Keep it inert where possible.** Prefer data-only artifacts. If a pack must ship an
   executable gate asset, read the [security position](../../SECURITY.md) first and declare
   the executable surface explicitly.
