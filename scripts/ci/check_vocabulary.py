@@ -101,11 +101,17 @@ RETIRED_SURFACE = re.compile(rf"""^\s*(?:-\s*)?surface:\s*(["']?){_RETIRED_SURFA
 GLOSSARY_PACK_SUFFIX = ".glossary-pack.yaml"
 
 
-def retired_ids_in(text: str, rel: str) -> list[str]:
-    """Retired ids named in *text* of the file *rel*, after provenance and allowlist."""
+def _without_provenance(text: str, rel: str) -> str:
+    """*text* with this file's provenance phrases blanked out, line breaks kept."""
     for path, _stem, phrase in PROVENANCE_PHRASES:
         if path == rel:
-            text = text.replace(phrase, "")
+            text = text.replace(phrase, re.sub(r"[^\n]", " ", phrase))
+    return text
+
+
+def retired_ids_in(text: str, rel: str) -> list[str]:
+    """Retired ids named in *text* of the file *rel*, after provenance and allowlist."""
+    text = _without_provenance(text, rel)
     return [
         stem
         for stem, pattern in RETIRED_IDS.items()
@@ -119,10 +125,14 @@ def _line_of(text: str, needle: re.Pattern[str]) -> int:
 
 
 def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
-    """Every (line, message) finding for the file *rel* holding *text*."""
+    """Every (line, message) finding for the file *rel* holding *text*.
+
+    A retired id is reported once per file, at its first mention outside provenance.
+    """
     found: list[tuple[int, str]] = []
+    scanned = _without_provenance(text, rel)
     for stem in retired_ids_in(text, rel):
-        found.append((_line_of(text, RETIRED_IDS[stem]), f"names the retired doctrine id '{stem}'"))
+        found.append((_line_of(scanned, RETIRED_IDS[stem]), f"names the retired doctrine id '{stem}'"))
     for number, line in enumerate(text.splitlines(), start=1):
         if RETIRED_COMMAND.search(line):
             found.append((number, "names the renamed `merge` command; use `spec-kitty consolidate`"))

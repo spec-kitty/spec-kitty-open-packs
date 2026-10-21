@@ -65,6 +65,8 @@ class RetiredIdTest(unittest.TestCase):
         rel, stem, phrase = vocab.PROVENANCE_PHRASES[2]
         self.assertEqual(vocab.retired_ids_in(f"| {phrase} in 4.0.0rc5. |\n", rel), [])
         self.assertEqual(vocab.retired_ids_in(f"| {phrase}. |\n- tactic: {stem}\n", rel), [stem])
+        # The finding points at the real mention, not at the provenance line before it.
+        self.assertEqual([line for line, _ in vocab.findings_in(f"| {phrase}. |\n- tactic: {stem}\n", rel)], [2])
         self.assertEqual(vocab.retired_ids_in(phrase, "packs/qa/other.md"), [stem])
 
     def test_stale_provenance_is_reported(self) -> None:
