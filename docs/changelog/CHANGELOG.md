@@ -26,8 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   governing glossary surface, but only over the synced built-in and internal trees and only
   after a pin bump, and this repository had no such check. `scripts/ci/check_vocabulary.py`
   now runs the same rules over every pack in `validate-packs.yml`, with `::error` annotations
-  per file and line, and fails when a provenance exemption no longer matches its file. All
-  packs are clean today.
+  per file and line, and fails when a provenance exemption no longer matches its file. Prose
+  where the old command name runs on ("merges", "merged") is not flagged, the same as in core
+  (#62). All packs are clean today.
 
 - **Semver releases with a reproducible archive per pack** (#53). Until now this repository
   could only be pinned by a raw commit, with no release notes and a fragile sparse checkout to
