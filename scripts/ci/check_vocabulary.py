@@ -94,9 +94,10 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
 RETIRED_COMMAND = re.compile(r"spec-kitty merge(?!-)", re.IGNORECASE)
 
 #: The retired governing glossary surface (core #6553's zero-pin), built from
-#: fragments so this file never carries the governing line itself.
+#: fragments so this file never carries the governing line itself. Stricter than
+#: core's marker: a quoted value or a trailing comment is caught too.
 _RETIRED_SURFACE_TOKEN = "doc" + "trine"
-RETIRED_SURFACE = re.compile(rf"^\s*(?:-\s*)?surface:\s*{_RETIRED_SURFACE_TOKEN}\s*$")
+RETIRED_SURFACE = re.compile(rf"""^\s*(?:-\s*)?surface:\s*(["']?){_RETIRED_SURFACE_TOKEN}\1\s*(?:#.*)?$""")
 GLOSSARY_PACK_SUFFIX = ".glossary-pack.yaml"
 
 
