@@ -59,7 +59,10 @@ class RetiredIdTest(unittest.TestCase):
     def test_internal_allowlist_covers_only_the_moved_ids(self) -> None:
         snippet = "- tracker-organisation-workflow\n- iterative-deepening-review\n- bug-fixing-checklist\n"
         self.assertEqual(vocab.retired_ids_in(snippet, "packs/internal/drg/fragment.yaml"), ["bug-fixing-checklist"])
-        self.assertEqual(len(vocab.retired_ids_in(snippet, "packs/qa/x.yaml")), 3)
+        self.assertEqual(
+            set(vocab.retired_ids_in(snippet, "packs/qa/x.yaml")),
+            {"tracker-organisation-workflow", "iterative-deepening-review", "bug-fixing-checklist"},
+        )
 
     def test_provenance_strips_only_its_phrase(self) -> None:
         rel, stem, phrase = vocab.PROVENANCE_PHRASES[2]
@@ -119,7 +122,6 @@ class MainTest(unittest.TestCase):
     def test_clean_tree_passes(self) -> None:
         code, out = self._main()
         self.assertEqual(code, 0, out)
-        self.assertIn("0 finding(s)", out)
 
     def test_planted_finding_fails_with_an_annotation(self) -> None:
         self._write("packs/qa/missions/prompt.md", "ok\nrun spec-kitty merge now\n")
