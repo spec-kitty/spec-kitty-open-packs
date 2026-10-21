@@ -142,7 +142,7 @@ The command-skill ledger `.kittify/command-skills-manifest.json` is per-machine 
 longer tracked. Pulling the change that untracked it deletes your local copy, and
 `doctor skills --fix` then refuses because it sees unmanaged files. Remove the generated
 command-skill directories, `.agents/skills/spec-kitty-<command>` (named
-`.agents/skills/spec-kitty.<command>` before 4.0.0, #6475), and run `spec-kitty doctor skills --fix`
+`.agents/skills/spec-kitty.<command>` before 4.0.0, spec-kitty/spec-kitty#6475), and run `spec-kitty doctor skills --fix`
 once. Only remove directories whose `<command>` is a Spec Kitty command; other
 `spec-kitty-*` skills are shipped charter skills.
 
