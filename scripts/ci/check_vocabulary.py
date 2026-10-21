@@ -81,6 +81,7 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
         "common-docs-curation",
         "common-docs-curation was folded into",
     ),
+    # Not in core, which never scans packs/qa: keep this row when syncing with core.
     (
         "packs/qa/PROVENANCE.md",
         "behavior-driven-development",
@@ -91,6 +92,8 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
 #: The lane-consolidation command was renamed to ``consolidate``; the old name only
 #: reaches a migration-error stub. A real command name is never followed by ``-``,
 #: so ``merge-driver-*`` and the like are not matched. No baseline: zero today.
+#: Identical to core's ``_COMMAND_SURFACE_PHRASE_PATTERN`` on purpose: a looser rule
+#: here would pass content that core then fails after a pin bump.
 RETIRED_COMMAND = re.compile(r"spec-kitty merge(?!-)", re.IGNORECASE)
 
 #: The retired governing glossary surface (core #6553's zero-pin), built from
