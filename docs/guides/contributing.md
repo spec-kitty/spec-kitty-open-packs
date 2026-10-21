@@ -47,8 +47,9 @@ between the two repositories is expected.
   [Validate a pack](validate-a-pack.md)). Packs must pass with exit code `0`.
 - **Keep retired names out.** `python3 scripts/ci/check_vocabulary.py` fails on a retired
   doctrine id, the renamed `spec-kitty merge` command (use `spec-kitty consolidate`) or the
-  retired governing glossary surface in any pack. This repository owns that check for pack
-  content; core mirrors it over the synced built-in and internal trees after a pin bump.
+  retired governing glossary surface in any pack. The rules are core's; this repository runs
+  them on every pack before a change can reach a pin, while core checks only the synced
+  built-in and internal trees after a pin bump.
 - **Keep it inert where possible.** Prefer data-only artifacts. If a pack must ship an
   executable gate asset, read the [security position](../../SECURITY.md) first and declare
   the executable surface explicitly.
