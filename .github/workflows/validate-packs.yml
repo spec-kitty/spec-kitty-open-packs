@@ -50,8 +50,15 @@ jobs:
         run: scripts/ci/validate-packs.sh
       - name: Check the built-in pack
         run: scripts/ci/check-built-in.sh
+      - name: Vocabulary guard
+        # Retired doctrine ids, the renamed `merge` command and the retired governing
+        # glossary surface stay out of every pack. Core runs the same rules after a
+        # pin bump (spec-kitty/spec-kitty#6553); this catches them first.
+        run: python3 scripts/ci/check_vocabulary.py
       - name: Release tooling tests
         run: python3 -m unittest discover -s tests/release
+      - name: Vocabulary guard tests
+        run: python3 -m unittest discover -s tests/vocabulary
 
   # Fixed-name gate so branch protection can require ONE stable check that does not
   # move when the spec-kitty matrix pin is bumped. Require "Validate packs gate" as
