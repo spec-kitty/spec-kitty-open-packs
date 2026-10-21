@@ -90,11 +90,12 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
 )
 
 #: The lane-consolidation command was renamed to ``consolidate``; the old name only
-#: reaches a migration-error stub. A real command name is never followed by ``-``,
-#: so ``merge-driver-*`` and the like are not matched. No baseline: zero today.
+#: reaches a migration-error stub. A real command name is never followed by ``-``
+#: or a word character, so ``merge-driver-*`` and prose such as "merges" or
+#: "merged" are not matched (spec-kitty/spec-kitty#6570). No baseline: zero today.
 #: Identical to core's ``_COMMAND_SURFACE_PHRASE_PATTERN`` on purpose: a looser rule
 #: here would pass content that core then fails after a pin bump.
-RETIRED_COMMAND = re.compile(r"spec-kitty merge(?!-)", re.IGNORECASE)
+RETIRED_COMMAND = re.compile(r"spec-kitty merge(?![\w-])", re.IGNORECASE)
 
 #: The retired governing glossary surface (core #6553's zero-pin), built from
 #: fragments so this file never carries the governing line itself. Stricter than

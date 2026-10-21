@@ -87,7 +87,10 @@ class CommandAndSurfaceTest(unittest.TestCase):
         self.assertEqual([line for line, _ in vocab.findings_in(text, "packs/qa/prompt.md")], [2])
 
     def test_spares_merge_compounds_and_consolidate(self) -> None:
-        text = "spec-kitty merge-driver-event-log %O %A %B\nspec-kitty merge-mission\nspec-kitty consolidate\ngit merge --no-ff\n"
+        text = (
+            "spec-kitty merge-driver-event-log %O %A %B\nspec-kitty merge-mission\nspec-kitty consolidate\ngit merge --no-ff\n"
+            "spec-kitty merges the approved lanes\nonce spec-kitty merged them\n"
+        )
         self.assertEqual(vocab.findings_in(text, "packs/qa/prompt.md"), [])
 
     def test_flags_the_retired_surface_only_in_a_glossary_pack(self) -> None:
