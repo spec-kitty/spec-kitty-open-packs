@@ -210,6 +210,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **The licence names the right copyright holder (#64).** `LICENSE` named `Spec Kitty LLC and
+  the Spec Kitty contributors`, but no `Spec Kitty LLC` exists. It now names the legal entity,
+  `Spec Kitty, Inc.`. The MIT grant is unchanged, and contributors keep their copyright as before.
 - **A PR body without a `closes #<n>` line is a warning, not a failure** (`internal`, #59). The
   `validate-pr-body` asset refused any body without an issue link, which blocked
   decision-recording PRs that legitimately close no issue. A missing link now prints
