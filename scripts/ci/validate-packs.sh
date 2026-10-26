@@ -127,6 +127,62 @@ then
 fi
 echo "::endgroup::"
 
+echo "::group::doctor charter-packs against the pinned core's own built-in"
+# The override above hides ids that this repository's built-in has and core's bundled
+# built-in lacks: a consumer on a released core would see those edges dangle. Re-run the
+# same consumer without the override. Dangling targets listed in pending-core-vendoring.txt
+# are warnings; anything else (or an unreadable report) fails.
+core_json="$consumer/doctor-core.json"
+# doctor exits 1 when it finds errors, so judge the JSON, not the exit code.
+(cd "$consumer" && env -u SPEC_KITTY_PACKS_ROOT spec-kitty doctor charter-packs --json) >"$core_json" 2>/dev/null || true
+if ! python3 - "$core_json" scripts/ci/pending-core-vendoring.txt <<'PY'
+import json, re, sys
+
+try:
+    report = json.load(open(sys.argv[1]))
+    drg = report["org_drg"]
+    errors = list(drg["errors"])
+    dangling = list(drg["dangling_endpoints"])
+except (OSError, ValueError, KeyError, TypeError) as exc:
+    print(f"::error::cannot read the doctor report for the pinned core ({exc!r}); failing closed")
+    sys.exit(1)
+
+pending = {
+    line.strip()
+    for line in open(sys.argv[2])
+    if line.strip() and not line.lstrip().startswith("#")
+}
+target = re.compile(r"references non-existent node '([^']+)'")
+
+
+def pending_target(message):
+    match = target.search(message)
+    return match.group(1) if match and match.group(1) in pending else None
+
+
+failures, seen = [], set()
+for message in errors:
+    node = pending_target(message)
+    if node:
+        seen.add(node)
+        print(f"::warning::pending core vendoring: {message}")
+    else:
+        failures.append(message)
+# Dangling endpoints are normally also in `errors`; fail on any that were not.
+failures += [m for m in dangling if m not in errors and not pending_target(m)]
+for stale in sorted(pending - seen):
+    print(f"::warning::{stale} no longer dangles against the pinned core; remove it from "
+          "scripts/ci/pending-core-vendoring.txt and drop the SPEC_KITTY_PACKS_ROOT override "
+          "if the list is now empty")
+for message in failures:
+    print(f"::error::against the pinned core: {message}")
+sys.exit(1 if failures else 0)
+PY
+then
+  failed=1
+fi
+echo "::endgroup::"
+
 echo "::group::non-vacuity (invalid fixtures must fail)"
 # Exit 1 means "validation errors". Anything else (0 = passed, 2 = unknown
 # command on a CLI without `charter pack validate`) means the gate proved nothing.
