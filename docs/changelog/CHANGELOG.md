@@ -153,6 +153,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   internal glossary), and the built-in manifest and tree digest are regenerated. A consumer
   that activated the procedure by id activates the directive instead. Core still names the old
   procedure id in a curated DRG edge and in tests, so the next core pin bump has to update them.
+  `validate-packs.sh` now validates the org packs against this repository's `packs/built-in`
+  (`SPEC_KITTY_PACKS_ROOT`) instead of the copy bundled in the pinned core, so an org pack can
+  reference a built-in node before core vendors it.
 
 - **The internal pack's README names the spec-conformant command-skill folders**
   ([spec-kitty#6475](https://github.com/spec-kitty/spec-kitty/issues/6475),
