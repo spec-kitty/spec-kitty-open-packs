@@ -70,6 +70,15 @@ against a pinned spec-kitty build (`.github/workflows/validate-packs.yml`). It:
 3. checks that every pack under `tests/fixtures/invalid/` **fails** with exit code 1, so a
    validator that passes everything — or a CLI that lacks the command — turns the job red.
 
+The org packs are validated against the built-in pack this repository authors
+(`packs/built-in`), not the copy bundled in the pinned spec-kitty, so a pack can reference a
+built-in node before core vendors it. [`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh)
+validates `packs/built-in` itself against the pinned core. A second `doctor charter-packs` pass
+re-checks the org packs against the pinned core's own built-in and reports the ids still
+pending core vendoring (listed in
+[`scripts/ci/pending-core-vendoring.txt`](../../scripts/ci/pending-core-vendoring.txt)) as
+warnings; any other dangling edge fails.
+
 Run it locally before opening a PR:
 
 ```bash
