@@ -25,6 +25,10 @@ procedures:
     landing-pass red classification in docs/development/how-to/pr-landing.md and
     the baseline-red gotcha in CLAUDE.md to separate a genuine P0 red from a
     flake, a CI-environment failure, or pre-existing breakage.
+integrity_rules:
+  - >
+    Every red on main traces to a `priority:P0` issue. A red that cannot be
+    traced to one is a defect to triage, not an acceptable resting state.
 validation_criteria:
   - >
     The built-in RED_MAIN_RELEASE_DISCIPLINE validation criteria hold, and every
