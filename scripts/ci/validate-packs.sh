@@ -22,6 +22,11 @@ trap 'rm -rf "$scratch"' EXIT
 export HOME="$scratch/home"
 mkdir -p "$HOME"
 
+# Validate against the built-in tier this repository authors, not the copy bundled in the
+# pinned core: an org pack may reference a built-in node that core has not vendored yet.
+# check-built-in.sh validates packs/built-in itself against the pinned core.
+export SPEC_KITTY_PACKS_ROOT="$root/packs"
+
 for dir in packs tests/fixtures/valid tests/fixtures/invalid; do
   [[ -d "$dir" ]] || { echo "::error::$dir/ is missing; run from a repository checkout"; exit 1; }
 done
