@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-10-21'
+updated: '2026-10-26'
 ---
 # Changelog
 
@@ -138,6 +138,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
+
+- **Red-main discipline is a directive, not a procedure**
+  ([spec-kitty-charter#199](https://github.com/spec-kitty/spec-kitty-charter/pull/199)). A
+  procedure is a playbook for one situation; the red-main content is a standing rule (no
+  green-washing, no release on red, no expensive QA on a red base). The built-in
+  `red-main-release-discipline` procedure is now the `RED_MAIN_RELEASE_DISCIPLINE` directive
+  (`enforcement: required`), and the internal pack's `spec-kitty-red-main-policy` procedure is
+  now the `SPEC_KITTY_RED_MAIN_POLICY` directive that refines it. The substance is unchanged: the
+  steps became the directive's procedures, the "do not" statements its integrity rules and the
+  exit condition its validation criteria; only a short scope line is new. Every
+  DRG edge and reference moved with them (`test-first-bug-fixing`, `DIRECTIVE_030`,
+  `NO_FULL_HEAVY_SUITES_IN_MISSION`, `landing-contributor-prs`, the QA go/no-go review, the
+  internal glossary), and the built-in manifest and tree digest are regenerated. A consumer
+  that activated the procedure by id activates the directive instead. Core still names the old
+  procedure id in a curated DRG edge and in tests, so the next core pin bump has to update them.
 
 - **The internal pack's README names the spec-conformant command-skill folders**
   ([spec-kitty#6475](https://github.com/spec-kitty/spec-kitty/issues/6475),
