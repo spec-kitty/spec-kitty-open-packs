@@ -1,0 +1,68 @@
+schema_version: "1.0"
+id: RED_MAIN_RELEASE_DISCIPLINE
+title: Red Main & Release Discipline
+intent: >
+  Keep the mainline CI signal honest and authoritative for release. A red main
+  is a true signal of known release-blocking (P0) defects, never something to
+  hide by reverting an honest failure or declining a bug's reproduction test.
+  Mainline CI status is the single authoritative release gate; expensive QA and
+  manual testing are not spent on a known-broken base; and red main is worked
+  down as top priority. Adopt it as a team-wide agreement (product owner, QA,
+  and maintainers) and record the project's own decision and runbook alongside
+  it.
+enforcement: required
+scope: >
+  Applies while a development mission is running, when a P0 bug is filed or
+  accepted, when a release is being considered, and whenever mainline CI goes
+  red.
+  It governs how a red main is read, recorded, gated on and worked down; how a
+  failing test is fixed is test-first-bug-fixing's subject.
+procedures:
+  - >
+    Read a red main as honest signal, not a violation. Treat a red mainline as a
+    true signal that a known release-blocking (P0) defect exists. A red main
+    should always be traceable to an accepted P0 (a filed issue, ideally with a
+    failing test). It's broken, we hate it, but it's the truth, so we do not
+    hide it.
+  - >
+    On filing or accepting a P0, add a failing reproduction test. When you file
+    or accept a P0 bug, you are free and encouraged to land a test that
+    reproduces it: a red-first reproduction at mainline scope. A P0 that carries
+    a failing test is unambiguous, self-documenting, and impossible to lose
+    track of. Turning main red this way honours the process; the red is the
+    point until the defect is fixed. This is the mainline-scope extension of the
+    per-PR red-first / never-retry-to-green discipline.
+  - >
+    Gate release on green mainline CI. Mainline CI status is authoritative for
+    release readiness: red CI means no release. Because CI is the single release
+    gate, it must mean one thing, which is exactly why green-washing is refused.
+  - >
+    Defer expensive QA and manual testing until green. There is no value in
+    validating a base that is already known-broken; that effort waits until main
+    is green, protecting scarce QA and human-tester time.
+  - >
+    Prioritize red recovery. Green main is the goal; a red main pulls to the
+    front of the maintainer queue. Land the fix through the normal PR flow
+    (no-direct-push is unchanged). Classify each red before acting on it, to
+    distinguish a genuine P0 red from a flake or pre-existing breakage while
+    working the queue.
+integrity_rules:
+  - >
+    Do NOT green-wash: never revert an honest red or decline to merge a bug's
+    reproduction test just to keep main green. A false green moves the defect
+    downstream and destroys trust in CI.
+  - >
+    Do not cut a release while mainline CI is red. There is no "known-red, ship
+    anyway" path.
+  - >
+    Do not run expensive QA suites or internal manual testing against a red
+    mainline build.
+  - >
+    A red main is not an acceptable resting state, and fixing it does not
+    bypass the normal PR flow.
+validation_criteria:
+  - >
+    Either main is green, or its red is traceable to an accepted P0 with a filed
+    issue (ideally a failing reproduction test).
+  - No release has been cut while mainline CI is red.
+  - Expensive QA / manual testing has been deferred until main is green.

@@ -56,9 +56,6 @@ nodes:
 - urn: procedure:post-merge-arch-gate-adjudication
   kind: procedure
   label: Post-Merge Arch-Gate Adjudication
-- urn: procedure:red-main-release-discipline
-  kind: procedure
-  label: Red Main & Release Discipline
 - urn: procedure:refactoring
   kind: procedure
   label: Refactoring
@@ -454,12 +451,12 @@ edges:
   target: directive:DIRECTIVE_052
   relation: suggests
 - source: procedure:test-first-bug-fixing
-  target: procedure:disciplined-defect-diagnosis
-  relation: suggests
-- source: procedure:test-first-bug-fixing
-  target: procedure:red-main-release-discipline
+  target: directive:RED_MAIN_RELEASE_DISCIPLINE
   relation: requires
   reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
+- source: procedure:test-first-bug-fixing
+  target: procedure:disciplined-defect-diagnosis
+  relation: suggests
 - source: procedure:test-first-bug-fixing
   target: tactic:tdd-red-green-refactor
   relation: requires
