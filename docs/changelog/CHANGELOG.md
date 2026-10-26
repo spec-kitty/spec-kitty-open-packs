@@ -139,23 +139,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
-- **Red-main discipline is a directive, not a procedure**
-  ([spec-kitty-charter#199](https://github.com/spec-kitty/spec-kitty-charter/pull/199)). A
-  procedure is a playbook for one situation; the red-main content is a standing rule (no
-  green-washing, no release on red, no expensive QA on a red base). The built-in
-  `red-main-release-discipline` procedure is now the `RED_MAIN_RELEASE_DISCIPLINE` directive
-  (`enforcement: required`), and the internal pack's `spec-kitty-red-main-policy` procedure is
-  now the `SPEC_KITTY_RED_MAIN_POLICY` directive that refines it. The substance is unchanged: the
-  steps became the directive's procedures, the "do not" statements its integrity rules and the
-  exit condition its validation criteria; only a short scope line is new. Every
-  DRG edge and reference moved with them (`test-first-bug-fixing`, `DIRECTIVE_030`,
-  `NO_FULL_HEAVY_SUITES_IN_MISSION`, `landing-contributor-prs`, the QA go/no-go review, the
-  internal glossary), and the built-in manifest and tree digest are regenerated. A consumer
-  that activated the procedure by id activates the directive instead. Core still names the old
-  procedure id in a curated DRG edge and in tests, so the next core pin bump has to update them.
-  `validate-packs.sh` now validates the org packs against this repository's `packs/built-in`
-  (`SPEC_KITTY_PACKS_ROOT`) instead of the copy bundled in the pinned core, so an org pack can
-  reference a built-in node before core vendors it.
+- **Red-main discipline is a directive, not a procedure** (#74,
+  [spec-kitty-charter#199](https://github.com/spec-kitty/spec-kitty-charter/pull/199)). The
+  red-main content is a standing rule (no green-washing, no release on red, no expensive QA on a
+  red base), not a playbook. The built-in `red-main-release-discipline` procedure is now the
+  `RED_MAIN_RELEASE_DISCIPLINE` directive, and the internal pack's `spec-kitty-red-main-policy`
+  procedure is now the `SPEC_KITTY_RED_MAIN_POLICY` directive that refines it. The substance is
+  unchanged. A consumer that activated the procedure by id activates the directive instead. The
+  internal pack now needs a core that vendors `RED_MAIN_RELEASE_DISCIPLINE`: on the current core
+  release its three red-main edges dangle. CI now warns about this instead of failing.
 
 - **The internal pack's README names the spec-conformant command-skill folders**
   ([spec-kitty#6475](https://github.com/spec-kitty/spec-kitty/issues/6475),
