@@ -110,6 +110,9 @@ nodes:
 - urn: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   kind: directive
   label: Reconciling Change-Scope Tensions
+- urn: directive:RED_MAIN_RELEASE_DISCIPLINE
+  kind: directive
+  label: Red Main & Release Discipline
 - urn: directive:USE_C4_MODEL_TECHNIQUES
   kind: directive
   label: Use C4 Model Techniques
@@ -162,10 +165,10 @@ edges:
   target: toolguide:git-agent-commit-signing
   relation: suggests
 - source: directive:DIRECTIVE_030
-  target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  target: directive:RED_MAIN_RELEASE_DISCIPLINE
   relation: suggests
 - source: directive:DIRECTIVE_030
-  target: procedure:red-main-release-discipline
+  target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
 - source: directive:DIRECTIVE_030
   target: styleguide:test-desiderata-and-boundaries

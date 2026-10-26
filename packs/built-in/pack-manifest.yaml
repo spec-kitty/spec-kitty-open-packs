@@ -340,6 +340,11 @@ constituents:
   kind: directive
   path: directives/reconcile-change-scope-tensions.directive.yaml
   provenance_path:
+- content_hash: 4a6e27558ae07ef1d08ca74a66a0f7372138290602604f6ae652d0bb0b5b20dc
+  id: RED_MAIN_RELEASE_DISCIPLINE
+  kind: directive
+  path: directives/red-main-release-discipline.directive.yaml
+  provenance_path:
 - content_hash: 4a57c1424631e2c0fd94f083e1bec42ab2515e835e34372d38381ecfe3bc1462
   id: USE_C4_MODEL_TECHNIQUES
   kind: directive
@@ -515,11 +520,6 @@ constituents:
   kind: procedure
   path: procedures/post-merge-arch-gate-adjudication.procedure.yaml
   provenance_path:
-- content_hash: 46987580882e904060a939696071dbbaa566a2ba73ae530c284bae5e649c0b64
-  id: red-main-release-discipline
-  kind: procedure
-  path: procedures/red-main-release-discipline.procedure.yaml
-  provenance_path:
 - content_hash: c0a7346f3949b73d1e95fcc622949add002bf712ee638ce67fa8f77a30388ee4
   id: refactoring
   kind: procedure
@@ -535,7 +535,7 @@ constituents:
   kind: procedure
   path: procedures/spike-timebox-policy.procedure.yaml
   provenance_path:
-- content_hash: b398f79e52ef8cf000a1cc14e9f1725a27ab23d42da98be662afda68dee2abae
+- content_hash: e0aa3507a6dd0b0ada499e845183932cccacde0fae39ff35ae06f66f89a78b02
   id: test-first-bug-fixing
   kind: procedure
   path: procedures/test-first-bug-fixing.procedure.yaml
@@ -1375,7 +1375,7 @@ constituents:
 fetched_at:
 generated_at:
 generated_by: spec-kitty charter pack regenerate-graph
-manifest_hash: ea7f7d73e1f3e687b7634139a5cdb18a8663973344b06215bd7d3320e4b19d50
+manifest_hash: f83b2f2a49cf0a1e4e04b2e75438db0d6e39b02c1422190caafdb2baac5191a2
 presets:
 - content_hash: f0e3e26b23029c9073d5d7799d41f5ca8bd35e7a13f370d7e1bf400705552fc7
   name: default

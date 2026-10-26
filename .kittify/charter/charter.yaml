@@ -388,6 +388,12 @@ catalog:
     summary: "Locality of Change (DIRECTIVE_024), the Boy Scout Rule (DIRECTIVE_025), and the Change Apply Smallest Viable Diff tactic each bound the size of a change from a different angle, and by design they are not fully compatible: Locality of Change minimizes blast radius, Boy Scout Rule licenses opportunistic in-place improvement of touched areas, and smallest-viable-diff minimizes the diff itself. This directive gives an operator or agent a single place to weigh the three together on a given change, instead of applying each in isolation, so the default doctrine pack stays coherent even though the underlying tension between the three rules is real and intentionally left unresolved at the rule level.\n"
     source_path: ''
     local_path: _LIBRARY/directive-reconcile-change-scope-tensions.md
+  - id: DIRECTIVE:RED_MAIN_RELEASE_DISCIPLINE
+    kind: directive
+    title: Red Main & Release Discipline
+    summary: "Keep the mainline CI signal honest and authoritative for release. A red main is a true signal of known release-blocking (P0) defects, never something to hide by reverting an honest failure or declining a bug's reproduction test. Mainline CI status is the single authoritative release gate; expensive QA and manual testing are not spent on a known-broken base; and red main is worked down as top priority. Adopt it as a team-wide agreement (product owner, QA, and maintainers) and record the project's own decision and runbook alongside it.\n"
+    source_path: ''
+    local_path: _LIBRARY/directive-red-main-release-discipline.md
   - id: DIRECTIVE:USE_C4_MODEL_TECHNIQUES
     kind: directive
     title: Use C4 Model Techniques
@@ -586,12 +592,6 @@ catalog:
     summary: "After merging one or more lane branches, architectural gate failures may appear that were not visible during per-lane review. This procedure distinguishes pre-existing failures (present on the mission base branch before any lane work) from regressions introduced by the merge. Correct adjudication prevents teams from either ignoring real regressions or blocking on failures they did not cause.\n"
     source_path: ''
     local_path: _LIBRARY/procedure-post-merge-arch-gate-adjudication.md
-  - id: PROCEDURE:red-main-release-discipline
-    kind: procedure
-    title: Red Main & Release Discipline
-    summary: "Keep the mainline CI signal honest and authoritative for release. A red main is a true signal of known release-blocking (P0) defects, never something to hide by reverting an honest failure or declining a bug's reproduction test. Mainline CI status is the single authoritative release gate; expensive QA and manual testing are not spent on a known-broken base; and red main is worked down as top priority. Adopt it as a team-wide agreement (product owner, QA, and maintainers) and record the project's own decision and runbook alongside it.\n"
-    source_path: ''
-    local_path: _LIBRARY/procedure-red-main-release-discipline.md
   - id: PROCEDURE:refactoring
     kind: procedure
     title: Refactoring
@@ -1645,7 +1645,6 @@ activated_procedures:
 - mission-wrap-up-sequence
 - onboard-external-agent-to-pack
 - post-merge-arch-gate-adjudication
-- red-main-release-discipline
 - refactoring
 - situational-assessment
 - spike-timebox-policy
@@ -1724,6 +1723,7 @@ activated_directives:
 - disciplined-refactoring
 - minutes-stand-alone
 - reconcile-change-scope-tensions
+- red-main-release-discipline
 - use-c4-model-techniques
 - use-mutation-testing-to-validate-test-quality
 activated_tactics:

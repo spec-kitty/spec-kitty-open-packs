@@ -13,7 +13,7 @@ exit_condition: >
   A failing test existed that reproduced the bug, production code was changed
   to make it pass, all other tests still pass, and the test and fix are
   committed together — unless a failing reproduction test for this defect
-  already landed on the mainline under red-main-release-discipline, in which
+  already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE, in which
   case the fix commit is the one that turns it green.
 steps:
   - title: Tidy first, if the surfaces the fix will touch need it
@@ -81,7 +81,7 @@ steps:
       Stage the test file and the production fix in a single commit — the test
       documents the bug, the fix resolves it, and they are inseparable. The one
       carve-out: when a failing reproduction test for this exact defect already
-      landed on the mainline under red-main-release-discipline (an honest red
+      landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE (an honest red
       signal for a known, accepted defect), the fix lands as its own commit
       that turns that pre-existing red test green.
     actor: agent
@@ -123,8 +123,8 @@ references:
   - type: directive
     id: DIRECTIVE_034
     reason: Reproduce the bug through the pre-existing (stable) entry point, never through the fix's not-yet-written API — the reproduction test is the red phase of the test-first cycle DIRECTIVE_034 requires.
-  - type: procedure
-    id: red-main-release-discipline
+  - type: directive
+    id: RED_MAIN_RELEASE_DISCIPLINE
     reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
   - type: directive
     id: DIRECTIVE_025

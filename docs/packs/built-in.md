@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `bc5c80f46f77018a31a4d961fa01c1381fd1dbf0c531713badad6b61a9161699`
+- **Content checksum (sha256):** `cf7bef16476ec9e77ee12b29b11c0e853c7887e1e92bcb1f8ce4f53113fac73a`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -32,12 +32,12 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 38 |
+| `directives` | 39 |
 | `tactics` | 121 |
 | `styleguides` | 26 |
 | `toolguides` | 37 |
 | `paradigms` | 14 |
-| `procedures` | 23 |
+| `procedures` | 22 |
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
@@ -50,7 +50,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 ### Full listing
 
 <details>
-<summary><code>directives</code> (38)</summary>
+<summary><code>directives</code> (39)</summary>
 
 - `001-architectural-integrity-standard.directive.yaml`
 - `003-decision-documentation-requirement.directive.yaml`
@@ -88,6 +88,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `disciplined-refactoring.directive.yaml`
 - `minutes-stand-alone.directive.yaml`
 - `reconcile-change-scope-tensions.directive.yaml`
+- `red-main-release-discipline.directive.yaml`
 - `use-c4-model-techniques.directive.yaml`
 - `use-mutation-testing-to-validate-test-quality.directive.yaml`
 
@@ -316,7 +317,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>procedures</code> (23)</summary>
+<summary><code>procedures</code> (22)</summary>
 
 - `adversarial-squad-deployment.procedure.yaml`
 - `bdd-scenario-lifecycle.procedure.yaml`
@@ -336,7 +337,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `mission-wrap-up-sequence.procedure.yaml`
 - `onboard-external-agent-to-pack.procedure.yaml`
 - `post-merge-arch-gate-adjudication.procedure.yaml`
-- `red-main-release-discipline.procedure.yaml`
 - `refactoring.procedure.yaml`
 - `situational-assessment.procedure.yaml`
 - `spike-timebox-policy.procedure.yaml`
