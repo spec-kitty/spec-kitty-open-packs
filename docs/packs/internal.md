@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `145b058e2ca83e8469d5c46a4d5ce1828c033dd4855535d4218d2b26455149f4`
+- **Content checksum (sha256):** `09ac478086150387e493eb1016e814aef94777ef7992111155bac2b4f3edd236`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -32,11 +32,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 2 |
+| `directives` | 3 |
 | `tactics` | 4 |
 | `styleguides` | 6 |
 | `toolguides` | 6 |
-| `procedures` | 13 |
+| `procedures` | 12 |
 | `assets` | 20 |
 | `glossary_packs` | 1 |
 | `drg` | 1 |
@@ -46,10 +46,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 ### Full listing
 
 <details>
-<summary><code>directives</code> (2)</summary>
+<summary><code>directives</code> (3)</summary>
 
 - `no-full-heavy-suites-in-mission.directive.yaml`
 - `operator-signal-contract.directive.yaml`
+- `spec-kitty-red-main-policy.directive.yaml`
 
 </details>
 
@@ -88,7 +89,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>procedures</code> (13)</summary>
+<summary><code>procedures</code> (12)</summary>
 
 - `charter-offering-scenario-extraction.procedure.yaml`
 - `cloud-session-dispatch.procedure.yaml`
@@ -100,7 +101,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `project-evolution-postmortem.procedure.yaml`
 - `semi-auto-delivery.procedure.yaml`
 - `spec-kitty-arch-gate-adjudication.procedure.yaml`
-- `spec-kitty-red-main-policy.procedure.yaml`
 - `test-suite-quality-assessment.procedure.yaml`
 - `tracker-organisation-workflow.procedure.yaml`
 
