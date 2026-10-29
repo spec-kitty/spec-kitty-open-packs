@@ -91,7 +91,7 @@ anti_patterns:
       duplicate, and comment on the community ticket inviting confirmation.
 
 tooling:
-  github-cli: "packs/built-in/toolguides/GITHUB_TRACKER.md (gh CLI + GraphQL mechanics for sub-issues, types, and parent walks)"
+  github-cli: "packs/built-in/toolguides/github-tracker.guide.md (gh CLI + GraphQL mechanics for sub-issues, types, and parent walks)"
 
 quality_test: >
   For any open ticket, can you answer in one pass: which functional epic owns

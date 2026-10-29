@@ -60,11 +60,11 @@ packs/internal/
 │   └── spec-kitty-ratchet-cost.tactic.yaml          # ratchets cost CI money on every run (refines frozen-baseline-shrink-only-ratchet)
 ├── toolguides/
 │   ├── branded-document-generation.toolguide.yaml   # the branded-PDF pipeline manifest
-│   ├── BRANDED_DOCUMENT_GENERATION.md               # its how-to guide
+│   ├── branded-document-generation.guide.md         # its how-to guide
 │   ├── terminology-guard.toolguide.yaml             # this repo's legacy-terminology test (moved from built-in)
-│   ├── TERMINOLOGY_GUARD.md                         # its how-to guide
+│   ├── terminology-guard.guide.md                   # its how-to guide
 │   ├── test-quality-triage.toolguide.yaml           # how to run the test-quality scanner
-│   └── TEST_QUALITY_TRIAGE.md                       # its how-to guide (flag codes, outputs, false positives)
+│   └── test-quality-triage.guide.md                 # its how-to guide (flag codes, outputs, false positives)
 └── assets/
     ├── spec-kitty-branded-pdf.py                    # the Markdown -> branded-PDF generator
     ├── spec-kitty-branded-pdf.py.asset.yaml         # its asset sidecar

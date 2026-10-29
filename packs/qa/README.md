@@ -83,7 +83,7 @@ python "$LINT" --promises docs --scenarios tests/scenarios --release "$VERSION" 
 ```
 
 Exit 0 when every ratified promise is checked and every scenario cites a ratified promise; 1 with
-the list of what to fix; 2 when it cannot measure. Details: [toolguides/QA-PROMISE-TRACE-LINT.md](toolguides/QA-PROMISE-TRACE-LINT.md).
+the list of what to fix; 2 when it cannot measure. Details: [toolguides/qa-promise-trace-lint-guide.guide.md](toolguides/qa-promise-trace-lint-guide.guide.md).
 
 ## Status
 
