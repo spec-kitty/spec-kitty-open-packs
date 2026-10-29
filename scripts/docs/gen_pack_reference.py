@@ -339,8 +339,11 @@ def validate_pack(directory: Path) -> ValidationResult:
             note="`spec-kitty charter pack validate --json` returned no JSON.",
         )
 
-    errors = tuple(sorted(str(e) for e in payload.get("errors", [])))
-    advisories = tuple(sorted(str(a) for a in payload.get("advisories", [])))
+    # Validator messages carry absolute paths; strip the checkout prefix so the
+    # page is identical on every machine (packs/<slug> sits two levels below it).
+    prefix = f"{directory.resolve().parent.parent}/"
+    errors = tuple(sorted(str(e).replace(prefix, "") for e in payload.get("errors", [])))
+    advisories = tuple(sorted(str(a).replace(prefix, "") for a in payload.get("advisories", [])))
     return ValidationResult(
         available=True,
         ok=bool(payload.get("ok", False)),

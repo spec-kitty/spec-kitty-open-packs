@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `cf7bef16476ec9e77ee12b29b11c0e853c7887e1e92bcb1f8ce4f53113fac73a`
+- **Content checksum (sha256):** `308747b0582048e949a80751a448c909c7bdcafe4769407b9bdc9c9d0a289cc0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -256,42 +256,42 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 <details>
 <summary><code>toolguides</code> (37)</summary>
 
-- `CONTEXTIVE.md`
-- `DRUPAL_REVIEW_CHECKS.md`
-- `EFFICIENT_LOCAL_TOOLING.md`
-- `GHERKIN.md`
-- `GITHUB_TRACKER.md`
-- `GIT_AGENT_COMMIT_SIGNING.md`
-- `GIT_WORKTREE_PR_WORKFLOW.md`
-- `JAVASCRIPT_SUPPLY_CHAIN.md`
-- `JAVA_SUPPLY_CHAIN.md`
-- `MAVEN_REVIEW_CHECKS.md`
-- `MERMAID_DIAGRAMMING.md`
-- `PLANTUML_DIAGRAMMING.md`
-- `POWERSHELL_SYNTAX.md`
-- `PYTHON_MUTATION_TOOLS.md`
-- `PYTHON_REVIEW_CHECKS.md`
-- `PYTHON_SUPPLY_CHAIN.md`
-- `SONAR.md`
-- `TYPESCRIPT_MUTATION_TOOLS.md`
+- `contextive.guide.md`
 - `contextive.toolguide.yaml`
+- `drupal-review-checks.guide.md`
 - `drupal-review-checks.toolguide.yaml`
+- `efficient-local-tooling.guide.md`
 - `efficient-local-tooling.toolguide.yaml`
+- `gherkin.guide.md`
 - `gherkin.toolguide.yaml`
+- `git-agent-commit-signing.guide.md`
 - `git-agent-commit-signing.toolguide.yaml`
+- `git-worktree-pr-workflow.guide.md`
 - `git-worktree-pr-workflow.toolguide.yaml`
+- `github-tracker.guide.md`
 - `github-tracker.toolguide.yaml`
+- `java-supply-chain.guide.md`
 - `java-supply-chain.toolguide.yaml`
+- `javascript-supply-chain.guide.md`
 - `javascript-supply-chain.toolguide.yaml`
+- `maven-review-checks.guide.md`
 - `maven-review-checks.toolguide.yaml`
+- `mermaid-diagramming.guide.md`
 - `mermaid-diagramming.toolguide.yaml`
+- `plantuml-diagramming.guide.md`
 - `plantuml-diagramming.toolguide.yaml`
+- `powershell-syntax.guide.md`
 - `powershell-syntax.toolguide.yaml`
+- `python-mutation-tools.guide.md`
 - `python-mutation-tools.toolguide.yaml`
+- `python-review-checks.guide.md`
 - `python-review-checks.toolguide.yaml`
+- `python-supply-chain.guide.md`
 - `python-supply-chain.toolguide.yaml`
+- `sonar.guide.md`
 - `sonar.toolguide.yaml`
 - `system_tools/__init__.py`
+- `typescript-mutation-tools.guide.md`
 - `typescript-mutation-tools.toolguide.yaml`
 
 </details>
@@ -617,8 +617,33 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
+Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
 
-- Errors: 0
+- Errors: 22
+
+### Errors
+
+- {'artifact_id': 'adversarial-squad-deployment', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/adversarial-squad-deployment.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'bdd-scenario-lifecycle', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/bdd-scenario-lifecycle.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'development-assist-test-cleanup', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/development-assist-test-cleanup.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'disciplined-defect-diagnosis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/disciplined-defect-diagnosis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'documentation-gap-prioritization', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/documentation-gap-prioritization.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'domain-aware-decision-interview', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/domain-aware-decision-interview.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'drill-down-documentation', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/drill-down-documentation.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'event-storming-discovery', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/event-storming-discovery.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'example-mapping-workshop', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/example-mapping-workshop.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'glossary-maintenance-workflow', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/glossary-maintenance-workflow.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'issue-triage-state-machine', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/issue-triage-state-machine.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'legacy-codebase-triage', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/legacy-codebase-triage.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'meeting-minutes-pipeline', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/meeting-minutes-pipeline.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'migrate-project-guidance-to-spec-kitty-charter', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'mission-tracer-files', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/mission-tracer-files.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'mission-wrap-up-sequence', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/mission-wrap-up-sequence.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'onboard-external-agent-to-pack', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/onboard-external-agent-to-pack.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'post-merge-arch-gate-adjudication', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/post-merge-arch-gate-adjudication.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'refactoring', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/refactoring.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'situational-assessment', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/situational-assessment.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'spike-timebox-policy', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/spike-timebox-policy.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'test-first-bug-fixing', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/built-in/procedures/test-first-bug-fixing.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
 
 Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
