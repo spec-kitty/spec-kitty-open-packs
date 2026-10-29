@@ -1,10 +1,12 @@
 # Python Mutation Testing with mutmut
 
+## Overview
+
 Operator reference and workflow for mutation testing Python code with mutmut. Use alongside the
 [Mutation-Aware Test Design](../styleguides/mutation-aware-test-design.styleguide.yaml)
 styleguide and the [Mutation Testing Workflow](../tactics/testing/mutation-testing-workflow.tactic.yaml) tactic.
 
-## Installation and Configuration
+## Setup
 
 ```bash
 uv add --dev mutmut
@@ -28,7 +30,7 @@ Key options:
 | `runner` | Command mutmut uses to run tests against each mutant |
 | `pytest_add_cli_args` | Extra pytest flags appended in sandbox runs (add `--ignore=` here to exclude slow/integration tests) |
 
-## Running
+## Usage
 
 ```bash
 # Full run
@@ -79,8 +81,6 @@ uv run mutmut apply <id>
 # Revert after writing the test
 git checkout -- <file>
 ```
-
----
 
 ## Python-Specific Mutation Families
 
@@ -156,20 +156,6 @@ git checkout -- <file>
 
 **Kill strategy:** Use inputs where both prefix and suffix differ so the swap is detectable.
 
----
-
-## Red Flags
-
-- **Many `No Coverage` mutants** — large branches never reached by any test.
-- **Equivalent mutant inflation above ~10 %** — suspect tests are over-specified for implementation details rather than behaviour.
-- **Sandbox fails immediately** — a test in `runner` depends on files not in `also_copy`; add to `pytest_add_cli_args --ignore=` list.
-
-For the mutation-score triage bands (the single owner of that table), see the
-[Mutation Testing Workflow](../tactics/testing/mutation-testing-workflow.tactic.yaml)
-tactic's notes.
-
----
-
 ## mutmut 3.x-Specific Gotchas
 
 - **`mutmut results` shows only survivors.** Killed mutants are filtered out of the
@@ -199,3 +185,13 @@ tactic's notes.
   the kill/survive status of every other mutant in it. Establish and record a full
   baseline run first; only run targeted/incremental passes afterwards, or use a
   separate `mutants/` directory for the targeted session.
+
+## Cautions
+
+- **Many `No Coverage` mutants** — large branches never reached by any test.
+- **Equivalent mutant inflation above ~10 %** — suspect tests are over-specified for implementation details rather than behaviour.
+- **Sandbox fails immediately** — a test in `runner` depends on files not in `also_copy`; add to `pytest_add_cli_args --ignore=` list.
+
+For the mutation-score triage bands (the single owner of that table), see the
+[Mutation Testing Workflow](../tactics/testing/mutation-testing-workflow.tactic.yaml)
+tactic's notes.

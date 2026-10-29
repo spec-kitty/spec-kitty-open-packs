@@ -1,5 +1,7 @@
 # Git Worktree and PR-Landing Workflow
 
+## Overview
+
 Operational gotchas for working across multiple git worktrees of the same
 repository and for landing a pull request. These are harness-neutral: they
 follow from how git itself shares state across worktrees and how git hosts
@@ -96,7 +98,7 @@ git remote add fork-ssh git@github.com:<owner>/<repo>.git
 git push fork-ssh HEAD:my-pr-branch
 ```
 
-## Avoid
+## Cautions
 
 - `git stash` / `git stash pop` as a general scratch space inside a
   multi-worktree repository

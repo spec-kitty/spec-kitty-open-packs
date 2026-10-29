@@ -1,8 +1,10 @@
 # Mermaid Diagramming
 
+## Overview
+
 Diagram-as-code reference for Mermaid usage in Spec Kitty projects.
 
-## Purpose and When to Use
+## When to use
 
 Mermaid renders diagrams from plain-text definitions embedded directly in
 Markdown. It requires no external tooling in most rendering environments
@@ -23,7 +25,7 @@ Avoid Mermaid when:
 - The diagram type is not yet well-supported in Mermaid (deployment,
   component packages, mind maps with deep nesting).
 
-## Getting Started
+## Setup
 
 ### Quickest (no install)
 
@@ -48,6 +50,45 @@ mmdc -i diagram.mmd -o diagram.svg
 
 # Render to PNG
 mmdc -i diagram.mmd -o diagram.png
+```
+
+## Usage
+
+### Inline in Markdown
+
+Wrap Mermaid source in a fenced code block with the `mermaid` language tag:
+
+````markdown
+```mermaid
+flowchart LR
+    A --> B
+```
+````
+
+This renders natively on GitHub, GitLab, VS Code preview, and most static
+site generators with Mermaid support.
+
+### Command Line
+
+```bash
+# SVG (preferred)
+mmdc -i diagram.mmd -o diagram.svg
+
+# PNG
+mmdc -i diagram.mmd -o diagram.png -b transparent
+
+# With custom theme config
+mmdc -i diagram.mmd -o diagram.svg -c mermaid-config.json
+```
+
+### CI Integration (GitHub Actions)
+
+```yaml
+- name: Render Mermaid diagrams
+  uses: neenjaw/compile-mermaid-markdown-action@v1
+  with:
+    files: "docs/**/*.md"
+    output: "docs/rendered"
 ```
 
 ## Core Diagram Types
@@ -203,45 +244,6 @@ flowchart LR
 Theme snippets are available as copy-paste templates in
 `src/charter/offering/templates/diagrams/mermaid/themes/`.
 
-## Rendering
-
-### Inline in Markdown
-
-Wrap Mermaid source in a fenced code block with the `mermaid` language tag:
-
-````markdown
-```mermaid
-flowchart LR
-    A --> B
-```
-````
-
-This renders natively on GitHub, GitLab, VS Code preview, and most static
-site generators with Mermaid support.
-
-### Command Line
-
-```bash
-# SVG (preferred)
-mmdc -i diagram.mmd -o diagram.svg
-
-# PNG
-mmdc -i diagram.mmd -o diagram.png -b transparent
-
-# With custom theme config
-mmdc -i diagram.mmd -o diagram.svg -c mermaid-config.json
-```
-
-### CI Integration (GitHub Actions)
-
-```yaml
-- name: Render Mermaid diagrams
-  uses: neenjaw/compile-mermaid-markdown-action@v1
-  with:
-    files: "docs/**/*.md"
-    output: "docs/rendered"
-```
-
 ## Project Conventions
 
 1. Prefer Mermaid for diagrams embedded in Markdown documentation.
@@ -263,19 +265,6 @@ mmdc -i diagram.mmd -o diagram.svg -c mermaid-config.json
 - Ensure sufficient color contrast between node fill and text.
 - Test diagrams in both light and dark mode rendering contexts.
 
-## Common Pitfalls
-
-- **Init directive syntax**: The `%%{init}%%` block must be the first line of
-  the Mermaid block. Whitespace before it causes parsing failures.
-- **No include support**: Unlike PlantUML, Mermaid cannot `!include` shared
-  files. Theme snippets must be copy-pasted.
-- **Subgraph nesting**: Deeply nested subgraphs can produce unexpected
-  layouts. Keep nesting to two levels maximum.
-- **Long labels**: Wrap long text in quotes and keep labels concise to avoid
-  layout overflow.
-- **Renderer differences**: GitHub, VS Code, and `mmdc` may render the same
-  diagram slightly differently. Test in your primary rendering target.
-
 ## Template Library
 
 Spec Kitty ships ready-to-copy Mermaid templates in
@@ -293,6 +282,19 @@ Theme snippets are in `src/charter/offering/templates/diagrams/themes/`:
 
 - `mermaid-theme-common-template.md`
 - `mermaid-theme-bluegray-conversation-template.md`
+
+## Cautions
+
+- **Init directive syntax**: The `%%{init}%%` block must be the first line of
+  the Mermaid block. Whitespace before it causes parsing failures.
+- **No include support**: Unlike PlantUML, Mermaid cannot `!include` shared
+  files. Theme snippets must be copy-pasted.
+- **Subgraph nesting**: Deeply nested subgraphs can produce unexpected
+  layouts. Keep nesting to two levels maximum.
+- **Long labels**: Wrap long text in quotes and keep labels concise to avoid
+  layout overflow.
+- **Renderer differences**: GitHub, VS Code, and `mmdc` may render the same
+  diagram slightly differently. Test in your primary rendering target.
 
 ## References
 

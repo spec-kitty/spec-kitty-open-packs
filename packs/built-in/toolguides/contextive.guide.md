@@ -1,6 +1,6 @@
-# Contextive Toolguide
+# Contextive
 
-## What is Contextive?
+## Overview
 
 Contextive is a language server and IDE extension suite that surfaces
 ubiquitous language definitions directly in the developer workflow. By
@@ -18,7 +18,7 @@ maintaining a YAML glossary file in the repository, Contextive provides:
 - **Multi-context support** -- separate glossary files per bounded context,
   with cross-context term disambiguation
 
-## Installation
+## Setup
 
 Contextive supports multiple IDEs via the Language Server Protocol:
 

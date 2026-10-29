@@ -1,8 +1,10 @@
 # PlantUML Diagramming
 
+## Overview
+
 Diagram-as-code reference for PlantUML usage in Spec Kitty projects.
 
-## Purpose and When to Use
+## When to use
 
 PlantUML renders diagrams from plain-text source files that version-control
 cleanly and produce consistent, auto-laid-out visuals. Use PlantUML when:
@@ -18,7 +20,7 @@ Avoid PlantUML when:
 - The target rendering environment has no Java/Graphviz support.
 - Mermaid is already the project standard for the diagram category in question.
 
-## Getting Started
+## Setup
 
 ### Quickest (no install)
 
@@ -41,6 +43,54 @@ sudo apt install plantuml graphviz
 
 # Verify
 plantuml -version
+```
+
+## Usage
+
+### Command Line
+
+```bash
+# PNG (default)
+plantuml diagram.puml
+
+# SVG (preferred for documentation)
+plantuml -tsvg diagram.puml
+
+# Render all .puml files in a directory
+plantuml -tsvg "src/charter/offering/templates/diagrams/plantuml/examples/*.puml"
+
+# Watch mode
+plantuml -gui diagram.puml
+```
+
+### GitHub/GitLab Embedding
+
+Use the PlantUML proxy to render in Markdown without local tooling:
+
+```markdown
+![Diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/org/repo/main/docs/diagram.puml)
+```
+
+### CI Integration (GitHub Actions)
+
+```yaml
+- name: Render PlantUML diagrams
+  uses: grassedge/generate-plantuml-action@v1
+  with:
+    path: docs/diagrams
+    message: "Render PlantUML diagrams"
+```
+
+### Makefile
+
+```makefile
+PUML_SRC := $(wildcard docs/diagrams/*.puml)
+PUML_SVG := $(PUML_SRC:.puml=.svg)
+
+diagrams: $(PUML_SVG)
+
+%.svg: %.puml
+ plantuml -tsvg $<
 ```
 
 ## Core Diagram Types
@@ -206,54 +256,6 @@ note right of Task
 end note
 ```
 
-## Rendering
-
-### Command Line
-
-```bash
-# PNG (default)
-plantuml diagram.puml
-
-# SVG (preferred for documentation)
-plantuml -tsvg diagram.puml
-
-# Render all .puml files in a directory
-plantuml -tsvg "src/charter/offering/templates/diagrams/plantuml/examples/*.puml"
-
-# Watch mode
-plantuml -gui diagram.puml
-```
-
-### GitHub/GitLab Embedding
-
-Use the PlantUML proxy to render in Markdown without local tooling:
-
-```markdown
-![Diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/org/repo/main/docs/diagram.puml)
-```
-
-### CI Integration (GitHub Actions)
-
-```yaml
-- name: Render PlantUML diagrams
-  uses: grassedge/generate-plantuml-action@v1
-  with:
-    path: docs/diagrams
-    message: "Render PlantUML diagrams"
-```
-
-### Makefile
-
-```makefile
-PUML_SRC := $(wildcard docs/diagrams/*.puml)
-PUML_SVG := $(PUML_SRC:.puml=.svg)
-
-diagrams: $(PUML_SVG)
-
-%.svg: %.puml
- plantuml -tsvg $<
-```
-
 ## Project Conventions
 
 1. Prefer SVG output for scalability and accessibility.
@@ -271,17 +273,6 @@ diagrams: $(PUML_SVG)
 - Use descriptive labels; avoid abbreviations.
 - Add `'` comments in PlantUML source to explain design intent.
 
-## Common Pitfalls
-
-- **Graphviz dependency**: Component and class diagrams require Graphviz.
-  Sequence diagrams do not.
-- **Large diagrams**: Break into multiple focused diagrams rather than one
-  monolithic view.
-- **Layout quirks**: Use `left to right direction`, hidden arrows, and
-  `together {}` blocks to influence layout.
-- **Color accessibility**: Avoid red-green-only distinctions.
-- **Over-detailing**: Show the level of detail appropriate for the audience.
-
 ## Template Library
 
 Spec Kitty ships ready-to-copy PlantUML templates in
@@ -295,6 +286,17 @@ Spec Kitty ships ready-to-copy PlantUML templates in
 - `structure-meta-model-plantuml-template.md`
 - `system-map-plantuml-template.md`
 - `event-storming-plantuml-template.md`
+
+## Cautions
+
+- **Graphviz dependency**: Component and class diagrams require Graphviz.
+  Sequence diagrams do not.
+- **Large diagrams**: Break into multiple focused diagrams rather than one
+  monolithic view.
+- **Layout quirks**: Use `left to right direction`, hidden arrows, and
+  `together {}` blocks to influence layout.
+- **Color accessibility**: Avoid red-green-only distinctions.
+- **Over-detailing**: Show the level of detail appropriate for the audience.
 
 ## References
 

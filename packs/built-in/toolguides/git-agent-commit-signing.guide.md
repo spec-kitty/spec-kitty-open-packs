@@ -1,5 +1,7 @@
 # Git Agent Commit Signing
 
+## Overview
+
 Agent-authored commits should be unsigned.
 
 ## Required behavior
@@ -15,7 +17,7 @@ git commit --no-gpg-sign -m "Fix local init self-copy regression"
 git -c commit.gpgsign=false commit -m "Add doctrine template references"
 ```
 
-## Avoid
+## Cautions
 
 - plain `git commit -m "..."` in automation where global signing may be enabled
 - workflows that require interactive signing setup for agent-authored commits

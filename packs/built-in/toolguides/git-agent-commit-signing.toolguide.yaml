@@ -1,9 +1,9 @@
-schema_version: "1.0"
 id: git-agent-commit-signing
+schema_version: '1.0'
 tool: git
 title: Git Agent Commit Signing
-guide_path: packs/built-in/toolguides/GIT_AGENT_COMMIT_SIGNING.md
+guide_path: git-agent-commit-signing.guide.md
 summary: Unsigned commit guidance for agent-authored git commits.
 commands:
-  - git commit --no-gpg-sign
-  - git -c commit.gpgsign=false commit
+- git commit --no-gpg-sign
+- git -c commit.gpgsign=false commit

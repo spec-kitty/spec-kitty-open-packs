@@ -1,5 +1,7 @@
 # JavaScript/TypeScript Supply-Chain Install Safety
 
+## Overview
+
 Ecosystem-specific mechanics for the `supply-chain-install-safety` tactic's
 checklist in an npm/pnpm/yarn project. The tactic states the
 ecosystem-neutral checklist shape and evidence contract (registry

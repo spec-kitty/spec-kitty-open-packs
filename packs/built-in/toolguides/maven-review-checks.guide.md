@@ -1,5 +1,7 @@
 # Maven Review Checks
 
+## Overview
+
 Automated checks a reviewer should run — or verify the implementer has run — before approving Java code changes. Each tool catches a different category of defect; no single tool replaces the others.
 
 ## Compilation
