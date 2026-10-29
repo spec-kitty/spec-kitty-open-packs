@@ -1,5 +1,7 @@
 # Python Supply-Chain Install Safety
 
+## Overview
+
 Ecosystem-specific mechanics for the `supply-chain-install-safety` tactic's
 checklist in a pip/uv/poetry project. The tactic states the ecosystem-neutral
 checklist shape and evidence contract (registry authenticity, freshness,

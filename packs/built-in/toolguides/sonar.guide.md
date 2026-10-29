@@ -1,5 +1,7 @@
 # SonarQube Static Analysis and Quality Gate
 
+## Overview
+
 Operator reference for running SonarQube (SonarCloud or a self-hosted SonarQube
 server) as a static-analysis and quality-gate tool. Use alongside the
 [Testing Principles](../styleguides/testing-principles.styleguide.yaml)
@@ -82,7 +84,7 @@ loopback transport: traffic never leaves the machine.
   hotspot review or a UI-side rationale, say so explicitly in the PR body so a
   later reviewer does not try to "fix" correct code.
 
-## Red Flags
+## Cautions
 
 - A gate configured on project totals rather than new code — it hides new debt
   behind a large clean legacy base.

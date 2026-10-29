@@ -1,14 +1,12 @@
-schema_version: "1.0"
 id: plantuml-diagramming
+schema_version: '1.0'
 tool: plantuml
 title: PlantUML Diagramming
-guide_path: packs/built-in/toolguides/PLANTUML_DIAGRAMMING.md
-summary: >
-  Reference guide for using PlantUML as a diagram-as-code tool in Spec Kitty
-  projects. Covers diagram types, syntax patterns, theming, CI integration,
-  and project conventions.
+guide_path: plantuml-diagramming.guide.md
+summary: |
+  Reference guide for using PlantUML as a diagram-as-code tool in Spec Kitty projects. Covers diagram types, syntax patterns, theming, CI integration, and project conventions.
 commands:
-  - plantuml
-  - java
-  - graphviz
-  - dot
+- plantuml
+- java
+- graphviz
+- dot

@@ -1,5 +1,7 @@
 # Drupal Review Checks
 
+## Overview
+
 Automated checks a reviewer should run — or verify the implementer has run — before approving Drupal
 module or theme code changes. Each tool catches a different category of defect; no single tool
 replaces the others, and a change that only passes the fast checks is not yet reviewable.
@@ -127,7 +129,7 @@ Mirrors the source guide's own pre-submission checklist:
 Stop at the first failure and feed back to the implementer. Do not proceed to the slower checks
 while the cheap ones are red.
 
----
+## References
 
 Adapted from amazee.io's [`drupal-agents-md`](https://github.com/amazeeio/drupal-agents-md)
 (Vanilla variant), `AGENTS.md`, *Testing & Quality Assurance* and *Code Style and Standards*

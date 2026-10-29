@@ -1,5 +1,7 @@
 # Efficient Local Tooling
 
+## Overview
+
 Use efficient, operation-appropriate local tools by default.
 
 ## Session record
@@ -162,7 +164,7 @@ robocopy src dst /E
 wsl rg -n "TODO" /mnt/c/project
 ```
 
-## Avoid
+## Cautions
 
 - `grep -R "..." .` for routine repository search
 - `find . -type f ...` when `fd` covers the same path-discovery task more directly

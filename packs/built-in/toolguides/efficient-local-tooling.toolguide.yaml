@@ -1,28 +1,28 @@
-schema_version: "1.0"
 id: efficient-local-tooling
+schema_version: '1.0'
 tool: local-tooling
 title: Efficient Local Tooling
-guide_path: packs/built-in/toolguides/EFFICIENT_LOCAL_TOOLING.md
+guide_path: efficient-local-tooling.guide.md
 summary: Operation-oriented guidance for using efficient local tools during repository work.
 commands:
-  - rg
-  - fd
-  - has
-  - jq
-  - yq
-  - less
-  - bat
-  - zcat
-  - lnav
-  - ncdu
-  - fzf
-  - zoxide
-  - git
-  - rsync
-  - robocopy
-  - 7z
-  - wsl
-  - uv
-  - "gh --body-file"
-  - "git commit -F"
-last_updated: "2026-07-28"
+- rg
+- fd
+- has
+- jq
+- yq
+- less
+- bat
+- zcat
+- lnav
+- ncdu
+- fzf
+- zoxide
+- git
+- rsync
+- robocopy
+- 7z
+- wsl
+- uv
+- gh --body-file
+- git commit -F
+last_updated: '2026-07-28'

@@ -1,43 +1,14 @@
-# PowerShell Syntax Guide for AI Agents
+# PowerShell Syntax Guide
 
-**⚠️ READ THIS if you are working in a PowerShell environment**
+## Overview
 
 This guide helps AI agents use correct PowerShell syntax when working with spec-kitty workflows.
 
----
+## When to use
 
-## Quick Reference: Bash vs PowerShell
+Read this if you are working in a PowerShell environment.
 
-| Task | ❌ Bash (WRONG) | ✅ PowerShell (CORRECT) |
-|------|-----------------|-------------------------|
-| **Command chaining** | `cmd1 && cmd2` | `cmd1; cmd2` |
-| **Cmdlet parameters** (not `spec-kitty` flags) | `ls --recurse` | `Get-ChildItem -Recurse` |
-| **Environment variable** | `$VAR_NAME` | `$env:VAR_NAME` |
-| **Current directory** | `pwd` | `Get-Location` (or `pwd` alias) |
-| **List files** | `ls -la` | `Get-ChildItem` (or `ls` alias) |
-| **File exists check** | `[ -f file.txt ]` | `Test-Path file.txt` |
-| **Directory separator** | `/path/to/file` | `\path\to\file` |
-| **Home directory** | `~/projects` | `$HOME\projects` |
-
----
-
-## Location Verification (PowerShell)
-
-**Check your current location:**
-
-```powershell
-Get-Location
-git branch --show-current
-```
-
-**Expected for mission worktrees:**
-
-- Location: `C:\Users\...\project\.worktrees\001-mission-name`
-- Branch: `001-mission-name` (NOT `main`)
-
----
-
-## Running Spec-Kitty Commands (PowerShell)
+## Usage
 
 ### Using the spec-kitty CLI
 
@@ -83,9 +54,129 @@ spec-kitty agent mission check-prerequisites --json --include-tasks --mission <h
 spec-kitty agent tasks move-task WP01 --to for_review --mission <handle> --note "Ready for review"
 ```
 
----
+## Quick Reference: Bash vs PowerShell
 
-## Common Mistakes to Avoid
+| Task | ❌ Bash (WRONG) | ✅ PowerShell (CORRECT) |
+|------|-----------------|-------------------------|
+| **Command chaining** | `cmd1 && cmd2` | `cmd1; cmd2` |
+| **Cmdlet parameters** (not `spec-kitty` flags) | `ls --recurse` | `Get-ChildItem -Recurse` |
+| **Environment variable** | `$VAR_NAME` | `$env:VAR_NAME` |
+| **Current directory** | `pwd` | `Get-Location` (or `pwd` alias) |
+| **List files** | `ls -la` | `Get-ChildItem` (or `ls` alias) |
+| **File exists check** | `[ -f file.txt ]` | `Test-Path file.txt` |
+| **Directory separator** | `/path/to/file` | `\path\to\file` |
+| **Home directory** | `~/projects` | `$HOME\projects` |
+
+## Location Verification (PowerShell)
+
+**Check your current location:**
+
+```powershell
+Get-Location
+git branch --show-current
+```
+
+**Expected for mission worktrees:**
+
+- Location: `C:\Users\...\project\.worktrees\001-mission-name`
+- Branch: `001-mission-name` (NOT `main`)
+
+## Environment Variables
+
+**Setting variables:**
+
+```powershell
+$env:SPEC_KITTY_TEMPLATE_ROOT = "C:\path\to\spec-kitty"
+```
+
+**Reading variables:**
+
+```powershell
+echo $env:SPEC_KITTY_TEMPLATE_ROOT
+```
+
+**Checking if set:**
+
+```powershell
+if ($env:SPEC_KITTY_TEMPLATE_ROOT) {
+    Write-Host "Variable is set"
+}
+```
+
+## File Operations
+
+**Check if file exists:**
+
+```powershell
+if (Test-Path "spec.md") {
+    Write-Host "Spec exists"
+}
+```
+
+**Read file:**
+
+```powershell
+$content = Get-Content "spec.md" -Raw
+```
+
+**Create directory:**
+
+```powershell
+New-Item -ItemType Directory -Path "tasks\planned" -Force
+```
+
+## Workflow Tips
+
+1. **Always use full parameter names** in scripts (not abbreviations)
+2. **Use semicolons** to chain commands, not `&&` or `||`
+3. **Backslashes** for local paths, forward slashes OK for git operations
+4. **$PID** contains current PowerShell process ID (use for --shell-pid)
+5. **Tab completion** works for parameter names in PowerShell
+
+## When to Use What
+
+**Use PowerShell syntax when:**
+
+- You're in a Windows PowerShell or `pwsh` terminal
+
+**Use Bash syntax when:**
+
+- You're in a bash/zsh/fish terminal
+
+**Using spec-kitty commands:**
+All spec-kitty commands work the same way on PowerShell and Bash:
+
+```powershell
+spec-kitty agent action implement WP01 --agent claude --mission <handle>  # Moves to in_progress
+spec-kitty agent tasks move-task WP01 --to for_review --mission <handle>  # Completion step
+spec-kitty verify-setup
+spec-kitty agent tasks status
+```
+
+The CLI is cross-platform and handles path differences automatically.
+
+## Debugging PowerShell Issues
+
+**Common errors and solutions:**
+
+1. **"Parameter cannot be found that matches parameter name"**
+   - You used bash-style parameters (`--json`)
+   - Fix: Use PowerShell style (`-Json`)
+
+2. **"The term '&&' is not recognized"**
+   - You used bash command chaining
+   - Fix: Use semicolon (`;`) instead
+
+3. **"Cannot find path"**
+   - You used forward slashes in PowerShell path
+   - Fix: Use backslashes (`\`) for local paths
+
+4. **"Unable to import mission module"**
+   - Python can't find specify_cli package
+   - Check: `pip show spec-kitty-cli`
+   - Fix: Reinstall or check virtual environment
+
+## Cautions
 
 ### ❌ Don't Use Bash Operators
 
@@ -123,112 +214,3 @@ cd .\.kittify\memory
 ```
 
 Note: Git commands work with forward slashes, but native PowerShell file operations expect backslashes. The spec-kitty CLI handles this automatically.
-
----
-
-## Environment Variables
-
-**Setting variables:**
-
-```powershell
-$env:SPEC_KITTY_TEMPLATE_ROOT = "C:\path\to\spec-kitty"
-```
-
-**Reading variables:**
-
-```powershell
-echo $env:SPEC_KITTY_TEMPLATE_ROOT
-```
-
-**Checking if set:**
-
-```powershell
-if ($env:SPEC_KITTY_TEMPLATE_ROOT) {
-    Write-Host "Variable is set"
-}
-```
-
----
-
-## File Operations
-
-**Check if file exists:**
-
-```powershell
-if (Test-Path "spec.md") {
-    Write-Host "Spec exists"
-}
-```
-
-**Read file:**
-
-```powershell
-$content = Get-Content "spec.md" -Raw
-```
-
-**Create directory:**
-
-```powershell
-New-Item -ItemType Directory -Path "tasks\planned" -Force
-```
-
----
-
-## Workflow Tips
-
-1. **Always use full parameter names** in scripts (not abbreviations)
-2. **Use semicolons** to chain commands, not `&&` or `||`
-3. **Backslashes** for local paths, forward slashes OK for git operations
-4. **$PID** contains current PowerShell process ID (use for --shell-pid)
-5. **Tab completion** works for parameter names in PowerShell
-
----
-
-## When to Use What
-
-**Use PowerShell syntax when:**
-
-- You're in a Windows PowerShell or `pwsh` terminal
-
-**Use Bash syntax when:**
-
-- You're in a bash/zsh/fish terminal
-
-**Using spec-kitty commands:**
-All spec-kitty commands work the same way on PowerShell and Bash:
-
-```powershell
-spec-kitty agent action implement WP01 --agent claude --mission <handle>  # Moves to in_progress
-spec-kitty agent tasks move-task WP01 --to for_review --mission <handle>  # Completion step
-spec-kitty verify-setup
-spec-kitty agent tasks status
-```
-
-The CLI is cross-platform and handles path differences automatically.
-
----
-
-## Debugging PowerShell Issues
-
-**Common errors and solutions:**
-
-1. **"Parameter cannot be found that matches parameter name"**
-   - You used bash-style parameters (`--json`)
-   - Fix: Use PowerShell style (`-Json`)
-
-2. **"The term '&&' is not recognized"**
-   - You used bash command chaining
-   - Fix: Use semicolon (`;`) instead
-
-3. **"Cannot find path"**
-   - You used forward slashes in PowerShell path
-   - Fix: Use backslashes (`\`) for local paths
-
-4. **"Unable to import mission module"**
-   - Python can't find specify_cli package
-   - Check: `pip show spec-kitty-cli`
-   - Fix: Reinstall or check virtual environment
-
----
-
-**For full spec-kitty documentation, see the main templates and README.**

@@ -1,10 +1,12 @@
 # TypeScript Mutation Testing with Stryker
 
+## Overview
+
 Operator reference and workflow for mutation testing TypeScript/JavaScript code with Stryker. Use
 alongside the [Mutation-Aware Test Design](../styleguides/mutation-aware-test-design.styleguide.yaml)
 styleguide and the [Mutation Testing Workflow](../tactics/testing/mutation-testing-workflow.tactic.yaml) tactic.
 
-## Installation and Configuration
+## Setup
 
 ```bash
 npm init stryker
@@ -37,7 +39,7 @@ Key options:
 | `timeoutMS` | Milliseconds before a mutant is marked Timeout (default 5000) |
 | `thresholds` | `{ high: 80, low: 60, break: 0 }` — exit codes for CI gates |
 
-## Running
+## Usage
 
 ```bash
 # Full run
@@ -81,8 +83,6 @@ const VERSION = "1.2.3";
 const LOG_TAG = "cache-eviction";
 // Stryker restore StringLiteral
 ```
-
----
 
 ## TypeScript/JavaScript-Specific Mutation Families
 
@@ -155,8 +155,6 @@ const LOG_TAG = "cache-eviction";
 
 **Kill strategy:** Use a non-zero, non-one value where sign change is detectable.
 
----
-
 ## CI Integration (opt-in)
 
 A Stryker threshold gate that fails CI below a minimum score is a per-project
@@ -186,9 +184,7 @@ drop is a real regression signal rather than triage noise:
   run: npx stryker run --incremental
 ```
 
----
-
-## Red Flags
+## Cautions
 
 - **Many `No Coverage` mutants** — branches never reached by tests.
 - **Survived `??` → `||` mutants** — nullish vs falsy distinction not tested; common source of runtime bugs with `0` or `""` values.

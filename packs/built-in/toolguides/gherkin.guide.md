@@ -1,5 +1,7 @@
 # The Gherkin Scenario Language
 
+## Overview
+
 Reference for **Gherkin, the language** — the plain-text DSL for writing
 behavioural scenarios. This guide covers the notation only. It is deliberately
 **not** stack-specific: the runners that execute Gherkin (Cucumber, behave,

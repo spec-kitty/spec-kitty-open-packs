@@ -1,16 +1,18 @@
-# GitHub Issue-Tracker Operations — `gh` CLI + GraphQL
+# GitHub Issue-Tracker Operations (gh CLI + GraphQL)
 
-**⚠️ READ THIS before bulk tracker work** (re-parenting, type/priority audits,
-dedup sweeps). These are the mechanics and the gotchas that silently waste hours.
+## Overview
 
 This guide covers driving the GitHub issue tracker from the CLI: native
 sub-issues (the parent/child source of truth), issue types, walking the parent
 chain, auth, and the rate-limit and id-confusion traps. It is the operational
 companion to the **Planning & Tracking Styleguide**.
 
----
+## When to use
 
-## Auth
+Read this before bulk tracker work (re-parenting, type/priority audits,
+dedup sweeps). These are the mechanics and the gotchas that silently waste hours.
+
+## Setup
 
 - **`unset GITHUB_TOKEN` before `gh` calls on org repos.** The ambient
   `GITHUB_TOKEN` often has limited scopes (`Missing required token scopes`).
@@ -18,8 +20,6 @@ companion to the **Planning & Tracking Styleguide**.
 - **Background shells lack keyring auth.** `gh` invoked in a backgrounded shell
   returns empty or fails silently — the keyring is not available there. Run
   `gh` loops in the foreground.
-
----
 
 ## Sub-issues — the native parent/child source of truth
 
@@ -46,8 +46,6 @@ graph. Body checklists are invisible to tooling — backfill native links.
 - **Nesting is allowed** (epic -> sub-epic -> leaf) — useful for tiered
   hierarchies.
 
----
-
 ## Reading the parent / walking the chain
 
 - **`.parent` is reliable only via GraphQL, not REST.** REST `issue.parent`
@@ -60,8 +58,6 @@ graph. Body checklists are invisible to tooling — backfill native links.
     parent { number parent { number parent { number } } }
   }
   ```
-
----
 
 ## Issue types (Task / Bug / Feature)
 
@@ -95,8 +91,6 @@ graph. Body checklists are invisible to tooling — backfill native links.
 - Get the node id from GraphQL (`issue(number: $n) { id }`) or from REST
   **`.node_id`** (not `.id`).
 
----
-
 ## GraphQL query gotchas (the big time-sinks)
 
 - **Shell double-quote interpolation breaks queries.** Building
@@ -114,8 +108,6 @@ graph. Body checklists are invisible to tooling — backfill native links.
   hand-built alias batches.
 - **Do not interpolate `$n` into the `--jq` string.** Emit the number from the
   query result (`.number`) and let `jq` read it, avoiding nested-quote breakage.
-
----
 
 ## Rate-limiting and loops (critical for bulk work)
 
@@ -157,8 +149,6 @@ is unreliable once the result set exceeds 100 items — the proxy's response omi
 silently stops after page 1. On that host, loop `&page=N` manually instead of trusting
 `--paginate`.
 
----
-
 ## Handy one-call queries
 
 - List + labels + dates in one shot:
@@ -176,8 +166,6 @@ silently stops after page 1. On that host, loop `&page=N` manually instead of tr
 - Close as superseded:
   `gh issue close <n> --reason "not planned" --comment "…"`.
 
----
-
 ## Closing keywords — one issue per keyword
 
 - **`Closes #A,#B` (or `Closes #A, #B`) only links and auto-closes the
@@ -193,9 +181,7 @@ silently stops after page 1. On that host, loop `&page=N` manually instead of tr
   above: an API/parser silently does less than the surface implies, and the
   gap only shows up after merge when only one issue closed.
 
----
-
-## Pitfall quick-table
+## Cautions
 
 | Symptom | Cause | Fix |
 |---|---|---|
