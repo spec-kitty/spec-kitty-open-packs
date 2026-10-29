@@ -213,10 +213,10 @@ Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**
 
 ### Errors
 
-- {'artifact_id': 'qa-coverage-gap-analysis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-coverage-gap-analysis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-defect-triage-ritual', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-defect-triage-ritual.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-description-to-acceptance-ci', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-description-to-acceptance-ci.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-go-no-go-readiness-review', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-go-no-go-readiness-review.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-test-plan-review-workshop', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-test-plan-review-workshop.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-coverage-gap-analysis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-coverage-gap-analysis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-defect-triage-ritual', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-defect-triage-ritual.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-description-to-acceptance-ci', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-description-to-acceptance-ci.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-go-no-go-readiness-review', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-go-no-go-readiness-review.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-test-plan-review-workshop', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-test-plan-review-workshop.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
 
 Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
