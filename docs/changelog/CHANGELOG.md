@@ -19,6 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 💥 Breaking
+
+- **Procedures and toolguide guides in `built-in`, `internal` and `qa` now use the charter's
+  sanitized shapes** (#91, spec-kitty/spec-kitty-charter#194). Procedures changed `name` to
+  `title`, `purpose` to `description` and `actor` to `role`; toolguide guides were renamed to
+  `<id>.guide.md` with fixed sections. Core up to 4.0.0rc8, and the CI pin, still requires the
+  old fields and rejects the 39 migrated procedures as `schema_invalid`. A consumer on a released
+  core who pins a commit after this one loses those procedures. CI validation and releases stay
+  red until core reads the new shape.
+
 ### ✨ Added
 
 - **A vocabulary guard keeps retired names out of every pack** (spec-kitty/spec-kitty#6553).
