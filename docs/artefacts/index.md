@@ -65,7 +65,7 @@ Key fields: `id`, `title`, `scope`, `applies_to_languages`, `principles`, `patte
 
 ## Toolguide
 
-Key fields: `id`, `tool`, `title`, `guide_path`, `summary`, `commands`, `last_updated`.
+Key fields: `id`, `tool`, `title`, `guide_path` (the sibling `<id>.guide.md`), `summary`, `commands`, `last_updated`.
 
 ## Paradigm
 
@@ -73,8 +73,9 @@ Key fields: `id`, `name`, `summary`, `directive_refs`.
 
 ## Procedure
 
-Key fields: `id`, `name`, `purpose`, `entry_condition`, `exit_condition`, `steps` (each with a
-title and description), `anti_patterns`.
+Key fields: `id`, `title`, `description`, `entry_condition`, `exit_condition`, `steps` (each with a
+title, description and optional `role`), `anti_patterns`. Older packs used `name`, `purpose` and
+`actor` for `title`, `description` and `role`.
 
 ## Agent profile
 

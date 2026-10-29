@@ -69,9 +69,9 @@ Required fields per kind:
 | --- | --- | --- |
 | directive | upper case, `^[A-Z][A-Z0-9_-]*$` | `schema_version`, `id`, `title`, `intent`, `enforcement` |
 | tactic | lower-case kebab | `schema_version`, `id`, `name`, `steps` |
-| procedure | lower-case kebab | `schema_version`, `id`, `name`, `purpose`, `entry_condition`, `exit_condition`, `steps` |
+| procedure | lower-case kebab | `schema_version`, `id`, `title`, `description`, `entry_condition`, `exit_condition`, `steps` |
 | styleguide | lower-case kebab | `schema_version`, `id`, `title`, `scope`, `principles` |
-| toolguide | lower-case kebab | `schema_version`, `id`, `tool`, `title`, `guide_path`, `summary` |
+| toolguide | lower-case kebab | `schema_version`, `id`, `tool`, `title`, `guide_path` (`<id>.guide.md`), `summary` |
 | paradigm | lower-case kebab | `schema_version`, `id`, `name`, `summary` |
 | agent profile | `profile-id` (not `id`) | `profile-id`, `name`, `purpose`, `specialization` |
 
