@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `feb8f27de43be20258004833517b87ea4362203bd92d5b379ad377238dad8325`
+- **Content checksum (sha256):** `826027ef62c23a2f2ff2dca1f5f73768ef55ccf45461b5a9d32a5bfefa6a6911`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -79,11 +79,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 <details>
 <summary><code>toolguides</code> (6)</summary>
 
-- `BRANDED_DOCUMENT_GENERATION.md`
-- `TERMINOLOGY_GUARD.md`
-- `TEST_QUALITY_TRIAGE.md`
+- `branded-document-generation.guide.md`
 - `branded-document-generation.toolguide.yaml`
+- `terminology-guard.guide.md`
 - `terminology-guard.toolguide.yaml`
+- `test-quality-triage.guide.md`
 - `test-quality-triage.toolguide.yaml`
 
 </details>
@@ -164,8 +164,23 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
+Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
 
-- Errors: 0
+- Errors: 12
+
+### Errors
+
+- {'artifact_id': 'charter-offering-scenario-extraction', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/charter-offering-scenario-extraction.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'cloud-session-dispatch', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/cloud-session-dispatch.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'executive-debrief-generation', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/executive-debrief-generation.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'issue-to-mission-delivery', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/issue-to-mission-delivery.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'issue-triage-pass', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/issue-triage-pass.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'landing-contributor-prs', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/landing-contributor-prs.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'memory-curation-and-escalation', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/memory-curation-and-escalation.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'project-evolution-postmortem', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/project-evolution-postmortem.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'semi-auto-delivery', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/semi-auto-delivery.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'spec-kitty-arch-gate-adjudication', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/spec-kitty-arch-gate-adjudication.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'test-suite-quality-assessment', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/test-suite-quality-assessment.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'tracker-organisation-workflow', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/internal/procedures/tracker-organisation-workflow.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
 
 Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.

@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `76d4407141e9ad218b3adbf2844e7b44867c0afea945b5766cafb537689894ea`
+- **Content checksum (sha256):** `cfd99bdc3386ff2658c85b7db106227d3643d399907f78fd5be3861ccfc8a520`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -86,11 +86,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 <details>
 <summary><code>toolguides</code> (6)</summary>
 
-- `QA-CARRIER-LINT.md`
-- `QA-PROMISE-TRACE-LINT.md`
-- `QA-RESULT-INGEST.md`
+- `qa-carrier-lint.guide.md`
 - `qa-carrier-lint.toolguide.yaml`
+- `qa-promise-trace-lint-guide.guide.md`
 - `qa-promise-trace-lint.toolguide.yaml`
+- `qa-result-ingest-guide.guide.md`
 - `qa-result-ingest.toolguide.yaml`
 
 </details>
@@ -207,8 +207,16 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
+Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
 
-- Errors: 0
+- Errors: 5
+
+### Errors
+
+- {'artifact_id': 'qa-coverage-gap-analysis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-coverage-gap-analysis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-defect-triage-ritual', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-defect-triage-ritual.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-description-to-acceptance-ci', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-description-to-acceptance-ci.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-go-no-go-readiness-review', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-go-no-go-readiness-review.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
+- {'artifact_id': 'qa-test-plan-review-workshop', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': '/home/stijn/Documents/_code/SDD/fork/land-91/packs/qa/procedures/qa-test-plan-review-workshop.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
 
 Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
