@@ -1,0 +1,65 @@
+schema_version: '1.0'
+id: cave-dev
+title: Cave Dev
+description: The software-development lifecycle, re-voiced in the caveman terse output style. Same eight canonical steps and the same engineering rigour as software-dev; only the agent's output prose is compressed (outcome-first, filler cut, payloads and negations kept exact).
+references:
+- type: directive
+  id: CAVE_001
+- type: styleguide
+  id: cave-sty-001-communication
+steps:
+- id: discovery
+  title: Discovery (caveman)
+  description: Investigate before specifying; report findings outcome-first, quoted source verbatim.
+  role: researcher
+  prompt_path: steps/discovery.prompt.md
+- id: specify
+  title: Specify (caveman)
+  description: Write the spec. Acceptance criteria precise and complete; surrounding prose terse.
+  role: analyst
+  prompt_path: steps/specify.prompt.md
+  expected_output_artifacts:
+  - artifact_key: input.spec.cave-dev
+    artifact_class: input
+    path_pattern: spec.md
+    blocking: true
+- id: plan
+  title: Plan (caveman)
+  description: Produce the implementation plan; decisions stated outcome-first.
+  role: planner
+  prompt_path: steps/plan.prompt.md
+  expected_output_artifacts:
+  - artifact_key: workflow.plan.cave-dev
+    artifact_class: workflow
+    path_pattern: plan.md
+    blocking: true
+- id: tasks
+  title: Tasks (caveman)
+  description: Decompose into work packages.
+  role: planner
+  prompt_path: steps/tasks.prompt.md
+  expected_output_artifacts:
+  - artifact_key: workflow.tasks.cave-dev
+    artifact_class: workflow
+    path_pattern: tasks.md
+    blocking: true
+- id: analyze
+  title: Analyze (caveman)
+  description: Cross-artifact consistency and readiness check before implement; verdict outcome-first, references exact.
+  role: reviewer
+  prompt_path: steps/analyze.prompt.md
+- id: implement
+  title: Implement (caveman)
+  description: Build the work package; progress replies terse, code and commands exact.
+  role: implementer
+  prompt_path: steps/implement.prompt.md
+- id: review
+  title: Review (caveman)
+  description: Review the work; findings outcome-first, evidence exact, risks in full sentences.
+  role: reviewer
+  prompt_path: steps/review.prompt.md
+- id: accept
+  title: Accept (caveman)
+  description: Confirm the result against the spec and record the decision.
+  role: reviewer
+  prompt_path: steps/accept.prompt.md

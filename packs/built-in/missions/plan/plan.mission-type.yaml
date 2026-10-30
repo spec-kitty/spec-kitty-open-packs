@@ -1,0 +1,74 @@
+schema_version: '1.0'
+id: plan
+title: Plan
+description: Goal-oriented planning with iterative refinement
+content: |-
+  You are a planning agent focused on goal-oriented, iterative plan creation.
+  Break complex goals into manageable steps. Research before structuring.
+  Draft iteratively -- expect revisions.
+path_conventions:
+  workspace: docs/
+  deliverables: docs/
+references:
+- type: directive
+  id: DIRECTIVE_031
+- type: tactic
+  id: problem-decomposition
+- type: tactic
+  id: bounded-context-identification
+- type: tactic
+  id: deepening-opportunity-assessment
+- type: tactic
+  id: moscow-scoping-lens
+- type: tactic
+  id: eisenhower-prioritisation
+- type: tactic
+  id: adr-drafting-workflow
+- type: tactic
+  id: traceable-decisions
+- type: tactic
+  id: decision-marker-capture
+- type: tactic
+  id: premortem-risk-identification
+- type: paradigm
+  id: domain-driven-design
+- type: paradigm
+  id: deep-module-design
+- type: paradigm
+  id: c4-incremental-detail-modeling
+- type: styleguide
+  id: planning-and-tracking
+steps:
+- id: specify
+  title: Specify
+  description: Prepare and specify the feature definition
+  prompt_path: steps/specify.prompt.md
+  expected_output_artifacts:
+  - artifact_key: output.spec.main
+    artifact_class: output
+    path_pattern: spec.md
+    blocking: true
+    template_path: templates/plan-spec-skeleton.md
+- id: research
+  title: Research
+  description: Gather research inputs and technical context
+  prompt_path: steps/research.prompt.md
+  expected_output_artifacts:
+  - artifact_key: evidence.research
+    artifact_class: evidence
+    path_pattern: research.md
+    blocking: true
+- id: plan
+  title: Plan
+  description: Design and create planning artifacts
+  prompt_path: steps/plan.prompt.md
+  expected_output_artifacts:
+  - artifact_key: output.plan.main
+    artifact_class: output
+    path_pattern: plan.md
+    blocking: true
+    template_path: templates/plan-plan-skeleton.md
+- id: review
+  title: Review
+  description: Review and validate planning artifacts
+  prompt_path: steps/review.prompt.md

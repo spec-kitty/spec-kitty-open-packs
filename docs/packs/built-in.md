@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `308747b0582048e949a80751a448c909c7bdcafe4769407b9bdc9c9d0a289cc0`
+- **Content checksum (sha256):** `30749d14d288dfbe4ede9712532689c5c663be0e474c18e92b482cc07790f2fb`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -41,11 +41,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
-| `missions` | 181 |
+| `missions` | 109 |
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **505** |
+| **Total files** | **433** |
 
 ### Full listing
 
@@ -406,7 +406,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>missions</code> (181)</summary>
+<summary><code>missions</code> (109)</summary>
 
 - `README.md`
 - `built_in_step_contracts/__init__.py`
@@ -432,18 +432,21 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `built_in_step_contracts/specify.step-contract.yaml`
 - `built_in_step_contracts/tasks.step-contract.yaml`
 - `documentation/README.md`
-- `documentation/actions/accept/index.yaml`
-- `documentation/actions/audit/index.yaml`
-- `documentation/actions/design/index.yaml`
-- `documentation/actions/discover/index.yaml`
-- `documentation/actions/generate/index.yaml`
-- `documentation/actions/publish/index.yaml`
-- `documentation/actions/retrospect/index.yaml`
-- `documentation/actions/validate/index.yaml`
-- `documentation/expected-artifacts.yaml`
-- `documentation/governance-profile.yaml`
-- `documentation/mission-runtime.yaml`
-- `documentation/mission.yaml`
+- `documentation/documentation.mission-type.yaml`
+- `documentation/steps/accept.guidelines.md`
+- `documentation/steps/accept.prompt.md`
+- `documentation/steps/audit.guidelines.md`
+- `documentation/steps/audit.prompt.md`
+- `documentation/steps/design.guidelines.md`
+- `documentation/steps/design.prompt.md`
+- `documentation/steps/discover.guidelines.md`
+- `documentation/steps/discover.prompt.md`
+- `documentation/steps/generate.guidelines.md`
+- `documentation/steps/generate.prompt.md`
+- `documentation/steps/publish.guidelines.md`
+- `documentation/steps/publish.prompt.md`
+- `documentation/steps/validate.guidelines.md`
+- `documentation/steps/validate.prompt.md`
 - `documentation/templates/README.md`
 - `documentation/templates/divio/README.md`
 - `documentation/templates/divio/explanation-template.md`
@@ -458,111 +461,28 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `documentation/templates/release-template.md`
 - `documentation/templates/task-prompt-template.md`
 - `documentation/templates/tasks-template.md`
-- `mission-steps/documentation/accept/guidelines.md`
-- `mission-steps/documentation/accept/prompt.md`
-- `mission-steps/documentation/accept/step.yaml`
-- `mission-steps/documentation/audit/guidelines.md`
-- `mission-steps/documentation/audit/prompt.md`
-- `mission-steps/documentation/audit/step.yaml`
-- `mission-steps/documentation/design/guidelines.md`
-- `mission-steps/documentation/design/prompt.md`
-- `mission-steps/documentation/design/step.yaml`
-- `mission-steps/documentation/discover/guidelines.md`
-- `mission-steps/documentation/discover/prompt.md`
-- `mission-steps/documentation/discover/step.yaml`
-- `mission-steps/documentation/generate/guidelines.md`
-- `mission-steps/documentation/generate/prompt.md`
-- `mission-steps/documentation/generate/step.yaml`
-- `mission-steps/documentation/publish/guidelines.md`
-- `mission-steps/documentation/publish/prompt.md`
-- `mission-steps/documentation/publish/step.yaml`
-- `mission-steps/documentation/retrospect/prompt.md`
-- `mission-steps/documentation/retrospect/step.yaml`
-- `mission-steps/documentation/validate/guidelines.md`
-- `mission-steps/documentation/validate/prompt.md`
-- `mission-steps/documentation/validate/step.yaml`
-- `mission-steps/plan/plan/prompt.md`
-- `mission-steps/plan/plan/step.yaml`
-- `mission-steps/plan/research/prompt.md`
-- `mission-steps/plan/research/step.yaml`
-- `mission-steps/plan/review/prompt.md`
-- `mission-steps/plan/review/step.yaml`
-- `mission-steps/plan/specify/prompt.md`
-- `mission-steps/plan/specify/step.yaml`
-- `mission-steps/research/gathering/guidelines.md`
-- `mission-steps/research/gathering/prompt.md`
-- `mission-steps/research/gathering/step.yaml`
-- `mission-steps/research/methodology/guidelines.md`
-- `mission-steps/research/methodology/prompt.md`
-- `mission-steps/research/methodology/step.yaml`
-- `mission-steps/research/output/guidelines.md`
-- `mission-steps/research/output/prompt.md`
-- `mission-steps/research/output/step.yaml`
-- `mission-steps/research/retrospect/prompt.md`
-- `mission-steps/research/retrospect/step.yaml`
-- `mission-steps/research/scoping/guidelines.md`
-- `mission-steps/research/scoping/prompt.md`
-- `mission-steps/research/scoping/step.yaml`
-- `mission-steps/research/synthesis/guidelines.md`
-- `mission-steps/research/synthesis/prompt.md`
-- `mission-steps/research/synthesis/step.yaml`
-- `mission-steps/software-dev/accept/prompt.md`
-- `mission-steps/software-dev/accept/step.yaml`
-- `mission-steps/software-dev/analyze/prompt.md`
-- `mission-steps/software-dev/analyze/step.yaml`
-- `mission-steps/software-dev/charter/prompt.md`
-- `mission-steps/software-dev/charter/step.yaml`
-- `mission-steps/software-dev/implement/guidelines.md`
-- `mission-steps/software-dev/implement/prompt.md`
-- `mission-steps/software-dev/implement/step.yaml`
-- `mission-steps/software-dev/plan/guidelines.md`
-- `mission-steps/software-dev/plan/prompt.md`
-- `mission-steps/software-dev/plan/step.yaml`
-- `mission-steps/software-dev/research/prompt.md`
-- `mission-steps/software-dev/research/step.yaml`
-- `mission-steps/software-dev/review/guidelines.md`
-- `mission-steps/software-dev/review/prompt.md`
-- `mission-steps/software-dev/review/step.yaml`
-- `mission-steps/software-dev/specify/guidelines.md`
-- `mission-steps/software-dev/specify/prompt.md`
-- `mission-steps/software-dev/specify/step.yaml`
-- `mission-steps/software-dev/tasks-finalize/prompt.md`
-- `mission-steps/software-dev/tasks-finalize/step.yaml`
-- `mission-steps/software-dev/tasks-outline/prompt.md`
-- `mission-steps/software-dev/tasks-outline/step.yaml`
-- `mission-steps/software-dev/tasks-packages/prompt.md`
-- `mission-steps/software-dev/tasks-packages/step.yaml`
-- `mission-steps/software-dev/tasks/guidelines.md`
-- `mission-steps/software-dev/tasks/prompt.md`
-- `mission-steps/software-dev/tasks/step.yaml`
-- `mission_types/documentation.yaml`
-- `mission_types/plan.yaml`
-- `mission_types/research.yaml`
-- `mission_types/software-dev.yaml`
 - `plan/README.md`
-- `plan/actions/plan/index.yaml`
-- `plan/actions/research/index.yaml`
-- `plan/actions/review/index.yaml`
-- `plan/actions/specify/index.yaml`
-- `plan/expected-artifacts.yaml`
-- `plan/governance-profile.yaml`
-- `plan/mission-runtime.yaml`
-- `plan/mission.yaml`
+- `plan/plan.mission-type.yaml`
+- `plan/steps/plan.prompt.md`
+- `plan/steps/research.prompt.md`
+- `plan/steps/review.prompt.md`
+- `plan/steps/specify.prompt.md`
 - `plan/templates/.gitkeep`
 - `plan/templates/README.md`
 - `plan/templates/plan-plan-skeleton.md`
 - `plan/templates/plan-spec-skeleton.md`
 - `research/README.md`
-- `research/actions/gathering/index.yaml`
-- `research/actions/methodology/index.yaml`
-- `research/actions/output/index.yaml`
-- `research/actions/retrospect/index.yaml`
-- `research/actions/scoping/index.yaml`
-- `research/actions/synthesis/index.yaml`
-- `research/expected-artifacts.yaml`
-- `research/governance-profile.yaml`
-- `research/mission-runtime.yaml`
-- `research/mission.yaml`
+- `research/research.mission-type.yaml`
+- `research/steps/gathering.guidelines.md`
+- `research/steps/gathering.prompt.md`
+- `research/steps/methodology.guidelines.md`
+- `research/steps/methodology.prompt.md`
+- `research/steps/output.guidelines.md`
+- `research/steps/output.prompt.md`
+- `research/steps/scoping.guidelines.md`
+- `research/steps/scoping.prompt.md`
+- `research/steps/synthesis.guidelines.md`
+- `research/steps/synthesis.prompt.md`
 - `research/templates/README.md`
 - `research/templates/data-model-template.md`
 - `research/templates/research-plan-template.md`
@@ -574,16 +494,24 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `research/templates/task-prompt-template.md`
 - `research/templates/tasks-template.md`
 - `software-dev/README.md`
-- `software-dev/actions/implement/index.yaml`
-- `software-dev/actions/plan/index.yaml`
-- `software-dev/actions/retrospect/index.yaml`
-- `software-dev/actions/review/index.yaml`
-- `software-dev/actions/specify/index.yaml`
-- `software-dev/actions/tasks/index.yaml`
-- `software-dev/expected-artifacts.yaml`
-- `software-dev/governance-profile.yaml`
-- `software-dev/mission-runtime.yaml`
-- `software-dev/mission.yaml`
+- `software-dev/software-dev.mission-type.yaml`
+- `software-dev/steps/accept.prompt.md`
+- `software-dev/steps/analyze.prompt.md`
+- `software-dev/steps/charter.prompt.md`
+- `software-dev/steps/discovery.prompt.md`
+- `software-dev/steps/implement.guidelines.md`
+- `software-dev/steps/implement.prompt.md`
+- `software-dev/steps/plan.guidelines.md`
+- `software-dev/steps/plan.prompt.md`
+- `software-dev/steps/review.guidelines.md`
+- `software-dev/steps/review.prompt.md`
+- `software-dev/steps/specify.guidelines.md`
+- `software-dev/steps/specify.prompt.md`
+- `software-dev/steps/tasks-finalize.prompt.md`
+- `software-dev/steps/tasks-outline.prompt.md`
+- `software-dev/steps/tasks-packages.prompt.md`
+- `software-dev/steps/tasks.guidelines.md`
+- `software-dev/steps/tasks.prompt.md`
 - `software-dev/templates/README.md`
 - `software-dev/templates/plan-template.md`
 - `software-dev/templates/spec-template.md`
