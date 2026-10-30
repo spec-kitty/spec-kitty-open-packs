@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/cave-kitty`
-- **Content checksum (sha256):** `b7c2c6f3b5fdda53313b75ce06e0cfe2e7c7310d54a76208e672d21f53107beb`
+- **Content checksum (sha256):** `25ca5dcf88794a08bad24a2f9fa89d0b1eb2f173ad29a8a668ec4f3f5b83184e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,9 +34,8 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `directives` | 1 |
 | `styleguides` | 1 |
 | `drg` | 1 |
-| `mission_types` | 2 |
-| `missions` | 11 |
-| **Total files** | **19** |
+| `missions` | 9 |
+| **Total files** | **15** |
 
 ### Full listing
 
@@ -62,27 +61,17 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>mission_types</code> (2)</summary>
+<summary><code>missions</code> (9)</summary>
 
-- `cave-dev.yaml`
-- `cave-dev/governance-profile.yaml`
-
-</details>
-
-<details>
-<summary><code>missions</code> (11)</summary>
-
-- `cave-dev/command-templates/accept.md`
-- `cave-dev/command-templates/analyze.md`
-- `cave-dev/command-templates/discovery.md`
-- `cave-dev/command-templates/implement.md`
-- `cave-dev/command-templates/plan.md`
-- `cave-dev/command-templates/review.md`
-- `cave-dev/command-templates/specify.md`
-- `cave-dev/command-templates/tasks.md`
-- `cave-dev/expected-artifacts.yaml`
-- `cave-dev/mission-runtime.yaml`
-- `cave-dev/mission.yaml`
+- `cave-dev/cave-dev.mission-type.yaml`
+- `cave-dev/steps/accept.prompt.md`
+- `cave-dev/steps/analyze.prompt.md`
+- `cave-dev/steps/discovery.prompt.md`
+- `cave-dev/steps/implement.prompt.md`
+- `cave-dev/steps/plan.prompt.md`
+- `cave-dev/steps/review.prompt.md`
+- `cave-dev/steps/specify.prompt.md`
+- `cave-dev/steps/tasks.prompt.md`
 
 </details>
 

@@ -76,11 +76,6 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
         "bug-fixing-checklist",
         "the retired bug-fixing-checklist tactic",
     ),
-    (
-        "packs/built-in/missions/documentation/governance-profile.yaml",
-        "common-docs-curation",
-        "common-docs-curation was folded into",
-    ),
     # Not in core, which never scans packs/qa: keep this row when syncing with core.
     (
         "packs/qa/PROVENANCE.md",

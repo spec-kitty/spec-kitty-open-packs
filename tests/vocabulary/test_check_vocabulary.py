@@ -65,7 +65,7 @@ class RetiredIdTest(unittest.TestCase):
         )
 
     def test_provenance_strips_only_its_phrase(self) -> None:
-        rel, stem, phrase = vocab.PROVENANCE_PHRASES[2]
+        rel, stem, phrase = next(row for row in vocab.PROVENANCE_PHRASES if row[0] == "packs/qa/PROVENANCE.md")
         self.assertEqual(vocab.retired_ids_in(f"| {phrase} in 4.0.0rc5. |\n", rel), [])
         self.assertEqual(vocab.retired_ids_in(f"| {phrase}. |\n- tactic: {stem}\n", rel), [stem])
         # The finding points at the real mention, not at the provenance line before it.

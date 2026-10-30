@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `cfd99bdc3386ff2658c85b7db106227d3643d399907f78fd5be3861ccfc8a520`
+- **Content checksum (sha256):** `ff9799abf92748061f5a76038909ab96122852e1126bbb930dc8fa6c8a63dd36`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,11 +40,9 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `assets` | 6 |
 | `glossary_packs` | 1 |
 | `drg` | 1 |
-| `mission-steps` | 7 |
 | `mission_step_contracts` | 7 |
-| `mission_types` | 2 |
-| `missions` | 22 |
-| **Total files** | **82** |
+| `missions` | 20 |
+| **Total files** | **71** |
 
 ### Full listing
 
@@ -144,19 +142,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>mission-steps</code> (7)</summary>
-
-- `qa/accept/step.yaml`
-- `qa/discovery/step.yaml`
-- `qa/implement/step.yaml`
-- `qa/plan/step.yaml`
-- `qa/review/step.yaml`
-- `qa/specify/step.yaml`
-- `qa/tasks/step.yaml`
-
-</details>
-
-<details>
 <summary><code>mission_step_contracts</code> (7)</summary>
 
 - `qa-accept.step-contract.yaml`
@@ -170,26 +155,16 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>mission_types</code> (2)</summary>
+<summary><code>missions</code> (20)</summary>
 
-- `qa.yaml`
-- `qa/governance-profile.yaml`
-
-</details>
-
-<details>
-<summary><code>missions</code> (22)</summary>
-
-- `qa/command-templates/accept.md`
-- `qa/command-templates/discovery.md`
-- `qa/command-templates/implement.md`
-- `qa/command-templates/plan.md`
-- `qa/command-templates/review.md`
-- `qa/command-templates/specify.md`
-- `qa/command-templates/tasks.md`
-- `qa/expected-artifacts.yaml`
-- `qa/mission-runtime.yaml`
-- `qa/mission.yaml`
+- `qa/qa.mission-type.yaml`
+- `qa/steps/accept.prompt.md`
+- `qa/steps/discovery.prompt.md`
+- `qa/steps/implement.prompt.md`
+- `qa/steps/plan.prompt.md`
+- `qa/steps/review.prompt.md`
+- `qa/steps/specify.prompt.md`
+- `qa/steps/tasks.prompt.md`
 - `qa/templates/EVIDENCE.md`
 - `qa/templates/README.md`
 - `qa/templates/defect-log-template.md`
