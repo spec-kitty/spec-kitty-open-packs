@@ -570,6 +570,13 @@ def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     return "unclassified", None
 
 
+#: Files the charter's ADR-0036 file table names as pack content without a schema (README.md,
+#: PROVENANCE.md, a skill's ``*.skill.md`` body), which file-kinds.yaml does not list. Everything
+#: else of .yaml/.yml/.md that no rule classifies is a violation. Globs match like the contract's.
+UNCLASSIFIED_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md", "*/PROVENANCE.md", "**/*.skill.md"))
+CHECKED_SUFFIXES = frozenset({".yaml", ".yml", ".md"})
+
+
 def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     """Validate every file of one pack directory; violations are sorted and path-relative."""
     if not pack_dir.is_dir():
@@ -587,6 +594,11 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             tokens = path.name.rsplit(".", 2)
             if kind == "unclassified" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
                 raise GateError(f"{relative}: a `{tokens[1]}` file has no schema mapping in file-kinds.yaml")
+            if kind == "unclassified" and path.suffix in CHECKED_SUFFIXES and not any(
+                allowed.match(relative) for allowed in UNCLASSIFIED_ALLOWANCES
+            ):
+                report.violations.append(f"{relative}: unclassified: no file-kinds.yaml rule covers this file")
+                continue
             report.skipped += 1
             continue
         validator = contract.validators.get(rule.schema or "")

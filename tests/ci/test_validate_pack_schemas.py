@@ -156,6 +156,20 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertIn("pack/pack.md: not readable as markdown: line 1: frontmatter is not valid YAML: ", output)
             self.assertIn("found duplicate key 'name'", output)
 
+    def test_a_yaml_or_markdown_file_no_rule_covers_fails_unless_documented(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            stray = ["tactics/x.tactic.yml", "tactics/x.tactc.yaml", "tactics/plain.yaml", "presets/sub/x.yaml", "x.promt.md"]
+            allowed = ["README.md", "PROVENANCE.md", "skills/s.skill.md", "tactics/README.md"]
+            pack = self.write_pack(root, {name: "id: x\n" for name in [*stray, *allowed]})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            for name in stray:
+                self.assertIn(f"pack/{name}: unclassified", output)
+            for name in allowed:
+                self.assertNotIn(f"pack/{name}:", output)
+
 
 if __name__ == "__main__":
     unittest.main()
