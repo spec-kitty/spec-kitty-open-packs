@@ -18,6 +18,7 @@ tree_digest:
   algorithm: spec-kitty-snapshot-sha256
   value: bc9ef5be63d488bf6453de4a20d33069b5b9aa288ff0a4b748ade26a493d0d4d
 # The core versions this content is written against. Mission-step prompts name CLI
-# commands, and step contracts bind to runtime code. It lives here, not in
-# packs/built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
+# commands, and step contracts bind to runtime code. It is recorded here, beside the digest,
+# not in packs/built-in/pack.yaml: the charter's pack-descriptor schema does declare an
+# optional requires_core, but moving it there would change the built-in tree and its digest.
 requires_core: '>=4.0.0rc7,<5'
