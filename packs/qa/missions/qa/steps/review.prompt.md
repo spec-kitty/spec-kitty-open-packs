@@ -76,9 +76,10 @@ as passing.
 
 **Known limitation (FR-015)**. No runtime hook compels running this ingester or blocks on a
 `blocked`/`error` exit today: `GateBinding.handler_kind: "asset"` remains inert pending upstream
-issue #2599 (open), and `expected-artifacts.yaml`'s `blocking:` flag is likewise not enforced by
-`accept` — the same gap this file's own "Evidence & Coverage Computation" section already
-discloses (FR-016) for the validator side of this carrier applies here too, on the producer side.
+issue #2599 (open), and the `blocking` flag on a step's expected output (`qa.mission-type.yaml`)
+is likewise not enforced by `accept` — the same gap this file's own "Evidence & Coverage
+Computation" section already discloses (FR-016) for the validator side of this carrier applies
+here too, on the producer side.
 Running this ingester today is mechanically checkable (a real exit code, a real
 `qa-traceability.yaml` on disk) but agent-invoked, never machine-enforced — nothing upstream
 blocks `review` or `accept` on it.
@@ -121,9 +122,9 @@ numbers collide only because they belong to two different missions' Requirement 
 > `GateBinding.handler_kind: "asset"` remains inert pending upstream issue #2599 (open), and
 > although spec-kitty gained a live per-type artifact-presence gate on 2026-08-21
 > (`gather_artifact_presence`, closing #3597), it is wired only for the four built-in mission
-> families' own step vocabularies, ignores `expected-artifacts.yaml`'s `blocking:` flag entirely,
+> families' own step vocabularies, ignores the `blocking` flag on a step's expected output entirely,
 > and has no entry for a custom type such as this pack's own `qa`, so `accept` still enforces
-> nothing from that manifest.
+> nothing from those declarations.
 
 In practice, for this step: following the steps above is agent-invoked discipline, not a
 mechanically enforced gate. Run the validator anyway, and treat its verdict as binding on your own

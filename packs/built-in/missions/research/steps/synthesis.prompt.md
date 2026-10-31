@@ -25,7 +25,7 @@ spec-kitty charter context --action synthesis --json
 
 ## What This Step Produces
 
-`kitty-specs/<mission>/findings.md`. This is the gate on `synthesis -> output` (`mission.yaml`: `artifact_exists("findings.md")`). If gathering turns out to be inadequate for a real conclusion, use the `gather_more` transition back to `gathering` rather than writing a findings document propped up on thin evidence.
+`kitty-specs/<mission>/findings.md`. This is the gate on `synthesis -> output` (the runtime guard `artifact_exists("findings.md")`; the mission type declares `findings.md` as this step's blocking expected output). If gathering turns out to be inadequate for a real conclusion, use the `gather_more` transition back to `gathering` rather than writing a findings document propped up on thin evidence.
 
 ## Distinguish Evidence from Interpretation
 

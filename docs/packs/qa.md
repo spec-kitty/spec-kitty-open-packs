@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `ff9799abf92748061f5a76038909ab96122852e1126bbb930dc8fa6c8a63dd36`
+- **Content checksum (sha256):** `a38458b5a63e2d0b20b5325c6cc22a8cfd9431f41b3457c33005feb9458baa0e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -42,7 +42,8 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `drg` | 1 |
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
-| **Total files** | **71** |
+| `presets` | 1 |
+| **Total files** | **72** |
 
 ### Full listing
 
@@ -180,14 +181,22 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 </details>
 
+<details>
+<summary><code>presets</code> (1)</summary>
+
+- `qa.yaml`
+
+</details>
+
 ## Validation
 
 Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
 
-- Errors: 5
+- Errors: 6
 
 ### Errors
 
+- {'artifact_id': 'qa', 'artifact_type': 'preset', 'category': 'preset_format', 'file': 'packs/qa/presets/qa.yaml', 'message': 'malformed preset qa.yaml: activated_mission_types: unknown key(s): activated_mission_types, id, schema_version', 'severity': 'error'}
 - {'artifact_id': 'qa-coverage-gap-analysis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-coverage-gap-analysis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
 - {'artifact_id': 'qa-defect-triage-ritual', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-defect-triage-ritual.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
 - {'artifact_id': 'qa-description-to-acceptance-ci', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-description-to-acceptance-ci.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}

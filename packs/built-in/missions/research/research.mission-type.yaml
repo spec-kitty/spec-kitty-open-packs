@@ -92,6 +92,10 @@ steps:
   role: researcher
   prompt_path: steps/methodology.prompt.md
   guidelines_path: steps/methodology.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.research
+    path_pattern: spec.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: workflow.plan.methodology
     artifact_class: workflow
@@ -113,6 +117,10 @@ steps:
   role: researcher
   prompt_path: steps/gathering.prompt.md
   guidelines_path: steps/gathering.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: workflow.plan.methodology
+    path_pattern: plan.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: evidence.source-register
     artifact_class: evidence
@@ -131,6 +139,10 @@ steps:
   role: researcher
   prompt_path: steps/synthesis.prompt.md
   guidelines_path: steps/synthesis.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: evidence.source-register
+    path_pattern: source-register.csv
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.findings.main
     artifact_class: output
@@ -151,6 +163,10 @@ steps:
   role: reviewer
   prompt_path: steps/output.prompt.md
   guidelines_path: steps/output.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: output.findings.main
+    path_pattern: findings.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.report.publication
     artifact_class: output
@@ -166,10 +182,17 @@ steps:
 - id: accept
   title: Acceptance
   description: Validate research completeness and readiness for publication.
+  prompt_path: steps/accept.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.report.publication
+    path_pattern: report.md
+    blocking: true
 on_demand_steps:
 - id: retrospect
   title: Retrospective
+  description: Capture what helped, what did not and the governance gaps of a finished mission as a retrospective record.
   role: facilitator
+  prompt_path: steps/retrospect.prompt.md
   references:
   - type: directive
     id: DIRECTIVE_003

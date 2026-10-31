@@ -299,10 +299,11 @@ After completing bulk renames:
    - **New occurrence**: Introduced by parallel work -- rename if appropriate
 
 3. **Search the template source directories** explicitly. Command templates now
-   live as step prompts under `packs/built-in/missions/mission-steps/`; edit
-   those SOURCE files, never the generated agent copies:
+   live as step prompts beside each mission-type file, at
+   `packs/built-in/missions/<type>/steps/<step>.prompt.md`; edit those SOURCE
+   files, never the generated agent copies:
    ```bash
-   grep -rn "old_term" packs/built-in/missions/mission-steps/
+   grep -rn "old_term" packs/built-in/missions/*/steps/
    ```
 
 4. **Search the configured agent directories** explicitly. Resolve the agent

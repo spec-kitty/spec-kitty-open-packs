@@ -27,7 +27,7 @@ spec-kitty charter context --action scoping --json
 
 ## What This Step Produces
 
-`kitty-specs/<mission>/spec.md`, rendered from the `research` mission type's `spec` artifact template (`research-spec-template.md`). This is the **only** gate on the `scoping -> methodology` transition (`mission.yaml`: `artifact_exists("spec.md")`) — the mission cannot advance until this file exists and reads as a real specification, not a scaffold.
+`kitty-specs/<mission>/spec.md`, rendered from the `research` mission type's `spec` artifact template (`research-spec-template.md`). This is the **only** gate on the `scoping -> methodology` transition (the runtime guard `artifact_exists("spec.md")`; the mission type declares `spec.md` as this step's blocking expected output) — the mission cannot advance until this file exists and reads as a real specification, not a scaffold.
 
 ## Core Authorship Focus
 
