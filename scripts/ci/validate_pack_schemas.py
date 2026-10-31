@@ -672,6 +672,92 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     return report
 
 
+# --------------------------------------------------------------------------- cross-pack checks
+
+
+def _singular(kind: str) -> str:
+    """``directives`` -> ``directive``: fragments name kinds in the plural, URNs in the singular."""
+    return kind.removesuffix("s")
+
+
+def _load_or_none(path: Path) -> Any:
+    try:
+        return load_yaml(path.read_bytes().decode("utf-8"))
+    except (OSError, UnicodeDecodeError, yaml.YAMLError):
+        return None  # the per-pack validation already reports an unreadable file
+
+
+def declared_nodes(pack_dir: Path) -> set[tuple[str, str]]:
+    """The ``(kind, id)`` pairs a pack declares: the nodes of its ``drg/fragment.yaml`` (``kind``
+    plural, ``id``) and, for the built-in pack, of its root ``*.graph.yaml`` files (``urn``)."""
+    found: set[tuple[str, str]] = set()
+    fragment = _load_or_none(pack_dir / "drg" / "fragment.yaml")
+    for node in (fragment.get("nodes") or []) if isinstance(fragment, dict) else []:
+        if isinstance(node, dict) and isinstance(node.get("id"), str) and isinstance(node.get("kind"), str):
+            found.add((_singular(node["kind"]), node["id"]))
+    for graph_file in sorted(pack_dir.glob("*.graph.yaml")):
+        graph = _load_or_none(graph_file)
+        for node in (graph.get("nodes") or []) if isinstance(graph, dict) else []:
+            urn = node.get("urn") if isinstance(node, dict) else None
+            if isinstance(urn, str) and ":" in urn:
+                kind, _, node_id = urn.partition(":")
+                found.add((kind, node_id))
+    return found
+
+
+def cross_pack_violations(pack_dirs: list[Path]) -> list[str]:
+    """Checks that only make sense across all packs together (formerly core's ``doctor charter-packs``).
+
+    * an id declared by two packs (same kind and id): a collision. Core reports an artifact of a
+      higher layer that shadows a lower one; here every pack is a layer of its own, so any
+      declaration shared by two packs is one, built-in included. There is no sanction list: a
+      pack that must override a built-in id would need an explicit allowance added here;
+    * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
+      declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
+    * a DRG edge endpoint (``<kind>:<id>``) in a pack's fragment that resolves to no node.
+
+    Fails closed (GateError) when no pack declares any node.
+    """
+    owners: dict[tuple[str, str], list[str]] = {}
+    for pack in pack_dirs:
+        for key in declared_nodes(pack):
+            owners.setdefault(key, []).append(pack.name)
+    if not owners:
+        raise GateError("cross-pack checks: no pack declares any DRG node; the id index is empty and would prove nothing")
+    violations = [
+        f"{kind}:{node_id}: declared by more than one pack ({', '.join(sorted(names))})"
+        for (kind, node_id), names in sorted(owners.items())
+        if len(names) > 1
+    ]
+    for pack in pack_dirs:
+        for preset in sorted((pack / "presets").glob("*.yaml")):
+            document = _load_or_none(preset)
+            if not isinstance(document, dict):
+                continue
+            for key, entries in sorted(document.items()):
+                if not key.startswith("activated_") or not isinstance(entries, list):
+                    continue
+                kind = _singular(key.removeprefix("activated_"))
+                for entry in entries:
+                    entry_id = entry.get("id") if isinstance(entry, dict) else None
+                    if isinstance(entry_id, str) and (kind, entry_id) not in owners:
+                        violations.append(
+                            f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r}, which no pack declares as a {kind}"
+                        )
+        fragment = _load_or_none(pack / "drg" / "fragment.yaml")
+        for edge in (fragment.get("edges") or []) if isinstance(fragment, dict) else []:
+            if not isinstance(edge, dict):
+                continue
+            for end in ("source", "target"):
+                urn = edge.get(end)
+                kind, _, node_id = urn.partition(":") if isinstance(urn, str) else ("", "", "")
+                if (kind, node_id) not in owners:
+                    violations.append(
+                        f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
+                    )
+    return violations
+
+
 # --------------------------------------------------------------------------- CLI
 
 
@@ -683,6 +769,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--regenerate-manifest", action="append", default=[], type=Path, metavar="PACK",
                         help="restamp the content_hash and manifest_hash fields of PACK/pack-manifest.yaml "
                              "(membership is kept), then validate as usual")
+    parser.add_argument("--cross-pack", action="store_true",
+                        help="also check the given packs together: preset ids, DRG edge endpoints and id collisions")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
     if not args.packs and not args.expect_invalid and not args.regenerate_manifest:
@@ -705,6 +793,12 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{'ok' if report.ok else 'FAIL'}: {pack} ({report.checked} files checked, "
                   f"{report.skipped} excluded or payload, {len(report.violations)} violations)")
             status = status or (EXIT_OK if report.ok else EXIT_INVALID)
+        if args.cross_pack:
+            found = cross_pack_violations(args.packs)
+            for line in found:
+                print(f"::error::cross-pack: {line}")
+            print(f"{'ok' if not found else 'FAIL'}: cross-pack checks over {len(args.packs)} packs ({len(found)} violations)")
+            status = status or (EXIT_OK if not found else EXIT_INVALID)
         for pack in args.expect_invalid:
             report = validate_pack(pack, contract)
             if report.ok:

@@ -11,6 +11,9 @@
 #   2. Non-vacuity: every pack under tests/fixtures/invalid/ must FAIL validation, so a
 #      validator that silently passes everything turns this job red.
 #
+#   3. Cross-pack (--cross-pack, all packs together): a preset naming an id no pack declares, a DRG
+#      fragment edge endpoint that resolves to no node, and one id declared by two packs.
+#
 # The validator fails closed (exit 2) on an unloadable schema, a known-kind file with no schema
 # mapping, or a pack with zero files checked.
 #
@@ -29,7 +32,7 @@ mapfile -t invalid < <(find tests/fixtures/invalid -mindepth 1 -maxdepth 1 -type
 (( ${#packs[@]} > 0 )) || { echo "::error::no pack found under packs/ or tests/fixtures/valid/; the validation would prove nothing"; exit 1; }
 (( ${#invalid[@]} > 0 )) || { echo "::error::tests/fixtures/invalid/ holds no fixture; the non-vacuity check would prove nothing"; exit 1; }
 
-args=("${packs[@]}")
+args=(--cross-pack "${packs[@]}")
 for pack in "${invalid[@]}"; do args+=(--expect-invalid "$pack"); done
 
 python3 scripts/ci/validate_pack_schemas.py "${args[@]}"
