@@ -83,6 +83,11 @@ This repository validates presets in the charter's sanitized shape (charter ADR-
 `preset.schema.json`). The old shape (`name`, bare id strings, `mission_type_activations`) fails
 validation here.
 
+A preset is self-contained, not incremental. It is the whole activation selection for the kinds it
+names, not a delta on top of what a project already activated, so applying it does not add to an
+earlier preset. Which agent profiles it holds is an operator's choice: a preset need not activate
+a profile for every role its mission types name.
+
 | Field | Meaning |
 | --- | --- |
 | `schema_version` | The string `"1.0"`. Required. |
