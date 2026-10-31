@@ -515,7 +515,9 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         if validator is None:
             raise GateError(f"{relative}: rule {rule.match!r} names schema {rule.schema!r}, which is not loaded")
         try:
-            text = path.read_text(encoding="utf-8")
+            # Bytes, not read_text: universal newlines would turn a CR into LF before the Markdown
+            # reader could refuse it, as the charter does.
+            text = path.read_bytes().decode("utf-8")
         except (OSError, UnicodeDecodeError) as exc:
             raise GateError(f"{relative}: unreadable: {exc!r}") from exc
         report.checked += 1
