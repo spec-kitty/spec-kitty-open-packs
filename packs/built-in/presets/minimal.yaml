@@ -1,4 +1,5 @@
-# The `minimal` activation preset of the built-in pack: a small, curated
+# The `minimal` activation preset of the built-in pack, in the sanitized preset
+# shape of charter ADR-0042: a small, curated
 # governance baseline for a project that does not run the full charter
 # interview. Apply it with:
 #   spec-kitty charter activate --preset minimal
@@ -7,20 +8,21 @@
 # it stays unrestricted (every built-in artifact of that kind is effective)
 # until the project activates a subset. There is deliberately no
 # activated_kinds gate: one would switch off the kinds this preset leaves open.
-name: minimal
+schema_version: "1.0"
+id: minimal
 description: A small curated baseline of foundational directives and tactics for software-dev.
-mission_type_activations:
-  - software-dev
+activated_mission_types:
+  - id: software-dev
 
 # Foundational built-in directives, picked for broad applicability:
 # architectural integrity, spec fidelity, locality of change, efficient
 # tooling, and the test/type quality gate.
 activated_directives:
-  - 001-architectural-integrity-standard
-  - 010-specification-fidelity-requirement
-  - 024-locality-of-change
-  - 028-search-tool-discipline
-  - 030-test-and-typecheck-quality-gate
+  - id: DIRECTIVE_001
+  - id: DIRECTIVE_010
+  - id: DIRECTIVE_024
+  - id: DIRECTIVE_028
+  - id: DIRECTIVE_030
 
 activated_tactics:
-  - acceptance-test-first
+  - id: acceptance-test-first
