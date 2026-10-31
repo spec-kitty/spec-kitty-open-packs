@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `a11908d89ee8238b315f2d9424437510d77140cedbd56d3f4a9e2a47e8334a8b`
+- **Content checksum (sha256):** `5c44d4955be1dce08d200044615c69175e6170f23fcdb2cfd3c00ef9b76864fd`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
