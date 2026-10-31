@@ -20,7 +20,7 @@ or the manifest schema, it probably belongs there instead.
 ## Pack changes (if applicable)
 
 - Pack name(s):
-- [ ] `scripts/ci/validate-packs.sh` passes locally (it runs `spec-kitty charter pack validate` on every pack)
+- [ ] `scripts/ci/validate-packs.sh` passes locally (it validates every pack against the charter pack schemas)
 - [ ] IDs are namespaced (or intentional built-in overrides are called out)
 - [ ] No pack ships executable gate assets, OR the executable surface is declared and the [security position](../SECURITY.md) was reviewed
 
