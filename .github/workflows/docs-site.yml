@@ -118,7 +118,7 @@ jobs:
       - name: Install the validator dependencies
         # The generator reports each pack's validation status from the charter pack
         # schemas (scripts/ci/validate_pack_schemas.py, which pins the charter commit).
-        run: pip install "pyyaml>=6" "jsonschema>=4.18"
+        run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0"
       - name: Check generated pack pages are up to date
         # --check exits non-zero on any drift (equivalent to re-running the
         # generator and `git diff --exit-code docs/packs/`).
