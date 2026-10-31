@@ -625,7 +625,7 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             tokens = path.name.rsplit(".", 2)
             if kind == "unclassified" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
                 raise GateError(f"{relative}: a `{tokens[1]}` file has no schema mapping in file-kinds.yaml")
-            if kind == "unclassified" and path.suffix in CHECKED_SUFFIXES and not any(
+            if kind == "unclassified" and path.suffix.lower() in CHECKED_SUFFIXES and not any(
                 allowed.match(relative) for allowed in UNCLASSIFIED_ALLOWANCES
             ):
                 report.violations.append(f"{relative}: unclassified: no file-kinds.yaml rule covers this file")
