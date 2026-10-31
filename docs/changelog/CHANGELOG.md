@@ -149,6 +149,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **Docs and guidance describe the mission-type layout** (#100). After #95 several docs still
+  named the retired mission files (`mission.yaml`, `mission-runtime.yaml`, the action indexes,
+  `mission-steps/`, `command-templates/`, `governance-profile.yaml` and
+  `expected-artifacts.yaml`). The mission READMEs, the authoring guide, the artefacts index, the
+  qa and cave-kitty provenance, two tactics, a styleguide, three research step contracts, three
+  templates and the qa toolguides now name `missions/<type>/<type>.mission-type.yaml` and its
+  `steps/` prompts and guidelines. The `reviewer-implementer-role-separation` tactic is
+  reworded: a step names a role and a preset activates profiles, so profile routing no longer
+  lives in a mission file (charter ADR-0032). Its id and intent are unchanged.
+
 - **Red-main discipline is a directive, not a procedure** (#74,
   [spec-kitty-charter#199](https://github.com/spec-kitty/spec-kitty-charter/pull/199)). The
   red-main content is a standing rule (no green-washing, no release on red, no expensive QA on a

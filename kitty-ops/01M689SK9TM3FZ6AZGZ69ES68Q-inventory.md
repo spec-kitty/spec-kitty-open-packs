@@ -29,7 +29,7 @@ over the tree at `86d9284`.
 | `packs/cave-kitty/PROVENANCE.md` | 32, 39–40 | explanation | "step prompts". The software-dev summary is anchored to runtime version 2.2.0 as history; the `version` field was retired with `mission-runtime.yaml`. |
 | `packs/cave-kitty/README.md` | 11 | reference | "command templates" becomes "step prompts". |
 | `packs/qa/README.md` | 33 | reference | "command templates" becomes "step prompts". |
-| `packs/built-in/tactics/reviewer-implementer-role-separation.tactic.yaml` | 11–20, 61, 70–80 | how-to | **Reworded** (ADR-0032): a step names a role, and a preset activates profiles. The proposed rewrite went to the operator for a ruling. |
+| `packs/built-in/tactics/reviewer-implementer-role-separation.tactic.yaml` | 11–20, 61, 70–80 | how-to | **Reworded** (ADR-0032): a step names a role, and a preset activates profiles. The operator approved the rewrite (see below). |
 | `packs/built-in/tactics/ownership-map-leeway.tactic.yaml` | 54–55 | how-to | `missions/software-dev/steps/tasks-packages.prompt.md`, `tasks.prompt.md`. |
 | `packs/built-in/styleguides/plain-language.styleguide.yaml` | 78 | reference | `actions/discover/index.yaml` becomes `documentation.mission-type.yaml` (the `discover` step's references). |
 | `packs/built-in/missions/built_in_step_contracts/research-{scoping,gathering,output}.step-contract.yaml` | 5, 25, 36, 45 | reference | Comment and guidance text only: the guards are the runtime's, not `mission.yaml`'s. |
@@ -66,3 +66,11 @@ over the tree at `86d9284`.
   `gather_artifact_presence` gate ignores the flag. These are two different checkers, so the
   texts do not contradict each other, but the retired rationale is now gone from the pack (see
   ADR-0044 §8). Wording is kept; only the file it names changes.
+
+## Operator rulings (2026-10-31, relayed by @parent)
+
+1. The tactic rewrite is approved as proposed. The #96–#99 session adds `role: implementer` and
+   `role: reviewer` to software-dev's `implement` and `review` steps. The tactic's notes are
+   worded to hold once both PRs land.
+2. The step-prompt and guideline fixes listed under "Out of scope" are made by the #96–#99
+   session, with `Refs #100`. This op leaves those files alone.
