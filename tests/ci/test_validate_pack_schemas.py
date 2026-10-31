@@ -161,7 +161,7 @@ class ValidatorExitCodes(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            stray = ["tactics/x.tactic.yml", "tactics/x.tactc.yaml", "tactics/plain.yaml", "presets/sub/x.yaml", "x.promt.md"]
+            stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml", "presets/sub/x.yaml", "x.promt.md"]
             allowed = ["README.md", "PROVENANCE.md", "skills/s.skill.md", "tactics/README.md"]
             pack = self.write_pack(root, {name: "id: x\n" for name in [*stray, *allowed]})
             code, output = self.run_validator(root, str(pack))
