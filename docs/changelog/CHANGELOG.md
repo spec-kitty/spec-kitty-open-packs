@@ -31,6 +31,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Cross-pack checks run over all packs together in `validate-packs.sh`** (follow-up to #102).
+  The retired `doctor charter-packs` also judged packs against one another; the schema
+  validator only judged each pack alone. `validate_pack_schemas.py --cross-pack` now fails on a
+  preset that names an id no pack declares (for example `DIRECTIVE_999`), on a DRG fragment edge
+  endpoint that resolves to no node of any pack, and on one `(kind, id)` declared by two packs.
+  Core flags a higher layer shadowing a lower one; here each pack is its own layer, so any shared
+  id is a collision and there is no sanction list. The check fails closed when no pack declares a
+  node. All packs pass; the only violation found was the `example-pack` fixture, whose fragment
+  declared no nodes for the directive and tactic its preset and edge name, which now has them.
+
+- **Cross-pack checks run over all packs together in `validate-packs.sh`** (follow-up to #102).
+  The retired `doctor charter-packs` also judged packs against one another; the schema
+  validator only judged each pack alone. `validate_pack_schemas.py --cross-pack` now fails on a
+  preset that names an id no pack declares (for example `DIRECTIVE_999`), on a DRG fragment edge
+  endpoint that resolves to no node of any pack, and on one `(kind, id)` declared by two packs.
+  Core flags a higher layer shadowing a lower one; here each pack is its own layer, so any shared
+  id is a collision and there is no sanction list. The check fails closed when no pack declares a
+  node. All packs pass; the only violation found was the `example-pack` fixture, whose fragment
+  declared no nodes for the directive and tactic its preset and edge name, which now has them.
+
 - **A `qa` preset activates the qa mission type and its five agent profiles** (#97). A mission
   type names roles, not profiles (charter ADR-0032), so `packs/qa/presets/qa.yaml` is how a
   project puts the QA profiles in force. It is the first preset in the charter's sanitized
@@ -166,6 +186,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The docs say a preset is self-contained, not incremental.** A preset is the whole activation
+  selection for the kinds it names, and which agent profiles it holds is an operator's choice.
+  Stated in the contracts page and the author guide; the comment of `packs/qa/presets/qa.yaml`
+  no longer reads as if the researcher profile were activated elsewhere. Its list is unchanged.
+
+- **The docs say a preset is self-contained, not incremental.** A preset is the whole activation
+  selection for the kinds it names, and which agent profiles it holds is an operator's choice.
+  Stated in the contracts page and the author guide; the comment of `packs/qa/presets/qa.yaml`
+  no longer reads as if the researcher profile were activated elsewhere. Its list is unchanged.
+
 - **Packs are validated against the charter's schemas, not the core CLI** (ruling on #102). CI
   now checks every pack file, `packs/built-in` included, against the JSON Schemas in
   `spec-kitty-charter` (`contracts/packs/`), pinned by commit in
@@ -273,6 +303,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 
 ### 🐛 Fixed
+
+- **`cave-dev` `tasks` declares the `tasks/WP*.md` work packages it writes.** The step wrote
+  only `tasks.md`, so `implement` and `review` could not depend on the packages. `tasks` now
+  emits `output.tasks.per_wp` (`tasks/WP*.md`, blocking), the key and pattern software-dev uses,
+  and `implement` and `review` take it as blocking input instead of `tasks.md`. `accept` already
+  matches software-dev (`tasks.md`) and is unchanged.
+
+- **`cave-dev` `tasks` declares the `tasks/WP*.md` work packages it writes.** The step wrote
+  only `tasks.md`, so `implement` and `review` could not depend on the packages. `tasks` now
+  emits `output.tasks.per_wp` (`tasks/WP*.md`, blocking), the key and pattern software-dev uses,
+  and `implement` and `review` take it as blocking input instead of `tasks.md`. `accept` already
+  matches software-dev (`tasks.md`) and is unchanged.
 
 - **The licence names the right copyright holder (#64).** `LICENSE` named `Spec Kitty LLC and
   the Spec Kitty contributors`, but no `Spec Kitty LLC` exists. It now names the legal entity,
