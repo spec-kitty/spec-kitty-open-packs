@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `3edc75a51f40f65ddf46b5157fb5551dbba5188d39a2567bca05b2075e84f7b0`
+- **Content checksum (sha256):** `cf6cf88a2a45bede89938f4311c98561b6294744116a5dfe06bf4dfde95f208d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -549,33 +549,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
 
-- Errors: 22
-
-### Errors
-
-- {'artifact_id': 'adversarial-squad-deployment', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/adversarial-squad-deployment.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'bdd-scenario-lifecycle', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/bdd-scenario-lifecycle.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'development-assist-test-cleanup', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/development-assist-test-cleanup.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'disciplined-defect-diagnosis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/disciplined-defect-diagnosis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'documentation-gap-prioritization', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/documentation-gap-prioritization.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'domain-aware-decision-interview', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/domain-aware-decision-interview.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'drill-down-documentation', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/drill-down-documentation.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'event-storming-discovery', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/event-storming-discovery.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'example-mapping-workshop', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/example-mapping-workshop.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'glossary-maintenance-workflow', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/glossary-maintenance-workflow.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'issue-triage-state-machine', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/issue-triage-state-machine.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'legacy-codebase-triage', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/legacy-codebase-triage.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'meeting-minutes-pipeline', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/meeting-minutes-pipeline.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'migrate-project-guidance-to-spec-kitty-charter', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'mission-tracer-files', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/mission-tracer-files.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'mission-wrap-up-sequence', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/mission-wrap-up-sequence.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'onboard-external-agent-to-pack', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/onboard-external-agent-to-pack.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'post-merge-arch-gate-adjudication', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/post-merge-arch-gate-adjudication.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'refactoring', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/refactoring.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'situational-assessment', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/situational-assessment.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'spike-timebox-policy', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/spike-timebox-policy.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'test-first-bug-fixing', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/built-in/procedures/test-first-bug-fixing.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-
-Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
+- Errors: 0
