@@ -1,4 +1,12 @@
-nodes: []
+nodes:
+  - id: EXAMPLE_001_SECRET_HANDLING
+    kind: directives
+    title: "Never commit credentials to the repository"
+    body_path: directives/example-001-secret-handling.directive.yaml
+  - id: example-tac-001-scan-staged
+    kind: tactics
+    title: "Scan Staged Changes"
+    body_path: tactics/example-tac-001.tactic.yaml
 edges:
   - source: directive:EXAMPLE_001_SECRET_HANDLING
     target: tactic:example-tac-001-scan-staged

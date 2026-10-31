@@ -207,6 +207,32 @@ class ValidatorExitCodes(unittest.TestCase):
         with self.assertRaises(validator.MarkdownRefused):  # a plain space-only title is still empty
             validator.parse_markdown("## \u2003\n")
 
+    def test_cross_pack_checks_catch_a_missing_preset_id_a_dangling_edge_and_a_shared_id(self) -> None:
+        def pack(root: Path, name: str, nodes: str, edges: str = "[]", preset: str = "") -> Path:
+            (root / name / "drg").mkdir(parents=True)
+            (root / name / "drg" / "fragment.yaml").write_text(f"nodes:\n{nodes}edges: {edges}\n", encoding="utf-8")
+            if preset:
+                (root / name / "presets").mkdir()
+                (root / name / "presets" / "p.yaml").write_text(preset, encoding="utf-8")
+            return root / name
+
+        node = "  - {id: D_1, kind: directives}\n"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            clean = pack(root, "a", node, "[{source: 'directive:D_1', target: 'directive:D_1', relation: requires}]",
+                         "activated_directives:\n  - id: D_1\n")
+            self.assertEqual(validator.cross_pack_violations([clean]), [])
+            bad = pack(root, "b", "  - {id: D_2, kind: directives}\n", "[{source: 'directive:D_2', target: 'tactic:T_9'}]",
+                       "activated_directives:\n  - id: DIRECTIVE_999\n")
+            twin = pack(root, "c", node)
+            found = "\n".join(validator.cross_pack_violations([clean, bad, twin]))
+            for expected in ("'DIRECTIVE_999'", "'tactic:T_9'", "directive:D_1: declared by more than one pack (a, c)"):
+                self.assertIn(expected, found)
+            empty = pack(root, "d", "", "[]")
+            (empty / "drg" / "fragment.yaml").write_text("nodes: []\n", encoding="utf-8")
+            with self.assertRaises(validator.GateError):  # an empty id index must not pass
+                validator.cross_pack_violations([empty])
+
 
 if __name__ == "__main__":
     unittest.main()
