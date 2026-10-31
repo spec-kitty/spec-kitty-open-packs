@@ -124,7 +124,7 @@ steps:
   expected_output_artifacts:
   - artifact_key: evidence.source-register
     artifact_class: evidence
-    path_pattern: source-register.csv
+    path_pattern: research/source-register.csv
     blocking: true
   references:
   - type: directive
@@ -141,7 +141,7 @@ steps:
   guidelines_path: steps/synthesis.guidelines.md
   expected_input_artifacts:
   - artifact_key: evidence.source-register
-    path_pattern: source-register.csv
+    path_pattern: research/source-register.csv
     blocking: true
   expected_output_artifacts:
   - artifact_key: output.findings.main
