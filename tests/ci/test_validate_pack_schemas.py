@@ -139,6 +139,23 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("pack.md: not readable as markdown: line 1: a carriage return is not admitted", output)
 
+    def test_duplicate_keys_and_non_plain_values_are_refused_in_yaml_and_frontmatter(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {
+                "tactics/dup.tactic.yaml": "id: a\nid: b\n",
+                "tactics/bin.tactic.yaml": "id: !!binary aGk=\n",
+                "pack.md": "---\nname: a\nname: b\n---\n# Title\n",
+            })
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack/tactics/dup.tactic.yaml: not readable as yaml: ", output)
+            self.assertIn("found duplicate key 'id'", output)
+            self.assertIn("pack/tactics/bin.tactic.yaml: not readable as yaml: a value is not a string", output)
+            self.assertIn("pack/pack.md: not readable as markdown: line 1: frontmatter is not valid YAML: ", output)
+            self.assertIn("found duplicate key 'name'", output)
+
 
 if __name__ == "__main__":
     unittest.main()

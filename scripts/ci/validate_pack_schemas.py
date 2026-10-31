@@ -195,8 +195,31 @@ def contract_for(contract_dir: Path | None) -> Contract:
 # --------------------------------------------------------------------------- YAML
 
 
+class YamlRefused(yaml.YAMLError):
+    """A document the charter's reader (ParsedYaml) refuses for a guard, not for a syntax error."""
+
+
 class _Loader(yaml.SafeLoader):
-    """Safe loader that keeps timestamps as strings, as JSON Schema sees them."""
+    """Safe loader that keeps timestamps as strings, as JSON Schema sees them, and refuses duplicate keys.
+
+    The charter loads with ``setAllowDuplicateKeys(false)`` (Yaml.java); PyYAML keeps the last value.
+    """
+
+    def construct_mapping(self, node: yaml.MappingNode, deep: bool = False) -> dict[Any, Any]:
+        self.flatten_mapping(node)
+        seen: set[Any] = set()
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=True)
+            try:
+                duplicate = key in seen
+                seen.add(key)
+            except TypeError:  # unhashable key: the base class reports it
+                break
+            if duplicate:
+                raise yaml.constructor.ConstructorError(
+                    "while constructing a mapping", node.start_mark, f"found duplicate key {key!r}", key_node.start_mark
+                )
+        return super().construct_mapping(node, deep=deep)
 
 
 _Loader.yaml_implicit_resolvers = {
@@ -204,9 +227,64 @@ _Loader.yaml_implicit_resolvers = {
     for key, resolvers in yaml.SafeLoader.yaml_implicit_resolvers.items()
 }
 
+#: The guards of the charter's ParsedYaml: collections nested at most this deep, and a document that
+#: expands (a shared, aliased node counted each time it is reached) to at most this many nodes.
+MAX_DEPTH = 200
+MAX_NODES = 100_000
+
+
+def _nested_too_deeply(text: str) -> bool:
+    """Whether the parser's events nest collections deeper than MAX_DEPTH; the event stream is not recursive."""
+    depth = 0
+    try:
+        for event in yaml.parse(text, Loader=_Loader):
+            if isinstance(event, yaml.CollectionStartEvent):
+                depth += 1
+                if depth > MAX_DEPTH:
+                    return True
+            elif isinstance(event, yaml.CollectionEndEvent):
+                depth -= 1
+    except yaml.YAMLError:
+        return False  # the loader reports a syntax error in the parser's own words
+    return False
+
+
+def _problem(value: Any, depth: int, path: set[int], nodes: list[int]) -> str | None:
+    """The first reason a loaded document cannot be validated (ParsedYaml.problem), or ``None``."""
+    nodes[0] += 1
+    if nodes[0] > MAX_NODES:
+        return "the document is too large"
+    if not isinstance(value, (dict, list)):
+        plain = value is None or isinstance(value, (str, int, float, bool))
+        return None if plain else "a value is not a string, a number, a boolean or null"
+    if depth >= MAX_DEPTH:
+        return "the document is nested too deeply"
+    if id(value) in path:
+        return "the document contains itself"
+    path.add(id(value))
+    try:
+        if isinstance(value, dict):
+            if not all(isinstance(key, str) for key in value):
+                return "a mapping key is not a string"
+            children: Any = value.values()
+        else:
+            children = value
+        for child in children:
+            if (problem := _problem(child, depth + 1, path, nodes)) is not None:
+                return problem
+        return None
+    finally:
+        path.discard(id(value))
+
 
 def load_yaml(text: str) -> Any:
-    return yaml.load(text, Loader=_Loader)  # noqa: S506 - SafeLoader subclass
+    """Load one YAML document through the charter's guards; raises ``yaml.YAMLError`` when it is refused."""
+    if _nested_too_deeply(text):
+        raise YamlRefused("the document is nested too deeply")
+    document = yaml.load(text, Loader=_Loader)  # noqa: S506 - SafeLoader subclass
+    if (problem := _problem(document, 0, set(), [0])) is not None:
+        raise YamlRefused(problem)
+    return document
 
 
 # --------------------------------------------------------------------------- manifest
