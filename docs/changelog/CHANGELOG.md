@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **The built-in glossary defines the activation ledger and the current active
+  charter** (spec-kitty/spec-kitty#6562). `.kittify/charter/activation.yaml`
+  became the single activation authority in core #6496, but the glossary still
+  described the old `config.yaml` / `charter.yaml` home and had no term for the
+  ledger. Both entries now name the ledger, the `deactivated_<kind>` exclusions
+  and the legacy-location caveat for a project not yet on 4.0.0rc8, and the new
+  term keeps the Migration Ledger distinction.
 - **Docsite and README overhaul for the Brain Kitty line.** The README and the docsite now
   describe open packs as the content half of **Brain Kitty**, and show how a pack reaches the
   Spec Kitty CLI: vendored or registered, merged into the **Charter Offering**, activated into
