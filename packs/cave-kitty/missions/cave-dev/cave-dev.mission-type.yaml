@@ -54,6 +54,10 @@ steps:
     artifact_class: workflow
     path_pattern: tasks.md
     blocking: true
+  - artifact_key: output.tasks.per_wp
+    artifact_class: output
+    path_pattern: tasks/WP*.md
+    blocking: true
 - id: analyze
   title: Analyze (caveman)
   description: Cross-artifact consistency and readiness check before implement; verdict outcome-first, references exact.
@@ -75,8 +79,8 @@ steps:
   role: implementer
   prompt_path: steps/implement.prompt.md
   expected_input_artifacts:
-  - artifact_key: workflow.tasks.cave-dev
-    path_pattern: tasks.md
+  - artifact_key: output.tasks.per_wp
+    path_pattern: tasks/WP*.md
     blocking: true
 - id: review
   title: Review (caveman)
@@ -84,8 +88,8 @@ steps:
   role: reviewer
   prompt_path: steps/review.prompt.md
   expected_input_artifacts:
-  - artifact_key: workflow.tasks.cave-dev
-    path_pattern: tasks.md
+  - artifact_key: output.tasks.per_wp
+    path_pattern: tasks/WP*.md
     blocking: true
 - id: accept
   title: Accept (caveman)
