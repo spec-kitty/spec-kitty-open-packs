@@ -16,7 +16,7 @@ seeded_from:
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: 2bce956823f46320d89fddfe2b310263e3bbcc05de4bce0443dc9b9ad04a6038
+  value: 017a27d4369f6a4cfd7e2020a855992978154ecbd87cf9513e62ee2e12043032
 # The core versions this content is written against. Mission-step prompts name CLI
 # commands, and step contracts bind to runtime code. It lives here, not in
 # packs/built-in/pack.yaml, because core's PackDescriptor schema forbids extra fields.
