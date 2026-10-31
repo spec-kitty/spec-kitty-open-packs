@@ -1,9 +1,12 @@
 # The `qa` activation preset of the qa pack, in the sanitized preset shape of
 # charter ADR-0042. A mission type names roles, not agent profiles (ADR-0032);
-# this preset activates the profiles that fill the qa mission type's roles,
-# and the qa mission type itself. The pack stays inert until a project applies
-# this preset. qa-defect-triager-dmitri fills no step's role; it is activated
-# for on-demand defect triage.
+# this preset activates the QA pack's own profiles for the roles the qa mission
+# type's later steps name (qa-strategist, test-designer, test-executor,
+# qa-reporter), and the qa mission type itself. The discovery step's
+# `researcher` role is not filled by a profile of this pack and is not
+# activated here. The pack stays inert until a project applies this preset.
+# qa-defect-triager-dmitri fills no step's role; it is activated for on-demand
+# defect triage.
 schema_version: "1.0"
 id: qa
 description: >-
