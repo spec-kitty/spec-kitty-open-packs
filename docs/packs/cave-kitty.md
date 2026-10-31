@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/cave-kitty`
-- **Content checksum (sha256):** `63483a5cb484332559db42d60b69a3f381462b7cba3e6f82fe42069c6ca84e0e`
+- **Content checksum (sha256):** `99c189a63520573c3517fce7a8189a060f48cfe1b9a89efa07ec39a00ed3350c`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
