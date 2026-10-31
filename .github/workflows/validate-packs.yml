@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install the validator dependencies
-        run: pip install "pyyaml>=6" "jsonschema>=4.18"
+        run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0"
       # Packs validate against the spec-kitty-charter pack schemas, pinned by commit in
       # scripts/ci/validate_pack_schemas.py, not against the spec-kitty core CLI.
       # Every step below runs even when an earlier one failed, so one run reports all
