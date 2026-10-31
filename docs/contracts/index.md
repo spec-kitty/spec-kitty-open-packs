@@ -2,7 +2,7 @@
 title: Contracts
 description: "The machine contracts a Charter Pack meets: pack, org-charter, preset, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
-updated: '2026-10-19'
+updated: '2026-10-31'
 related:
 - artefacts
 - organisations
@@ -11,8 +11,8 @@ related:
 ---
 # Contracts
 
-The files and interfaces a pack is held to. The **schemas are owned by the charter** (today in
-the Spec Kitty core CLI); this page describes them as consumed here. Generated, schema-derived
+The files and interfaces a pack is held to. The **schemas are owned by the charter**
+([`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter), `contracts/packs/`), and CI validates against them; this page describes them as consumed here. Generated, schema-derived
 reference pages are tracked in
 [#24](https://github.com/spec-kitty/spec-kitty-open-packs/issues/24).
 
@@ -68,14 +68,39 @@ after changing a pack; never edit it by hand.
 
 See [Organisations](../organisations/index.md) for how these are used.
 
-## `presets/<name>.yaml` — activation presets
+## `presets/<id>.yaml` — activation presets
+
+This repository validates presets in the charter's sanitized shape (charter ADR-0042, schema
+`preset.schema.json`). The old shape (`name`, bare id strings, `mission_type_activations`) fails
+validation here.
 
 | Field | Meaning |
 | --- | --- |
-| `name` | Preset name, used by `spec-kitty charter activate --preset <name>`. |
-| `description` | One line. |
-| `mission_type_activations` | Mission types to activate. |
-| `activated_<plural kind>` | Artefact ids to activate for that kind. A kind with no key stays unrestricted. |
+| `schema_version` | The string `"1.0"`. Required. |
+| `id` | Preset id, equal to the file stem; used by `spec-kitty charter activate --preset <id>`. Lowercase words joined by `-`. Required. |
+| `description` | What applying the preset puts in force. Required. |
+| `activated_kinds` | Optional kind gate: the kinds the preset activates, each once. A kind left out is switched off; without the key no kind is gated. |
+| `activated_mission_types` | Mission types to activate, each item `{id: <mission type id>}`. |
+| `activated_<plural kind>` | Artefacts to activate for that kind, each item `{id: <artefact id>}` and optionally `must_have: true`. Use the artefact's `id`, not its file name. A kind with no key stays unrestricted; a key is never an empty list. |
+
+```yaml
+schema_version: "1.0"
+id: qa
+description: Run QA missions.
+activated_mission_types:
+  - id: qa
+activated_agent_profiles:
+  - id: qa-strategist-quinn
+```
+
+Core up to 4.0.0rc8 does not read this shape; see the [changelog](../changelog/CHANGELOG.md).
+
+## Mission step inputs and outputs
+
+A mission step lists the artifacts it needs under `expected_input_artifacts` and the ones it
+writes under `expected_output_artifacts`. An input reuses the `artifact_key` of the step that
+produces it (the same key may stand at two steps). An input is `blocking` only when its
+producer's output is `blocking`.
 
 ## `drg/fragment.yaml` — DRG fragment
 

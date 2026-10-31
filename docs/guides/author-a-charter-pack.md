@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets and an org-charter.yaml.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-10-31'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -36,7 +36,7 @@ my-pack/
 ├── glossary_packs/             # *.glossary-pack.yaml — terminology
 ├── assets/                     # *.asset.yaml sidecars plus the files they describe
 ├── skills/                     # *.skill.yaml — agent skills, installed under skill_namespace
-├── mission_types/              # <type>/governance-profile.yaml — custom mission types
+├── missions/                   # <type>/<type>.mission-type.yaml plus steps/ — custom mission types
 ├── presets/                    # <name>.yaml — activation presets
 ├── drg/fragment.yaml           # additive DRG fragment (the only DRG file an org pack may have)
 └── org-charter.yaml            # optional: policy, required artifacts, interview defaults
@@ -132,15 +132,24 @@ org pack may have: `drg/*.graph.yaml` shards fail validation with `drg_root_grap
 ## 5. Ship presets and policy (optional)
 
 A **preset** is a named set of activations a consumer applies with
-`spec-kitty charter activate --pack <pack> --preset <name>`. The file name is the preset name:
+`spec-kitty charter activate --pack <pack> --preset <id>`. The file name is the preset id. This
+repository validates presets in the charter's **sanitized shape** (charter ADR-0042): a
+`schema_version` of `"1.0"`, an `id` equal to the file name, a `description`, and each activation
+list holding `{id: ...}` items with the artifact's own `id` (not its file name):
 
 ```yaml
 # presets/acme.yaml
-name: acme
+schema_version: "1.0"
+id: acme
 description: Turn on the Acme rules.
-activated_directives: [ACME_001_SECRET_HANDLING]
-# activated_<kind>: absent = unrestricted, [] = none of that kind
+activated_directives:
+  - id: ACME_001_SECRET_HANDLING
+# activated_<kind>: absent = unrestricted; a list is never empty.
+# activated_mission_types: [{id: ...}] activates mission types.
 ```
+
+The old shape (`name:`, `activated_directives: [ACME_001_SECRET_HANDLING]`,
+`mission_type_activations`) fails validation. Core up to 4.0.0rc8 reads only the old shape.
 
 An `org-charter.yaml` at the pack root can pre-fill the consumer's charter interview, put
 artifacts in force for every consumer, or surface advisory policy. Prefer presets for packs
@@ -162,7 +171,15 @@ governance_policies:
 ```
 
 Omit it entirely for packs that ship only artifacts. `spec-kitty charter org init` scaffolds
-a schema-2 `org-charter.yaml` and a starter preset.
+a schema-2 `org-charter.yaml` and a starter preset (rewrite the preset in the shape above).
+
+### Mission step inputs
+
+A mission type's step lists what it needs under `expected_input_artifacts`. Reuse the
+`artifact_key` of the step that produces the artifact, and mark the input `blocking: true` only
+when that producer's `expected_output_artifacts` entry is `blocking`. An input whose producer is
+not blocking stays non-blocking, so a step is not held up by an artifact that may legitimately be
+absent.
 
 ## 6. Reuse existing built-in artifacts
 
