@@ -43,6 +43,7 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
     "*/presets/*.yaml": "preset",
     "*/pack-manifest.yaml": "pack-manifest",
     "**/*.tactic.yaml": "tactic",
+    "*/pack.yaml": "pack-descriptor",
     "*/pack.md": "pack-doc",  # the one markdown rule
 }
 
@@ -62,7 +63,7 @@ class ValidatorExitCodes(unittest.TestCase):
             for glob, name in RULES.items()
         )
         (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}", encoding="utf-8")
-        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA}
+        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA}
         for name, schema in schemas.items():
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
 
@@ -116,7 +117,7 @@ class ValidatorExitCodes(unittest.TestCase):
                 "presets:\n"
                 f"- {{id: p, path: presets/p.yaml, content_hash: {zero}}}\n"
             )
-            pack = self.write_pack(root, {"presets/p.yaml": "id: p\n", "pack-manifest.yaml": manifest})
+            pack = self.write_pack(root, {"presets/p.yaml": "id: p\n", "pack.yaml": "pack_id: x\n", "pack-manifest.yaml": manifest})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("constituents{tactics/t.tactic.yaml}.content_hash", output)
@@ -184,6 +185,16 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("pack/tactics/link.tactic.yaml: symlink", output)
             self.assertIn("pack/linked-dir: symlink", output)
+
+    def test_pack_level_structure_needs_a_descriptor_and_a_preset_id_equal_to_its_stem(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"pack.md": "# Title\n", "presets/p.yaml": "id: q\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack/pack.yaml: missing: a pack with a pack.md or a pack-manifest.yaml needs its descriptor", output)
+            self.assertIn("pack/presets/p.yaml: preset id 'q' is not its file stem 'p'", output)
 
 
 if __name__ == "__main__":
