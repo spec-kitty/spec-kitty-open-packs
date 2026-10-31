@@ -148,6 +148,11 @@ activated_directives:
 # activated_mission_types: [{id: ...}] activates mission types.
 ```
 
+A preset is self-contained, not incremental: it is the whole activation selection for the kinds
+it names, not a delta on top of other presets. Which agent profiles it holds is an operator's
+choice, so a preset need not fill every role its mission types name; list the profiles you want
+in force and leave the rest out.
+
 The old shape (`name:`, `activated_directives: [ACME_001_SECRET_HANDLING]`,
 `mission_type_activations`) fails validation. Core up to 4.0.0rc8 reads only the old shape.
 
