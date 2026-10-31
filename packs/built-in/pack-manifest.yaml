@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 019e059ed9a72a1a52131730c47614924ad5fa6ab5a62d7a8e58e7bd6d64a55d
+manifest_hash: fee8ea1edce0db159aa79c3cda75341c2efb6c26515ef463f50eb0ba7c583a19
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -492,7 +492,7 @@ constituents:
 - kind: styleguide
   id: plain-language
   path: styleguides/plain-language.styleguide.yaml
-  content_hash: 859d0282376bc81113438d42e24ffcab9a16a6e83db7417781a3fe1d0144aef1
+  content_hash: 3e63edac651bed008f692c47bacf99fc73312816f754bc0756a5a3350fed7a5b
 - kind: styleguide
   id: planning-and-tracking
   path: styleguides/planning-and-tracking.styleguide.yaml
@@ -784,7 +784,7 @@ constituents:
 - kind: tactic
   id: ownership-map-leeway
   path: tactics/ownership-map-leeway.tactic.yaml
-  content_hash: c06ae2ae60735ff97828c120f9a562b48df4110c5a2097d897f21d56b0e8d256
+  content_hash: b7ce599314f9434ede8ff83a6afeceee5a071e0fae7fb6f9d145c30eac7785d8
 - kind: tactic
   id: paula-patterns-architecture-scout-review
   path: tactics/architecture/paula-patterns-architecture-scout-review.tactic.yaml
@@ -904,7 +904,7 @@ constituents:
 - kind: tactic
   id: reviewer-implementer-role-separation
   path: tactics/reviewer-implementer-role-separation.tactic.yaml
-  content_hash: 32fed4c06d1521d287cedd8304315d9d85a9d9a4e33cc9294689fa23db2ca18b
+  content_hash: 63b9618f56ac03529219662fbc37b0714aaf8587cd6adeb0ca206b174d13041d
 - kind: tactic
   id: safe-to-fail-experiment
   path: tactics/analysis/safe-to-fail-experiment.tactic.yaml
