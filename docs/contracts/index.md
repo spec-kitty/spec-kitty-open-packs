@@ -92,8 +92,8 @@ this table summarises it.
 A fragment carries no provenance header. The pack's name, source and layer come from the
 consumer's registration (`.kittify/config.yaml`), so `pack_name`, `source_kind`, `source_ref`,
 `layer_index` and `provenance_marker` are not written here. The charter's pack schema refuses
-them and bare-id endpoints. Core still accepts both (it overwrites the header and resolves a bare
-id), so `scripts/ci/validate-packs.sh` enforces the rule for the packs in this repository.
+them and bare-id endpoints. This repository validates against the charter's schemas, so
+`scripts/ci/validate-packs.sh` enforces the rule for its packs.
 
 Relations include `requires`, `suggests`, `applies`, `scope`, `vocabulary`, `delegates_to`,
 `specializes_from`, `enhances`, `overrides`, `refines`, `replaces`, `rejects`, `instantiates`,
@@ -126,13 +126,13 @@ charter_packs:
 
 | Command | Contract |
 | --- | --- |
-| `spec-kitty charter pack validate <dir> [--json]` | Schema and DRG validation. Zero errors is the publishing gate. |
 | `spec-kitty charter pack list` | Packs in the offering and the presets each ships. |
 | `spec-kitty charter pack regenerate-graph` | Regenerates the pack manifest and graph deterministically. |
 | `spec-kitty charter fetch [--pack <name>] [--dry-run]` | Fetches configured org packs. |
 | `spec-kitty charter activate <kind> <id>` / `--preset <name>` | Changes the Active Charter. |
 | `spec-kitty charter context --action <action>` | Renders action-scoped guidance. |
 | `spec-kitty doctor charter-packs [--json]` | Health of each loaded pack, including skipped profiles. |
+| `python3 scripts/ci/validate_pack_schemas.py <dir>` | This repository's validator: every pack file against the charter pack schemas. Zero violations is the publishing gate. |
 
 ## Charter entry seams
 

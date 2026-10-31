@@ -15,66 +15,51 @@ jobs:
   validate:
     name: Charter Pack validation
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        # A pinned spec-kitty/spec-kitty commit with the 4.x Charter Pack cutover
-        # (#3732). The 4.0.0rc6 wheel on PyPI predates `charter pack validate` and
-        # `doctor charter-packs`; switch to a PyPI pin once a release ships them.
-        # Bump deliberately; never float to a branch.
-        #
-        # 83ca247ebc (core main) succeeds c3fc8aa349 (#6048/#6046), which added the
-        # `pack_level` PackDescriptor field the re-seeded built-in pack now carries;
-        # the prior pin 3b7c6dde (pre-pack_level rc7) rejected it as an extra input.
-        # f166339300 (core main, 2026-10-19) also accepts the internal pack's explicit
-        # pack_level/active_charter/pack_drg, which core's own loader requires.
-        spec-kitty: ["f166339300dfe207ea7635a285e498beb877f1a0"]
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
-      - name: Core pins agree
-        # docs-site.yml builds the pack pages against the same core commit; a bump
-        # here must bump it there too, or the two validate against different cores.
-        run: |
-          pins=$(grep -ho 'spec-kitty: \["[0-9a-f]\{40\}"\]' .github/workflows/validate-packs.yml .github/workflows/docs-site.yml | sort -u)
-          echo "$pins"
-          if [[ $(wc -l <<<"$pins") -ne 1 ]]; then
-            echo "::error::validate-packs.yml and docs-site.yml pin different spec-kitty commits"
-            exit 1
-          fi
-      - name: Install spec-kitty-cli
-        run: pip install "spec-kitty-cli @ git+https://github.com/spec-kitty/spec-kitty@${{ matrix.spec-kitty }}"
-      - name: Validate packs
+      - name: Install the validator dependencies
+        run: pip install "pyyaml>=6" "jsonschema>=4.18"
+      # Packs validate against the spec-kitty-charter pack schemas, pinned by commit in
+      # scripts/ci/validate_pack_schemas.py, not against the spec-kitty core CLI.
+      # Every step below runs even when an earlier one failed, so one run reports all
+      # of the red; the job is red when any of them is.
+      - name: Validate packs against the charter schemas
         run: scripts/ci/validate-packs.sh
-      - name: Check the built-in pack
+      - name: Check the built-in pack digest
+        if: ${{ !cancelled() }}
         run: scripts/ci/check-built-in.sh
       - name: Vocabulary guard
+        if: ${{ !cancelled() }}
         # Retired doctrine ids, the renamed `merge` command and the retired governing
         # glossary surface stay out of every pack. Core runs the same rules after a
         # pin bump (spec-kitty/spec-kitty#6553); this catches them first.
         run: python3 scripts/ci/check_vocabulary.py
       - name: Release tooling tests
+        if: ${{ !cancelled() }}
         run: python3 -m unittest discover -s tests/release
       - name: Vocabulary guard tests
+        if: ${{ !cancelled() }}
         run: python3 -m unittest discover -s tests/vocabulary
+      - name: Pack validator tests
+        if: ${{ !cancelled() }}
+        run: python3 -m unittest discover -s tests/ci
 
-  # Fixed-name gate so branch protection can require ONE stable check that does not
-  # move when the spec-kitty matrix pin is bumped. Require "Validate packs gate" as
-  # the protected status check, never a matrix leg like
-  # "Charter Pack validation (<pin>)", whose name changes with the pin.
+  # Fixed-name gate so branch protection can require ONE stable check. Require
+  # "Validate packs gate" as the protected status check.
   gate:
     name: Validate packs gate
     needs: [validate]
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Require every validation leg to have passed
+      - name: Require the validation job to have passed
         run: |
           result='${{ needs.validate.result }}'
           if [[ "$result" != "success" ]]; then
             echo "::error::Charter Pack validation did not succeed (result: $result)"
             exit 1
           fi
-          echo "All Charter Pack validation legs passed."
+          echo "Charter Pack validation passed."

@@ -10,7 +10,8 @@ This is the *content-from-code* generator described in
   (sha256 over the pack's sorted artifact contents);
 * the pack purpose from ``pack.yaml`` *if present* (never fabricated);
 * an artifact inventory with per-kind counts;
-* validation status from ``spec-kitty charter pack validate <dir> --json``.
+* validation status from the charter pack schemas, checked by
+  ``scripts/ci/validate_pack_schemas.py``.
 
 The output is **deterministic**: re-running on an unchanged tree yields a
 byte-identical file. WP05 adds a CI drift gate that re-runs this generator and
@@ -22,8 +23,10 @@ Run it from the repository root::
     python3 scripts/docs/gen_pack_reference.py            # write pages
     python3 scripts/docs/gen_pack_reference.py --check    # fail on any drift
 
-Only the Python standard library is required; ``pack.yaml`` is read with a
-tiny local reader so the generator has no third-party dependency in CI.
+``pack.yaml`` is read with a tiny local reader. The validation status needs
+``pyyaml`` and ``jsonschema`` (the validator's dependencies) and the pinned
+charter schemas, which it fetches unless ``$CHARTER_CONTRACT_DIR`` names a local
+copy of ``contracts/packs``.
 """
 
 from __future__ import annotations
@@ -31,7 +34,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import subprocess
 import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
@@ -42,6 +44,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT / "scripts" / "ci"))
 DOCS_PACKS_DIR = REPO_ROOT / "docs" / "packs"
 GENERATOR_REL = "scripts/docs/gen_pack_reference.py"
 
@@ -97,12 +100,11 @@ class PackDescriptor:
 
 @dataclass(frozen=True)
 class ValidationResult:
-    """Outcome of ``spec-kitty charter pack validate --json``."""
+    """Outcome of validating a pack against the charter pack schemas."""
 
     available: bool
     ok: bool | None = None
     errors: tuple[str, ...] = ()
-    advisories: tuple[str, ...] = ()
     note: str | None = None
 
 
@@ -299,56 +301,35 @@ def build_inventory(
 
 
 # ---------------------------------------------------------------------------
-# Validation (shell out to the CLI)
+# Validation (charter pack schemas)
 # ---------------------------------------------------------------------------
 
 
 def validate_pack(directory: Path) -> ValidationResult:
-    """Run ``spec-kitty charter pack validate <dir> --json`` and parse it.
+    """Validate ``directory`` against the charter pack schemas.
 
-    If the CLI is absent or does not return parseable JSON the result is marked
-    unavailable rather than failing generation — the page then says so instead
-    of asserting a validation status it could not obtain.
+    If the schemas cannot be loaded (offline, missing dependency) the result is
+    marked unavailable rather than failing generation: the page then says so
+    instead of asserting a validation status it could not obtain.
     """
 
     try:
-        result = subprocess.run(
-            [
-                "spec-kitty",
-                "charter",
-                "pack",
-                "validate",
-                str(directory),
-                "--json",
-            ],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-    except (OSError, ValueError):
-        return ValidationResult(
-            available=False,
-            note="`spec-kitty` CLI not found on PATH.",
-        )
-
+        import validate_pack_schemas as validator
+    except ImportError as exc:
+        return ValidationResult(available=False, note=f"the validator's dependencies are missing ({exc.name}).")
     try:
-        payload = json.loads(result.stdout)
-    except json.JSONDecodeError:
+        report = validator.validate_pack(directory, validator.contract_for(None))
+    except validator.GateError as exc:
         return ValidationResult(
             available=False,
-            note="`spec-kitty charter pack validate --json` returned no JSON.",
+            note=f"the charter pack schemas could not be used ({exc}).",
         )
-
-    # Validator messages carry absolute paths; strip the checkout prefix so the
-    # page is identical on every machine (packs/<slug> sits two levels below it).
-    prefix = f"{directory.resolve().parent.parent}/"
-    errors = tuple(sorted(str(e).replace(prefix, "") for e in payload.get("errors", [])))
-    advisories = tuple(sorted(str(a).replace(prefix, "") for a in payload.get("advisories", [])))
+    # Violations are path-relative to the pack directory's parent, so the page is
+    # identical on every machine.
     return ValidationResult(
         available=True,
-        ok=bool(payload.get("ok", False)),
-        errors=errors,
-        advisories=advisories,
+        ok=report.ok,
+        errors=tuple(sorted(report.violations)),
     )
 
 
@@ -427,14 +408,14 @@ def render_validation(validation: ValidationResult) -> list[str]:
         note = validation.note or "Validation status was not available."
         lines.append(
             f"Validation status unavailable — {note} "
-            "Run `spec-kitty charter pack validate <dir> --json` locally."
+            "Run `python3 scripts/ci/validate_pack_schemas.py <dir>` locally."
         )
         lines.append("")
         return lines
 
-    status = "passing (`ok: true`)" if validation.ok else "failing (`ok: false`)"
+    status = "passing" if validation.ok else "failing"
     lines.append(
-        f"Reported by `spec-kitty charter pack validate --json`: **{status}**."
+        f"Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **{status}**."
     )
     lines.append("")
     lines.append(f"- Errors: {len(validation.errors)}")
@@ -444,15 +425,6 @@ def render_validation(validation: ValidationResult) -> list[str]:
         lines.append("")
         lines.extend(f"- {error}" for error in validation.errors)
         lines.append("")
-    # Advisories are deliberately NOT embedded: they are non-blocking and their
-    # count/text varies by validator (CLI) version, which would make this
-    # generated page drift against the pinned-CLI drift gate. Errors are the
-    # gating signal and are stable; the live advisory list is one command away.
-    lines.append(
-        "Advisories are non-blocking and vary by validator version; run "
-        "`spec-kitty charter pack validate <dir> --json` for the current list."
-    )
-    lines.append("")
     return lines
 
 

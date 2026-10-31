@@ -21,7 +21,7 @@ here will change; contributions that help shape them are welcome.
 | Propose or author a Charter Pack | **this repository** |
 | Improve a usage or authoring guide | **this repository** |
 | Change how charter artefacts are resolved, validated, or composed | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
-| Change the pack manifest schema or the validator | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
+| Change the pack schemas (`contracts/packs/`) | [`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) |
 
 If you are unsure, open an issue here first and we will help route it. Cross-referencing
 between the two repositories is expected.
@@ -43,8 +43,8 @@ between the two repositories is expected.
   built-in or project charter artefacts. See the authoring guide for the recommended patterns.
 - **One rule per file.** Resist dumping a whole policy page into a single artifact — split so
   each rule can be cited individually.
-- **Validate before you push.** Run the canonical validator (see
-  [Validate a pack](validate-a-pack.md)). Packs must pass with exit code `0`.
+- **Validate before you push.** Run `scripts/ci/validate-packs.sh` (see
+  [Validate a pack](validate-a-pack.md)); it checks every pack against the charter pack schemas and must exit `0`.
 - **Keep retired names out.** `python3 scripts/ci/check_vocabulary.py` fails on a retired
   doctrine id, the renamed `spec-kitty merge` command (use `spec-kitty consolidate`) or the
   retired governing glossary surface in any pack. The rules are core's; this repository runs

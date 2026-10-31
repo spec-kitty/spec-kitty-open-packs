@@ -108,7 +108,7 @@ The docsite is built with [doc-kitty](https://github.com/spec-kitty/doc-kitty) f
 | Aspect | State |
 | --- | --- |
 | Packs | `built-in`, `qa`, `event-driven`, `cave-kitty`, `internal` exist; the wider [catalog](docs/packs/catalog-proposal.md) is proposed. |
-| Validation | `spec-kitty charter pack validate` runs in CI for every pack. |
+| Validation | CI validates every pack against the [spec-kitty-charter pack schemas](https://github.com/spec-kitty/spec-kitty-charter/tree/main/contracts/packs), not against the core CLI. |
 | Compound packs (`depends_on`) | Planned ([spec-kitty#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)). |
 | Trust / verified distribution | Planned ([spec-kitty#2539](https://github.com/spec-kitty/spec-kitty/issues/2539)). |
 

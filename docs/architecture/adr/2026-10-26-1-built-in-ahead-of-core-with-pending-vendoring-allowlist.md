@@ -11,6 +11,10 @@ related:
 
 **Filename:** `2026-10-26-1-built-in-ahead-of-core-with-pending-vendoring-allowlist.md`
 
+> **Superseded in part.** CI no longer validates packs with the core CLI: `validate-packs.sh` checks them
+> against the spec-kitty-charter pack schemas, and the second `doctor charter-packs` pass and
+> `scripts/ci/pending-core-vendoring.txt` are gone. The text below records the earlier decision.
+
 **Status:** Accepted
 
 **Date:** 2026-10-26

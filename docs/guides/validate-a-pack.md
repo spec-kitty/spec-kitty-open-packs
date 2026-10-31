@@ -1,6 +1,6 @@
 ---
 title: Validate a pack
-description: Run the Spec Kitty 4.x Charter Pack validator, read errors vs advisories, and understand the CI gate this repository runs on every pull request.
+description: Validate a Charter Pack against the charter pack schemas, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
 updated: '2026-10-10'
 related:
@@ -9,75 +9,70 @@ related:
 ---
 # Validate a pack
 
-Before publishing, validate your pack against schema and DRG constraints. The validator is the
-**single canonical surface** that lets authors check their work against the same rules Spec
-Kitty applies at load time.
+A Charter Pack is valid when every file in it matches the JSON Schema the charter assigns to
+that kind of file. The schemas are owned by
+[`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) (`contracts/packs/schemas/`,
+mapped to files by `contracts/packs/file-kinds.yaml`). This repository validates against them
+directly; it does not use the spec-kitty core CLI as its validator, and compatibility with core's
+own pack validator is not a requirement.
 
 ## Run the validator
 
 ```bash
-spec-kitty charter pack validate ./my-pack
-spec-kitty charter org validate ./my-pack     # when the pack has an org-charter.yaml
+pip install pyyaml jsonschema
+python3 scripts/ci/validate_pack_schemas.py ./packs/my-pack
 ```
+
+The script fetches the schemas from the charter commit it pins (the `CHARTER_COMMIT` constant in
+the script). Point `--contract DIR` (or `$CHARTER_CONTRACT_DIR`) at a local copy of
+`contracts/packs` to work offline. Name several directories to check several packs in one run.
 
 Exit codes:
 
-- `0` — pack passes. Advisories may print but do not affect exit.
-- `1` — at least one error. Fix and re-validate.
+- `0` — every pack passes.
+- `1` — at least one schema violation, or a file in a retired layout. Each is printed with the
+  file, the schema and the location inside the file. Fix and re-run.
+- `2` — the validator cannot judge and fails closed: a schema that does not load, a file of a
+  known kind with no schema mapping, or a pack with no file checked.
 
-Machine-readable output for CI:
+Each file is mapped to its schema by name: `*.directive.yaml` to the directive schema,
+`pack.yaml` to the pack descriptor, `presets/<id>.yaml` to the preset schema, `*.mission-type.yaml`
+to the mission-type schema, and so on. Markdown companions (`pack.md`, toolguide guides, mission
+step prompts and guidelines) are read into a title, preamble and sections model and validated as
+that. Assets, templates, READMEs and other files the contract lists as exclusions or payloads are
+not schema-checked.
 
-```bash
-spec-kitty charter pack validate ./my-pack --json
-# {"advisories": [], "errors": [], "ok": true}
-```
+## What the schemas catch
 
-`charter pack validate` checks one pack in isolation. To check how several packs combine
-(collisions between sibling packs, edges into another pack), register them in a project and run
-`spec-kitty doctor charter-packs`.
-
-## Errors vs advisories
-
-| Condition | Class |
+| Condition | Result |
 | --- | --- |
-| Artifact YAML fails schema validation (for example a lowercase directive `id`) | **Error** |
-| Duplicate `id` within the pack | **Error** |
-| DRG content under `drg/*.graph.yaml` (org packs use `drg/fragment.yaml` only) | **Error** |
-| `org-charter.yaml` or `presets/*.yaml` schema violation | **Error** |
-| A retired field: `accompanies_doctrine_pack` in `pack.yaml` or `doctrine_pack_id` in `org-charter.yaml` `activations` (`RETIRED_PACK_FIELD`) | **Error** |
-| DRG edge endpoint that is neither built-in nor in this pack (`drg_external_endpoint`) | Advisory |
-| Artifact ID collides with a built-in ID (`same_id_collision`; declare an `enhances` or `overrides` DRG edge to say which you mean) | Advisory |
+| A required field is missing, or a field has the wrong type or pattern (for example a lowercase directive `id`) | Violation |
+| A field the schema does not define (the schemas are closed) | Violation |
+| A DRG fragment with a provenance header, or an edge endpoint that is a bare id rather than `<kind>:<id>` | Violation |
+| A preset in the old shape (`name`, bare id strings, `mission_type_activations`) | Violation |
+| A file in a retired layout (for example `mission.yaml` beside a mission type) | Violation |
 
-### Common errors
-
-- **`schema_invalid`** — compare the file with the kind's schema. Every artifact needs
-  `schema_version: "1.0"`; directives need an upper-case `id`, `title`, `intent` and
-  `enforcement`. The validator names the failing field.
-- **`drg_root_graph_missing`** — the pack has `drg/*.graph.yaml` shards. Move the nodes and
-  edges into `drg/fragment.yaml`.
-- **No artifact directories found** — the pack root is wrong (point at the pack directory
-  itself, not a parent), or no canonical subdirectory has valid YAML.
+The schemas check each file on its own. They do not check that an `id` is unique across packs
+or that an edge endpoint resolves to a node; check those by registering the packs in a project
+and running the consumer's own tooling.
 
 ## The CI gate in this repository
 
 Every pull request runs [`scripts/ci/validate-packs.sh`](../../scripts/ci/validate-packs.sh)
-against a pinned spec-kitty build (`.github/workflows/validate-packs.yml`). It:
+(`.github/workflows/validate-packs.yml`). It:
 
-1. runs `charter pack validate` (and `charter org validate`) on every directory under `packs/`
-   and `tests/fixtures/valid/`;
-2. registers all of those packs together in a scratch project and runs
-   `doctor charter-packs`, so sibling packs that collide fail the build;
-3. checks that every pack under `tests/fixtures/invalid/` **fails** with exit code 1, so a
-   validator that passes everything — or a CLI that lacks the command — turns the job red.
+1. validates every pack under `packs/` (`packs/built-in` included) and `tests/fixtures/valid/`
+   against the charter schemas;
+2. checks that every pack under `tests/fixtures/invalid/` **fails** schema validation, so a
+   validator that passes everything turns the job red.
 
-The org packs are validated against the built-in pack this repository authors
-(`packs/built-in`), not the copy bundled in the pinned spec-kitty, so a pack can reference a
-built-in node before core vendors it. [`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh)
-validates `packs/built-in` itself against the pinned core. A second `doctor charter-packs` pass
-re-checks the org packs against the pinned core's own built-in and reports the ids still
-pending core vendoring (listed in
-[`scripts/ci/pending-core-vendoring.txt`](../../scripts/ci/pending-core-vendoring.txt)) as
-warnings; any other dangling edge fails.
+[`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh) checks that the tree digest of
+`packs/built-in` matches `packs/built-in.source.yaml`. The vocabulary guard and the release and
+vocabulary tests run even when validation fails, so one run shows all the red.
+
+To move to newer schemas, change `CHARTER_COMMIT` in `scripts/ci/validate_pack_schemas.py` to a
+full commit SHA of `spec-kitty-charter`. The current pin is a commit of the open
+mission-type-consolidation branch (charter PR #275); move it to a `main` commit once that merges.
 
 Run it locally before opening a PR:
 
