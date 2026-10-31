@@ -33,7 +33,7 @@ steps:
     command: "Write report.md in kitty-specs/{mission_slug}/"
 
   - id: gate_publication_approved
-    description: Record the publication_approved gate event so mission.yaml's transition to done unblocks
+    description: Record the publication_approved gate event so the runtime's transition to done unblocks
     delegates_to:
       kind: tactic
       candidates:
@@ -42,7 +42,7 @@ steps:
     guidance: >
       The `publication_approved` gate is emitted by the run engine, not by this
       contract; this step exists so reviewers know which gate must pass for the
-      output -> done transition declared in mission.yaml.
+      output -> done transition guarded by the runtime.
 
   - id: commit_report
     description: Commit the published report with co-author attribution

@@ -11,16 +11,14 @@ discovery → specify → plan → tasks → analyze → implement → review �
                                                   └───────────┘ (rework)
 ```
 
-Each transition is guarded — an artifact-presence check (for example
+The Spec Kitty runtime guards each transition: an artifact-presence check (for example
 `artifact_exists("spec.md")`), a work-package status check, or, for `analyze`,
 an analysis-currency check. `implement` and `review` iterate per work package;
 a rejected review sends the work package back to `implement`.
 
 `analyze` is the required analysis gate between `tasks` and `implement`: it
 records a cross-artifact analysis report, and `implement` refuses to claim a
-work package until a current analysis report exists. `analyze` stays off the
-action sequence (it has no action index), so a run frozen before the step was
-added keeps its recorded order.
+work package until a current analysis report exists.
 
 ## Steps
 
@@ -35,13 +33,14 @@ added keeps its recorded order.
 | `review` | Review and validate a work package |
 | `accept` | Validate mission completeness before consolidation |
 
-Agent profiles are selected per work package (in the WP prompt frontmatter),
-not fixed per runtime step.
+A step names the role it needs, never a profile; the activation preset decides which
+profiles are active. The profile for a work package is recorded in the WP prompt
+frontmatter (`agent_profile`).
 
 ## Contents
 
-- `mission.yaml` — State machine with guards and transitions
-- `mission-runtime.yaml` — Runtime step DAG with step ordering
+- `software-dev.mission-type.yaml` — The mission type: its steps in run order, its
+  on-demand steps (`charter`, `tasks-outline`, `tasks-packages`, `tasks-finalize`), and
+  each step's prompt, guidelines, expected artifacts and references, and its role where set
+- `steps/` — The step prompts (`<step>.prompt.md`) and guidelines (`<step>.guidelines.md`)
 - `templates/` — Content scaffolds (spec, plan, tasks, task-prompt templates)
-
-The step prompts live under `mission-steps/software-dev/<step>/prompt.md`.

@@ -27,10 +27,10 @@ silently mis-read as passing.
 
 FR-015 — known-limitation disclosure (mechanically checkable, agent-invoked, never machine-
 enforced): no runtime hook compels running this ingester or blocks on a `blocked`/`error` exit
-today. The same `#2599` (`GateBinding.handler_kind: "asset"` inert) gap
-`assets/qa_carrier_lint.py` already discloses for itself applies here too, and
-`expected-artifacts.yaml`'s `blocking:` key (this mission's own WP08 entry) does not mechanically
-enforce this either — this mission's own deliverable is mechanically checkable (exit code,
+today. The same `#2599` (`GateBinding.handler_kind: "asset"` inert) gap `assets/qa_carrier_lint.py`
+already discloses for itself applies here too, and the `blocking` field of the `review` step's
+expected `qa-traceability.yaml` output (in `qa.mission-type.yaml`) does not mechanically enforce
+this either — this mission's own deliverable is mechanically checkable (exit code,
 `qa-traceability.yaml`) but agent-invoked, never machine-enforced, as of this mission's own scope.
 
 NFR-008 — bytecode hygiene (operational contract on the caller, not something this module can

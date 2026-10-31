@@ -115,8 +115,8 @@ No runtime hook compels running this validator or blocks on its verdict today:
 `GateBinding.handler_kind: "asset"` remains inert pending upstream issue #2599 (open), and
 although spec-kitty gained a live per-type artifact-presence gate on 2026-08-21
 (`gather_artifact_presence`, closing #3597), it is wired only for the four built-in mission
-families' own step vocabularies, ignores `expected-artifacts.yaml`'s `blocking:` flag entirely,
-and has no entry for a custom type such as this pack's own `qa`, so `accept` still enforces
-nothing from that manifest. This validator's
+families' own step vocabularies, ignores the `blocking` field of a step's expected output (in
+`qa.mission-type.yaml`) entirely, and has no entry for a custom type such as this pack's own
+`qa`, so `accept` still enforces nothing from those expected outputs. This validator's
 output is mechanically checkable — a real exit code, a real `qa-coverage.json` on disk — but it is
 agent-invoked, never machine-enforced, until both of those conditions close.

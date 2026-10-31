@@ -29,16 +29,19 @@ project is referenced for attribution of the idea; no code or prose from it is i
 
 Complete for its stated scope (see README.md). The styleguide and directive are usable today.
 The `cave-dev` mission type re-states the built-in `software-dev` step contract as prose and
-overrides only the output voice; its eight command templates follow the same structured shape
+overrides only the output voice; its eight step prompts follow the same structured shape
 the canonical `qa` open pack uses — role + software-dev mapping, bound built-in profile,
 directive & styleguide citation, artifact/template binding, and a per-step voice specialization.
 They deliberately do not duplicate `software-dev`'s inherited governance into each file, which
 would drift from the canonical source; they layer the caveman voice on top of it, exactly as `qa`
 layers its QA doctrine.
 
-The command templates summarise `software-dev` (pinned at software-dev mission-runtime version
-2.2.0 in `missions/cave-dev/mission-runtime.yaml`); the relationship is documentation, not a
-mechanical link, so a software-dev change must be reconciled into these summaries by hand. And
+The step prompts summarise `software-dev` at its mission-runtime version 2.2.0.
+`missions/cave-dev/mission-runtime.yaml` pinned that version until spec-kitty-open-packs#95 retired
+the file and its `version` field; the steps now live in
+`missions/cave-dev/cave-dev.mission-type.yaml` and `missions/cave-dev/steps/`. The relationship is
+documentation, not a mechanical link, so a software-dev change must be reconciled into these
+summaries by hand. And
 "inherits the contract" is a documentation relationship, not a runtime one: under `spec-kitty
 next`, software-dev's per-WP iteration, its `implement`/`review` guards, and its analysis-currency
 gate are keyed to the built-in `software-dev` family in the CLI and do not fire for a

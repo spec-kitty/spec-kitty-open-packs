@@ -22,7 +22,7 @@ steps:
     guidance: >
       Each accepted source must be appended to source-register.csv and the run
       engine must observe a `source_documented` event for it. The minimum-source
-      threshold is enforced by mission.yaml's `event_count("source_documented", 3)`
+      threshold is enforced by the runtime's `event_count("source_documented", 3)`
       guard, not by this contract.
 
   - id: validate_sources

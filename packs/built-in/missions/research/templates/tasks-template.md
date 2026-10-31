@@ -23,7 +23,7 @@ description: "Work package task list template for research methodology execution
 - **Workspace**: `research/`
 - **Data**: `data/`
 - **Deliverables**: `findings/`
-- Adjust additional paths to match mission.yaml definitions.
+- Adjust additional paths to match the mission type's `path_conventions`.
 
 ---
 

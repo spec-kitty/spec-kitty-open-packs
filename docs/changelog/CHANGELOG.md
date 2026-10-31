@@ -186,6 +186,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   software-dev, cave-dev and qa prompts pointed at `mission.yaml`, `mission-runtime.yaml`,
   `expected-artifacts.yaml` or `mission-steps/`. The READMEs, templates and step contracts that
   still name them are left to #100.
+- **Docs and guidance describe the mission-type layout** (#100). Several docs still named
+  mission files that #95 retired (`mission.yaml`, `mission-runtime.yaml`, action indices,
+  `mission-steps/`, `command-templates/`, `governance-profile.yaml`, `expected-artifacts.yaml`).
+  They now name `missions/<type>/<type>.mission-type.yaml` and its `steps/` prompts and
+  guidelines. The `reviewer-implementer-role-separation` tactic now says a step names a role and
+  a preset activates profiles (charter ADR-0032). Its id and intent are unchanged.
 
 - **Red-main discipline is a directive, not a procedure** (#74,
   [spec-kitty-charter#199](https://github.com/spec-kitty/spec-kitty-charter/pull/199)). The

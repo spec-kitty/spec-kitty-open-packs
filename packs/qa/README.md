@@ -30,7 +30,7 @@ cover and how honestly they report.
 | Styleguides | **`qa-promise-page`** |
 | Toolguides and assets | `qa-carrier-lint`, `qa-result-ingest`, **`qa-promise-trace-lint`** (Python, stdlib plus ruamel.yaml) |
 | Agent profiles | strategist, test designer, executor, reporter, defect triager |
-| Mission | `qa` mission type, step contracts, command templates, artifact templates, **promise page and scenario templates** |
+| Mission | `qa` mission type, step contracts, step prompts, artifact templates, **promise page and scenario templates** |
 | Glossary | ISTQB-grounded QA glossary |
 
 The scenario-writing doctrine itself is not duplicated: the procedure points at Spec Kitty's
