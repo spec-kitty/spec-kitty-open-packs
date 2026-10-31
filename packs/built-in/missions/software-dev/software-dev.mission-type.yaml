@@ -63,6 +63,10 @@ steps:
   description: Design technical architecture
   prompt_path: steps/plan.prompt.md
   guidelines_path: steps/plan.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.main
+    path_pattern: spec.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.plan.main
     artifact_class: output
@@ -89,10 +93,17 @@ steps:
   - type: procedure
     id: domain-aware-decision-interview
 - id: tasks
-  title: Tasks
+  title: Task Breakdown
   description: Create task breakdown, work package prompts, and finalized dependencies
   prompt_path: steps/tasks.prompt.md
   guidelines_path: steps/tasks.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.main
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: output.plan.main
+    path_pattern: plan.md
+    blocking: true
   references:
   - type: directive
     id: DIRECTIVE_003
@@ -112,11 +123,26 @@ steps:
   title: Analysis
   description: Cross-artifact consistency analysis, recorded as a current analysis report
   prompt_path: steps/analyze.prompt.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.main
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: output.plan.main
+    path_pattern: plan.md
+    blocking: true
+  - artifact_key: output.tasks.list
+    path_pattern: tasks.md
+    blocking: true
 - id: implement
   title: Implementation
   description: Execute implementation
+  role: implementer
   prompt_path: steps/implement.prompt.md
   guidelines_path: steps/implement.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: output.tasks.per_wp
+    path_pattern: tasks/WP*.md
+    blocking: true
   references:
   - type: directive
     id: DIRECTIVE_001
@@ -197,8 +223,13 @@ steps:
 - id: review
   title: Code Review
   description: Review and validate
+  role: reviewer
   prompt_path: steps/review.prompt.md
   guidelines_path: steps/review.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: output.tasks.per_wp
+    path_pattern: tasks/WP*.md
+    blocking: true
   references:
   - type: directive
     id: DIRECTIVE_003
@@ -232,15 +263,26 @@ steps:
   title: Acceptance
   description: Validate mission completeness
   prompt_path: steps/accept.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.tasks.list
+    path_pattern: tasks.md
+    blocking: true
 on_demand_steps:
 - id: charter
   title: Charter
-  description: Interview and compile a project charter
+  description: Interview the operator and compile the project charter that governs every mission.
   prompt_path: steps/charter.prompt.md
 - id: tasks-finalize
   title: Finalize Tasks
-  description: Validate dependencies, finalize WP metadata, and commit all task artifacts.
+  description: Validate WP dependencies, finalize WP frontmatter, generate tasks.md and commit the task artifacts.
   prompt_path: steps/tasks-finalize.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.tasks.index
+    path_pattern: wps.yaml
+    blocking: true
+  - artifact_key: output.tasks.per_wp
+    path_pattern: tasks/WP*.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.tasks.per_wp
     artifact_class: output
@@ -252,8 +294,15 @@ on_demand_steps:
     blocking: true
 - id: tasks-outline
   title: Task Outline
-  description: Create a work package manifest
+  description: 'Write the work package manifest, wps.yaml: each WP''s scope, dependencies and owned files.'
   prompt_path: steps/tasks-outline.prompt.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.main
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: output.plan.main
+    path_pattern: plan.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.tasks.index
     artifact_class: output
@@ -261,10 +310,36 @@ on_demand_steps:
     blocking: true
 - id: tasks-packages
   title: Task Packages
-  description: Materialize work package files
+  description: Generate one tasks/WP*.md prompt file per work package from the wps.yaml manifest.
   prompt_path: steps/tasks-packages.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.tasks.index
+    path_pattern: wps.yaml
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.tasks.per_wp
     artifact_class: output
     path_pattern: tasks/WP*.md
     blocking: true
+- id: retrospect
+  title: Retrospective
+  description: Capture what helped, what did not and the governance gaps of a finished mission as a retrospective record.
+  role: facilitator
+  prompt_path: steps/retrospect.prompt.md
+  references:
+  - type: directive
+    id: DIRECTIVE_003
+  - type: directive
+    id: DIRECTIVE_010
+  - type: directive
+    id: DIRECTIVE_018
+  - type: tactic
+    id: requirements-validation-workflow
+  - type: tactic
+    id: stopping-conditions
+  - type: tactic
+    id: autonomous-operation-protocol
+  - type: tactic
+    id: glossary-curation-interview
+  - type: styleguide
+    id: kitty-glossary-writing

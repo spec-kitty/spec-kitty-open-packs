@@ -25,7 +25,7 @@ spec-kitty charter context --action methodology --json
 
 ## What This Step Produces
 
-`kitty-specs/<mission>/plan.md`, rendered from `research-plan-template.md`. This is the gate on `methodology -> gathering` (`mission.yaml`: `artifact_exists("plan.md")`). A `plan.md` that exists but lists an approach with no concrete search strategy or analysis framework has satisfied the filesystem gate while failing this step's actual purpose.
+`kitty-specs/<mission>/plan.md`, rendered from `research-plan-template.md`. This is the gate on `methodology -> gathering` (the runtime guard `artifact_exists("plan.md")`; the mission type declares `plan.md` as this step's blocking expected output). A `plan.md` that exists but lists an approach with no concrete search strategy or analysis framework has satisfied the filesystem gate while failing this step's actual purpose.
 
 ## Read the Locked Spec First
 
@@ -69,7 +69,7 @@ A methodology document that already cites specific findings is a leaked synthesi
 1. Read `kitty-specs/<mission>/spec.md`.
 2. Fill `kitty-specs/<mission>/plan.md` (from `research-plan-template.md`): research approach, phases and timeline, primary/secondary data sources, search strategy (keywords, inclusion criteria, exclusion criteria), analysis framework, and quality criteria.
 3. Record each non-obvious methodology choice as a decision entry — the alternative considered and why it was rejected.
-4. Cross-check the minimum-source floor the `gathering` step will be held to (`event_count("source_documented", 3)` in `mission.yaml`) and set a real target above that floor in the plan, driven by the scoping success criteria — three is a machine-enforced floor, not a target.
+4. Cross-check the minimum-source floor the `gathering` step will be held to (the runtime guard `event_count("source_documented", 3)`) and set a real target above that floor in the plan, driven by the scoping success criteria — three is a machine-enforced floor, not a target.
 5. Commit `plan.md` per the `029-agent-commit-signing-policy` / `033-targeted-staging-policy` directives.
 
 ## Quality Gates

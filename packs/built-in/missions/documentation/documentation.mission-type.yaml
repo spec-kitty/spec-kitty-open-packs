@@ -104,6 +104,10 @@ steps:
   role: researcher
   prompt_path: steps/audit.prompt.md
   guidelines_path: steps/audit.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.documentation
+    path_pattern: spec.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: evidence.gap-analysis
     artifact_class: evidence
@@ -122,6 +126,13 @@ steps:
   role: architect
   prompt_path: steps/design.prompt.md
   guidelines_path: steps/design.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.documentation
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: evidence.gap-analysis
+    path_pattern: gap-analysis.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: workflow.plan.documentation
     artifact_class: workflow
@@ -145,6 +156,10 @@ steps:
   role: implementer
   prompt_path: steps/generate.prompt.md
   guidelines_path: steps/generate.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: workflow.plan.documentation
+    path_pattern: plan.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.docs.generated
     artifact_class: output
@@ -162,6 +177,12 @@ steps:
   role: reviewer
   prompt_path: steps/validate.prompt.md
   guidelines_path: steps/validate.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: workflow.plan.documentation
+    path_pattern: plan.md
+    blocking: true
+  - artifact_key: output.docs.generated
+    path_pattern: docs/**/*.md
   expected_output_artifacts:
   - artifact_key: evidence.audit-report
     artifact_class: evidence
@@ -184,6 +205,10 @@ steps:
   role: reviewer
   prompt_path: steps/publish.prompt.md
   guidelines_path: steps/publish.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: evidence.audit-report
+    path_pattern: audit-report.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.release.main
     artifact_class: output
@@ -202,6 +227,13 @@ steps:
   role: reviewer
   prompt_path: steps/accept.prompt.md
   guidelines_path: steps/accept.guidelines.md
+  expected_input_artifacts:
+  - artifact_key: output.release.main
+    path_pattern: release.md
+    blocking: true
+  - artifact_key: evidence.audit-report
+    path_pattern: audit-report.md
+    blocking: true
   references:
   - type: directive
     id: DIRECTIVE_010
@@ -214,7 +246,9 @@ steps:
 on_demand_steps:
 - id: retrospect
   title: Retrospective
+  description: Capture what helped, what did not and the governance gaps of a finished mission as a retrospective record.
   role: facilitator
+  prompt_path: steps/retrospect.prompt.md
   references:
   - type: directive
     id: DIRECTIVE_003

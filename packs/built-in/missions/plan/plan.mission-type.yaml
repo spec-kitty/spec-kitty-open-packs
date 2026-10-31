@@ -40,7 +40,7 @@ references:
   id: planning-and-tracking
 steps:
 - id: specify
-  title: Specify
+  title: Specification
   description: Prepare and specify the feature definition
   prompt_path: steps/specify.prompt.md
   expected_output_artifacts:
@@ -53,15 +53,26 @@ steps:
   title: Research
   description: Gather research inputs and technical context
   prompt_path: steps/research.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.spec.main
+    path_pattern: spec.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: evidence.research
     artifact_class: evidence
     path_pattern: research.md
     blocking: true
 - id: plan
-  title: Plan
+  title: Planning
   description: Design and create planning artifacts
   prompt_path: steps/plan.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.spec.main
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: evidence.research
+    path_pattern: research.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.plan.main
     artifact_class: output
@@ -72,3 +83,10 @@ steps:
   title: Review
   description: Review and validate planning artifacts
   prompt_path: steps/review.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.spec.main
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: output.plan.main
+    path_pattern: plan.md
+    blocking: true

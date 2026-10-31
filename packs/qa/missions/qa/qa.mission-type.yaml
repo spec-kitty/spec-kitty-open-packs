@@ -50,6 +50,10 @@ steps:
   description: Translate the test strategy into a detailed, executable test plan with exit criteria, environments, and test data.
   role: qa-strategist
   prompt_path: steps/plan.prompt.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.qa
+    path_pattern: spec.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: workflow.plan.qa
     artifact_class: workflow
@@ -61,6 +65,10 @@ steps:
   description: Design the concrete test suite and work packages that implement the test plan, including exploratory charters.
   role: test-designer
   prompt_path: steps/tasks.prompt.md
+  expected_input_artifacts:
+  - artifact_key: workflow.plan.qa
+    path_pattern: plan.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: workflow.tasks.qa
     artifact_class: workflow
@@ -72,6 +80,10 @@ steps:
   description: Execute the designed test suite and record defects found during execution.
   role: test-executor
   prompt_path: steps/implement.prompt.md
+  expected_input_artifacts:
+  - artifact_key: workflow.tasks.qa
+    path_pattern: tasks.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.defect-log.qa
     artifact_class: output
@@ -82,6 +94,12 @@ steps:
   description: Review execution results for genuine, no-fake-green outcomes and produce the test report.
   role: qa-reporter
   prompt_path: steps/review.prompt.md
+  expected_input_artifacts:
+  - artifact_key: workflow.tasks.qa
+    path_pattern: tasks.md
+    blocking: true
+  - artifact_key: output.defect-log.qa
+    path_pattern: defect-log.md
   expected_output_artifacts:
   - artifact_key: output.test-report.review.qa
     artifact_class: output
@@ -97,6 +115,13 @@ steps:
   description: Confirm exit criteria were actually met and record the release/acceptance decision.
   role: qa-reporter
   prompt_path: steps/accept.prompt.md
+  expected_input_artifacts:
+  - artifact_key: output.test-report.review.qa
+    path_pattern: test-report.md
+    blocking: true
+  - artifact_key: output.qa-traceability.review.qa
+    path_pattern: qa-traceability.yaml
+    blocking: true
   expected_output_artifacts:
   - artifact_key: output.qa-coverage.qa
     artifact_class: evidence

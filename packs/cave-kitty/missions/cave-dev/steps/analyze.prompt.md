@@ -13,8 +13,9 @@ software-dev.
 
 > **Runtime note.** Under `spec-kitty next`, the analysis-currency gate that software-dev enforces
 > ahead of `implement` is keyed to the built-in `software-dev` family and does not fire for a
-> `cave-dev`-typed mission (see `mission-runtime.yaml`). Run `/spec-kitty.analyze` explicitly at
-> this step; do not rely on the `next` loop to block `implement` on a stale analysis.
+> `cave-dev`-typed mission (the gate is core runtime behavior; no pack file declares it). Run
+> `/spec-kitty.analyze` explicitly at this step; do not rely on the `next` loop to block
+> `implement` on a stale analysis.
 
 ## Bound agent-profile
 

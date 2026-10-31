@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `30749d14d288dfbe4ede9712532689c5c663be0e474c18e92b482cc07790f2fb`
+- **Content checksum (sha256):** `3edc75a51f40f65ddf46b5157fb5551dbba5188d39a2567bca05b2075e84f7b0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -41,11 +41,11 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
-| `missions` | 109 |
+| `missions` | 113 |
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **433** |
+| **Total files** | **437** |
 
 ### Full listing
 
@@ -406,7 +406,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 </details>
 
 <details>
-<summary><code>missions</code> (109)</summary>
+<summary><code>missions</code> (113)</summary>
 
 - `README.md`
 - `built_in_step_contracts/__init__.py`
@@ -445,6 +445,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `documentation/steps/generate.prompt.md`
 - `documentation/steps/publish.guidelines.md`
 - `documentation/steps/publish.prompt.md`
+- `documentation/steps/retrospect.prompt.md`
 - `documentation/steps/validate.guidelines.md`
 - `documentation/steps/validate.prompt.md`
 - `documentation/templates/README.md`
@@ -473,12 +474,14 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `plan/templates/plan-spec-skeleton.md`
 - `research/README.md`
 - `research/research.mission-type.yaml`
+- `research/steps/accept.prompt.md`
 - `research/steps/gathering.guidelines.md`
 - `research/steps/gathering.prompt.md`
 - `research/steps/methodology.guidelines.md`
 - `research/steps/methodology.prompt.md`
 - `research/steps/output.guidelines.md`
 - `research/steps/output.prompt.md`
+- `research/steps/retrospect.prompt.md`
 - `research/steps/scoping.guidelines.md`
 - `research/steps/scoping.prompt.md`
 - `research/steps/synthesis.guidelines.md`
@@ -503,6 +506,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 - `software-dev/steps/implement.prompt.md`
 - `software-dev/steps/plan.guidelines.md`
 - `software-dev/steps/plan.prompt.md`
+- `software-dev/steps/retrospect.prompt.md`
 - `software-dev/steps/review.guidelines.md`
 - `software-dev/steps/review.prompt.md`
 - `software-dev/steps/specify.guidelines.md`

@@ -29,7 +29,7 @@ spec-kitty charter context --action gathering --json
 - `kitty-specs/<mission>/research/evidence-log.csv` — every extracted finding, with confidence.
 - A `source_documented` event per accepted source, observed by the run engine.
 
-The gate on `gathering -> synthesis` is `event_count("source_documented", 3)` (`mission.yaml`) — **events**, not file rows. Editing the CSV without the run engine observing the corresponding event does not advance the mission; follow your harness's event-emission mechanism for each accepted source, not just the file write.
+The gate on `gathering -> synthesis` is the runtime guard `event_count("source_documented", 3)` — **events**, not file rows. Editing the CSV without the run engine observing the corresponding event does not advance the mission; follow your harness's event-emission mechanism for each accepted source, not just the file write.
 
 ## Read the Locked Methodology First
 
@@ -60,7 +60,7 @@ Where the research question concerns a codebase, repository, or engineering arti
 
 ## Minimum-Source Threshold
 
-- `mission.yaml`'s `event_count("source_documented", 3)` guard is a **floor**, not a target — most missions need substantially more. Use the target set in `plan.md` (driven by scoping's success criteria) to know when gathering is actually done.
+- The runtime's `event_count("source_documented", 3)` guard is a **floor**, not a target — most missions need substantially more. Use the target set in `plan.md` (driven by scoping's success criteria) to know when gathering is actually done.
 - Document the source count as it grows; do not delay registration to the end of the phase.
 
 ## What This Phase Does NOT Cover
