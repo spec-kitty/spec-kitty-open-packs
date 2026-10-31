@@ -24,18 +24,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Procedures and toolguide guides in `built-in`, `internal` and `qa` now use the charter's
   sanitized shapes** (#91, spec-kitty/spec-kitty-charter#194). Procedures changed `name` to
   `title`, `purpose` to `description` and `actor` to `role`; toolguide guides were renamed to
-  `<id>.guide.md` with fixed sections. Core up to 4.0.0rc8, and the CI pin, still requires the
-  old fields and rejects the 39 migrated procedures as `schema_invalid`. A consumer on a released
-  core who pins a commit after this one loses those procedures. CI validation and releases stay
-  red until core reads the new shape.
+  `<id>.guide.md` with fixed sections. Core up to 4.0.0rc8 still requires the old fields and
+  rejects the 39 migrated procedures as `schema_invalid`. A consumer on a released core who pins
+  a commit after this one loses those procedures. CI no longer depends on core, so it stays green
+  (see Changed).
 
 ### ✨ Added
 
 - **A `qa` preset activates the qa mission type and its five agent profiles** (#97). A mission
   type names roles, not profiles (charter ADR-0032), so `packs/qa/presets/qa.yaml` is how a
   project puts the QA profiles in force. It is the first preset in the charter's sanitized
-  preset shape (ADR-0042: `schema_version`, `id`, item objects). Core up to 4.0.0rc8 does not
-  read that shape and reports it as `preset_format`.
+  preset shape (ADR-0042: `schema_version`, `id`, item objects). On core up to 4.0.0rc8, which
+  reads only the old shape, `spec-kitty charter pack list` and
+  `spec-kitty charter activate --pack qa` fail with `PRESET_INVALID` for any project that
+  registers the qa pack. Those projects need a core that reads the sanitized shape, or must not
+  register qa.
 - **Mission steps declare their preconditions** (#99). Where a step needs an earlier step's
   artifact, it lists it under `expected_input_artifacts`, reusing the producer's key: for
   example `plan` needs `spec.md` and `tasks` needs `spec.md` and `plan.md`. An input blocks only
@@ -162,6 +165,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
+
+- **Packs are validated against the charter's schemas, not the core CLI** (ruling on #102). CI
+  now checks every pack file, `packs/built-in` included, against the JSON Schemas in
+  `spec-kitty-charter` (`contracts/packs/`), pinned by commit in
+  `scripts/ci/validate_pack_schemas.py`. It no longer installs core or runs
+  `charter pack validate`, `charter org validate` or `doctor charter-packs`, so compatibility
+  with core's own validator is not a requirement. The pin is a commit of the open charter
+  mission-type branch (PR #275); it moves to a `main` commit once that merges. The built-in and
+  event-driven presets and the built-in pack manifest moved to the sanitized shapes to pass. The
+  schemas cannot see duplicate ids across packs or an edge to a missing node, so those two
+  checks are gone with core's `doctor`.
 
 - **Step descriptions and titles reviewed after the mission-type consolidation** (#96). The
   software-dev `charter`, `tasks-outline`, `tasks-packages` and `tasks-finalize` steps get a
