@@ -2,7 +2,7 @@
 title: Charter artefacts
 description: "The structure of every charter artefact kind a Charter Pack can carry: directory, file naming and key fields."
 doc_status: draft
-updated: '2026-10-18'
+updated: '2026-10-31'
 related:
 - contracts
 - guides/author-a-charter-pack
@@ -33,8 +33,10 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 | Skill | `skills/` | `<id>.skill.yaml` + body | A parameterised entry point rendered for agent tools. |
 | Anti-pattern | inside other artefacts / the DRG | — | A named failure mode; not a standalone file. |
 
-Packs may also carry `missions/` and `mission_types/` (mission definitions and their action
-indices) and `presets/` (see [Contracts](../contracts/index.md)).
+Packs may also carry `missions/` and `presets/` (see [Contracts](../contracts/index.md)). A
+mission type lives in `missions/<type>/<type>.mission-type.yaml`, which holds its steps in run
+order. Each step's prompt and guidelines sit next to that file, in `steps/<step>.prompt.md` and
+`steps/<step>.guidelines.md`. Content templates sit in `templates/`.
 
 ## Directive
 

@@ -3,19 +3,20 @@
 Mission type for structured research workflows that produce findings, evidence, and
 synthesized knowledge artifacts.
 
-## State Machine
+## Step order
 
 ```
-scoping → methodology → gathering → synthesis → output → done
+scoping → methodology → gathering → synthesis → output → accept
 ```
 
-The gathering → synthesis transition is guarded by
-`event_count("source_documented", 3)`, requiring at least 3 documented sources
-before synthesis can begin.
+The Spec Kitty runtime guards the gathering → synthesis transition with
+`event_count("source_documented", 3)`, so synthesis needs at least 3 documented
+sources. The guard is runtime behaviour, not a field of the mission type.
 
 ## Contents
 
-- `mission.yaml` — State machine with evidence-count guards
-- `command-templates/` — Prompt files for research workflow steps
+- `research.mission-type.yaml` — The mission type: its steps in run order, the on-demand
+  `retrospect` step, and each step's expected artifacts and references, and its role where set
+- `steps/` — The step prompts (`<step>.prompt.md`) and guidelines (`<step>.guidelines.md`)
 - `templates/` — Content scaffolds (spec, plan, tasks, data-model, task-prompt)
 - `templates/research/` — Research-specific artifacts (evidence-log.csv, source-register.csv)

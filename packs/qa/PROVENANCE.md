@@ -28,9 +28,13 @@ them. Read them there for the reasoning behind each artifact.
 | Internal finding ids (`SK-NNN`) replaced by plain descriptions. | They point at a ledger outside this repository. |
 | Not ported: `scripts/`, `kitty-specs/`, `_rnd/`, `kitty-ops/`, `.kittify/`, `docs/install/`, `CONVENTIONS.md`. | History and tooling pinned to older Spec Kitty builds; `pack_ci.py` imports APIs that no longer exist (`DoctrineService`, `save_pack_registry`). This repository's `scripts/ci/validate-packs.sh` replaces its validation role. |
 
-`mission-steps/` stays although its `step.yaml` files name a `prompt.md` that is not shipped: the
-runtime builds the `qa` action sequence from those files (without them, mission creation fails
-with "empty action sequence"), and the step prompts come from `missions/qa/command-templates/`.
+At port time the step prompts were `missions/qa/command-templates/<step>.md`, and the runtime built
+the `qa` action sequence from `mission-steps/`. Since spec-kitty-open-packs#95 (charter ADR-0044)
+the `qa` mission type is one file, `missions/qa/qa.mission-type.yaml`. It holds the seven steps in
+run order, each with its role and, from `specify` on, its expected output artifacts. The step
+prompts are `missions/qa/steps/<step>.prompt.md`. The `blocking` flag of the retired
+`expected-artifacts.yaml` is now the `blocking` field of a step's expected output in that file.
+The port-time rows above and the checks below record the layout of that time.
 
 ## Verified at port time
 

@@ -8,7 +8,7 @@ exact and restoring full sentences at a cliff edge.
 > instrument for the pack's purpose (see "Which path for a token A/B?" below). The `cave-dev`
 > mission type **re-states the built-in `software-dev` step contract as prose** and overrides one
 > thing only — the agent's output prose, which it compresses to the caveman voice. Its eight
-> command templates follow the same structured shape the canonical `qa` open pack uses (role +
+> step prompts follow the same structured shape the canonical `qa` open pack uses (role +
 > software-dev mapping, bound built-in profile, directive & styleguide citation, artifact/template
 > binding, and the per-step voice specialization). cave-dev deliberately ships no templates and no
 > personas of its own: the voice applies to prose, not to document structure, and not to the
