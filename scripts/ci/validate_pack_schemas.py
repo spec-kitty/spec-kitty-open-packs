@@ -629,6 +629,15 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             report.violations.append(f"{relative}: {rule.schema} schema at {where}: {_short(error.message)}")
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
+        # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
+        if rule.schema == "preset" and isinstance(document, dict) and "id" in document and document["id"] != path.stem:
+            report.violations.append(f"{relative}: preset id {document['id']!r} is not its file stem {path.stem!r}")
+    # Not every pack ships a descriptor (qa, cave-kitty, event-driven and the fixtures do not), but a
+    # pack with pack-level files (pack.md, a manifest) is a whole pack and needs one.
+    if not (pack_dir / "pack.yaml").is_file() and any((pack_dir / n).is_file() for n in ("pack.md", MANIFEST_NAME)):
+        report.violations.append(
+            f"{pack_dir.name}/pack.yaml: missing: a pack with a pack.md or a {MANIFEST_NAME} needs its descriptor"
+        )
     if manifest is not None:
         for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
             report.violations.append(
