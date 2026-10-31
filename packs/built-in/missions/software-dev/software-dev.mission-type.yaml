@@ -104,6 +104,15 @@ steps:
   - artifact_key: output.plan.main
     path_pattern: plan.md
     blocking: true
+  expected_output_artifacts:
+  - artifact_key: output.tasks.list
+    artifact_class: output
+    path_pattern: tasks.md
+    blocking: true
+  - artifact_key: output.tasks.per_wp
+    artifact_class: output
+    path_pattern: tasks/WP*.md
+    blocking: true
   references:
   - type: directive
     id: DIRECTIVE_003
