@@ -25,13 +25,13 @@ spec-kitty charter context --action output --json
 
 ## What This Step Produces
 
-`kitty-specs/<mission>/report.md`, plus the `publication_approved` gate event. `output -> done` requires the runtime guard `gate_passed("publication_approved")` — a **review event**, not a rendering step. The run engine records that event only after the operator has verified the readiness checks below; writing `report.md` alone does not advance the mission.
+`kitty-specs/<mission>/report.md`, plus the `publication_approved` gate event. `output -> accept` requires the runtime guard `gate_passed("publication_approved")` — a **review event**, not a rendering step. The run engine records that event only after the operator has verified the readiness checks below; writing `report.md` alone does not advance the mission.
 
 ## Publication Readiness
 
 - A reader who arrives at `report.md` without `research/source-register.csv` or `research/evidence-log.csv` must still be able to evaluate the rigor of the work — the report stands on its own.
 - The published artifact and the underlying evidence base must be **consistent**: every claim in the report traces to an evidence row, and every high-confidence evidence row that informs a finding is reflected in the report.
-- Treat `publication_approved` as a review gate you earn, not a checkbox you tick — it exists specifically so a rushed or unfaithful report cannot reach `done`.
+- Treat `publication_approved` as a review gate you earn, not a checkbox you tick — it exists specifically so a rushed or unfaithful report cannot reach `accept`.
 
 ## Citation Completeness (research-citation-discipline)
 
@@ -69,7 +69,7 @@ If preparing the output reveals that synthesis is incomplete or unfaithful to th
 2. Draft `kitty-specs/<mission>/report.md`: verify the publication candidate matches `findings.md` and every cited source.
 3. Confirm every claim traces to a `research/source-register.csv` row and every source is cited (citation completeness).
 4. Assess clarity, methodology disclosure, and risk of misinterpretation for peer review.
-5. Once the readiness checks above pass, record the `publication_approved` gate event through your harness's review mechanism — this is what unblocks `output -> done`, not the file write alone.
+5. Once the readiness checks above pass, record the `publication_approved` gate event through your harness's review mechanism — this is what unblocks `output -> accept`, not the file write alone.
 6. Commit `report.md` with co-author attribution per the `029-agent-commit-signing-policy` / `033-targeted-staging-policy` directives.
 
 ## Quality Gates

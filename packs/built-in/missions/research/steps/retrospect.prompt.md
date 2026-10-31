@@ -1,7 +1,7 @@
 ---
 description: Facilitate a structured retrospective of a finished research mission and record it as retrospective.yaml
 ---
-# /spec-kitty.retrospect - Mission Retrospective
+# Mission Retrospective — Record What Helped and What Did Not
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/retrospective.yaml`). Never refer to a folder by name alone.
 
