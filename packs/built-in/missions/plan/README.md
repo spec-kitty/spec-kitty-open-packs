@@ -3,13 +3,13 @@
 Mission type for standalone planning workflows that produce structured plans without
 necessarily proceeding to implementation.
 
-## Runtime DAG (v1.0.0)
+## Step order
 
-4 sequential steps: specify → research → plan → review. The planner profile handles
-the plan step; the reviewer profile handles review.
+4 sequential steps: specify → research → plan → review.
 
 ## Contents
 
-- `mission.yaml` — Mission identity and its step list
-- `mission-runtime.yaml` — Runtime DAG with step ordering
-- `command-templates/` — Prompt files for plan, research, review, specify
+- `plan.mission-type.yaml` — The mission type: its steps in run order, with each step's
+  expected artifacts and references
+- `steps/` — The step prompts for specify, research, plan and review (`<step>.prompt.md`)
+- `templates/` — Skeletons for the spec and the plan

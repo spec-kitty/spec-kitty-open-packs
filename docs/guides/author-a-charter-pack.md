@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets and an org-charter.yaml.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-10-31'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -36,7 +36,7 @@ my-pack/
 ├── glossary_packs/             # *.glossary-pack.yaml — terminology
 ├── assets/                     # *.asset.yaml sidecars plus the files they describe
 ├── skills/                     # *.skill.yaml — agent skills, installed under skill_namespace
-├── mission_types/              # <type>/governance-profile.yaml — custom mission types
+├── missions/                   # <type>/<type>.mission-type.yaml plus steps/ — custom mission types
 ├── presets/                    # <name>.yaml — activation presets
 ├── drg/fragment.yaml           # additive DRG fragment (the only DRG file an org pack may have)
 └── org-charter.yaml            # optional: policy, required artifacts, interview defaults

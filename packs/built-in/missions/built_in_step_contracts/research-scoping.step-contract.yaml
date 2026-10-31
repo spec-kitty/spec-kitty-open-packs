@@ -2,8 +2,8 @@
 # Required top-level fields: schema_version, id, action, mission, steps[]
 # Each step: id, description; optional command, delegates_to{kind, candidates[]},
 # guidance, inputs[]. No expected_artifacts field, no doctrine-reference field.
-# Artifact gates live in mission.yaml transitions (artifact_exists("spec.md")),
-# not in the step contract.
+# Artifact gates are runtime guards (artifact_exists("spec.md")) and the step's
+# expected output artifacts in the mission-type file, not the step contract.
 schema_version: "1.0"
 id: research-scoping
 action: scoping

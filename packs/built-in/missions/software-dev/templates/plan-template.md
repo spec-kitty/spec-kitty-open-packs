@@ -3,7 +3,7 @@
 **Branch**: `[###-mission-name]` | **Date**: [DATE] | **Spec**: [link]
 **Input**: Mission specification from `kitty-specs/[mission-slug]/spec.md`
 
-**Note**: This template is filled in by the `/spec-kitty.plan` command. See `packs/built-in/missions/mission-steps/software-dev/plan/prompt.md` for the execution workflow.
+**Note**: This template is filled in by the `/spec-kitty.plan` command. See `packs/built-in/missions/software-dev/steps/plan.prompt.md` for the execution workflow.
 
 The planner will not begin until all planning questions have been answered—capture those answers in this document before progressing to later phases.
 

@@ -95,9 +95,9 @@ in this mission's own `data-model.md`.
 ## Known limitations
 
 No runtime hook compels running this ingester or blocks on a `blocked`/`error` exit today:
-`GateBinding.handler_kind: "asset"` remains inert pending upstream issue #2599 (open), and
-`expected-artifacts.yaml`'s `blocking:` flag is likewise not enforced by `accept` — the same gap
-this pack's own `qa-carrier-lint` toolguide already discloses for its sibling validator applies
-here too. This ingester's output is mechanically checkable — a real exit code, a real
+`GateBinding.handler_kind: "asset"` remains inert pending upstream issue #2599 (open), and the
+`blocking` field of a step's expected output (in `qa.mission-type.yaml`) is likewise not enforced
+by `accept` — the same gap this pack's own `qa-carrier-lint` toolguide already discloses for its
+sibling validator applies here too. This ingester's output is mechanically checkable — a real exit code, a real
 `qa-traceability.yaml` on disk — but it is agent-invoked, never machine-enforced, until both of
 those conditions close.
