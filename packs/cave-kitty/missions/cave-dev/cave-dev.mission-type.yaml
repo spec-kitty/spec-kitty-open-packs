@@ -28,6 +28,10 @@ steps:
   description: Produce the implementation plan; decisions stated outcome-first.
   role: planner
   prompt_path: steps/plan.prompt.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.cave-dev
+    path_pattern: spec.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: workflow.plan.cave-dev
     artifact_class: workflow
@@ -38,6 +42,13 @@ steps:
   description: Decompose into work packages.
   role: planner
   prompt_path: steps/tasks.prompt.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.cave-dev
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: workflow.plan.cave-dev
+    path_pattern: plan.md
+    blocking: true
   expected_output_artifacts:
   - artifact_key: workflow.tasks.cave-dev
     artifact_class: workflow
@@ -48,18 +59,40 @@ steps:
   description: Cross-artifact consistency and readiness check before implement; verdict outcome-first, references exact.
   role: reviewer
   prompt_path: steps/analyze.prompt.md
+  expected_input_artifacts:
+  - artifact_key: input.spec.cave-dev
+    path_pattern: spec.md
+    blocking: true
+  - artifact_key: workflow.plan.cave-dev
+    path_pattern: plan.md
+    blocking: true
+  - artifact_key: workflow.tasks.cave-dev
+    path_pattern: tasks.md
+    blocking: true
 - id: implement
   title: Implement (caveman)
   description: Build the work package; progress replies terse, code and commands exact.
   role: implementer
   prompt_path: steps/implement.prompt.md
+  expected_input_artifacts:
+  - artifact_key: workflow.tasks.cave-dev
+    path_pattern: tasks.md
+    blocking: true
 - id: review
   title: Review (caveman)
   description: Review the work; findings outcome-first, evidence exact, risks in full sentences.
   role: reviewer
   prompt_path: steps/review.prompt.md
+  expected_input_artifacts:
+  - artifact_key: workflow.tasks.cave-dev
+    path_pattern: tasks.md
+    blocking: true
 - id: accept
   title: Accept (caveman)
   description: Confirm the result against the spec and record the decision.
   role: reviewer
   prompt_path: steps/accept.prompt.md
+  expected_input_artifacts:
+  - artifact_key: workflow.tasks.cave-dev
+    path_pattern: tasks.md
+    blocking: true

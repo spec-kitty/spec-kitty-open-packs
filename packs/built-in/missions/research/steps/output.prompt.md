@@ -25,7 +25,7 @@ spec-kitty charter context --action output --json
 
 ## What This Step Produces
 
-`kitty-specs/<mission>/report.md`, plus the `publication_approved` gate event. `output -> done` (`mission.yaml`) requires `gate_passed("publication_approved")` — a **review event**, not a rendering step. The run engine records that event only after the operator has verified the readiness checks below; writing `report.md` alone does not advance the mission.
+`kitty-specs/<mission>/report.md`, plus the `publication_approved` gate event. `output -> done` requires the runtime guard `gate_passed("publication_approved")` — a **review event**, not a rendering step. The run engine records that event only after the operator has verified the readiness checks below; writing `report.md` alone does not advance the mission.
 
 ## Publication Readiness
 

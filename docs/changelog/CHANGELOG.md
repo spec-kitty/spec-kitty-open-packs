@@ -31,6 +31,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **A `qa` preset activates the qa mission type and its five agent profiles** (#97). A mission
+  type names roles, not profiles (charter ADR-0032), so `packs/qa/presets/qa.yaml` is how a
+  project puts the QA profiles in force. It is the first preset in the charter's sanitized
+  preset shape (ADR-0042: `schema_version`, `id`, item objects). Core up to 4.0.0rc8 does not
+  read that shape and reports it as `preset_format`.
+- **Mission steps declare their preconditions** (#99). Where a step needs an earlier step's
+  artifact, it lists it under `expected_input_artifacts`, reusing the producer's key: for
+  example `plan` needs `spec.md` and `tasks` needs `spec.md` and `plan.md`. An input blocks only
+  when its producer marks the output blocking, so qa `review`'s `defect-log.md` does not.
+- **Retrospect and research accept prompts, and a software-dev `retrospect` step** (#98). The
+  documentation, research and software-dev `retrospect` on-demand steps get a prompt that drives
+  `spec-kitty retrospect create`, and research `accept` gets its prompt. The software-dev step
+  carries the guidance of the retired `actions/retrospect/index.yaml`.
+
 - **A vocabulary guard keeps retired names out of every pack** (spec-kitty/spec-kitty#6553).
   Core checks pack content for retired doctrine ids, the renamed `merge` command and the retired
   governing glossary surface, but only over the synced built-in and internal trees and only
@@ -148,6 +162,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
+
+- **Step descriptions and titles reviewed after the mission-type consolidation** (#96). The
+  software-dev `charter`, `tasks-outline`, `tasks-packages` and `tasks-finalize` steps get a
+  one-line description of their own; the prompt frontmatter keeps the detailed one. Three titles
+  return to their former display names: plan `Specification` and `Planning`, software-dev
+  `Task Breakdown`. software-dev `implement` and `review` now name their roles.
+- **Step prompts no longer name the retired mission files** (refs #100). The research,
+  software-dev, cave-dev and qa prompts pointed at `mission.yaml`, `mission-runtime.yaml`,
+  `expected-artifacts.yaml` or `mission-steps/`.
 
 - **Red-main discipline is a directive, not a procedure** (#74,
   [spec-kitty-charter#199](https://github.com/spec-kitty/spec-kitty-charter/pull/199)). The
