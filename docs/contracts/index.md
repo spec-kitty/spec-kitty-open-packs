@@ -53,9 +53,18 @@ pack_level: built-in
 
 ## `pack-manifest.yaml` — generated inventory
 
-Machine-written by the charter tooling: a `constituents` list of `{id, kind, path,
-content_hash, provenance_path}`. Regenerate with `spec-kitty charter pack regenerate-graph`
-after changing a pack; never edit it by hand.
+Machine-written inventory of the pack: `schema_version`, a `manifest_hash`, a `constituents`
+list of `{kind, id, path, content_hash}` and, when the pack ships presets, a `presets` list of
+`{id, path, content_hash}`. Both hashes are derived: `content_hash` is the SHA-256 of the file's
+bytes with CRLF and lone CR read as LF, and `manifest_hash` is the SHA-256 of the manifest's
+RFC 8785 canonical JSON without `manifest_hash`. The pack gate fails on a stale hash or a listed
+file that is missing. After changing a listed file, restamp the hashes (membership is kept) with
+
+```bash
+python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest packs/built-in
+```
+
+Never edit the hashes by hand.
 
 ## `org-charter.yaml` — org policy
 
