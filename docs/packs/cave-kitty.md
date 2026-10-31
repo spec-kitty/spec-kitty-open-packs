@@ -77,8 +77,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
 
 - Errors: 0
-
-Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.

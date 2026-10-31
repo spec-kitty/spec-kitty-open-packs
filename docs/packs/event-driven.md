@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/event-driven`
-- **Content checksum (sha256):** `49e99fe158d6070698aeaef8ddddc521a56b74fab0f701764cbed1cc4d67c6cf`
+- **Content checksum (sha256):** `26862191a25d8930019250eb56b16f5e10fe8b8540c4a11bd965a4ab96060c50`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -110,8 +110,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **passing (`ok: true`)**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
 
 - Errors: 0
-
-Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.

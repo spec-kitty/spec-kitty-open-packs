@@ -20,7 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `a38458b5a63e2d0b20b5325c6cc22a8cfd9431f41b3457c33005feb9458baa0e`
+- **Content checksum (sha256):** `a11908d89ee8238b315f2d9424437510d77140cedbd56d3f4a9e2a47e8334a8b`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -190,17 +190,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
 
-- Errors: 6
-
-### Errors
-
-- {'artifact_id': 'qa', 'artifact_type': 'preset', 'category': 'preset_format', 'file': 'packs/qa/presets/qa.yaml', 'message': 'malformed preset qa.yaml: activated_mission_types: unknown key(s): activated_mission_types, id, schema_version', 'severity': 'error'}
-- {'artifact_id': 'qa-coverage-gap-analysis', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-coverage-gap-analysis.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-defect-triage-ritual', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-defect-triage-ritual.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-description-to-acceptance-ci', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-description-to-acceptance-ci.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-go-no-go-readiness-review', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-go-no-go-readiness-review.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'qa-test-plan-review-workshop', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/qa/procedures/qa-test-plan-review-workshop.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-
-Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
+- Errors: 0

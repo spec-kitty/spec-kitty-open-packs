@@ -164,23 +164,6 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 
 ## Validation
 
-Reported by `spec-kitty charter pack validate --json`: **failing (`ok: false`)**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
 
-- Errors: 12
-
-### Errors
-
-- {'artifact_id': 'charter-offering-scenario-extraction', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/charter-offering-scenario-extraction.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'cloud-session-dispatch', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/cloud-session-dispatch.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'executive-debrief-generation', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/executive-debrief-generation.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'issue-to-mission-delivery', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/issue-to-mission-delivery.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'issue-triage-pass', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/issue-triage-pass.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'landing-contributor-prs', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/landing-contributor-prs.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'memory-curation-and-escalation', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/memory-curation-and-escalation.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'project-evolution-postmortem', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/project-evolution-postmortem.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'semi-auto-delivery', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/semi-auto-delivery.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'spec-kitty-arch-gate-adjudication', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/spec-kitty-arch-gate-adjudication.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'test-suite-quality-assessment', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/test-suite-quality-assessment.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-- {'artifact_id': 'tracker-organisation-workflow', 'artifact_type': 'procedures', 'category': 'schema_invalid', 'file': 'packs/internal/procedures/tracker-organisation-workflow.procedure.yaml', 'message': 'schema validation failed: Field required', 'severity': 'error'}
-
-Advisories are non-blocking and vary by validator version; run `spec-kitty charter pack validate <dir> --json` for the current list.
+- Errors: 0
