@@ -583,9 +583,16 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
     manifest: dict[str, Any] | None = None
-    for path in sorted(p for p in pack_dir.rglob("*") if p.is_file() and not p.is_symlink()):
+    for path in sorted(pack_dir.rglob("*")):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
+        if path.is_symlink():  # a file or a directory; not followed, so a link cannot smuggle files in or out
+            report.violations.append(f"{relative}: symlink: a pack holds regular files and directories only")
+            continue
+        if not path.is_file():
+            if not path.is_dir():
+                report.violations.append(f"{relative}: not a regular file or directory")
+            continue
         kind, rule = classify(contract, relative)
         if kind == "retired" and rule is not None:
             report.violations.append(f"{relative}: retired layout: {rule.reason}")

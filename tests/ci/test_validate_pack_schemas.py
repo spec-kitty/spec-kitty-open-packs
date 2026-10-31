@@ -170,6 +170,21 @@ class ValidatorExitCodes(unittest.TestCase):
             for name in allowed:
                 self.assertNotIn(f"pack/{name}:", output)
 
+    def test_a_symlinked_file_or_directory_in_a_pack_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"tactics/real.tactic.yaml": "id: r\n"})
+            try:
+                (pack / "tactics" / "link.tactic.yaml").symlink_to("real.tactic.yaml")
+                (pack / "linked-dir").symlink_to("tactics", target_is_directory=True)
+            except OSError as exc:  # pragma: no cover - a platform without symlinks
+                self.skipTest(f"cannot create symlinks: {exc!r}")
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack/tactics/link.tactic.yaml: symlink", output)
+            self.assertIn("pack/linked-dir: symlink", output)
+
 
 if __name__ == "__main__":
     unittest.main()
