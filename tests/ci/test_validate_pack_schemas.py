@@ -43,6 +43,7 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
     "*/presets/*.yaml": "preset",
     "*/pack-manifest.yaml": "pack-manifest",
     "**/*.tactic.yaml": "tactic",
+    "*/pack.md": "pack-doc",  # the one markdown rule
 }
 
 
@@ -56,9 +57,12 @@ class ValidatorExitCodes(unittest.TestCase):
     def write_contract(self, root: Path, extra: str = "") -> None:
         """A contract holding RULES (and `extra`, appended verbatim) with the schemas above."""
         (root / "contract" / "schemas").mkdir(parents=True)
-        rules = "".join(f'  - match: "{glob}"\n    schema: {name}\n' for glob, name in RULES.items())
+        rules = "".join(
+            f'  - match: "{glob}"\n    schema: {name}\n' + ("    content_form: markdown\n" if name == "pack-doc" else "")
+            for glob, name in RULES.items()
+        )
         (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}", encoding="utf-8")
-        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA}
+        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA}
         for name, schema in schemas.items():
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
 
@@ -125,6 +129,15 @@ class ValidatorExitCodes(unittest.TestCase):
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("presets{presets/p.yaml}.content_hash", output)
+
+    def test_a_carriage_return_in_markdown_is_refused_not_read_as_a_newline(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"pack.md": "# Title\r\n\r\nText.\r\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack.md: not readable as markdown: line 1: a carriage return is not admitted", output)
 
 
 if __name__ == "__main__":
