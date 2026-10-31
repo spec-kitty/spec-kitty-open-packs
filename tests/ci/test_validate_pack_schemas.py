@@ -31,6 +31,20 @@ PRESET_SCHEMA = {
     },
 }
 
+# The pack-level rules a small pack needs, with permissive schemas except for the manifest, whose
+# shape the verification relies on (the charter's own schema is closed the same way).
+MANIFEST_SCHEMA = {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["schema_version", "manifest_hash", "constituents"],
+}
+OPEN_SCHEMA = {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object"}
+RULES = {  # file-kinds `files` rules, glob -> schema name
+    "*/presets/*.yaml": "preset",
+    "*/pack-manifest.yaml": "pack-manifest",
+    "**/*.tactic.yaml": "tactic",
+}
+
 
 class ValidatorExitCodes(unittest.TestCase):
     def run_validator(self, root: Path, *args: str) -> tuple[int, str]:
@@ -38,6 +52,24 @@ class ValidatorExitCodes(unittest.TestCase):
         with contextlib.redirect_stdout(out):
             code = validator.main([*args, "--contract", str(root / "contract")])
         return code, out.getvalue()
+
+    def write_contract(self, root: Path, extra: str = "") -> None:
+        """A contract holding RULES (and `extra`, appended verbatim) with the schemas above."""
+        (root / "contract" / "schemas").mkdir(parents=True)
+        rules = "".join(f'  - match: "{glob}"\n    schema: {name}\n' for glob, name in RULES.items())
+        (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}", encoding="utf-8")
+        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA}
+        for name, schema in schemas.items():
+            (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
+
+    def write_pack(self, root: Path, files: dict[str, str]) -> Path:
+        """A pack `root/pack` holding a tactic and `files` (relative path -> text, written verbatim)."""
+        pack = root / "pack"
+        for name, body in {"tactics/t.tactic.yaml": "id: t\n", **files}.items():
+            target = pack / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(body.encode("utf-8"))
+        return pack
 
     def test_valid_pack_passes_old_shape_fails_and_unmapped_known_kind_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -65,6 +97,34 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertIn("bad/presets/p.yaml: preset schema", output)
             self.assertEqual(self.run_validator(root, "--expect-invalid", str(good))[0], validator.EXIT_INVALID)
             self.assertEqual(self.run_validator(root, str(unmapped))[0], validator.EXIT_GATE)
+
+    def test_manifest_hashes_are_verified_and_the_regenerate_mode_restores_them(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            # Membership is authored; the hashes are what the regenerate mode derives.
+            zero = "0" * 64
+            manifest = (
+                "schema_version: '1.0'\n"
+                f"manifest_hash: {zero}\n"
+                "constituents:\n"
+                f"- {{kind: tactic, id: t, path: tactics/t.tactic.yaml, content_hash: {zero}}}\n"
+                "presets:\n"
+                f"- {{id: p, path: presets/p.yaml, content_hash: {zero}}}\n"
+            )
+            pack = self.write_pack(root, {"presets/p.yaml": "id: p\n", "pack-manifest.yaml": manifest})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("constituents{tactics/t.tactic.yaml}.content_hash", output)
+            self.assertIn("manifest_hash", output)
+
+            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack), str(pack))[0], validator.EXIT_OK)
+            self.assertEqual(self.run_validator(root, str(pack))[0], validator.EXIT_OK)
+
+            (pack / "presets" / "p.yaml").write_text("id: p\nextra: 1\n", encoding="utf-8")  # edited, manifest not
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("presets{presets/p.yaml}.content_hash", output)
 
 
 if __name__ == "__main__":

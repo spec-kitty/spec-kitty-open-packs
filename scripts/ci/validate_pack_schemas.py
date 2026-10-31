@@ -11,7 +11,8 @@ that model against the rule's structure schema.
 
 It fails closed. Exit status:
 
-* 0  every pack is valid and every ``--expect-invalid`` pack has schema violations;
+* 0  every pack is valid (its ``pack-manifest.yaml``, when it has one, carries the hashes of the
+     files it lists: ``--regenerate-manifest PACK`` restamps them) and every ``--expect-invalid`` pack has schema violations;
 * 1  a schema violation (or a retired-layout file) in a pack, or an ``--expect-invalid``
      pack that came out clean;
 * 2  the gate cannot judge: unloadable contract or schema, a file of a known kind with no
@@ -25,12 +26,14 @@ pinned charter commit below unless ``--contract DIR`` (a directory holding
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
 import sys
 import tempfile
 import urllib.request
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -56,6 +59,7 @@ KNOWN_KIND_TOKENS = frozenset(
 )  # fmt: skip
 
 EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
+REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest"
 
 
 class GateError(Exception):
@@ -203,6 +207,90 @@ _Loader.yaml_implicit_resolvers = {
 
 def load_yaml(text: str) -> Any:
     return yaml.load(text, Loader=_Loader)  # noqa: S506 - SafeLoader subclass
+
+
+# --------------------------------------------------------------------------- manifest
+
+MANIFEST_NAME = "pack-manifest.yaml"
+#: The ``pack-manifest.yaml`` entry lists that carry a ``content_hash``.
+MANIFEST_LISTS = ("constituents", "presets")
+
+
+def content_hash(data: bytes) -> str:
+    """SHA-256 (lowercase hex) of a file's bytes after every CRLF, then every lone CR, becomes LF."""
+    return hashlib.sha256(data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")).hexdigest()
+
+
+def manifest_hash(manifest: dict[str, Any]) -> str:
+    """SHA-256 of the RFC 8785 canonical JSON of the manifest without ``manifest_hash``.
+
+    Narrow like the charter's recipe (PackManifests.canonicalJson): every value is a string, a list
+    or an object of the manifest's fixed keys, so no number output is needed, and the keys are
+    ASCII, so sorting them by code point equals sorting them by UTF-16 code unit. ``presets`` is
+    left out when the manifest lists none.
+    """
+    body: dict[str, Any] = {"schema_version": manifest["schema_version"]}
+    for name in MANIFEST_LISTS:
+        if name == "constituents" or manifest.get(name):
+            body[name] = [
+                {key: entry[key] for key in ("content_hash", "id", "kind", "path") if key in entry}
+                for entry in manifest.get(name, [])
+            ]
+    canonical = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def _bytes_reader(pack_dir: Path) -> Callable[[str], bytes | None]:
+    """The bytes of a pack-relative path; ``None`` for a missing file, a symlink or a path leaving the pack."""
+
+    def read(relative: str) -> bytes | None:
+        target = pack_dir / relative
+        try:
+            inside = target.resolve().is_relative_to(pack_dir.resolve())
+            return target.read_bytes() if inside and not target.is_symlink() and target.is_file() else None
+        except OSError:
+            return None
+
+    return read
+
+
+def stale_manifest_fields(manifest: dict[str, Any], read: Callable[[str], bytes | None]) -> list[str]:
+    """The derived fields of ``manifest`` that do not verify, as the charter names them (PackManifests.stale)."""
+    stale, missing = [], []
+    for name in MANIFEST_LISTS:
+        for entry in manifest.get(name) or []:
+            data = read(entry["path"])
+            if data is None:
+                missing.append(entry["path"])
+            elif entry["content_hash"] != content_hash(data):
+                stale.append(f"{name}{{{entry['path']}}}.content_hash")
+    if manifest["manifest_hash"] != manifest_hash(manifest):
+        stale.append("manifest_hash")
+    return [*stale, *(f"missing: {path}" for path in missing)]
+
+
+def regenerate_manifest(pack_dir: Path) -> list[str]:
+    """Restamp every derived field of ``pack_dir``/pack-manifest.yaml from the files; membership is kept.
+
+    Returns the listed paths that have no file (their entries keep the hash they had).
+    """
+    path = pack_dir / MANIFEST_NAME
+    try:
+        manifest = load_yaml(path.read_bytes().decode("utf-8"))
+        read = _bytes_reader(pack_dir)
+        missing = []
+        for name in MANIFEST_LISTS:
+            for entry in manifest.get(name) or []:
+                data = read(entry["path"])
+                if data is None:
+                    missing.append(entry["path"])
+                else:
+                    entry["content_hash"] = content_hash(data)
+        manifest["manifest_hash"] = manifest_hash(manifest)
+        path.write_text(yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
+    except (OSError, UnicodeDecodeError, yaml.YAMLError, KeyError, TypeError, AttributeError) as exc:
+        raise GateError(f"{path}: cannot regenerate the manifest: {exc!r}") from exc
+    return missing
 
 
 # --------------------------------------------------------------------------- Markdown model
@@ -409,6 +497,7 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     if not pack_dir.is_dir():
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
+    manifest: dict[str, Any] | None = None
     for path in sorted(p for p in pack_dir.rglob("*") if p.is_file() and not p.is_symlink()):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
@@ -435,9 +524,17 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         except (yaml.YAMLError, MarkdownRefused) as exc:
             report.violations.append(f"{relative}: not readable as {rule.content_form}: {_short(str(exc))}")
             continue
-        for error in sorted(validator.iter_errors(document), key=lambda e: (list(map(str, e.absolute_path)), e.message)):
+        errors = sorted(validator.iter_errors(document), key=lambda e: (list(map(str, e.absolute_path)), e.message))
+        for error in errors:
             where = "/" + "/".join(str(part) for part in error.absolute_path)
             report.violations.append(f"{relative}: {rule.schema} schema at {where}: {_short(error.message)}")
+        if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
+            manifest = document
+    if manifest is not None:
+        for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
+            report.violations.append(
+                f"{pack_dir.name}/{MANIFEST_NAME}: stale manifest: {stale}; run `{REGENERATE_COMMAND} {pack_dir}`"
+            )
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
     return report
@@ -451,11 +548,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("packs", nargs="*", type=Path, help="pack directories that must validate")
     parser.add_argument("--expect-invalid", action="append", default=[], type=Path, metavar="PACK",
                         help="a pack directory that must produce schema violations (non-vacuity)")
+    parser.add_argument("--regenerate-manifest", action="append", default=[], type=Path, metavar="PACK",
+                        help="restamp the content_hash and manifest_hash fields of PACK/pack-manifest.yaml "
+                             "(membership is kept), then validate as usual")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
-    if not args.packs and not args.expect_invalid:
+    if not args.packs and not args.expect_invalid and not args.regenerate_manifest:
         parser.error("give at least one pack directory")
     try:
+        for pack in args.regenerate_manifest:
+            for path in regenerate_manifest(pack):
+                print(f"::warning file={pack}::{path} is listed in {MANIFEST_NAME} but has no file")
+            print(f"regenerated: {pack / MANIFEST_NAME}")
+        if not args.packs and not args.expect_invalid:
+            return EXIT_OK
         contract = contract_for(args.contract)
         print(f"charter contract: {args.contract or os.environ.get('CHARTER_CONTRACT_DIR') or CHARTER_COMMIT}; "
               f"{len(contract.validators)} schemas loaded")
