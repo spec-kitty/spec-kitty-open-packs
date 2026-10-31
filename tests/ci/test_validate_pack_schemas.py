@@ -196,6 +196,17 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertIn("pack/pack.yaml: missing: a pack with a pack.md or a pack-manifest.yaml needs its descriptor", output)
             self.assertIn("pack/presets/p.yaml: preset id 'q' is not its file stem 'p'", output)
 
+    def test_markdown_blankness_and_line_separators_follow_the_java_codec(self) -> None:
+        # Java isBlank/strip do not count NBSP as whitespace and `.` stops at U+2028, so the charter
+        # reads these as a heading titled NBSP, a heading without a closing sequence, and a kept line.
+        model = validator.parse_markdown("# T\n\n## \u00a0\n\n## a\u2028 #\n\n\u00a0\n")
+        self.assertEqual(
+            model["sections"],
+            [{"title": "\u00a0", "content": ""}, {"title": "a\u2028 #", "content": "\u00a0"}],
+        )
+        with self.assertRaises(validator.MarkdownRefused):  # a plain space-only title is still empty
+            validator.parse_markdown("## \u2003\n")
+
 
 if __name__ == "__main__":
     unittest.main()

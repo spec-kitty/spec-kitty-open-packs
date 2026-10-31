@@ -32,6 +32,7 @@ import os
 import re
 import sys
 import tempfile
+import unicodedata
 import urllib.request
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -373,8 +374,31 @@ def regenerate_manifest(pack_dir: Path) -> list[str]:
 
 # --------------------------------------------------------------------------- Markdown model
 
-_SETEXT = re.compile(r"^ {0,3}(?:=+|-+)[ \t]*$")
-_CLOSING = re.compile(r"^(?:#+|.*[ \t]#+)$")
+# The scanner's patterns are matched whole (Java Matcher.matches). Java's `.` stops at \n, \r, U+0085,
+# U+2028 and U+2029, Python's only at \n, so the class spells Java's out.
+_SETEXT = re.compile(r" {0,3}(?:=+|-+)[ \t]*")
+_CLOSING = re.compile(r"(?:#+|[^\n\r\x85\u2028\u2029]*[ \t]#+)")
+_NOT_WHITESPACE = frozenset("\u00a0\u2007\u202f")  # no-break spaces: Zs, but not Java whitespace
+
+
+def _java_whitespace(char: str) -> bool:
+    """Java's Character.isWhitespace, which String.isBlank and strip use (not Python's str.isspace)."""
+    if char in "\t\n\x0b\x0c\r\x1c\x1d\x1e\x1f":
+        return True
+    return char not in _NOT_WHITESPACE and unicodedata.category(char) in {"Zs", "Zl", "Zp"}
+
+
+def _blank(text: str) -> bool:
+    return all(map(_java_whitespace, text))
+
+
+def _strip(text: str) -> str:
+    start, end = 0, len(text)
+    while start < end and _java_whitespace(text[start]):
+        start += 1
+    while end > start and _java_whitespace(text[end - 1]):
+        end -= 1
+    return text[start:end]
 
 
 class MarkdownRefused(Exception):
@@ -416,12 +440,12 @@ def _heading(text: str, number: int) -> tuple[int, str] | None:
     name = "an H1" if level == 1 else "an H2"
     if indent:
         raise MarkdownRefused(number, f"{name} indented by {indent} spaces is ambiguous; start it at column 0")
-    if not after.strip():
+    if _blank(after):
         raise MarkdownRefused(number, "an empty heading is ambiguous")
     if after[0] == "\t":
         raise MarkdownRefused(number, f"{name} separated from its text by a tab is ambiguous")
-    title = after.strip()
-    if _CLOSING.match(title):
+    title = _strip(after)
+    if _CLOSING.fullmatch(title):
         raise MarkdownRefused(number, f"{name} with a closing # sequence is ambiguous")
     return level, title
 
@@ -449,9 +473,9 @@ def _deeper_heading(text: str) -> bool:
 
 def _trimmed(lines: list[str]) -> str:
     start, end = 0, len(lines)
-    while start < end and not lines[start].strip():
+    while start < end and _blank(lines[start]):
         start += 1
-    while end > start and not lines[end - 1].strip():
+    while end > start and _blank(lines[end - 1]):
         end -= 1
     return "\n".join(lines[start:end])
 
@@ -476,7 +500,7 @@ def parse_markdown(text: str) -> dict[str, Any]:
             raise MarkdownRefused(1, "unterminated frontmatter: no closing --- line") from None
         raw = "\n".join(lines[1:end])
         try:
-            front = {} if not raw.strip() else load_yaml(raw + "\n")
+            front = {} if _blank(raw) else load_yaml(raw + "\n")
         except yaml.YAMLError as exc:
             raise MarkdownRefused(1, f"frontmatter is not valid YAML: {exc}") from exc
         if not isinstance(front, dict) or not all(isinstance(key, str) for key in front):
@@ -507,7 +531,7 @@ def parse_markdown(text: str) -> dict[str, Any]:
             any_block = True
             under_paragraph = False
             continue
-        if not line.strip():
+        if _blank(line):
             current.append(line)
             under_paragraph = False
             continue
@@ -527,7 +551,7 @@ def parse_markdown(text: str) -> dict[str, Any]:
                 bodies.append(current)
             any_block = True
             continue
-        if under_paragraph and _SETEXT.match(line):
+        if under_paragraph and _SETEXT.fullmatch(line):
             raise MarkdownRefused(number, "a setext heading underline is ambiguous; use an ATX heading or a blank line")
         current.append(line)
         any_block = True
