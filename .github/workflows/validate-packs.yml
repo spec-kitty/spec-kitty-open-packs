@@ -122,7 +122,7 @@ jobs:
             fi
             sleep 5
           done
-          if printf '%s\n' "$labels" | grep -Fxq 'pr:pause-ci'; then
+          if grep -Fxqi 'pr:pause-ci' <<< "$labels"; then
             echo "::error::CI is paused by the pr:pause-ci label; remove the label to run it. A paused pull request does not pass the gate."
             exit 1
           fi
