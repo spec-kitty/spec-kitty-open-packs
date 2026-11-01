@@ -1,9 +1,28 @@
 name: Validate packs
 
+# "Validate packs gate" is the one required check on main (docs/guides/contributing.md,
+# ADR 2026-11-01-1). It reports on every event below, so a pull request or a merge-queue entry never
+# waits for a check that does not start.
+#
+# Merge queue: the workflow also runs on `merge_group`, so the queue tests each pull request (or
+# group of them) on top of the main it will land on. Nothing here reads a pull-request-only payload
+# field without first checking that the event is a pull request.
+#
+# `pr:pause-ci`: a maintainer labels a parked pull request to stop its CI during a pile-up. Adding
+# the label cancels the running check. While it is on, validation is skipped and the gate FAILS, so
+# a paused pull request never reads as green. Removing it runs CI again. The label is read on pull
+# requests only: a queue entry, main and a release carry no labels, so they are never paused, and a
+# pull request already in the queue must be taken out of it to pause it. A change to any other label
+# re-runs validation in a concurrency group of its own, so it never cancels a real run.
+
 on:
   pull_request:
+    # The default three, plus the label events the pause guard needs.
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches: [main]
+  merge_group:
+    types: [checks_requested]
   workflow_dispatch:
   # release.yml runs the same gates before it publishes anything.
   workflow_call:
@@ -11,9 +30,26 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # Pull requests: one group per PR, and a newer run cancels the older one. Adding or removing
+  # pr:pause-ci joins that group, so pausing cancels the running check. Any other label's event gets
+  # a `label-` group, so it neither cancels a real run nor displaces one waiting.
+  # Every other run (a queue entry, a push to main, a release's call, a dispatch) has a group of its
+  # own (its run id): queue runs and main runs never cancel each other, and none waits behind another.
+  group: >-
+    validate-packs-${{ github.event_name == 'pull_request'
+    && format('{0}pr-{1}',
+    (github.event.action == 'labeled' || github.event.action == 'unlabeled')
+    && github.event.label.name != 'pr:pause-ci' && 'label-' || '',
+    github.event.pull_request.number)
+    || format('run-{0}', github.run_id) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate:
     name: Charter Pack validation
+    # Skipped on a paused pull request; the gate then fails.
+    if: ${{ !(github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'pr:pause-ci')) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -37,6 +73,11 @@ jobs:
         # glossary surface stay out of every pack. Core runs the same rules after a
         # pin bump (spec-kitty/spec-kitty#6553); this catches them first.
         run: python3 scripts/ci/check_vocabulary.py
+      - name: Generated pack pages are up to date
+        if: ${{ !cancelled() }}
+        # The merge queue tests pull requests together: two pack changes that each re-seed
+        # docs/packs/ can drift once combined. docs-site.yml runs the same check, path-filtered.
+        run: python3 scripts/docs/gen_pack_reference.py --check
       - name: Release tooling tests
         if: ${{ !cancelled() }}
         run: python3 -m unittest discover -s tests/release
@@ -54,10 +95,47 @@ jobs:
     needs: [validate]
     if: always()
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # The pause check reads the pull request's labels as they are now. release.yml, which calls
+      # this workflow, grants the same.
+      pull-requests: read
     steps:
+      - name: Not paused by pr:pause-ci
+        # Pull requests only. The labels are read as they are now, not from this run's payload: a run
+        # that started before the label was added (another label's run, or a re-run of an old run)
+        # must not post a green gate on a paused pull request.
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if labels="$(gh api --paginate "repos/$REPO/issues/$NUMBER/labels" --jq '.[].name')"; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "::error::cannot read the pull request's labels; failing closed"
+              exit 1
+            fi
+            sleep 5
+          done
+          if printf '%s\n' "$labels" | grep -Fxq 'pr:pause-ci'; then
+            echo "::error::CI is paused by the pr:pause-ci label; remove the label to run it. A paused pull request does not pass the gate."
+            exit 1
+          fi
       - name: Require the validation job to have passed
+        env:
+          EVENT: ${{ github.event_name }}
         run: |
           result='${{ needs.validate.result }}'
+          if [[ "$result" == "skipped" && "$EVENT" == "pull_request" ]]; then
+            # The payload said paused, but the label is gone now (the step above passed).
+            echo "::error::validation was skipped because this run started while pr:pause-ci was on; push, or re-run the newest run, for a verdict"
+            exit 1
+          fi
           if [[ "$result" != "success" ]]; then
             echo "::error::Charter Pack validation did not succeed (result: $result)"
             exit 1
