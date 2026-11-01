@@ -1,7 +1,7 @@
 """A small evaluator for GitHub Actions expressions, for property tests over the parsed workflows.
 
 It covers the subset the workflows here use: literals, context paths (with the `.*` object filter),
-`! == != && ||`, parentheses, and the functions `contains`, `startsWith`, `endsWith`, `format`,
+`! == != && ||`, parentheses, and the functions `contains`, `format`,
 `always`, `success`, `failure`, `cancelled`. Within that subset it follows GitHub's semantics:
 `&&`/`||` return an operand and short-circuit, names and string comparison ignore case, a missing
 property is null, mixed-type `==` compares as numbers, and an `if` without a status function implies
@@ -229,10 +229,6 @@ class _Parser:
             if isinstance(haystack, list):
                 return any(_equal(item, needle) for item in haystack)
             return _to_string(needle).lower() in _to_string(haystack).lower()
-        if fn == "startswith":
-            return _to_string(args[0]).lower().startswith(_to_string(args[1]).lower())
-        if fn == "endswith":
-            return _to_string(args[0]).lower().endswith(_to_string(args[1]).lower())
         if fn == "format":
             fmt, rest = _to_string(args[0]), args[1:]
             return re.sub(r"\{\{|\}\}|\{(\d+)\}",

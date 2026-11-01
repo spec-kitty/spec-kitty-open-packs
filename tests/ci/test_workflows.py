@@ -25,9 +25,9 @@ import gh_expr  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = ROOT / ".github" / "workflows"
 
-# The checks the operator requires on `main`, by workflow file and check (job) name. The operator
-# documentation in docs/guides/contributing.md names the same checks.
-REQUIRED_CHECKS = {"validate-packs.yml": "Validate packs gate"}
+# The check the operator requires on `main`, and the workflow that posts it. The operator
+# documentation in docs/guides/contributing.md names the same check.
+WORKFLOW = "validate-packs.yml"
 GATE = "Validate packs gate"
 
 PAUSE_LABEL = "pr:pause-ci"
@@ -40,12 +40,7 @@ def load(name: str) -> dict[str, Any]:
 
 def triggers(workflow: dict[str, Any]) -> dict[str, Any]:
     # YAML 1.1 reads the bare key `on` as the boolean true.
-    on = workflow.get("on", workflow.get(True))
-    if isinstance(on, str):
-        return {on: None}
-    if isinstance(on, list):
-        return {name: None for name in on}
-    return dict(on or {})
+    return dict(workflow.get("on", workflow.get(True)))
 
 
 def job_named(workflow: dict[str, Any], check: str) -> tuple[str, dict[str, Any]]:
@@ -133,15 +128,10 @@ NON_PR_EVENTS = {
 }
 
 
-def concurrency(workflow: dict[str, Any], github: dict[str, Any]) -> tuple[str, bool] | None:
-    block = workflow.get("concurrency")
-    if block is None:
-        return None
-    if isinstance(block, str):
-        return gh_expr.render(block, contexts(github)), False
+def concurrency(workflow: dict[str, Any], github: dict[str, Any]) -> tuple[str, bool]:
+    block = workflow["concurrency"]
     group = gh_expr.render(block["group"], contexts(github))
-    cancel = gh_expr.render(block.get("cancel-in-progress", False), contexts(github))
-    return str(group), gh_expr._truthy(cancel)
+    return str(group), gh_expr._truthy(gh_expr.render(block["cancel-in-progress"], contexts(github)))
 
 
 def reachable_expressions(workflow: dict[str, Any], github: dict[str, Any]) -> list[str]:
@@ -230,69 +220,55 @@ def simulate(workflow: dict[str, Any], github: dict[str, Any]) -> dict[str, str]
 
 
 class RequiredChecksAreMergeQueueReady(unittest.TestCase):
-    def test_required_check_workflows_run_on_every_merge_queue_entry(self) -> None:
-        for name in REQUIRED_CHECKS:
-            on = triggers(load(name))
-            with self.subTest(workflow=name):
-                self.assertIn("merge_group", on, "the queue would wait for a check that never starts")
-                types = (on["merge_group"] or {}).get("types", ["checks_requested"])
-                self.assertIn("checks_requested", types)
+    def setUp(self) -> None:
+        self.workflow = load(WORKFLOW)
 
-    def test_required_check_workflows_are_not_filtered_away(self) -> None:
+    def test_the_workflow_runs_on_every_merge_queue_entry(self) -> None:
+        on = triggers(self.workflow)
+        self.assertIn("merge_group", on, "the queue would wait for a check that never starts")
+        self.assertIn("checks_requested", (on["merge_group"] or {}).get("types", ["checks_requested"]))
+
+    def test_the_workflow_is_not_filtered_away(self) -> None:
         # A filtered trigger never posts its check on a change outside the filter, and a required
         # check that never reports blocks the PR (or evicts it from the queue at the timeout).
-        for name in REQUIRED_CHECKS:
-            on = triggers(load(name))
-            for event in ("pull_request", "merge_group"):
-                config = on.get(event) or {}
-                for key in ("paths", "paths-ignore", "branches", "branches-ignore"):
-                    with self.subTest(workflow=name, event=event, filter=key):
-                        self.assertNotIn(key, config)
-
-    def test_the_required_check_reports_on_every_event(self) -> None:
-        for name, check in REQUIRED_CHECKS.items():
-            workflow = load(name)
-            job_id, _ = job_named(workflow, check)
-            for label, github in {**RUNNING_EVENTS, **PAUSED_EVENTS}.items():
-                with self.subTest(workflow=name, event=label):
-                    self.assertNotEqual(simulate(workflow, github)[job_id], "skipped")
+        on = triggers(self.workflow)
+        for event in ("pull_request", "merge_group"):
+            config = on.get(event) or {}
+            for key in ("paths", "paths-ignore", "branches", "branches-ignore"):
+                with self.subTest(event=event, filter=key):
+                    self.assertNotIn(key, config)
 
     def test_no_expression_reads_a_pull_request_field_on_a_queue_or_main_run(self) -> None:
         # Strict mode fails any read of a payload field the event does not carry, unless a guard
         # such as `github.event_name == 'pull_request' &&` short-circuits it first. A skipped job or
         # step is not evaluated past its `if`, as on GitHub.
-        for name in REQUIRED_CHECKS:
-            workflow = load(name)
-            for label, github in NON_PR_EVENTS.items():
-                for expression in reachable_expressions(workflow, github):
-                    with self.subTest(workflow=name, event=label, expression=expression.strip()):
-                        gh_expr.evaluate(expression, contexts(github, {j: "success" for j in workflow["jobs"]}),
-                                         strict_event=True)
+        for label, github in NON_PR_EVENTS.items():
+            for expression in reachable_expressions(self.workflow, github):
+                with self.subTest(event=label, expression=expression.strip()):
+                    gh_expr.evaluate(expression, contexts(github, {j: "success" for j in self.workflow["jobs"]}),
+                                     strict_event=True)
 
-    def test_validation_passes_through_the_queue_when_it_passes(self) -> None:
-        for name, check in REQUIRED_CHECKS.items():
-            workflow = load(name)
-            job_id, _ = job_named(workflow, check)
-            for label, github in RUNNING_EVENTS.items():
-                with self.subTest(workflow=name, event=label):
-                    self.assertEqual(simulate(workflow, github)[job_id], "success")
+    def test_every_job_passes_when_validation_passes_on_an_unpaused_event(self) -> None:
+        # Includes the events that carry no labels (a queue entry, main, a release): none reads as paused.
+        for label, github in RUNNING_EVENTS.items():
+            with self.subTest(event=label):
+                results = simulate(self.workflow, github)
+                self.assertTrue(all(result == "success" for result in results.values()), results)
 
     def test_the_required_check_covers_the_generated_pack_pages(self) -> None:
         # The queue tests PRs combined; two pack PRs that each re-seed docs/packs/ can drift together.
         # The drift check must run in a job the required check depends on, on every unpaused event.
-        for name, check in REQUIRED_CHECKS.items():
-            workflow = load(name)
-            _, gate = job_named(workflow, check)
-            needs = gate.get("needs", [])
-            needs = [needs] if isinstance(needs, str) else needs
-            for label, github in RUNNING_EVENTS.items():
-                with self.subTest(workflow=name, event=label):
-                    ran = [step for job_id in needs
-                           if gh_expr.evaluate_if(workflow["jobs"][job_id].get("if"), contexts(github))
-                           for step in workflow["jobs"][job_id].get("steps", [])
-                           if "gen_pack_reference.py --check" in str(step.get("run", "")).split("#")[0]
-                           and gh_expr.evaluate_if(step.get("if"), contexts(github))]
-                    self.assertTrue(ran, "no drift check runs under the required check")
+        _, gate = job_named(self.workflow, GATE)
+        needs = gate.get("needs", [])
+        needs = [needs] if isinstance(needs, str) else needs
+        for label, github in RUNNING_EVENTS.items():
+            with self.subTest(event=label):
+                ran = [step for job_id in needs
+                       if gh_expr.evaluate_if(self.workflow["jobs"][job_id].get("if"), contexts(github))
+                       for step in self.workflow["jobs"][job_id].get("steps", [])
+                       if "gen_pack_reference.py --check" in str(step.get("run", "")).split("#")[0]
+                       and gh_expr.evaluate_if(step.get("if"), contexts(github))]
+                self.assertTrue(ran, "no drift check runs under the required check")
 
 
 class GateVerdict(unittest.TestCase):
@@ -330,76 +306,49 @@ class GateVerdict(unittest.TestCase):
 
 class ConcurrencyKeepsQueueAndMainRunsApart(unittest.TestCase):
     def setUp(self) -> None:
-        self.workflows = {name: load(name) for name in REQUIRED_CHECKS}
+        self.workflow = load(WORKFLOW)
 
     def test_queue_main_and_release_runs_never_cancel_or_displace_each_other(self) -> None:
-        for name, workflow in self.workflows.items():
-            runs = [merge_group_event(2001, 7), merge_group_event(2002, 8), push_event(run_id=3001),
-                    push_event(run_id=3002), push_event("refs/tags/v1.2.3", 3003), dispatch_event(4001),
-                    pr_event()]
-            groups = [concurrency(workflow, github) for github in runs]
-            if groups[0] is None:
-                continue  # no concurrency block: nothing is cancelled or held back
-            with self.subTest(workflow=name):
-                non_pr = groups[:-1]
-                self.assertEqual(len({group for group, _ in non_pr}), len(non_pr),
-                                 "a pending run in a shared group is replaced by the next one")
-                self.assertNotIn(groups[-1][0], {group for group, _ in non_pr})
-                self.assertFalse(any(cancel for _, cancel in non_pr))
+        non_pr = [concurrency(self.workflow, github) for github in (
+            merge_group_event(2001, 7), merge_group_event(2002, 8), push_event(run_id=3001),
+            push_event(run_id=3002), push_event("refs/tags/v1.2.3", 3003), dispatch_event(4001))]
+        self.assertEqual(len({group for group, _ in non_pr}), len(non_pr),
+                         "a pending run in a shared group is replaced by the next one")
+        self.assertNotIn(concurrency(self.workflow, pr_event())[0], {group for group, _ in non_pr})
+        self.assertFalse(any(cancel for _, cancel in non_pr))
 
     def test_a_new_push_to_a_pr_supersedes_its_running_check(self) -> None:
-        for name, workflow in self.workflows.items():
-            first, second = concurrency(workflow, pr_event(run_id=1)), concurrency(workflow, pr_event(run_id=2))
-            with self.subTest(workflow=name):
-                self.assertIsNotNone(first, "without a concurrency group a paused PR's running check is never cancelled")
-                self.assertEqual(first[0], second[0])
-                self.assertTrue(second[1])
-                self.assertNotEqual(first[0], concurrency(workflow, pr_event(number=8))[0])
+        first, second = concurrency(self.workflow, pr_event(run_id=1)), concurrency(self.workflow, pr_event(run_id=2))
+        self.assertEqual(first[0], second[0])
+        self.assertTrue(second[1])
+        self.assertNotEqual(first[0], concurrency(self.workflow, pr_event(number=8))[0])
 
 
 class PauseLabelGuard(unittest.TestCase):
     def setUp(self) -> None:
-        self.workflows = {name: load(name) for name in REQUIRED_CHECKS}
+        self.workflow = load(WORKFLOW)
 
     def test_label_changes_re_run_ci(self) -> None:
-        for name, workflow in self.workflows.items():
-            types = set((triggers(workflow)["pull_request"] or {}).get("types", DEFAULT_PR_TYPES))
-            with self.subTest(workflow=name):
-                self.assertLessEqual(DEFAULT_PR_TYPES | {"labeled", "unlabeled"}, types)
+        types = set((triggers(self.workflow)["pull_request"] or {}).get("types", DEFAULT_PR_TYPES))
+        self.assertLessEqual(DEFAULT_PR_TYPES | {"labeled", "unlabeled"}, types)
 
     def test_a_paused_pr_skips_the_work_and_its_required_check_is_red(self) -> None:
-        for name, check in REQUIRED_CHECKS.items():
-            workflow = load(name)
-            gate_id, _ = job_named(workflow, check)
-            for label, github in PAUSED_EVENTS.items():
-                results = simulate(workflow, github)
-                with self.subTest(workflow=name, event=label):
-                    self.assertEqual(results[gate_id], "failure", "a paused PR must never read as green")
-                    for job_id, result in results.items():
-                        if job_id != gate_id:
-                            self.assertEqual(result, "skipped", f"{job_id} ran while paused")
-
-    def test_the_label_is_ignored_off_pull_requests(self) -> None:
-        # A queue entry, main and a release carry no labels; nothing there may read as paused.
-        for name, check in REQUIRED_CHECKS.items():
-            workflow = load(name)
-            gate_id, _ = job_named(workflow, check)
-            for label, github in NON_PR_EVENTS.items():
-                results = simulate(workflow, github)
-                with self.subTest(workflow=name, event=label):
-                    self.assertTrue(all(result == "success" for result in results.values()), results)
+        gate_id, _ = job_named(self.workflow, GATE)
+        for label, github in PAUSED_EVENTS.items():
+            results = simulate(self.workflow, github)
+            with self.subTest(event=label):
+                self.assertEqual(results[gate_id], "failure", "a paused PR must never read as green")
+                for job_id, result in results.items():
+                    if job_id != gate_id:
+                        self.assertEqual(result, "skipped", f"{job_id} ran while paused")
 
     def test_the_pause_label_cancels_the_running_check_and_other_labels_do_not(self) -> None:
-        for name, workflow in self.workflows.items():
-            real = concurrency(workflow, pr_event())
-            with self.subTest(workflow=name):
-                self.assertIsNotNone(real, "adding the pause label must cancel the running check")
-                for github in (pr_event("labeled", (PAUSE_LABEL,), PAUSE_LABEL),
-                               pr_event("unlabeled", (), PAUSE_LABEL)):
-                    self.assertEqual(concurrency(workflow, github), real)
-                for github in (pr_event("labeled", ("docs",), "docs"), pr_event("unlabeled", (), "docs")):
-                    other = concurrency(workflow, github)
-                    self.assertNotEqual(other[0], real[0], "another label's run would cancel a real run")
+        real = concurrency(self.workflow, pr_event())
+        for github in (pr_event("labeled", (PAUSE_LABEL,), PAUSE_LABEL), pr_event("unlabeled", (), PAUSE_LABEL)):
+            self.assertEqual(concurrency(self.workflow, github), real)
+        for github in (pr_event("labeled", ("docs",), "docs"), pr_event("unlabeled", (), "docs")):
+            self.assertNotEqual(concurrency(self.workflow, github)[0], real[0],
+                                "another label's run would cancel a real run")
 
 
 LEVELS = {"none": 0, "read": 1, "write": 2}
