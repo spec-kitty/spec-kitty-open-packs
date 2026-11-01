@@ -8,8 +8,10 @@ and the pause label need, not how the YAML spells it.
 
 from __future__ import annotations
 
-import re
+import os
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
@@ -26,6 +28,7 @@ WORKFLOWS = ROOT / ".github" / "workflows"
 # The checks the operator requires on `main`, by workflow file and check (job) name. The operator
 # documentation in docs/guides/contributing.md names the same checks.
 REQUIRED_CHECKS = {"validate-packs.yml": "Validate packs gate"}
+GATE = "Validate packs gate"
 
 PAUSE_LABEL = "pr:pause-ci"
 DEFAULT_PR_TYPES = {"opened", "synchronize", "reopened"}
@@ -98,7 +101,7 @@ def dispatch_event(run_id: int = 4001) -> dict[str, Any]:
 
 def contexts(github: dict[str, Any], needs: dict[str, str] | None = None) -> dict[str, Any]:
     github = {"repository": "spec-kitty/spec-kitty-open-packs", "workflow": "Validate packs",
-              "sha": "c" * 40, **github}
+              "sha": "c" * 40, "token": "x", **github}
     return {
         "github": github,
         "needs": {job: {"result": result, "outputs": {}} for job, result in (needs or {}).items()},
@@ -158,26 +161,55 @@ def reachable_expressions(workflow: dict[str, Any], github: dict[str, Any]) -> l
     return found
 
 
-_NEEDS_RESULT = re.compile(r"needs\.[A-Za-z0-9_-]+\.result")
-_SHELL_BRANCH = re.compile(r"^\s*(?:(?:if|elif|case|while|until|for|test)\b|\[)|\|\||&&")
+GATE_STUBS = {
+    # `gh api` prints the labels the PR has now, one per line, or fails like an API outage.
+    "gh": """#!/usr/bin/env bash
+[[ "$1" == "api" && "$*" == *"repos/$STUB_REPO/issues/$STUB_NUMBER/labels"* ]] || exit 2
+[[ "$STUB_API" == "ok" ]] || { echo "HTTP 502" >&2; exit 1; }
+printf '%s' "$STUB_LABELS"
+""",
+    "sleep": "#!/usr/bin/env bash\nexit 0\n",  # the retry back-off, without the wait
+}
 
 
-def fails_unconditionally(run: str) -> bool:
-    """A step script that ends in a non-zero `exit` (or `false`) with no branch before it always fails."""
-    lines = [line.strip() for line in run.strip().splitlines() if line.strip() and not line.strip().startswith("#")]
-    if not lines or any(_SHELL_BRANCH.search(line) for line in lines):
-        return False
-    return lines[-1] == "false" or bool(re.fullmatch(r"exit\s+([1-9][0-9]*)", lines[-1]))
+def run_gate(workflow: dict[str, Any], github: dict[str, Any], validate: str, *,
+             labels_now: tuple[str, ...] = (), api: str = "ok") -> str:
+    """Run the gate job's real step scripts under bash and return its result.
+
+    `validate` is the `needs.validate.result` the gate sees. `labels_now` is what the API reports for
+    the pull request when the gate asks, which can differ from the run's payload; `api="down"` makes
+    the call fail. Steps are chosen by their own `if`, and a failed step skips the ones after it.
+    """
+    _, gate = job_named(workflow, GATE)
+    ctx = contexts(github, {"validate": validate})
+    with tempfile.TemporaryDirectory() as tmp:
+        for name, body in GATE_STUBS.items():
+            path = Path(tmp) / name
+            path.write_text(body, encoding="utf-8")
+            path.chmod(0o755)
+        for step in gate["steps"]:
+            if not gh_expr.evaluate_if(step.get("if"), ctx):
+                continue
+            env = {"PATH": f"{tmp}:{os.environ['PATH']}", "STUB_API": api, "STUB_LABELS": "\n".join(labels_now),
+                   "STUB_REPO": ctx["github"]["repository"],
+                   "STUB_NUMBER": str(github.get("event", {}).get("number", ""))}
+            env.update({key: str(gh_expr.render(value, ctx)) for key, value in step.get("env", {}).items()})
+            done = subprocess.run(["bash", "-e", "-c", gh_expr.render(step["run"], ctx)], env=env,
+                                  capture_output=True, text=True, timeout=30, check=False)
+            if done.returncode != 0:
+                return "failure"
+    return "success"
 
 
 def simulate(workflow: dict[str, Any], github: dict[str, Any]) -> dict[str, str]:
     """Each job's result for one event, assuming the real work succeeds.
 
-    A job fails when a step that runs ends in an unconditional `exit 1`, or when a step that runs
-    reads a `needs.<job>.result` that is not `success` (the gate's verdict). Everything else passes.
+    A job whose `if` is false is skipped; the gate job runs its real scripts (`run_gate`), seeing the
+    labels the payload carries; every other job that runs passes.
     """
     results: dict[str, str] = {}
     pending = dict(workflow["jobs"])
+    payload_labels = tuple(label["name"] for label in github.get("event", {}).get("pull_request", {}).get("labels", []))
     while pending:
         for job_id, job in list(pending.items()):
             needs = job.get("needs", [])
@@ -190,19 +222,10 @@ def simulate(workflow: dict[str, Any], github: dict[str, Any]) -> dict[str, str]
             status = {"success": ok, "failure": not ok, "cancelled": False}
             if not gh_expr.evaluate_if(job.get("if"), contexts(github, upstream), status=status):
                 results[job_id] = "skipped"
-                continue
-            results[job_id] = "success"
-            for step in job.get("steps", []):
-                failed = results[job_id] == "failure"
-                step_status = {"success": not failed, "failure": failed, "cancelled": False}
-                if not gh_expr.evaluate_if(step.get("if"), contexts(github, upstream), status=step_status):
-                    continue
-                if fails_unconditionally(str(step.get("run", ""))):
-                    results[job_id] = "failure"
-                for expression in gh_expr.expressions_in(step):
-                    if _NEEDS_RESULT.search(expression):
-                        if gh_expr.evaluate(expression, contexts(github, upstream)) != "success":
-                            results[job_id] = "failure"
+            elif job.get("name", job_id) == GATE:
+                results[job_id] = run_gate(workflow, github, upstream["validate"], labels_now=payload_labels)
+            else:
+                results[job_id] = "success"
     return results
 
 
@@ -270,6 +293,39 @@ class RequiredChecksAreMergeQueueReady(unittest.TestCase):
                            if "gen_pack_reference.py --check" in str(step.get("run", "")).split("#")[0]
                            and gh_expr.evaluate_if(step.get("if"), contexts(github))]
                     self.assertTrue(ran, "no drift check runs under the required check")
+
+
+class GateVerdict(unittest.TestCase):
+    """The gate's own scripts, run under bash against each verdict of the validation job."""
+
+    def setUp(self) -> None:
+        self.workflow = load("validate-packs.yml")
+
+    def test_only_a_successful_validation_passes_the_gate(self) -> None:
+        for label, github in (("a pull request", pr_event()), ("a merge-queue entry", merge_group_event()),
+                              ("a push to main", push_event())):
+            for validate in ("skipped", "failure", "cancelled", "success"):
+                with self.subTest(event=label, validate=validate):
+                    expected = "success" if validate == "success" else "failure"
+                    self.assertEqual(run_gate(self.workflow, github, validate), expected)
+
+    def test_a_pause_label_on_the_pull_request_now_fails_the_gate_even_when_validation_passed(self) -> None:
+        # The run's payload predates the label (a re-run, or another label's run): only the API knows.
+        for labels in ((PAUSE_LABEL,), ("docs", PAUSE_LABEL), ("PR:Pause-CI",)):
+            with self.subTest(labels=labels):
+                self.assertEqual(run_gate(self.workflow, pr_event(), "success", labels_now=labels), "failure")
+
+    def test_other_labels_do_not_pause(self) -> None:
+        for labels in ((), ("docs",), (f"x{PAUSE_LABEL}", f"{PAUSE_LABEL}-not")):
+            with self.subTest(labels=labels):
+                self.assertEqual(run_gate(self.workflow, pr_event(), "success", labels_now=labels), "success")
+
+    def test_an_unreadable_label_list_fails_the_gate_closed(self) -> None:
+        self.assertEqual(run_gate(self.workflow, pr_event(), "success", api="down"), "failure")
+
+    def test_queue_and_main_runs_never_read_the_labels(self) -> None:
+        for github in (merge_group_event(), push_event(), dispatch_event()):
+            self.assertEqual(run_gate(self.workflow, github, "success", api="down"), "success")
 
 
 class ConcurrencyKeepsQueueAndMainRunsApart(unittest.TestCase):
