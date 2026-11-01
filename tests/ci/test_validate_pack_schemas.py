@@ -228,6 +228,32 @@ class ValidatorExitCodes(unittest.TestCase):
             found = "\n".join(validator.cross_pack_violations([clean, bad, twin]))
             for expected in ("'DIRECTIVE_999'", "'tactic:T_9'", "directive:D_1: declared by more than one pack (a, c)"):
                 self.assertIn(expected, found)
+            # Artifact files declare ids too, by the kind their schema names (needs the contract).
+            contract = validator.Contract(
+                files=[validator.Rule(validator.glob_to_regex("**/*.step-contract.yaml"), "**/*.step-contract.yaml",
+                                      schema="mission-step-contract")],
+                exclusions=[], retired=[], payloads=[],
+            )
+            filed = pack(root, "e", node, preset="activated_mission_step_contracts:\n  - id: qa-plan\n")
+            (filed / "steps").mkdir()
+            (filed / "steps" / "qa-plan.step-contract.yaml").write_text("id: qa-plan\n", encoding="utf-8")
+            self.assertEqual(validator.cross_pack_violations([filed], contract), [])  # a file-only id satisfies the preset
+            self.assertTrue(validator.cross_pack_violations([filed]))  # ...but only when the contract classifies files
+            # A file and a node for one id of one pack are a single declaration, not a collision.
+            (filed / "steps" / "d1.step-contract.yaml").write_text("id: D_1\n", encoding="utf-8")
+            (filed / "drg" / "fragment.yaml").write_text("nodes:\n  - {id: D_1, kind: mission_step_contracts}\nedges: []\n", encoding="utf-8")
+            self.assertEqual(validator.cross_pack_violations([filed], contract), [])
+            # The right id of the wrong kind does not satisfy a preset: D_1 is a directive in `a`, not a step contract.
+            wrong = pack(root, "f", "", preset="activated_mission_step_contracts:\n  - id: D_1\n")
+            (wrong / "drg" / "fragment.yaml").write_text("nodes: []\nedges: []\n", encoding="utf-8")
+            found = "\n".join(validator.cross_pack_violations([clean, wrong], contract))
+            self.assertIn("names 'D_1', which no pack declares as a mission_step_contract", found)
+            # A file-only id shared by two packs is a collision.
+            other = pack(root, "g", "  - {id: D_3, kind: directives}\n")
+            (other / "steps").mkdir()
+            (other / "steps" / "qa-plan.step-contract.yaml").write_text("id: qa-plan\n", encoding="utf-8")
+            found = "\n".join(validator.cross_pack_violations([filed, other], contract))
+            self.assertIn("mission_step_contract:qa-plan: declared by more than one pack (e, g)", found)
             empty = pack(root, "d", "", "[]")
             (empty / "drg" / "fragment.yaml").write_text("nodes: []\n", encoding="utf-8")
             with self.assertRaises(validator.GateError):  # an empty id index must not pass
