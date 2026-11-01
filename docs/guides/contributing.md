@@ -96,23 +96,30 @@ because queue runs carry no labels: take the pull request out of the queue first
 
 ### Operator setup (one time)
 
+Until these steps are done, the queue and the required check are not in effect: the workflows are
+ready for them, but `main` does not yet take pull requests through a queue. The opening statement of
+this section holds only once an operator has completed them. Do them in this order, so the queue never
+waits on a check that is not required yet.
+
 1. Create a label named exactly `pr:pause-ci`.
 2. In **Settings → General → Pull Requests**, keep **Allow rebase merging** on. `main` is linear,
    and the queue can only use a method the repository allows.
-3. In the rule or ruleset that covers `main`:
+3. Create a branch protection rule or a ruleset that covers `main`, if none exists, and under
+   **Require status checks to pass** require exactly one check: `Validate packs gate`, with
+   **GitHub Actions** as its source, so no other integration can post it.
+4. In the same rule or ruleset, now enable the queue:
    - enable **Require merge queue**;
    - turn off **Require branches to be up to date before merging**, because the queue already tests
      each pull request on the latest `main`.
-4. Configure the queue:
+5. Configure the queue:
    - **Merge method:** Rebase and merge.
    - **Build concurrency:** 3.
-   - **Group size:** minimum 1, maximum 3.
-   - **Wait time to meet minimum group size:** 5 minutes.
-   - **Status check timeout:** 15 minutes. That is about twice the slowest full CI run (7.5 minutes,
-     with the docsite build and deploy). A queue run is validation only, which takes 1 to 3 minutes.
+   - **Group size:** minimum 1, maximum 3. With a minimum of 1 the queue never waits to fill a group,
+     so the **Wait time to meet minimum group size** setting has no effect; leave its default.
+   - **Status check timeout:** 15 minutes. A queue run is the validation workflow only (1 to 3
+     minutes); the docsite build never runs in the queue. The timeout is generous headroom for a slow
+     runner, and a run that exceeds it evicts the pull request from the queue.
    - Enable **Only merge non-failing pull requests**.
-5. Under **Require status checks to pass**, require exactly one check: `Validate packs gate`, with
-   **GitHub Actions** as its source, so no other integration can post it.
 
 ## Releases
 
