@@ -33,6 +33,11 @@ jobs:
   validate:
     needs: [tag]
     uses: ./.github/workflows/validate-packs.yml
+    # A called job cannot hold more than this grants. The gate's pause check (pull requests only)
+    # asks for pull-requests: read; without it here the release would not start.
+    permissions:
+      contents: read
+      pull-requests: read
 
   release:
     name: Publish release assets
