@@ -687,10 +687,32 @@ def _load_or_none(path: Path) -> Any:
         return None  # the per-pack validation already reports an unreadable file
 
 
-def declared_nodes(pack_dir: Path) -> set[tuple[str, str]]:
+#: Schemas of the artifact files whose ``id`` is a declaration of a node kind (the schema name with
+#: ``-`` for ``_`` is the kind): ``qa-plan.step-contract.yaml`` declares ``mission_step_contract:qa-plan``.
+ARTIFACT_SCHEMAS = frozenset(
+    {
+        "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
+        "agent-profile", "mission-step-contract", "asset", "glossary-pack", "skill",
+    }
+)  # fmt: skip
+
+
+def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tuple[str, str]]:
     """The ``(kind, id)`` pairs a pack declares: the nodes of its ``drg/fragment.yaml`` (``kind``
-    plural, ``id``) and, for the built-in pack, of its root ``*.graph.yaml`` files (``urn``)."""
+    plural, ``id``), of its root ``*.graph.yaml`` files (``urn``) and, given the contract, the
+    ``id`` of each artifact file it classifies (kind from the file's schema). A file and a node of
+    the same pack for one id are one declaration."""
     found: set[tuple[str, str]] = set()
+    if contract is not None:
+        for path in sorted(pack_dir.rglob("*.yaml")):
+            if path.is_symlink() or not path.is_file():
+                continue
+            _, rule = classify(contract, f"{pack_dir.name}/{path.relative_to(pack_dir).as_posix()}")
+            if rule is None or rule.schema not in ARTIFACT_SCHEMAS:
+                continue
+            document = _load_or_none(path)
+            if isinstance(document, dict) and isinstance(document.get("id"), str):
+                found.add((rule.schema.replace("-", "_"), document["id"]))
     fragment = _load_or_none(pack_dir / "drg" / "fragment.yaml")
     for node in (fragment.get("nodes") or []) if isinstance(fragment, dict) else []:
         if isinstance(node, dict) and isinstance(node.get("id"), str) and isinstance(node.get("kind"), str):
@@ -705,7 +727,7 @@ def declared_nodes(pack_dir: Path) -> set[tuple[str, str]]:
     return found
 
 
-def cross_pack_violations(pack_dirs: list[Path]) -> list[str]:
+def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = None) -> list[str]:
     """Checks that only make sense across all packs together (formerly core's ``doctor charter-packs``).
 
     * an id declared by two packs (same kind and id): a collision. Core reports an artifact of a
@@ -716,11 +738,13 @@ def cross_pack_violations(pack_dirs: list[Path]) -> list[str]:
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
     * a DRG edge endpoint (``<kind>:<id>``) in a pack's fragment that resolves to no node.
 
+    With ``contract``, artifact files count as declarations too (``declared_nodes``).
+
     Fails closed (GateError) when no pack declares any node.
     """
     owners: dict[tuple[str, str], list[str]] = {}
     for pack in pack_dirs:
-        for key in declared_nodes(pack):
+        for key in declared_nodes(pack, contract):
             owners.setdefault(key, []).append(pack.name)
     if not owners:
         raise GateError("cross-pack checks: no pack declares any DRG node; the id index is empty and would prove nothing")
@@ -794,7 +818,7 @@ def main(argv: list[str] | None = None) -> int:
                   f"{report.skipped} excluded or payload, {len(report.violations)} violations)")
             status = status or (EXIT_OK if report.ok else EXIT_INVALID)
         if args.cross_pack:
-            found = cross_pack_violations(args.packs)
+            found = cross_pack_violations(args.packs, contract)
             for line in found:
                 print(f"::error::cross-pack: {line}")
             print(f"{'ok' if not found else 'FAIL'}: cross-pack checks over {len(args.packs)} packs ({len(found)} violations)")
