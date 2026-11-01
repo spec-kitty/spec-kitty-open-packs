@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: fee8ea1edce0db159aa79c3cda75341c2efb6c26515ef463f50eb0ba7c583a19
+manifest_hash: e2c60da746ba997be5b9cce8856fd1ee1408fab4f47ddc449453ad15ce20135c
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -288,7 +288,7 @@ constituents:
 - kind: glossary_pack
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
-  content_hash: adbbb5b1cc4a4c3a35cf5e7dd91c53e84db5fb66bd38a4ba52f5e47a5f0a9068
+  content_hash: fdd5eab56e20e1e56327e8f7cd4950366b26db803ae2e01fd78a8e952a95dff1
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
