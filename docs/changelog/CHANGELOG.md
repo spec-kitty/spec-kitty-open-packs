@@ -31,19 +31,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
-- **`main` is ready for a merge queue, and `pr:pause-ci` pauses a parked pull request** (#106,
-  ADR 2026-11-01-1).
-  - `validate-packs.yml`, behind the one required check `Validate packs gate`, now also runs on
-    `merge_group`. Its validation job also runs the generated-pack-page drift check, so two pack
-    changes that drift once combined fail in the queue.
-  - Queue runs, `main` runs and release runs never cancel each other.
+- **`pr:pause-ci` pauses a parked pull request, and `Validate packs gate` is the one required check**
+  (#106, ADR 2026-11-01-1). There is no merge queue: in core it duplicated CI runs rather than
+  avoiding reruns.
+  - `validate-packs.yml`, behind the one required check `Validate packs gate`, also runs the
+    generated-pack-page drift check, so two pack changes that drift once combined fail on the push
+    to `main`.
+  - `main` runs and release runs never cancel each other.
   - On a pull request labelled `pr:pause-ci`, validation is skipped and the gate fails. Adding the
     label cancels the running check, and removing it runs CI again. The gate reads the labels as
     they are now, so a run that started before the label was added cannot pass a paused pull
     request. `release.yml` grants the workflow it calls `pull-requests: read` for that read.
   - `tests/ci/test_workflows.py` checks these properties against the parsed workflows, and that
     every action is pinned to a full commit SHA.
-  - The operator steps are in the contributing guide.
+  - The required-check setup is in the contributing guide.
 
 - **Cross-pack checks run over all packs together in `validate-packs.sh`** (follow-up to #102).
   The retired `doctor charter-packs` also judged packs against one another; the schema

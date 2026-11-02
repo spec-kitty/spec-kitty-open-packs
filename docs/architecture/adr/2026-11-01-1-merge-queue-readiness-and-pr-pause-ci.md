@@ -11,7 +11,13 @@ related:
 
 **Filename:** `2026-11-01-1-merge-queue-readiness-and-pr-pause-ci.md`
 
-**Status:** Accepted. The operator ruled on 2026-11-01, as recommended, and turns the queue on after the change lands.
+> **Superseded in part.** The operator ruled on 2026-11-02 that this repository has no merge queue.
+> In core the queue duplicated CI runs rather than avoiding reruns. `validate-packs.yml` no longer runs
+> on `merge_group`, and the queue settings are gone from the contributing guide. `Validate packs gate`
+> stays the required check, and `pr:pause-ci` stays. The text below records the earlier decision; read
+> every mention of the queue in it as retired.
+
+**Status:** Accepted. The operator ruled on 2026-11-01, as recommended, and turns the queue on after the change lands. Superseded in part on 2026-11-02 (see above): no queue.
 
 **Date:** 2026-11-01
 
@@ -91,7 +97,7 @@ spec-kitty-events (ADR-0005) and core (#6961).
      paused pull request, whether it is another label's run or a re-run of an old run.
    - The label is ignored on `merge_group`, `push` and `workflow_call`.
 4. **Queue settings**, set by the operator: see
-   [Contributing](../../guides/contributing.md#merge-queue-and-required-checks).
+   [Contributing](../../guides/contributing.md#required-checks) (the queue settings were removed on 2026-11-02).
 
 ### Consequences
 
