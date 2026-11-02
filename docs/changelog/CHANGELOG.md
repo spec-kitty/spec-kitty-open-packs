@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-01'
+updated: '2026-11-02'
 ---
 # Changelog
 
@@ -330,6 +330,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 
 ### 🐛 Fixed
+
+- **`--regenerate-manifest` no longer passes when the manifest lists a missing file.** Run on
+  its own, it printed a warning, rewrote the manifest and exited 0, so the documented restamp
+  command reported green on a pack the gate rejects. It now refuses like the charter's manifest
+  write (`pack_unreadable`): it prints an error naming the file, leaves the manifest untouched and
+  exits 1. The gate's advice for a `missing:` entry now says to restore the file or remove its
+  entry, since a restamp cannot fix it.
 
 - **`cave-dev` `tasks` declares the `tasks/WP*.md` work packages it writes.** The step wrote
   only `tasks.md`, so `implement` and `review` could not depend on the packages. `tasks` now

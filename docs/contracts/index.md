@@ -2,7 +2,7 @@
 title: Contracts
 description: "The machine contracts a Charter Pack meets: pack, org-charter, preset, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
-updated: '2026-10-31'
+updated: '2026-11-02'
 related:
 - artefacts
 - organisations
@@ -64,7 +64,9 @@ file that is missing. After changing a listed file, restamp the hashes (membersh
 python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest packs/built-in
 ```
 
-Never edit the hashes by hand.
+The command only restamps; it validates nothing unless the pack is also passed as a positional
+argument. If the manifest lists a file that is missing, it leaves the manifest untouched and exits 1:
+restore the file or remove its entry. Never edit the hashes by hand.
 
 ## `org-charter.yaml` — org policy
 
