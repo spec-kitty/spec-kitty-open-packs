@@ -13,8 +13,10 @@ It fails closed. Exit status:
 
 * 0  every pack is valid (its ``pack-manifest.yaml``, when it has one, carries the hashes of the
      files it lists: ``--regenerate-manifest PACK`` restamps them) and every ``--expect-invalid`` pack has schema violations;
-* 1  a schema violation (or a retired-layout file) in a pack, or an ``--expect-invalid``
-     pack that came out clean;
+     ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
+* 1  a schema violation (or a retired-layout file) in a pack, an ``--expect-invalid``
+     pack that came out clean, or a ``--regenerate-manifest`` pack whose manifest lists a missing file
+     (that manifest is left as it was, like the charter's refused write);
 * 2  the gate cannot judge: unloadable contract or schema, a file of a known kind with no
      schema mapping, a pack with zero files checked, or an unreadable file.
 
@@ -349,7 +351,8 @@ def stale_manifest_fields(manifest: dict[str, Any], read: Callable[[str], bytes 
 def regenerate_manifest(pack_dir: Path) -> list[str]:
     """Restamp every derived field of ``pack_dir``/pack-manifest.yaml from the files; membership is kept.
 
-    Returns the listed paths that have no file (their entries keep the hash they had).
+    Returns the listed paths that have no regular file inside the pack; when there are any, nothing is
+    written (the charter refuses such a write with ``pack_unreadable`` before it reaches the target).
     """
     path = pack_dir / MANIFEST_NAME
     try:
@@ -363,6 +366,8 @@ def regenerate_manifest(pack_dir: Path) -> list[str]:
                     missing.append(entry["path"])
                 else:
                     entry["content_hash"] = content_hash(data)
+        if missing:
+            return missing
         manifest["manifest_hash"] = manifest_hash(manifest)
         path.write_text(yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
     except (OSError, UnicodeDecodeError, yaml.YAMLError, KeyError, TypeError, AttributeError) as exc:
@@ -662,9 +667,11 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         )
     if manifest is not None:
         for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
-            report.violations.append(
-                f"{pack_dir.name}/{MANIFEST_NAME}: stale manifest: {stale}; run `{REGENERATE_COMMAND} {pack_dir}`"
+            remedy = (
+                "restore the file or remove its entry" if stale.startswith("missing: ")
+                else f"run `{REGENERATE_COMMAND} {pack_dir}`"
             )
+            report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: stale manifest: {stale}; {remedy}")
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
     return report
@@ -790,7 +797,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="a pack directory that must produce schema violations (non-vacuity)")
     parser.add_argument("--regenerate-manifest", action="append", default=[], type=Path, metavar="PACK",
                         help="restamp the content_hash and manifest_hash fields of PACK/pack-manifest.yaml "
-                             "(membership is kept), then validate as usual")
+                             "(membership is kept); refused, exit 1, if a listed file is missing. Validates only the "
+                             "packs also given as positional arguments")
     parser.add_argument("--cross-pack", action="store_true",
                         help="also check the given packs together: preset ids, DRG edge endpoints and id collisions")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
@@ -798,16 +806,22 @@ def main(argv: list[str] | None = None) -> int:
     if not args.packs and not args.expect_invalid and not args.regenerate_manifest:
         parser.error("give at least one pack directory")
     try:
+        status = EXIT_OK
         for pack in args.regenerate_manifest:
-            for path in regenerate_manifest(pack):
-                print(f"::warning file={pack}::{path} is listed in {MANIFEST_NAME} but has no file")
-            print(f"regenerated: {pack / MANIFEST_NAME}")
+            missing = regenerate_manifest(pack)
+            for path in missing:
+                print(f"::error file={pack}::{path} is listed in {MANIFEST_NAME} but is missing, not a regular file "
+                      "or outside the pack; restore it or remove its entry")
+            if missing:
+                print(f"not regenerated: {pack / MANIFEST_NAME} ({len(missing)} listed files missing)")
+                status = EXIT_INVALID
+            else:
+                print(f"regenerated: {pack / MANIFEST_NAME}")
         if not args.packs and not args.expect_invalid:
-            return EXIT_OK
+            return status
         contract = contract_for(args.contract)
         print(f"charter contract: {args.contract or os.environ.get('CHARTER_CONTRACT_DIR') or CHARTER_COMMIT}; "
               f"{len(contract.validators)} schemas loaded")
-        status = EXIT_OK
         for pack in args.packs:
             report = validate_pack(pack, contract)
             for line in report.violations:
