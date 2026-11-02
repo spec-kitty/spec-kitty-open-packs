@@ -1,8 +1,8 @@
-"""The workflows behind the required checks are merge-queue ready and honour `pr:pause-ci`.
+"""The workflows behind the required checks are always reported and honour `pr:pause-ci`.
 
 These are property tests over the parsed workflow files: each event a run can start from (a pull
-request push, a label change, a merge-queue entry, a push to main, a release's call) is simulated, and
-the workflow's own expressions are evaluated against it with `gh_expr`. They assert what the merge queue
+request push, a label change, a push to main, a release's call) is simulated, and
+the workflow's own expressions are evaluated against it with `gh_expr`. They assert what the required check
 and the pause label need, not how the YAML spells it.
 """
 
@@ -71,19 +71,6 @@ def pr_event(action: str = "synchronize", labels: tuple[str, ...] = (), label: s
             "run_id": run_id}
 
 
-def merge_group_event(run_id: int = 2001, pr: int = 7) -> dict[str, Any]:
-    head = "c" * 40
-    return {
-        "event_name": "merge_group",
-        "event": {"action": "checks_requested",
-                  "merge_group": {"base_sha": "b" * 40, "head_sha": head,
-                                  "head_ref": f"refs/heads/gh-readonly-queue/main/pr-{pr}-{head}",
-                                  "base_ref": "refs/heads/main"}},
-        "ref": f"refs/heads/gh-readonly-queue/main/pr-{pr}-{head}",
-        "run_id": run_id,
-    }
-
-
 def push_event(ref: str = "refs/heads/main", run_id: int = 3001) -> dict[str, Any]:
     return {"event_name": "push", "event": {"ref": ref, "before": "b" * 40, "after": "c" * 40},
             "ref": ref, "run_id": run_id}
@@ -115,13 +102,11 @@ RUNNING_EVENTS = {
     "opening a PR": pr_event("opened"),
     "removing the pause label": pr_event("unlabeled", labels=(), label=PAUSE_LABEL),
     "another label": pr_event("labeled", labels=("docs",), label="docs"),
-    "a merge-queue entry": merge_group_event(),
     "a push to main": push_event(),
     "a release calling the workflow": push_event("refs/tags/v1.2.3"),
     "a manual dispatch": dispatch_event(),
 }
 NON_PR_EVENTS = {
-    "a merge-queue entry": merge_group_event(),
     "a push to main": push_event(),
     "a release calling the workflow": push_event("refs/tags/v1.2.3"),
     "a manual dispatch": dispatch_event(),
@@ -219,26 +204,21 @@ def simulate(workflow: dict[str, Any], github: dict[str, Any]) -> dict[str, str]
     return results
 
 
-class RequiredChecksAreMergeQueueReady(unittest.TestCase):
+class RequiredCheckAlwaysReports(unittest.TestCase):
     def setUp(self) -> None:
         self.workflow = load(WORKFLOW)
 
-    def test_the_workflow_runs_on_every_merge_queue_entry(self) -> None:
-        on = triggers(self.workflow)
-        self.assertIn("merge_group", on, "the queue would wait for a check that never starts")
-        self.assertIn("checks_requested", (on["merge_group"] or {}).get("types", ["checks_requested"]))
-
     def test_the_workflow_is_not_filtered_away(self) -> None:
         # A filtered trigger never posts its check on a change outside the filter, and a required
-        # check that never reports blocks the PR (or evicts it from the queue at the timeout).
+        # check that never reports blocks the PR.
         on = triggers(self.workflow)
-        for event in ("pull_request", "merge_group"):
+        for event in ("pull_request",):
             config = on.get(event) or {}
             for key in ("paths", "paths-ignore", "branches", "branches-ignore"):
                 with self.subTest(event=event, filter=key):
                     self.assertNotIn(key, config)
 
-    def test_no_expression_reads_a_pull_request_field_on_a_queue_or_main_run(self) -> None:
+    def test_no_expression_reads_a_pull_request_field_on_a_main_or_release_run(self) -> None:
         # Strict mode fails any read of a payload field the event does not carry, unless a guard
         # such as `github.event_name == 'pull_request' &&` short-circuits it first. A skipped job or
         # step is not evaluated past its `if`, as on GitHub.
@@ -249,14 +229,14 @@ class RequiredChecksAreMergeQueueReady(unittest.TestCase):
                                      strict_event=True)
 
     def test_every_job_passes_when_validation_passes_on_an_unpaused_event(self) -> None:
-        # Includes the events that carry no labels (a queue entry, main, a release): none reads as paused.
+        # Includes the events that carry no labels (main, a release): none reads as paused.
         for label, github in RUNNING_EVENTS.items():
             with self.subTest(event=label):
                 results = simulate(self.workflow, github)
                 self.assertTrue(all(result == "success" for result in results.values()), results)
 
     def test_the_required_check_covers_the_generated_pack_pages(self) -> None:
-        # The queue tests PRs combined; two pack PRs that each re-seed docs/packs/ can drift together.
+        # Two pack PRs that each re-seed docs/packs/ can drift together.
         # The drift check must run in a job the required check depends on, on every unpaused event.
         _, gate = job_named(self.workflow, GATE)
         needs = gate.get("needs", [])
@@ -278,8 +258,7 @@ class GateVerdict(unittest.TestCase):
         self.workflow = load("validate-packs.yml")
 
     def test_only_a_successful_validation_passes_the_gate(self) -> None:
-        for label, github in (("a pull request", pr_event()), ("a merge-queue entry", merge_group_event()),
-                              ("a push to main", push_event())):
+        for label, github in (("a pull request", pr_event()), ("a push to main", push_event())):
             for validate in ("skipped", "failure", "cancelled", "success"):
                 with self.subTest(event=label, validate=validate):
                     expected = "success" if validate == "success" else "failure"
@@ -299,18 +278,18 @@ class GateVerdict(unittest.TestCase):
     def test_an_unreadable_label_list_fails_the_gate_closed(self) -> None:
         self.assertEqual(run_gate(self.workflow, pr_event(), "success", api="down"), "failure")
 
-    def test_queue_and_main_runs_never_read_the_labels(self) -> None:
-        for github in (merge_group_event(), push_event(), dispatch_event()):
+    def test_main_and_dispatch_runs_never_read_the_labels(self) -> None:
+        for github in (push_event(), dispatch_event()):
             self.assertEqual(run_gate(self.workflow, github, "success", api="down"), "success")
 
 
-class ConcurrencyKeepsQueueAndMainRunsApart(unittest.TestCase):
+class ConcurrencyKeepsMainRunsApart(unittest.TestCase):
     def setUp(self) -> None:
         self.workflow = load(WORKFLOW)
 
-    def test_queue_main_and_release_runs_never_cancel_or_displace_each_other(self) -> None:
+    def test_main_and_release_runs_never_cancel_or_displace_each_other(self) -> None:
         non_pr = [concurrency(self.workflow, github) for github in (
-            merge_group_event(2001, 7), merge_group_event(2002, 8), push_event(run_id=3001),
+            push_event(run_id=3001),
             push_event(run_id=3002), push_event("refs/tags/v1.2.3", 3003), dispatch_event(4001))]
         self.assertEqual(len({group for group, _ in non_pr}), len(non_pr),
                          "a pending run in a shared group is replaced by the next one")
@@ -409,10 +388,10 @@ class WorkflowExpressionsEvaluate(unittest.TestCase):
 
 class EvaluatorSemantics(unittest.TestCase):
     def test_operators_return_operands_and_short_circuit(self) -> None:
-        ctx = contexts(merge_group_event())
-        self.assertEqual(gh_expr.evaluate("github.event_name == 'merge_group' && 'q' || 'p'", ctx), "q")
+        ctx = contexts(push_event())
+        self.assertEqual(gh_expr.evaluate("github.event_name == 'push' && 'q' || 'p'", ctx), "q")
         self.assertEqual(gh_expr.evaluate("format('{0}-{1}', 'a', 2)", ctx), "a-2")
-        self.assertTrue(gh_expr.evaluate("github.event_name == 'MERGE_GROUP'", ctx))
+        self.assertTrue(gh_expr.evaluate("github.event_name == 'PUSH'", ctx))
         # Guarded: the right side is never read.
         self.assertFalse(gh_expr.evaluate(
             "github.event_name == 'pull_request' && github.event.pull_request.number", ctx, strict_event=True))
