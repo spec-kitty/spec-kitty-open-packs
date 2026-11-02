@@ -1,19 +1,15 @@
 name: Validate packs
 
 # "Validate packs gate" is the one required check on main (docs/guides/contributing.md,
-# ADR 2026-11-01-1). It reports on every event below, so a pull request or a merge-queue entry never
-# waits for a check that does not start.
-#
-# Merge queue: the workflow also runs on `merge_group`, so the queue tests each pull request (or
-# group of them) on top of the main it will land on. Nothing here reads a pull-request-only payload
-# field without first checking that the event is a pull request.
+# ADR 2026-11-01-1). It reports on every event below, so a pull request never waits for a check that
+# does not start. Nothing here reads a pull-request-only payload field without first checking that
+# the event is a pull request.
 #
 # `pr:pause-ci`: a maintainer labels a parked pull request to stop its CI during a pile-up. Adding
 # the label cancels the running check. While it is on, validation is skipped and the gate FAILS, so
 # a paused pull request never reads as green. Removing it runs CI again. The label is read on pull
-# requests only: a queue entry, main and a release carry no labels, so they are never paused, and a
-# pull request already in the queue must be taken out of it to pause it. A change to any other label
-# re-runs validation in a concurrency group of its own, so it never cancels a real run.
+# requests only: main and a release carry no labels, so they are never paused. A change to any other
+# label re-runs validation in a concurrency group of its own, so it never cancels a real run.
 
 on:
   pull_request:
@@ -21,8 +17,6 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches: [main]
-  merge_group:
-    types: [checks_requested]
   workflow_dispatch:
   # release.yml runs the same gates before it publishes anything.
   workflow_call:
@@ -34,8 +28,8 @@ concurrency:
   # Pull requests: one group per PR, and a newer run cancels the older one. Adding or removing
   # pr:pause-ci joins that group, so pausing cancels the running check. Any other label's event gets
   # a `label-` group, so it neither cancels a real run nor displaces one waiting.
-  # Every other run (a queue entry, a push to main, a release's call, a dispatch) has a group of its
-  # own (its run id): queue runs and main runs never cancel each other, and none waits behind another.
+  # Every other run (a push to main, a release's call, a dispatch) has a group of its own (its run
+  # id): main runs never cancel each other, and none waits behind another.
   group: >-
     validate-packs-${{ github.event_name == 'pull_request'
     && format('{0}pr-{1}',
@@ -75,8 +69,8 @@ jobs:
         run: python3 scripts/ci/check_vocabulary.py
       - name: Generated pack pages are up to date
         if: ${{ !cancelled() }}
-        # The merge queue tests pull requests together: two pack changes that each re-seed
-        # docs/packs/ can drift once combined. docs-site.yml runs the same check, path-filtered.
+        # Two pack changes that each re-seed docs/packs/ can drift once combined; this catches it on
+        # the push to main. docs-site.yml runs the same check, path-filtered.
         run: python3 scripts/docs/gen_pack_reference.py --check
       - name: Release tooling tests
         if: ${{ !cancelled() }}
