@@ -2,7 +2,7 @@
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author and submit Charter Packs and docs here, where charter logic lives, and the required check on main.
 doc_status: wip
-updated: '2026-11-01'
+updated: '2026-11-02'
 related:
 - architecture/adr/2026-11-01-1-merge-queue-readiness-and-pr-pause-ci
 - guides/author-a-charter-pack
