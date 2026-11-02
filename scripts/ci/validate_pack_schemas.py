@@ -44,10 +44,8 @@ from jsonschema import Draft202012Validator
 
 CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
 # Commit of spec-kitty-charter whose contracts/packs/ this repository validates against.
-# It is the head of branch issue-194-mission-type-consolidation (open PR #275), the only
-# place mission-type.schema.json and the mission-step prompt/guidelines schemas exist yet.
-# TODO: move this to a commit on charter main once #275 has merged.
-CHARTER_COMMIT = "ad949d165d41a344916be754fd70e1d9cfb69397"
+# A commit on charter main, bumped deliberately. Never float to a branch.
+CHARTER_COMMIT = "3c9f640a524b481df02c24ba0f48ffff9e7aa4c0"
 CONTRACT_PATH = "contracts/packs"
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.

@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 💥 Breaking
 
+- **Packs no longer target the old core** (charter service swap-over). Pack validation now
+  follows `contracts/packs` on `spec-kitty-charter` `main`, rather than a pre-merge branch,
+  and the built-in record drops its `requires_core` version range. Compatibility with core
+  4.0.0rc8 and earlier is not supported.
+
 - **Procedures and toolguide guides in `built-in`, `internal` and `qa` now use the charter's
   sanitized shapes** (#91, spec-kitty/spec-kitty-charter#194). Procedures changed `name` to
   `title`, `purpose` to `description` and `actor` to `role`; toolguide guides were renamed to
