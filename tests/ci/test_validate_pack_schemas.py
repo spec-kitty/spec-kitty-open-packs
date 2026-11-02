@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import io
 import json
 import sys
@@ -130,6 +131,79 @@ class ValidatorExitCodes(unittest.TestCase):
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("presets{presets/p.yaml}.content_hash", output)
+
+    def manifest_pack(self, root: Path, paths: list[str], files: dict[str, str] | None = None, name: str = "pack") -> Path:
+        """A pack `root/name` whose zero-hash manifest lists the tactics at `paths`; `files` are written too."""
+        zero = "'" + "0" * 64 + "'"
+        manifest = (
+            f"schema_version: '1.0'\nmanifest_hash: {zero}\nconstituents:\n"
+            + "".join(f"- {{kind: tactic, id: {Path(p).name.split('.')[0]}, path: {p}, content_hash: {zero}}}\n" for p in paths)
+        )
+        pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n", "pack-manifest.yaml": manifest, **(files or {})})
+        if pack.name != name:
+            pack = pack.rename(root / name)
+        return pack
+
+    def test_content_hash_reads_crlf_and_lone_cr_as_lf(self) -> None:
+        def sha(data: bytes) -> str:
+            return hashlib.sha256(data).hexdigest()
+
+        self.assertEqual(validator.content_hash(b"a\r\nb\rc\n"), sha(b"a\nb\nc\n"))
+        self.assertEqual(validator.content_hash(b"a\r\r\nb"), sha(b"a\n\nb"))  # CRLF first, then the lone CR
+        self.assertNotEqual(validator.content_hash(b"a\r\nb"), sha(b"a\r\nb"))
+        self.assertNotEqual(validator.content_hash(b"a\n"), validator.content_hash(b"a"))
+
+    def test_regenerate_and_verify_hash_crlf_lf_and_lone_cr_copies_alike(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml"], {"tactics/t.tactic.yaml": "id: t\r\nname: x\r\n"})
+            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack))[0], validator.EXIT_OK)
+            entry = validator.load_yaml((pack / "pack-manifest.yaml").read_text(encoding="utf-8"))["constituents"][0]
+            self.assertEqual(entry["content_hash"], hashlib.sha256(b"id: t\nname: x\n").hexdigest())
+            for body in (b"id: t\r\nname: x\r\n", b"id: t\nname: x\n", b"id: t\rname: x\r"):
+                (pack / "tactics" / "t.tactic.yaml").write_bytes(body)
+                code, output = self.run_validator(root, str(pack))
+                self.assertEqual(code, validator.EXIT_OK, output)
+
+    def test_regenerate_alone_refuses_a_listed_file_that_is_missing_and_writes_nothing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/gone.tactic.yaml"])
+            before = (pack / "pack-manifest.yaml").read_bytes()
+            code, output = self.run_validator(root, "--regenerate-manifest", str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("::error", output)
+            self.assertIn("tactics/gone.tactic.yaml", output)
+            self.assertIn("not regenerated:", output)
+            self.assertFalse([line for line in output.splitlines() if line.startswith("regenerated:")])
+            self.assertEqual((pack / "pack-manifest.yaml").read_bytes(), before)
+
+    def test_regenerate_of_several_packs_keeps_a_miss_in_the_first(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            broken = self.manifest_pack(root, ["tactics/gone.tactic.yaml"], name="broken")
+            clean = self.manifest_pack(root, ["tactics/t.tactic.yaml"], name="clean")
+            code, output = self.run_validator(root, "--regenerate-manifest", str(broken), "--regenerate-manifest", str(clean), str(clean))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn(f"regenerated: {clean / 'pack-manifest.yaml'}", output)
+            self.assertIn(f"ok: {clean}", output)
+
+    def test_validation_reports_a_listed_file_that_is_missing_with_a_remedy_that_fixes_it(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/u.tactic.yaml"], {"tactics/u.tactic.yaml": "id: u\n"})
+            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack), str(pack))[0], validator.EXIT_OK)
+            (pack / "tactics" / "u.tactic.yaml").unlink()
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            missing_line = next(line for line in output.splitlines() if "stale manifest: missing: tactics/u.tactic.yaml" in line)
+            self.assertIn("restore the file or remove its entry", missing_line)
+            self.assertNotIn("--regenerate-manifest", missing_line)
+            self.assertNotIn("u.tactic.yaml}.content_hash", output)
 
     def test_a_carriage_return_in_markdown_is_refused_not_read_as_a_newline(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
