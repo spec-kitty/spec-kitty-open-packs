@@ -737,13 +737,37 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
 PENDING_PACKS = frozenset({"internal", "qa", "event-driven"})
 #: Directories of packs whose ``pack.yaml`` does not exist yet. Same rule; goes when they gain one.
 PENDING_DESCRIPTORS = frozenset({"qa", "event-driven", "cave-kitty", "example-pack"})
-#: Node kinds no pack holds as an artifact, so the charter never judges where their targets live.
+#: Node kinds the charter holds nowhere: it never judges whether a qualified target of these exists.
 UNHELD_KINDS = frozenset({"action", "guard", "lifecycle"})
 #: Schemas whose files write typed references (``{type, id}``) in ``references``; those in
 #: ``STEPPED_SCHEMAS`` also write them in each step's ``references``. Bare id lists mean one kind.
 TYPED_REFERENCE_SCHEMAS = frozenset({"directive", "paradigm", "tactic", "procedure", "mission-type"})
 STEPPED_SCHEMAS = frozenset({"tactic", "mission-type"})
 BARE_ID_LISTS = {"directive": ("procedures", "procedure"), "paradigm": ("directive_refs", "directive")}
+
+
+#: A template's id is its path: ``templates/<path>``, or ``<type>/<path>`` under a mission type.
+TEMPLATE_PATH = re.compile(r"(?:missions/([^/]+)/)?templates/(.+)")
+
+
+def held_artifacts(pack_dir: Path, contract: Contract | None) -> set[tuple[str, str]]:
+    """The ``(kind, id)`` pairs a pack holds, in the charter's sense (``compositionFacts``): its
+    artifact files and its ``anti_pattern`` nodes. Any other node without a file is held by nobody."""
+    held = {key for key in declared_nodes(pack_dir) if key[0] == "anti_pattern"}
+    for path in sorted(pack_dir.rglob("*")) if contract is not None else []:
+        if path.is_symlink() or not path.is_file():
+            continue
+        relative = path.relative_to(pack_dir).as_posix()
+        category, rule = classify(contract, f"{pack_dir.name}/{relative}")
+        template = TEMPLATE_PATH.fullmatch(relative) if category == "payload" else None
+        if template:
+            held.add(("template", "/".join(part for part in template.groups() if part)))
+        elif rule is not None and rule.schema in ARTIFACT_SCHEMAS | {"mission-type"}:
+            document = _load_or_none(path)
+            artifact_id = document.get("profile-id", document.get("id")) if isinstance(document, dict) else None
+            if isinstance(artifact_id, str):
+                held.add((rule.schema.replace("-", "_"), artifact_id))
+    return held
 
 
 def split_qualifier(reference: str) -> tuple[str | None, str]:
@@ -829,14 +853,13 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
         closure = _depends_on_closure(pack, descriptors, index["pack_id"])
         for file, qualifier, urn in written_references(pack, contract):
             kind, _, node_id = urn.partition(":")
-            judged = kind not in UNHELD_KINDS
             if qualifier is None:
                 holder = next((other.name for other, nodes in held.items() if (kind, node_id) in nodes), None)
-                if judged and holder is not None and (kind, node_id) not in held[pack]:
+                if holder is not None and (kind, node_id) not in held[pack]:
                     violations.append(f"{file}: bare reference {urn!r} is held only by {holder}; qualify it with that pack's name")
             elif index["name"].get(qualifier) not in closure:
                 violations.append(f"{file}: reference '{qualifier}::{urn}' names a pack outside this pack's depends_on closure")
-            elif judged and (kind, node_id) not in held[index["name"][qualifier]]:
+            elif kind not in UNHELD_KINDS and (kind, node_id) not in held[index["name"][qualifier]]:
                 violations.append(f"{file}: reference '{qualifier}::{urn}': {qualifier} does not hold {urn!r}")
     return violations
 
@@ -857,10 +880,10 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
 
     Fails closed (GateError) when no pack declares any node.
     """
-    held = {pack: declared_nodes(pack, contract) for pack in pack_dirs}
+    held = {pack: held_artifacts(pack, contract) for pack in pack_dirs}
     owners: dict[tuple[str, str], list[str]] = {}
-    for pack, nodes in held.items():
-        for key in nodes:
+    for pack in pack_dirs:
+        for key in declared_nodes(pack, contract):
             owners.setdefault(key, []).append(pack.name)
     if not owners:
         raise GateError("cross-pack checks: no pack declares any DRG node; the id index is empty and would prove nothing")
@@ -891,7 +914,7 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
             for end in ("source", "target"):
                 urn = edge.get(end)
                 kind, _, node_id = split_qualifier(urn)[1].partition(":") if isinstance(urn, str) else ("", "", "")
-                if (kind, node_id) not in owners:
+                if (kind, node_id) not in owners and not any((kind, node_id) in nodes for nodes in held.values()):
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
                     )

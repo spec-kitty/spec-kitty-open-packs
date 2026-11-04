@@ -349,9 +349,13 @@ class CompositionChecks(unittest.TestCase):
         files=[
             validator.Rule(validator.glob_to_regex(f"**/*.{suffix}.yaml"), f"**/*.{suffix}.yaml", schema=schema)
             for suffix, schema in (("directive", "directive"), ("tactic", "tactic"), ("paradigm", "paradigm"),
-                                   ("procedure", "procedure"), ("mission-type", "mission-type"))
+                                   ("procedure", "procedure"), ("mission-type", "mission-type"),
+                                   ("agent", "agent-profile"), ("step-contract", "mission-step-contract"),
+                                   ("asset", "asset"), ("glossary-pack", "glossary-pack"), ("skill", "skill"),
+                                   ("styleguide", "styleguide"), ("toolguide", "toolguide"))
         ],
-        exclusions=[], retired=[], payloads=[],
+        exclusions=[], retired=[],
+        payloads=[validator.Rule(validator.glob_to_regex(glob), glob) for glob in ("*/templates/**/*", "*/missions/*/templates/**/*")],
     )
 
     def setUp(self) -> None:
@@ -371,11 +375,12 @@ class CompositionChecks(unittest.TestCase):
         return f"pack_id: {pack_id}\nname: {name}\n" + (f"depends_on:\n{entries}" if entries else "")
 
     def built_in(self, directory: str = "built-in", name: str = "built-in", pack_id: str = BUILT_IN) -> Path:
-        """A pack holding tactic `held` as a file, and directive `D_1` and an action as nodes."""
+        """A pack holding tactic `held` and directive `D_1` as files, and an action as a node."""
         return self.write(directory, {
             "pack.yaml": self.descriptor(pack_id, name),
             "tactics/held.tactic.yaml": "id: held\n",
-            "drg/fragment.yaml": "nodes:\n  - {id: D_1, kind: directives}\n  - {id: dev/plan, kind: actions}\nedges: []\n",
+            "directives/d-1.directive.yaml": "id: D_1\n",
+            "drg/fragment.yaml": "nodes:\n  - {id: dev/plan, kind: actions}\nedges: []\n",
         })
 
     def consumer(self, edges: str = "[]", files: dict[str, str] | None = None, depends_on: tuple[str, ...] = (BUILT_IN,),
@@ -524,17 +529,90 @@ class CompositionChecks(unittest.TestCase):
         same_name = self.write("same-name", {"pack.yaml": self.descriptor(OTHER, "built-in")})
         self.assertIn("built-in/pack.yaml, same-name/pack.yaml: name 'built-in' is declared by more than one pack", self.found(built_in, same_name))
 
-    def test_a_pending_pack_may_keep_bare_references_and_its_missing_descriptor_until_migrated(self) -> None:
+    def test_a_node_with_no_file_is_held_by_nobody(self) -> None:
+        graph = "nodes:\n- {urn: 'procedure:shard-node', kind: procedure}\nedges: []\n"
+        fragment = "nodes:\n  - {id: node-tactic, kind: tactics}\nedges: []\n"
+        built_in = self.built_in()
+        self.write("built-in", {"drg/fragment.yaml": fragment, "procedure.graph.yaml": graph})
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::tactic:held"))), "")  # same fixture, a file
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("tactic:node-tactic"))), "")
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("procedure:shard-node"))), "")
+        for urn in ("tactic:node-tactic", "procedure:shard-node"):
+            with self.subTest(urn):
+                found = self.found(built_in, self.consumer(self.edge(f"built-in::{urn}")))
+                self.assertIn(f"reference 'built-in::{urn}': built-in does not hold '{urn}'", found)
+
+    def test_files_no_node_names_are_held_under_the_id_the_charter_reads(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {
+            "agent_profiles/p.agent.yaml": "profile-id: file-profile\n",
+            "missions/doc/doc.mission-type.yaml": "id: doc\n",
+            "templates/writing/top.md": "# t\n",
+            "missions/doc/templates/in-mission.md": "# t\n",
+        })
+        for urn in ("agent_profile:file-profile", "mission_type:doc", "template:writing/top.md", "template:doc/in-mission.md"):
+            with self.subTest(urn):
+                self.assertEqual(self.found(built_in, self.consumer(self.edge(f"built-in::{urn}"))), "")
+                self.assertIn(f"bare reference '{urn}' is held only by built-in", self.found(built_in, self.consumer(self.edge(urn))))
+
+    def test_a_template_elsewhere_in_a_pack_is_not_held(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {"templates/held.md": "# t\n", "elsewhere/templates/stray.md": "# t\n"})
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::template:held.md"))), "")
+        self.assertIn("built-in does not hold 'template:stray.md'", self.found(built_in, self.consumer(self.edge("built-in::template:stray.md"))))
+
+    def test_an_anti_pattern_node_is_held_in_either_graph_document_shape(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {
+            "drg/fragment.yaml": "nodes:\n  - {id: in-fragment, kind: anti_patterns}\nedges: []\n",
+            "anti_pattern.graph.yaml": "nodes:\n- {urn: 'anti_pattern:in-shard', kind: anti_pattern}\nedges: []\n",
+        })
+        for urn in ("anti_pattern:in-fragment", "anti_pattern:in-shard"):
+            with self.subTest(urn):
+                self.assertEqual(self.found(built_in, self.consumer(self.edge(f"built-in::{urn}"))), "")
+                self.assertIn(f"bare reference '{urn}'", self.found(built_in, self.consumer(self.edge(urn))))
+
+    def test_the_real_built_in_pack_is_judged_as_the_charter_judges_it(self) -> None:
+        built_in = Path(__file__).resolve().parents[2] / "packs" / "built-in"
+        shard = "edges:\n- {source: 'tactic:own', target: 'template:writing/meeting-minutes.md', relation: requires}\n"
+        accepted = self.consumer("[{source: 'tactic:own', target: 'template:agent-brief-template'},"
+                                 " {source: 'tactic:own', target: 'built-in::template:writing/meeting-minutes.md'}]")
+        self.assertEqual(self.found(built_in, accepted), "")
+        refused = self.found(built_in, self.consumer(self.edge("built-in::template:agent-brief-template"),
+                                                     files={"tactic.graph.yaml": shard}))
+        self.assertIn("reference 'built-in::template:agent-brief-template': built-in does not hold", refused)
+        self.assertIn("consumer/tactic.graph.yaml: bare reference 'template:writing/meeting-minutes.md' is held only by built-in", refused)
+
+    def test_a_pack_may_qualify_a_reference_with_its_own_name(self) -> None:
+        built_in = self.built_in()
+        files = {"tactics/second.tactic.yaml": "id: second\n"}
+        self.assertEqual(self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:own'}]", files=files)), "")
+        found = self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:gone'}]", files=files))
+        self.assertIn("reference 'consumer::tactic:gone': consumer does not hold 'tactic:gone'", found)
+
+    def test_a_qualified_guard_or_lifecycle_needs_the_closure_but_no_held_artifact(self) -> None:
+        built_in = self.built_in()
+        path = "tactics/t.tactic.yaml"
+        typed = "id: t\nreferences:\n  - {type: %s, id: '%s'}\n"
+        self.assertIn("built-in does not hold 'tactic:x'", self.found(built_in, self.consumer(files={path: typed % ("tactic", "built-in::x")})))
+        for kind in ("guard", "lifecycle"):
+            with self.subTest(kind):
+                self.assertEqual(self.found(built_in, self.consumer(files={path: typed % (kind, "built-in::x")})), "")
+                self.assertIn("outside this pack's depends_on closure", self.found(built_in, self.consumer(files={path: typed % (kind, "nowhere::x")})))
+
+    def test_a_pending_pack_may_keep_its_bare_references_until_migrated(self) -> None:
         built_in = self.built_in()
         pending = self.consumer(self.edge("tactic:held"), directory="pending")
-        bad = "bare reference 'tactic:held'"
-        self.assertIn(bad, self.found(built_in, pending))
+        self.assertIn("bare reference 'tactic:held'", self.found(built_in, pending))
         with mock.patch.object(validator, "PENDING_PACKS", frozenset({"pending"})):
             self.assertEqual(self.found(built_in, pending), "")
+
+    def test_a_pack_listed_as_pending_may_lack_its_descriptor_until_it_gains_one(self) -> None:
+        built_in = self.built_in()
+        pending = self.consumer(directory="pending")
         (pending / "pack.yaml").unlink()
         self.assertIn("pending/pack.yaml: missing", self.found(built_in, pending))
-        with mock.patch.object(validator, "PENDING_DESCRIPTORS", frozenset({"pending"})), \
-                mock.patch.object(validator, "PENDING_PACKS", frozenset({"pending"})):
+        with mock.patch.object(validator, "PENDING_DESCRIPTORS", frozenset({"pending"})):
             self.assertEqual(self.found(built_in, pending), "")
 
 
