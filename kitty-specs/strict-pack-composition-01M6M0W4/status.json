@@ -34,7 +34,8 @@
         "Ready for review, cycle 2: held judged as the charter does (held_artifacts), pending test split, surviving mutants killed, purpose wording fixed",
         "Administrative rework to re-record identities, authorised by the operator. No defect.",
         "Re-recording the implementer's full identity. No code change.",
-        "Re-recording the implementer's full identity. No code change."
+        "Re-recording the implementer's full identity. No code change.",
+        "No code change since cycle 2; identity re-record."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
