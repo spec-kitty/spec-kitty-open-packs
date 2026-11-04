@@ -30,8 +30,8 @@ every LLM session's context.
 Each pack is a directory of artifact-kind subdirectories (`directives/`,
 `tactics/`, `styleguides/`, …), optionally carrying:
 
-- a `pack.yaml` descriptor (`name`, `pack_version`, `parent_pack`, and — when
-  authored — `purpose` / `depends_on`);
+- a `pack.yaml` descriptor (`pack_id`, `name`, `pack_version`, `parent_pack`, and —
+  when authored — `pack_level` / `depends_on`);
 - an `org-charter.yaml` declaring activation defaults;
 - a hand-written `README.md` with the authored "what it is and why" narrative.
 
@@ -56,8 +56,8 @@ The pages below are **generated** from the pack source by
 `scripts/docs/gen_pack_reference.py` (see the
 [docsite design](../architecture/docsite-design.md) for the generated-versus-authored
 boundary and the checksum design). They are never hand-edited; CI re-runs the
-generator and fails on any drift. Purposes in this table are **authored** here —
-the generator does not fabricate a purpose when a pack's `pack.yaml` omits one.
+generator and fails on any drift. Purposes in this table are **authored** here:
+`pack.yaml` has no such field, so the generator publishes none.
 
 | Pack | Purpose | Reference |
 | --- | --- | --- |

@@ -41,15 +41,16 @@ choice is recorded as an [ADR](adr/index.md).
 | Datum | Source of truth | Kind |
 | --- | --- | --- |
 | Per-artifact `id`/`title`/`intent`/`enforcement` | `packs/<name>/<kind>/*.yaml` | in-repo, upstream-schema'd |
-| Pack `name` / `purpose` / `depends_on` | `packs/<name>/pack.yaml` **(new, hand-authored)** | in-repo |
+| Pack `name` / `depends_on` | `packs/<name>/pack.yaml` **(new, hand-authored)** | in-repo |
+| Pack purpose | the authored [Packs hub](../packs/index.md) and each pack's `README.md` | in-repo |
 | Activation defaults | `packs/<name>/org-charter.yaml` (optional) | in-repo, upstream-schema'd |
 | Artifact inventory & counts | derived by the generator | generated |
 | Validation status | `spec-kitty charter pack validate --json` | generated |
 | Checksum / integrity | sha256 over sorted artifact contents | generated |
 
-The **only new source-of-truth file** is a small `pack.yaml` (`name`, `purpose`, `depends_on: []`,
-optional `maturity`). Everything else is derived. This closes the one true feasibility gap:
-`purpose`/`depends_on` have no field in the tooling-written `pack-manifest.yaml`
+The **only new source-of-truth file** is a small `pack.yaml` (`pack_id`, `name`, `pack_version`,
+`depends_on: []`), whose closed schema has no `purpose` field. Everything else is derived. This
+closes the one true feasibility gap: `depends_on` has no field in the tooling-written `pack-manifest.yaml`
 ([ADR-2](adr/2026-07-18-2-pack-reference-generated-from-source.md)).
 
 ## Generation pipeline

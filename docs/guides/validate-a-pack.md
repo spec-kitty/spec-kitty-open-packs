@@ -68,8 +68,9 @@ Every pull request runs [`scripts/ci/validate-packs.sh`](../../scripts/ci/valida
 3. checks the packs together: a preset or edge that names nothing, one id declared by two packs,
    a pack with no `pack.yaml`, a shared `pack_id` or `name`, a bare reference held only by another
    pack, a qualifier outside the pack's `depends_on` closure, and a qualified target the named pack
-   does not hold. Packs listed in `PENDING_PACKS` skip the reference checks until they are
-   migrated. This is an early signal: the charter service stays the authority on composition.
+   does not hold. Packs still being migrated are exempt through the allowance lists beside these
+   checks, which only shrink. This is an early signal: the charter service stays the authority on
+   composition.
 
 [`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh) checks that the tree digest of
 `packs/built-in` matches `packs/built-in.source.yaml`. The vocabulary guard and the release and
