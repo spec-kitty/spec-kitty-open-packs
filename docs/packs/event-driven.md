@@ -25,7 +25,7 @@ generated:
 
 ## Purpose
 
-_No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the generator never fabricates one). See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
 
 ## Artifact inventory
 
