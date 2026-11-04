@@ -60,6 +60,18 @@
       "verdict": "not-applicable",
       "wp": null
     },
+    "#363": {
+      "evidence_ref": "spec FR-013, FR-014: spec-kitty-charter#363, companion PR",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "in-mission",
+      "wp": "WP04"
+    },
     "#365": {
       "evidence_ref": "<link or commit>",
       "fr": null,
