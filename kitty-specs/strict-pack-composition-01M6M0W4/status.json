@@ -29,6 +29,9 @@
       "last_event_id": "01M6M5GEJ8S9YYJG00QZQ371TS",
       "last_transition_at": "2026-11-04T20:55:16.808528+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: gate understands qualified references and refuses the five composition defects; generator reads depends_on correctly"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 2848355,
