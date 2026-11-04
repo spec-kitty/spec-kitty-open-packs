@@ -1,0 +1,296 @@
+packs: ['built-in', 'cave-kitty', 'event-driven', 'internal', 'qa']
+
+| pack | held | ref sites | distinct refs | qualified | bare->own | bare->other (REFUSED) sites/distinct | bare->none sites/distinct |
+|---|---|---|---|---|---|---|---|
+| built-in | 337 | 2920 | 512 | 0 | 2505 | 0/0 | 415/219 |
+| cave-kitty | 3 | 4 | 2 | 0 | 4 | 0/0 | 0/0 |
+| event-driven | 14 | 106 | 19 | 0 | 94 | 12/6 | 0/0 |
+| internal | 44 | 246 | 85 | 0 | 155 | 78/31 | 13/13 |
+| qa | 52 | 57 | 20 | 0 | 54 | 3/3 | 0/0 |
+
+## refused references by pack, holder, field
+
+### event-driven: sites by holder {'built-in': 12}; distinct by holder {'built-in': 6}; sites by field {'edge-target': 7, 'directive.references': 2, 'paradigm.references': 2, 'tactic.references': 1}
+  paradigm:deep-module-design  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[15].target
+  paradigm:domain-driven-design  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[14].target
+  procedure:event-storming-discovery  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[13].target; paradigms/evd-event-sourced-design.paradigm.yaml#references[12]
+  tactic:anti-corruption-layer  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[26].target; directives/evd-006-share-only-published-event-contracts.directive.yaml#references[1]
+  tactic:domain-event-capture  -> holder ['built-in']  (4 site(s)): drg/fragment.yaml#edges[12].target; drg/fragment.yaml#edges[20].target; directives/evd-003-events-are-immutable-past-tense-facts.directive.yaml#references[1]; paradigms/evd-event-sourced-design.paradigm.yaml#references[11]
+  tactic:reference-architectural-patterns  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[29].target; tactics/evd-event-bridge-port.tactic.yaml#references[3]
+
+### internal: sites by holder {'built-in': 78}; distinct by holder {'built-in': 31}; sites by field {'edge-target': 57, 'procedure.references': 19, 'tactic.references': 2}
+  agent_profile:planner-priti  -> holder ['built-in']  (4 site(s)): drg/fragment.yaml#edges[57].target; drg/fragment.yaml#edges[66].target; drg/fragment.yaml#edges[84].target; drg/fragment.yaml#edges[87].target
+  agent_profile:reviewer-renata  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[74].target
+  directive:DIRECTIVE_025  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[39].target; procedures/cloud-session-dispatch.procedure.yaml#references[0]
+  directive:DIRECTIVE_041  -> holder ['built-in']  (4 site(s)): drg/fragment.yaml#edges[34].target; drg/fragment.yaml#edges[63].target; drg/fragment.yaml#edges[68].target; procedures/test-suite-quality-assessment.procedure.yaml#references[2]
+  directive:DIRECTIVE_044  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[17].target
+  directive:DIRECTIVE_045  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[69].target; drg/fragment.yaml#edges[81].target
+  directive:RECONCILE_CHANGE_SCOPE_TENSIONS  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[40].target; procedures/cloud-session-dispatch.procedure.yaml#references[1]
+  directive:RED_MAIN_RELEASE_DISCIPLINE  -> holder ['built-in']  (3 site(s)): drg/fragment.yaml#edges[0].target; drg/fragment.yaml#edges[3].target; drg/fragment.yaml#edges[14].target
+  procedure:adversarial-squad-deployment  -> holder ['built-in']  (8 site(s)): drg/fragment.yaml#edges[36].target; drg/fragment.yaml#edges[49].target; drg/fragment.yaml#edges[60].target; drg/fragment.yaml#edges[70].target; drg/fragment.yaml#edges[77].target; procedures/charter-offering-scenario-extraction.procedure.yaml#references[2]
+  procedure:development-assist-test-cleanup  -> holder ['built-in']  (3 site(s)): drg/fragment.yaml#edges[35].target; drg/fragment.yaml#edges[71].target; procedures/test-suite-quality-assessment.procedure.yaml#references[3]
+  procedure:issue-triage-state-machine  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[27].target; procedures/tracker-organisation-workflow.procedure.yaml#references[2]
+  procedure:mission-tracer-files  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[61].target
+  procedure:mission-wrap-up-sequence  -> holder ['built-in']  (5 site(s)): drg/fragment.yaml#edges[47].target; drg/fragment.yaml#edges[53].target; drg/fragment.yaml#edges[58].target; drg/fragment.yaml#edges[86].target; procedures/semi-auto-delivery.procedure.yaml#references[2]
+  procedure:post-merge-arch-gate-adjudication  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[4].target; drg/fragment.yaml#edges[12].target
+  procedure:refactoring  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[41].target; procedures/cloud-session-dispatch.procedure.yaml#references[2]
+  procedure:test-first-bug-fixing  -> holder ['built-in']  (5 site(s)): drg/fragment.yaml#edges[42].target; drg/fragment.yaml#edges[48].target; drg/fragment.yaml#edges[62].target; procedures/cloud-session-dispatch.procedure.yaml#references[3]; procedures/semi-auto-delivery.procedure.yaml#references[3]
+  styleguide:common-docs  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[20].target
+  styleguide:planning-and-tracking  -> holder ['built-in']  (3 site(s)): drg/fragment.yaml#edges[16].target; drg/fragment.yaml#edges[28].target; procedures/tracker-organisation-workflow.procedure.yaml#references[3]
+  styleguide:test-desiderata-and-boundaries  -> holder ['built-in']  (4 site(s)): drg/fragment.yaml#edges[32].target; drg/fragment.yaml#edges[78].target; procedures/charter-offering-scenario-extraction.procedure.yaml#references[3]; procedures/test-suite-quality-assessment.procedure.yaml#references[0]
+  styleguide:testing-principles  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[33].target; procedures/test-suite-quality-assessment.procedure.yaml#references[1]
+  styleguide:tiered-standards  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[15].target
+  tactic:architectural-gate-non-vacuity  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[21].target
+  tactic:canonical-source-unification  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[18].target
+  tactic:clean-linear-commit-history  -> holder ['built-in']  (4 site(s)): drg/fragment.yaml#edges[50].target; drg/fragment.yaml#edges[65].target; drg/fragment.yaml#edges[72].target; procedures/semi-auto-delivery.procedure.yaml#references[5]
+  tactic:frozen-baseline-shrink-only-ratchet  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[22].target; tactics/spec-kitty-ratchet-cost.tactic.yaml#references[0]
+  tactic:model-task-routing  -> holder ['built-in']  (3 site(s)): drg/fragment.yaml#edges[56].target; drg/fragment.yaml#edges[64].target; drg/fragment.yaml#edges[73].target
+  tactic:moscow-scoping-lens  -> holder ['built-in']  (4 site(s)): drg/fragment.yaml#edges[24].target; drg/fragment.yaml#edges[26].target; tactics/tracker-backlog-iterative-deepening.tactic.yaml#references[1]; procedures/tracker-organisation-workflow.procedure.yaml#references[1]
+  tactic:no-parallel-duplicate-test-runs  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[2].target
+  tactic:occurrence-classification-workflow  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[19].target
+  tactic:pr-agent-worktree-isolation  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[1].target
+  toolguide:github-tracker  -> holder ['built-in']  (2 site(s)): drg/fragment.yaml#edges[29].target; procedures/tracker-organisation-workflow.procedure.yaml#references[4]
+
+### qa: sites by holder {'built-in': 3}; distinct by holder {'built-in': 3}; sites by field {'edge-target': 3}
+  styleguide:given-when-then-authoring  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[13].target
+  tactic:bdd-scenario-formulation  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[12].target
+  toolguide:gherkin  -> holder ['built-in']  (1 site(s)): drg/fragment.yaml#edges[14].target
+
+## bare refs no pack holds (fail open today; become pack_reference_artifact_missing if qualified)
+
+### built-in: 219 distinct, by kind {'action': 24, 'template': 16, 'procedure': 179}
+  action:documentation/accept (5): action.graph.yaml#edges[0].source
+  action:documentation/audit (4): action.graph.yaml#edges[4].source
+  action:documentation/design (10): action.graph.yaml#edges[7].source
+  action:documentation/discover (7): action.graph.yaml#edges[16].source
+  action:documentation/generate (5): action.graph.yaml#edges[22].source
+  action:documentation/publish (4): action.graph.yaml#edges[26].source
+  action:documentation/retrospect (9): action.graph.yaml#edges[29].source
+  action:documentation/validate (6): action.graph.yaml#edges[38].source
+  action:plan/plan (2): action.graph.yaml#edges[43].source
+  action:plan/research (1): mission_type.graph.yaml#edges[23].target
+  action:plan/review (1): mission_type.graph.yaml#edges[24].target
+  action:plan/specify (2): action.graph.yaml#edges[44].source
+  action:research/gathering (4): action.graph.yaml#edges[45].source
+  action:research/methodology (6): action.graph.yaml#edges[48].source
+  action:research/output (4): action.graph.yaml#edges[53].source
+  action:research/retrospect (9): action.graph.yaml#edges[56].source
+  action:research/scoping (6): action.graph.yaml#edges[65].source
+  action:research/synthesis (5): action.graph.yaml#edges[70].source
+  action:software-dev/implement (39): action.graph.yaml#edges[74].source
+  action:software-dev/plan (11): action.graph.yaml#edges[112].source
+  action:software-dev/retrospect (9): action.graph.yaml#edges[122].source
+  action:software-dev/review (32): action.graph.yaml#edges[131].source
+  action:software-dev/specify (6): action.graph.yaml#edges[162].source
+  action:software-dev/tasks (8): action.graph.yaml#edges[167].source
+  procedure:1. Dig for similar tickets. Search the WHOLE tracker (not only the current milestone) for same-surface or same-root-cause issues. Identify an existing umbrella/epic that the class belongs to, or propose one. (1): directives/052-prefer-durable-fixes.directive.yaml#procedures[1]
+  procedure:2. Code grounding. Trace the actual code path to the precise bypass or defect site (file:line). Confirm the bug is still real on current main — not already fixed, superseded, or an artifact of a stale base — before building on it. (1): directives/052-prefer-durable-fixes.directive.yaml#procedures[2]
+  procedure:3. Architecture alignment. Map how many places implement the same concern and find the ONE canonical seam/authority all of them should route through; identify the duplication to consolidate. This is the diagnostic front-end that FEEDS DIRECTIVE_044 (single canonical authority — chase unification, not parity); it does not replace it. (1): directives/052-prefer-durable-fixes.directive.yaml#procedures[3]
+  procedure:4. Check ADRs. If architecture decision records exist for the surface, read them and align the fix with the recorded decision — or explicitly amend the ADR when the durable fix supersedes it. (1): directives/052-prefer-durable-fixes.directive.yaml#procedures[4]
+  procedure:5. If the investigation surfaces multiple occurrences, an underdesigned seam, or a missing invariant: HIGHLIGHT them and PROPOSE a structural remediation (a shared seam, a single canonical reader, or an enforced invariant / construction gate per DIRECTIVE_043) rather than silently shipping N point-fixes. Surface the fold-vs-defer decision to the operator as a scope question BEFORE the spec, exactly like an adversarial point-cut. (1): directives/052-prefer-durable-fixes.directive.yaml#procedures[5]
+  procedure:Activate test-first implementation before production edits. (1): directives/039-lynn-cole-engineering-culture.directive.yaml#procedures[0]
+  procedure:After `spec-kitty consolidate` (which consolidates to local main only and does NOT push to origin/main), create a PR branch (`git checkout -b pr/<slug>`) and open a pull request (`gh pr create`). Do not push to origin/main directly. (1): directives/045-prs-only-and-read-intent.directive.yaml#procedures[1]
+  procedure:After committing a fix, do not consider the bug resolved until a live run confirms the corrected behavior is present. A code inspection that "looks fixed" is not evidence — carry the defect OPEN until a live reproduction run produces the expected (fixed) output. For the red-first pre-existing-entry-point discipline (bugfix test must fail against pre-fix code through the stable entry point, not through the fix's new API), see DIRECTIVE_034. (1): directives/041-tests-as-scaffold-not-friction.directive.yaml#procedures[8]
+  procedure:All changes to origin/main must go through pull requests; never run `git push origin main` or `gh pr merge` without explicit operator instruction. The operator always merges to origin/main manually. (1): directives/045-prs-only-and-read-intent.directive.yaml#procedures[0]
+  procedure:Anchor ratchet and allow-list keys on stable content (symbol qualname plus normalized token line, or an AST node), never on file.py:NNN line numbers that drift on benign edits. (1): directives/041-tests-as-scaffold-not-friction.directive.yaml#procedures[2]
+  procedure:Annotate genuine equivalents honestly. A mutant that cannot change observable behaviour (a log string, a version constant, a formatting-only branch) is equivalent and unkillable; mark it as such with a recorded reason, and keep the equivalent rate low enough that suppression is not hiding real gaps. (1): directives/use-mutation-testing-to-validate-test-quality.directive.yaml#procedures[2]
+  procedure:Apply minor cleanup that improves readability, naming, or consistency in touched areas. (1): directives/025-boy-scout-rule.directive.yaml#procedures[2]
+  procedure:Apply one transformation at a time. Perform a single, named refactoring move (extract, encapsulate, move, inline, replace-conditional-with-polymorphism, incremental cutover) and stop. Do not batch several moves into one step. (1): directives/disciplined-refactoring.directive.yaml#procedures[2]
+  procedure:Apply standard black-box design techniques where relevant — equivalence partitioning, boundary value analysis, decision table testing, state transition testing, error guessing — to choose inputs. (1): directives/036-black-box-integration-testing.directive.yaml#procedures[5]
+  procedure:Assert on observable outputs returned across the external interface — responses, status codes, persisted records, emitted events, logs, stored artifacts. (1): directives/036-black-box-integration-testing.directive.yaml#procedures[4]
+  procedure:Assert the observable contract (returned value, HTTP status and body, persisted event or JSONL, on-disk state, rendered output) — not the internal call graph or which collaborator was invoked. (1): directives/041-tests-as-scaffold-not-friction.directive.yaml#procedures[0]
+  procedure:At completion, confirm what was actually done against what was declared, including confirming that any hard constraint was honored. (1): directives/049-agent-declaration-and-self-introduction.directive.yaml#procedures[2]
+  procedure:At each planning point-cut (post-spec, post-plan, post-tasks), identify foldable tech-debt items in the diff surface and triage them by domain match. Fold domain-matched items into the current mission scope; file and defer out-of-domain items as tracker issues rather than silently expanding or ignoring them. (1): directives/025-boy-scout-rule.directive.yaml#procedures[4]
+  procedure:Author a gate (AST walk, type constraint, or frozen-baseline ratchet) that makes the violation a build failure. The gate must be non-vacuous — it must have a concrete floor and a self-mutation check so it cannot silently become a no-op. (1): directives/043-close-defect-class-by-construction.directive.yaml#procedures[1]
+  procedure:Author a single structural fix plan that closes all currently-known masks plus the dormant masks identified by The Matrix-Maker. (1): directives/040-recurring-bug-structural-intervention.directive.yaml#procedures[4]
+  procedure:Before executing any high-risk git operation (merge, rebase, deletion of branches or files, force operations), read the mission spec and the current context first. Never execute from a task title or a one-line description alone. (1): directives/045-prs-only-and-read-intent.directive.yaml#procedures[3]
+  procedure:Before extending beyond the touched area, apply Locality of Change: the extension must be directly connected to the stated goal, proportional, and documented with a one-line rationale (or a tracker reference for anything genuinely broad). (1): directives/reconcile-change-scope-tensions.directive.yaml#procedures[2]
+  procedure:Before implementation, produce an occurrence_map.yaml classifying the target term by semantic category. (1): directives/035-bulk-edit-occurrence-classification.directive.yaml#procedures[1]
+  procedure:Before opening the draft PR, confirm the intended scope is complete. If a remaining item is small enough to finish now, finish it; only defer work that is genuinely high-effort or mission-sized, and when deferring, record it as a tracked follow-up with a one-line rationale. (1): directives/046-readable-consistent-prs.directive.yaml#procedures[1]
+  procedure:Before relying on a versioned artifact's content, confirm which version is being read and whether a newer version exists. (1): directives/048-version-governance.directive.yaml#procedures[0]
+  procedure:Before starting, classify the work as an Op or a Mission by applying tactic:op-or-mission-selection. If ANY Mission trigger holds, choose a Mission. The triggers are: the work needs a written spec or implementation plan; it splits into discrete, reviewable work packages; it needs an explicit review or approval gate before it lands; it will span more than one sitting; or it must be resumable by name, or by a different agent. (1): directives/053-choose-op-or-mission-before-starting.directive.yaml#procedures[0]
+  procedure:Brevity and self-sufficiency are complementary: a well-written note is both short and complete. Do not add verbosity to achieve self-sufficiency — add the missing context instead.
+ (1): directives/minutes-stand-alone.directive.yaml#procedures[2]
+  procedure:Build test fixtures by delegating to the production seam (a single schema authority), not a parallel hand-rolled copy that silently rots when the schema changes. (1): directives/041-tests-as-scaffold-not-friction.directive.yaml#procedures[3]
+  procedure:Calibrate vocabulary, level of detail, and structure to that persona - do not default to the author's own level of familiarity with the subject. (1): directives/047-audience-oriented-writing.directive.yaml#procedures[2]
+  procedure:Close every Op explicitly with `spec-kitty profile-invocation complete --invocation-id <id> --outcome <done|failed|abandoned>`, using the real outcome. (1): directives/053-choose-op-or-mission-before-starting.directive.yaml#procedures[4]
+  procedure:Curate under the delete-stale policy — one concern per file; DIRECTIVE_037 (Living Documentation Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled then retired rather than accumulating as a wiki. (1): directives/042-common-docs.directive.yaml#procedures[6]
+  procedure:Declare the mission as occurrence-sensitive by setting change_mode to bulk_edit in mission metadata. (1): directives/035-bulk-edit-occurrence-classification.directive.yaml#procedures[0]
+  procedure:Declare the target reader of every documentation page touched by a change with an `audience:` frontmatter field — one resolvable repo-relative `.md` path, or a list of such paths, targeting a persona under `docs/context/audience/`. The field is required on touched pages only; it is deliberately NOT added to the structural lint's `frontmatter_required_fields`, so untouched legacy pages are never red-lined for lacking it (C-012). This is the machine-checkable form of the audience-oriented-writing rule (DIRECTIVE_047). (1): directives/042-common-docs.directive.yaml#procedures[4]
+  procedure:Defense-in-depth fallback - when a third-party client or transport layer still emits the credential inside an error string the agent cannot prevent, strip the credential value from that error text before surfacing it, keeping only the non-sensitive parts of the error (status code, error class, timestamp). This is a fallback for error strings the prevention controls above could not intercept, not the primary control. (1): directives/050-credential-handling-discipline.directive.yaml#procedures[2]
+  procedure:Defer expensive QA and manual testing until green. There is no value in validating a base that is already known-broken; that effort waits until main is green, protecting scarce QA and human-tester time.
+ (1): directives/red-main-release-discipline.directive.yaml#procedures[3]
+  procedure:Define explicit component boundaries before implementation begins; document inputs, outputs, and dependencies for each component. (1): directives/001-architectural-integrity-standard.directive.yaml#procedures[0]
+
+### cave-kitty: 0 distinct, by kind {}
+
+### event-driven: 0 distinct, by kind {}
+
+### internal: 13 distinct, by kind {'procedure': 13}
+  procedure:Classify reds with the landing-pass rules. While working the queue, use the landing-pass red classification in docs/development/how-to/pr-landing.md and the baseline-red gotcha in CLAUDE.md to separate a genuine P0 red from a flake, a CI-environment failure, or pre-existing breakage.
+ (1): directives/spec-kitty-red-main-policy.directive.yaml#procedures[1]
+  procedure:Emit the human-readable half through an EXISTING operator-visible sink (CLI output, doctor/status JSON, the event log, a non-zero exit code). Never route the signal through a new bespoke sink that can itself be swallowed — reuse a surface operators already watch, because per epics (1): directives/operator-signal-contract.directive.yaml#procedures[0]
+  procedure:Exception: only run a full heavy-suite sweep locally during mission work when the operator explicitly asks for it by name (e.g. "run the full architectural suite" or "run test-full"); an agent's own judgment that a change is risky is not sufficient grounds to widen the run — escalate the risk assessment to the operator instead. (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[6]
+  procedure:Identify the targeted test surface before running anything — the test file(s) mirroring each source module the diff touches, the SPECIFIC architectural gate file(s) that guard the change (name them — e.g. `tests/architectural/test_layer_rules.py` for an import-direction change, `tests/architectural/test_no_dead_symbols.py` for a dead-symbol change — never the bare directory), and the owning module's fast tier (`make test-fast` plus the module's own test directory). (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[0]
+  procedure:Never invoke `pytest tests/architectural/` (or any other heavy suite directory) as a whole during mission work; invoke only the named gate file(s) relevant to the change. Never invoke `tests/e2e/`, a full `tests/integration/` sweep, `-m performance`, `-m stress`, `-m timing`, or `make test-full` during mission work for the same reason. (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[1]
+  procedure:Pair every machine-readable signal with a human sentence that states plainly what happened and what the operator should do next. A correct error_code with no accompanying human sentence is a silent-drop, not a fail-loud. (1): directives/operator-signal-contract.directive.yaml#procedures[1]
+  procedure:Record the exact targeted commands run and their pass/fail counts in the PR's Tests run section, per the standing test policy. (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[4]
+  procedure:Trace every red on main to a P0 issue. A red main must trace to an issue labelled `priority:P0` on spec-kitty/spec-kitty, ideally with a failing reproduction test. Cite the issue in the PR that lands the reproduction. Mark the reproduction `@pytest.mark.p0_repro(issue=N)`: it runs only in the nightly `p0-repro` job, so pull requests land green while the nightly, and therefore the release, stays red until the fix PR removes the marker.
+ (1): directives/spec-kitty-red-main-policy.directive.yaml#procedures[0]
+  procedure:Treat a red result outside the change's blast radius as CI's to report, not yours to chase locally — classify it via the baseline-red gotcha (pre-existing known-P0 red, CI-environment failure, stale install, or stale venv) instead of running a broader local sweep to investigate it. (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[5]
+  procedure:When a decision path and its reporting surface are separated by a seam, verify at the seam that the human half survives the crossing; a signal that is emitted upstream but discarded before it reaches the operator surface still violates this contract. (1): directives/operator-signal-contract.directive.yaml#procedures[3]
+  procedure:When lanes run in parallel on one machine, bound `pytest-xdist` explicitly (e.g. `-n 4`); never `-n auto` on a shared machine, and never launch a second concurrent run of the same suite (see `no-parallel-duplicate-test-runs`). (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[3]
+  procedure:When writing a dispatch brief or a WP prompt that asks an implementer or reviewer to validate a change, name the specific gate files and targeted directories in the prompt's validation section; do not write an instruction that reads as "run the full architectural/e2e/performance suite" or that would resolve to one. (1): directives/no-full-heavy-suites-in-mission.directive.yaml#procedures[2]
+  procedure:Write the red-first regression so it asserts on the emitted SIGNAL — the operator-visible line, the JSON field, the log record — not merely on the machine code or the byte-shape of the artifact. A test that only checks the shape passes vacuously while the human half is dropped, which is the exact fake-green failure mode this contract closes. (1): directives/operator-signal-contract.directive.yaml#procedures[2]
+
+### qa: 0 distinct, by kind {}
+
+## built-in -> org (built-in may not depend on org)
+[]
+
+## self references
+built-in []
+cave-kitty []
+event-driven []
+internal []
+qa []
+
+## sibling contests among org packs (all five configured)
+define {}
+change {}
+
+## shadowing: org holds an id built-in also holds
+cave-kitty []
+event-driven []
+internal []
+qa []
+
+## changes across level (enhances/overrides on built-in targets)
+cave-kitty {}
+event-driven {}
+internal {}
+qa {}
+
+## stem/placement rules (procedure, mission_type, preset)
+  built-in/directives/001-architectural-integrity-standard.directive.yaml: directive id 'DIRECTIVE_001' != stem '001-architectural-integrity-standard' (no Java rule)
+  built-in/directives/003-decision-documentation-requirement.directive.yaml: directive id 'DIRECTIVE_003' != stem '003-decision-documentation-requirement' (no Java rule)
+  built-in/directives/010-specification-fidelity-requirement.directive.yaml: directive id 'DIRECTIVE_010' != stem '010-specification-fidelity-requirement' (no Java rule)
+  built-in/directives/018-doctrine-versioning-requirement.directive.yaml: directive id 'DIRECTIVE_018' != stem '018-doctrine-versioning-requirement' (no Java rule)
+  built-in/directives/024-locality-of-change.directive.yaml: directive id 'DIRECTIVE_024' != stem '024-locality-of-change' (no Java rule)
+  built-in/directives/025-boy-scout-rule.directive.yaml: directive id 'DIRECTIVE_025' != stem '025-boy-scout-rule' (no Java rule)
+  built-in/directives/028-search-tool-discipline.directive.yaml: directive id 'DIRECTIVE_028' != stem '028-search-tool-discipline' (no Java rule)
+  built-in/directives/029-agent-commit-signing-policy.directive.yaml: directive id 'DIRECTIVE_029' != stem '029-agent-commit-signing-policy' (no Java rule)
+  built-in/directives/030-test-and-typecheck-quality-gate.directive.yaml: directive id 'DIRECTIVE_030' != stem '030-test-and-typecheck-quality-gate' (no Java rule)
+  built-in/directives/031-context-aware-design.directive.yaml: directive id 'DIRECTIVE_031' != stem '031-context-aware-design' (no Java rule)
+  built-in/directives/032-conceptual-alignment.directive.yaml: directive id 'DIRECTIVE_032' != stem '032-conceptual-alignment' (no Java rule)
+  built-in/directives/033-targeted-staging-policy.directive.yaml: directive id 'DIRECTIVE_033' != stem '033-targeted-staging-policy' (no Java rule)
+  built-in/directives/034-test-first-development.directive.yaml: directive id 'DIRECTIVE_034' != stem '034-test-first-development' (no Java rule)
+  built-in/directives/035-bulk-edit-occurrence-classification.directive.yaml: directive id 'DIRECTIVE_035' != stem '035-bulk-edit-occurrence-classification' (no Java rule)
+  built-in/directives/036-black-box-integration-testing.directive.yaml: directive id 'DIRECTIVE_036' != stem '036-black-box-integration-testing' (no Java rule)
+  built-in/directives/037-living-documentation-sync.directive.yaml: directive id 'DIRECTIVE_037' != stem '037-living-documentation-sync' (no Java rule)
+  built-in/directives/038-structured-prompt-boundary.directive.yaml: directive id 'DIRECTIVE_038' != stem '038-structured-prompt-boundary' (no Java rule)
+  built-in/directives/039-lynn-cole-engineering-culture.directive.yaml: directive id 'DIRECTIVE_039' != stem '039-lynn-cole-engineering-culture' (no Java rule)
+  built-in/directives/040-recurring-bug-structural-intervention.directive.yaml: directive id 'DIRECTIVE_040' != stem '040-recurring-bug-structural-intervention' (no Java rule)
+  built-in/directives/041-tests-as-scaffold-not-friction.directive.yaml: directive id 'DIRECTIVE_041' != stem '041-tests-as-scaffold-not-friction' (no Java rule)
+  built-in/directives/042-common-docs.directive.yaml: directive id 'DIRECTIVE_042' != stem '042-common-docs' (no Java rule)
+  built-in/directives/043-close-defect-class-by-construction.directive.yaml: directive id 'DIRECTIVE_043' != stem '043-close-defect-class-by-construction' (no Java rule)
+  built-in/directives/044-canonical-sources-and-unification.directive.yaml: directive id 'DIRECTIVE_044' != stem '044-canonical-sources-and-unification' (no Java rule)
+  built-in/directives/045-prs-only-and-read-intent.directive.yaml: directive id 'DIRECTIVE_045' != stem '045-prs-only-and-read-intent' (no Java rule)
+  built-in/directives/046-readable-consistent-prs.directive.yaml: directive id 'DIRECTIVE_046' != stem '046-readable-consistent-prs' (no Java rule)
+  built-in/directives/047-audience-oriented-writing.directive.yaml: directive id 'DIRECTIVE_047' != stem '047-audience-oriented-writing' (no Java rule)
+  built-in/directives/048-version-governance.directive.yaml: directive id 'DIRECTIVE_048' != stem '048-version-governance' (no Java rule)
+  built-in/directives/049-agent-declaration-and-self-introduction.directive.yaml: directive id 'DIRECTIVE_049' != stem '049-agent-declaration-and-self-introduction' (no Java rule)
+  built-in/directives/050-credential-handling-discipline.directive.yaml: directive id 'DIRECTIVE_050' != stem '050-credential-handling-discipline' (no Java rule)
+  built-in/directives/051-supply-chain-install-safety.directive.yaml: directive id 'DIRECTIVE_051' != stem '051-supply-chain-install-safety' (no Java rule)
+  built-in/directives/052-prefer-durable-fixes.directive.yaml: directive id 'DIRECTIVE_052' != stem '052-prefer-durable-fixes' (no Java rule)
+  built-in/directives/053-choose-op-or-mission-before-starting.directive.yaml: directive id 'DIRECTIVE_053' != stem '053-choose-op-or-mission-before-starting' (no Java rule)
+  built-in/directives/action-item-attribution.directive.yaml: directive id 'ACTION_ITEM_ATTRIBUTION' != stem 'action-item-attribution' (no Java rule)
+  built-in/directives/disciplined-refactoring.directive.yaml: directive id 'DISCIPLINED_REFACTORING' != stem 'disciplined-refactoring' (no Java rule)
+  built-in/directives/minutes-stand-alone.directive.yaml: directive id 'MINUTES_STAND_ALONE' != stem 'minutes-stand-alone' (no Java rule)
+  built-in/directives/reconcile-change-scope-tensions.directive.yaml: directive id 'RECONCILE_CHANGE_SCOPE_TENSIONS' != stem 'reconcile-change-scope-tensions' (no Java rule)
+  built-in/directives/red-main-release-discipline.directive.yaml: directive id 'RED_MAIN_RELEASE_DISCIPLINE' != stem 'red-main-release-discipline' (no Java rule)
+  built-in/directives/use-c4-model-techniques.directive.yaml: directive id 'USE_C4_MODEL_TECHNIQUES' != stem 'use-c4-model-techniques' (no Java rule)
+  built-in/directives/use-mutation-testing-to-validate-test-quality.directive.yaml: directive id 'USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY' != stem 'use-mutation-testing-to-validate-test-quality' (no Java rule)
+  built-in/assets/audiences/agentic-framework-core-team.md.asset.yaml: asset id 'writing-audience-agentic-framework-core-team' != stem 'agentic-framework-core-team.md' (no Java rule)
+  built-in/assets/audiences/automation_agent.md.asset.yaml: asset id 'writing-audience-automation-agent' != stem 'automation_agent.md' (no Java rule)
+  built-in/assets/audiences/line_manager.md.asset.yaml: asset id 'writing-audience-line-manager' != stem 'line_manager.md' (no Java rule)
+  built-in/assets/audiences/nontech_educator.md.asset.yaml: asset id 'writing-audience-nontech-educator' != stem 'nontech_educator.md' (no Java rule)
+  built-in/assets/audiences/software_engineer.md.asset.yaml: asset id 'writing-audience-software-engineer' != stem 'software_engineer.md' (no Java rule)
+  built-in/assets/docs_structural_lint.py.asset.yaml: asset id 'common-docs-structural-lint' != stem 'docs_structural_lint.py' (no Java rule)
+  cave-kitty/directives/cave-001-terse-output.directive.yaml: directive id 'CAVE_001' != stem 'cave-001-terse-output' (no Java rule)
+  event-driven/directives/evd-001-events-carry-schema-version.directive.yaml: directive id 'EVD_001' != stem 'evd-001-events-carry-schema-version' (no Java rule)
+  event-driven/directives/evd-002-one-canonical-writer-per-stream.directive.yaml: directive id 'EVD_002' != stem 'evd-002-one-canonical-writer-per-stream' (no Java rule)
+  event-driven/directives/evd-003-events-are-immutable-past-tense-facts.directive.yaml: directive id 'EVD_003' != stem 'evd-003-events-are-immutable-past-tense-facts' (no Java rule)
+  event-driven/directives/evd-004-producers-emit-latest-consumers-declare-versions.directive.yaml: directive id 'EVD_004' != stem 'evd-004-producers-emit-latest-consumers-declare-versions' (no Java rule)
+  event-driven/directives/evd-005-side-effects-live-in-consumers.directive.yaml: directive id 'EVD_005' != stem 'evd-005-side-effects-live-in-consumers' (no Java rule)
+  event-driven/directives/evd-006-share-only-published-event-contracts.directive.yaml: directive id 'EVD_006' != stem 'evd-006-share-only-published-event-contracts' (no Java rule)
+  event-driven/assets/event_sourced_lane_board.md.asset.yaml: asset id 'evd-worked-example-lane-board' != stem 'event_sourced_lane_board.md' (no Java rule)
+  internal/directives/no-full-heavy-suites-in-mission.directive.yaml: directive id 'NO_FULL_HEAVY_SUITES_IN_MISSION' != stem 'no-full-heavy-suites-in-mission' (no Java rule)
+  internal/directives/operator-signal-contract.directive.yaml: directive id 'OPERATOR_SIGNAL_CONTRACT' != stem 'operator-signal-contract' (no Java rule)
+  internal/directives/spec-kitty-red-main-policy.directive.yaml: directive id 'SPEC_KITTY_RED_MAIN_POLICY' != stem 'spec-kitty-red-main-policy' (no Java rule)
+  internal/glossary_packs/spk-internal.glossary-pack.yaml: glossary_pack id 'spk-internal-glossary' != stem 'spk-internal' (no Java rule)
+  internal/assets/debrief/collect-debrief.py.asset.yaml: asset id 'debrief-collector' != stem 'collect-debrief.py' (no Java rule)
+  internal/assets/debrief/debrief-template.html.asset.yaml: asset id 'debrief-template' != stem 'debrief-template.html' (no Java rule)
+  internal/assets/debrief/fonts/FallingSky-Bold.otf.asset.yaml: asset id 'debrief-font-falling-sky-bold' != stem 'FallingSky-Bold.otf' (no Java rule)
+  internal/assets/debrief/fonts/FallingSky-Extrabold.otf.asset.yaml: asset id 'debrief-font-falling-sky-extrabold' != stem 'FallingSky-Extrabold.otf' (no Java rule)
+  internal/assets/debrief/fonts/FallingSky-Regular.otf.asset.yaml: asset id 'debrief-font-falling-sky-regular' != stem 'FallingSky-Regular.otf' (no Java rule)
+  internal/assets/debrief/logo.png.asset.yaml: asset id 'debrief-logo' != stem 'logo.png' (no Java rule)
+  internal/assets/debrief/render-debrief.py.asset.yaml: asset id 'debrief-renderer' != stem 'render-debrief.py' (no Java rule)
+  internal/assets/spec-kitty-branded-pdf.py.asset.yaml: asset id 'spec-kitty-branded-pdf' != stem 'spec-kitty-branded-pdf.py' (no Java rule)
+  internal/assets/test-quality-scan.py.asset.yaml: asset id 'test-quality-scan' != stem 'test-quality-scan.py' (no Java rule)
+  internal/assets/validate-pr-body.py.asset.yaml: asset id 'validate-pr-body' != stem 'validate-pr-body.py' (no Java rule)
+  qa/directives/qa-001-traceability-mandatory.directive.yaml: directive id 'QA_001' != stem 'qa-001-traceability-mandatory' (no Java rule)
+  qa/directives/qa-002-defect-report-quality.directive.yaml: directive id 'QA_002' != stem 'qa-002-defect-report-quality' (no Java rule)
+  qa/directives/qa-003-no-fake-green.directive.yaml: directive id 'QA_003' != stem 'qa-003-no-fake-green' (no Java rule)
+  qa/directives/qa-004-exit-criteria-precede-execution.directive.yaml: directive id 'QA_004' != stem 'qa-004-exit-criteria-precede-execution' (no Java rule)
+  qa/directives/qa-005-risk-based-prioritization.directive.yaml: directive id 'QA_005' != stem 'qa-005-risk-based-prioritization' (no Java rule)
+  qa/directives/qa-006-exploratory-charters-timeboxed.directive.yaml: directive id 'QA_006' != stem 'qa-006-exploratory-charters-timeboxed' (no Java rule)
+  qa/directives/qa-007-promise-traceability.directive.yaml: directive id 'QA_007' != stem 'qa-007-promise-traceability' (no Java rule)
+  qa/directives/qa-008-reproductions-gate-releases.directive.yaml: directive id 'QA_008' != stem 'qa-008-reproductions-gate-releases' (no Java rule)
+  qa/toolguides/qa-promise-trace-lint.toolguide.yaml: toolguide id 'qa-promise-trace-lint-guide' != stem 'qa-promise-trace-lint' (no Java rule)
+  qa/toolguides/qa-result-ingest.toolguide.yaml: toolguide id 'qa-result-ingest-guide' != stem 'qa-result-ingest' (no Java rule)
+  qa/assets/qa_carrier_lint.py.asset.yaml: asset id 'qa-traceability-lint' != stem 'qa_carrier_lint.py' (no Java rule)
+  qa/assets/qa_promise_trace_lint.py.asset.yaml: asset id 'qa-promise-trace-lint' != stem 'qa_promise_trace_lint.py' (no Java rule)
+  qa/assets/qa_result_ingest.py.asset.yaml: asset id 'qa-result-ingest' != stem 'qa_result_ingest.py' (no Java rule)
+
+## sidecars naming a missing payload (SidecarPayloads)
+  built-in/assets/audiences/agentic-framework-core-team.md.asset.yaml: path 'assets/audiences/agentic-framework-core-team.md' -> assets/assets/audiences/agentic-framework-core-team.md MISSING
+  built-in/assets/audiences/automation_agent.md.asset.yaml: path 'assets/audiences/automation_agent.md' -> assets/assets/audiences/automation_agent.md MISSING
+  built-in/assets/audiences/line_manager.md.asset.yaml: path 'assets/audiences/line_manager.md' -> assets/assets/audiences/line_manager.md MISSING
+  built-in/assets/audiences/nontech_educator.md.asset.yaml: path 'assets/audiences/nontech_educator.md' -> assets/assets/audiences/nontech_educator.md MISSING
+  built-in/assets/audiences/software_engineer.md.asset.yaml: path 'assets/audiences/software_engineer.md' -> assets/assets/audiences/software_engineer.md MISSING
+  built-in/assets/docs_structural_lint.py.asset.yaml: path 'assets/docs_structural_lint.py' -> assets/assets/docs_structural_lint.py MISSING
+
+## pack.yaml
+built-in {'pack_id': '01ARWG13C000000000000000FG', 'name': 'built-in', 'pack_version': '1.0.0', 'pack_level': 'built-in', 'depends_on': None, 'parent_pack': None} no-fragment
+cave-kitty MISSING -> pack_unreadable (OfferingReadService:208-211) fragment
+event-driven MISSING -> pack_unreadable (OfferingReadService:208-211) fragment
+internal {'pack_id': '01M4P01D5TWB5FKZGNNQG3943R', 'name': 'spec-kitty-internal', 'pack_version': '1.0.0', 'pack_level': 'org', 'depends_on': None, 'parent_pack': None} fragment
+qa MISSING -> pack_unreadable (OfferingReadService:208-211) fragment
+
+## reference-shaped data the check does NOT read (structured yaml, id of another pack)
+
+### built-in: 0
+
+### cave-kitty: 5
+     5 mission_type:steps[]..id  e.g. ('missions/cave-dev/cave-dev.mission-type.yaml', 'specify', [('built-in', 'mission_step_contract')])
+
+### event-driven: 0
+
+### internal: 0
+
+### qa: 35
+    13 agent_profile:tactic-references[].id  e.g. ('agent_profiles/qa-test-executor-elena.agent.yaml', 'no-parallel-duplicate-test-runs', [('built-in', 'tactic')])
+     6 agent_profile:styleguide-references[].id  e.g. ('agent_profiles/qa-test-executor-elena.agent.yaml', 'testing-principles', [('built-in', 'styleguide')])
+     5 mission_type:steps[]..id  e.g. ('missions/qa/qa.mission-type.yaml', 'specify', [('built-in', 'mission_step_contract')])
+     5 mission_step_contract:action  e.g. ('mission_step_contracts/qa-implement.step-contract.yaml', 'implement', [('built-in', 'mission_step_contract')])
+     4 agent_profile:collaboration.operating-procedures[]  e.g. ('agent_profiles/qa-test-executor-elena.agent.yaml', 'spike-timebox-policy', [('built-in', 'procedure')])
+     1 glossary_pack:terms[].surface  e.g. ('glossary_packs/qa-glossary.glossary-pack.yaml', 'review', [('built-in', 'mission_step_contract')])
+     1 agent_profile:toolguide-references[].id  e.g. ('agent_profiles/qa-test-designer-tessa.agent.yaml', 'gherkin', [('built-in', 'toolguide')])
+
+## prose mentions (Markdown + yaml text) of another pack's id with -/_ , word-bounded, excluding files of checked refs
+  built-in: 0 mentions of 0 foreign ids in 0 files; top []
+  cave-kitty: 61 mentions of 10 foreign ids in 12 files; top [('software-dev', 46), ('DIRECTIVE_051', 4), ('reviewer-renata', 3), ('planner-priti', 2), ('analyst-annie', 1), ('implementer-ivan', 1)]
+  event-driven: 18 mentions of 6 foreign ids in 6 files; top [('domain-event-capture', 5), ('anti-corruption-layer', 3), ('event-storming-discovery', 3), ('reference-architectural-patterns', 3), ('domain-driven-design', 2), ('deep-module-design', 2)]
+  internal: 162 mentions of 41 foreign ids in 28 files; top [('adversarial-squad-deployment', 14), ('mission-wrap-up-sequence', 10), ('RED_MAIN_RELEASE_DISCIPLINE', 9), ('planning-and-tracking', 8), ('development-assist-test-cleanup', 8), ('test-first-bug-fixing', 8)]
+  qa: 52 mentions of 31 foreign ids in 21 files; top [('given-when-then-authoring', 7), ('bdd-scenario-formulation', 5), ('quality-gate-verification', 2), ('eisenhower-prioritisation', 2), ('premortem-risk-identification', 2), ('no-parallel-duplicate-test-runs', 2)]
