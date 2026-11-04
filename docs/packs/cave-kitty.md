@@ -20,12 +20,15 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/cave-kitty`
-- **Content checksum (sha256):** `99c189a63520573c3517fce7a8189a060f48cfe1b9a89efa07ec39a00ed3350c`
+- **Declared version:** `1.0.0`
+- **Content checksum (sha256):** `91a5eb3b0e2392fc271ed1fc5fc8eba4f7210ecb4524ea16484ef2c0e04cee89`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+
+**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
 ## Artifact inventory
 
@@ -35,7 +38,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `styleguides` | 1 |
 | `drg` | 1 |
 | `missions` | 9 |
-| **Total files** | **15** |
+| **Total files** | **16** |
 
 ### Full listing
 

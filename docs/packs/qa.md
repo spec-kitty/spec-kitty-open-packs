@@ -20,7 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `03de89ae159d6101401620148ce67a76f378821ffd85d08a94150b5ed2816fbb`
+- **Declared version:** `1.0.0`
+- **Content checksum (sha256):** `8b61c6d90a474fce161173af50b5b05dabae5c3515de326f0cbb251a1bd93f78`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -43,7 +44,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **72** |
+| **Total files** | **73** |
 
 ### Full listing
 

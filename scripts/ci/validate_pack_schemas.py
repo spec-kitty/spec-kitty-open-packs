@@ -735,8 +735,6 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
 #: Directories of packs not yet migrated to strict composition: the reference checks skip them. This
 #: list only shrinks, each migration removes its pack, and it is deleted by the end of the mission.
 PENDING_PACKS = frozenset({"internal", "qa", "event-driven"})
-#: Directories of packs whose ``pack.yaml`` does not exist yet. Same rule; goes when they gain one.
-PENDING_DESCRIPTORS = frozenset({"qa", "event-driven", "cave-kitty", "example-pack"})
 #: Node kinds the charter holds nowhere: it never judges whether a qualified target of these exists.
 UNHELD_KINDS = frozenset({"action", "guard", "lifecycle"})
 #: Schemas whose files write typed references (``{type, id}``) in ``references``; those in
@@ -833,7 +831,7 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
     violations = [
         f"{pack.name}/pack.yaml: missing: every pack needs a descriptor with its pack_id and name"
         for pack in pack_dirs
-        if not (pack / "pack.yaml").is_file() and pack.name not in PENDING_DESCRIPTORS
+        if not (pack / "pack.yaml").is_file()
     ]
     index: dict[str, dict[str, Path]] = {"pack_id": {}, "name": {}}
     for key, packs_by_value in index.items():

@@ -607,14 +607,6 @@ class CompositionChecks(unittest.TestCase):
         with mock.patch.object(validator, "PENDING_PACKS", frozenset({"pending"})):
             self.assertEqual(self.found(built_in, pending), "")
 
-    def test_a_pack_listed_as_pending_may_lack_its_descriptor_until_it_gains_one(self) -> None:
-        built_in = self.built_in()
-        pending = self.consumer(directory="pending")
-        (pending / "pack.yaml").unlink()
-        self.assertIn("pending/pack.yaml: missing", self.found(built_in, pending))
-        with mock.patch.object(validator, "PENDING_DESCRIPTORS", frozenset({"pending"})):
-            self.assertEqual(self.found(built_in, pending), "")
-
 
 if __name__ == "__main__":
     unittest.main()

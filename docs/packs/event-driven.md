@@ -20,7 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/event-driven`
-- **Content checksum (sha256):** `26862191a25d8930019250eb56b16f5e10fe8b8540c4a11bd965a4ab96060c50`
+- **Declared version:** `1.0.0`
+- **Content checksum (sha256):** `b3eaaea362387de3492ab0c46168dbe6a34312d57bad5634cbb89637a4df22fd`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,7 +40,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **19** |
+| **Total files** | **20** |
 
 ### Full listing
 
