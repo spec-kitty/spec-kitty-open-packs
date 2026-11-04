@@ -16,5 +16,7 @@
   "purpose_tldr": "Make every pack in this repository compose under the charter service's strict rules, and prove it.",
   "slug": "strict-pack-composition-01M6M0W4",
   "target_branch": "feat/strict-pack-composition",
-  "topology": "coord"
+  "topology": "coord",
+  "vcs": "git",
+  "vcs_locked_at": "2026-11-04T20:45:58.059098+00:00"
 }
