@@ -69,6 +69,9 @@
       "last_event_id": "01M6MF84DG4P8WMMB66YKSRJVV",
       "last_transition_at": "2026-11-04T23:45:30.032386+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Four descriptors with tool-minted ids (qa=quality-assurance, event-driven, cave-kitty, example-pack); cave-kitty depends_on built-in >=1.0,<2; PENDING_DESCRIPTORS and its test removed (operator-approved out-of-map); docs/packs regenerated for 3 packs. Gates: tests/ci 57 OK, tests/docs 8 OK, release 8 OK, vocabulary 12 OK, validate-packs and check-built-in OK; mutants (name removed, descriptor removed, duplicate id) fail."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 2962228,
