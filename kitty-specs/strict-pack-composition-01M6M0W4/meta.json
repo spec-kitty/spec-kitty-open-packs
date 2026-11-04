@@ -1,0 +1,20 @@
+{
+  "change_mode": "bulk_edit",
+  "contracts": "none",
+  "contracts_rationale": "The pack contract is owned by spec-kitty-charter contracts/packs; this mission defines no interface.",
+  "coordination_branch": "kitty/mission-strict-pack-composition-01M6M0W4",
+  "created_at": "2026-11-04T19:34:16.767922+00:00",
+  "flattened": false,
+  "friendly_name": "Strict pack composition",
+  "mid8": "01M6M0W4",
+  "mission_id": "01M6M0W4DHJFR6XQ6K3YMKSW0M",
+  "mission_number": null,
+  "mission_slug": "strict-pack-composition-01M6M0W4",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "The charter service now refuses to compose the packs here: cross-pack references must be qualified and reachable through depends_on, and pack identity is checked. This mission brings the content and structure in line and proves it with a real compose, ending the packs' compatibility with the as-is CLI by design.",
+  "purpose_tldr": "Make every pack in this repository compose under the charter service's strict rules, and prove it.",
+  "slug": "strict-pack-composition-01M6M0W4",
+  "target_branch": "feat/strict-pack-composition",
+  "topology": "coord"
+}
