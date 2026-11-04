@@ -85,7 +85,7 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "agent": "claude:claude-opus-5-5:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -95,7 +95,8 @@
       "last_transition_at": "2026-11-04T23:47:28.709463+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Six built-in sidecar paths now relative to assets/, with manifest, tree_digest 3bb5f106 and generated page in one commit (3a865e6); re-seed wording corrected (e6a83bc). Gates green; charter 85c20fa1 probe: built-in 318->324 artifacts, 0 violations, offering OK."
+        "Six built-in sidecar paths now relative to assets/, with manifest, tree_digest 3bb5f106 and generated page in one commit (3a865e6); re-seed wording corrected (e6a83bc). Gates green; charter 85c20fa1 probe: built-in 318->324 artifacts, 0 violations, offering OK.",
+        "Independent review of WP03 started by reviewer-renata"
       ],
       "provider": "__resolved_provider_absent__",
       "role": "reviewer",
