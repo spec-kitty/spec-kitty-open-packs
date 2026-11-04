@@ -20,7 +20,7 @@
   "work_packages": {
     "WP01": {
       "actor": "claude",
-      "agent": "claude:claude-opus-5-5:python-pedro",
+      "agent": "claude:claude-opus-5-5:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -35,7 +35,8 @@
         "Administrative rework to re-record identities, authorised by the operator. No defect.",
         "Re-recording the implementer's full identity. No code change.",
         "Re-recording the implementer's full identity. No code change.",
-        "No code change since cycle 2; identity re-record."
+        "No code change since cycle 2; identity re-record.",
+        "Cycle 2 review by reviewer-renata stands."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
