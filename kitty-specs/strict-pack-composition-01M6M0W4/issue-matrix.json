@@ -84,6 +84,18 @@
       "verdict": "not-applicable",
       "wp": null
     },
+    "#360": {
+      "evidence_ref": "spec-kitty-charter#360: context for the compose test's roots only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#363": {
       "evidence_ref": "spec FR-013, FR-014: spec-kitty-charter#363, companion PR",
       "fr": null,
