@@ -1,5 +1,17 @@
 {
   "rows": {
+    "#105": {
+      "evidence_ref": "named only as a file-overlap risk in plan IC-05; owes this mission no work",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#113": {
       "evidence_ref": "spec FR-010",
       "fr": null,
