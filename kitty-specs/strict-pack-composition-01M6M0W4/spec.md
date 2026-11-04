@@ -93,7 +93,7 @@ A charter maintainer moves the charter's open-packs pin to the merged result, an
 |----|-------------|-----------|--------|
 | NFR-001 | The added composition checks do not noticeably slow the pack gate. | The gate's run over all packs grows by under 5 seconds on a developer machine. | Approved |
 | NFR-002 | Local composition checks stay thin; the charter remains the authority. | Under 150 added production lines in the validator, with no reimplementation of ordering, level rules, version-range overlap or sibling logic. | Approved |
-| NFR-003 | Every changed reference is classified before it is edited. | 100% of the 93 sites appear in the occurrence map, by category. | Approved |
+| NFR-003 | Every changed reference is classified before it is edited. | 100% of the 93 sites appear in the mission's reference inventory, and the occurrence map classifies each category. | Approved |
 
 ### Constraints
 

@@ -74,3 +74,10 @@ JAVA_HOME=/usr/lib/jvm/temurin-25 GRADLE_USER_HOME=<scratch> GRADLE_RO_DEP_CACHE
   -Dorg.gradle.java.installations.paths=/usr/lib/jvm/temurin-25 \
   :packs:test --tests '*RealComposeProbeTest' -x spotlessCheck
 ```
+
+## Plan-phase decisions
+
+- **Decision:** a shrinking `PENDING_PACKS` allowance. **Rationale:** migrated packs are protected from the moment they migrate, and the check is proven early. **Alternatives:** guard added only at the end (leaves a gap and proves nothing early); a per-pack flag (more surface).
+- **Decision:** scripted qualification that rewrites only the matched value. **Rationale:** the research migration reformatted files through PyYAML, which would produce noisy diffs and lose comments. **Alternatives:** hand edits (error-prone at 93 sites).
+- **Decision:** `CHARTER_COMMIT` moves to charter `main`, re-checked when the foundation work starts (`85c20fa1` at research time). **Rationale:** contracts are identical from `88ed36e4` to that tip. **Alternatives:** the oldest sufficient commit (no benefit).
+- **Dependencies:** none added, removed or upgraded, so DIRECTIVE_051's controls have nothing to examine.
