@@ -71,7 +71,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Four descriptors with tool-minted ids (qa=quality-assurance, event-driven, cave-kitty, example-pack); cave-kitty depends_on built-in >=1.0,<2; PENDING_DESCRIPTORS and its test removed (operator-approved out-of-map); docs/packs regenerated for 3 packs. Gates: tests/ci 57 OK, tests/docs 8 OK, release 8 OK, vocabulary 12 OK, validate-packs and check-built-in OK; mutants (name removed, descriptor removed, duplicate id) fail.",
-        "Independent review of 7dee429 by reviewer-renata started"
+        "Independent review of 7dee429 by reviewer-renata started",
+        "Reviewed 7dee429 against merge 8ec9cec. Gates: tests/ci 57 OK, tests/docs 8 OK, tests/release 8 OK, tests/vocabulary 12 OK; validate-packs rc=0 at charter 85c20fa (6 packs, 0 cross-pack violations); check-built-in rc=0; gen_pack_reference --check rc=0. Mutants on temp copies refused: each of 4 descriptors deleted, pack_id/name/pack_version removed, pack_level removed where depends_on is present, duplicate pack_id (3 pairs), duplicate name, invalid ULID, purpose field, hand-edited page. Unrefused and outside this WP: bad range, unknown dependency id, cave-kitty depends_on removed, unresolved active_charter/pack_drg, non-semver version. pack_ids valid, unique, minted after the WP claim, not the 01M6Z placeholders. Pointers resolve and comments are true. qa and event-driven depends_on belong to WP04 and WP05. PENDING_DESCRIPTORS removed with no dead code; missing-descriptor test remains. Page checksums recomputed independently. Real compose not run here (WP04). Reviewer slip: a mutation hit docs/packs/qa.md in the lane worktree by mistake, reverted uncommitted; HEAD unchanged and tree clean."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
