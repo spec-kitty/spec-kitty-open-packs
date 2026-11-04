@@ -52,7 +52,8 @@ def main() -> int:
     expected = yaml.safe_load(SOURCE.read_text(encoding="utf-8"))["tree_digest"]["value"]
     if actual != expected:
         print(f"::error file=packs/built-in.source.yaml::packs/built-in/ digest {actual} != recorded {expected}; "
-              "re-seed: run `python3 scripts/ci/built_in_digest.py` and record the value as tree_digest.value")
+              "edit here and record the digest: run `python3 scripts/ci/built_in_digest.py` and record the value "
+              "as tree_digest.value")
         return 1
     print(f"ok: packs/built-in/ digest matches {expected}")
     return 0
