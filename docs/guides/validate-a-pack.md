@@ -64,15 +64,19 @@ Every pull request runs [`scripts/ci/validate-packs.sh`](../../scripts/ci/valida
 1. validates every pack under `packs/` (`packs/built-in` included) and `tests/fixtures/valid/`
    against the charter schemas;
 2. checks that every pack under `tests/fixtures/invalid/` **fails** schema validation, so a
-   validator that passes everything turns the job red.
+   validator that passes everything turns the job red;
+3. checks the packs together: a preset or edge that names nothing, one id declared by two packs,
+   a pack with no `pack.yaml`, a shared `pack_id` or `name`, a bare reference held only by another
+   pack, a qualifier outside the pack's `depends_on` closure, and a qualified target the named pack
+   does not hold. Packs listed in `PENDING_PACKS` skip the reference checks until they are
+   migrated. This is an early signal: the charter service stays the authority on composition.
 
 [`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh) checks that the tree digest of
 `packs/built-in` matches `packs/built-in.source.yaml`. The vocabulary guard and the release and
 vocabulary tests run even when validation fails, so one run shows all the red.
 
 To move to newer schemas, change `CHARTER_COMMIT` in `scripts/ci/validate_pack_schemas.py` to a
-full commit SHA of `spec-kitty-charter`. The current pin is a commit of the open
-mission-type-consolidation branch (charter PR #275); move it to a `main` commit once that merges.
+full commit SHA of `spec-kitty-charter`'s `main` branch, and never float it to a branch.
 
 Run it locally before opening a PR:
 
