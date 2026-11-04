@@ -93,6 +93,9 @@
       "last_event_id": "01M6MF9XEHWWCCVCYZF067Z483",
       "last_transition_at": "2026-11-04T23:46:28.433647+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Six built-in sidecar paths now relative to assets/, with manifest, tree_digest 3bb5f106 and generated page in one commit (3a865e6); re-seed wording corrected (e6a83bc). Gates green; charter 85c20fa1 probe: built-in 318->324 artifacts, 0 violations, offering OK."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 2962542,
