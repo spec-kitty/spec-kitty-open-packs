@@ -10,6 +10,9 @@ requirement_refs:
 planning_base_branch: feat/strict-pack-composition
 merge_target_branch: feat/strict-pack-composition
 branch_strategy: Planning artifacts for this mission were generated on feat/strict-pack-composition. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/strict-pack-composition unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-strict-pack-composition-01M6M0W4
+base_commit: cc57e2e39c21acb13e9b7579b8273efa168d5a4f
+created_at: '2026-11-04T23:42:08.851117+00:00'
 subtasks:
 - T006
 - T007
