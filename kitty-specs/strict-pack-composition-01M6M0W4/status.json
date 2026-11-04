@@ -36,7 +36,8 @@
         "Re-recording the implementer's full identity. No code change.",
         "Re-recording the implementer's full identity. No code change.",
         "No code change since cycle 2; identity re-record.",
-        "Cycle 2 review by reviewer-renata stands."
+        "Cycle 2 review by reviewer-renata stands.",
+        "Approved on the cycle 2 review: tests/ci 58, docs 8, release 8, vocabulary 12; validate-packs and check-built-in pass; gate agrees with charter on 48 of 51 scenarios, the remaining three accepted."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
