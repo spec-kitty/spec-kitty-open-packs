@@ -103,7 +103,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Six built-in sidecar paths now relative to assets/, with manifest, tree_digest 3bb5f106 and generated page in one commit (3a865e6); re-seed wording corrected (e6a83bc). Gates green; charter 85c20fa1 probe: built-in 318->324 artifacts, 0 violations, offering OK.",
-        "Independent review of WP03 started by reviewer-renata"
+        "Independent review of WP03 started by reviewer-renata",
+        "Approved by independent review of 3a865e6 and e6a83bc against merge b42b3d2. Gates at e6a83bc: tests/ci 58, tests/docs 8, tests/release 8, tests/vocabulary 12 all OK; validate-packs, check-built-in, gen_pack_reference --check rc 0; also green at 3a865e6 and b42b3d2. Exactly six sidecars changed; pack_version 1.0.0. All 20 sidecars meet SidecarPayloads at charter 85c20fa1. content_hash (272), manifest_hash, tree_digest and page checksum recomputed independently and match. Atomicity: omitting manifest gives 6 stale, omitting digest fails check-built-in, omitting page fails drift. Service executed via RealComposeProbeTest at 85c20fa1: base PACK_UNREADABLE with 6 violations and 318 artifacts; lane 0 violations, 324 artifacts, OFFERING OK built-in(337). Sampled mentions are prose or the config file, none broken. For later: local gate blind to sidecar payloads (not in FR-003); core _anchor_for tracked in WP07."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
