@@ -30,7 +30,8 @@
       "last_transition_at": "2026-11-04T21:22:28.245937+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: gate understands qualified references and refuses the five composition defects; generator reads depends_on correctly"
+        "Ready for review: gate understands qualified references and refuses the five composition defects; generator reads depends_on correctly",
+        "Ready for review, cycle 2: held judged as the charter does (held_artifacts), pending test split, surviving mutants killed, purpose wording fixed"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
