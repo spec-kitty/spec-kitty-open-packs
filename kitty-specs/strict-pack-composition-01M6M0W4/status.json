@@ -1,7 +1,7 @@
 {
-  "event_count": 55,
-  "last_event_id": "01M6N7RK8DXAM0NBSAYZP441NQ",
-  "materialized_at": "2026-11-05T06:53:55.341405+00:00",
+  "event_count": 56,
+  "last_event_id": "01M6N8PZ7DTY2X395NE31YXE62",
+  "materialized_at": "2026-11-05T07:10:30.637704+00:00",
   "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 0
   },
   "work_packages": {
@@ -222,15 +222,15 @@
       }
     },
     "WP07": {
-      "actor": "user",
+      "actor": "claude",
       "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M6N7RK8DXAM0NBSAYZP441NQ",
-      "last_transition_at": "2026-11-05T06:53:55.341405+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M6N8PZ7DTY2X395NE31YXE62",
+      "last_transition_at": "2026-11-05T07:10:30.637704+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Close-out done locally and on the charter draft (PR 378 at da172296, pin ca5df04). Three issues NOT filed: creating them was denied in this environment; drafts handed to the operator. Re-pointing the pin at final main remains the operator-triggered last step of FR-014.",
@@ -245,7 +245,7 @@
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "changes_requested"
       },
-      "role": "implementer",
+      "role": "reviewer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
