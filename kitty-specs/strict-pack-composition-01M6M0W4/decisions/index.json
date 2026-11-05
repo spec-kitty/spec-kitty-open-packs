@@ -1,0 +1,29 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-04T19:34:24.853404Z",
+      "decision_id": "01M6M0WCAN8C95TEJCF5JS6NSC",
+      "final_answer": "(1) Names quality-assurance, event-driven, cave-kitty at version 1.0.0 depending on built-in >=1.0,<2; the packs/qa directory is not renamed. (2) Breakage of this repo's own governance under the as-is CLI at merge is accepted. (3) Check and corroborate qa's 24 unchecked profile references while processing; log an issue if that proves too much scope. (4) The companion charter PR is part of done.",
+      "input_key": "intent_confirmation",
+      "mission_id": "01M6M0W4DHJFR6XQ6K3YMKSW0M",
+      "mission_slug": "strict-pack-composition-01M6M0W4",
+      "opened_by": "cli",
+      "options": [
+        "Confirm all four",
+        "Change some (say which)"
+      ],
+      "origin_flow": "specify",
+      "other_answer": true,
+      "question": "Confirm the Intent Summary and its four defaults: (1) pack names qa, event-driven, cave-kitty; (2) accept that this repo's own governance loses packs/internal and packs/qa under the as-is CLI at merge; (3) leave qa's 24 unchecked profile references bare, with a follow-up issue; (4) the companion charter PR is part of done.",
+      "rationale": null,
+      "resolved_at": "2026-11-04T19:45:47.197095Z",
+      "resolved_by": null,
+      "slot_key": "specify.intent.confirm",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M6M0W4DHJFR6XQ6K3YMKSW0M",
+  "version": 1
+}
