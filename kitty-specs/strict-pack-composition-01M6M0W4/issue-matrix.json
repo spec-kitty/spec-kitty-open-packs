@@ -49,7 +49,7 @@
       "wp": null
     },
     "#116": {
-      "evidence_ref": "spec FR-009",
+      "evidence_ref": "12 references qualified in 2b99319, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,7 +57,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP05"
     },
     "#117": {
