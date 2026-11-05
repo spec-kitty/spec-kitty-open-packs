@@ -29,6 +29,7 @@
   "purpose_context": "The charter service now refuses to compose the packs here: cross-pack references must be qualified and reachable through depends_on, and pack identity is checked. This mission brings the content and structure in line and proves it with a real compose, ending the packs' compatibility with the as-is CLI by design.",
   "purpose_tldr": "Make every pack in this repository compose under the charter service's strict rules, and prove it.",
   "slug": "strict-pack-composition-01M6M0W4",
+  "status_phase": "1",
   "target_branch": "feat/strict-pack-composition",
   "topology": "coord",
   "vcs": "git",
