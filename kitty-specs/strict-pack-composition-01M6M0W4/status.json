@@ -158,7 +158,7 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "agent": "claude:claude-opus-5-5:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -168,7 +168,8 @@
       "last_transition_at": "2026-11-05T00:36:15.734583+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "12 event-driven references qualified (7 edges long form, 5 typed short form), depends_on built-in added, PENDING_PACKS reduced to internal, page regenerated. Scan 0 bare->other. Local charter compose (uncommitted extension in throwaway worktree, pin 2b99319) green: built-in, event-driven served with dependency edge."
+        "12 event-driven references qualified (7 edges long form, 5 typed short form), depends_on built-in added, PENDING_PACKS reduced to internal, page regenerated. Scan 0 bare->other. Local charter compose (uncommitted extension in throwaway worktree, pin 2b99319) green: built-in, event-driven served with dependency edge.",
+        "Independent review started on lane-b 2b99319"
       ],
       "provider": "__resolved_provider_absent__",
       "role": "reviewer",
