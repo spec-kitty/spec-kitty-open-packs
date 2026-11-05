@@ -236,7 +236,8 @@
         "Close-out done locally and on the charter draft (PR 378 at da172296, pin ca5df04). Three issues NOT filed: creating them was denied in this environment; drafts handed to the operator. Re-pointing the pin at final main remains the operator-triggered last step of FR-014.",
         "Independent review of WP07 close-out started; verdict reported to orchestrator, not recorded until issues resolved.",
         "Rework done. Follow-up issues filed with operator authorisation: spec-kitty/spec-kitty#7193, open-packs#119, #120. Charter draft #378 re-pins at the final lane head.",
-        "Independent re-review (cycle 2) of bd44674 and charter 297b8b1 by reviewer-renata"
+        "Independent re-review (cycle 2) of bd44674 and charter 297b8b1 by reviewer-renata",
+        "Independent review of bd44674 and charter 297b8b1: approved, no blockers. H1, M1, M2, M3, L1, L4 fixed. Gates: ci 56, docs 8, release 8, vocabulary 12, validate-packs, check-built-in, gen --check; SC-003 scan 0 bare foreign (93 qualified); SC-005 planted ref and removed pack.yaml rc 1. Charter: round trip 54/54 incl. compose 11, whole-pack 8/8, CI gate pass, preflight PASSED at 297b8b1 unsynced and synced. FR-016 and FR-011 met: #7193, #119, #120 checked. H4 ruling recorded. Pre-review gate no_coverage counted for nothing. Open by design: FR-014 and US3 until merge and the operator's re-point. Before #378 leaves draft: collapse the intermediate pin commits. L2 (inventory lists 91 of 93 sites) remains a small NFR-003 shortfall."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
