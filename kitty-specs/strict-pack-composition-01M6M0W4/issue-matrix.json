@@ -121,7 +121,7 @@
       "wp": null
     },
     "#47": {
-      "evidence_ref": "spec FR-004, FR-006; delivered by WP02 and WP06",
+      "evidence_ref": "Pack descriptors in WP02; glossary rename and descriptor guard in WP06 and WP01, on the mission branch at bd44674",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -129,7 +129,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP02"
     },
     "#72": {
