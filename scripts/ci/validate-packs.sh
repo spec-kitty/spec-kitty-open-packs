@@ -7,7 +7,8 @@
 # commit lives in scripts/ci/validate_pack_schemas.py.
 #
 #   1. Every file of every pack under packs/ (built-in included) and of tests/fixtures/valid/
-#      validates against the schema the contract maps it to.
+#      validates against the schema the contract maps it to, and every asset sidecar names, by a
+#      path relative to assets/, a payload the pack holds.
 #   2. Non-vacuity: every pack under tests/fixtures/invalid/ must FAIL validation, so a
 #      validator that silently passes everything turns this job red.
 #

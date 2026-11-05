@@ -62,9 +62,9 @@ Every pull request runs [`scripts/ci/validate-packs.sh`](../../scripts/ci/valida
 (`.github/workflows/validate-packs.yml`). It:
 
 1. validates every pack under `packs/` (`packs/built-in` included) and `tests/fixtures/valid/`
-   against the charter schemas;
-2. checks that every asset sidecar names, by a `path` relative to `assets/`, a payload the pack
-   holds, and that every pack under `tests/fixtures/invalid/` **fails** schema validation, so a
+   against the charter schemas, and checks that every asset sidecar names, by a `path` relative to
+   `assets/`, a payload the pack holds;
+2. checks that every pack under `tests/fixtures/invalid/` **fails** schema validation, so a
    validator that passes everything turns the job red;
 3. checks the packs together: a preset or edge that names nothing, one id declared by two packs,
    a pack with no `pack.yaml`, a shared `pack_id` or `name`, a bare reference held only by another

@@ -139,10 +139,27 @@ and is not caused by it.
 #### Neutral
 
 * 24 references to `built-in` in `quality-assurance`'s agent profiles stay bare. The service does not
-  read those fields today, and qualifying them breaks a working stanza in core. Qualifying them needs
-  a coordinated charter and core change.
-* The charter's pin moves only after this work reaches `main`, because a rebase merge changes the
-  commit it would point at.
+  read those fields today. Called directly, core's `render_profile_selector_refs` turns a qualified
+  id's `charter context --include` stanza into a "catalog entry not found" line. This was not shown
+  end to end: core already reported these `qa` profiles as not found in a run before the migration.
+  Qualifying them needs a coordinated charter and core change.
+
+### Follow-through: the charter's pin
+
+**One step of this decision remains, and the operator triggers it.**
+[spec-kitty-charter#378](https://github.com/spec-kitty/spec-kitty-charter/pull/378) stays a draft
+until the pull request carrying this work merges to `main`. Its pin points at a lane branch's head
+for now, and a rebase merge changes the commit, so the pin cannot be set until then. After the merge,
+the operator triggers the re-point to the final `main` commit.
+
+These move in that one change, in this order:
+
+1. `openPacksRef` and its comment in `gradle.properties`, set to the final `main` commit.
+2. `packs/open-packs.lock.yaml`, written by `./gradlew syncPacks -PupdatePacksLock=true`.
+3. A CI re-run on that commit, which must be green.
+4. Only then is the pull request marked ready.
+
+FR-014 and User Story 3 of the mission are not met until this lands.
 
 ### Confirmation
 

@@ -147,15 +147,16 @@ class ValidatorExitCodes(unittest.TestCase):
         return pack
 
     def test_an_asset_sidecar_names_a_payload_the_pack_holds_under_assets(self) -> None:
-        payloads = 'payloads:\n  - match: "*/assets/**/*"\n    kind: asset-payload\n    content_form: bytes\n'
-        held = {"assets/kept/held.txt": "x\n", "assets/t.tactic.yaml": "id: t2\n", "beside.txt": "x\n"}
+        payloads = ('payloads:\n  - match: "*/assets/**/*"\n    kind: asset-payload\n    content_form: bytes\n'
+                    '  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n')
+        held = {"assets/kept/held.txt": "x\n", "assets/t.tactic.yaml": "id: t2\n", "beside.txt": "x\n", "templates/held.md": "# t\n"}
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root, payloads)
             good = self.write_pack(root, {**held, "assets/kept/held.txt.asset.yaml": "path: kept/held.txt\n"})
             code, output = self.run_validator(root, str(good))
             self.assertEqual(code, validator.EXIT_OK, output)
-            for named in ("assets/kept/held.txt", "held.txt", "gone.txt", "kept", "../beside.txt", "t.tactic.yaml"):
+            for named in ("assets/kept/held.txt", "held.txt", "gone.txt", "kept", "../beside.txt", "t.tactic.yaml", "templates/held.md"):
                 with self.subTest(named):
                     (good / "assets" / "kept" / "held.txt.asset.yaml").write_text(f"path: {named}\n", encoding="utf-8")
                     code, output = self.run_validator(root, str(good))
