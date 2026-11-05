@@ -97,7 +97,7 @@
       "wp": null
     },
     "#363": {
-      "evidence_ref": "spec FR-013, FR-014: spec-kitty-charter#363, companion PR",
+      "evidence_ref": "spec-kitty-charter#363: compose test is in draft https://github.com/spec-kitty/spec-kitty-charter/pull/378, which lands after this mission merges (C-006)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -105,7 +105,7 @@
       "scope": null,
       "source_file": null,
       "title": null,
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP04"
     },
     "#365": {
