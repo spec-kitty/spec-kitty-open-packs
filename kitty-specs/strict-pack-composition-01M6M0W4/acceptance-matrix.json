@@ -98,10 +98,10 @@
       "criterion_id": "FR-010",
       "description": "All 78 references from `internal` to `built-in`, across 31 targets, are qualified, including the 5 `agent_profile` edges. (#113)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "WP06 review 6203de4: census of exactly 78 changed, 31 targets, incl. 5 agent_profile edges; re-scan at bd44674: 0 bare foreign",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:50.781501+00:00",
       "notes": null
     },
     {
