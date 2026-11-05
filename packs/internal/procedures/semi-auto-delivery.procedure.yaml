@@ -64,22 +64,3 @@ anti_patterns:
 - title: Self-merging
   content: |
     Merging the PR or arming auto-merge. The deliverable is a green PR flipped to ready-for-review and handed off; the operator merges.
-references:
-- type: directive
-  id: NO_FULL_HEAVY_SUITES_IN_MISSION
-  reason: In-mission runs are bounded to the calibrated blast radius and specific gate files; CI owns the heavy and full suites.
-- type: directive
-  id: OPERATOR_SIGNAL_CONTRACT
-  reason: A deciding path must also signal — every escalation-class decision surfaces on an operator-visible surface, never resolved silently.
-- type: procedure
-  id: built-in::mission-wrap-up-sequence
-  reason: The canonical accept, verdict, aggregate-review, consolidate, compact and rebase closeout for a Mission-shaped run.
-- type: procedure
-  id: built-in::test-first-bug-fixing
-  reason: The red-first workflow the brownfield standing orders require for a bugfix.
-- type: procedure
-  id: built-in::adversarial-squad-deployment
-  reason: The pre-PR review squad the closeout runs before opening the draft PR.
-- type: tactic
-  id: built-in::clean-linear-commit-history
-  reason: The commit-history shape the closeout aims for — coherent, reviewable commits, bookkeeping compressed.

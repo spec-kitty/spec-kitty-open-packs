@@ -62,8 +62,3 @@ anti_patterns:
 
 tooling:
   linters: "Boring-code-review is a review discipline, not a lint rule; apply it in human or agent code review."
-
-references:
-  - "packs/built-in/tactics/avoid-gold-plating.tactic.yaml"
-  - "packs/built-in/tactics/easy-to-change.tactic.yaml"
-  - "packs/built-in/directives/reconcile-change-scope-tensions.directive.yaml"

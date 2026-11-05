@@ -42,12 +42,3 @@ anti_patterns:
 - title: Unwritten Finding
   content: |
     Reaching a conclusion in the investigator's head and moving on without recording the hypothesis, evidence, and decision, so the uncertainty is only retired for one person.
-references:
-- type: directive
-  id: DIRECTIVE_003
-  reason: |
-    The spike terminates in a documented decision-or-abandon outcome; the decision-documentation requirement governs how that finding is recorded.
-- type: tactic
-  id: safe-to-fail-experiment
-  reason: |
-    A timeboxed spike is a safe-to-fail experiment: bounded, reversible, and run in a throwaway space so a failed hypothesis costs only the budget.

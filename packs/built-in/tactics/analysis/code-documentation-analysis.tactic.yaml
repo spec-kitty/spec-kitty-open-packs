@@ -76,16 +76,3 @@ failure_modes:
 
 notes: >
   Adapted from patterns.sddevelopment.be.
-references:
-  - name: Language-Driven Design
-    type: tactic
-    id: language-driven-design
-    when: Terminology analysis feeds directly into the language-driven design process for naming decisions
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: Context boundary proposals must be validated against the existing architectural integrity constraints
-  - name: Conceptual Alignment
-    type: directive
-    id: DIRECTIVE_032
-    when: Terminology conflicts discovered during analysis must be resolved to maintain conceptual alignment

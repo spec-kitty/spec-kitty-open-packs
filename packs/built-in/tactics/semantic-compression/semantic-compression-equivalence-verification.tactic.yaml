@@ -16,16 +16,3 @@ steps:
 failure_modes:
   - "Green unit tests alone do not prove boundary equivalence."
   - "Skipping evidence converts semantic compression into belief-based cleanup."
-references:
-  - name: Semantic Compression
-    type: paradigm
-    id: semantic-compression
-    when: Use as the final compression gate before handoff
-  - name: Test and Typecheck Quality Gate
-    type: directive
-    id: DIRECTIVE_030
-    when: Every compression change needs relevant automated verification
-  - name: Black-Box Integration Testing
-    type: directive
-    id: DIRECTIVE_036
-    when: Equivalence must be proven at external boundaries

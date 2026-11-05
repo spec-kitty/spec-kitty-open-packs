@@ -2,11 +2,6 @@ schema_version: "1.0"
 id: refactoring-move-field
 name: Refactoring Move Field
 purpose: Move a field to the class that actually owns and uses it most, reducing ownership drift and coupling.
-references:
-  - name: Refactoring Move Method
-    type: tactic
-    id: refactoring-move-method
-    when: Use alongside this tactic when behavior and data ownership have drifted together.
 steps:
   - title: Measure field usage and ownership
     description: Identify where the field is read and modified, and decide which class has the clearest ownership semantics.

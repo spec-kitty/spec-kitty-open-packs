@@ -149,10 +149,3 @@ tooling:
   dependency_audit: "OWASP Dependency-Check"
 
 quality_test: "Can a new contributor read one test method and understand what behavior it validates, what preconditions it requires, and what a failure means — without reading the production code?"
-
-references:
-  - "packs/built-in/agent_profiles/java-jenny.agent.yaml"
-  - "packs/built-in/toolguides/maven-review-checks.toolguide.yaml"
-  - "packs/built-in/tactics/testing/tdd-red-green-refactor.tactic.yaml"
-  - "packs/built-in/directives/030-test-and-typecheck-quality-gate.directive.yaml"
-  - "packs/built-in/directives/034-test-first-development.directive.yaml"

@@ -41,19 +41,6 @@ failure_modes:
   - "Ignoring error modes, ordering constraints, or performance expectations."
   - "Optimizing for maximum flexibility without a current caller need."
   - "Choosing an interface that cannot be tested without reaching past it."
-references:
-  - name: Deep Module Design
-    type: paradigm
-    id: deep-module-design
-    when: Interface options are evaluated by the paradigm's depth and leverage criteria.
-  - name: Deepening Opportunity Assessment
-    type: tactic
-    id: deepening-opportunity-assessment
-    when: Run first to confirm that a real deepening opportunity exists.
-  - name: Traceable Decisions
-    type: tactic
-    id: traceable-decisions
-    when: Record the selected interface when the trade-off is durable and non-obvious.
 notes: >
   Adapted from the mattpocock/skills interface design workflows at commit
   49cec7be019bc408e87b77670f3d442f536da254.

@@ -35,6 +35,3 @@ validation_criteria:
     declaration before performing the work.
   - Any hard constraint named in the declaration is verifiably honored (or
     its violation is explicitly surfaced) by completion.
-references:
-  - type: directive
-    id: DIRECTIVE_003

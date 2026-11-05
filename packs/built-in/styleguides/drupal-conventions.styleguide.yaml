@@ -16,7 +16,7 @@ principles:
   - "Routes name a required permission explicitly; controllers receive dependencies through `create()`, never `\\Drupal::`."
   - "Resolve identifiers dynamically: entity IDs, user IDs, and paths differ across environments."
   - "Theming follows Drupal's asset pipeline: `*.libraries.yml` declarations and `Drupal.behaviors` with `once()`, not inline `<script>` or `document.ready`."
-  - "Views table columns are always aliased: ambiguous column names break at scale, not at authoring time."
+  - "Views table columns are always aliased: ambiguous column names break at scale, not at authoring time. Sources: amazee.io drupal-agents-md, Vanilla variant (https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md); Drupal coding standards (https://www.drupal.org/docs/develop/standards)."
 
 patterns:
   - name: Plugin With Annotation
@@ -218,10 +218,3 @@ tooling:
   formatter: "phpcbf --standard=Drupal"
   linter: "phpcs --standard=Drupal,DrupalPractice"
   analyzer: "phpstan (with phpstan-drupal / drupal-check)"
-
-references:
-  - "amazee.io drupal-agents-md, Vanilla variant: https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md"
-  - "Drupal coding standards: https://www.drupal.org/docs/develop/standards"
-  - "See also, for the security- and performance-specific treatment: Drupal Security and Performance Styleguide."
-  - "packs/built-in/agent_profiles/drupal-dries.agent.yaml"
-  - "packs/built-in/toolguides/drupal-review-checks.toolguide.yaml"

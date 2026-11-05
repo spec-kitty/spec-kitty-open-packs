@@ -7,31 +7,6 @@ purpose: >
   prevents premature convergence on a solution that addresses only part of
   the problem, exposes hidden scope, and creates a structured basis for
   work-package planning and parallel progress.
-references:
-  - name: Lightweight Prestudy Template
-    type: template
-    id: lightweight-prestudy-template
-    when: When recording the decomposition as part of a prestudy or design document.
-  - name: Eisenhower Prioritisation
-    type: tactic
-    id: eisenhower-prioritisation
-    when: When deciding which sub-problems must be solved now versus deferred.
-  - name: Stakeholder Alignment
-    type: tactic
-    id: stakeholder-alignment
-    when: >
-      When enumeration of contributing factors reveals that stakeholder
-      concerns or organisational dynamics are a significant source of
-      the problem. Run stakeholder alignment before clustering so that
-      social and political factors are visible in the decomposition.
-  - name: Review Intent and Risk First
-    type: tactic
-    id: review-intent-and-risk-first
-    when: >
-      When validating the decomposition — confirm that the stated intent
-      of the initiative is faithfully reflected in the sub-problem set,
-      and that the highest-risk sub-problems are explicitly identified
-      before prioritisation begins.
 steps:
   - title: State the problem in one sentence
     description: >

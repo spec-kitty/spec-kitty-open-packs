@@ -2,11 +2,6 @@ schema_version: '1.0'
 id: cave-dev
 title: Cave Dev
 description: The software-development lifecycle, re-voiced in the caveman terse output style. Same eight canonical steps and the same engineering rigour as software-dev; only the agent's output prose is compressed (outcome-first, filler cut, payloads and negations kept exact).
-references:
-- type: directive
-  id: CAVE_001
-- type: styleguide
-  id: cave-sty-001-communication
 steps:
 - id: discovery
   title: Discovery (caveman)

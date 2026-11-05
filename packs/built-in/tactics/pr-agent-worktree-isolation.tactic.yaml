@@ -48,23 +48,6 @@ steps:
       procedure. Do not re-author the history compression steps or restate its
       failure modes here; a second authority for the same rule creates
       split-brain doctrine.
-references:
-  - name: PR Agent Worktree Isolation Directive
-    type: directive
-    id: DIRECTIVE_045
-    when: >
-      This tactic operationalizes the §7 worktree-isolation and no-version
-      rules that DIRECTIVE_045 makes binding. Consult the directive for the
-      enforcement context and scope; consult this tactic for the procedural
-      how-to.
-  - name: Clean Linear Commit History via Snapshot Chain
-    type: tactic
-    id: clean-linear-commit-history
-    when: >
-      Sibling discipline with a `refines`-type scope boundary: history compression
-      after landing is governed by clean-linear-commit-history; worktree isolation
-      and version-prescription restraint are governed here. Refer to that tactic
-      for compress-history steps; refer to this tactic for PR-agent discipline.
 failure_modes:
   - >
     Running a review or rebase agent without `isolation: "worktree"` — the agent

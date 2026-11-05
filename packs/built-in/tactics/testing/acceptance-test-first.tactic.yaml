@@ -7,11 +7,6 @@ steps:
     description: Capture the intended user-visible outcome as an executable acceptance test before implementation starts.
     examples:
       - "Add a CLI integration test that describes expected command output before editing command handlers."
-    references:
-      - name: Acceptance Criteria Non-Vacuity
-        type: tactic
-        id: acceptance-criteria-non-vacuity
-        when: Label the criterion and confirm a no-op cannot pass it
   - title: Attach traceability metadata
     description: Link each acceptance scenario to the governing task, ticket, or requirement identifier.
     examples:
@@ -28,11 +23,6 @@ steps:
     description: After acceptance tests fail for the right reason, continue with Red-Green-Refactor cycles for implementation detail.
     examples:
       - "Use failing acceptance test as the outer guard while adding unit-level TDD increments."
-    references:
-      - name: Test Driven Development (TDD)
-        type: tactic
-        id: tdd-red-green-refactor
-        when: After the acceptance test fails for the right reason, drive implementation detail with Red-Green-Refactor cycles.
   - title: Document manual fallbacks
     description: When automation is not feasible, record the fallback procedure and rationale for review.
     examples:

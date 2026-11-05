@@ -37,13 +37,6 @@ failure_modes:
   - "Editing a file that another WP declares in its owned_files — this is the actual guard violation, not the out-of-map edit itself."
   - "Making an out-of-map edit without recording a rationale, leaving reviewers unable to distinguish intentional cross-boundary work from accidental scope creep."
   - "Treating strict same-files-only prohibition as the invariant and working around it with TODOs, deferred fixes, or duplicated logic instead of a bounded, justified edit."
-references:
-  - name: Planning and Tracking Styleguide
-    type: styleguide
-    id: planning-and-tracking
-    when: >
-      Use when setting up or reviewing task decomposition to understand the
-      ownership-map constraints and leeway principles that govern WP isolation.
 notes: >
   This tactic aligns with the "no-overlap is the real guard" language in the
   tasks-packages and tasks step prompts:

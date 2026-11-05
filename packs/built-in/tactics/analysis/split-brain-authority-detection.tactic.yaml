@@ -89,19 +89,6 @@ failure_modes:
   - "Control-plane optimism: desired state says one authority, but runtime state still contains stale routers, configs, leaders, or clients."
   - "Overbroad scope: asking who owns the whole system hides split brain at the shard, tenant, key range, job, field, or entity-version level."
   - "Silent repair bias: reconciliation jobs can mask evidence unless they preserve origin, sequence, conflict, and overwrite telemetry."
-references:
-  - name: Forensic Repository Audit
-    type: tactic
-    id: forensic-repository-audit
-    when: Use when repository history may reveal repeated fixes, reverts, or ownership churn around split brain incidents.
-  - name: Premortem Risk Identification
-    type: tactic
-    id: premortem-risk-identification
-    when: Use before introducing multiple writers, active-active regions, offline clients, queue workers, or control-plane rollouts.
-  - name: Quality Gate Verification
-    type: tactic
-    id: quality-gate-verification
-    when: Use to prove the detector, chaos drill, or invariant test is part of the release gate.
 notes: |
   Universal best detective pattern.
 

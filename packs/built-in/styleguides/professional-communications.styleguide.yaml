@@ -22,6 +22,3 @@ anti_patterns:
     description: "Trying to serve an executive summary and a deep technical audience in the same document without structural separation."
     bad_example: "A single flat document mixing business-impact framing and implementation-level detail throughout."
     good_example: "An executive-summary section up top, with technical detail in clearly separated sections or a linked companion document."
-references:
-  - packs/built-in/directives/047-audience-oriented-writing.directive.yaml
-  - packs/built-in/tactics/communication/stakeholder-alignment.tactic.yaml

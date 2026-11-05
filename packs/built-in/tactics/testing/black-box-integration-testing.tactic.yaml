@@ -78,23 +78,6 @@ failure_modes:
   - "Asserting on private attributes or internal call sequences rather than on outputs observable through the external interface."
   - "Deriving inputs from reading the implementation rather than from the specification, which blinds the test to missing functionality and spec drift."
   - "Omitting the invalid-input case, so specified failure or refusal behavior goes unverified."
-references:
-  - name: Test Boundaries by Functional Responsibility
-    type: tactic
-    id: test-boundaries-by-responsibility
-    when: Use this tactic first to select which components are inside vs. outside the responsibility boundary before applying black-box integration testing.
-  - name: Acceptance Test First
-    type: tactic
-    id: acceptance-test-first
-    when: Acceptance tests define the outer behavioral boundary that black-box integration tests can refine at intermediate scopes.
-  - name: Test and Typecheck Quality Gate
-    type: directive
-    id: DIRECTIVE_030
-    when: Black-box integration tests are part of the integration-level gate that must pass before handoff.
-  - name: Test-First Development
-    type: directive
-    id: DIRECTIVE_034
-    when: Black-box integration tests can be written first to capture the external contract before implementation.
 notes: >
   Black-box testing is also referred to as specification-based testing or
   behavioral testing. It is distinguished from white-box testing, in which

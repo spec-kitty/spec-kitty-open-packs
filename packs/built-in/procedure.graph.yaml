@@ -91,6 +91,7 @@ edges:
 - source: procedure:bdd-scenario-lifecycle
   target: styleguide:given-when-then-authoring
   relation: requires
+  reason: "Gherkin scenarios (step 1) are authored per this styleguide's Given/When/Then conventions.\n"
 - source: procedure:bdd-scenario-lifecycle
   target: styleguide:given-when-then-authoring
   relation: suggests

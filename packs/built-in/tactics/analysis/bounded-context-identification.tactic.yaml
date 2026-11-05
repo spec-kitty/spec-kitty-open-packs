@@ -62,8 +62,3 @@ failure_modes:
   - "Boundary by technology: splitting contexts along technical layers (frontend/backend) instead of domain language."
   - "Over-splitting: creating a context per entity, adding integration overhead without language divergence to justify it."
   - "Ignoring sociotechnical factors: drawing boundaries purely from domain analysis without considering team structure and history."
-references:
-  - name: Language-Driven Design
-    type: tactic
-    id: language-driven-design
-    when: Detecting linguistic conflicts that signal a bounded context boundary.

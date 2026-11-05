@@ -57,8 +57,3 @@ validation_criteria:
   parameter rather than to an implementation detail.
 - The responsibility boundary applied by the test is identifiable from the test 
   itself.
-references:
-- type: directive
-  id: DIRECTIVE_030
-- type: directive
-  id: DIRECTIVE_034

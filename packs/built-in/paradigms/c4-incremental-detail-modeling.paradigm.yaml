@@ -19,6 +19,3 @@ summary: >
   a legend, labelled elements with descriptions, and labelled unidirectional
   relationships. The guiding heuristic: produce only the levels that add
   value and keep each diagram reviewable in under five minutes.
-
-directive_refs:
-  - DIRECTIVE_001

@@ -254,6 +254,3 @@ anti_patterns:
       | Owner | Action | Deadline |
       |-------|--------|----------|
       | Alex Rivera | share the cold-start numbers | |
-
-references:
-  - packs/built-in/directives/047-audience-oriented-writing.directive.yaml

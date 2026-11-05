@@ -13,8 +13,3 @@ steps:
   - title: Replace large or production-derived data-sets with the smallest synthetic set that preserves the case's coverage intent
   - title: Simplify fixtures shared across test cases to their smallest reusable form
   - title: Re-run the test case and confirm its original coverage intent still holds after reduction
-references:
-  - name: QA No Fake Green
-    type: directive
-    id: QA_003
-    when: when a minimized test case's re-run result must be verified rather than assumed, so reduced test data cannot silently produce a false-pass result that reads as preserved coverage

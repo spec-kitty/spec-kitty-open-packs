@@ -14,8 +14,3 @@ steps:
   - title: Move confirmed flakes into quarantine, excluded from the run's pass/fail verdict
   - title: Track quarantined tests separately so they are not silently forgotten
   - title: Re-admit a quarantined test only after its nondeterminism is fixed and it passes a stability check
-references:
-  - name: QA No Fake Green
-    type: directive
-    id: QA_003
-    when: when a flaky test's false-fail result would otherwise corrupt a run's recomputed verdict

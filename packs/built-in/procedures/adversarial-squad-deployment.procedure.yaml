@@ -49,10 +49,6 @@ anti_patterns:
     Turning the squad into a required mission gate instead of optional, charter- or memory-activated enrichment. Bad: a status transition blocked until squad evidence is present, e.g. raising a StatusGateError before a work package can be claimed. Good: the squad runs at the point-cut as guidance and the work proceeds independently of the squad's outcome — the squad enriches, it never blocks.
 - title: Silently dropped finding
   content: Recording a finding without a disposition under the findings-disposition contract — every finding must be accepted, changed, or deferred with a rationale, never dropped.
-references:
-- type: tactic
-  id: code-review-incremental
-  reason: Each delegate applies structured, observation-first review discipline within its assigned lens.
 notes: |
   This procedure is the single owner of the squad playbook; the `adversarial-squad`
   skill is a harness alias that points here for the when, who, and how.

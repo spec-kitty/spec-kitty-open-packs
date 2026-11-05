@@ -16,16 +16,3 @@ steps:
 failure_modes:
   - "Choosing a canonical path without owner evidence may standardize the wrong behavior."
   - "Leaving old paths callable preserves the split-brain rule."
-references:
-  - name: Semantic Compression
-    type: paradigm
-    id: semantic-compression
-    when: Use when multiple active paths express one protected behavior
-  - name: Split-Brain Authority Detection
-    type: tactic
-    id: split-brain-authority-detection
-    when: Multiple writers or authorities disagree about the same state or rule
-  - name: Conceptual Alignment
-    type: directive
-    id: DIRECTIVE_032
-    when: Competing paths use different names for the same concept

@@ -76,23 +76,6 @@ failure_modes:
   - "Stale diagrams: diagrams that were accurate at creation but have not been updated to reflect architectural changes, actively misleading readers."
   - "Implicit audience: no stated target audience, leading to diagrams that are too detailed for some readers and too abstract for others."
   - "Screenshot architecture: using screenshots of running systems instead of intentional diagrams, mixing UI detail with architectural abstraction."
-references:
-  - name: C4 Zoom-In Architecture Documentation
-    type: tactic
-    id: c4-zoom-in-architecture-documentation
-    when: Producing the diagrams that this checklist reviews.
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: Verifying that diagram boundaries align with documented architectural decisions.
-  - name: Mermaid Diagramming Toolguide
-    type: toolguide
-    id: mermaid-diagramming
-    when: Rendering reviewed diagrams in Mermaid syntax.
-  - name: PlantUML Diagramming Toolguide
-    type: toolguide
-    id: plantuml-diagramming
-    when: Rendering reviewed diagrams in PlantUML syntax.
 notes: >
   This checklist applies to any architecture diagram, not only C4 diagrams.
   The principles -- titles, legends, labelled elements, labelled relationships,

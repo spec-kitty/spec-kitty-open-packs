@@ -7,15 +7,6 @@ purpose: >
   between groups early — before design choices embed assumptions that
   conflict with stakeholder reality. Unaddressed stakeholder conflict is
   the most common source of technically correct but organisationally rejected solutions.
-references:
-  - name: Stakeholder Persona Template
-    type: template
-    id: stakeholder-persona-template
-    when: When producing detailed stakeholder profiles for complex or long-running initiatives.
-  - name: System Context Canvas Template
-    type: template
-    id: system-context-canvas-template
-    when: When recording stakeholder findings as part of a full situational assessment.
 steps:
   - title: Enumerate potential stakeholders
     description: >

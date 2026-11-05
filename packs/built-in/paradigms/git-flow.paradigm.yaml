@@ -8,8 +8,3 @@ summary: >
   whose charter already requires Git Flow. It is not the default implementation
   workspace model; execution-lane worktrees remain the supported default when no
   project-specific branching paradigm is selected.
-
-directive_refs:
-  - DIRECTIVE_029
-  - DIRECTIVE_030
-  - DIRECTIVE_033

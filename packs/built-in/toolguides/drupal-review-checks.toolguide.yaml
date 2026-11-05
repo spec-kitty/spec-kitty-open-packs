@@ -18,5 +18,3 @@ commands:
 applies_to_languages:
 - php
 - twig
-references:
-- 'amazee.io drupal-agents-md, Vanilla variant: https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md'

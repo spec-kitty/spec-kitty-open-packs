@@ -38,21 +38,5 @@ anti_patterns:
   content: Questions like 'please provide more detail' do not help the reporter unblock triage.
 - title: Memory-only rejection
   content: Closing an enhancement without a persistent concept record causes future duplicate requests to be relitigated.
-references:
-- type: template
-  id: agent-brief-template
-  reason: Use when moving an issue to ready-for-agent.
-- type: template
-  id: out-of-scope-record-template
-  reason: Use when rejecting an enhancement as out of scope.
-- type: procedure
-  id: disciplined-defect-diagnosis
-  reason: Use for bug reports that need diagnosis before they are ready for implementation.
-- type: procedure
-  id: test-first-bug-fixing
-  reason: Use once a bug is reproducible and ready for a fix.
-- type: tactic
-  id: requirements-validation-workflow
-  reason: Use to validate enhancement claims and acceptance criteria before delegation.
 notes: |
   Adapted from the mattpocock/skills github-triage, qa, and triage-issue workflows at commit 49cec7be019bc408e87b77670f3d442f536da254.

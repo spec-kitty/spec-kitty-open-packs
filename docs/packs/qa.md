@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `1133c430c7eb250e9557e8b8b7d321181ebe78e0bab1975b8f7bbd34e496a70c`
+- **Content checksum (sha256):** `bfceb81cb164cd85fd6753ea26ed4f3e086e9ce83e31a62d85e83ca3738ef805`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -193,6 +193,4 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 
 ## Validation
 
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0
+Validation status unavailable — the charter pack schemas could not be used (cannot fetch https://raw.githubusercontent.com/spec-kitty/spec-kitty-charter/85c20fa148bd9cb1517e9e95d3d13c3718201dd4/contracts/packs/file-kinds.yaml: <HTTPError 404: 'Not Found'>). Run `python3 scripts/ci/validate_pack_schemas.py <dir>` locally.

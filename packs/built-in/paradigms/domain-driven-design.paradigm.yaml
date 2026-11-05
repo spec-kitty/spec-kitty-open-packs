@@ -11,8 +11,3 @@ summary: >
   the model boundary. DDD treats the domain model as the primary artifact —
   code is a direct expression of that model, not a translation layer above a
   database schema or UI framework.
-
-directive_refs:
-  - DIRECTIVE_001
-  - DIRECTIVE_031
-  - DIRECTIVE_032

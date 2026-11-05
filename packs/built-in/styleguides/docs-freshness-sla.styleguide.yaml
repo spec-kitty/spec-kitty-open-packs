@@ -80,9 +80,3 @@ quality_test: >
   clock reset by any behaviour change that touched it, are generated pages kept
   current by regeneration rather than hand-patching, and does every tripped
   threshold become a prioritised triage rather than a page silently left live?
-
-references:
-  - packs/built-in/directives/037-living-documentation-sync.directive.yaml
-  - packs/built-in/procedures/documentation-gap-prioritization.procedure.yaml
-  - packs/built-in/styleguides/common-docs.styleguide.yaml
-  - packs/built-in/styleguides/publication-authority.styleguide.yaml

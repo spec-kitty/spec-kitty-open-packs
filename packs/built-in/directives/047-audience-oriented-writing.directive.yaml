@@ -49,10 +49,3 @@ validation_criteria:
     frontmatter path that resolves to an existing file under
     `docs/context/audience/` (see DIRECTIVE_042 and the common-docs styleguide
     for the field contract and the resolver that verifies it).
-references:
-  - type: directive
-    id: DIRECTIVE_042
-  - type: styleguide
-    id: common-docs
-  - type: tactic
-    id: writing-audience-catalog

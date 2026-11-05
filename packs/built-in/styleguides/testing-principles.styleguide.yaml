@@ -180,16 +180,3 @@ anti_patterns:
           assert result.exit_code == 0
 
 quality_test: "Can a new contributor read one test and understand what behavior it validates, what preconditions are required, and what a failure means — without reading the production code?"
-
-references:
-  - "packs/built-in/tactics/testing/tdd-red-green-refactor.tactic.yaml"
-  - "packs/built-in/tactics/testing/acceptance-test-first.tactic.yaml"
-  - "packs/built-in/tactics/testing/test-minimisation.tactic.yaml"
-  - "packs/built-in/tactics/testing/test-boundaries-by-responsibility.tactic.yaml"
-  - "packs/built-in/tactics/testing/test-pyramid-progression.tactic.yaml"
-  - "packs/built-in/tactics/testing/testing-select-appropriate-level.tactic.yaml"
-  - "packs/built-in/directives/030-test-and-typecheck-quality-gate.directive.yaml"
-  - "packs/built-in/directives/034-test-first-development.directive.yaml"
-  - "packs/built-in/directives/041-tests-as-scaffold-not-friction.directive.yaml"
-  - "packs/built-in/styleguides/quadruple-a-test-format.styleguide.yaml"
-  - "packs/built-in/styleguides/test-desiderata-and-boundaries.styleguide.yaml"

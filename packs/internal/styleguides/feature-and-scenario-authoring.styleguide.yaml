@@ -11,7 +11,7 @@ principles:
   - "Describe desired behaviour, not defects. The .feature layer is the specification of what the system should do; it is not a bug-reproduction layer. Never tag a scenario @defect and never phrase it as a reproduction — a fixed defect becomes a positive promise, and its reproduction stays in the regression tier."
   - "Name outcomes, not output surfaces. Assert the governed result the consumer experiences, not what a command printed. 'The governance in force includes the profiles I selected' is a promise; 'charter list prints researcher-ryan' is a technical echo."
   - "One promise per scenario, concrete and checkable. Narrow to a single guarantee a step can witness. Breadth that cannot be observed — 'composition resolves the way I expect' — is not a scenario; split it into the specific guarantees that matter or drop it."
-  - "Stay in the consumer's language. No internal module names, file paths, event-log shapes, or implementation vocabulary in Feature or Scenario text. If a sentence only makes sense to someone who has read the source, rewrite it for the user."
+  - "Stay in the consumer's language. No internal module names, file paths, event-log shapes, or implementation vocabulary in Feature or Scenario text. If a sentence only makes sense to someone who has read the source, rewrite it for the user. Sources: tests/scenarios/README.md; docs/development/testing/acceptance-scenarios.md."
 
 patterns:
   - name: Outcome-first Feature title
@@ -104,7 +104,3 @@ anti_patterns:
     good_example: >
       "Scenario: when two selected profiles both set the same step's input, the
       more specific profile's value is the one in force."
-
-references:
-  - "tests/scenarios/README.md"
-  - "docs/development/testing/acceptance-scenarios.md"

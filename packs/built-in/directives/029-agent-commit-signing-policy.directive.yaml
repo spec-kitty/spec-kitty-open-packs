@@ -5,9 +5,6 @@ intent: >
   Agent-authored commits must avoid GPG or SSH signing in unattended workflows
   so automation does not fail on missing key material or unverifiable signatures.
 enforcement: required
-references:
-  - type: toolguide
-    id: git-agent-commit-signing
 scope: >
   Applies to LLM or automation-authored git commits created during
   implementation, review remediation, or release preparation.

@@ -73,8 +73,3 @@ quality_test: >
   with each paragraph leading with its bottom line, terms defined once and
   reused consistently, instructions in the active voice addressed to 'you', and
   no jargon that the named audience has not been given a gloss or link for?
-
-references:
-  - packs/built-in/missions/documentation/documentation.mission-type.yaml
-  - packs/built-in/styleguides/common-docs.styleguide.yaml
-  - packs/built-in/tactics/communication/glossary-curation-interview.tactic.yaml

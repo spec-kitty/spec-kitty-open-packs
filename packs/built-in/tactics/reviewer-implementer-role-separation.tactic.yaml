@@ -62,13 +62,6 @@ failure_modes:
   - "The agent_profile field is left as the implementer profile when the WP moves to for_review, causing the reviewer to load the wrong governance context."
   - "Adding role or profile wiring in this tactic that conflicts with or duplicates the mission type or the preset. A step's role belongs in the mission-type file, and which profiles are active belongs in the activation preset (or in a derived pack that pins a profile to a role), not here."
   - "Self-certified approval: an approved review-cycle artifact is manufactured or hand-authored rather than produced by a genuine independent review, defeating the two-party-review integrity that role separation exists to protect. Recovery is a fresh independent review, not a rationale for the existing artifact."
-references:
-  - name: Planning and Tracking Styleguide
-    type: styleguide
-    id: planning-and-tracking
-    when: >
-      Use when planning task decomposition to understand the role-separation
-      discipline that governs who reviews each work package.
 notes: >
   Role and profile wiring lives outside this tactic. A step in a mission type
   names the role it needs: in

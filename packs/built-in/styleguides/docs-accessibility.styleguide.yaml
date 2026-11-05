@@ -69,8 +69,3 @@ quality_test: >
   the page carries — each informative image described in alt text, the heading
   outline unbroken, every link self-describing, no meaning locked in colour or
   inside a diagram alone, and every table and code block properly marked up?
-
-references:
-  - packs/built-in/toolguides/mermaid-diagramming.toolguide.yaml
-  - packs/built-in/toolguides/plantuml-diagramming.toolguide.yaml
-  - packs/built-in/styleguides/common-docs.styleguide.yaml

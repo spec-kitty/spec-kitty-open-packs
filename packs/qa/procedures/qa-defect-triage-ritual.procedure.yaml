@@ -25,8 +25,3 @@ steps:
 - title: Confirm every defect in the batch has both fields recorded before closing the ritual
   description: |
     Do not close the ritual while any defect in the batch is missing either its severity or its priority classification.
-references:
-- type: directive
-  id: QA_002
-  reason: |
-    This ritual's severity/priority classification step feeds defect report quality by ensuring every reported defect carries an agreed classification.

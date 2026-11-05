@@ -37,8 +37,3 @@ validation_criteria:
     version was used.
   - Stale-version usage is flagged as a finding, never silently corrected
     without a trace of what was corrected and why.
-references:
-  - type: directive
-    id: DIRECTIVE_037
-  - type: directive
-    id: DIRECTIVE_018

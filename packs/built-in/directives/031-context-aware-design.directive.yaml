@@ -34,6 +34,3 @@ validation_criteria:
   - The design document or code review identifies which bounded context is in scope.
   - All identifiers in new or changed code use the context's ubiquitous language.
   - Cross-context integrations are mediated by an explicit translation layer.
-references:
-  - type: directive
-    id: DIRECTIVE_001

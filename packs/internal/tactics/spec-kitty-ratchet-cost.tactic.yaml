@@ -39,8 +39,3 @@ notes: >
   docs/adr/3.x/2026-09-14-1-census-floor-ratchet-adjudication.md, which
   adjudicated four specific census ratchets. This tactic sets the standing
   cost rule for all of them.
-references:
-  - name: Frozen-Baseline Shrink-Only Ratchet
-    type: tactic
-    id: built-in::frozen-baseline-shrink-only-ratchet
-    when: The repository-agnostic mechanics this tactic prices.

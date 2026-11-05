@@ -9,5 +9,3 @@ summary: >
   change-boundary clarity reduces drift; not appropriate for tiny fixes,
   throwaway spikes, or purely visual exploration where canvas authoring is
   overhead.
-directive_refs:
-  - DIRECTIVE_038

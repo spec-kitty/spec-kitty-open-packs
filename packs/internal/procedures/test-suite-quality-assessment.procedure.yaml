@@ -46,25 +46,3 @@ anti_patterns:
 - title: Retiring without a named guard
   content: |
     Deleting a development-assist test because its Mission closed, without naming and proving the broader test that still covers the behaviour.
-references:
-- type: styleguide
-  id: built-in::test-desiderata-and-boundaries
-  reason: The twelve desiderata, the shift-left detector map and the harness anti-patterns the review applies.
-- type: styleguide
-  id: built-in::testing-principles
-  reason: The good-test rubric (truthful, minimal, specific, realistic, isolated) the verdicts are judged against.
-- type: directive
-  id: built-in::DIRECTIVE_041
-  reason: Tests are scaffold, not friction; a green test that stays green on a regression gives no coverage.
-- type: procedure
-  id: built-in::development-assist-test-cleanup
-  reason: The KEEP, RETIRE and SPLIT-BY-KIND classification for Mission-scaffold tests.
-- type: procedure
-  id: built-in::adversarial-squad-deployment
-  reason: How to run the domain review squads as bounded, profile-loaded lenses.
-- type: toolguide
-  id: test-quality-triage
-  reason: How to run the static triage asset and read its outputs.
-- type: directive
-  id: NO_FULL_HEAVY_SUITES_IN_MISSION
-  reason: Verification runs named test files only, never whole heavy suites.

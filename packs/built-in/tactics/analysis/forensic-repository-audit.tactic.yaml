@@ -148,31 +148,6 @@ failure_modes:
   - "Bus factor is not knowledge: a low contributor count can mean stable ownership of a mature module, not abandonment or fragility. Treat single-author files as questions ('is this knowledge transferred?') rather than verdicts ('this is at risk'); the answer requires conversation with the team."
   - "Full-history dominance bias: the full-history pass in the multi-window refactor-candidate step is biased toward older files, which have had more time to accumulate commits. Files added recently — even if churning intensely now — will not appear in the full-history top list regardless of current importance. The velocity-adjusted window mitigates this by surfacing currently-hot files independent of age; the full-history list alone must never be the sole input to refactor planning."
   - "Out of scope: this tactic is a focused, evidence-gathering recipe set; deeper diagnosis lives in dedicated procedures and other investigation skills/tactics."
-references:
-  - name: Legacy Codebase Triage
-    type: procedure
-    id: legacy-codebase-triage
-    when: This tactic is the evidence-gathering core of the legacy-codebase triage procedure; run it there to feed prioritisation and bucketing.
-  - name: Connascence Analysis
-    type: tactic
-    id: connascence-analysis
-    when: After hotspots are identified, use connascence analysis on the highest-priority files to classify the coupling that drives the churn.
-  - name: Premortem Risk Identification
-    type: tactic
-    id: premortem-risk-identification
-    when: Use the audit findings as input to a premortem on the planned remediation path; high-firefighting projects warrant a premortem before any large refactor is scheduled.
-  - name: Eisenhower Prioritisation
-    type: tactic
-    id: eisenhower-prioritisation
-    when: Hotspot tables, bug overlaps, and bus-factor concentrations populate the urgency-and-importance grid that drives the triage buckets.
-  - name: Efficient Local Tooling
-    type: directive
-    id: DIRECTIVE_028
-    when: The recipes rely on local `git`, `cloc`, and language-specific complexity tools; the directive governs how those tools are configured and invoked.
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: Audit findings that surface load-bearing complexity or single-author critical modules feed back into architectural-integrity decisions and ADRs.
 notes: |
   Provenance and underpinnings.
 

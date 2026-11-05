@@ -14,8 +14,3 @@ steps:
   - title: Rank test cases by likelihood-times-impact to produce a single risk order
   - title: Select the execution cutoff the time budget allows, starting from the highest-ranked case
   - title: Record any deviation from the risk-ranked order with a stated justification
-references:
-  - name: QA Risk-Based Prioritization
-    type: directive
-    id: QA_005
-    when: when ranking test cases by risk before a time-boxed execution pass

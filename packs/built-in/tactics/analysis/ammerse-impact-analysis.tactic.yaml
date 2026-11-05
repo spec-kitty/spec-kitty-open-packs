@@ -8,11 +8,6 @@ purpose: >
   hidden trade-offs and align choices with strategic goals. Reserve the full
   numeric interaction-matrix analysis for high-stakes decisions; first-order
   reasoning alone is sufficient for routine choices.
-references:
-  - name: AMMERSE Analysis Template
-    type: template
-    id: ammerse-analysis-template
-    when: When recording the analysis as a standalone durable artifact.
 steps:
   - title: Define the subject and context
     description: >

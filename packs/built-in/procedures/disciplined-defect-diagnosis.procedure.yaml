@@ -46,15 +46,5 @@ anti_patterns:
   content: A loop that fails for a nearby setup error or different behavior validates the wrong fix.
 - title: Leaving debug artifacts behind
   content: Temporary logs, harnesses, trace files, and flags must either be deleted or promoted into named diagnostics.
-references:
-- type: procedure
-  id: test-first-bug-fixing
-  reason: Once the defect is minimized, the fix follows the test-first bug-fixing procedure.
-- type: tactic
-  id: testing-select-appropriate-level
-  reason: Test level selection identifies the correct seam for the regression test.
-- type: directive
-  id: DIRECTIVE_030
-  reason: The fix is not complete until relevant quality gates pass.
 notes: |
   Adapted from the mattpocock/skills diagnose workflow at commit 49cec7be019bc408e87b77670f3d442f536da254. The upstream skill is a host workflow; this artifact preserves the reusable diagnostic procedure without copying host-specific mechanics into doctrine.

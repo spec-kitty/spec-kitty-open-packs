@@ -21,10 +21,3 @@ validation_criteria:
 explicit_allowances:
   - "Personal data subject to erasure law may be held outside the event (by reference or
     under a per-subject key that can be destroyed) so the event itself stays immutable."
-references:
-  - type: styleguide
-    id: evd-event-naming-and-payload
-    when: when naming an event or shaping its payload
-  - type: tactic
-    id: built-in::domain-event-capture
-    when: when deciding which state changes deserve an event at all

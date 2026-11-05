@@ -51,13 +51,6 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/spec-template.md
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_003
-  - type: tactic
-    id: requirements-validation-workflow
 - id: plan
   title: Implementation Planning
   description: Design technical architecture
@@ -73,25 +66,6 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/plan-template.md
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_051
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: tactic
-    id: adr-drafting-workflow
-  - type: tactic
-    id: deepening-opportunity-assessment
-  - type: tactic
-    id: interface-variation-design
-  - type: tactic
-    id: supply-chain-install-safety
-  - type: procedure
-    id: domain-aware-decision-interview
 - id: tasks
   title: Task Breakdown
   description: Create task breakdown, work package prompts, and finalized dependencies
@@ -113,21 +87,6 @@ steps:
     artifact_class: output
     path_pattern: tasks/WP*.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_024
-  - type: tactic
-    id: adr-drafting-workflow
-  - type: tactic
-    id: problem-decomposition
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: procedure
-    id: issue-triage-state-machine
 - id: analyze
   title: Analysis
   description: Cross-artifact consistency analysis, recorded as a current analysis report
@@ -152,83 +111,6 @@ steps:
   - artifact_key: output.tasks.per_wp
     path_pattern: tasks/WP*.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_001
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_024
-  - type: directive
-    id: DIRECTIVE_025
-  - type: directive
-    id: DIRECTIVE_028
-  - type: directive
-    id: DIRECTIVE_029
-  - type: directive
-    id: DIRECTIVE_030
-  - type: directive
-    id: DIRECTIVE_034
-  - type: directive
-    id: DIRECTIVE_036
-  - type: directive
-    id: DIRECTIVE_037
-  - type: directive
-    id: DIRECTIVE_046
-  - type: directive
-    id: DIRECTIVE_051
-  - type: tactic
-    id: acceptance-test-first
-  - type: tactic
-    id: tdd-red-green-refactor
-  - type: tactic
-    id: black-box-integration-testing
-  - type: tactic
-    id: change-apply-smallest-viable-diff
-  - type: tactic
-    id: dependency-hygiene
-  - type: tactic
-    id: focused-function-complexity-check
-  - type: tactic
-    id: function-over-form-testing
-  - type: tactic
-    id: generated-code-stewardship
-  - type: tactic
-    id: input-validation-fail-fast
-  - type: tactic
-    id: autonomous-operation-protocol
-  - type: tactic
-    id: quality-gate-verification
-  - type: tactic
-    id: secure-design-checklist
-  - type: tactic
-    id: stopping-conditions
-  - type: tactic
-    id: test-boundaries-by-responsibility
-  - type: tactic
-    id: testing-select-appropriate-level
-  - type: tactic
-    id: supply-chain-install-safety
-  - type: paradigm
-    id: execution-lanes
-  - type: paradigm
-    id: shared-branch-ci
-  - type: paradigm
-    id: git-flow
-  - type: paradigm
-    id: trunk-based
-  - type: styleguide
-    id: boring-code-review
-  - type: toolguide
-    id: efficient-local-tooling
-  - type: procedure
-    id: disciplined-defect-diagnosis
-  - type: procedure
-    id: legacy-codebase-triage
-  - type: procedure
-    id: refactoring
-  - type: procedure
-    id: test-first-bug-fixing
 - id: review
   title: Code Review
   description: Review and validate
@@ -239,35 +121,6 @@ steps:
   - artifact_key: output.tasks.per_wp
     path_pattern: tasks/WP*.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_037
-  - type: directive
-    id: DIRECTIVE_030
-  - type: directive
-    id: DIRECTIVE_046
-  - type: directive
-    id: DIRECTIVE_051
-  - type: tactic
-    id: usage-examples-sync
-  - type: tactic
-    id: review-intent-and-risk-first
-  - type: tactic
-    id: quality-gate-verification
-  - type: tactic
-    id: stopping-conditions
-  - type: tactic
-    id: supply-chain-install-safety
-  - type: tactic
-    id: acceptance-criteria-non-vacuity
-  - type: styleguide
-    id: boring-code-review
-  - type: procedure
-    id: mission-wrap-up-sequence
 - id: accept
   title: Acceptance
   description: Validate mission completeness
@@ -335,20 +188,3 @@ on_demand_steps:
   description: Capture what helped, what did not and the governance gaps of a finished mission as a retrospective record.
   role: facilitator
   prompt_path: steps/retrospect.prompt.md
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_018
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: tactic
-    id: stopping-conditions
-  - type: tactic
-    id: autonomous-operation-protocol
-  - type: tactic
-    id: glossary-curation-interview
-  - type: styleguide
-    id: kitty-glossary-writing

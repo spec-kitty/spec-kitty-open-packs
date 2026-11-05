@@ -38,11 +38,6 @@ anti_patterns:
 - title: Skipping the assess step
   content: |
     Treating the tracer files as write-only and never reviewing them at mission close. The assess step is what converts the raw log into actionable tracker items and retrospective inputs.
-references:
-- type: paradigm
-  id: brownfield-onboarding
-  reason: |
-    Tracer files are naturally seeded during the brownfield ramp-up phase to capture early tooling friction and initial approach decisions before implementation begins.
 notes: |
   These tracer files are optional experiment infrastructure — their absence
   does not block acceptance. They support the adversarial-squad-deployment

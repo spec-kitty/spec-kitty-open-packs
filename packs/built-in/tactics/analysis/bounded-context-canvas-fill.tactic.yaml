@@ -20,11 +20,6 @@ steps:
     examples:
       - "Good: 'Order Fulfilment -- orchestrates picking, packing, and shipping of confirmed orders.'"
       - "Bad: 'OrderService -- handles order-related API calls.'"
-    references:
-      - name: Language-Driven Design
-        type: tactic
-        id: language-driven-design
-        when: Verifying that the chosen name and purpose use ubiquitous language consistently.
   - title: Classify strategic importance
     description: >
       Determine whether this context is Core Domain (competitive
@@ -32,22 +27,12 @@ steps:
       not differentiating, build pragmatically), or Generic Subdomain
       (commodity, buy or outsource). The classification drives investment
       decisions and determines how much design effort the context warrants.
-    references:
-      - name: Strategic Domain Classification
-        type: tactic
-        id: strategic-domain-classification
-        when: Applying the classification framework to this context.
   - title: Map the communication boundaries
     description: >
       For each inbound and outbound message, identify the source or target
       context, the message name, and the integration pattern (sync API,
       event, shared database). This reveals the coupling profile of the
       context. High fan-in or fan-out signals potential boundary problems.
-    references:
-      - name: Context Mapping Classification
-        type: tactic
-        id: context-mapping-classification
-        when: Classifying the integration pattern for each relationship.
   - title: Surface the ubiquitous language and create a glossary
     description: >
       List the key terms as used within this context, with definitions.
@@ -57,19 +42,6 @@ steps:
       tooling such as Contextive.
     examples:
       - "'Policy' in Pricing means actuarial rules; 'Policy' in Billing means payment terms. Both are valid in their context."
-    references:
-      - name: Glossary Curation Interview
-        type: tactic
-        id: glossary-curation-interview
-        when: Systematically capturing and curating terms for the context's glossary.
-      - name: Bounded Context Canvas Template
-        type: template
-        id: bounded-context-canvas-template
-        when: Recording terms in the canvas's Ubiquitous Language section.
-      - name: Contextive
-        type: toolguide
-        id: contextive
-        when: Enforcing the glossary in code via IDE-integrated ubiquitous language management.
   - title: Extract business decisions and invariants
     description: >
       Identify the business rules that this context enforces -- the
@@ -97,16 +69,3 @@ failure_modes:
   - "Static artifact: completing the canvas once and never revisiting it as the context evolves."
   - "Technical framing: writing the purpose and business decisions in technical terms that domain experts cannot validate."
   - "Missing glossary: filling the Ubiquitous Language section as prose notes rather than structured, enforceable glossary entries."
-references:
-  - name: Bounded Context Identification
-    type: tactic
-    id: bounded-context-identification
-    when: Contexts must be identified before their canvases can be filled.
-  - name: Aggregate Boundary Design
-    type: tactic
-    id: aggregate-boundary-design
-    when: Filling the Domain Roles section with aggregates, entities, and value objects.
-  - name: Glossary Template
-    type: template
-    id: glossary-template
-    when: Structuring glossary entries extracted during canvas fill.

@@ -71,8 +71,3 @@ anti_patterns:
       # Billing and Shipping react via event handlers
 
 quality_test: "Can each aggregate be loaded, modified, and persisted in a single transaction without touching any other aggregate's state?"
-
-references:
-  - "packs/built-in/tactics/architecture/aggregate-boundary-design.tactic.yaml"
-  - "packs/built-in/tactics/architecture/domain-event-capture.tactic.yaml"
-  - "packs/built-in/paradigms/domain-driven-design.paradigm.yaml"

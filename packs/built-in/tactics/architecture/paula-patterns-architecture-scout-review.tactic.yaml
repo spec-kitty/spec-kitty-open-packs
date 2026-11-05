@@ -58,27 +58,6 @@ failure_modes:
   - "Calling a release blocker long-term architecture debt to avoid hard decisions."
   - "Omitting concrete file/line evidence, which turns architecture review into taste."
   - "Losing downstream machine-output or cross-platform compatibility while fixing ownership."
-references:
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: Paula Patterns is triggered by missing or violated architecture boundaries.
-  - name: Conceptual Alignment
-    type: directive
-    id: DIRECTIVE_032
-    when: Scout findings reveal language drift or confused ownership concepts.
-  - name: Anti-Corruption Layer
-    type: tactic
-    id: anti-corruption-layer
-    when: External system details leak into domain or application decisions.
-  - name: Domain Event Capture
-    type: tactic
-    id: domain-event-capture
-    when: Durable state transitions, replay, or provenance are missing.
-  - name: Review Intent and Risk First
-    type: tactic
-    id: review-intent-and-risk-first
-    when: Evaluate whether the release fix closes the observed issue and what blast radius it carries.
 notes: >
   Reference pattern: #1343 / #1359 uv-tool remediation. Release action patched
   known uv-tool receipt/provenance cases and kept JSON diagnostics stable.

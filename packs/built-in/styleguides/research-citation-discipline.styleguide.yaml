@@ -28,13 +28,3 @@ anti_patterns:
     description: "Writing a tentative, weakly-evidenced finding in the assertive tone reserved for well-established fact."
     bad_example: "Approach B is the correct choice."
     good_example: "On the current evidence (one spike, one secondary benchmark) approach B looks preferable; confidence is low and a second measurement would raise it."
-references:
-  # Citation discipline is the evidentiary substrate of decision documentation:
-  # a recorded decision is only auditable when its supporting claims are sourced,
-  # tiered, and traceable. This styleguide supplies the sourcing rigour that
-  # DIRECTIVE_003 records demand.
-  - packs/built-in/directives/003-decision-documentation-requirement.directive.yaml
-  # Dialectic research surfaces contradicting positions; citation discipline's
-  # "report contradicting evidence" and evidence/inference separation are the
-  # rules that keep that dialectic honest and re-verifiable.
-  - packs/built-in/tactics/analysis/dialectic-research.tactic.yaml

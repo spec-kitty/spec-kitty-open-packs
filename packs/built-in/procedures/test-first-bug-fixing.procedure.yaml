@@ -49,24 +49,5 @@ anti_patterns:
   content: The reproduction test passes on first run. The test does not capture the bug — revise setup or assertions.
 - title: Refactoring Beyond the Fix
   content: Widening the post-green refactor past the fix's own code introduces unrelated risk into a bug-fix commit; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
-references:
-- type: tactic
-  id: tdd-red-green-refactor
-  reason: Bug fixing follows the same red-green cycle; the failing test is the red phase.
-- type: tactic
-  id: test-boundaries-by-responsibility
-  reason: Determines what to mock vs test real when writing the reproduction test.
-- type: directive
-  id: DIRECTIVE_030
-  reason: Quality gate requires tests pass before handoff — the reproduction test is part of that gate.
-- type: directive
-  id: DIRECTIVE_034
-  reason: Reproduce the bug through the pre-existing (stable) entry point, never through the fix's not-yet-written API — the reproduction test is the red phase of the test-first cycle DIRECTIVE_034 requires.
-- type: directive
-  id: RED_MAIN_RELEASE_DISCIPLINE
-  reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
-- type: directive
-  id: DIRECTIVE_025
-  reason: Owns the tidy-first / enabler-sequencing rule — campsite-clean the surfaces this fix will touch in a separate, behaviour-preserving commit BEFORE the red reproduction test, whenever doing so de-risks or simplifies the fix.
 notes: |
   External reference: "Example of test-first bug-fixing (Stijn Dejongh, 2022)" https://www.linkedin.com/pulse/example-test-first-bug-fixing-javascript-stijn-dejongh/ Folds in the retired bug-fixing-checklist tactic (single-owner consolidation): state expected vs actual in one sentence before touching code; if the reproduction test cannot be written, the defect is not understood; document the root cause and the fix; a post-fix test is a confirmation test, not a regression test.

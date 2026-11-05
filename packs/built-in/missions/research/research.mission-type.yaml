@@ -45,25 +45,6 @@ expected_output_artifacts:
 - artifact_key: runtime.charter-lint.decay
   artifact_class: runtime
   path_pattern: lint-report.json
-references:
-- type: tactic
-  id: dialectic-research
-- type: tactic
-  id: safe-to-fail-experiment
-- type: tactic
-  id: reverse-speccing
-- type: tactic
-  id: forensic-repository-audit
-- type: styleguide
-  id: research-citation-discipline
-- type: procedure
-  id: situational-assessment
-- type: procedure
-  id: event-storming-discovery
-- type: procedure
-  id: domain-aware-decision-interview
-- type: procedure
-  id: spike-timebox-policy
 steps:
 - id: scoping
   title: Research Scoping
@@ -77,15 +58,6 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/research-spec-template.md
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_003
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: tactic
-    id: premortem-risk-identification
 - id: methodology
   title: Methodology Design
   description: Document the research methodology, frameworks, and reproducibility plan.
@@ -102,15 +74,6 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/research-plan-template.md
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: tactic
-    id: adr-drafting-workflow
-  - type: tactic
-    id: requirements-validation-workflow
 - id: gathering
   title: Source Gathering
   description: Register sources with citations and emit source_documented events.
@@ -126,13 +89,6 @@ steps:
     artifact_class: evidence
     path_pattern: research/source-register.csv
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: requirements-validation-workflow
 - id: synthesis
   title: Findings Synthesis
   description: Synthesize evidence into findings, tracing each conclusion to documented sources.
@@ -148,15 +104,6 @@ steps:
     artifact_class: output
     path_pattern: findings.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: tactic
-    id: premortem-risk-identification
-  - type: tactic
-    id: requirements-validation-workflow
 - id: output
   title: Publication Output
   description: Prepare findings for publication; verify citation completeness and methodology clarity.
@@ -172,13 +119,6 @@ steps:
     artifact_class: output
     path_pattern: report.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: requirements-validation-workflow
 - id: accept
   title: Acceptance
   description: Validate research completeness and readiness for publication.
@@ -193,20 +133,3 @@ on_demand_steps:
   description: Capture what helped, what did not and the governance gaps of a finished mission as a retrospective record.
   role: facilitator
   prompt_path: steps/retrospect.prompt.md
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_018
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: tactic
-    id: stopping-conditions
-  - type: tactic
-    id: autonomous-operation-protocol
-  - type: tactic
-    id: glossary-curation-interview
-  - type: styleguide
-    id: kitty-glossary-writing

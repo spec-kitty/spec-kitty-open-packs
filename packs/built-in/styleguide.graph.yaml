@@ -142,6 +142,10 @@ edges:
 - source: styleguide:drupal-conventions
   target: toolguide:drupal-review-checks
   relation: suggests
+- source: styleguide:drupal-conventions
+  target: styleguide:drupal-security-performance
+  relation: suggests
+  reason: Each guide named the other as its companion ("See also"); this one is the security- and performance-specific treatment.
 - source: styleguide:drupal-security-performance
   target: agent_profile:drupal-dries
   relation: suggests

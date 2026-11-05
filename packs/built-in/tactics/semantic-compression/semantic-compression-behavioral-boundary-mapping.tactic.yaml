@@ -16,16 +16,3 @@ steps:
 failure_modes:
   - "Simplifying before the boundary is known changes behavior by accident."
   - "Treating implementation details as sacred prevents useful compression."
-references:
-  - name: Semantic Compression
-    type: paradigm
-    id: semantic-compression
-    when: Use as the first compression step before any behavior-preserving reduction
-  - name: Test-First Development
-    type: directive
-    id: DIRECTIVE_034
-    when: Boundary evidence is weak or missing
-  - name: Test and Typecheck Quality Gate
-    type: directive
-    id: DIRECTIVE_030
-    when: The behavioral envelope must be enforced by automated checks

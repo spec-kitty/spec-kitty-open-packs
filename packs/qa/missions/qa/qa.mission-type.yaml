@@ -15,19 +15,6 @@ expected_output_artifacts:
 - artifact_key: output.evidence.qa
   artifact_class: evidence
   path_pattern: evidence/**
-references:
-- type: directive
-  id: QA_001
-- type: directive
-  id: QA_002
-- type: directive
-  id: QA_003
-- type: directive
-  id: QA_004
-- type: directive
-  id: QA_005
-- type: directive
-  id: QA_006
 steps:
 - id: discovery
   title: Discovery

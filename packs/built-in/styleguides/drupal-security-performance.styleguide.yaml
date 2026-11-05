@@ -8,14 +8,14 @@ applies_to_languages:
 
 principles:
   - "Escape by default: rely on Twig auto-escaping; `|raw` is a deliberate, justified exception, never a convenience."
-  - "Access-check every entity query: explicit `accessCheck()` has been required since Drupal 9.2 and throws an error from Drupal 10.0 -- on Drupal 10/11 an unchecked query is a hard failure, not a warning."
+  - "Access-check every entity query: explicit `accessCheck()` has been required since Drupal 9.2 and throws an error from Drupal 10.0 -- on Drupal 10/11 an unchecked query is a hard failure, not a warning (source: Drupal.org change record https://www.drupal.org/node/3201242, which this entry follows rather than the amazee.io source: deprecated in 9.2.0, an error from 10.0.0)."
   - "An access-check bypass is a decision, not an oversight: `accessCheck(FALSE)` is only ever explicit and commented."
   - "Cacheability is not optional: every render array that depends on data declares its tags, contexts, and max-age."
   - "Cache contexts encode who content is for: a missing user-scoped context can leak one visitor's content to another."
   - "Invalidate by cache tag on save, not by guessing an expiry: correctness first, freshness second."
   - "Credentials never enter version control, not even briefly: git history retains what a later commit deletes."
   - "Load entities in bulk: `loadMultiple()` over a loop of individual `load()` calls avoids an N+1 query storm."
-  - "Long-running work belongs in Batch or Queue API, never a single request that can hit the execution-time limit."
+  - "Long-running work belongs in Batch or Queue API, never a single request that can hit the execution-time limit. Sources: amazee.io drupal-agents-md, Vanilla variant: Security & Performance Guidelines, Caching Strategies, Anti-Patterns #3, #6, #7, #10, #11 (https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md)."
 
 patterns:
   - name: Cache Contexts For Personalized Output
@@ -192,9 +192,3 @@ tooling:
   cache_rebuild: "drush cr"
 
 quality_test: "Can a reviewer point at any #markup, |raw, or entity query in this diff and confirm -- without guessing -- that its escaping, access check, and cache metadata are each a deliberate choice?"
-
-references:
-  - "amazee.io drupal-agents-md (Vanilla variant), Security & Performance Guidelines / Caching Strategies / Anti-Patterns #3, #6, #7, #10, #11 -- https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md"
-  - "Drupal.org: entity query access checking change record -- https://www.drupal.org/node/3201242 -- authoritative for the accessCheck entry above; the amazee.io source states this incorrectly at its line 701 (claims Drupal 10.2/warning-only/mandatory-in-12) and this file deliberately does not follow it -- deprecated in 9.2.0, error thrown from 10.0.0."
-  - "See also, for the general coding-convention treatment this file cross-references: Drupal Conventions Styleguide."
-  - "packs/built-in/agent_profiles/drupal-dries.agent.yaml"

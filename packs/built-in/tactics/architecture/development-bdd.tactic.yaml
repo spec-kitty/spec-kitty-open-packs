@@ -43,12 +43,3 @@ notes: >
   this tactic turns into behavioral contracts; those contracts then feed the
   bdd-scenario-formulation tactic and the bdd-scenario-lifecycle procedure
   (Formulation).
-references:
-  - name: Example Mapping Workshop
-    type: procedure
-    id: example-mapping-workshop
-    when: Use to collaboratively validate and refine the behavioral contracts with stakeholders — the Discovery phase this tactic's contracts build on
-  - name: BDD Scenario Formulation
-    type: tactic
-    id: bdd-scenario-formulation
-    when: Use this tactic to translate the behavioral contracts into executable Given/When/Then scenarios — the Formulation phase that follows

@@ -38,23 +38,6 @@ anti_patterns:
 - title: Sweep the whole suite in the landing PR
   content: |
     Auditing and rewriting every sibling file that shares the pattern inside the mission's own PR, inflating the diff far past the mission's scope. The in-mission cleanup covers the tests the mission created; the wider sweep is a tracked follow-up.
-references:
-- type: directive
-  id: DIRECTIVE_041
-  reason: |
-    This procedure applies DIRECTIVE_041's keep-vs-delete axis and its duplicate-test-knowledge-has-one-source rule at a different trigger point — a proactive wrap-up audit of passing dev-assist tests, versus 041's reactive judgment of a failing test (whose STALE / PATCHWORK / VALID provenance labels are a distinct classification).
-- type: directive
-  id: DIRECTIVE_025
-  reason: |
-    DIRECTIVE_025 (Boy Scout Rule) governs pre-existing debt in a touched area; this procedure governs debt the current mission itself created as scaffolding. The identify step defers to 025 for anything that predates the mission.
-- type: tactic
-  id: delete-the-assertion-not-the-test
-  reason: |
-    The execute step retires spent assertions and folds duplicates into the standing guard following this tactic — excise the spent assertion, never coverage of a live contract.
-- type: procedure
-  id: mission-tracer-files
-  reason: |
-    This cleanup fires at the same mission-close point-cut as the tracer-files assess step and feeds the same hand-off summary; both convert mission-local by-products (friction notes; scaffolding tests) into durable outcomes.
 notes: |
   Trigger point-cut: the mission-wrap-up sequence, alongside the accept step and the
   tracer-files assess step. This procedure is proactive (audit passing dev-assist

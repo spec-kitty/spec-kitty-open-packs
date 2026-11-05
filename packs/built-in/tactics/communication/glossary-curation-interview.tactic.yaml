@@ -2,11 +2,6 @@ schema_version: "1.0"
 id: glossary-curation-interview
 name: Glossary Curation Interview
 purpose: Systematically expand a living glossary through structured HiC-led curation rounds, ensuring all new terms are clear, well-grouped, and approved before inclusion.
-references:
-  - name: Kitty Glossary Writing Styleguide
-    type: styleguide
-    id: kitty-glossary-writing
-    when: Consult throughout all definition-writing and rewriting steps to enforce clarity, anti-pattern avoidance, and HiC terminology standards.
 steps:
   - title: Inventory source materials
     description: >

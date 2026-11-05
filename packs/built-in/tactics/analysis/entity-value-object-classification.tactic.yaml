@@ -68,8 +68,3 @@ failure_modes:
   - "Identity confusion: using database row IDs as domain identity without verifying the domain actually needs identity."
   - "Over-promotion: promoting to Entity because of technical concerns (ORM requires an ID) rather than domain needs."
   - "Missing equality: not implementing proper equality semantics, causing duplicates in sets and incorrect cache hits."
-references:
-  - name: Language-Driven Design
-    type: tactic
-    id: language-driven-design
-    when: Domain expert language reveals whether identity matters for a concept.

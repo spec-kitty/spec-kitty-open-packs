@@ -11,8 +11,3 @@ steps:
   - title: Construct the candidate set with a greedy pairwise-covering algorithm — repeatedly add the test case that covers the most not-yet-covered value pairs until none remain uncovered
   - title: Check the generated set for any uncovered pair and add cases to close the gap
   - title: Confirm the final set is smaller than full combinatorial enumeration before adoption
-references:
-  - name: QA Exit Criteria Precede Execution
-    type: directive
-    id: QA_004
-    when: when the exit criteria frozen before execution require pairwise parameter coverage, so the covering set must be generated before that freeze point
