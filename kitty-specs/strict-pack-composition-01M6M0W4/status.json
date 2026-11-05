@@ -199,6 +199,9 @@
       "last_event_id": "01M6MK5X13WGK8RWJYBPEESK4C",
       "last_transition_at": "2026-11-05T00:54:11.235154+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "78 references qualified (57 edges including 5 agent_profile, 19 procedure, 2 tactic), depends_on declared, PENDING_PACKS empty, #47 glossary rename done. scan 0 bare->other; all five packs compose; C-005 next and dispatch exit 0. Governance consequence accepted (C-001): the as-is CLI's org layer stops merging once this content reaches a checkout. Charter corpus test GlossaryPackAndSkillCorpusTest:63 hardcodes the old glossary file name and needs WP07's attention."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 3032518,
