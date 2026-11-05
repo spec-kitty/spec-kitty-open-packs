@@ -1,0 +1,140 @@
+{
+  "event_count": 64,
+  "last_event_id": "01M6N8YTT7Y1JR8Q6BFTEE2Z4P",
+  "materialized_at": "2026-11-05T07:14:48.263636+00:00",
+  "mission_number": "",
+  "mission_slug": "strict-pack-composition-01M6M0W4",
+  "mission_type": "",
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 7,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 2,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M6N8YQ510J7N34GARW05YWY2",
+      "last_transition_at": "2026-11-05T07:14:44.513817+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP01-gate-understands-composition/review-cycle-3.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP01-gate-understands-composition/review-cycle-3.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2872707,
+      "shell_pid_created_at": "1793826785.12"
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "force_count": 0,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M6N8YRD4G7J7ZM8HPV16GRD0",
+      "last_transition_at": "2026-11-05T07:14:45.796691+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP02-pack-identity/review-cycle-1.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP02-pack-identity/review-cycle-1.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2962228,
+      "shell_pid_created_at": "1793835726.47"
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "force_count": 0,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M6N8YQSKCTV4Z2MGNDRTDTSD",
+      "last_transition_at": "2026-11-05T07:14:45.171491+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP03-built-in-sidecars/review-cycle-1.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP03-built-in-sidecars/review-cycle-1.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2962542,
+      "shell_pid_created_at": "1793835730.84"
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "force_count": 0,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M6N8YS0EG54ABHEA1KKFFGBT",
+      "last_transition_at": "2026-11-05T07:14:46.414524+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP04-tracer-and-real-compose/review-cycle-1.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP04-tracer-and-real-compose/review-cycle-1.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2978513,
+      "shell_pid_created_at": "1793836572.78"
+    },
+    "WP05": {
+      "actor": "merge",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "force_count": 0,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M6N8YSKTXK2P6MB3GCPA13TA",
+      "last_transition_at": "2026-11-05T07:14:47.034226+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP05-migrate-event-driven/review-cycle-1.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP05-migrate-event-driven/review-cycle-1.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 3019581,
+      "shell_pid_created_at": "1793838714.48"
+    },
+    "WP06": {
+      "actor": "merge",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "force_count": 0,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M6N8YT7PGGEK5XN5G4HYMVTS",
+      "last_transition_at": "2026-11-05T07:14:47.670054+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP06-migrate-internal/review-cycle-1.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP06-migrate-internal/review-cycle-1.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 3032518,
+      "shell_pid_created_at": "1793839554.42"
+    },
+    "WP07": {
+      "actor": "merge",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "force_count": 1,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M6N8YTT7Y1JR8Q6BFTEE2Z4P",
+      "last_transition_at": "2026-11-05T07:14:48.263636+00:00",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP07-close-out/review-cycle-2.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP07-close-out/review-cycle-2.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 3146208,
+      "shell_pid_created_at": "1793845222.52"
+    }
+  }
+}

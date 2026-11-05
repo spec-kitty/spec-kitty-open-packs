@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Check the seeded built-in pack (spec-kitty-open-packs#31).
+# Check the recorded digest of the built-in pack (spec-kitty-open-packs#31).
 #
-# The tree digest of packs/built-in/ matches packs/built-in.source.yaml, so the tree only
-# changes through a deliberate re-seed that also updates the recorded digest. The schema
+# The tree digest of packs/built-in/ matches packs/built-in.source.yaml. This repository authors
+# the pack: edit it here and record the digest in the same change. The schema
 # validation of the pack's files is done by validate-packs.sh.
 #
 # Usage: scripts/ci/check-built-in.sh   (from the repository root; needs python3 with pyyaml)

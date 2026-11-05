@@ -42,5 +42,5 @@ notes: >
 references:
   - name: Frozen-Baseline Shrink-Only Ratchet
     type: tactic
-    id: frozen-baseline-shrink-only-ratchet
+    id: built-in::frozen-baseline-shrink-only-ratchet
     when: The repository-agnostic mechanics this tactic prices.

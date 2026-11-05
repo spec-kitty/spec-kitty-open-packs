@@ -35,3 +35,10 @@ charter_packs:
     - name: qa
       local_path: packs/qa
 charter: .kittify/charter/charter.yaml
+
+# Operator decision, 2026-11-04 (mission strict-pack-composition): the CLI's charter preflight
+# refuses every implement with `synthesized_drg missing`. This repository has never had a
+# synthesized DRG, and synthesizing needs agent-authored charter artifacts built on the doctrine
+# that mission changes. Governance context still loads; charter freshness is not checked.
+preflight:
+  enabled: false

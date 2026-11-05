@@ -20,12 +20,15 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/event-driven`
-- **Content checksum (sha256):** `26862191a25d8930019250eb56b16f5e10fe8b8540c4a11bd965a4ab96060c50`
+- **Declared version:** `1.0.0`
+- **Content checksum (sha256):** `ea304dd32c8f533a544993425575441c2414639fbca4bb6de261ff3d31fa5d4f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the generator never fabricates one). See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+
+**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
 ## Artifact inventory
 
@@ -39,7 +42,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **19** |
+| **Total files** | **20** |
 
 ### Full listing
 

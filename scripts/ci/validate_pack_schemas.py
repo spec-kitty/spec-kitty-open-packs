@@ -36,7 +36,7 @@ import sys
 import tempfile
 import unicodedata
 import urllib.request
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -47,7 +47,7 @@ from jsonschema import Draft202012Validator
 CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
 # Commit of spec-kitty-charter whose contracts/packs/ this repository validates against.
 # A commit on charter main, bumped deliberately. Never float to a branch.
-CHARTER_COMMIT = "3c9f640a524b481df02c24ba0f48ffff9e7aa4c0"
+CHARTER_COMMIT = "85c20fa148bd9cb1517e9e95d3d13c3718201dd4"
 CONTRACT_PATH = "contracts/packs"
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.
@@ -610,6 +610,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
     manifest: dict[str, Any] | None = None
+    payloads: set[str] = set()
+    sidecars: list[tuple[str, str]] = []
     for path in sorted(pack_dir.rglob("*")):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
@@ -624,6 +626,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         if kind == "retired" and rule is not None:
             report.violations.append(f"{relative}: retired layout: {rule.reason}")
             continue
+        if kind == "payload" and inside.startswith("assets/"):
+            payloads.add(inside.removeprefix("assets/"))
         if kind != "file" or rule is None:
             tokens = path.name.rsplit(".", 2)
             if kind == "unclassified" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
@@ -656,15 +660,19 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             report.violations.append(f"{relative}: {rule.schema} schema at {where}: {_short(error.message)}")
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
+        if rule.schema == "asset" and isinstance(document, dict) and isinstance(document.get("path"), str):
+            sidecars.append((relative, document["path"]))
         # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
         if rule.schema == "preset" and isinstance(document, dict) and "id" in document and document["id"] != path.stem:
             report.violations.append(f"{relative}: preset id {document['id']!r} is not its file stem {path.stem!r}")
-    # Not every pack ships a descriptor (qa, cave-kitty, event-driven and the fixtures do not), but a
-    # pack with pack-level files (pack.md, a manifest) is a whole pack and needs one.
+    # A pack with pack-level files (pack.md, a manifest) needs its descriptor even when judged alone.
+    # A pack with no descriptor at all is refused when the packs are checked together.
     if not (pack_dir / "pack.yaml").is_file() and any((pack_dir / n).is_file() for n in ("pack.md", MANIFEST_NAME)):
         report.violations.append(
             f"{pack_dir.name}/pack.yaml: missing: a pack with a pack.md or a {MANIFEST_NAME} needs its descriptor"
         )
+    # The charter's SidecarPayloads rule: a sidecar names, exactly, an asset payload the pack holds.
+    report.violations += [f"{file}: payload assets/{named} does not exist" for file, named in sidecars if named not in payloads]
     if manifest is not None:
         for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
             remedy = (
@@ -732,6 +740,133 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
     return found
 
 
+#: Node kinds with no artifact behind them: the charter never judges whether a qualified target of
+#: these exists. It skips guard and lifecycle too, but graph documents do not admit them yet and no
+#: pack writes one, so they are not listed until one does.
+UNHELD_KINDS = frozenset({"action"})
+#: Schemas whose files write typed references (``{type, id}``) in ``references``; those in
+#: ``STEPPED_SCHEMAS`` also write them in each step's ``references``. Bare id lists mean one kind.
+TYPED_REFERENCE_SCHEMAS = frozenset({"directive", "paradigm", "tactic", "procedure", "mission-type"})
+STEPPED_SCHEMAS = frozenset({"tactic", "mission-type"})
+BARE_ID_LISTS = {"directive": ("procedures", "procedure"), "paradigm": ("directive_refs", "directive")}
+
+
+#: A template's id is its path: ``templates/<path>``, or ``<type>/<path>`` under a mission type.
+TEMPLATE_PATH = re.compile(r"(?:missions/([^/]+)/)?templates/(.+)")
+
+
+def held_artifacts(pack_dir: Path, contract: Contract | None) -> set[tuple[str, str]]:
+    """The ``(kind, id)`` pairs a pack holds, in the charter's sense (``compositionFacts``): its
+    artifact files and its ``anti_pattern`` nodes. Any other node without a file is held by nobody."""
+    held = {key for key in declared_nodes(pack_dir) if key[0] == "anti_pattern"}
+    for path in sorted(pack_dir.rglob("*")) if contract is not None else []:
+        if path.is_symlink() or not path.is_file():
+            continue
+        relative = path.relative_to(pack_dir).as_posix()
+        category, rule = classify(contract, f"{pack_dir.name}/{relative}")
+        template = TEMPLATE_PATH.fullmatch(relative) if category == "payload" else None
+        if template:
+            held.add(("template", "/".join(part for part in template.groups() if part)))
+        elif rule is not None and rule.schema in ARTIFACT_SCHEMAS | {"mission-type"}:
+            document = _load_or_none(path)
+            artifact_id = document.get("profile-id", document.get("id")) if isinstance(document, dict) else None
+            if isinstance(artifact_id, str):
+                held.add((rule.schema.replace("-", "_"), artifact_id))
+    return held
+
+
+def split_qualifier(reference: str) -> tuple[str | None, str]:
+    """``<pack>::<rest>`` as ``(pack, rest)``; a bare reference as ``(None, reference)``."""
+    qualifier, separator, rest = reference.partition("::")
+    return (qualifier, rest) if separator else (None, reference)
+
+
+def written_references(pack_dir: Path, contract: Contract | None) -> Iterator[tuple[str, str | None, str]]:
+    """``(file, qualifier, urn)`` for every reference the charter reads from a pack: both ends of each
+    edge of its graph documents and, given the contract, what its artifact files write (the fields of
+    the charter's ``CharterArtifact.writtenReferences``). Agent profiles mint none there, so none here."""
+    for graph in [pack_dir / "drg" / "fragment.yaml", *sorted(pack_dir.glob("*.graph.yaml"))]:
+        document = _load_or_none(graph)
+        for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
+            for end in ("source", "target"):
+                if isinstance(edge, dict) and isinstance(edge.get(end), str):
+                    yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", *split_qualifier(edge[end]))
+    for path in sorted(pack_dir.rglob("*.yaml")) if contract is not None else []:
+        file = f"{pack_dir.name}/{path.relative_to(pack_dir).as_posix()}"
+        _, rule = classify(contract, file)
+        schema = rule.schema if rule is not None else None
+        if schema not in TYPED_REFERENCE_SCHEMAS or path.is_symlink() or not path.is_file():
+            continue
+        document = _load_or_none(path)
+        if not isinstance(document, dict):
+            continue
+        steps = document.get("steps") if schema in STEPPED_SCHEMAS else None
+        scopes = [document, *(step for step in steps if isinstance(step, dict))] if isinstance(steps, list) else [document]
+        for scope in scopes:
+            typed = scope.get("references")
+            for ref in typed if isinstance(typed, list) else []:
+                if isinstance(ref, dict) and isinstance(ref.get("type"), str) and isinstance(ref.get("id"), str):
+                    qualifier, node_id = split_qualifier(ref["id"])
+                    yield file, qualifier, f"{ref['type']}:{node_id}"
+        field_name, kind = BARE_ID_LISTS.get(schema, ("", ""))
+        bare = document.get(field_name)
+        for entry in bare if isinstance(bare, list) else []:
+            if isinstance(entry, str):
+                qualifier, node_id = split_qualifier(entry)
+                yield file, qualifier, f"{kind}:{node_id}"
+
+
+def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> set[Path]:
+    """The pack and every pack it reaches through ``depends_on``, which names packs by ``pack_id``."""
+    reached, pending = {pack}, [pack]
+    while pending:
+        entries = descriptors[pending.pop()].get("depends_on")
+        for entry in entries if isinstance(entries, list) else []:
+            pack_id = entry.get("pack_id") if isinstance(entry, dict) else None
+            target = by_id.get(pack_id) if isinstance(pack_id, str) else None
+            if target is not None and target not in reached:
+                reached.add(target)
+                pending.append(target)
+    return reached
+
+
+def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]], contract: Contract | None) -> list[str]:
+    """The composition defects worth catching before the charter service refuses them. The service
+    stays the authority: ordering, levels, version ranges and sibling rules are not judged here."""
+    loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
+    descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
+    violations = [
+        f"{pack.name}/pack.yaml: missing: every pack needs a descriptor with its pack_id and name"
+        for pack in pack_dirs
+        if not (pack / "pack.yaml").is_file()
+    ]
+    index: dict[str, dict[str, Path]] = {"pack_id": {}, "name": {}}
+    for key, packs_by_value in index.items():
+        sharing: dict[str, list[str]] = {}
+        for pack, descriptor in descriptors.items():
+            if isinstance(descriptor.get(key), str):
+                packs_by_value[descriptor[key]] = pack
+                sharing.setdefault(descriptor[key], []).append(f"{pack.name}/pack.yaml")
+        violations += [
+            f"{', '.join(sorted(files))}: {key} {value!r} is declared by more than one pack"
+            for value, files in sorted(sharing.items())
+            if len(files) > 1
+        ]
+    for pack in pack_dirs:
+        closure = _depends_on_closure(pack, descriptors, index["pack_id"])
+        for file, qualifier, urn in written_references(pack, contract):
+            kind, _, node_id = urn.partition(":")
+            if qualifier is None:
+                holder = next((other.name for other, nodes in held.items() if (kind, node_id) in nodes), None)
+                if holder is not None and (kind, node_id) not in held[pack]:
+                    violations.append(f"{file}: bare reference {urn!r} is held only by {holder}; qualify it with that pack's name")
+            elif index["name"].get(qualifier) not in closure:
+                violations.append(f"{file}: reference '{qualifier}::{urn}' names a pack outside this pack's depends_on closure")
+            elif kind not in UNHELD_KINDS and (kind, node_id) not in held[index["name"][qualifier]]:
+                violations.append(f"{file}: reference '{qualifier}::{urn}': {qualifier} does not hold {urn!r}")
+    return violations
+
+
 def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = None) -> list[str]:
     """Checks that only make sense across all packs together (formerly core's ``doctor charter-packs``).
 
@@ -741,12 +876,14 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
       pack that must override a built-in id would need an explicit allowance added here;
     * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
-    * a DRG edge endpoint (``<kind>:<id>``) in a pack's fragment that resolves to no node.
+    * a DRG edge endpoint (``[<pack>::]<kind>:<id>``) in a pack's fragment that resolves to no node;
+    * the composition defects of ``composition_violations``.
 
     With ``contract``, artifact files count as declarations too (``declared_nodes``).
 
     Fails closed (GateError) when no pack declares any node.
     """
+    held = {pack: held_artifacts(pack, contract) for pack in pack_dirs}
     owners: dict[tuple[str, str], list[str]] = {}
     for pack in pack_dirs:
         for key in declared_nodes(pack, contract):
@@ -779,12 +916,12 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                 continue
             for end in ("source", "target"):
                 urn = edge.get(end)
-                kind, _, node_id = urn.partition(":") if isinstance(urn, str) else ("", "", "")
-                if (kind, node_id) not in owners:
+                kind, _, node_id = split_qualifier(urn)[1].partition(":") if isinstance(urn, str) else ("", "", "")
+                if (kind, node_id) not in owners and not any((kind, node_id) in nodes for nodes in held.values()):
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
                     )
-    return violations
+    return violations + composition_violations(pack_dirs, held, contract)
 
 
 # --------------------------------------------------------------------------- CLI
@@ -800,7 +937,8 @@ def main(argv: list[str] | None = None) -> int:
                              "(membership is kept); refused, exit 1, if a listed file is missing. Validates only the "
                              "packs also given as positional arguments")
     parser.add_argument("--cross-pack", action="store_true",
-                        help="also check the given packs together: preset ids, DRG edge endpoints and id collisions")
+                        help="also check the given packs together: preset ids, DRG edge endpoints, id collisions "
+                             "and strict composition (descriptors and references across packs)")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
     if not args.packs and not args.expect_invalid and not args.regenerate_manifest:

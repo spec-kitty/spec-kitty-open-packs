@@ -98,16 +98,16 @@ edges:
   relation: suggests
 # Built-in doctrine this pack builds on rather than restating.
 - source: paradigm:evd-event-sourced-design
-  target: tactic:domain-event-capture
+  target: built-in::tactic:domain-event-capture
   relation: suggests
 - source: paradigm:evd-event-sourced-design
-  target: procedure:event-storming-discovery
+  target: built-in::procedure:event-storming-discovery
   relation: suggests
 - source: paradigm:evd-event-sourced-design
-  target: paradigm:domain-driven-design
+  target: built-in::paradigm:domain-driven-design
   relation: suggests
 - source: paradigm:evd-event-sourced-design
-  target: paradigm:deep-module-design
+  target: built-in::paradigm:deep-module-design
   relation: suggests
 # Directives and the tactics or styleguide that carry them out.
 - source: directive:EVD_001
@@ -123,7 +123,7 @@ edges:
   target: styleguide:evd-event-naming-and-payload
   relation: requires
 - source: directive:EVD_003
-  target: tactic:domain-event-capture
+  target: built-in::tactic:domain-event-capture
   relation: suggests
 - source: directive:EVD_004
   target: directive:EVD_001
@@ -141,7 +141,7 @@ edges:
   target: styleguide:evd-event-naming-and-payload
   relation: suggests
 - source: directive:EVD_006
-  target: tactic:anti-corruption-layer
+  target: built-in::tactic:anti-corruption-layer
   relation: suggests
 # Tactics that lean on each other, on built-in doctrine and on the worked example.
 - source: tactic:evd-event-versioning-and-upcasting
@@ -151,7 +151,7 @@ edges:
   target: tactic:evd-idempotent-consumer
   relation: suggests
 - source: tactic:evd-event-bridge-port
-  target: tactic:reference-architectural-patterns
+  target: built-in::tactic:reference-architectural-patterns
   relation: suggests
 - source: tactic:evd-projection-replay
   target: tactic:evd-idempotent-consumer

@@ -182,13 +182,13 @@ edges:
   target: directive:QA_008
   relation: requires
 - source: procedure:qa-description-to-acceptance-ci
-  target: tactic:bdd-scenario-formulation
+  target: built-in::tactic:bdd-scenario-formulation
   relation: suggests
 - source: procedure:qa-description-to-acceptance-ci
-  target: styleguide:given-when-then-authoring
+  target: built-in::styleguide:given-when-then-authoring
   relation: suggests
 - source: procedure:qa-description-to-acceptance-ci
-  target: toolguide:gherkin
+  target: built-in::toolguide:gherkin
   relation: suggests
 - source: toolguide:qa-promise-trace-lint-guide
   target: asset:qa-promise-trace-lint

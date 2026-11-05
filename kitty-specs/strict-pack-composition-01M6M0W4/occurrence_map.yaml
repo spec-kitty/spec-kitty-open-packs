@@ -1,0 +1,44 @@
+schema_version: "1.0"
+mission: strict-pack-composition-01M6M0W4
+
+# The "term" is a class, not one literal: each bare reference to an artifact held by built-in gains
+# a qualifier. reference-inventory.txt lists all 93 sites by pack, target and field.
+target:
+  term: "<bare reference to a built-in artifact>"
+  operation: rename
+  replacement: "built-in::<reference>"
+
+categories:
+  code_symbols:
+    action: manual_review   # the validator and generator change for their own reasons; no reference is renamed in code
+  import_paths:
+    action: do_not_change
+  filesystem_paths:
+    action: manual_review   # sidecar paths (#75) and one glossary file stem (#47), not qualifiers
+  serialized_keys:
+    action: rename          # pack YAML: edge ends and typed references, per the inventory
+  cli_commands:
+    action: do_not_change
+  user_facing_strings:
+    action: do_not_change   # prose mentions of other packs' artifacts are not references; docs/packs/ is regenerated
+  tests_fixtures:
+    action: manual_review
+  logs_telemetry:
+    action: do_not_change
+
+exceptions:
+  - path: "packs/built-in/**"
+    action: manual_review
+    reason: "built-in references nothing outside itself; only its six sidecars, manifest and digest record change (#75)."
+  - path: "docs/packs/**"
+    action: rename
+    reason: "Generated pages; regenerated, never edited by hand."
+  - path: "docs/guides/**"
+    action: manual_review
+    reason: "Guides state the new rules (FR-015); they carry no reference to migrate."
+  - path: "docs/architecture/adr/**"
+    action: manual_review
+    reason: "ADRs are superseded, never silently edited; only a new ADR and the index change."
+  - path: "docs/changelog/**"
+    action: manual_review
+    reason: "The changelog gains entries; history stays."

@@ -2,7 +2,7 @@ nodes:
   - id: spk-internal-glossary
     kind: glossary_packs
     title: "Spec Kitty Internal Glossary (maintainer/engineering terms)"
-    body_path: glossary_packs/spk-internal.glossary-pack.yaml
+    body_path: glossary_packs/spk-internal-glossary.glossary-pack.yaml
   - id: landing-contributor-prs
     kind: procedures
     title: "Landing Contributor PRs (maintainer runbook)"
@@ -217,26 +217,26 @@ edges:
   # fully-qualified <kind>:<id> DRG URNs (singular kind), verified present in
   # packs/built-in/.
   - source: "procedure:landing-contributor-prs"
-    target: "directive:RED_MAIN_RELEASE_DISCIPLINE"
+    target: "built-in::directive:RED_MAIN_RELEASE_DISCIPLINE"
     relation: refines
   - source: "procedure:landing-contributor-prs"
-    target: "tactic:pr-agent-worktree-isolation"
+    target: "built-in::tactic:pr-agent-worktree-isolation"
     relation: refines
   # No-full-heavy-suite directive reconciles with (does not duplicate) the
   # built-in test-run discipline and red-main policy: bounded/single test
   # runs, and reds outside blast radius are CI's to report, not to chase
   # by widening the local run.
   - source: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
-    target: "tactic:no-parallel-duplicate-test-runs"
+    target: "built-in::tactic:no-parallel-duplicate-test-runs"
     relation: refines
   - source: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
-    target: "directive:RED_MAIN_RELEASE_DISCIPLINE"
+    target: "built-in::directive:RED_MAIN_RELEASE_DISCIPLINE"
     relation: refines
   # The built-in post-merge adjudication procedure inventories failing gates;
   # this directive bounds how a mission agent runs them locally (named gate
   # files, never the whole architectural directory).
   - source: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
-    target: "procedure:post-merge-arch-gate-adjudication"
+    target: "built-in::procedure:post-merge-arch-gate-adjudication"
     relation: refines
   # Postmortem authoring chain (all targets are local nodes declared above).
   # The procedure suggests the writing styleguide and the branded-deliverable
@@ -269,38 +269,38 @@ edges:
   # Repository-specific refinements of repository-agnostic built-in Charter Pack artifacts.
   # Each internal node refines the built-in artefact it specialises.
   - source: "procedure:spec-kitty-arch-gate-adjudication"
-    target: "procedure:post-merge-arch-gate-adjudication"
+    target: "built-in::procedure:post-merge-arch-gate-adjudication"
     relation: refines
   - source: "procedure:spec-kitty-arch-gate-adjudication"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
   - source: "directive:SPEC_KITTY_RED_MAIN_POLICY"
-    target: "directive:RED_MAIN_RELEASE_DISCIPLINE"
+    target: "built-in::directive:RED_MAIN_RELEASE_DISCIPLINE"
     relation: refines
   - source: "styleguide:spec-kitty-package-tiers"
-    target: "styleguide:tiered-standards"
+    target: "built-in::styleguide:tiered-standards"
     relation: refines
   - source: "styleguide:spec-kitty-tracker-labels"
-    target: "styleguide:planning-and-tracking"
+    target: "built-in::styleguide:planning-and-tracking"
     relation: refines
   # The terminology guard moved here from built-in with its outbound edges.
   - source: "toolguide:terminology-guard"
-    target: "directive:DIRECTIVE_044"
+    target: "built-in::directive:DIRECTIVE_044"
     relation: suggests
   - source: "toolguide:terminology-guard"
-    target: "tactic:canonical-source-unification"
+    target: "built-in::tactic:canonical-source-unification"
     relation: suggests
   - source: "toolguide:terminology-guard"
-    target: "tactic:occurrence-classification-workflow"
+    target: "built-in::tactic:occurrence-classification-workflow"
     relation: suggests
   - source: "styleguide:spec-kitty-docs-lint-config"
-    target: "styleguide:common-docs"
+    target: "built-in::styleguide:common-docs"
     relation: refines
   - source: "tactic:spec-kitty-gate-non-vacuity-exemplar"
-    target: "tactic:architectural-gate-non-vacuity"
+    target: "built-in::tactic:architectural-gate-non-vacuity"
     relation: refines
   - source: "tactic:spec-kitty-ratchet-cost"
-    target: "tactic:frozen-baseline-shrink-only-ratchet"
+    target: "built-in::tactic:frozen-baseline-shrink-only-ratchet"
     relation: refines
   # Backlog-triage authoring chain (moved from built-in). Ported
   # verbatim from the built-in tactic.graph.yaml / procedure.graph.yaml edge
@@ -312,22 +312,22 @@ edges:
     target: "procedure:tracker-organisation-workflow"
     relation: suggests
   - source: "tactic:tracker-backlog-iterative-deepening"
-    target: "tactic:moscow-scoping-lens"
+    target: "built-in::tactic:moscow-scoping-lens"
     relation: suggests
   - source: "procedure:tracker-organisation-workflow"
     target: "tactic:tracker-backlog-iterative-deepening"
     relation: requires
   - source: "procedure:tracker-organisation-workflow"
-    target: "tactic:moscow-scoping-lens"
+    target: "built-in::tactic:moscow-scoping-lens"
     relation: requires
   - source: "procedure:tracker-organisation-workflow"
-    target: "procedure:issue-triage-state-machine"
+    target: "built-in::procedure:issue-triage-state-machine"
     relation: requires
   - source: "procedure:tracker-organisation-workflow"
-    target: "styleguide:planning-and-tracking"
+    target: "built-in::styleguide:planning-and-tracking"
     relation: suggests
   - source: "procedure:tracker-organisation-workflow"
-    target: "toolguide:github-tracker"
+    target: "built-in::toolguide:github-tracker"
     relation: suggests
   # Test-suite quality assessment chain: the procedure requires the scan
   # toolguide, which requires the scanner asset; the review itself applies the
@@ -339,19 +339,19 @@ edges:
     target: "asset:test-quality-scan"
     relation: requires
   - source: "procedure:test-suite-quality-assessment"
-    target: "styleguide:test-desiderata-and-boundaries"
+    target: "built-in::styleguide:test-desiderata-and-boundaries"
     relation: suggests
   - source: "procedure:test-suite-quality-assessment"
-    target: "styleguide:testing-principles"
+    target: "built-in::styleguide:testing-principles"
     relation: suggests
   - source: "procedure:test-suite-quality-assessment"
-    target: "directive:DIRECTIVE_041"
+    target: "built-in::directive:DIRECTIVE_041"
     relation: suggests
   - source: "procedure:test-suite-quality-assessment"
-    target: "procedure:development-assist-test-cleanup"
+    target: "built-in::procedure:development-assist-test-cleanup"
     relation: suggests
   - source: "procedure:test-suite-quality-assessment"
-    target: "procedure:adversarial-squad-deployment"
+    target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
   - source: "procedure:test-suite-quality-assessment"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
@@ -361,16 +361,16 @@ edges:
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
   - source: "procedure:cloud-session-dispatch"
-    target: "directive:DIRECTIVE_025"
+    target: "built-in::directive:DIRECTIVE_025"
     relation: suggests
   - source: "procedure:cloud-session-dispatch"
-    target: "directive:RECONCILE_CHANGE_SCOPE_TENSIONS"
+    target: "built-in::directive:RECONCILE_CHANGE_SCOPE_TENSIONS"
     relation: suggests
   - source: "procedure:cloud-session-dispatch"
-    target: "procedure:refactoring"
+    target: "built-in::procedure:refactoring"
     relation: suggests
   - source: "procedure:cloud-session-dispatch"
-    target: "procedure:test-first-bug-fixing"
+    target: "built-in::procedure:test-first-bug-fixing"
     relation: suggests
   - source: "procedure:cloud-session-dispatch"
     target: "procedure:test-suite-quality-assessment"
@@ -389,16 +389,16 @@ edges:
     target: "directive:OPERATOR_SIGNAL_CONTRACT"
     relation: requires
   - source: "procedure:semi-auto-delivery"
-    target: "procedure:mission-wrap-up-sequence"
+    target: "built-in::procedure:mission-wrap-up-sequence"
     relation: suggests
   - source: "procedure:semi-auto-delivery"
-    target: "procedure:test-first-bug-fixing"
+    target: "built-in::procedure:test-first-bug-fixing"
     relation: suggests
   - source: "procedure:semi-auto-delivery"
-    target: "procedure:adversarial-squad-deployment"
+    target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
   - source: "procedure:semi-auto-delivery"
-    target: "tactic:clean-linear-commit-history"
+    target: "built-in::tactic:clean-linear-commit-history"
     relation: suggests
   # Dual-mode pack skill: requires the standing-orders procedure (both modes) and
   # the dispatch procedure (cloud mode); suggests the Mission closeout sequence.
@@ -409,7 +409,7 @@ edges:
     target: "procedure:cloud-session-dispatch"
     relation: requires
   - source: "skill:semi-auto"
-    target: "procedure:mission-wrap-up-sequence"
+    target: "built-in::procedure:mission-wrap-up-sequence"
     relation: suggests
   # Triage pass: binds the label scheme and the backlog workflow rather than
   # restating them.
@@ -420,64 +420,64 @@ edges:
     target: "procedure:tracker-organisation-workflow"
     relation: suggests
   - source: "procedure:issue-triage-pass"
-    target: "tactic:model-task-routing"
+    target: "built-in::tactic:model-task-routing"
     relation: suggests
   - source: "procedure:issue-triage-pass"
-    target: "agent_profile:planner-priti"
+    target: "built-in::agent_profile:planner-priti"
     relation: suggests
   # Issue-to-Mission delivery: the close-out sequence and the squad, tracer-file,
   # red-first and test doctrine are owned elsewhere; this procedure binds them.
   - source: "procedure:issue-to-mission-delivery"
-    target: "procedure:mission-wrap-up-sequence"
+    target: "built-in::procedure:mission-wrap-up-sequence"
     relation: requires
   - source: "procedure:issue-to-mission-delivery"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
   - source: "procedure:issue-to-mission-delivery"
-    target: "procedure:adversarial-squad-deployment"
+    target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
   - source: "procedure:issue-to-mission-delivery"
-    target: "procedure:mission-tracer-files"
+    target: "built-in::procedure:mission-tracer-files"
     relation: suggests
   - source: "procedure:issue-to-mission-delivery"
-    target: "procedure:test-first-bug-fixing"
+    target: "built-in::procedure:test-first-bug-fixing"
     relation: suggests
   - source: "procedure:issue-to-mission-delivery"
-    target: "directive:DIRECTIVE_041"
+    target: "built-in::directive:DIRECTIVE_041"
     relation: suggests
   - source: "procedure:issue-to-mission-delivery"
-    target: "tactic:model-task-routing"
+    target: "built-in::tactic:model-task-routing"
     relation: suggests
   - source: "procedure:issue-to-mission-delivery"
-    target: "tactic:clean-linear-commit-history"
+    target: "built-in::tactic:clean-linear-commit-history"
     relation: suggests
   - source: "procedure:issue-to-mission-delivery"
-    target: "agent_profile:planner-priti"
+    target: "built-in::agent_profile:planner-priti"
     relation: suggests
   # The landing procedure binds the doctrine its steps name.
   - source: "procedure:landing-contributor-prs"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
   - source: "procedure:landing-contributor-prs"
-    target: "directive:DIRECTIVE_041"
+    target: "built-in::directive:DIRECTIVE_041"
     relation: suggests
   - source: "procedure:landing-contributor-prs"
-    target: "directive:DIRECTIVE_045"
+    target: "built-in::directive:DIRECTIVE_045"
     relation: suggests
   - source: "procedure:landing-contributor-prs"
-    target: "procedure:adversarial-squad-deployment"
+    target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
   - source: "procedure:landing-contributor-prs"
-    target: "procedure:development-assist-test-cleanup"
+    target: "built-in::procedure:development-assist-test-cleanup"
     relation: suggests
   - source: "procedure:landing-contributor-prs"
-    target: "tactic:clean-linear-commit-history"
+    target: "built-in::tactic:clean-linear-commit-history"
     relation: suggests
   - source: "procedure:landing-contributor-prs"
-    target: "tactic:model-task-routing"
+    target: "built-in::tactic:model-task-routing"
     relation: suggests
   - source: "procedure:landing-contributor-prs"
-    target: "agent_profile:reviewer-renata"
+    target: "built-in::agent_profile:reviewer-renata"
     relation: suggests
   # Charter-offering scenario extraction binds the authoring styleguide it
   # follows, the bounded-run directive (e2e read as evidence, not run as a
@@ -490,10 +490,10 @@ edges:
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
   - source: "procedure:charter-offering-scenario-extraction"
-    target: "procedure:adversarial-squad-deployment"
+    target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
   - source: "procedure:charter-offering-scenario-extraction"
-    target: "styleguide:test-desiderata-and-boundaries"
+    target: "built-in::styleguide:test-desiderata-and-boundaries"
     relation: suggests
   # Pack skills: each requires the procedure that carries its substance.
   - source: "skill:land-pr"
@@ -503,7 +503,7 @@ edges:
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
   - source: "skill:land-pr"
-    target: "directive:DIRECTIVE_045"
+    target: "built-in::directive:DIRECTIVE_045"
     relation: suggests
   - source: "skill:issue-triage"
     target: "procedure:issue-triage-pass"
@@ -512,16 +512,16 @@ edges:
     target: "styleguide:spec-kitty-tracker-labels"
     relation: requires
   - source: "skill:issue-triage"
-    target: "agent_profile:planner-priti"
+    target: "built-in::agent_profile:planner-priti"
     relation: suggests
   - source: "skill:mission-from-issue"
     target: "procedure:issue-to-mission-delivery"
     relation: requires
   - source: "skill:mission-from-issue"
-    target: "procedure:mission-wrap-up-sequence"
+    target: "built-in::procedure:mission-wrap-up-sequence"
     relation: requires
   - source: "skill:mission-from-issue"
-    target: "agent_profile:planner-priti"
+    target: "built-in::agent_profile:planner-priti"
     relation: suggests
   # Executive-debrief tooling: the procedure requires the collector and suggests the
   # renderer and the long-form generator; the renderer requires the template, which
