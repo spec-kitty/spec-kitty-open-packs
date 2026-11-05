@@ -232,6 +232,9 @@
       "last_event_id": "01M6MP9H4MWFYJ0JRAK90WCZ49",
       "last_transition_at": "2026-11-05T01:48:35.860994+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Close-out done locally and on the charter draft (PR 378 at da172296, pin ca5df04). Three issues NOT filed: creating them was denied in this environment; drafts handed to the operator. Re-pointing the pin at final main remains the operator-triggered last step of FR-014."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 3077565,
