@@ -28,5 +28,5 @@ references:
     id: evd-event-naming-and-payload
     when: when writing the published contract
   - type: tactic
-    id: anti-corruption-layer
+    id: built-in::anti-corruption-layer
     when: when a consumer must translate a foreign contract into its own model

@@ -734,7 +734,7 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
 
 #: Directories of packs not yet migrated to strict composition: the reference checks skip them. This
 #: list only shrinks, each migration removes its pack, and it is deleted by the end of the mission.
-PENDING_PACKS = frozenset({"internal", "event-driven"})
+PENDING_PACKS = frozenset({"internal"})
 #: Node kinds the charter holds nowhere: it never judges whether a qualified target of these exists.
 UNHELD_KINDS = frozenset({"action", "guard", "lifecycle"})
 #: Schemas whose files write typed references (``{type, id}``) in ``references``; those in

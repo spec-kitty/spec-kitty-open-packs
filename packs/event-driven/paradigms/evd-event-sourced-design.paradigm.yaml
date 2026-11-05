@@ -40,6 +40,6 @@ references:
   - type: tactic
     id: evd-idempotent-consumer
   - type: tactic
-    id: domain-event-capture
+    id: built-in::domain-event-capture
   - type: procedure
-    id: event-storming-discovery
+    id: built-in::event-storming-discovery
