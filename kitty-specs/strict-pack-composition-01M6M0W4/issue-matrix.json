@@ -25,7 +25,7 @@
       "wp": null
     },
     "#113": {
-      "evidence_ref": "spec FR-010",
+      "evidence_ref": "78 references over 31 targets qualified in 6203de4, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -33,7 +33,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP06"
     },
     "#114": {
