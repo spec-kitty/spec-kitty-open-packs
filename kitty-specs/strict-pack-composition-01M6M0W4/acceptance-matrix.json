@@ -58,10 +58,10 @@
       "criterion_id": "FR-006",
       "description": "The remaining #47 items are delivered: the glossary stem rename and the guard against a pack without a descriptor (FR-003). (#47)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "packs/internal/glossary_packs/spk-internal-glossary.glossary-pack.yaml, no stale stem in packs or docs; test_a_pack_directory_with_no_descriptor_fails",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:42.919913+00:00",
       "notes": null
     },
     {
