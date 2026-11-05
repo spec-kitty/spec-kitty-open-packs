@@ -61,8 +61,8 @@ references:
   id: NO_FULL_HEAVY_SUITES_IN_MISSION
   reason: The e2e and charter tests are read as evidence; verification runs the named scenarios, never whole heavy suites.
 - type: procedure
-  id: adversarial-squad-deployment
+  id: built-in::adversarial-squad-deployment
   reason: How to run promise-extraction and litmus review as bounded, profile-loaded lenses.
 - type: styleguide
-  id: test-desiderata-and-boundaries
+  id: built-in::test-desiderata-and-boundaries
   reason: Non-vacuity — a scenario must go red when the promise it names is broken, and assert observable behaviour, not the call graph.

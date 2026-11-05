@@ -36,7 +36,7 @@ packs/internal/
 │   ├── semi-auto.skill.yaml                         # kitty-semi-auto: dual-mode (local|cloud) entry point to semi-auto-delivery
 │   └── *.skill.md                                   # their prompt bodies (goal, inputs, ordered pointers, stop conditions)
 ├── glossary_packs/
-│   └── spk-internal.glossary-pack.yaml              # spk-internal-glossary — maintainer/engineering glossary
+│   └── spk-internal-glossary.glossary-pack.yaml     # spk-internal-glossary — maintainer/engineering glossary
 ├── procedures/
 │   ├── landing-contributor-prs.procedure.yaml       # maintainer PR-landing runbook (behind kitty-land-pr)
 │   ├── issue-triage-pass.procedure.yaml             # orchestrated batch triage of open issues (behind kitty-issue-triage)
