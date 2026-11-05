@@ -1,7 +1,7 @@
 {
-  "event_count": 42,
-  "last_event_id": "01M6MJMB451TKSKE26XR2YRS2M",
-  "materialized_at": "2026-11-05T00:44:35.845982+00:00",
+  "event_count": 44,
+  "last_event_id": "01M6MJPW9YYM84QFA52CT4ER55",
+  "materialized_at": "2026-11-05T00:45:58.971141+00:00",
   "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 2
+    "planned": 1
   },
   "work_packages": {
     "WP01": {
@@ -189,11 +189,15 @@
       }
     },
     "WP06": {
-      "actor": "finalize-tasks",
+      "actor": "claude:claude-opus-5-5:implementer-ivan",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M6M1VF7E63K3TRPX3S9JWPSS",
-      "last_transition_at": "2026-11-04T19:51:23.630901+00:00"
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "in_progress",
+      "last_event_id": "01M6MJPW9YYM84QFA52CT4ER55",
+      "last_transition_at": "2026-11-05T00:45:58.971141+00:00",
+      "shell_pid": 3032518,
+      "shell_pid_created_at": "1793839554.42"
     },
     "WP07": {
       "actor": "finalize-tasks",
