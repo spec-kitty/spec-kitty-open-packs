@@ -16,7 +16,7 @@ Follow the `landing-contributor-prs` procedure from its second step onward. It c
 
 1. Decide whether the PR is worth landing: the full check for an old or substantive PR, the short check for a recent mechanical one. Stop and report the recommendation (LAND, RESCOPE or CLOSE) unless it is LAND.
 2. Claim the PR with a comment and assign it to the operator.
-3. Work in a separate worktree; rebase onto the canonical remote's `main`; regenerate what the rebase made stale.
+3. Work in a separate worktree under `.worktrees/`; rebase onto the canonical remote's `main`; regenerate what the rebase made stale.
 4. Classify every red check, and file an issue for each pre-existing red that has none.
 5. Fix what blocks the PR, one landing fix per commit, delegated to subagents. Apply the test economy rule in every brief. Read CI before running anything locally; never run a full heavy suite. For a bugfix PR, verify the red-first proof.
 6. Run an independent review of the integrated diff and fix every finding, except one that is highly impactful, takes significant effort, or needs a significant operator decision. Name each exception in the PR body with its reason.
@@ -35,4 +35,4 @@ Follow the `landing-contributor-prs` procedure from its second step onward. It c
 
 ## Hand-off
 
-Post the remediation summary on the PR. Then stop: the operator merges. Arm auto-merge only if the operator said yes when asked in step 1, only once the PR is merge-ready and complete, and as the procedure's hand-off step describes; confirm it armed without merging at once. Never merge by another route, never push to `main`, and arm nothing while the PR still needs commits. Afterwards, follow the "After the PR is merged" step.
+Post the remediation summary on the PR. Then stop: the operator merges. Arm auto-merge only if the operator said yes when asked in step 1, only once the PR is merge-ready and complete, and as the procedure's hand-off step describes; confirm it armed without merging at once. Never merge by another route, never push to `main`, and arm nothing while the PR still needs commits. Afterwards, follow the "After the PR is merged" step: `git fetch origin`, then `spec-kitty doctor workspaces --prune` removes the landing worktree and its branch once the merge is on `origin/main`; a worktree it keeps (for example `NO_OWN_COMMITS`, when the pass made no commit of its own) is removed by hand as step 12 of `docs/development/how-to/pr-landing.md` shows. If the merge happens after this session ends, the next landing pass finds it with `spec-kitty doctor workspaces`.
