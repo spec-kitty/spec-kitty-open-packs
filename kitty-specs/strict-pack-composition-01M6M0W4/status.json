@@ -133,6 +133,9 @@
       "last_event_id": "01M6MGRB8Q9Y38Y5Q2Z1FKS09X",
       "last_transition_at": "2026-11-05T00:11:49.911629+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "T012 qa qualified 3/3 (scripted by offset), depends_on added, qa out of PENDING_PACKS (out-of-map scripts/ci/validate_pack_schemas.py). T013 FR-011: 24 profile references left bare, follow-up issue at close-out. T014 charter draft PR spec-kitty-charter#378 compose test 8/8 at pin 843179b; negative controls refused; cave-kitty depends_on guarded by served-edge assertion. T015 C-005: dispatch exit 0, next query exit 0, charter context exit 0, same as baseline; doctor charter-packs exit 1 also on baseline. T016 gates green."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 2978513,
