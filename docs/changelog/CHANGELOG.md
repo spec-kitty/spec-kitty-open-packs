@@ -227,6 +227,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **Landing worktrees are pruned with a proof, not by hand** (spec-kitty/spec-kitty#7173). The
+  `landing-contributor-prs` procedure and the `land-pr` skill create landing worktrees under
+  `.worktrees/`, start each pass with `spec-kitty doctor workspaces`, and remove a merged
+  landing worktree and its branch with `spec-kitty doctor workspaces --prune`, which removes
+  only worktrees whose content is on `origin/main` and prints a command to recreate each
+  branch. This needs the core release that ships `--prune`.
+
 - **The docs say a preset is self-contained, not incremental.** A preset is the whole activation
   selection for the kinds it names, and which agent profiles it holds is an operator's choice.
   Stated in the contracts page and the author guide; the comment of `packs/qa/presets/qa.yaml`
