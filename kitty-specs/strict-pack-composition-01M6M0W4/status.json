@@ -1,7 +1,7 @@
 {
-  "event_count": 45,
-  "last_event_id": "01M6MK5X13WGK8RWJYBPEESK4C",
-  "materialized_at": "2026-11-05T00:54:11.235154+00:00",
+  "event_count": 46,
+  "last_event_id": "01M6MK8X9XN3YFCS00YB6Y51FD",
+  "materialized_at": "2026-11-05T00:55:49.821993+00:00",
   "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 1
   },
   "work_packages": {
@@ -195,15 +195,15 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M6MK5X13WGK8RWJYBPEESK4C",
-      "last_transition_at": "2026-11-05T00:54:11.235154+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M6MK8X9XN3YFCS00YB6Y51FD",
+      "last_transition_at": "2026-11-05T00:55:49.821993+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "78 references qualified (57 edges including 5 agent_profile, 19 procedure, 2 tactic), depends_on declared, PENDING_PACKS empty, #47 glossary rename done. scan 0 bare->other; all five packs compose; C-005 next and dispatch exit 0. Governance consequence accepted (C-001): the as-is CLI's org layer stops merging once this content reaches a checkout. Charter corpus test GlossaryPackAndSkillCorpusTest:63 hardcodes the old glossary file name and needs WP07's attention."
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
+      "role": "reviewer",
       "shell_pid": 3032518,
       "shell_pid_created_at": "1793839554.42",
       "subtasks": {
