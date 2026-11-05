@@ -157,7 +157,7 @@
       "wp": null
     },
     "#75": {
-      "evidence_ref": "spec FR-007",
+      "evidence_ref": "Sidecars, manifest, digest and page in 3a865e6 and e6a83bc, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -165,7 +165,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#92": {
