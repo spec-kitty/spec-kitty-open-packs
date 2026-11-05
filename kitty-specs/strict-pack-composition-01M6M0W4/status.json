@@ -169,7 +169,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "12 event-driven references qualified (7 edges long form, 5 typed short form), depends_on built-in added, PENDING_PACKS reduced to internal, page regenerated. Scan 0 bare->other. Local charter compose (uncommitted extension in throwaway worktree, pin 2b99319) green: built-in, event-driven served with dependency edge.",
-        "Independent review started on lane-b 2b99319"
+        "Independent review started on lane-b 2b99319",
+        "Approved at 2b99319. 12 sites over 6 targets: 7 edges long form, 5 typed refs short form, each confirmed against the schema patterns at 85c20fa and each target held by built-in with matching kind. Independent scan: 0 bare foreign; scan.py event-driven 106 sites = 94 bare->own + 12 qualified, 0 bare->other. YAML diff is value-only; depends_on matches qa. PENDING_PACKS is {internal}. Gates green: tests/ci 57, docs 8, release 8, vocabulary 12, validate-packs, check-built-in, gen_pack_reference --check. Real compose at charter 359e9e64 + patch, pinned to 2b99319: OpenPacksComposeTest 9/9; served [built-in, event-driven] with edge >=1.0,<2 and [built-in, cave-kitty, event-driven, quality-assurance]. Mutants: 5 typed and 6 edge reverts each PACK_REFERENCE_UNQUALIFIED; depends_on removed PACK_REFERENCE_PACK_MISSING; pre-WP05 pack refused; validate-packs also refuses the reverts tried. Bare id no pack holds is served, per data-model."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
