@@ -25,7 +25,7 @@
       "wp": null
     },
     "#113": {
-      "evidence_ref": "spec FR-010",
+      "evidence_ref": "78 references over 31 targets qualified in 6203de4, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -33,7 +33,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP06"
     },
     "#114": {
@@ -49,7 +49,7 @@
       "wp": null
     },
     "#116": {
-      "evidence_ref": "spec FR-009",
+      "evidence_ref": "12 references qualified in 2b99319, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,11 +57,11 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP05"
     },
     "#117": {
-      "evidence_ref": "spec FR-008",
+      "evidence_ref": "3 references qualified in 843179b, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -69,7 +69,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP04"
     },
     "#118": {
@@ -97,7 +97,7 @@
       "wp": null
     },
     "#363": {
-      "evidence_ref": "spec FR-013, FR-014: spec-kitty-charter#363, companion PR",
+      "evidence_ref": "spec-kitty-charter#363: compose test is in draft https://github.com/spec-kitty/spec-kitty-charter/pull/378, which lands after this mission merges (C-006)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -105,7 +105,7 @@
       "scope": null,
       "source_file": null,
       "title": null,
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP04"
     },
     "#365": {
@@ -121,7 +121,7 @@
       "wp": null
     },
     "#47": {
-      "evidence_ref": "spec FR-004, FR-006; delivered by WP02 and WP06",
+      "evidence_ref": "Pack descriptors in WP02; glossary rename and descriptor guard in WP06 and WP01, on the mission branch at bd44674",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -129,7 +129,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP02"
     },
     "#72": {
@@ -157,7 +157,7 @@
       "wp": null
     },
     "#75": {
-      "evidence_ref": "spec FR-007",
+      "evidence_ref": "Sidecars, manifest, digest and page in 3a865e6 and e6a83bc, on the mission branch",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -165,7 +165,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#92": {
