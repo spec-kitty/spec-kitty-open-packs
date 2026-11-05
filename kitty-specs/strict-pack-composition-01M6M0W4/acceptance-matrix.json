@@ -128,10 +128,10 @@
       "criterion_id": "FR-013",
       "description": "The charter's compose test reads the real packs from the pinned checkout and composes each pack with `built-in` and all five together, asserting the served pack list rather than only success, with the negative controls of User Story 1. (spec-kitty-charter#363)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "charter PR 378 at 297b8b1: OpenPacksComposeTest 11/11, openPacksRoundTrip 54/54, CI gate pass; negative controls listed in the PR body. Lands with that PR, still draft",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:56.617436+00:00",
       "notes": null
     },
     {
