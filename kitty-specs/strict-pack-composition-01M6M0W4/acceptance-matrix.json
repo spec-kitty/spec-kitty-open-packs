@@ -38,10 +38,10 @@
       "criterion_id": "FR-004",
       "description": "Every pack has a compliant `pack.yaml` with a unique, once-minted `pack_id`, a version and a name: `quality-assurance` (in `packs/qa`), `event-driven` and `cave-kitty`, each at version `1.0.0`. The valid example fixture has its own. (#47)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "packs/*/pack.yaml and tests/fixtures/valid/example-pack/pack.yaml at bd44674: names, pack_ids and pack_version 1.0.0 read back; charter compose serves the names",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:38.824507+00:00",
       "notes": null
     },
     {
