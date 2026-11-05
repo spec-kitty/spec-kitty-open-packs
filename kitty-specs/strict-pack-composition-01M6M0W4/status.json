@@ -124,7 +124,7 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude:claude-opus-5-5:implementer-ivan",
+      "agent": "claude:claude-opus-5-5:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -134,7 +134,8 @@
       "last_transition_at": "2026-11-05T00:13:13.828367+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "T012 qa qualified 3/3 (scripted by offset), depends_on added, qa out of PENDING_PACKS (out-of-map scripts/ci/validate_pack_schemas.py). T013 FR-011: 24 profile references left bare, follow-up issue at close-out. T014 charter draft PR spec-kitty-charter#378 compose test 8/8 at pin 843179b; negative controls refused; cave-kitty depends_on guarded by served-edge assertion. T015 C-005: dispatch exit 0, next query exit 0, charter context exit 0, same as baseline; doctor charter-packs exit 1 also on baseline. T016 gates green."
+        "T012 qa qualified 3/3 (scripted by offset), depends_on added, qa out of PENDING_PACKS (out-of-map scripts/ci/validate_pack_schemas.py). T013 FR-011: 24 profile references left bare, follow-up issue at close-out. T014 charter draft PR spec-kitty-charter#378 compose test 8/8 at pin 843179b; negative controls refused; cave-kitty depends_on guarded by served-edge assertion. T015 C-005: dispatch exit 0, next query exit 0, charter context exit 0, same as baseline; doctor charter-packs exit 1 also on baseline. T016 gates green.",
+        "Independent review of WP04 started: open-packs 843179b, charter PR 378"
       ],
       "provider": "__resolved_provider_absent__",
       "role": "reviewer",
