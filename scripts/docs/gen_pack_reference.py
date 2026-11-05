@@ -8,7 +8,7 @@ This is the *content-from-code* generator described in
 * doc-kitty-valid frontmatter (so the Astro site keeps building);
 * a "generated — do not edit" banner plus a deterministic content checksum
   (sha256 over the pack's sorted artifact contents);
-* the pack purpose from ``pack.yaml`` *if present* (never fabricated);
+* the version and ``depends_on`` declared in ``pack.yaml``, *if present*;
 * an artifact inventory with per-kind counts;
 * validation status from the charter pack schemas, checked by
   ``scripts/ci/validate_pack_schemas.py``.
@@ -23,8 +23,8 @@ Run it from the repository root::
     python3 scripts/docs/gen_pack_reference.py            # write pages
     python3 scripts/docs/gen_pack_reference.py --check    # fail on any drift
 
-``pack.yaml`` is read with a tiny local reader. The validation status needs
-``pyyaml`` and ``jsonschema`` (the validator's dependencies) and the pinned
+``pack.yaml`` is read with ``pyyaml``. The validation status also needs
+``jsonschema`` (``pyyaml`` is shared with the validator) and the pinned
 charter schemas, which it fetches unless ``$CHARTER_CONTRACT_DIR`` names a local
 copy of ``contracts/packs``.
 """
@@ -38,6 +38,8 @@ import sys
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+
+import yaml
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -93,7 +95,6 @@ class PackDescriptor:
     """The authored ``pack.yaml`` fields the reference page surfaces."""
 
     name: str | None = None
-    purpose: str | None = None
     pack_version: str | None = None
     depends_on: tuple[str, ...] = ()
 
@@ -151,91 +152,39 @@ def discover_packs(repo_root: Path) -> list[tuple[str, Path]]:
 
 
 # ---------------------------------------------------------------------------
-# Light pack.yaml reader (stdlib only)
+# pack.yaml reader
 # ---------------------------------------------------------------------------
 
 
 def read_pack_descriptor(directory: Path) -> PackDescriptor:
-    """Parse the flat ``pack.yaml`` if present; otherwise return empties.
+    """Read ``pack.yaml`` if present; otherwise return empties.
 
-    Packs without a ``pack.yaml`` (e.g. ``packs/qa``) degrade gracefully: the
-    page omits the purpose rather than inventing one.
-
-    Only the small, flat ``pack.yaml`` shape is supported — ``key: value``
-    scalars plus a ``depends_on`` list (inline ``[a, b]`` or a block of
-    ``- item`` lines). That is all the authored descriptor carries, so no
-    third-party YAML dependency is needed.
+    Packs without a ``pack.yaml`` degrade gracefully: the page omits what the
+    descriptor would have said. A ``depends_on`` entry names the pack by
+    ``pack_id`` with a version ``range``, and is published as those two values.
     """
 
     path = directory / "pack.yaml"
     if not path.is_file():
         return PackDescriptor()
+    document = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(document, dict):
+        return PackDescriptor()
 
-    scalars: dict[str, str] = {}
-    depends_on: list[str] = []
-    collecting_depends = False
+    def _text(key: str) -> str | None:
+        value = document.get(key)
+        return None if value is None else str(value)
 
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.rstrip()
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            continue
-
-        if collecting_depends:
-            if stripped.startswith("- "):
-                depends_on.append(_clean_scalar(stripped[2:]))
-                continue
-            collecting_depends = False  # fall through to normal key handling
-
-        if ":" not in stripped:
-            continue
-        key, _, value = stripped.partition(":")
-        key = key.strip()
-        value = value.strip()
-
-        if key == "depends_on":
-            if value in ("", "[]"):
-                collecting_depends = value == ""
-                if value == "[]":
-                    pass  # empty inline list
-                continue
-            if value.startswith("[") and value.endswith("]"):
-                inner = value[1:-1].strip()
-                if inner:
-                    depends_on.extend(
-                        _clean_scalar(item) for item in inner.split(",")
-                    )
-                continue
-            # A scalar on the same line (unusual) — treat as single dependency.
-            depends_on.append(_clean_scalar(value))
-            continue
-
-        scalars[key] = _clean_scalar(value)
-
-    def _none_if_null(value: str | None) -> str | None:
-        if value is None or value.lower() in ("null", "~", ""):
-            return None
-        return value
-
+    entries = document.get("depends_on")
     return PackDescriptor(
-        name=_none_if_null(scalars.get("name")),
-        purpose=_none_if_null(scalars.get("purpose")),
-        pack_version=_none_if_null(scalars.get("pack_version")),
-        depends_on=tuple(dep for dep in depends_on if dep),
+        name=_text("name"),
+        pack_version=_text("pack_version"),
+        depends_on=tuple(
+            " ".join(str(entry[key]) for key in ("pack_id", "range") if key in entry)
+            for entry in (entries if isinstance(entries, list) else [])
+            if isinstance(entry, dict)
+        ),
     )
-
-
-def _clean_scalar(value: str) -> str:
-    """Strip surrounding quotes and inline comments from a scalar token."""
-
-    value = value.strip()
-    if value and value[0] in ("'", '"') and value[-1] == value[0]:
-        return value[1:-1]
-    # Drop a trailing inline comment that is not inside quotes.
-    hash_index = value.find(" #")
-    if hash_index != -1:
-        value = value[:hash_index].rstrip()
-    return value.strip().strip("'\"")
 
 
 # ---------------------------------------------------------------------------
@@ -485,17 +434,14 @@ def render_page(ref: PackReference) -> str:
     )
     lines.append("")
 
-    # Purpose — only when authored in pack.yaml; never fabricated.
+    # The closed descriptor schema has no purpose field, so none is ever shown.
     lines.append("## Purpose")
     lines.append("")
-    if ref.descriptor.purpose:
-        lines.append(ref.descriptor.purpose)
-    else:
-        lines.append(
-            "_No `purpose` is declared in this pack's `pack.yaml`, so none is "
-            "shown here (the generator never fabricates one). See the pack's "
-            "`README.md` and the [Packs hub](index.md) for authored context._"
-        )
+    lines.append(
+        "_No `purpose` is declared for a pack: the `pack.yaml` schema has no such "
+        "field. See the pack's `README.md` and the [Packs hub](index.md) for "
+        "authored context._"
+    )
     lines.append("")
 
     if ref.descriptor.depends_on:
