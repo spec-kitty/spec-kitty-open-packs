@@ -135,7 +135,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "T012 qa qualified 3/3 (scripted by offset), depends_on added, qa out of PENDING_PACKS (out-of-map scripts/ci/validate_pack_schemas.py). T013 FR-011: 24 profile references left bare, follow-up issue at close-out. T014 charter draft PR spec-kitty-charter#378 compose test 8/8 at pin 843179b; negative controls refused; cave-kitty depends_on guarded by served-edge assertion. T015 C-005: dispatch exit 0, next query exit 0, charter context exit 0, same as baseline; doctor charter-packs exit 1 also on baseline. T016 gates green.",
-        "Independent review of WP04 started: open-packs 843179b, charter PR 378"
+        "Independent review of WP04 started: open-packs 843179b, charter PR 378",
+        "Approved. Gates at 843179b: tests/ci 57, docs 8, release 8, vocabulary 12 OK; validate-packs 0 violations; check-built-in ok; gen_pack_reference no drift; scan qa qualified 3, bare->other 0. Charter 359e9e64: OpenPacksComposeTest 8/8 on pinned checkout; spotless, lock verify ok. Mutants on a scratch clone of the pin (11, each red): bare edge 3/3 pack_reference_unqualified; depends_on removed pack_reference_pack_missing; unknown id pack_dependency_unknown; range banana pack_unreadable; cave depends_on removed goes red only on served edge. The 4+1 red tests go green with expectation-only edits (openPacksRoundTrip 51/51, wholePack 8/8). FR-011: leaving 24 bare is right; schema accepts no-such-pack::x, service composes it, core turns a qualified id into a catalog miss; follow-up issue still to file. C-005: next advancing issued implement and review steps on WP04 tree and on full migration with prompts byte-identical to baseline. Open: spec US1 scenario 4 is false for cave-kitty; accept/consolidate not exercised on migrated content."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
