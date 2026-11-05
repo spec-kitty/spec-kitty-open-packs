@@ -8,7 +8,7 @@
   "friendly_name": "Strict pack composition",
   "mid8": "01M6M0W4",
   "mission_id": "01M6M0W4DHJFR6XQ6K3YMKSW0M",
-  "mission_number": null,
+  "mission_number": 1,
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "software-dev",
   "pr_bound": true,
