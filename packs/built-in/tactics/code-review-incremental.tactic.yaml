@@ -12,32 +12,17 @@ steps:
       Apply review-intent-and-risk-first's "read the entire change without
       commenting" step: build a mental model of the change before forming
       any opinion.
-    references:
-      - name: Review Intent and Risk First
-        type: tactic
-        id: review-intent-and-risk-first
-        when: Reading the full change set without commenting, before forming any opinion.
   - title: Summarize the apparent intent
     description: >
       Apply review-intent-and-risk-first's intent-summary step: write one
       paragraph describing what the change attempts to accomplish. This
       anchors all subsequent feedback.
-    references:
-      - name: Review Intent and Risk First
-        type: tactic
-        id: review-intent-and-risk-first
-        when: Summarizing apparent intent before assessing risk.
   - title: Identify risks using the intent-first taxonomy
     description: >
       Apply review-intent-and-risk-first's risk taxonomy (Correctness,
       Maintainability, Impact, Misuse) in priority order -- this tactic does
       not maintain a second, competing taxonomy. Stop when the change size
       does not warrant deeper analysis.
-    references:
-      - name: Review Intent and Risk First
-        type: tactic
-        id: review-intent-and-risk-first
-        when: Categorising risk using its taxonomy instead of a second, competing one.
   - title: Formulate feedback as observations and questions
     description: >
       Use observation language ("I notice...", "This appears to...").
@@ -57,12 +42,3 @@ failure_modes:
   - "Rewriting code mentally instead of reviewing it."
   - "Treating stylistic preference as correctness issues."
   - "Prescriptive feedback that removes author agency."
-references:
-  - name: Review Intent and Risk First
-    type: tactic
-    id: review-intent-and-risk-first
-    when: Applying the intent-first review philosophy that this tactic adds incremental discipline to
-  - name: Smallest Viable Diff
-    type: tactic
-    id: change-apply-smallest-viable-diff
-    when: Verifying the diff is the smallest viable change for the stated goal

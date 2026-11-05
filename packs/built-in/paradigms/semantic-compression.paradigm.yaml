@@ -10,9 +10,3 @@ summary: >
   The goal is not prettier code or architectural purity. The goal is a smaller
   implementation that still produces the same externally observable behavior,
   with evidence strong enough for the risk of the reduction.
-
-directive_refs:
-  - DIRECTIVE_001
-  - DIRECTIVE_024
-  - DIRECTIVE_030
-  - DIRECTIVE_034

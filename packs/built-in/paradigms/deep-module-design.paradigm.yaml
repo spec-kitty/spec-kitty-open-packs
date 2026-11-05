@@ -8,8 +8,3 @@ summary: >
   modes, configuration, and performance expectations. Deep modules improve
   locality because changes, bugs, and knowledge concentrate behind the interface
   instead of spreading across callers and tests.
-directive_refs:
-  - DIRECTIVE_001
-  - DIRECTIVE_024
-  - DIRECTIVE_030
-  - DIRECTIVE_039

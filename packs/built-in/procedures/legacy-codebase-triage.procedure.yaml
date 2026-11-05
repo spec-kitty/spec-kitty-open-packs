@@ -53,31 +53,6 @@ anti_patterns:
 - title: Over-reading squash-merged history
   content: |
     Repositories that squash every PR collapse multi-commit work into single events; the audit recipes will undercount activity. The triage must note the merge strategy and corroborate with PR metadata or issue-tracker data before drawing strong conclusions.
-references:
-- type: tactic
-  id: forensic-repository-audit
-  reason: The forensic-repository-audit tactic is the evidence-gathering core of this procedure; step 2 invokes it directly.
-- type: tactic
-  id: strategic-domain-classification
-  reason: Optional overlay invoked in step 4 when the project has identifiable bounded contexts.
-- type: tactic
-  id: eisenhower-prioritisation
-  reason: Step 6 buckets the consolidated findings into the urgency-and-importance matrix that drives the action plan.
-- type: tactic
-  id: connascence-analysis
-  reason: After triage identifies refactor priorities, connascence analysis classifies the coupling that drives the hotspot status.
-- type: tactic
-  id: premortem-risk-identification
-  reason: Before scheduling any large remediation work that the triage flags, run a premortem on the proposed plan.
-- type: procedure
-  id: situational-assessment
-  reason: When the triage uncovers questions larger than its scope, escalate into a full situational assessment to establish shared context before design.
-- type: directive
-  id: DIRECTIVE_028
-  reason: Governs the local tooling (git, cloc, language-specific complexity probes) the procedure relies on.
-- type: directive
-  id: DIRECTIVE_001
-  reason: Triage findings that surface load-bearing complexity or single-author critical modules feed architectural-integrity decisions.
 notes: |
   Out of scope.
 

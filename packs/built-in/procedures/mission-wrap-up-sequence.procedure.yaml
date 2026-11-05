@@ -53,31 +53,6 @@ anti_patterns:
 - title: Unresolved issue verdicts at close
   content: |
     Leaving in-mission or empty verdicts in the issue matrix at hand-off. Every referenced issue must reach a terminal verdict before done.
-references:
-- type: procedure
-  id: adversarial-squad-deployment
-  reason: |
-    The aggregate pre-merge review and the draft-PR review are both instances of the adversarial-squad-deployment procedure applied at the pre-merge point-cut.
-- type: procedure
-  id: post-merge-arch-gate-adjudication
-  reason: |
-    When the aggregate review touches architectural gates or cross-base state, the post-merge arch-gate adjudication procedure governs how those findings are weighed before hand-off.
-- type: procedure
-  id: mission-tracer-files
-  reason: |
-    The assess step of the tracer-files procedure feeds this sequence's hand-off: tracer insights are summarised in the retrospective at close-out.
-- type: procedure
-  id: development-assist-test-cleanup
-  reason: |
-    The "retire or split the mission's development-assist tests" step is an instance of the development-assist-test-cleanup procedure applied at the wrap-up point-cut, so a mission's own scaffolding tests are judged before they land as suite bloat.
-- type: tactic
-  id: clean-linear-commit-history
-  reason: |
-    The compact-history and rebase-onto-upstream steps follow the clean-linear-commit-history tactic (non-reordering snapshot chain, rebase over merge).
-- type: directive
-  id: DIRECTIVE_045
-  reason: |
-    Landing and hand-off obey PRs-only and read-intent: the agent prepares the PR and the operator merges the protected mainline.
 notes: |
   Standing close-out sequence for the SDD flow. It is the "last mile" companion to
   the per-work-package implement/review loop: the loop makes each WP correct, this

@@ -87,10 +87,3 @@ validation_criteria:
   - "No hardcoded incident-specific package name/version list is introduced
     into this directive as core truth; CAS/vendor incident feeds remain the
     external authority referenced."
-references:
-  - type: directive
-    id: DIRECTIVE_001
-  - type: tactic
-    id: dependency-hygiene
-  - type: tactic
-    id: supply-chain-install-safety

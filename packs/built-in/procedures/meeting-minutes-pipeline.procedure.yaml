@@ -96,20 +96,3 @@ anti_patterns:
 - title: Treating truncation silently
   content: |
     If the transcript is truncated at 80,000 characters, the tail of the meeting is dropped before extraction. This must be surfaced to the user, not silently accepted. Long meetings may require the user to split the transcript or run the pipeline in sections.
-references:
-- type: directive
-  id: DIRECTIVE_003
-- type: directive
-  id: DIRECTIVE_047
-- type: directive
-  id: DIRECTIVE_050
-- type: directive
-  id: ACTION_ITEM_ATTRIBUTION
-- type: directive
-  id: MINUTES_STAND_ALONE
-- type: styleguide
-  id: meeting-minutes-format
-- type: paradigm
-  id: extract-then-publish-separation
-  reason: |
-    Chat extraction and optional human-operated wiki publish stay separate. Validated Markdown in the originating chat is canonical.

@@ -106,8 +106,3 @@ quality_test: >
   Can a reviewer, without running the test suite, look at a changed module's
   package path and immediately know what coverage, typing, and lint bar applies —
   and confirm the new code meets it?
-
-references:
-  - "packs/built-in/directives/030-test-and-typecheck-quality-gate.directive.yaml"
-  - "packs/built-in/directives/025-boy-scout-rule.directive.yaml"
-  - "packs/built-in/directives/001-architectural-integrity-standard.directive.yaml"

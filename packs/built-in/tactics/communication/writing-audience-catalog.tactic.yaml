@@ -8,27 +8,6 @@ purpose: >
   not already named a target reader. This is a writing-tone-and-detail pattern, distinct from the
   `stakeholder-alignment` tactic, which identifies who has a stake in a design or architecture
   decision rather than who is reading a piece of prose.
-references:
-  - name: Writing-Audience Persona — Software / Platform Engineer
-    type: asset
-    id: writing-audience-software-engineer
-    when: The reader is a software or platform engineer; see assets/audiences/README.md.
-  - name: Writing-Audience Persona — Automation Agent
-    type: asset
-    id: writing-audience-automation-agent
-    when: The reader is an AI/LLM-based automation agent consuming the prose.
-  - name: Writing-Audience Persona — Agentic Framework Core Team
-    type: asset
-    id: writing-audience-agentic-framework-core-team
-    when: The reader is a maintainer of the agentic framework core.
-  - name: Writing-Audience Persona — Manager / Non-Technical Leader
-    type: asset
-    id: writing-audience-line-manager
-    when: The reader is a line manager or non-technical leader.
-  - name: Writing-Audience Persona — Non-Technical Teacher / Educator
-    type: asset
-    id: writing-audience-nontech-educator
-    when: The reader is a non-technical teacher or educator.
 steps:
   - title: Check the default persona library first
     description: >

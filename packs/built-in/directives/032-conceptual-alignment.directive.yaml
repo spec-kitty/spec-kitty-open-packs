@@ -37,12 +37,3 @@ validation_criteria:
   - Ambiguous terms are escalated with alternatives rather than resolved by
     assumption.
   - Confirmed interpretations are traceable in the task artefact or conversation.
-references:
-  - type: directive
-    id: DIRECTIVE_031
-  - type: tactic
-    id: glossary-curation-interview
-  - type: tactic
-    id: language-driven-design
-  - type: styleguide
-    id: kitty-glossary-writing

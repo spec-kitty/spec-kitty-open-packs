@@ -9,35 +9,6 @@ content: |-
 path_conventions:
   workspace: docs/
   deliverables: docs/
-references:
-- type: directive
-  id: DIRECTIVE_031
-- type: tactic
-  id: problem-decomposition
-- type: tactic
-  id: bounded-context-identification
-- type: tactic
-  id: deepening-opportunity-assessment
-- type: tactic
-  id: moscow-scoping-lens
-- type: tactic
-  id: eisenhower-prioritisation
-- type: tactic
-  id: adr-drafting-workflow
-- type: tactic
-  id: traceable-decisions
-- type: tactic
-  id: decision-marker-capture
-- type: tactic
-  id: premortem-risk-identification
-- type: paradigm
-  id: domain-driven-design
-- type: paradigm
-  id: deep-module-design
-- type: paradigm
-  id: c4-incremental-detail-modeling
-- type: styleguide
-  id: planning-and-tracking
 steps:
 - id: specify
   title: Specification

@@ -140,29 +140,3 @@ failure_modes:
     project-wide."
   - "Editing a lockfile by hand, or ignoring a lockfile diff during review —
     lockfile drift can introduce an unreviewed transitive dependency."
-
-references:
-  - name: Supply-Chain Install Safety Directive
-    type: directive
-    id: DIRECTIVE_051
-    when: This checklist operationalizes the policy pillars defined by the supply-chain-install-safety directive
-  - name: Secure Design Checklist
-    type: tactic
-    id: secure-design-checklist
-    when: Supply-chain install safety is a specialization of Fail-Safe Defaults (deny by default) applied to dependency install-time hook scripts
-  - name: Adversarial Squad Deployment
-    type: procedure
-    id: adversarial-squad-deployment
-    when: Use adversarial-squad challenge passes at plan/research and review point-cuts for security-impacting dependency decisions, and disposition every contested finding explicitly
-  - name: JavaScript/TypeScript Supply-Chain Install Safety
-    type: toolguide
-    id: javascript-supply-chain
-    when: Use for the exact ecosystem commands and file names behind this checklist's steps in a JavaScript/TypeScript project
-  - name: Python Supply-Chain Install Safety
-    type: toolguide
-    id: python-supply-chain
-    when: Use for the exact ecosystem commands and file names behind this checklist's steps in a Python project
-  - name: Java Supply-Chain Install Safety
-    type: toolguide
-    id: java-supply-chain
-    when: Use for the exact ecosystem commands and file names behind this checklist's steps in a Java project

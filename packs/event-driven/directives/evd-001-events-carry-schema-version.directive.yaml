@@ -23,10 +23,3 @@ validation_criteria:
 explicit_allowances:
   - "Additive optional fields that every existing consumer ignores may ship without a
     version bump when the contract states that unknown fields are ignored."
-references:
-  - type: tactic
-    id: evd-event-versioning-and-upcasting
-    when: when a contract has to change
-  - type: styleguide
-    id: evd-event-naming-and-payload
-    when: when deciding what goes in the envelope and what in the payload

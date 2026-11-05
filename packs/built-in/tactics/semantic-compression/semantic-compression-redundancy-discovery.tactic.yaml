@@ -16,16 +16,3 @@ steps:
 failure_modes:
   - "Stopping at text clones misses duplicated business behavior."
   - "Declaring semantic duplication without examples risks deleting legitimate variation."
-references:
-  - name: Semantic Compression
-    type: paradigm
-    id: semantic-compression
-    when: Use after boundary mapping to locate removable behavioral redundancy
-  - name: Behavioral Boundary Mapping
-    type: tactic
-    id: semantic-compression-behavioral-boundary-mapping
-    when: Use first when the protected behavior is unclear
-  - name: Locality of Change
-    type: directive
-    id: DIRECTIVE_024
-    when: Duplication removal should stay scoped to the mapped behavior

@@ -86,8 +86,3 @@ notes: >
   Typical shape: one committed baseline file records per-test, per-category
   allowlist sizes, and a meta-test loads the baseline and compares live sizes,
   failing on growth and warning on shrinkage.
-references:
-  - name: Close Defect Classes by Construction
-    type: directive
-    id: DIRECTIVE_043
-    when: Required governing directive for all structural enforcement mechanisms including ratchets.

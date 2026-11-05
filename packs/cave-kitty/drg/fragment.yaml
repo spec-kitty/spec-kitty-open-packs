@@ -20,3 +20,9 @@ edges:
   - source: directive:CAVE_001
     target: styleguide:cave-sty-001-communication
     relation: requires
+  - source: mission_type:cave-dev
+    target: directive:CAVE_001
+    relation: scope
+  - source: mission_type:cave-dev
+    target: styleguide:cave-sty-001-communication
+    relation: scope

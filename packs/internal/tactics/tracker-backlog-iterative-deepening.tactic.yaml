@@ -58,12 +58,3 @@ notes: >
   fast the backlog churns. Pairs with the tracker-organisation-workflow
   procedure (which it sequences) and the moscow-scoping-lens tactic (for scoping
   what each emergent epic carries).
-references:
-  - name: Tracker Organisation Workflow
-    type: procedure
-    id: tracker-organisation-workflow
-    when: Sequencing the tracker-wide organisation sweep into widening rings.
-  - name: MoSCoW Scoping Lens
-    type: tactic
-    id: built-in::moscow-scoping-lens
-    when: Scoping what an emergent epic must, should, could, or won't carry once a ring surfaces it.

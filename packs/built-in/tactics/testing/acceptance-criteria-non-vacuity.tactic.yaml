@@ -40,11 +40,6 @@ steps:
       When a fix is made of several independent changes, revert each part in
       turn and confirm the test goes red each time. A test that stays green
       after reverting half the fix is only exercising the other half.
-    references:
-      - name: Mutation Testing Workflow
-        type: tactic
-        id: mutation-testing-workflow
-        when: Verifying that a compound fix's test suite actually depends on every independent part of the fix.
   - title: Exercise the production path, not only a helper
     description: >
       Non-vacuity tests must call the real production entry point (the CLI
@@ -81,31 +76,3 @@ notes: >
   is vacuous because its assertion is too weak, not because it lacks a
   positive control; and acceptance-test-first is the baseline ATDD discipline
   this tactic's rules keep honest.
-references:
-  - name: Mutation Testing Workflow
-    type: tactic
-    id: mutation-testing-workflow
-    when: Proving a compound fix's test suite depends on every independent part of the fix.
-  # Deliberately no graph-edge reference to architectural-gate-non-vacuity,
-  # acceptance-test-first, or delete-the-assertion-not-the-test here -- all
-  # three are named in prose instead (see the "Related doctrine" paragraph
-  # in `notes:` above, which the DRG extractor ignores, so this adds no edge
-  # and no cycle):
-  #
-  # - acceptance-test-first already carries a forward step-level reference to
-  #   this tactic, and delete-the-assertion-not-the-test already references
-  #   acceptance-test-first -- a back-reference to either from here would
-  #   close a cycle in the tactic cross-reference graph
-  #   (tests/charter_offering/test_directive_consistency.py::
-  #   test_tactic_reference_graph_has_no_cycles requires a DAG).
-  # - architectural-gate-non-vacuity: that tactic --suggests--> directive:
-  #   DIRECTIVE_043, which sits in a densely-connected part of the DRG
-  #   (brownfield-onboarding -> adversarial-squad-deployment ->
-  #   DIRECTIVE_041/034 -> the whole ATDD-adjacent tactic cluster). Adding
-  #   that one edge, combined with the required acceptance-test-first
-  #   back-reference, bridged two previously-separate graph regions and moved
-  #   every governance-bearing mission type's ``--cascade all`` total by
-  #   dozens of unrelated tactics (measured: documentation 40->122) -- a
-  #   blast radius this tactic's own scope never asked for. The gate-level
-  #   tactic is still discoverable from here by name; it just does not
-  #   become a graph-reachable "suggested" artifact of this one.

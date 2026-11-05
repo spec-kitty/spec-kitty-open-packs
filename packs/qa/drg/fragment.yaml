@@ -178,9 +178,11 @@ edges:
 - source: procedure:qa-description-to-acceptance-ci
   target: directive:QA_007
   relation: requires
+  reason: "The chain this procedure maintains and the lint that checks it."
 - source: procedure:qa-description-to-acceptance-ci
   target: directive:QA_008
   relation: requires
+  reason: "The release gate this procedure feeds."
 - source: procedure:qa-description-to-acceptance-ci
   target: built-in::tactic:bdd-scenario-formulation
   relation: suggests
@@ -192,4 +194,78 @@ edges:
   relation: suggests
 - source: toolguide:qa-promise-trace-lint-guide
   target: asset:qa-promise-trace-lint
+  relation: suggests
+- source: mission_type:qa
+  target: directive:QA_001
+  relation: scope
+- source: mission_type:qa
+  target: directive:QA_002
+  relation: scope
+- source: mission_type:qa
+  target: directive:QA_003
+  relation: scope
+- source: mission_type:qa
+  target: directive:QA_004
+  relation: scope
+- source: mission_type:qa
+  target: directive:QA_005
+  relation: scope
+- source: mission_type:qa
+  target: directive:QA_006
+  relation: scope
+- source: procedure:qa-coverage-gap-analysis
+  target: directive:QA_001
+  relation: suggests
+  reason: "This analysis's coverage-item-to-test mapping operationalises traceability between the test basis and the suite that exercises it.\n"
+- source: procedure:qa-defect-triage-ritual
+  target: directive:QA_002
+  relation: suggests
+  reason: "This ritual's severity/priority classification step feeds defect report quality by ensuring every reported defect carries an agreed classification.\n"
+- source: procedure:qa-description-to-acceptance-ci
+  target: directive:QA_003
+  relation: suggests
+  reason: "No result in the gating run may read greener than it was."
+- source: procedure:qa-description-to-acceptance-ci
+  target: tactic:qa-promise-elicitation
+  relation: suggests
+  reason: "How the first promise set is seeded and ratified."
+- source: procedure:qa-description-to-acceptance-ci
+  target: styleguide:qa-promise-page
+  relation: suggests
+  reason: "The shape of a promise page."
+- source: procedure:qa-description-to-acceptance-ci
+  target: toolguide:qa-promise-trace-lint-guide
+  relation: suggests
+  reason: "The CI check for the chain."
+- source: procedure:qa-go-no-go-readiness-review
+  target: directive:QA_004
+  relation: suggests
+  reason: "This review's exit-criteria status check operationalises the requirement that exit criteria are agreed before, and evaluated against, execution rather than invented at review time.\n"
+- source: procedure:qa-test-plan-review-workshop
+  target: directive:QA_001
+  relation: suggests
+  reason: "This workshop's traceability step operationalises requirement-to-plan traceability before execution begins.\n"
+- source: tactic:qa-boundary-equivalence-partitioning
+  target: directive:QA_004
+  relation: suggests
+- source: tactic:qa-exploratory-charter-writing
+  target: directive:QA_006
+  relation: suggests
+- source: tactic:qa-flaky-test-quarantine
+  target: directive:QA_003
+  relation: suggests
+- source: tactic:qa-pairwise-test-reduction
+  target: directive:QA_004
+  relation: suggests
+- source: tactic:qa-promise-elicitation
+  target: styleguide:qa-promise-page
+  relation: suggests
+- source: tactic:qa-regression-suite-selection
+  target: directive:QA_001
+  relation: suggests
+- source: tactic:qa-risk-based-test-prioritization
+  target: directive:QA_005
+  relation: suggests
+- source: tactic:qa-test-data-minimization
+  target: directive:QA_003
   relation: suggests

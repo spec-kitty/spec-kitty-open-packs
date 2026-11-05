@@ -16,8 +16,3 @@ steps:
   - title: Select one representative value per equivalence partition
   - title: Identify the minimum, maximum, and just-off-boundary values at each partition edge
   - title: Add boundary value test cases to the representative-partition set
-references:
-  - name: QA Exit Criteria Precede Execution
-    type: directive
-    id: QA_004
-    when: when the exit criteria frozen before execution require boundary/equivalence-partition coverage of a requirement's input domain, so the partitioned test-case set must be fully derived before that freeze point

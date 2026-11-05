@@ -23,10 +23,3 @@ validation_criteria:
 explicit_allowances:
   - "Within one module the producer and its own projections may share code, as long as
     nothing outside the module depends on it."
-references:
-  - type: styleguide
-    id: evd-event-naming-and-payload
-    when: when writing the published contract
-  - type: tactic
-    id: built-in::anti-corruption-layer
-    when: when a consumer must translate a foreign contract into its own model

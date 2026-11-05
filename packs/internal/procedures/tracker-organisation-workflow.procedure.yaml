@@ -51,22 +51,6 @@ anti_patterns:
   content: Listing child ticket numbers in the epic body, which drifts out of sync; the native sub-issue graph is the source of truth.
 - title: Keyword-only triage
   content: Assigning parents by title or keyword match without reading the body and missing cross-epic overlaps.
-references:
-- type: tactic
-  id: tracker-backlog-iterative-deepening
-  reason: Sequences the backlog sweep in widening time windows so emergent groupings become epics before later rings reach them.
-- type: tactic
-  id: built-in::moscow-scoping-lens
-  reason: Provides the scoping lens for negotiating what each bucket or slice must, should, could, or won't carry, distinct from the priority label taxonomy.
-- type: procedure
-  id: built-in::issue-triage-state-machine
-  reason: Per-ticket triage — one category and one state with durable handoff or rejection context — feeding this tracker-wide organisation pass.
-- type: styleguide
-  id: built-in::planning-and-tracking
-  reason: Defines the epic/meta-tracker hierarchy, issue-type, priority, and triage conventions this workflow enforces while organising the tracker.
-- type: toolguide
-  id: built-in::github-tracker
-  reason: Supplies the gh CLI + GraphQL mechanics (sub-issues, types, parent walks) used to read and re-home tickets during the organisation pass.
 notes: |
   Distilled from a full-backlog tracker remediation (235 open tickets reviewed, zero genuine orphans remaining). Pair this workflow with the tracker-backlog-iterative-deepening tactic to sequence the sweep in widening time windows, and with moscow-scoping-lens when negotiating which slices a bucket must, should, could, or won't carry. The supporting planning-and-tracking vocabulary (functional epic, meta-tracker, issue type, priority scheme, triage status) is defined in the planning-and-tracking glossary subset. DRG wiring of the references below is performed by the consolidation mission's graph step.
   Label-only mutations (adding a `priority:Px` or `triage:*` label) on a canonical-tree node are permitted — they are additive. Type changes, reparenting, and closure of governed nodes require a proposal recorded for the tree owner. When a node is off-limits to type/parent mutations, record the prescribed fix as a named deferred proposal rather than executing it (see Step 8 carve-out). This preserves the audit trail while respecting tree governance.

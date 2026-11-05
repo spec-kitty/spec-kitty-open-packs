@@ -54,16 +54,3 @@ anti_patterns:
 - title: Solution mode
   content: |
     Discussing technical implementation during discovery instead of focusing on domain behaviour and business flows.
-references:
-- type: tactic
-  id: bounded-context-identification
-  reason: |
-    Event Storming discovery reveals bounded context boundaries through language clustering.
-- type: tactic
-  id: aggregate-boundary-design
-  reason: |
-    Aggregates discovered during this procedure feed into formal aggregate boundary design.
-- type: tactic
-  id: domain-event-capture
-  reason: |
-    Events discovered during this procedure become the basis for domain event modelling.

@@ -42,22 +42,3 @@ steps:
   description: |
     On a fixed cadence, QA reviews whether scenarios still earn their place, retires ones whose promise was retired, and checks the gap list with the product authority.
   role: operator
-references:
-- type: directive
-  id: QA_007
-  reason: The chain this procedure maintains and the lint that checks it.
-- type: directive
-  id: QA_008
-  reason: The release gate this procedure feeds.
-- type: directive
-  id: QA_003
-  reason: No result in the gating run may read greener than it was.
-- type: tactic
-  id: qa-promise-elicitation
-  reason: How the first promise set is seeded and ratified.
-- type: styleguide
-  id: qa-promise-page
-  reason: The shape of a promise page.
-- type: toolguide
-  id: qa-promise-trace-lint-guide
-  reason: The CI check for the chain.

@@ -25,10 +25,3 @@ validation_criteria:
 explicit_allowances:
   - "Reading reference data the decision needs (configuration, a clock passed in) is
     allowed when it is handed to the domain function as an argument."
-references:
-  - type: tactic
-    id: evd-event-bridge-port
-    when: when separating the pure core from adapters
-  - type: tactic
-    id: evd-idempotent-consumer
-    when: when writing the consumer that performs the effect

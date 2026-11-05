@@ -43,28 +43,3 @@ anti_patterns:
 - title: Unvalidated examples
   content: |
     Treating agent-generated examples as authoritative without stakeholder or source validation.
-references:
-- type: directive
-  id: DIRECTIVE_037
-  reason: |
-    The workshop produces the canonical examples governed by the Living Documentation Sync directive.
-- type: tactic
-  id: acceptance-test-first
-  reason: |
-    Stable canonical examples should hand off cleanly into executable acceptance checks.
-- type: tactic
-  id: usage-examples-sync
-  reason: |
-    Approved examples need an explicit sync step so docs, specs, and verification artifacts do not drift.
-- type: procedure
-  id: event-storming-discovery
-  reason: |
-    Use when domain flows, events, and user journeys are not yet understood well enough to frame concrete examples. Event storming surfaces the business narrative that example mapping then tightens into rules and canonical examples.
-- type: tactic
-  id: atdd-adversarial-acceptance
-  reason: |
-    Run after a candidate example set is drafted to probe failure modes and promote selected adversarial scenarios into additional canonical examples and rejection rules.
-- type: tactic
-  id: reverse-speccing
-  reason: |
-    Use when approaching a legacy area: reconstructing behaviour from existing tests yields the starting example set that the workshop then validates and curates with stakeholders.

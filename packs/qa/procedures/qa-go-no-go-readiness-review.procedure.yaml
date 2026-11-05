@@ -29,8 +29,3 @@ anti_patterns:
 - title: Rubber-stamp sign-off
   content: |
     Recording a go decision without reporting actual status against each exit criterion turns the review into a formality rather than a real readiness check.
-references:
-- type: directive
-  id: QA_004
-  reason: |
-    This review's exit-criteria status check operationalises the requirement that exit criteria are agreed before, and evaluated against, execution rather than invented at review time.

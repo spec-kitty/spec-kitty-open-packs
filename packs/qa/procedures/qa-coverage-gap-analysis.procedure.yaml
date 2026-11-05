@@ -24,8 +24,3 @@ steps:
 - title: Confirm no candidate gap is left undecided before closing the analysis
   description: |
     Do not close the analysis while any candidate gap lacks either a scheduling decision or an accepted-risk decision.
-references:
-- type: directive
-  id: QA_001
-  reason: |
-    This analysis's coverage-item-to-test mapping operationalises traceability between the test basis and the suite that exercises it.

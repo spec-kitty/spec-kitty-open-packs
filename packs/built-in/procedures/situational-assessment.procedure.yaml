@@ -36,26 +36,3 @@ steps:
   role: operator
   on_success: |
     The situational assessment is complete. The accepted prestudy and canvas are linked from any subsequent ADRs, design documents, or work packages.
-references:
-- type: directive
-  id: DIRECTIVE_001
-- type: template
-  id: system-context-canvas-template
-- type: template
-  id: lightweight-prestudy-template
-- type: template
-  id: quality-attribute-assessment-template
-- type: template
-  id: ammerse-analysis-template
-- type: tactic
-  id: stakeholder-alignment
-- type: tactic
-  id: problem-decomposition
-- type: tactic
-  id: safe-to-fail-experiment
-- type: tactic
-  id: ammerse-impact-analysis
-- type: tactic
-  id: premortem-risk-identification
-- type: tactic
-  id: eisenhower-prioritisation

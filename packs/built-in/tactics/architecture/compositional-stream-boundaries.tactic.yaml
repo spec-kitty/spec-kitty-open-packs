@@ -46,8 +46,3 @@ failure_modes:
   - "Observable soup: passing raw observables down to atoms, forcing every leaf component to manage subscriptions."
   - "Orphan subscriptions: subscribing in a component without cleanup, causing memory leaks on unmount."
   - "Stream sprawl: every molecule creating its own debounce stream instead of letting the organism coordinate."
-references:
-  - name: Atomic State Ownership
-    type: tactic
-    id: atomic-state-ownership
-    when: Determining which atomic level owns state before deciding stream scope.

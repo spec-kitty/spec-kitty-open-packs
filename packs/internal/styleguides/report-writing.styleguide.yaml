@@ -102,6 +102,3 @@ anti_patterns:
     good_example: >
       "The release pipeline ran unattended for every tag this cycle. It caught
       the version-sync gap before publish." Two plain sentences.
-
-references:
-  - "packs/built-in/styleguides/planning-and-tracking.styleguide.yaml"

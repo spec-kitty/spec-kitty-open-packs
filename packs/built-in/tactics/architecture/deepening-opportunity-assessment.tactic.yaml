@@ -51,23 +51,6 @@ failure_modes:
   - "Treating every extracted helper as a module that deserves its own interface."
   - "Deepening without evidence of repeated caller or test friction."
   - "Moving complexity into a generic abstraction whose vocabulary no longer matches the domain."
-references:
-  - name: Deep Module Design
-    type: paradigm
-    id: deep-module-design
-    when: This tactic operationalizes the paradigm's interface-leverage model.
-  - name: Easy-to-Change Design Review
-    type: tactic
-    id: easy-to-change
-    when: Use after identifying a candidate to test whether deepening improves future change cost.
-  - name: Avoid Gold Plating
-    type: tactic
-    id: avoid-gold-plating
-    when: Use its evidence-gate checklist to require evidence that the added structure solves an observed, real problem.
-  - name: Refactoring
-    type: procedure
-    id: refactoring
-    when: Use when the selected deepening is an internal behavior-preserving restructuring.
 notes: >
   Adapted from the mattpocock/skills improve-codebase-architecture workflow at
   commit 49cec7be019bc408e87b77670f3d442f536da254.

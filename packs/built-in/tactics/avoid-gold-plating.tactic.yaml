@@ -7,28 +7,6 @@ purpose: >
   Keeps implementation effort proportional to scope, reduces cyclic complexity,
   and guards against speculative over-engineering that wastes time and calcifies
   into technical debt.
-references:
-  - name: Easy-to-Change Design Review
-    type: tactic
-    id: easy-to-change
-    when: >
-      After confirming the design is not gold-plated, use easy-to-change to verify
-      that the simpler design still supports anticipated future change.
-  - name: Reconciling Change-Scope Tensions
-    type: directive
-    id: RECONCILE_CHANGE_SCOPE_TENSIONS
-    when: >
-      Once this tactic's evidence gate accepts an added complexity, the SIZE
-      of the resulting change is a separate scope decision reconciled
-      through this directive.
-  - name: Locality of Change
-    type: directive
-    id: DIRECTIVE_024
-    when: This tactic is the practical application protocol for Directive 024; use the directive for policy, this tactic for evaluation procedure
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: Proposed changes that expand architectural scope must pass the integrity standard check
 steps:
   - title: Identify abstractions and generalisations introduced
     description: >

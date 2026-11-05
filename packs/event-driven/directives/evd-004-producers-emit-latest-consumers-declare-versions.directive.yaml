@@ -25,10 +25,3 @@ validation_criteria:
 explicit_allowances:
   - "A consumer may accept several versions directly, without upcasting, when the
     difference is one it handles in a single obvious branch."
-references:
-  - type: directive
-    id: EVD_001
-    when: the version this rule depends on
-  - type: tactic
-    id: evd-event-versioning-and-upcasting
-    when: when writing the upcaster chain

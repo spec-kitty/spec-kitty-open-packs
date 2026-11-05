@@ -48,16 +48,3 @@ notes: >
   boundaries without distributed-system operational complexity. Prefer it as
   the default for new systems of moderate scale, and evolve toward microservices
   only when team or scale constraints make autonomous deployability necessary.
-references:
-  - name: Architecture Diagram Review Checklist
-    type: tactic
-    id: architecture-diagram-review-checklist
-    when: After selecting a pattern, use this tactic to validate the design diagram
-  - name: ADR Drafting Workflow
-    type: tactic
-    id: adr-drafting-workflow
-    when: Document the selected pattern and its rationale in an ADR
-  - name: AMMERSE Impact Analysis
-    type: tactic
-    id: ammerse-impact-analysis
-    when: Use for high-stakes decisions to quantify trade-offs across the seven AMMERSE dimensions

@@ -21,11 +21,6 @@ steps:
       - "Actor: Human In Charge -- decision authority and workflow owner."
       - "External system: Tracker -- optional persistence/visibility target."
       - "Relationship: Agent Tooling -> Spec Kitty CLI Host [executes prompts and contributes output]."
-    references:
-      - name: C4 Context Mermaid Template
-        type: template
-        id: c4-context-mermaid-template
-        when: Starting a new system context diagram from scratch.
   - title: Draw the Container diagram (Level 2)
     description: >
       Zoom into the software system box from Level 1. Show the high-level
@@ -39,11 +34,6 @@ steps:
       - "Container: CLI Command Surface [Python/Click] -- user and agent entrypoint."
       - "Container: Runtime and Mission Resolver [Python] -- canonical next loop and mission resolution."
       - "Relationship: CLI Command Surface -> Runtime [function call]."
-    references:
-      - name: C4 Container Mermaid Template
-        type: template
-        id: c4-container-mermaid-template
-        when: Documenting the internal structure of a software system at the deployment-unit level.
   - title: Draw Component diagrams (Level 3) only for key containers
     description: >
       Zoom into one container at a time. Show the logical components
@@ -56,11 +46,6 @@ steps:
       - "Component: Next Loop Coordinator -- canonical per-agent loop orchestration."
       - "Component: Charter Compiler -- produces charter bundle artifacts."
       - "Avoid creating Level 3 for a container that is a single CRUD adapter with no internal branching."
-    references:
-      - name: C4 Component Mermaid Template
-        type: template
-        id: c4-component-mermaid-template
-        when: Documenting logical structure inside a container that has non-trivial internal boundaries.
   - title: Use Code-level diagrams (Level 4) only when generated
     description: >
       Level 4 shows UML class diagrams, entity-relationship diagrams, or
@@ -99,15 +84,6 @@ failure_modes:
   - "Missing notation: diagrams without titles, legends, element descriptions, or relationship labels that require verbal walkthroughs to understand."
   - "Bidirectional arrows: using double-headed arrows that obscure which element initiates communication and which responds."
   - "Technology worship: spending more diagram real estate on technology logos and version numbers than on responsibilities and boundaries."
-references:
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: Ensuring C4 diagrams reflect and enforce documented component boundaries.
-  - name: ADR Drafting Workflow
-    type: tactic
-    id: adr-drafting-workflow
-    when: Recording architectural decisions that change container or component boundaries shown in C4 diagrams.
 notes: >
   The C4 model is notation-independent. Mermaid, PlantUML, Structurizr DSL,
   draw.io, or whiteboard photos are all valid renderings. The value is in the

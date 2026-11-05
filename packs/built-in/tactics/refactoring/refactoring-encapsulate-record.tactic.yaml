@@ -40,8 +40,3 @@ failure_modes:
   - "Leaking internals: returning mutable internal collections from getters without copying."
   - "Premature encapsulation: wrapping a record that truly has no behavior and never will."
   - "Half-encapsulated: some callers use accessors, others still access the raw dict."
-references:
-  - name: "Refactoring: Encapsulate Variable"
-    type: tactic
-    id: refactoring-encapsulate-variable
-    when: The record is accessed via a module-level variable — encapsulate the variable first, then the record.

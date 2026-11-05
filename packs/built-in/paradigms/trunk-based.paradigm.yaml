@@ -8,8 +8,3 @@ summary: >
   charter selects trunk-based development. Work remains gated by targeted
   staging, commit attribution, and test/typecheck verification before mainline
   integration.
-
-directive_refs:
-  - DIRECTIVE_029
-  - DIRECTIVE_030
-  - DIRECTIVE_033

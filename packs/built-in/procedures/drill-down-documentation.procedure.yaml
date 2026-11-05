@@ -32,10 +32,5 @@ steps:
 - title: Verify consistency of scope
   description: |
     Review the artifact to confirm that the rationale, constraints, and conclusions all operate at the same abstraction level. Flag any passage where the reasoning shifts level without an explicit transition or reference. A well-scoped artifact answers questions at its level and delegates questions at other levels to the appropriate linked artifact.
-references:
-- type: directive
-  id: DIRECTIVE_001
-- type: directive
-  id: DIRECTIVE_003
 notes: |
   An artifact that mixes organisational justification with code-level detail without clear section boundaries or cross-references is considered poorly scoped and must be revised. Traceability links must be bidirectional — a parent artifact should list its children, and each child should reference its parent. When the abstraction level of a decision changes (e.g. a design decision is elevated to an architectural decision), the artifact must be relocated or re-tagged to the correct level.

@@ -66,14 +66,5 @@ anti_patterns:
 - title: Skipping the activity log record
   content: |
     Adjudicating a failure verbally or in chat without recording the classification and evidence in the PR or activity log. Future reviewers must be able to reconstruct the adjudication from written artifacts.
-references:
-- type: directive
-  id: DIRECTIVE_043
-  reason: |
-    This procedure operationalises the close-by-construction requirement from DIRECTIVE_043: gate failures that are pre-existing must be tracked and structurally resolved, not ignored; regression failures must be fixed before further merging proceeds.
-- type: tactic
-  id: architectural-gate-non-vacuity
-  reason: |
-    The architectural gate non-vacuity tactic describes how to author gates that cannot silently pass; this procedure describes what to do when those gates fire after a merge and the root cause (pre-existing vs. regression) must be determined.
 notes: |
   The key distinction this procedure enforces is "mission base branch" vs. "lane base branch." In coord-topology missions, lane worktrees branch from an intermediate branch (the mission branch, e.g. `kitty/mission-<slug>-<mid8>-lane-<id>`), not from `main` or the final coordination target. The `target_branch` in `meta.json` is the mission base; the lane's own `base` field in `lanes.json` is the lane base. These may differ. Always use `meta.json`'s `target_branch` as the pre-existing baseline.

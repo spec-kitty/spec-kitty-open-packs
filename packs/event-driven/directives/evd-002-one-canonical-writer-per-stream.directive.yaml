@@ -24,7 +24,3 @@ validation_criteria:
 explicit_allowances:
   - "Migration tooling may rewrite a stream offline, through the same writer's validation,
     when the rewrite is recorded and reviewed."
-references:
-  - type: tactic
-    id: evd-event-bridge-port
-    when: when wiring producers to the writer

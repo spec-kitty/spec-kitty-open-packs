@@ -169,22 +169,3 @@ anti_patterns:
 - title: Ignoring external references
   content: |
     Authoring an artifact that assumes availability of an external tool, API, or platform and proceeding without the owner explicitly acknowledging that dependency. The content-DRG consistency step requires the owner to decide whether to author a toolguide or document the dependency — do not treat silence as acceptance.
-references:
-- type: directive
-  id: DIRECTIVE_003
-  reason: Every classification, overlap-versus-augment call, and the profile-or-no-profile decision must be recorded with rationale.
-- type: directive
-  id: DIRECTIVE_018
-  reason: Onboarded artifacts change charter offering layers and must be versioned with documented change rationale.
-- type: directive
-  id: DIRECTIVE_032
-  reason: Confirm shared understanding of artifact-kind terminology with the owner before decomposing.
-- type: template
-  id: source-agent-dossier-template
-  reason: Provides the evidence record required before decomposing the external agent.
-- type: template
-  id: decomposition-table-template
-  reason: Provides the repeatable classification and overlap-audit table used before YAML authoring.
-- type: template
-  id: onboarded-artifact-set-template
-  reason: Provides the final handoff record for created artifacts, DRG changes, and validation evidence.

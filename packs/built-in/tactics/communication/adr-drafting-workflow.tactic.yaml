@@ -27,11 +27,6 @@ steps:
     description: Invoke the premortem-risk-identification tactic for high-impact decisions to surface failure modes before committing.
     examples:
       - "Tag decision as 'high-risk' when reversibility is low or blast-radius is broad."
-    references:
-      - name: Premortem Risk Identification
-        type: tactic
-        id: premortem-risk-identification
-        when: Decision has high impact or limited reversibility.
   - title: Define success metrics
     description: Write measurable acceptance criteria and specify how the decision will be validated post-implementation.
     examples:

@@ -169,21 +169,3 @@ notes: >
   When in doubt, lean Validator — it's the lowest-cost shape and the
   easiest to grow into Transformer later if state-passing emerges as a
   need.
-
-references:
-  - name: Refactoring Extract First-Order Concept
-    type: tactic
-    id: refactoring-extract-first-order-concept
-    when: Each rule is a first-order concept extracted from a monolithic function; name it explicitly and give it a single responsibility
-  - name: Refactoring Guard Clauses Before Polymorphism
-    type: tactic
-    id: refactoring-guard-clauses-before-polymorphism
-    when: Use guard clauses to flatten the source function before extracting per-rule helpers; the flattened form makes rule boundaries visible
-  - name: Function Over Form Testing
-    type: tactic
-    id: function-over-form-testing
-    when: Each rule is tested as a value transformer (input → expected output); the composition is tested end-to-end on realistic fixtures
-  - name: Test-First Development
-    type: directive
-    id: DIRECTIVE_034
-    when: Characterization tests of the monolith come first; rules are extracted with the tests already green

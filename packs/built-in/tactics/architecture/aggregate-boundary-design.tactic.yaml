@@ -43,23 +43,6 @@ failure_modes:
   - "Leaking internals: allowing external code to directly modify entities inside the aggregate, bypassing the root."
   - "Invariant blindness: splitting objects that share an invariant into separate aggregates, allowing inconsistent state."
   - "Identity confusion: using database surrogate keys as aggregate identity instead of meaningful domain identifiers."
-references:
-  - name: Entity vs Value Object Classification
-    type: tactic
-    id: entity-value-object-classification
-    when: Classifying objects inside the aggregate as entities or value objects.
-  - name: Domain Event Capture
-    type: tactic
-    id: domain-event-capture
-    when: Coordinating eventual consistency between aggregates via domain events.
-  - name: Bounded Context Identification
-    type: tactic
-    id: bounded-context-identification
-    when: Aggregates exist within a bounded context; identify the context first.
-  - name: Aggregate Design Rules
-    type: styleguide
-    id: aggregate-design-rules
-    when: Applying ongoing design constraints to aggregate structure (identity references, size, eventual consistency).
 notes: >
   Vaughn Vernon's four rules of aggregate design: (1) Protect business
   invariants inside aggregate boundaries. (2) Design small aggregates.

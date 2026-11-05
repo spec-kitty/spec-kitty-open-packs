@@ -2,15 +2,6 @@ schema_version: "1.0"
 id: refactoring-move-method
 name: Refactoring Move Method
 purpose: Relocate a method to the class that owns the data and behavior it primarily uses.
-references:
-  - name: Refactoring Extract First-Order Concept
-    type: tactic
-    id: refactoring-extract-first-order-concept
-    when: Use when the method really points to a missing concept rather than a better existing host.
-  - name: Refactoring Strangler Fig
-    type: tactic
-    id: refactoring-strangler-fig
-    when: Use when the move must be staged behind coexistence and gradual caller rerouting.
 steps:
   - title: Confirm feature envy and target ownership
     description: Verify the method uses more data or behavior from another class than from its current host and that the target class is a suitable owner.

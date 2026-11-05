@@ -69,9 +69,3 @@ quality_test: >
   extracted from source rather than hand-copied, behaviour changes carrying
   their doc edits in the same change, and publication reached only through the
   green validate gate — never as a silent default?
-
-references:
-  - packs/built-in/directives/037-living-documentation-sync.directive.yaml
-  - packs/built-in/directives/042-common-docs.directive.yaml
-  - packs/built-in/tactics/communication/usage-examples-sync.tactic.yaml
-  - packs/built-in/styleguides/common-docs.styleguide.yaml

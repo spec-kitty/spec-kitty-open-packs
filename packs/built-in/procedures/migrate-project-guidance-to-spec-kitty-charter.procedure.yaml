@@ -40,14 +40,3 @@ steps:
   description: |
     Add or revise doctrine artifacts until every material rule from the legacy guidance is either activated in the compiled charter or intentionally retired with rationale.
   role: operator
-references:
-- type: procedure
-  id: glossary-maintenance-workflow
-  reason: |
-    The vocabulary-capture step is an instance of the glossary maintenance workflow applied at migration time, so the source's terms are triaged into the glossary before artifacts that depend on them are drafted.
-- type: directive
-  id: DIRECTIVE_003
-- type: directive
-  id: DIRECTIVE_010
-- type: directive
-  id: DIRECTIVE_018

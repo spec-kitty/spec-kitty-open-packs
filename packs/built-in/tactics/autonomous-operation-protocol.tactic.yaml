@@ -13,11 +13,6 @@ steps:
       - "Do not proceed with database schema migrations or production deployments without explicit human approval."
   - title: Execute in increments with commit checkpoints
     description: Break work into 5–15 minute increments. Commit after each verifiable step. Default commit frequency is every 15–30 minutes.
-    references:
-      - name: Define Stopping Conditions
-        type: tactic
-        id: stopping-conditions
-        when: Progress stalls or an unexpected blocker is encountered during autonomous work.
   - title: Apply decision boundary protocol
     description: |
       Autonomous: implementation details, test additions, documentation updates, minor refactors within stated scope.

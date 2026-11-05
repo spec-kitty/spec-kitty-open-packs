@@ -84,12 +84,3 @@ validation_criteria:
   - The `audience:` path resolver confirms every audience reference on a touched
     page resolves to an existing persona under `docs/context/audience/`. It is
     non-vacuous (fails on zero examined) and runs `--strict` on pull requests.
-references:
-  - type: styleguide
-    id: common-docs
-  - type: tactic
-    id: common-docs-scaffold
-  - type: tactic
-    id: common-docs-write
-  - type: tactic
-    id: common-docs-find

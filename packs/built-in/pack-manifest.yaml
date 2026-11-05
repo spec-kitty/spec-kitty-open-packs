@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 1223ea0d007995a4d05bc2163707ae064c18f28ba5d5a519683c14608bd0b77c
+manifest_hash: 8323b16b25b8316192093354966063c1787ee2663c4ee27dafd7f8a41b0cb6de
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -156,27 +156,27 @@ constituents:
 - kind: directive
   id: DIRECTIVE_025
   path: directives/025-boy-scout-rule.directive.yaml
-  content_hash: 2daac8ecae64fcc9d8358fbeb7203066ed9f23a3066788c4a4fcb26f329be220
+  content_hash: 882292d80be408f98c3bdf3132027d689a686b5e5e95b70f33148edb41ce84c2
 - kind: directive
   id: DIRECTIVE_028
   path: directives/028-search-tool-discipline.directive.yaml
-  content_hash: 49f1031863209f8a0bc2b9d456627f09db5856002bfe5c0605697b54791842a2
+  content_hash: 58117dde0e5e4d17586901e9561a0358af82ff72ace336fd7432d6590828bbb5
 - kind: directive
   id: DIRECTIVE_029
   path: directives/029-agent-commit-signing-policy.directive.yaml
-  content_hash: ca1ddf3ae6bfefbaac498ec8c1fef68a4eb853628041790854b06fceb634d210
+  content_hash: 83f2a2cba9618adb546344a0c040dbacd2a96e8896bdb35c2e080c866952a813
 - kind: directive
   id: DIRECTIVE_030
   path: directives/030-test-and-typecheck-quality-gate.directive.yaml
-  content_hash: 67723c0e9e5a23668beb7fe752bd0c0d10cc4f9eff1b57105dba3c398111cba2
+  content_hash: d2e64caa635f6a2ee919f989920291d5d6e79eeed217943c9bd19027e4aed3c9
 - kind: directive
   id: DIRECTIVE_031
   path: directives/031-context-aware-design.directive.yaml
-  content_hash: 428183df1a63219b13b8c2ffc231625fe98eab19278fcdb09e3124ea15a3fa39
+  content_hash: fb240fc6df08c98c607b9b94501bca721ac05ddcd77229370b3078b800263a24
 - kind: directive
   id: DIRECTIVE_032
   path: directives/032-conceptual-alignment.directive.yaml
-  content_hash: ffa6dfe3d3863113f6c9840d5e0397d660d3c2a7520cef1f4ecd75dfcb87aa0d
+  content_hash: 05ce584114829f026724d71a16f8d0e82b823f44cdcfcda2c1ffa82b512bc0a6
 - kind: directive
   id: DIRECTIVE_033
   path: directives/033-targeted-staging-policy.directive.yaml
@@ -184,7 +184,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 84f1f37be5f0f136dc4299092ad7d4ba98da4b2f7146269e9c4cc574dea8d2ab
+  content_hash: 1358c7d4a3d3832d6d5814b7768c08e330e0b0ecc677602f9dbb1d52aaf11e13
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -192,7 +192,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_036
   path: directives/036-black-box-integration-testing.directive.yaml
-  content_hash: d3a11258e8bfff34402dd85904fa1ef87187e80642fa6ba012f24fd655f60d32
+  content_hash: 6619d9f7316012e82f5e6e022870229a9a2b6fa41669fea686f648d2674f9452
 - kind: directive
   id: DIRECTIVE_037
   path: directives/037-living-documentation-sync.directive.yaml
@@ -200,11 +200,11 @@ constituents:
 - kind: directive
   id: DIRECTIVE_038
   path: directives/038-structured-prompt-boundary.directive.yaml
-  content_hash: a546065db18b56e178a6b39eb5de7a8e1cd6557c29fd7840c788f6fc0985192b
+  content_hash: 0f033bb88038c1fefd5f36d57a27e996368d23f3cbd0824870c6e0de219fb9f1
 - kind: directive
   id: DIRECTIVE_039
   path: directives/039-lynn-cole-engineering-culture.directive.yaml
-  content_hash: 089884ca8bb43a42c549e706922e98fc83c2c5e07051f9ea70d43777663da3db
+  content_hash: d6582fafcc6b742f67f0786801d5d03b4eac1383c6e7261172e4933a5670c4eb
 - kind: directive
   id: DIRECTIVE_040
   path: directives/040-recurring-bug-structural-intervention.directive.yaml
@@ -212,47 +212,47 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 1331da83c7c98ab39f606e2a9da88846c22551abf951add6130904787edb746e
+  content_hash: fd9494e8395c9a62898bd48f502d2ee0165e8b810863e65d29eded485b029dc4
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
-  content_hash: ddaf1b2acbde98913bc98b74c7e17d916ac8f5d21e239a4b42007c4c48ed0f18
+  content_hash: 056796cb1b893f9430e982630ab6eec341176e40b0e01f0ee50dfc30c3e261c7
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
-  content_hash: e0c102d70149694693e5fca91ed8386496b66a6068235d94eab1a6487e4fab13
+  content_hash: 3cdcc2326e091243679bb0ba2dcc206be129b6eb22d261c518525103bb7efc0b
 - kind: directive
   id: DIRECTIVE_044
   path: directives/044-canonical-sources-and-unification.directive.yaml
-  content_hash: 810d5277b85a200a6eaf1aa5b0735f06299677528269e64fce82544f3c70cf8a
+  content_hash: df4b6fdc2463319942999f93808ba83db658b49e94667e7f6f1fcc13a79d7196
 - kind: directive
   id: DIRECTIVE_045
   path: directives/045-prs-only-and-read-intent.directive.yaml
-  content_hash: f36c71bc8c3beb2429715819849b8c7dede100162b92b77a00748e84b3f3fe85
+  content_hash: f130cf44f24be633b7e0325381aed74302403ca1682fde45b7e1acb94141d3d8
 - kind: directive
   id: DIRECTIVE_046
   path: directives/046-readable-consistent-prs.directive.yaml
-  content_hash: 2d74dbb28e0ffcd2db285e0348f5033f8f79d787e2c0ee59d6a019ee2482db15
+  content_hash: 32268ff0a968be1c88049d82daf1abbcb1b95171362f187836c3dcf3379694c4
 - kind: directive
   id: DIRECTIVE_047
   path: directives/047-audience-oriented-writing.directive.yaml
-  content_hash: 250232109efd1ef4d7aaf3340a4427a616c10a2e020320c248da4ae7f66ea16a
+  content_hash: 4d8f7180236bb931b7c0d597eab09bd111822dd763591c64a94bbbcc3302a0cd
 - kind: directive
   id: DIRECTIVE_048
   path: directives/048-version-governance.directive.yaml
-  content_hash: adeca6bdbdc18eab6d38d107946d239750f500e8dd7001c5b07d60c0d3b80593
+  content_hash: 812da3fa8d15bbde006ad9df283f9ab3e1fdf7d51c778d3bda0523c603406d77
 - kind: directive
   id: DIRECTIVE_049
   path: directives/049-agent-declaration-and-self-introduction.directive.yaml
-  content_hash: e881d5b51ba6b60c8dcf6a3b97f3c1cc4cd9e693f33357437e4ef898408d2488
+  content_hash: 796d592ff209f60e065ad94d4ee7601cbd149d987cc780a17a0ebaa314da61ee
 - kind: directive
   id: DIRECTIVE_050
   path: directives/050-credential-handling-discipline.directive.yaml
-  content_hash: 49e00e242ea91f44fc0643f68eb7f234e32e0db085a545102199b311a0824507
+  content_hash: 2d4a3c9aa5aa1e895a86ea758df87b6cc0686dc4d704c689513612755f96c3af
 - kind: directive
   id: DIRECTIVE_051
   path: directives/051-supply-chain-install-safety.directive.yaml
-  content_hash: f80dce8201605741c190051238bd45638a4c09816d4b08c0a960af5737945454
+  content_hash: ec8ef09266490198bf4749c3ba59bb81e43bdaa137b5a5981dd009d070a04ca5
 - kind: directive
   id: DIRECTIVE_052
   path: directives/052-prefer-durable-fixes.directive.yaml
@@ -296,27 +296,27 @@ constituents:
 - kind: paradigm
   id: behaviour-driven-development
   path: paradigms/behaviour-driven-development.paradigm.yaml
-  content_hash: d8d53e78d44454ec9d327d8c34c317e140b8addb2c6c51de944bc53000947a71
+  content_hash: 5c20f5a8ef10183970ad7fbf0a0150a9038b67ee01380fdc8fdcdf666e7a3160
 - kind: paradigm
   id: brownfield-onboarding
   path: paradigms/brownfield-onboarding.paradigm.yaml
-  content_hash: 7b1965f7b4a35bafd91650a7e25d129d7cfd44da558d68b0bad1ceda65ee1498
+  content_hash: 419e2e76406cdeb0ba1477f15290a7baee4f5910ea1e4fe03a3dc83a0503fe5d
 - kind: paradigm
   id: c4-incremental-detail-modeling
   path: paradigms/c4-incremental-detail-modeling.paradigm.yaml
-  content_hash: 2d5aa78b173e869fedfff27cb073e5dab7bfc0c6a1baaefcedc84baca0bb02f6
+  content_hash: 5a2ee9f8432da4bf6bb70e1204e7635c04708a33768b3c0e4669235622126604
 - kind: paradigm
   id: deep-module-design
   path: paradigms/deep-module-design.paradigm.yaml
-  content_hash: 8fe95df88d8ac0277b89bb93328a0149ff75267d1620fbeef7784bcbcc69edaa
+  content_hash: 54ba7a715d05fe9d70ab5e3c18e9fa34fd8d2853c89ba0fe1146937f3cd74aac
 - kind: paradigm
   id: domain-driven-design
   path: paradigms/domain-driven-design.paradigm.yaml
-  content_hash: 8e48ce287d4a62260f62aae012d5471b3c722374d6fe32c7dafcbb4c210a6157
+  content_hash: f320c56293d12bd976a80b0599f1b086223970e0a3555f086888f12dc2ddba7c
 - kind: paradigm
   id: execution-lanes
   path: paradigms/execution-lanes.paradigm.yaml
-  content_hash: 89731a990c08adb7b512b42579ae1b7d1814772243553fa077120fa14a6a95dd
+  content_hash: 4ea9084f58fdab074266982fe1f893153bbad4368d2ed49660225769334a7975
 - kind: paradigm
   id: extract-then-publish-separation
   path: paradigms/extract-then-publish-separation.paradigm.yaml
@@ -324,43 +324,43 @@ constituents:
 - kind: paradigm
   id: git-flow
   path: paradigms/git-flow.paradigm.yaml
-  content_hash: 7a6e88e4b3bf109c2a9808afe9d6046f411c7d8177f0fae469d72982fa273620
+  content_hash: e3140705cf1d870cef2c921d203a7b94e6ce8222a6667b430d246ee2c028ce11
 - kind: paradigm
   id: semantic-compression
   path: paradigms/semantic-compression.paradigm.yaml
-  content_hash: 4d9c7d33d238abd19d5b291877bb67ade1a82eccce2e39a5f6371c0f66deeb6a
+  content_hash: d12b4d3661660ca515f0f58e6f155d7b5cdfde4f273f8f478945e3a1bf1b06fd
 - kind: paradigm
   id: shared-branch-ci
   path: paradigms/shared-branch-ci.paradigm.yaml
-  content_hash: 0d0c294ed156f7efa4d17100ace997f547a6a137400911d512e516748edcb975
+  content_hash: a69189d2d97746ea85c9985476fb43f7f96501552f6635d4a53574bca3879c3f
 - kind: paradigm
   id: specification-by-example
   path: paradigms/specification-by-example.paradigm.yaml
-  content_hash: e9702becfb2d04dd1a027ba4571e403ab8b7a394e246e6fdcb10aa1399cb2136
+  content_hash: 764dcd67104ab7bcc203c03c32416d42ea53d7064c8ac79d3b63d3043f0c678c
 - kind: paradigm
   id: structured-prompt-driven-development
   path: paradigms/structured-prompt-driven-development.paradigm.yaml
-  content_hash: 8d9f07896691f6db8ea06cb8289dffd84dacbbf2a061076112488619c0a3c51d
+  content_hash: 60eaa26e968dda6fc69bc281772be28f037078a02175a95eb88a71c6dbb537e9
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
-  content_hash: da21ca9bca6abaca10fd89ad9e629f39f0b530b448194b0ce64634141cbffb85
+  content_hash: 616554b3b57a040cfff5561eda2106135c08be97db253dcb5997673d5b7a0457
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: a50c4be1c105c8c012091e104a92a7617d36f3e70153dbc34e75568b985d1a2b
+  content_hash: d5ff1098a721cc8cca89a886912b600091ff5a1008b1f73d55023069628775da
 - kind: procedure
   id: bdd-scenario-lifecycle
   path: procedures/bdd-scenario-lifecycle.procedure.yaml
-  content_hash: 568772b915e59188d316b3763cd6193f6f91a4cdf825a2b53b973cd7c65832fc
+  content_hash: 97b3cedc58c17444cc8dd1bf89c12e4c659fbdebd9f7008d7cec8cf291822661
 - kind: procedure
   id: development-assist-test-cleanup
   path: procedures/development-assist-test-cleanup.procedure.yaml
-  content_hash: d55821cece92de9628499a95f37358606ba0fb1ccfa702e0fbc422355c3af634
+  content_hash: 70d827f7430272a5f0f7534262b5847be61b332370948ef0be9eb218db376d5d
 - kind: procedure
   id: disciplined-defect-diagnosis
   path: procedures/disciplined-defect-diagnosis.procedure.yaml
-  content_hash: 7c22f585467f58868df39b804526274d5df0a973f1b33874e860ade64ce07cd9
+  content_hash: 55db360230d34468965d03aca6056689130c13b3fcb4e16417a4216f4d277d46
 - kind: procedure
   id: documentation-gap-prioritization
   path: procedures/documentation-gap-prioritization.procedure.yaml
@@ -368,107 +368,107 @@ constituents:
 - kind: procedure
   id: domain-aware-decision-interview
   path: procedures/domain-aware-decision-interview.procedure.yaml
-  content_hash: ebf4689f43639bbfa94ee4b82bd43d9ec3e2e9c6a6f81e953525d2708f64dd1e
+  content_hash: b7bfbac4d102bd924d0579121fb712f238a203672914dac856084b8e23339a75
 - kind: procedure
   id: drill-down-documentation
   path: procedures/drill-down-documentation.procedure.yaml
-  content_hash: 2481af4ea566e1d64ba6d69a4e82606418e018c41d8ab26ae924314e3beee75a
+  content_hash: d412a17395e017e4567f775f286671890cd8016f30eb94549ebfa53e1aff3960
 - kind: procedure
   id: event-storming-discovery
   path: procedures/event-storming-discovery.procedure.yaml
-  content_hash: 6ca39eea5525b051d83053554bdbdb883877d8bfcfb575589dfbccefe4f61813
+  content_hash: fb1dd1ce85e2173a293791cf590d32541a1a7c2dc282b614fdb156cb887f587a
 - kind: procedure
   id: example-mapping-workshop
   path: procedures/example-mapping-workshop.procedure.yaml
-  content_hash: c87f26c52fe6788b0c98b04a3e54959220b9a449d1da0c4477de1f93031a4065
+  content_hash: 6197e05eb98867b4a2592328d9db8c9b49e9b5b5778f7a75b068415451e527c7
 - kind: procedure
   id: glossary-maintenance-workflow
   path: procedures/glossary-maintenance-workflow.procedure.yaml
-  content_hash: e2b56c2acd83d221882d16398631576d3e0fe129cbfeb8f031a96fe5775dcb66
+  content_hash: e3d74b1676c81b7fdf844c54139f1d66ea65147ca520ba9fe7da9ade9e4ea287
 - kind: procedure
   id: issue-triage-state-machine
   path: procedures/issue-triage-state-machine.procedure.yaml
-  content_hash: f7a414cf959393c62bdf858604939a26ef668b020fcafb40053974525900a07f
+  content_hash: e8371aa1d0eaf00d1812db13027c6d9b586c5c16cdaa3fa3f1265a3c644efec3
 - kind: procedure
   id: legacy-codebase-triage
   path: procedures/legacy-codebase-triage.procedure.yaml
-  content_hash: c73a48fb10aa95525d9ee4a43f36ba07e96517227c12040bce0742f890894947
+  content_hash: c842735d116af9e688b6579ce74d2130803b5317d2cbcddb8ae6a4efd2405e14
 - kind: procedure
   id: meeting-minutes-pipeline
   path: procedures/meeting-minutes-pipeline.procedure.yaml
-  content_hash: 0feaf9719c3f7e8949ae76f050ed0c4a3b72d7c62ac019c690955c3e7b22efe4
+  content_hash: 5f493faaeb9fbb4d6666019397cec1264f1abfdb7cac30a85119146863771969
 - kind: procedure
   id: migrate-project-guidance-to-spec-kitty-charter
   path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
-  content_hash: c3e4d7fbd7a3e7670a960682055fc2245ed66efdcdc879ca2f984e46a53b6413
+  content_hash: 225c92b683ca0a60671dbfe5360237b9d41546a8aee55333b564db802f46e445
 - kind: procedure
   id: mission-tracer-files
   path: procedures/mission-tracer-files.procedure.yaml
-  content_hash: 7547068bfa61bcb1bc1310bd871a4a840679911cee34181e6c836a2dda20f53c
+  content_hash: a96405e64c8211e96ddc6e8fd67c8ad89818c7db62bdafa341241e01489021d1
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: f456478d3215287f8b8fedd929adfb5903ec9ce5ca996997c3371f67dd5affc2
+  content_hash: f56efae952f127d488e0793b99f562f8f3494c6cbefdf4a1a3addb345c7404cf
 - kind: procedure
   id: onboard-external-agent-to-pack
   path: procedures/onboard-external-agent-to-pack.procedure.yaml
-  content_hash: c6ca989ba3deaa41bea96b70ef44a790bac00d368adf3630911cdf5113916759
+  content_hash: fdba0016361278f441e3d354b8a8bc5335fb46f99bad978613d82b6b9928511f
 - kind: procedure
   id: post-merge-arch-gate-adjudication
   path: procedures/post-merge-arch-gate-adjudication.procedure.yaml
-  content_hash: 8087b2518f6104df2f322796e95acc077142b0d120b321a5fb57b43fffcf453c
+  content_hash: 1b573e1ae812f2823bdcbff27c47c4b8b880f9e71e736ae1f091be5beb500c79
 - kind: procedure
   id: refactoring
   path: procedures/refactoring.procedure.yaml
-  content_hash: 1f559e6f08191d76d5729e24b4fe7f48129f7b4e06b940d10e9ec23b31df48dd
+  content_hash: 85fab6d923ad881efa3d980d906deea08c8eb15b3bdc37e1242050ec4c01bdcc
 - kind: procedure
   id: situational-assessment
   path: procedures/situational-assessment.procedure.yaml
-  content_hash: 5836c7b44166c929371c7f9eb6221c49842a19dc0cea12a0c9f5c6f0626cc020
+  content_hash: 0ccf06832ad1b69ec581a40e691750a8fae4490845f83a6f92abaada4fed15c6
 - kind: procedure
   id: spike-timebox-policy
   path: procedures/spike-timebox-policy.procedure.yaml
-  content_hash: 75c18463817d5a0b1e1b6dae367ae80a4b8a9ff7197abe11ff768f31a0db2d9c
+  content_hash: 2d16f78464481dc365099bb7d8642e67bca321880622c13da2a75b5912e8c6da
 - kind: procedure
   id: test-first-bug-fixing
   path: procedures/test-first-bug-fixing.procedure.yaml
-  content_hash: 110a8a0e340fe07a4f28d06410e1d5116d0beac67e3a5cd7d70dc7bc8f82a6f1
+  content_hash: 5fc39bf5c42dcd9bdfc4b4710a0181d3f3561472e0b5801d1fbd76060af4cdd1
 - kind: styleguide
   id: aggregate-design-rules
   path: styleguides/aggregate-design-rules.styleguide.yaml
-  content_hash: f188c50d7abb5410395b138b593c1bb680f7f84022d65fd8bf2a8e14f1facae2
+  content_hash: 6f8805e7faf2f6a20861f3cff817ac5d3107f6bd05f3fb51fdc64f5ee7d12ba4
 - kind: styleguide
   id: boring-code-review
   path: styleguides/boring-code-review.styleguide.yaml
-  content_hash: 8d23fec725dddc42453c241d75f6bcc3219ad0a2d6bd1f5920c5e673343f197b
+  content_hash: 6f68e28c416679ecc2735114613229fee508133d0e963b775d1044db1c3aec7b
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: 4eb1265b0f0d79cbad187acd6e25b50509eb755a9c83252a732f897581af8bf4
+  content_hash: 09726c8955979cd0cdc3d7334fc877262e2c9c2f4777c20200f8509aca7e9d79
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
-  content_hash: 982a17908010cb54f741e37654bdae9c3d05a5420c5d5d7efb0b83a2577acd3b
+  content_hash: 639f93593546e682340d5dd938adaace1be5a3fd4935f9b4599ce0c9b2c78ec2
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
-  content_hash: 616e99f26e21153bde08defd41d68fee544d3f896d67a672769e2a3f8c37ec58
+  content_hash: d840a7cac8ec83b11b690bbda88027a637a3224595a247619a8d561d60c96266
 - kind: styleguide
   id: docs-accessibility
   path: styleguides/docs-accessibility.styleguide.yaml
-  content_hash: 5fe71397ae7303dc066fe7112d99fdf3f0ea8da353ef7c13d06050145bda6d1b
+  content_hash: 503cfa968438a262fb0b15b112e0c437275e0adfb3f141c865d6cf2b9c6e04f2
 - kind: styleguide
   id: docs-freshness-sla
   path: styleguides/docs-freshness-sla.styleguide.yaml
-  content_hash: 1e142201e005a09eb30a498ce854f6870a0ad452bfa0d3abf09f1cac83196779
+  content_hash: ebba268b35d007c7b6c7e584d2bc01980311c2be053cd89c022148278919038f
 - kind: styleguide
   id: drupal-conventions
   path: styleguides/drupal-conventions.styleguide.yaml
-  content_hash: f42dea9bc0974df4d711fa9900f55d6ec3d885dabb126db73103d2f777ceeca6
+  content_hash: 68011c32d255df5f3db2aa52007fda5f43eae2da5ca4f70840c6c43eac0299bf
 - kind: styleguide
   id: drupal-security-performance
   path: styleguides/drupal-security-performance.styleguide.yaml
-  content_hash: bc4c4b5d3539ded0b34ec5148792d7ada155dc4d6986cd6ac13c92b3984f98d1
+  content_hash: fc9e762765a6e08c9e95e236d5c1d5dd1810e8ef24a23ee7e565d9adcd14e038
 - kind: styleguide
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
@@ -476,39 +476,39 @@ constituents:
 - kind: styleguide
   id: java-conventions
   path: styleguides/java-conventions.styleguide.yaml
-  content_hash: e9b622b0b95c75e7c0cf21076ecdfefe4ddd0548a4788a3eb91431a8b5fb3af1
+  content_hash: c935641129d6ab5bc2fb6aaa10fa03fdd4bb3ef7a96a2104318ba376694ce442
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
-  content_hash: 2e7f7f14377c85e68ae264e6ba101a1364df0824f49846111bae0aba7644df07
+  content_hash: 72ebf510bc73089b9b26e60ff304032f9fed6c6efc331117f2c769ba9afdbe59
 - kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
-  content_hash: 6d00ee418b824b7badce0be89cb7cffd9785b7117561060416bc6fb2db77ffd2
+  content_hash: a4d2c99f49fe3488573891399fe20f7a6751042cf866c130a095acda66e916ca
 - kind: styleguide
   id: mutation-aware-test-design
   path: styleguides/mutation-aware-test-design.styleguide.yaml
-  content_hash: 381b83b54f7083ab258fb44469bcd7803dc1e3356106f7bc6f8ba0131f79ee43
+  content_hash: 924232db19b32a38760fd680901e52aa2706b1ad4638131d57510b63ffcfe912
 - kind: styleguide
   id: plain-language
   path: styleguides/plain-language.styleguide.yaml
-  content_hash: 3e63edac651bed008f692c47bacf99fc73312816f754bc0756a5a3350fed7a5b
+  content_hash: f6eae85122d966b98c3e0d039db868a86bd2d5a393b74e3a9cb5e92386b85774
 - kind: styleguide
   id: planning-and-tracking
   path: styleguides/planning-and-tracking.styleguide.yaml
-  content_hash: ae4b51f52a13ae6b19821dde369f99e455b1c51e9455c5078a4fced776289530
+  content_hash: db0f74f9fc77910b5a646c6703239dbbff94ed305f2605ec4ad99ada8ab15a9d
 - kind: styleguide
   id: professional-communications
   path: styleguides/professional-communications.styleguide.yaml
-  content_hash: 711ad98aa692f85d585f177791a90c8c4b5abfdb55779866f2bb6181bb0193c9
+  content_hash: a5dafe059fd289170105e1a99b340d38a17014d9af697fd5f8e126ed7aff39e2
 - kind: styleguide
   id: publication-authority
   path: styleguides/publication-authority.styleguide.yaml
-  content_hash: cb20faf6a191c0a48009fa48a8d3167b6c486716075dc2c8fd5a7eb7e733a70e
+  content_hash: 0373b6458778f43932d05c0a09acacc75dc0bab81c8c0a364d7dc7a97ee9eb8e
 - kind: styleguide
   id: python-conventions
   path: styleguides/python-conventions.styleguide.yaml
-  content_hash: 41cd60c43946506e79ff600838737ed2a767595e92e9ec6cf549e9913a7e3d5c
+  content_hash: 0a53b51d1219ac079ca20cb8dcaf1249fcf6c29cc954a848f193b1b79a701119
 - kind: styleguide
   id: quadruple-a-test-format
   path: styleguides/quadruple-a-test-format.styleguide.yaml
@@ -520,107 +520,107 @@ constituents:
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
-  content_hash: c807eceb82291c37182a3902aeba03cc5ef03dc9494c72f8d8cf8d7cb6a6fb9b
+  content_hash: 870900b93a71381dbe69daac4a301a916d12a8ee092617dce0582193423ca629
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: 27b2c91b2e243341e4c169c2cb6193a32a45642f5d1e5b89bc4cbd3b0ed01f00
+  content_hash: dd5a8fa15570e99bc85e15faa77e82dc1801d1ae55efca3ced18fc7dd0bcfe5c
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: 0d44d5c650d9a0ccdb6b5a5cd82c55db658925a0b9f5a6b2826fae0a6ec3065c
+  content_hash: d8790b3262b0cae41bfb83706d5b41837862cc05e60b49dcfb8a04f8b3e84405
 - kind: styleguide
   id: tiered-standards
   path: styleguides/tiered-standards.styleguide.yaml
-  content_hash: 647ebf6a0d760ae03d6e058b8cd7c4e9928e67478dd3f4d91f9bd35cb64ef057
+  content_hash: 7a04050df853ff86f1d08b6362590835ab367153ad09a1b94210b95eb7ee2a5d
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml
-  content_hash: 77546fb3eae3fc2e150eecd1d1f8091d6f4152014e368f027d34c9fe69577e90
+  content_hash: ec7e1f077613cb0f8f76511123e08009f380ad178692342e3752bafcadb98cc7
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
-  content_hash: 31d4263e6e9c1fc17143feadd0ec8ee3e1cf3ed00dc09ee4bbdf65499f4c3b48
+  content_hash: 69875cc2c26557db16062e52d1afa27c8a95fe5f8c0f3402ad1a6ebb9fa9228c
 - kind: tactic
   id: adr-drafting-workflow
   path: tactics/communication/adr-drafting-workflow.tactic.yaml
-  content_hash: 49933fead69881da3a087b4df7d9ece6a3df3fe42a4e5f4509d3d2f23a56c2b5
+  content_hash: 0a7ebb2483356b6cd06ca713fb34055c669ab0c6b073ed369c412839dd6ca9e6
 - kind: tactic
   id: adversarial-qa-handoff
   path: tactics/adversarial-qa-handoff.tactic.yaml
-  content_hash: 2957ea89605ba3d2fe19c0ff55e1188166082248e73531321b3cd1015e426191
+  content_hash: a442f443934704faf2cfe124ffea4a9c6e2e2af5a6673fa313ff7048c4a4bfbd
 - kind: tactic
   id: aggregate-boundary-design
   path: tactics/architecture/aggregate-boundary-design.tactic.yaml
-  content_hash: 0e6c1c7bd5ae90f8ab375ef3842d7e49994770272818712ff355b6455cfdcebb
+  content_hash: 515066eb8d8679859e08bf490e68d6550b4f165abe377be65e37a8ee5de6b9c0
 - kind: tactic
   id: ammerse-impact-analysis
   path: tactics/analysis/ammerse-impact-analysis.tactic.yaml
-  content_hash: dc88748986bc16699739dc897ae11376a3a5b7287fc3fffebe5cf468a58ca89d
+  content_hash: d48be5aeec84aab28350803cf4f4a16289f0a4fd27ccfef4d1f687fdf78c4bd4
 - kind: tactic
   id: analysis-extract-before-interpret
   path: tactics/analysis/analysis-extract-before-interpret.tactic.yaml
-  content_hash: 8ffbfc6a6476c4aa1b5cf77bd105897b9c1e3ddaf79f705e38f6d052a95ad00d
+  content_hash: 8fcfe5dbc82e1ddf27e33ffd0e8165b7038f7b040178545317a756d203d5c633
 - kind: tactic
   id: anti-corruption-layer
   path: tactics/architecture/anti-corruption-layer.tactic.yaml
-  content_hash: 78dc7e402a27a7300c159c4de74f964544724121fe231fd0f2de7dfad059607d
+  content_hash: bfa0b062718906193f5ad231083a79c8c375fda3617f914d4f5e67939de556d0
 - kind: tactic
   id: architectural-gate-non-vacuity
   path: tactics/architectural-gate-non-vacuity.tactic.yaml
-  content_hash: bb8a85f3c2fb4d5add881f4ff59c6aee4119bdc34b35eb2012d859d09caace23
+  content_hash: c7d8c633f18f5d2784ec62eb5aa7870c3202fd65fa985b4aebf614b87ff8eb7a
 - kind: tactic
   id: architecture-diagram-review-checklist
   path: tactics/architecture/architecture-diagram-review-checklist.tactic.yaml
-  content_hash: f6ffe14f4681e443581a780c9cd2876bf727e10634d8c0be171440abd1b6f0aa
+  content_hash: 2b2573e285f919a40f13e405655e4e7d4828b4c219fa3d8e5a7a705f124ba2e9
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
-  content_hash: 78d2a25b3f1ceb2e4ac1c8dce9708a3b277833fae913828a1bff1ce2d9f8338a
+  content_hash: 73e2c75b023edcb9f27232905c74a2bd816802fc5acfeb4fd628d437a36fe25b
 - kind: tactic
   id: atomic-design-review-checklist
   path: tactics/architecture/atomic-design-review-checklist.tactic.yaml
-  content_hash: 7983f991e2eaa7c5e582d5f79d09f6ee6ea7db44de7bedcece4cfd97b9266cb3
+  content_hash: 569d5f0107c16857c2e2ac711b5c4db97f4528e98c1bf0d8e9db64ca09589bb2
 - kind: tactic
   id: atomic-state-ownership
   path: tactics/architecture/atomic-state-ownership.tactic.yaml
-  content_hash: 8a08f6f714266773a1882f9e7ca3a42072a7b0d3320cc24cafa9741cd2bbe8e8
+  content_hash: c2c29eb9ea787c52456e512cd3d32925a794d59400f9b2f23c9a427666230530
 - kind: tactic
   id: autonomous-operation-protocol
   path: tactics/autonomous-operation-protocol.tactic.yaml
-  content_hash: c87f2321cc6c0899966e9612c00c13b06abb76251f80dbeed8aa6cd27bac69ee
+  content_hash: 1a50ad533d46d870be5df64262205cd4147dbfbfb2288d06d8ceb374f4c39184
 - kind: tactic
   id: avoid-gold-plating
   path: tactics/avoid-gold-plating.tactic.yaml
-  content_hash: 69e80920b700c801e5da5d1270e3b1a83e2a1c21b5679bcd7e4b6df114a2c586
+  content_hash: c30b4f298dd9f06220631c0dd93e0434482ebdcd283111aea3bcc45de3645739
 - kind: tactic
   id: bdd-scenario-formulation
   path: tactics/testing/bdd-scenario-formulation.tactic.yaml
-  content_hash: da82f4fda7d2dc58e9037cfb1497fb9399c160372e9ef3b28723b983b5960978
+  content_hash: 5a1dccc80ba88c94af8ec3c8ecda9d1677700e20dceb9659d00ba8ee44e9143a
 - kind: tactic
   id: black-box-integration-testing
   path: tactics/testing/black-box-integration-testing.tactic.yaml
-  content_hash: dcb82e4d127d9a780f340178be7f166f1be35d141ee174fe52ed6625bcd92e1e
+  content_hash: 345706087a6120f0ee0a7c571360ae08fc92050d7273e8839a70f3ca9d37d946
 - kind: tactic
   id: bounded-context-canvas-fill
   path: tactics/analysis/bounded-context-canvas-fill.tactic.yaml
-  content_hash: 9229dd23fbe7f03324da9dfafa6a1197e0ae2857c37623e9c4259d364cde028b
+  content_hash: 278f643e1a201296e6858e3968da9740d97e9b7f09789d51c8407dcd6e583ba4
 - kind: tactic
   id: bounded-context-identification
   path: tactics/analysis/bounded-context-identification.tactic.yaml
-  content_hash: 5b2385c6a9dd805a732e368375bbfcdd12fa08bcf2d110da905d099d54a36325
+  content_hash: ef04eab9b7b2911a73d05aa9e33345d04e09d4f206c1347401bf2a4a6d0ac3c3
 - kind: tactic
   id: c4-zoom-in-architecture-documentation
   path: tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml
-  content_hash: a2296735727e2d230440a2097602f4a83f0e80f110baab9f86f5700fca6cdd4c
+  content_hash: 1b309f41a2383ffdeddefec79d443d757a73bbef52937d9b24ed6372ca3cac9c
 - kind: tactic
   id: canonical-source-unification
   path: tactics/canonical-source-unification.tactic.yaml
-  content_hash: b1950fe0135de61cc7f060b1b95860a05f1be196ce02093841fb0a8cdb0bcc2a
+  content_hash: 31f87d079d21af8df9a365597d44c28dfbbaccaa0c66f65eb9fc69979424a350
 - kind: tactic
   id: chain-of-responsibility-rule-pipeline
   path: tactics/code-patterns/chain-of-responsibility-rule-pipeline.tactic.yaml
-  content_hash: 2f1b86f04ff1bdf1ec9eb97a57c1be6dd606977cbb9be36f91c55c27b382d04e
+  content_hash: c23dd367fb5b6d2be9728a402ed3c44acb917cc7ab18d3dc1209ccc8788d271f
 - kind: tactic
   id: change-apply-smallest-viable-diff
   path: tactics/change-apply-smallest-viable-diff.tactic.yaml
@@ -632,27 +632,27 @@ constituents:
 - kind: tactic
   id: code-documentation-analysis
   path: tactics/analysis/code-documentation-analysis.tactic.yaml
-  content_hash: 0d7b4b8a713206d38020ce42e6d3a66999d68d369d2af327143e9a520d70cd64
+  content_hash: 8e8ff318a159eac21d85c79cfc5a23a10dfc923fd7a85e05c348f1cbd1c73229
 - kind: tactic
   id: code-review-incremental
   path: tactics/code-review-incremental.tactic.yaml
-  content_hash: 4db04a9d37f110f8449a1b7777566c2398f080372cd6114fc6cc5ef281dce374
+  content_hash: 4b0829b3a171ce34ef14e1e6602f4b26c12d46f7d14213c2503b1ec24e2c02ff
 - kind: tactic
   id: common-docs-find
   path: tactics/common-docs-find.tactic.yaml
-  content_hash: a7dca3b32e4d3c5bf7ea748aa4647ce3bf0e0c5fb94a8299ded68af9190d74b6
+  content_hash: f0554e6b026a82c302e93ae24ab812f142e6d867e89cdc5afcf0b46b0c83f757
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
-  content_hash: e3b7f1bd183f4717cb11b985ffd6a83c925225ec6899dcbf4960e4ae3f214fe6
+  content_hash: e885b6956fe5532daefd9bf22d063c0ea3eb31bb947fe863f240b6c4889b7421
 - kind: tactic
   id: common-docs-write
   path: tactics/common-docs-write.tactic.yaml
-  content_hash: 51121b75effcf08eefc6d5d8d1d648cf4a70e4594c2a46377974c61b83390575
+  content_hash: ae7e4fcf1a72810902249e2e1ef12a9e65c03a0d73c5c42b3f44e845b88577a0
 - kind: tactic
   id: compositional-stream-boundaries
   path: tactics/architecture/compositional-stream-boundaries.tactic.yaml
-  content_hash: dcd09da4bc0db7f3bf21be6012e54aff8de92fd22ed56c247c0dbbe3fe06e049
+  content_hash: 8ae55d8c99f89a2dbb03b8abe9e17fd00ac554229fea463b835beed4f2cb8e96
 - kind: tactic
   id: connascence-analysis
   path: tactics/analysis/connascence-analysis.tactic.yaml
@@ -660,11 +660,11 @@ constituents:
 - kind: tactic
   id: context-boundary-inference
   path: tactics/analysis/context-boundary-inference.tactic.yaml
-  content_hash: 1aef357bc656ae516bde2b7182902d2e8078a43c2f236cca63a3a536308621fe
+  content_hash: a47c397f689a0fd9d9f07afb177afafa1bc063c7433536f9283fc7be02816a8a
 - kind: tactic
   id: context-mapping-classification
   path: tactics/analysis/context-mapping-classification.tactic.yaml
-  content_hash: b8a6579585b36f842835d8469795322e0ddf0216a457fc754348603941679d7d
+  content_hash: 0560d9dd2d78b19d1e5b89128aa59e10ec6cf8c6b4d7f42bb489da586a7cc5fe
 - kind: tactic
   id: cross-cutting-state-via-store
   path: tactics/architecture/cross-cutting-state-via-store.tactic.yaml
@@ -676,23 +676,23 @@ constituents:
 - kind: tactic
   id: deepening-opportunity-assessment
   path: tactics/architecture/deepening-opportunity-assessment.tactic.yaml
-  content_hash: 763a42a5704c999aba022e15b3208281d4045d4c1fb82475879356c35a57ae91
+  content_hash: 3a13f43169a48d8c31e969fcb3f75bd3a3b40cb553592c9fe40dcdeb6daef0bb
 - kind: tactic
   id: delete-the-assertion-not-the-test
   path: tactics/testing/delete-the-assertion-not-the-test.tactic.yaml
-  content_hash: 24f9abade4ec350dac26ae972b2bf64baec1e3403b66e7fa3611d7c208743e68
+  content_hash: e84b9c97b6c754c703807332027587b2b320973123cedf33bf0efdd9f0308115
 - kind: tactic
   id: dependency-hygiene
   path: tactics/architecture/dependency-hygiene.tactic.yaml
-  content_hash: 4ef2d1b83d40b06917605f2d06949538385f5a3cb46fdf50b69e64cbc1a35288
+  content_hash: efe2d0df25181926143a8e7eac59050548b28af8294a11d392825480894a1693
 - kind: tactic
   id: development-bdd
   path: tactics/architecture/development-bdd.tactic.yaml
-  content_hash: 6540af422a3364366f9ec8178d3d2ed181b29586e3c6c0bf57eb2bcef7710642
+  content_hash: a235ada9aeb22e969d4f936bb7ea99ab5da428646224d2cd20e0989d1dc600a4
 - kind: tactic
   id: dialectic-research
   path: tactics/analysis/dialectic-research.tactic.yaml
-  content_hash: c505af13177ce6610137a05f6044c96de38e8ea3ccb66344dd8a151a5d336c61
+  content_hash: 78a41d5f24a254ff0c7b26ed63b20d35abb5bb58a59c859f0e26940e63c5fec4
 - kind: tactic
   id: documentation-curation-audit
   path: tactics/communication/documentation-curation-audit.tactic.yaml
@@ -704,7 +704,7 @@ constituents:
 - kind: tactic
   id: easy-to-change
   path: tactics/easy-to-change.tactic.yaml
-  content_hash: 4c755ed6ac8afdfe768054f8bb425b2c54fcaf6951587a49b3ea4e6c7a40b1ee
+  content_hash: 8463a07d6d6a63d0629caf1c8810ae2a591c48f87e4a6ed3e8220d3705914aa9
 - kind: tactic
   id: eisenhower-prioritisation
   path: tactics/eisenhower-prioritisation.tactic.yaml
@@ -712,47 +712,47 @@ constituents:
 - kind: tactic
   id: entity-value-object-classification
   path: tactics/analysis/entity-value-object-classification.tactic.yaml
-  content_hash: b1de4f7f969f0068382390e23121e801b5973edfa43bd1294e86f4ae4ea9e807
+  content_hash: 842a7be17b65c1cebee79e3afbe9c382186a90962a74245d532b004da7dcdd75
 - kind: tactic
   id: five-paradigm-parallel-debugging
   path: tactics/five-paradigm-parallel-debugging.tactic.yaml
-  content_hash: eac5ad54da2ede5291cebb0209955a218194ef6b77131b25c3b47d9f2d21d872
+  content_hash: c3b3f8a6262ff66c2cbd8873b033b54f9fb7bdb121d8f901f19cccbc9f4589ad
 - kind: tactic
   id: focused-function-complexity-check
   path: tactics/focused-function-complexity-check.tactic.yaml
-  content_hash: 541af04b0c58f4537b360dc212ab696920f1c25c9676ed99730383dc771b4f06
+  content_hash: e373ccd3a0e63b86918c833c1376c31e245a7b0349b5bf213d683a054abd5b54
 - kind: tactic
   id: forensic-repository-audit
   path: tactics/analysis/forensic-repository-audit.tactic.yaml
-  content_hash: 498e8bf80e5c91338c1292c6c0f812950bc1b52f897ecf4f4f7186e6bd108541
+  content_hash: 5e865b64ab20955bcb1e99f543ae54ccc39fded8a902ef6acf4a721d6defb5f0
 - kind: tactic
   id: formalized-constraint-testing
   path: tactics/testing/formalized-constraint-testing.tactic.yaml
-  content_hash: 81b3103642da6fffc104fdcc35210853b7000c40ec314b505407d2e9d58b3467
+  content_hash: 2a77e79859538df4a96fdd56438723da7fad2478fb91e241f42350d748752477
 - kind: tactic
   id: frozen-baseline-shrink-only-ratchet
   path: tactics/frozen-baseline-shrink-only-ratchet.tactic.yaml
-  content_hash: 16369579e5cbd93f8d3816841e89ef63f2a97749c9f10df3e533c6191fda14a9
+  content_hash: 8fb23f9293cfaf93a348d525b3201323263c6da4f56dc98c501b8969b57a7fa5
 - kind: tactic
   id: function-over-form-testing
   path: tactics/testing/function-over-form-testing.tactic.yaml
-  content_hash: f6e2d6edaeb06552f87581734c41dab2a160596b356fc22435633d748298e3da
+  content_hash: 9cafd1d606ebb2c3bb9213d586d456ca09da4fb58e191344908d4213e7f67eca
 - kind: tactic
   id: generated-code-stewardship
   path: tactics/generated-code-stewardship.tactic.yaml
-  content_hash: 1d2d7542fffb172508cfa9c6c4d516eab610916b4b1fc6df91aadaee7fd51df0
+  content_hash: 6d7310cc7fcedee923dd9790df7ea6d081a5ea5000abf02f31a445721557bfdf
 - kind: tactic
   id: glossary-curation-interview
   path: tactics/communication/glossary-curation-interview.tactic.yaml
-  content_hash: 815accc87252981f28eb63734cf9dbcacf36345c892112f5d7715b419719a6e2
+  content_hash: 0cc839053459d4c02e089b35a2b856cd40fb914de40ecbf5ec555a00b61a97c0
 - kind: tactic
   id: input-validation-fail-fast
   path: tactics/input-validation-fail-fast.tactic.yaml
-  content_hash: 7b17cb808a485f074a04c78423404ca6ee146a77e2143bb5f14c3fb91566be79
+  content_hash: f4e64b5a6d2ed74be1ef765264d0f394a7da98c9f4df6c2ddc95dd3d49ed98fa
 - kind: tactic
   id: interface-variation-design
   path: tactics/architecture/interface-variation-design.tactic.yaml
-  content_hash: 832a9359e72f7a3238c522e3f18c74b99a75196cea4b7eb2f25961529da1246c
+  content_hash: 35161adf64e5844ef7a1655b8ebce993c320560c3261d970359c185d1d172fed
 - kind: tactic
   id: language-driven-design
   path: tactics/architecture/language-driven-design.tactic.yaml
@@ -760,7 +760,7 @@ constituents:
 - kind: tactic
   id: model-task-routing
   path: tactics/model-task-routing.tactic.yaml
-  content_hash: 509bac5393221dacac92ed6c849ade3a9054684b30a11bba7c05ca9ceef7ccd1
+  content_hash: 0f4a63bbaf0d83b5b45b16a02ef612ec11f14cbd5414a67d666a69e73119c579
 - kind: tactic
   id: moscow-scoping-lens
   path: tactics/moscow-scoping-lens.tactic.yaml
@@ -768,7 +768,7 @@ constituents:
 - kind: tactic
   id: mutation-testing-workflow
   path: tactics/testing/mutation-testing-workflow.tactic.yaml
-  content_hash: 1b832800dc615c3d51ef39815196b49c1a0a61af9449a35336dbbc0684a40b48
+  content_hash: 1dcdd91d2d79d1b938ace41edd0973b8c011fc6b5ec7cce41454ce952316d4c3
 - kind: tactic
   id: no-parallel-duplicate-test-runs
   path: tactics/testing/no-parallel-duplicate-test-runs.tactic.yaml
@@ -776,7 +776,7 @@ constituents:
 - kind: tactic
   id: occurrence-classification-workflow
   path: tactics/occurrence-classification-workflow.tactic.yaml
-  content_hash: d98c2c0294e090597528720a196715b2d7c8b7b477501c4e989721abeec2e3a1
+  content_hash: 5ec95f1b3b522517c867b21349d113461f3698308740cb13f8e6a682b71cde0b
 - kind: tactic
   id: op-or-mission-selection
   path: tactics/op-or-mission-selection.tactic.yaml
@@ -784,23 +784,23 @@ constituents:
 - kind: tactic
   id: ownership-map-leeway
   path: tactics/ownership-map-leeway.tactic.yaml
-  content_hash: b7ce599314f9434ede8ff83a6afeceee5a071e0fae7fb6f9d145c30eac7785d8
+  content_hash: 41260043634e0cdf7e072d2503ed0ad7096cd3e176e026d8756dcaebffbf25bf
 - kind: tactic
   id: paula-patterns-architecture-scout-review
   path: tactics/architecture/paula-patterns-architecture-scout-review.tactic.yaml
-  content_hash: 0dfc9a063df02efae3ad98053a38ed6f8ad38fe794778f9e46e11291ec7116c7
+  content_hash: 5ae9cd000221a7d5b700246a0b6f5b5f539fbaf8d1ace9ead2104111e31388c8
 - kind: tactic
   id: pr-agent-worktree-isolation
   path: tactics/pr-agent-worktree-isolation.tactic.yaml
-  content_hash: c70ce0743666bd78050116aebefe28cff951aeeeb462ffb07eaf21000001dca4
+  content_hash: 3b63b5ada45e4eeb984a43f5a0da59008ac85a523cadfbeff624e14a73c0968e
 - kind: tactic
   id: premortem-risk-identification
   path: tactics/analysis/premortem-risk-identification.tactic.yaml
-  content_hash: 6852a4b2d8ae74a0e3fff99027efc017b42d5daaa6c54be5840adfa29a03bb8e
+  content_hash: 4e3108cf9fad8d1fa583cde287401a91a7bfbfc72c61d6019bfc03b4685509e3
 - kind: tactic
   id: problem-decomposition
   path: tactics/architecture/problem-decomposition.tactic.yaml
-  content_hash: 9cd86f69bca4ec03c7d714c1608b0b526230dfb2e43fb853c84a25951e73508d
+  content_hash: c3e95c69bb363a93c88bb130c6a5174d6606b1bcf4a8c560d121d213bb3d503c
 - kind: tactic
   id: quality-gate-verification
   path: tactics/testing/quality-gate-verification.tactic.yaml
@@ -832,7 +832,7 @@ constituents:
 - kind: tactic
   id: refactoring-encapsulate-record
   path: tactics/refactoring/refactoring-encapsulate-record.tactic.yaml
-  content_hash: 68f4a51d148cc0d1ee5a17d6a08755be7265ba64b27ad19ca78740eb15ac2be0
+  content_hash: 35d2b90411d95eb03334dc7375c0936ddcbc7346d2edc08ab0ff5153471a038d
 - kind: tactic
   id: refactoring-encapsulate-variable
   path: tactics/refactoring/refactoring-encapsulate-variable.tactic.yaml
@@ -844,11 +844,11 @@ constituents:
 - kind: tactic
   id: refactoring-extract-first-order-concept
   path: tactics/refactoring/refactoring-extract-first-order-concept.tactic.yaml
-  content_hash: 0ff57b1fa7ed40deb04b5eb6437bcaa3092b40e0b7c9c48483edd45958f0db1b
+  content_hash: a925c729320c0bcbb94484577b5890bb533aed4ecb7c62e8a11cf5d9cb4975f6
 - kind: tactic
   id: refactoring-guard-clauses-before-polymorphism
   path: tactics/refactoring/refactoring-guard-clauses-before-polymorphism.tactic.yaml
-  content_hash: 7f16021799f0f5eeb5f4d057b19c0e312b7f76c192140658bc66c5b3fa5b505c
+  content_hash: 5f551f38ba8af2dcce70ef5b330f64d322ecd9cb9142841dc8b5aa8a02843907
 - kind: tactic
   id: refactoring-inline-temp
   path: tactics/refactoring/refactoring-inline-temp.tactic.yaml
@@ -860,11 +860,11 @@ constituents:
 - kind: tactic
   id: refactoring-move-field
   path: tactics/refactoring/refactoring-move-field.tactic.yaml
-  content_hash: 722f0397c3f9b46829df7d589e39f1cda59a973448e64889dba795add373ab7d
+  content_hash: 4df1da2d1b8c78e6ccb8f0a4e57c73fc27321cc6e3b9349a6ba23cc4fb590d5d
 - kind: tactic
   id: refactoring-move-method
   path: tactics/refactoring/refactoring-move-method.tactic.yaml
-  content_hash: 847c07429d655616afe5e3100507a976a2319b8211f4e3badf6a008f0ecfd127
+  content_hash: 2921618a9736a72a5f9a9bd60dbdb075b30b65e9b229c141df1e75af790b111e
 - kind: tactic
   id: refactoring-replace-magic-number-with-symbolic-constant
   path: tactics/refactoring/refactoring-replace-magic-number-with-symbolic-constant.tactic.yaml
@@ -880,7 +880,7 @@ constituents:
 - kind: tactic
   id: refactoring-state-pattern-for-behavior
   path: tactics/refactoring/refactoring-state-pattern-for-behavior.tactic.yaml
-  content_hash: 0cf1aaa452a5f12ffe3036a67554c161fd17fa9359d96aa10a9c72d0063a12fd
+  content_hash: 3635775baf58f266acb545b4d98150feaf352a082acedfca2ab44a3bfd5a1e32
 - kind: tactic
   id: refactoring-strangler-fig
   path: tactics/refactoring/refactoring-strangler-fig.tactic.yaml
@@ -888,7 +888,7 @@ constituents:
 - kind: tactic
   id: reference-architectural-patterns
   path: tactics/architecture/reference-architectural-patterns.tactic.yaml
-  content_hash: c6505f112549a4741ab37a397051648d432ae1ea75c000c7d99e674c8ef62e0a
+  content_hash: 2c2d6673266178d960ad912ee612a5b1d32beba833740eb47e99980f0e05cbcc
 - kind: tactic
   id: requirements-validation-workflow
   path: tactics/analysis/requirements-validation-workflow.tactic.yaml
@@ -896,7 +896,7 @@ constituents:
 - kind: tactic
   id: reverse-speccing
   path: tactics/analysis/reverse-speccing.tactic.yaml
-  content_hash: d94b0a080671421daa1803648a1a37ec9f00e9df15befcdd73cc9225f94b846f
+  content_hash: 82a8637e03eeaf25fc7f5b539b6b3efaf6e3dc2e785359b1ab10f398abab85a9
 - kind: tactic
   id: review-intent-and-risk-first
   path: tactics/review-intent-and-risk-first.tactic.yaml
@@ -904,7 +904,7 @@ constituents:
 - kind: tactic
   id: reviewer-implementer-role-separation
   path: tactics/reviewer-implementer-role-separation.tactic.yaml
-  content_hash: 63b9618f56ac03529219662fbc37b0714aaf8587cd6adeb0ca206b174d13041d
+  content_hash: bcd38003640cc8bbc6e00862fde873b0d10ef3397d7059ae17cff8a328681a3e
 - kind: tactic
   id: safe-to-fail-experiment
   path: tactics/analysis/safe-to-fail-experiment.tactic.yaml
@@ -912,43 +912,43 @@ constituents:
 - kind: tactic
   id: secure-design-checklist
   path: tactics/secure-design-checklist.tactic.yaml
-  content_hash: 86a209719c4ed86ec0c5b80d096498611957fa9150f97716d7baf3323f4ce423
+  content_hash: 50cc6d7545029dc503f518a32eb165e564b8416dff91fb5948682c3fc0209e70
 - kind: tactic
   id: secure-regex-catastrophic-backtracking
   path: tactics/secure-regex-catastrophic-backtracking.tactic.yaml
-  content_hash: fa77babd6339b0aa8dd7836e0348868f24350a06a7b6ba1763a267a522050943
+  content_hash: 9a62aca9952c17a16241f2f3e5a2a4e7649b6f6869bd1e3947121fa67a205bab
 - kind: tactic
   id: semantic-compression-abstraction-extraction
   path: tactics/semantic-compression/semantic-compression-abstraction-extraction.tactic.yaml
-  content_hash: 4c0e98d0162d36042742628c4ce8579f5c86976956f2c7cde557635bbb7bd0c6
+  content_hash: dce5d8aef18a4390075e7c23e5e68c982fe10055d02c3a3f94363c1d021fa4cc
 - kind: tactic
   id: semantic-compression-behavioral-boundary-mapping
   path: tactics/semantic-compression/semantic-compression-behavioral-boundary-mapping.tactic.yaml
-  content_hash: 469672bfedaaaa34d8ef86c4acfdfc7331fb1247fc74ce108d866602587a4a75
+  content_hash: 97aab2afdbeda8b786b941a129802715f84bd1d202bfd926e081931d68fce4e0
 - kind: tactic
   id: semantic-compression-dead-weight-elimination
   path: tactics/semantic-compression/semantic-compression-dead-weight-elimination.tactic.yaml
-  content_hash: 8dd7136907fc6ae97137a9e90482c847e4ca58ee7357d0283dd29243eee6a62b
+  content_hash: 65adf0a2414ece98c3dcd9e3cc971283fa75197d6dcdd16117fac995f38975ef
 - kind: tactic
   id: semantic-compression-equivalence-verification
   path: tactics/semantic-compression/semantic-compression-equivalence-verification.tactic.yaml
-  content_hash: 92c8be4864966c2d9990e47ced658bc53f004cb8ccad743c4d6beddd3ad76dc2
+  content_hash: 51ce2618b049c12818bba56bc7fed99ba9b4d228ae21d738043fdf39f274401a
 - kind: tactic
   id: semantic-compression-redundancy-discovery
   path: tactics/semantic-compression/semantic-compression-redundancy-discovery.tactic.yaml
-  content_hash: 94dcc4e4cd240cc64e52507883961b25c9fc6fee7cb8235682a1882097c186af
+  content_hash: baf4e8b052cb1477485ae08accbdbbe39a5e63fe17d31bb837273f6099ca9563
 - kind: tactic
   id: semantic-compression-semantic-consolidation
   path: tactics/semantic-compression/semantic-compression-semantic-consolidation.tactic.yaml
-  content_hash: 1ff097b542cdf5a162b6e21280477a14f4981f50c3ac41ef23e2481f502129c4
+  content_hash: 258116d0b5fb6a1861cf1cd408f406a665318a44063f5f7935e2c0c780a7d40b
 - kind: tactic
   id: split-brain-authority-detection
   path: tactics/analysis/split-brain-authority-detection.tactic.yaml
-  content_hash: 7b74ec6d9372f0101d7e513d3a6fa08ffea97168e237bec97b1d6c92c62ae4a5
+  content_hash: ec12a7f9fc9b53c4fe8f1e429dbfda489eb98e423ddd21bcd919fbf2812e6a98
 - kind: tactic
   id: stakeholder-alignment
   path: tactics/communication/stakeholder-alignment.tactic.yaml
-  content_hash: 5e909d30396b21d803632db7e914e63a8be1ac646a22d7abb72e391769c3de29
+  content_hash: 7fc3217f702ea83a4fa05eb90f3615b67a34a7b6be8ea380ced38e436eec078e
 - kind: tactic
   id: stopping-conditions
   path: tactics/stopping-conditions.tactic.yaml
@@ -956,11 +956,11 @@ constituents:
 - kind: tactic
   id: strategic-domain-classification
   path: tactics/analysis/strategic-domain-classification.tactic.yaml
-  content_hash: 40fc19e3d4245dd04611e138246adb4d919e09d3149b0bd6c7706a2decee18ca
+  content_hash: fd00c257fd999b279a0d91279c151233005779d767fe6b66002f1492d7f963b8
 - kind: tactic
   id: supply-chain-install-safety
   path: tactics/security/supply-chain-install-safety.tactic.yaml
-  content_hash: efe95bc6d4391ae90f9723fbf49053c7ce145ba8a24e802fa631ed82dda3cf01
+  content_hash: cdb82c68d7af8d493c917f5e5a4fbac9df5d72bf62e37d726a77ca23e86ff1c8
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
@@ -968,15 +968,15 @@ constituents:
 - kind: tactic
   id: terminology-extraction-mapping
   path: tactics/analysis/terminology-extraction-mapping.tactic.yaml
-  content_hash: 02a27843e5514707d37fffe93305290d8b9230f27f666ef5fde9ef47ef4abbc2
+  content_hash: a31bc3c3b1f40e5d305b11e20439ff9fd0942a6fd9200c3eb4dc61b8ceb09869
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: 5612fc30b61fb02cfa7b03695eb7abc40070bca6983511574148e92e8f14acf5
+  content_hash: a4568d6884b7f8571d8e786d95e40292a56f7fdc86819f37966733ddffa814f1
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml
-  content_hash: d22615ca698d4282bccc2c47cbb0fb06798cdd1dd52bf7d0a2947383fca2bf9e
+  content_hash: fb1492f9965ae537eb58cf40733b0d802e68c04614c3328690f96887dad1f78b
 - kind: tactic
   id: test-pyramid-progression
   path: tactics/testing/test-pyramid-progression.tactic.yaml
@@ -984,35 +984,35 @@ constituents:
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml
-  content_hash: 89be8694de7630e46ae08704e5bc1bda52a0b28d6c939b980e4aa5258a78e63f
+  content_hash: c2dd152572eb0e8093351ee6fa0659dac485bedf84dce12e5f99722b98acaa75
 - kind: tactic
   id: test-scaffolding-as-design-smell
   path: tactics/testing/test-scaffolding-as-design-smell.tactic.yaml
-  content_hash: 03482a0ad990bcad407eafc363dd6f0dd1766ff01a6778fbe90d58680ac3e231
+  content_hash: 53b40624c36e51df5dde023d3155e2136665699ae2aeae1e9ae97fe4da0eb026
 - kind: tactic
   id: test-to-system-reconstruction
   path: tactics/testing/test-to-system-reconstruction.tactic.yaml
-  content_hash: 064d9b2d1f860385b22551934000e12753eb3f2bb7d40800798a23298ff91439
+  content_hash: 4b62ec1fd8a168ed17b467802852ccbfe42c8ba01a05769ce117b9341eefdf8f
 - kind: tactic
   id: testing-select-appropriate-level
   path: tactics/testing/testing-select-appropriate-level.tactic.yaml
-  content_hash: 630f6c8ef427f95d9da636871f83fdfe35f54c1e3fac49556f2abf1d173c62b0
+  content_hash: eac985133a31f9764a53a0802f96e4d8a0e3c86d1840f4275faceeb96c8f61fa
 - kind: tactic
   id: traceable-decisions
   path: tactics/communication/traceable-decisions.tactic.yaml
-  content_hash: 27903dc89683a9b9ce0d2005dc7aac04c7ec37600481040296c16fb130b24b81
+  content_hash: a65329b1898895c565927cfcb35fb868b74ee124df05597ebe0e4ee31b30cb3b
 - kind: tactic
   id: usage-examples-sync
   path: tactics/communication/usage-examples-sync.tactic.yaml
-  content_hash: 6f34cf3380a56c1a1cfd671ab3fff2594ab73908fdef2a01b1a22c5966bdcf1f
+  content_hash: c93f262944a0bb7cecb4976ce59dc12c2a5e21743cd39b371f396158c228a4fc
 - kind: tactic
   id: work-package-completion-validation
   path: tactics/work-package-completion-validation.tactic.yaml
-  content_hash: 4e5dde8298b90449d7befa2e2318924936a7f041d98743ce4ff7ffa68eaf2e23
+  content_hash: 0354494aa99834f3563fef7426a60ceec266828035d5057cb4651b9c197551b7
 - kind: tactic
   id: writing-audience-catalog
   path: tactics/communication/writing-audience-catalog.tactic.yaml
-  content_hash: 07747ed2e5d4cc0e5b191c149aef207baffb43f13f8f76fc20e532eaf5b38578
+  content_hash: a91a3ee70b6f4ea603f022a25904a4e652eae0c4847a7b77ec2ee513e18490d6
 - kind: tactic
   id: zombies-tdd
   path: tactics/testing/zombies-tdd.tactic.yaml
@@ -1024,7 +1024,7 @@ constituents:
 - kind: toolguide
   id: drupal-review-checks
   path: toolguides/drupal-review-checks.toolguide.yaml
-  content_hash: 926dce9a814d4082aaf667d10c7491ab836098cb52037444e28b29e3c704f286
+  content_hash: 184184822f7b02172f3284a49957342cb9df6c987945ca9c3e74100349a0ab03
 - kind: toolguide
   id: efficient-local-tooling
   path: toolguides/efficient-local-tooling.toolguide.yaml
@@ -1040,7 +1040,7 @@ constituents:
 - kind: toolguide
   id: git-worktree-pr-workflow
   path: toolguides/git-worktree-pr-workflow.toolguide.yaml
-  content_hash: 0cf43fedab82722ca39af67899a5738a0596ea01d17d19c6074ac14ce7b7ed77
+  content_hash: adfbc5b8b333cecab14ae7c6359455da27174c121b8ccc5a591ebceb086cedbc
 - kind: toolguide
   id: github-tracker
   path: toolguides/github-tracker.toolguide.yaml

@@ -10,7 +10,7 @@ principles:
   - "Use Human-in-Charge (HiC) consistently: never use 'user' when referring to the human who holds decision authority."
   - "One concept per definition: if a definition needs multiple paragraphs, it may be covering more than one term."
   - "Foundational terms must be defined: if a definition depends on terms like API, CLI, YAML, or JSON, those terms must exist in the glossary."
-  - "All new terms enter as candidate: the HiC promotes to canonical. This is not optional."
+  - "All new terms enter as candidate: the HiC promotes to canonical. This is not optional. Sources: glossary/README.md; docs/context/."
 
 anti_patterns:
   - name: Buzzword Soup
@@ -39,7 +39,3 @@ anti_patterns:
     good_example: "A choice presented to the Human-in-Charge (HiC) or their delegated agent during the workflow."
 
 quality_test: "Read the definition to someone unfamiliar with the project. If they need to ask a follow-up question to understand the core concept, revise it."
-
-references:
-  - "glossary/README.md"
-  - "docs/context/"

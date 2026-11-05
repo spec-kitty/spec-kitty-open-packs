@@ -53,16 +53,3 @@ anti_patterns:
 - title: Over-broad, uncheckable scenarios
   content: |
     Breadth a step cannot witness, such as "composition resolves the way I expect". Narrow to a single guarantee a consumer can observe and a step can check.
-references:
-- type: styleguide
-  id: feature-and-scenario-authoring
-  reason: The consumer-first authoring rules, the litmus, the tag contract and the worked exemplars every scenario follows.
-- type: directive
-  id: NO_FULL_HEAVY_SUITES_IN_MISSION
-  reason: The e2e and charter tests are read as evidence; verification runs the named scenarios, never whole heavy suites.
-- type: procedure
-  id: built-in::adversarial-squad-deployment
-  reason: How to run promise-extraction and litmus review as bounded, profile-loaded lenses.
-- type: styleguide
-  id: built-in::test-desiderata-and-boundaries
-  reason: Non-vacuity — a scenario must go red when the promise it names is broken, and assert observable behaviour, not the call graph.

@@ -23,14 +23,3 @@ steps:
 - title: Confirm enforcement tier and close the pass
   description: |
     Assign or confirm each new/changed term's enforcement tier (advisory, acknowledgment-required, hard-failure) and record the pass's outcome (terms accepted/rejected/deferred) so a future pass can pick up where this one left off.
-references:
-- type: tactic
-  id: glossary-curation-interview
-- type: tactic
-  id: terminology-extraction-mapping
-- type: styleguide
-  id: kitty-glossary-writing
-- type: tactic
-  id: context-boundary-inference
-- type: directive
-  id: DIRECTIVE_032

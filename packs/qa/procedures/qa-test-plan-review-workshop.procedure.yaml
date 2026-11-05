@@ -28,8 +28,3 @@ anti_patterns:
 - title: Silent acceptance without traceability check
   content: |
     Approving a plan without confirming its test-area-to-requirement traceability defeats the purpose of the review.
-references:
-- type: directive
-  id: QA_001
-  reason: |
-    This workshop's traceability step operationalises requirement-to-plan traceability before execution begins.

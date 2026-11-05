@@ -48,16 +48,3 @@ validation_criteria:
     non-canonical copies are retired or redirected — never augmented in parallel."
   - "Any hand-rolled substitute for a documented but absent CLI command is flagged as a
     violation and replaced with either the correct CLI invocation or a filed gap."
-references:
-  - type: tactic
-    id: canonical-source-unification
-  - type: styleguide
-    id: planning-and-tracking
-  - type: tactic
-    id: ownership-map-leeway
-  - type: tactic
-    id: reviewer-implementer-role-separation
-  - type: tactic
-    id: model-task-routing
-  - type: tactic
-    id: autonomous-operation-protocol

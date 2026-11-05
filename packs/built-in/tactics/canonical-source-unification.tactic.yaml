@@ -99,10 +99,3 @@ failure_modes:
     substitute — an unverified size assumption is not evidence, and routing around a
     canonical surface on that basis reintroduces the same split-brain this tactic exists
     to prevent."
-references:
-  - name: Canonical Sources and Unification
-    type: directive
-    id: DIRECTIVE_044
-    when: >
-      Consult to understand the binding rules this tactic operationalizes, including the
-      unification-not-parity rule and the missing-command-is-a-gap rule.

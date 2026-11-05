@@ -18,16 +18,3 @@ steps:
 failure_modes:
   - "Extracting a vague helper creates another dumping ground."
   - "Combining unrelated concepts hides behavior instead of compressing it."
-references:
-  - name: Semantic Compression
-    type: paradigm
-    id: semantic-compression
-    when: Use when duplication can be reduced by one named owner per concept
-  - name: Refactoring Extract First-Order Concept
-    type: tactic
-    id: refactoring-extract-first-order-concept
-    when: The duplicated behavior reveals a missing domain or implementation concept
-  - name: Architectural Integrity Standard
-    type: directive
-    id: DIRECTIVE_001
-    when: The abstraction changes component boundaries

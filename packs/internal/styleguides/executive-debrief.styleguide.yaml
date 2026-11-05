@@ -13,7 +13,7 @@ principles:
   - "Every reference must exist in the collected set. In the one-pager, each `#NNNN` must be in the collector's `valid_refs`, and the renderer fails closed on any other. A long-form debrief may add supplemental queries (open P0s, nightly runs, git statistics) when each result is saved as a file beside the collector output and named in the appendix; each `#NNNN` must then appear in the collector output or one of those files, and the writer checks that before rendering. The writer may cluster and prioritise, never invent an issue or a PR."
   - "Name the failure class when it fits. The house framing for the most damaging defects is 'silent and exit 0': a command that destroys, mis-lands, or erases work while reporting success. Use it where the collected defects are of that kind, because it orients a reader faster than a per-issue description. Do not force it onto a debrief about something else (CI runtime, a milestone's shape)."
   - "End the summary with what the readers must decide. A long-form debrief closes its executive summary with 'What we need from leadership': two to four decisions, each with the fact that forces it. A debrief that only reports leaves the reader to work out the ask."
-  - "Keep the Method honest. State the exact scope and as-of, generated from the collector, never typed. Distinguish 'closed' (GitHub's state_reason) from 'verified fixed' (a linked closing PR); in scope mode mark impact/cluster labels as a preliminary read until verified against the code. Say 'correlation, not a proven cause' when the data shows only that. When a claim rests on an earlier debrief rather than on this collection, say so in the sentence."
+  - "Keep the Method honest. State the exact scope and as-of, generated from the collector, never typed. Distinguish 'closed' (GitHub's state_reason) from 'verified fixed' (a linked closing PR); in scope mode mark impact/cluster labels as a preliminary read until verified against the code. Say 'correlation, not a proven cause' when the data shows only that. When a claim rests on an earlier debrief rather than on this collection, say so in the sentence. Sources: docs/development/reporting/debrief-styleguide.md."
 
 patterns:
   - name: Long-form layout grammar
@@ -159,9 +159,3 @@ anti_patterns:
     good_example: >
       "Follow report-writing for voice and anti-AI-prose; this file governs the
       debrief's structure, readers, ref check and print treatment."
-
-references:
-  - "packs/internal/styleguides/report-writing.styleguide.yaml"
-  - "docs/development/reporting/debrief-styleguide.md"
-  - "packs/internal/tactics/branded-deliverable.tactic.yaml"
-  - "packs/internal/toolguides/branded-document-generation.toolguide.yaml"

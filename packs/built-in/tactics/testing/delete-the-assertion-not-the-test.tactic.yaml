@@ -37,11 +37,6 @@ steps:
     examples:
       - "Replace an `if is_valid: xfail('not blocked yet')` mask with a strict
          assertion that the traversal/symlink/null-byte vectors are rejected."
-    references:
-      - name: Acceptance Test Driven Development (ATDD)
-        type: tactic
-        id: acceptance-test-first
-        when: writing the replacement assertion against externally observable behavior
   - title: Implementation-coupled assertion - transform toward the contract in place
     description: >-
       When the assertion targets a call-graph detail (mock-wiring "assert HOW")
@@ -82,11 +77,6 @@ steps:
     examples:
       - "PR note: 'deleted assertion X because it inverts contract FR-### (XPASSed
          on the fix); replaced with strict-RED pin Y, vectors preserved.'"
-    references:
-      - name: Red-Green-Refactor
-        type: tactic
-        id: tdd-red-green-refactor
-        when: observing the replacement assertion RED before it is made GREEN
 failure_modes:
   - "Delete-as-default - removing a red/ugly test you do not understand; the
      canonical fakeable-Definition-of-Done laziness vector."
@@ -98,11 +88,6 @@ failure_modes:
      'passes' without delivering the behavior (vacuous acceptance)."
   - "Re-keying a brittle ratchet without draining the debt it allow-lists -
      cheaper-to-maintain debt lives forever."
-references:
-  - name: ZOMBIES TDD
-    type: tactic
-    id: zombies-tdd
-    when: enumerating the boundary and exceptional behaviors the original test encoded
 notes: |
   By-class decision rule (the class decides the action):
 

@@ -43,37 +43,6 @@ expected_output_artifacts:
 - artifact_key: runtime.charter-lint.decay
   artifact_class: runtime
   path_pattern: lint-report.json
-references:
-- type: directive
-  id: DIRECTIVE_042
-- type: tactic
-  id: common-docs-find
-- type: tactic
-  id: common-docs-scaffold
-- type: tactic
-  id: common-docs-write
-- type: tactic
-  id: usage-examples-sync
-- type: styleguide
-  id: common-docs
-- type: styleguide
-  id: divio-type-discipline
-- type: styleguide
-  id: docs-accessibility
-- type: styleguide
-  id: docs-freshness-sla
-- type: styleguide
-  id: plain-language
-- type: styleguide
-  id: publication-authority
-- type: toolguide
-  id: mermaid-diagramming
-- type: toolguide
-  id: plantuml-diagramming
-- type: procedure
-  id: documentation-gap-prioritization
-- type: procedure
-  id: drill-down-documentation
 steps:
 - id: discover
   title: Documentation Discovery
@@ -87,17 +56,6 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/documentation-spec-template.md
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_003
-  - type: tactic
-    id: stakeholder-alignment
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: tactic
-    id: premortem-risk-identification
 - id: audit
   title: Documentation Audit
   description: Analyze existing documentation and produce gap-analysis.md.
@@ -113,13 +71,6 @@ steps:
     artifact_class: evidence
     path_pattern: gap-analysis.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: requirements-validation-workflow
 - id: design
   title: Documentation Design
   description: Plan documentation structure, Divio types, and generator configuration in plan.md.
@@ -139,17 +90,6 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/documentation-plan-template.md
-  references:
-  - type: directive
-    id: DIRECTIVE_001
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: tactic
-    id: adr-drafting-workflow
-  - type: tactic
-    id: requirements-validation-workflow
 - id: generate
   title: Documentation Generation
   description: Produce documentation artifacts under docs/.
@@ -164,13 +104,6 @@ steps:
   - artifact_key: output.docs.generated
     artifact_class: output
     path_pattern: docs/**/*.md
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: requirements-validation-workflow
 - id: validate
   title: Documentation Validation
   description: Verify Divio adherence, accessibility, and completeness; emit audit-report.md.
@@ -188,17 +121,6 @@ steps:
     artifact_class: evidence
     path_pattern: audit-report.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: documentation-curation-audit
-  - type: tactic
-    id: premortem-risk-identification
-  - type: tactic
-    id: requirements-validation-workflow
 - id: publish
   title: Documentation Publication
   description: Prepare documentation for release and emit release.md handoff.
@@ -214,13 +136,6 @@ steps:
     artifact_class: output
     path_pattern: release.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: requirements-validation-workflow
 - id: accept
   title: Acceptance
   description: Validate documentation completeness, quality gates, and readiness for publication.
@@ -234,35 +149,9 @@ steps:
   - artifact_key: evidence.audit-report
     path_pattern: audit-report.md
     blocking: true
-  references:
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_037
-  - type: tactic
-    id: documentation-curation-audit
-  - type: tactic
-    id: requirements-validation-workflow
 on_demand_steps:
 - id: retrospect
   title: Retrospective
   description: Capture what helped, what did not and the governance gaps of a finished mission as a retrospective record.
   role: facilitator
   prompt_path: steps/retrospect.prompt.md
-  references:
-  - type: directive
-    id: DIRECTIVE_003
-  - type: directive
-    id: DIRECTIVE_010
-  - type: directive
-    id: DIRECTIVE_018
-  - type: tactic
-    id: requirements-validation-workflow
-  - type: tactic
-    id: stopping-conditions
-  - type: tactic
-    id: autonomous-operation-protocol
-  - type: tactic
-    id: glossary-curation-interview
-  - type: styleguide
-    id: kitty-glossary-writing

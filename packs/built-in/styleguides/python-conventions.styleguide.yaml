@@ -163,7 +163,3 @@ tooling:
   import_order: "ruff (isort rules)"
 
 quality_test: "Can a new contributor read one test and understand what behavior it validates, what preconditions it requires, and what a failure means — without reading the production code?"
-
-references:
-  - "packs/built-in/tactics/testing/tdd-red-green-refactor.tactic.yaml"
-  - "packs/built-in/directives/030-test-and-typecheck-quality-gate.directive.yaml"

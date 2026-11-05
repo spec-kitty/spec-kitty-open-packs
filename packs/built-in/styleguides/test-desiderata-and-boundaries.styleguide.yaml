@@ -39,7 +39,7 @@ principles:
   #   checked before a human (or a slow suite) has to notice it.
   - "Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run; what a unit test can catch never waits for an integration or end-to-end run; what a lint-time check can catch never waits for review."
   - "Behavioral is proven, not assumed: a test that guards a contract shows it can go red — plant the break (or run against the unfixed code) and watch it fail. A test that asserts on data it built itself, or on a stub's return value, is not Behavioral however green it is."
-  - "The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test."
+  - "The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test. Sources: https://testdesiderata.com/; https://patterns.sddevelopment.be/practices/define_test_boundaries/."
 
 patterns:
   - name: Map each desideratum to its earliest detector
@@ -206,15 +206,3 @@ quality_test: >
   most one mock at a true system boundary? If the test needs real files, a git
   repo, or several patched infrastructure functions, the boundary is in the
   wrong place — extract a pure seam before adding the test.
-
-references:
-  - "https://testdesiderata.com/"
-  - "https://patterns.sddevelopment.be/practices/define_test_boundaries/"
-  - "packs/built-in/styleguides/testing-principles.styleguide.yaml"
-  - "packs/built-in/styleguides/mutation-aware-test-design.styleguide.yaml"
-  - "packs/built-in/tactics/testing/test-boundaries-by-responsibility.tactic.yaml"
-  - "packs/built-in/tactics/testing/function-over-form-testing.tactic.yaml"
-  - "packs/built-in/directives/030-test-and-typecheck-quality-gate.directive.yaml"
-  - "packs/built-in/directives/034-test-first-development.directive.yaml"
-  - "packs/built-in/directives/041-tests-as-scaffold-not-friction.directive.yaml"
-  - "packs/built-in/procedures/development-assist-test-cleanup.procedure.yaml"

@@ -6,9 +6,6 @@ intent: >
   editing, validation, and repository operations stay fast and reproducible
   across development environments.
 enforcement: required
-references:
-  - type: toolguide
-    id: efficient-local-tooling
 scope: >
   Applies to local repository investigation, file inspection, archive handling,
   copy or sync workflows, and command-line ergonomics used by contributors and

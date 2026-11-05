@@ -63,22 +63,3 @@ anti_patterns:
 - title: Claiming unread progress
   content: |
     Reporting a runner's outcome before reading it back from the session.
-references:
-- type: directive
-  id: built-in::DIRECTIVE_025
-  reason: Tidy-first / enabler sequencing for structural dispatches.
-- type: directive
-  id: built-in::RECONCILE_CHANGE_SCOPE_TENSIONS
-  reason: The tidy-first carve-out that separates the preparatory step from the functional change.
-- type: procedure
-  id: built-in::refactoring
-  reason: Behaviour-preserving refactoring workflow for tidy-first runs.
-- type: procedure
-  id: built-in::test-first-bug-fixing
-  reason: Red-first workflow for bugfix dispatches.
-- type: procedure
-  id: test-suite-quality-assessment
-  reason: Workflow for test-quality dispatches.
-- type: directive
-  id: NO_FULL_HEAVY_SUITES_IN_MISSION
-  reason: The runner targets specific gate files and never runs the full heavy suites.

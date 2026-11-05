@@ -57,19 +57,3 @@ failure_modes:
   - "Ignoring the catalog entirely and hand-picking a model from memory —
     the catalog is the single source of truth for task_fit and cost tiers,
     and hand-picking drifts from it silently."
-references:
-  - name: Canonical Sources and Unification
-    type: directive
-    id: DIRECTIVE_044
-    when: >
-      Consult to understand the binding rule this tactic operationalizes:
-      the catalog is the single canonical source for model/task_type
-      routing data — do not hand-roll a substitute mapping.
-  - name: Autonomous Operation Protocol
-    type: tactic
-    id: autonomous-operation-protocol
-    when: >
-      Consult alongside this tactic when delegating work to a subagent —
-      model routing decides *which* model runs the delegated work; the
-      autonomous operation protocol decides *how* that agent should behave
-      once dispatched.

@@ -70,16 +70,3 @@ validation_criteria:
     addressed before the PR was presented as ready.
   - The PR body records the change summary, the review evidence, and any
     outstanding reviewer/Sonar work.
-references:
-  - type: procedure
-    id: mission-wrap-up-sequence
-  - type: tactic
-    id: clean-linear-commit-history
-  - type: tactic
-    id: reviewer-implementer-role-separation
-  - type: tactic
-    id: review-intent-and-risk-first
-  - type: procedure
-    id: adversarial-squad-deployment
-  - type: directive
-    id: DIRECTIVE_045

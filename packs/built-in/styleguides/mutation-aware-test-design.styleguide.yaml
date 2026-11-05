@@ -141,6 +141,3 @@ quality_test: >
   Run the mutation suite on the module under review before marking a work
   package for_review. Any surviving mutant that is not annotated as equivalent
   must be killed by a new or strengthened test.
-
-references:
-  - "packs/built-in/tactics/testing/mutation-testing-workflow.tactic.yaml"

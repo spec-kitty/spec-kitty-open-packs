@@ -51,17 +51,3 @@ steps:
 failure_modes:
   - "Transitioning on green tests alone — passing tests are necessary but not sufficient; acceptance criteria may be unaddressed and the diff may contain unintended scope."
   - "Re-advancing to for_review before all reviewer feedback is addressed (or explicitly deferred with agreement) — produces churn and erodes reviewer trust."
-
-references:
-  - name: Test and Typecheck Quality Gate
-    type: directive
-    id: DIRECTIVE_030
-    when: The quality gate must be green before any WP status transition
-  - name: Test-First Development
-    type: directive
-    id: DIRECTIVE_034
-    when: Tests validating acceptance criteria must exist before the WP is marked complete
-  - name: Test Minimisation
-    type: tactic
-    id: test-minimisation
-    when: Redundant test removal is only safe after the completion validation confirms coverage is intact

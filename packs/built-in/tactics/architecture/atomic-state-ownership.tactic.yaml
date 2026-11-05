@@ -42,8 +42,3 @@ failure_modes:
   - "Redux everything: dispatching actions for hover state, form field focus, or accordion open/close."
   - "Prop drilling anxiety: moving state to the global store just to avoid passing it through two levels. Use context or dependency injection instead."
   - "Premature lifting: putting organism-local state in the store because it feels complex, even though only one organism uses it."
-references:
-  - name: Cross-Cutting State via Store
-    type: tactic
-    id: cross-cutting-state-via-store
-    when: Deciding whether state should be centralized (step 5).

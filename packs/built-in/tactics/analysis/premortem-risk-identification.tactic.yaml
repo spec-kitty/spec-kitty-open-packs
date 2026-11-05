@@ -2,11 +2,6 @@ schema_version: "1.0"
 id: premortem-risk-identification
 name: Premortem Risk Identification
 purpose: Proactively surface failure modes for a plan or decision by deliberately attempting to sabotage it before execution.
-references:
-  - name: Risk Identification Assessment Template
-    type: template
-    id: risk-identification-assessment-template
-    when: When recording the premortem assessment as a durable artifact.
 steps:
   - title: Shift to destructive mindset
     description: >-

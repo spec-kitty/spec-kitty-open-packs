@@ -128,10 +128,3 @@ quality_test: >
 # DEFAULT is loaded from has moved. A project that needs a different policy
 # keeps its own styleguide or data file carrying that block, as this
 # repository's own maintainer override already does (unaffected by this move).
-
-references:
-  - packs/built-in/directives/042-common-docs.directive.yaml
-  - packs/built-in/tactics/common-docs-scaffold.tactic.yaml
-  - packs/built-in/tactics/common-docs-write.tactic.yaml
-  - packs/built-in/tactics/common-docs-find.tactic.yaml
-  - packs/built-in/assets/docs_structural_lint.config.yaml

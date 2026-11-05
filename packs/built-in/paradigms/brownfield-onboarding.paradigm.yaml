@@ -25,21 +25,6 @@ summary: >
   walks the line between them by gating structural moves on captured
   understanding, not on courage or on caution alone.
 
-directive_refs:
-  - DIRECTIVE_001
-  - DIRECTIVE_003
-  - DIRECTIVE_041
-
-references:
-  - type: tactic
-    id: forensic-repository-audit
-  - type: procedure
-    id: legacy-codebase-triage
-  - type: tactic
-    id: delete-the-assertion-not-the-test
-  - type: procedure
-    id: adversarial-squad-deployment
-
 # ---------------------------------------------------------------------------
 # Provisional notes -- iterate freely.
 # ---------------------------------------------------------------------------

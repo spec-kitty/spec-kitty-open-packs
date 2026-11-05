@@ -317,64 +317,82 @@ edges:
   - source: "procedure:tracker-organisation-workflow"
     target: "tactic:tracker-backlog-iterative-deepening"
     relation: requires
+    reason: "Sequences the backlog sweep in widening time windows so emergent groupings become epics before later rings reach them."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::tactic:moscow-scoping-lens"
     relation: requires
+    reason: "Provides the scoping lens for negotiating what each bucket or slice must, should, could, or won't carry, distinct from the priority label taxonomy."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::procedure:issue-triage-state-machine"
     relation: requires
+    reason: "Per-ticket triage — one category and one state with durable handoff or rejection context — feeding this tracker-wide organisation pass."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::styleguide:planning-and-tracking"
     relation: suggests
+    reason: "Defines the epic/meta-tracker hierarchy, issue-type, priority, and triage conventions this workflow enforces while organising the tracker."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::toolguide:github-tracker"
     relation: suggests
+    reason: "Supplies the gh CLI + GraphQL mechanics (sub-issues, types, parent walks) used to read and re-home tickets during the organisation pass."
   # Test-suite quality assessment chain: the procedure requires the scan
   # toolguide, which requires the scanner asset; the review itself applies the
   # built-in test doctrine rather than restating it.
   - source: "procedure:test-suite-quality-assessment"
     target: "toolguide:test-quality-triage"
     relation: requires
+    reason: "How to run the static triage asset and read its outputs."
   - source: "toolguide:test-quality-triage"
     target: "asset:test-quality-scan"
     relation: requires
   - source: "procedure:test-suite-quality-assessment"
     target: "built-in::styleguide:test-desiderata-and-boundaries"
     relation: suggests
+    reason: "The twelve desiderata, the shift-left detector map and the harness anti-patterns the review applies."
   - source: "procedure:test-suite-quality-assessment"
     target: "built-in::styleguide:testing-principles"
     relation: suggests
+    reason: "The good-test rubric (truthful, minimal, specific, realistic, isolated) the verdicts are judged against."
   - source: "procedure:test-suite-quality-assessment"
     target: "built-in::directive:DIRECTIVE_041"
     relation: suggests
+    reason: "Tests are scaffold, not friction; a green test that stays green on a regression gives no coverage."
   - source: "procedure:test-suite-quality-assessment"
     target: "built-in::procedure:development-assist-test-cleanup"
     relation: suggests
+    reason: "The KEEP, RETIRE and SPLIT-BY-KIND classification for Mission-scaffold tests."
   - source: "procedure:test-suite-quality-assessment"
     target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
+    reason: "How to run the domain review squads as bounded, profile-loaded lenses."
   - source: "procedure:test-suite-quality-assessment"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
+    reason: "Verification runs named test files only, never whole heavy suites."
   # Cloud-session dispatch binds the per-kind doctrine rather than restating it.
   - source: "procedure:cloud-session-dispatch"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
+    reason: "The runner targets specific gate files and never runs the full heavy suites."
   - source: "procedure:cloud-session-dispatch"
     target: "built-in::directive:DIRECTIVE_025"
     relation: suggests
+    reason: "Tidy-first / enabler sequencing for structural dispatches."
   - source: "procedure:cloud-session-dispatch"
     target: "built-in::directive:RECONCILE_CHANGE_SCOPE_TENSIONS"
     relation: suggests
+    reason: "The tidy-first carve-out that separates the preparatory step from the functional change."
   - source: "procedure:cloud-session-dispatch"
     target: "built-in::procedure:refactoring"
     relation: suggests
+    reason: "Behaviour-preserving refactoring workflow for tidy-first runs."
   - source: "procedure:cloud-session-dispatch"
     target: "built-in::procedure:test-first-bug-fixing"
     relation: suggests
+    reason: "Red-first workflow for bugfix dispatches."
   - source: "procedure:cloud-session-dispatch"
     target: "procedure:test-suite-quality-assessment"
     relation: suggests
+    reason: "Workflow for test-quality dispatches."
   # Cloud dispatch binds the runner-side semi-auto standing orders by reference
   # rather than re-typing them into every prompt.
   - source: "procedure:cloud-session-dispatch"
@@ -385,21 +403,27 @@ edges:
   - source: "procedure:semi-auto-delivery"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
+    reason: "In-mission runs are bounded to the calibrated blast radius and specific gate files; CI owns the heavy and full suites."
   - source: "procedure:semi-auto-delivery"
     target: "directive:OPERATOR_SIGNAL_CONTRACT"
     relation: requires
+    reason: "A deciding path must also signal — every escalation-class decision surfaces on an operator-visible surface, never resolved silently."
   - source: "procedure:semi-auto-delivery"
     target: "built-in::procedure:mission-wrap-up-sequence"
     relation: suggests
+    reason: "The canonical accept, verdict, aggregate-review, consolidate, compact and rebase closeout for a Mission-shaped run."
   - source: "procedure:semi-auto-delivery"
     target: "built-in::procedure:test-first-bug-fixing"
     relation: suggests
+    reason: "The red-first workflow the brownfield standing orders require for a bugfix."
   - source: "procedure:semi-auto-delivery"
     target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
+    reason: "The pre-PR review squad the closeout runs before opening the draft PR."
   - source: "procedure:semi-auto-delivery"
     target: "built-in::tactic:clean-linear-commit-history"
     relation: suggests
+    reason: "The commit-history shape the closeout aims for — coherent, reviewable commits, bookkeeping compressed."
   # Dual-mode pack skill: requires the standing-orders procedure (both modes) and
   # the dispatch procedure (cloud mode); suggests the Mission closeout sequence.
   - source: "skill:semi-auto"
@@ -486,15 +510,19 @@ edges:
   - source: "procedure:charter-offering-scenario-extraction"
     target: "styleguide:feature-and-scenario-authoring"
     relation: requires
+    reason: "The consumer-first authoring rules, the litmus, the tag contract and the worked exemplars every scenario follows."
   - source: "procedure:charter-offering-scenario-extraction"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
+    reason: "The e2e and charter tests are read as evidence; verification runs the named scenarios, never whole heavy suites."
   - source: "procedure:charter-offering-scenario-extraction"
     target: "built-in::procedure:adversarial-squad-deployment"
     relation: suggests
+    reason: "How to run promise-extraction and litmus review as bounded, profile-loaded lenses."
   - source: "procedure:charter-offering-scenario-extraction"
     target: "built-in::styleguide:test-desiderata-and-boundaries"
     relation: suggests
+    reason: "Non-vacuity — a scenario must go red when the promise it names is broken, and assert observable behaviour, not the call graph."
   # Pack skills: each requires the procedure that carries its substance.
   - source: "skill:land-pr"
     target: "procedure:landing-contributor-prs"
@@ -565,4 +593,13 @@ edges:
     relation: suggests
   - source: "skill:report-debrief"
     target: "asset:spec-kitty-branded-pdf"
+    relation: suggests
+  - source: "styleguide:executive-debrief"
+    target: "tactic:branded-deliverable"
+    relation: suggests
+  - source: "styleguide:executive-debrief"
+    target: "toolguide:branded-document-generation"
+    relation: suggests
+  - source: "styleguide:report-writing"
+    target: "built-in::styleguide:planning-and-tracking"
     relation: suggests

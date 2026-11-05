@@ -47,8 +47,3 @@ failure_modes:
   - "God transitions: letting ConcreteStates reach into Context internals beyond the state swap."
   - "Incomplete extraction: leaving some conditional branches in the Context alongside delegation."
   - "Missing interface method: adding a new operation to Context but forgetting to add it to the State interface."
-references:
-  - name: "Refactoring: Conditional to Strategy"
-    type: tactic
-    id: refactoring-conditional-to-strategy
-    when: Choosing between State and Strategy — State is for lifecycle-driven transitions, Strategy for interchangeable algorithms.

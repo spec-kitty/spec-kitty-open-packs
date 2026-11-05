@@ -16,16 +16,3 @@ steps:
 failure_modes:
   - "Unused in static search is not proof when reflection, plugins, or external callers exist."
   - "Deleting obsolete-looking compatibility code can break consumers outside the repository."
-references:
-  - name: Semantic Compression
-    type: paradigm
-    id: semantic-compression
-    when: Use when code can be deleted without changing protected behavior
-  - name: Locality of Change
-    type: directive
-    id: DIRECTIVE_024
-    when: Removal must stay tied to proven dead weight
-  - name: Quality Gate Verification
-    type: tactic
-    id: quality-gate-verification
-    when: The deletion changes executable or public behavior surfaces

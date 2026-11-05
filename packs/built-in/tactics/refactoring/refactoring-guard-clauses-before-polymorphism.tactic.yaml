@@ -13,10 +13,5 @@ steps:
     description: Continue flattening nested conditionals until the main execution path is direct and readable.
   - title: Mark variation points
     description: Identify the remaining stable algorithm branches that are now suitable for polymorphic extraction.
-    references:
-      - name: Refactoring Conditional to Strategy
-        type: tactic
-        id: refactoring-conditional-to-strategy
-        when: Follow when the flattened variation points represent stable algorithm variants.
   - title: Verify behavior remains unchanged
     description: Run tests after each structural change and stop before combining the cleanup with the next refactoring step.
