@@ -8,10 +8,10 @@
       "criterion_id": "FR-001",
       "description": "The pack gate validates against a charter contract that includes strict composition (at or after charter `88ed36e4`), pinned to a specific commit.",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "scripts/ci/validate_pack_schemas.py:50 CHARTER_COMMIT 85c20fa, an ancestor check confirms it contains 88ed36e4; tests/ci 56 OK and validate-packs rc 0 at bd44674",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:32.890576+00:00",
       "notes": null
     },
     {
