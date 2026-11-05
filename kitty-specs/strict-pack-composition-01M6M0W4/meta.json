@@ -17,9 +17,8 @@
   "change_mode": "bulk_edit",
   "contracts": "none",
   "contracts_rationale": "The pack contract is owned by spec-kitty-charter contracts/packs; this mission defines no interface.",
-  "coordination_branch": "kitty/mission-strict-pack-composition-01M6M0W4",
   "created_at": "2026-11-04T19:34:16.767922+00:00",
-  "flattened": false,
+  "flattened": true,
   "friendly_name": "Strict pack composition",
   "merged_at": "2026-11-05T07:14:50.016438+00:00",
   "merged_commit": "8bc94dd60cf9fcc549523e873167b6f7b655e24d",
@@ -34,7 +33,6 @@
   "slug": "strict-pack-composition-01M6M0W4",
   "status_phase": "1",
   "target_branch": "feat/strict-pack-composition",
-  "topology": "coord",
   "vcs": "git",
   "vcs_locked_at": "2026-11-04T20:45:58.059098+00:00"
 }
