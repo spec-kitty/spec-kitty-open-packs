@@ -107,11 +107,11 @@
     {
       "criterion_id": "FR-011",
       "description": "The 24 references to `built-in` in `quality-assurance`'s agent profiles, which the service does not check today, are checked during the mission. They are either qualified, if that is corroborated as correct and in proportion, or logged in a follow-up issue with the reason.",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "proof_type": "code_review",
+      "evidence": "24 references checked and left bare with the reason: https://github.com/spec-kitty/spec-kitty-open-packs/issues/119; independent review reproduced compose passing with all 24 set to no-such-pack::",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:52.749848+00:00",
       "notes": null
     },
     {
