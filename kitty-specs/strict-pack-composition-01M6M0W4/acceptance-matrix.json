@@ -148,10 +148,10 @@
       "criterion_id": "FR-015",
       "description": "Documentation states the new reality: the contract pin, `depends_on` usage, and the digest wording that still says \"re-seed\". The changelog records the break with the as-is CLI.",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "changelog Breaking entry, ADR 2026-11-04-1, guides at bd44674; tests/docs 8 OK; re-seed wording remains only in the merge-queue ADR and contributing guide, about landing, not the digest",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:14:00.215540+00:00",
       "notes": null
     },
     {
