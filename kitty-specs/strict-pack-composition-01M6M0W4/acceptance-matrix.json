@@ -78,10 +78,10 @@
       "criterion_id": "FR-008",
       "description": "All 3 references from `quality-assurance` to `built-in` are qualified. (#117)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "WP04 review 843179b; independent re-scan at bd44674: 3 qualified, 0 bare foreign",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:46.897107+00:00",
       "notes": null
     },
     {
