@@ -48,10 +48,10 @@
       "criterion_id": "FR-005",
       "description": "`quality-assurance`, `event-driven`, `cave-kitty` and `internal` declare `depends_on` on `built-in` at range `>=1.0,<2`. (#47, #113, #116, #117)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "depends_on on built-in, range >=1.0,<2, read from four pack.yaml files at bd44674; negative controls in charter OpenPacksComposeTest",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:40.888822+00:00",
       "notes": null
     },
     {
