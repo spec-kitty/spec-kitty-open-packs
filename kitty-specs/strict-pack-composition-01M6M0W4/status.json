@@ -2,10 +2,9 @@
   "event_count": 64,
   "last_event_id": "01M6N8YTT7Y1JR8Q6BFTEE2Z4P",
   "materialized_at": "2026-11-05T07:14:48.263636+00:00",
-  "mission_number": "1",
+  "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
-  "mission_type": "software-dev",
-  "schema_version": 2,
+  "mission_type": "",
   "summary": {
     "approved": 0,
     "blocked": 0,
@@ -20,243 +19,122 @@
   "work_packages": {
     "WP01": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude",
       "force_count": 2,
       "implementer_of_record": "claude",
       "lane": "done",
       "last_event_id": "01M6N8YQ510J7N34GARW05YWY2",
       "last_transition_at": "2026-11-05T07:14:44.513817+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "Ready for review: gate understands qualified references and refuses the five composition defects; generator reads depends_on correctly",
-        "Ready for review, cycle 2: held judged as the charter does (held_artifacts), pending test split, surviving mutants killed, purpose wording fixed",
-        "Administrative rework to re-record identities, authorised by the operator. No defect.",
-        "Re-recording the implementer's full identity. No code change.",
-        "Re-recording the implementer's full identity. No code change.",
-        "No code change since cycle 2; identity re-record.",
-        "Cycle 2 review by reviewer-renata stands.",
-        "Approved on the cycle 2 review: tests/ci 58, docs 8, release 8, vocabulary 12; validate-packs and check-built-in pass; gate agrees with charter on 48 of 51 scenarios, the remaining three accepted."
-      ],
-      "provider": "__resolved_provider_absent__",
-      "review": null,
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP01-gate-understands-composition/review-cycle-3.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP01-gate-understands-composition/review-cycle-3.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
-      "shell_pid": null,
-      "shell_pid_created_at": null,
-      "subtasks": {
-        "T001": "done",
-        "T002": "done",
-        "T003": "done",
-        "T004": "done",
-        "T005": "done"
-      }
+      "shell_pid": 2872707,
+      "shell_pid_created_at": "1793826785.12"
     },
     "WP02": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "done",
       "last_event_id": "01M6N8YRD4G7J7ZM8HPV16GRD0",
       "last_transition_at": "2026-11-05T07:14:45.796691+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "Four descriptors with tool-minted ids (qa=quality-assurance, event-driven, cave-kitty, example-pack); cave-kitty depends_on built-in >=1.0,<2; PENDING_DESCRIPTORS and its test removed (operator-approved out-of-map); docs/packs regenerated for 3 packs. Gates: tests/ci 57 OK, tests/docs 8 OK, release 8 OK, vocabulary 12 OK, validate-packs and check-built-in OK; mutants (name removed, descriptor removed, duplicate id) fail.",
-        "Independent review of 7dee429 by reviewer-renata started",
-        "Reviewed 7dee429 against merge 8ec9cec. Gates: tests/ci 57 OK, tests/docs 8 OK, tests/release 8 OK, tests/vocabulary 12 OK; validate-packs rc=0 at charter 85c20fa (6 packs, 0 cross-pack violations); check-built-in rc=0; gen_pack_reference --check rc=0. Mutants on temp copies refused: each of 4 descriptors deleted, pack_id/name/pack_version removed, pack_level removed where depends_on is present, duplicate pack_id (3 pairs), duplicate name, invalid ULID, purpose field, hand-edited page. Unrefused and outside this WP: bad range, unknown dependency id, cave-kitty depends_on removed, unresolved active_charter/pack_drg, non-semver version. pack_ids valid, unique, minted after the WP claim, not the 01M6Z placeholders. Pointers resolve and comments are true. qa and event-driven depends_on belong to WP04 and WP05. PENDING_DESCRIPTORS removed with no dead code; missing-descriptor test remains. Page checksums recomputed independently. Real compose not run here (WP04). Reviewer slip: a mutation hit docs/packs/qa.md in the lane worktree by mistake, reverted uncommitted; HEAD unchanged and tree clean."
-      ],
-      "provider": "__resolved_provider_absent__",
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP02-pack-identity/review-cycle-1.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP02-pack-identity/review-cycle-1.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
       "shell_pid": 2962228,
-      "shell_pid_created_at": "1793835726.47",
-      "subtasks": {
-        "T006": "done",
-        "T007": "done",
-        "T008": "done"
-      }
+      "shell_pid_created_at": "1793835726.47"
     },
     "WP03": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "done",
       "last_event_id": "01M6N8YQSKCTV4Z2MGNDRTDTSD",
       "last_transition_at": "2026-11-05T07:14:45.171491+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "Six built-in sidecar paths now relative to assets/, with manifest, tree_digest 3bb5f106 and generated page in one commit (3a865e6); re-seed wording corrected (e6a83bc). Gates green; charter 85c20fa1 probe: built-in 318->324 artifacts, 0 violations, offering OK.",
-        "Independent review of WP03 started by reviewer-renata",
-        "Approved by independent review of 3a865e6 and e6a83bc against merge b42b3d2. Gates at e6a83bc: tests/ci 58, tests/docs 8, tests/release 8, tests/vocabulary 12 all OK; validate-packs, check-built-in, gen_pack_reference --check rc 0; also green at 3a865e6 and b42b3d2. Exactly six sidecars changed; pack_version 1.0.0. All 20 sidecars meet SidecarPayloads at charter 85c20fa1. content_hash (272), manifest_hash, tree_digest and page checksum recomputed independently and match. Atomicity: omitting manifest gives 6 stale, omitting digest fails check-built-in, omitting page fails drift. Service executed via RealComposeProbeTest at 85c20fa1: base PACK_UNREADABLE with 6 violations and 318 artifacts; lane 0 violations, 324 artifacts, OFFERING OK built-in(337). Sampled mentions are prose or the config file, none broken. For later: local gate blind to sidecar payloads (not in FR-003); core _anchor_for tracked in WP07."
-      ],
-      "provider": "__resolved_provider_absent__",
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP03-built-in-sidecars/review-cycle-1.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP03-built-in-sidecars/review-cycle-1.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
       "shell_pid": 2962542,
-      "shell_pid_created_at": "1793835730.84",
-      "subtasks": {
-        "T009": "done",
-        "T010": "done",
-        "T011": "done"
-      }
+      "shell_pid_created_at": "1793835730.84"
     },
     "WP04": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "done",
       "last_event_id": "01M6N8YS0EG54ABHEA1KKFFGBT",
       "last_transition_at": "2026-11-05T07:14:46.414524+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "T012 qa qualified 3/3 (scripted by offset), depends_on added, qa out of PENDING_PACKS (out-of-map scripts/ci/validate_pack_schemas.py). T013 FR-011: 24 profile references left bare, follow-up issue at close-out. T014 charter draft PR spec-kitty-charter#378 compose test 8/8 at pin 843179b; negative controls refused; cave-kitty depends_on guarded by served-edge assertion. T015 C-005: dispatch exit 0, next query exit 0, charter context exit 0, same as baseline; doctor charter-packs exit 1 also on baseline. T016 gates green.",
-        "Independent review of WP04 started: open-packs 843179b, charter PR 378",
-        "Approved. Gates at 843179b: tests/ci 57, docs 8, release 8, vocabulary 12 OK; validate-packs 0 violations; check-built-in ok; gen_pack_reference no drift; scan qa qualified 3, bare->other 0. Charter 359e9e64: OpenPacksComposeTest 8/8 on pinned checkout; spotless, lock verify ok. Mutants on a scratch clone of the pin (11, each red): bare edge 3/3 pack_reference_unqualified; depends_on removed pack_reference_pack_missing; unknown id pack_dependency_unknown; range banana pack_unreadable; cave depends_on removed goes red only on served edge. The 4+1 red tests go green with expectation-only edits (openPacksRoundTrip 51/51, wholePack 8/8). FR-011: leaving 24 bare is right; schema accepts no-such-pack::x, service composes it, core turns a qualified id into a catalog miss; follow-up issue still to file. C-005: next advancing issued implement and review steps on WP04 tree and on full migration with prompts byte-identical to baseline. Open: spec US1 scenario 4 is false for cave-kitty; accept/consolidate not exercised on migrated content."
-      ],
-      "provider": "__resolved_provider_absent__",
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP04-tracer-and-real-compose/review-cycle-1.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP04-tracer-and-real-compose/review-cycle-1.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
       "shell_pid": 2978513,
-      "shell_pid_created_at": "1793836572.78",
-      "subtasks": {
-        "T012": "done",
-        "T013": "done",
-        "T014": "done",
-        "T015": "done",
-        "T016": "done"
-      }
+      "shell_pid_created_at": "1793836572.78"
     },
     "WP05": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "done",
       "last_event_id": "01M6N8YSKTXK2P6MB3GCPA13TA",
       "last_transition_at": "2026-11-05T07:14:47.034226+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "12 event-driven references qualified (7 edges long form, 5 typed short form), depends_on built-in added, PENDING_PACKS reduced to internal, page regenerated. Scan 0 bare->other. Local charter compose (uncommitted extension in throwaway worktree, pin 2b99319) green: built-in, event-driven served with dependency edge.",
-        "Independent review started on lane-b 2b99319",
-        "Approved at 2b99319. 12 sites over 6 targets: 7 edges long form, 5 typed refs short form, each confirmed against the schema patterns at 85c20fa and each target held by built-in with matching kind. Independent scan: 0 bare foreign; scan.py event-driven 106 sites = 94 bare->own + 12 qualified, 0 bare->other. YAML diff is value-only; depends_on matches qa. PENDING_PACKS is {internal}. Gates green: tests/ci 57, docs 8, release 8, vocabulary 12, validate-packs, check-built-in, gen_pack_reference --check. Real compose at charter 359e9e64 + patch, pinned to 2b99319: OpenPacksComposeTest 9/9; served [built-in, event-driven] with edge >=1.0,<2 and [built-in, cave-kitty, event-driven, quality-assurance]. Mutants: 5 typed and 6 edge reverts each PACK_REFERENCE_UNQUALIFIED; depends_on removed PACK_REFERENCE_PACK_MISSING; pre-WP05 pack refused; validate-packs also refuses the reverts tried. Bare id no pack holds is served, per data-model."
-      ],
-      "provider": "__resolved_provider_absent__",
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP05-migrate-event-driven/review-cycle-1.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP05-migrate-event-driven/review-cycle-1.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
       "shell_pid": 3019581,
-      "shell_pid_created_at": "1793838714.48",
-      "subtasks": {
-        "T017": "done",
-        "T018": "done",
-        "T019": "done"
-      }
+      "shell_pid_created_at": "1793838714.48"
     },
     "WP06": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "done",
       "last_event_id": "01M6N8YT7PGGEK5XN5G4HYMVTS",
       "last_transition_at": "2026-11-05T07:14:47.670054+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "78 references qualified (57 edges including 5 agent_profile, 19 procedure, 2 tactic), depends_on declared, PENDING_PACKS empty, #47 glossary rename done. scan 0 bare->other; all five packs compose; C-005 next and dispatch exit 0. Governance consequence accepted (C-001): the as-is CLI's org layer stops merging once this content reaches a checkout. Charter corpus test GlossaryPackAndSkillCorpusTest:63 hardcodes the old glossary file name and needs WP07's attention.",
-        "Independent review of 6203de4 started by reviewer-renata",
-        "Independent review of 6203de4: approved. Own census over 1552 YAML scalars: exactly 78 changed (57 edges incl. 5 agent_profile, 19 procedure, 2 tactic) over 31 targets, all held by built-in with right kind, 57/57 and 21/21 match the schema patterns at pin 85c20fa1; 0 residual bare scalars; 155 own and 13 prose untouched; byte-identical modulo prefix. Rename preserved by git (R99, log --follow), id unchanged, no stale hits, no internal manifest. Compose 10/10 on charter 359e9e64 + patch against clean clone at 6203de4; mutants: agent_profile, edge, procedure ref, tactic ref -> PACK_REFERENCE_UNQUALIFIED, no depends_on -> PACK_REFERENCE_PACK_MISSING. Round trip 5/53 red: GlossaryPackAndSkillCorpusTest expectation plus known four, confirmed by parent control and by fixing the literal (4/53). Gates green: ci 57, docs 8, release 8, vocabulary 12, validate-packs, check-built-in, gen_pack_reference --check, scan 0 bare->other. C-001 reproduced in isolated replicas, real state unchanged: org_layer.packs [] with an explicit error, status exit 0, context byte-identical; full next/implement/review/accept/consolidate loop passes with migrated root. Not WP06 defects, for WP07: patch fails spotlessCheck (one line wrap), untracked review-feedback-1.md in coord blocks default consolidate (MERGE_UNSAFE_WORKTREE_DIRTY), accept needs src/ convention and matrix handled."
-      ],
-      "provider": "__resolved_provider_absent__",
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP06-migrate-internal/review-cycle-1.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP06-migrate-internal/review-cycle-1.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
       "shell_pid": 3032518,
-      "shell_pid_created_at": "1793839554.42",
-      "subtasks": {
-        "T020": "done",
-        "T021": "done",
-        "T022": "done",
-        "T023": "done"
-      }
+      "shell_pid_created_at": "1793839554.42"
     },
     "WP07": {
       "actor": "merge",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude:claude-opus-5-5:implementer-ivan",
       "force_count": 1,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "done",
       "last_event_id": "01M6N8YTT7Y1JR8Q6BFTEE2Z4P",
       "last_transition_at": "2026-11-05T07:14:48.263636+00:00",
-      "model": "__resolved_model_absent__",
-      "notes": [
-        "Close-out done locally and on the charter draft (PR 378 at da172296, pin ca5df04). Three issues NOT filed: creating them was denied in this environment; drafts handed to the operator. Re-pointing the pin at final main remains the operator-triggered last step of FR-014.",
-        "Independent review of WP07 close-out started; verdict reported to orchestrator, not recorded until issues resolved.",
-        "Rework done. Follow-up issues filed with operator authorisation: spec-kitty/spec-kitty#7193, open-packs#119, #120. Charter draft #378 re-pins at the final lane head.",
-        "Independent re-review (cycle 2) of bd44674 and charter 297b8b1 by reviewer-renata",
-        "Independent review of bd44674 and charter 297b8b1: approved, no blockers. H1, M1, M2, M3, L1, L4 fixed. Gates: ci 56, docs 8, release 8, vocabulary 12, validate-packs, check-built-in, gen --check; SC-003 scan 0 bare foreign (93 qualified); SC-005 planted ref and removed pack.yaml rc 1. Charter: round trip 54/54 incl. compose 11, whole-pack 8/8, CI gate pass, preflight PASSED at 297b8b1 unsynced and synced. FR-016 and FR-011 met: #7193, #119, #120 checked. H4 ruling recorded. Pre-review gate no_coverage counted for nothing. Open by design: FR-014 and US3 until merge and the operator's re-point. Before #378 leaves draft: collapse the intermediate pin commits. L2 (inventory lists 91 of 93 sites) remains a small NFR-003 shortfall."
-      ],
-      "provider": "__resolved_provider_absent__",
-      "review": null,
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP07-close-out/review-cycle-2.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP07-close-out/review-cycle-2.md",
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "approved"
       },
-      "role": "reviewer",
-      "shell_pid": null,
-      "shell_pid_created_at": null,
-      "subtasks": {
-        "T024": "done",
-        "T025": "done",
-        "T026": "done",
-        "T027": "done",
-        "T028": "done"
-      }
+      "shell_pid": 3146208,
+      "shell_pid_created_at": "1793845222.52"
     }
   }
 }
