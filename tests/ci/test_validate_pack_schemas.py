@@ -11,7 +11,6 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "ci"))
 
@@ -48,6 +47,7 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
     "**/*.tactic.yaml": "tactic",
     "*/pack.yaml": "pack-descriptor",
     "*/pack.md": "pack-doc",  # the one markdown rule
+    "**/*.asset.yaml": "asset",
 }
 
 
@@ -66,7 +66,7 @@ class ValidatorExitCodes(unittest.TestCase):
             for glob, name in RULES.items()
         )
         (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}", encoding="utf-8")
-        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA}
+        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA, "asset": OPEN_SCHEMA}
         for name, schema in schemas.items():
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
 
@@ -145,6 +145,22 @@ class ValidatorExitCodes(unittest.TestCase):
         if pack.name != name:
             pack = pack.rename(root / name)
         return pack
+
+    def test_an_asset_sidecar_names_a_payload_the_pack_holds_under_assets(self) -> None:
+        payloads = 'payloads:\n  - match: "*/assets/**/*"\n    kind: asset-payload\n    content_form: bytes\n'
+        held = {"assets/kept/held.txt": "x\n", "assets/t.tactic.yaml": "id: t2\n", "beside.txt": "x\n"}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, payloads)
+            good = self.write_pack(root, {**held, "assets/kept/held.txt.asset.yaml": "path: kept/held.txt\n"})
+            code, output = self.run_validator(root, str(good))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            for named in ("assets/kept/held.txt", "held.txt", "gone.txt", "kept", "../beside.txt", "t.tactic.yaml"):
+                with self.subTest(named):
+                    (good / "assets" / "kept" / "held.txt.asset.yaml").write_text(f"path: {named}\n", encoding="utf-8")
+                    code, output = self.run_validator(root, str(good))
+                    self.assertEqual(code, validator.EXIT_INVALID, output)
+                    self.assertIn(f"pack/assets/kept/held.txt.asset.yaml: payload assets/{named} does not exist", output)
 
     def test_content_hash_reads_crlf_and_lone_cr_as_lf(self) -> None:
         def sha(data: bytes) -> str:
@@ -572,16 +588,13 @@ class CompositionChecks(unittest.TestCase):
                 self.assertEqual(self.found(built_in, self.consumer(self.edge(f"built-in::{urn}"))), "")
                 self.assertIn(f"bare reference '{urn}'", self.found(built_in, self.consumer(self.edge(urn))))
 
-    def test_the_real_built_in_pack_is_judged_as_the_charter_judges_it(self) -> None:
-        built_in = Path(__file__).resolve().parents[2] / "packs" / "built-in"
-        shard = "edges:\n- {source: 'tactic:own', target: 'template:writing/meeting-minutes.md', relation: requires}\n"
-        accepted = self.consumer("[{source: 'tactic:own', target: 'template:agent-brief-template'},"
-                                 " {source: 'tactic:own', target: 'built-in::template:writing/meeting-minutes.md'}]")
-        self.assertEqual(self.found(built_in, accepted), "")
-        refused = self.found(built_in, self.consumer(self.edge("built-in::template:agent-brief-template"),
-                                                     files={"tactic.graph.yaml": shard}))
-        self.assertIn("reference 'built-in::template:agent-brief-template': built-in does not hold", refused)
-        self.assertIn("consumer/tactic.graph.yaml: bare reference 'template:writing/meeting-minutes.md' is held only by built-in", refused)
+    def test_a_template_directory_holds_only_what_the_contract_classifies_as_a_payload(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {"templates/filed.tactic.yaml": "id: filed\n", "templates/held.md": "# t\n"})
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::tactic:filed"))), "")
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::template:held.md"))), "")
+        found = self.found(built_in, self.consumer(self.edge("built-in::template:filed.tactic.yaml")))
+        self.assertIn("built-in does not hold 'template:filed.tactic.yaml'", found)
 
     def test_a_pack_may_qualify_a_reference_with_its_own_name(self) -> None:
         built_in = self.built_in()
@@ -589,23 +602,6 @@ class CompositionChecks(unittest.TestCase):
         self.assertEqual(self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:own'}]", files=files)), "")
         found = self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:gone'}]", files=files))
         self.assertIn("reference 'consumer::tactic:gone': consumer does not hold 'tactic:gone'", found)
-
-    def test_a_qualified_guard_or_lifecycle_needs_the_closure_but_no_held_artifact(self) -> None:
-        built_in = self.built_in()
-        path = "tactics/t.tactic.yaml"
-        typed = "id: t\nreferences:\n  - {type: %s, id: '%s'}\n"
-        self.assertIn("built-in does not hold 'tactic:x'", self.found(built_in, self.consumer(files={path: typed % ("tactic", "built-in::x")})))
-        for kind in ("guard", "lifecycle"):
-            with self.subTest(kind):
-                self.assertEqual(self.found(built_in, self.consumer(files={path: typed % (kind, "built-in::x")})), "")
-                self.assertIn("outside this pack's depends_on closure", self.found(built_in, self.consumer(files={path: typed % (kind, "nowhere::x")})))
-
-    def test_a_pending_pack_may_keep_its_bare_references_until_migrated(self) -> None:
-        built_in = self.built_in()
-        pending = self.consumer(self.edge("tactic:held"), directory="pending")
-        self.assertIn("bare reference 'tactic:held'", self.found(built_in, pending))
-        with mock.patch.object(validator, "PENDING_PACKS", frozenset({"pending"})):
-            self.assertEqual(self.found(built_in, pending), "")
 
 
 if __name__ == "__main__":

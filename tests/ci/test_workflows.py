@@ -243,12 +243,13 @@ class RequiredCheckAlwaysReports(unittest.TestCase):
         needs = [needs] if isinstance(needs, str) else needs
         for label, github in RUNNING_EVENTS.items():
             with self.subTest(event=label):
-                ran = [step for job_id in needs
-                       if gh_expr.evaluate_if(self.workflow["jobs"][job_id].get("if"), contexts(github))
-                       for step in self.workflow["jobs"][job_id].get("steps", [])
-                       if "gen_pack_reference.py --check" in str(step.get("run", "")).split("#")[0]
-                       and gh_expr.evaluate_if(step.get("if"), contexts(github))]
-                self.assertTrue(ran, "no drift check runs under the required check")
+                for command in ("gen_pack_reference.py --check", "discover -s tests/docs"):
+                    ran = [step for job_id in needs
+                           if gh_expr.evaluate_if(self.workflow["jobs"][job_id].get("if"), contexts(github))
+                           for step in self.workflow["jobs"][job_id].get("steps", [])
+                           if command in str(step.get("run", "")).split("#")[0]
+                           and gh_expr.evaluate_if(step.get("if"), contexts(github))]
+                    self.assertTrue(ran, f"{command!r} does not run under the required check")
 
 
 class GateVerdict(unittest.TestCase):

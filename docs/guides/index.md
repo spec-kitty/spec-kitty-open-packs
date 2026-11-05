@@ -2,7 +2,7 @@
 title: Guides
 description: Usage and authoring how-to guides for Spec Kitty open Charter Packs — consuming a pack, composing packs, and authoring, validating, and publishing your own.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-11-05'
 related:
 - packs/catalog-proposal
 - guides/getting-started
@@ -27,7 +27,8 @@ For teams who want to *consume* packs in their own Spec Kitty projects.
 - [Use a Charter Pack](use-a-charter-pack.md) — register a pack under `charter_packs`, fetch
   it, activate a preset, and confirm it participates in context resolution.
 - [Compose packs](compose-packs.md) — vertical (built-in → org → project) and horizontal
-  (independent packs + compound `depends_on` packs) composition, and how conflicts resolve.
+  (independent packs + compound `depends_on` packs) composition, the two forms of a cross-pack
+  reference, and how conflicts resolve.
 
 ## Authoring packs
 

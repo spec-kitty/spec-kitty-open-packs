@@ -2,7 +2,7 @@
 title: Compose packs
 description: How Spec Kitty 4.x composes Charter Packs vertically (built-in, org, project) and horizontally (independent packs and compound depends_on packs), and how conflicts resolve.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-11-05'
 related:
 - guides/use-a-charter-pack
 - packs/catalog-proposal
@@ -12,9 +12,10 @@ related:
 Spec Kitty composes charter artefacts along two axes. Understanding both is the key to keeping a
 project's context lean while still pulling in exactly the governance you want.
 
-> **🚧 WIP.** Horizontal composition via compound `depends_on` packs is being established by
-> the keystone [core #2467](https://github.com/spec-kitty/spec-kitty/issues/2467). The
-> semantics below describe the intended model and will track that work as it lands.
+> **🚧 WIP.** The packs here follow the charter service's strict composition rules, and the as-is
+> CLI rejects `depends_on` ([ADR 2026-11-04-1](../architecture/adr/2026-11-04-1-strict-pack-composition-and-the-end-of-cli-compatibility.md)).
+> The tag `pre-charter-cutover` marks the last commit that was semi-compatible with it. The command
+> wording on this page still describes the core-era CLI.
 
 ## Vertical composition (today)
 
@@ -56,22 +57,54 @@ earlier one, and `doctor charter-packs` only reports it (this repository's CI fa
 
 ### 2. Compound packs (`depends_on`)
 
-A pack may declare that it **depends on** other packs. Spec Kitty resolves the dependency
-graph (a DAG, with cycle detection) before loading, so a compound pack can bundle a coherent
-stack without the consumer having to enumerate every constituent pack.
+A pack may declare that it **depends on** other packs, which it then may reference by name. This
+is `packs/qa/pack.yaml`:
 
 ```yaml
-# Illustrative only: no pack file carries depends_on yet (core #2467).
-pack_id: java-ddd-stack
-version: 0.1.0
+pack_id: 01M6MF4FV4AMQF4RC8CY6JNESX
+pack_version: 1.0.0
+parent_pack: null
+name: quality-assurance
+pack_level: org
+active_charter: org-charter.yaml
+pack_drg: drg/fragment.yaml
 depends_on:
-  - core-engineering
-  - domain-driven-design
-  - java-development
-  - test-and-bdd
+  - pack_id: 01ARWG13C000000000000000FG
+    range: ">=1.0,<2"
 ```
 
-Consumers configure only `java-ddd-stack`; the four dependencies resolve transitively.
+`depends_on` names a pack by its `pack_id`, not its name, and takes a version range. `pack_level` is
+required beside it. The dependency must be configured too: the service does not fetch it, and refuses
+a `depends_on` that no configured pack answers.
+
+Here, every org pack depends on `built-in` and nothing else.
+
+#### Referencing another pack's artifact
+
+A reference to an artifact another pack holds names that pack. The name is the `name` in its
+`pack.yaml`, never its directory, so `packs/qa` answers to `quality-assurance`. There are two forms,
+and which one applies depends on where the reference is written:
+
+| Where | Form | Example |
+| --- | --- | --- |
+| An end of a graph edge | `<pack>::<kind>:<id>` | `built-in::tactic:bdd-scenario-formulation` |
+| The `id` of a typed reference | `<pack>::<id>` | `built-in::domain-event-capture` |
+
+```yaml
+# An edge in packs/qa/drg/fragment.yaml: the end carries its kind.
+- source: procedure:qa-description-to-acceptance-ci
+  target: built-in::tactic:bdd-scenario-formulation
+  relation: suggests
+
+# A typed reference in an event-driven directive: `type` already says the kind.
+references:
+  - type: tactic
+    id: built-in::domain-event-capture
+```
+
+A reference to your own pack's artifact stays bare. The qualified pack must be in your pack's
+`depends_on` closure and must hold the artifact. The charter service refuses anything else, and
+[this repository's gate](validate-a-pack.md) says so first.
 
 ## Conflict resolution
 

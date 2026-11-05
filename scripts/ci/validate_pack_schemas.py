@@ -610,6 +610,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
     manifest: dict[str, Any] | None = None
+    payloads: set[str] = set()
+    sidecars: list[tuple[str, str]] = []
     for path in sorted(pack_dir.rglob("*")):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
@@ -624,6 +626,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         if kind == "retired" and rule is not None:
             report.violations.append(f"{relative}: retired layout: {rule.reason}")
             continue
+        if kind == "payload" and inside.startswith("assets/"):
+            payloads.add(inside.removeprefix("assets/"))
         if kind != "file" or rule is None:
             tokens = path.name.rsplit(".", 2)
             if kind == "unclassified" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
@@ -656,15 +660,19 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             report.violations.append(f"{relative}: {rule.schema} schema at {where}: {_short(error.message)}")
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
+        if rule.schema == "asset" and isinstance(document, dict) and isinstance(document.get("path"), str):
+            sidecars.append((relative, document["path"]))
         # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
         if rule.schema == "preset" and isinstance(document, dict) and "id" in document and document["id"] != path.stem:
             report.violations.append(f"{relative}: preset id {document['id']!r} is not its file stem {path.stem!r}")
-    # Not every pack ships a descriptor (qa, cave-kitty, event-driven and the fixtures do not), but a
-    # pack with pack-level files (pack.md, a manifest) is a whole pack and needs one.
+    # A pack with pack-level files (pack.md, a manifest) needs its descriptor even when judged alone.
+    # A pack with no descriptor at all is refused when the packs are checked together.
     if not (pack_dir / "pack.yaml").is_file() and any((pack_dir / n).is_file() for n in ("pack.md", MANIFEST_NAME)):
         report.violations.append(
             f"{pack_dir.name}/pack.yaml: missing: a pack with a pack.md or a {MANIFEST_NAME} needs its descriptor"
         )
+    # The charter's SidecarPayloads rule: a sidecar names, exactly, an asset payload the pack holds.
+    report.violations += [f"{file}: payload assets/{named} does not exist" for file, named in sidecars if named not in payloads]
     if manifest is not None:
         for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
             remedy = (
@@ -732,11 +740,10 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
     return found
 
 
-#: Directories of packs not yet migrated to strict composition: the reference checks skip them. This
-#: list only shrinks, each migration removes its pack, and it is deleted by the end of the mission.
-PENDING_PACKS = frozenset()
-#: Node kinds the charter holds nowhere: it never judges whether a qualified target of these exists.
-UNHELD_KINDS = frozenset({"action", "guard", "lifecycle"})
+#: Node kinds with no artifact behind them: the charter never judges whether a qualified target of
+#: these exists. It skips guard and lifecycle too, but graph documents do not admit them yet and no
+#: pack writes one, so they are not listed until one does.
+UNHELD_KINDS = frozenset({"action"})
 #: Schemas whose files write typed references (``{type, id}``) in ``references``; those in
 #: ``STEPPED_SCHEMAS`` also write them in each step's ``references``. Bare id lists mean one kind.
 TYPED_REFERENCE_SCHEMAS = frozenset({"directive", "paradigm", "tactic", "procedure", "mission-type"})
@@ -846,8 +853,6 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
             if len(files) > 1
         ]
     for pack in pack_dirs:
-        if pack.name in PENDING_PACKS:
-            continue
         closure = _depends_on_closure(pack, descriptors, index["pack_id"])
         for file, qualifier, urn in written_references(pack, contract):
             kind, _, node_id = urn.partition(":")

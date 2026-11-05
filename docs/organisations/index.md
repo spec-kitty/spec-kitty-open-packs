@@ -2,7 +2,7 @@
 title: Organisations
 description: "How organisations govern many projects with Charter Packs: tiers, the org charter, and the standard provisionings that ship."
 doc_status: draft
-updated: '2026-10-18'
+updated: '2026-11-05'
 related:
 - architecture/overview
 - contracts
@@ -94,7 +94,8 @@ spec-kitty charter pack list        # packs in the offering and the presets each
 
 ## Planned
 
-- **Compound packs** — packs that declare `depends_on` other packs, resolved as a DAG (core
-  [#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)).
+- **Compound packs in the CLI** — the charter service reads `depends_on` today, and the as-is CLI
+  rejects it (core [#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)). See
+  [Compose packs](../guides/compose-packs.md).
 - **Pack trust and verified distribution** (core
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539)).

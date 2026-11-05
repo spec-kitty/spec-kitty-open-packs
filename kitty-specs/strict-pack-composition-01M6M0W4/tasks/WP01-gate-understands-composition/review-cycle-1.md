@@ -38,7 +38,7 @@ Why this matters:
 - **FR-003**: a qualified target the named pack does not hold must fail. It passes for those 37 real ids.
 - **FR-002**: a correct qualified reference must pass. `built-in::template:writing/meeting-minutes.md` fails.
 - **Spec edge case and `data-model.md`**: a bare reference no pack holds is not refused. It is refused for node-only ids.
-- **User Story 2**: rows 1 and 3 chain together. A bare reference the service accepts fails here, the message says to qualify it, the qualified form passes here, and the service then refuses it. `built-in` itself uses those 16 template ids bare (39 sites), so they look safe to copy.
+- **User Story 2**: rows 1 and 3 chain together. A bare reference the service accepts fails here, the message says to qualify it, the qualified form passes here, and the service then refuses it. `built-in` itself uses those 16 template ids bare (39 sites; corrected 2026-11-05 at close-out: 41, re-counted with `written_references`), so they look safe to copy.
 
 Nothing in the 93 migration sites hits this today, so the migration is not at risk. The risk is every reference written after it.
 
