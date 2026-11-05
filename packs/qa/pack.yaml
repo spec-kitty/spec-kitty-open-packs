@@ -14,3 +14,7 @@ name: quality-assurance
 pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
+# The DRG fragment targets built-in's BDD tactic, styleguide and toolguide.
+depends_on:
+  - pack_id: 01ARWG13C000000000000000FG
+    range: ">=1.0,<2"
