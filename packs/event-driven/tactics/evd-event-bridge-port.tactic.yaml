@@ -63,5 +63,5 @@ references:
     when: when writing the subscribers that perform effects
   - name: Reference Architectural Patterns Selection
     type: tactic
-    id: reference-architectural-patterns
+    id: built-in::reference-architectural-patterns
     when: when deciding whether ports-and-adapters fits the system at all

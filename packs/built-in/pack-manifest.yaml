@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: e2c60da746ba997be5b9cce8856fd1ee1408fab4f47ddc449453ad15ce20135c
+manifest_hash: 1223ea0d007995a4d05bc2163707ae064c18f28ba5d5a519683c14608bd0b77c
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -108,27 +108,27 @@ constituents:
 - kind: asset
   id: common-docs-structural-lint
   path: assets/docs_structural_lint.py.asset.yaml
-  content_hash: c2aa1c3cb8f04af8d1c9eb54b7d7fd5e6c9812041da19f196481bad1d8a3ad6c
+  content_hash: 4e296b6339ccf94528331048fa4e73698e4eb4a30b7eb9cb149f8119d28e323c
 - kind: asset
   id: writing-audience-agentic-framework-core-team
   path: assets/audiences/agentic-framework-core-team.md.asset.yaml
-  content_hash: 31ad0b9ab2ba449fa2fd9d97a412257de874da2728ff36dd1cd272b9c58556df
+  content_hash: adee0d2ff4a8977a47a9b351325f9f26b13eea988866658b8f1c2c317c90dc08
 - kind: asset
   id: writing-audience-automation-agent
   path: assets/audiences/automation_agent.md.asset.yaml
-  content_hash: 4f0d4e190e9bf3ee3ee0d9d40b3c53618b37858b091669ddbf05b6b3facd69e4
+  content_hash: bcf2778df5ee0697b4af4e5382d95f5c31fc7021571d9edd9cda0e6ade923716
 - kind: asset
   id: writing-audience-line-manager
   path: assets/audiences/line_manager.md.asset.yaml
-  content_hash: 543193dc9303c502f25d577f20178066895cf39137f55f979bc205a4032fc8fe
+  content_hash: 29b263033375b4cd71dc1db79ae4420890dc435cea1730fcb64d88d793f96429
 - kind: asset
   id: writing-audience-nontech-educator
   path: assets/audiences/nontech_educator.md.asset.yaml
-  content_hash: f6b3bbf229ac6e8b150269b5c227afc8fd843538bf46837c2bfd98885d9ffe28
+  content_hash: 3dab2aad97d5e94684323a8f5da563b73a67c92160d275aaac0a33e3ab81504c
 - kind: asset
   id: writing-audience-software-engineer
   path: assets/audiences/software_engineer.md.asset.yaml
-  content_hash: e743b9c5b06f9a6e16a6fea45d66bee41541643e2a91f6e083c94260c30498c2
+  content_hash: 43bff173e04f682ec21b842458947f3bf0b2a43709cb876bdb7da1a9abcd8166
 - kind: directive
   id: ACTION_ITEM_ATTRIBUTION
   path: directives/action-item-attribution.directive.yaml

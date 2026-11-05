@@ -12,7 +12,10 @@
 #      validator that silently passes everything turns this job red.
 #
 #   3. Cross-pack (--cross-pack, all packs together): a preset naming an id no pack declares, a DRG
-#      fragment edge endpoint that resolves to no node, and one id declared by two packs.
+#      fragment edge endpoint that resolves to no node, one id declared by two packs, and the
+#      composition rules: a pack with no descriptor, a shared pack_id or name, a bare reference held
+#      only by another pack, a qualifier outside the pack's depends_on closure, and a qualified target
+#      the named pack does not hold. The charter service stays the authority on composition.
 #
 # The validator fails closed (exit 2) on an unloadable schema, a known-kind file with no schema
 # mapping, or a pack with zero files checked.

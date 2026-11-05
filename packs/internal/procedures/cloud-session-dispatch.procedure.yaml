@@ -65,16 +65,16 @@ anti_patterns:
     Reporting a runner's outcome before reading it back from the session.
 references:
 - type: directive
-  id: DIRECTIVE_025
+  id: built-in::DIRECTIVE_025
   reason: Tidy-first / enabler sequencing for structural dispatches.
 - type: directive
-  id: RECONCILE_CHANGE_SCOPE_TENSIONS
+  id: built-in::RECONCILE_CHANGE_SCOPE_TENSIONS
   reason: The tidy-first carve-out that separates the preparatory step from the functional change.
 - type: procedure
-  id: refactoring
+  id: built-in::refactoring
   reason: Behaviour-preserving refactoring workflow for tidy-first runs.
 - type: procedure
-  id: test-first-bug-fixing
+  id: built-in::test-first-bug-fixing
   reason: Red-first workflow for bugfix dispatches.
 - type: procedure
   id: test-suite-quality-assessment
