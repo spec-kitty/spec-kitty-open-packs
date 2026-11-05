@@ -1,6 +1,6 @@
 ---
 title: 'ADR: Strict pack composition and the end of as-is CLI compatibility'
-description: Decision that every pack follows the charter service's strict composition rules, and that the packs stop being compatible with the as-is Spec Kitty CLI after the tag pre-charter-cutover.
+description: Every pack follows the charter service's strict composition rules, and the packs stop working with the as-is Spec Kitty CLI after the tag pre-charter-cutover.
 doc_status: active
 updated: '2026-11-05'
 related:
