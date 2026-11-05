@@ -118,10 +118,10 @@
       "criterion_id": "FR-012",
       "description": "The generated pack reference reads `depends_on` correctly and publishes it accurately, and no longer describes a `pack.yaml` field the schema forbids.",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "docs/packs/*.md publish Depends on, e.g. internal.md:31; gen_pack_reference --check no drift at bd44674",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:54.744557+00:00",
       "notes": null
     },
     {
