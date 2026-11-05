@@ -68,10 +68,10 @@
       "criterion_id": "FR-007",
       "description": "The six built-in asset sidecars name their payload relative to `assets/`, and the manifest, recorded digest and generated page are updated in the same change. (#75)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "six sidecars relative to assets/ at bd44674, read back; check-built-in digest OK; charter wholePackRoundTrip 8/8; commits 3a865e6, e6a83bc",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:44.905183+00:00",
       "notes": null
     },
     {
