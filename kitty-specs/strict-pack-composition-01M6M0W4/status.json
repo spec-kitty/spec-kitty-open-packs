@@ -167,6 +167,9 @@
       "last_event_id": "01M6MJ3CX7QG81RKAGR42GBCXE",
       "last_transition_at": "2026-11-05T00:35:20.615244+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "12 event-driven references qualified (7 edges long form, 5 typed short form), depends_on built-in added, PENDING_PACKS reduced to internal, page regenerated. Scan 0 bare->other. Local charter compose (uncommitted extension in throwaway worktree, pin 2b99319) green: built-in, event-driven served with dependency edge."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 3019581,
