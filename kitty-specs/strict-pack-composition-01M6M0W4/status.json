@@ -1,7 +1,7 @@
 {
-  "event_count": 40,
-  "last_event_id": "01M6MJ3CX7QG81RKAGR42GBCXE",
-  "materialized_at": "2026-11-05T00:35:20.615244+00:00",
+  "event_count": 41,
+  "last_event_id": "01M6MJ52QPB0P6PHTBK3Q7THQA",
+  "materialized_at": "2026-11-05T00:36:15.734583+00:00",
   "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 2
   },
   "work_packages": {
@@ -163,15 +163,15 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M6MJ3CX7QG81RKAGR42GBCXE",
-      "last_transition_at": "2026-11-05T00:35:20.615244+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M6MJ52QPB0P6PHTBK3Q7THQA",
+      "last_transition_at": "2026-11-05T00:36:15.734583+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "12 event-driven references qualified (7 edges long form, 5 typed short form), depends_on built-in added, PENDING_PACKS reduced to internal, page regenerated. Scan 0 bare->other. Local charter compose (uncommitted extension in throwaway worktree, pin 2b99319) green: built-in, event-driven served with dependency edge."
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
+      "role": "reviewer",
       "shell_pid": 3019581,
       "shell_pid_created_at": "1793838714.48",
       "subtasks": {
