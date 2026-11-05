@@ -1,7 +1,7 @@
 {
-  "event_count": 52,
-  "last_event_id": "01M6MR1ZHTTTPAT4YEX2B07BNB",
-  "materialized_at": "2026-11-05T02:19:25.626730+00:00",
+  "event_count": 54,
+  "last_event_id": "01M6MR3S7PHGR1QNNDKTTPKCHF",
+  "materialized_at": "2026-11-05T02:20:24.688783+00:00",
   "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 1
+    "planned": 0
   },
   "work_packages": {
     "WP01": {
@@ -228,9 +228,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
-      "lane": "planned",
-      "last_event_id": "01M6MR1ZHTTTPAT4YEX2B07BNB",
-      "last_transition_at": "2026-11-05T02:19:25.626730+00:00",
+      "lane": "in_progress",
+      "last_event_id": "01M6MR3S7PHGR1QNNDKTTPKCHF",
+      "last_transition_at": "2026-11-05T02:20:24.688783+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Close-out done locally and on the charter draft (PR 378 at da172296, pin ca5df04). Three issues NOT filed: creating them was denied in this environment; drafts handed to the operator. Re-pointing the pin at final main remains the operator-triggered last step of FR-014.",
@@ -244,7 +244,7 @@
         "reviewer": "claude:claude-opus-5-5:reviewer-renata",
         "verdict": "changes_requested"
       },
-      "role": "reviewer",
+      "role": "implementer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
