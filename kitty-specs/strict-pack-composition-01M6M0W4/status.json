@@ -1,13 +1,13 @@
 {
-  "event_count": 34,
-  "last_event_id": "01M6MFVW8ZWJ7T0RE0Y837Y9EB",
-  "materialized_at": "2026-11-04T23:56:17.049805+00:00",
+  "event_count": 39,
+  "last_event_id": "01M6MHX5QSHJKAWHEG2704ZFPV",
+  "materialized_at": "2026-11-05T00:31:56.660282+00:00",
   "mission_number": "",
   "mission_slug": "strict-pack-composition-01M6M0W4",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 3,
+    "approved": 4,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
@@ -15,7 +15,7 @@
     "for_review": 0,
     "in_progress": 1,
     "in_review": 0,
-    "planned": 3
+    "planned": 2
   },
   "work_packages": {
     "WP01": {
@@ -124,26 +124,53 @@
     },
     "WP04": {
       "actor": "claude",
+      "agent": "claude:claude-opus-5-5:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
+      "lane": "approved",
+      "last_event_id": "01M6MHTSH86Q85GNZCV4CPM6WS",
+      "last_transition_at": "2026-11-05T00:30:38.632707+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "T012 qa qualified 3/3 (scripted by offset), depends_on added, qa out of PENDING_PACKS (out-of-map scripts/ci/validate_pack_schemas.py). T013 FR-011: 24 profile references left bare, follow-up issue at close-out. T014 charter draft PR spec-kitty-charter#378 compose test 8/8 at pin 843179b; negative controls refused; cave-kitty depends_on guarded by served-edge assertion. T015 C-005: dispatch exit 0, next query exit 0, charter context exit 0, same as baseline; doctor charter-packs exit 1 also on baseline. T016 gates green.",
+        "Independent review of WP04 started: open-packs 843179b, charter PR 378",
+        "Approved. Gates at 843179b: tests/ci 57, docs 8, release 8, vocabulary 12 OK; validate-packs 0 violations; check-built-in ok; gen_pack_reference no drift; scan qa qualified 3, bare->other 0. Charter 359e9e64: OpenPacksComposeTest 8/8 on pinned checkout; spotless, lock verify ok. Mutants on a scratch clone of the pin (11, each red): bare edge 3/3 pack_reference_unqualified; depends_on removed pack_reference_pack_missing; unknown id pack_dependency_unknown; range banana pack_unreadable; cave depends_on removed goes red only on served edge. The 4+1 red tests go green with expectation-only edits (openPacksRoundTrip 51/51, wholePack 8/8). FR-011: leaving 24 bare is right; schema accepts no-such-pack::x, service composes it, core turns a qualified id into a catalog miss; follow-up issue still to file. C-005: next advancing issued implement and review steps on WP04 tree and on full migration with prompts byte-identical to baseline. Open: spec US1 scenario 4 is false for cave-kitty; accept/consolidate not exercised on migrated content."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP04-tracer-and-real-compose/review-cycle-1.md",
+        "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP04-tracer-and-real-compose/review-cycle-1.md",
+        "reviewer": "claude:claude-opus-5-5:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2978513,
+      "shell_pid_created_at": "1793836572.78",
+      "subtasks": {
+        "T012": "done",
+        "T013": "done",
+        "T014": "done",
+        "T015": "done",
+        "T016": "done"
+      }
+    },
+    "WP05": {
+      "actor": "claude",
       "agent": "claude:claude-opus-5-5:implementer-ivan",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude:claude-opus-5-5:implementer-ivan",
       "lane": "in_progress",
-      "last_event_id": "01M6MFVW8ZWJ7T0RE0Y837Y9EB",
-      "last_transition_at": "2026-11-04T23:56:17.049805+00:00",
+      "last_event_id": "01M6MHX5QSHJKAWHEG2704ZFPV",
+      "last_transition_at": "2026-11-05T00:31:56.660282+00:00",
       "model": "__resolved_model_absent__",
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
-      "shell_pid": 2978513,
-      "shell_pid_created_at": "1793836572.78"
-    },
-    "WP05": {
-      "actor": "finalize-tasks",
-      "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M6M1VF61MJ1XW7VJQDAWDBVH",
-      "last_transition_at": "2026-11-04T19:51:23.585449+00:00"
+      "shell_pid": 3019581,
+      "shell_pid_created_at": "1793838714.48"
     },
     "WP06": {
       "actor": "finalize-tasks",
