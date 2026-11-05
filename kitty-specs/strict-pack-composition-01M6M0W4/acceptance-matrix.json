@@ -88,10 +88,10 @@
       "criterion_id": "FR-009",
       "description": "All 12 references from `event-driven` to `built-in` are qualified. (#116)",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "WP05 review 2b99319; independent re-scan at bd44674: 12 qualified, 0 bare foreign",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:48.840175+00:00",
       "notes": null
     },
     {
