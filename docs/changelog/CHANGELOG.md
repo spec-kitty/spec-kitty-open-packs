@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-02'
+updated: '2026-11-05'
 ---
 # Changelog
 
@@ -20,6 +20,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### 💥 Breaking
+
+- **The packs follow strict composition, and the as-is CLI is no longer supported** (#118,
+  [ADR 2026-11-04-1](../architecture/adr/2026-11-04-1-strict-pack-composition-and-the-end-of-cli-compatibility.md)).
+  Every pack now has a `pack.yaml`, the org packs declare `depends_on` on `built-in` at `>=1.0,<2`,
+  and their references to `built-in` are qualified. The CLI rejects `depends_on`, so a project that
+  registers `internal` or `qa` loses its whole org DRG layer, and only `charter status`'s
+  `org_layer.errors`, `charter org validate` and `doctor charter-packs` say so.
+  What a consumer must now do:
+  - On the as-is CLI, pin the tag `pre-charter-cutover`, the last semi-compatible commit.
+  - On the charter service, configure `built-in` with any pack that depends on it. `quality-assurance`
+    is the name and qualifier of the pack in `packs/qa`.
+  - In your own pack, qualify references to another pack's artifact: `<pack>::<kind>:<id>` on a graph
+    edge and `<pack>::<id>` in a typed reference's `id`. A pack with no `pack.yaml` is refused.
+  - If you read the six `built-in` asset sidecars, their `path` is now relative to `assets/` (#75).
 
 - **Packs no longer target the old core** (charter service swap-over). Pack validation now
   follows `contracts/packs` on `spec-kitty-charter` `main`, rather than a pre-merge branch,

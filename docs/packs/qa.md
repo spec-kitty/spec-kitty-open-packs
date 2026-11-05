@@ -20,12 +20,15 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Content checksum (sha256):** `03de89ae159d6101401620148ce67a76f378821ffd85d08a94150b5ed2816fbb`
+- **Declared version:** `1.0.0`
+- **Content checksum (sha256):** `1133c430c7eb250e9557e8b8b7d321181ebe78e0bab1975b8f7bbd34e496a70c`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the generator never fabricates one). See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+
+**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
 ## Artifact inventory
 
@@ -43,7 +46,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **72** |
+| **Total files** | **73** |
 
 ### Full listing
 

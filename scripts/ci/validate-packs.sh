@@ -7,12 +7,16 @@
 # commit lives in scripts/ci/validate_pack_schemas.py.
 #
 #   1. Every file of every pack under packs/ (built-in included) and of tests/fixtures/valid/
-#      validates against the schema the contract maps it to.
+#      validates against the schema the contract maps it to, and every asset sidecar names, by a
+#      path relative to assets/, a payload the pack holds.
 #   2. Non-vacuity: every pack under tests/fixtures/invalid/ must FAIL validation, so a
 #      validator that silently passes everything turns this job red.
 #
 #   3. Cross-pack (--cross-pack, all packs together): a preset naming an id no pack declares, a DRG
-#      fragment edge endpoint that resolves to no node, and one id declared by two packs.
+#      fragment edge endpoint that resolves to no node, one id declared by two packs, and the
+#      composition rules: a pack with no descriptor, a shared pack_id or name, a bare reference held
+#      only by another pack, a qualifier outside the pack's depends_on closure, and a qualified target
+#      the named pack does not hold. The charter service stays the authority on composition.
 #
 # The validator fails closed (exit 2) on an unloadable schema, a known-kind file with no schema
 # mapping, or a pack with zero files checked.

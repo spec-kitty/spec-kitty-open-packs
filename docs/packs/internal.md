@@ -21,12 +21,14 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `826027ef62c23a2f2ff2dca1f5f73768ef55ccf45461b5a9d32a5bfefa6a6911`
+- **Content checksum (sha256):** `12dd5789e125d8e8e2016051a568bb00a3605eb6a1780a579c4b11bc09297ce8`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the generator never fabricates one). See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+
+**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
 ## Artifact inventory
 
@@ -135,7 +137,7 @@ _No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the
 <details>
 <summary><code>glossary_packs</code> (1)</summary>
 
-- `spk-internal.glossary-pack.yaml`
+- `spk-internal-glossary.glossary-pack.yaml`
 
 </details>
 

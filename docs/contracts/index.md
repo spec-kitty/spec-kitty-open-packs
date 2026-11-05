@@ -2,7 +2,7 @@
 title: Contracts
 description: "The machine contracts a Charter Pack meets: pack, org-charter, preset, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
-updated: '2026-11-02'
+updated: '2026-11-05'
 related:
 - artefacts
 - organisations
@@ -20,7 +20,7 @@ reference pages are tracked in
 
 ```text
 my-pack/
-├── pack.yaml              # authored descriptor (required for new packs)
+├── pack.yaml              # authored descriptor (required for every pack)
 ├── pack-manifest.yaml     # generated inventory — never hand-edit
 ├── org-charter.yaml       # org packs only: requirements and skill namespace
 ├── drg/fragment.yaml      # the pack's DRG fragment (empty is valid)
@@ -42,6 +42,7 @@ Authored and hand-edited.
 | `parent_pack` | Parent pack id, or `null`. |
 | `name` | Pack name. |
 | `pack_level` | Tier: `built-in`, `org` or `project`. A mismatch with where the pack is loaded fails with `PACK_LEVEL_MISMATCH`; omission with `PACK_LEVEL_MISSING`. |
+| `depends_on` | Optional: the packs this one references, each as `{pack_id, range}`. `pack_level` is required with it. See [Compose packs](../guides/compose-packs.md). |
 
 ```yaml
 pack_id: 01ARWG13C000000000000000FG

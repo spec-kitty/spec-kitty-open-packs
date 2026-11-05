@@ -2,7 +2,7 @@
 title: Glossary
 description: "Canonical Charter vocabulary used in these docs, aligned with the Spec Kitty core glossary."
 doc_status: draft
-updated: '2026-10-18'
+updated: '2026-11-05'
 related:
 - architecture/overview
 - artefacts
@@ -20,7 +20,7 @@ two ever disagree, core wins.
 - **Charter artefact** — One governed unit — a directive, tactic, styleguide, toolguide, paradigm, procedure, agent profile, mission step contract, template, asset, glossary pack, anti-pattern or skill. Also called a *doctrine artifact* in the domain model. See [Charter artefacts](../artefacts/index.md).
 - **Charter Pack** — A distributable bundle of charter artefacts and their DRG edges, with optional activation presets. Identified by its `pack_id`; declares its tier in `pack.yaml`.
 - **Pack tier** (`pack_level`) — `built-in`, `org` or `project`. Built-in ships with the CLI; org packs are registered by a project; the project layer is the project's own.
-- **Compound pack** — A pack that depends on other packs (`depends_on`, planned). Not yet materialised.
+- **Compound pack** — A pack that depends on other packs (`depends_on`). Every org pack here depends on `built-in`; the charter service reads it, the as-is CLI rejects it.
 - **Org charter** (`org-charter.yaml`) — An org pack's policy file: `required_<kind>` lists and an optional `skill_namespace`.
 - **Activation preset** — A named activation bundle a pack ships under `presets/<name>.yaml`. The built-in pack ships `default` and `minimal`.
 - **Charter Offering** — Everything offered to a project: the built-in pack, each configured org pack, and the project layer.

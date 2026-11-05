@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-10-10'
+updated: '2026-11-05'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -62,17 +62,21 @@ Every pull request runs [`scripts/ci/validate-packs.sh`](../../scripts/ci/valida
 (`.github/workflows/validate-packs.yml`). It:
 
 1. validates every pack under `packs/` (`packs/built-in` included) and `tests/fixtures/valid/`
-   against the charter schemas;
+   against the charter schemas, and checks that every asset sidecar names, by a `path` relative to
+   `assets/`, a payload the pack holds;
 2. checks that every pack under `tests/fixtures/invalid/` **fails** schema validation, so a
-   validator that passes everything turns the job red.
+   validator that passes everything turns the job red;
+3. checks the packs together: a preset or edge that names nothing, one id declared by two packs,
+   a pack with no `pack.yaml`, a shared `pack_id` or `name`, a bare reference held only by another
+   pack, a qualifier outside the pack's `depends_on` closure, and a qualified target the named pack
+   does not hold. This is an early signal: the charter service stays the authority on composition.
 
 [`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh) checks that the tree digest of
 `packs/built-in` matches `packs/built-in.source.yaml`. The vocabulary guard and the release and
 vocabulary tests run even when validation fails, so one run shows all the red.
 
 To move to newer schemas, change `CHARTER_COMMIT` in `scripts/ci/validate_pack_schemas.py` to a
-full commit SHA of `spec-kitty-charter`. The current pin is a commit of the open
-mission-type-consolidation branch (charter PR #275); move it to a `main` commit once that merges.
+full commit SHA of `spec-kitty-charter`'s `main` branch, and never float it to a branch.
 
 Run it locally before opening a PR:
 

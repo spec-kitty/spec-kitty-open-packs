@@ -21,12 +21,12 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `6da474ccd0760f58ff2abb14d86c2744e6071e53be9ef9f8096035ef7463df47`
+- **Content checksum (sha256):** `2e491436d1f21afcb13036c98291a0cd761e105190a81cf9ef591ff407b079e2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared in this pack's `pack.yaml`, so none is shown here (the generator never fabricates one). See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
 
 ## Artifact inventory
 

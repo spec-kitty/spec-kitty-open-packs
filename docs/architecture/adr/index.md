@@ -2,7 +2,7 @@
 title: Architecture Decision Records
 description: Index of architecture decision records for spec-kitty-open-packs, covering the content-from-code docsite direction and its integrity model.
 doc_status: active
-updated: '2026-11-01'
+updated: '2026-11-05'
 related:
 - architecture
 - architecture/docsite-design
@@ -36,6 +36,7 @@ context, the options considered, the chosen option, and its consequences.
 | 2026-10-20 | 1 | [Semver releases with a reproducible archive per pack](2026-10-20-1-semver-releases-with-per-pack-archives.md) | Accepted |
 | 2026-10-26 | 1 | [Author built-in ahead of core, with a pending-vendoring allowlist](2026-10-26-1-built-in-ahead-of-core-with-pending-vendoring-allowlist.md) | Accepted |
 | 2026-11-01 | 1 | [main lands through a merge queue, and pr:pause-ci pauses a parked pull request](2026-11-01-1-merge-queue-readiness-and-pr-pause-ci.md) | Accepted; superseded in part (no merge queue, 2026-11-02) |
+| 2026-11-04 | 1 | [Strict pack composition and the end of as-is CLI compatibility](2026-11-04-1-strict-pack-composition-and-the-end-of-cli-compatibility.md) | Accepted |
 
 The 2026-07-18 ADRs emerge from the docsite research and await HiC ratification; they document a
 recommended direction, not yet-implemented policy. **ADR 2026-07-18-1 (MkDocs Material) is

@@ -6,6 +6,7 @@ import contextlib
 import hashlib
 import io
 import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -46,6 +47,7 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
     "**/*.tactic.yaml": "tactic",
     "*/pack.yaml": "pack-descriptor",
     "*/pack.md": "pack-doc",  # the one markdown rule
+    "**/*.asset.yaml": "asset",
 }
 
 
@@ -64,7 +66,7 @@ class ValidatorExitCodes(unittest.TestCase):
             for glob, name in RULES.items()
         )
         (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}", encoding="utf-8")
-        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA}
+        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA, "asset": OPEN_SCHEMA}
         for name, schema in schemas.items():
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
 
@@ -143,6 +145,23 @@ class ValidatorExitCodes(unittest.TestCase):
         if pack.name != name:
             pack = pack.rename(root / name)
         return pack
+
+    def test_an_asset_sidecar_names_a_payload_the_pack_holds_under_assets(self) -> None:
+        payloads = ('payloads:\n  - match: "*/assets/**/*"\n    kind: asset-payload\n    content_form: bytes\n'
+                    '  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n')
+        held = {"assets/kept/held.txt": "x\n", "assets/t.tactic.yaml": "id: t2\n", "beside.txt": "x\n", "templates/held.md": "# t\n"}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, payloads)
+            good = self.write_pack(root, {**held, "assets/kept/held.txt.asset.yaml": "path: kept/held.txt\n"})
+            code, output = self.run_validator(root, str(good))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            for named in ("assets/kept/held.txt", "held.txt", "gone.txt", "kept", "../beside.txt", "t.tactic.yaml", "templates/held.md"):
+                with self.subTest(named):
+                    (good / "assets" / "kept" / "held.txt.asset.yaml").write_text(f"path: {named}\n", encoding="utf-8")
+                    code, output = self.run_validator(root, str(good))
+                    self.assertEqual(code, validator.EXIT_INVALID, output)
+                    self.assertIn(f"pack/assets/kept/held.txt.asset.yaml: payload assets/{named} does not exist", output)
 
     def test_content_hash_reads_crlf_and_lone_cr_as_lf(self) -> None:
         def sha(data: bytes) -> str:
@@ -284,6 +303,7 @@ class ValidatorExitCodes(unittest.TestCase):
     def test_cross_pack_checks_catch_a_missing_preset_id_a_dangling_edge_and_a_shared_id(self) -> None:
         def pack(root: Path, name: str, nodes: str, edges: str = "[]", preset: str = "") -> Path:
             (root / name / "drg").mkdir(parents=True)
+            (root / name / "pack.yaml").write_text(f"pack_id: {name}\nname: {name}\n", encoding="utf-8")
             (root / name / "drg" / "fragment.yaml").write_text(f"nodes:\n{nodes}edges: {edges}\n", encoding="utf-8")
             if preset:
                 (root / name / "presets").mkdir()
@@ -332,6 +352,257 @@ class ValidatorExitCodes(unittest.TestCase):
             (empty / "drg" / "fragment.yaml").write_text("nodes: []\n", encoding="utf-8")
             with self.assertRaises(validator.GateError):  # an empty id index must not pass
                 validator.cross_pack_violations([empty])
+
+
+BUILT_IN = "01ARWG13C000000000000000FG"
+OTHER = "01ARWG13C000000000000000XX"
+CONSUMER = "01ARWG13C000000000000000YY"
+
+
+class CompositionChecks(unittest.TestCase):
+    """The strict composition rules the charter service enforces, caught here under ``--cross-pack``."""
+
+    CONTRACT = validator.Contract(
+        files=[
+            validator.Rule(validator.glob_to_regex(f"**/*.{suffix}.yaml"), f"**/*.{suffix}.yaml", schema=schema)
+            for suffix, schema in (("directive", "directive"), ("tactic", "tactic"), ("paradigm", "paradigm"),
+                                   ("procedure", "procedure"), ("mission-type", "mission-type"),
+                                   ("agent", "agent-profile"), ("step-contract", "mission-step-contract"),
+                                   ("asset", "asset"), ("glossary-pack", "glossary-pack"), ("skill", "skill"),
+                                   ("styleguide", "styleguide"), ("toolguide", "toolguide"))
+        ],
+        exclusions=[], retired=[],
+        payloads=[validator.Rule(validator.glob_to_regex(glob), glob) for glob in ("*/templates/**/*", "*/missions/*/templates/**/*")],
+    )
+
+    def setUp(self) -> None:
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.root = Path(tmp.name)
+
+    def write(self, directory: str, files: dict[str, str]) -> Path:
+        for name, body in files.items():
+            target = self.root / directory / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(body, encoding="utf-8")
+        return self.root / directory
+
+    def descriptor(self, pack_id: str, name: str, depends_on: tuple[str, ...] = ()) -> str:
+        entries = "".join(f"- {{pack_id: {dep}, range: '>=1.0,<2'}}\n" for dep in depends_on)
+        return f"pack_id: {pack_id}\nname: {name}\n" + (f"depends_on:\n{entries}" if entries else "")
+
+    def built_in(self, directory: str = "built-in", name: str = "built-in", pack_id: str = BUILT_IN) -> Path:
+        """A pack holding tactic `held` and directive `D_1` as files, and an action as a node."""
+        return self.write(directory, {
+            "pack.yaml": self.descriptor(pack_id, name),
+            "tactics/held.tactic.yaml": "id: held\n",
+            "directives/d-1.directive.yaml": "id: D_1\n",
+            "drg/fragment.yaml": "nodes:\n  - {id: dev/plan, kind: actions}\nedges: []\n",
+        })
+
+    def consumer(self, edges: str = "[]", files: dict[str, str] | None = None, depends_on: tuple[str, ...] = (BUILT_IN,),
+                 directory: str = "consumer") -> Path:
+        """A pack depending on `depends_on`, holding tactic `own`; `edges` is its fragment's edge list."""
+        return self.write(directory, {
+            "pack.yaml": self.descriptor(CONSUMER, directory, depends_on),
+            "tactics/own.tactic.yaml": "id: own\n",
+            "drg/fragment.yaml": f"nodes: []\nedges: {edges}\n",
+            **(files or {}),
+        })
+
+    def edge(self, target: str) -> str:
+        return f"[{{source: 'tactic:own', target: '{target}', relation: requires}}]"
+
+    def found(self, *packs: Path) -> str:
+        return "\n".join(validator.cross_pack_violations(list(packs), self.CONTRACT))
+
+    def test_a_qualified_edge_resolves_in_the_named_pack_and_a_missing_target_is_named(self) -> None:
+        built_in = self.built_in()
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::tactic:held"))), "")
+        found = self.found(built_in, self.consumer(self.edge("built-in::tactic:gone")))
+        self.assertIn("consumer/drg/fragment.yaml", found)
+        self.assertIn("built-in::tactic:gone", found)
+
+    def test_the_older_cross_pack_checks_still_fire_beside_a_correct_qualified_edge(self) -> None:
+        built_in = self.built_in()
+        correct = self.consumer(self.edge("built-in::tactic:held"))
+        self.assertEqual(self.found(built_in, correct), "")
+        twin = self.write("twin", {"pack.yaml": self.descriptor(OTHER, "twin"), "tactics/held.tactic.yaml": "id: held\n"})
+        self.assertIn("tactic:held: declared by more than one pack (built-in, twin)", self.found(built_in, correct, twin))
+        dangling = self.consumer("[{source: 'tactic:own', target: 'tactic:held'}, {source: 'tactic:own', target: 'tactic:nowhere'}]")
+        self.assertIn("edge target 'tactic:nowhere' resolves to no node of any pack", self.found(built_in, dangling))
+
+    def test_a_qualifier_names_the_descriptor_name_not_the_directory(self) -> None:
+        renamed = self.built_in(directory="qa", name="quality-assurance")
+        self.assertEqual(self.found(renamed, self.consumer(self.edge("quality-assurance::tactic:held"))), "")
+        self.assertIn("qa::tactic:held", self.found(renamed, self.consumer(self.edge("qa::tactic:held"))))
+
+    def test_a_bare_edge_end_held_only_by_another_pack_fails_and_its_own_and_action_targets_pass(self) -> None:
+        built_in = self.built_in()
+        passing = "[{source: 'tactic:own', target: 'tactic:own'}, {source: 'action:dev/plan', target: 'tactic:own'}]"
+        self.assertEqual(self.found(built_in, self.consumer(passing)), "")
+        for end in ("target: 'tactic:held', source: 'tactic:own'", "source: 'tactic:held', target: 'tactic:own'"):
+            with self.subTest(end=end):
+                found = self.found(built_in, self.consumer(f"[{{{end}}}]"))
+                self.assertIn("consumer/drg/fragment.yaml: bare reference 'tactic:held' is held only by built-in", found)
+
+    def test_an_edge_of_a_root_graph_document_is_read_like_a_fragment_edge(self) -> None:
+        built_in = self.built_in()
+        shard = "edges:\n- {source: 'tactic:own', target: '%s', relation: requires}\n"
+        self.assertEqual(self.found(built_in, self.consumer(files={"tactic.graph.yaml": shard % "built-in::tactic:held"})), "")
+        found = self.found(built_in, self.consumer(files={"tactic.graph.yaml": shard % "tactic:held"}))
+        self.assertIn("consumer/tactic.graph.yaml: bare reference 'tactic:held'", found)
+
+    def typed_reference_sites(self, kind: str, reference: str) -> dict[str, tuple[str, str]]:
+        """Every field the charter reads a typed reference from, as test label -> (file, text)."""
+        typed = f"references:\n  - {{type: {kind}, id: '{reference}'}}\n"
+        step = f"steps:\n  - references:\n      - {{type: {kind}, id: '{reference}'}}\n"
+        return {
+            "directive.references": ("directives/d.directive.yaml", f"id: D_X\n{typed}"),
+            "paradigm.references": ("paradigms/p.paradigm.yaml", f"id: p\n{typed}"),
+            "tactic.references": ("tactics/t.tactic.yaml", f"id: t\n{typed}"),
+            "tactic.steps": ("tactics/t.tactic.yaml", f"id: t\n{step}"),
+            "procedure.references": ("procedures/p.procedure.yaml", f"id: p\n{typed}"),
+            "mission-type.references": ("missions/m/m.mission-type.yaml", f"id: m\n{typed}"),
+            "mission-type.steps": ("missions/m/m.mission-type.yaml", f"id: m\n{step}"),
+        }
+
+    def test_every_typed_reference_field_is_read_in_both_the_bare_and_the_qualified_form(self) -> None:
+        built_in = self.built_in()
+        for label, (path, text) in self.typed_reference_sites("tactic", "held").items():
+            with self.subTest(label, form="bare held elsewhere"):
+                self.assertIn(f"consumer/{path}: bare reference 'tactic:held'", self.found(built_in, self.consumer(files={path: text})))
+            shutil.rmtree(self.root / "consumer")
+        for label, (path, text) in self.typed_reference_sites("tactic", "built-in::held").items():
+            with self.subTest(label, form="qualified"):
+                self.assertEqual(self.found(built_in, self.consumer(files={path: text})), "")
+            shutil.rmtree(self.root / "consumer")
+
+    def test_the_bare_id_lists_are_read_under_the_kind_their_field_means(self) -> None:
+        built_in = self.built_in()
+        directive = "id: D_X\nprocedures: [some-prose-entry]\n"
+        self.assertEqual(self.found(built_in, self.consumer(files={"directives/d.directive.yaml": directive})), "")  # held by none
+        holder = self.write("holder", {"pack.yaml": self.descriptor(OTHER, "holder"), "procedures/p.procedure.yaml": "id: proc\n"})
+        for path, text, urn in (
+            ("directives/d.directive.yaml", "id: D_X\nprocedures: [proc]\n", "procedure:proc"),
+            ("paradigms/p.paradigm.yaml", "id: p\ndirective_refs: [D_1]\n", "directive:D_1"),
+        ):
+            with self.subTest(urn=urn):
+                self.assertIn(f"consumer/{path}: bare reference '{urn}'", self.found(built_in, holder, self.consumer(files={path: text})))
+            shutil.rmtree(self.root / "consumer")
+
+    def test_a_bare_typed_reference_no_pack_holds_is_left_alone(self) -> None:
+        tactic = "id: t\nreferences:\n  - {type: procedure, id: nobody-holds-this}\n"
+        self.assertEqual(self.found(self.built_in(), self.consumer(files={"tactics/t.tactic.yaml": tactic})), "")
+
+    def test_a_qualifier_outside_the_depends_on_closure_fails_and_a_transitive_one_passes(self) -> None:
+        built_in = self.built_in()
+        between = self.write("between", {"pack.yaml": self.descriptor(OTHER, "between", (BUILT_IN,)), "tactics/b.tactic.yaml": "id: b\n"})
+        through = self.consumer(self.edge("built-in::tactic:held"), depends_on=(OTHER,))
+        self.assertEqual(self.found(built_in, between, through), "")
+        for label, depends_on, reference in (
+            ("not declared", (), "built-in::tactic:held"),
+            ("no such pack", (BUILT_IN,), "nowhere::tactic:held"),
+        ):
+            with self.subTest(label):
+                found = self.found(built_in, between, self.consumer(self.edge(reference), depends_on=depends_on))
+                self.assertIn(f"consumer/drg/fragment.yaml: reference '{reference}'", found)
+                self.assertIn("outside this pack's depends_on closure", found)
+
+    def test_a_qualified_target_must_be_held_by_the_named_pack_not_merely_by_some_pack(self) -> None:
+        built_in = self.built_in()
+        sibling = self.write("sibling", {"pack.yaml": self.descriptor(OTHER, "sibling"), "tactics/s.tactic.yaml": "id: s\n"})
+        both = (BUILT_IN, OTHER)
+        self.assertEqual(self.found(built_in, sibling, self.consumer(self.edge("sibling::tactic:s"), depends_on=both)), "")
+        found = self.found(built_in, sibling, self.consumer(self.edge("built-in::tactic:s"), depends_on=both))
+        self.assertIn("consumer/drg/fragment.yaml: reference 'built-in::tactic:s': built-in does not hold 'tactic:s'", found)
+
+    def test_a_typed_reference_writes_its_qualifier_on_the_id_without_a_kind(self) -> None:
+        built_in = self.built_in()
+        path = "tactics/t.tactic.yaml"
+        typed = "id: t\nreferences:\n  - {type: tactic, id: '%s'}\n"
+        self.assertEqual(self.found(built_in, self.consumer(files={path: typed % "built-in::held"})), "")
+        for wrong in ("built-in::tactic:held", "built-in::gone"):
+            with self.subTest(wrong):
+                self.assertIn(f"consumer/{path}: reference", self.found(built_in, self.consumer(files={path: typed % wrong})))
+
+    def test_a_qualified_action_needs_the_closure_but_no_held_artifact(self) -> None:
+        built_in = self.built_in()
+        self.assertEqual(self.found(built_in, self.consumer("[{source: 'built-in::action:dev/plan', target: 'tactic:own'}]")), "")
+        found = self.found(built_in, self.consumer("[{source: 'built-in::action:dev/plan', target: 'tactic:own'}]", depends_on=()))
+        self.assertIn("outside this pack's depends_on closure", found)
+
+    def test_a_pack_directory_with_no_descriptor_fails(self) -> None:
+        built_in = self.built_in()
+        self.assertEqual(self.found(built_in), "")
+        (built_in / "pack.yaml").unlink()
+        self.assertIn("built-in/pack.yaml: missing", self.found(built_in))
+
+    def test_two_packs_sharing_a_pack_id_or_a_name_fail(self) -> None:
+        built_in = self.built_in()
+        self.assertEqual(self.found(built_in, self.write("other", {"pack.yaml": self.descriptor(OTHER, "other")})), "")
+        same_id = self.write("same-id", {"pack.yaml": self.descriptor(BUILT_IN, "same-id")})
+        self.assertIn(f"built-in/pack.yaml, same-id/pack.yaml: pack_id '{BUILT_IN}' is declared by more than one pack", self.found(built_in, same_id))
+        same_name = self.write("same-name", {"pack.yaml": self.descriptor(OTHER, "built-in")})
+        self.assertIn("built-in/pack.yaml, same-name/pack.yaml: name 'built-in' is declared by more than one pack", self.found(built_in, same_name))
+
+    def test_a_node_with_no_file_is_held_by_nobody(self) -> None:
+        graph = "nodes:\n- {urn: 'procedure:shard-node', kind: procedure}\nedges: []\n"
+        fragment = "nodes:\n  - {id: node-tactic, kind: tactics}\nedges: []\n"
+        built_in = self.built_in()
+        self.write("built-in", {"drg/fragment.yaml": fragment, "procedure.graph.yaml": graph})
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::tactic:held"))), "")  # same fixture, a file
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("tactic:node-tactic"))), "")
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("procedure:shard-node"))), "")
+        for urn in ("tactic:node-tactic", "procedure:shard-node"):
+            with self.subTest(urn):
+                found = self.found(built_in, self.consumer(self.edge(f"built-in::{urn}")))
+                self.assertIn(f"reference 'built-in::{urn}': built-in does not hold '{urn}'", found)
+
+    def test_files_no_node_names_are_held_under_the_id_the_charter_reads(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {
+            "agent_profiles/p.agent.yaml": "profile-id: file-profile\n",
+            "missions/doc/doc.mission-type.yaml": "id: doc\n",
+            "templates/writing/top.md": "# t\n",
+            "missions/doc/templates/in-mission.md": "# t\n",
+        })
+        for urn in ("agent_profile:file-profile", "mission_type:doc", "template:writing/top.md", "template:doc/in-mission.md"):
+            with self.subTest(urn):
+                self.assertEqual(self.found(built_in, self.consumer(self.edge(f"built-in::{urn}"))), "")
+                self.assertIn(f"bare reference '{urn}' is held only by built-in", self.found(built_in, self.consumer(self.edge(urn))))
+
+    def test_a_template_elsewhere_in_a_pack_is_not_held(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {"templates/held.md": "# t\n", "elsewhere/templates/stray.md": "# t\n"})
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::template:held.md"))), "")
+        self.assertIn("built-in does not hold 'template:stray.md'", self.found(built_in, self.consumer(self.edge("built-in::template:stray.md"))))
+
+    def test_an_anti_pattern_node_is_held_in_either_graph_document_shape(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {
+            "drg/fragment.yaml": "nodes:\n  - {id: in-fragment, kind: anti_patterns}\nedges: []\n",
+            "anti_pattern.graph.yaml": "nodes:\n- {urn: 'anti_pattern:in-shard', kind: anti_pattern}\nedges: []\n",
+        })
+        for urn in ("anti_pattern:in-fragment", "anti_pattern:in-shard"):
+            with self.subTest(urn):
+                self.assertEqual(self.found(built_in, self.consumer(self.edge(f"built-in::{urn}"))), "")
+                self.assertIn(f"bare reference '{urn}'", self.found(built_in, self.consumer(self.edge(urn))))
+
+    def test_a_template_directory_holds_only_what_the_contract_classifies_as_a_payload(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {"templates/filed.tactic.yaml": "id: filed\n", "templates/held.md": "# t\n"})
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::tactic:filed"))), "")
+        self.assertEqual(self.found(built_in, self.consumer(self.edge("built-in::template:held.md"))), "")
+        found = self.found(built_in, self.consumer(self.edge("built-in::template:filed.tactic.yaml")))
+        self.assertIn("built-in does not hold 'template:filed.tactic.yaml'", found)
+
+    def test_a_pack_may_qualify_a_reference_with_its_own_name(self) -> None:
+        built_in = self.built_in()
+        files = {"tactics/second.tactic.yaml": "id: second\n"}
+        self.assertEqual(self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:own'}]", files=files)), "")
+        found = self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:gone'}]", files=files))
+        self.assertIn("reference 'consumer::tactic:gone': consumer does not hold 'tactic:gone'", found)
 
 
 if __name__ == "__main__":

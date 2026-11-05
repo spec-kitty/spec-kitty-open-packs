@@ -81,6 +81,9 @@ jobs:
       - name: Pack validator tests
         if: ${{ !cancelled() }}
         run: python3 -m unittest discover -s tests/ci
+      - name: Pack page generator tests
+        if: ${{ !cancelled() }}
+        run: python3 -m unittest discover -s tests/docs
 
   # Fixed-name gate so branch protection can require ONE stable check. Require
   # "Validate packs gate" as the protected status check.

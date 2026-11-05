@@ -72,14 +72,14 @@ references:
   id: OPERATOR_SIGNAL_CONTRACT
   reason: A deciding path must also signal — every escalation-class decision surfaces on an operator-visible surface, never resolved silently.
 - type: procedure
-  id: mission-wrap-up-sequence
+  id: built-in::mission-wrap-up-sequence
   reason: The canonical accept, verdict, aggregate-review, consolidate, compact and rebase closeout for a Mission-shaped run.
 - type: procedure
-  id: test-first-bug-fixing
+  id: built-in::test-first-bug-fixing
   reason: The red-first workflow the brownfield standing orders require for a bugfix.
 - type: procedure
-  id: adversarial-squad-deployment
+  id: built-in::adversarial-squad-deployment
   reason: The pre-PR review squad the closeout runs before opening the draft PR.
 - type: tactic
-  id: clean-linear-commit-history
+  id: built-in::clean-linear-commit-history
   reason: The commit-history shape the closeout aims for — coherent, reviewable commits, bookkeeping compressed.

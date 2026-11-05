@@ -2,8 +2,8 @@
 
 Runs through the real generator entry points (``build_reference`` /
 ``render_page`` / ``compute_checksum``) against a realistic on-disk fixture
-pack, with no third-party dependency (stdlib ``unittest`` — the repo has no
-pytest harness). Run it with::
+pack, on stdlib ``unittest`` (the repo has no pytest harness) plus the
+generator's own ``pyyaml``. Run it with::
 
     python3 -m unittest discover -s tests/docs
 
@@ -128,6 +128,35 @@ class GeneratorDeterminismTest(unittest.TestCase):
             (pack / "pack.yaml").unlink()
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
             self.assertIn("No `purpose` is declared", page)
+
+    def test_depends_on_is_published_with_every_entry_as_the_schema_shapes_it(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            (pack / "pack.yaml").write_text(
+                "pack_id: 01ARWG13C000000000000000FG\n"
+                "name: built-in\n"
+                "pack_version: 1.0.0\n"
+                "pack_level: org\n"
+                "depends_on:\n"
+                "- pack_id: 01ARWG13C000000000000000AA\n"
+                "  range: '>=1.0,<2'\n"
+                "- {pack_id: 01ARWG13C000000000000000BB, range: '>=2.1,<3'}\n",
+                encoding="utf-8",
+            )
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            self.assertIn(
+                "**Depends on:** `01ARWG13C000000000000000AA >=1.0,<2`, `01ARWG13C000000000000000BB >=2.1,<3`",
+                page,
+            )
+            self.assertIn("- **Declared version:** `1.0.0`", page)
+
+    def test_the_page_does_not_invite_a_purpose_field_the_closed_schema_forbids(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            page = gen.render_page(gen.build_reference(root, "built-in", _make_pack(root)))
+            self.assertNotIn("in this pack's `pack.yaml`", page)
+            self.assertIn("the `pack.yaml` schema has no such field", page)
 
 
 if __name__ == "__main__":

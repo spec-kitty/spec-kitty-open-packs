@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets and an org-charter.yaml.
 doc_status: wip
-updated: '2026-10-31'
+updated: '2026-11-05'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -25,6 +25,7 @@ subset of the artifact kinds plus that fragment. Spec Kitty 4.x reads only this 
 
 ```
 my-pack/
+├── pack.yaml                   # required: the pack's descriptor, with its pack_id and name
 ├── directives/                 # *.directive.yaml — project rules
 ├── tactics/                    # *.tactic.yaml — domain tactics (subdirs allowed)
 ├── styleguides/                # *.styleguide.yaml — style standards
@@ -41,6 +42,11 @@ my-pack/
 ├── drg/fragment.yaml           # additive DRG fragment (the only DRG file an org pack may have)
 └── org-charter.yaml            # optional: policy, required artifacts, interview defaults
 ```
+
+Every pack needs a `pack.yaml`: [the gate](validate-a-pack.md) and the charter service both refuse a
+pack without one. Its fields are in [the contracts reference](../contracts/index.md). If your pack
+references another pack's artifact, it declares `depends_on` and qualifies that reference, in the
+form its place takes. [Compose packs](compose-packs.md) has both forms.
 
 > **Do not hand-write `pack-manifest.yaml`.** It is written by tooling (`charter fetch` for
 > non-git sources, `charter pack assemble`); `charter pack validate` does not read it, so a
