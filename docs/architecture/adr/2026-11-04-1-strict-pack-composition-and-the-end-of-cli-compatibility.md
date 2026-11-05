@@ -133,7 +133,9 @@ and is not caused by it.
 * Any other project that registers these packs by path, or pins a commit after `pre-charter-cutover`,
   sees the same thing.
 * Core's asset resolver (`_anchor_for`) breaks at its next pin bump, because the six `built-in`
-  sidecars now name their payload relative to `assets/`. Core's strict composition work is tracked in
+  sidecars now name their payload relative to `assets/`; that break is tracked in
+  [spec-kitty/spec-kitty#7193](https://github.com/spec-kitty/spec-kitty/issues/7193), and core's
+  strict composition work in
   [spec-kitty/spec-kitty#7153](https://github.com/spec-kitty/spec-kitty/issues/7153).
 
 #### Neutral
@@ -142,7 +144,8 @@ and is not caused by it.
   read those fields today. Called directly, core's `render_profile_selector_refs` turns a qualified
   id's `charter context --include` stanza into a "catalog entry not found" line. This was not shown
   end to end: core already reported these `qa` profiles as not found in a run before the migration.
-  Qualifying them needs a coordinated charter and core change.
+  Qualifying them needs a coordinated charter and core change, tracked in
+  [#119](https://github.com/spec-kitty/spec-kitty-open-packs/issues/119).
 
 ### Follow-through: the charter's pin
 
