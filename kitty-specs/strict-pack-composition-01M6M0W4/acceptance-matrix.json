@@ -6,163 +6,163 @@
   "criteria": [
     {
       "criterion_id": "FR-001",
-      "description": "Verify FR-001 is satisfied",
+      "description": "The pack gate validates against a charter contract that includes strict composition (at or after charter `88ed36e4`), pinned to a specific commit.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-002",
-      "description": "Verify FR-002 is satisfied",
+      "description": "The pack gate accepts a correct qualified reference in both forms: `<pack>::<kind>:<id>` on graph edges and `<pack>::<id>` on typed references.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-003",
-      "description": "Verify FR-003 is satisfied",
+      "description": "The pack gate fails on: a bare reference held only by another pack; a qualifier naming a pack outside the referrer's `depends_on` closure; a qualified target the named pack does not hold; a pack with no descriptor; duplicate pack ids or names. Each has a fixture that fails and a real-pack run that passes.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-004",
-      "description": "Verify FR-004 is satisfied",
+      "description": "Every pack has a compliant `pack.yaml` with a unique, once-minted `pack_id`, a version and a name: `quality-assurance` (in `packs/qa`), `event-driven` and `cave-kitty`, each at version `1.0.0`. The valid example fixture has its own. (#47)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-005",
-      "description": "Verify FR-005 is satisfied",
+      "description": "`quality-assurance`, `event-driven`, `cave-kitty` and `internal` declare `depends_on` on `built-in` at range `>=1.0,<2`. (#47, #113, #116, #117)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-006",
-      "description": "Verify FR-006 is satisfied",
+      "description": "The remaining #47 items are delivered: the glossary stem rename and the guard against a pack without a descriptor (FR-003). (#47)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-007",
-      "description": "Verify FR-007 is satisfied",
+      "description": "The six built-in asset sidecars name their payload relative to `assets/`, and the manifest, recorded digest and generated page are updated in the same change. (#75)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-008",
-      "description": "Verify FR-008 is satisfied",
+      "description": "All 3 references from `quality-assurance` to `built-in` are qualified. (#117)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-009",
-      "description": "Verify FR-009 is satisfied",
+      "description": "All 12 references from `event-driven` to `built-in` are qualified. (#116)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-010",
-      "description": "Verify FR-010 is satisfied",
+      "description": "All 78 references from `internal` to `built-in`, across 31 targets, are qualified, including the 5 `agent_profile` edges. (#113)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-011",
-      "description": "Verify FR-011 is satisfied",
+      "description": "The 24 references to `built-in` in `quality-assurance`'s agent profiles, which the service does not check today, are checked during the mission. They are either qualified, if that is corroborated as correct and in proportion, or logged in a follow-up issue with the reason.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-012",
-      "description": "Verify FR-012 is satisfied",
+      "description": "The generated pack reference reads `depends_on` correctly and publishes it accurately, and no longer describes a `pack.yaml` field the schema forbids.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-013",
-      "description": "Verify FR-013 is satisfied",
+      "description": "The charter's compose test reads the real packs from the pinned checkout and composes each pack with `built-in` and all five together, asserting the served pack list rather than only success, with the negative controls of User Story 1. (spec-kitty-charter#363)",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-014",
-      "description": "Verify FR-014 is satisfied",
+      "description": "Pre-merge part only: the companion charter PR #378 carries the whole bump (pin, lockfile, corpus diagnostics, inspector test, known-failure list, guide example), green against this mission's head, with the re-point to the final merged commit named as an operator-triggered step. C-006 forbids moving the pin before merge, so FR-014 as written is NOT met by this verdict; it is met when #378 is re-pointed at the merged main commit.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": "OPEN after this verdict: re-point #378 at the final main commit, re-run CI, mark ready. User Story 3 stays unmet until then."
     },
     {
       "criterion_id": "FR-015",
-      "description": "Verify FR-015 is satisfied",
+      "description": "Documentation states the new reality: the contract pin, `depends_on` usage, and the digest wording that still says \"re-seed\". The changelog records the break with the as-is CLI.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     },
     {
       "criterion_id": "FR-016",
-      "description": "Verify FR-016 is satisfied",
+      "description": "Issue text the research found stale (#47, #113, the epic's table, spec-kitty-charter#363 and #365) is corrected, #72's retired target is noted on that issue, and a core issue links `_anchor_for` with spec-kitty#7153.",
       "proof_type": "automated_test",
       "evidence": null,
       "pass_fail": "pending",
       "verified_by": null,
       "verified_at": null,
-      "notes": "TODO: replace with a real acceptance criterion"
+      "notes": null
     }
   ],
   "negative_invariants": []
