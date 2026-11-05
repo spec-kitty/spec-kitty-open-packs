@@ -549,4 +549,6 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 
 ## Validation
 
-Validation status unavailable — the charter pack schemas could not be used (cannot fetch https://raw.githubusercontent.com/spec-kitty/spec-kitty-charter/85c20fa148bd9cb1517e9e95d3d13c3718201dd4/contracts/packs/file-kinds.yaml: <HTTPError 404: 'Not Found'>). Run `python3 scripts/ci/validate_pack_schemas.py <dir>` locally.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
+
+- Errors: 0
