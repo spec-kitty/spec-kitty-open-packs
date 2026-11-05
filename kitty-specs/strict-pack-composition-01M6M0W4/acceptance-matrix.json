@@ -18,10 +18,10 @@
       "criterion_id": "FR-002",
       "description": "The pack gate accepts a correct qualified reference in both forms: `<pack>::<kind>:<id>` on graph edges and `<pack>::<id>` on typed references.",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "tests/ci/test_validate_pack_schemas.py at bd44674: both forms read; real packs pass with 93 qualified references, validate-packs rc 0",
+      "pass_fail": "pass",
+      "verified_by": "claude:claude-opus-5-5:orchestrator",
+      "verified_at": "2026-11-05T07:13:34.834152+00:00",
       "notes": null
     },
     {
