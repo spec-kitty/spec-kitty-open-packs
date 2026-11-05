@@ -223,7 +223,7 @@
     },
     "WP07": {
       "actor": "claude",
-      "agent": "claude:claude-opus-5-5:reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -237,6 +237,7 @@
         "Independent review of WP07 close-out started; verdict reported to orchestrator, not recorded until issues resolved."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/.worktrees/strict-pack-composition-01M6M0W4-coord/kitty-specs/strict-pack-composition-01M6M0W4/tasks/WP07-close-out/review-cycle-1.md",
         "reference": "review-cycle://strict-pack-composition-01M6M0W4/WP07-close-out/review-cycle-1.md",
@@ -244,14 +245,14 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 3077565,
-      "shell_pid_created_at": "1793841526.65",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T024": "done",
-        "T025": "done",
-        "T026": "done",
-        "T027": "done",
-        "T028": "done"
+        "T024": "planned",
+        "T025": "planned",
+        "T026": "planned",
+        "T027": "planned",
+        "T028": "planned"
       }
     }
   }
