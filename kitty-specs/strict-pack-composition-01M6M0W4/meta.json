@@ -1,4 +1,16 @@
 {
+  "acceptance_history": [
+    {
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-05T07:14:28.898598+00:00",
+      "accepted_by": "stijn",
+      "accepted_from_commit": "c0e94aa4a06add32103aef56cd1c4c142fd5dd74"
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-05T07:14:28.898598+00:00",
+  "accepted_by": "stijn",
+  "accepted_from_commit": "c0e94aa4a06add32103aef56cd1c4c142fd5dd74",
   "change_mode": "bulk_edit",
   "contracts": "none",
   "contracts_rationale": "The pack contract is owned by spec-kitty-charter contracts/packs; this mission defines no interface.",
