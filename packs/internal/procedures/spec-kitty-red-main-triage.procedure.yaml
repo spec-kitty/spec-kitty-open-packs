@@ -6,7 +6,7 @@ description: |
 entry_condition: |
   Main is red in the Spec Kitty repository, a P0 reproduction is about to land, or the maintainer queue is being worked.
 exit_condition: |
-  Every red on main traces to a `priority:P0` issue on spec-kitty/spec-kitty whose reproduction is marked `p0_repro`, and each red is classified with the landing-pass rules.
+  Every genuine red on main traces to a `priority:P0` issue on spec-kitty/spec-kitty, any reproduction that landed is marked `p0_repro`, and each red is classified with the landing-pass rules.
 steps:
 - title: Trace every red on main to a P0 issue
   description: |

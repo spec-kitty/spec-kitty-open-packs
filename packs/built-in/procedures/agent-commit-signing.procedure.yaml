@@ -10,7 +10,7 @@ exit_condition: |
 steps:
 - title: Commit with signing disabled
   description: |
-    Use `git commit --no-gpg-sign` or `git -c commit.gpgsign=false commit`; never configure or rely on a signing key in CI, worktrees or ephemeral environments.
+    Use `git commit --no-gpg-sign` or `git -c commit.gpgsign=false commit`; do not assume a signing key is available in CI, worktrees or ephemeral environments.
 - title: Document human-signing exceptions
   description: |
     When a commit must be signed by a human, document the exception and leave that commit to a human outside the agent workflow.

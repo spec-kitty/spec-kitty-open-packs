@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4fb1ae8fac3c6c7c935d348d34d3a3e05d7a385826fe928acd32e44bd82f2a43
+manifest_hash: 0354338fdb0bdc3c3482f9d6fdd815a2b6a06d580449379b027fcbd12c23c655
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -356,7 +356,7 @@ constituents:
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
-  content_hash: 737160612b59974a3bb94a0175392affab05aeb0fb32caf9070bf5d644e11a09
+  content_hash: 2c646aa501c62d40e6c1d9982e8a4f35fcddefecdd0226ddd475ac1119a78396
 - kind: procedure
   id: agent-self-declaration
   path: procedures/agent-self-declaration.procedure.yaml
