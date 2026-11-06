@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `d00d5ca94c185b718242c20cd64cbed6817fc6b6abbb26a57ec6dc6af426d745`
+- **Content checksum (sha256):** `787f1b631c14537b828e9f9b4b5a2349de4382205f222e68556c8423596ad8f8`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -42,8 +42,9 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `assets` | 20 |
 | `glossary_packs` | 1 |
 | `drg` | 1 |
+| `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **73** |
+| **Total files** | **74** |
 
 ### Full listing
 
@@ -151,6 +152,13 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 <summary><code>drg</code> (1)</summary>
 
 - `fragment.yaml`
+
+</details>
+
+<details>
+<summary><code>presets</code> (1)</summary>
+
+- `base.yaml`
 
 </details>
 

@@ -12,6 +12,7 @@ required_procedures:
   - semi-auto-delivery
 required_directives:
   - NO_FULL_HEAVY_SUITES_IN_MISSION
+  - SPEC_KITTY_DOCS_CONVENTIONS
 required_glossary_packs:
   - spk-internal-glossary
 required_toolguides:
