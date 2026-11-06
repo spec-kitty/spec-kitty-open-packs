@@ -10,7 +10,21 @@ enforcement: required
 scope: >
   Applies in the Spec Kitty repositories wherever the built-in DIRECTIVE_042
   or DIRECTIVE_047 applies to a documentation page.
+integrity_rules:
+  - The lifecycle key is `doc_status`, with the values draft / active /
+    deprecated / superseded / durable. A bare `status` key is prohibited on a
+    page because it collides with the work package lane status; ADR frontmatter
+    keeps `status` for the MADR decision status.
+  - Every `audience:` entry on a touched page must resolve to an existing
+    persona file under `docs/context/audience/`; a dangling audience reference
+    is a red-line violation on that page. `audience:` is required on touched
+    pages only and is never added to `frontmatter_required_fields` (C-012).
 validation_criteria:
-  - >
-    Every touched page under the docs root declares `audience:` personas from
+  - Every touched page under the docs root declares `audience:` personas from
     docs/context/audience/ and uses the sanctioned frontmatter keys.
+  - The `audience:` path resolver confirms every audience reference on a touched
+    page resolves to an existing persona under `docs/context/audience/`. It is
+    non-vacuous (fails on zero examined, reusing `assert_examined_floor`) and
+    runs `--strict` on pull requests.
+  - No documentation frontmatter uses a bare `status` key for the doc lifecycle.
+    The page-inventory freshness gate reads this REPORT-ONLY.

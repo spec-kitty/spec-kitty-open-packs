@@ -27,8 +27,10 @@ steps:
       Do NOT include hypotheses — each paradigm must form its own.
   - title: Dispatch all five sub-agents in parallel
     description: >
-      Sequential dispatch defeats the point — the swarm is only valid
-      when independent. The five paradigms are: (1) The Falsifier
+      Parallel dispatch is the default, because the swarm is only valid when
+      independent. Only when parallel dispatch is not available, run the
+      paradigms in sequence, each writing its verdict before the next one
+      starts. The five paradigms are: (1) The Falsifier
       (hypothesis-driven scientific method, Zeller); (2) The Five-Whys
       Cartographer (5 Whys + Ishikawa fishbone, Toyota TPS / SRE
       postmortems); (3) The Bisector (delta debugging and git bisect,
@@ -65,7 +67,7 @@ steps:
       matrix with dormant-mask predictions. Cross-link every prior
       point-fix issue with a comment naming the structural cause.
 failure_modes:
-  - "Dispatching the five paradigms sequentially instead of in parallel — defeats the independence that makes convergence meaningful."
+  - "Running the five paradigms sequentially when parallel dispatch is available, or without writing each verdict before the next starts — defeats the independence that makes convergence meaningful."
   - "Suppressing divergence to force convergence — discards exactly the signal the swarm exists to find."
   - "Shipping five point-fixes instead of one structural intervention — leaves the class open for the sixth mask."
   - "Skipping the falsified-hypothesis catalog — the next recurrence will re-litigate dead-end theories."

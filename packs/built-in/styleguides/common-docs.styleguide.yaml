@@ -7,20 +7,20 @@ applies_to_languages: []
 principles:
   - "Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog. Each directory carries its own index.md. No second documentation root and no per-version shadow tree."
   - "Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. The page-inventory rollup is regenerated FROM frontmatter as a freshness-gated lockfile; it is never a parallel hand-maintained store."
-  - "Lifecycle key is doc_status, never status. The frontmatter lifecycle key is the namespaced doc_status with the controlled vocabulary draft | active | deprecated | superseded | durable. durable is the reserved, never-retire value for domain throughlines — re-verified on domain change rather than aged out or retired. The bare key status is prohibited in frontmatter because it collides with the work-package lane status model. The freshness date is carried by updated: YYYY-MM-DD."
+  - "Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines. Where status already means something else in the project, use a namespaced key; the structural lint shipped with this pack reads doc_status by default. The freshness date is carried by updated: YYYY-MM-DD."
   - "SEO description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive) consumed by the SEO post-processing step; descriptions outside that band are rejected."
   - "Cross-references use related: resolvable paths. Cross-references are a related: frontmatter list of repo-relative .md paths that each resolve to an existing file. The dead citation_refs sidecar field is not reintroduced."
-  - "Audience is named via a resolvable audience: path. Every documentation page touched by a change declares its target reader through an audience: frontmatter field — one resolvable repo-relative .md path (or a list of paths) targeting a persona under docs/context/audience/. This is the machine-checkable form of DIRECTIVE_047's audience-oriented-writing rule. The field is required on touched pages only and is deliberately NOT added to frontmatter_required_fields, so untouched legacy pages are never red-lined for lacking it (C-012)."
+  - "Audience is named in an audience: field. Every documentation page touched by a change declares its target reader in an audience: frontmatter field. Where the project keeps a persona source, each value resolves to it, as a repo-relative .md path or a list of paths. Where it keeps none, the field names the persona in plain words and the gap is recorded. This is the machine-checkable form of DIRECTIVE_047's audience-oriented-writing rule. The field is required on touched pages only, so untouched legacy pages are never failed for lacking it."
   - "ADRs live under adr/<era>/ with YAML frontmatter. Architecture Decision Records are filed under adr/<era>/ (adr/1.x/ through adr/4.x/) by era of decision and carry YAML frontmatter so the docsite can index them. The living architectural design collapses into a single unversioned architecture/ location."
   - "Naming is kebab-case and section-scoped. Documentation file and directory names are lowercase kebab-case; ADR filenames keep their dated prefix; one concern per file."
   - "Curate by delete-stale. docs/ is not a wiki: one concern per file; DIRECTIVE_037 (Living Documentation Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled into a decision (adr/) or design (architecture/) and then retired rather than accumulating."
 
 patterns:
-  - name: doc_status namespacing
+  - name: lifecycle key namespacing
     description: >
-      Use the namespaced doc_status lifecycle key so a documentation lifecycle
-      value can never be confused with the work-package lane status term, by a
-      reader or by a grep.
+      Where status already means something else in the project, use a namespaced
+      lifecycle key so a documentation lifecycle value can never be confused with
+      it, by a reader or by a grep.
     bad_example: |
       ---
       title: Charter Activation
@@ -50,22 +50,22 @@ patterns:
       ---
   - name: audience-resolvable
     description: >
-      Name a page's target reader through the audience: frontmatter field whose
-      value is a resolvable repo-relative .md path (or a list of paths) into
-      docs/context/audience/, validated by the audience resolver, rather than a
-      free-text audience note that nothing can check. Required on touched pages
-      only.
+      Where the project keeps a persona source, name a page's target reader
+      through an audience: value that resolves into it (a repo-relative .md path
+      or a list of paths), rather than a free-text note that nothing can check.
+      Where it keeps none, name the persona in plain words and record the gap.
+      Required on touched pages only.
     bad_example: |
       ---
       title: Merge Workflow
-      audience: maintainers   # free text — unresolvable, unverifiable
+      audience: maintainers   # free text, though the project keeps persona pages
       ---
     good_example: |
       ---
       title: Merge Workflow
       doc_status: active
       updated: 2026-08-10
-      audience: ../context/audience/internal/maintainer.md
+      audience: ../personas/maintainer.md
       ---
 
 anti_patterns:
@@ -99,11 +99,11 @@ tooling:
   adr-era-layout: "the common-docs-structural-lint doctrine asset (the structural lint shipped with this pack) — its point_in_time_placement check allowlists adr/** (era-dated ADRs) so ADRs resolve under adr/<era>/ without churn; the living architecture/ being unversioned is maintained by periodic bulk curation and review."
   naming-kebab-case: "Maintained by periodic bulk curation and review (the retired per-PR docs ratchet asserted this mechanically; the common-docs-structural-lint doctrine asset does not currently assert kebab-case naming)."
   curation-delete-stale: "Maintained by periodic bulk curation and review; the common-docs-structural-lint doctrine asset's shadow_tree_basename and point_in_time_placement checks catch two concrete drift classes (duplicated non-nav basenames and misplaced dated/point-in-time files) but curation itself remains a review-time practice, per DIRECTIVE_037's same-change discipline."
-  frontmatter-doc-status: "The page-inventory lockfile freshness gate reads frontmatter REPORT-ONLY (it regenerates the rollup FROM frontmatter and reds on drift). It does not yet assert the doc_status controlled vocabulary or reject a bare status key."
+  frontmatter-lifecycle-key: "The page-inventory lockfile freshness gate reads frontmatter REPORT-ONLY (it regenerates the rollup FROM frontmatter and reds on drift). It does not yet assert the project's lifecycle values or reject a bare status key."
   frontmatter-ssot-lockfile: "The page-inventory lockfile freshness gate (asserts the rollup is regenerated FROM frontmatter and the committed lockfile is in sync)."
   frontmatter-seo-description: "The page-inventory lockfile freshness gate (asserts every description is 50-180 characters)."
   related-resolvable-paths: "The related: path validator (asserts every related: entry resolves to an existing repo-relative .md path)."
-  audience-resolvable: "The audience: path resolver — asserts every audience: value on a touched page resolves to an existing repo-relative .md persona under docs/context/audience/. Non-vacuous: reuses assert_examined_floor (min_files >= the count of audience-tagged pages; fails on 0 examined) and emits checked_count; runs strict on pull requests (exit 1 on any dangling reference). Scoped to touched pages only — never added to frontmatter_required_fields."
+  audience-resolvable: "Where the project keeps a persona source and an audience: path resolver, the resolver asserts every audience: value on a touched page resolves to it. Otherwise this is checked at review. Scoped to touched pages only."
 
 quality_test: >
   A documentation change satisfies this styleguide when: the
@@ -115,8 +115,8 @@ quality_test: >
   section subtrees, and required frontmatter on in-scope pages; the
   page-inventory lockfile freshness gate is green — the rollup regenerates
   FROM frontmatter with no drift, and every description is within 50-180
-  characters (the doc_status controlled vocabulary and the bare-status rejection
-  are read REPORT-ONLY); and the related: path validator resolves every
+  characters (the lifecycle values and the bare-status rejection are read
+  REPORT-ONLY); and the related: path validator resolves every
   cross-reference.
 
 # The machine-parseable structural_lint_config:

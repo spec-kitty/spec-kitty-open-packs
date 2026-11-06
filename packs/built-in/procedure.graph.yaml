@@ -198,6 +198,10 @@ nodes:
   kind: procedure
   label: Version Freshness Check
 edges:
+- source: procedure:action-item-attribution-gate
+  target: procedure:meeting-minutes-pipeline
+  relation: suggests
+  reason: The pipeline's validation step is the minutes validation check this gate runs.
 - source: procedure:adversarial-squad-deployment
   target: tactic:code-review-incremental
   relation: requires
@@ -373,6 +377,14 @@ edges:
   target: template:out-of-scope-record-template
   relation: suggests
   reason: Use when rejecting an enhancement as out of scope.
+- source: procedure:failing-test-triage
+  target: procedure:read-intent-before-high-risk-operation
+  relation: in_tension_with
+  reason: Failing-test triage deletes a patchwork test on its verdict alone, while the intent check treats deleting a test as a high-risk operation that needs explicitly confirmed intent.
+- source: procedure:keep-change-local
+  target: procedure:tech-debt-point-cut-triage
+  relation: in_tension_with
+  reason: Change locality keeps opportunistic cleanup out of functional work, while point-cut triage folds debt matching the mission's domain into its scope.
 - source: procedure:keep-change-local
   target: procedure:tidy-first-campsite-clean
   relation: in_tension_with

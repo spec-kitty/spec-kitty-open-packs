@@ -18,9 +18,8 @@
 # VALUES below (`point_in_time`, `closeout`) are lint-asset-owned extensions
 # of the shared `doc_status` frontmatter FIELD, used only by the
 # point_in_time_markers mechanism to self-declare a dated/point-in-time
-# page. They are NOT members of DIRECTIVE_042's five-value doc_status
-# LIFECYCLE vocabulary (draft | active | deprecated | superseded | durable)
-# and must never be read as such — see DIRECTIVE_042 for that vocabulary.
+# page. They are NOT lifecycle values, and must never be read as such: a
+# project's docs styleguide defines those.
 # This key is declarative documentation only: load_config() reads only the
 # `structural_lint_config:` block below and ignores this sibling key, so
 # declaring it here cannot change runtime behaviour.
@@ -52,7 +51,7 @@ structural_lint_config:
   # Frontmatter signals that a file self-declares point-in-time/closeout even
   # when its basename does not match point_in_time_patterns. See
   # asset_owned_marker_values above for why these two values are declared,
-  # not members of DIRECTIVE_042's doc_status vocabulary.
+  # not lifecycle values.
   point_in_time_markers:
     - frontmatter_field: doc_status
       frontmatter_value: point_in_time
