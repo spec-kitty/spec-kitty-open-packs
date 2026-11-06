@@ -1,5 +1,5 @@
 ---
-description: Validate an approved mission before merge
+description: Validate an approved mission before consolidation
 ---
 # /spec-kitty.accept - Validate Mission Readiness
 
@@ -73,7 +73,7 @@ spec-kitty accept --mission <handle>
 
 This validates that all work packages are `approved` or `done`, checks the
 readiness gates (including the acceptance matrix recorded in step 1), and
-reports what (if anything) still blocks merge.
+reports what (if anything) still blocks consolidation.
 
 ### 3. Inspect Acceptance Diagnostics
 
@@ -107,8 +107,14 @@ Only after the acceptance gate passes:
 spec-kitty consolidate --mission <handle>
 ```
 
-Follow the consolidate instructions printed by the acceptance command (and any
-cleanup steps it lists).
+Follow the consolidate instructions printed by the acceptance command. As its
+final step, `spec-kitty consolidate` removes the Mission's lane worktrees and lane
+branches (and, for coordination topologies, the coordination checkout and branch),
+unless the Mission declared that branches or worktrees are retained. It removes only
+what it can prove has landed, under the destructive-operation proofs; anything it
+cannot prove is kept and reported. Do not remove them by hand, and do not wait for a
+pull request to merge first. `spec-kitty doctor workspaces --prune` cleans up
+anything left behind.
 
 ## Output
 

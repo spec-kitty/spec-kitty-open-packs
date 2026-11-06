@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 64b51c5fdc3290ab0db7f1b15282a21556facef5895be24a8a0910c0ef28e991
+manifest_hash: 0a3c7b76c2a19f910428b8eb419faba644ea07b73a36e3a6f4d0316f0f61e451
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -288,7 +288,7 @@ constituents:
 - kind: glossary_pack
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
-  content_hash: fdd5eab56e20e1e56327e8f7cd4950366b26db803ae2e01fd78a8e952a95dff1
+  content_hash: d3b90ea9bcd4cc45e5c18a67994a1e80f4d5a430fbd339edf6cfcf92395ce119
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
@@ -316,7 +316,7 @@ constituents:
 - kind: paradigm
   id: execution-lanes
   path: paradigms/execution-lanes.paradigm.yaml
-  content_hash: 4ea9084f58fdab074266982fe1f893153bbad4368d2ed49660225769334a7975
+  content_hash: 92e307b7ef2d2200fb7b9e4c0fe3f648000aea59e5d7779990388d6208a17b28
 - kind: paradigm
   id: extract-then-publish-separation
   path: paradigms/extract-then-publish-separation.paradigm.yaml
@@ -512,7 +512,7 @@ constituents:
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: f56efae952f127d488e0793b99f562f8f3494c6cbefdf4a1a3addb345c7404cf
+  content_hash: 2903673430c20ecaf704db62dbdda5e24e2695aa73bdc3efd010bc0e407e981e
 - kind: procedure
   id: mutation-testing-review
   path: procedures/mutation-testing-review.procedure.yaml
@@ -532,7 +532,7 @@ constituents:
 - kind: procedure
   id: post-merge-arch-gate-adjudication
   path: procedures/post-merge-arch-gate-adjudication.procedure.yaml
-  content_hash: 1b573e1ae812f2823bdcbff27c47c4b8b880f9e71e736ae1f091be5beb500c79
+  content_hash: ca305e8ab6d27335de09688beffe9c8d727aa3cd7b655293bb065406b6a596f9
 - kind: procedure
   id: read-intent-before-high-risk-operation
   path: procedures/read-intent-before-high-risk-operation.procedure.yaml
@@ -926,6 +926,10 @@ constituents:
   path: tactics/architecture/interface-variation-design.tactic.yaml
   content_hash: 35161adf64e5844ef7a1655b8ebce993c320560c3261d970359c185d1d172fed
 - kind: tactic
+  id: lane-recovery
+  path: tactics/lane-recovery.tactic.yaml
+  content_hash: 6e48d22bcad19522ec61af99745d363b197ce5d4fcaefca5446378f63fe3e79c
+- kind: tactic
   id: language-driven-design
   path: tactics/architecture/language-driven-design.tactic.yaml
   content_hash: 933f9b8100950b6073338fd8b9987ed21c5f6c93e796899a2ce2870d22fad557
@@ -964,7 +968,7 @@ constituents:
 - kind: tactic
   id: pr-agent-worktree-isolation
   path: tactics/pr-agent-worktree-isolation.tactic.yaml
-  content_hash: 3b63b5ada45e4eeb984a43f5a0da59008ac85a523cadfbeff624e14a73c0968e
+  content_hash: 57bc9642f996f962f9bace6a7f0d1f3ae1f054116d2186b3f63db72dede3544f
 - kind: tactic
   id: premortem-risk-identification
   path: tactics/analysis/premortem-risk-identification.tactic.yaml

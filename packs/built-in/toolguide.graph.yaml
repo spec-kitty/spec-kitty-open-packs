@@ -76,5 +76,9 @@ edges:
   target: tactic:clean-linear-commit-history
   relation: suggests
 - source: toolguide:git-worktree-pr-workflow
+  target: tactic:lane-recovery
+  relation: suggests
+  when: A Spec Kitty command refuses a lane with DESTROYED_LANE or LANE_WORK_TIP_UNKNOWN after a lane worktree or lane branch was removed.
+- source: toolguide:git-worktree-pr-workflow
   target: tactic:pr-agent-worktree-isolation
   relation: suggests

@@ -6,9 +6,9 @@ These guidelines govern the quality and correctness standards for work package i
 
 ## Working Directory Discipline
 
-- After running `spec-kitty implement WP##`, change into the worktree directory shown in the output.
-- ALL file operations (Read, Write, Edit) must target files inside the worktree workspace.
-- NEVER write deliverable files to the repository root checkout — this causes review failures and merge conflicts.
+- After running `spec-kitty implement WP##`, change into the checkout shown in the output.
+- ALL file operations (Read, Write, Edit) must target files inside that checkout.
+- Write deliverables only in the checkout `spec-kitty implement` printed. For lane topologies that is the lane worktree, never the repository root checkout; for `single_branch` it is the write checkout, which may be the repository root checkout. Writing anywhere else causes review failures and consolidation conflicts.
 
 ---
 

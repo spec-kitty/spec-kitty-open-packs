@@ -34,7 +34,7 @@ cd /path/to/project/root  # Your repository root checkout
 # All planning artifacts are created in the project root and committed:
 # - kitty-specs/<mission_slug>/spec.md → Created in project root
 #   (use the mission_slug returned by `mission create`; the numeric NNN- prefix
-#    is display-only and is assigned at merge time)
+#    is display-only and is assigned at consolidation)
 # - Committed to target branch (from create JSON: target_branch/base_branch)
 # - NO worktrees created
 ```
@@ -495,16 +495,16 @@ breakage that DIRECTIVE_035 exists to prevent.
 
 **Planning happens in the repository root checkout - NO worktree created!**
 
-1. Creates `kitty-specs/<mission_slug>/spec.md` directly in project root (the optional `NNN-` prefix is display-only metadata assigned at merge time)
+1. Creates `kitty-specs/<mission_slug>/spec.md` directly in project root (the optional `NNN-` prefix is display-only metadata assigned at consolidation)
 2. Commits creation metadata; `spec.md` remains untracked until it is substantive and explicitly committed
 3. No worktree created during specify
 
-**Worktrees created later**: After `/spec-kitty.tasks` finishes, run: `spec-kitty next --agent <agent> --mission <handle>`. The `--mission` handle can be the mission's `mission_id` (ULID), `mid8` (first 8 chars), or `mission_slug`; the resolver disambiguates by `mission_id` and returns a structured error on ambiguity (no silent fallback). On a software-dev mission `next` issues the `/spec-kitty.analyze` step first (the required analysis gate), and only once the analysis report is current does it hand out `spec-kitty agent action implement WP## --agent <name>` for each WP. Each lane gets exactly one worktree, for example `.worktrees/<human-slug>-<mid8>-lane-a/` (e.g. `.worktrees/checkout-upsell-flow-01J6XW9K-lane-a/`).
+**Worktrees created later**: After `/spec-kitty.tasks` finishes, run: `spec-kitty next --agent <agent> --mission <handle>`. The `--mission` handle can be the mission's `mission_id` (ULID), `mid8` (first 8 chars), or `mission_slug`; the resolver disambiguates by `mission_id` and returns a structured error on ambiguity (no silent fallback). On a software-dev mission `next` issues the `/spec-kitty.analyze` step first (the required analysis gate), and only once the analysis report is current does it hand out `spec-kitty agent action implement WP## --agent <name>` for each WP. Without an explicit `--topology` at create, `finalize-tasks` settles the topology by Mission size: at most 2 WPs, or one computed execution lane, gives `single_branch` (WPs run in the write checkout); larger Missions get `lanes` (or `lanes_with_coord` on a protected target), with one lane branch per execution lane. Lane worktrees are created only after that, by `spec-kitty agent action implement`. Never build a `.worktrees/` path yourself.
 
 ## Location
 
 - Work in: **Repository root checkout** (not a worktree)
-- Creates: `kitty-specs/<mission_slug>/spec.md` (the `NNN-` prefix is display-only and assigned at merge time)
+- Creates: `kitty-specs/<mission_slug>/spec.md` (the `NNN-` prefix is display-only and assigned at consolidation)
 - Commits to: target branch (from `create --json` → `target_branch`)
 
 ## Outline
@@ -592,7 +592,7 @@ Given that mission description, do this:
    - `result`: "success" or error message
    - `mission_id`: Canonical ULID machine identity (e.g., `01J6XW9KQT7M0YB3N4R5CQZ2EX`). Immutable.
    - `mission_slug`: Human-readable mission slug (e.g., `checkout-upsell-flow`)
-   - `mission_number`: **Display-only** numeric prefix, `null` pre-merge. Assigned at merge time. **Never** use this as a selector or identity.
+   - `mission_number`: **Display-only** numeric prefix, `null` before consolidation. Assigned at consolidation. **Never** use this as a selector or identity.
    - `mission_type`: Mission type key (for example `software-dev`)
    - `slug`: Unnumbered mission slug (e.g., `checkout-upsell-flow`)
    - `friendly_name`: provisional title
@@ -678,8 +678,8 @@ Given that mission description, do this:
    }
    ```
 
-   `mission_number` becomes a concrete integer only at merge time, assigned as
-   `max(existing_numbers)+1` inside the merge-state lock. Selectors disambiguate
+   `mission_number` becomes a concrete integer only at consolidation, assigned as
+   `max(existing_numbers)+1` while consolidation holds the Mission's lock. Selectors disambiguate
    by `mission_id` (or its 8-char prefix `mid8`), never by `mission_number`.
 
    **Do not regenerate timestamps or directory paths via shell commands.**

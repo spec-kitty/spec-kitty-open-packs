@@ -167,6 +167,9 @@ nodes:
 - urn: tactic:interface-variation-design
   kind: tactic
   label: Interface Variation Design
+- urn: tactic:lane-recovery
+  kind: tactic
+  label: Lane Recovery (DESTROYED_LANE, LANE_WORK_TIP_UNKNOWN)
 - urn: tactic:language-driven-design
   kind: tactic
   label: Language-Driven Design

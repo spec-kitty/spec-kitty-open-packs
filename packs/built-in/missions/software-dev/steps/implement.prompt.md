@@ -38,11 +38,16 @@ guardrails for bulk operations.
 
 ## Working Directory
 
-**IMPORTANT**: This step works inside the execution workspace (worktree)
-allocated by `spec-kitty agent action implement WPxx --agent <name>`. For a `single_branch` mission the WP instead runs in the repository root checkout, which must be on the mission's write branch and clean, and only one WP may be in progress at a time.
+**IMPORTANT**: Work in the checkout `spec-kitty agent action implement WPxx --agent <name>`
+prints: a lane worktree for lane topologies, or, for a `single_branch` mission, the write checkout
+(the repository root checkout, which must be on the mission's write branch and clean; only one WP
+may be in progress at a time). A harness isolation worktree is yours for reading or scratch work,
+but WP deliverables are committed in the printed checkout. Read status through
+`spec-kitty agent tasks status --mission <handle>`, never from a checkout's status files. If a
+command reports `DESTROYED_LANE` or `LANE_WORK_TIP_UNKNOWN`, follow the `lane-recovery` tactic.
 
 **One writer per checkout.** Concurrent implementers and reviewers each work in their own checkout
-(a lane worktree, or a harness-isolated worktree). On `single_branch` the repository root checkout has
+(a lane worktree, or a harness isolation worktree). On `single_branch` the repository root checkout has
 one writer at a time: `implement` refuses a second claim there (`WRITE_CHECKOUT_OCCUPIED`) while
 `agent action implement` and `agent action review` warn when another actor is working in it.
 
@@ -160,7 +165,9 @@ available profile for the WP's `task_type` and `authoritative_surface`.
 
 ### 3. Verify Dependencies
 
-Confirm all dependency WPs are in `approved` or `done` status before proceeding.
+Confirm all dependency WPs are `approved` or `done` with
+`spec-kitty agent tasks status --mission <handle>` before proceeding. Do not read the event
+log from your checkout; the CLI reads the resolved status surface.
 If any are not approved or done, stop and report which dependencies are blocking.
 
 ### 4. Implement Subtasks

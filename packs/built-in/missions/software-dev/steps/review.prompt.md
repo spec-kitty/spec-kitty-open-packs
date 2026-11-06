@@ -23,7 +23,7 @@ one-line rationale in the commit message.
 **One writer per checkout.** Do not edit files in a checkout another actor is implementing in; on
 `single_branch` the repository root checkout has one writer at a time, and `agent action review`
 warns, naming them, when another actor works there. Review from your own checkout (a lane worktree,
-or a harness-isolated worktree) instead.
+or a harness isolation worktree) instead.
 
 **In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
 
@@ -297,8 +297,8 @@ spec-kitty agent tasks move-task WPxx --to approved --actor <name> --mission <ha
 Before rejecting, update `agent_profile` in the WP frontmatter back to the
 implementer profile so the next implementation cycle starts with the right context:
 
-1. Identify the implementer profile that worked on this WP (check the history field
-   or `status.events.jsonl` to find the last `in_progress` actor).
+1. Identify the implementer profile that worked on this WP (run
+   `spec-kitty agent tasks status --mission <handle>` to find the last `in_progress` actor).
    Alternatively, use the default: `implementer-ivan` (or `python-pedro`/`java-jenny`
    for language-specific work).
 

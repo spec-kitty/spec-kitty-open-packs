@@ -9,12 +9,15 @@ purpose: >
   release time. Together these prevent cross-contamination of mission state and
   preserve the product owner's authority over the release boundary.
 steps:
-  - title: Isolate every PR-touching agent in a worktree
+  - title: Isolate every PR-touching agent in a harness isolation worktree
     description: >
       Any agent that reviews or rebases a PR — including review agents, rebase
       helpers, and automated analysis passes — must be invoked with
       `isolation: "worktree"` (the `Agent(isolation: "worktree")` parameter in
-      the agent harness). A non-isolated agent operating on a PR diff executes
+      the agent harness), which gives it a harness isolation worktree. That is
+      not a Spec Kitty lane worktree: never run `spec-kitty implement` or a
+      status write from it, and never read its status files as status (read
+      status with `spec-kitty agent tasks status`). A non-isolated agent operating on a PR diff executes
       in the caller's active checkout; git stages the PR diff into that checkout
       and cross-contaminates the active mission's working tree.
 

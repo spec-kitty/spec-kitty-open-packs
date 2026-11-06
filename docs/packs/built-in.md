@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `9656265c50d7c284b7f78e1b2a7a70c52f927d5089e2829c7c0c4d8c2d543a34`
+- **Content checksum (sha256):** `0fd200d17e7ad6afea1ce2518b7a459d0dcf660da8de91a8599b5e33cc15baff`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -33,7 +33,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | Kind | Count |
 | --- | --- |
 | `directives` | 39 |
-| `tactics` | 121 |
+| `tactics` | 122 |
 | `styleguides` | 26 |
 | `toolguides` | 37 |
 | `paradigms` | 14 |
@@ -45,7 +45,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **480** |
+| **Total files** | **481** |
 
 ### Full listing
 
@@ -95,7 +95,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>tactics</code> (121)</summary>
+<summary><code>tactics</code> (122)</summary>
 
 - `adversarial-qa-handoff.tactic.yaml`
 - `analysis/ammerse-impact-analysis.tactic.yaml`
@@ -159,6 +159,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `frozen-baseline-shrink-only-ratchet.tactic.yaml`
 - `generated-code-stewardship.tactic.yaml`
 - `input-validation-fail-fast.tactic.yaml`
+- `lane-recovery.tactic.yaml`
 - `model-task-routing.tactic.yaml`
 - `moscow-scoping-lens.tactic.yaml`
 - `occurrence-classification-workflow.tactic.yaml`
