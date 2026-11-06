@@ -100,8 +100,8 @@ spec-kitty agent mission finalize-tasks --mission <mission-slug> --json
 This command will update WP frontmatter, compute lanes, and commit all tasks to
 the target branch. Without an explicit `--topology` at create, `finalize-tasks` settles the topology by
 Mission size: at most 2 WPs, or one computed execution lane, gives `single_branch` (WPs run in
-the write checkout); larger Missions get `lanes` (or `lanes_with_coord` on a protected target),
-with one lane branch per execution lane. Lane worktrees are created only after that, by
+the write checkout); larger Missions get `lanes_with_coord`: the Mission topic branch becomes the coordination branch
+and one lane branch is cut from it per execution lane (plain `lanes` and `coord` only when chosen explicitly). Lane worktrees are created only after that, by
 `spec-kitty agent action implement`.
 
 ### 3. Check Output
