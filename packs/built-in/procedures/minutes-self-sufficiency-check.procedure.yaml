@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: minutes-self-sufficiency-check
+title: Minutes Self-Sufficiency Check
+description: |
+  Make each meeting note understandable to someone who missed the meeting, without making it verbose.
+entry_condition: |
+  Meeting notes, decisions, or action items are being extracted or reviewed.
+exit_condition: |
+  Every note and decision passes the missed-the-meeting test while staying short.
+steps:
+- title: Apply the missed-the-meeting test
+  description: |
+    Ask of each note: "Would someone who missed this meeting understand this without a follow-up question?" If not, it is incomplete. When extracting, prefer a complete short phrase over a fragment that needs prior context.
+- title: Name things, decisions, and owners
+  description: |
+    Name the thing, not a pronoun; state the decision, not a reference to an earlier conversation; name each action's owner, not "the team" or "TBD"; spell out terms that are ambiguous without context.
+- title: Add missing context, not verbosity
+  description: |
+    A good note is short and complete; fix an incomplete note by adding the missing context, not more words.

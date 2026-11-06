@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: bulk-edit-occurrence-mapping
+title: Bulk-Edit Occurrence Mapping
+description: |
+  Govern a bulk edit through an explicit occurrence map so no occurrence changes by accident.
+entry_condition: |
+  A mission will rename, migrate, or replace an identifier, path, key, or term across many files.
+exit_condition: |
+  The mission declares `change_mode: bulk_edit`, a validated occurrence_map.yaml existed before implementation, and review judged the changes against it.
+steps:
+- title: Declare the mission occurrence-sensitive
+  description: |
+    Set `change_mode: bulk_edit` in the mission metadata.
+- title: Produce the occurrence map
+  description: |
+    Before implementation, write occurrence_map.yaml classifying the target term by semantic category, assign each category an action (rename, manual_review, do_not_change, rename_if_user_visible), and document file or pattern exceptions that override category rules.
+- title: Gate implementation on the validated map
+  description: |
+    Do not begin implementation until the map exists and passes validation.
+- title: Review against the occurrence map
+  description: |
+    Review cites the map as the governing artifact for every change.

@@ -1,0 +1,25 @@
+schema_version: '1.0'
+id: readable-pr-preparation
+title: Readable Pull Request Preparation
+description: |
+  Turn a mission branch into a pull request a reviewer can read and trust.
+entry_condition: |
+  A mission branch is ready to be proposed as a draft pull request.
+exit_condition: |
+  The branch is ahead-only and compacted into readable slices, remaining scope is finished or tracked, an aggregate review verdict is folded in, the PR body carries the evidence, and the compacted tree was verified and re-tested before the force-push with lease.
+steps:
+- title: Rebase and compact the branch
+  description: |
+    Rebase onto the current upstream mainline (rebase, not merge) so the branch is ahead-only. Compact it into a few logically sliced commits per the clean-linear-commit-history tactic; never reorder interactively.
+- title: Confirm the intended scope is complete
+  description: |
+    Finish any remaining item that is small enough now. Defer only high-effort or mission-sized work, as a tracked follow-up with a one-line rationale.
+- title: Obtain an independent aggregate review
+  description: |
+    Review the aggregate diff of the whole branch before or alongside opening the draft. Use adversarial-squad-deployment where parallel reviewers are available; a single agent reviews the diff once per lens in sequence instead. Synthesize a LAND / HOLD verdict and fold in every real finding while the PR is a draft. A green review of each work package (WP) and green CI are not the final gate.
+- title: Write a self-contained PR body
+  description: |
+    State the change, the review evidence (per work package and the aggregate verdict) and any remaining reviewer work. If the project uses SonarCloud or a similar analysis service, name any hotspot review left for its UI. No reviewer has to re-derive context.
+- title: Verify the compacted tree before force-pushing
+  description: |
+    Confirm the compacted tree matches the pre-compaction tree except for intentionally dropped ignored artifacts. Re-run the affected tests on the rebased tip, then force-push with lease.

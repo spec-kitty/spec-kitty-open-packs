@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: disciplined-refactoring-cycle
+title: Disciplined Refactoring Cycle
+description: |
+  Restructure code safely, without changing its behavior.
+entry_condition: |
+  Code is about to be restructured without intending to change its behavior.
+exit_condition: |
+  Each move addressed a named smell, started from a green, covered baseline, was a single named transformation with tests green afterwards, and no behavior change was mixed in.
+steps:
+- title: Name the smell first
+  description: |
+    State in one line the problem the move addresses (e.g. "this method uses another class's data more than its own"). The smell selects the transformation; an unnamed one means the move is not yet justified.
+- title: Establish a green baseline
+  description: |
+    Make sure the surface is covered by passing tests; where coverage is missing, add characterization tests first. Never refactor under red or uncovered code.
+- title: Apply one transformation at a time
+  description: |
+    Perform a single named move (extract, encapsulate, move, inline, replace-conditional-with-polymorphism, incremental cutover), then re-run the tests. Revert a step that reddens the suite and retry in smaller increments; be green before the next move.
+- title: Separate structural moves from behavior changes
+  description: |
+    When behavior must change, stop the refactor at a green point and make the change as its own step with its own tests, so each diff reads as either "same behavior, better shape" or "new behavior".

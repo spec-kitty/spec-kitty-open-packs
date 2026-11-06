@@ -31,23 +31,6 @@ scope: >
   does not mandate a mutation run for every change, and it does not apply to
   generated code, throwaway spikes, or trivial glue with no behavioural contract
   to pin.
-procedures:
-  - "Scope the run to what changed. Point the mutation tool at the modules the
-    work package touched, not the whole codebase, so the run finishes inside a
-    review cycle and every survivor it reports is about code under review."
-  - "Read each surviving mutant as a located question. A survivor names a line
-    whose mutation the tests tolerated — ask 'what behaviour should have made a
-    test fail here?' and add or tighten the assertion that pins it, rather than
-    deleting or muting the mutant to move the number."
-  - "Annotate genuine equivalents honestly. A mutant that cannot change
-    observable behaviour (a log string, a version constant, a formatting-only
-    branch) is equivalent and unkillable; mark it as such with a recorded reason,
-    and keep the equivalent rate low enough that suppression is not hiding real
-    gaps."
-  - "Treat the score as a signal, not a goal. Use the score to locate weak
-    assertions and to watch for regressions in the suite's discriminating power;
-    do not set a numeric target that rewards gaming, over-specification, or
-    asserting on incidental detail."
 integrity_rules:
   - "A surviving non-equivalent mutant is resolved by strengthening the test that
     should have caught it, never by removing the mutant, weakening the tool's

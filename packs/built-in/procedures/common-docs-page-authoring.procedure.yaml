@@ -1,0 +1,25 @@
+schema_version: '1.0'
+id: common-docs-page-authoring
+title: Common Docs Page Authoring
+description: |
+  Keep documentation in one curated root whose lifecycle metadata is machine-readable and whose stale pages are retired.
+entry_condition: |
+  A documentation page or decision record (ADR) is being created, moved, or updated.
+exit_condition: |
+  The page sits in the single documentation root with lifecycle metadata in its frontmatter, ADRs sit in one decision-record location, and stale documents are distilled and retired.
+steps:
+- title: Place pages in the single documentation root
+  description: |
+    Use the section structure the `common-docs` styleguide states. Never create a second documentation root or a per-version shadow tree.
+- title: Keep lifecycle metadata in frontmatter
+  description: |
+    Treat the page's own frontmatter as the sole source of truth for its lifecycle state (for example draft, active, deprecated, superseded). Generate any page inventory from it; never hand-maintain a parallel list.
+- title: Use the project's sanctioned frontmatter keys
+  description: |
+    Use only the lifecycle and cross-reference keys the project's docs styleguide sanctions. Express cross-references as resolvable repo-relative paths, not prose.
+- title: Keep decision records together
+  description: |
+    File ADRs in one decision-record location with frontmatter, preserving decision history; keep living architectural design in one unversioned location.
+- title: Curate under the delete-stale policy
+  description: |
+    Keep one concern per file. Distill, then retire, stale or deprecated documents rather than letting them accumulate. DIRECTIVE_037 (Living Documentation Sync) owns the same-change update rule.

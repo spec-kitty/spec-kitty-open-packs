@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: tech-debt-point-cut-triage
+title: Tech-Debt Triage at Planning Point-Cuts
+description: |
+  Decide, at each planning point-cut, which known debt the mission fixes now and which is filed, so debt is neither silently absorbed nor ignored. A point-cut is a planning checkpoint: after the spec, after the plan, or after the task breakdown.
+entry_condition: |
+  A mission reaches a planning point-cut and its diff surface (the files and modules the mission will change) carries tech-debt items.
+exit_condition: |
+  The point-cut artifact holds a triage table listing every tech-debt item found in the diff surface with its domain-match verdict, its decision (folded, or filed with a tracker link), and an impact-ordered priority for folded items.
+steps:
+- title: List the tech debt in the diff surface
+  description: |
+    Collect the debt on the surfaces the mission will touch: failing tests, lint and type findings, static-analysis findings, and known issues against those files.
+- title: Triage each item by domain match
+  description: |
+    Fold items matching the mission's primary domain into scope. File out-of-domain items as tracker issues and defer them; never silently expand scope or ignore them.
+- title: Order folded items by impact
+  description: |
+    Put critical or blocking items before non-blocking or aesthetic ones. Rank by impact on correctness or delivery velocity, not ease of fixing.
+- title: Record the triage in the point-cut artifact
+  description: |
+    Write the table (item, domain match, decision with tracker link, priority) into the artifact of that point-cut, such as a tech-debt section of the plan or tasks document. The next point-cut and the review check it there.

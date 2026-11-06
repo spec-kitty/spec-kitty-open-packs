@@ -27,7 +27,8 @@ packs/internal/
 ├── directives/
 │   ├── operator-signal-contract.directive.yaml      # OPERATOR_SIGNAL_CONTRACT — a path that decides must also signal
 │   ├── no-full-heavy-suites-in-mission.directive.yaml  # NO_FULL_HEAVY_SUITES_IN_MISSION — no full architectural/e2e/perf/test-full runs during mission work
-│   └── spec-kitty-red-main-policy.directive.yaml    # SPEC_KITTY_RED_MAIN_POLICY — refines built-in RED_MAIN_RELEASE_DISCIPLINE
+│   ├── spec-kitty-red-main-policy.directive.yaml    # SPEC_KITTY_RED_MAIN_POLICY — refines built-in RED_MAIN_RELEASE_DISCIPLINE
+│   └── spec-kitty-docs-conventions.directive.yaml   # SPEC_KITTY_DOCS_CONVENTIONS — refines built-in DIRECTIVE_042 / DIRECTIVE_047
 ├── skills/
 │   ├── land-pr.skill.yaml                           # kitty-land-pr: thin entry point to landing-contributor-prs
 │   ├── issue-triage.skill.yaml                      # kitty-issue-triage: thin entry point to issue-triage-pass
@@ -47,7 +48,9 @@ packs/internal/
 │   ├── executive-debrief-generation.procedure.yaml  # collect, synthesize, render and hand over a debrief (behind kitty-report-debrief)
 │   ├── cloud-session-dispatch.procedure.yaml        # hand tracker issues to an autonomous cloud runner (behind spk-dispatch-cloud)
 │   ├── semi-auto-delivery.procedure.yaml            # runner-side semi-auto standing orders: pause-and-escalate (behind kitty-semi-auto)
-│   └── spec-kitty-arch-gate-adjudication.procedure.yaml  # refines built-in post-merge-arch-gate-adjudication
+│   ├── spec-kitty-arch-gate-adjudication.procedure.yaml  # refines built-in post-merge-arch-gate-adjudication
+│   ├── spec-kitty-page-audience.procedure.yaml      # audience personas under docs/context/audience/ (refines declare-page-audience)
+│   └── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, adr/<era>/ (refines common-docs-page-authoring)
 ├── styleguides/
 │   ├── executive-debrief.styleguide.yaml            # house style for executive debriefs (refines report-writing)
 │   ├── report-writing.styleguide.yaml               # audience-first, anti-AI-prose, Spec Kitty voice

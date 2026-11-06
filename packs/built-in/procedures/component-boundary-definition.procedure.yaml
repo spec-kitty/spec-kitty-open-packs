@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: component-boundary-definition
+title: Component Boundary Definition
+description: |
+  Keep concerns independently changeable through explicit, guarded component boundaries.
+entry_condition: |
+  A design or implementation change introduces or modifies components, layers, or the dependencies between them.
+exit_condition: |
+  Every affected component has documented inputs, outputs and dependencies, the design was reviewed against existing boundaries, and any deviation from established patterns has an ADR.
+steps:
+- title: Define component boundaries before implementation
+  description: |
+    Document inputs, outputs and dependencies for each component before code is written.
+- title: Separate concerns at every layer
+  description: |
+    Keep data, logic, presentation and infrastructure apart so a change to one does not propagate into the others.
+- title: Review the design against existing boundaries
+  description: |
+    Check the proposed design for coupling violations before code is written.
+- title: Record deviating boundary decisions in an ADR
+  description: |
+    When the design deviates from established patterns, record the boundary decision and its rationale in an ADR.

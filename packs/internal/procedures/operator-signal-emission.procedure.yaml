@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: operator-signal-emission
+title: Operator Signal Emission
+description: |
+  Ensure every decision a code path makes reaches the operator as a signal they can read and act on.
+entry_condition: |
+  A code path refuses, skips, degrades, or fails in a way an operator needs to know about.
+exit_condition: |
+  The decision emits through an existing operator-visible sink with a human sentence beside the machine signal, a red-first regression asserts on the emitted signal, and the human half survives every seam to the operator surface.
+steps:
+- title: Emit through an existing operator-visible sink
+  description: |
+    Use a sink operators already watch (CLI output, doctor/status JSON, the event log, a non-zero exit code), never a new bespoke one; per epics #3410/#3549 an unwatched sink is no signal.
+- title: Pair every machine signal with a human sentence
+  description: |
+    State plainly what happened and what the operator should do next. A correct error_code without that sentence is a silent drop.
+- title: Assert on the emitted signal in the red-first regression
+  description: |
+    Assert on the operator-visible line, JSON field or log record, not only the machine code or artifact shape, which passes vacuously when the human half is dropped.
+- title: Verify the human half survives every seam
+  description: |
+    Where a seam separates the decision from its reporting surface, verify at the seam that the sentence crosses it; a signal discarded before the operator sees it is still dropped.

@@ -16,14 +16,6 @@ scope: >
   pipeline with a validation gate, or a review role with a non-negotiable
   boundary). Does not apply to general-purpose agents with no fixed identity
   to declare.
-procedures:
-  - Open with a short declaration of the agent's identity/role and the scope
-    of the task it is about to perform, before substantive work begins.
-  - Name any hard constraint that will govern the work (a validation gate
-    that cannot be skipped, content it will never produce or publish, a
-    condition under which it will halt) as part of that declaration.
-  - At completion, confirm what was actually done against what was declared,
-    including confirming that any hard constraint was honored.
 integrity_rules:
   - A declared hard constraint should not be silently relaxed mid-task
     without surfacing the change.

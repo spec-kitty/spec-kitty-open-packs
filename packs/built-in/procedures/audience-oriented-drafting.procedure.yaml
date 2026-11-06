@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: audience-oriented-drafting
+title: Audience-Oriented Drafting
+description: |
+  Write each human-facing artifact for a named reader rather than for the author.
+entry_condition: |
+  An artifact meant for human readers is about to be drafted.
+exit_condition: |
+  The artifact names its target persona, its vocabulary, detail and structure fit that persona, and genuinely divergent audiences have separate variants.
+steps:
+- title: Identify the target audience first
+  description: |
+    Before drafting, identify the persona: their role, their familiarity with the subject, and the decision or action the artifact should support.
+- title: Name the target persona explicitly
+  description: |
+    Name the persona in or beside the artifact (a heading, a metadata field or an opening line) so a later reader can confirm the tailoring was intentional.
+- title: Calibrate to the persona
+  description: |
+    Set vocabulary, level of detail and structure for that persona, not for the author's own familiarity.
+- title: Prefer persona-specific variants
+  description: |
+    When one source must serve genuinely divergent audiences, produce a variant per persona rather than one artifact that serves no one well.

@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: small-explicit-code-shaping
+title: Small, Explicit Code Shaping
+description: |
+  Keep production code, hand-written or generated, small, explicit and easy for a reviewer to reason about.
+entry_condition: |
+  Production code is being written, generated, or reviewed.
+exit_condition: |
+  Every new or changed function passes the project's complexity lint at its configured ceiling, the type checker passes on the changed code, and the review records the boring-code-review checklist for hand-written and generated code alike.
+steps:
+- title: Keep functions under the complexity ceiling
+  description: |
+    Run the project's complexity lint (for example ruff C901 or ESLint `complexity`) on changed code. Split a function over the ceiling into named helpers, but inline any helper that only forwards its call: small must not mean needless indirection.
+- title: Prefer strong primitives and explicit types before abstraction
+  description: |
+    Type new signatures explicitly and use idiomatic control flow and straightforward composition. Add an abstraction only when the explicit form has proved insufficient, and say in review what it buys.
+- title: Review generated code as project code
+  description: |
+    Put generated code through the same lint, type and complexity gates and the same review as hand-written code, and record the boring-code-review checklist for the change.

@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: defect-class-construction-gate
+title: Defect-Class Construction Gate
+description: |
+  Close a recurring defect class structurally, so the build rather than review catches it.
+entry_condition: |
+  A defect class recurs through omission or discipline lapses that review alone does not reliably catch.
+exit_condition: |
+  A non-vacuous gate makes the violation a build failure, existing sites sit in a shrink-only allowlist with one rationale each, and the superseded process rule is removed.
+steps:
+- title: Identify the structural gap
+  description: |
+    Name the constraint that, enforced by the build, would turn the omission into a CI failure instead of a review concern.
+- title: Author a non-vacuous gate
+  description: |
+    Write the gate (AST walk, type constraint or frozen-baseline ratchet) with a concrete floor and a self-mutation check so it cannot silently become a no-op.
+- title: Keep a shrink-only allowlist
+  description: |
+    Grandfather existing compliant sites in an allowlist with one rationale per entry; it shrinks with cleanup and never grows without explicit justification and a tracker ticket.
+- title: Retire the superseded process rule
+  description: |
+    Remove the process rule or reminder the gate now enforces; do not keep both.

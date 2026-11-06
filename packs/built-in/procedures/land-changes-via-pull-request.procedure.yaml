@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: land-changes-via-pull-request
+title: Pull Request Landing
+description: |
+  Ensure every change reaches the remote mainline only through a pull request the operator merges. The operator is the human who owns merges.
+entry_condition: |
+  Work is ready to reach the remote mainline (for example origin/main), or the mainline has been pushed to directly by mistake.
+exit_condition: |
+  The change is proposed in a pull request from a topic branch (or an accidental push is undone by a revert PR), and nothing reached the mainline without explicit operator instruction.
+steps:
+- title: Route every change through a pull request
+  description: |
+    Never push to the remote mainline (for example `git push origin main`) or merge a pull request without explicit operator instruction. The operator merges.
+- title: Open a PR from a topic branch
+  description: |
+    Local consolidation (for example `spec-kitty consolidate`) updates only the local mainline. Create a topic branch, with a name such as `pr/<slug>`, and open a pull request from it.
+- title: Recover from an accidental push with a revert PR
+  description: |
+    Do not force-push the mainline. Create a branch, with a name such as `revert/<slug>`, from the remote mainline, commit a revert, and open a PR for it. Then open the real mission PR.

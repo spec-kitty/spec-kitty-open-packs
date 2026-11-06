@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: test-first-cycle
+title: Test-First Cycle
+description: |
+  Drive every production change from a failing test.
+entry_condition: |
+  New behavior or a behavior change is about to be implemented in production code.
+exit_condition: |
+  Every production change was preceded by a failing test that captured the intended behavior, and the work moved in short red-green-refactor cycles.
+steps:
+- title: Select the test-first tactic for the scope
+  description: |
+    Before the first production edit, pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, zombies-tdd for incremental case discovery.
+- title: Write a failing test first
+  description: |
+    Write a test that captures the intended behavior and fails before any production code is written.
+- title: Keep red-green-refactor cycles short
+  description: |
+    Keep each cycle to minutes, not hours.

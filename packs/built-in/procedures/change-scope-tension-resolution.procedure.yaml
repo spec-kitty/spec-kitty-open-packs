@@ -1,0 +1,28 @@
+schema_version: '1.0'
+id: change-scope-tension-resolution
+title: Change-Scope Tension Resolution
+description: |
+  Settle, per change, how smallest viable diff, the Boy Scout Rule and Locality of Change apply together, and make the outcome reviewable. This is the default resolution order.
+entry_condition: |
+  A change is being planned or reviewed and smallest viable diff, the Boy Scout Rule, and Locality of Change could pull in different directions.
+exit_condition: |
+  The file set and edit size were fixed first, cleanup stayed inside that file set, any extension was justified under Locality of Change, any opening tidy-first cleanup landed as its own step, and the resolution is recorded in the task or review context.
+steps:
+- title: Start from the smallest viable diff
+  description: |
+    Identify the minimal file set and the minimal edit within each file for the stated goal before considering anything more.
+- title: Apply the resolution order
+  description: |
+    Resolve conflicts in this order:
+    1. Smallest viable diff picks the file set and the size of the functional edit.
+    2. The Boy Scout Rule governs cleanup strictly inside that file set.
+    3. Locality of Change brakes either from growing the file set.
+- title: Break ties on the file set, not the cleanup
+  description: |
+    When the rules disagree, smallest viable diff governs which files change. It does not forbid in-file cleanup within that set.
+- title: Keep tidy-first cleanup as its own step
+  description: |
+    A tidy-first campsite clean that precedes the functional change is exempt from this order. Land it as a separate behavior-preserving step first; the order then governs the functional change.
+- title: Record the resolution
+  description: |
+    Record what was folded in, what was deferred and why in the task or review context. Never pick a side silently.

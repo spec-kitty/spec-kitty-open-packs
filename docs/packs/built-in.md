@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `68acf65b4760863f646897ca6fc55b0a83bf1d291efccd44b0ea50077e56c198`
+- **Content checksum (sha256):** `2bdfdfe1bdc23ac79022c032826ec305735117a0f05be43e3ee84edd1d59ab04`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -37,7 +37,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `styleguides` | 26 |
 | `toolguides` | 37 |
 | `paradigms` | 14 |
-| `procedures` | 22 |
+| `procedures` | 65 |
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
@@ -45,7 +45,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **437** |
+| **Total files** | **480** |
 
 ### Full listing
 
@@ -317,30 +317,73 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>procedures</code> (22)</summary>
+<summary><code>procedures</code> (65)</summary>
 
+- `action-item-attribution-gate.procedure.yaml`
 - `adversarial-squad-deployment.procedure.yaml`
+- `agent-commit-signing.procedure.yaml`
+- `agent-self-declaration.procedure.yaml`
+- `audience-oriented-drafting.procedure.yaml`
 - `bdd-scenario-lifecycle.procedure.yaml`
+- `black-box-integration-test-design.procedure.yaml`
+- `bounded-context-alignment.procedure.yaml`
+- `bulk-edit-occurrence-mapping.procedure.yaml`
+- `c4-diagram-authoring.procedure.yaml`
+- `canonical-source-discipline.procedure.yaml`
+- `change-scope-tension-resolution.procedure.yaml`
+- `common-docs-page-authoring.procedure.yaml`
+- `component-boundary-definition.procedure.yaml`
+- `credential-exposure-prevention.procedure.yaml`
+- `decision-record-keeping.procedure.yaml`
+- `declare-page-audience.procedure.yaml`
+- `defect-class-construction-gate.procedure.yaml`
 - `development-assist-test-cleanup.procedure.yaml`
 - `disciplined-defect-diagnosis.procedure.yaml`
+- `disciplined-refactoring-cycle.procedure.yaml`
+- `doctrine-version-change.procedure.yaml`
 - `documentation-gap-prioritization.procedure.yaml`
 - `domain-aware-decision-interview.procedure.yaml`
 - `drill-down-documentation.procedure.yaml`
+- `durable-fix-investigation.procedure.yaml`
 - `event-storming-discovery.procedure.yaml`
 - `example-mapping-workshop.procedure.yaml`
+- `failing-test-triage.procedure.yaml`
+- `five-paradigm-structural-intervention.procedure.yaml`
 - `glossary-maintenance-workflow.procedure.yaml`
 - `issue-triage-state-machine.procedure.yaml`
+- `keep-change-local.procedure.yaml`
+- `land-changes-via-pull-request.procedure.yaml`
 - `legacy-codebase-triage.procedure.yaml`
+- `living-documentation-sync.procedure.yaml`
+- `local-tooling-selection.procedure.yaml`
 - `meeting-minutes-pipeline.procedure.yaml`
 - `migrate-project-guidance-to-spec-kitty-charter.procedure.yaml`
+- `minutes-self-sufficiency-check.procedure.yaml`
 - `mission-tracer-files.procedure.yaml`
 - `mission-wrap-up-sequence.procedure.yaml`
+- `mutation-testing-review.procedure.yaml`
+- `observable-contract-test-authoring.procedure.yaml`
 - `onboard-external-agent-to-pack.procedure.yaml`
+- `op-or-mission-lifecycle.procedure.yaml`
 - `post-merge-arch-gate-adjudication.procedure.yaml`
+- `read-intent-before-high-risk-operation.procedure.yaml`
+- `readable-pr-preparation.procedure.yaml`
+- `red-first-bug-reproduction.procedure.yaml`
+- `red-main-handling.procedure.yaml`
 - `refactoring.procedure.yaml`
 - `situational-assessment.procedure.yaml`
+- `small-explicit-code-shaping.procedure.yaml`
+- `specification-traceability-check.procedure.yaml`
 - `spike-timebox-policy.procedure.yaml`
+- `targeted-staging.procedure.yaml`
+- `tech-debt-point-cut-triage.procedure.yaml`
+- `term-interpretation-alignment.procedure.yaml`
+- `test-and-typecheck-gate-run.procedure.yaml`
 - `test-first-bug-fixing.procedure.yaml`
+- `test-first-cycle.procedure.yaml`
+- `tidy-first-campsite-clean.procedure.yaml`
+- `touched-area-cleanup.procedure.yaml`
+- `version-freshness-check.procedure.yaml`
 
 </details>
 

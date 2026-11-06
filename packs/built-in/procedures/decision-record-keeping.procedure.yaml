@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: decision-record-keeping
+title: Decision Record Keeping
+description: |
+  Make significant decisions durable and traceable for later contributors.
+entry_condition: |
+  An architectural, process, or design decision has been made that later contributors will need to understand or revisit.
+exit_condition: |
+  The decision, its alternatives and rationale are recorded durably, implementing changes cite it, and superseded documentation is updated.
+steps:
+- title: Record the decision durably
+  description: |
+    Record the decision, the alternatives considered and the rationale in a durable artifact.
+- title: Link implementation changes to the decision
+  description: |
+    Cite the decision record in the commit or review context of each implementing change.
+- title: Update superseded guidance
+  description: |
+    Update related docs when the decision supersedes prior guidance.

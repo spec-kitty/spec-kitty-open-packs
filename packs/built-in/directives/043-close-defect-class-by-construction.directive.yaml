@@ -14,11 +14,6 @@ scope: >
   or a pattern whose omission has caused defects more than once. Does not apply
   to one-off mistakes that have a clear root cause unrelated to a missing
   structural constraint.
-procedures:
-  - Identify the structural gap — what constraint, if enforced by the build system, would make the omission a CI failure rather than a code-review concern?
-  - Author a gate (AST walk, type constraint, or frozen-baseline ratchet) that makes the violation a build failure. The gate must be non-vacuous — it must have a concrete floor and a self-mutation check so it cannot silently become a no-op.
-  - Preserve existing compliant call sites in a shrink-only allowlist with one recorded rationale per entry. The allowlist must shrink as the codebase is cleaned up and must never grow without an explicit justification and a follow-up tracker ticket for any grandfathered exception.
-  - Remove the process rule or discipline reminder once the gate enforces the constraint structurally — do not maintain both in parallel.
 integrity_rules:
   - Adding a process rule or documentation reminder in response to a recurrent defect class, without a corresponding structural gate, is non-compliant with this directive.
   - A gate that trivially passes when the relevant call-site count is zero (vacuous gate) is non-compliant — the gate must have a concrete floor.

@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: declare-page-audience
+title: Page Audience Declaration
+description: |
+  Make the target reader of each touched documentation page machine-checkable.
+entry_condition: |
+  A change touches a documentation page in the project's documentation root.
+exit_condition: |
+  Every touched page names its audience in frontmatter (for example an `audience:` field), and each named audience resolves to a persona the project defines.
+steps:
+- title: Declare the audience in frontmatter on every touched page
+  description: |
+    Add an audience field to the page frontmatter, such as `audience:` holding one persona or a list, rather than a prose note in the body. A persona is a short written profile of a reader type (role, familiarity with the subject, the decision the reader makes).
+- title: Point the field at a defined persona
+  description: |
+    Reference personas the project keeps in one place, for example persona pages linked by repo-relative path. If the project has none yet, name the persona in plain words and record the gap.
+- title: Require the field on touched pages only
+  description: |
+    Add the field when a page changes; do not fail untouched legacy pages for lacking it. DIRECTIVE_042 (Common Docs Documentation Standard) and the common-docs styleguide define the field's contract and tooling.

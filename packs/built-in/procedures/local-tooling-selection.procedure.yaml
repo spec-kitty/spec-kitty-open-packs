@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: local-tooling-selection
+title: Local Tooling Selection
+description: |
+  Keep local operations fast and low-noise by choosing the right tool for each one.
+entry_condition: |
+  An agent is about to search, inspect, or process repository content or run development operations locally.
+exit_condition: |
+  Each operation used the most efficient available tool or a recorded fallback, availability and decisions are recorded in `.kittify/memory/available_tooling.md`, and the user was told about any missing better tool.
+steps:
+- title: Prefer purpose-built, low-noise tools
+  description: |
+    Use fast, purpose-built tools over generic shell patterns: ripgrep for search, pagers for large files, stream-oriented tools for archives, and tooling that filters output to what the agent needs. Favor low-overhead defaults such as repository-safe git settings and performant Windows or WSL workflows.
+- title: Fall back only when necessary
+  description: |
+    Use less efficient tooling only when the preferred tool is unavailable or cannot do the operation safely.
+- title: Warn about missing efficient tools
+  description: |
+    When a more efficient tool is missing, tell the user it exists and offer to guide installation.
+- title: Record tooling availability and decisions
+  description: |
+    Record availability, session decisions and remediation notes in `.kittify/memory/available_tooling.md`.

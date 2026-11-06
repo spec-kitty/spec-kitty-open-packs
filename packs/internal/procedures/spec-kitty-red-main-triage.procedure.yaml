@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: spec-kitty-red-main-triage
+title: Spec Kitty Red-Main Triage
+description: |
+  Apply the red-main discipline with this repository's labels, markers and classification rules.
+entry_condition: |
+  Main is red in the Spec Kitty repository, a P0 reproduction is about to land, or the maintainer queue is being worked.
+exit_condition: |
+  Every red on main traces to a `priority:P0` issue on spec-kitty/spec-kitty whose reproduction is marked `p0_repro`, and each red is classified with the landing-pass rules.
+steps:
+- title: Trace every red on main to a P0 issue
+  description: |
+    Label the issue `priority:P0` on spec-kitty/spec-kitty, attach a failing reproduction wherever one can be written, and cite it in the PR that lands the reproduction. Mark the reproduction `@pytest.mark.p0_repro(issue=N)` so it runs only in the nightly `p0-repro` job: PRs land green while the nightly, and so the release, stays red until the fix PR removes the marker.
+- title: Classify reds with the landing-pass rules
+  description: |
+    Use the red classification in docs/development/how-to/pr-landing.md and the baseline-red gotcha in CLAUDE.md to separate a genuine P0 red from a flake, a CI-environment failure or pre-existing breakage.

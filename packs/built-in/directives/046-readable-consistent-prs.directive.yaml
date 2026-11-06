@@ -23,28 +23,6 @@ scope: >
   and what review has run before the PR is presented. It does not change the
   operator-merges rule (DIRECTIVE_045) — it constrains what the agent hands the
   operator.
-procedures:
-  - Rebase the mission branch onto the current upstream mainline so it is
-    ahead-only, and compact it into a small set of readable, logically-sliced
-    commits (for example docs / surface / repoints) per the
-    clean-linear-commit-history tactic (a non-reordering, behaviour-preserving
-    snapshot chain) — never an interactive reorder. Prefer rebase over merge for
-    integrating the upstream base.
-  - Before opening the draft PR, confirm the intended scope is complete. If a
-    remaining item is small enough to finish now, finish it; only defer work that
-    is genuinely high-effort or mission-sized, and when deferring, record it as a
-    tracked follow-up with a one-line rationale.
-  - Obtain an independent review of the aggregate diff before or in parallel to
-    opening the draft PR — the adversarial review squad (adversarial-squad-deployment)
-    is the recommended mechanism. Synthesize a LAND / HOLD verdict and fold every
-    real finding in while the PR is still a draft. Per-WP green and green CI are
-    not, by themselves, the final gate.
-  - Write a PR body that states the change, the review evidence (per-WP plus the
-    aggregate squad verdict), and any remaining reviewer or Sonar work, so a later
-    reviewer does not re-derive the context.
-  - Verify the compacted, rebased tree is identical to the pre-compaction tree
-    except for intentionally-dropped ignored artefacts, and re-run the affected
-    tests on the rebased tip before force-pushing with lease.
 integrity_rules:
   - A mission PR must not be presented as ready while its branch carries
     merge-commit tangle or status/bookkeeping commits that a compaction would

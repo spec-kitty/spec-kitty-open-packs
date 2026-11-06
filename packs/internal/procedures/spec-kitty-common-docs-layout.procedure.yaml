@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: spec-kitty-common-docs-layout
+title: Spec Kitty Common Docs Layout
+description: |
+  Apply the Spec Kitty repositories' own Common Docs layout and frontmatter keys.
+entry_condition: |
+  A documentation page or ADR is being created, moved, or updated in a Spec Kitty repository.
+exit_condition: |
+  The page uses the sanctioned lifecycle keys, ADRs sit under `adr/<era>/`, and architecture design sits in the single unversioned `architecture/` location.
+steps:
+- title: Use the sanctioned lifecycle keys
+  description: |
+    Use `doc_status` (draft / active / deprecated / superseded / durable); `durable` marks domain throughlines that are re-verified on domain change, never retired.
+- title: Keep the bare `status` key for ADRs only
+  description: |
+    Do not use a bare `status` key on a page, because it collides with the work package lane status. In ADRs it carries the MADR decision status (Proposed / Accepted / Deprecated / Superseded).
+- title: Express cross-references as `related:`
+  description: |
+    List resolvable repo-relative `.md` paths under `related:`; never use the dead `citation_refs` field.
+- title: File ADRs by era
+  description: |
+    File ADRs under `adr/<era>/` with YAML frontmatter, and keep living architectural design in one unversioned `architecture/` location.

@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: mutation-testing-review
+title: Mutation Testing Review
+description: |
+  Use mutation testing to find weak assertions in the code under review.
+entry_condition: |
+  A work package's tests are to be assessed for discriminating power with a mutation tool.
+exit_condition: |
+  The run covered the touched modules, each survivor was killed by an added or tightened assertion or annotated as an equivalent with a reason, and no numeric target drove the work.
+steps:
+- title: Scope the run to what changed
+  description: |
+    Point the tool at the modules the work package touched, so it finishes within a review cycle and every survivor concerns code under review.
+- title: Read each survivor as a located question
+  description: |
+    Ask "what behavior should have made a test fail here?" and add or tighten the assertion that pins it; never delete or mute the mutant to move the number.
+- title: Annotate genuine equivalents honestly
+  description: |
+    Mark a mutant that cannot change observable behavior (a log string, a version constant, a formatting-only branch) as equivalent with a recorded reason, and keep the equivalent rate low enough that suppression hides no real gap.
+- title: Treat the score as a signal, not a goal
+  description: |
+    Use the score to locate weak assertions and watch for regressions; set no numeric target that rewards gaming, over-specification or asserting on incidental detail.

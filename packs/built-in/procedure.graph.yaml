@@ -2,18 +2,72 @@ schema_version: '1.0'
 generated_at: STATIC
 generated_by: drg-migration-v1
 nodes:
+- urn: procedure:action-item-attribution-gate
+  kind: procedure
+  label: Action Item Attribution Gate
 - urn: procedure:adversarial-squad-deployment
   kind: procedure
   label: Adversarial Squad Deployment
+- urn: procedure:agent-commit-signing
+  kind: procedure
+  label: Agent Commit Signing
+- urn: procedure:agent-self-declaration
+  kind: procedure
+  label: Agent Self-Declaration
+- urn: procedure:audience-oriented-drafting
+  kind: procedure
+  label: Audience-Oriented Drafting
 - urn: procedure:bdd-scenario-lifecycle
   kind: procedure
   label: BDD Scenario Lifecycle
+- urn: procedure:black-box-integration-test-design
+  kind: procedure
+  label: Black-Box Integration Test Design
+- urn: procedure:bounded-context-alignment
+  kind: procedure
+  label: Bounded Context Alignment
+- urn: procedure:bulk-edit-occurrence-mapping
+  kind: procedure
+  label: Bulk-Edit Occurrence Mapping
+- urn: procedure:c4-diagram-authoring
+  kind: procedure
+  label: C4 Diagram Authoring
+- urn: procedure:canonical-source-discipline
+  kind: procedure
+  label: Canonical Source Discipline
+- urn: procedure:change-scope-tension-resolution
+  kind: procedure
+  label: Change-Scope Tension Resolution
+- urn: procedure:common-docs-page-authoring
+  kind: procedure
+  label: Common Docs Page Authoring
+- urn: procedure:component-boundary-definition
+  kind: procedure
+  label: Component Boundary Definition
+- urn: procedure:credential-exposure-prevention
+  kind: procedure
+  label: Credential Exposure Prevention
+- urn: procedure:decision-record-keeping
+  kind: procedure
+  label: Decision Record Keeping
+- urn: procedure:declare-page-audience
+  kind: procedure
+  label: Page Audience Declaration
+- urn: procedure:defect-class-construction-gate
+  kind: procedure
+  label: Defect-Class Construction Gate
 - urn: procedure:development-assist-test-cleanup
   kind: procedure
   label: Development-Assist Test Cleanup
 - urn: procedure:disciplined-defect-diagnosis
   kind: procedure
   label: Disciplined Defect Diagnosis
+- urn: procedure:disciplined-refactoring-cycle
+  kind: procedure
+  label: Disciplined Refactoring Cycle
+- urn: procedure:doctrine-version-change
+  kind: procedure
+  label: Charter Artifact Version Change
 - urn: procedure:documentation-gap-prioritization
   kind: procedure
   label: Documentation Gap Prioritization
@@ -23,51 +77,126 @@ nodes:
 - urn: procedure:drill-down-documentation
   kind: procedure
   label: Drill-Down Documentation
+- urn: procedure:durable-fix-investigation
+  kind: procedure
+  label: Durable Fix Investigation
 - urn: procedure:event-storming-discovery
   kind: procedure
   label: Event Storming Discovery
 - urn: procedure:example-mapping-workshop
   kind: procedure
   label: Example Mapping Workshop
+- urn: procedure:failing-test-triage
+  kind: procedure
+  label: Failing Test Triage
+- urn: procedure:five-paradigm-structural-intervention
+  kind: procedure
+  label: Five-Paradigm Structural Intervention
 - urn: procedure:glossary-maintenance-workflow
   kind: procedure
   label: Glossary Maintenance Workflow
 - urn: procedure:issue-triage-state-machine
   kind: procedure
   label: Issue Triage State Machine
+- urn: procedure:keep-change-local
+  kind: procedure
+  label: Change Locality Check
+- urn: procedure:land-changes-via-pull-request
+  kind: procedure
+  label: Pull Request Landing
 - urn: procedure:legacy-codebase-triage
   kind: procedure
   label: Legacy Codebase Triage
+- urn: procedure:living-documentation-sync
+  kind: procedure
+  label: Living Documentation Sync
+- urn: procedure:local-tooling-selection
+  kind: procedure
+  label: Local Tooling Selection
 - urn: procedure:meeting-minutes-pipeline
   kind: procedure
   label: Meeting Minutes Pipeline
 - urn: procedure:migrate-project-guidance-to-spec-kitty-charter
   kind: procedure
   label: Migrate Project Guidance to Spec Kitty Charter
+- urn: procedure:minutes-self-sufficiency-check
+  kind: procedure
+  label: Minutes Self-Sufficiency Check
 - urn: procedure:mission-tracer-files
   kind: procedure
   label: Mission Tracer Files
 - urn: procedure:mission-wrap-up-sequence
   kind: procedure
   label: Mission Wrap-Up Sequence
+- urn: procedure:mutation-testing-review
+  kind: procedure
+  label: Mutation Testing Review
+- urn: procedure:observable-contract-test-authoring
+  kind: procedure
+  label: Observable-Contract Test Authoring
 - urn: procedure:onboard-external-agent-to-pack
   kind: procedure
   label: Onboard an External Agent into the Pack
+- urn: procedure:op-or-mission-lifecycle
+  kind: procedure
+  label: Op or Mission Lifecycle
 - urn: procedure:post-merge-arch-gate-adjudication
   kind: procedure
   label: Post-Merge Arch-Gate Adjudication
+- urn: procedure:read-intent-before-high-risk-operation
+  kind: procedure
+  label: High-Risk Operation Intent Check
+- urn: procedure:readable-pr-preparation
+  kind: procedure
+  label: Readable Pull Request Preparation
+- urn: procedure:red-first-bug-reproduction
+  kind: procedure
+  label: Red-First Bug Reproduction
+- urn: procedure:red-main-handling
+  kind: procedure
+  label: Red Main Handling
 - urn: procedure:refactoring
   kind: procedure
   label: Refactoring
 - urn: procedure:situational-assessment
   kind: procedure
   label: Situational Assessment
+- urn: procedure:small-explicit-code-shaping
+  kind: procedure
+  label: Small, Explicit Code Shaping
+- urn: procedure:specification-traceability-check
+  kind: procedure
+  label: Specification Traceability Check
 - urn: procedure:spike-timebox-policy
   kind: procedure
   label: Spike Timebox Policy
+- urn: procedure:targeted-staging
+  kind: procedure
+  label: Targeted Staging
+- urn: procedure:tech-debt-point-cut-triage
+  kind: procedure
+  label: Tech-Debt Triage at Planning Point-Cuts
+- urn: procedure:term-interpretation-alignment
+  kind: procedure
+  label: Term Interpretation Alignment
+- urn: procedure:test-and-typecheck-gate-run
+  kind: procedure
+  label: Test and Typecheck Gate Run
 - urn: procedure:test-first-bug-fixing
   kind: procedure
   label: Test-First Bug Fixing
+- urn: procedure:test-first-cycle
+  kind: procedure
+  label: Test-First Cycle
+- urn: procedure:tidy-first-campsite-clean
+  kind: procedure
+  label: Tidy-First Campsite Clean
+- urn: procedure:touched-area-cleanup
+  kind: procedure
+  label: Touched-Area Cleanup
+- urn: procedure:version-freshness-check
+  kind: procedure
+  label: Version Freshness Check
 edges:
 - source: procedure:adversarial-squad-deployment
   target: tactic:code-review-incremental
@@ -108,6 +237,18 @@ edges:
   target: toolguide:gherkin
   relation: suggests
   reason: Scenarios are expressed in the Gherkin DSL this toolguide documents.
+- source: procedure:change-scope-tension-resolution
+  target: procedure:keep-change-local
+  relation: reconciles_tension
+  reason: Its fixed order lets Locality of Change brake any growth of the file set while the Boy Scout Rule cleans inside it, and its record step makes the outcome reviewable.
+- source: procedure:change-scope-tension-resolution
+  target: procedure:touched-area-cleanup
+  relation: reconciles_tension
+  reason: Its fixed order licenses touched-area cleanup strictly inside the file set chosen by smallest viable diff, which Locality of Change then holds fixed.
+- source: procedure:change-scope-tension-resolution
+  target: procedure:tidy-first-campsite-clean
+  relation: reconciles_tension
+  reason: Its carve-out step lands an opening tidy-first cleanup as its own behavior-preserving step before the functional change, so the cleanup never enlarges the file set the resolution order fixes.
 - source: procedure:development-assist-test-cleanup
   target: directive:DIRECTIVE_025
   relation: requires
@@ -232,6 +373,14 @@ edges:
   target: template:out-of-scope-record-template
   relation: suggests
   reason: Use when rejecting an enhancement as out of scope.
+- source: procedure:keep-change-local
+  target: procedure:tidy-first-campsite-clean
+  relation: in_tension_with
+  reason: Change locality confines edits to files serving the stated goal and requires a rationale for any wider reach, while the tidy-first campsite clean deliberately opens its own surfaces for preparatory cleanup before the functional change.
+- source: procedure:keep-change-local
+  target: procedure:touched-area-cleanup
+  relation: in_tension_with
+  reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures and minor clutter in every touched file the default.
 - source: procedure:legacy-codebase-triage
   target: directive:DIRECTIVE_001
   relation: requires

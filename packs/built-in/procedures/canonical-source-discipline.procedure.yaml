@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: canonical-source-discipline
+title: Canonical Source Discipline
+description: |
+  Keep work anchored to one canonical source per concept, so copies and workarounds do not drift.
+entry_condition: |
+  Work needs a template, skill, or CLI surface; the same concept is found in more than one place; or a documented command is missing.
+exit_condition: |
+  Only canonical surfaces were used, split-brain surfaces were unified (or escalated and re-scoped), and any missing command was filed as an upstream gap.
+steps:
+- title: Use canonical sources
+  description: |
+    Use the canonical template, skill or CLI command, never a copy from a prior mission (for example under kitty-specs/) or an ad-hoc substitute. The mission templates resolved through the charter chain are the single source of truth; prior missions are drifting historical snapshots.
+- title: Unify split-brain surfaces, not parity
+  description: |
+    When one concept lives in several places, consolidate to one canonical authority rather than adding the same behavior to every copy. First verify the canonical surface carries equivalent data and semantics, not just a compatible interface; where values diverge, plan the unification as a data-model merge, and if implementation disproves equivalence, escalate and re-scope rather than force it. Never drop a load-bearing invariant without a migration path proven safe by tests.
+- title: Treat a missing command as a gap
+  description: |
+    When a documented CLI command is absent from the running tool, trace its source and file an upstream gap issue for the team; do not hand-roll a substitute into the codebase.

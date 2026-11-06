@@ -520,7 +520,6 @@ edges:
 - source: tactic:bdd-scenario-formulation
   target: styleguide:given-when-then-authoring
   relation: requires
-  when: "Author each scenario's Given/When/Then steps per this styleguide's conventions"
 - source: tactic:bdd-scenario-formulation
   target: styleguide:given-when-then-authoring
   relation: suggests

@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: term-interpretation-alignment
+title: Term Interpretation Alignment
+description: |
+  Prevent work built on a misread term by agreeing what the task's terms mean before acting.
+entry_condition: |
+  A task description has been received and work on it has not yet started.
+exit_condition: |
+  Every domain-specific or ambiguous term has a stated interpretation, real ambiguity was settled by the requester, and the confirmed reading is recorded in the task artifact or an ADR.
+steps:
+- title: Scan the task for ambiguous terms
+  description: |
+    Find domain-specific terms, terms with several valid readings, and vague references ("the service", "the model", "that component").
+- title: State the interpretation in use
+  description: |
+    For each term, state the reading used, the bounded context it belongs to, and any assumptions.
+- title: Ask the requester to resolve ambiguity
+  description: |
+    Where a term has several plausible meanings, present them and have the requester choose before proceeding.
+- title: Record the confirmed interpretation
+  description: |
+    Record it in the task artifact or an ADR so later agents share the same understanding.

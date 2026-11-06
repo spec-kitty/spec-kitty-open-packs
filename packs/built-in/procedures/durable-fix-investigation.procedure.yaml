@@ -1,0 +1,25 @@
+schema_version: '1.0'
+id: durable-fix-investigation
+title: Durable Fix Investigation
+description: |
+  Find the root cause and the right seam before any fix is written, so the fix lasts.
+entry_condition: |
+  A defect or fix request has been received and no fix has been authored yet.
+exit_condition: |
+  Related tickets, the defect site on the current mainline, the canonical seam and applicable ADRs are established; wider problems carry a proposed structural remediation and a fold-vs-defer question to the operator; recurring classes are escalated.
+steps:
+- title: Dig for similar tickets
+  description: |
+    Search the whole tracker, not only the current milestone, for same-surface or same-root-cause issues, and name the umbrella or epic the class belongs to, or propose one.
+- title: Ground the defect in current code
+  description: |
+    Trace the code path to the exact defect site (file:line) and confirm the bug is still real on the current mainline, not fixed, superseded or an artifact of a stale base.
+- title: Align with the canonical architecture
+  description: |
+    Count the places implementing the same concern, find the one canonical seam they should route through, and check any ADRs for the surface: align the fix with them or amend the ADR the fix supersedes. This feeds DIRECTIVE_044 (Canonical Sources and Unification: unification, not parity); it does not replace it. An investigation squad at the pre-spec or post-spec planning checkpoint (adversarial-squad-deployment) is the usual vehicle; a single agent runs the same lenses in sequence.
+- title: Propose a structural remediation
+  description: |
+    Where the investigation finds multiple occurrences, an underdesigned seam or a missing invariant, highlight them. Propose one structural fix rather than N point-fixes: a shared seam, a single canonical reader, or a construction gate per DIRECTIVE_043 (Close Defect Classes by Construction). Put the fold-vs-defer decision to the operator (the human who owns merges) before the spec.
+- title: Escalate recurring defect classes
+  description: |
+    When a class has recurred despite earlier point-fixes, escalate to DIRECTIVE_040 (Recurring-Bug Structural-Intervention Discipline), which mandates the five-paradigm parallel-debugging tactic.

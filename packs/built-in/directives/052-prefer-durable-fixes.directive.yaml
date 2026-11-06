@@ -21,37 +21,6 @@ scope: >
   decision that follows it. It does not apply to greenfield feature work with
   no defect under repair, and it does not, by itself, expand the diff — see the
   reconciliation boundary below.
-procedures:
-  - "The investigation method is mandatory and comes FIRST, before authoring any
-    fix. Run these five steps (naturally executed as a profile-loaded
-    investigation squad at the pre-spec / post-spec point-cuts — see
-    procedure:adversarial-squad-deployment)."
-  - "1. Dig for similar tickets. Search the WHOLE tracker (not only the current
-    milestone) for same-surface or same-root-cause issues. Identify an existing
-    umbrella/epic that the class belongs to, or propose one."
-  - "2. Code grounding. Trace the actual code path to the precise bypass or
-    defect site (file:line). Confirm the bug is still real on current main — not
-    already fixed, superseded, or an artifact of a stale base — before building
-    on it."
-  - "3. Architecture alignment. Map how many places implement the same concern
-    and find the ONE canonical seam/authority all of them should route through;
-    identify the duplication to consolidate. This is the diagnostic front-end
-    that FEEDS DIRECTIVE_044 (single canonical authority — chase unification,
-    not parity); it does not replace it."
-  - "4. Check ADRs. If architecture decision records exist for the surface, read
-    them and align the fix with the recorded decision — or explicitly amend the
-    ADR when the durable fix supersedes it."
-  - "5. If the investigation surfaces multiple occurrences, an underdesigned
-    seam, or a missing invariant: HIGHLIGHT them and PROPOSE a structural
-    remediation (a shared seam, a single canonical reader, or an enforced
-    invariant / construction gate per DIRECTIVE_043) rather than silently
-    shipping N point-fixes. Surface the fold-vs-defer decision to the operator
-    as a scope question BEFORE the spec, exactly like an adversarial point-cut."
-  - "When a defect class has recurred despite prior point-fixes, escalate to
-    DIRECTIVE_040 (recurring-bug structural-intervention discipline), which
-    mandates the five-paradigm parallel-debugging tactic — this directive is its
-    general-purpose diagnostic front-end, DIRECTIVE_040 is the specialized
-    escalation once recurrence is established."
 integrity_rules:
   - "Shipping a point-fix for a symptom whose root-cause investigation was
     skipped is non-compliant, even when the point-fix makes the reported symptom

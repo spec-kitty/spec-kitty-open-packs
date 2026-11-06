@@ -12,11 +12,6 @@ scope: >
   Applies to specification, implementation, review, and documentation
   work that defines or changes externally observable behavior or the
   language used to describe it.
-procedures:
-  - Establish a small set of business-readable examples before planning implementation for new behavior.
-  - Promote stable examples into executable acceptance checks or document why automation is not yet feasible.
-  - Update example narratives, acceptance checks, spec references, user-facing docs, code-level docs, architecture notes, and glossary entries in the same change when behavior or domain language evolves.
-  - Remove or mark stale examples, doc passages, and glossary terms once they no longer describe supported behavior.
 integrity_rules:
   - Canonical examples must stay readable by domain stakeholders and must not depend on internal implementation detail.
   - Behavior-changing work must not leave example, acceptance, spec, user-doc, code-doc, architecture, or glossary assets in disagreement.

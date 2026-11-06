@@ -1,0 +1,25 @@
+schema_version: '1.0'
+id: c4-diagram-authoring
+title: C4 Diagram Authoring
+description: |
+  Produce architecture diagrams that communicate clearly to their audience and stay current with the code.
+entry_condition: |
+  An architecture diagram is to be created or revised.
+exit_condition: |
+  Each diagram stops at the level that answers its question, is self-describing, fits its audience, lives as version-controlled diagram-as-code, and links to the other levels.
+steps:
+- title: Start broad and zoom in only where needed
+  description: |
+    Draw the System Context first: the system as one box, its users and neighboring systems. Then draw Containers, then Components. Stop at the level that answers the question; do not produce every level speculatively.
+- title: Make every diagram self-describing
+  description: |
+    Give each diagram a title, a legend, typed and described elements, and labeled unidirectional relationships. Run the architecture diagram review checklist before sharing. An undescribed box or a double-headed arrow is a communication failure.
+- title: Match detail to the audience
+  description: |
+    Context diagrams for sponsors carry no technology labels; component diagrams for developers keep internal boundaries. A diagram aimed at two audiences serves neither.
+- title: Keep diagrams as code
+  description: |
+    Author diagrams in Mermaid or PlantUML text beside the code so they diff in review, not as exported images that go stale.
+- title: Hold one abstraction level per artifact
+  description: |
+    Link across levels rather than inlining, using the drill-down discipline to keep strategic, architectural, design and code-level reasoning separate but traceable.

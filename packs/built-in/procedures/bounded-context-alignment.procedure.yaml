@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: bounded-context-alignment
+title: Bounded Context Alignment
+description: |
+  Keep code and design decisions true to the bounded context they belong to.
+entry_condition: |
+  Code or a design decision that lives in, or crosses, a bounded context is about to be written or reviewed.
+exit_condition: |
+  The context is identified, identifiers use its ubiquitous language, every boundary crossing has an explicit, documented translation, and red-line violations are flagged in review.
+steps:
+- title: Identify the bounded context
+  description: |
+    Identify which context the code or decision inhabits before choosing names, structure or integrations.
+- title: Use the context's ubiquitous language
+  description: |
+    Use the context's established language for identifiers, method names and documentation; avoid generic names (Manager, Handler, Data, Utils) that hide domain meaning.
+- title: Make boundary translation explicit
+  description: |
+    Where a design crosses a context boundary, translate through an Anti-Corruption Layer, adapter or mapper, and document the crossing and its translation.
+- title: Flag red-line violations in review
+  description: |
+    Flag the same term meaning different things across contexts, translation logic scattered across files, and mutable state shared between contexts.

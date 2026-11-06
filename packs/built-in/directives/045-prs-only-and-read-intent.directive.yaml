@@ -14,27 +14,6 @@ scope: >
   (origin/main) or that constitute high-risk operations: merges, rebases,
   deletions of branches or files, and force operations. Also applies during
   any review or implementation step that could result in one of these operations.
-procedures:
-  - All changes to origin/main must go through pull requests; never run
-    `git push origin main` or `gh pr merge` without explicit operator
-    instruction. The operator always merges to origin/main manually.
-  - After `spec-kitty consolidate` (which consolidates to local main only and
-    does NOT push to origin/main), create a PR branch (`git checkout -b
-    pr/<slug>`) and open a pull request (`gh pr create`). Do not push to
-    origin/main directly.
-  - Recovery if origin/main is accidentally pushed to — do NOT force-push
-    (branch protection blocks it). Create a `revert/<slug>` branch from
-    origin/main, commit a revert, open a PR to merge it, then open the
-    real mission PR.
-  - Before executing any high-risk git operation (merge, rebase, deletion of
-    branches or files, force operations), read the mission spec and the
-    current context first. Never execute from a task title or a one-line
-    description alone.
-  - If the intent of a high-risk operation is unclear or the context is
-    insufficient, escalate to the operator rather than proceeding. Correctness
-    takes precedence over speed.
-  - Never delete a test to make a build pass; such a deletion is a high-risk
-    operation that requires explicit intent confirmation.
 integrity_rules:
   - Agents must not run `git push origin main`, `git push --force`, or `gh pr
     merge` without explicit operator instruction.

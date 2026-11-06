@@ -14,16 +14,6 @@ scope: >
   architecture pattern names, or ambiguous pronouns referring to system components.
   Critical for cross-team integration tasks, first contact with a new domain or
   context, and high-stakes changes to production systems.
-procedures:
-  - Scan the task description for domain-specific terms, terms with multiple valid
-    interpretations, and ambiguous references ("the service", "the model", "that
-    component").
-  - For each identified term, state the interpretation being used, including which
-    bounded context it applies to and any assumptions made.
-  - Where a term has multiple plausible meanings, surface the alternatives and ask
-    the requester to choose before proceeding.
-  - Record the confirmed interpretation in the task artefact or ADR so that future
-    agents inheriting the work share the same understanding.
 integrity_rules:
   - An agent may not proceed to implementation while unresolved ambiguities exist
     in the task's key terms.

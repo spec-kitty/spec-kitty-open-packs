@@ -19,6 +19,30 @@ nodes:
     kind: directives
     title: "Spec Kitty Red-Main Policy (repository specifics)"
     body_path: directives/spec-kitty-red-main-policy.directive.yaml
+  - id: targeted-mission-test-run
+    kind: procedures
+    title: "Targeted Mission Test Run"
+    body_path: procedures/targeted-mission-test-run.procedure.yaml
+  - id: operator-signal-emission
+    kind: procedures
+    title: "Operator Signal Emission"
+    body_path: procedures/operator-signal-emission.procedure.yaml
+  - id: spec-kitty-red-main-triage
+    kind: procedures
+    title: "Spec Kitty Red-Main Triage"
+    body_path: procedures/spec-kitty-red-main-triage.procedure.yaml
+  - id: SPEC_KITTY_DOCS_CONVENTIONS
+    kind: directives
+    title: "Spec Kitty Documentation Conventions (repository specifics)"
+    body_path: directives/spec-kitty-docs-conventions.directive.yaml
+  - id: spec-kitty-page-audience
+    kind: procedures
+    title: "Spec Kitty Page Audience Personas"
+    body_path: procedures/spec-kitty-page-audience.procedure.yaml
+  - id: spec-kitty-common-docs-layout
+    kind: procedures
+    title: "Spec Kitty Common Docs Layout"
+    body_path: procedures/spec-kitty-common-docs-layout.procedure.yaml
   # Branded-document + project-evolution-postmortem doctrine (maintainer authoring).
   - id: spec-kitty-branded-pdf
     kind: assets
@@ -603,3 +627,35 @@ edges:
   - source: "styleguide:report-writing"
     target: "built-in::styleguide:planning-and-tracking"
     relation: suggests
+  - source: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
+    target: "procedure:targeted-mission-test-run"
+    relation: requires
+    reason: "Names the exact test files and gates for mission work, bounds parallelism, records the commands, and leaves out-of-radius reds to CI."
+  - source: "directive:OPERATOR_SIGNAL_CONTRACT"
+    target: "procedure:operator-signal-emission"
+    relation: requires
+    reason: "Emits each decision through an existing operator-visible sink, pairs each machine code with a human sentence, and pins that signal in the red-first regression."
+  - source: "directive:SPEC_KITTY_RED_MAIN_POLICY"
+    target: "procedure:spec-kitty-red-main-triage"
+    relation: requires
+    reason: "Traces every red on main to a P0 issue with a nightly-only reproduction and classifies reds with the landing-pass rules."
+  - source: "directive:SPEC_KITTY_DOCS_CONVENTIONS"
+    target: "built-in::directive:DIRECTIVE_042"
+    relation: refines
+  - source: "directive:SPEC_KITTY_DOCS_CONVENTIONS"
+    target: "built-in::directive:DIRECTIVE_047"
+    relation: refines
+  - source: "directive:SPEC_KITTY_DOCS_CONVENTIONS"
+    target: "procedure:spec-kitty-page-audience"
+    relation: requires
+    reason: "Points each touched page's audience field at the repository personas, without red-lining untouched legacy pages."
+  - source: "directive:SPEC_KITTY_DOCS_CONVENTIONS"
+    target: "procedure:spec-kitty-common-docs-layout"
+    relation: requires
+    reason: "Applies the repository's lifecycle keys, cross-reference field and ADR era folders."
+  - source: "procedure:spec-kitty-page-audience"
+    target: "built-in::procedure:declare-page-audience"
+    relation: refines
+  - source: "procedure:spec-kitty-common-docs-layout"
+    target: "built-in::procedure:common-docs-page-authoring"
+    relation: refines

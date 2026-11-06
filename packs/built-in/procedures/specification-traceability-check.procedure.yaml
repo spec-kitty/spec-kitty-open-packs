@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: specification-traceability-check
+title: Specification Traceability Check
+description: |
+  Keep an implementation faithful to its specification, with requirement-to-code traceability a reviewer can inspect.
+entry_condition: |
+  An implementation is being built or reviewed against a specification whose requirements or acceptance criteria carry IDs (FR-, NFR-, AC- or equivalent).
+exit_condition: |
+  A coverage table maps every requirement ID in the spec to implementing code and a verifying test, or flags it as a gap or a recorded deviation, and every functional change cites at least one requirement ID.
+steps:
+- title: Build the requirement coverage table
+  description: |
+    List every requirement and acceptance-criterion ID from the spec in a table in the PR body or review notes, with columns for the implementing change and the verifying test.
+- title: Cite requirement IDs in every functional change
+  description: |
+    Name the implemented IDs in the commit message or PR description of each functional change. Refactoring and bookkeeping commits need none. A functional change that cites none is either unrecorded scope drift or evidence of a missing requirement; resolve which before merge.
+- title: Flag and record deviations before merge
+  description: |
+    Where the implementation must depart from the spec, mark the row as a deviation and update the spec or record the deviation before merge.
+- title: Validate the table against committed scope
+  description: |
+    Walk every row: each must point to code and a passing test, or be flagged as a gap or recorded deviation. An unflagged empty cell fails the check.

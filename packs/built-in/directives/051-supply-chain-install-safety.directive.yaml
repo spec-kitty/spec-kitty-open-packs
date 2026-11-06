@@ -9,8 +9,8 @@ intent: >
   incident window) recur across ecosystems faster than any hand-maintained
   list of bad package/version pairs can track. Agents and mission workflows
   must therefore default to five ecosystem-neutral threat-class controls for
-  every dependency addition or upgrade, stated once here, never restated
-  below, and never restated by any other artifact that cites this directive:
+  every dependency addition or upgrade, stated once here and never restated
+  by any other artifact that cites this directive:
   (1) registry authenticity — the resolved package and version must come
   from the ecosystem's approved official registry, not an unexpected mirror
   or namespace; (2) package freshness — first-publish and
@@ -46,15 +46,6 @@ scope: >
   fail-closed transition-gate handler, and workflow wiring must not silently
   hard-block on it. It DOES require visibility and explicit evidence —
   silence or an unexamined default is not compliance.
-procedures:
-  - "Run the ecosystem-neutral `supply-chain-install-safety` tactic's
-    checklist for every dependency addition, upgrade, or review, using the
-    ecosystem toolguide it references (for example JavaScript/TypeScript or
-    Python) for the exact commands and file names."
-  - "Record evidence, not just a pass/fail impression: implementer and
-    reviewer outputs must capture what was checked and the resulting
-    decision for each of the five threat-class controls in `intent`, so a
-    later reviewer or operator does not have to re-derive the analysis."
 integrity_rules:
   - "None of the five threat-class controls stated in `intent` may be
     silently skipped; an unexamined default is a gap in evidence, not a
@@ -76,12 +67,18 @@ integrity_rules:
     evidence — omitting the check entirely is not an acceptable
     interpretation of 'advisory'."
 validation_criteria:
+  - "Every dependency addition, upgrade, or review runs the
+    `supply-chain-install-safety` tactic's checklist with the commands and
+    file names of the ecosystem toolguide it references (for example
+    JavaScript/TypeScript or Python)."
   - "Software-dev mission guidance for plan/implement/review references this
     directive (directly or via the `supply-chain-install-safety` tactic) for
     any change that adds, upgrades, or removes a dependency."
   - "Implementer and reviewer evidence for a dependency change documents a
-    result for every control named in `intent` — an unexamined default is
-    treated as a gap, not a pass."
+    result for every control named in `intent`: what was checked and the
+    resulting decision, recorded so a later reviewer or operator does not
+    have to re-derive the analysis. An unexamined default is treated as a
+    gap, not a pass."
   - "No dependency change is accepted with an unreviewed non-default
     install-time hook script or an unacknowledged reproducibility gap."
   - "No hardcoded incident-specific package name/version list is introduced

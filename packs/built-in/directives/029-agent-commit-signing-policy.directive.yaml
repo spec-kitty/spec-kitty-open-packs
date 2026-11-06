@@ -8,10 +8,6 @@ enforcement: required
 scope: >
   Applies to LLM or automation-authored git commits created during
   implementation, review remediation, or release preparation.
-procedures:
-  - Use `git commit --no-gpg-sign` or `git -c commit.gpgsign=false commit` for agent-authored commits.
-  - Do not assume signing keys are available in CI, worktrees, or ephemeral development environments.
-  - Document any exception that requires human-authored signed commits outside the agent workflow.
 integrity_rules:
   - Automated commit flows must not depend on interactive key configuration.
   - Agent-produced history should remain portable across environments with no signing setup.
