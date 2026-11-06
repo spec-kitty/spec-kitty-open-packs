@@ -47,7 +47,8 @@ rather than dividing it implicitly.
 # - kitty-specs/<mission_slug>/tasks/WP01-*.md → In repository root checkout
 # - kitty-specs/<mission_slug>/tasks/WP02-*.md → In repository root checkout
 #   (the NNN- prefix in directory listings is display-only metadata)
-# - Commits ALL to target branch
+# - Commits ALL to the Mission's planning branch (the Mission topic branch when the
+#   Mission was created without --topology, else the target branch)
 # - NO worktrees created
 ```
 
@@ -256,7 +257,7 @@ Prompts do not rediscover mission context. Commands do.
    - `lanes.json` won't be available to resolve the real workspace path/branch for each WP
    - Requirement refs won't be validated/normalized
    - Agents won't know which lane a WP belongs to or which workspace to enter
-   - Tasks won't be committed to target branch
+   - Tasks won't be committed to the Mission's planning branch
 
    **IMPORTANT - DO NOT COMMIT AGAIN AFTER THIS COMMAND**:
    - finalize-tasks COMMITS the files automatically

@@ -29,7 +29,8 @@ Link to source artifacts (spec, contracts) instead of duplicating them.
 # Creates:
 # - kitty-specs/<mission_slug>/plan.md → In repository root checkout
 #   (the NNN- prefix in the directory listing is display-only metadata)
-# - Commits to target branch
+# - Commits to the Mission's planning branch (the Mission topic branch when the
+#   Mission was created without --topology, else the target branch)
 # - NO worktrees created
 ```
 
@@ -141,7 +142,7 @@ This command runs in the **repository root checkout**, not in a worktree.
   - Use `current_branch`, `target_branch` / `base_branch`, and `planning_base_branch` / `merge_target_branch` (plus uppercase aliases) from that payload
   - Use `branch_matches_target` from that payload to detect branch mismatch; do not probe branch state manually inside the prompt
 - Planning artifacts live in `kitty-specs/<mission_slug>/` (the `NNN-` prefix is display-only metadata)
-- The plan template is committed to the target branch after generation
+- The plan template is committed to the Mission's planning branch after generation. Without an explicit `--topology` at create, planning artifacts (spec, plan, tasks, `meta.json`) are committed to the Mission topic branch, not the target branch; consolidation lands them on the target.
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/tasks/`). Never refer to a folder by name alone.
 
