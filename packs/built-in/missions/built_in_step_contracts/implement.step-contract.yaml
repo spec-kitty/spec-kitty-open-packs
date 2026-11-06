@@ -17,8 +17,11 @@ steps:
         - git-flow
         - trunk-based
     guidance: >
-      Execution lanes are the default and only supported git worktree paradigm.
-      If no branching paradigm is selected in the charter, use execution-lane worktrees.
+      Execution lanes are the only supported git worktree paradigm. Spec Kitty
+      chooses the topology at `finalize-tasks` by Mission size; lane topologies use
+      the lane worktrees `spec-kitty implement` provides. If no branching paradigm
+      is selected in the charter, use execution lanes. Do not create or reuse a lane
+      worktree by hand.
 
   - id: execute
     description: Implement the work package according to the prompt file

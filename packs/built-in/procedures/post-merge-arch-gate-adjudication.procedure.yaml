@@ -2,9 +2,9 @@ schema_version: '1.0'
 id: post-merge-arch-gate-adjudication
 title: Post-Merge Arch-Gate Adjudication
 description: |
-  After merging one or more lane branches, architectural gate failures may appear that were not visible during per-lane review. This procedure distinguishes pre-existing failures (present on the mission base branch before any lane work) from regressions introduced by the merge. Correct adjudication prevents teams from either ignoring real regressions or blocking on failures they did not cause.
+  After consolidating one or more lane branches, architectural gate failures may appear that were not visible during per-lane review. This procedure distinguishes pre-existing failures (present on the mission base branch before any lane work) from regressions introduced by the consolidation. Correct adjudication prevents teams from either ignoring real regressions or blocking on failures they did not cause.
 entry_condition: |
-  One or more architectural gate tests are failing on the merged coordination or target branch after lane branches have been merged. The failure was not surfaced as a blocker during per-lane review (it may have been absent, masked by the lane base, or only triggered by the combined diff).
+  One or more architectural gate tests are failing on the consolidated coordination or target branch after lane branches have been consolidated. The failure was not surfaced as a blocker during per-lane review (it may have been absent, masked by the lane base, or only triggered by the combined diff).
 exit_condition: |
   Every failing architectural gate test has been classified as either pre-existing or a regression. Pre-existing failures have a filed tracking issue and a recorded baseline entry. Regression failures have been corrected before further merging proceeds. The classification rationale is recorded in the work package or PR activity log.
 steps:
@@ -18,12 +18,20 @@ steps:
   description: |
     "Pre-existing" means the failure is already present on the **mission base branch** — the branch from which all lane worktrees were created (the `target_branch` field in `meta.json`). This is not the same as the lane base, which may be an intermediate commit further ahead in history.
     For each failing test, determine whether it also fails on the mission base branch:
-    ```bash # Identify the mission base branch (from meta.json or lanes.json) MISSION_BASE=$(spec-kitty agent mission branch-context --json | jq -r '.target_branch')
-    # Run only the failing gates against the mission base branch git stash  # or use a worktree for clean isolation git checkout "$MISSION_BASE" <project test runner> <failing-gate-paths> git checkout -  # return to merged branch ```
+    ```bash
+    # Identify the mission base branch (from meta.json or lanes.json)
+    MISSION_BASE=$(spec-kitty agent mission branch-context --json | jq -r '.target_branch')
+    # Run only the failing gates against the mission base branch, in a short-lived
+    # detached worktree; the active checkout is left untouched
+    tmp=$(mktemp -d) && git worktree add --detach "$tmp" "$MISSION_BASE"
+    (cd "$tmp" && <project test runner> <failing-gate-paths>)
+    git worktree remove "$tmp"
+    ```
+    Do not `git stash` or `git checkout` the base in your active checkout: stashing hides work in progress, and the checkout fails when the base is checked out in another worktree.
     A test that fails on the mission base branch is **pre-existing** — it was there before any lane work began. A test that passes on the mission base branch but fails on the merged branch is a **regression**.
     Record the result for every failing test: pre-existing or regression.
   on_failure: |
-    If the mission base branch cannot be checked out cleanly, use a separate worktree: `git worktree add /tmp/base-check "$MISSION_BASE"` and run the failing tests there.
+    If `git worktree add` refuses, run `git worktree prune` to drop stale registrations and retry. If the temporary worktree is left behind after a failed run, remove it with `git worktree remove --force "$tmp"`; it holds no work of yours.
 - title: Reproduce CI-only failures locally before concluding
   description: |
     Some architectural and integration test shards run only in CI and are absent from the project's fast local tier. A failure that appears only in CI may belong to one of these shards rather than to the gates you inventoried in Step 1.

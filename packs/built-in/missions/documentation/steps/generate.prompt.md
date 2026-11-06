@@ -17,7 +17,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Location Pre-flight Check
 
-**BEFORE PROCEEDING:** Verify you are working in the repository root checkout (or your lane worktree, if `spec-kitty implement` allocated one for this work).
+**BEFORE PROCEEDING:** Verify you are working in the checkout `spec-kitty implement` printed (a lane worktree, or the write checkout for `single_branch`, usually the repository root checkout).
 
 ```bash
 pwd

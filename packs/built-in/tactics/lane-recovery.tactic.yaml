@@ -1,0 +1,70 @@
+schema_version: "1.0"
+id: lane-recovery
+name: Lane Recovery (DESTROYED_LANE, LANE_WORK_TIP_UNKNOWN)
+purpose: >
+  Recover safely when Spec Kitty refuses to re-create a lane worktree because
+  the lane branch or its worktree was removed: `DESTROYED_LANE` (work on the
+  lane was never absorbed) or `LANE_WORK_TIP_UNKNOWN` (no work tip was recorded,
+  so Spec Kitty cannot tell whether work was lost). Both refusals fail closed to
+  protect committed work; this tactic restores the work or, with the operator's
+  decision, abandons the lane on purpose.
+steps:
+  - title: Read the refusal and stop
+    description: >
+      Read the error code and the branch it names. Do not create the branch,
+      the worktree or a `.worktrees/` path by hand, and do not retry the command
+      unchanged: the refusal is the guard doing its job. Note the lane branch
+      name (`kitty/mission-<slug>-<mid8>-lane-<id>`) and, for `DESTROYED_LANE`,
+      the SHA the message prints.
+  - title: "DESTROYED_LANE: restore the lane from its recorded tip"
+    description: >
+      Spec Kitty recorded the lane's last work tip at
+      `refs/spec-kitty/lane-tip/<branch>`. Restore the branch with the command
+      the refusal prints, `git branch <branch> refs/spec-kitty/lane-tip/<branch>`,
+      then re-run `spec-kitty agent action implement <WP> --mission <handle>` to
+      get a lane worktree again.
+    examples:
+      - "git branch kitty/mission-checkout-flow-01J6XW9K-lane-a refs/spec-kitty/lane-tip/kitty/mission-checkout-flow-01J6XW9K-lane-a"
+  - title: "LANE_WORK_TIP_UNKNOWN: look for stranded commits"
+    description: >
+      No work tip was recorded (the branch was deleted before any tip was
+      written, or the tip ref itself was deleted). Look for stranded commits
+      with `git reflog <branch>` or `git fsck --lost-found`. If you find the
+      lane's work, record it with
+      `git update-ref refs/spec-kitty/lane-tip/<branch> <sha>` and re-run
+      `spec-kitty agent action implement <WP> --mission <handle>`. If you are
+      certain no work was ever committed on the lane, run
+      `spec-kitty context cleanup` to clear the stale workspace record and retry.
+  - title: Abandon a lane only on the operator's decision
+    description: >
+      Abandoning a destroyed lane discards its unabsorbed work. It is an
+      operator decision, never an agent's alone. When the operator decides to
+      abandon it: `git update-ref -d refs/spec-kitty/lane-tip/<branch>`, then
+      `spec-kitty context cleanup`. Record the decision and the discarded SHA in
+      the WP's history (`spec-kitty agent tasks add-history`).
+failure_modes:
+  - >
+    Deleting a lane worktree or lane branch by hand (`git worktree remove`,
+    `git branch -D`, `rm -rf .worktrees/...`). That is what produces these
+    refusals. Lane worktrees and lane branches are removed by
+    `spec-kitty consolidate` as its final step, or by
+    `spec-kitty doctor workspaces --prune`, both of which prove the work
+    landed first.
+  - >
+    Deleting the `refs/spec-kitty/lane-tip/<branch>` ref to make the refusal go
+    away. That turns a recoverable `DESTROYED_LANE` into an abandoned lane and
+    silently discards work.
+  - >
+    Re-creating the lane branch from the Mission branch or the target branch
+    instead of from the recorded tip. The new branch looks healthy but has lost
+    the lane's commits.
+notes: >
+  Lane tips are written by a `post-commit`/`post-rewrite` recorder hook, when it
+  is installed, and at Spec Kitty's own record points (lane allocation, the
+  `for_review` transition, crash recovery, auto-rebase). With the recorder
+  inactive, a destroyed lane whose tip still equals its creation base is
+  refused with `LANE_WORK_TIP_UNKNOWN` rather than treated as empty. Detecting
+  that a lane was squash-absorbed needs git 2.38 or newer; on older git the
+  guard fails closed. The proofs that destructive git operations must
+  discharge are owned by Spec Kitty's destructive-operation guard; this tactic
+  does not restate them.

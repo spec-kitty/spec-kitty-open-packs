@@ -257,43 +257,129 @@ terms:
   status: active
   surface: implementation concern
 - confidence: 1.0
-  definition: Work package lifecycle state. Canonical lanes are planned, 
-    claimed, in_progress, for_review, in_review, approved, done, blocked, and 
-    canceled. The alias doing means in_progress. approved means review passed 
-    and merge pending; done means merged/integrated.
+  definition: >-
+    Legacy name for a work package's WP state (see `wp state`).
+    Canonical states are planned, claimed, in_progress, for_review, in_review,
+    approved, done, blocked, and canceled. The alias doing means in_progress.
+    approved means review passed and consolidation pending; done means
+    consolidated into the target. Not an execution lane; when you mean the WP's
+    lifecycle state, say WP state.
   status: active
   surface: lane
+- confidence: 0.95
+  definition: >-
+    The lifecycle state of a work package (planned, claimed,
+    in_progress, for_review, in_review, approved, done, blocked, canceled), as
+    the status event log records it. Older text and the event field names
+    `from_lane`/`to_lane` call it a lane; in prose prefer WP state, so it is not
+    confused with an execution lane. Read it with `spec-kitty agent tasks
+    status`.
+  status: active
+  surface: wp state
+- confidence: 0.95
+  definition: >-
+    A group of work packages that `finalize-tasks` computes to run in
+    sequence on one lane branch. Missions with more than one lane use a lane
+    topology; a Mission of at most 2 work packages or one lane runs
+    `single_branch` and has no lane branch. Not a WP state.
+  status: active
+  surface: execution lane
+- confidence: 0.95
+  definition: >-
+    The branch that carries one execution lane's commits, named
+    `kitty/mission-<slug>-<mid8>-lane-<id>`. It carries no copy of the
+    Mission's status that anyone reads or writes; status lives on the resolved
+    status surface. Consolidation removes it as its final step once it can
+    prove the lane landed.
+  status: active
+  surface: lane branch
+- confidence: 0.95
+  definition: >-
+    A Spec Kitty checkout of a lane branch under `.worktrees/`,
+    provided by `spec-kitty implement` (or `spec-kitty agent action
+    implement`). WP deliverables are written and committed there. Its status
+    files are never a status surface: lanes never change them and readers never
+    read them. Never create, reuse or delete one by hand.
+  status: active
+  surface: lane worktree
+- confidence: 0.9
+  definition: >-
+    The checkout of a Mission's coordination branch, used by the
+    coordination topologies (`coord`, `lanes_with_coord`) to write lifecycle
+    state. The coordination branch, not this checkout's working tree, is the
+    lifecycle home; read status through the CLI, never from this checkout's
+    files. Consolidation removes it as its final step.
+  status: active
+  surface: coordination worktree
+- confidence: 0.9
+  definition: >-
+    The checkout a `single_branch` Mission writes in, on the Mission's
+    write branch; usually the repository root checkout, or an owned checkout.
+    One writer at a time.
+  status: active
+  surface: write checkout
+- confidence: 0.9
+  definition: >-
+    A checkout that an agent harness creates for an agent (for example
+    `Agent(isolation: "worktree")`). Spec Kitty neither creates nor tracks it.
+    It is not a lane worktree and never a status surface; do not run `spec-kitty
+    implement` or status writes from it.
+  status: active
+  surface: harness isolation worktree
+- confidence: 0.9
+  definition: >-
+    A maintainer's dedicated checkout of a pull request's branch for a
+    landing pass, for example `.worktrees/pr-<N>-landing`. One per pull
+    request; never shared across pull requests and never a status surface.
+    `spec-kitty doctor workspaces --prune` removes it after the pull request
+    merges.
+  status: active
+  surface: pr-landing worktree
+- confidence: 0.95
+  definition: >-
+    The one place a Mission's status is read from and written to, as
+    the CLI resolves it per topology. For `coord` and `lanes_with_coord` it is
+    the coordination branch; for `single_branch` and `lanes` it is the write
+    branch. Status commits land there. A lane checkout never shows, changes or
+    serves the status files, and no reader reads status from a lane worktree, a
+    coordination worktree or any other checkout's files. Read it with
+    `spec-kitty agent tasks status --mission <handle>`.
+  status: active
+  surface: resolved status surface
 - confidence: 1.0
-  definition: Work package lane meaning review passed, feedback resolved, and 
-    the WP is ready to merge. approved is not integrated and must not be treated
-    as done. The merge workflow owns the approved -> done transition.
+  definition: >-
+    WP state meaning review passed, feedback resolved, and the WP is
+    ready to consolidate. approved is not integrated and must not be treated as
+    done. `spec-kitty consolidate` owns the approved -> done transition.
   status: active
   surface: approved
 - confidence: 1.0
-  definition: Work package lane meaning the WP has been merged/integrated into 
-    the mission target branch, or explicitly force-marked as integrated with 
-    evidence. Review approval alone is not done.
+  definition: >-
+    WP state meaning the WP has been consolidated into the mission
+    target branch, or explicitly force-marked as integrated with evidence.
+    Review approval alone is not done.
   status: active
   surface: done
 - confidence: 1.0
   definition: A WP counted by mission acceptance readiness because its lane is 
-    approved or done. Accepted does not imply done; approved accepted work 
-    packages remain merge-pending.
+    approved or done. Accepted does not imply done; approved accepted work
+    packages remain consolidation-pending.
   status: active
   surface: accepted work package
 - confidence: 1.0
-  definition: An approved WP that mission acceptance may count as accepted-ready
-    but that has not yet been merged/integrated. Merge-pending WPs stay in the 
-    approved lane until the merge workflow records done.
+  definition: >-
+    An approved WP that mission acceptance may count as accepted-ready
+    but that has not yet been consolidated. Such WPs stay in the approved state
+    until `spec-kitty consolidate` records done.
   status: active
   surface: merge-pending work package
 - confidence: 1.0
   definition: "The condition the dependency gate evaluates before a work package may
     be claimed or implemented: every WP listed in its ``dependencies`` frontmatter
     must be in the ``approved`` or ``done`` lane. ``approved`` is included deliberately
-    — ``done`` is emitted only by the whole-mission merge, so requiring a dependency
+    — ``done`` is emitted only by whole-mission consolidation, so requiring a dependency
     to be strictly ``done`` would deadlock every same-mission dependency chain (the
-    dependent WP could never start, so the mission could never merge, so the dependency
+    dependent WP could never start, so the mission could never consolidate, so the dependency
     could never reach ``done``). Computed by ``dependency_readiness_for_wp`` in ``src/specify_cli/core/dependency_graph.py``;
     intentionally matches the merge dependency gate (``policy/merge_gates.py`` treats
     ``{approved, done}`` as satisfied). ``for_review``, ``in_review``, ``blocked``,
@@ -342,11 +428,19 @@ terms:
   status: deprecated
   surface: main repository root
 - confidence: 0.75
-  definition: The persistent JSON artifact (.kittify/merge-state.json) tracking 
-    progress of a resumable multi-work-package merge operation. Allows an 
-    interrupted merge to be restarted without data loss.
-  status: draft
+  definition: >-
+    DEPRECATED. Replaced by `consolidation state`. The
+    `.kittify/merge-state.json` file it named is retired.
+  status: deprecated
   surface: merge state
+- confidence: 0.85
+  definition: >-
+    The per-Mission runtime record at
+    `.kittify/runtime/merge/<mission_id>/state.json` that tracks a
+    consolidation's progress, so `spec-kitty consolidate --resume` can continue
+    an interrupted consolidation without data loss.
+  status: draft
+  surface: consolidation state
 - confidence: 1.0
   definition: "The branch where completed work-package code must ultimately land.
     Stored in every WP prompt's frontmatter (alongside planning_base_branch) to give
@@ -476,9 +570,10 @@ terms:
   status: active
   surface: planning_base_branch
 - confidence: 0.75
-  definition: Pre-merge checks that verify all resolved execution workspaces are
-    clean and ready before a merge operation begins. A failing preflight check 
-    blocks the merge entirely.
+  definition: >-
+    Checks `spec-kitty consolidate` runs before it moves any branch
+    (git state, target branch, review artefacts, origin freshness). A failing
+    preflight check blocks the consolidation entirely.
   status: draft
   surface: preflight validation
 - confidence: 0.95
@@ -605,9 +700,12 @@ terms:
   status: active
   surface: sonar quality gate
 - confidence: 0.95
-  definition: An auto-commit created by spec-kitty to record workflow state 
-    changes (task status transitions, lane metadata, WP claims). Status commits 
-    target lane branches, not protected branches.
+  definition: >-
+    An auto-commit created by spec-kitty to record workflow state
+    changes (WP state transitions, lane metadata, WP claims). A status commit
+    lands on the Mission's resolved status surface: the coordination branch for
+    coordination topologies, the write branch otherwise. It never lands on a
+    lane branch, and never on a protected branch.
   status: active
   surface: status commit
   synonyms_to_avoid:
@@ -698,7 +796,10 @@ terms:
   status: active
   surface: work package
 - confidence: 1.0
-  definition: Git worktree directory created for implementing a work package
+  definition: >-
+    The checkout a work package is implemented in. For lane
+    topologies it is the WP's lane worktree; for `single_branch` it is the write
+    checkout. Resolve it with `spec-kitty implement`; never construct the path.
   status: active
   surface: workspace
 - confidence: 1.0
@@ -854,7 +955,8 @@ terms:
     pre-upgrade `.kittify/metadata.yaml`. Not an integrating worktree: a worktree
     on an ordinary branch, such as a topic or landing branch, where upgrade
     still upgrades and commits; the repository root checkout, which never is
-    one. For a per-work-package execution checkout in general, say lane worktree.
+    one. For a per-work-package execution checkout in general, say lane worktree
+    (see the `lane worktree` entry).
     See the integrating worktree entry in docs/context/execution.md.'
   status: active
   surface: integrating worktree

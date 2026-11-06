@@ -98,8 +98,9 @@ terms:
   - surface: cutover-guard
     definition: >
       A repo-specific CI gate that fails when a migration/cutover is incompletely
-      applied (e.g. old and new surfaces both present). Reads the primary checkout,
-      which is a footgun in shared worktrees.
+      applied (e.g. old and new surfaces both present). Reads the repository root
+      checkout's working tree, so a run from a lane worktree or a PR-landing
+      worktree checks the wrong tree.
     confidence: 0.75
     status: active
 
@@ -108,6 +109,7 @@ terms:
       The execution-workspace split routing lifecycle surfaces (status, notes, trace,
       issue-matrix, move-task) to the coord branch and stable planning (spec/plan/WP
       outlines) to the primary branch. Missions with no coordination topology route
-      everything to primary.
+      everything to primary. Read lifecycle state through the CLI, never from a
+      checkout's files; see `resolved status surface`.
     confidence: 0.8
     status: active

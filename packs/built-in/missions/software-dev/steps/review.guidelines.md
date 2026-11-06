@@ -7,8 +7,9 @@ These guidelines govern the quality and correctness standards for work package r
 ## Dependency Verification
 
 - Before reviewing a WP, confirm each WP listed in its `dependencies` frontmatter field is `approved` or `done`, and present in the review base.
-- Identify any WPs that list the current WP as a dependency and note their current lanes.
-- If you request changes AND dependents exist, warn those agents to rebase and provide a concrete rebase command.
+- Read WP states with `spec-kitty agent tasks status --mission <handle>`, never from a checkout's status files.
+- Identify any WPs that list the current WP as a dependency and note each dependent's current WP state.
+- If you request changes AND dependents exist, tell those agents to re-run `spec-kitty agent action implement <WP> --mission <handle>`, which refreshes their lane with the approved dependency work; give a manual command only if the CLI reports a conflict.
 - Confirm that dependency declarations match actual code coupling (imports, shared modules, API contracts).
 
 ---
@@ -18,14 +19,14 @@ These guidelines govern the quality and correctness standards for work package r
 - Assess intent and risk first before diving into line-level details.
 - Verify that the implementation satisfies the acceptance criteria defined in the WP task file.
 - Check that test coverage is adequate for the changes introduced.
-- Verify that no deliverable files were written to the repository root checkout instead of the worktree.
+- Verify that no deliverable files were written outside the WP's workspace (for lane topologies, the repository root checkout is outside it).
 - Read each rejected requirement ref's reason: `malformed` and `unknown_spec_id` block approval; a `foreign_qualified` ref (`<mission-slug>#<ID>`) cites another mission and never blocks. Success criteria (`SC-###`) are tracked, not gating.
 
 ---
 
 ## Outcome Actions
 
-- Approve: move WP to `approved` with a summary note. Merge later records `done`.
+- Approve: move WP to `approved` with a summary note. Consolidation later records `done`.
 - Reject: write structured feedback to the temp file path shown in the prompt, then move WP back to `planned`.
 - Use the exact temp file path provided by the prompt to avoid conflicts with other review agents.
 

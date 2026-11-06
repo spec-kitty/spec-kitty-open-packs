@@ -67,10 +67,10 @@ not a defect in the slicing. Handle it as follows:
 
 1. **Linearize shared surfaces (execution safety).** Work packages that touch the
    same files MUST be made dependent/linear (via `Depends on WPxx`) so they
-   execute sequentially in one lane and **share a single worktree** (or run
-   direct-to-branch). Limited parallelism is acceptable and expected for these
+   execute sequentially in one execution lane (or, for `single_branch`, in
+   the write checkout). Limited parallelism is acceptable and expected for these
    missions — do not force artificial parallelism. Note: linearization protects
-   the *worktree* from concurrent edits; it does **not** by itself satisfy
+   the checkout from concurrent edits; it does **not** by itself satisfy
    ownership validation (see step 3).
 2. **Declare cross-cutting WPs codebase-wide (the exemption).** A WP that is
    expected to overlap broadly should carry `scope: codebase-wide` in its
@@ -98,7 +98,11 @@ spec-kitty agent mission finalize-tasks --mission <mission-slug> --json
 ```
 
 This command will update WP frontmatter, compute lanes, and commit all tasks to
-the target branch.
+the target branch. Without an explicit `--topology` at create, `finalize-tasks` settles the topology by
+Mission size: at most 2 WPs, or one computed execution lane, gives `single_branch` (WPs run in
+the write checkout); larger Missions get `lanes` (or `lanes_with_coord` on a protected target),
+with one lane branch per execution lane. Lane worktrees are created only after that, by
+`spec-kitty agent action implement`.
 
 ### 3. Check Output
 

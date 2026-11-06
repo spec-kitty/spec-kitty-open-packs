@@ -392,6 +392,9 @@ edges:
   target: tactic:input-validation-fail-fast
   relation: scope
 - source: action:software-dev/implement
+  target: tactic:lane-recovery
+  relation: scope
+- source: action:software-dev/implement
   target: tactic:quality-gate-verification
   relation: scope
 - source: action:software-dev/implement

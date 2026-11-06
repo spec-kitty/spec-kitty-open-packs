@@ -53,7 +53,7 @@ rather than dividing it implicitly.
 
 **Do NOT cd anywhere**. Stay in the repository root checkout.
 
-**Worktrees created later**: After tasks are finalized, `spec-kitty next --agent <agent> --mission <handle>` issues the analyze step first (the required `/spec-kitty.analyze` gate), then hands out `spec-kitty agent action implement WP## --agent <name>` for each WP. `finalize_tasks` computes the execution lanes, and each lane gets exactly one worktree.
+**Worktrees created later**: After tasks are finalized, `spec-kitty next --agent <agent> --mission <handle>` issues the analyze step first (the required `/spec-kitty.analyze` gate), then hands out `spec-kitty agent action implement WP## --agent <name>` for each WP. `finalize_tasks` computes the execution lanes. Without an explicit `--topology` at create, `finalize-tasks` settles the topology by Mission size: at most 2 WPs, or one computed execution lane, gives `single_branch` (WPs run in the write checkout); larger Missions get `lanes` (or `lanes_with_coord` on a protected target), with one lane branch per execution lane. Lane worktrees are created only after that, by `spec-kitty agent action implement`. Never build a `.worktrees/` path yourself.
 
 **In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
 
@@ -157,7 +157,7 @@ Prompts do not rediscover mission context. Commands do.
 
    **WHY SIZE MATTERS**:
    - **Too large** (>10 subtasks, >700 lines): Agents get overwhelmed, skip details, make mistakes
-   - **Too small** (<3 subtasks, <150 lines): Overhead of worktree creation not worth it
+   - **Too small** (<3 subtasks, <150 lines): Overhead of a separate WP (review cycle, status transitions) not worth it
    - **Just right** (3-7 subtasks, 200-500 lines): Agent can hold entire context, implements thoroughly
 
    **NUMBER OF WPs**: Let the work dictate the count
@@ -395,7 +395,7 @@ verdict. This is informational only — it does not gate `/spec-kitty.tasks`.
 After reporting, ask the user directly:
 
 > **Should I use the `/spec-kitty-implement-review` skill to fully implement all WPs until completion?**
-> This will dispatch implementing and reviewing agents for every WP, handle rejection cycles, and merge all lanes when done.
+> This will dispatch implementing and reviewing agents for every WP, handle rejection cycles, and consolidate the Mission when every WP is approved.
 >
 > **Required pre-implementation gate:** `/spec-kitty.analyze` must run before any WP implementation. It persists an `analysis-report.md` and reviews spec/plan/task consistency; the implement gate refuses to start (`analysis_report_required`) until that report exists. This is not optional — it is the readiness gate `/spec-kitty.implement` enforces.
 

@@ -129,6 +129,11 @@ history section here.
 - **Change WP status**: `spec-kitty agent tasks move-task <WPID> --to <status>`
 - **View history and status**: `spec-kitty agent tasks status`
 
+**Read status only through the CLI** (`spec-kitty agent tasks status --mission <handle>`),
+which reads the Mission's resolved status surface. Never read `status.events.jsonl` or
+`status.json` from the files of a lane worktree, a coordination worktree or any other
+checkout: a checkout's copy can be stale and never counts.
+
 ### File Structure
 
 All WP files live in a flat `tasks/` directory.
