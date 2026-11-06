@@ -15,8 +15,8 @@ compliance with any applicable guardrails (e.g., bulk edit occurrence maps).
 
 ## Working Directory
 
-**IMPORTANT**: This step works inside the execution workspace (worktree)
-allocated by `spec-kitty agent action review WPxx --agent <name>`. Prefer to stay within
+**IMPORTANT**: Work in the checkout `spec-kitty agent action review WPxx --agent <name>`
+prints: a lane worktree, or the write checkout for `single_branch`. Prefer to stay within
 your `owned_files` boundaries; any out-of-map change must be small, justified, and carry a
 one-line rationale in the commit message.
 
@@ -233,7 +233,7 @@ item blocks approval.
    named by those clauses.
 7. **Shared-file ownership**: any file modified by this WP that is also
    modified by another WP, visible in `lanes.json`, shared lane metadata, or
-   the same mission merge, has an explicit coordination note in the move-task
+   the same consolidation, has an explicit coordination note in the move-task
    reason or review feedback.
 8. **Production fragility**: any new `raise` in a production code path has a
    documented fail-loud rationale. A bare `raise` in a request handler, worker,

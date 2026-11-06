@@ -258,12 +258,13 @@ terms:
   surface: implementation concern
 - confidence: 1.0
   definition: >-
-    Legacy name for a work package's WP state (see `wp state`).
-    Canonical states are planned, claimed, in_progress, for_review, in_review,
-    approved, done, blocked, and canceled. The alias doing means in_progress.
-    approved means review passed and consolidation pending; done means
-    consolidated into the target. Not an execution lane; when you mean the WP's
-    lifecycle state, say WP state.
+    Legacy name for a work package's WP state (see `wp state`), kept in
+    event field names (`from_lane`, `to_lane`). Canonical states are planned,
+    claimed, in_progress, for_review, in_review, approved, done, blocked, and
+    canceled. The alias doing means in_progress. approved means review passed
+    and consolidation pending; done means consolidated into the target. In
+    prose, a bare "lane" means an execution lane (as in lane branch and lane
+    worktree); when you mean the WP's lifecycle state, say WP state.
   status: active
   surface: lane
 - confidence: 0.95
@@ -279,9 +280,9 @@ terms:
 - confidence: 0.95
   definition: >-
     A group of work packages that `finalize-tasks` computes to run in
-    sequence on one lane branch. Missions with more than one lane use a lane
-    topology; a Mission of at most 2 work packages or one lane runs
-    `single_branch` and has no lane branch. Not a WP state.
+    sequence. In lane topologies each execution lane has one lane branch. A
+    Mission of at most 2 work packages, or with one lane, runs `single_branch`
+    and has no lane branch. Not a WP state.
   status: active
   surface: execution lane
 - confidence: 0.95
@@ -297,9 +298,9 @@ terms:
   definition: >-
     A Spec Kitty checkout of a lane branch under `.worktrees/`,
     provided by `spec-kitty implement` (or `spec-kitty agent action
-    implement`). WP deliverables are written and committed there. Its status
-    files are never a status surface: lanes never change them and readers never
-    read them. Never create, reuse or delete one by hand.
+    implement`). WP deliverables are written and committed there. Any status
+    files it shows are never a status surface: nothing writes them there and
+    no reader reads them. Never create, reuse or delete one by hand.
   status: active
   surface: lane worktree
 - confidence: 0.9
@@ -335,6 +336,15 @@ terms:
     merges.
   status: active
   surface: pr-landing worktree
+- confidence: 0.9
+  definition: >-
+    The branch a Mission's commits and, outside the coordination topologies,
+    its status commits land on before consolidation: the Mission topic branch
+    `kitty/mission-<slug>-<mid8>`, or the target branch when the Mission writes
+    to it directly. The write checkout (`single_branch`) is checked out on it.
+    Not the primary branch, which is the repository's default branch.
+  status: active
+  surface: write branch
 - confidence: 0.95
   definition: >-
     The one place a Mission's status is read from and written to, as
@@ -430,7 +440,9 @@ terms:
 - confidence: 0.75
   definition: >-
     DEPRECATED. Replaced by `consolidation state`. The
-    `.kittify/merge-state.json` file it named is retired.
+    `.kittify/merge-state.json` file it named is retired. Only landing a
+    Mission's lanes is called consolidation; a pull request merge and `git
+    merge` keep their names.
   status: deprecated
   surface: merge state
 - confidence: 0.85
@@ -503,8 +515,8 @@ terms:
   status: active
   surface: mission_id
 - confidence: 1.0
-  definition: A display-only sequential integer assigned to a mission at merge 
-    time. Never used for lookup, locking, or event routing — use mission_id for 
+  definition: A display-only sequential integer assigned to a mission at
+    consolidation. Never used for lookup, locking, or event routing — use mission_id for 
     those purposes.
   status: active
   surface: mission_number
@@ -702,7 +714,7 @@ terms:
 - confidence: 0.95
   definition: >-
     An auto-commit created by spec-kitty to record workflow state
-    changes (WP state transitions, lane metadata, WP claims). A status commit
+    changes (WP state transitions, lane assignment, WP claims). A status commit
     lands on the Mission's resolved status surface: the coordination branch for
     coordination topologies, the write branch otherwise. It never lands on a
     lane branch, and never on a protected branch.

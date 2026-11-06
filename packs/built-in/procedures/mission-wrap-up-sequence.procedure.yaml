@@ -4,13 +4,13 @@ title: Mission Wrap-Up Sequence
 description: |
   Drive a mission from "all work packages approved" to "a clean, reviewable draft pull request handed to the operator" through one standing, repeatable close-out sequence. The sequence makes the last mile deterministic: it verifies readiness, resolves every tracked-issue verdict, subjects the aggregate diff to an independent review, lands locally, compacts the branch into readable history, and opens a draft PR — so no mission ends in an ad-hoc, unreviewed, or messy state. It complements (does not replace) the per-work-package implement/review loop.
 entry_condition: |
-  Every work package in the mission is approved (the per-WP implement/review loop is complete). Acceptance has not yet been recorded and the mission branch has not yet been merged locally.
+  Every work package in the mission is approved (the per-WP implement/review loop is complete). Acceptance has not yet been recorded and the mission branch has not yet been consolidated locally.
 exit_condition: |
   Acceptance is recorded; every tracker issue referenced by the spec carries a terminal issue-matrix verdict; the aggregate diff has passed an independent review (the adversarial squad being the recommended mechanism); the lanes are consolidated into the mission branch; the branch history is compacted into a small set of readable, logically-sliced commits rebased onto the current upstream base; and a draft pull request is open and handed to the operator. The operator — not the agent — performs the merge to the protected mainline.
 steps:
 - title: Confirm readiness and run acceptance
   description: |
-    Verify all work packages are in the `approved` state (`spec-kitty agent tasks status --mission <slug>`), then run the mission's accept step (`spec-kitty accept --mission <slug>`) as the readiness nudge. Resolve any blocker it reports (for example a missing acceptance-matrix) before proceeding. Acceptance is a pre-merge check, not a substitute for per-WP review or the merge gate.
+    Verify all work packages are in the `approved` state (`spec-kitty agent tasks status --mission <slug>`), then run the mission's accept step (`spec-kitty accept --mission <slug>`) as the readiness nudge. Resolve any blocker it reports (for example a missing acceptance-matrix) before proceeding. Acceptance is a pre-consolidation check, not a substitute for per-WP review or the consolidation gates.
 - title: Retire or split the mission's development-assist tests
   description: |
     Judge the tests the mission wrote to facilitate its own slices (characterization oracles, parity/timing gates, per-WP shape/delegate/__module__ checks) before they land as permanent suite bloat, following the development-assist-test-cleanup procedure: identify what the mission added to assist itself, assign each a keep / retire / split verdict applying DIRECTIVE_041's keep-vs-delete axis, execute (delete-the-assertion, split mixed mega-files by kind, strip WP##/NFR-### labels off promoted tests, re-point named docstrings), and file the suite-wide audit for the copy-pasted residue rather than sweeping it into the landing PR. This governs only debt the mission itself created; pre-existing debt in touched areas is DIRECTIVE_025. Every issue-named test file the mission added (test_issue_NNNN*, test_repro_NNNN*) must get a recorded fold-or-keep verdict before hand-off: fold it into the suite that owns the contract, or keep it renamed after that contract with a one-line reason.
@@ -22,7 +22,7 @@ steps:
     The sum of the per-WP reviews is not the final gate — the WPs only coexist once combined. Obtain an independent review of the aggregate diff — the adversarial review squad (adversarial-squad-deployment) is the recommended mechanism — to catch cross-WP integration issues, behaviour drift, and any documented exception that no longer holds. Synthesize a LAND / HOLD verdict and resolve anything real before landing.
 - title: Consolidate the lanes locally
   description: |
-    Consolidate the approved lanes into the mission branch with the host consolidate command (`spec-kitty consolidate --mission <slug>`), which lands locally only. As its last step it removes the Mission's lane worktrees and lane branches (and any coordination checkout and branch) that it can prove have landed; it does not wait for the pull request to merge, and it keeps the mission branch, which the next steps compact and push. Lanes it cannot prove landed are kept and reported; `spec-kitty doctor workspaces --prune` is the backstop. If it reports a stale lane, follow the command it prints; never `git merge` inside a lane worktree by hand. Do not push to the protected mainline and never merge it yourself — the operator does that.
+    Consolidate the Mission's lane branches (every WP `approved`) into the mission branch with the host consolidate command (`spec-kitty consolidate --mission <slug>`), which lands locally only. As its last step it removes the Mission's lane worktrees and lane branches (and any coordination worktree and branch) that it can prove have landed; it does not wait for the pull request to merge, and it keeps the mission branch, which the next steps compact and push. Lanes it cannot prove landed are kept and reported; `spec-kitty doctor workspaces --prune` is the backstop. If it reports a stale lane, follow the command it prints; never `git merge` inside a lane worktree by hand. Do not push to the protected mainline and never merge it yourself — the operator does that.
 - title: Compact the branch into readable history
   description: |
     Rewrite the mission branch into a small set of readable, logically-sliced commits (for example docs / surface / repoints), following the clean-linear-commit-history tactic (a non-reordering, behaviour-preserving snapshot chain) — never an interactive reorder. Verify the compacted tree is identical to the pre-compaction tree except for intentionally-dropped ignored artefacts.
@@ -40,7 +40,7 @@ steps:
 anti_patterns:
 - title: Per-WP green treated as the final gate
   content: |
-    Skipping the aggregate review because every work package already passed. The WPs only coexist after merge; the aggregate diff is where cross-WP integration breaks surface.
+    Skipping the aggregate review because every work package already passed. The WPs only coexist after consolidation; the aggregate diff is where cross-WP integration breaks surface.
 - title: Merge commits instead of a linear history
   content: |
     Landing the mission as a tangle of merge/status commits rather than a compacted, rebased, linear branch. Readability and bisectability are lost.
