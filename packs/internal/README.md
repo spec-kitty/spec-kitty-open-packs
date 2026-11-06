@@ -36,6 +36,8 @@ packs/internal/
 │   ├── report-debrief.skill.yaml                    # kitty-report-debrief: thin entry point to executive-debrief-generation
 │   ├── semi-auto.skill.yaml                         # kitty-semi-auto: dual-mode (local|cloud) entry point to semi-auto-delivery
 │   └── *.skill.md                                   # their prompt bodies (goal, inputs, ordered pointers, stop conditions)
+├── presets/
+│   └── base.yaml                                    # base preset: must-have items mirror required_directives (ADR-0031)
 ├── glossary_packs/
 │   └── spk-internal-glossary.glossary-pack.yaml     # spk-internal-glossary — maintainer/engineering glossary
 ├── procedures/

@@ -1,0 +1,12 @@
+# The `base` activation preset of the internal pack, in the sanitized preset shape
+# of charter ADR-0042. Its must-have items mirror `required_directives` in
+# org-charter.yaml (charter ADR-0031: requirement is authored as a preset; the
+# org-charter list is migrated in #206).
+schema_version: "1.0"
+id: base
+description: The directives every Spec Kitty core-team project keeps active.
+activated_directives:
+  - id: NO_FULL_HEAVY_SUITES_IN_MISSION
+    must_have: true
+  - id: SPEC_KITTY_DOCS_CONVENTIONS
+    must_have: true
