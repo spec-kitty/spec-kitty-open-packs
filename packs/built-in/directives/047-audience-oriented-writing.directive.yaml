@@ -25,6 +25,6 @@ validation_criteria:
   - A reader unfamiliar with the artifact's origin can infer, from tone and
     detail level alone, roughly who it was written for.
   - For Common Docs pages, the named persona is expressed as an `audience:`
-    frontmatter path that resolves to an existing file under
-    `docs/context/audience/` (see DIRECTIVE_042 and the common-docs styleguide
-    for the field contract and the resolver that verifies it).
+    frontmatter field that resolves to the project's persona source, or names
+    the persona in plain words where the project keeps none (see DIRECTIVE_042
+    and the common-docs styleguide).

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 0354338fdb0bdc3c3482f9d6fdd815a2b6a06d580449379b027fcbd12c23c655
+manifest_hash: 64b51c5fdc3290ab0db7f1b15282a21556facef5895be24a8a0910c0ef28e991
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -216,7 +216,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
-  content_hash: 6addce96c0beafc7c9f8811d59420fc448962260f1d274e0df97859b5e85595e
+  content_hash: a64cfe053c8e026ec31ea989864d8009762d2b21bb58356384e8e991146c1e47
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -236,7 +236,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_047
   path: directives/047-audience-oriented-writing.directive.yaml
-  content_hash: d636afb3bd80de9c69b4742e9594a7550b04b3234584884672d00f6d476db851
+  content_hash: 7d6c4e13ad09abe516af56dc690684aae5255f49e524422911ff6383e64d18f7
 - kind: directive
   id: DIRECTIVE_048
   path: directives/048-version-governance.directive.yaml
@@ -348,7 +348,7 @@ constituents:
 - kind: procedure
   id: action-item-attribution-gate
   path: procedures/action-item-attribution-gate.procedure.yaml
-  content_hash: 61236b64552d42cfe1dbb00d2d114bf510dd4205348326776bb10142aa40e9a1
+  content_hash: be2efe278db6ec7cddd2d0059be589259d9caa3ec572699469259b84dca4230e
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
@@ -616,7 +616,7 @@ constituents:
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: 09726c8955979cd0cdc3d7334fc877262e2c9c2f4777c20200f8509aca7e9d79
+  content_hash: 79fa1c955e5ce5c13cd2877e46aa1019d1ab3994be0bb1dd4f21c38d69ba6c13
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
@@ -816,11 +816,11 @@ constituents:
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
-  content_hash: e885b6956fe5532daefd9bf22d063c0ea3eb31bb947fe863f240b6c4889b7421
+  content_hash: 95e6b1b47e949d53642549e1677af042562889e086c3aa10088fbbaf1243fce5
 - kind: tactic
   id: common-docs-write
   path: tactics/common-docs-write.tactic.yaml
-  content_hash: ae7e4fcf1a72810902249e2e1ef12a9e65c03a0d73c5c42b3f44e845b88577a0
+  content_hash: 486441ce3a0aeac4b0ceb9eeeeeeadfb91b061c996a0a28f4751b1364bd9dcb1
 - kind: tactic
   id: compositional-stream-boundaries
   path: tactics/architecture/compositional-stream-boundaries.tactic.yaml
@@ -888,7 +888,7 @@ constituents:
 - kind: tactic
   id: five-paradigm-parallel-debugging
   path: tactics/five-paradigm-parallel-debugging.tactic.yaml
-  content_hash: c3b3f8a6262ff66c2cbd8873b033b54f9fb7bdb121d8f901f19cccbc9f4589ad
+  content_hash: 5ae35c4106d61592e7eb5e4f12511bbac8a11ecf8061b06fb5406a577eb9e50b
 - kind: tactic
   id: focused-function-complexity-check
   path: tactics/focused-function-complexity-check.tactic.yaml

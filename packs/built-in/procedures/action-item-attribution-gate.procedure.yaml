@@ -19,4 +19,4 @@ steps:
     When no owner was named in the meeting, leave the owner field empty and ask about the gap in the originating chat.
 - title: Run the minutes validation check before returning or publishing
   description: |
-    Run the minutes validation check before the final Markdown response and before any wiki publish. On an unattributed-action error, stop, list the unattributed items in the same chat and ask for clarification; never return or publish minutes with unowned actions.
+    Run the minutes validation check (the validation step of the meeting-minutes-pipeline procedure) before the final Markdown response and before any wiki publish. On an unattributed-action error, stop, list the unattributed items in the same chat and ask for clarification; never return or publish minutes with unowned actions.
