@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: failing-test-triage
+title: Failing Test Triage
+description: |
+  Decide what a failing or friction test deserves, so tests are neither weakened to go green nor kept as friction.
+entry_condition: |
+  A test is failing, or a test has been identified as friction.
+exit_condition: |
+  The test is classified as stale, patchwork, or valid and current, causation is established by code-path coupling, and the matching action is done: assertion remediated, test deleted or re-pinned, or product fixed or filed.
+steps:
+- title: Classify the test and act on the verdict
+  description: |
+    Classify the test instead of digging through git history for when it broke, then act on the verdict:
+    - Stale (it captures old intent): remediate the assertion to the current contract.
+    - Patchwork (a stub, or fakeable): delete it, or re-pin its assertion if the setup is worth keeping.
+    - Valid and current (it drives a real entry point): it caught a product break, so fix the product and never weaken or delete the test.
+- title: Establish causation by code-path coupling
+  description: |
+    Ask whether the suspect change touches the failing path (imports or calls on it), not what git blame says. If it does not, the test surfaced a pre-existing product defect: fix or file it as a product finding.
+- title: Replace the assertion, not the test
+  description: |
+    When remediating friction, follow the delete-the-assertion-not-the-test tactic: replace the wrong assertion, keep the setup and excavated edge cases, and delete outright only provably zero-coverage or superseded tests.

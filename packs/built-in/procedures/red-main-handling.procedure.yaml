@@ -1,0 +1,25 @@
+schema_version: '1.0'
+id: red-main-handling
+title: Red Main Handling
+description: |
+  Keep a red mainline an honest, actionable signal of a release-blocking defect.
+entry_condition: |
+  The mainline is red, a release-blocking defect (P0) is filed or accepted, or a release or QA effort is being considered.
+exit_condition: |
+  Each red is classified, every genuine defect traces to a release-blocking issue, release and expensive QA waited for green mainline CI, and red recovery was prioritized and landed through the normal PR flow.
+steps:
+- title: Classify each red
+  description: |
+    Classify each red on the mainline as a genuine defect, a flake or a CI-environment failure. Trace every genuine defect to a release-blocking (P0) issue, backed by a failing test wherever one can be written. Fix a flake at its root; never retry it to green.
+- title: Treat a red main as honest signal
+  description: |
+    Treat a red main as true information about a known defect, not noise to hide. Never green-wash it by skipping, muting or retrying the failing check.
+- title: Add a failing reproduction test for a P0
+  description: |
+    When filing or accepting a P0, land a red-first reproduction at mainline scope. The red stays until the fix lands. This extends the per-PR red-first, never-retry-to-green discipline to the mainline.
+- title: Gate release and expensive QA on green mainline CI
+  description: |
+    Do not release while CI is red. CI is the single release gate, so it must mean one thing. Hold QA and human testing until green rather than validating a known-broken base.
+- title: Prioritize red recovery
+  description: |
+    Put a red main at the front of the maintainers' queue, and land the fix through the normal PR flow.

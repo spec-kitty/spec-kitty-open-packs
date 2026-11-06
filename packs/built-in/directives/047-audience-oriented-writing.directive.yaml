@@ -15,27 +15,6 @@ scope: >
   updates, executive summaries, and presentation content briefs. Does not
   apply to machine-readable artifacts (code, config, structured data) with
   no direct human reader.
-procedures:
-  - Identify the target audience/persona for the artifact before drafting -
-    their role, their existing familiarity with the subject, and what
-    decision or action the artifact should support.
-  - Name the target persona explicitly in or alongside the artifact (a
-    heading, a metadata field, or an opening line) so a later reader can
-    confirm the tailoring was intentional.
-  - Calibrate vocabulary, level of detail, and structure to that persona -
-    do not default to the author's own level of familiarity with the
-    subject.
-  - When a single source artifact must serve genuinely divergent audiences,
-    prefer producing persona-specific variants over one artifact that tries
-    to serve everyone and therefore serves no one well.
-  - For documentation pages under the Common Docs root, name the persona
-    through the canonical `audience:` frontmatter field — one resolvable
-    repo-relative `.md` path (or a list of paths) targeting a persona under
-    `docs/context/audience/` — rather than an ad-hoc prose note. This is the
-    machine-checkable form of "name the target persona explicitly"; the field
-    contract, the tooling row that verifies it, and its scoping (touched pages
-    only; NOT in `frontmatter_required_fields`, C-012) live in DIRECTIVE_042
-    and the common-docs styleguide.
 integrity_rules:
   - An artifact with no identifiable target audience is incomplete, not
     merely stylistically weak.

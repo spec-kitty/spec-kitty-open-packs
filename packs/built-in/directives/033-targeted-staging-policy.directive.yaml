@@ -10,11 +10,6 @@ scope: >
   Applies to all agent-authored git commits during implementation,
   specification, planning, review remediation, or any workflow step that
   produces a commit.
-procedures:
-  - Stage only the files listed as deliverables for the current work package.
-  - Use explicit file paths in staging commands rather than `git add -A`, `git add .`, or `git add --all`.
-  - Verify staged content with `git diff --staged --name-only` before committing.
-  - If an unexpected file appears in the staging area, investigate and either include it as a named deliverable or discard the change before proceeding.
 integrity_rules:
   - Blanket staging commands (`git add -A`, `git add .`, `git add --all`) are prohibited in agent-authored workflows.
   - Staged content must be limited to files explicitly produced by the current work package.

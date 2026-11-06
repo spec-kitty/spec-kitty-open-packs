@@ -9,10 +9,6 @@ enforcement: required
 scope: >
   Applies to planning outputs, work-package implementation, and review checks
   where spec drift can silently change product behavior.
-procedures:
-  - Trace each implementation change to explicit requirements or acceptance criteria.
-  - Flag and document deviations before merge when the spec must evolve.
-  - Validate that final behavior matches committed scope and constraints.
 integrity_rules:
   - Unrecorded scope drift is not permitted.
   - Requirement-to-implementation traceability must remain inspectable.

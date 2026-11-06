@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: doctrine-version-change
+title: Charter Artifact Version Change
+description: |
+  Change charter artifacts without breaking the consumers that depend on their versions.
+entry_condition: |
+  A charter artifact or its schema is being changed in a way that may affect versions or compatibility.
+exit_condition: |
+  Version-impacting changes carry migration notes where consumers must act, schema version fields match the supported contract, and compatibility was validated repository-wide.
+steps:
+- title: Record version-impacting changes
+  description: |
+    Record each version-impacting change, with migration notes wherever consumers must act.
+- title: Keep schema version fields consistent
+  description: |
+    Keep each artifact's schema version field consistent with the contract the tooling supports.
+- title: Validate repository-wide compatibility
+  description: |
+    Validate compatibility across the whole repository, not only the edited artifacts.

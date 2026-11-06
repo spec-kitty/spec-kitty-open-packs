@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: touched-area-cleanup
+title: Touched-Area Cleanup
+description: |
+  Leave every area a change touches in better shape than it was found.
+entry_condition: |
+  A change has opened files whose touched area carries failing tests, lint findings, type errors, or minor readability, naming, or consistency issues.
+exit_condition: |
+  Defects surfaced in the touched area are fixed or, if genuinely broad, deferred with a one-line rationale, and the cleanup stayed inside the change's file set.
+steps:
+- title: Fix surfaced failures inside the change's file set
+  description: |
+    When a file already in the change has a failing test, lint finding or type error, fix it by default rather than deferring it or calling it pre-existing, without expanding the file set.
+- title: Apply minor cleanup in touched areas
+  description: |
+    Improve readability, naming or consistency in touched areas. Smallest-viable-diff governs the file set and the size of the functional edit, not in-file cleanup within that set.
+- title: Keep the cleanup proportional and local
+  description: |
+    Defer a genuinely broad refactor to a dedicated task with a one-line rationale and, where useful, a tracker reference.

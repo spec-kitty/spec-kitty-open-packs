@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: test-and-typecheck-gate-run
+title: Test and Typecheck Gate Run
+description: |
+  Give a change a complete, honest validation result before handoff.
+entry_condition: |
+  A work package or change is ready to be handed off for review or merge.
+exit_condition: |
+  Tests, coverage, static analysis, typecheck (command and exit code recorded) and configured compliance checks ran for the affected scope, and pre-existing failures are recorded apart from new ones.
+steps:
+- title: Run tests at the right levels
+  description: |
+    Run unit tests for changed core logic and integration tests for changed workflow boundaries, and meet the repository coverage expectation for new code or document the delta when pre-existing scope makes that impractical.
+- title: Run static analysis and compliance gates
+  description: |
+    Run the repository's applicable static analysis, typing and lint gates for the affected scope, plus any CVE, dependency or license checks the repository treats as part of the gate.
+- title: Run typecheck as a separate gate
+  description: |
+    Test runners (Vitest, Jest, Mocha, pytest) do not apply compiler diagnostics such as TypeScript `noUnusedLocals`. When the change touches TypeScript, including `*.test.ts(x)`, run the project's typecheck (`npm run typecheck`, `tsc -b`, `tsc --noEmit` or the CI compile) and record the command and exit code.
+- title: Separate pre-existing from new failures
+  description: |
+    Record remaining pre-existing failures separately from newly introduced ones before handoff.

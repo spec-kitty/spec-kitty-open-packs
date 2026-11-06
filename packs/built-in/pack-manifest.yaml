@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 8323b16b25b8316192093354966063c1787ee2663c4ee27dafd7f8a41b0cb6de
+manifest_hash: 4fb1ae8fac3c6c7c935d348d34d3a3e05d7a385826fe928acd32e44bd82f2a43
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -132,71 +132,71 @@ constituents:
 - kind: directive
   id: ACTION_ITEM_ATTRIBUTION
   path: directives/action-item-attribution.directive.yaml
-  content_hash: 84c4ab29c0f4698f82a498019ae85db8467de1794e1090aae98493056ef97f46
+  content_hash: 9f44a4654a67a7307fa0c8d21948441f0660315f886fa0a2a0163edf1c3d5b28
 - kind: directive
   id: DIRECTIVE_001
   path: directives/001-architectural-integrity-standard.directive.yaml
-  content_hash: 2c2ec1ba0cd88ed33d23f64d8cd1ccf334b398d3611cde4687b333fc8cdeb37d
+  content_hash: 2c1da3fb3623bbc0e2225f1ca8b3ed4d02e1838c306c232d4661e689808cdffb
 - kind: directive
   id: DIRECTIVE_003
   path: directives/003-decision-documentation-requirement.directive.yaml
-  content_hash: 028ac22d7c68253e3b7e92d65ba53f040e033001096cb61fde35ca6f2ca34c01
+  content_hash: e781b4d2a704eafecd3c7a30c1e9ed7b183d1477ac42c13ad9c3b06f7bc44864
 - kind: directive
   id: DIRECTIVE_010
   path: directives/010-specification-fidelity-requirement.directive.yaml
-  content_hash: bedd2962cbe473a11146c3aaab240d46f0788a809194e9f73a613a419720c14c
+  content_hash: 950b30ca27d33bf2229409052012b430de651cb579281c960fc286bb41b999d3
 - kind: directive
   id: DIRECTIVE_018
   path: directives/018-doctrine-versioning-requirement.directive.yaml
-  content_hash: 210c2109543178c9d616a64a814d4a13bd4af143f1e9808a124b85069e9a6cc1
+  content_hash: 8d0e5dac05e583d42376f280570c29fbbfce738fe5d5a3a881fb597ca24a6670
 - kind: directive
   id: DIRECTIVE_024
   path: directives/024-locality-of-change.directive.yaml
-  content_hash: b2a117036e29de458fe0747a6d2237846793213ac1c727f63101d78b2031a3b1
+  content_hash: b1ad5cee0a4f62fa57e4757d92967e07fe4a3a9c63b2fc4cbdfdb2b183f04c58
 - kind: directive
   id: DIRECTIVE_025
   path: directives/025-boy-scout-rule.directive.yaml
-  content_hash: 882292d80be408f98c3bdf3132027d689a686b5e5e95b70f33148edb41ce84c2
+  content_hash: bf74c7ae576da9ea9c5c22b7ac27350983cf11ecb621acc2f8de7fac9bc675cc
 - kind: directive
   id: DIRECTIVE_028
   path: directives/028-search-tool-discipline.directive.yaml
-  content_hash: 58117dde0e5e4d17586901e9561a0358af82ff72ace336fd7432d6590828bbb5
+  content_hash: f2168b8ece534c743ba10be541d59572121cf8d78cc5e2d5611eaa59d21fe328
 - kind: directive
   id: DIRECTIVE_029
   path: directives/029-agent-commit-signing-policy.directive.yaml
-  content_hash: 83f2a2cba9618adb546344a0c040dbacd2a96e8896bdb35c2e080c866952a813
+  content_hash: d26e952fe10f8afd8a5cafbbf12eefb9ff3c6d7697669dacbb91138836aec7b1
 - kind: directive
   id: DIRECTIVE_030
   path: directives/030-test-and-typecheck-quality-gate.directive.yaml
-  content_hash: d2e64caa635f6a2ee919f989920291d5d6e79eeed217943c9bd19027e4aed3c9
+  content_hash: 0a6babb2b76291e4913169d16be2fd10fcecc32232bbf8956450fff5d89d41af
 - kind: directive
   id: DIRECTIVE_031
   path: directives/031-context-aware-design.directive.yaml
-  content_hash: fb240fc6df08c98c607b9b94501bca721ac05ddcd77229370b3078b800263a24
+  content_hash: 3cd51cbf831f9103528910c24b5234ff3a9ea6266bddede9df53d8c0d7c1046a
 - kind: directive
   id: DIRECTIVE_032
   path: directives/032-conceptual-alignment.directive.yaml
-  content_hash: 05ce584114829f026724d71a16f8d0e82b823f44cdcfcda2c1ffa82b512bc0a6
+  content_hash: b73e0903b621a34c4f78ee70bd909bfead9182a3b2404cb6c8f11c6f1fdd3d02
 - kind: directive
   id: DIRECTIVE_033
   path: directives/033-targeted-staging-policy.directive.yaml
-  content_hash: 5bb42d2148756fbab9ea68ba5158dde2edd8c1683e3b63bfec43142c5b6504fe
+  content_hash: 62dc89e12bb6ec01787aafdf26db5998230971cf8166577ae415e342c3fccba5
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 1358c7d4a3d3832d6d5814b7768c08e330e0b0ecc677602f9dbb1d52aaf11e13
+  content_hash: f3f90b4d6bad2392aee8615e369daa9b1e4c8f4cca8f82a79bc0da9366c9aa81
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
-  content_hash: 8ec02b0a2f9a8ec79504f823e15a0c09da7eb04642e5748a6974f36be030e4c7
+  content_hash: fbb95e885370bda04fd62cb09cccaed15960ed27e011eb7f3c0d00deecd750ba
 - kind: directive
   id: DIRECTIVE_036
   path: directives/036-black-box-integration-testing.directive.yaml
-  content_hash: 6619d9f7316012e82f5e6e022870229a9a2b6fa41669fea686f648d2674f9452
+  content_hash: bf40d15a924af3d09407e9abe66a90dd437b8cfdafe8f36c3c04884e05168923
 - kind: directive
   id: DIRECTIVE_037
   path: directives/037-living-documentation-sync.directive.yaml
-  content_hash: b0e94bde9f32da18e8d254e8b8ca6cbe1a1cf64097ea7c538a38761139df935c
+  content_hash: 0ccf7c6147b417004619d6c3241aed274a543b6a7504cc95de142aa7738e0c80
 - kind: directive
   id: DIRECTIVE_038
   path: directives/038-structured-prompt-boundary.directive.yaml
@@ -204,87 +204,87 @@ constituents:
 - kind: directive
   id: DIRECTIVE_039
   path: directives/039-lynn-cole-engineering-culture.directive.yaml
-  content_hash: d6582fafcc6b742f67f0786801d5d03b4eac1383c6e7261172e4933a5670c4eb
+  content_hash: a1953f97b60049d9db5566432559bd356c0cdb6e63f9fdde507dd390afd28783
 - kind: directive
   id: DIRECTIVE_040
   path: directives/040-recurring-bug-structural-intervention.directive.yaml
-  content_hash: 9d2e1146d04bf75b6c5ff75cbbaa907a69a7e905e24716a0bcd46c2332da4b70
+  content_hash: 9976da96733b4bf3976856dc3b3dc2c3a0011fddff48bab94750ba6b085b7b8c
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: fd9494e8395c9a62898bd48f502d2ee0165e8b810863e65d29eded485b029dc4
+  content_hash: 5ac7200586bc66127ff08be7330ba62a7903cd46c9d699a02b0f852167a78cf4
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
-  content_hash: 056796cb1b893f9430e982630ab6eec341176e40b0e01f0ee50dfc30c3e261c7
+  content_hash: 6addce96c0beafc7c9f8811d59420fc448962260f1d274e0df97859b5e85595e
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
-  content_hash: 3cdcc2326e091243679bb0ba2dcc206be129b6eb22d261c518525103bb7efc0b
+  content_hash: 2121da82a4e0af611d534c8765ee291a31a3dcb633067cf4a474ee00d340f05c
 - kind: directive
   id: DIRECTIVE_044
   path: directives/044-canonical-sources-and-unification.directive.yaml
-  content_hash: df4b6fdc2463319942999f93808ba83db658b49e94667e7f6f1fcc13a79d7196
+  content_hash: 03546bb4f8ae30c2b89374ad7c1ea7f920dcb9841977e690de6398ddb211ce1c
 - kind: directive
   id: DIRECTIVE_045
   path: directives/045-prs-only-and-read-intent.directive.yaml
-  content_hash: f130cf44f24be633b7e0325381aed74302403ca1682fde45b7e1acb94141d3d8
+  content_hash: 8f4f92e62f0610dff04109df79d75c7e023691c55e8d9b850f5440261490e99e
 - kind: directive
   id: DIRECTIVE_046
   path: directives/046-readable-consistent-prs.directive.yaml
-  content_hash: 32268ff0a968be1c88049d82daf1abbcb1b95171362f187836c3dcf3379694c4
+  content_hash: 820e166efa5c21fa2face4e31cc00dae0c6b6f976c63b6b9252b99ea533c1f03
 - kind: directive
   id: DIRECTIVE_047
   path: directives/047-audience-oriented-writing.directive.yaml
-  content_hash: 4d8f7180236bb931b7c0d597eab09bd111822dd763591c64a94bbbcc3302a0cd
+  content_hash: d636afb3bd80de9c69b4742e9594a7550b04b3234584884672d00f6d476db851
 - kind: directive
   id: DIRECTIVE_048
   path: directives/048-version-governance.directive.yaml
-  content_hash: 812da3fa8d15bbde006ad9df283f9ab3e1fdf7d51c778d3bda0523c603406d77
+  content_hash: b30dcf38f89a2623b38d786f51b7c0a55392c6186501f8debfe7a7324ef84d2b
 - kind: directive
   id: DIRECTIVE_049
   path: directives/049-agent-declaration-and-self-introduction.directive.yaml
-  content_hash: 796d592ff209f60e065ad94d4ee7601cbd149d987cc780a17a0ebaa314da61ee
+  content_hash: bcdd188aea9f9e67de44ce0839e4d9c78fe4e5554016d14b7e3c52a6d4c8904b
 - kind: directive
   id: DIRECTIVE_050
   path: directives/050-credential-handling-discipline.directive.yaml
-  content_hash: 2d4a3c9aa5aa1e895a86ea758df87b6cc0686dc4d704c689513612755f96c3af
+  content_hash: 0bc23d3625ebb998d1c7cdd37aa42f407903070190bb5cb86700b0dae173bfb3
 - kind: directive
   id: DIRECTIVE_051
   path: directives/051-supply-chain-install-safety.directive.yaml
-  content_hash: ec8ef09266490198bf4749c3ba59bb81e43bdaa137b5a5981dd009d070a04ca5
+  content_hash: b8a4b610fc813fb266119603a5991eb1896804810d663f6134173bac22e7109e
 - kind: directive
   id: DIRECTIVE_052
   path: directives/052-prefer-durable-fixes.directive.yaml
-  content_hash: 3a7e4700c842ee2d5d80ab73277092c4d3b23ee9bd386eae5d49e05412e90772
+  content_hash: 7fe615186eaa9c8706e21b44edfa18e62c1c93d5d418269909f0f11262f243ed
 - kind: directive
   id: DIRECTIVE_053
   path: directives/053-choose-op-or-mission-before-starting.directive.yaml
-  content_hash: 3bd93b86398966208678cc9c76f0453d7639984b91cb13330fe38e6b1e592a1f
+  content_hash: b81c722c6c4ad3bdd05677efc0b3e7b32b3120b55b629cb85d54d36bbe5b3b2c
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
-  content_hash: a5690a9024a46b48be8b95149de83eb34f608a5e8c80153bf7e6595ffad4ec9e
+  content_hash: 852475bc5841b96089381d86f30a98e016d763643f7b180199e29ac683238389
 - kind: directive
   id: MINUTES_STAND_ALONE
   path: directives/minutes-stand-alone.directive.yaml
-  content_hash: 1cb1aea113574fc23e46ffaccd3889992bc132bdaa6d2ea42f5b0b7ac01cfcee
+  content_hash: 20e035b3deb6223650f57cdeac84506a38d4f65f65c7674082c8ec5d91f863b0
 - kind: directive
   id: RECONCILE_CHANGE_SCOPE_TENSIONS
   path: directives/reconcile-change-scope-tensions.directive.yaml
-  content_hash: 2eb97689855511e43e4752fbf777a6ca35bdfdc2bfa860e3f189611dd9455dc4
+  content_hash: ca9f1960e05a3b8817c628ac6455b0b524a33ecffcb5dbbba25dfd869771e668
 - kind: directive
   id: RED_MAIN_RELEASE_DISCIPLINE
   path: directives/red-main-release-discipline.directive.yaml
-  content_hash: 4a6e27558ae07ef1d08ca74a66a0f7372138290602604f6ae652d0bb0b5b20dc
+  content_hash: a4d9b8945efb5e30b6eeb42447d8edac692ed23e82dbd41276804732233bf977
 - kind: directive
   id: USE_C4_MODEL_TECHNIQUES
   path: directives/use-c4-model-techniques.directive.yaml
-  content_hash: 4a57c1424631e2c0fd94f083e1bec42ab2515e835e34372d38381ecfe3bc1462
+  content_hash: e5228254a19a4bbfb71ff56895c230aa3576afa7d4c5bb62062b97be26b71529
 - kind: directive
   id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   path: directives/use-mutation-testing-to-validate-test-quality.directive.yaml
-  content_hash: 9152d6169e8d396cb11b2e91774ac62b7242c91d7af5d6079a2811e67f3d2ee5
+  content_hash: 65385e27fc08689f9d6a0d48fbf8b4a0062ebc5057a5131542618364e8c5e3e7
 - kind: glossary_pack
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
@@ -346,13 +346,77 @@ constituents:
   path: paradigms/trunk-based.paradigm.yaml
   content_hash: 616554b3b57a040cfff5561eda2106135c08be97db253dcb5997673d5b7a0457
 - kind: procedure
+  id: action-item-attribution-gate
+  path: procedures/action-item-attribution-gate.procedure.yaml
+  content_hash: 61236b64552d42cfe1dbb00d2d114bf510dd4205348326776bb10142aa40e9a1
+- kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
   content_hash: d5ff1098a721cc8cca89a886912b600091ff5a1008b1f73d55023069628775da
 - kind: procedure
+  id: agent-commit-signing
+  path: procedures/agent-commit-signing.procedure.yaml
+  content_hash: 737160612b59974a3bb94a0175392affab05aeb0fb32caf9070bf5d644e11a09
+- kind: procedure
+  id: agent-self-declaration
+  path: procedures/agent-self-declaration.procedure.yaml
+  content_hash: 53494d815b46cc4f1665394cd533d4b1098a9ca7dc069f88a4f02001bbec3b3f
+- kind: procedure
+  id: audience-oriented-drafting
+  path: procedures/audience-oriented-drafting.procedure.yaml
+  content_hash: e1b7a3483105a0cf6f009b56d2e02bb75d6abd9c2c76c393828931f6c0dff8a0
+- kind: procedure
   id: bdd-scenario-lifecycle
   path: procedures/bdd-scenario-lifecycle.procedure.yaml
   content_hash: 97b3cedc58c17444cc8dd1bf89c12e4c659fbdebd9f7008d7cec8cf291822661
+- kind: procedure
+  id: black-box-integration-test-design
+  path: procedures/black-box-integration-test-design.procedure.yaml
+  content_hash: 2fd79d2c32b1c78dfe7070b997a551c66571e981ad30bc278baea7867f0bcc94
+- kind: procedure
+  id: bounded-context-alignment
+  path: procedures/bounded-context-alignment.procedure.yaml
+  content_hash: a7d7ba6905b90bdc0ea3324ab138fa27dd4220b5d2d03eee86cb1dcd5c247980
+- kind: procedure
+  id: bulk-edit-occurrence-mapping
+  path: procedures/bulk-edit-occurrence-mapping.procedure.yaml
+  content_hash: 7b8a38341c63bcaa8aa0ce7eeac95fdf0c7b3d9a4691e0acd5ebed65313ce8b5
+- kind: procedure
+  id: c4-diagram-authoring
+  path: procedures/c4-diagram-authoring.procedure.yaml
+  content_hash: a299d8aaf4a7409d954fde1f9027977dcefaeb6b02d9b74529c64ef01d780fbc
+- kind: procedure
+  id: canonical-source-discipline
+  path: procedures/canonical-source-discipline.procedure.yaml
+  content_hash: 63c1d12a9545aa2976c3e8d3d9d2e6d74e1dc74ae0ffb1f2ba23fea347e52554
+- kind: procedure
+  id: change-scope-tension-resolution
+  path: procedures/change-scope-tension-resolution.procedure.yaml
+  content_hash: 213985d8f5058b36f948f0ec75ee0e77689709ae58aecb090cdb6444e9cade66
+- kind: procedure
+  id: common-docs-page-authoring
+  path: procedures/common-docs-page-authoring.procedure.yaml
+  content_hash: 86aadd66148ff4f1c0a4ab3cad611b10df1d5ff0e749dd1c02efdf5a76cba123
+- kind: procedure
+  id: component-boundary-definition
+  path: procedures/component-boundary-definition.procedure.yaml
+  content_hash: e58d528b0cd1d325ed49291c17a95dcc254c22f9cbb9b7060aaba0f5bea41c20
+- kind: procedure
+  id: credential-exposure-prevention
+  path: procedures/credential-exposure-prevention.procedure.yaml
+  content_hash: c180fc1d51df53118c44b864bf1085e71366ab8988691b69f9089041b97bd66b
+- kind: procedure
+  id: decision-record-keeping
+  path: procedures/decision-record-keeping.procedure.yaml
+  content_hash: a8d8baf6f098dfa72c135e30e9c762f5d310d533609c2c667418c04a5204c07c
+- kind: procedure
+  id: declare-page-audience
+  path: procedures/declare-page-audience.procedure.yaml
+  content_hash: 50f5cea8f85cdcd2751a0ac5fab8ecd6ceaafd23b9c1ea4955e82fb26a7576d4
+- kind: procedure
+  id: defect-class-construction-gate
+  path: procedures/defect-class-construction-gate.procedure.yaml
+  content_hash: a6db769707b87c2165eefc726247f3dfb1af54c8c07c2eec4aae804b3354bbcf
 - kind: procedure
   id: development-assist-test-cleanup
   path: procedures/development-assist-test-cleanup.procedure.yaml
@@ -361,6 +425,14 @@ constituents:
   id: disciplined-defect-diagnosis
   path: procedures/disciplined-defect-diagnosis.procedure.yaml
   content_hash: 55db360230d34468965d03aca6056689130c13b3fcb4e16417a4216f4d277d46
+- kind: procedure
+  id: disciplined-refactoring-cycle
+  path: procedures/disciplined-refactoring-cycle.procedure.yaml
+  content_hash: 4c5d83bf2d171242a50754d0304cd3b018ea75fcfb05a20fd44cd83db7a3ba0d
+- kind: procedure
+  id: doctrine-version-change
+  path: procedures/doctrine-version-change.procedure.yaml
+  content_hash: 254e7d7aa1740c51f04bc22f46df697bd57fc94277235a64e0eaa567c77b80ba
 - kind: procedure
   id: documentation-gap-prioritization
   path: procedures/documentation-gap-prioritization.procedure.yaml
@@ -374,6 +446,10 @@ constituents:
   path: procedures/drill-down-documentation.procedure.yaml
   content_hash: d412a17395e017e4567f775f286671890cd8016f30eb94549ebfa53e1aff3960
 - kind: procedure
+  id: durable-fix-investigation
+  path: procedures/durable-fix-investigation.procedure.yaml
+  content_hash: 76d44de7ce8e25de2e5463aea6cfc4bbe1c7c4ee5b4b124619167c4299bd4caf
+- kind: procedure
   id: event-storming-discovery
   path: procedures/event-storming-discovery.procedure.yaml
   content_hash: fb1dd1ce85e2173a293791cf590d32541a1a7c2dc282b614fdb156cb887f587a
@@ -381,6 +457,14 @@ constituents:
   id: example-mapping-workshop
   path: procedures/example-mapping-workshop.procedure.yaml
   content_hash: 6197e05eb98867b4a2592328d9db8c9b49e9b5b5778f7a75b068415451e527c7
+- kind: procedure
+  id: failing-test-triage
+  path: procedures/failing-test-triage.procedure.yaml
+  content_hash: a98dcb590b94a3c3e55f3536ead2c3353ff0d0e67f57dac2c9f705a2b60493fd
+- kind: procedure
+  id: five-paradigm-structural-intervention
+  path: procedures/five-paradigm-structural-intervention.procedure.yaml
+  content_hash: bc311706755c311ce5db6fc76eb2c21c0e135c38295fbb40bc34ad85c31d2cfd
 - kind: procedure
   id: glossary-maintenance-workflow
   path: procedures/glossary-maintenance-workflow.procedure.yaml
@@ -390,9 +474,25 @@ constituents:
   path: procedures/issue-triage-state-machine.procedure.yaml
   content_hash: e8371aa1d0eaf00d1812db13027c6d9b586c5c16cdaa3fa3f1265a3c644efec3
 - kind: procedure
+  id: keep-change-local
+  path: procedures/keep-change-local.procedure.yaml
+  content_hash: 141d76f87805fd2ac5e63a107afc4449f223a3c91b2c36200c689db3a765e23d
+- kind: procedure
+  id: land-changes-via-pull-request
+  path: procedures/land-changes-via-pull-request.procedure.yaml
+  content_hash: 8316aec37241ccc243fc3c638ee0ae49bad6ab1a419957163309407def9f7037
+- kind: procedure
   id: legacy-codebase-triage
   path: procedures/legacy-codebase-triage.procedure.yaml
   content_hash: c842735d116af9e688b6579ce74d2130803b5317d2cbcddb8ae6a4efd2405e14
+- kind: procedure
+  id: living-documentation-sync
+  path: procedures/living-documentation-sync.procedure.yaml
+  content_hash: 99102af139963903150095add7ff4279550f013f4e87e1e861316955375bb47f
+- kind: procedure
+  id: local-tooling-selection
+  path: procedures/local-tooling-selection.procedure.yaml
+  content_hash: 506b61276a68f87182d86eb61221ff21a471d732d7fa513415ab1c5c06b6f1c5
 - kind: procedure
   id: meeting-minutes-pipeline
   path: procedures/meeting-minutes-pipeline.procedure.yaml
@@ -402,6 +502,10 @@ constituents:
   path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
   content_hash: 225c92b683ca0a60671dbfe5360237b9d41546a8aee55333b564db802f46e445
 - kind: procedure
+  id: minutes-self-sufficiency-check
+  path: procedures/minutes-self-sufficiency-check.procedure.yaml
+  content_hash: e6768c60607df685a54d1568dfd563821ed824dc5bdb07e03a3b64731b6627d0
+- kind: procedure
   id: mission-tracer-files
   path: procedures/mission-tracer-files.procedure.yaml
   content_hash: a96405e64c8211e96ddc6e8fd67c8ad89818c7db62bdafa341241e01489021d1
@@ -410,13 +514,41 @@ constituents:
   path: procedures/mission-wrap-up-sequence.procedure.yaml
   content_hash: f56efae952f127d488e0793b99f562f8f3494c6cbefdf4a1a3addb345c7404cf
 - kind: procedure
+  id: mutation-testing-review
+  path: procedures/mutation-testing-review.procedure.yaml
+  content_hash: 941e381bf9a3a9d8ff39ebbdce83f5a3a8d99024629517d17edfe9107556daea
+- kind: procedure
+  id: observable-contract-test-authoring
+  path: procedures/observable-contract-test-authoring.procedure.yaml
+  content_hash: bd87a98ae7d7b0d1fdebe9ea7285cb45c3c46ac4bdec33a0dcd64e8bec2cb21a
+- kind: procedure
   id: onboard-external-agent-to-pack
   path: procedures/onboard-external-agent-to-pack.procedure.yaml
   content_hash: fdba0016361278f441e3d354b8a8bc5335fb46f99bad978613d82b6b9928511f
 - kind: procedure
+  id: op-or-mission-lifecycle
+  path: procedures/op-or-mission-lifecycle.procedure.yaml
+  content_hash: 3a665f6ca07505135814f2546141533ed7be84419ff86e27cffdff3b37595333
+- kind: procedure
   id: post-merge-arch-gate-adjudication
   path: procedures/post-merge-arch-gate-adjudication.procedure.yaml
   content_hash: 1b573e1ae812f2823bdcbff27c47c4b8b880f9e71e736ae1f091be5beb500c79
+- kind: procedure
+  id: read-intent-before-high-risk-operation
+  path: procedures/read-intent-before-high-risk-operation.procedure.yaml
+  content_hash: fb4b26ae3807376879569b77060a106164905927c05fff1704f9e5e824404c31
+- kind: procedure
+  id: readable-pr-preparation
+  path: procedures/readable-pr-preparation.procedure.yaml
+  content_hash: 66d67a3bed8386c8956ab1fa8d4052053eefcf297ab3e285c8338c04cdab4e06
+- kind: procedure
+  id: red-first-bug-reproduction
+  path: procedures/red-first-bug-reproduction.procedure.yaml
+  content_hash: 5689db5a9c905eac57ba03ffc59512983d75884804bd4696883527fc50f9dcce
+- kind: procedure
+  id: red-main-handling
+  path: procedures/red-main-handling.procedure.yaml
+  content_hash: f1030bef4ca281fa6e128d115d2ec26220d9766423a9c1742faeca72c0e49fd4
 - kind: procedure
   id: refactoring
   path: procedures/refactoring.procedure.yaml
@@ -426,13 +558,53 @@ constituents:
   path: procedures/situational-assessment.procedure.yaml
   content_hash: 0ccf06832ad1b69ec581a40e691750a8fae4490845f83a6f92abaada4fed15c6
 - kind: procedure
+  id: small-explicit-code-shaping
+  path: procedures/small-explicit-code-shaping.procedure.yaml
+  content_hash: 99bb255a4ba7a934766fc02883c3617e36e7271596983ab26118c69e7cafd561
+- kind: procedure
+  id: specification-traceability-check
+  path: procedures/specification-traceability-check.procedure.yaml
+  content_hash: 2395b9d9d2e584adbd652f7caa7ccc2b1979b7f95ff89235ed705c5fa3bb96cf
+- kind: procedure
   id: spike-timebox-policy
   path: procedures/spike-timebox-policy.procedure.yaml
   content_hash: 2d16f78464481dc365099bb7d8642e67bca321880622c13da2a75b5912e8c6da
 - kind: procedure
+  id: targeted-staging
+  path: procedures/targeted-staging.procedure.yaml
+  content_hash: 9c00031239007118e077558db11e8efbf937ed98693b5366e5f91daf505832ed
+- kind: procedure
+  id: tech-debt-point-cut-triage
+  path: procedures/tech-debt-point-cut-triage.procedure.yaml
+  content_hash: 08b65db16e066dd7b914a148d8062ae304bdf7fcc41c76b17f9bb78843d74e00
+- kind: procedure
+  id: term-interpretation-alignment
+  path: procedures/term-interpretation-alignment.procedure.yaml
+  content_hash: 86f461b12250c3b534a9e681619142ec1cfb2b0424d21fc130267008979bb253
+- kind: procedure
+  id: test-and-typecheck-gate-run
+  path: procedures/test-and-typecheck-gate-run.procedure.yaml
+  content_hash: 192d9fe495f5264b2804bbbee9f006e9c6e8bb9743a5aa9b6aaacaaa588dba51
+- kind: procedure
   id: test-first-bug-fixing
   path: procedures/test-first-bug-fixing.procedure.yaml
   content_hash: 5fc39bf5c42dcd9bdfc4b4710a0181d3f3561472e0b5801d1fbd76060af4cdd1
+- kind: procedure
+  id: test-first-cycle
+  path: procedures/test-first-cycle.procedure.yaml
+  content_hash: 6bba03ee62efae733251f3577aed2071f1b002a35120f51e7a426a64bcb1e4d3
+- kind: procedure
+  id: tidy-first-campsite-clean
+  path: procedures/tidy-first-campsite-clean.procedure.yaml
+  content_hash: a67413733b9885579358df01dbefd97d4a541c7cf3b2f66424488a226b52ac3e
+- kind: procedure
+  id: touched-area-cleanup
+  path: procedures/touched-area-cleanup.procedure.yaml
+  content_hash: 89445808c556a26dd3fbb9b669936fb9453d57bf741576c7fd363ca8c87291b5
+- kind: procedure
+  id: version-freshness-check
+  path: procedures/version-freshness-check.procedure.yaml
+  content_hash: 3ac708d602e972cfd413312cf6a1c74e16ea1a5d7ce584649ee7a04739f7c928
 - kind: styleguide
   id: aggregate-design-rules
   path: styleguides/aggregate-design-rules.styleguide.yaml

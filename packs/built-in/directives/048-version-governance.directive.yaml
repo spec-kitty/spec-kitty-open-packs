@@ -19,14 +19,6 @@ scope: >
   version of an artifact you consume but do not own. The two authorities are
   complementary, not competing - one is a write-side obligation, the other a
   read-side one.
-procedures:
-  - Before relying on a versioned artifact's content, confirm which version
-    is being read and whether a newer version exists.
-  - If the artifact's freshness cannot be confirmed, say so explicitly rather
-    than presenting the finding as current.
-  - When a finding is invalidated by a version the agent was not aware of,
-    surface the staleness rather than silently discarding or "fixing" the
-    finding.
 integrity_rules:
   - Silent staleness is a defect class in its own right, distinct from
     ordinary incompleteness - it produces false confidence in the reader.

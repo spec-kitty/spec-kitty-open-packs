@@ -30,26 +30,6 @@ scope: >
   surface, and it is notation-independent: it constrains the abstraction
   discipline and the text-based, reviewable form, not the choice of rendering
   tool.
-procedures:
-  - "Start at the broadest level and zoom in only where detail adds value. Draw
-    the System Context first (the system as one box, its users, and the systems
-    it talks to), then Containers, then Components, and stop at the level that
-    answers the question at hand — do not produce every level speculatively."
-  - "Give every diagram a title, a legend, typed and described elements, and
-    labelled unidirectional relationships. A box with no description or a
-    double-headed arrow that hides who initiates is a communication failure; run
-    the architecture diagram review checklist before sharing."
-  - "Match the level of detail to the audience. Context diagrams for sponsors
-    carry no technology labels; component diagrams for developers do not omit
-    internal boundaries for the sake of tidiness. A diagram that tries to serve
-    two audiences serves neither."
-  - "Keep diagrams as version-controlled diagram-as-code. Author them in Mermaid
-    or PlantUML text so they diff in review and stay beside the code, rather than
-    as exported images that go stale silently."
-  - "Reason at a single abstraction level per artifact and link across levels
-    rather than inlining. Use the drill-down discipline to keep strategic,
-    architectural, design, and code-level reasoning in their own homes with
-    upward and downward traceability."
 integrity_rules:
   - "Each diagram sits at one identified C4 level and states which; a diagram
     that conflates levels or audiences is revised, not shipped."

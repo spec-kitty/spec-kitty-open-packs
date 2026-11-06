@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: red-first-bug-reproduction
+title: Red-First Bug Reproduction
+description: |
+  Capture a bug in a test that fails for the right reason, so the fix is proven rather than assumed.
+entry_condition: |
+  A bug is to be fixed.
+exit_condition: |
+  A reproduction test driven through the pre-existing entry point failed for the right reason on the unfixed code and passes after the fix, and a live run confirmed the corrected behavior.
+steps:
+- title: Write the reproduction test through the pre-existing entry point
+  description: |
+    Before changing product code, write a test through the entry point that exists on the unfixed code (command, public function or seam), never the fix's not-yet-written API. It must go red because the bug manifests in the assertion (wrong value, status, path or state), not because a symbol the fix introduces is missing (ImportError or TypeError at collection).
+- title: Prove red-first, then green
+  description: |
+    Run it against the unfixed code and confirm it fails for the right reason, then apply the fix and confirm green. New-API unit tests are fine as contract coverage but are not the bug capture.
+- title: Confirm the fix with a live run
+  description: |
+    Keep the defect open until a live reproduction run produces the fixed output; code that "looks fixed" is not evidence.

@@ -1,0 +1,25 @@
+schema_version: '1.0'
+id: five-paradigm-structural-intervention
+title: Five-Paradigm Structural Intervention
+description: |
+  Replace repeated point-fixes for a recurring bug class with one evidence-backed structural fix.
+entry_condition: |
+  The same defect class has resurfaced despite earlier point-fixes.
+exit_condition: |
+  All five paradigm verdicts are synthesized, one structural fix plan closes the known and dormant masks, and the falsified-hypothesis catalog and divergence matrix are on the parent issue.
+steps:
+- title: Frame a single hypothesis-free bug statement
+  description: |
+    Before any further fix, write one bug statement, free of hypotheses. All five paradigms of the five-paradigm parallel-debugging tactic investigate it independently.
+- title: Run all five paradigms independently
+  description: |
+    Run The Falsifier, The Five-Whys Cartographer, The Bisector, The Matrix-Maker and The Stenographer as independent investigations. Each paradigm is a persona: a debugging stance with its own method. Dispatch them in parallel where parallel agents are available, following adversarial-squad-deployment for dispatch, profile loading and synthesis. A single agent runs them in sequence instead, writing each verdict down before starting the next so one does not anchor the others.
+- title: Synthesize the five verdicts
+  description: |
+    Treat convergence as the deliverable. Investigate divergence as signal rather than suppressing it.
+- title: Author a single structural fix plan
+  description: |
+    Write one plan that closes every known mask plus the dormant masks The Matrix-Maker identified. A mask is a place in the code where the same defect can surface.
+- title: Persist the evidence on the parent issue
+  description: |
+    Post the falsified-hypothesis catalog and divergence matrix on the parent issue so future recurrences start ahead.

@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: tidy-first-campsite-clean
+title: Tidy-First Campsite Clean
+description: |
+  Make a cluttered surface easier to change before the functional change begins. A campsite clean is a behavior-preserving cleanup of the code a change is about to touch.
+entry_condition: |
+  A mission or work package is about to modify a surface whose clutter (static-analysis findings, over-long functions, files or classes, duplicated call hierarchies) would make the functional change riskier or harder to review.
+exit_condition: |
+  The campsite clean landed as its own behavior-preserving step with focused tests, scoped to surfaces the mission will touch, before the functional change.
+steps:
+- title: Scout heavily-touched surfaces at planning
+  description: |
+    For a large, heavily-touched surface, census its complexity at planning time. Pull its static-analysis findings, for example from SonarCloud if the project uses it. A separate scout agent can do this; a single agent does it itself before planning the change. List each candidate cleanup under one of three labels:
+    - SAFE: opens the work package as the campsite clean.
+    - ADJACENT: done as touched-area cleanup during the change.
+    - OUT: filed as a separate issue.
+- title: Campsite-clean the surface first
+  description: |
+    Where it de-risks or simplifies the change, resolve the surface's findings, decompose over-long functions, files or classes, and refactor the methods about to change.
+- title: Land the cleanup as a distinct, behavior-preserving step
+  description: |
+    Land it with focused tests, scoped to surfaces the mission will touch, before the functional change. Being preparatory, it may open its own surfaces. The change-scope-tension-resolution order governs the functional change that follows, not this step.

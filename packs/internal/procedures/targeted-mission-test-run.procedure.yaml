@@ -1,0 +1,34 @@
+schema_version: '1.0'
+id: targeted-mission-test-run
+title: Targeted Mission Test Run
+description: |
+  Validate mission work with targeted test runs that respect the ban on heavy suites.
+entry_condition: |
+  Mission work needs local test validation, or a dispatch brief or WP prompt asks an implementer or reviewer to validate a change.
+exit_condition: |
+  Only the targeted surface ran, with bounded parallelism, the exact commands and pass/fail counts are in the PR, and out-of-radius reds were classified rather than chased.
+steps:
+- title: List the mirrored test files
+  description: |
+    Name the test file(s) mirroring each source module the diff touches, plus the owning module's fast tier (`make test-fast` and the module's own test directory).
+- title: Name the specific architectural gate files
+  description: |
+    Name each gate file that guards the change, e.g. `tests/architectural/test_layer_rules.py` for an import-direction change or `tests/architectural/test_no_dead_symbols.py` for a dead-symbol change; never the bare directory. Write the same named files into the validation section of any dispatch brief or WP prompt, never wording that resolves to a full suite.
+- title: Run no heavy suite whole
+  description: |
+    Do not run `pytest tests/architectural/` or any heavy suite directory whole.
+- title: Run no slow-tier or full sweeps
+  description: |
+    Do not run `tests/e2e/`, a full `tests/integration/` sweep, `-m performance`, `-m stress`, `-m timing` or `make test-full`.
+- title: Bound parallel test runs
+  description: |
+    On a shared machine bound `pytest-xdist` explicitly (e.g. `-n 4`), never `-n auto`, and never start a second concurrent run of the same suite (see `no-parallel-duplicate-test-runs`).
+- title: Record the exact commands run
+  description: |
+    Record the targeted commands and pass/fail counts in the PR's Tests run section.
+- title: Leave out-of-radius reds to CI
+  description: |
+    Classify a red outside the blast radius via the baseline-red gotcha (known-P0 red, CI-environment failure, stale install, stale venv) instead of running a broader local sweep.
+- title: Widen only on explicit operator request
+  description: |
+    Run a full heavy suite only when the operator asks for it by name (e.g. "run test-full"); an agent's own risk judgment is not enough, so escalate it instead.

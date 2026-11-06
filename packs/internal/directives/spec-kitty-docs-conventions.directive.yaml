@@ -1,0 +1,16 @@
+schema_version: "1.0"
+id: SPEC_KITTY_DOCS_CONVENTIONS
+title: Spec Kitty Documentation Conventions (repository specifics)
+intent: >
+  Binds the built-in DIRECTIVE_042 (Common Docs Documentation Standard) and
+  DIRECTIVE_047 (Audience-Oriented Writing) to the Spec Kitty repositories'
+  own docs layout: the audience personas under docs/context/audience/, the
+  sanctioned frontmatter keys and the ADR era folders.
+enforcement: required
+scope: >
+  Applies in the Spec Kitty repositories wherever the built-in DIRECTIVE_042
+  or DIRECTIVE_047 applies to a documentation page.
+validation_criteria:
+  - >
+    Every touched page under the docs root declares `audience:` personas from
+    docs/context/audience/ and uses the sanctioned frontmatter keys.

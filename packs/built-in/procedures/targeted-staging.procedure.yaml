@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: targeted-staging
+title: Targeted Staging
+description: |
+  Commit exactly a work package's deliverables, so stray files, secrets and build output stay out.
+entry_condition: |
+  A work package's changes are ready to be staged for commit.
+exit_condition: |
+  Only the listed deliverables are staged, the staged names were verified, and every unexpected file was either named as a deliverable or discarded.
+steps:
+- title: Stage listed deliverables by explicit path
+  description: |
+    Stage only the work package's listed deliverables, by explicit path, never with `git add -A`, `git add .` or `git add --all`.
+- title: Verify the staged content
+  description: |
+    Check `git diff --staged --name-only` before committing; investigate any unexpected file and either name it as a deliverable or discard it.

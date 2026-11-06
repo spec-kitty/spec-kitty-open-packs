@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: living-documentation-sync
+title: Living Documentation Sync
+description: |
+  Keep examples, acceptance checks and documentation describing the behavior the system actually supports.
+entry_condition: |
+  New behavior is being planned, or existing behavior or domain language is changing.
+exit_condition: |
+  New behavior has business-readable examples, stable examples are executable (or their non-automation is justified), every affected doc surface changed in the same change, and stale material is removed or marked.
+steps:
+- title: Establish business-readable examples first
+  description: |
+    Agree a small set of business-readable examples before planning implementation of new behavior.
+- title: Promote stable examples to executable checks
+  description: |
+    Turn stable examples into executable acceptance checks, or document why automation is not yet feasible.
+- title: Update all documentation in the same change
+  description: |
+    When behavior or domain language changes, update example narratives, acceptance checks, spec references, user-facing and code-level docs, architecture notes and glossary entries in the same change.
+- title: Remove or mark stale material
+  description: |
+    Remove or mark examples, passages and glossary terms that no longer describe supported behavior.

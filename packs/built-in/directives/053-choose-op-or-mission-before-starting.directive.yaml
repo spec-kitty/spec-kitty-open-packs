@@ -23,31 +23,6 @@ scope: >
   work unit and the lifecycle discipline of an Op: open it, re-check it and
   close it. It does not govern which Mission type to start once a Mission is
   chosen, and it does not govern the steps inside a running Mission.
-procedures:
-  - "Before starting, classify the work as an Op or a Mission by applying
-    tactic:op-or-mission-selection. If ANY Mission trigger holds, choose a
-    Mission. The triggers are: the work needs a written spec or
-    implementation plan; it splits into discrete, reviewable work packages;
-    it needs an explicit review or approval gate before it lands; it will
-    span more than one sitting; or it must be resumable by name, or by a
-    different agent."
-  - "Otherwise, choose an Op. Typical Ops are a one-off question, review or
-    piece of advice; a small fix that needs no spec, review gate or
-    multi-session tracking; or a request that only needs the governance
-    context injected once."
-  - "Start the chosen unit through its canonical entry point. Start an Op with
-    `spec-kitty dispatch \"<request>\"`, adding `--profile <id>` when the
-    right profile is already known. Start a Mission with `/spec-kitty.specify`.
-    Never approximate either one by hand."
-  - "Re-check the choice while the work runs. If an Op surfaces a Mission
-    trigger, stop extending the Op. Two examples: the remaining scope is too
-    large to finish cleanly in this sitting, or it needs its own design pass
-    (a spec, an ADR or an operator decision) before any code changes. Close
-    the Op with the outcome of the work actually done. Then carry the rest
-    into a Mission, or into a tracked follow-up that names it."
-  - "Close every Op explicitly with `spec-kitty profile-invocation complete
-    --invocation-id <id> --outcome <done|failed|abandoned>`, using the real
-    outcome."
 integrity_rules:
   - "Handling Mission-sized work as an Op is non-compliant. Mission-sized work
     needs a spec, reviewable work packages, a review gate, or more than one

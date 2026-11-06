@@ -1,0 +1,28 @@
+schema_version: '1.0'
+id: op-or-mission-lifecycle
+title: Op or Mission Lifecycle
+description: |
+  Run each piece of work in the right unit, Op or Mission, from start to close. An Op is a single tracked invocation for small work; a Mission is spec-driven work that runs from specification through review.
+entry_condition: |
+  A new piece of work is about to start.
+exit_condition: |
+  The work was classified and started through its canonical entry point, an Op that hit a Mission trigger was closed with its remainder carried into a Mission or tracked follow-up, and every Op was closed with its real outcome.
+steps:
+- title: Classify the work against the Mission triggers
+  description: |
+    Apply tactic:op-or-mission-selection. Choose a Mission if any of these triggers holds:
+    - The work needs a written spec or plan.
+    - It splits into reviewable work packages.
+    - It needs a review or approval gate before landing.
+    - It spans more than one sitting.
+    - It must be resumable by name or by another agent.
+    Otherwise choose an Op: a one-off question, review or advice; a small fix with no spec, gate or multi-session tracking; or a request needing governance context injected once.
+- title: Start through the canonical entry point
+  description: |
+    Start an Op with `spec-kitty dispatch "<request>"`, adding `--profile <id>` when the profile is known. Start a Mission with `/spec-kitty.specify`. Never approximate either by hand.
+- title: Re-check the choice while the work runs
+  description: |
+    If an Op hits a Mission trigger, stop extending it, close it with the outcome of the work done, and carry the rest into a Mission or a tracked follow-up. Typical triggers are remaining scope that will not finish cleanly this sitting, or a need for its own spec, ADR or operator decision before code changes.
+- title: Close every Op explicitly
+  description: |
+    Run `spec-kitty profile-invocation complete --invocation-id <id> --outcome <done|failed|abandoned>` with the real outcome.

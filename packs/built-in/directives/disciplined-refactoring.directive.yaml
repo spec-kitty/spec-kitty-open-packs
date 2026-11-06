@@ -23,26 +23,6 @@ scope: >
   convoluted logic. It does not apply to greenfield authoring of new behaviour,
   nor does it license changing behaviour under cover of a refactor: a refactor
   and a behaviour change are separate steps with separate commits.
-procedures:
-  - "Name the smell first. Before moving any code, state in one line the specific
-    problem the refactor addresses (e.g. 'this method uses another class's data
-    more than its own' or 'this concept is implicit and unnamed'). The named
-    smell selects the transformation; an unnamed one means the move is not yet
-    justified."
-  - "Establish a green baseline. Ensure the surface about to change is covered by
-    passing tests before the first move. If coverage is missing, add
-    characterization tests that pin current behaviour first — never refactor
-    under red or uncovered code."
-  - "Apply one transformation at a time. Perform a single, named refactoring move
-    (extract, encapsulate, move, inline, replace-conditional-with-polymorphism,
-    incremental cutover) and stop. Do not batch several moves into one step."
-  - "Re-run tests after every step and keep them green. A step that reddens the
-    suite is reverted as a unit and re-approached in smaller increments; the
-    tests must be green again before the next move begins."
-  - "Keep structural moves separate from behaviour changes. If a behaviour change
-    is needed, finish or park the refactor at a green point and make the
-    behaviour change as its own step with its own tests, so review can trace each
-    diff to either 'same behaviour, better shape' or 'new behaviour'."
 integrity_rules:
   - "Behaviour is preserved across every refactoring step: the existing tests
     pass before and after each move without being weakened to accommodate it."

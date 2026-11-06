@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: keep-change-local
+title: Change Locality Check
+description: |
+  Keep a change close to the problem it solves, so its blast radius stays small.
+entry_condition: |
+  A scoped change (a work package, bug fix, or task) is about to modify code, tests, or documentation.
+exit_condition: |
+  Every changed file maps to the stated goal, any extension beyond the touched area carries a one-line rationale or tracker reference, and the diff was checked for scope creep before commit.
+steps:
+- title: Limit edits to the target behavior
+  description: |
+    Edit only files and modules directly related to the target behavior, and keep opportunistic cleanup out of functional work unless correctness requires it.
+- title: Justify any extension beyond the touched area
+  description: |
+    An extension must be directly connected to the stated goal, proportional, and documented with a one-line rationale, or a tracker reference for anything genuinely broad.
+- title: Review the diff for scope creep before committing
+  description: |
+    Check that each changed file traces to the goal or to a justified extension.

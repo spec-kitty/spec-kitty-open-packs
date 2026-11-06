@@ -12,19 +12,6 @@ enforcement: required
 scope: >
   Applies in the Spec Kitty repository wherever the built-in
   RED_MAIN_RELEASE_DISCIPLINE directive applies.
-procedures:
-  - >
-    Trace every red on main to a P0 issue. A red main must trace to an issue
-    labelled `priority:P0` on spec-kitty/spec-kitty, ideally with a failing
-    reproduction test. Cite the issue in the PR that lands the reproduction.
-    Mark the reproduction `@pytest.mark.p0_repro(issue=N)`: it runs only in the
-    nightly `p0-repro` job, so pull requests land green while the nightly, and
-    therefore the release, stays red until the fix PR removes the marker.
-  - >
-    Classify reds with the landing-pass rules. While working the queue, use the
-    landing-pass red classification in docs/development/how-to/pr-landing.md and
-    the baseline-red gotcha in CLAUDE.md to separate a genuine P0 red from a
-    flake, a CI-environment failure, or pre-existing breakage.
 integrity_rules:
   - >
     Every red on main traces to a `priority:P0` issue. A red that cannot be

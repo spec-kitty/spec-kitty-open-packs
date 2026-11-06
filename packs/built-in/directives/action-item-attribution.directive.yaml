@@ -18,29 +18,6 @@ scope: >
   Items section at all, but any action that IS recorded — in either format —
   must carry a named owner. An ownerless action is a violation; the absence of
   actions in discussion notes is not.
-procedures:
-  - >
-    When extracting action items from a transcript, every item must identify the
-    person who owns it by their full name as it appears in the transcript.
-    For the canonical format string (em-dash separator, deadline pattern, and
-    multi-action separator), see styleguide meeting-minutes-format (principle
-    "Action items format"). That styleguide is the single authoritative source
-    for action item formatting; do not restate the format here.
-  - >
-    If an action item was raised in the meeting but no owner was explicitly named,
-    do not invent an owner. Record the task with an empty owner field and ask
-    about the attribution gap in the same originating chat before returning
-    final minutes or publishing.
-  - >
-    Run the validation gate before posting the final Markdown response and
-    before any optional wiki publish call. If the gate raises an
-    unattributed-action error, stop. Present the list of unattributed items
-    in the same chat and request clarification — do not return final minutes
-    or publish partial or unowned actions.
-  - >
-    Multiple actions from the same agenda item are separated by " / " in the
-    stored string. Each segment must independently satisfy the "Owner — task"
-    format; partial attribution within a segment is not acceptable.
 integrity_rules:
   - "Refuse to return final minutes or publish while any action item lacks a named owner."
   - "Never invent or guess an owner. Ask about the gap in the originating chat."

@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: read-intent-before-high-risk-operation
+title: High-Risk Operation Intent Check
+description: |
+  Prevent destructive operations executed on a misread of intent.
+entry_condition: |
+  A high-risk operation (merge, rebase, branch or file deletion, force operation, or deleting a test) is about to run.
+exit_condition: |
+  The operation ran only after the mission spec and context were read and its intent was clear, or it was escalated to the operator.
+steps:
+- title: Read the spec and context first
+  description: |
+    Read the mission spec and current context before any high-risk operation; never execute from a task title or one-line description alone.
+- title: Escalate unclear intent
+  description: |
+    When intent is unclear or context is insufficient, escalate to the operator rather than proceeding; correctness beats speed.
+- title: Never delete a test to make a build pass
+  description: |
+    Deleting a test is itself a high-risk operation and needs explicitly confirmed intent.

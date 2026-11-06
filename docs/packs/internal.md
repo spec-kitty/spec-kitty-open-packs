@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `1814bd63d2c1476ec304b0caf2ad15f3b8b94df2c1cea63fbc8d1873944a1b4a`
+- **Content checksum (sha256):** `d00d5ca94c185b718242c20cd64cbed6817fc6b6abbb26a57ec6dc6af426d745`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,24 +34,25 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 3 |
+| `directives` | 4 |
 | `tactics` | 4 |
 | `styleguides` | 6 |
 | `toolguides` | 6 |
-| `procedures` | 12 |
+| `procedures` | 17 |
 | `assets` | 20 |
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `skills` | 10 |
-| **Total files** | **67** |
+| **Total files** | **73** |
 
 ### Full listing
 
 <details>
-<summary><code>directives</code> (3)</summary>
+<summary><code>directives</code> (4)</summary>
 
 - `no-full-heavy-suites-in-mission.directive.yaml`
 - `operator-signal-contract.directive.yaml`
+- `spec-kitty-docs-conventions.directive.yaml`
 - `spec-kitty-red-main-policy.directive.yaml`
 
 </details>
@@ -91,7 +92,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>procedures</code> (12)</summary>
+<summary><code>procedures</code> (17)</summary>
 
 - `charter-offering-scenario-extraction.procedure.yaml`
 - `cloud-session-dispatch.procedure.yaml`
@@ -100,9 +101,14 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `issue-triage-pass.procedure.yaml`
 - `landing-contributor-prs.procedure.yaml`
 - `memory-curation-and-escalation.procedure.yaml`
+- `operator-signal-emission.procedure.yaml`
 - `project-evolution-postmortem.procedure.yaml`
 - `semi-auto-delivery.procedure.yaml`
 - `spec-kitty-arch-gate-adjudication.procedure.yaml`
+- `spec-kitty-common-docs-layout.procedure.yaml`
+- `spec-kitty-page-audience.procedure.yaml`
+- `spec-kitty-red-main-triage.procedure.yaml`
+- `targeted-mission-test-run.procedure.yaml`
 - `test-suite-quality-assessment.procedure.yaml`
 - `tracker-organisation-workflow.procedure.yaml`
 

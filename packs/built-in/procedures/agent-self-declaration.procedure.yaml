@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: agent-self-declaration
+title: Agent Self-Declaration
+description: |
+  Make an agent's identity, scope and constraints visible up front so a mismatch is caught early and the result can be checked against them.
+entry_condition: |
+  An agent is about to begin substantive work on a task.
+exit_condition: |
+  A declaration of role, scope and hard constraints preceded the work, and a closing confirmation checked the result against it, constraint by constraint.
+steps:
+- title: Declare identity, scope and hard constraints
+  description: |
+    Before substantive work, state the agent's role and the task scope. Then state every hard constraint that governs the work, such as a gate that cannot be skipped, content the agent will never produce or publish, or a condition under which it halts.
+- title: Confirm completion against the declaration
+  description: |
+    At completion, state what was actually done against what was declared, including that each hard constraint was honored.

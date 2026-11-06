@@ -8,10 +8,6 @@ enforcement: required
 scope: >
   Applies to directives, tactics, toolguides, styleguides, and schemas that
   define governance behavior for agent execution.
-procedures:
-  - Record version-impacting changes with migration notes when required.
-  - Keep artifact schema version fields consistent with supported contract.
-  - Validate repository-wide compatibility after doctrine updates.
 integrity_rules:
   - Breaking doctrine changes require explicit upgrade guidance.
   - Artifact version metadata must not drift from actual schema expectations.

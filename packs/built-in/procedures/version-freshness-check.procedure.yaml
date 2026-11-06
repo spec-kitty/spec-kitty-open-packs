@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: version-freshness-check
+title: Version Freshness Check
+description: |
+  Prevent findings and decisions that rest on a stale copy of a versioned artifact.
+entry_condition: |
+  A finding or decision is about to rely on the content of a versioned artifact.
+exit_condition: |
+  The version read is confirmed or its unconfirmed freshness is stated, and any finding invalidated by a newer version is surfaced as stale.
+steps:
+- title: Confirm the version being read
+  description: |
+    Confirm which version is being read and whether a newer one exists; where freshness cannot be confirmed, say so rather than presenting the finding as current.
+- title: Surface staleness
+  description: |
+    When a newer version invalidates a finding, surface the staleness rather than silently discarding or "fixing" the finding.

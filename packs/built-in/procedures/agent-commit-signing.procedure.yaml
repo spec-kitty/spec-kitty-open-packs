@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: agent-commit-signing
+title: Agent Commit Signing
+description: |
+  Let agents commit in any environment without depending on signing keys.
+entry_condition: |
+  An agent is about to create a commit in a local, CI, worktree, or ephemeral environment.
+exit_condition: |
+  The agent-authored commit exists, was created with signing disabled, and any case needing a human-signed commit is documented.
+steps:
+- title: Commit with signing disabled
+  description: |
+    Use `git commit --no-gpg-sign` or `git -c commit.gpgsign=false commit`; never configure or rely on a signing key in CI, worktrees or ephemeral environments.
+- title: Document human-signing exceptions
+  description: |
+    When a commit must be signed by a human, document the exception and leave that commit to a human outside the agent workflow.

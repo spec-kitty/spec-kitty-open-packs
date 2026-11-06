@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: observable-contract-test-authoring
+title: Observable-Contract Test Authoring
+description: |
+  Write tests that scaffold change rather than obstruct it.
+entry_condition: |
+  A test, fixture, ratchet, or allow-list is being written or changed.
+exit_condition: |
+  Assertions target the observable contract, no defect is masked by xfail or skip, ratchet keys are content-anchored, fixtures delegate to the production seam, and test data is production-shaped.
+steps:
+- title: Assert the observable contract
+  description: |
+    Assert on the returned value, HTTP status and body, persisted event or JSONL, on-disk state or rendered output, not on the internal call graph or which collaborator was invoked.
+- title: Pin desired behavior instead of masking defects
+  description: |
+    Never mask a defect with xfail or skip keyed on "not implemented", "not blocked" or "current implementation"; pin the desired behavior as a strict, red-first acceptance assertion.
+- title: Anchor ratchet keys on stable content
+  description: |
+    Key ratchets and allow-lists on stable content (symbol qualname plus normalized token line, or an AST node), never on file.py:NNN line numbers.
+- title: Build fixtures through the production seam
+  description: |
+    Build fixtures by delegating to the production seam (the single schema authority), with production-shaped data (real identifier formats and lengths), not hand-rolled copies or placeholders that rot or mask behavior.

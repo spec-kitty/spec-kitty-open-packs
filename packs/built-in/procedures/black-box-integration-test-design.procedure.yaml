@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: black-box-integration-test-design
+title: Black-Box Integration Test Design
+description: |
+  Design integration tests that verify a system from the outside, against its specification rather than its implementation.
+entry_condition: |
+  An integration test is to be written for a component, service, or system boundary.
+exit_condition: |
+  The test drives only the published interface, its cases come from the specification with valid and invalid inputs and expected outputs fixed in advance, and it asserts on observable outputs.
+steps:
+- title: Select the responsibility boundary
+  description: |
+    Choose the boundary under test with the test-boundaries-by-responsibility tactic.
+- title: Derive cases from specifications
+  description: |
+    Derive cases from specifications, requirements and design parameters, not from reading the implementation. Choose valid and invalid inputs and fix each expected output before execution, using black-box techniques where relevant: equivalence partitioning, boundary value analysis, decision tables, state transitions, error guessing.
+- title: Drive only the published interface
+  description: |
+    Exercise the system only through its published external interface (HTTP request, CLI invocation, message send, public module API).
+- title: Assert on observable outputs
+  description: |
+    Assert on what comes back across that interface: responses, status codes, persisted records, emitted events, logs, stored artifacts.

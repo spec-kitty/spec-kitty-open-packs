@@ -11,11 +11,6 @@ scope: >
   Applies to software development work performed by coding agents, especially
   when the project owner wants generated code to stay small, predictable,
   maintainable, and easy for adversarial QA to inspect.
-procedures:
-  - Activate test-first implementation before production edits.
-  - Keep modules and functions small enough to reason about without fragmenting behavior into needless indirection.
-  - Prefer strong primitives, explicit typing, idiomatic control flow, and straightforward composition before adding abstraction.
-  - Review generated code as living project code, not disposable output.
 integrity_rules:
   - Remember the three rules of TDD, and hold them sacred.
   - Architecture should be modular, minimalist, and easy to reason about.

@@ -28,38 +28,6 @@ scope: >
   module test matrix, `ci-nightly.yml`, and `ci-aggregate.yml` own the full,
   cross-cutting, and nightly runs authoritatively) and does not apply when the
   operator explicitly asks for a full run of a named heavy suite.
-procedures:
-  - Identify the targeted test surface before running anything — the test
-    file(s) mirroring each source module the diff touches, the SPECIFIC
-    architectural gate file(s) that guard the change (name them — e.g.
-    `tests/architectural/test_layer_rules.py` for an import-direction change,
-    `tests/architectural/test_no_dead_symbols.py` for a dead-symbol change —
-    never the bare directory), and the owning module's fast tier
-    (`make test-fast` plus the module's own test directory).
-  - Never invoke `pytest tests/architectural/` (or any other heavy suite
-    directory) as a whole during mission work; invoke only the named gate
-    file(s) relevant to the change. Never invoke `tests/e2e/`, a full
-    `tests/integration/` sweep, `-m performance`, `-m stress`, `-m timing`, or
-    `make test-full` during mission work for the same reason.
-  - When writing a dispatch brief or a WP prompt that asks an implementer or
-    reviewer to validate a change, name the specific gate files and targeted
-    directories in the prompt's validation section; do not write an
-    instruction that reads as "run the full architectural/e2e/performance
-    suite" or that would resolve to one.
-  - When lanes run in parallel on one machine, bound `pytest-xdist` explicitly
-    (e.g. `-n 4`); never `-n auto` on a shared machine, and never launch a
-    second concurrent run of the same suite (see `no-parallel-duplicate-test-runs`).
-  - Record the exact targeted commands run and their pass/fail counts in the
-    PR's Tests run section, per the standing test policy.
-  - Treat a red result outside the change's blast radius as CI's to report,
-    not yours to chase locally — classify it via the baseline-red gotcha
-    (pre-existing known-P0 red, CI-environment failure, stale install, or
-    stale venv) instead of running a broader local sweep to investigate it.
-  - "Exception: only run a full heavy-suite sweep locally during mission work
-    when the operator explicitly asks for it by name (e.g. \"run the full
-    architectural suite\" or \"run test-full\"); an agent's own judgment that
-    a change is risky is not sufficient grounds to widen the run — escalate
-    the risk assessment to the operator instead."
 integrity_rules:
   - A mission-work test invocation that targets `tests/architectural/`,
     `tests/e2e/`, a full `tests/integration/` sweep, `-m performance|stress|timing`,
