@@ -18,9 +18,9 @@ steps:
         - trunk-based
     guidance: >
       Execution lanes are the only supported git worktree paradigm. Spec Kitty
-      chooses the topology at `finalize-tasks` by Mission size; lane topologies use
-      the lane worktrees `spec-kitty implement` provides. If no branching paradigm
-      is selected in the charter, use execution lanes. Do not create or reuse a lane
+      chooses the topology at `finalize-tasks` by Mission size: small Missions run
+      `single_branch` in the write checkout, and lane topologies use the lane
+      worktrees `spec-kitty implement` provides. Do not create or reuse a lane
       worktree by hand.
 
   - id: execute

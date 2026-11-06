@@ -113,8 +113,8 @@ branches (and, for coordination topologies, the coordination worktree and branch
 unless the Mission declared that branches or worktrees are retained. It removes only
 what it can prove has landed, under the destructive-operation proofs; anything it
 cannot prove is kept and reported. Do not remove them by hand, and do not wait for a
-pull request to merge first. `spec-kitty doctor workspaces --prune` cleans up
-anything left behind.
+pull request to merge first. `spec-kitty doctor workspaces` reports anything left
+behind.
 
 ## Output
 

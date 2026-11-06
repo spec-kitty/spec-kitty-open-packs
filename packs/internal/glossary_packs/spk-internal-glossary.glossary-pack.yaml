@@ -113,3 +113,13 @@ terms:
       checkout's files; see `resolved status surface`.
     confidence: 0.8
     status: active
+
+  - surface: pr-landing worktree
+    definition: >
+      A maintainer's dedicated checkout of a pull request's branch for a landing
+      pass, for example `.worktrees/pr-<N>-landing`. One per pull request; never
+      shared across pull requests and never a status surface.
+      `spec-kitty doctor workspaces --prune` removes it after the pull request
+      merges.
+    confidence: 0.9
+    status: active

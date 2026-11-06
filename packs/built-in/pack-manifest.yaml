@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4fa31dca2d86fed5b65cdf11f7970fbed03161f5058adef2d728b6d2a8031f36
+manifest_hash: 86558ced1216c5cfc0888bb1b0a35f156e87e0d73b55951ee75b197c0d37a9b6
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -288,7 +288,7 @@ constituents:
 - kind: glossary_pack
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
-  content_hash: 28ea172cd278f4d476080c9ae876010c76da5625ba99ff0f3586d456d4cc2db8
+  content_hash: da78fe1ea20545747e8cc5ac8ed6423b40c81a6c431008556fea29314a4a33e7
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
@@ -316,7 +316,7 @@ constituents:
 - kind: paradigm
   id: execution-lanes
   path: paradigms/execution-lanes.paradigm.yaml
-  content_hash: 92e307b7ef2d2200fb7b9e4c0fe3f648000aea59e5d7779990388d6208a17b28
+  content_hash: 1e25fe6cb910ddc48d5ca7d377f0a2b966a114e683cd0243679b6419796e0099
 - kind: paradigm
   id: extract-then-publish-separation
   path: paradigms/extract-then-publish-separation.paradigm.yaml
@@ -512,7 +512,7 @@ constituents:
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: 0ed1af27d82369946bc0bec08717ad55a3f89060a0c13330ef30ac6b45363ea4
+  content_hash: f76de42b6c8501f20b082f4f988b0b7195e4fc161a8206c4ffb0680dfc134f84
 - kind: procedure
   id: mutation-testing-review
   path: procedures/mutation-testing-review.procedure.yaml
@@ -928,7 +928,7 @@ constituents:
 - kind: tactic
   id: lane-recovery
   path: tactics/lane-recovery.tactic.yaml
-  content_hash: 6e48d22bcad19522ec61af99745d363b197ce5d4fcaefca5446378f63fe3e79c
+  content_hash: 2a9bb292f37831804df6e23be8fe38875c4e0c71c88d9b8a58158a1bc35ee68e
 - kind: tactic
   id: language-driven-design
   path: tactics/architecture/language-driven-design.tactic.yaml

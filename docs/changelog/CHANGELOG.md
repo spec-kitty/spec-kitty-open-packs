@@ -232,14 +232,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   status surface, never from a checkout's files; the three task-prompt templates, the implement
   and review prompts and a new `resolved status surface` glossary term say so, and `status commit`
   no longer claims status commits target lane branches. One worktree vocabulary (lane worktree,
-  coordination worktree, write checkout, harness isolation worktree, PR-landing worktree) and
+  coordination worktree, write checkout, write branch, harness isolation worktree; the
+  maintainer-only PR-landing worktree is in the internal glossary) and
   `wp state` / `execution lane` terms separate a WP's lifecycle state from an execution lane.
   Consolidation wording replaces "merge" (glossary, accept, review, tasks, specify); `merge state`
   is deprecated for `consolidation state`. Accept and the wrap-up procedure teach lane cleanup as
   consolidation's final step, not waiting for the PR merge; tasks, specify and finalize-tasks
   teach the size-based default topology with lane worktrees created after `finalize-tasks`. A new
   built-in tactic `lane-recovery` covers `DESTROYED_LANE` and `LANE_WORK_TIP_UNKNOWN`. This needs
-  the core release that lands epic #7276.
+  the core release that lands epic #7276 (cleanup in consolidation, no status on lanes, size-based
+  topology); do not bump the pack pin before it.
 - **Landing worktrees are pruned with a proof, not by hand** (spec-kitty/spec-kitty#7173). The
   `landing-contributor-prs` procedure and the `land-pr` skill create landing worktrees under
   `.worktrees/`, start each pass with `spec-kitty doctor workspaces`, and remove a merged

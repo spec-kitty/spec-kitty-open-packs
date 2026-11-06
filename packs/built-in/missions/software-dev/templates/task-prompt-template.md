@@ -129,7 +129,7 @@ history section here.
 **Read status only through the CLI** (`spec-kitty agent tasks status --mission <handle>`),
 which reads the Mission's resolved status surface. Never read `status.events.jsonl` or
 `status.json` from the files of a lane worktree, a coordination worktree or any other
-checkout: a checkout's copy can be stale and never counts.
+checkout: only the CLI's read counts.
 
 ### Optional Phase Subdirectories
 
