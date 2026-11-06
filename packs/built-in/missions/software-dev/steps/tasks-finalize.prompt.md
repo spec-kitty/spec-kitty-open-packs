@@ -106,7 +106,11 @@ the write checkout); larger Missions get `lanes_with_coord`: the Mission topic b
 and one lane branch is cut from it per execution lane (plain `lanes` and `coord` only when chosen explicitly). Lane worktrees are created only after that, by
 `spec-kitty agent action implement`. When the Mission settles to `lanes_with_coord`, the
 repository root checkout moves off the topic branch, so it no longer shows the planning
-artifacts: read them through the CLI, not from the repository root checkout's files.
+artifacts. Resolve the Mission directory with
+`spec-kitty agent context resolve --action <action> --mission <handle> --json` (its `mission_dir`),
+or the absolute paths from `spec-kitty agent mission check-prerequisites --json --paths-only --mission <handle>`,
+and read artifacts from the returned path; never assume `kitty-specs/<mission>/` under the
+repository root checkout.
 
 ### 3. Check Output
 
