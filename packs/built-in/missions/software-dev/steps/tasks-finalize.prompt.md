@@ -8,7 +8,9 @@ description: Validate dependencies, finalize WP metadata, and commit all task ar
 ## Purpose
 
 Run the finalization command to parse dependencies from `tasks.md`, validate
-them, update WP frontmatter, and commit all task artifacts to the target branch.
+them, update WP frontmatter, and commit all task artifacts to the Mission's planning branch
+(the Mission topic branch when the Mission was created without `--topology`, else the
+target branch).
 
 ---
 
@@ -98,11 +100,13 @@ spec-kitty agent mission finalize-tasks --mission <mission-slug> --json
 ```
 
 This command will update WP frontmatter, compute lanes, and commit all tasks to
-the target branch. Without an explicit `--topology` at create, `finalize-tasks` settles the topology by
+the Mission's planning branch. Without an explicit `--topology` at create, `finalize-tasks` settles the topology by
 Mission size: at most 2 WPs, or one computed execution lane, gives `single_branch` (WPs run in
 the write checkout); larger Missions get `lanes_with_coord`: the Mission topic branch becomes the coordination branch
 and one lane branch is cut from it per execution lane (plain `lanes` and `coord` only when chosen explicitly). Lane worktrees are created only after that, by
-`spec-kitty agent action implement`.
+`spec-kitty agent action implement`. When the Mission settles to `lanes_with_coord`, the
+repository root checkout moves off the topic branch, so it no longer shows the planning
+artifacts: read them through the CLI, not from the repository root checkout's files.
 
 ### 3. Check Output
 
@@ -117,6 +121,7 @@ The JSON output includes:
 - `"parsed_spec_ids"` — requirement IDs parsed from spec.md, grouped as `functional`, `non_functional`, `constraint`, `success_criteria`
 - `"rejected_requirement_refs"` — per WP, each unusable ref with one reason: `malformed`, `unknown_spec_id` or `foreign_qualified`
 - `"success_criteria_coverage"` — informational: `referenced` (SC → WPs) and `unreferenced`; never fails the run
+- `"topology_decision"` — the topology settlement: `settled_this_run`, `topology_source` (`explicit`, `owned_checkout`, `default` or null), `settled_topology`, the `rule` that fired (`wp_count_le_2`, `code_lanes_le_1` or `lanes_with_coord`), `wp_count` and `code_lane_count`; with `--validate-only` it is a `preview` and nothing is written
 - Validation details when checks fail (`missing_requirement_refs_wps`, `unknown_requirement_refs`, `unmapped_functional_requirements`, `rejected_requirement_refs`)
 
 **CRITICAL — Ownership warnings require action before proceeding:**

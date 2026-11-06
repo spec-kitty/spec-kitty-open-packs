@@ -35,7 +35,9 @@ cd /path/to/project/root  # Your repository root checkout
 # - kitty-specs/<mission_slug>/spec.md → Created in project root
 #   (use the mission_slug returned by `mission create`; the numeric NNN- prefix
 #    is display-only and is assigned at consolidation)
-# - Committed to target branch (from create JSON: target_branch/base_branch)
+# - Committed to the Mission's planning branch: the Mission topic branch for a Mission
+#   created without --topology (consolidation lands it on the target), else the
+#   target branch (from create JSON: target_branch/base_branch)
 # - NO worktrees created
 ```
 
@@ -505,7 +507,7 @@ breakage that DIRECTIVE_035 exists to prevent.
 
 - Work in: **Repository root checkout** (not a worktree)
 - Creates: `kitty-specs/<mission_slug>/spec.md` (the `NNN-` prefix is display-only and assigned at consolidation)
-- Commits to: target branch (from `create --json` → `target_branch`)
+- Commits to: the Mission topic branch for a Mission created without `--topology`, else the target branch (from `create --json` → `target_branch`)
 
 ## Outline
 
