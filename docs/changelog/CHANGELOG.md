@@ -227,6 +227,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **Packs align with the charter contracts, not core releases** (operator ruling, 2026-11-06).
+  `CONTRIBUTING.md` records it: packs are validated against the spec-kitty-charter contracts;
+  core becomes compatible through the charter service's generated client; adhering to the
+  contracts is the consumer's decision, not the responsibility of packs or charter.
 - **Lane and worktree doctrine follows the hardened lane model** (spec-kitty/spec-kitty#7285,
   epic spec-kitty/spec-kitty#7276). Status is read only through the CLI from the resolved
   status surface, never from a checkout's files; the three task-prompt templates, the implement
@@ -239,9 +243,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   is deprecated for `consolidation state`. Accept and the wrap-up procedure teach lane cleanup as
   consolidation's final step, not waiting for the PR merge; tasks, specify and finalize-tasks
   teach the size-based default topology with lane worktrees created after `finalize-tasks`. A new
-  built-in tactic `lane-recovery` covers `DESTROYED_LANE` and `LANE_WORK_TIP_UNKNOWN`. This needs
-  the core release that lands epic #7276 (cleanup in consolidation, no status on lanes, size-based
-  topology); do not bump the pack pin before it.
+  built-in tactic `lane-recovery` covers `DESTROYED_LANE` and `LANE_WORK_TIP_UNKNOWN`. The behaviour it
+  describes lands in core with epic #7276. Packs follow the charter contracts, not core releases:
+  when to bump the pin is core's decision.
 - **Landing worktrees are pruned with a proof, not by hand** (spec-kitty/spec-kitty#7173). The
   `landing-contributor-prs` procedure and the `land-pr` skill create landing worktrees under
   `.worktrees/`, start each pass with `spec-kitty doctor workspaces`, and remove a merged
