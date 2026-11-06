@@ -109,7 +109,7 @@ spec-kitty consolidate --mission <handle>
 
 Follow the consolidate instructions printed by the acceptance command. As its
 final step, `spec-kitty consolidate` removes the Mission's lane worktrees and lane
-branches (and, for coordination topologies, the coordination checkout and branch),
+branches (and, for coordination topologies, the coordination worktree and branch),
 unless the Mission declared that branches or worktrees are retained. It removes only
 what it can prove has landed, under the destructive-operation proofs; anything it
 cannot prove is kept and reported. Do not remove them by hand, and do not wait for a

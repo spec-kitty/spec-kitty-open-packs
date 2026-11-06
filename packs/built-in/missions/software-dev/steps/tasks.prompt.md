@@ -198,7 +198,7 @@ Prompts do not rediscover mission context. Commands do.
      - Frontmatter with `work_package_id`, `subtasks` array, `dependencies`, `planning_base_branch`, `merge_target_branch`, `branch_strategy`, `owned_files`, `authoritative_surface`, `execution_mode`, `agent_profile`, `role`, `agent`, `model` (optional), and history entry
        - **`## ⚡ Do This First: Load Agent Profile`** — REQUIRED, must be the first body section (before Objective). Instructs the implementing agent to load the assigned profile via the `/spk-charter-profile-load` skill before reading anything else. See `task-prompt-template.md` for the exact block.
        - Objective, context, detailed guidance per subtask
-       - A Branch Strategy section that repeats the planning branch, final merge target, and explains that execution worktrees are allocated per computed lane from `lanes.json`
+       - A Branch Strategy section that repeats the planning branch, final merge target, and explains that lane worktrees are allocated per execution lane by `spec-kitty agent action implement` (none for `single_branch`)
        - Test strategy (only if requested)
        - Definition of Done, risks, reviewer guidance
      - Update `tasks.md` to reference the prompt filename

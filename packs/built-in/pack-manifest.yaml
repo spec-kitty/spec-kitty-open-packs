@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 0a3c7b76c2a19f910428b8eb419faba644ea07b73a36e3a6f4d0316f0f61e451
+manifest_hash: 4fa31dca2d86fed5b65cdf11f7970fbed03161f5058adef2d728b6d2a8031f36
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -288,7 +288,7 @@ constituents:
 - kind: glossary_pack
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
-  content_hash: d3b90ea9bcd4cc45e5c18a67994a1e80f4d5a430fbd339edf6cfcf92395ce119
+  content_hash: 28ea172cd278f4d476080c9ae876010c76da5625ba99ff0f3586d456d4cc2db8
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
@@ -512,7 +512,7 @@ constituents:
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: 2903673430c20ecaf704db62dbdda5e24e2695aa73bdc3efd010bc0e407e981e
+  content_hash: 0ed1af27d82369946bc0bec08717ad55a3f89060a0c13330ef30ac6b45363ea4
 - kind: procedure
   id: mutation-testing-review
   path: procedures/mutation-testing-review.procedure.yaml
