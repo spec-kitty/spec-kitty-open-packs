@@ -51,6 +51,9 @@ packs/internal/
 │   ├── cloud-session-dispatch.procedure.yaml        # hand tracker issues to an autonomous cloud runner (behind spk-dispatch-cloud)
 │   ├── semi-auto-delivery.procedure.yaml            # runner-side semi-auto standing orders: pause-and-escalate (behind kitty-semi-auto)
 │   ├── spec-kitty-arch-gate-adjudication.procedure.yaml  # refines built-in post-merge-arch-gate-adjudication
+│   ├── targeted-mission-test-run.procedure.yaml     # targeted local validation for mission work (NO_FULL_HEAVY_SUITES_IN_MISSION)
+│   ├── operator-signal-emission.procedure.yaml      # emit each decision through an operator-visible sink (OPERATOR_SIGNAL_CONTRACT)
+│   ├── spec-kitty-red-main-triage.procedure.yaml    # trace and classify reds on main (SPEC_KITTY_RED_MAIN_POLICY)
 │   ├── spec-kitty-page-audience.procedure.yaml      # audience personas under docs/context/audience/ (refines declare-page-audience)
 │   └── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, adr/<era>/ (refines common-docs-page-authoring)
 ├── styleguides/
