@@ -280,9 +280,10 @@ terms:
 - confidence: 0.95
   definition: >-
     A group of work packages that `finalize-tasks` computes to run in
-    sequence. In lane topologies each execution lane has one lane branch. A
-    Mission of at most 2 work packages, or with one lane, runs `single_branch`
-    and has no lane branch. Not a WP state.
+    sequence. In lane topologies each execution lane has one lane branch. By
+    default (no explicit `--topology`), a Mission of at most 2 work packages,
+    or with one lane, runs `single_branch` and has no lane branch. Not a WP
+    state.
   status: active
   surface: execution lane
 - confidence: 0.95
@@ -329,15 +330,6 @@ terms:
   surface: harness isolation worktree
 - confidence: 0.9
   definition: >-
-    A maintainer's dedicated checkout of a pull request's branch for a
-    landing pass, for example `.worktrees/pr-<N>-landing`. One per pull
-    request; never shared across pull requests and never a status surface.
-    `spec-kitty doctor workspaces --prune` removes it after the pull request
-    merges.
-  status: active
-  surface: pr-landing worktree
-- confidence: 0.9
-  definition: >-
     The branch a Mission's commits and, outside the coordination topologies,
     its status commits land on before consolidation: the Mission topic branch
     `kitty/mission-<slug>-<mid8>`, or the target branch when the Mission writes
@@ -371,7 +363,7 @@ terms:
   status: active
   surface: done
 - confidence: 1.0
-  definition: A WP counted by mission acceptance readiness because its lane is 
+  definition: A WP counted by mission acceptance readiness because its WP state is
     approved or done. Accepted does not imply done; approved accepted work
     packages remain consolidation-pending.
   status: active
@@ -386,7 +378,7 @@ terms:
 - confidence: 1.0
   definition: "The condition the dependency gate evaluates before a work package may
     be claimed or implemented: every WP listed in its ``dependencies`` frontmatter
-    must be in the ``approved`` or ``done`` lane. ``approved`` is included deliberately
+    must be in the ``approved`` or ``done`` WP state. ``approved`` is included deliberately
     — ``done`` is emitted only by whole-mission consolidation, so requiring a dependency
     to be strictly ``done`` would deadlock every same-mission dependency chain (the
     dependent WP could never start, so the mission could never consolidate, so the dependency

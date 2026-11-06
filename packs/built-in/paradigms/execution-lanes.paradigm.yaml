@@ -8,6 +8,7 @@ summary: >
   `spec-kitty implement` provides, so agents can implement, test, review, and
   hand off changes without mutating another lane's checkout. Status is not kept
   in the lane: it lives on the Mission's resolved status surface, and lane
-  checkouts never change or serve it. Small Missions (at most 2 work packages,
-  or one lane) use `single_branch` and need no lane. Shared mainline state is
+  checkouts never change or serve it. By default (no explicit `--topology`),
+  small Missions (at most 2 work packages, or one lane) use `single_branch` and
+  need no lane. Shared mainline state is
   reached only through explicit review, consolidation, and quality gates.

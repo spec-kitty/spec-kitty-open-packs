@@ -9,7 +9,7 @@ These guidelines govern the quality and correctness standards for work package r
 - Before reviewing a WP, confirm each WP listed in its `dependencies` frontmatter field is `approved` or `done`, and present in the review base.
 - Read WP states with `spec-kitty agent tasks status --mission <handle>`, never from a checkout's status files.
 - Identify any WPs that list the current WP as a dependency and note each dependent's current WP state.
-- If you request changes AND dependents exist, tell those agents to re-run `spec-kitty agent action implement <WP> --mission <handle>`, which refreshes their lane with the approved dependency work; give a manual command only if the CLI reports a conflict.
+- If you request changes AND dependents exist, tell those agents to re-run `spec-kitty agent action implement <WP> --mission <handle>` once this WP is approved again: re-entry refreshes their lane with approved dependency work only; give a manual command only if the CLI reports a conflict.
 - Confirm that dependency declarations match actual code coupling (imports, shared modules, API contracts).
 
 ---

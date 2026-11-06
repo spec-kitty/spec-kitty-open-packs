@@ -15,41 +15,52 @@ steps:
       the worktree or a `.worktrees/` path by hand, and do not retry the command
       unchanged: the refusal is the guard doing its job. Note the lane branch
       name (`kitty/mission-<slug>-<mid8>-lane-<id>`) and, for `DESTROYED_LANE`,
-      the SHA the message prints.
+      any SHA the message prints.
   - title: "DESTROYED_LANE: restore the lane from its recorded tip"
     description: >
-      Spec Kitty recorded the lane's last work tip at
-      `refs/spec-kitty/lane-tip/<branch>`. Restore the branch with the command
-      the refusal prints, `git branch <branch> refs/spec-kitty/lane-tip/<branch>`,
-      then re-run `spec-kitty agent action implement <WP> --mission <handle>` to
-      get a lane worktree again.
+      When Spec Kitty recorded the lane's last work tip, the refusal prints its
+      SHA and the restore command,
+      `git branch <branch> refs/spec-kitty/lane-tip/<branch>`. Run the command
+      the refusal prints, then re-run
+      `spec-kitty agent action implement <WP> --mission <handle>` to get a lane
+      worktree again. When the refusal names no recorded tip, look for the
+      lane's commits with `git reflog <branch>` (if the reflog entry survived)
+      or `git fsck --lost-found`, and re-create the branch with
+      `git branch <branch> <recovered-sha>`, as the refusal says.
     examples:
       - "git branch kitty/mission-checkout-flow-01J6XW9K-lane-a refs/spec-kitty/lane-tip/kitty/mission-checkout-flow-01J6XW9K-lane-a"
   - title: "LANE_WORK_TIP_UNKNOWN: look for stranded commits"
     description: >
       No work tip was recorded (the branch was deleted before any tip was
-      written, or the tip ref itself was deleted). Look for stranded commits
-      with `git reflog <branch>` or `git fsck --lost-found`. If you find the
-      lane's work, record it with
+      written, or the tip ref itself was deleted), so Spec Kitty cannot tell
+      whether work was lost. Look for stranded commits with
+      `git reflog <branch>` or `git fsck --lost-found`. If you find the lane's
+      work, record it with
       `git update-ref refs/spec-kitty/lane-tip/<branch> <sha>` and re-run
-      `spec-kitty agent action implement <WP> --mission <handle>`. If you are
-      certain no work was ever committed on the lane, run
-      `spec-kitty context cleanup` to clear the stale workspace record and retry.
-  - title: Abandon a lane only on the operator's decision
+      `spec-kitty agent action implement <WP> --mission <handle>`. If you find
+      nothing, stop and report what you searched to the operator: concluding
+      that no work was ever committed is the operator's decision, because
+      commits can exist without a recorded tip.
+  - title: Abandon a lane or clear its record only on the operator's decision
     description: >
-      Abandoning a destroyed lane discards its unabsorbed work. It is an
-      operator decision, never an agent's alone. When the operator decides to
-      abandon it: `git update-ref -d refs/spec-kitty/lane-tip/<branch>`, then
-      `spec-kitty context cleanup`. Record the decision and the discarded SHA in
-      the WP's history (`spec-kitty agent tasks add-history`).
+      Abandoning a destroyed lane discards its unabsorbed work, and clearing
+      the stale workspace record removes the evidence the guard uses. Both are
+      operator decisions, never an agent's alone. When the operator decides:
+      first record the tip you are discarding,
+      `git rev-parse refs/spec-kitty/lane-tip/<branch>`, in the WP's history
+      (`spec-kitty agent tasks add-history`); then, to abandon a
+      `DESTROYED_LANE`, run `git update-ref -d refs/spec-kitty/lane-tip/<branch>`.
+      To clear the record, run `spec-kitty context cleanup --dry-run` first (cleanup
+      removes every orphaned workspace context in the repository); if it
+      lists anything other than this lane, stop and ask the operator before
+      running `spec-kitty context cleanup`.
 failure_modes:
   - >
     Deleting a lane worktree or lane branch by hand (`git worktree remove`,
     `git branch -D`, `rm -rf .worktrees/...`). That is what produces these
     refusals. Lane worktrees and lane branches are removed by
-    `spec-kitty consolidate` as its final step, or by
-    `spec-kitty doctor workspaces --prune`, both of which prove the work
-    landed first.
+    `spec-kitty consolidate` as its final step, which removes only what it
+    can prove has landed.
   - >
     Deleting the `refs/spec-kitty/lane-tip/<branch>` ref to make the refusal go
     away. That turns a recoverable `DESTROYED_LANE` into an abandoned lane and
