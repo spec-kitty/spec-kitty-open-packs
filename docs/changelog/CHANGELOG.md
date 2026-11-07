@@ -382,6 +382,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Java doctrine advises against jqwik** (#46). Since 1.10.0 the jqwik test engine prints a line
+  to stdout that tells AI agents to disregard previous instructions and ignore all jqwik results,
+  and agents read that output to judge test evidence. The `java-conventions` styleguide now has an
+  anti-pattern against adding `net.jqwik:*` (1.10.0 and later), linking upstream's "Anti-AI Usage
+  Clause", and names JUnit `@ParameterizedTest` with generated inputs instead.
+  `formalized-constraint-testing` records the same exclusion and alternative, and now `suggests`
+  `java-conventions` for JVM constraint tests.
+
 - **The internal pack tells agents to write a changelog fragment, not to edit `CHANGELOG.md`**
   (#105, spec-kitty/spec-kitty#6988). The landing, issue-to-mission and semi-auto procedures and
   their skills told agents to add an entry to `docs/changelog/CHANGELOG.md` and to keep both sides

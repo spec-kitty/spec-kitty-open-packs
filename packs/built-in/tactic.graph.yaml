@@ -854,6 +854,10 @@ edges:
   relation: suggests
   when: Contract tests are written test-first; write the failing constraint test before the implementation
 - source: tactic:formalized-constraint-testing
+  target: styleguide:java-conventions
+  relation: suggests
+  when: Writing constraint tests on the JVM; the styleguide rejects jqwik and names the JUnit parameterized-test alternative
+- source: tactic:formalized-constraint-testing
   target: tactic:acceptance-test-first
   relation: suggests
   when: Define acceptance criteria first, then formalise constraints as contract tests

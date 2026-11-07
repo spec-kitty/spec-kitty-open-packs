@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 86558ced1216c5cfc0888bb1b0a35f156e87e0d73b55951ee75b197c0d37a9b6
+manifest_hash: 4cee565dc67ab1a7774dddcbb6e738f250af689f109aae04f7a973954848fc20
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -648,7 +648,7 @@ constituents:
 - kind: styleguide
   id: java-conventions
   path: styleguides/java-conventions.styleguide.yaml
-  content_hash: c935641129d6ab5bc2fb6aaa10fa03fdd4bb3ef7a96a2104318ba376694ce442
+  content_hash: 323b11a82a07ca13f989ce3587de2265d8554c0ac72205073642bcf96aff14a2
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
@@ -900,7 +900,7 @@ constituents:
 - kind: tactic
   id: formalized-constraint-testing
   path: tactics/testing/formalized-constraint-testing.tactic.yaml
-  content_hash: 2a77e79859538df4a96fdd56438723da7fad2478fb91e241f42350d748752477
+  content_hash: 8277d21dd40a55588657960ece612672d06be1f2f4b843320ccfe0031684a776
 - kind: tactic
   id: frozen-baseline-shrink-only-ratchet
   path: tactics/frozen-baseline-shrink-only-ratchet.tactic.yaml
