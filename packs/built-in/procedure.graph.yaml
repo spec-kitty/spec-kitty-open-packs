@@ -219,7 +219,7 @@ edges:
   reason: Published scenario reports are living documentation governed by the Living Documentation Sync directive.
 - source: procedure:bdd-scenario-lifecycle
   target: procedure:example-mapping-workshop
-  relation: requires
+  relation: suggests
   reason: The Discovery phase that produces the validated examples this procedure begins with.
 - source: procedure:bdd-scenario-lifecycle
   target: styleguide:given-when-then-authoring
@@ -255,7 +255,7 @@ edges:
   reason: Its carve-out step lands an opening tidy-first cleanup as its own behavior-preserving step before the functional change, so the cleanup never enlarges the file set the resolution order fixes.
 - source: procedure:development-assist-test-cleanup
   target: directive:DIRECTIVE_025
-  relation: requires
+  relation: suggests
   reason: DIRECTIVE_025 (Boy Scout Rule) governs pre-existing debt in a touched area; this procedure governs debt the current mission itself created as scaffolding. The identify step defers to 025 for anything that predates the mission.
 - source: procedure:development-assist-test-cleanup
   target: directive:DIRECTIVE_041
@@ -263,7 +263,7 @@ edges:
   reason: This procedure applies DIRECTIVE_041's keep-vs-delete axis and its duplicate-test-knowledge-has-one-source rule at a different trigger point — a proactive wrap-up audit of passing dev-assist tests, versus 041's reactive judgment of a failing test (whose STALE / PATCHWORK / VALID provenance labels are a distinct classification).
 - source: procedure:development-assist-test-cleanup
   target: procedure:mission-tracer-files
-  relation: requires
+  relation: suggests
   reason: This cleanup fires at the same mission-close point-cut as the tracer-files assess step and feeds the same hand-off summary; both convert mission-local by-products (friction notes; scaffolding tests) into durable outcomes.
 - source: procedure:development-assist-test-cleanup
   target: tactic:delete-the-assertion-not-the-test
@@ -290,15 +290,15 @@ edges:
   reason: Use when the interview reveals that the broader context is not yet understood.
 - source: procedure:domain-aware-decision-interview
   target: tactic:adr-drafting-workflow
-  relation: requires
+  relation: suggests
   reason: Use when the interview crystallizes a durable architectural decision.
 - source: procedure:domain-aware-decision-interview
   target: tactic:glossary-curation-interview
-  relation: requires
+  relation: suggests
   reason: Use when the interview resolves a new or ambiguous domain term.
 - source: procedure:domain-aware-decision-interview
   target: tactic:language-driven-design
-  relation: requires
+  relation: suggests
   reason: Use for detecting architectural significance in terminology conflicts.
 - source: procedure:drill-down-documentation
   target: directive:DIRECTIVE_001
@@ -308,15 +308,15 @@ edges:
   relation: requires
 - source: procedure:event-storming-discovery
   target: tactic:aggregate-boundary-design
-  relation: requires
+  relation: suggests
   reason: Aggregates discovered during this procedure feed into formal aggregate boundary design.
 - source: procedure:event-storming-discovery
   target: tactic:bounded-context-identification
-  relation: requires
+  relation: suggests
   reason: Event Storming discovery reveals bounded context boundaries through language clustering.
 - source: procedure:event-storming-discovery
   target: tactic:domain-event-capture
-  relation: requires
+  relation: suggests
   reason: Events discovered during this procedure become the basis for domain event modelling.
 - source: procedure:example-mapping-workshop
   target: directive:DIRECTIVE_037
@@ -324,19 +324,19 @@ edges:
   reason: The workshop produces the canonical examples governed by the Living Documentation Sync directive.
 - source: procedure:example-mapping-workshop
   target: procedure:event-storming-discovery
-  relation: requires
+  relation: suggests
   reason: Use when domain flows, events, and user journeys are not yet understood well enough to frame concrete examples. Event storming surfaces the business narrative that example mapping then tightens into rules and canonical examples.
 - source: procedure:example-mapping-workshop
   target: tactic:acceptance-test-first
-  relation: requires
+  relation: suggests
   reason: Stable canonical examples should hand off cleanly into executable acceptance checks.
 - source: procedure:example-mapping-workshop
   target: tactic:atdd-adversarial-acceptance
-  relation: requires
+  relation: suggests
   reason: Run after a candidate example set is drafted to probe failure modes and promote selected adversarial scenarios into additional canonical examples and rejection rules.
 - source: procedure:example-mapping-workshop
   target: tactic:reverse-speccing
-  relation: requires
+  relation: suggests
   reason: 'Use when approaching a legacy area: reconstructing behaviour from existing tests yields the starting example set that the workshop then validates and curates with stakeholders.'
 - source: procedure:example-mapping-workshop
   target: tactic:usage-examples-sync
@@ -363,11 +363,11 @@ edges:
   reason: Use for bug reports that need diagnosis before they are ready for implementation.
 - source: procedure:issue-triage-state-machine
   target: procedure:test-first-bug-fixing
-  relation: requires
+  relation: suggests
   reason: Use once a bug is reproducible and ready for a fix.
 - source: procedure:issue-triage-state-machine
   target: tactic:requirements-validation-workflow
-  relation: requires
+  relation: suggests
   reason: Use to validate enhancement claims and acceptance criteria before delegation.
 - source: procedure:issue-triage-state-machine
   target: template:agent-brief-template
@@ -395,7 +395,7 @@ edges:
   reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures and minor clutter in every touched file the default.
 - source: procedure:legacy-codebase-triage
   target: directive:DIRECTIVE_001
-  relation: requires
+  relation: suggests
   reason: Triage findings that surface load-bearing complexity or single-author critical modules feed architectural-integrity decisions.
 - source: procedure:legacy-codebase-triage
   target: directive:DIRECTIVE_028
@@ -407,7 +407,7 @@ edges:
   reason: When the triage uncovers questions larger than its scope, escalate into a full situational assessment to establish shared context before design.
 - source: procedure:legacy-codebase-triage
   target: tactic:connascence-analysis
-  relation: requires
+  relation: suggests
   reason: After triage identifies refactor priorities, connascence analysis classifies the coupling that drives the hotspot status.
 - source: procedure:legacy-codebase-triage
   target: tactic:eisenhower-prioritisation
@@ -419,11 +419,11 @@ edges:
   reason: The forensic-repository-audit tactic is the evidence-gathering core of this procedure; step 2 invokes it directly.
 - source: procedure:legacy-codebase-triage
   target: tactic:premortem-risk-identification
-  relation: requires
+  relation: suggests
   reason: Before scheduling any large remediation work that the triage flags, run a premortem on the proposed plan.
 - source: procedure:legacy-codebase-triage
   target: tactic:strategic-domain-classification
-  relation: requires
+  relation: suggests
   reason: Optional overlay invoked in step 4 when the project has identifiable bounded contexts.
 - source: procedure:meeting-minutes-pipeline
   target: directive:ACTION_ITEM_ATTRIBUTION
@@ -473,7 +473,7 @@ edges:
   reason: 'Landing and hand-off obey PRs-only and read-intent: the agent prepares the PR and the operator merges the protected mainline.'
 - source: procedure:mission-wrap-up-sequence
   target: procedure:adversarial-squad-deployment
-  relation: requires
+  relation: suggests
   reason: The aggregate pre-merge review and the draft-PR review are both instances of the adversarial-squad-deployment procedure applied at the pre-merge point-cut.
 - source: procedure:mission-wrap-up-sequence
   target: procedure:development-assist-test-cleanup
@@ -531,31 +531,31 @@ edges:
   relation: requires
 - source: procedure:refactoring
   target: tactic:refactoring-change-function-declaration
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-combine-functions-into-transform
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-consolidate-conditional-expression
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-extract-class-by-responsibility-split
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-inline-temp
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-introduce-null-object
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-replace-magic-number-with-symbolic-constant
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-replace-temp-with-query
-  relation: requires
+  relation: suggests
 - source: procedure:refactoring
   target: tactic:refactoring-retry-pattern
-  relation: requires
+  relation: suggests
 - source: procedure:situational-assessment
   target: directive:DIRECTIVE_001
   relation: requires

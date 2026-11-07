@@ -168,13 +168,13 @@ edges:
   reason: 'Keeps edits on the target behavior, justifies any wider reach, keeps cleanup separate, and checks the diff for scope creep before commit.'
 - source: directive:DIRECTIVE_025
   target: directive:DIRECTIVE_024
-  relation: requires
+  relation: suggests
 - source: directive:DIRECTIVE_025
   target: directive:DIRECTIVE_030
-  relation: requires
+  relation: suggests
 - source: directive:DIRECTIVE_025
   target: directive:DIRECTIVE_040
-  relation: requires
+  relation: suggests
 - source: directive:DIRECTIVE_025
   target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   relation: suggests
@@ -271,7 +271,7 @@ edges:
   reason: 'Identifies the bounded context, uses its language, translates explicitly at boundaries, and flags implicit cross-context coupling in review.'
 - source: directive:DIRECTIVE_032
   target: directive:DIRECTIVE_031
-  relation: requires
+  relation: suggests
 - source: directive:DIRECTIVE_032
   target: procedure:term-interpretation-alignment
   relation: requires
@@ -563,7 +563,7 @@ edges:
   relation: suggests
 - source: directive:DIRECTIVE_047
   target: directive:DIRECTIVE_042
-  relation: requires
+  relation: suggests
 - source: directive:DIRECTIVE_047
   target: procedure:audience-oriented-drafting
   relation: requires
@@ -582,7 +582,7 @@ edges:
   relation: suggests
 - source: directive:DIRECTIVE_048
   target: directive:DIRECTIVE_018
-  relation: requires
+  relation: suggests
 - source: directive:DIRECTIVE_048
   target: directive:DIRECTIVE_037
   relation: requires
