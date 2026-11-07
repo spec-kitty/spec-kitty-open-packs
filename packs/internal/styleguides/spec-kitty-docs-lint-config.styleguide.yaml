@@ -88,6 +88,9 @@ structural_lint_config:
     # (#3995 CI-reinstatement landing: the two gates conflicted on these files;
     # the byte-freeze is authoritative for frozen evidence.)
     - "archive/program-evidence/**"
+    # Changelog fragments (docs/changelog/unreleased/<id>.<section>.md) are
+    # entries assembled into CHANGELOG.md at release time, not pages.
+    - "changelog/unreleased/**"
   # Basenames exempt from shadow_tree_basename because they are navigation
   # scaffolding or sanctioned era files, not duplicated content.
   shadow_tree_nav_exemptions:

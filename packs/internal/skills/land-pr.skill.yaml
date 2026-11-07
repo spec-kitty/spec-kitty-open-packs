@@ -1,7 +1,7 @@
 schema_version: "1.0"
 id: land-pr
 title: Land a PR
-description: Use when a ready-for-review pull request needs a maintainer to get it ready to merge. Rebases it, fixes and reviews it, updates its description, changelog and docs, and hands it back without merging by hand.
+description: Use when a ready-for-review pull request needs a maintainer to get it ready to merge. Rebases it, fixes and reviews it, updates its description and docs, adds a changelog fragment, and hands it back without merging by hand.
 triggers: ["land this PR", "landing pass", "land PR"]
 form: prompt
 body_path: land-pr.skill.md
