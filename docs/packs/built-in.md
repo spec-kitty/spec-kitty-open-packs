@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `c1eace00490c4c737f106679bb64e65122e567ed9f10a5ac69ee8f3b99e766bc`
+- **Content checksum (sha256):** `e64d3532ec39405c88ad34b26f3594c318b870fb6bff2fc3a1fc063d2140bfa9`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | --- | --- |
 | `directives` | 39 |
 | `tactics` | 122 |
-| `styleguides` | 28 |
+| `styleguides` | 29 |
 | `toolguides` | 36 |
 | `paradigms` | 14 |
 | `procedures` | 65 |
@@ -45,7 +45,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **481** |
+| **Total files** | **482** |
 
 ### Full listing
 
@@ -223,7 +223,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>styleguides</code> (28)</summary>
+<summary><code>styleguides</code> (29)</summary>
 
 - `aggregate-design-rules.styleguide.yaml`
 - `boring-code-review.styleguide.yaml`
@@ -236,6 +236,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `drupal-conventions.styleguide.yaml`
 - `drupal-security-performance.styleguide.yaml`
 - `given-when-then-authoring.styleguide.yaml`
+- `html-conventions.styleguide.yaml`
 - `java-conventions.styleguide.yaml`
 - `meeting-minutes-format.styleguide.yaml`
 - `mutation-aware-test-design.styleguide.yaml`

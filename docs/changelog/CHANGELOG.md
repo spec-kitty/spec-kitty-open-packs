@@ -66,6 +66,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   printing, user-preference features, container queries, @layer and !important); rules with no
   source are marked as house rules.
 
+- **Built-in `html-conventions` styleguide** (#131). Conventions for HTML: the document skeleton
+  and viewport, elements used for their purpose, landmarks, validity, separation of structure,
+  presentation and behaviour, alt text, labelled controls, native semantics before ARIA, and
+  formatting. Paraphrased from, and checked against, the Google HTML/CSS Style Guide, MDN, W3C
+  ARIA in HTML and Using ARIA, the WAI tutorials and the ARIA Authoring Practices; keeping
+  optional tags is a stated deviation from Google. It suggests `css-conventions` as its companion.
+
 - **`pr:pause-ci` pauses a parked pull request, and `Validate packs gate` is the one required check**
   (#106, ADR 2026-11-01-1). There is no merge queue: in core it duplicated CI runs rather than
   avoiding reruns.

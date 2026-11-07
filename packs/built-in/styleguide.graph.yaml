@@ -35,6 +35,9 @@ nodes:
 - urn: styleguide:given-when-then-authoring
   kind: styleguide
   label: Given-When-Then Scenario Authoring
+- urn: styleguide:html-conventions
+  kind: styleguide
+  label: HTML Conventions Styleguide
 - urn: styleguide:java-conventions
   kind: styleguide
   label: Java Conventions Styleguide
@@ -149,6 +152,9 @@ edges:
   target: styleguide:drupal-security-performance
   relation: suggests
   reason: Each guide named the other as its companion ("See also"); this one is the security- and performance-specific treatment.
+- source: styleguide:html-conventions
+  target: styleguide:css-conventions
+  relation: suggests
 - source: styleguide:java-conventions
   target: directive:DIRECTIVE_030
   relation: suggests
