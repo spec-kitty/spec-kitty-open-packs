@@ -282,17 +282,11 @@ edges:
 - source: agent_profile:frontend-freddy
   target: directive:DIRECTIVE_030
   relation: requires
-- source: agent_profile:frontend-freddy
-  target: directive:DIRECTIVE_030
-  relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
   reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:frontend-freddy
   target: directive:DIRECTIVE_034
   relation: requires
-- source: agent_profile:frontend-freddy
-  target: directive:DIRECTIVE_034
-  relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
   reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel (walks requires/specializes_from only), authored per the #3063 family-D operator attestation.'
 - source: agent_profile:frontend-freddy
@@ -434,17 +428,11 @@ edges:
 - source: agent_profile:java-jenny
   target: directive:DIRECTIVE_030
   relation: requires
-- source: agent_profile:java-jenny
-  target: directive:DIRECTIVE_030
-  relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
   reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:java-jenny
   target: directive:DIRECTIVE_034
   relation: requires
-- source: agent_profile:java-jenny
-  target: directive:DIRECTIVE_034
-  relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
   reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:java-jenny
@@ -556,17 +544,11 @@ edges:
 - source: agent_profile:node-norris
   target: directive:DIRECTIVE_030
   relation: requires
-- source: agent_profile:node-norris
-  target: directive:DIRECTIVE_030
-  relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
   reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:node-norris
   target: directive:DIRECTIVE_034
   relation: requires
-- source: agent_profile:node-norris
-  target: directive:DIRECTIVE_034
-  relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
   reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:node-norris
@@ -670,25 +652,16 @@ edges:
 - source: agent_profile:python-pedro
   target: directive:DIRECTIVE_030
   relation: requires
-- source: agent_profile:python-pedro
-  target: directive:DIRECTIVE_030
-  relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
   reason: 'The primary implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:python-pedro
   target: directive:DIRECTIVE_034
   relation: requires
-- source: agent_profile:python-pedro
-  target: directive:DIRECTIVE_034
-  relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
   reason: 'The primary implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:python-pedro
   target: directive:DIRECTIVE_041
   relation: requires
-- source: agent_profile:python-pedro
-  target: directive:DIRECTIVE_041
-  relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
   reason: 'The primary implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:python-pedro
@@ -749,25 +722,16 @@ edges:
 - source: agent_profile:randy-reducer
   target: directive:DIRECTIVE_030
   relation: requires
-- source: agent_profile:randy-reducer
-  target: directive:DIRECTIVE_030
-  relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
   reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
   target: directive:DIRECTIVE_034
   relation: requires
-- source: agent_profile:randy-reducer
-  target: directive:DIRECTIVE_034
-  relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
   reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
   target: directive:DIRECTIVE_041
   relation: requires
-- source: agent_profile:randy-reducer
-  target: directive:DIRECTIVE_041
-  relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
   reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
@@ -837,9 +801,6 @@ edges:
 - source: agent_profile:reviewer-renata
   target: directive:DIRECTIVE_030
   relation: requires
-- source: agent_profile:reviewer-renata
-  target: directive:DIRECTIVE_030
-  relation: suggests
   when: when assessing the quality of the tests under review
   reason: 'The reviewer profile should reach the test-quality-gate hub when assessing the tests under review. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:reviewer-renata
@@ -848,9 +809,6 @@ edges:
 - source: agent_profile:reviewer-renata
   target: directive:DIRECTIVE_041
   relation: requires
-- source: agent_profile:reviewer-renata
-  target: directive:DIRECTIVE_041
-  relation: suggests
   when: when assessing whether the tests under review are a clear scaffold rather than friction
   reason: 'The reviewer profile should reach the tests-as-scaffold hub when assessing the tests under review. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:reviewer-renata

@@ -226,10 +226,6 @@ edges:
   relation: requires
   reason: "Gherkin scenarios (step 1) are authored per this styleguide's Given/When/Then conventions.\n"
 - source: procedure:bdd-scenario-lifecycle
-  target: styleguide:given-when-then-authoring
-  relation: suggests
-  reason: Gherkin scenarios (step 1) are authored per this styleguide's Given/When/Then conventions.
-- source: procedure:bdd-scenario-lifecycle
   target: tactic:acceptance-test-first
   relation: requires
   reason: Canonical examples from step 1 hand off into executable acceptance checks in step 4.
