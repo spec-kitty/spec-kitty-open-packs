@@ -382,6 +382,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Language-specialist profiles `requires` their conventions styleguide** (#131,
+  spec-kitty/spec-kitty-charter#405). `java-jenny`, `python-pedro` and `drupal-dries` now carry a
+  `requires` edge to `java-conventions`, `python-conventions` and `drupal-conventions`, so a
+  profile cascade selects the styleguide. The inverted styleguide-to-profile `suggests` edges are
+  replaced, not kept beside the new ones; `drupal-dries` `suggests` `drupal-security-performance`.
+  A new test fails when a profile does not `requires` the styleguide mapped to each of its
+  `applies_to_languages`. JavaScript, TypeScript, HTML and CSS have no conventions styleguide yet
+  and are listed as exempt until #131 settles them.
+
 - **`--regenerate-manifest` no longer passes when the manifest lists a missing file.** Run on
   its own, it printed a warning, rewrote the manifest and exited 0, so the documented restamp
   command reported green on a pack the gate rejects. It now refuses like the charter's manifest
