@@ -80,4 +80,5 @@ steps:
 failure_modes:
   - "Incomplete equality contract — testing only equals() without hashCode() leaves the contract incomplete; objects placed in HashMaps or HashSets will behave incorrectly."
   - "Round-trip with only happy-path data — testing serialize/deserialize only with fully populated objects misses edge cases where null fields, empty collections, or boundary values are dropped or transformed."
+  - "Using jqwik on the JVM: from 1.10.0 its engine prints an instruction to AI agents into test output, so do not use it (see the java-conventions styleguide). On the JVM, write these tests as JUnit @ParameterizedTest methods fed by generated inputs: a seeded java.util.Random stream plus explicit edge cases."
   - "Missing violation tests — constraint tests without a corresponding violation case only demonstrate that the happy path works, not that the invariant is actually enforced."

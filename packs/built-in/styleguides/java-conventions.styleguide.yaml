@@ -137,6 +137,28 @@ anti_patterns:
       Order o1 = OrderFixtures.standardOrder().withAmount(50000L).build();
       Order o2 = OrderFixtures.expressOrder().withAmount(10000L).build();
 
+  - name: jqwik as a Test Dependency
+    description: "Do not add jqwik (net.jqwik:*, 1.10.0 and later) to a project. Since 1.10.0 its test engine prints a line to stdout telling AI agents to disregard previous instructions and ignore all jqwik results (1.10.0 told them to delete the jqwik tests and code); agents read that captured output to judge test evidence. Upstream calls this its Anti-AI Usage Clause: https://jqwik.net/docs/current/user-guide.html#anti-ai-usage-clause. It is in the docs and the engine output, not in the licence, which is still EPL-2.0. For property-style tests use @ParameterizedTest with @MethodSource or @FieldSource fed by generated inputs (a seeded java.util.Random stream plus explicit edge cases)."
+    bad_example: |
+      <dependency>
+          <groupId>net.jqwik</groupId>
+          <artifactId>jqwik</artifactId>
+          <scope>test</scope>
+      </dependency>
+    good_example: |
+      static Stream<Money> amounts() {
+          Random random = new Random(42L);
+          return Stream.concat(
+              Stream.of(Money.ZERO, Money.of(Long.MAX_VALUE)),
+              random.longs(200, 0, Long.MAX_VALUE).mapToObj(Money::of));
+      }
+
+      @ParameterizedTest
+      @MethodSource("amounts")
+      void roundTripsThroughJson(Money amount) {
+          assertThat(Money.fromJson(amount.toJson())).isEqualTo(amount);
+      }
+
 tooling:
   build: "Maven (mvn)"
   test_runner: "JUnit 5 (via mvn test)"
