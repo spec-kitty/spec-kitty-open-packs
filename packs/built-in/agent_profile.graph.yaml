@@ -259,6 +259,14 @@ edges:
   target: tactic:tdd-red-green-refactor
   relation: requires
   reason: Drives module and plugin implementation through red-green-refactor at the kernel and unit test tiers before touching Drupal-native theming
+- source: agent_profile:drupal-dries
+  target: styleguide:drupal-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (php, twig); operator ruling on spec-kitty-charter#405.
+- source: agent_profile:drupal-dries
+  target: styleguide:drupal-security-performance
+  relation: suggests
+  reason: The security- and performance-specific companion to the Drupal conventions; consulted when a change touches access, caching or query cost.
 - source: agent_profile:frontend-freddy
   target: agent_profile:implementer-ivan
   relation: specializes_from
@@ -468,6 +476,10 @@ edges:
   target: tactic:tdd-red-green-refactor
   relation: requires
   reason: Unit-level red-green-refactor discipline; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
+- source: agent_profile:java-jenny
+  target: styleguide:java-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (java); operator ruling on spec-kitty-charter#405.
 - source: agent_profile:lexical-larry
   target: directive:DIRECTIVE_003
   relation: requires
@@ -705,6 +717,10 @@ edges:
   target: tactic:test-scaffolding-as-design-smell
   relation: requires
   reason: Write code whose behavior is testable without infrastructure. If a unit test would need real files, git, or several mocks to run, invert the dependency and extract a pure seam before adding the test, rather than expanding the mock setup.
+- source: agent_profile:python-pedro
+  target: styleguide:python-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (python); operator ruling on spec-kitty-charter#405.
 - source: agent_profile:randy-reducer
   target: directive:DIRECTIVE_001
   relation: requires
