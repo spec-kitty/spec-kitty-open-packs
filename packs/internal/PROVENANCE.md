@@ -2,18 +2,24 @@
 
 This is the **canonical home** of the in-house (org-tier) **internal** Charter
 Pack. It is registered for `spec-kitty-open-packs`' own governance via
-`.kittify/config.yaml` → `charter_packs.org.packs`, and it is the source other
-repositories vendor from.
+`.kittify/config.yaml` → `charter_packs.org.packs`, and other repositories take
+it from here at a pinned commit.
 
 ## Identity is minted and owned here
 
 `pack.yaml` pins the canonical `pack_id`. `spec-kitty-open-packs` is the single
 minting authority for the `spec-kitty-internal` identity. Downstream repositories
-that need this pack (for example `spec-kitty-charter`) hold a **vendored mirror**:
-they copy this `pack_id` verbatim and must never re-mint or diverge it.
+that need this pack take it as it is at a pinned commit of this repository: they
+never edit it, re-mint its `pack_id` or diverge from it.
 
-## Mirrors
+## How downstream repositories take the pack
 
-- `spec-kitty-charter` carries a vendored mirror of this pack (tracked by
-  `spec-kitty-charter#37`). Changes land here first; the mirror is re-vendored to
-  match.
+- `spec-kitty-charter` holds no tracked copy (spec-kitty-charter#364). Its
+  `packs/internal` and `packs/qa` are gitignored copies that `./gradlew syncPacks`
+  syncs from this repository at the commit named by `openPacksRef` in
+  `gradle.properties`; `packs/open-packs.lock.yaml` records their tree digests.
+- `spec-kitty` core pins a commit of this repository the same way and takes the
+  pack with `spec-kitty charter pack vendor --pack internal --ref <sha>`.
+
+A change lands here first and reaches a downstream repository when that
+repository bumps its pin. Nothing is copied back.
