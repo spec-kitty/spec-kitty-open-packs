@@ -10,9 +10,11 @@ instructions once the gate passes. cave-dev overrides one thing only: the agent'
 the acceptance decision summary — which it compresses to the caveman voice. The gate and the
 evidence discipline are unchanged.
 
-## Bound agent-profile
+## Requested role
 
-`reviewer-renata` (built-in). cave-dev ships no personas of its own.
+This step asks for the `reviewer` role. cave-kitty ships no preset and no personas of its
+own, so it activates no profile for it; a built-in reviewer profile such as `reviewer-renata` fills it
+when the operator activates one.
 
 ## Directive & styleguide citation
 

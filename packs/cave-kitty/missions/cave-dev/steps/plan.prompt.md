@@ -9,9 +9,11 @@ from confirmed answers, not raw input; the step ends after Phase 1 and does not 
 cave-dev overrides one thing only: the agent's OUTPUT prose, which it compresses to the caveman
 voice. The phase discipline and supply-chain evidence (`DIRECTIVE_051`) are unchanged.
 
-## Bound agent-profile
+## Requested role
 
-`planner-priti` (built-in). cave-dev ships no personas of its own.
+This step asks for the `planner` role. cave-kitty ships no preset and no personas of its
+own, so it activates no profile for it; a built-in planner profile such as `planner-priti` fills it
+when the operator activates one.
 
 ## Directive & styleguide citation
 

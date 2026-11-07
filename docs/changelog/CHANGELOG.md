@@ -387,6 +387,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   It is now "Requested role": the role from `qa.mission-type.yaml`, and which profile the pack's
   `qa` preset activates for it (none for discovery's `researcher`).
 
+- **`cave-kitty` step prompts name the role a step asks for, not a bound profile** (#67). The
+  eight `missions/cave-dev/steps/*.prompt.md` files had a "Bound agent-profile" section naming one
+  built-in profile. It is now "Requested role": the role from `cave-dev.mission-type.yaml`, with a
+  note that cave-kitty ships no preset, so a built-in profile for that role fills it when the
+  operator activates one.
+
 - **`packs/internal/PROVENANCE.md` no longer calls `spec-kitty-charter` a vendored mirror** (#114).
   Since spec-kitty/spec-kitty-charter#364 the charter keeps gitignored copies that
   `./gradlew syncPacks` syncs at `openPacksRef`, with tree digests in `packs/open-packs.lock.yaml`.

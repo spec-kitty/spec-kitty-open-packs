@@ -10,9 +10,11 @@ the progress replies and step summaries — which it compresses to the caveman v
 the types, the gates, the commit discipline, and the supply-chain check (`DIRECTIVE_051`) are
 unchanged from software-dev.
 
-## Bound agent-profile
+## Requested role
 
-`implementer-ivan` (built-in). cave-dev ships no personas of its own.
+This step asks for the `implementer` role. cave-kitty ships no preset and no personas of its
+own, so it activates no profile for it; a built-in implementer profile such as `implementer-ivan` fills it
+when the operator activates one.
 
 ## Directive & styleguide citation
 
