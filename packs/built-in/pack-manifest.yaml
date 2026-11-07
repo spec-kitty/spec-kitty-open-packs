@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4cee565dc67ab1a7774dddcbb6e738f250af689f109aae04f7a973954848fc20
+manifest_hash: d460769e739688875cdb23d58d827ee1d71b0137c03a2e333379334acd7850e9
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -618,6 +618,10 @@ constituents:
   path: styleguides/common-docs.styleguide.yaml
   content_hash: 79fa1c955e5ce5c13cd2877e46aa1019d1ab3994be0bb1dd4f21c38d69ba6c13
 - kind: styleguide
+  id: css-conventions
+  path: styleguides/css-conventions.styleguide.yaml
+  content_hash: 597d3f2bc5726f842beef7515f939c8a69f98e485dc4bed896f61467d19aa116
+- kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
   content_hash: 639f93593546e682340d5dd938adaace1be5a3fd4935f9b4599ce0c9b2c78ec2
@@ -645,6 +649,10 @@ constituents:
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
   content_hash: 2c4d33afe0277ea862540f391d2fa4f009317a7cfde921ebef1aab1eac22441b
+- kind: styleguide
+  id: html-conventions
+  path: styleguides/html-conventions.styleguide.yaml
+  content_hash: 4ab8156d99111ac45494fb1d3e3fca6bc87a08f9f3d834371fa7a03e0b178bf1
 - kind: styleguide
   id: java-conventions
   path: styleguides/java-conventions.styleguide.yaml
@@ -705,6 +713,10 @@ constituents:
   id: tiered-standards
   path: styleguides/tiered-standards.styleguide.yaml
   content_hash: 7a04050df853ff86f1d08b6362590835ab367153ad09a1b94210b95eb7ee2a5d
+- kind: styleguide
+  id: typescript-conventions
+  path: styleguides/typescript-conventions.styleguide.yaml
+  content_hash: 849a33a94b63204d62e9ae4521efcd49fd0466d9c884b5b0e4d48d711cfbc35f
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml

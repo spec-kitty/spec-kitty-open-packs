@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `577e530eeff5b4836de3cd34194f6cabf97f00a699238ccdc6eb35b101a0f1e8`
+- **Content checksum (sha256):** `902314da4c342fa8bfe3e8a2e1972350e63bf564ef2906d904f214a17e9b5f33`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | --- | --- |
 | `directives` | 39 |
 | `tactics` | 122 |
-| `styleguides` | 26 |
+| `styleguides` | 27 |
 | `toolguides` | 36 |
 | `paradigms` | 14 |
 | `procedures` | 65 |
@@ -45,7 +45,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **479** |
+| **Total files** | **480** |
 
 ### Full listing
 
@@ -223,7 +223,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>styleguides</code> (26)</summary>
+<summary><code>styleguides</code> (27)</summary>
 
 - `aggregate-design-rules.styleguide.yaml`
 - `boring-code-review.styleguide.yaml`
@@ -249,6 +249,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `test-desiderata-and-boundaries.styleguide.yaml`
 - `testing-principles.styleguide.yaml`
 - `tiered-standards.styleguide.yaml`
+- `typescript-conventions.styleguide.yaml`
 - `writing/README.md`
 - `writing/kitty-glossary-writing.styleguide.yaml`
 
