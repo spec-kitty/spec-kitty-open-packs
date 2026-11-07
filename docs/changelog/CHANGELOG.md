@@ -382,6 +382,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **The internal pack tells agents to write a changelog fragment, not to edit `CHANGELOG.md`**
+  (#105, spec-kitty/spec-kitty#6988). The landing, issue-to-mission and semi-auto procedures and
+  their skills told agents to add an entry to `docs/changelog/CHANGELOG.md` and to keep both sides
+  when it conflicted, which produced duplicate entries. They now name the fragment
+  `docs/changelog/unreleased/<pr>.<section>.md`, a changelog conflict on rebase moves the entry
+  into a fragment, and the "keep both sides" advice is gone. The docs lint config excludes
+  `changelog/unreleased/**` from the frontmatter contract, since fragments are entries, not pages.
+
 - **Language-specialist profiles `requires` their conventions styleguide** (#131,
   spec-kitty/spec-kitty-charter#405). `java-jenny`, `python-pedro` and `drupal-dries` now carry a
   `requires` edge to `java-conventions`, `python-conventions` and `drupal-conventions`, so a

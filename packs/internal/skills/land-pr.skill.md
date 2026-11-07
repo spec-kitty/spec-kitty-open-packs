@@ -22,7 +22,7 @@ Follow the `landing-contributor-prs` procedure from its second step onward. It c
 6. Run an independent review of the integrated diff and fix every finding, except one that is highly impactful, takes significant effort, or needs a significant operator decision. Name each exception in the PR body with its reason.
 7. Tidy the commit history only when needed. The merge bar is the PR head, not each commit. Before a force-push, the rebuilt tree must be byte-identical to the old head.
 8. Vet the tests the landing added with a reviewer who is not the implementer.
-9. Update the PR body, changelog and docs.
+9. Update the PR body and docs, and add a changelog fragment, `docs/changelog/unreleased/<pr>.<section>.md` (never edit `docs/changelog/CHANGELOG.md` directly).
 10. Push (SSH is the preferred transport), then post the remediation summary.
 11. File a tracked issue for every deferred item and leave the landing queue readable (the procedure's follow-up hygiene step).
 
