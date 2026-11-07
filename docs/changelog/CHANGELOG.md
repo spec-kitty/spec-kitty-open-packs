@@ -73,6 +73,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ARIA in HTML and Using ARIA, the WAI tutorials and the ARIA Authoring Practices; keeping
   optional tags is a stated deviation from Google. It suggests `css-conventions` as its companion.
 
+- **`frontend-freddy` and `node-norris` require their new conventions styleguides** (#131).
+  `frontend-freddy` now `requires` `typescript-conventions`, `html-conventions` and
+  `css-conventions`; `node-norris` `requires` `typescript-conventions`. The language-profile test
+  maps the three languages and exempts only `javascript`, which the #131 ruling left open.
+
 - **`pr:pause-ci` pauses a parked pull request, and `Validate packs gate` is the one required check**
   (#106, ADR 2026-11-01-1). There is no merge queue: in core it duplicated CI runs rather than
   avoiding reruns.
