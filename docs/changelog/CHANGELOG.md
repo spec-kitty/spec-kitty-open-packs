@@ -382,6 +382,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **`built-in` no longer holds two empty `__init__.py` files** (#94). The Python package markers in
+  `missions/built_in_step_contracts/` and `toolguides/system_tools/` were leftovers of the pack's
+  time inside core's package; no file-kind rule classifies them, and nothing imports them.
+
 - **Each `quality-assurance` toolguide's id is now its file stem** (#93). `qa-promise-trace-lint-guide`
   and `qa-result-ingest-guide` are renamed to `qa-promise-trace-lint` and `qa-result-ingest`, their
   guides to `<id>.guide.md`, and the pack's graph nodes, edges and README follow. A consumer that
