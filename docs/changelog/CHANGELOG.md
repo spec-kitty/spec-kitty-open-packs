@@ -444,6 +444,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   handoff switch `role` instead of pinning `reviewer-renata` or `implementer-ivan`. Retiring the
   field itself follows in core after the charter service integration.
 
+- **Internal procedures no longer regenerate the docs index in a PR** (#105). The
+  `issue-to-mission-delivery`, `landing-contributor-prs` and `memory-curation-and-escalation`
+  procedures told agents to run `docs_index --write` and `freshen_adr_inventory` (or register pages
+  in the page inventory and retrieval index). Since spec-kitty/spec-kitty#6993 a CI guard refuses
+  those edits and the `ci/regen-docs-index` bot PR regenerates them on main, so the procedures now
+  say to leave them alone and to take main's copy on a rebase conflict.
+
 - **`packs/internal/PROVENANCE.md` no longer calls `spec-kitty-charter` a vendored mirror** (#114).
   Since spec-kitty/spec-kitty-charter#364 the charter keeps gitignored copies that
   `./gradlew syncPacks` syncs at `openPacksRef`, with tree digests in `packs/open-packs.lock.yaml`.
