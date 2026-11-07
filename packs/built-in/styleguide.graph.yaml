@@ -261,9 +261,6 @@ edges:
   target: styleguide:quadruple-a-test-format
   relation: requires
 - source: styleguide:testing-principles
-  target: styleguide:quadruple-a-test-format
-  relation: suggests
-- source: styleguide:testing-principles
   target: styleguide:test-desiderata-and-boundaries
   relation: suggests
 - source: styleguide:testing-principles

@@ -410,6 +410,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **One edge per component pair in the built-in graph** (#135). Seventeen pairs carried both a
+  `requires` and a `suggests` edge, against charter ADR-0027: 14 profile-to-directive pairs for
+  `DIRECTIVE_030`, `034` and `041`, plus `bdd-scenario-lifecycle` and `bdd-scenario-formulation` to
+  `given-when-then-authoring`, and `testing-principles` to `quadruple-a-test-format`. Each keeps its
+  `requires` edge, which already dominated the walk, and takes over the twin's `when` and `reason`.
+  A new gate test refuses a duplicate in one direction and any new pair with an edge each way. The
+  39 existing two-way pairs stay in a shrink-only baseline until they get curation rulings.
+
 - **`qa` step prompts name the role a step asks for, not a bound profile** (#67). The seven
   `missions/qa/steps/*.prompt.md` files had a "Bound agent-profile" section naming one profile.
   It is now "Requested role": the role from `qa.mission-type.yaml`, and which profile the pack's
