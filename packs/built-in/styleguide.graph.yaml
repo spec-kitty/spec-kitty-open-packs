@@ -11,6 +11,9 @@ nodes:
 - urn: styleguide:common-docs
   kind: styleguide
   label: Common Docs Styleguide
+- urn: styleguide:css-conventions
+  kind: styleguide
+  label: CSS Conventions Styleguide
 - urn: styleguide:deployable-skill-authoring
   kind: styleguide
   label: Deployable Skill Authoring Styleguide

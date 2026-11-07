@@ -58,6 +58,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   guide; rules with no source are marked as house rules. Shaped after the penguin-pragmatic-patterns
   primers.
 
+- **Built-in `css-conventions` styleguide** (#131). Conventions for CSS, with the emphasis on media
+  types and media queries: intrinsic layout first, mobile-first `min-width` queries, content-driven
+  breakpoints in `em`, only the `all`, `screen` and `print` media types, print styles, user-preference
+  and input-capability media features, plus naming, specificity and formatting rules. Paraphrased
+  from, and checked against, the Google HTML/CSS Style Guide and MDN (media queries, @media,
+  printing, user-preference features, container queries, @layer and !important); rules with no
+  source are marked as house rules.
+
 - **`pr:pause-ci` pauses a parked pull request, and `Validate packs gate` is the one required check**
   (#106, ADR 2026-11-01-1). There is no merge queue: in core it duplicated CI runs rather than
   avoiding reruns.

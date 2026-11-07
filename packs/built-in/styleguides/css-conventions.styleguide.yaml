@@ -1,0 +1,207 @@
+schema_version: "1.0"
+id: css-conventions
+title: CSS Conventions Styleguide
+scope: code
+applies_to_languages:
+  - css
+
+# Sources (paraphrased, not copied; checked against the live pages on 2026-11-07):
+#   - Google HTML/CSS Style Guide: https://google.github.io/styleguide/htmlcssguide.html
+#   - MDN, media queries (layout module): https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Media_queries
+#   - MDN, @media (media types and features): https://developer.mozilla.org/en-US/docs/Web/CSS/@media
+#   - MDN, using media queries: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries
+#   - MDN, printing: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Printing
+#   - MDN, prefers-reduced-motion, prefers-color-scheme, forced-colors:
+#     https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion,
+#     https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme,
+#     https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors
+#   - MDN, container queries: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries
+#   - MDN, @layer and !important: https://developer.mozilla.org/en-US/docs/Web/CSS/@layer,
+#     https://developer.mozilla.org/en-US/docs/Web/CSS/important
+# House rules (no source above): design tokens in custom properties, keeping a media query next
+# to the rule it modifies, and the print extras (link targets, no breaks inside figures and rows).
+# Emphasis on media types and media queries, as ruled on spec-kitty-open-packs#131. Shape
+# follows the primer approach of penguin-pragmatic-patterns, fitted to the styleguide schema:
+# one rule per principle, idioms as patterns, failure modes as anti_patterns. Markup rules live
+# in the companion html-conventions styleguide; the viewport meta tag is set there.
+
+principles:
+  - "Write valid CSS where possible; deviate only for a validator bug or a deliberate proprietary syntax. Browser hacks and user-agent detection are a last resort; to use a feature that is not supported everywhere, gate it with an `@supports` feature query."
+  - "Class names say what an element is for, not how it looks (`.alert-error`, not `.red-text`); use a generic name for a purely presentational helper. Lowercase, words separated by hyphens, as short as possible but as long as necessary."
+  - "Keep specificity low: avoid ID selectors, do not qualify class names with type selectors (`ul.nav`), and leave out unnecessary ancestor selectors. Order competing groups of rules with cascade layers (`@layer`) rather than ever-stronger selectors."
+  - "Avoid `!important`; override with selector specificity instead. Where a UI requirement truly needs an important declaration, comment why next to it, so maintainers do not override it."
+  - "Formatting: indent block content by two spaces, put a space between the last selector and `{` on the same line, start each selector and each declaration on a new line, put a space after every colon and a semicolon after every declaration (including the last), and separate rules with a blank line. Use single quotes for attribute selectors and property values, and none in `url()`."
+  - "Declaration order: alphabetical unless your tooling enforces another consistent order."
+  - "Values: use shorthand properties whenever possible, even when only one value is set; leave out units after a zero length; always include the leading zero (`0.8em`); write hex colours in lowercase and in three characters where possible."
+  - "Intrinsic layout first: flexbox and grid (for example `repeat(auto-fill, minmax(12.5rem, 1fr))`) adapt to the space without a breakpoint. Ask whether you need a media query at all, and add one only where the content starts to break."
+  - "Mobile-first is usually the better approach: unqueried styles serve the narrowest viewport, and each `width >=` query adds to them, rather than desktop styles undone by narrower overrides."
+  - "Breakpoints come from the content, not from a list of devices, and are written in `em` so they follow the user's font size. Custom properties do not work inside a media condition, so to name breakpoints use a preprocessor variable or a build-time token, and say in a comment what breaks at each one."
+  - "Media types: use only `all` (the default), `screen` and `print`. The other CSS 2.1 and Media Queries 3 media types (`tv`, `handheld`, `projection` and so on) are deprecated in Media Queries 4 and should not be used. The `only` keyword has no effect in modern browsers."
+  - "Ship print styles for printable content, in `@media print` or a `<link media=\"print\">` stylesheet: hide navigation and interactive controls, and drop backgrounds and shadows. As house rules, print link targets after the link text and avoid page breaks inside figures and table rows."
+  - "Respect user preferences: use `prefers-reduced-motion` to remove or reduce non-essential motion, which can trigger discomfort for people with vestibular disorders; use `prefers-color-scheme` to offer a light or dark theme. Do not build a separate design for `forced-colors: active`; make only small tweaks where the forced palette leaves something illegible."
+  - "Query input capabilities, not sizes, for interaction: touchscreens and keyboard users cannot hover, so use `(hover: hover)` before relying on hover, and `(pointer: coarse)` to enlarge hit areas."
+  - "Write media conditions so they read plainly (`and`, a comma for 'or', `not`, range syntax such as `(40em <= width < 64em)`), keep each query next to the rule it modifies, and use a container query when a component should respond to its own space rather than the viewport."
+
+patterns:
+  - name: Mobile-First Enhancement
+    description: "Base styles fit the narrowest screen; wider layouts are added with `width >=` queries in `em`."
+    good_example: |
+      .product-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+      }
+
+      @media (width >= 40em) {
+        .product-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (width >= 64em) {
+        .product-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+  - name: Intrinsic Grid Without Breakpoints
+    description: "Let the grid derive the number of columns from the available space, so no media query is needed."
+    good_example: |
+      .card-list {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+      }
+
+  - name: Reduced-Motion Opt-In
+    description: "Animate only when the user has not asked for reduced motion; the static state is the default."
+    good_example: |
+      .toast {
+        opacity: 1;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .toast {
+          animation: slide-in 200ms ease-out;
+        }
+      }
+
+  - name: Print Stylesheet
+    description: "Make printed pages readable: remove controls, expose link targets, keep blocks together."
+    good_example: |
+      @media print {
+        button,
+        nav,
+        .site-footer {
+          display: none;
+        }
+
+        a[href^='http']::after {
+          content: ' (' attr(href) ')';
+        }
+
+        figure,
+        tr {
+          break-inside: avoid;
+        }
+      }
+
+anti_patterns:
+  - name: Desktop-First Overrides
+    description: "Desktop styles undone by narrower queries make every small screen pay for the large layout and multiply overrides."
+    bad_example: |
+      .layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+      }
+
+      @media (max-width: 768px) {
+        .layout {
+          display: block;
+        }
+      }
+    good_example: |
+      .layout {
+        display: block;
+      }
+
+      @media (width >= 48em) {
+        .layout {
+          display: grid;
+          grid-template-columns: 18.75rem 1fr;
+        }
+      }
+
+  - name: Device-Named Breakpoints
+    description: "Breakpoints aimed at particular devices go stale with every new screen size; there are far too many devices to target."
+    bad_example: |
+      /* iPhone */
+      @media (min-width: 375px) and (max-width: 414px) {
+        .article {
+          columns: 1;
+        }
+      }
+    good_example: |
+      /* Beyond this width the line length of .article exceeds about 75ch. */
+      @media (width >= 52em) {
+        .article {
+          columns: 2;
+        }
+      }
+
+  - name: Deprecated Media Types
+    description: "`handheld`, `tv` and `projection` are deprecated and should not be used; query the capability you care about instead."
+    bad_example: |
+      @media handheld {
+        .menu {
+          font-size: 1.2em;
+        }
+      }
+    good_example: |
+      @media (pointer: coarse) {
+        .menu a {
+          min-block-size: 2.75rem;
+        }
+      }
+
+  - name: Hover-Only Interaction
+    description: "Content revealed only on hover cannot be reached on touch screens; show interactive features by default and add hover effects only where hover exists."
+    bad_example: |
+      .card .actions {
+        display: none;
+      }
+
+      .card:hover .actions {
+        display: flex;
+      }
+    good_example: |
+      .card .actions {
+        display: flex;
+      }
+
+      @media (hover: hover) {
+        .card:hover {
+          box-shadow: 0 0 0 2px #06c;
+        }
+      }
+
+  - name: Specificity Escalation
+    description: "ID selectors and `!important` win today and force a stronger selector tomorrow; the stylesheet becomes order-fragile."
+    bad_example: |
+      #checkout .button.primary {
+        background: #00f !important;
+      }
+    good_example: |
+      @layer components {
+        .button-primary {
+          background: #00f;
+        }
+      }
+
+tooling:
+  linter: "Stylelint with stylelint-config-standard, plus stylelint-order for alphabetical declarations"
+  formatter: "Prettier (singleQuote: true, to match Google's quoting rule)"
+  validator: "W3C CSS Validation Service (expect false alarms on newer syntax such as @layer, range queries and container queries)"
+  vendor_prefixes: "Autoprefixer driven by a browserslist query (no hand-written prefixes)"
+
+quality_test: "Does the page work at 320px wide, at 200% zoom, printed, with reduced motion requested and on a touch-only device, without a single rule written for a named device?"

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: d460769e739688875cdb23d58d827ee1d71b0137c03a2e333379334acd7850e9
+manifest_hash: 77fe60ccc275fe9dd8ee81de9acb787a533b7bf62788264c0a4996f62157f3ad
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -620,7 +620,7 @@ constituents:
 - kind: styleguide
   id: css-conventions
   path: styleguides/css-conventions.styleguide.yaml
-  content_hash: 597d3f2bc5726f842beef7515f939c8a69f98e485dc4bed896f61467d19aa116
+  content_hash: 7fa6041067d7f741b56d6bb1433742d1ead263159d0a24682d7c9c628fb1cb7d
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
