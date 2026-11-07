@@ -382,6 +382,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **`packs/internal/PROVENANCE.md` no longer calls `spec-kitty-charter` a vendored mirror** (#114).
+  Since spec-kitty/spec-kitty-charter#364 the charter keeps gitignored copies that
+  `./gradlew syncPacks` syncs at `openPacksRef`, with tree digests in `packs/open-packs.lock.yaml`.
+  The page now describes that sync and drops the re-vendoring step: a downstream repository takes
+  the pack at a pinned commit, never edits or re-mints it, and gets a change through a pin bump.
+  Prose only; no pack content or `pack_id` changes.
+
 - **`built-in` no longer holds two empty `__init__.py` files** (#94). The Python package markers in
   `missions/built_in_step_contracts/` and `toolguides/system_tools/` were leftovers of the pack's
   time inside core's package; no file-kind rule classifies them, and nothing imports them.
