@@ -382,6 +382,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **`qa` step prompts name the role a step asks for, not a bound profile** (#67). The seven
+  `missions/qa/steps/*.prompt.md` files had a "Bound agent-profile" section naming one profile.
+  It is now "Requested role": the role from `qa.mission-type.yaml`, and which profile the pack's
+  `qa` preset activates for it (none for discovery's `researcher`).
+
 - **`packs/internal/PROVENANCE.md` no longer calls `spec-kitty-charter` a vendored mirror** (#114).
   Since spec-kitty/spec-kitty-charter#364 the charter keeps gitignored copies that
   `./gradlew syncPacks` syncs at `openPacksRef`, with tree digests in `packs/open-packs.lock.yaml`.

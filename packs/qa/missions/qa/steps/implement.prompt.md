@@ -5,9 +5,9 @@
 This step is the `implement.md`-equivalent stage: it executes the designed test suite and
 records defects found during execution.
 
-## Bound agent-profile
+## Requested role
 
-`qa-test-executor-elena`.
+This step asks for the `test-executor` role. The pack's `qa` preset activates `qa-test-executor-elena` for it.
 
 ## Directive citations
 

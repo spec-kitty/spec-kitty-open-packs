@@ -6,9 +6,9 @@ This step is the `review.md`-equivalent stage: reviewing execution results for g
 no-fake-green outcomes and producing the test report. In spirit, the last step before a release
 decision — but the actual release decision is made at `accept`.
 
-## Bound agent-profile
+## Requested role
 
-`qa-reporter-rhea`.
+This step asks for the `qa-reporter` role. The pack's `qa` preset activates `qa-reporter-rhea` for it.
 
 ## Directive citation
 

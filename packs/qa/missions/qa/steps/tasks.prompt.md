@@ -5,9 +5,9 @@
 This step is the `tasks.md`-equivalent stage: it designs the concrete test suite and work
 packages that implement the test plan, including exploratory charters.
 
-## Bound agent-profile
+## Requested role
 
-`qa-test-designer-tessa`.
+This step asks for the `test-designer` role. The pack's `qa` preset activates `qa-test-designer-tessa` for it.
 
 ## Directive citations
 

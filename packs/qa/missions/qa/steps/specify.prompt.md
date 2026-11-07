@@ -5,9 +5,9 @@
 This step is the `spec.md`-equivalent stage: it defines the QA test strategy — scope, risk
 areas, and what will and will not be tested.
 
-## Bound agent-profile
+## Requested role
 
-`qa-strategist-quinn`.
+This step asks for the `qa-strategist` role. The pack's `qa` preset activates `qa-strategist-quinn` for it.
 
 ## Directive citations
 
