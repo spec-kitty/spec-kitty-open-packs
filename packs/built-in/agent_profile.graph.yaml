@@ -332,6 +332,18 @@ edges:
   target: tactic:tdd-red-green-refactor
   relation: requires
   reason: Drives frontend implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
+- source: agent_profile:frontend-freddy
+  target: styleguide:css-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (css); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+- source: agent_profile:frontend-freddy
+  target: styleguide:html-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (html); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+- source: agent_profile:frontend-freddy
+  target: styleguide:typescript-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
 - source: agent_profile:generic-agent
   target: directive:DIRECTIVE_028
   relation: requires
@@ -594,6 +606,10 @@ edges:
   target: tactic:tdd-red-green-refactor
   relation: requires
   reason: Drives Node.js implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
+- source: agent_profile:node-norris
+  target: styleguide:typescript-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
 - source: agent_profile:paula-patterns
   target: directive:DIRECTIVE_001
   relation: requires

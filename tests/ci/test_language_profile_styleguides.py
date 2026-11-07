@@ -19,10 +19,14 @@ CONVENTIONS = {
     "python": "python-conventions",
     "php": "drupal-conventions",
     "twig": "drupal-conventions",
+    "typescript": "typescript-conventions",
+    "html": "html-conventions",
+    "css": "css-conventions",
 }
 
-# Languages with no conventions styleguide in built-in yet (open question on #131).
-EXEMPT = {"javascript", "typescript", "html", "css"}
+# Languages with no conventions styleguide in built-in, by maintainer ruling on #131 (2026-11-07):
+# javascript stays exempt; typescript-conventions is type-system centred and does not cover it.
+EXEMPT = {"javascript"}
 
 
 def _requires_edges() -> set[tuple[str, str]]:
