@@ -326,6 +326,7 @@ edges:
   - source: "tactic:spec-kitty-ratchet-cost"
     target: "built-in::tactic:frozen-baseline-shrink-only-ratchet"
     relation: refines
+    when: "when applying the repository-agnostic ratchet mechanics this tactic prices"
   # Backlog-triage authoring chain (moved from built-in). Ported
   # verbatim from the built-in tactic.graph.yaml / procedure.graph.yaml edge
   # set for these two artifacts, plus their outbound edges to built-in
@@ -335,9 +336,11 @@ edges:
   - source: "tactic:tracker-backlog-iterative-deepening"
     target: "procedure:tracker-organisation-workflow"
     relation: suggests
+    when: "Sequencing the tracker-wide organisation sweep into widening rings."
   - source: "tactic:tracker-backlog-iterative-deepening"
     target: "built-in::tactic:moscow-scoping-lens"
     relation: suggests
+    when: "Scoping what an emergent epic must, should, could, or won't carry once a ring surfaces it."
   - source: "procedure:tracker-organisation-workflow"
     target: "tactic:tracker-backlog-iterative-deepening"
     relation: requires
@@ -630,14 +633,17 @@ edges:
   - source: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     target: "procedure:targeted-mission-test-run"
     relation: requires
+    when: "when choosing which tests to run during mission work"
     reason: "Names the exact test files and gates for mission work, bounds parallelism, records the commands, and leaves out-of-radius reds to CI."
   - source: "directive:OPERATOR_SIGNAL_CONTRACT"
     target: "procedure:operator-signal-emission"
     relation: requires
+    when: "when a decision or failure has to reach the operator"
     reason: "Emits each decision through an existing operator-visible sink, pairs each machine code with a human sentence, and pins that signal in the red-first regression."
   - source: "directive:SPEC_KITTY_RED_MAIN_POLICY"
     target: "procedure:spec-kitty-red-main-triage"
     relation: requires
+    when: "when a check is red on main"
     reason: "Traces every red on main to a P0 issue with a nightly-only reproduction and classifies reds with the landing-pass rules."
   - source: "directive:SPEC_KITTY_DOCS_CONVENTIONS"
     target: "built-in::directive:DIRECTIVE_042"

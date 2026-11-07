@@ -27,7 +27,7 @@ For teams who want to *consume* packs in their own Spec Kitty projects.
 - [Use a Charter Pack](use-a-charter-pack.md) — register a pack under `charter_packs`, fetch
   it, activate a preset, and confirm it participates in context resolution.
 - [Compose packs](compose-packs.md) — vertical (built-in → org → project) and horizontal
-  (independent packs + compound `depends_on` packs) composition, the two forms of a cross-pack
+  (independent packs + compound `depends_on` packs) composition, how a cross-pack
   reference, and how conflicts resolve.
 
 ## Authoring packs

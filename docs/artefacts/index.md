@@ -49,16 +49,15 @@ intent: >
 enforcement: required
 scope: >
   Applies when a defect class has been identified as recurring …
-procedures:
-  - Identify the structural gap …
 ```
 
-Key fields: `id`, `title`, `intent`, `enforcement`, `scope`, `procedures`, `integrity_rules`,
-`validation_criteria`, `references`.
+Key fields: `id`, `title`, `intent`, `enforcement`, `scope`, `integrity_rules`,
+`validation_criteria`. A directive reaches its procedures through edges in the pack's graph
+documents, usually `requires`.
 
 ## Tactic
 
-Key fields: `id`, `name`, `purpose`, `steps`, `failure_modes`, `references`.
+Key fields: `id`, `name`, `purpose`, `steps`, `failure_modes`.
 
 ## Styleguide
 
@@ -71,7 +70,7 @@ Key fields: `id`, `tool`, `title`, `guide_path` (the sibling `<id>.guide.md`), `
 
 ## Paradigm
 
-Key fields: `id`, `name`, `summary`, `directive_refs`.
+Key fields: `id`, `name`, `summary`.
 
 ## Procedure
 

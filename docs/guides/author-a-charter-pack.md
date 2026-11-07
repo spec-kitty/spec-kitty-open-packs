@@ -45,8 +45,8 @@ my-pack/
 
 Every pack needs a `pack.yaml`: [the gate](validate-a-pack.md) and the charter service both refuse a
 pack without one. Its fields are in [the contracts reference](../contracts/index.md). If your pack
-references another pack's artifact, it declares `depends_on` and qualifies that reference, in the
-form its place takes. [Compose packs](compose-packs.md) has both forms.
+references another pack's artifact, it declares `depends_on` and qualifies that reference as
+`<pack>::<kind>:<id>`. [Compose packs](compose-packs.md) has the details.
 
 > **Do not hand-write `pack-manifest.yaml`.** It is written by tooling (`charter fetch` for
 > non-git sources, `charter pack assemble`); `charter pack validate` does not read it, so a

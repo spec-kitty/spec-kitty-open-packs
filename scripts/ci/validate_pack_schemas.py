@@ -47,7 +47,7 @@ from jsonschema import Draft202012Validator
 CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
 # Commit of spec-kitty-charter whose contracts/packs/ this repository validates against.
 # A commit on charter main, bumped deliberately. Never float to a branch.
-CHARTER_COMMIT = "85c20fa148bd9cb1517e9e95d3d13c3718201dd4"
+CHARTER_COMMIT = "fb87f5162c9e529f0252801a5dc8d3df452e25bc"
 CONTRACT_PATH = "contracts/packs"
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.
@@ -744,11 +744,6 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
 #: these exists. It skips guard and lifecycle too, but graph documents do not admit them yet and no
 #: pack writes one, so they are not listed until one does.
 UNHELD_KINDS = frozenset({"action"})
-#: Schemas whose files write typed references (``{type, id}``) in ``references``; those in
-#: ``STEPPED_SCHEMAS`` also write them in each step's ``references``. Bare id lists mean one kind.
-TYPED_REFERENCE_SCHEMAS = frozenset({"directive", "paradigm", "tactic", "procedure", "mission-type"})
-STEPPED_SCHEMAS = frozenset({"tactic", "mission-type"})
-BARE_ID_LISTS = {"directive": ("procedures", "procedure"), "paradigm": ("directive_refs", "directive")}
 
 
 #: A template's id is its path: ``templates/<path>``, or ``<type>/<path>`` under a mission type.
@@ -781,39 +776,15 @@ def split_qualifier(reference: str) -> tuple[str | None, str]:
     return (qualifier, rest) if separator else (None, reference)
 
 
-def written_references(pack_dir: Path, contract: Contract | None) -> Iterator[tuple[str, str | None, str]]:
-    """``(file, qualifier, urn)`` for every reference the charter reads from a pack: both ends of each
-    edge of its graph documents and, given the contract, what its artifact files write (the fields of
-    the charter's ``CharterArtifact.writtenReferences``). Agent profiles mint none there, so none here."""
+def edge_references(pack_dir: Path) -> Iterator[tuple[str, str | None, str]]:
+    """``(file, qualifier, urn)`` for both ends of each edge of a pack's graph documents, where a
+    pack authors its relationships, guards aside (charter ADR-0064)."""
     for graph in [pack_dir / "drg" / "fragment.yaml", *sorted(pack_dir.glob("*.graph.yaml"))]:
         document = _load_or_none(graph)
         for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
             for end in ("source", "target"):
                 if isinstance(edge, dict) and isinstance(edge.get(end), str):
                     yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", *split_qualifier(edge[end]))
-    for path in sorted(pack_dir.rglob("*.yaml")) if contract is not None else []:
-        file = f"{pack_dir.name}/{path.relative_to(pack_dir).as_posix()}"
-        _, rule = classify(contract, file)
-        schema = rule.schema if rule is not None else None
-        if schema not in TYPED_REFERENCE_SCHEMAS or path.is_symlink() or not path.is_file():
-            continue
-        document = _load_or_none(path)
-        if not isinstance(document, dict):
-            continue
-        steps = document.get("steps") if schema in STEPPED_SCHEMAS else None
-        scopes = [document, *(step for step in steps if isinstance(step, dict))] if isinstance(steps, list) else [document]
-        for scope in scopes:
-            typed = scope.get("references")
-            for ref in typed if isinstance(typed, list) else []:
-                if isinstance(ref, dict) and isinstance(ref.get("type"), str) and isinstance(ref.get("id"), str):
-                    qualifier, node_id = split_qualifier(ref["id"])
-                    yield file, qualifier, f"{ref['type']}:{node_id}"
-        field_name, kind = BARE_ID_LISTS.get(schema, ("", ""))
-        bare = document.get(field_name)
-        for entry in bare if isinstance(bare, list) else []:
-            if isinstance(entry, str):
-                qualifier, node_id = split_qualifier(entry)
-                yield file, qualifier, f"{kind}:{node_id}"
 
 
 def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> set[Path]:
@@ -830,7 +801,7 @@ def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_
     return reached
 
 
-def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]], contract: Contract | None) -> list[str]:
+def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]]) -> list[str]:
     """The composition defects worth catching before the charter service refuses them. The service
     stays the authority: ordering, levels, version ranges and sibling rules are not judged here."""
     loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
@@ -854,7 +825,7 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
         ]
     for pack in pack_dirs:
         closure = _depends_on_closure(pack, descriptors, index["pack_id"])
-        for file, qualifier, urn in written_references(pack, contract):
+        for file, qualifier, urn in edge_references(pack):
             kind, _, node_id = urn.partition(":")
             if qualifier is None:
                 holder = next((other.name for other, nodes in held.items() if (kind, node_id) in nodes), None)
@@ -921,7 +892,7 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
                     )
-    return violations + composition_violations(pack_dirs, held, contract)
+    return violations + composition_violations(pack_dirs, held)
 
 
 # --------------------------------------------------------------------------- CLI

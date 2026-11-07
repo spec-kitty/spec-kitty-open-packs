@@ -4,3 +4,8 @@ title: Never commit credentials to the repository
 severity: high
 description: Secrets come from the environment.
 action_scope: [implement]
+# Fields charter ADR-0064 removed: relationships belong in graph documents.
+references:
+  - {type: tactic, id: some-tactic}
+procedures:
+  - A prose step.

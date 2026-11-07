@@ -82,24 +82,14 @@ Here, every org pack depends on `built-in` and nothing else.
 #### Referencing another pack's artifact
 
 A reference to an artifact another pack holds names that pack. The name is the `name` in its
-`pack.yaml`, never its directory, so `packs/qa` answers to `quality-assurance`. There are two forms,
-and which one applies depends on where the reference is written:
-
-| Where | Form | Example |
-| --- | --- | --- |
-| An end of a graph edge | `<pack>::<kind>:<id>` | `built-in::tactic:bdd-scenario-formulation` |
-| The `id` of a typed reference | `<pack>::<id>` | `built-in::domain-event-capture` |
+`pack.yaml`, never its directory, so `packs/qa` answers to `quality-assurance`. References live on
+graph edges, in the form `<pack>::<kind>:<id>`:
 
 ```yaml
-# An edge in packs/qa/drg/fragment.yaml: the end carries its kind.
+# An edge in packs/qa/drg/fragment.yaml.
 - source: procedure:qa-description-to-acceptance-ci
   target: built-in::tactic:bdd-scenario-formulation
   relation: suggests
-
-# A typed reference in an event-driven directive: `type` already says the kind.
-references:
-  - type: tactic
-    id: built-in::domain-event-capture
 ```
 
 A reference to your own pack's artifact stays bare. The qualified pack must be in your pack's

@@ -6,7 +6,6 @@ import contextlib
 import hashlib
 import io
 import json
-import shutil
 import sys
 import tempfile
 import unittest
@@ -392,11 +391,10 @@ class CompositionChecks(unittest.TestCase):
         return f"pack_id: {pack_id}\nname: {name}\n" + (f"depends_on:\n{entries}" if entries else "")
 
     def built_in(self, directory: str = "built-in", name: str = "built-in", pack_id: str = BUILT_IN) -> Path:
-        """A pack holding tactic `held` and directive `D_1` as files, and an action as a node."""
+        """A pack holding tactic `held` as a file, and an action as a node."""
         return self.write(directory, {
             "pack.yaml": self.descriptor(pack_id, name),
             "tactics/held.tactic.yaml": "id: held\n",
-            "directives/d-1.directive.yaml": "id: D_1\n",
             "drg/fragment.yaml": "nodes:\n  - {id: dev/plan, kind: actions}\nedges: []\n",
         })
 
@@ -453,48 +451,6 @@ class CompositionChecks(unittest.TestCase):
         found = self.found(built_in, self.consumer(files={"tactic.graph.yaml": shard % "tactic:held"}))
         self.assertIn("consumer/tactic.graph.yaml: bare reference 'tactic:held'", found)
 
-    def typed_reference_sites(self, kind: str, reference: str) -> dict[str, tuple[str, str]]:
-        """Every field the charter reads a typed reference from, as test label -> (file, text)."""
-        typed = f"references:\n  - {{type: {kind}, id: '{reference}'}}\n"
-        step = f"steps:\n  - references:\n      - {{type: {kind}, id: '{reference}'}}\n"
-        return {
-            "directive.references": ("directives/d.directive.yaml", f"id: D_X\n{typed}"),
-            "paradigm.references": ("paradigms/p.paradigm.yaml", f"id: p\n{typed}"),
-            "tactic.references": ("tactics/t.tactic.yaml", f"id: t\n{typed}"),
-            "tactic.steps": ("tactics/t.tactic.yaml", f"id: t\n{step}"),
-            "procedure.references": ("procedures/p.procedure.yaml", f"id: p\n{typed}"),
-            "mission-type.references": ("missions/m/m.mission-type.yaml", f"id: m\n{typed}"),
-            "mission-type.steps": ("missions/m/m.mission-type.yaml", f"id: m\n{step}"),
-        }
-
-    def test_every_typed_reference_field_is_read_in_both_the_bare_and_the_qualified_form(self) -> None:
-        built_in = self.built_in()
-        for label, (path, text) in self.typed_reference_sites("tactic", "held").items():
-            with self.subTest(label, form="bare held elsewhere"):
-                self.assertIn(f"consumer/{path}: bare reference 'tactic:held'", self.found(built_in, self.consumer(files={path: text})))
-            shutil.rmtree(self.root / "consumer")
-        for label, (path, text) in self.typed_reference_sites("tactic", "built-in::held").items():
-            with self.subTest(label, form="qualified"):
-                self.assertEqual(self.found(built_in, self.consumer(files={path: text})), "")
-            shutil.rmtree(self.root / "consumer")
-
-    def test_the_bare_id_lists_are_read_under_the_kind_their_field_means(self) -> None:
-        built_in = self.built_in()
-        directive = "id: D_X\nprocedures: [some-prose-entry]\n"
-        self.assertEqual(self.found(built_in, self.consumer(files={"directives/d.directive.yaml": directive})), "")  # held by none
-        holder = self.write("holder", {"pack.yaml": self.descriptor(OTHER, "holder"), "procedures/p.procedure.yaml": "id: proc\n"})
-        for path, text, urn in (
-            ("directives/d.directive.yaml", "id: D_X\nprocedures: [proc]\n", "procedure:proc"),
-            ("paradigms/p.paradigm.yaml", "id: p\ndirective_refs: [D_1]\n", "directive:D_1"),
-        ):
-            with self.subTest(urn=urn):
-                self.assertIn(f"consumer/{path}: bare reference '{urn}'", self.found(built_in, holder, self.consumer(files={path: text})))
-            shutil.rmtree(self.root / "consumer")
-
-    def test_a_bare_typed_reference_no_pack_holds_is_left_alone(self) -> None:
-        tactic = "id: t\nreferences:\n  - {type: procedure, id: nobody-holds-this}\n"
-        self.assertEqual(self.found(self.built_in(), self.consumer(files={"tactics/t.tactic.yaml": tactic})), "")
-
     def test_a_qualifier_outside_the_depends_on_closure_fails_and_a_transitive_one_passes(self) -> None:
         built_in = self.built_in()
         between = self.write("between", {"pack.yaml": self.descriptor(OTHER, "between", (BUILT_IN,)), "tactics/b.tactic.yaml": "id: b\n"})
@@ -516,15 +472,8 @@ class CompositionChecks(unittest.TestCase):
         self.assertEqual(self.found(built_in, sibling, self.consumer(self.edge("sibling::tactic:s"), depends_on=both)), "")
         found = self.found(built_in, sibling, self.consumer(self.edge("built-in::tactic:s"), depends_on=both))
         self.assertIn("consumer/drg/fragment.yaml: reference 'built-in::tactic:s': built-in does not hold 'tactic:s'", found)
-
-    def test_a_typed_reference_writes_its_qualifier_on_the_id_without_a_kind(self) -> None:
-        built_in = self.built_in()
-        path = "tactics/t.tactic.yaml"
-        typed = "id: t\nreferences:\n  - {type: tactic, id: '%s'}\n"
-        self.assertEqual(self.found(built_in, self.consumer(files={path: typed % "built-in::held"})), "")
-        for wrong in ("built-in::tactic:held", "built-in::gone"):
-            with self.subTest(wrong):
-                self.assertIn(f"consumer/{path}: reference", self.found(built_in, self.consumer(files={path: typed % wrong})))
+        kindless = self.found(built_in, sibling, self.consumer(self.edge("built-in::gone"), depends_on=both))
+        self.assertIn("reference 'built-in::", kindless)  # the retired typed form, with no kind, resolves to nothing
 
     def test_a_qualified_action_needs_the_closure_but_no_held_artifact(self) -> None:
         built_in = self.built_in()

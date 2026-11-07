@@ -113,49 +113,64 @@ edges:
 - source: directive:EVD_001
   target: tactic:evd-event-versioning-and-upcasting
   relation: requires
+  when: "when a contract has to change"
 - source: directive:EVD_001
   target: styleguide:evd-event-naming-and-payload
   relation: suggests
+  when: "when deciding what goes in the envelope and what in the payload"
 - source: directive:EVD_002
   target: tactic:evd-event-bridge-port
   relation: requires
+  when: "when wiring producers to the writer"
 - source: directive:EVD_003
   target: styleguide:evd-event-naming-and-payload
   relation: requires
+  when: "when naming an event or shaping its payload"
 - source: directive:EVD_003
   target: built-in::tactic:domain-event-capture
   relation: suggests
+  when: "when deciding which state changes deserve an event at all"
 - source: directive:EVD_004
   target: directive:EVD_001
   relation: requires
+  when: "when declaring which version of an event type a producer writes or a consumer accepts"
 - source: directive:EVD_004
   target: tactic:evd-event-versioning-and-upcasting
   relation: requires
+  when: "when writing the upcaster chain"
 - source: directive:EVD_005
   target: tactic:evd-event-bridge-port
   relation: requires
+  when: "when separating the pure core from adapters"
 - source: directive:EVD_005
   target: tactic:evd-idempotent-consumer
   relation: requires
+  when: "when writing the consumer that performs the effect"
 - source: directive:EVD_006
   target: styleguide:evd-event-naming-and-payload
   relation: suggests
+  when: "when writing the published contract"
 - source: directive:EVD_006
   target: built-in::tactic:anti-corruption-layer
   relation: suggests
+  when: "when a consumer must translate a foreign contract into its own model"
 # Tactics that lean on each other, on built-in doctrine and on the worked example.
 - source: tactic:evd-event-versioning-and-upcasting
   target: tactic:evd-projection-replay
   relation: suggests
+  when: "when proving the change against real history"
 - source: tactic:evd-event-bridge-port
   target: tactic:evd-idempotent-consumer
   relation: suggests
+  when: "when writing the subscribers that perform effects"
 - source: tactic:evd-event-bridge-port
   target: built-in::tactic:reference-architectural-patterns
   relation: suggests
+  when: "when deciding whether ports-and-adapters fits the system at all"
 - source: tactic:evd-projection-replay
   target: tactic:evd-idempotent-consumer
   relation: suggests
+  when: "when a projection is also fed by live, possibly redelivered, events"
 - source: tactic:evd-event-versioning-and-upcasting
   target: asset:evd-worked-example-lane-board
   relation: suggests
@@ -171,3 +186,4 @@ edges:
 - source: tactic:evd-projection-replay
   target: directive:EVD_005
   relation: suggests
+  when: "when separating replay from live delivery"
