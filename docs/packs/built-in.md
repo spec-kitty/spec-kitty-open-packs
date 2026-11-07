@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `71dac5aca712e72a06553ec1698d2776a883f6c03b05816ce55cf67d00ba5800`
+- **Content checksum (sha256):** `a3113e81d7d81524b7a2b36a3bd6cf87358674a957c4ea12c7921cc244ac7879`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -35,17 +35,17 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `directives` | 39 |
 | `tactics` | 122 |
 | `styleguides` | 26 |
-| `toolguides` | 37 |
+| `toolguides` | 36 |
 | `paradigms` | 14 |
 | `procedures` | 65 |
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
-| `missions` | 113 |
+| `missions` | 112 |
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **481** |
+| **Total files** | **479** |
 
 ### Full listing
 
@@ -255,7 +255,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>toolguides</code> (37)</summary>
+<summary><code>toolguides</code> (36)</summary>
 
 - `contextive.guide.md`
 - `contextive.toolguide.yaml`
@@ -291,7 +291,6 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `python-supply-chain.toolguide.yaml`
 - `sonar.guide.md`
 - `sonar.toolguide.yaml`
-- `system_tools/__init__.py`
 - `typescript-mutation-tools.guide.md`
 - `typescript-mutation-tools.toolguide.yaml`
 
@@ -450,10 +449,9 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>missions</code> (113)</summary>
+<summary><code>missions</code> (112)</summary>
 
 - `README.md`
-- `built_in_step_contracts/__init__.py`
 - `built_in_step_contracts/documentation-accept.step-contract.yaml`
 - `built_in_step_contracts/documentation-audit.step-contract.yaml`
 - `built_in_step_contracts/documentation-design.step-contract.yaml`
