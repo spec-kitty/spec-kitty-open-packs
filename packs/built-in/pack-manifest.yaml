@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 1b1717c31c6674a0905cbc3e28e4f071de0b045de1db8fee3ee779739aec7bcc
+manifest_hash: 96c8adc4ee1cbc9b2c8f3f511eb9281cbe696c2813deb71648a8cd7ffd7418ec
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -1092,7 +1092,7 @@ constituents:
 - kind: tactic
   id: reviewer-implementer-role-separation
   path: tactics/reviewer-implementer-role-separation.tactic.yaml
-  content_hash: bcd38003640cc8bbc6e00862fde873b0d10ef3397d7059ae17cff8a328681a3e
+  content_hash: 0783a6b31d1b7c6329565306667e200d184ccae285d589f25ab365e1c0b967b8
 - kind: tactic
   id: safe-to-fail-experiment
   path: tactics/analysis/safe-to-fail-experiment.tactic.yaml

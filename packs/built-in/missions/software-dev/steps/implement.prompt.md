@@ -89,8 +89,8 @@ fetch + when-doing stanza only when the budget would otherwise be exceeded):
 - Any additional action-critical sections the mission declares are appended
   automatically.
 
-**Guaranteed citations** (catalog IDs always present in the prompt when the
-WP frontmatter selects an `agent_profile`):
+**Guaranteed citations** (catalog IDs always present in the prompt once a
+profile is loaded for the WP's `role`):
 
 - Every `DIRECTIVE_NNN` declared in the loaded agent profile's
   `directive-references` list (for example, `python-pedro` cites
@@ -151,17 +151,17 @@ Parse frontmatter for:
 - `execution_mode` -- `code_change` or `planning_artifact`
 - `subtasks` -- ordered list of subtask IDs
 - `dependencies` -- WPs that must be done first
-- `agent_profile` -- agent profile identifier to load (e.g., `implementer-ivan`)
-- `role` -- role within the profile (e.g., `implementer`)
+- `role` -- the role this WP asks for (e.g., `implementer`); the profile is selected from it
+- `agent_profile` -- optional override; empty unless the operator pinned a profile for this WP
 - `agent` -- CLI agent/tool identifier (e.g., `claude`, `codex`)
 - `model` -- optional model override (e.g., `claude-sonnet-4-6`)
 
 ### 2a. Load Agent Profile
 
-Before proceeding, load the agent profile from the WP frontmatter using the `/spk-charter-profile-load` skill (or `spec-kitty agent profile list` to find user-defined profiles). Apply the profile's guidance for the rest of this implementation session.
+Before proceeding, load an agent profile with the `/spk-charter-profile-load` skill and apply its guidance for the rest of this implementation session.
 
-If `agent_profile` is empty, run `spec-kitty agent profile list` and select the best
-available profile for the WP's `task_type` and `authoritative_surface`.
+If the frontmatter sets `agent_profile`, load that profile. Otherwise:
+Select the profile from the WP's `role`: use the profile the active preset activates for that role if there is one; otherwise run `spec-kitty agent profile list` and load a profile whose roles include it, preferring one whose specialization context matches the WP's languages and `authoritative_surface`.
 
 ### 3. Verify Dependencies
 
@@ -333,22 +333,19 @@ After completing bulk renames:
 
 ### 6. Prepare for Review Hand-off
 
-Before moving this WP to `for_review`, update the `agent_profile` field in the WP
-prompt frontmatter to a reviewer profile so the reviewing agent loads the correct
-agent profile automatically.
+Before moving this WP to `for_review`, switch the WP prompt frontmatter to the
+reviewer role, so the reviewing agent selects a reviewer profile from it. Name the
+role, not a profile: which profile fills the role is the preset's (or the operator's)
+choice.
 
-1. Identify the appropriate reviewer profile:
-   ```bash
-   spec-kitty agent profile list --json | grep reviewer
-   ```
-   The default reviewer profile is `reviewer-renata`. Use it unless the mission or
-   charter specifies a different reviewer.
-
-2. Update the WP frontmatter:
+1. Update the WP frontmatter:
    ```yaml
-   agent_profile: "reviewer-renata"
    role: "reviewer"
+   agent_profile: ""  # clear any implementer override
    ```
+
+2. Leave `agent_profile` empty unless the operator asked for a specific reviewer
+   profile on this WP.
 
 3. Commit the updated frontmatter together with your implementation changes with
    `spec-kitty safe-commit <files> -m "<msg>" --to-branch <lane branch>` **before**

@@ -56,8 +56,8 @@ fetch + when-doing stanza only when the budget would otherwise be exceeded):
 - Any additional action-critical sections the mission declares are appended
   automatically.
 
-**Guaranteed citations** (catalog IDs always present in the prompt when the
-WP frontmatter selects a reviewer `agent_profile`):
+**Guaranteed citations** (catalog IDs always present in the prompt once a
+reviewer profile is loaded for the WP's `reviewer` role):
 
 - Every `DIRECTIVE_NNN` declared in the loaded reviewer profile's
   `directive-references` list (for example, `reviewer-renata` cites
@@ -119,15 +119,15 @@ Parse frontmatter for:
 
 ### 2a. Load Agent Profile
 
-Before proceeding with the review, load the agent profile from the WP frontmatter
-using the `/spk-charter-profile-load` skill (or `spec-kitty agent profile list` to browse
-available profiles). Apply the profile's reviewer guidance and self-review gates for
-the rest of this review session.
+Before proceeding with the review, load a reviewer profile with the
+`/spk-charter-profile-load` skill and apply its reviewer guidance and self-review gates
+for the rest of this review session.
 
-The WP frontmatter should already have `agent_profile` set to a reviewer profile
-(e.g., `reviewer-renata`) by the implementing agent before it moved the WP to
-`for_review`. If `agent_profile` is still set to an implementer profile, load the
-implementer profile anyway and note the oversight in your review comments.
+The implementing agent should have set `role: "reviewer"` in the WP frontmatter before
+it moved the WP to `for_review`. If the frontmatter sets `agent_profile`, load that
+profile. Otherwise: Select the profile from the WP's `role`: use the profile the active preset activates for that role if there is one; otherwise run `spec-kitty agent profile list` and load a profile whose roles include it, preferring one whose specialization context matches the WP's languages and `authoritative_surface`.
+If `role` still says `implementer`, review under the reviewer role anyway and note the
+oversight in your review comments.
 
 <!-- spdd:reasons-block:start -->
 
@@ -294,19 +294,18 @@ spec-kitty agent tasks move-task WPxx --to approved --actor <name> --mission <ha
 
 ### On Rejection
 
-Before rejecting, update `agent_profile` in the WP frontmatter back to the
-implementer profile so the next implementation cycle starts with the right context:
+Before rejecting, switch the WP frontmatter back to the implementer role so the next
+implementation cycle selects an implementer profile again:
 
-1. Identify the implementer profile that worked on this WP (run
-   `spec-kitty agent tasks status --mission <handle>` to find the last `in_progress` actor).
-   Alternatively, use the default: `implementer-ivan` (or `python-pedro`/`java-jenny`
-   for language-specific work).
-
-2. Update the WP frontmatter:
+1. Update the WP frontmatter:
    ```yaml
-   agent_profile: "implementer-ivan"
    role: "implementer"
+   agent_profile: ""  # clear any reviewer override
    ```
+
+2. Leave `agent_profile` empty unless the operator pinned a profile for this WP; the
+   profile is selected from the role (a language specialist such as `python-pedro`
+   fills `implementer` when its context matches).
 
 3. Write your review feedback to a file, then commit the updated frontmatter together
    with your review notes **before** running:
