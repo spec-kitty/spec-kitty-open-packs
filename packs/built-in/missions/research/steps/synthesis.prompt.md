@@ -3,7 +3,7 @@ description: Interpret gathered evidence into traceable findings, naming limitat
 ---
 # Findings Synthesis — Interpret the Evidence
 
-**Mission type**: `research` | **Step**: `synthesis` (sequence index 3, depends on `gathering`) | **Agent profile**: `researcher-robbie`
+**Mission type**: `research` | **Step**: `synthesis` (sequence index 3, depends on `gathering`) | **Requested role**: `researcher` (a researcher profile such as `researcher-robbie` fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/findings.md`). Never refer to a file by name alone.
 
