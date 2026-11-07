@@ -227,6 +227,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **Graph documents are the only source of relationships, part B** (#127, charter #240, charter
+  ADR-0064). `CHARTER_COMMIT` moves to the merged charter commit `fb87f51`. 30 org-fragment edges in
+  event-driven, internal and qa gain the `when` text the new contract allows. The composition gate
+  reads references from graph documents only, so `TYPED_REFERENCE_SCHEMAS`, `BARE_ID_LISTS` and
+  `written_references` are gone, and the guides and the missions README no longer describe the
+  dropped fields or a typed-reference form. The `legacy-shapes` fixture now carries the removed fields.
 - **Packs align with the charter contracts, not core releases** (operator ruling, 2026-11-06).
   `CONTRIBUTING.md` records it: packs are validated against the spec-kitty-charter contracts;
   core becomes compatible through the charter service's generated client; adhering to the

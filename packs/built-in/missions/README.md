@@ -18,8 +18,8 @@ one mission-type file, its step prompts and guidelines, and its content template
 Each mission-type directory `<type>/` contains:
 
 - `<type>.mission-type.yaml` — The mission type. It lists the `steps` in run order and the
-  `on_demand_steps`. Each step may name its `role`, its `expected_input_artifacts` and
-  `expected_output_artifacts`, and its `references` to guidance
+  `on_demand_steps`. Each step may name its `role`, its `expected_input_artifacts` and its
+  `expected_output_artifacts`
 - `steps/<step>.prompt.md` — The step prompt, named by the step's `prompt_path`
 - `steps/<step>.guidelines.md` — The step's working notes, named by the step's `guidelines_path`
 - `templates/` — Content scaffolds for output artifacts (spec, plan, tasks, etc.), named by an

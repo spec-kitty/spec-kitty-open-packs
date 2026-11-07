@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/event-driven`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `4a34f1c856134933223d1b2ab2e90df43770146532e970ec5d797214ad840a88`
+- **Content checksum (sha256):** `84be0169ddebd7c1d4ed6f2b863a3ebe8b8ce0d8b861ac9ca4784ec6fea25a84`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

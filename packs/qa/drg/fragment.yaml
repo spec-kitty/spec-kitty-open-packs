@@ -248,24 +248,32 @@ edges:
 - source: tactic:qa-boundary-equivalence-partitioning
   target: directive:QA_004
   relation: suggests
+  when: "when the exit criteria frozen before execution require boundary/equivalence-partition coverage of a requirement's input domain, so the partitioned test-case set must be fully derived before that freeze point"
 - source: tactic:qa-exploratory-charter-writing
   target: directive:QA_006
   relation: suggests
+  when: "when writing a charter before a timeboxed exploratory session"
 - source: tactic:qa-flaky-test-quarantine
   target: directive:QA_003
   relation: suggests
+  when: "when quarantining a flaky test, so its exclusion and attempts stay visible in the recomputed verdict"
 - source: tactic:qa-pairwise-test-reduction
   target: directive:QA_004
   relation: suggests
+  when: "when the exit criteria frozen before execution require pairwise parameter coverage, so the covering set must be generated before that freeze point"
 - source: tactic:qa-promise-elicitation
   target: styleguide:qa-promise-page
   relation: suggests
+  when: "when writing the page for each candidate"
 - source: tactic:qa-regression-suite-selection
   target: directive:QA_001
   relation: suggests
+  when: "when selecting, for a specific change, the regression tests that trace to the requirements the change could affect"
 - source: tactic:qa-risk-based-test-prioritization
   target: directive:QA_005
   relation: suggests
+  when: "when ranking test cases by risk before a time-boxed execution pass"
 - source: tactic:qa-test-data-minimization
   target: directive:QA_003
   relation: suggests
+  when: "when a minimized test case's re-run result must be verified rather than assumed, so reduced test data cannot silently produce a false-pass result that reads as preserved coverage"
