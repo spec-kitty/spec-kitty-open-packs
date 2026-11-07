@@ -347,11 +347,11 @@ edges:
     reason: "Sequences the backlog sweep in widening time windows so emergent groupings become epics before later rings reach them."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::tactic:moscow-scoping-lens"
-    relation: requires
+    relation: suggests
     reason: "Provides the scoping lens for negotiating what each bucket or slice must, should, could, or won't carry, distinct from the priority label taxonomy."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::procedure:issue-triage-state-machine"
-    relation: requires
+    relation: suggests
     reason: "Per-ticket triage — one category and one state with durable handoff or rejection context — feeding this tracker-wide organisation pass."
   - source: "procedure:tracker-organisation-workflow"
     target: "built-in::styleguide:planning-and-tracking"

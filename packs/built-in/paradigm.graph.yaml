@@ -82,13 +82,13 @@ edges:
   relation: requires
 - source: paradigm:brownfield-onboarding
   target: procedure:adversarial-squad-deployment
-  relation: requires
+  relation: suggests
 - source: paradigm:brownfield-onboarding
   target: procedure:legacy-codebase-triage
   relation: requires
 - source: paradigm:brownfield-onboarding
   target: tactic:delete-the-assertion-not-the-test
-  relation: requires
+  relation: suggests
 - source: paradigm:brownfield-onboarding
   target: tactic:forensic-repository-audit
   relation: requires
