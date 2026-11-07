@@ -34,8 +34,8 @@ work package until a current analysis report exists.
 | `accept` | Validate mission completeness before consolidation |
 
 A step names the role it needs, never a profile; the activation preset decides which
-profiles are active. The profile for a work package is recorded in the WP prompt
-frontmatter (`agent_profile`).
+profiles are active. A work package likewise records the role it asks for in its prompt
+frontmatter (`role`); `agent_profile` there is an optional override, normally empty.
 
 ## Contents
 

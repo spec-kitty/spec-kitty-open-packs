@@ -109,8 +109,8 @@ subtasks: {subtasks}
 owned_files: {owned_files}
 authoritative_surface: "{longest common path prefix of owned_files}"
 execution_mode: "{execution_mode}"
-agent_profile: ""  # filled in Step 4a — profile identifier (e.g., implementer-ivan)
-role: ""           # filled in Step 4a — role within the profile (e.g., "implementer")
+role: ""           # filled in Step 4a — the role this WP asks for (e.g., "implementer")
+agent_profile: ""  # optional override; leave empty so the profile is selected from role
 agent: ""          # filled in Step 4a — CLI agent identifier (claude, codex, copilot, etc.)
 model: ""          # filled in Step 4a — model identifier (e.g., claude-sonnet-4-6), optional
 ---
@@ -119,17 +119,17 @@ model: ""          # filled in Step 4a — model identifier (e.g., claude-sonnet
 **IMPORTANT — `plan_concern_refs` lives in `wps.yaml` only.** Do NOT copy `plan_concern_refs` into WP prompt frontmatter. `WPMetadata` uses `extra="forbid"`, so any WP prompt file with `plan_concern_refs` in its frontmatter will cause `finalize-tasks --validate-only` to raise a `ValidationError`.
 
 Body sections (in order):
-0. `## ⚡ Do This First: Load Agent Profile` — **REQUIRED. Must be the first section after the H1 title, before Objective.** Instructs the implementing agent to load the assigned profile via the `/spk-charter-profile-load` skill before reading anything else. Use this exact structure, substituting frontmatter values:
+0. `## ⚡ Do This First: Load Agent Profile` — **REQUIRED. Must be the first section after the H1 title, before Objective.** Instructs the implementing agent to load a profile for the WP's role via the `/spk-charter-profile-load` skill before reading anything else. Use this exact structure, substituting frontmatter values:
    ```markdown
    ## ⚡ Do This First: Load Agent Profile
 
-   Use the `/spk-charter-profile-load` skill to load the agent profile specified in the frontmatter, and behave according to its guidance before parsing the rest of this prompt.
+   Use the `/spk-charter-profile-load` skill to load an agent profile for the role below, and behave according to its guidance before parsing the rest of this prompt.
 
-   - **Profile**: `{agent_profile}`
    - **Role**: `{role}`
+   - **Profile override**: `{agent_profile}` (empty means: select from the role)
    - **Agent/tool**: `{agent}`
 
-   If no profile is specified, run `spec-kitty agent profile list` and select the best match for this work package's `task_type` and `authoritative_surface`.
+   If no profile override is set, use the profile the active preset activates for the role; otherwise run `spec-kitty agent profile list` and load a profile whose roles include it, preferring one whose specialization context matches this work package's languages and `authoritative_surface`.
 
    ---
    ```
@@ -226,9 +226,9 @@ spec-kitty agent action implement <WP-id> --agent <name> --mission <mission-slug
 - **Where per-WP design notes go**: design notes, plan-marker edits, and other `kitty-specs/` deliverables belong in their own separate confined `planning_artifact` WP, with every `owned_files` entry under `kitty-specs/` or `docs/`. Split a mixed WP into a planning WP plus a code WP rather than mixing the two ownership kinds.
 - Agents working on a WP should prefer to stay within their `owned_files` list; a small, well-justified out-of-map edit is acceptable when recorded with a one-line rationale (the no-overlap rule above is the real guard against parallel-WP collisions).
 
-### 4a. Assign Agent Profiles
+### 4a. Assign Roles
 
-After all WP files are written and `wps.yaml` is updated, review all available doctrine-provided and user-created agent profiles and assign the most relevant profile to each work package.
+After all WP files are written and `wps.yaml` is updated, assign each work package the role it asks for. A work package names a role, never a profile: the active preset, or profile selection by role and context, decides which profile fills it. Review the available profiles to confirm each role has one.
 
 List available profiles:
 ```bash
@@ -241,9 +241,9 @@ spec-kitty agent profile list --json
 > `specializes_from` lineage, and `enhances`/`overrides` semantics are not applied;
 > state that limitation when selecting a profile this way.
 
-For each WP, select the best-matching profile based on `task_type`, `authoritative_surface`, `owned_files`, and subtask content. Then update the WP prompt file's frontmatter **in place** with:
-- `agent_profile`: the profile identifier (e.g., `"implementer-ivan"`, `"architect-alphonso"`, `"curator-carla"`)
-- `role`: the role within the profile (e.g., `"implementer"`, `"reviewer"`)
+For each WP, choose the role from `task_type`, `authoritative_surface`, `owned_files`, and subtask content. Then update the WP prompt file's frontmatter **in place** with:
+- `role`: the role the WP asks for (e.g., `"implementer"`, `"architect"`, `"curator"`)
+- `agent_profile`: leave empty; set it only when the operator pins a specific profile for this WP
 - `agent`: the CLI agent/tool identifier (e.g., `"claude"`, `"codex"`, `"copilot"`)
 - `model`: the model identifier (optional, e.g., `"claude-sonnet-4-6"`)
 
@@ -255,7 +255,7 @@ After all sub-agents complete, verify each generated prompt:
 - `## ⚡ Do This First: Load Agent Profile` is the **first body section** (before Objective)? ✓ ❌ if missing
 - Subtask count: 3-7? ✓ | 8-10? ⚠️ | 11+? ❌ needs splitting
 - Estimated lines: 200-500? ✓ | 500-700? ⚠️ | 700+? ❌ needs splitting
-- `agent_profile`, `role`, `agent` set for every WP? ✓
+- `role` and `agent` set for every WP, and `agent_profile` empty unless the operator pinned one? ✓
 - owned_files glob patterns non-overlapping across all WPs? ✓
 - Can implement in one session? ✓ | Multiple sessions needed? ❌ needs splitting
 

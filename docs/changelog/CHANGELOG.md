@@ -427,6 +427,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   with the role from `research.mission-type.yaml` and names that profile only as an example.
   The built-in tree digest is restamped.
 
+- **Work packages name the role they ask for, not a profile** (#67). In the built-in
+  `software-dev` flow (`tasks-packages`, `tasks`, `implement` and `review` prompts), the three
+  task-prompt templates and the `reviewer-implementer-role-separation` tactic, the WP frontmatter's
+  `role` now drives profile selection: the active preset's profile for that role, or a profile whose
+  roles and specialization context match. `agent_profile` stays in the frontmatter as an optional
+  override, normally empty, so current core keeps working. The review handoff and the rejection
+  handoff switch `role` instead of pinning `reviewer-renata` or `implementer-ivan`. Retiring the
+  field itself follows in core after the charter service integration.
+
 - **`packs/internal/PROVENANCE.md` no longer calls `spec-kitty-charter` a vendored mirror** (#114).
   Since spec-kitty/spec-kitty-charter#364 the charter keeps gitignored copies that
   `./gradlew syncPacks` syncs at `openPacksRef`, with tree digests in `packs/open-packs.lock.yaml`.

@@ -196,7 +196,7 @@ Prompts do not rediscover mission context. Commands do.
      - Derive a kebab-case slug from the title; filename: `WPxx-slug.md`
      - Full path example: `mission_dir/tasks/WP01-create-html-page.md` (use ABSOLUTE path from mission_dir variable)
      - Follow the canonical WP prompt template structure (`task-prompt-template.md`, resolved through the command's template resolver — write the content directly, do not emit instructions to read a template file) to capture:
-     - Frontmatter with `work_package_id`, `subtasks` array, `dependencies`, `planning_base_branch`, `merge_target_branch`, `branch_strategy`, `owned_files`, `authoritative_surface`, `execution_mode`, `agent_profile`, `role`, `agent`, `model` (optional), and history entry
+     - Frontmatter with `work_package_id`, `subtasks` array, `dependencies`, `planning_base_branch`, `merge_target_branch`, `branch_strategy`, `owned_files`, `authoritative_surface`, `execution_mode`, `role`, `agent_profile` (optional override, normally empty), `agent`, `model` (optional), and history entry
        - **`## ⚡ Do This First: Load Agent Profile`** — REQUIRED, must be the first body section (before Objective). Instructs the implementing agent to load the assigned profile via the `/spk-charter-profile-load` skill before reading anything else. See `task-prompt-template.md` for the exact block.
        - Objective, context, detailed guidance per subtask
        - A Branch Strategy section that repeats the planning branch, final merge target, and explains that lane worktrees are allocated per execution lane by `spec-kitty agent action implement` (none for `single_branch`)
