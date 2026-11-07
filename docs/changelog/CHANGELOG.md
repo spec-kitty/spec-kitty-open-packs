@@ -382,6 +382,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Each `quality-assurance` toolguide's id is now its file stem** (#93). `qa-promise-trace-lint-guide`
+  and `qa-result-ingest-guide` are renamed to `qa-promise-trace-lint` and `qa-result-ingest`, their
+  guides to `<id>.guide.md`, and the pack's graph nodes, edges and README follow. A consumer that
+  names `toolguide:qa-promise-trace-lint-guide` or `toolguide:qa-result-ingest-guide` must use the
+  new ids. The script assets keep their ids, which the toolguides now share.
+
 - **Java doctrine advises against jqwik** (#46). Since 1.10.0 the jqwik test engine prints a line
   to stdout that tells AI agents to disregard previous instructions and ignore all jqwik results,
   and agents read that output to judge test evidence. The `java-conventions` styleguide now has an
