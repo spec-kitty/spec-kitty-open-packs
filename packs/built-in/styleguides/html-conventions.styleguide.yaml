@@ -1,0 +1,123 @@
+schema_version: "1.0"
+id: html-conventions
+title: HTML Conventions Styleguide
+scope: code
+applies_to_languages:
+  - html
+
+# Sources (paraphrased, not copied):
+#   - Google HTML/CSS Style Guide: https://google.github.io/styleguide/htmlcssguide.html
+#   - MDN, media queries and the viewport meta tag: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Media_queries
+#   - MDN, <meta> charset placement: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta
+#   - W3C i18n, declaring language in HTML: https://www.w3.org/International/questions/qa-html-language-declarations
+#   - W3C, ARIA in HTML (redundant and conflicting roles): https://www.w3.org/TR/html-aria/
+#   - W3C, Using ARIA (rules of ARIA use; a discontinued draft, kept for its first two rules): https://www.w3.org/TR/using-aria/
+#   - W3C WAI tutorials, headings, form labels and tables: https://www.w3.org/WAI/tutorials/page-structure/headings/,
+#     https://www.w3.org/WAI/tutorials/forms/labels/, https://www.w3.org/WAI/tutorials/tables/
+#   - W3C ARIA Authoring Practices, landmark regions: https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/
+# Deliberate deviation from Google: Google marks "omit optional tags" as optional; this guide keeps
+# optional tags (</p>, </li>, <html>, <head>, <body>) so the structure stays explicit for tools
+# and reviewers. House rules (no source above): running the validator in CI.
+# Shape follows the primer approach of penguin-pragmatic-patterns, fitted to the styleguide
+# schema: one rule per principle, idioms as patterns, failure modes as anti_patterns. The
+# presentation rules live in the companion css-conventions styleguide. Ruling on
+# spec-kitty-open-packs#131.
+
+principles:
+  - "Document skeleton: start with `<!doctype html>`, declare the page language on the `<html lang=\"…\">` element, and put `<meta charset=\"utf-8\">` at the top of `<head>` (it must fall within the first 1024 bytes of the document). Save files as UTF-8 without a byte-order mark."
+  - "Responsive pages declare the viewport: `<meta name=\"viewport\" content=\"width=device-width\">`. Without it, mobile browsers lay the page out in a wide (typically 980px) virtual viewport and scale it down, so width media queries do not match as intended."
+  - "Use each element for its purpose: `<a href>` navigates, `<button>` acts, headings are nested by rank without skipping a level, lists hold lists, and `<table>` holds tabular data only, never layout."
+  - "Mark up page regions with landmark elements (`<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>`), with one `<main>` per page."
+  - "Write valid HTML where possible and check it with a validator (in CI, as a house rule). Validity is a measurable baseline and catches errors a browser silently repairs."
+  - "Separate structure, presentation and behaviour: no `style` attributes, no `on*` handler attributes, no inline `<script>` logic. Presentation lives in stylesheets, behaviour in scripts referenced with `src`."
+  - "Every informative image has `alt` text that says what the image conveys; a decorative image has `alt=\"\"`. Audio and video have captions or transcripts."
+  - "Every form control has a label associated with it, explicitly (`<label for>` matching the control's `id`) or implicitly (a wrapping `<label>`), so assistive technology announces it and a click on the label activates the control."
+  - "Native semantics before ARIA: add a `role` or `aria-*` attribute only when no native element expresses the meaning. Do not restate an element's implicit role, and do not override its native semantics unless there is no alternative."
+  - "Formatting: lowercase element names, attribute names and attribute values (except text and CDATA), two-space indentation with no tabs, a new line for every block, list or table element with its children indented, double quotes around attribute values, no trailing whitespace."
+  - "Leave out `type` on stylesheet links and classic scripts (CSS and JavaScript are the defaults); write `type=\"module\"` only for module scripts. Load embedded resources over HTTPS where they are available over HTTPS."
+  - "Type characters directly in UTF-8; use entity references only for characters with special meaning in HTML (`&lt;`, `&amp;`) and for invisible characters such as non-breaking spaces."
+  - "Hooks: use `class` for styling and `data-*` attributes for scripting. Add an `id` only where it is needed (a `label for`, a fragment link, an ARIA reference), and keep ids unique and hyphenated (a hyphenated id cannot shadow a JavaScript global, since browsers expose ids as `window` properties)."
+
+patterns:
+  - name: Minimal Responsive Document
+    description: "The skeleton every page starts from: doctype, language, charset first, viewport, external stylesheet and deferred script."
+    good_example: |
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width">
+          <title>Order history</title>
+          <link rel="stylesheet" href="/css/site.css">
+          <script src="/js/orders.js" defer></script>
+        </head>
+        <body>
+          <header>…</header>
+          <main>…</main>
+          <footer>…</footer>
+        </body>
+      </html>
+
+  - name: Labelled Form Control
+    description: "Associate each control with a visible label so assistive technology announces it and a click on the label activates the control."
+    bad_example: |
+      <input type="email" placeholder="Email">
+    good_example: |
+      <label for="signup-email">Email</label>
+      <input id="signup-email" type="email" name="email" autocomplete="email">
+
+  - name: Button for Actions, Link for Navigation
+    description: "Pick the element by what activation does; both get keyboard support and the right role for free."
+    good_example: |
+      <a href="/orders/42">View order</a>
+      <button type="button" data-action="cancel-order">Cancel order</button>
+
+anti_patterns:
+  - name: Div as Button
+    description: "A clickable `<div>` has no role, cannot be focused with the keyboard and does not respond to Enter or Space."
+    bad_example: |
+      <div class="btn" onclick="save()">Save</div>
+    good_example: |
+      <button type="submit" class="btn">Save</button>
+
+  - name: Inline Style and Handlers
+    description: "Inline `style` and `on*` attributes mix presentation and behaviour into structure, so they cannot be reused or changed from the stylesheet or script that owns them."
+    bad_example: |
+      <p style="color: red" onclick="dismiss(this)">Payment failed</p>
+    good_example: |
+      <p class="alert alert-error" data-dismissible>Payment failed</p>
+
+  - name: Missing or Redundant Alt Text
+    description: "Without `alt`, assistive technology has nothing to announce in the image's place; `alt=\"divider image\"` adds redundancy. Say what the image conveys, or mark it decorative."
+    bad_example: |
+      <img src="chart-q3.png">
+      <img src="divider.svg" alt="divider image">
+    good_example: |
+      <img src="chart-q3.png" alt="Q3 revenue grew 12% over Q2, led by subscriptions">
+      <img src="divider.svg" alt="">
+
+  - name: ARIA Overriding Native Semantics
+    description: "ARIA in HTML advises against restating an element's implicit role, and changing a heading into presentation removes it from the outline; the native element already carries the right role and behaviour."
+    bad_example: |
+      <button role="button" aria-label="button">Save</button>
+      <h2 role="presentation">Billing</h2>
+    good_example: |
+      <button type="button">Save</button>
+      <h2>Billing</h2>
+
+  - name: Layout Table
+    description: "A table used for page layout is announced as data, with rows and columns, and does not reflow on narrow screens."
+    bad_example: |
+      <table><tr><td>Sidebar</td><td>Content</td></tr></table>
+    good_example: |
+      <div class="layout">
+        <aside>Sidebar</aside>
+        <main>Content</main>
+      </div>
+
+tooling:
+  validator: "html-validate (or the W3C Nu HTML Checker, vnu)"
+  accessibility: "axe-core (via Playwright or jest-axe) and Lighthouse accessibility audit"
+  formatter: "Prettier"
+
+quality_test: "Could a keyboard-only user and a screen-reader user complete the page's main task, and does the page still make sense with its stylesheets turned off?"
