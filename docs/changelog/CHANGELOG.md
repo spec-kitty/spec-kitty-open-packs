@@ -393,6 +393,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   note that cave-kitty ships no preset, so a built-in profile for that role fills it when the
   operator activates one.
 
+- **Built-in `research` step prompts name the requested role, not a profile** (#67). The header
+  line of `scoping`, `methodology`, `gathering`, `synthesis` and `output` said
+  `**Agent profile**: researcher-robbie` (or `reviewer-renata`). It now says `**Requested role**`
+  with the role from `research.mission-type.yaml` and names that profile only as an example.
+  The built-in tree digest is restamped.
+
 - **`packs/internal/PROVENANCE.md` no longer calls `spec-kitty-charter` a vendored mirror** (#114).
   Since spec-kitty/spec-kitty-charter#364 the charter keeps gitignored copies that
   `./gradlew syncPacks` syncs at `openPacksRef`, with tree digests in `packs/open-packs.lock.yaml`.

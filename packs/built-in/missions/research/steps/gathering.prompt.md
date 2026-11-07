@@ -3,7 +3,7 @@ description: Register sources and extract evidence into an auditable, citation-c
 ---
 # Source Gathering — Build the Evidence Base
 
-**Mission type**: `research` | **Step**: `gathering` (sequence index 2, depends on `methodology`) | **Agent profile**: `researcher-robbie`
+**Mission type**: `research` | **Step**: `gathering` (sequence index 2, depends on `methodology`) | **Requested role**: `researcher` (a researcher profile such as `researcher-robbie` fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/research/source-register.csv`). Never refer to a file by name alone.
 

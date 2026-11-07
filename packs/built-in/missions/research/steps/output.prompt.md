@@ -3,7 +3,7 @@ description: Publish a peer-review-ready report that stays faithful to findings 
 ---
 # Publication Output — Prepare and Approve the Report
 
-**Mission type**: `research` | **Step**: `output` (sequence index 4, depends on `synthesis`) | **Agent profile**: `reviewer-renata`
+**Mission type**: `research` | **Step**: `output` (sequence index 4, depends on `synthesis`) | **Requested role**: `reviewer` (a reviewer profile such as `reviewer-renata` fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/report.md`). Never refer to a file by name alone.
 

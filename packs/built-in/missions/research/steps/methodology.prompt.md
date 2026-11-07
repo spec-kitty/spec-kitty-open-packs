@@ -3,7 +3,7 @@ description: Design and document a reproducible research methodology from the lo
 ---
 # Methodology Design — Lock the Research Approach
 
-**Mission type**: `research` | **Step**: `methodology` (sequence index 1, depends on `scoping`) | **Agent profile**: `researcher-robbie`
+**Mission type**: `research` | **Step**: `methodology` (sequence index 1, depends on `scoping`) | **Requested role**: `researcher` (a researcher profile such as `researcher-robbie` fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/plan.md`). Never refer to a file by name alone.
 

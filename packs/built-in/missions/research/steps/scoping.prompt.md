@@ -3,7 +3,7 @@ description: Frame the research question, boundaries, and success criteria for a
 ---
 # Research Scoping — Define the Question
 
-**Mission type**: `research` | **Step**: `scoping` (sequence index 0) | **Agent profile**: `researcher-robbie`
+**Mission type**: `research` | **Step**: `scoping` (sequence index 0) | **Requested role**: `researcher` (a researcher profile such as `researcher-robbie` fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/spec.md`). Never refer to a file by name alone.
 
