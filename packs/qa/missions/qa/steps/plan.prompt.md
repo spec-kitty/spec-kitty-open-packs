@@ -5,9 +5,9 @@
 This step is the `plan.md`-equivalent stage: it translates the test strategy into a detailed,
 executable test plan — environments, test data, tooling.
 
-## Bound agent-profile
+## Requested role
 
-`qa-strategist-quinn`.
+This step asks for the `qa-strategist` role. The pack's `qa` preset activates `qa-strategist-quinn` for it.
 
 ## Directive citation
 

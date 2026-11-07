@@ -5,9 +5,9 @@
 This step evaluates the artifacts the prior six steps already produced — the release/acceptance
 decision. It authors no new artifact of its own.
 
-## Bound agent-profile
+## Requested role
 
-`qa-reporter-rhea`.
+This step asks for the `qa-reporter` role. The pack's `qa` preset activates `qa-reporter-rhea` for it.
 
 ## Directive citations
 
