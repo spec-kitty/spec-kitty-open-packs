@@ -77,6 +77,9 @@ nodes:
 - urn: styleguide:tiered-standards
   kind: styleguide
   label: Tiered Coding Standards
+- urn: styleguide:typescript-conventions
+  kind: styleguide
+  label: TypeScript Conventions Styleguide
 edges:
 - source: styleguide:aggregate-design-rules
   target: paradigm:domain-driven-design
@@ -280,4 +283,16 @@ edges:
   relation: suggests
 - source: styleguide:tiered-standards
   target: directive:DIRECTIVE_030
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: directive:DIRECTIVE_030
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: tactic:tdd-red-green-refactor
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: toolguide:javascript-supply-chain
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: toolguide:typescript-mutation-tools
   relation: suggests

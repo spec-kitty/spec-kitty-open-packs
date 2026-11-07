@@ -1,0 +1,181 @@
+schema_version: "1.0"
+id: typescript-conventions
+title: TypeScript Conventions Styleguide
+scope: code
+applies_to_languages:
+  - typescript
+
+# Sources (paraphrased, not copied; checked against the live pages on 2026-11-07):
+#   - Google TypeScript Style Guide: https://google.github.io/styleguide/tsguide.html
+#   - TS Style Guide (ts.dev), a community guide based on Google's: https://ts.dev/style/
+#   - TypeScript tsconfig reference, `strict` and `noEmit`: https://www.typescriptlang.org/tsconfig/
+#   - TypeScript handbook, narrowing and exhaustiveness checking: https://www.typescriptlang.org/docs/handbook/2/narrowing.html
+#   - typescript-eslint, no-floating-promises: https://typescript-eslint.io/rules/no-floating-promises/
+#   - Codewalkers, TypeScript tooling: https://codewalkers.com/programming/typescript/tooling/
+#   - RxJS guide, operators and subscriptions: https://rxjs.dev/guide/operators, https://rxjs.dev/guide/subscription
+# House rules (no source above, common practice in RxJS codebases): no subscribe inside a
+# subscribe, an owner for every subscription, exposing a Subject only as an Observable, and
+# catching errors inside the flattening operator. Quad-A tests follow the built-in
+# quadruple-a-test-format styleguide.
+# Shape follows the primer approach of penguin-pragmatic-patterns (language philosophy, naming,
+# tooling, testing, idioms), fitted to the styleguide schema: one rule per principle, idioms as
+# patterns, failure modes as anti_patterns. Ruling on spec-kitty-open-packs#131.
+
+principles:
+  - "Let the compiler check types: turn on `strict: true` from the start, and run `tsc --noEmit` in CI as a gate that fails the build. A transpiler or bundler can strip types without checking them, so a green build alone proves nothing about types."
+  - "Naming: UpperCamelCase for classes, interfaces, types, enums, decorators and type parameters (a single capital such as `T` is fine); lowerCamelCase for variables, parameters, functions, methods and properties; CONSTANT_CASE for global constants, including enum values. Do not put type information in a name: no `I` prefix or `Interface` suffix unless that is the idiom of the surrounding environment, and no leading or trailing underscores."
+  - "ES modules with named exports: do not use default exports, so every import of a symbol uses the same name and a rename breaks stale imports at compile time. Do not use `namespace` or `require()`."
+  - "`const` by default, `let` only when the binding is reassigned, never `var`."
+  - "`unknown` over `any`: a value whose type you do not know is `unknown` and is narrowed with a type guard before use. Type annotations disappear at runtime, so data from outside the program (JSON, a form, a response) is validated, not just typed."
+  - "Type assertions (`x as T`) and non-null assertions (`x!`) are unchecked claims. Prefer a runtime check or a type guard; where an assertion is the right call, add a comment explaining why it holds, unless that is obvious from the context."
+  - "Interfaces for object types; type aliases for unions, tuples and other non-object types. Keep to the simplest type construct that expresses the idea, and model alternatives as discriminated unions whose `switch` ends in an exhaustiveness check on `never`."
+  - "Optional means `?`: use optional fields and parameters rather than a `| undefined` type. Compare with `===` and `!==`; the one exception is `== null`, which deliberately matches both null and undefined."
+  - "Throw only `Error` instances or subclasses, always created with `new Error()`; only they carry a stack trace. The same applies to `Promise.reject`. A `catch` binding is `unknown` under `strict`; narrow it before reading `.message`."
+  - "Do not use `@ts-ignore`, `@ts-expect-error` or `@ts-nocheck` in production code. `@ts-expect-error` may appear in unit tests, sparingly and with a comment naming the expected error, because it suppresses every error on its line."
+  - "Class members: leave out `public`, except on a non-readonly public parameter property; mark members never reassigned after construction `readonly`; use TypeScript `private` rather than `#private` fields; use parameter properties rather than assigning constructor arguments by hand. Use `enum`, never `const enum`."
+  - "Every promise has an owner: it is awaited, returned, handled with `.catch` or a two-argument `.then`, or deliberately discarded with `void` and a comment. Never leave one floating."
+  - "RxJS: choose the flattening operator by its concurrency meaning (`switchMap` drops the previous inner stream, `concatMap` queues, `mergeMap` runs in parallel, `exhaustMap` ignores new values while busy). A `$` suffix on Observable names is a per-project choice; whichever you choose, apply it consistently. Never subscribe inside a subscribe, give every subscription an owner that ends it, expose a Subject to callers only as an Observable, and catch errors inside the flattening operator so one failure does not end the outer stream."
+  - "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert. Type-level expectations belong to the type-check gate, not to runtime asserts."
+
+patterns:
+  - name: Narrow Unknown Input
+    description: "Parse data from outside the program as `unknown` and narrow it with a type guard before use; the annotation alone checks nothing at runtime."
+    bad_example: |
+      const order = JSON.parse(body) as Order;
+      ship(order.id);
+    good_example: |
+      function isOrder(value: unknown): value is Order {
+        return typeof value === 'object' && value !== null &&
+            'id' in value && typeof value.id === 'string';
+      }
+
+      const parsed: unknown = JSON.parse(body);
+      if (!isOrder(parsed)) {
+        throw new Error('Malformed order payload');
+      }
+      ship(parsed.id);
+
+  - name: Exhaustive Discriminated Union
+    description: "Model alternatives as a tagged union and let `never` turn a forgotten case into a compile error."
+    good_example: |
+      type Payment =
+          | {kind: 'card'; last4: string}
+          | {kind: 'invoice'; dueDays: number};
+
+      function describe(payment: Payment): string {
+        switch (payment.kind) {
+          case 'card':
+            return `Card ending ${payment.last4}`;
+          case 'invoice':
+            return `Invoice due in ${payment.dueDays} days`;
+          default: {
+            const unreachable: never = payment;
+            throw new Error(`Unhandled payment: ${JSON.stringify(unreachable)}`);
+          }
+        }
+      }
+
+  - name: Named Exports
+    description: "Export by name so the symbol has one spelling across the codebase and a rename breaks every stale import at compile time."
+    bad_example: |
+      export default class OrderService {}
+      // elsewhere
+      import Orders from './order-service';
+    good_example: |
+      export class OrderService {}
+      // elsewhere
+      import {OrderService} from './order-service';
+
+  - name: Flatten With the Right Operator
+    description: "Compose dependent streams with a flattening operator whose concurrency matches the intent, catch errors per inner stream, and end the subscription with its owner."
+    bad_example: |
+      this.query$.subscribe((query) => {
+        this.api.search(query).subscribe((results) => {
+          this.render(results);
+        });
+      });
+    good_example: |
+      this.query$
+          .pipe(
+              debounceTime(300),
+              // A new query cancels the old request; an error ends only that request.
+              switchMap((query) => this.api.search(query).pipe(catchError(() => of([])))),
+              takeUntil(this.destroyed$),
+          )
+          .subscribe((results) => {
+            this.render(results);
+          });
+
+anti_patterns:
+  - name: Any Leakage
+    description: "An `any` parameter or return type spreads unchecked values through every caller; the compiler stops catching interface drift."
+    bad_example: |
+      function total(items: any): any {
+        return items.reduce((sum: any, item: any) => sum + item.price, 0);
+      }
+    good_example: |
+      function total(items: readonly LineItem[]): number {
+        return items.reduce((sum, item) => sum + item.price, 0);
+      }
+
+  - name: Non-Null Assertion as Error Handling
+    description: "`!` tells the compiler a value exists without checking it; the crash moves to runtime, far from the cause."
+    bad_example: |
+      const user = users.find((u) => u.id === id)!;
+      greet(user.name);
+    good_example: |
+      const user = users.find((u) => u.id === id);
+      if (user === undefined) {
+        throw new Error(`Unknown user: ${id}`);
+      }
+      greet(user.name);
+
+  - name: Floating Promise
+    description: "A promise that is neither awaited nor handled swallows its rejection, and the caller continues as if the work had finished."
+    bad_example: |
+      function onSave(draft: Draft): void {
+        repository.save(draft);
+        notify('Saved');
+      }
+    good_example: |
+      async function onSave(draft: Draft): Promise<void> {
+        await repository.save(draft);
+        notify('Saved');
+      }
+
+  - name: Suppressed Type Error
+    description: "`@ts-ignore` hides the error it targets and every future error on that line; fix the type instead."
+    bad_example: |
+      // @ts-ignore
+      const port: number = config.port;
+    good_example: |
+      const raw = String(config.port ?? '').trim();
+      const port = Number(raw);
+      if (raw === '' || !Number.isInteger(port)) {
+        throw new Error(`Invalid port: ${raw}`);
+      }
+
+  - name: Leaked Subscription
+    description: "A subscription with no owner keeps running after its component or service is gone, causing leaks and duplicate side effects."
+    bad_example: |
+      ngOnInit(): void {
+        this.ticks$.subscribe((tick) => {
+          this.refresh(tick);
+        });
+      }
+    good_example: |
+      ngOnInit(): void {
+        this.ticks$.pipe(takeUntil(this.destroyed$)).subscribe((tick) => {
+          this.refresh(tick);
+        });
+      }
+
+tooling:
+  compiler: "tsc --noEmit with strict: true, as a CI job that fails the build"
+  linter: "ESLint with typescript-eslint, type-checked config (incl. no-floating-promises, no-explicit-any)"
+  formatter: "Prettier (singleQuote: true, bracketSpacing: false, to match Google's examples)"
+  test_runner: "Vitest (or Jest)"
+  mutation_testing: "Stryker (see toolguide typescript-mutation-tools)"
+  dependency_install: "lockfile-driven installs (see toolguide javascript-supply-chain)"
+
+quality_test: "Could a new contributor delete a guard, an annotation or a test and be told by the compiler or the test run, not by production?"

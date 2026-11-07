@@ -50,6 +50,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Built-in `typescript-conventions` styleguide** (#131). Conventions for TypeScript code: a strict
+  type-check gate, naming, named exports, `unknown` over `any`, no unchecked assertions,
+  discriminated unions, promise ownership and RxJS stream discipline, with patterns,
+  anti-patterns and tooling. Paraphrased from, and checked against, the Google TypeScript Style
+  Guide, ts.dev, the TypeScript docs, typescript-eslint, Codewalkers' tooling page and the RxJS
+  guide; rules with no source are marked as house rules. Shaped after the penguin-pragmatic-patterns
+  primers.
+
 - **`pr:pause-ci` pauses a parked pull request, and `Validate packs gate` is the one required check**
   (#106, ADR 2026-11-01-1). There is no merge queue: in core it duplicated CI runs rather than
   avoiding reruns.
