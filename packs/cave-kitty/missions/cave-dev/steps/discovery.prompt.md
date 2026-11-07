@@ -8,10 +8,11 @@ with rationale, evidence, and open questions. cave-dev overrides one thing only:
 OUTPUT prose, which it compresses to the caveman voice. The engineering rigour, the artifact
 locations, and the discovery discipline are unchanged from software-dev.
 
-## Bound agent-profile
+## Requested role
 
-`researcher-robbie` (built-in). cave-dev ships no personas of its own — it re-voices the
-software-dev lifecycle, it does not re-staff it.
+This step asks for the `researcher` role. cave-kitty ships no preset and no personas of its
+own, so it activates no profile for it; a built-in researcher profile such as `researcher-robbie` fills it
+when the operator activates one.
 
 ## Directive & styleguide citation
 

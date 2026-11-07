@@ -17,10 +17,11 @@ software-dev.
 > `/spec-kitty.analyze` explicitly at this step; do not rely on the `next` loop to block
 > `implement` on a stale analysis.
 
-## Bound agent-profile
+## Requested role
 
-`reviewer-renata` (built-in). cave-dev ships no personas of its own — it re-voices the
-software-dev lifecycle, it does not re-staff it.
+This step asks for the `reviewer` role. cave-kitty ships no preset and no personas of its
+own, so it activates no profile for it; a built-in reviewer profile such as `reviewer-renata` fills it
+when the operator activates one.
 
 ## Directive & styleguide citation
 

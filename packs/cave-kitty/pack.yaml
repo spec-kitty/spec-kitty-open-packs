@@ -13,7 +13,7 @@ name: cave-kitty
 pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
-# No graph edge names another pack, but the mission prompts bind built-in agent
+# No graph edge names another pack, but the mission prompts name built-in agent
 # profiles in prose (for example missions/cave-dev/steps/review.prompt.md), so the
 # dependency on built-in is real.
 depends_on:

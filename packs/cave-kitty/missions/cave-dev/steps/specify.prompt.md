@@ -9,9 +9,11 @@ HOW — for business stakeholders. cave-dev overrides one thing only: the agent'
 which it compresses to the caveman voice. Requirement IDs, acceptance criteria, and measurable
 thresholds are unchanged from software-dev.
 
-## Bound agent-profile
+## Requested role
 
-`analyst-annie` (built-in). cave-dev ships no personas of its own.
+This step asks for the `analyst` role. cave-kitty ships no preset and no personas of its
+own, so it activates no profile for it; a built-in analyst profile such as `analyst-annie` fills it
+when the operator activates one.
 
 ## Directive & styleguide citation
 
