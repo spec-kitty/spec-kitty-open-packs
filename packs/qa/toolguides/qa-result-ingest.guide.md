@@ -12,21 +12,17 @@ in this mission's own `data-model.md`.
 
 ## Setup
 
-Two different ids are in play here and they are not interchangeable:
+This toolguide and the script's asset sidecar share the id `qa-result-ingest`, in different kinds
+(`toolguide:qa-result-ingest` and `asset:qa-result-ingest`). Resolve the script's real filesystem
+path through the asset:
 
-- **This toolguide's own id is `qa-result-ingest-guide`.** It is not a resolvable asset id — it
-  names this toolguide document, nothing else.
-- **The script ships as an asset sidecar whose own id is the different string
-  `qa-result-ingest`.** Resolve the script's real filesystem path with:
+```
+spec-kitty charter pack asset path qa-result-ingest
+```
 
-  ```
-  spec-kitty charter pack asset path qa-result-ingest
-  ```
-
-  Never pass this toolguide's own id (`qa-result-ingest-guide`) to `asset path` — it will not
-  resolve, because it is not an asset id. (This is the same two-distinct-ids caution
-  `toolguides/qa-carrier-lint.guide.md` already carries for its own `qa-traceability-lint`
-  asset/`qa-carrier-lint` toolguide split.)
+`asset path` looks up assets only, so the shared string resolves to the script, not to this
+toolguide. (`toolguides/qa-carrier-lint.guide.md` carries a related caution for its own
+`qa-traceability-lint` asset and `qa-carrier-lint` toolguide, whose ids differ.)
 
 **Anchor asymmetry.** The sidecar's own manifest `path:` value is `qa_result_ingest.py`, with no
 `assets/` prefix. Org-tier asset blobs (this pack's own tier) anchor *at* the pack's `assets/`

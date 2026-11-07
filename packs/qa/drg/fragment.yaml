@@ -88,7 +88,7 @@ nodes:
   kind: assets
   title: "QA Result Ingest"
   body_path: assets/qa_result_ingest.py.asset.yaml
-- id: qa-result-ingest-guide
+- id: qa-result-ingest
   kind: toolguides
   title: "QA Result Ingest Toolguide"
   body_path: toolguides/qa-result-ingest.toolguide.yaml
@@ -136,7 +136,7 @@ nodes:
   kind: procedures
   title: "Description to Acceptance CI"
   body_path: procedures/qa-description-to-acceptance-ci.procedure.yaml
-- id: qa-promise-trace-lint-guide
+- id: qa-promise-trace-lint
   kind: toolguides
   title: "QA Promise Trace Lint Toolguide"
   body_path: toolguides/qa-promise-trace-lint.toolguide.yaml
@@ -157,7 +157,7 @@ edges:
 - source: directive:QA_001
   target: asset:qa-result-ingest
   relation: requires
-- source: toolguide:qa-result-ingest-guide
+- source: toolguide:qa-result-ingest
   target: asset:qa-result-ingest
   relation: suggests
 - source: directive:QA_007
@@ -192,7 +192,7 @@ edges:
 - source: procedure:qa-description-to-acceptance-ci
   target: built-in::toolguide:gherkin
   relation: suggests
-- source: toolguide:qa-promise-trace-lint-guide
+- source: toolguide:qa-promise-trace-lint
   target: asset:qa-promise-trace-lint
   relation: suggests
 - source: mission_type:qa
@@ -234,7 +234,7 @@ edges:
   relation: suggests
   reason: "The shape of a promise page."
 - source: procedure:qa-description-to-acceptance-ci
-  target: toolguide:qa-promise-trace-lint-guide
+  target: toolguide:qa-promise-trace-lint
   relation: suggests
   reason: "The CI check for the chain."
 - source: procedure:qa-go-no-go-readiness-review

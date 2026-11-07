@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `5931c933665fb7b901dbcf2a1fc69adb31c8d693997245f7f32e7f25058187ec`
+- **Content checksum (sha256):** `b9968aad4487809af185fdef0d648d1aa7596b59c50fe500a7910967097958c5`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -90,9 +90,9 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 
 - `qa-carrier-lint.guide.md`
 - `qa-carrier-lint.toolguide.yaml`
-- `qa-promise-trace-lint-guide.guide.md`
+- `qa-promise-trace-lint.guide.md`
 - `qa-promise-trace-lint.toolguide.yaml`
-- `qa-result-ingest-guide.guide.md`
+- `qa-result-ingest.guide.md`
 - `qa-result-ingest.toolguide.yaml`
 
 </details>
