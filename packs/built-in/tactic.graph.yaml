@@ -394,10 +394,6 @@ edges:
   relation: suggests
   when: Use during review to compare the stated behavior contract with the diff.
 - source: tactic:aggregate-boundary-design
-  target: styleguide:aggregate-design-rules
-  relation: suggests
-  when: Applying ongoing design constraints to aggregate structure (identity references, size, eventual consistency).
-- source: tactic:aggregate-boundary-design
   target: tactic:bounded-context-identification
   relation: suggests
   when: Aggregates exist within a bounded context; identify the context first.
@@ -429,10 +425,6 @@ edges:
   target: tactic:refactoring-strangler-fig
   relation: suggests
   when: Using ACL as part of an incremental migration strategy.
-- source: tactic:architectural-gate-non-vacuity
-  target: directive:DIRECTIVE_043
-  relation: suggests
-  when: Required governing directive for all architectural enforcement gates authored under this tactic.
 - source: tactic:architectural-gate-non-vacuity
   target: tactic:frozen-baseline-shrink-only-ratchet
   relation: suggests
@@ -512,14 +504,6 @@ edges:
   target: directive:DIRECTIVE_034
   relation: suggests
   when: BDD scenarios become the failing acceptance tests in the test-first cycle
-- source: tactic:bdd-scenario-formulation
-  target: paradigm:behaviour-driven-development
-  relation: suggests
-  when: For the philosophical and collaborative framing of BDD — Discovery/Formulation/Automation cycle, Three Amigos practice
-- source: tactic:bdd-scenario-formulation
-  target: procedure:bdd-scenario-lifecycle
-  relation: suggests
-  when: After scenarios are written in Given/When/Then, use this procedure to wire them to executable tests and maintain them as living documentation
 - source: tactic:bdd-scenario-formulation
   target: styleguide:given-when-then-authoring
   relation: requires
@@ -616,10 +600,6 @@ edges:
   target: template:c4-context-mermaid-template
   relation: suggests
   when: Starting a new system context diagram from scratch.
-- source: tactic:canonical-source-unification
-  target: directive:DIRECTIVE_044
-  relation: suggests
-  when: Consult to understand the binding rules this tactic operationalizes, including the unification-not-parity rule and the missing-command-is-a-gap rule.
 - source: tactic:chain-of-responsibility-rule-pipeline
   target: directive:DIRECTIVE_034
   relation: suggests
@@ -636,9 +616,6 @@ edges:
   target: tactic:refactoring-guard-clauses-before-polymorphism
   relation: suggests
   when: Use guard clauses to flatten the source function before extracting per-rule helpers; the flattened form makes rule boundaries visible
-- source: tactic:change-apply-smallest-viable-diff
-  target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
-  relation: suggests
 - source: tactic:code-documentation-analysis
   target: directive:DIRECTIVE_001
   relation: suggests
@@ -659,38 +636,14 @@ edges:
   target: tactic:review-intent-and-risk-first
   relation: suggests
   when: Applying the intent-first review philosophy that this tactic adds incremental discipline to
-- source: tactic:common-docs-find
-  target: directive:DIRECTIVE_042
-  relation: suggests
-  when: Consult to apply the frontmatter-SSOT and generated-lockfile rules that make the DRG and page-inventory the authorities to search.
-- source: tactic:common-docs-find
-  target: styleguide:common-docs
-  relation: suggests
-  when: Consult to read the frontmatter fields (section, doc_status, related:) the lockfile and DRG expose for resolution.
 - source: tactic:common-docs-scaffold
   target: asset:common-docs-structural-lint
   relation: requires
   reason: The common-docs scaffold tactic relies on the structural lint's index_completeness check to enforce section-index scaffolding; activating the tactic requires the shipped lint asset.
-- source: tactic:common-docs-scaffold
-  target: directive:DIRECTIVE_042
-  relation: suggests
-  when: Consult while choosing the section and path to apply the single-root, section-structure, doc_status placement rules.
-- source: tactic:common-docs-scaffold
-  target: styleguide:common-docs
-  relation: suggests
-  when: Consult while seeding frontmatter and naming the file to apply the schema, kebab-case naming, and section-index conventions.
 - source: tactic:common-docs-write
   target: asset:common-docs-structural-lint
   relation: requires
   reason: The common-docs write tactic's run-the-live-gates step directs the agent to run the structural lint before handoff; activating the tactic requires the shipped lint asset.
-- source: tactic:common-docs-write
-  target: directive:DIRECTIVE_042
-  relation: suggests
-  when: Consult to apply the binding frontmatter-SSOT and doc_status rules the styleguide conventions enforce.
-- source: tactic:common-docs-write
-  target: styleguide:common-docs
-  relation: suggests
-  when: 'Consult throughout authoring to apply the frontmatter schema, the 50-180 description band, related: paths, Divio type, and naming.'
 - source: tactic:compositional-stream-boundaries
   target: tactic:atomic-state-ownership
   relation: suggests
@@ -760,10 +713,6 @@ edges:
   relation: suggests
   when: Dependency decisions affect the architectural integrity of the system; treat supply-chain choices as first-class architectural decisions
 - source: tactic:dependency-hygiene
-  target: directive:DIRECTIVE_051
-  relation: suggests
-  when: Every dependency addition or upgrade, in any ecosystem, is also bound by this directive's install-time threat-class controls
-- source: tactic:dependency-hygiene
   target: tactic:secure-design-checklist
   relation: suggests
   when: Dependency hygiene is a prerequisite for the Least Common Mechanism principle in the secure design checklist
@@ -796,10 +745,6 @@ edges:
   relation: suggests
   when: Domain expert language reveals whether identity matters for a concept.
 - source: tactic:five-paradigm-parallel-debugging
-  target: directive:DIRECTIVE_040
-  relation: suggests
-  when: When a bug class has recurred and reactive PRs have not stopped the chain, this directive REQUIRES a structural intervention rather than another point fix
-- source: tactic:five-paradigm-parallel-debugging
   target: procedure:adversarial-squad-deployment
   relation: refines
 - source: tactic:five-paradigm-parallel-debugging
@@ -827,10 +772,6 @@ edges:
   relation: suggests
   when: The recipes rely on local `git`, `cloc`, and language-specific complexity tools; the directive governs how those tools are configured and invoked.
 - source: tactic:forensic-repository-audit
-  target: procedure:legacy-codebase-triage
-  relation: suggests
-  when: This tactic is the evidence-gathering core of the legacy-codebase triage procedure; run it there to feed prioritisation and bucketing.
-- source: tactic:forensic-repository-audit
   target: tactic:connascence-analysis
   relation: suggests
   when: After hotspots are identified, use connascence analysis on the highest-priority files to classify the coupling that drives the churn.
@@ -847,10 +788,6 @@ edges:
   relation: suggests
   when: Constraint tests must pass as part of the quality gate before merge
 - source: tactic:formalized-constraint-testing
-  target: directive:DIRECTIVE_034
-  relation: suggests
-  when: Contract tests are written test-first; write the failing constraint test before the implementation
-- source: tactic:formalized-constraint-testing
   target: styleguide:java-conventions
   relation: suggests
   when: Writing constraint tests on the JVM; the styleguide rejects jqwik and names the JUnit parameterized-test alternative
@@ -866,10 +803,6 @@ edges:
   target: tactic:test-minimisation
   relation: suggests
   when: Once contract tests cover a behavior class, use minimisation to identify which spot-checks are now redundant
-- source: tactic:frozen-baseline-shrink-only-ratchet
-  target: directive:DIRECTIVE_043
-  relation: suggests
-  when: Required governing directive for all structural enforcement mechanisms including ratchets.
 - source: tactic:function-over-form-testing
   target: directive:DIRECTIVE_034
   relation: suggests
@@ -919,10 +852,6 @@ edges:
   relation: suggests
   when: Record the selected interface when the trade-off is durable and non-obvious.
 - source: tactic:model-task-routing
-  target: directive:DIRECTIVE_044
-  relation: suggests
-  when: 'Consult to understand the binding rule this tactic operationalizes: the catalog is the single canonical source for model/task_type routing data — do not hand-roll a substitute mapping.'
-- source: tactic:model-task-routing
   target: tactic:autonomous-operation-protocol
   relation: suggests
   when: Consult alongside this tactic when delegating work to a subagent — model routing decides *which* model runs the delegated work; the autonomous operation protocol decides *how* that agent should behave once dispatched.
@@ -934,21 +863,9 @@ edges:
   target: toolguide:typescript-mutation-tools
   relation: suggests
   when: Use when applying the mutation testing workflow to TypeScript projects.
-- source: tactic:occurrence-classification-workflow
-  target: directive:DIRECTIVE_035
-  relation: suggests
-  when: Classifying each matching occurrence by semantic context before a bulk edit, so every change is deliberate rather than a blind sweep.
 - source: tactic:op-or-mission-selection
   target: procedure:adversarial-squad-deployment
   relation: suggests
-- source: tactic:ownership-map-leeway
-  target: styleguide:planning-and-tracking
-  relation: suggests
-  when: Use when setting up or reviewing task decomposition to understand the ownership-map constraints and leeway principles that govern WP isolation.
-- source: tactic:paula-patterns-architecture-scout-review
-  target: directive:DIRECTIVE_001
-  relation: suggests
-  when: Paula Patterns is triggered by missing or violated architecture boundaries.
 - source: tactic:paula-patterns-architecture-scout-review
   target: directive:DIRECTIVE_032
   relation: suggests
@@ -1076,10 +993,6 @@ edges:
   target: tactic:test-boundaries-by-responsibility
   relation: suggests
   when: Well-defined test boundaries make reconstruction clearer
-- source: tactic:reviewer-implementer-role-separation
-  target: styleguide:planning-and-tracking
-  relation: suggests
-  when: Use when planning task decomposition to understand the role-separation discipline that governs who reviews each work package.
 - source: tactic:secure-design-checklist
   target: directive:DIRECTIVE_001
   relation: suggests
@@ -1201,10 +1114,6 @@ edges:
   relation: suggests
   when: Understanding relationships between contexts informs classification decisions.
 - source: tactic:supply-chain-install-safety
-  target: directive:DIRECTIVE_051
-  relation: suggests
-  when: This checklist operationalizes the policy pillars defined by the supply-chain-install-safety directive
-- source: tactic:supply-chain-install-safety
   target: procedure:adversarial-squad-deployment
   relation: suggests
   when: Use adversarial-squad challenge passes at plan/research and review point-cuts for security-impacting dependency decisions, and disposition every contested finding explicitly
@@ -1320,10 +1229,6 @@ edges:
   relation: suggests
   when: Decisions that affect architectural integrity must be traced before implementation begins
 - source: tactic:traceable-decisions
-  target: directive:DIRECTIVE_003
-  relation: suggests
-  when: This tactic is the practical implementation protocol for Directive 003; use the directive for policy, this tactic for execution
-- source: tactic:traceable-decisions
   target: directive:DIRECTIVE_037
   relation: suggests
   when: Decision records are living documentation; apply the sync discipline when updating superseded decisions
@@ -1335,10 +1240,6 @@ edges:
   target: tactic:acceptance-test-first
   relation: suggests
   when: Use this tactic when a canonical example should be represented by an executable acceptance check
-- source: tactic:work-package-completion-validation
-  target: directive:DIRECTIVE_030
-  relation: suggests
-  when: The quality gate must be green before any WP status transition
 - source: tactic:work-package-completion-validation
   target: directive:DIRECTIVE_034
   relation: suggests

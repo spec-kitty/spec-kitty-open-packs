@@ -16,50 +16,11 @@ import yaml
 
 PACKS = Path(__file__).resolve().parents[2] / "packs"
 
-# Pairs with one edge in each direction (A->B and B->A), frozen when #135 was filed. Each needs a
-# curation ruling on which direction keeps the meaning. This list may only shrink: a new pair
-# fails, and an entry that has been collapsed must be removed from here.
-REVERSE_PAIR_BASELINE = frozenset({
-    ("built-in", "directive:DIRECTIVE_001", "tactic:paula-patterns-architecture-scout-review"),
-    ("built-in", "directive:DIRECTIVE_003", "tactic:traceable-decisions"),
-    ("built-in", "directive:DIRECTIVE_024", "directive:DIRECTIVE_025"),
-    ("built-in", "directive:DIRECTIVE_024", "directive:RECONCILE_CHANGE_SCOPE_TENSIONS"),
-    ("built-in", "directive:DIRECTIVE_025", "directive:RECONCILE_CHANGE_SCOPE_TENSIONS"),
-    ("built-in", "directive:DIRECTIVE_030", "styleguide:test-desiderata-and-boundaries"),
-    ("built-in", "directive:DIRECTIVE_030", "styleguide:testing-principles"),
-    ("built-in", "directive:DIRECTIVE_030", "styleguide:tiered-standards"),
-    ("built-in", "directive:DIRECTIVE_030", "tactic:work-package-completion-validation"),
-    ("built-in", "directive:DIRECTIVE_034", "paradigm:specification-by-example"),
-    ("built-in", "directive:DIRECTIVE_034", "tactic:formalized-constraint-testing"),
-    ("built-in", "directive:DIRECTIVE_035", "tactic:occurrence-classification-workflow"),
-    ("built-in", "directive:DIRECTIVE_038", "paradigm:structured-prompt-driven-development"),
-    ("built-in", "directive:DIRECTIVE_040", "tactic:five-paradigm-parallel-debugging"),
-    ("built-in", "directive:DIRECTIVE_041", "styleguide:testing-principles"),
-    ("built-in", "directive:DIRECTIVE_042", "styleguide:common-docs"),
-    ("built-in", "directive:DIRECTIVE_042", "tactic:common-docs-find"),
-    ("built-in", "directive:DIRECTIVE_042", "tactic:common-docs-scaffold"),
-    ("built-in", "directive:DIRECTIVE_042", "tactic:common-docs-write"),
-    ("built-in", "directive:DIRECTIVE_043", "tactic:architectural-gate-non-vacuity"),
-    ("built-in", "directive:DIRECTIVE_043", "tactic:frozen-baseline-shrink-only-ratchet"),
-    ("built-in", "directive:DIRECTIVE_044", "tactic:canonical-source-unification"),
-    ("built-in", "directive:DIRECTIVE_044", "tactic:model-task-routing"),
-    ("built-in", "directive:DIRECTIVE_051", "tactic:dependency-hygiene"),
-    ("built-in", "directive:DIRECTIVE_051", "tactic:supply-chain-install-safety"),
-    ("built-in", "directive:RECONCILE_CHANGE_SCOPE_TENSIONS", "tactic:change-apply-smallest-viable-diff"),
-    ("built-in", "paradigm:behaviour-driven-development", "tactic:bdd-scenario-formulation"),
-    ("built-in", "paradigm:domain-driven-design", "styleguide:aggregate-design-rules"),
-    ("built-in", "procedure:bdd-scenario-lifecycle", "tactic:bdd-scenario-formulation"),
-    ("built-in", "procedure:disciplined-defect-diagnosis", "procedure:test-first-bug-fixing"),
-    ("built-in", "procedure:legacy-codebase-triage", "tactic:forensic-repository-audit"),
-    ("built-in", "styleguide:aggregate-design-rules", "tactic:aggregate-boundary-design"),
-    ("built-in", "styleguide:common-docs", "tactic:common-docs-find"),
-    ("built-in", "styleguide:common-docs", "tactic:common-docs-scaffold"),
-    ("built-in", "styleguide:common-docs", "tactic:common-docs-write"),
-    ("built-in", "styleguide:planning-and-tracking", "tactic:ownership-map-leeway"),
-    ("built-in", "styleguide:planning-and-tracking", "tactic:reviewer-implementer-role-separation"),
-    ("built-in", "styleguide:test-desiderata-and-boundaries", "styleguide:testing-principles"),
-    ("internal", "procedure:tracker-organisation-workflow", "tactic:tracker-backlog-iterative-deepening"),
-})
+# Pairs with one edge in each direction (A->B and B->A). The #135 baseline was collapsed under
+# the operator's curation rule (2026-11-08): the governing side keeps the edge, tension edges
+# win their pairs, and the two same-kind pairs were ruled by the operator. No reverse pair may
+# be added again.
+REVERSE_PAIR_BASELINE: frozenset[tuple[str, str, str]] = frozenset()
 
 
 def _graph_documents(pack: Path) -> list[Path]:

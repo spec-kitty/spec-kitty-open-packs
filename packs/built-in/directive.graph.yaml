@@ -133,6 +133,7 @@ edges:
 - source: directive:DIRECTIVE_001
   target: tactic:paula-patterns-architecture-scout-review
   relation: suggests
+  when: Paula Patterns is triggered by missing or violated architecture boundaries.
 - source: directive:DIRECTIVE_003
   target: procedure:decision-record-keeping
   relation: requires
@@ -144,6 +145,7 @@ edges:
 - source: directive:DIRECTIVE_003
   target: tactic:traceable-decisions
   relation: requires
+  reason: This tactic is the practical implementation protocol for Directive 003; use the directive for policy, this tactic for execution.
 - source: directive:DIRECTIVE_010
   target: procedure:specification-traceability-check
   relation: requires
@@ -159,24 +161,15 @@ edges:
   relation: in_tension_with
   reason: Locality of Change bounds new work to the minimum scope the goal requires; Boy Scout Rule endorses opportunistic improvement of touched areas, which can justify expanding a change beyond that boundary. Both remain valid, co-activatable rules -- the tension is resolved per-change by keeping adjacent campsite cleaning inside the touched area while deferring genuinely broad refactors with an explicit rationale, not by retiring either rule. See directive:RECONCILE_CHANGE_SCOPE_TENSIONS.
 - source: directive:DIRECTIVE_024
-  target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
-  relation: suggests
-- source: directive:DIRECTIVE_024
   target: procedure:keep-change-local
   relation: requires
   when: editing code, tests, or docs while executing a scoped work package or bug fix
   reason: 'Keeps edits on the target behavior, justifies any wider reach, keeps cleanup separate, and checks the diff for scope creep before commit.'
 - source: directive:DIRECTIVE_025
-  target: directive:DIRECTIVE_024
-  relation: suggests
-- source: directive:DIRECTIVE_025
   target: directive:DIRECTIVE_030
   relation: suggests
 - source: directive:DIRECTIVE_025
   target: directive:DIRECTIVE_040
-  relation: suggests
-- source: directive:DIRECTIVE_025
-  target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   relation: suggests
 - source: directive:DIRECTIVE_025
   target: paradigm:brownfield-onboarding
@@ -292,11 +285,6 @@ edges:
   when: staging a work package's changes for commit
   reason: 'Adds only the listed deliverables by explicit path and checks the staging area, so stray files, secrets and build output stay out.'
 - source: directive:DIRECTIVE_034
-  target: paradigm:specification-by-example
-  relation: suggests
-  when: building shared understanding of required behaviour from concrete, business-readable examples that become executable acceptance tests and living documentation
-  reason: Test-first development suggests Specification by Example as the paradigm for driving development from concrete examples; the `when` is the paradigm's own stated summary. Delivered at implement/review.
-- source: directive:DIRECTIVE_034
   target: procedure:example-mapping-workshop
   relation: suggests
   when: turning a behaviour request into concrete rules, examples, and open questions as a shared specification set before implementation
@@ -344,6 +332,7 @@ edges:
 - source: directive:DIRECTIVE_035
   target: tactic:occurrence-classification-workflow
   relation: requires
+  when: Classifying each matching occurrence by semantic context before a bulk edit, so every change is deliberate rather than a blind sweep.
 - source: directive:DIRECTIVE_036
   target: directive:DIRECTIVE_030
   relation: requires
@@ -363,9 +352,6 @@ edges:
 - source: directive:DIRECTIVE_037
   target: tactic:usage-examples-sync
   relation: requires
-- source: directive:DIRECTIVE_038
-  target: paradigm:structured-prompt-driven-development
-  relation: suggests
 - source: directive:DIRECTIVE_038
   target: tactic:reasons-canvas-fill
   relation: suggests
@@ -411,6 +397,7 @@ edges:
 - source: directive:DIRECTIVE_040
   target: tactic:five-paradigm-parallel-debugging
   relation: requires
+  when: a bug class has recurred and reactive PRs have not stopped the chain, calling for a structural intervention rather than another point fix
 - source: directive:DIRECTIVE_041
   target: directive:DIRECTIVE_034
   relation: requires
@@ -476,12 +463,15 @@ edges:
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-find
   relation: suggests
+  when: applying the frontmatter-SSOT and generated-lockfile rules that make the DRG and page-inventory the authorities to search
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-scaffold
   relation: suggests
+  when: choosing the section and path to apply the single-root, section-structure, doc_status placement rules
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-write
   relation: suggests
+  when: applying the binding frontmatter-SSOT and doc_status rules the styleguide conventions enforce
 - source: directive:DIRECTIVE_043
   target: procedure:adversarial-squad-deployment
   relation: suggests
@@ -493,9 +483,11 @@ edges:
 - source: directive:DIRECTIVE_043
   target: tactic:architectural-gate-non-vacuity
   relation: suggests
+  reason: Governing directive for all architectural enforcement gates authored under this tactic.
 - source: directive:DIRECTIVE_043
   target: tactic:frozen-baseline-shrink-only-ratchet
   relation: suggests
+  reason: Governing directive for all structural enforcement mechanisms including ratchets.
 - source: directive:DIRECTIVE_043
   target: tactic:pr-agent-worktree-isolation
   relation: suggests
@@ -513,9 +505,11 @@ edges:
 - source: directive:DIRECTIVE_044
   target: tactic:canonical-source-unification
   relation: suggests
+  reason: This tactic operationalizes the directive's binding rules, including the unification-not-parity rule and the missing-command-is-a-gap rule.
 - source: directive:DIRECTIVE_044
   target: tactic:model-task-routing
   relation: suggests
+  reason: This tactic operationalizes the directive's binding rule that the catalog is the single canonical source for model/task_type routing data; do not hand-roll a substitute mapping.
 - source: directive:DIRECTIVE_044
   target: tactic:ownership-map-leeway
   relation: suggests
@@ -613,9 +607,12 @@ edges:
 - source: directive:DIRECTIVE_051
   target: tactic:dependency-hygiene
   relation: suggests
+  when: adding or upgrading any dependency, in any ecosystem
+  reason: Dependency hygiene is also bound by this directive's install-time threat-class controls.
 - source: directive:DIRECTIVE_051
   target: tactic:supply-chain-install-safety
   relation: suggests
+  reason: This checklist operationalizes the policy pillars this directive defines.
 - source: directive:DIRECTIVE_052
   target: directive:DIRECTIVE_040
   relation: suggests
