@@ -136,6 +136,9 @@ class JavaFrontendTest(unittest.TestCase):
                 "TypeOnlyAssertTest.onlyChecksJunitType": ["type-only-assert"],
                 "TypeOnlyAssertTest.onlyChecksAssertJType": ["type-only-assert"],
                 "TypeOnlyAssertTest.onlyChecksExceptionType": ["type-only-assert"],
+                "TypeOnlyAssertTest.onlyExtractsAfterCheckingType": ["type-only-assert"],
+                "TypeOnlyAssertTest.onlySatisfiesAnEmptyConsumerAfterCheckingType": ["type-only-assert"],
+                "TypeOnlyAssertTest.onlyChecksAssertThrowsResultIsNotNull": ["type-only-assert"],
                 "TypeOnlyAssertTest.onlyChecksJUnit4ExceptionType": ["type-only-assert"],
                 "TypeOnlyAssertTest.onlyChecksCaughtExceptionType": ["type-only-assert"],
             },
@@ -216,6 +219,10 @@ class JavaFrontendTest(unittest.TestCase):
         row, actual = self.scan("ArchitectureTest.java")
         self.assertEqual({}, actual)
         self.assertEqual(1, row.tests)
+        self.assert_flags(
+            "NonArchUnitCheckTest.java",
+            {"NonArchUnitCheckTest.delegatesValidationWithoutAnAssertion": ["no-assertion"]},
+        )
 
     def test_unparseable_file_is_a_file_level_finding(self) -> None:
         row, actual = self.scan("BrokenTest.java")

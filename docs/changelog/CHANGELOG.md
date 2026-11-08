@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pins declared in PEP 723 metadata; Python-only scans remain standard-library
   only. The sidecar title, toolguide, assessment procedure and generated pack
   reference state the supported languages.
+- **The Java test-quality scanner rejects non-ArchUnit checks, empty AssertJ chains and redundant exception null checks as value assertions** (#172).
 
 - **Cloud-session orchestration rules are binding** (#76). The internal
   `CLOUD_SESSION_ORCHESTRATION` directive makes sibling read-only boundaries,

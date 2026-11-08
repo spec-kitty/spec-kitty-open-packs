@@ -560,12 +560,45 @@ def _java_is_oracle_name(name: str) -> bool:
     return (
         name.startswith("assert")
         or name.startswith(("hasMessage", "hasCause", "hasRootCause"))
-        or name in {"fail", "verify", "verifyNoInteractions", "andExpect", "check", "satisfies", "extracting", "isInstanceOfSatisfying"}
+        or name in {"fail", "verify", "verifyNoInteractions", "andExpect", "satisfies", "extracting", "isInstanceOfSatisfying"}
     )
 
 
-def _java_oracle_calls(node: Any, source: bytes) -> list[Any]:
-    return [call for call in _java_calls(node) if _java_is_oracle_name(_java_call_name(call, source))]
+def _java_archrule_names(class_node: Any, source: bytes) -> frozenset[str]:
+    names: set[str] = set()
+    for node in _walk_java(class_node):
+        if node.type not in {"field_declaration", "local_variable_declaration", "formal_parameter"}:
+            continue
+        type_node = node.child_by_field_name("type")
+        if type_node is None or _java_text(type_node, source).rsplit(".", 1)[-1] != "ArchRule":
+            continue
+        declarators = [node] if node.type == "formal_parameter" else [child for child in node.named_children if child.type == "variable_declarator"]
+        for declarator in declarators:
+            name = declarator.child_by_field_name("name")
+            if name is not None:
+                names.add(_java_text(name, source))
+    return frozenset(names)
+
+
+def _java_is_archunit_check(call: Any, class_node: Any, source: bytes) -> bool:
+    if re.search(rb"(?m)^\s*import\s+(?:static\s+)?com\.tngtech\.archunit(?:\.|;)", source):
+        return True
+    receiver = call.child_by_field_name("object")
+    if receiver is None:
+        return False
+    name_node = receiver.child_by_field_name("field") if receiver.type == "field_access" else receiver
+    return name_node is not None and name_node.type == "identifier" and _java_text(name_node, source) in _java_archrule_names(class_node, source)
+
+
+def _java_is_oracle_call(call: Any, class_node: Any, source: bytes) -> bool:
+    name = _java_call_name(call, source)
+    if name == "check":
+        return _java_is_archunit_check(call, class_node, source)
+    return _java_is_oracle_name(name)
+
+
+def _java_oracle_calls(node: Any, class_node: Any, source: bytes) -> list[Any]:
+    return [call for call in _java_calls(node) if _java_is_oracle_call(call, class_node, source)]
 
 
 def _java_asserting_helpers(class_node: Any, source: bytes) -> frozenset[str]:
@@ -579,7 +612,7 @@ def _java_asserting_helpers(class_node: Any, source: bytes) -> frozenset[str]:
         annotations = {_java_annotation_name(a, source) for a in _java_annotations(method)}
         if annotations & JAVA_TEST_ANNOTATIONS:
             continue
-        if _java_oracle_calls(method, source):
+        if _java_oracle_calls(method, class_node, source):
             name = method.child_by_field_name("name")
             if name is not None:
                 helpers.add(_java_text(name, source))
@@ -615,24 +648,51 @@ def _java_bodies(source: str) -> dict[str, str]:
     return {name: _java_text(node, raw) for name, node, _ in _java_iter_tests(tree, raw)}
 
 
-def _java_assertj_chain(call: Any, source: bytes) -> list[str]:
-    """Names called after an AssertJ base invocation in its fluent chain."""
-    names: list[str] = []
+def _java_assertj_chain_calls(call: Any) -> list[Any]:
+    calls: list[Any] = []
     current = call
     while current.parent is not None and current.parent.type == "method_invocation" and current.parent.child_by_field_name("object") == current:
-        names.append(_java_call_name(current.parent, source))
+        calls.append(current.parent)
         current = current.parent
-    return names
+    return calls
+
+
+def _java_assertj_chain(call: Any, source: bytes) -> list[str]:
+    """Names called after an AssertJ base invocation in its fluent chain."""
+    return [_java_call_name(chained, source) for chained in _java_assertj_chain_calls(call)]
+
+
+def _java_is_empty_satisfies(call: Any) -> bool:
+    arguments = call.child_by_field_name("arguments")
+    if arguments is None:
+        return False
+    lambdas = [argument for argument in arguments.named_children if argument.type == "lambda_expression"]
+    return bool(lambdas) and all(
+        (body := lambda_.child_by_field_name("body")) is not None and body.type == "block" and not body.named_children
+        for lambda_ in lambdas
+    )
+
+
+def _java_assertj_chain_has_value_assertion(call: Any, source: bytes) -> bool:
+    for chained in _java_assertj_chain_calls(call):
+        name = _java_call_name(chained, source)
+        if name in JAVA_CHAIN_DECORATION | JAVA_TYPE_ASSERTIONS or name == "extracting":
+            continue
+        if name == "satisfies" and _java_is_empty_satisfies(chained):
+            continue
+        return True
+    return False
 
 
 def _java_is_type_only_assertj(call: Any, source: bytes) -> bool:
-    chain = _java_assertj_chain(call, source)
-    return "isInstanceOf" in chain and not any(name not in JAVA_CHAIN_DECORATION | JAVA_TYPE_ASSERTIONS for name in chain)
+    return "isInstanceOf" in _java_assertj_chain(call, source) and not _java_assertj_chain_has_value_assertion(call, source)
 
 
 def _java_is_other_oracle(call: Any, source: bytes, fail_catches: list[Any]) -> bool:
     name = _java_call_name(call, source)
     if name in JAVA_TYPE_ASSERTIONS or (name == "fail" and fail_catches):
+        return False
+    if name == "extracting" or (name == "satisfies" and _java_is_empty_satisfies(call)):
         return False
     if name in JAVA_ASSERTJ_BASE and _java_is_type_only_assertj(call, source):
         return False
@@ -652,10 +712,30 @@ def _java_try_fail_catches(method: Any, source: bytes) -> list[Any]:
     return catches
 
 
+def _java_assertthrows_result_names(method: Any, source: bytes) -> frozenset[str]:
+    names: set[str] = set()
+    for node in _walk_java(method):
+        if node.type != "variable_declarator":
+            continue
+        value = node.child_by_field_name("value")
+        name = node.child_by_field_name("name")
+        if value is not None and value.type == "method_invocation" and _java_call_name(value, source) == "assertThrows" and name is not None:
+            names.add(_java_text(name, source))
+    return frozenset(names)
+
+
+def _java_is_redundant_assertthrows_notnull(call: Any, source: bytes, result_names: frozenset[str]) -> bool:
+    if _java_call_name(call, source) != "assertNotNull":
+        return False
+    arguments = call.child_by_field_name("arguments")
+    first = arguments.named_children[0] if arguments is not None and arguments.named_children else None
+    return first is not None and first.type == "identifier" and _java_text(first, source) in result_names
+
+
 def _java_oracle_flags(method: Any, class_node: Any, source: bytes, annotations: list[Any]) -> list[str]:
     calls = _java_calls(method)
     names = [_java_call_name(call, source) for call in calls]
-    oracles = [call for call in calls if _java_is_oracle_name(_java_call_name(call, source))]
+    oracles = [call for call in calls if _java_is_oracle_call(call, class_node, source)]
     helpers = _java_asserting_helpers(class_node, source)
     expected_exception = any(
         _java_annotation_name(annotation, source) == "Test" and re.search(r"\bexpected\s*=", _java_text(annotation, source))
@@ -680,7 +760,13 @@ def _java_oracle_flags(method: Any, class_node: Any, source: bytes, annotations:
     if "assertThrows" in names and not {"getMessage", "getLocalizedMessage", "getCause"}.intersection(names):
         type_only = True
     type_only = type_only or expected_exception
-    other_oracles = [call for call in oracles if _java_is_other_oracle(call, source, fail_catches)]
+    assertthrows_results = _java_assertthrows_result_names(method, source)
+    other_oracles = [
+        call
+        for call in oracles
+        if not _java_is_redundant_assertthrows_notnull(call, source, assertthrows_results)
+        and _java_is_other_oracle(call, source, fail_catches)
+    ]
     if type_only and not other_oracles and "weak-only-assert" not in flags:
         flags.append("type-only-assert")
     return flags

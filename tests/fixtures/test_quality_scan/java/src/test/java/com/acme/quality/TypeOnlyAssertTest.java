@@ -1,6 +1,7 @@
 package com.acme.quality;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -26,6 +27,26 @@ class TypeOnlyAssertTest {
     void checksExceptionMessage() {
         IllegalStateException error = assertThrows(IllegalStateException.class, this::run);
         assertTrue(error.getMessage().contains("expected"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void onlyExtractsAfterCheckingType() {
+        assertThat(error())
+                .isInstanceOf(IllegalStateException.class)
+                .extracting(Throwable::getMessage);
+    }
+
+    @org.junit.jupiter.api.Test
+    void onlySatisfiesAnEmptyConsumerAfterCheckingType() {
+        assertThat(value())
+                .isInstanceOf(String.class)
+                .satisfies(text -> {});
+    }
+
+    @org.junit.jupiter.api.Test
+    void onlyChecksAssertThrowsResultIsNotNull() {
+        var error = assertThrows(IllegalStateException.class, this::run);
+        assertNotNull(error);
     }
 
     @org.junit.Test(expected = IllegalStateException.class)
