@@ -172,6 +172,11 @@ nodes:
     kind: procedures
     title: "Test-Suite Quality Assessment (static triage, domain squads, shrink-only follow-through)"
     body_path: procedures/test-suite-quality-assessment.procedure.yaml
+  # Cloud-session orchestration binds the runner and orchestrator boundaries.
+  - id: CLOUD_SESSION_ORCHESTRATION
+    kind: directives
+    title: "Cloud-Session Orchestration (runner and orchestrator boundaries)"
+    body_path: directives/cloud-session-orchestration.directive.yaml
   # Cloud-session dispatch: the maintainer workflow behind the operator-local
   # spk-dispatch-cloud skill (ADR 2026-09-27-1: the skill stays thin and
   # requires this procedure).
@@ -397,6 +402,10 @@ edges:
     reason: "Verification runs named test files only, never whole heavy suites."
   # Cloud-session dispatch binds the per-kind doctrine rather than restating it.
   - source: "procedure:cloud-session-dispatch"
+    target: "directive:CLOUD_SESSION_ORCHESTRATION"
+    relation: requires
+    reason: "Sibling access, orchestrator-mediated writes, blocked-session replacement and shared numbering are binding."
+  - source: "procedure:cloud-session-dispatch"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
     reason: "The runner targets specific gate files and never runs the full heavy suites."
@@ -431,6 +440,10 @@ edges:
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
     reason: "In-mission runs are bounded to the calibrated blast radius and specific gate files; CI owns the heavy and full suites."
+  - source: "procedure:semi-auto-delivery"
+    target: "directive:CLOUD_SESSION_ORCHESTRATION"
+    relation: requires
+    reason: "Cloud runs keep sibling repositories read-only, route sibling writes through the orchestrator, replace blocked sessions and choose shared numbers when written."
   - source: "procedure:semi-auto-delivery"
     target: "directive:OPERATOR_SIGNAL_CONTRACT"
     relation: requires

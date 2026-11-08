@@ -1,0 +1,29 @@
+schema_version: "1.0"
+id: CLOUD_SESSION_ORCHESTRATION
+title: Cloud-Session Orchestration (runner and orchestrator boundaries)
+intent: >
+  Makes the integrity rules for parallel cloud sessions binding charter content.
+  Runners keep sibling repositories read-only, route sibling writes through the
+  orchestrator, replace blocked sessions instead of retrying them, and allocate
+  shared numbers only when writing after checking all competing work.
+enforcement: required
+scope: >
+  Applies to orchestrators and runners using cloud-session-dispatch, or
+  semi-auto-delivery in cloud mode, including their dispatch briefs, Mission research notes,
+  hand-offs and merge preparation. Environment setup tooling, the command -v
+  and PyPI fallback, and the missing-skill fallback remain advisory in the
+  cloud-session-dispatch procedure.
+integrity_rules:
+  - Sibling repositories are cloned read-only; runners never request push access or write to them.
+  - >
+    Sibling writes go back through the orchestrator: runners draft issues, pack
+    changes and pin changes in the Mission research directory with
+    `<repo>#TBD-<slug>` placeholders; the orchestrator files them and replaces
+    every placeholder before merge.
+  - A session blocked by its environment, permissions or a missing tool is replaced with a fresh session, not retried.
+  - ADR and other shared numbers are chosen when written, after checking main and every open PR.
+validation_criteria:
+  - Runner briefs and reports show that sibling clones are used read-only, with no push-access request or sibling repository write.
+  - Every sibling issue, pack change and pin change is drafted in the Mission research directory and handed to the orchestrator, and no `<repo>#TBD-<slug>` placeholder remains at merge.
+  - Every session blocked by its environment, permissions or a missing tool is replaced with a fresh session, with no retry of the blocked session.
+  - Every ADR or other shared number is allocated when written, after checking main and every open PR.

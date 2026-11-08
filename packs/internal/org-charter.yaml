@@ -13,6 +13,7 @@ required_procedures:
 required_directives:
   - NO_FULL_HEAVY_SUITES_IN_MISSION
   - SPEC_KITTY_DOCS_CONVENTIONS
+  - CLOUD_SESSION_ORCHESTRATION
 required_glossary_packs:
   - spk-internal-glossary
 required_toolguides:

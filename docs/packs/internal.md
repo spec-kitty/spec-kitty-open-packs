@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `7d352793687d1670c80ebaf5a932770c4eb793a8b2af7d0c7911946315dc0e30`
+- **Content checksum (sha256):** `279fac76173dca34de3a7e085488e73b08077f4a4eedad076a9c31cf6ebf267c`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 4 |
+| `directives` | 5 |
 | `tactics` | 4 |
 | `styleguides` | 6 |
 | `toolguides` | 6 |
@@ -44,13 +44,14 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **74** |
+| **Total files** | **75** |
 
 ### Full listing
 
 <details>
-<summary><code>directives</code> (4)</summary>
+<summary><code>directives</code> (5)</summary>
 
+- `cloud-session-orchestration.directive.yaml`
 - `no-full-heavy-suites-in-mission.directive.yaml`
 - `operator-signal-contract.directive.yaml`
 - `spec-kitty-docs-conventions.directive.yaml`

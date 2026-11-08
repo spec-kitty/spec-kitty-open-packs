@@ -50,6 +50,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Cloud-session orchestration rules are binding** (#76). The internal
+  `CLOUD_SESSION_ORCHESTRATION` directive makes sibling read-only boundaries,
+  orchestrator-mediated writes, blocked-session replacement and just-in-time shared
+  numbering required charter content for cloud dispatch and semi-auto delivery.
+
 - **Cloud dispatch now bounds multi-runner fleets** (#106, #76). The internal
   `cloud-session-dispatch` procedure and cloud mode of the `semi-auto` skill set WIP limits,
   staggering and collision rules, environment probes and pin checks, settled dispatch conventions,
