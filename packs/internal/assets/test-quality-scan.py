@@ -61,7 +61,9 @@ from __future__ import annotations
 
 import argparse
 import ast
+import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -484,8 +486,19 @@ class PythonFrontend:
         return _python_changed_names(old_source, new_source)
 
 
-JAVA_TEST_ANNOTATIONS = frozenset({"Test", "ParameterizedTest", "RepeatedTest", "TestFactory"})
+JAVA_TEST_ANNOTATIONS = frozenset({"Test", "ParameterizedTest", "RepeatedTest", "TestFactory", "TestTemplate"})
 JAVA_BROAD_EXCEPTIONS = frozenset({"Exception", "Throwable", "RuntimeException"})
+JAVA_CLOCK_TYPES = frozenset({"Instant", "LocalDate", "LocalDateTime", "LocalTime", "OffsetDateTime", "OffsetTime", "ZonedDateTime", "Year", "YearMonth"})
+JAVA_ASSERTJ_BASE = frozenset({"assertThat", "assertThatThrownBy", "assertThatCode", "assertThatExceptionOfType"})
+JAVA_TYPE_ASSERTIONS = frozenset({"assertInstanceOf", "assertThrows", "isInstanceOf"})
+JAVA_CHAIN_DECORATION = frozenset({"as", "describedAs", "withFailMessage", "withRepresentation"})
+JAVA_DISCOVERY_PRUNE = frozenset(
+    {
+        ".git", ".claude", ".gradle", ".idea", ".svn", "__pycache__",
+        "build", "target", "out", "dist", "node_modules",
+        "generated", "generated-sources", "generated-test-sources",
+    }
+)
 JAVA_VAGUE_NAME = re.compile(
     r"test_?\d*|test_(?:it_works|basic|smoke|misc|foo|bar|simple|ok|works)"
     r"|test(?:ItWorks|Basic|Smoke|Misc|Foo|Bar|Simple|Ok|Works)"
@@ -494,6 +507,10 @@ JAVA_VAGUE_NAME = re.compile(
 
 class JavaDependencyError(RuntimeError):
     """The optional Java parser packages are not installed."""
+
+
+def _java_dependencies_available() -> bool:
+    return all(importlib.util.find_spec(name) is not None for name in ("tree_sitter", "tree_sitter_java"))
 
 
 def _java_parser() -> Any:
@@ -540,7 +557,11 @@ def _java_call_name(call: Any, source: bytes) -> str:
 
 
 def _java_is_oracle_name(name: str) -> bool:
-    return name.startswith("assert") or name in {"fail", "verify", "verifyNoInteractions", "andExpect"}
+    return (
+        name.startswith("assert")
+        or name.startswith(("hasMessage", "hasCause", "hasRootCause"))
+        or name in {"fail", "verify", "verifyNoInteractions", "andExpect", "check", "satisfies", "extracting", "isInstanceOfSatisfying"}
+    )
 
 
 def _java_oracle_calls(node: Any, source: bytes) -> list[Any]:
@@ -594,6 +615,43 @@ def _java_bodies(source: str) -> dict[str, str]:
     return {name: _java_text(node, raw) for name, node, _ in _java_iter_tests(tree, raw)}
 
 
+def _java_assertj_chain(call: Any, source: bytes) -> list[str]:
+    """Names called after an AssertJ base invocation in its fluent chain."""
+    names: list[str] = []
+    current = call
+    while current.parent is not None and current.parent.type == "method_invocation" and current.parent.child_by_field_name("object") == current:
+        names.append(_java_call_name(current.parent, source))
+        current = current.parent
+    return names
+
+
+def _java_is_type_only_assertj(call: Any, source: bytes) -> bool:
+    chain = _java_assertj_chain(call, source)
+    return "isInstanceOf" in chain and not any(name not in JAVA_CHAIN_DECORATION | JAVA_TYPE_ASSERTIONS for name in chain)
+
+
+def _java_is_other_oracle(call: Any, source: bytes, fail_catches: list[Any]) -> bool:
+    name = _java_call_name(call, source)
+    if name in JAVA_TYPE_ASSERTIONS or (name == "fail" and fail_catches):
+        return False
+    if name in JAVA_ASSERTJ_BASE and _java_is_type_only_assertj(call, source):
+        return False
+    return True
+
+
+def _java_try_fail_catches(method: Any, source: bytes) -> list[Any]:
+    """Catch clauses in try/fail/catch, excluding fail handlers for does-not-raise tests."""
+    catches: list[Any] = []
+    for node in _walk_java(method):
+        if node.type != "try_statement":
+            continue
+        body = node.child_by_field_name("body")
+        if body is None or not any(_java_call_name(call, source) == "fail" for call in _java_calls(body)):
+            continue
+        catches.extend(child for child in node.children if child.type == "catch_clause")
+    return catches
+
+
 def _java_oracle_flags(method: Any, class_node: Any, source: bytes, annotations: list[Any]) -> list[str]:
     calls = _java_calls(method)
     names = [_java_call_name(call, source) for call in calls]
@@ -617,16 +675,31 @@ def _java_oracle_flags(method: Any, class_node: Any, source: bytes, annotations:
         if weak:
             flags.append("weak-only-assert")
 
-    type_only = "isInstanceOf" in names or "assertInstanceOf" in names
+    fail_catches = _java_try_fail_catches(method, source)
+    type_only = "isInstanceOf" in names or "assertInstanceOf" in names or bool(fail_catches)
     if "assertThrows" in names and not {"getMessage", "getLocalizedMessage", "getCause"}.intersection(names):
         type_only = True
     type_only = type_only or expected_exception
-    method_text = _java_text(method, source)
-    if "try" in method_text and "fail" in names and any(node.type == "catch_clause" for node in _walk_java(method)):
-        type_only = True
-    if type_only and "weak-only-assert" not in flags:
+    other_oracles = [call for call in oracles if _java_is_other_oracle(call, source, fail_catches)]
+    if type_only and not other_oracles and "weak-only-assert" not in flags:
         flags.append("type-only-assert")
     return flags
+
+
+def _java_mock_fields(class_node: Any, source: bytes) -> frozenset[str]:
+    body = class_node.child_by_field_name("body")
+    if body is None:
+        return frozenset()
+    fields: set[str] = set()
+    for field in body.named_children:
+        if field.type != "field_declaration" or not any(_java_annotation_name(a, source) == "Mock" for a in _java_annotations(field)):
+            continue
+        for node in _walk_java(field):
+            if node.type == "variable_declarator":
+                name = node.child_by_field_name("name")
+                if name is not None:
+                    fields.add(_java_text(name, source))
+    return frozenset(fields)
 
 
 def _java_coupling_flags(method: Any, class_node: Any, source: bytes, names: list[str]) -> list[str]:
@@ -635,10 +708,9 @@ def _java_coupling_flags(method: Any, class_node: Any, source: bytes, names: lis
         for node in _walk_java(method)
         if node.type in {"annotation", "marker_annotation"} and _java_annotation_name(node, source) == "Mock"
     )
-    for node in _walk_java(class_node):
-        if node.type == "field_declaration":
-            mock_annotations += sum(1 for annotation in _java_annotations(node) if _java_annotation_name(annotation, source) == "Mock")
-    flags = ["over-mocking"] if sum(name in {"mock", "when"} for name in names) + mock_annotations >= 4 else []
+    identifiers = {_java_text(node, source) for node in _walk_java(method) if node.type == "identifier"}
+    referenced_mock_fields = len(identifiers & _java_mock_fields(class_node, source))
+    flags = ["over-mocking"] if sum(name in {"mock", "when"} for name in names) + mock_annotations + referenced_mock_fields >= 4 else []
     if {"verify", "verifyNoInteractions", "inOrder"}.intersection(names) or any(
         node.type == "type_identifier" and _java_text(node, source) == "InOrder" for node in _walk_java(method)
     ):
@@ -656,7 +728,9 @@ def _java_throws_broad_exception(call: Any, source: bytes) -> bool:
 
 def _java_reads_unfrozen_clock(call: Any, source: bytes) -> bool:
     arguments = call.child_by_field_name("arguments")
-    return _java_call_name(call, source) == "now" and arguments is not None and not arguments.named_children
+    receiver = call.child_by_field_name("object")
+    receiver_name = "" if receiver is None else _java_text(receiver, source).rsplit(".", 1)[-1]
+    return _java_call_name(call, source) == "now" and receiver_name in JAVA_CLOCK_TYPES and arguments is not None and not arguments.named_children
 
 
 def _java_text_flags(method: Any, class_node: Any, source: bytes, annotations: list[Any], names: list[str]) -> list[str]:
@@ -666,9 +740,10 @@ def _java_text_flags(method: Any, class_node: Any, source: bytes, annotations: l
         re.search(r"\bexpected\s*=\s*(?:Exception|Throwable|RuntimeException)\.class", _java_text(annotation, source))
         for annotation in annotations
     )
-    broad = broad or ("fail" in names and bool(
-        re.search(r"catch\s*\(\s*(?:final\s+)?(?:Exception|Throwable|RuntimeException)\b", text)
-    ))
+    broad = broad or any(
+        re.search(r"catch\s*\(\s*(?:final\s+)?(?:Exception|Throwable|RuntimeException)\b", _java_text(catch, source))
+        for catch in _java_try_fail_catches(method, source)
+    )
     disabled = any(_java_annotation_name(annotation, source) in {"Disabled", "Ignore"} for annotation in annotations)
     disabled = disabled or any(
         _java_annotation_name(annotation, source) in {"Disabled", "Ignore"} for annotation in _java_annotations(class_node)
@@ -716,8 +791,15 @@ class JavaFrontend:
         return bool(re.search(r"(^|/)src/test/java/.+[^/]+(?:Test|Tests|IT)\.java$", path))
 
     def discover(self, base: Path) -> list[Path]:
-        candidates = {path for pattern in ("*Test.java", "*Tests.java", "*IT.java") for path in base.rglob(pattern)}
-        return sorted(path for path in candidates if self.matches(path.as_posix()))
+        candidates: list[Path] = []
+        for directory, dirnames, filenames in os.walk(base):
+            dirnames[:] = sorted(name for name in dirnames if name not in JAVA_DISCOVERY_PRUNE)
+            for filename in sorted(filenames):
+                if filename.endswith(("Test.java", "Tests.java", "IT.java")):
+                    path = Path(directory) / filename
+                    if self.matches(path.as_posix()):
+                        candidates.append(path)
+        return sorted(candidates)
 
     def domain_of(self, path: str) -> str:
         parts = Path(path).parts
@@ -813,7 +895,7 @@ def collect_paths(repo: Path, roots: list[str]) -> list[str]:
     return sorted(found)
 
 
-def changed_tests_since(repo: Path, since: str, roots: list[str]) -> dict[str, set[str] | None]:
+def changed_tests_since(repo: Path, since: str, roots: list[str], defer_java: bool = False) -> dict[str, set[str] | None]:
     """Map each test file added or changed since ``since`` to the tests to score.
 
     A new file scores every test (``None``). A changed file scores only the test
@@ -826,6 +908,9 @@ def changed_tests_since(repo: Path, since: str, roots: list[str]) -> dict[str, s
         status, path = parts[0], parts[-1]
         frontend = next((candidate for candidate in FRONTENDS if candidate.matches(path)), None)
         if frontend is None:
+            continue
+        if defer_java and frontend is JAVA_FRONTEND:
+            out[path] = None
             continue
         old_path = parts[1] if status.startswith("R") else path
         old_source = git(repo, "show", f"{since}:{old_path}") if not status.startswith("A") else ""
@@ -967,11 +1052,31 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def _java_path_requested(roots: list[str]) -> bool:
+    for root in roots:
+        path = Path(root)
+        if path.suffix == ".java" or any(path.parts[index : index + 3] == ("src", "test", "java") for index in range(len(path.parts) - 2)):
+            return True
+    return False
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     repo = args.repo.resolve()
+    defer_java = not _java_path_requested(args.paths) and not _java_dependencies_available()
     try:
-        targets: dict[str, set[str] | None] = changed_tests_since(repo, args.since, args.paths) if args.since else dict.fromkeys(collect_paths(repo, args.paths))
+        targets: dict[str, set[str] | None] = changed_tests_since(repo, args.since, args.paths, defer_java) if args.since else dict.fromkeys(collect_paths(repo, args.paths))
+        if defer_java:
+            skipped = [path for path in targets if JAVA_FRONTEND.matches(path)]
+            if skipped:
+                print(
+                    f"warning: skipped {len(skipped)} Java test file{'s' if len(skipped) != 1 else ''}; "
+                    "Java parser dependencies are not installed. Run `uv run test-quality-scan.py ...`, "
+                    "or install tree-sitter==0.25.2 and tree-sitter-java==0.23.5.",
+                    file=sys.stderr,
+                )
+                for path in skipped:
+                    del targets[path]
         file_rows: dict[str, FileRow] = {}
         test_rows: list[TestRow] = []
         for rel, only in sorted(targets.items()):

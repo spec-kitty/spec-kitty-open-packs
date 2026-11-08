@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `e3197fcda8817f95b92281b69a92703c38040760be183e7f7e94f30955286b49`
+- **Content checksum (sha256):** `5d65115480e26bb367893e2ac992845180e4bf76ee8e37e3af75b3d3b0f38b95`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
