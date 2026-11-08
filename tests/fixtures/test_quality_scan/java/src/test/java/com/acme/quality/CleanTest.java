@@ -36,9 +36,23 @@ class CleanTest {
         assertEquals("expected", value());
     }
 
+    @org.junit.jupiter.api.TestTemplate
+    void comparesATemplatedResult() {
+        assertEquals("expected", value());
+    }
+
     @Test
     void delegatesToAnAssertingHelper() {
         assertPayload(value());
+    }
+
+    @Test
+    void aDomainNowHelperIsNotAClockCall() {
+        assertEquals("expected", now());
+    }
+
+    private String now() {
+        return value();
     }
 
     private void assertPayload(String payload) {

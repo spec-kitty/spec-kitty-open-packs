@@ -11,7 +11,7 @@ It **runs no tests**. The Python front end parses `test_*.py` and `*_test.py`
 with the standard-library `ast` module. The Java front end discovers
 `*Test.java`, `*Tests.java` and `*IT.java` below `src/test/java`, then parses
 methods annotated with JUnit 4 or 5 `@Test`, `@ParameterizedTest`,
-`@RepeatedTest` or `@TestFactory`. jqwik `@Property` methods are deliberately
+`@RepeatedTest`, `@TestFactory` or `@TestTemplate`. jqwik `@Property` methods are deliberately
 excluded. Java parsing uses the official tree-sitter bindings declared by the
 script's exact PEP 723 pins; those imports are lazy, so Python-only scans stay
 standard-library only.
@@ -52,11 +52,14 @@ uv run "$(spec-kitty charter pack asset path test-quality-scan)" \
 ```
 
 A multi-module Java build can pass its modules or the repository root as the
-paths instead. Files count only when their path contains `src/test/java`. A
-plain `python` invocation also works when `tree-sitter==0.25.2` and
+paths instead. Files count only when their path contains `src/test/java`, and
+discovery prunes `build`, `target`, dependency checkouts, VCS metadata and other
+generated directories. A plain `python` invocation also works when `tree-sitter==0.25.2` and
 `tree-sitter-java==0.23.5` are already installed. If they are missing, Java
 scanning stops with an error containing both the `uv run` and `pip install`
-remedies; Python scanning never asks for them.
+remedies when Java paths are passed explicitly. A mixed-tree scan without an
+explicit Java path instead prints a warning and skips only the Java files;
+Python scanning never asks for the parser packages.
 
 Then hand the ranked ledgers to the review squads:
 
@@ -100,14 +103,14 @@ existing weights and omits Python-only detectors that have no clean analogue.
 | --- | ---: | --- | --- | --- |
 | `no-assertion` | 5 | No `assert`, `raises`, assert-like call or local asserting helper | No `assert*`, `assertThat`, `assertThrows`, `fail`, `verify` or `andExpect`; calls to asserting helpers in the same class are exempt | R1 vacuous |
 | `weak-only-assert` | 4 | The only assert is `True` or `x is not None` | The only check is `assertTrue(true)`, `assertNotNull` or AssertJ `isNotNull` | R1 vacuous |
-| `type-only-assert` | 3 | The only assert is `isinstance`, `callable` or `hasattr` | `assertInstanceOf`/`isInstanceOf`, unchecked `assertThrows`, `@Test(expected=...)`, or try/fail/catch | R1 vacuous |
+| `type-only-assert` | 3 | The only assert is `isinstance`, `callable` or `hasattr` | The only oracle is `assertInstanceOf`/`isInstanceOf`, unchecked `assertThrows`, `@Test(expected=...)`, or try/fail/catch | R1 vacuous |
 | `broad-raises` | 3 | `pytest.raises(Exception)` | `Exception`, `Throwable` or `RuntimeException` in `assertThrows`, `expected`, or try/fail/catch | R1 vacuous |
 | `literal-source-scan` | 3 | Reads source text and asserts a substring | Not ported | R4 literal scan |
 | `line-number-pin` | 3 | Asserts a `file.py:NN` location | Not ported | R6 line pin |
-| `over-mocking` | 2 | Four or more patches or mocks in one test | Four or more `mock`, `when` or `@Mock` occurrences, including class mock fields | R2 over-mock |
+| `over-mocking` | 2 | Four or more patches or mocks in one test | Four or more `mock`, `when` or `@Mock` occurrences; class fields count only when the test references them | R2 over-mock |
 | `private-attr` | 2 | Three or more private attributes read | Not ported | R3 implementation-coupled |
 | `fake-short-ulid` | 2 | A `mission_id` that is not a 26-character ULID | Not ported | R7 fabricated data |
-| `sleep`, `wallclock` | 2 | A real sleep, or an unfrozen clock | `Thread.sleep`, or a no-argument `now()` call | R9 non-deterministic |
+| `sleep`, `wallclock` | 2 | A real sleep, or an unfrozen clock | `Thread.sleep`, or a no-argument `now()` call on a known `java.time` type | R9 non-deterministic |
 | `interaction-assert` | 1 | Asserts on mock calls | `verify`, `verifyNoInteractions` or `InOrder` | R3 implementation-coupled |
 | `skip-or-xfail` | 1 | A skip or xfail that is not a platform or tool guard | `@Disabled`, `@Ignore` or `Assumptions.assume*` | masked defect candidate |
 | `long-test`, `many-asserts` | 1 | More than 80 lines, or 15 or more asserts | More than 80 lines, or 15 or more assert calls | R8 multi-behaviour |
@@ -115,9 +118,14 @@ existing weights and omits Python-only detectors that have no clean analogue.
 | `provenance-tokens` | 1 | WP, FR or T ids, or issue numbers, in the name or docstring | The same tokens in the method name | development-assist lens |
 | `unparseable` | 1 | A Python syntax error | A Java tree with parser errors | parser coverage candidate |
 
-For Java, an `assertThrows` oracle is not `type-only-assert` when the test also
-reads the captured exception's message, localized message or cause. These are
-source-level heuristics, not type-resolved Java analysis.
+For Java, a type check does not become `type-only-assert` when another assertion
+checks behaviour. This includes additional JUnit assertions, an asserted
+`assertThrows` result, AssertJ `hasMessage*`, `hasCause*`, `hasRootCause*`,
+`satisfies`, `extracting` and `isInstanceOfSatisfying` chains. ArchUnit
+`ArchRule.check(...)` is an oracle. A broad catch whose `fail` runs only when
+the body unexpectedly raises is a does-not-raise contract, not a type or broad
+exception finding. These are source-level heuristics, not type-resolved Java
+analysis.
 
 ## Shallow clones
 
@@ -133,7 +141,7 @@ the development-assist lens matters.
 
 Every flag is a candidate, not a verdict:
 
-- `no-assertion` fires on a test that delegates to a helper the front end cannot recognize. Java recognizes asserting helpers only in the same class.
+- `no-assertion` fires on a test that delegates to a helper the front end cannot recognize. Java recognizes asserting helpers only in the same class, not on an enclosing class of a nested test.
 - `weak-only-assert` fires on "passes strict validation" tests, where the call under test raises on failure. The assert is then only a formality.
 - `provenance-tokens` fires on legitimate issue-pinned regression tests. It only feeds the development-assist lens, and it weighs the least.
 - Java source cannot always reveal an inferred exception type or the implementation behind a fluent assertion. Review the captured exception and the complete assertion chain before acting.

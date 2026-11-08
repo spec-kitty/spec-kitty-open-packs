@@ -4,8 +4,12 @@ from __future__ import annotations
 
 import builtins
 import importlib.util
+import io
+import json
 import sys
+import tempfile
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
 from unittest import mock
 
@@ -19,6 +23,7 @@ scanner = importlib.util.module_from_spec(_spec)
 sys.dont_write_bytecode = True
 sys.modules["test_quality_scan"] = scanner
 _spec.loader.exec_module(scanner)
+JAVA_DEPS_AVAILABLE = all(importlib.util.find_spec(name) is not None for name in ("tree_sitter", "tree_sitter_java"))
 
 
 class PythonFrontendTest(unittest.TestCase):
@@ -99,6 +104,7 @@ class PythonFrontendTest(unittest.TestCase):
         )
 
 
+@unittest.skipUnless(JAVA_DEPS_AVAILABLE, "tree-sitter Java test dependencies are not installed")
 class JavaFrontendTest(unittest.TestCase):
     def scan(self, name: str) -> tuple[object, dict[str, list[str]]]:
         relative = f"{JAVA_FIXTURES.relative_to(ROOT).as_posix()}/src/test/java/com/acme/quality/{name}"
@@ -158,7 +164,7 @@ class JavaFrontendTest(unittest.TestCase):
         )
         self.assert_flags(
             "OverMockingFieldsTest.java",
-            {"OverMockingFieldsTest.usesAMockCollaborator": ["over-mocking"]},
+            {"OverMockingFieldsTest.usesEveryMockCollaborator": ["over-mocking"]},
         )
 
     def test_skip_and_non_determinism_flags_are_exact(self) -> None:
@@ -190,11 +196,26 @@ class JavaFrontendTest(unittest.TestCase):
     def test_junit_variants_and_asserting_helpers_are_clean(self) -> None:
         row, actual = self.scan("CleanTest.java")
         self.assertEqual({}, actual)
-        self.assertEqual(6, row.tests)
+        self.assertEqual(8, row.tests)
         self.assertEqual(0, row.flagged_tests)
         row, actual = self.scan("PropertyTest.java")
         self.assertEqual({}, actual)
         self.assertEqual(0, row.tests)
+
+    def test_strong_oracles_do_not_trigger_type_only(self) -> None:
+        row, actual = self.scan("StrongOracleAssertionsTest.java")
+        self.assertEqual({}, actual)
+        self.assertEqual(10, row.tests)
+
+    def test_does_not_raise_contract_is_an_oracle(self) -> None:
+        row, actual = self.scan("DoesNotRaiseTest.java")
+        self.assertEqual({}, actual)
+        self.assertEqual(1, row.tests)
+
+    def test_archrule_checks_are_oracles(self) -> None:
+        row, actual = self.scan("ArchitectureTest.java")
+        self.assertEqual({}, actual)
+        self.assertEqual(1, row.tests)
 
     def test_unparseable_file_is_a_file_level_finding(self) -> None:
         row, actual = self.scan("BrokenTest.java")
@@ -216,6 +237,24 @@ class JavaFrontendTest(unittest.TestCase):
         self.assertEqual("(root)", scanner.JAVA_FRONTEND.domain_of("src/test/java/RootTest.java"))
         for filename in ("ExampleTest.java", "ExamplesTests.java", "ExampleIT.java"):
             self.assertTrue(scanner.JAVA_FRONTEND.matches(f"src/test/java/com/acme/{filename}"))
+
+    def test_discovery_prunes_generated_directories(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            paths = [
+                "module/src/test/java/com/acme/ExampleTest.java",
+                "module/target/src/test/java/com/acme/TargetTest.java",
+                "module/build/src/test/java/com/acme/BuildTest.java",
+                ".claude/worktrees/copy/src/test/java/com/acme/WorktreeTest.java",
+            ]
+            for relative in paths:
+                path = base / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("class ExampleTest {}\n", encoding="utf-8")
+            self.assertEqual(
+                [base / paths[0]],
+                scanner.JAVA_FRONTEND.discover(base),
+            )
 
     def test_changed_names_compares_java_method_bodies(self) -> None:
         before = """
@@ -241,6 +280,59 @@ class JavaFrontendTest(unittest.TestCase):
         with mock.patch("builtins.__import__", side_effect=missing_parser):
             with self.assertRaisesRegex(scanner.JavaDependencyError, "uv run.*tree-sitter==0.25.2"):
                 scanner._java_parser()
+
+
+class OptionalJavaDependencyTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.repo = Path(self._tmp.name)
+        (self.repo / "tests").mkdir()
+        (self.repo / "tests" / "test_sample.py").write_text(
+            "def test_sample():\n    assert 1 == 1\n",
+            encoding="utf-8",
+        )
+        java = self.repo / "tests" / "module" / "src" / "test" / "java" / "com" / "acme" / "GeneratedTest.java"
+        java.parent.mkdir(parents=True)
+        java.write_text("class GeneratedTest {}\n", encoding="utf-8")
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_default_mixed_scan_warns_and_skips_java_without_parser(self) -> None:
+        stderr = io.StringIO()
+        with (
+            mock.patch.object(scanner, "_java_dependencies_available", return_value=False),
+            mock.patch.object(scanner, "_java_parser", side_effect=AssertionError("Java parser called")),
+            redirect_stderr(stderr),
+        ):
+            status = scanner.main(["--repo", str(self.repo), "--no-git", "--out", str(self.repo / "out")])
+        self.assertEqual(0, status)
+        self.assertIn("warning: skipped 1 Java test file", stderr.getvalue())
+        files = json.loads((self.repo / "out" / "files.json").read_text(encoding="utf-8"))
+        self.assertEqual(["tests/test_sample.py"], [row["file"] for row in files])
+
+    def test_explicit_java_path_still_requires_parser(self) -> None:
+        stderr = io.StringIO()
+        with (
+            mock.patch.object(scanner, "_java_dependencies_available", return_value=False),
+            mock.patch.object(
+                scanner,
+                "_java_parser",
+                side_effect=scanner.JavaDependencyError("Java scanning requires test dependencies"),
+            ),
+            redirect_stderr(stderr),
+        ):
+            status = scanner.main([
+                "--repo",
+                str(self.repo),
+                "--paths",
+                "tests/module/src/test/java",
+                "--no-git",
+                "--out",
+                str(self.repo / "explicit-out"),
+            ])
+        self.assertEqual(2, status)
+        self.assertIn("Java scanning requires test dependencies", stderr.getvalue())
 
 
 if __name__ == "__main__":

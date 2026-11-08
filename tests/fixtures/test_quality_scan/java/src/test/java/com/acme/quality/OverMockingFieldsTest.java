@@ -16,4 +16,9 @@ class OverMockingFieldsTest {
         first.run();
         assertEquals(1, 1);
     }
+
+    @Test
+    void usesEveryMockCollaborator() {
+        assertEquals(4, java.util.List.of(first, second, third, fourth).size());
+    }
 }
