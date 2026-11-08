@@ -1,0 +1,90 @@
+package com.acme.quality;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class LongTest {
+    @Test
+    void checksAVeryLongBehaviour() {
+        int value = 0;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        value += 1;
+        assertEquals(76, value);
+    }
+}

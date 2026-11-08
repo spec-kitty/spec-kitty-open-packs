@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Static test-quality triage for a pytest corpus: rank files for squad review.
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "tree-sitter==0.25.2",
+#   "tree-sitter-java==0.23.5",
+# ]
+# ///
+"""Static test-quality triage for pytest and JUnit corpora: rank files for squad review.
 
 Maintainer tooling for the ``test-suite-quality-assessment`` procedure. It runs no
 tests. It parses every test module with ``ast``, flags weak-oracle and
@@ -47,7 +54,7 @@ Outputs, all under ``--out``:
     ledger/<domain>.md  a review checklist per domain; never overwritten, so a
                         squad run can be resumed where it stopped
 
-Standard library only. Python 3.11+.
+Python 3.11+. The Python front end is standard-library only. The Java front end uses the exact tree-sitter pins in the PEP 723 metadata above when ``uv run`` resolves the script; plain ``python`` needs those optional packages installed first.
 """
 
 from __future__ import annotations
@@ -61,7 +68,7 @@ import sys
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Protocol
+from typing import Any, Protocol
 
 #: Weight of each flag code in a file's triage score. Vacuous oracles weigh the
 #: most: they pass on a broken product. Style-level smells weigh the least.
@@ -477,8 +484,279 @@ class PythonFrontend:
         return _python_changed_names(old_source, new_source)
 
 
+JAVA_TEST_ANNOTATIONS = frozenset({"Test", "ParameterizedTest", "RepeatedTest", "TestFactory"})
+JAVA_BROAD_EXCEPTIONS = frozenset({"Exception", "Throwable", "RuntimeException"})
+JAVA_VAGUE_NAME = re.compile(
+    r"test_?\d*|test_(?:it_works|basic|smoke|misc|foo|bar|simple|ok|works)"
+    r"|test(?:ItWorks|Basic|Smoke|Misc|Foo|Bar|Simple|Ok|Works)"
+)
+
+
+class JavaDependencyError(RuntimeError):
+    """The optional Java parser packages are not installed."""
+
+
+def _java_parser() -> Any:
+    """Build the Java parser only when a Java file is actually scanned."""
+    try:
+        import tree_sitter_java
+        from tree_sitter import Language, Parser
+    except ImportError as exc:
+        raise JavaDependencyError(
+            "Java scanning requires tree-sitter==0.25.2 and tree-sitter-java==0.23.5. "
+            "Run `uv run packs/internal/assets/test-quality-scan.py ...`, or install them with "
+            "`python -m pip install tree-sitter==0.25.2 tree-sitter-java==0.23.5`."
+        ) from exc
+    return Parser(Language(tree_sitter_java.language()))
+
+
+def _java_text(node: Any, source: bytes) -> str:
+    return source[node.start_byte : node.end_byte].decode("utf-8", errors="replace")
+
+
+def _walk_java(node: Any):
+    yield node
+    for child in node.children:
+        yield from _walk_java(child)
+
+
+def _java_annotations(node: Any) -> list[Any]:
+    modifiers = next((child for child in node.children if child.type == "modifiers"), None)
+    return [] if modifiers is None else [child for child in modifiers.children if child.type in {"annotation", "marker_annotation"}]
+
+
+def _java_annotation_name(annotation: Any, source: bytes) -> str:
+    name = annotation.child_by_field_name("name")
+    return "" if name is None else _java_text(name, source).rsplit(".", 1)[-1]
+
+
+def _java_calls(node: Any) -> list[Any]:
+    return [child for child in _walk_java(node) if child.type == "method_invocation"]
+
+
+def _java_call_name(call: Any, source: bytes) -> str:
+    name = call.child_by_field_name("name")
+    return "" if name is None else _java_text(name, source)
+
+
+def _java_is_oracle_name(name: str) -> bool:
+    return name.startswith("assert") or name in {"fail", "verify", "verifyNoInteractions", "andExpect"}
+
+
+def _java_oracle_calls(node: Any, source: bytes) -> list[Any]:
+    return [call for call in _java_calls(node) if _java_is_oracle_name(_java_call_name(call, source))]
+
+
+def _java_asserting_helpers(class_node: Any, source: bytes) -> frozenset[str]:
+    body = class_node.child_by_field_name("body")
+    if body is None:
+        return frozenset()
+    helpers = set()
+    for method in body.named_children:
+        if method.type != "method_declaration":
+            continue
+        annotations = {_java_annotation_name(a, source) for a in _java_annotations(method)}
+        if annotations & JAVA_TEST_ANNOTATIONS:
+            continue
+        if _java_oracle_calls(method, source):
+            name = method.child_by_field_name("name")
+            if name is not None:
+                helpers.add(_java_text(name, source))
+    return frozenset(helpers)
+
+
+def _java_iter_tests(tree: Any, source: bytes) -> list[tuple[str, Any, Any]]:
+    found: list[tuple[str, Any, Any]] = []
+
+    def visit(container: Any, prefix: str) -> None:
+        body = container if container.type == "program" else container.child_by_field_name("body")
+        if body is None:
+            return
+        for child in body.named_children:
+            if child.type in {"class_declaration", "record_declaration"}:
+                name = child.child_by_field_name("name")
+                visit(child, f"{prefix}{_java_text(name, source) if name is not None else ''}.")
+            elif child.type == "method_declaration":
+                annotations = {_java_annotation_name(a, source) for a in _java_annotations(child)}
+                if annotations & JAVA_TEST_ANNOTATIONS:
+                    name = child.child_by_field_name("name")
+                    found.append((f"{prefix}{_java_text(name, source)}", child, container))
+
+    visit(tree.root_node, "")
+    return found
+
+
+def _java_bodies(source: str) -> dict[str, str]:
+    raw = source.encode("utf-8")
+    tree = _java_parser().parse(raw)
+    if tree.root_node.has_error:
+        return {}
+    return {name: _java_text(node, raw) for name, node, _ in _java_iter_tests(tree, raw)}
+
+
+def _java_oracle_flags(method: Any, class_node: Any, source: bytes, annotations: list[Any]) -> list[str]:
+    calls = _java_calls(method)
+    names = [_java_call_name(call, source) for call in calls]
+    oracles = [call for call in calls if _java_is_oracle_name(_java_call_name(call, source))]
+    helpers = _java_asserting_helpers(class_node, source)
+    expected_exception = any(
+        _java_annotation_name(annotation, source) == "Test" and re.search(r"\bexpected\s*=", _java_text(annotation, source))
+        for annotation in annotations
+    )
+    if not oracles and not expected_exception and not helpers.intersection(names):
+        return ["no-assertion"]
+
+    flags: list[str] = []
+    if len(oracles) == 1:
+        only = oracles[0]
+        name = _java_call_name(only, source)
+        arguments = only.child_by_field_name("arguments")
+        arg_text = "" if arguments is None else _java_text(arguments, source).removeprefix("(").removesuffix(")").strip()
+        weak = name == "assertNotNull" or (name == "assertTrue" and arg_text == "true")
+        weak = weak or (name == "assertThat" and "isNotNull" in names)
+        if weak:
+            flags.append("weak-only-assert")
+
+    type_only = "isInstanceOf" in names or "assertInstanceOf" in names
+    if "assertThrows" in names and not {"getMessage", "getLocalizedMessage", "getCause"}.intersection(names):
+        type_only = True
+    type_only = type_only or expected_exception
+    method_text = _java_text(method, source)
+    if "try" in method_text and "fail" in names and any(node.type == "catch_clause" for node in _walk_java(method)):
+        type_only = True
+    if type_only and "weak-only-assert" not in flags:
+        flags.append("type-only-assert")
+    return flags
+
+
+def _java_coupling_flags(method: Any, class_node: Any, source: bytes, names: list[str]) -> list[str]:
+    mock_annotations = sum(
+        1
+        for node in _walk_java(method)
+        if node.type in {"annotation", "marker_annotation"} and _java_annotation_name(node, source) == "Mock"
+    )
+    for node in _walk_java(class_node):
+        if node.type == "field_declaration":
+            mock_annotations += sum(1 for annotation in _java_annotations(node) if _java_annotation_name(annotation, source) == "Mock")
+    flags = ["over-mocking"] if sum(name in {"mock", "when"} for name in names) + mock_annotations >= 4 else []
+    if {"verify", "verifyNoInteractions", "inOrder"}.intersection(names) or any(
+        node.type == "type_identifier" and _java_text(node, source) == "InOrder" for node in _walk_java(method)
+    ):
+        flags.append("interaction-assert")
+    return flags
+
+
+def _java_throws_broad_exception(call: Any, source: bytes) -> bool:
+    if _java_call_name(call, source) != "assertThrows":
+        return False
+    arguments = call.child_by_field_name("arguments")
+    first = arguments.named_children[0] if arguments is not None and arguments.named_children else None
+    return first is not None and _java_text(first, source).removesuffix(".class") in JAVA_BROAD_EXCEPTIONS
+
+
+def _java_reads_unfrozen_clock(call: Any, source: bytes) -> bool:
+    arguments = call.child_by_field_name("arguments")
+    return _java_call_name(call, source) == "now" and arguments is not None and not arguments.named_children
+
+
+def _java_text_flags(method: Any, class_node: Any, source: bytes, annotations: list[Any], names: list[str]) -> list[str]:
+    text = _java_text(method, source)
+    broad = any(_java_throws_broad_exception(call, source) for call in _java_calls(method))
+    broad = broad or any(
+        re.search(r"\bexpected\s*=\s*(?:Exception|Throwable|RuntimeException)\.class", _java_text(annotation, source))
+        for annotation in annotations
+    )
+    broad = broad or ("fail" in names and bool(
+        re.search(r"catch\s*\(\s*(?:final\s+)?(?:Exception|Throwable|RuntimeException)\b", text)
+    ))
+    disabled = any(_java_annotation_name(annotation, source) in {"Disabled", "Ignore"} for annotation in annotations)
+    disabled = disabled or any(
+        _java_annotation_name(annotation, source) in {"Disabled", "Ignore"} for annotation in _java_annotations(class_node)
+    )
+    checks = (
+        ("broad-raises", broad),
+        ("sleep", "Thread.sleep" in text),
+        ("wallclock", any(_java_reads_unfrozen_clock(call, source) for call in _java_calls(method))),
+        ("skip-or-xfail", disabled or any(name.startswith("assume") for name in names)),
+    )
+    return [code for code, hit in checks if hit]
+
+
+def _java_shape_flags(method: Any) -> list[str]:
+    return ["long-test"] if method.end_point.row - method.start_point.row + 1 > 80 else []
+
+
+def _java_flags_for(qualified_name: str, method: Any, class_node: Any, source: bytes) -> list[str]:
+    annotations = _java_annotations(method)
+    names = [_java_call_name(call, source) for call in _java_calls(method)]
+    oracle_flags = _java_oracle_flags(method, class_node, source, annotations)
+    flags = [
+        *oracle_flags,
+        *_java_coupling_flags(method, class_node, source, names),
+        *_java_text_flags(method, class_node, source, annotations, names),
+        *_java_shape_flags(method),
+    ]
+    assertion_count = sum(
+        (name := _java_call_name(call, source)).startswith("assert") or name == "fail" for call in _java_calls(method)
+    )
+    if assertion_count >= 15:
+        flags.append("many-asserts")
+    short_name = qualified_name.rsplit(".", 1)[-1]
+    if JAVA_VAGUE_NAME.fullmatch(short_name):
+        flags.append("vague-name")
+    if _PROVENANCE.search(short_name):
+        flags.append("provenance-tokens")
+    return flags
+
+
+class JavaFrontend:
+    """JUnit 4/5 front end backed by the optional tree-sitter Java parser."""
+
+    def matches(self, path: str) -> bool:
+        return bool(re.search(r"(^|/)src/test/java/.+[^/]+(?:Test|Tests|IT)\.java$", path))
+
+    def discover(self, base: Path) -> list[Path]:
+        candidates = {path for pattern in ("*Test.java", "*Tests.java", "*IT.java") for path in base.rglob(pattern)}
+        return sorted(path for path in candidates if self.matches(path.as_posix()))
+
+    def domain_of(self, path: str) -> str:
+        parts = Path(path).parts
+        for index in range(len(parts) - 2):
+            if parts[index : index + 3] == ("src", "test", "java"):
+                package = parts[index + 3 : -1]
+                return package[-1] if package else "(root)"
+        return "(root)"
+
+    def scan(self, repo: Path, rel: str, only: set[str] | None) -> tuple[FileRow, list[TestRow]]:
+        row = FileRow(file=rel, domain=self.domain_of(rel))
+        source = (repo / rel).read_bytes()
+        tree = _java_parser().parse(source)
+        if tree.root_node.has_error:
+            row.flags = {"unparseable": 1}
+            return row, []
+        counts: Counter[str] = Counter()
+        rows: list[TestRow] = []
+        for name, method, class_node in _java_iter_tests(tree, source):
+            if only is not None and name not in only:
+                continue
+            row.tests += 1
+            flags = _java_flags_for(name, method, class_node, source)
+            if flags:
+                rows.append(TestRow(file=rel, line=method.start_point.row + 1, test=name, flags=flags, score=score(flags)))
+                counts.update(flags)
+        row.flagged_tests = len(rows)
+        row.score = sum(r.score for r in rows)
+        row.flags = dict(counts.most_common())
+        return row, rows
+
+    def changed_names(self, old_source: str, new_source: str) -> set[str]:
+        old, new = _java_bodies(old_source), _java_bodies(new_source)
+        return {name for name, body in new.items() if old.get(name) != body}
+
+
 PYTHON_FRONTEND = PythonFrontend()
-FRONTENDS: tuple[LanguageFrontend, ...] = (PYTHON_FRONTEND,)
+JAVA_FRONTEND = JavaFrontend()
+FRONTENDS: tuple[LanguageFrontend, ...] = (PYTHON_FRONTEND, JAVA_FRONTEND)
 
 
 def frontend_for(path: str) -> LanguageFrontend:
@@ -692,13 +970,17 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     repo = args.repo.resolve()
-    targets: dict[str, set[str] | None] = changed_tests_since(repo, args.since, args.paths) if args.since else dict.fromkeys(collect_paths(repo, args.paths))
-    file_rows: dict[str, FileRow] = {}
-    test_rows: list[TestRow] = []
-    for rel, only in sorted(targets.items()):
-        row, rows = scan_file(repo, rel, only)
-        file_rows[rel] = row
-        test_rows.extend(rows)
+    try:
+        targets: dict[str, set[str] | None] = changed_tests_since(repo, args.since, args.paths) if args.since else dict.fromkeys(collect_paths(repo, args.paths))
+        file_rows: dict[str, FileRow] = {}
+        test_rows: list[TestRow] = []
+        for rel, only in sorted(targets.items()):
+            row, rows = scan_file(repo, rel, only)
+            file_rows[rel] = row
+            test_rows.extend(rows)
+    except JavaDependencyError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     if not args.no_git:
         attach_provenance(repo, file_rows, args.paths)
     out = args.out if args.out.is_absolute() else repo / args.out
