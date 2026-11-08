@@ -95,6 +95,9 @@ nodes:
 - urn: procedure:glossary-maintenance-workflow
   kind: procedure
   label: Glossary Maintenance Workflow
+- urn: procedure:git-flow
+  kind: procedure
+  label: Git Flow Branching Workflow
 - urn: procedure:issue-triage-state-machine
   kind: procedure
   label: Issue Triage State Machine
@@ -352,6 +355,15 @@ edges:
   relation: requires
 - source: procedure:glossary-maintenance-workflow
   target: tactic:terminology-extraction-mapping
+  relation: requires
+- source: procedure:git-flow
+  target: directive:DIRECTIVE_029
+  relation: requires
+- source: procedure:git-flow
+  target: directive:DIRECTIVE_030
+  relation: requires
+- source: procedure:git-flow
+  target: directive:DIRECTIVE_033
   relation: requires
 - source: procedure:issue-triage-state-machine
   target: procedure:disciplined-defect-diagnosis

@@ -14,7 +14,6 @@ steps:
       candidates:
         - execution-lanes
         - shared-branch-ci
-        - git-flow
         - trunk-based
     guidance: >
       Execution lanes are the only supported git worktree paradigm. Spec Kitty
@@ -22,6 +21,16 @@ steps:
       `single_branch` in the write checkout, and lane topologies use the lane
       worktrees `spec-kitty implement` provides. Do not create or reuse a lane
       worktree by hand.
+
+  - id: branching_procedure
+    description: Apply Git Flow when the project charter selects that branching workflow
+    delegates_to:
+      kind: procedure
+      candidates:
+        - git-flow
+    guidance: >
+      Skip this step unless the project charter selects Git Flow. Follow its
+      feature, release, and hotfix branch workflow instead of trunk-based branching.
 
   - id: execute
     description: Implement the work package according to the prompt file
