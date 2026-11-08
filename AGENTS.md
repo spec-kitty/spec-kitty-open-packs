@@ -15,3 +15,7 @@ Two usage patterns:
   After finishing the work, close the Op with the command printed in the capsule
   (`spec-kitty profile-invocation complete --invocation-id <id> --outcome <done|failed|abandoned>`).
 <!-- /spec-kitty:orientation -->
+
+## Alignment
+
+This repository aligns to the charter (spec-kitty-charter), not to spec-kitty core. Core compatibility is **not** this repository's concern: do not block, defer or reshape pack work because core cannot yet load or render it. Core will align on the charter service later.
