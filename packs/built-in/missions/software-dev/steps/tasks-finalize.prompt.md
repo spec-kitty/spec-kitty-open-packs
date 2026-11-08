@@ -14,7 +14,7 @@ target branch).
 
 ---
 
-## 📍 WORKING DIRECTORY: Stay in the repository root checkout
+## WORKING DIRECTORY: Stay in the repository root checkout
 
 **IMPORTANT**: This step works in the repository root checkout. NO worktrees created.
 
@@ -57,7 +57,7 @@ spec.md, grouped by kind), then fix mappings with
 `spec-kitty agent tasks map-requirements --mission <mission-slug> --json` or by
 updating WP `requirement_refs`.
 
-### 1b. Ownership Overlap — domain-focused / refactor missions
+### 1b. Ownership Overlap - domain-focused / refactor missions
 
 If validate-only fails with `"error": "Ownership validation failed"` and
 `ownership_errors` listing overlapping `owned_files`:
@@ -71,7 +71,7 @@ not a defect in the slicing. Handle it as follows:
    same files MUST be made dependent/linear (via `Depends on WPxx`) so they
    execute sequentially in one execution lane (or, for `single_branch`, in
    the write checkout). Limited parallelism is acceptable and expected for these
-   missions — do not force artificial parallelism. Note: linearization protects
+   missions - do not force artificial parallelism. Note: linearization protects
    the checkout from concurrent edits; it does **not** by itself satisfy
    ownership validation (see step 3).
 2. **Declare cross-cutting WPs codebase-wide (the exemption).** A WP that is
@@ -80,14 +80,14 @@ not a defect in the slicing. Handle it as follows:
    and authoritative-surface checks. Keep the genuinely-targeted WPs (single test
    file, single module) narrow and mutually disjoint.
 3. **`codebase-wide` is the ONLY exemption.** Two *narrow* WPs that claim the same
-   files **always** fail ownership validation — regardless of whether they sit in
+   files **always** fail ownership validation - regardless of whether they sit in
    different lanes or are linked in a dependency hierarchy. Dependency/lane
    structure never bypasses the overlap check. If WPs legitimately share a
    surface, mark the broadly-overlapping one `scope: codebase-wide`; otherwise
    re-slice so the narrow WPs are disjoint.
 
 Do **not** fabricate disjoint `owned_files` that misrepresent which WP edits
-which files solely to pass validation — linearize and/or declare codebase-wide
+which files solely to pass validation - linearize and/or declare codebase-wide
 instead.
 
 ### 2. Run Finalization Command
@@ -116,19 +116,19 @@ repository root checkout.
 
 The JSON output includes:
 
-- `"commit_created": true/false` — whether a commit was made
-- `"commit_hash"` — the commit hash if created
-- `"wp_count"` — number of WP files processed
-- `"dependencies_parsed"` — dependency relationships found
-- `"requirement_refs_parsed"` — requirement reference mapping found
-- `"ownership_warnings"` — soft warnings (glob-pattern zero-match, audit coverage)
-- `"parsed_spec_ids"` — requirement IDs parsed from spec.md, grouped as `functional`, `non_functional`, `constraint`, `success_criteria`
-- `"rejected_requirement_refs"` — per WP, each unusable ref with one reason: `malformed`, `unknown_spec_id` or `foreign_qualified`
-- `"success_criteria_coverage"` — informational: `referenced` (SC → WPs) and `unreferenced`; never fails the run
-- `"topology_decision"` — the topology settlement: `settled_this_run`, `topology_source` (`explicit`, `owned_checkout`, `default` or null), `settled_topology`, the `rule` that fired (`wp_count_le_2`, `code_lanes_le_1` or `lanes_with_coord`), `wp_count` and `code_lane_count`; with `--validate-only` it is a `preview` and nothing is written
+- `"commit_created": true/false` - whether a commit was made
+- `"commit_hash"` - the commit hash if created
+- `"wp_count"` - number of WP files processed
+- `"dependencies_parsed"` - dependency relationships found
+- `"requirement_refs_parsed"` - requirement reference mapping found
+- `"ownership_warnings"` - soft warnings (glob-pattern zero-match, audit coverage)
+- `"parsed_spec_ids"` - requirement IDs parsed from spec.md, grouped as `functional`, `non_functional`, `constraint`, `success_criteria`
+- `"rejected_requirement_refs"` - per WP, each unusable ref with one reason: `malformed`, `unknown_spec_id` or `foreign_qualified`
+- `"success_criteria_coverage"` - informational: `referenced` (SC -> WPs) and `unreferenced`; never fails the run
+- `"topology_decision"` - the topology settlement: `settled_this_run`, `topology_source` (`explicit`, `owned_checkout`, `default` or null), `settled_topology`, the `rule` that fired (`wp_count_le_2`, `code_lanes_le_1` or `lanes_with_coord`), `wp_count` and `code_lane_count`; with `--validate-only` it is a `preview` and nothing is written
 - Validation details when checks fail (`missing_requirement_refs_wps`, `unknown_requirement_refs`, `unmapped_functional_requirements`, `rejected_requirement_refs`)
 
-**CRITICAL — Ownership warnings require action before proceeding:**
+**CRITICAL - Ownership warnings require action before proceeding:**
 
 If `ownership_warnings` is non-empty, or if the command emits `ERROR: Ownership`
 lines to stderr, you MUST act on each issue before starting implementation:
@@ -157,10 +157,10 @@ create_intent:
 
 ### 4. Verify
 
-**IMPORTANT — DO NOT COMMIT AGAIN AFTER THIS COMMAND**:
+**IMPORTANT - DO NOT COMMIT AGAIN AFTER THIS COMMAND**:
 
 - `finalize-tasks` commits the files automatically
-- If `commit_created=true`, files are ALREADY committed — do not run `git commit` again
+- If `commit_created=true`, files are ALREADY committed - do not run `git commit` again
 - Other dirty files shown by `git status` (templates, config) are UNRELATED
 - Verify using the `commit_hash` from JSON output, not by running `git add/commit` again
 
@@ -174,10 +174,10 @@ Provide a concise outcome summary:
 - MVP scope recommendation
 - Finalization status (dependencies parsed, X WP files updated, committed to target branch)
 
-**Required next step — run `/spec-kitty.analyze` before `/spec-kitty.implement`.**
+**Required next step - run `/spec-kitty.analyze` before `/spec-kitty.implement`.**
 `/spec-kitty.analyze` persists an `analysis-report.md` and reviews spec/plan/tasks
 consistency; `/spec-kitty.implement` refuses to claim a work package
-(`analysis_report_required`) until that report exists — analyze is not optional, it
+(`analysis_report_required`) until that report exists - analyze is not optional, it
 is the readiness gate implement enforces. The report is current only while the
 spec, plan, tasks and charter are unchanged: editing any of them after analyze
 makes the report stale, and implement refuses again until you re-run
@@ -193,5 +193,5 @@ After completing this step:
 - Requirement references are validated against spec.md
 - Task artifacts are committed to the target branch
 
-**Next step**: run `/spec-kitty.analyze` — the required pre-implementation gate —
+**Next step**: run `/spec-kitty.analyze` - the required pre-implementation gate -
 then `/spec-kitty.implement`.

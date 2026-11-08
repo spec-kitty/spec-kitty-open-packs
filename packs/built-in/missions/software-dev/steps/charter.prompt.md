@@ -95,12 +95,12 @@ If no built-in paradigm or directive cleanly fits the user's needs:
 
 ### Output location
 
-- Structured charter (authoritative): `.kittify/charter/charter.yaml` —
+- Structured charter (authoritative): `.kittify/charter/charter.yaml` -
   `governance`/`directives`/activation/`overrides` sections. Edit these
   directly for policy changes; `charter generate` only refreshes the
   `catalog`/`metadata` sections.
 - Curated companion (write this yourself when authoring/updating the
-  charter): `.kittify/charter/charter.md` — a human-readable narrative.
+  charter): `.kittify/charter/charter.md` - a human-readable narrative.
   `charter generate` never writes this file; the runtime never reads it for
   policy.
 - Interview answers: `.kittify/charter/interview/answers.yaml`
@@ -193,12 +193,12 @@ Use this for normal `/spec-kitty.charter` runs.
 spec-kitty charter generate --from-interview --json
 spec-kitty charter status --json
 ```
-5. Update `.kittify/charter/charter.md` yourself (this command owns it — it is a
+5. Update `.kittify/charter/charter.md` yourself (this command owns it - it is a
    curated companion `generate` never writes). Keep it in sync with the same
    policy you just wrote into `charter.yaml`'s `governance`/`directives`
    sections, in narrative form. Treat both `charter.yaml` (refreshed by
    `generate`) and `charter.md` (hand-updated by you) as a real repository
-   change — stage and commit them before concluding the command unless the
+   change - stage and commit them before concluding the command unless the
    user explicitly asked not to commit.
 
 ### Commit expectation
@@ -232,7 +232,7 @@ spec-kitty charter generate --from-interview
 ### Path C: Deterministic defaults bootstrap
 
 Use this only when the user explicitly asks for defaults, speed, CI bootstrap, or
-“just make me a starter charter”:
+"just make me a starter charter":
 
 ```bash
 spec-kitty charter interview --defaults --profile minimal --json
@@ -245,7 +245,7 @@ When you use defaults, say clearly that no real interview happened.
 ## Editing Rules
 
 - The preferred editable source for this command is `.kittify/charter/interview/answers.yaml`.
-- To revise policy inputs, edit `answers.yaml` (or rerun `charter interview`) and regenerate —
+- To revise policy inputs, edit `answers.yaml` (or rerun `charter interview`) and regenerate -
   or edit `charter.yaml`'s `governance`/`directives` sections directly for a targeted change.
 - `--force` with generate no longer gates a destructive overwrite (there is none left to gate);
   it is accepted for CLI back-compat only.

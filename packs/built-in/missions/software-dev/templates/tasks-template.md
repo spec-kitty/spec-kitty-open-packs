@@ -17,7 +17,7 @@ description: "Work package task list template for mission implementation"
 
 - **[P]** indicates the subtask can proceed in parallel (different files/components).
 - Include precise file paths or modules.
-- Subtasks are **reference rows**, not checkboxes: record completion with `spec-kitty agent tasks mark-status <Txxx> --status done`. The reduced event-log snapshot is the sole subtask-completion authority — there is no `- [ ]` box to tick.
+- Subtasks are **reference rows**, not checkboxes: record completion with `spec-kitty agent tasks mark-status <Txxx> --status done`. The reduced event-log snapshot is the sole subtask-completion authority - there is no `- [ ]` box to tick.
 
 ## Path Conventions
 
@@ -91,11 +91,11 @@ T009 Setup environment configuration management
 
 ### Risks & Mitigations
 
-- Migration drift → enforce migration linting in CI.
+- Migration drift -> enforce migration linting in CI.
 
 ---
 
-## Work Package WP03: User Story 1 – [Title] (Priority: P1) 🎯 MVP
+## Work Package WP03: User Story 1 - [Title] (Priority: P1) MVP
 
 **Goal**: [Brief description of story outcome]
 **Independent Test**: [Describe how to validate the story independently]
@@ -115,7 +115,7 @@ T017 Add story-specific logging and metrics
 
 ### Implementation Notes
 
-- Enumerate the workflow (tests first if required, then models → services → endpoints).
+- Enumerate the workflow (tests first if required, then models -> services -> endpoints).
 
 ### Parallel Opportunities
 
@@ -127,7 +127,7 @@ T017 Add story-specific logging and metrics
 
 ### Risks & Mitigations
 
-- Data integrity risk → include migration rollback plan.
+- Data integrity risk -> include migration rollback plan.
 
 ---
 
@@ -163,13 +163,13 @@ with `spec-kitty agent tasks mark-status <T###> --status done`:
 
 ### Risks & Mitigations
 
-- Regression risk → enforce smoke test before release.
+- Regression risk -> enforce smoke test before release.
 
 ---
 
 ## Dependency & Execution Summary
 
-- **Sequence**: WP01 → WP02 → Story-driven packages (priority order) → WP0N polish.
+- **Sequence**: WP01 -> WP02 -> Story-driven packages (priority order) -> WP0N polish.
 - **Parallelization**: Highlight safe parallel combinations once prerequisites complete.
 - **MVP Scope**: Call out which work packages constitute the minimal release.
 

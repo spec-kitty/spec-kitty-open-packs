@@ -7,13 +7,13 @@ description: Create a mission specification
 
 <!-- spdd:reasons-block:start -->
 
-### REASONS Guidance — Specify
+### REASONS Guidance - Specify
 
 This project's active charter includes the SPDD/REASONS artifacts. While capturing
 the spec, populate or update these REASONS canvas sections:
 
-- **Requirements** — problem statement, acceptance criteria, definition of done.
-- **Entities** — domain concepts, relationships, canonical glossary terms.
+- **Requirements** - problem statement, acceptance criteria, definition of done.
+- **Entities** - domain concepts, relationships, canonical glossary terms.
 
 Reference: `kitty-specs/<mission>/reasons-canvas.md` if present. If the canvas
 does not yet exist, author it with the section headings listed above (see the
@@ -23,7 +23,7 @@ Charter directives take precedence over canvas content.
 
 <!-- spdd:reasons-block:end -->
 
-## 📍 WORKING DIRECTORY: Stay in the repository root checkout
+## WORKING DIRECTORY: Stay in the repository root checkout
 
 **IMPORTANT**: Specify works in the repository root checkout. NO worktrees are created.
 
@@ -32,7 +32,7 @@ Charter directives take precedence over canvas content.
 cd /path/to/project/root  # Your repository root checkout
 
 # All planning artifacts are created in the project root and committed:
-# - kitty-specs/<mission_slug>/spec.md → Created in project root
+# - kitty-specs/<mission_slug>/spec.md -> Created in project root
 #   (use the mission_slug returned by `mission create`; the numeric NNN- prefix
 #    is display-only and is assigned at consolidation)
 # - Committed to the Mission's planning branch: the Mission topic branch for a Mission
@@ -60,7 +60,7 @@ committing it.
 - `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of
   the ULID), or `mission_slug`.
 - The resolver disambiguates by `mission_id` and returns a structured
-  `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+  `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## User Input
 
@@ -186,21 +186,21 @@ Parse the JSON and, in your next reply, explicitly tell the user:
 - Whether `branch_matches_target` is true or false
 - If that is not the intended landing branch, stop and ask which branch should receive this mission before you run `create`
 
-Never talk generically about `main` or "the default branch". Name the actual branch values from the helper JSON. Do not shell out to git to *resolve* branch state for this prompt — the helper is the source of truth.
+Never talk generically about `main` or "the default branch". Name the actual branch values from the helper JSON. Do not shell out to git to *resolve* branch state for this prompt - the helper is the source of truth.
 
 ### Primary-branch recommendation (issue #765)
 
 The helper JSON also returns a primary-branch recommendation payload:
 
-- `primary_branch` — the repository's primary branch (e.g. `main`)
-- `current_is_primary` — `true` when you are standing on that primary branch
-- `recommended_strategy` — `feature-branch` (start a dedicated branch) or `stay`
-- `reason` — a human-readable explanation you should relay to the user
+- `primary_branch` - the repository's primary branch (e.g. `main`)
+- `current_is_primary` - `true` when you are standing on that primary branch
+- `recommended_strategy` - `feature-branch` (start a dedicated branch) or `stay`
+- `reason` - a human-readable explanation you should relay to the user
 
 When `current_is_primary` is `true`, you **must** have an explicit branching-strategy conversation **before** calling `create` and create on a dedicated PR branch:
 
 1. Relay the `reason` to the user and ask whether they expect to open a pull request for this work later (the default assumption for mission work is yes).
-2. **If they expect a PR (recommended path):** recommend starting on a dedicated PR branch now, and propose a name derived from the provisional slug — e.g. `feat/<slug>` (use `fix/<slug>` for a bug-fix mission). Pass that branch to `create` with `--start-branch` so the CLI creates/switches to it before writing any mission artifacts:
+2. **If they expect a PR (recommended path):** recommend starting on a dedicated PR branch now, and propose a name derived from the provisional slug - e.g. `feat/<slug>` (use `fix/<slug>` for a bug-fix mission). Pass that branch to `create` with `--start-branch` so the CLI creates/switches to it before writing any mission artifacts:
 
    ```bash
    spec-kitty agent mission create "<slug>" \
@@ -222,7 +222,7 @@ When `current_is_primary` is `true`, you **must** have an explicit branching-str
    `--start-branch`. If the user declines, stop before `create` rather than
    beginning a Mission that cannot complete specify safely.
 
-When `current_is_primary` is `false`, you are already on a non-primary branch — no branch switch is needed; proceed normally.
+When `current_is_primary` is `false`, you are already on a non-primary branch - no branch switch is needed; proceed normally.
 
 ## Commit Boundary (issue #846)
 
@@ -232,13 +232,13 @@ for committing it after writing substantive content.
 
 "Substantive content" for `spec.md` means **at least one Functional
 Requirements row** (`FR-###`) whose description is real (not a template
-placeholder like `[NEEDS CLARIFICATION …]`, `[e.g., …]`, or a bare user-story
-scaffold). Section presence is the only signal — adding 300 bytes of arbitrary
+placeholder like `[NEEDS CLARIFICATION ...]`, `[e.g., ...]`, or a bare user-story
+scaffold). Section presence is the only signal - adding 300 bytes of arbitrary
 prose without an FR row does **not** count as substantive.
 
 Workflow:
 
-1. Run `spec-kitty agent mission create …`. Note that `spec.md` is left
+1. Run `spec-kitty agent mission create ...`. Note that `spec.md` is left
    untracked.
 2. Populate `spec.md` with real Functional / Non-Functional / Constraint rows.
 3. Commit `spec.md` yourself using the mission-aware entrypoint. To capture
@@ -272,7 +272,7 @@ require an issue-matrix row before its owning work package can be approved. A
 context-only citation (e.g. `Follow-up:`, `see #`, `parent`, `epic`) or a PR/commit
 reference (`PR #NNNN`, a `/pull/NNNN` URL) is non-gating and needs no row; if an issue
 genuinely owes the mission no work, it can later be recorded with the `not-applicable`
-verdict. This is informational only — it does not gate `/spec-kitty.specify`.
+verdict. This is informational only - it does not gate `/spec-kitty.specify`.
 
 ## Charter Context Bootstrap (required)
 
@@ -293,7 +293,7 @@ Apply the visual doctrine when a non-trivial actor flow, domain lifecycle,
 rule, or concept boundary is clearer visually. Load `spk-practice-show-me` and
 add the smallest useful diagram. Prefer an inline Mermaid diagram; use PlantUML
 only when its richer layout or DSL materially helps. Keep the visual focused on
-product intent—do not introduce implementation architecture into the
+product intent - do not introduce implementation architecture into the
 specification. Requirements and acceptance scenarios remain authoritative, and
 trivial content needs no diagram.
 
@@ -307,10 +307,10 @@ ls .kittify/ticket-context.md 2>/dev/null && echo "TICKET_CONTEXT_FOUND"
 ```
 
 Check in priority order:
-1. `.kittify/mission-brief.md` — general plan intake (written by `spec-kitty intake`)
-2. `.kittify/ticket-context.md` — tracker ticket (written by `mission create --from-ticket`)
+1. `.kittify/mission-brief.md` - general plan intake (written by `spec-kitty intake`)
+2. `.kittify/ticket-context.md` - tracker ticket (written by `mission create --from-ticket`)
 
-### If a brief file is found → Enter Brief-Intake Mode
+### If a brief file is found -> Enter Brief-Intake Mode
 
 **BRIEF DETECTED: `.kittify/<filename>` (source: `<source_file>`)**
 
@@ -331,10 +331,10 @@ Check in priority order:
       for criteria the packet already numbered.
     - Adopt `constraints[].id` as `C-###` (and `NFR-###` only when the
       constraint is genuinely non-functional and unnumbered).
-    - Treat packet quality as **Comprehensive** (0–1 gap-filling questions)
+    - Treat packet quality as **Comprehensive** (0-1 gap-filling questions)
       when `requirements` is non-empty.
     - Unknown `handoff_packet` versions, malformed YAML, or a missing
-      `requirements` list are **not** packets — fall through to prose
+      `requirements` list are **not** packets - fall through to prose
       extraction below. Do not fail specify because the overlay is absent.
 
     Still run the one-round user confirmation in step 5. Packet intake does
@@ -343,23 +343,23 @@ Check in priority order:
 2. **Summarise for the user.** Present a single paragraph: what the brief says the goal is, who it is for, and what the key constraints are. Example: "I found a plan document from Claude Code plan mode. Here's what I understand the goal to be: [summary]. I'll extract the spec from this brief rather than running a full discovery interview." For a structured packet, name the `source_tool` and how many FR ids you adopted.
 
 3. **Extract requirements directly.** Map the brief's content to `FR-###`, `NFR-###`, and `C-###` IDs. Do not ask questions the brief already answers. Specifically extract:
-   - Objective → Functional Requirements
-   - Constraints and non-goals → Non-Functional Requirements and Constraints
-   - Acceptance criteria → FR status and Definition of Done markers
-   - Risks and open questions → Assumptions or `[NEEDS CLARIFICATION: <text>] <!-- decision_id: <id> -->` markers (max 3; use `decision defer` before writing each marker)
+   - Objective -> Functional Requirements
+   - Constraints and non-goals -> Non-Functional Requirements and Constraints
+   - Acceptance criteria -> FR status and Definition of Done markers
+   - Risks and open questions -> Assumptions or `[NEEDS CLARIFICATION: <text>] <!-- decision_id: <id> -->` markers (max 3; use `decision defer` before writing each marker)
 
 4. **Ask gap-filling questions only.** Scale to brief quality:
 
    | Brief quality | Discovery questions |
    |---------------|---------------------|
-   | Comprehensive (objective + constraints + approach + ACs) | 0–1 gap-filling questions |
-   | Good (objective + constraints, no ACs) | 2–3 questions |
-   | Partial (goal statement only) | 4–5 questions |
+   | Comprehensive (objective + constraints + approach + ACs) | 0-1 gap-filling questions |
+   | Good (objective + constraints, no ACs) | 2-3 questions |
+   | Partial (goal statement only) | 4-5 questions |
    | Empty / missing | Proceed to normal Discovery Gate below |
 
 5. **Show the extracted requirement set.** Present the full FR/NFR/C table to the user: "I extracted X functional requirements and Y non-functional requirements. Does this look right?" Wait for one round of confirmation. This confirmation is the discovery gate for brief-intake mode; do not write or commit `spec.md` before it happens unless the user explicitly asks to minimize or skip discovery. The user may correct or supplement before you write the spec.
 
-6. **Write spec.md normally.** Apply the same quality checklist and readiness gate as standard specify. Brief-intake mode does NOT lower the quality bar — spec.md must still pass all validation items.
+6. **Write spec.md normally.** Apply the same quality checklist and readiness gate as standard specify. Brief-intake mode does NOT lower the quality bar - spec.md must still pass all validation items.
 
 7. **After spec.md is committed, delete all brief files** (each only if present):
    ```bash
@@ -370,13 +370,13 @@ Check in priority order:
    ```
 
 **What brief-intake mode does NOT do:**
-- Does not copy brief prose verbatim into spec.md — it extracts and structures requirements
+- Does not copy brief prose verbatim into spec.md - it extracts and structures requirements
 - Does not skip the quality checklist
 - Does not skip the readiness gate
-- Does not require the brief to be in any particular format — Markdown prose is fine
+- Does not require the brief to be in any particular format - Markdown prose is fine
 - Does not renumber `FR-###` / `AC-###` ids when a v1 handoff packet supplied them
 
-### If no brief file is found → Proceed with normal Discovery Gate
+### If no brief file is found -> Proceed with normal Discovery Gate
 
 No change to current behaviour. Continue to the Discovery Gate section below.
 
@@ -484,7 +484,7 @@ ACME with GlobalCorp everywhere in docs and UI".
 **If yes or uncertain**: load the `spk-practice-bulk-edit` skill
 and follow it. You will set `change_mode: bulk_edit` in `meta.json` after
 `mission create` and produce an `occurrence_map.yaml` during plan. The user
-does not need to know these field names — the skill teaches you the workflow.
+does not need to know these field names - the skill teaches you the workflow.
 
 **If clearly no** (a new feature with new identifiers, a bug fix that doesn't
 rename anything, a refactor inside one file): proceed normally.
@@ -507,7 +507,7 @@ breakage that DIRECTIVE_035 exists to prevent.
 
 - Work in: **Repository root checkout** (not a worktree)
 - Creates: `kitty-specs/<mission_slug>/spec.md` (the `NNN-` prefix is display-only and assigned at consolidation)
-- Commits to: the Mission topic branch for a Mission created without `--topology`, else the target branch (from `create --json` → `target_branch`)
+- Commits to: the Mission topic branch for a Mission created without `--topology`, else the target branch (from `create --json` -> `target_branch`)
 
 ## Outline
 
@@ -523,11 +523,11 @@ breakage that DIRECTIVE_035 exists to prevent.
 - Before creating, freeze the activated Mission type and the creation metadata
   snapshot as described above. Do not defer type selection until discovery.
 
-The text the user typed after `/spec-kitty.specify` in the triggering message **is** the initial mission description. Capture it verbatim, but treat it only as a starting point for discovery—not the final truth. Your job is to interrogate the request, surface gaps, and co-create a complete specification with the user.
+The text the user typed after `/spec-kitty.specify` in the triggering message **is** the initial mission description. Capture it verbatim, but treat it only as a starting point for discovery - not the final truth. Your job is to interrogate the request, surface gaps, and co-create a complete specification with the user.
 
 Given that mission description, do this:
 
-- **Generation Mode (arguments provided)**: Use the provided text as a starting point, validate it through discovery, and fill gaps with explicit questions or clearly documented assumptions (limit `[NEEDS CLARIFICATION: …] <!-- decision_id: <id> -->` to at most three critical decisions the user has postponed; call `decision defer` before writing each such marker).
+- **Generation Mode (arguments provided)**: Use the provided text as a starting point, validate it through discovery, and fill gaps with explicit questions or clearly documented assumptions (limit `[NEEDS CLARIFICATION: ...] <!-- decision_id: <id> -->` to at most three critical decisions the user has postponed; call `decision defer` before writing each such marker).
 - **Interactive Interview Mode (no arguments)**: Ask the single bootstrap identity prompt, create the scaffold, then use the discovery interview to elicit all necessary context and confirm it before writing substantive `spec.md` content.
 
 1. **Resume safely or create the Mission before interview**:
@@ -584,11 +584,11 @@ Given that mission description, do this:
    ```
 
    Where `<slug>` is a kebab-case version of the provisional title (e.g.,
-   "Checkout Upsell Flow" → "checkout-upsell-flow").
+   "Checkout Upsell Flow" -> "checkout-upsell-flow").
 
    If the user expects a pull request for this work, add `--pr-bound --branch-strategy already-confirmed`. When `current_is_primary` is true and they accept the recommended `feature-branch` strategy, also add `--start-branch <branch>` so no mission artifacts are written on the primary branch.
 
-   If this mission must preserve its lane branches and/or worktrees after `spec-kitty consolidate` (e.g. for post-consolidation inspection or a PR review window), declare that up front with `--retain-branches` and/or `--retain-worktrees` — this mints a machine-readable retention policy into `meta.json` so consolidate honors it automatically, rather than relying on a prose note nothing reads.
+   If this mission must preserve its lane branches and/or worktrees after `spec-kitty consolidate` (e.g. for post-consolidation inspection or a PR review window), declare that up front with `--retain-branches` and/or `--retain-worktrees` - this mints a machine-readable retention policy into `meta.json` so consolidate honors it automatically, rather than relying on a prose note nothing reads.
 
    The command returns JSON with:
    - `result`: "success" or error message
@@ -652,10 +652,10 @@ Given that mission description, do this:
    - `<mission_dir>/spec.md` (already created, may be empty/template-filled)
    - `<mission_dir>/meta.json` (already created with mission identity metadata)
 
-   **Do NOT try to read a template file.** The spec structure is defined in this prompt (see sections below). The `create` command scaffolds an initial `spec.md` — read it, then update it following the structure in this prompt.
+   **Do NOT try to read a template file.** The spec structure is defined in this prompt (see sections below). The `create` command scaffolds an initial `spec.md` - read it, then update it following the structure in this prompt.
 
 5. Update `<mission_dir>/meta.json` only when needed:
-   - **Never** modify identity fields from `create` (`mission_id`, `slug`, `mission_slug`, `created_at`, `target_branch`). `mission_id` is the canonical ULID and is immutable. `mission_number` is display-only and is `null` pre-merge — do not set it by hand.
+   - **Never** modify identity fields from `create` (`mission_id`, `slug`, `mission_slug`, `created_at`, `target_branch`). `mission_id` is the canonical ULID and is immutable. `mission_number` is display-only and is `null` pre-merge - do not set it by hand.
    - Keep `target_branch` aligned to the value from `create --json` output. Never hardcode `main`.
    - Preserve `friendly_name`, `purpose_tldr`, `purpose_context`, and
      `mission_type` exactly as emitted by `create`; confirmed intent belongs in
@@ -693,13 +693,13 @@ Given that mission description, do this:
     - Prefer concrete scenario walkthrough facts (actor, trigger, success outcome, exception path) over abstract restatements
     - For any remaining ambiguity:
       - Ask the user a focused follow-up question immediately and halt work until they answer
-      - Only use `[NEEDS CLARIFICATION: …]` when the user explicitly defers the decision
+      - Only use `[NEEDS CLARIFICATION: ...]` when the user explicitly defers the decision
       - Record any interim assumption in the Assumptions section
       - Prioritize clarifications by impact: scope > outcomes > risks/security > user experience > technical details
     - Fill User Scenarios & Testing section (ERROR if no clear user flow can be determined)
     - If terminology precision matters, fill the optional Domain Language section with canonical terms and ambiguous synonyms to avoid
     - Generate separated requirement tables: Functional (`FR-###`), Non-Functional (`NFR-###`), and Constraints (`C-###`)
-    - Label every Functional Requirement row with a trailing `Delivery` value and a trailing `No-op passable?` mark (summary of tactic `acceptance-criteria-non-vacuity`: `[build]` new behaviour / `[ratchet]` pins existing behaviour / `[folded]` satisfied by another row; `yes`/`no` — `yes` means a do-nothing change would pass the row's check, so reword it or name a same-fixture positive control). Place both as trailing columns only — never inside or before the ID cell, never inline on an FR bullet/heading. Full label definitions and the non-vacuity rules live in tactic `acceptance-criteria-non-vacuity` (fetch: `spec-kitty charter context --include tactic:acceptance-criteria-non-vacuity`) — do not redefine them here.
+    - Label every Functional Requirement row with a trailing `Delivery` value and a trailing `No-op passable?` mark (summary of tactic `acceptance-criteria-non-vacuity`: `[build]` new behaviour / `[ratchet]` pins existing behaviour / `[folded]` satisfied by another row; `yes`/`no` - `yes` means a do-nothing change would pass the row's check, so reword it or name a same-fixture positive control). Place both as trailing columns only - never inside or before the ID cell, never inline on an FR bullet/heading. Full label definitions and the non-vacuity rules live in tactic `acceptance-criteria-non-vacuity` (fetch: `spec-kitty charter context --include tactic:acceptance-criteria-non-vacuity`) - do not redefine them here.
     - Ensure each requirement entry has a status value and testable wording
     - Capture rules or invariants that shape acceptance scenarios, edge cases, permissions, or lifecycle boundaries
     - Define Success Criteria (measurable, technology-agnostic outcomes)
@@ -770,13 +770,13 @@ Given that mission description, do this:
       - **If [NEEDS CLARIFICATION] markers remain**:
         1. Extract all [NEEDS CLARIFICATION: ...] markers from the spec
         2. Re-confirm with the user whether each outstanding decision truly needs to stay unresolved. Do not assume away critical gaps.
-        3. For each clarification the user has explicitly deferred, present options using plain text—no tables:
+        3. For each clarification the user has explicitly deferred, present options using plain text - no tables:
 
            ```
            Question [N]: [Topic]
            Context: [Quote relevant spec section]
            Need: [Specific question from NEEDS CLARIFICATION marker]
-           Options: (A) [First answer — implications] · (B) [Second answer — implications] · (C) [Third answer — implications] · (D) Custom (describe your own answer)
+           Options: (A) [First answer - implications] | (B) [Second answer - implications] | (C) [Third answer - implications] | (D) Custom (describe your own answer)
            Reply with a letter or a custom answer.
            ```
 
@@ -840,7 +840,7 @@ Success criteria must be:
 2. **Technology-agnostic**: No mention of frameworks, languages, databases, or tools
 3. **User-focused**: Describe outcomes from user/business perspective, not system internals
 4. **Verifiable**: Can be tested/validated without knowing implementation details
-5. **Labelled**: Append a trailing delivery-label + no-op suffix to every criterion — `— [build/ratchet/folded] · no-op passable: [yes/no]` — the same label set and no-op mark used on the Functional Requirements table (defined once, in tactic `acceptance-criteria-non-vacuity`; see the Requirements section guidance above).
+5. **Labelled**: Append a trailing delivery-label + no-op suffix to every criterion - `- [build/ratchet/folded] | no-op passable: [yes/no]` - the same label set and no-op mark used on the Functional Requirements table (defined once, in tactic `acceptance-criteria-non-vacuity`; see the Requirements section guidance above).
 
 **Good examples**:
 

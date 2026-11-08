@@ -7,7 +7,7 @@ description: Execute a work package implementation
 
 <!-- spdd:reasons-block:start -->
 
-### REASONS Guidance — Implement WP<id>
+### REASONS Guidance - Implement WP<id>
 
 Before coding, load the WP-scoped REASONS section from
 `kitty-specs/<mission>/reasons-canvas.md`:
@@ -18,7 +18,7 @@ Before coding, load the WP-scoped REASONS section from
 - Structure (files this WP owns)
 - Operations (ordered steps)
 - Norms (testing, observability, style)
-- Safeguards (hard constraints — what not to break)
+- Safeguards (hard constraints - what not to break)
 
 If the canvas is missing, invoke the `spk-charter-spdd-reasons` skill to
 generate it before continuing.
@@ -54,12 +54,12 @@ one writer at a time: `implement` refuses a second claim there (`WRITE_CHECKOUT_
 Prefer to stay within
 your `owned_files` boundaries. If a small, well-justified change to a file outside the map is
 genuinely needed to deliver the WP (e.g. a one-line prerequisite or a stale assertion that
-pins a now-deleted internal), make it and record a one-line rationale in the commit message —
+pins a now-deleted internal), make it and record a one-line rationale in the commit message -
 that is better than a convoluted in-bounds workaround or a duplicated local re-implementation.
 The finalize ownership-overlap gate remains the guard against *parallel* WPs colliding on the
 same file.
 
-**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## User Input
 
@@ -80,11 +80,11 @@ rule in the prompt.
 resolver substitutes a `spec-kitty charter context --include section:<slug>`
 fetch + when-doing stanza only when the budget would otherwise be exceeded):
 
-- **Terminology Canon** — from `.kittify/charter/charter.md` — governs every
+- **Terminology Canon** - from `.kittify/charter/charter.md` - governs every
   identifier rename or new term you introduce.
-- **Code Review Checklist** — from `.kittify/charter/charter.md` — enumerates
+- **Code Review Checklist** - from `.kittify/charter/charter.md` - enumerates
   the gates the reviewer will measure your diff against.
-- **Regression Vigilance** — from `.kittify/charter/charter.md` — the project's
+- **Regression Vigilance** - from `.kittify/charter/charter.md` - the project's
   explicit guard against terminology and structural drift.
 - Any additional action-critical sections the mission declares are appended
   automatically.
@@ -94,8 +94,8 @@ profile is loaded for the WP's `role`):
 
 - Every `DIRECTIVE_NNN` declared in the loaded agent profile's
   `directive-references` list (for example, `python-pedro` cites
-  `DIRECTIVE_010` — Specification Fidelity Requirement, `DIRECTIVE_024` —
-  Locality of Change, `DIRECTIVE_030` — Test and Typecheck Quality Gate).
+  `DIRECTIVE_010` - Specification Fidelity Requirement, `DIRECTIVE_024` -
+  Locality of Change, `DIRECTIVE_030` - Test and Typecheck Quality Gate).
 - Every tactic-id declared in the loaded agent profile's `tactic-references`
   list.
 
@@ -118,7 +118,7 @@ token budget; whenever a fetch command appears, the accompanying
 
 > **Analysis-report gate (software-dev).** `spec-kitty implement` (and
 > `spec-kitty agent action implement`) refuses to claim a work package until a
-> current analysis report exists — it fails with `analysis_report_required`
+> current analysis report exists - it fails with `analysis_report_required`
 > otherwise. Run `/spec-kitty.analyze` and record the report first; if the
 > spec, plan, tasks or charter changed after the recorded `analysis-report.md`
 > it is stale and must be re-run. `spec-kitty next` issues the analyze step
@@ -180,11 +180,11 @@ Work through each subtask in order:
 
 ### 4a. Supply-Chain Security Check (dependency changes)
 
-If this WP adds, upgrades, or removes a dependency (any ecosystem — npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` — this mirrors the `supply_chain_security_check` step already present in the `implement` step contract. Use the matching ecosystem toolguide (for example `javascript-supply-chain`, `python-supply-chain`, `java-supply-chain`) for the exact commands and file names.
+If this WP adds, upgrades, or removes a dependency (any ecosystem - npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` - this mirrors the `supply_chain_security_check` step already present in the `implement` step contract. Use the matching ecosystem toolguide (for example `javascript-supply-chain`, `python-supply-chain`, `java-supply-chain`) for the exact commands and file names.
 
 - **Risk disclosure**: record what was checked and the resulting decision for every control DIRECTIVE_051 names in the WP implementation notes or commit message, so a reviewer does not have to re-derive the analysis.
 
-This is advisory in v1 — it does not add a new fail-closed gate — but skipping the checklist for a dependency change is a gap the reviewer will flag, not a neutral outcome.
+This is advisory in v1 - it does not add a new fail-closed gate - but skipping the checklist for a dependency change is a gap the reviewer will flag, not a neutral outcome.
 
 ### 5. Self-Check
 
@@ -192,7 +192,7 @@ After all subtasks are complete:
 - All tests pass
 - Any files modified outside `owned_files` are small, justified, and have a one-line rationale in the commit message
 - Code follows project conventions (run linter if configured)
-- **Diff-scoped lint/format sweep (MANDATORY before moving to `for_review`)** —
+- **Diff-scoped lint/format sweep (MANDATORY before moving to `for_review`)** -
   catches lint regressions before they reach the cycle-1 reviewer. Run the
   project's own lint and format commands over the changed files only, using the
   project's own tool configuration and execution environment, so the
@@ -209,8 +209,8 @@ After all subtasks are complete:
     (or auto-fix) introduced findings and re-run the check.
   - Paste the final commands, their exit codes, and any findings into your
     handoff note (e.g. `"diff-scoped lint: 0 issues"`).
-  - On cycle-N re-implementation, diff against the WP's planning base — the
-    mission's target branch from the setup JSON — instead of `HEAD`, so earlier
+  - On cycle-N re-implementation, diff against the WP's planning base - the
+    mission's target branch from the setup JSON - instead of `HEAD`, so earlier
     cycle changes are included:
     `git diff --name-only "$(git merge-base HEAD "$TARGET_BRANCH")"`, where
     `$TARGET_BRANCH` is the mission's `target_branch`/`merge_target_branch`.
@@ -223,7 +223,7 @@ If this mission has `change_mode: bulk_edit` in its `meta.json`, an occurrence
 classification artifact is required before implementation can begin.
 
 **What to check**:
-1. Read `meta.json` in the mission directory — look for `"change_mode": "bulk_edit"`
+1. Read `meta.json` in the mission directory - look for `"change_mode": "bulk_edit"`
 2. If present, verify `occurrence_map.yaml` exists in the same directory
 3. The occurrence map classifies the target term by semantic category with
    per-category actions: `rename`, `manual_review`, `do_not_change`, `rename_if_user_visible`

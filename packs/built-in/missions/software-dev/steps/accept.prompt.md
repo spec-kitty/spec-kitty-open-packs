@@ -13,7 +13,7 @@ diagnostics, and only clears the path to consolidate once the gate passes.
 
 ---
 
-## 📍 WORKING DIRECTORY: Run from the repository root checkout
+## WORKING DIRECTORY: Run from the repository root checkout
 
 **IMPORTANT**: Acceptance runs from the repository root checkout, NOT
 from a work-package worktree.
@@ -25,7 +25,7 @@ from a work-package worktree.
 cd "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"
 ```
 
-**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## User Input
 
@@ -39,8 +39,8 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ### 1. Record Acceptance Evidence (Zero Hand-Edited JSON)
 
-Before running the gate, record every acceptance-criterion verdict — and
-register/execute any negative invariant — through the deterministic
+Before running the gate, record every acceptance-criterion verdict - and
+register/execute any negative invariant - through the deterministic
 `acceptance-verdict` command. **Never hand-edit `acceptance-matrix.json`.**
 
 ```bash
@@ -60,7 +60,7 @@ spec-kitty agent mission acceptance-verdict --mission <handle> \
 
 Repeat the criterion form for every row in `acceptance-matrix.json` until
 each one is `pass` or `fail` (no `pending` rows left unintentionally). Each
-invocation reports the recomputed `overall_verdict` — use it to confirm the
+invocation reports the recomputed `overall_verdict` - use it to confirm the
 matrix is converging before moving on.
 
 ### 2. Run the Acceptance Gate
@@ -83,7 +83,7 @@ Read the command output carefully:
   consolidate and prints the consolidate instructions.
 - If the gate **fails**, the output lists each outstanding category (for
   example: WPs not yet approved, failing checks, or unresolved review
-  feedback — including any malformed acceptance-matrix entry, named by item
+  feedback - including any malformed acceptance-matrix entry, named by item
   and reason). Treat every outstanding item as a blocker. Use
   `spec-kitty accept --mission <handle> --diagnose` for a read-only diagnostic
   pass that reports blockers without writing anything.
@@ -95,7 +95,7 @@ For each blocker reported:
 - Route the affected work package back through implement/review as needed.
 - Re-run the relevant tests or checks until they pass.
 - If a criterion or negative invariant still needs recording, go back to
-  step 1 — through `acceptance-verdict`, never by hand-editing the JSON.
+  step 1 - through `acceptance-verdict`, never by hand-editing the JSON.
 - Re-run `spec-kitty accept --mission <handle>` and confirm the gate is now
   clean. Do **not** force acceptance past an unresolved blocker.
 
@@ -125,5 +125,5 @@ After completing this step:
 - Consolidate instructions have been surfaced to the operator.
 
 **Next step**: run `spec-kitty consolidate --mission <handle>` to consolidate
-the accepted mission. `spec-kitty next` does not issue a consolidate step —
+the accepted mission. `spec-kitty next` does not issue a consolidate step -
 consolidation is the operator-run step after acceptance passes.

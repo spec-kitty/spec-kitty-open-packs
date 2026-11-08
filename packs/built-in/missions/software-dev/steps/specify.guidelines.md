@@ -1,4 +1,4 @@
-# Specify Action — Governance Guidelines
+# Specify Action - Governance Guidelines
 
 These guidelines govern the quality and authorship standards for mission specification work in the software-dev mission. They were extracted from the command template and are injected at runtime via the charter context bootstrap.
 
@@ -9,7 +9,7 @@ These guidelines govern the quality and authorship standards for mission specifi
 - Focus on **WHAT** users need and **WHY**.
 - Avoid HOW to implement (no tech stack, APIs, code structure).
 - Write for business stakeholders, not developers.
-- Do NOT create checklists embedded in the spec itself — that is handled by a separate command.
+- Do NOT create checklists embedded in the spec itself - that is handled by a separate command.
 
 ---
 
@@ -17,7 +17,7 @@ These guidelines govern the quality and authorship standards for mission specifi
 
 - **Mandatory sections**: Must be completed for every mission.
 - **Optional sections**: Include only when relevant to the mission.
-- When a section doesn't apply, remove it entirely — do not leave it as "N/A".
+- When a section doesn't apply, remove it entirely - do not leave it as "N/A".
 
 ---
 
@@ -37,7 +37,7 @@ When creating a spec from a user prompt:
 
 1. **Make informed guesses**: Use context, industry standards, and common patterns to fill gaps.
 2. **Document assumptions**: Record reasonable defaults in the Assumptions section.
-3. **Limit clarifications**: Maximum 3 `[NEEDS CLARIFICATION]` markers — use only for critical decisions that:
+3. **Limit clarifications**: Maximum 3 `[NEEDS CLARIFICATION]` markers - use only for critical decisions that:
    - Significantly impact feature scope or user experience
    - Have multiple reasonable interpretations with different implications
    - Lack any reasonable default
@@ -76,7 +76,7 @@ Success criteria must be:
 
 **Bad examples** (implementation-focused):
 
-- "API response time is under 200ms" — too technical, use "Users see results instantly"
-- "Database can handle 1000 TPS" — implementation detail, use user-facing metric
-- "React components render efficiently" — framework-specific
-- "Redis cache hit rate above 80%" — technology-specific
+- "API response time is under 200ms" - too technical, use "Users see results instantly"
+- "Database can handle 1000 TPS" - implementation detail, use user-facing metric
+- "React components render efficiently" - framework-specific
+- "Redis cache hit rate above 80%" - technology-specific

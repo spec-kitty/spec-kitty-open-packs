@@ -3,10 +3,10 @@ work_package_id: "WPxx"
 subtasks:
   - "Txxx"
 title: "Replace with work package title"
-task_type: "implement"  # implement | review | plan | specify | research — drives the role suggestion
+task_type: "implement"  # implement | review | plan | specify | research - drives the role suggestion
 phase: "Phase N - Replace with phase name"
-execution_mode: "code_change"  # code_change | planning_artifact — code_change WPs may never own kitty-specs/ paths; planning_artifact WPs must confine every owned_files entry to kitty-specs/ or docs/
-owned_files:  # Repo-root-relative paths/globs this WP owns (e.g. src/..., tests/...) — never host-absolute or worktree-prefixed; a code_change WP must never list a kitty-specs/ path (finalize-tasks rejects it with INVALID_WP_OWNED_FILES_KITTY_SPECS); per-WP design notes / kitty-specs deliverables go in a separate planning_artifact WP confined to kitty-specs/ or docs/
+execution_mode: "code_change"  # code_change | planning_artifact - code_change WPs may never own kitty-specs/ paths; planning_artifact WPs must confine every owned_files entry to kitty-specs/ or docs/
+owned_files:  # Repo-root-relative paths/globs this WP owns (e.g. src/..., tests/...) - never host-absolute or worktree-prefixed; a code_change WP must never list a kitty-specs/ path (finalize-tasks rejects it with INVALID_WP_OWNED_FILES_KITTY_SPECS); per-WP design notes / kitty-specs deliverables go in a separate planning_artifact WP confined to kitty-specs/ or docs/
   - "src/replace/with/owned/surface.py"
   - "tests/replace/with/owned/test_surface.py"
 authoritative_surface: "src/replace/with/primary/surface/"  # Repo-root-relative prefix; must prefix at least one owned_files entry
@@ -15,7 +15,7 @@ create_intent:  # Repo-root-relative paths this WP will CREATE (suppresses liter
 role: ""           # The role this WP asks for (e.g., "implementer", "reviewer"); the profile is selected from it
 agent_profile: ""  # Optional override; leave empty unless the operator pins a profile for this WP
 agent: ""          # CLI agent/tool identifier (claude, codex, copilot, etc.)
-model: ""          # Model identifier (e.g., claude-sonnet-4-6) — optional
+model: ""          # Model identifier (e.g., claude-sonnet-4-6) - optional
 assignee: ""       # Optional friendly name when claimed/in_progress
 shell_pid: ""     # PID captured when the task was claimed
 history:
@@ -24,9 +24,9 @@ history:
     action: "Prompt generated via /spec-kitty.tasks"
 ---
 
-# Work Package Prompt: {{work_package_id}} – {{title}}
+# Work Package Prompt: {{work_package_id}} - {{title}}
 
-## ⚡ Do This First: Load Agent Profile
+## Do This First: Load Agent Profile
 
 Use the `/spk-charter-profile-load` skill to load an agent profile for the role below, and behave according to its guidance before parsing the rest of this prompt.
 
@@ -38,7 +38,7 @@ If no profile override is set, use the profile the active preset activates for t
 
 ---
 
-## ⚠️ IMPORTANT: Review Feedback
+## IMPORTANT: Review Feedback
 
 **Read this first if you are implementing this task!**
 
@@ -83,7 +83,7 @@ Use language identifiers in code blocks: ````python`,````bash`
 
 ## Subtasks & Detailed Guidance
 
-### Subtask TXXX – Replace with summary
+### Subtask TXXX - Replace with summary
 
 - **Purpose**: Explain why this subtask exists.
 - **Steps**: Detailed, actionable instructions.
@@ -91,7 +91,7 @@ Use language identifiers in code blocks: ````python`,````bash`
 - **Parallel?**: Note if this can run alongside others.
 - **Notes**: Edge cases, dependencies, or data requirements.
 
-### Subtask TYYY – Replace with summary
+### Subtask TYYY - Replace with summary
 
 - Repeat the structure above for every included `Txxx` entry.
 
@@ -119,7 +119,7 @@ Use language identifiers in code blocks: ````python`,````bash`
 ## Progress & Status
 
 Progress, history, and status all live in the status event log
-(`status.events.jsonl`) — never in this prompt file. Do **not** hand-edit a
+(`status.events.jsonl`) - never in this prompt file. Do **not** hand-edit a
 history section here.
 
 - **Record a progress note**: `spec-kitty agent tasks add-history <WPID> --note "<what you did>"`

@@ -1,4 +1,4 @@
-# Plan Action — Governance Guidelines
+# Plan Action - Governance Guidelines
 
 These guidelines govern the quality and correctness standards for implementation planning work in the software-dev mission. They were extracted from the command template and are injected at runtime via the charter context bootstrap.
 
@@ -7,8 +7,8 @@ These guidelines govern the quality and correctness standards for implementation
 ## Core Authorship Rules
 
 - Use absolute paths when referencing files and directories.
-- ERROR on gate failures or unresolved clarifications — do not silently proceed past blockers.
-- Mark `[NEEDS CLARIFICATION: …]` only when the user deliberately postpones a decision; resolve every other ambiguity before generating design artifacts.
+- ERROR on gate failures or unresolved clarifications - do not silently proceed past blockers.
+- Mark `[NEEDS CLARIFICATION: ...]` only when the user deliberately postpones a decision; resolve every other ambiguity before generating design artifacts.
 
 ---
 
@@ -23,7 +23,7 @@ These guidelines govern the quality and correctness standards for implementation
 ## Phase Discipline
 
 - Phase 0 must fully resolve all `NEEDS CLARIFICATION` items before Phase 1 begins.
-- Phase 1 design artifacts (data-model.md, contracts/, quickstart.md) must derive from confirmed planning answers — not from raw user input.
+- Phase 1 design artifacts (data-model.md, contracts/, quickstart.md) must derive from confirmed planning answers - not from raw user input.
 - This command ends after Phase 1. Do NOT proceed to task generation.
 
 ---
@@ -31,5 +31,5 @@ These guidelines govern the quality and correctness standards for implementation
 ## Supply-Chain Security & Adversarial Evidence
 
 - When the plan touches a dependency (add/upgrade/removal, any ecosystem), reference `DIRECTIVE_051` and the `supply-chain-install-safety` tactic for the checklist; surface a result for every control the directive names in the planning artifacts.
-- This is advisory in v1 (no new fail-closed gate) — but an unexamined default is a governance gap, not a pass.
+- This is advisory in v1 (no new fail-closed gate) - but an unexamined default is a governance gap, not a pass.
 - For plan/research artifacts, record adversarial-squad challenge dispositions per the `adversarial-squad-deployment` procedure's findings-disposition contract (load it with `spec-kitty charter context --include procedure:adversarial-squad-deployment`); never drop a contested finding silently.
