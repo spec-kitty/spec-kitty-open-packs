@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `abad369aa154f31b6b71501181131e211ca7ed2e8baaf973f29611ac4ea4645f`
+- **Content checksum (sha256):** `96045d68e391c7c3f6455f6e049f5cff89385b0698b68a2d0f0cc8f385fa760d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -35,9 +35,9 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `directives` | 39 |
 | `tactics` | 122 |
 | `styleguides` | 29 |
-| `toolguides` | 36 |
-| `paradigms` | 14 |
-| `procedures` | 65 |
+| `toolguides` | 38 |
+| `paradigms` | 10 |
+| `procedures` | 66 |
 | `agent_profiles` | 27 |
 | `assets` | 15 |
 | `glossary_packs` | 1 |
@@ -45,7 +45,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **482** |
+| **Total files** | **481** |
 
 ### Full listing
 
@@ -258,7 +258,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>toolguides</code> (36)</summary>
+<summary><code>toolguides</code> (38)</summary>
 
 - `contextive.guide.md`
 - `contextive.toolguide.yaml`
@@ -266,6 +266,8 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `drupal-review-checks.toolguide.yaml`
 - `efficient-local-tooling.guide.md`
 - `efficient-local-tooling.toolguide.yaml`
+- `execution-lanes.guide.md`
+- `execution-lanes.toolguide.yaml`
 - `gherkin.guide.md`
 - `gherkin.toolguide.yaml`
 - `git-agent-commit-signing.guide.md`
@@ -300,7 +302,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>paradigms</code> (14)</summary>
+<summary><code>paradigms</code> (10)</summary>
 
 - `atomic-design.paradigm.yaml`
 - `behaviour-driven-development.paradigm.yaml`
@@ -308,11 +310,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `c4-incremental-detail-modeling.paradigm.yaml`
 - `deep-module-design.paradigm.yaml`
 - `domain-driven-design.paradigm.yaml`
-- `execution-lanes.paradigm.yaml`
-- `extract-then-publish-separation.paradigm.yaml`
-- `git-flow.paradigm.yaml`
 - `semantic-compression.paradigm.yaml`
-- `shared-branch-ci.paradigm.yaml`
 - `specification-by-example.paradigm.yaml`
 - `structured-prompt-driven-development.paradigm.yaml`
 - `trunk-based.paradigm.yaml`
@@ -320,7 +318,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>procedures</code> (65)</summary>
+<summary><code>procedures</code> (66)</summary>
 
 - `action-item-attribution-gate.procedure.yaml`
 - `adversarial-squad-deployment.procedure.yaml`
@@ -352,6 +350,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `example-mapping-workshop.procedure.yaml`
 - `failing-test-triage.procedure.yaml`
 - `five-paradigm-structural-intervention.procedure.yaml`
+- `git-flow.procedure.yaml`
 - `glossary-maintenance-workflow.procedure.yaml`
 - `issue-triage-state-machine.procedure.yaml`
 - `keep-change-local.procedure.yaml`
