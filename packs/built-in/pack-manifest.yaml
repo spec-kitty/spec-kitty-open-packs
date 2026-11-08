@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: cbd236b7aace227da93519c89f028b439c2a0c6002fdab2093f63cc372e0e167
+manifest_hash: 26fa24713c9a8666acb499e636354d024862b4d9ec067e049335cfd6fe6e7265
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -326,10 +326,6 @@ constituents:
   path: paradigms/semantic-compression.paradigm.yaml
   content_hash: d12b4d3661660ca515f0f58e6f155d7b5cdfde4f273f8f478945e3a1bf1b06fd
 - kind: paradigm
-  id: shared-branch-ci
-  path: paradigms/shared-branch-ci.paradigm.yaml
-  content_hash: a69189d2d97746ea85c9985476fb43f7f96501552f6635d4a53574bca3879c3f
-- kind: paradigm
   id: specification-by-example
   path: paradigms/specification-by-example.paradigm.yaml
   content_hash: 764dcd67104ab7bcc203c03c32416d42ea53d7064c8ac79d3b63d3043f0c678c
@@ -340,7 +336,7 @@ constituents:
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
-  content_hash: 616554b3b57a040cfff5561eda2106135c08be97db253dcb5997673d5b7a0457
+  content_hash: f452ed5e90748df9dea017dda4b86cd4792e3d9f78f8cde9252a4d55ba26fb42
 - kind: procedure
   id: action-item-attribution-gate
   path: procedures/action-item-attribution-gate.procedure.yaml

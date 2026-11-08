@@ -13,7 +13,6 @@ steps:
       kind: paradigm
       candidates:
         - execution-lanes
-        - shared-branch-ci
         - trunk-based
     guidance: >
       Execution lanes are the only supported git worktree paradigm. Spec Kitty

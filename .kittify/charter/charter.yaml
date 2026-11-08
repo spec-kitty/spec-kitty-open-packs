@@ -454,12 +454,6 @@ catalog:
     summary: "Treat a software system as an over-expanded expression of observable behavior. The work is to remove accidental implementation complexity while preserving semantics: first map the behavior that must not change, then find duplicated or dead expressions of that behavior, extract one concept per responsibility, collapse parallel behavioral paths, and verify equivalence. The goal is not prettier code or architectural purity. The goal is a smaller implementation that still produces the same externally observable behavior, with evidence strong enough for the risk of the reduction.\n"
     source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/semantic-compression.paradigm.yaml
     local_path: _LIBRARY/paradigm-semantic-compression.md
-  - id: PARADIGM:shared-branch-ci
-    kind: paradigm
-    title: Shared-Branch CI
-    summary: "A collaborative workspace paradigm where multiple contributors integrate through a shared branch protected by continuous integration, staging hygiene, and explicit commit attribution. In Spec Kitty this is a resolvable compatibility paradigm for teams whose charter selects a shared branch model. It must still preserve isolated verification evidence and quality gates before shared state is promoted.\n"
-    source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/shared-branch-ci.paradigm.yaml
-    local_path: _LIBRARY/paradigm-shared-branch-ci.md
   - id: PARADIGM:specification-by-example
     kind: paradigm
     title: Specification by Example
@@ -475,7 +469,7 @@ catalog:
   - id: PARADIGM:trunk-based
     kind: paradigm
     title: Trunk-Based Development
-    summary: "A branch-management paradigm where contributors integrate small, verified changes into the mainline frequently, avoiding long-lived divergence. In Spec Kitty this exists as a resolvable compatibility paradigm for projects whose charter selects trunk-based development. Work remains gated by targeted staging, commit attribution, and test/typecheck verification before mainline integration.\n"
+    summary: "A branch-management paradigm where contributors integrate small, verified changes into the mainline frequently, avoiding long-lived divergence. Teams may integrate through a shared branch protected by continuous integration and staging hygiene. In Spec Kitty this exists as a resolvable compatibility paradigm for projects whose charter selects trunk-based development or a shared branch model. Work remains gated by targeted staging, explicit commit attribution, and test/typecheck verification before shared mainline state is promoted, with isolated verification evidence preserved for each change.\n"
     source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/trunk-based.paradigm.yaml
     local_path: _LIBRARY/paradigm-trunk-based.md
   - id: PROCEDURE:adversarial-squad-deployment
@@ -1682,7 +1676,6 @@ activated_paradigms:
 - execution-lanes
 - extract-then-publish-separation
 - semantic-compression
-- shared-branch-ci
 - specification-by-example
 - structured-prompt-driven-development
 - trunk-based
