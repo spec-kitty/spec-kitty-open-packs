@@ -410,6 +410,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Internal procedure prose uses ASCII punctuation and puts regeneration exceptions first.** The
+  `memory-curation-and-escalation` procedure replaces em dashes with sentence-appropriate ASCII
+  punctuation. The `landing-contributor-prs` rebase step now names the docs retrieval index, page
+  inventory and ADR era tables as exceptions in the regeneration instruction itself, before the
+  general freshness-gate rationale; its commands and conflict-resolution guidance are unchanged.
+
 - **One edge per component pair in the built-in graph** (#135). Seventeen pairs carried both a
   `requires` and a `suggests` edge, against charter ADR-0027: 14 profile-to-directive pairs for
   `DIRECTIVE_030`, `034` and `041`, plus `bdd-scenario-lifecycle` and `bdd-scenario-formulation` to
