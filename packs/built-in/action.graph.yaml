@@ -338,7 +338,7 @@ edges:
   target: directive:DIRECTIVE_051
   relation: scope
 - source: action:software-dev/implement
-  target: paradigm:execution-lanes
+  target: toolguide:execution-lanes
   relation: scope
 - source: action:software-dev/implement
   target: procedure:git-flow
@@ -512,7 +512,7 @@ edges:
   target: directive:DIRECTIVE_051
   relation: scope
 - source: action:software-dev/review
-  target: paradigm:execution-lanes
+  target: toolguide:execution-lanes
   relation: scope
 - source: action:software-dev/review
   target: procedure:git-flow

@@ -11,6 +11,9 @@ nodes:
 - urn: toolguide:efficient-local-tooling
   kind: toolguide
   label: Efficient Local Tooling
+- urn: toolguide:execution-lanes
+  kind: toolguide
+  label: Execution Lanes
 - urn: toolguide:gherkin
   kind: toolguide
   label: The Gherkin Scenario Language
@@ -72,6 +75,21 @@ edges:
   relation: suggests
   when: capturing the extracted, bounded-context-owned terms in an enforceable Contextive glossary so the recovered ubiquitous language is surfaced in the IDE rather than left in a static document
   reason: "Contextive is the ubiquitous-language glossary tool; the terms terminology-extraction-mapping extracts and validates are exactly the content Contextive stores and enforces (its guide ties glossary-curation output to Contextive format). It supports the extraction-mapping workflow's output. INERT: contextive is action-unreachable."
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_024
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_028
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_029
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_030
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_033
+  relation: requires
 - source: toolguide:git-worktree-pr-workflow
   target: tactic:clean-linear-commit-history
   relation: suggests
