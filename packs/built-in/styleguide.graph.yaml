@@ -68,9 +68,6 @@ nodes:
 - urn: styleguide:quadruple-a-test-format
   kind: styleguide
   label: Quadruple-A Test Format
-- urn: styleguide:reasons-canvas-writing
-  kind: styleguide
-  label: REASONS Canvas Writing Styleguide
 - urn: styleguide:research-citation-discipline
   kind: styleguide
   label: Research Citation Discipline Styleguide

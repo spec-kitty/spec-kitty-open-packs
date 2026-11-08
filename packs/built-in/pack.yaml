@@ -6,6 +6,8 @@
 # tests/architectural/test_pack_manifest_no_author_edit.py).
 #
 # Field reference: kitty-specs/pack-metadata-manifest-unification-01M052PT/data-model.md (PackDescriptor)
+# Descriptor 1.0 switches on ADR-0066's empty-prompt-slot validation.
+schema_version: "1.0"
 pack_id: 01ARWG13C000000000000000FG
 pack_version: 1.0.0
 parent_pack: null

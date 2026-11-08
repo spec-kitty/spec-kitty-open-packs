@@ -1,8 +1,8 @@
 # Packs
 
-This directory holds the materialized Charter Packs. It ships three packs so far,
-[`cave-kitty/`](cave-kitty/README.md), [`event-driven/`](event-driven/README.md) and
-[`qa/`](qa/README.md); the rest of the catalog is still a
+This directory holds the materialized Charter Packs. It ships four packs so far,
+[`cave-kitty/`](cave-kitty/README.md), [`event-driven/`](event-driven/README.md),
+[`qa/`](qa/README.md) and [`spdd/`](spdd/README.md); the rest of the catalog is still a
 [proposal](../docs/packs/catalog-proposal.md), carved from the Spec Kitty built-in corpus
 incrementally, one tracking issue at a time.
 

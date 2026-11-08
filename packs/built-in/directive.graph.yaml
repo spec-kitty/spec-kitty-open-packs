@@ -53,9 +53,6 @@ nodes:
 - urn: directive:DIRECTIVE_037
   kind: directive
   label: Living Documentation Sync
-- urn: directive:DIRECTIVE_038
-  kind: directive
-  label: Structured Prompt Change-Boundary
 - urn: directive:DIRECTIVE_039
   kind: directive
   label: Lynn Cole Engineering Culture
@@ -352,12 +349,6 @@ edges:
 - source: directive:DIRECTIVE_037
   target: tactic:usage-examples-sync
   relation: requires
-- source: directive:DIRECTIVE_038
-  target: tactic:reasons-canvas-fill
-  relation: suggests
-- source: directive:DIRECTIVE_038
-  target: tactic:reasons-canvas-review
-  relation: suggests
 - source: directive:DIRECTIVE_039
   target: directive:DIRECTIVE_001
   relation: requires

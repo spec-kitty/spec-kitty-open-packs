@@ -26,9 +26,6 @@ nodes:
 - urn: paradigm:specification-by-example
   kind: paradigm
   label: Specification by Example
-- urn: paradigm:structured-prompt-driven-development
-  kind: paradigm
-  label: Structured-Prompt-Driven Development
 - urn: paradigm:trunk-based
   kind: paradigm
   label: Trunk-Based Development
@@ -208,12 +205,6 @@ edges:
 - source: paradigm:specification-by-example
   target: tactic:usage-examples-sync
   relation: requires
-- source: paradigm:structured-prompt-driven-development
-  target: directive:DIRECTIVE_038
-  relation: requires
-- source: paradigm:structured-prompt-driven-development
-  target: styleguide:reasons-canvas-writing
-  relation: suggests
 - source: paradigm:trunk-based
   target: directive:DIRECTIVE_029
   relation: requires
