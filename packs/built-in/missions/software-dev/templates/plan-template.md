@@ -5,7 +5,7 @@
 
 **Note**: This template is filled in by the `/spec-kitty.plan` command. See `packs/built-in/missions/software-dev/steps/plan.prompt.md` for the execution workflow.
 
-The planner will not begin until all planning questions have been answered—capture those answers in this document before progressing to later phases.
+The planner will not begin until all planning questions have been answered - capture those answers in this document before progressing to later phases.
 
 ## Summary
 
@@ -45,12 +45,12 @@ The planner will not begin until all planning questions have been answered—cap
 
 ```
 kitty-specs/[###-mission]/
-├── plan.md              # This file (/spec-kitty.plan command output)
-├── research.md          # Phase 0 output (/spec-kitty.plan command)
-├── data-model.md        # Phase 1 output (/spec-kitty.plan command)
-├── quickstart.md        # Phase 1 output (/spec-kitty.plan command)
-├── contracts/           # Phase 1 output (/spec-kitty.plan command)
-└── tasks.md             # Phase 2 output (/spec-kitty.tasks command - NOT created by /spec-kitty.plan)
+|-- plan.md              # This file (/spec-kitty.plan command output)
+|-- research.md          # Phase 0 output (/spec-kitty.plan command)
+|-- data-model.md        # Phase 1 output (/spec-kitty.plan command)
+|-- quickstart.md        # Phase 1 output (/spec-kitty.plan command)
+|-- contracts/           # Phase 1 output (/spec-kitty.plan command)
+`-- tasks.md             # Phase 2 output (/spec-kitty.tasks command - NOT created by /spec-kitty.plan)
 ```
 
 ### Source Code (repository root)
@@ -64,37 +64,37 @@ kitty-specs/[###-mission]/
 ```
 # [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+|-- models/
+|-- services/
+|-- cli/
+`-- lib/
 
 tests/
-├── contract/
-├── integration/
-└── unit/
+|-- contract/
+|-- integration/
+`-- unit/
 
 # [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
 backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
+|-- src/
+|   |-- models/
+|   |-- services/
+|   `-- api/
+`-- tests/
 
 frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
+|-- src/
+|   |-- components/
+|   |-- pages/
+|   `-- services/
+`-- tests/
 
 # [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
 api/
-└── [same as backend above]
+`-- [same as backend above]
 
 ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+`-- [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
 **Structure Decision**: [Document the selected structure and reference the real
@@ -114,11 +114,11 @@ directories captured above]
 *Include this section when the mission has multiple distinct architectural areas that inform how tasks are decomposed.*
 
 > **Note**: Implementation concerns are NOT work packages and are NOT executable units.
-> `/spec-kitty.tasks` translates these into executable WPs — one concern may become
+> `/spec-kitty.tasks` translates these into executable WPs - one concern may become
 > multiple WPs; multiple small concerns may merge into one WP. Do not label concerns
 > with WP-style IDs or sequencing language.
 
-### IC-01 — [Name]
+### IC-01 - [Name]
 
 - **Purpose**: [One sentence: what this concern addresses and why it matters]
 - **Relevant requirements**: [FR-### refs from spec.md]
@@ -126,7 +126,7 @@ directories captured above]
 - **Sequencing/depends-on**: [IC-## IDs this concern must follow, or "none"]
 - **Risks**: [Key coordination notes or implementation risks]
 
-### IC-02 — [Name]
+### IC-02 - [Name]
 
 - **Purpose**: [One sentence]
 - **Relevant requirements**: [FR-### refs]

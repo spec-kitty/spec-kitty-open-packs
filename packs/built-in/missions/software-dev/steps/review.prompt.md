@@ -25,7 +25,7 @@ one-line rationale in the commit message.
 warns, naming them, when another actor works there. Review from your own checkout (a lane worktree,
 or a harness isolation worktree) instead.
 
-**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## User Input
 
@@ -46,11 +46,11 @@ prompt.
 resolver substitutes a `spec-kitty charter context --include section:<slug>`
 fetch + when-doing stanza only when the budget would otherwise be exceeded):
 
-- **Terminology Canon** — from `.kittify/charter/charter.md` — governs the
+- **Terminology Canon** - from `.kittify/charter/charter.md` - governs the
   identifiers and term usage you assess in the diff.
-- **Code Review Checklist** — from `.kittify/charter/charter.md` — your
+- **Code Review Checklist** - from `.kittify/charter/charter.md` - your
   primary gate set when judging the WP.
-- **Regression Vigilance** — from `.kittify/charter/charter.md` — the
+- **Regression Vigilance** - from `.kittify/charter/charter.md` - the
   project's explicit drift guard; apply when the diff renames or introduces
   identifier-bearing terms.
 - Any additional action-critical sections the mission declares are appended
@@ -61,7 +61,7 @@ reviewer profile is loaded for the WP's `reviewer` role):
 
 - Every `DIRECTIVE_NNN` declared in the loaded reviewer profile's
   `directive-references` list (for example, `reviewer-renata` cites
-  `DIRECTIVE_032` — Conceptual Alignment).
+  `DIRECTIVE_032` - Conceptual Alignment).
 - Every tactic-id declared in the loaded reviewer profile's
   `tactic-references` list (for example, `reviewer-renata` cites the
   `language-driven-design` tactic).
@@ -72,9 +72,9 @@ via the paired fetch command and apply.
 
 **Guaranteed authority pointers** (path + when-doing conditional):
 
-- `docs/context/` — canonical terminology. Consult when the diff
+- `docs/context/` - canonical terminology. Consult when the diff
   introduces or renames a domain term.
-- `docs/adr/` — architectural intent, filed by era (for example
+- `docs/adr/` - architectural intent, filed by era (for example
   `docs/adr/4.x/`). Consult when the diff changes a structural boundary
   (package layout, public API surface, dependency edges).
 - Any additional paths declared in the charter's `authority_paths:` block are
@@ -179,11 +179,11 @@ For each subtask:
 
 ### 3a. Supply-Chain Security Evidence Check (dependency changes)
 
-If the diff adds, upgrades, or removes a dependency (any ecosystem), verify the implementer's evidence trail against `DIRECTIVE_051` and the `supply-chain-install-safety` tactic — this mirrors the `supply_chain_security_review` step already present in the `review` step contract:
+If the diff adds, upgrades, or removes a dependency (any ecosystem), verify the implementer's evidence trail against `DIRECTIVE_051` and the `supply-chain-install-safety` tactic - this mirrors the `supply_chain_security_review` step already present in the `review` step contract:
 
 - A result for every control DIRECTIVE_051 names is documented, not assumed or waved through.
 - Any adversarial-squad or reviewer challenge to a supply-chain finding has an explicit disposition, per the `adversarial-squad-deployment` procedure's findings-disposition contract (load it with `spec-kitty charter context --include procedure:adversarial-squad-deployment`), traceable to an evidence location. Do not approve a WP that silently drops a contested finding.
-- This check is advisory in v1 (it does not add a new fail-closed transition gate — the `in_progress->for_review` gate above is unchanged), but missing or unexamined evidence for a dependency change is a review gap to call out, not something to wave through because the mission is otherwise advisory.
+- This check is advisory in v1 (it does not add a new fail-closed transition gate - the `in_progress->for_review` gate above is unchanged), but missing or unexamined evidence for a dependency change is a review gap to call out, not something to wave through because the mission is otherwise advisory.
 
 ### 4. Check Quality
 
@@ -197,7 +197,7 @@ If the diff adds, upgrades, or removes a dependency (any ecosystem), verify the 
   (e.g., that a `try/except` exists) without exercising the real dependency is
   insufficient. Apply the deletion test: temporarily delete the implementation
   change, run the test, confirm it fails. If it does not fail, the error path
-  is untested — the test validates structure, not behaviour. Restore the fix
+  is untested - the test validates structure, not behaviour. Restore the fix
   before proceeding.
 
 ### 4a. Anti-pattern Checklist (WP-Level Cheap Version of Mission-Review)
@@ -266,11 +266,11 @@ If this mission has `change_mode: bulk_edit` in `meta.json`:
 1. **Verify occurrence map exists**: `occurrence_map.yaml` must be present in the mission directory
 2. **Reference during review**: The occurrence map is the governing artifact for this bulk edit
 3. **Check category compliance**:
-   - Verify changes respect `do_not_change` categories — reject if these were modified
+   - Verify changes respect `do_not_change` categories - reject if these were modified
    - Verify `manual_review` categories have documented justification
    - Flag any changed files that fall outside classified categories
 4. **Check exceptions**: Verify exception files/patterns were not modified
-5. **If occurrence map is missing**: Reject the review — bulk edit missions require classification
+5. **If occurrence map is missing**: Reject the review - bulk edit missions require classification
 
 The system enforces map existence automatically, but as a reviewer you should verify
 that the *substance* of the changes aligns with the classification, not just that the

@@ -1,4 +1,4 @@
-# Implement Action — Governance Guidelines
+# Implement Action - Governance Guidelines
 
 These guidelines govern the quality and correctness standards for work package implementation in the software-dev mission. They are injected at runtime via the charter context bootstrap.
 
@@ -37,4 +37,4 @@ If a file or path is uncertain, verify with `ls` or `test -f` before reading it.
 ## Supply-Chain Security Check (dependency changes)
 
 - Any dependency add/upgrade/removal must run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` (see the matching ecosystem toolguide for exact commands).
-- Record the check results — not just intent — in the commit message or WP notes. An unexamined default is a gap, not a pass. Advisory in v1: no new fail-closed gate is added.
+- Record the check results - not just intent - in the commit message or WP notes. An unexamined default is a gap, not a pass. Advisory in v1: no new fail-closed gate is added.

@@ -9,7 +9,7 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
-**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## Goal
 
@@ -19,7 +19,7 @@ Identify inconsistencies, duplications, ambiguities, and underspecified items ac
 
 **NON-REMEDIATING**: Do **not** modify `spec.md`, `plan.md`, `tasks.md`, WP files, source code, or any remediation target. The only permitted file mutation is persisting this command's report to `kitty-specs/<mission>/analysis-report.md` via `spec-kitty agent mission record-analysis`. Offer an optional remediation plan only after the report is persisted (user must explicitly approve before any follow-up editing commands would be invoked manually).
 
-**Charter Authority**: The project charter (`.kittify/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks—not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
+**Charter Authority**: The project charter (`.kittify/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks - not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
 
 **Issue-Matrix Approval Heads-Up (non-gating, #3469)**: if any artifact cites a GitHub
 issue number (`#NNNN`), a bare/unmarked reference will later require an issue-matrix row
@@ -27,7 +27,7 @@ before its owning work package can be approved. A context-only citation (e.g.
 `Follow-up:`, `see #`, `parent`, `epic`) or a PR/commit reference (`PR #NNNN`, a
 `/pull/NNNN` URL) is non-gating and needs no row; if an issue genuinely owes the mission
 no work, it can later be recorded with the `not-applicable` verdict. This is
-informational only — it does not gate `/spec-kitty.analyze`.
+informational only - it does not gate `/spec-kitty.analyze`.
 
 ## Execution Steps
 
@@ -76,7 +76,7 @@ Load only the minimal necessary context from each artifact:
 
 Create internal representations (do not include raw artifacts in output):
 
-- **Requirements inventory**: Each functional + non-functional requirement with a stable key (derive slug based on imperative phrase; e.g., "User can upload file" → `user-can-upload-file`)
+- **Requirements inventory**: Each functional + non-functional requirement with a stable key (derive slug based on imperative phrase; e.g., "User can upload file" -> `user-can-upload-file`)
 - **User story/action inventory**: Discrete user actions with acceptance criteria
 - **Task coverage mapping**: Map each task to one or more requirements or stories (inference by keyword / explicit reference patterns like IDs or key phrases)
 - **Charter rule set**: Extract principle names and MUST/SHOULD normative statements
@@ -130,7 +130,7 @@ Use this heuristic to prioritize findings:
 
 ### 6. Produce Compact Analysis Report
 
-The report MUST begin with a structured **`analysis-findings/v1`** YAML frontmatter carrier, immediately followed by the human-readable Markdown body. The recorder computes the verdict and issue counts **from this carrier only** — report prose is presentation and is NEVER parsed for severity. Emit the carrier exactly in this shape:
+The report MUST begin with a structured **`analysis-findings/v1`** YAML frontmatter carrier, immediately followed by the human-readable Markdown body. The recorder computes the verdict and issue counts **from this carrier only** - report prose is presentation and is NEVER parsed for severity. Emit the carrier exactly in this shape:
 
 ```yaml
 ---
@@ -141,16 +141,16 @@ findings:
     category: coverage
     summary: "One-line description of the finding."
 counts: {critical: 0, high: 1, medium: 0, low: 0, info: 0}   # MUST equal the findings[] tally per severity
-verdict_hint: blocked   # OPTIONAL author hint; the recorder COMPUTES the verdict — if your hint disagrees, recording FAILS LOUDLY
+verdict_hint: blocked   # OPTIONAL author hint; the recorder COMPUTES the verdict - if your hint disagrees, recording FAILS LOUDLY
 ---
 ```
 
-Carrier rules (binding — a violation makes `record-analysis` fail on the write path):
+Carrier rules (binding - a violation makes `record-analysis` fail on the write path):
 - `findings[].severity` MUST be one of `low`, `medium`, `high`, `critical`. Any other value fails schema validation.
 - `counts` per-severity values MUST equal the actual `findings[]` tally. `info` is a presentation-only bucket and never affects the verdict.
-- The verdict is derived from structure: **any `high` or `critical` finding → `blocked`; otherwise → `ready`.** Do not rely on prose wording.
+- The verdict is derived from structure: **any `high` or `critical` finding -> `blocked`; otherwise -> `ready`.** Do not rely on prose wording.
 - If you include `verdict_hint`, it MUST match the computed verdict, or recording fails loudly.
-- A report with **no** findings emits `findings: []` and `counts: {critical: 0, high: 0, medium: 0, low: 0, info: 0}` → verdict `ready`.
+- A report with **no** findings emits `findings: []` and `counts: {critical: 0, high: 0, medium: 0, low: 0, info: 0}` -> verdict `ready`.
 
 After the closing `---`, draft the Markdown body with the following structure:
 
@@ -194,11 +194,11 @@ If your host supports piping reliable multiline stdin, this equivalent form is a
 spec-kitty agent mission record-analysis --mission <mission-slug> --input-file - --json
 ```
 
-The report file you pass MUST start with the `analysis-findings/v1` carrier from step 6. The recorder derives the verdict and counts from it; a malformed carrier (unknown severity, `counts` not matching the `findings[]` tally, or a disagreeing `verdict_hint`) makes the recorder fail loudly — fix the carrier and re-run.
+The report file you pass MUST start with the `analysis-findings/v1` carrier from step 6. The recorder derives the verdict and counts from it; a malformed carrier (unknown severity, `counts` not matching the `findings[]` tally, or a disagreeing `verdict_hint`) makes the recorder fail loudly - fix the carrier and re-run.
 
 Treat persistence failure as command failure. The command is not complete until the JSON response reports success and names `analysis-report.md`.
 
-> **⚠️ Caution — write the report to a path OUTSIDE the repository checkout**
+> **Caution - write the report to a path OUTSIDE the repository checkout**
 >
 > The `analysis-findings/v1` carrier (step 6) is the **input format** for `record-analysis`,
 > not the **persisted format**. `record-analysis` wraps the carrier in the outer-wrapper
@@ -206,7 +206,7 @@ Treat persistence failure as command failure. The command is not complete until 
 >
 > Write the report body to a scratch file **outside the repository checkout** (a temp or
 > scratch directory) and pass that path to `record-analysis`. Writing the report body into
-> the checkout — including writing `analysis-report.md` directly — both leaves the file in
+> the checkout - including writing `analysis-report.md` directly - both leaves the file in
 > carrier format (the implement gate then rejects it with `carrier_format_not_wrapped`) and
 > dirties the worktree, so `record-analysis` refuses with `DIRTY_WORKTREE`. Recover by
 > writing the body to a path outside the repository checkout and re-running `record-analysis`

@@ -106,7 +106,7 @@
   id; it stays inside this comment because setup-plan refuses a malformed
   declared ID):
 
-  | FR-EXAMPLE | Refuses malformed input | As an operator, I want malformed input rejected so that downstream state stays consistent. | High | Open | [ratchet] | yes — paired with the well-formed-input row on the same fixture |
+  | FR-EXAMPLE | Refuses malformed input | As an operator, I want malformed input rejected so that downstream state stays consistent. | High | Open | [ratchet] | yes - paired with the well-formed-input row on the same fixture |
 -->
 
 ### Functional Requirements
@@ -152,9 +152,9 @@
 ### Measurable Outcomes
 
 <!-- ACTION REQUIRED: append a delivery label + no-op mark to every success criterion,
-     same as the FR table above -- "— [build/ratchet/folded] · no-op passable: [yes/no]". -->
+     same as the FR table above -- "- [build/ratchet/folded] | no-op passable: [yes/no]". -->
 
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"] — [build/ratchet/folded] · no-op passable: [yes/no]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"] — [build/ratchet/folded] · no-op passable: [yes/no]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"] — [build/ratchet/folded] · no-op passable: [yes/no]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"] — [build/ratchet/folded] · no-op passable: [yes/no]
+- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"] - [build/ratchet/folded] | no-op passable: [yes/no]
+- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"] - [build/ratchet/folded] | no-op passable: [yes/no]
+- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"] - [build/ratchet/folded] | no-op passable: [yes/no]
+- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"] - [build/ratchet/folded] | no-op passable: [yes/no]

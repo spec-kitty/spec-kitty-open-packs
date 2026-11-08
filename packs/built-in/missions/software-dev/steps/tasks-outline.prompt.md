@@ -5,14 +5,14 @@ description: Create a work package manifest
 
 ## Purpose
 
-Create `wps.yaml` — the structured work package manifest that defines WP metadata,
+Create `wps.yaml` - the structured work package manifest that defines WP metadata,
 dependencies, and file ownership. `tasks.md` is generated automatically from this
 manifest by `finalize-tasks`.
 
-> ⚠️ DO NOT write `tasks.md`. The system generates it from `wps.yaml`. Writing
+> DO NOT write `tasks.md`. The system generates it from `wps.yaml`. Writing
 > `tasks.md` manually will have it overwritten by `finalize-tasks`.
 
-## ⚠️ CRITICAL: THIS IS THE MOST IMPORTANT PLANNING WORK
+## CRITICAL: THIS IS THE MOST IMPORTANT PLANNING WORK
 
 **You are creating the blueprint for implementation**. The quality of work packages determines:
 - How easily agents can implement the mission
@@ -25,13 +25,13 @@ break work into clear pieces, and write detailed guidance.
 
 ---
 
-## 📍 WORKING DIRECTORY: Stay in the repository root checkout
+## WORKING DIRECTORY: Stay in the repository root checkout
 
 **IMPORTANT**: This step works in the repository root checkout. NO worktrees created.
 
 **Do NOT cd anywhere**. Stay in the repository root checkout.
 
-**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## User Input
 
@@ -89,7 +89,7 @@ Group subtasks into work packages (IDs `WP01`, `WP02`, ...):
 - Each WP should be independently implementable
 - Root in a single user story or cohesive subsystem
 - Ensure every subtask appears in exactly one work package
-- Name with succinct goal (e.g., "User Story 1 – Real-time chat happy path")
+- Name with succinct goal (e.g., "User Story 1 - Real-time chat happy path")
 - Record metadata: priority, success criteria, risks, dependencies, included subtasks, and requirement references
 - Every WP must include a `requirement_refs` list referencing IDs declared in `spec.md` (FR/NFR/C/SC, with an optional lowercase letter suffix such as `FR-###a`)
 
@@ -112,7 +112,7 @@ declare itself cross-cutting.
 Write to `mission_dir/wps.yaml` following the schema below. This is the **single
 authoritative source** for WP metadata in the planning pipeline.
 
-**Do NOT write `tasks.md` — it is generated automatically by `finalize-tasks` from `wps.yaml`.**
+**Do NOT write `tasks.md` - it is generated automatically by `finalize-tasks` from `wps.yaml`.**
 
 **Schema**:
 
@@ -169,20 +169,20 @@ work_packages:
 ```
 
 **Field semantics**:
-- `id`: Work package identifier (`WP01`, `WP02`, …)
+- `id`: Work package identifier (`WP01`, `WP02`, ...)
 - `title`: Short human-readable name
 - `dependencies`: List of WP IDs this WP depends on. `[]` = explicitly no deps (authoritative); if the key is **absent**, `tasks-packages` may fill it based on analysis.
-- `owned_files`: Glob patterns for files this WP touches — no two WPs may overlap. A `code_change` WP must NOT list any `kitty-specs/` path here (see the staged ownership rule below).
+- `owned_files`: Glob patterns for files this WP touches - no two WPs may overlap. A `code_change` WP must NOT list any `kitty-specs/` path here (see the staged ownership rule below).
 - `requirement_refs`: Requirement IDs declared in `spec.md` (kinds FR/NFR/C/SC, digits, an optional single lowercase letter suffix) addressed by this WP. Success criteria are tracked, not gating. A `<mission-slug>#<ID>` citation of another mission's ID is kept and reported as `foreign_qualified`, but never counts as this mission's coverage. Items are kept exactly as written.
 - `plan_concern_refs`: Implementation concern IDs from `plan.md` (IC-##) addressed by this WP. Use `cross_cutting: true` instead if the WP is shared infrastructure with no specific concern.
 - `cross_cutting`: Set to `true` for infrastructure WPs that span all concerns and have no specific IC-## ref.
 - `subtasks`: Ordered list of subtask IDs included in this WP.
-- `prompt_file`: Relative path (from `mission_dir`) to the WP prompt file — set by `tasks-packages` in the next step.
+- `prompt_file`: Relative path (from `mission_dir`) to the WP prompt file - set by `tasks-packages` in the next step.
 
-**IMPORTANT**: Leave `prompt_file` as `null` or omit it — `tasks-packages` fills this field.
+**IMPORTANT**: Leave `prompt_file` as `null` or omit it - `tasks-packages` fills this field.
 
 **Staged ownership rule**:
-- A `code_change` WP must NOT list any `kitty-specs/` path in `owned_files` — `finalize-tasks --validate-only` rejects it with `INVALID_WP_OWNED_FILES_KITTY_SPECS`.
+- A `code_change` WP must NOT list any `kitty-specs/` path in `owned_files` - `finalize-tasks --validate-only` rejects it with `INVALID_WP_OWNED_FILES_KITTY_SPECS`.
 - The only exemption is a `planning_artifact` WP whose **every** `owned_files` entry is confined to `kitty-specs/` or `docs/`. A planning WP that also owns a `src/`, `tests/`, or any other non-planning path is not exempt and is rejected the same way.
 - Per-WP design notes, plan-marker edits, and other `kitty-specs/` deliverables belong in their own separate confined `planning_artifact` WP. Split a mixed WP into a planning WP plus a code WP rather than mixing the two ownership kinds.
 
@@ -191,7 +191,7 @@ work_packages:
 Analyze the spec and plan for dependency relationships. Express them in `wps.yaml`
 `dependencies` fields.
 
-**Do NOT include a Dependency Graph section in prose — it is not needed and cannot
+**Do NOT include a Dependency Graph section in prose - it is not needed and cannot
 be parsed by `finalize-tasks`.**
 
 Rules:
@@ -220,9 +220,9 @@ After completing this step:
 
 ## Work Package Sizing Guidelines
 
-**Target: 3-7 subtasks per WP** → 200-500 line prompts
-**Maximum: 10 subtasks** → ~700 line prompts
-**No arbitrary limit on WP count** — let complexity dictate
+**Target: 3-7 subtasks per WP** -> 200-500 line prompts
+**Maximum: 10 subtasks** -> ~700 line prompts
+**No arbitrary limit on WP count** - let complexity dictate
 
 **Split if ANY of these are true**:
 - More than 10 subtasks

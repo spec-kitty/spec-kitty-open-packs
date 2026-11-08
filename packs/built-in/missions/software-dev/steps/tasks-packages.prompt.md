@@ -13,11 +13,11 @@ This step assumes `wps.yaml` already exists with complete WP definitions.
 
 ---
 
-## 📍 WORKING DIRECTORY: Stay in the repository root checkout
+## WORKING DIRECTORY: Stay in the repository root checkout
 
 **IMPORTANT**: This step works in the repository root checkout. NO worktrees created.
 
-**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity — there is no silent fallback.
+**In repos with multiple missions, pass `--mission <handle>` to every command that accepts `--mission`.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`. The resolver disambiguates by `mission_id` and returns a structured `MISSION_AMBIGUOUS_SELECTOR` error on ambiguity - there is no silent fallback.
 
 ## User Input
 
@@ -50,15 +50,15 @@ work_packages:
   - id: WP01
     title: "..."
     dependencies: [...]   # may be present (authoritative) or absent
-    owned_files: [...]    # may be absent — fill in this step
-    requirement_refs: [...] # may be absent — fill in this step
+    owned_files: [...]    # may be absent - fill in this step
+    requirement_refs: [...] # may be absent - fill in this step
     subtasks: [...]
     prompt_file: null     # fill in this step
 ```
 
 ### 3. Generate Prompt Files in Parallel
 
-Parse all WP definitions from `wps.yaml`. Each WP prompt file is independent —
+Parse all WP definitions from `wps.yaml`. Each WP prompt file is independent -
 dispatch one sub-agent per WP in a **single message** so they run concurrently
 rather than generating all WP content in one serial response.
 
@@ -92,8 +92,8 @@ pipeline. Write exactly one file and return the filename and final line count.
 - subtasks: `{subtasks}`
 
 **Read for context** (all from `mission_dir`):
-- `plan.md` (required — tech architecture, stack)
-- `spec.md` (required — user stories, acceptance criteria)
+- `plan.md` (required - tech architecture, stack)
+- `spec.md` (required - user stories, acceptance criteria)
 - `data-model.md`, `research.md` (read if present)
 
 **Write the WP prompt file with this structure:**
@@ -109,19 +109,19 @@ subtasks: {subtasks}
 owned_files: {owned_files}
 authoritative_surface: "{longest common path prefix of owned_files}"
 execution_mode: "{execution_mode}"
-role: ""           # filled in Step 4a — the role this WP asks for (e.g., "implementer")
+role: ""           # filled in Step 4a - the role this WP asks for (e.g., "implementer")
 agent_profile: ""  # optional override; leave empty so the profile is selected from role
-agent: ""          # filled in Step 4a — CLI agent identifier (claude, codex, copilot, etc.)
-model: ""          # filled in Step 4a — model identifier (e.g., claude-sonnet-4-6), optional
+agent: ""          # filled in Step 4a - CLI agent identifier (claude, codex, copilot, etc.)
+model: ""          # filled in Step 4a - model identifier (e.g., claude-sonnet-4-6), optional
 ---
 ```
 
-**IMPORTANT — `plan_concern_refs` lives in `wps.yaml` only.** Do NOT copy `plan_concern_refs` into WP prompt frontmatter. `WPMetadata` uses `extra="forbid"`, so any WP prompt file with `plan_concern_refs` in its frontmatter will cause `finalize-tasks --validate-only` to raise a `ValidationError`.
+**IMPORTANT - `plan_concern_refs` lives in `wps.yaml` only.** Do NOT copy `plan_concern_refs` into WP prompt frontmatter. `WPMetadata` uses `extra="forbid"`, so any WP prompt file with `plan_concern_refs` in its frontmatter will cause `finalize-tasks --validate-only` to raise a `ValidationError`.
 
 Body sections (in order):
-0. `## ⚡ Do This First: Load Agent Profile` — **REQUIRED. Must be the first section after the H1 title, before Objective.** Instructs the implementing agent to load a profile for the WP's role via the `/spk-charter-profile-load` skill before reading anything else. Use this exact structure, substituting frontmatter values:
+0. `## Do This First: Load Agent Profile` - **REQUIRED. Must be the first section after the H1 title, before Objective.** Instructs the implementing agent to load a profile for the WP's role via the `/spk-charter-profile-load` skill before reading anything else. Use this exact structure, substituting frontmatter values:
    ```markdown
-   ## ⚡ Do This First: Load Agent Profile
+   ## Do This First: Load Agent Profile
 
    Use the `/spk-charter-profile-load` skill to load an agent profile for the role below, and behave according to its guidance before parsing the rest of this prompt.
 
@@ -133,20 +133,20 @@ Body sections (in order):
 
    ---
    ```
-1. `## Objective` — 1–3 sentence goal
-2. `## Context` — why this WP exists, what depends on it, key design decisions from plan.md
-3. `### Subtask {T-id}: {name}` — one section per subtask, ~60 lines each:
+1. `## Objective` - 1-3 sentence goal
+2. `## Context` - why this WP exists, what depends on it, key design decisions from plan.md
+3. `### Subtask {T-id}: {name}` - one section per subtask, ~60 lines each:
    - **Purpose**: what this subtask accomplishes
    - **Steps**: numbered, with specific file paths and implementation details
    - **Files**: what to create/modify, approximate size
    - **Validation**: how to verify it works
-4. `## Definition of Done` — verifiable criteria covering all subtasks; per-subtask completion evidence is a `spec-kitty agent tasks mark-status <Txxx> --status done` record (event-sourced), not a ticked checkbox
-5. `## Risks` — known risks and mitigations
-6. `## Reviewer Guidance` — what reviewers should focus on
+4. `## Definition of Done` - verifiable criteria covering all subtasks; per-subtask completion evidence is a `spec-kitty agent tasks mark-status <Txxx> --status done` record (event-sourced), not a ticked checkbox
+5. `## Risks` - known risks and mitigations
+6. `## Reviewer Guidance` - what reviewers should focus on
 
 Include the implementation command: `spec-kitty agent action implement {wp_id} --agent <name> --mission <mission-slug>`
 
-Sizing: target 200–500 lines (3–7 subtasks), maximum 700 lines (10 subtasks).
+Sizing: target 200-500 lines (3-7 subtasks), maximum 700 lines (10 subtasks).
 If >700 lines would be needed: write the file anyway but add a `> NOTE: This WP
 should be split` callout at the top.
 
@@ -154,10 +154,10 @@ should be split` callout at the top.
 
 **After all sub-agents confirm completion**, proceed to Step 4.
 
-**Fallback — if your host does not support sub-agents**: Generate all WP files
+**Fallback - if your host does not support sub-agents**: Generate all WP files
 sequentially and issue all Write tool calls in a single batched response.
 
-Do NOT update `wps.yaml` during sub-agent dispatch — collect all confirmations,
+Do NOT update `wps.yaml` during sub-agent dispatch - collect all confirmations,
 then update once in Step 4.
 
 ### 4. Update `wps.yaml` With Per-WP Details
@@ -168,7 +168,7 @@ per-WP details collected from sub-agent results: `owned_files`, `requirement_ref
 single write.
 
 **Critical rule**: Do NOT modify a `dependencies` field that is already present in
-`wps.yaml` — even if it is empty (`[]`). It is authoritative. Only populate
+`wps.yaml` - even if it is empty (`[]`). It is authoritative. Only populate
 `dependencies` for entries where the key is **absent** from `wps.yaml`.
 
 Example of a fully-populated entry after this step:
@@ -208,9 +208,9 @@ execution_mode: "code_change"
 
 Copy `requirement_refs` from `wps.yaml` exactly as written, including `SC-###`, letter-suffixed (`FR-###a`) and `<mission-slug>#<ID>` items. `finalize-tasks` never erases or rewrites them; a ref it cannot use is reported with a reason (`malformed`, `unknown_spec_id` or `foreign_qualified`) instead.
 
-**Note**: `plan_concern_refs` is a `wps.yaml`-only field. It must NOT appear in WP prompt frontmatter — `WPMetadata` (`extra="forbid"`) will reject any WP file that includes it.
+**Note**: `plan_concern_refs` is a `wps.yaml`-only field. It must NOT appear in WP prompt frontmatter - `WPMetadata` (`extra="forbid"`) will reject any WP file that includes it.
 
-Include the implementation command in each WP prompt — the same form for every WP:
+Include the implementation command in each WP prompt - the same form for every WP:
 
 ```bash
 spec-kitty agent action implement <WP-id> --agent <name> --mission <mission-slug>
@@ -219,10 +219,10 @@ spec-kitty agent action implement <WP-id> --agent <name> --mission <mission-slug
 `finalize_tasks` computes execution lanes from dependencies and write ownership. Agents never choose a base branch manually.
 
 **Ownership rules**:
-- `owned_files`: List of glob patterns for files this WP touches — no two WPs may overlap.
+- `owned_files`: List of glob patterns for files this WP touches - no two WPs may overlap.
 - `authoritative_surface`: Path prefix that must be a prefix of at least one `owned_files` entry.
 - `execution_mode`: `"code_change"` for source code changes, `"planning_artifact"` only for work confined to planning surfaces.
-- **kitty-specs ownership ban**: a `code_change` WP must NOT list any `kitty-specs/` path in `owned_files` — `finalize-tasks --validate-only` rejects it with `INVALID_WP_OWNED_FILES_KITTY_SPECS`. The exemption is a `planning_artifact` WP whose **every** `owned_files` entry is confined to `kitty-specs/` or `docs/` — a planning WP that also owns a `src/`, `tests/`, or any other non-planning path is not exempt and is rejected the same way.
+- **kitty-specs ownership ban**: a `code_change` WP must NOT list any `kitty-specs/` path in `owned_files` - `finalize-tasks --validate-only` rejects it with `INVALID_WP_OWNED_FILES_KITTY_SPECS`. The exemption is a `planning_artifact` WP whose **every** `owned_files` entry is confined to `kitty-specs/` or `docs/` - a planning WP that also owns a `src/`, `tests/`, or any other non-planning path is not exempt and is rejected the same way.
 - **Where per-WP design notes go**: design notes, plan-marker edits, and other `kitty-specs/` deliverables belong in their own separate confined `planning_artifact` WP, with every `owned_files` entry under `kitty-specs/` or `docs/`. Split a mixed WP into a planning WP plus a code WP rather than mixing the two ownership kinds.
 - Agents working on a WP should prefer to stay within their `owned_files` list; a small, well-justified out-of-map edit is acceptable when recorded with a one-line rationale (the no-overlap rule above is the real guard against parallel-WP collisions).
 
@@ -252,12 +252,12 @@ Also update the corresponding entry in `wps.yaml` with these fields.
 ### 5. Self-Check
 
 After all sub-agents complete, verify each generated prompt:
-- `## ⚡ Do This First: Load Agent Profile` is the **first body section** (before Objective)? ✓ ❌ if missing
-- Subtask count: 3-7? ✓ | 8-10? ⚠️ | 11+? ❌ needs splitting
-- Estimated lines: 200-500? ✓ | 500-700? ⚠️ | 700+? ❌ needs splitting
-- `role` and `agent` set for every WP, and `agent_profile` empty unless the operator pinned one? ✓
-- owned_files glob patterns non-overlapping across all WPs? ✓
-- Can implement in one session? ✓ | Multiple sessions needed? ❌ needs splitting
+- `## Do This First: Load Agent Profile` is the **first body section** (before Objective)? PASS | FAIL if missing
+- Subtask count: 3-7? PASS | 8-10? WARNING | 11+? FAIL; needs splitting
+- Estimated lines: 200-500? PASS | 500-700? WARNING | 700+? FAIL; needs splitting
+- `role` and `agent` set for every WP, and `agent_profile` empty unless the operator pinned one? PASS
+- owned_files glob patterns non-overlapping across all WPs? PASS
+- Can implement in one session? PASS | Multiple sessions needed? FAIL; needs splitting
 
 ## Output
 

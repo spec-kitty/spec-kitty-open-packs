@@ -430,6 +430,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   internal delivery procedure clarifies that the Issue section and its closing link are needed only
   when a PR closes an issue, and the asset inventory names that advisory check.
 
+- **Software-dev mission authoring content is ASCII-only** (#112). Its templates, prompts,
+  guidelines and README no longer tell authors to emit non-ASCII dashes, arrows, box-drawing
+  characters or symbols into mission artifacts. Core pins some of the old text (the
+  success-criterion suffix, the "Do This First" heading and the "REASONS Guidance" headings), so a
+  paired core change lands with the pin bump. A regression test rejects any non-ASCII character anywhere
+  in the software-dev mission directory. The built-in tree digest is restamped.
+
 - **One edge per component pair in the built-in graph** (#135). Seventeen pairs carried both a
   `requires` and a `suggests` edge, against charter ADR-0027: 14 profile-to-directive pairs for
   `DIRECTIVE_030`, `034` and `041`, plus `bdd-scenario-lifecycle` and `bdd-scenario-formulation` to

@@ -6,9 +6,9 @@ workflow from discovery through review to acceptance.
 ## Runtime step order
 
 ```
-discovery → specify → plan → tasks → analyze → implement → review → accept
-                                                  ↑           |
-                                                  └───────────┘ (rework)
+discovery -> specify -> plan -> tasks -> analyze -> implement -> review -> accept
+                                                    ^            |
+                                                    +-- rework --+
 ```
 
 The Spec Kitty runtime guards each transition: an artifact-presence check (for example
@@ -39,8 +39,8 @@ frontmatter (`role`); `agent_profile` there is an optional override, normally em
 
 ## Contents
 
-- `software-dev.mission-type.yaml` — The mission type: its steps in run order, its
+- `software-dev.mission-type.yaml` - The mission type: its steps in run order, its
   on-demand steps (`charter`, `tasks-outline`, `tasks-packages`, `tasks-finalize`), and
   each step's prompt, guidelines, expected artifacts and references, and its role where set
-- `steps/` — The step prompts (`<step>.prompt.md`) and guidelines (`<step>.guidelines.md`)
-- `templates/` — Content scaffolds (spec, plan, tasks, task-prompt templates)
+- `steps/` - The step prompts (`<step>.prompt.md`) and guidelines (`<step>.guidelines.md`)
+- `templates/` - Content scaffolds (spec, plan, tasks, task-prompt templates)
