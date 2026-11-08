@@ -312,7 +312,8 @@ class ValidatorExitCodes(unittest.TestCase):
         node = "  - {id: D_1, kind: directives}\n"
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            clean = pack(root, "a", node, "[{source: 'directive:D_1', target: 'directive:D_1', relation: requires}]",
+            clean = pack(root, "a", node + "  - {id: D_2, kind: directives}\n",
+                         "[{source: 'directive:D_1', target: 'directive:D_2', relation: requires}]",
                          "activated_directives:\n  - id: D_1\n")
             self.assertEqual(validator.cross_pack_violations([clean]), [])
             bad = pack(root, "b", "  - {id: D_2, kind: directives}\n", "[{source: 'directive:D_2', target: 'tactic:T_9'}]",
@@ -437,7 +438,7 @@ class CompositionChecks(unittest.TestCase):
 
     def test_a_bare_edge_end_held_only_by_another_pack_fails_and_its_own_and_action_targets_pass(self) -> None:
         built_in = self.built_in()
-        passing = "[{source: 'tactic:own', target: 'tactic:own'}, {source: 'action:dev/plan', target: 'tactic:own'}]"
+        passing = "[{source: 'action:dev/plan', target: 'tactic:own'}]"
         self.assertEqual(self.found(built_in, self.consumer(passing)), "")
         for end in ("target: 'tactic:held', source: 'tactic:own'", "source: 'tactic:held', target: 'tactic:own'"):
             with self.subTest(end=end):
@@ -464,6 +465,30 @@ class CompositionChecks(unittest.TestCase):
                 found = self.found(built_in, between, self.consumer(self.edge(reference), depends_on=depends_on))
                 self.assertIn(f"consumer/drg/fragment.yaml: reference '{reference}'", found)
                 self.assertIn("outside this pack's depends_on closure", found)
+
+    def test_an_unknown_depends_on_pack_id_fails_beside_a_known_dependency_control(self) -> None:
+        built_in = self.built_in()
+        self.assertEqual(self.found(built_in, self.consumer()), "")
+        unknown_id = "01ARWG13C000000000000000ZZ"
+        found = self.found(built_in, self.consumer(depends_on=(unknown_id,)))
+        self.assertIn(f"consumer/pack.yaml: depends_on pack_id {unknown_id!r} resolves to no pack", found)
+
+    def test_an_edge_joining_an_own_node_to_itself_fails_beside_cross_node_and_cross_pack_controls(self) -> None:
+        built_in = self.built_in()
+        files = {"tactics/second.tactic.yaml": "id: second\n"}
+        passing = "[{source: 'tactic:second', target: 'consumer::tactic:own', relation: requires}]"
+        self.assertEqual(self.found(built_in, self.consumer(passing, files=files)), "")
+        cross_pack = self.consumer("[{source: 'consumer::tactic:own', target: 'built-in::tactic:own', relation: requires}]")
+        self.assertNotIn("to itself", self.found(built_in, cross_pack))
+        for source, target in (
+            ("tactic:own", "tactic:own"),
+            ("tactic:own", "consumer::tactic:own"),
+            ("consumer::tactic:own", "tactic:own"),
+        ):
+            with self.subTest(source=source, target=target):
+                loop = self.consumer(f"[{{source: '{source}', target: '{target}', relation: requires}}]")
+                found = self.found(built_in, loop)
+                self.assertIn("consumer/drg/fragment.yaml: an edge joins 'tactic:own' to itself", found)
 
     def test_a_qualified_target_must_be_held_by_the_named_pack_not_merely_by_some_pack(self) -> None:
         built_in = self.built_in()

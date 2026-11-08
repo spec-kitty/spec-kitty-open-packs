@@ -416,6 +416,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   inventory and ADR era tables as exceptions in the regeneration instruction itself, before the
   general freshness-gate rationale; its commands and conflict-resolution guidance are unchanged.
 
+- **Pack composition refuses dependencies and edges the charter rejects** (#123). A `depends_on`
+  whose `pack_id` no configured pack declares now fails validation. So does an edge that joins a
+  node of the pack to itself, whether its ends are bare or qualified with the pack's own name. An
+  edge to the same urn in another pack joins two artifacts and stays allowed, as in the charter.
+
 - **PR-body validation accepts GitHub's colon issue-link form** (#92). `Closes: #12`,
   `Fixes: #12` and the equivalent resolve forms now satisfy the advisory issue-link check. The
   internal delivery procedure clarifies that the Issue section and its closing link are needed only
