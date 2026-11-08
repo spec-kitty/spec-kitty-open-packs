@@ -416,6 +416,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   inventory and ADR era tables as exceptions in the regeneration instruction itself, before the
   general freshness-gate rationale; its commands and conflict-resolution guidance are unchanged.
 
+- **Pack reference checksum recipes include the per-file trailing newline** (#120). The generator's
+  docstring and every published page now describe `relative-path + NUL + bytes + LF`, matching the
+  unchanged checksum algorithm so consumers can reproduce the published values.
+
 - **Pack composition refuses dependencies and edges the charter rejects** (#123). A `depends_on`
   whose `pack_id` no configured pack declares now fails validation. So does an edge that joins a
   node of the pack to itself, whether its ends are bare or qualified with the pack's own name. An

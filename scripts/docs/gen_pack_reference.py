@@ -7,7 +7,7 @@ This is the *content-from-code* generator described in
 
 * doc-kitty-valid frontmatter (so the Astro site keeps building);
 * a "generated — do not edit" banner plus a deterministic content checksum
-  (sha256 over the pack's sorted artifact contents);
+  (sha256 over each file's ``relative-path + NUL + bytes + LF``, sorted by path);
 * the version and ``depends_on`` declared in ``pack.yaml``, *if present*;
 * an artifact inventory with per-kind counts;
 * validation status from the charter pack schemas, checked by
@@ -200,11 +200,12 @@ def _pack_files(directory: Path) -> list[Path]:
 
 
 def compute_checksum(directory: Path) -> str:
-    """sha256 over the sorted ``(relative-path, bytes)`` of every pack file.
+    """sha256 over ``relative-path + NUL + bytes + LF`` for every pack file, sorted by path.
 
     The relative path is folded into the hash so that moving a file changes
-    the checksum even when its bytes are unchanged. Published verbatim in the
-    page so a consumer can re-hash a downloaded pack and compare.
+    the checksum even when its bytes are unchanged. A newline follows every
+    file's bytes, including bytes that already end in a newline. Published
+    verbatim in the page so a consumer can re-hash a downloaded pack and compare.
     """
 
     digest = hashlib.sha256()
@@ -429,7 +430,7 @@ def render_page(ref: PackReference) -> str:
     lines.append(f"- **Content checksum (sha256):** `{ref.checksum}`")
     lines.append(
         "- **Checksum recipe:** sha256 over the sorted "
-        "`(relative-path + NUL + bytes)` of every file in the pack directory. "
+        "`(relative-path + NUL + bytes + LF)` of every file in the pack directory. "
         "Re-hash a downloaded pack with the same recipe to verify integrity."
     )
     lines.append("")
