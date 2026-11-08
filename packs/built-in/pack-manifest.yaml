@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 26fa24713c9a8666acb499e636354d024862b4d9ec067e049335cfd6fe6e7265
+manifest_hash: 42569484fa2a1ce0e6ea1116d8a10d0fe2b79ef2dde268eebddeec29cf95c40e
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -313,10 +313,6 @@ constituents:
   id: domain-driven-design
   path: paradigms/domain-driven-design.paradigm.yaml
   content_hash: f320c56293d12bd976a80b0599f1b086223970e0a3555f086888f12dc2ddba7c
-- kind: paradigm
-  id: execution-lanes
-  path: paradigms/execution-lanes.paradigm.yaml
-  content_hash: 1e25fe6cb910ddc48d5ca7d377f0a2b966a114e683cd0243679b6419796e0099
 - kind: paradigm
   id: extract-then-publish-separation
   path: paradigms/extract-then-publish-separation.paradigm.yaml

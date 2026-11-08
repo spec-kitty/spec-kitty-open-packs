@@ -20,9 +20,6 @@ nodes:
 - urn: paradigm:domain-driven-design
   kind: paradigm
   label: Domain-Driven Design
-- urn: paradigm:execution-lanes
-  kind: paradigm
-  label: Execution Lanes
 - urn: paradigm:extract-then-publish-separation
   kind: paradigm
   label: Extract-Then-Publish Separation
@@ -184,21 +181,6 @@ edges:
   target: tactic:strategic-domain-classification
   relation: requires
   reason: "Strategic Domain Classification is DDD strategic design (Evans): classifying each bounded context as Core, Supporting or Generic subdomain to guide investment. Activating DDD pulls it in. (Already action-reachable via paula-patterns' review tactic; this edge records the paradigm membership without moving its reachability.)"
-- source: paradigm:execution-lanes
-  target: directive:DIRECTIVE_024
-  relation: requires
-- source: paradigm:execution-lanes
-  target: directive:DIRECTIVE_028
-  relation: requires
-- source: paradigm:execution-lanes
-  target: directive:DIRECTIVE_029
-  relation: requires
-- source: paradigm:execution-lanes
-  target: directive:DIRECTIVE_030
-  relation: requires
-- source: paradigm:execution-lanes
-  target: directive:DIRECTIVE_033
-  relation: requires
 - source: paradigm:semantic-compression
   target: directive:DIRECTIVE_001
   relation: requires

@@ -436,12 +436,6 @@ catalog:
     summary: "Software design guided by a deep model of the business domain. Strategic design decomposes a system into Bounded Contexts connected through explicit Context Mapping patterns (ACL, OHS, Shared Kernel, Published Language, etc.). Within each context a Ubiquitous Language keeps code, model, and domain expert communication aligned. Tactical patterns (Aggregates, Entities, Value Objects, Domain Events, Repositories, Domain Services) enforce invariants at the model boundary. DDD treats the domain model as the primary artifact — code is a direct expression of that model, not a translation layer above a database schema or UI framework.\n"
     source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/domain-driven-design.paradigm.yaml
     local_path: _LIBRARY/paradigm-domain-driven-design.md
-  - id: PARADIGM:execution-lanes
-    kind: paradigm
-    title: Execution Lanes
-    summary: "The default Spec Kitty implementation workspace paradigm. Each work package runs in an isolated execution-lane worktree so agents can implement, test, review, and hand off changes without mutating another lane's checkout. Execution lanes keep task status, branch state, prompt files, and verification evidence aligned around one work package at a time. Shared mainline state is reached only through explicit review, merge, and quality gates.\n"
-    source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/execution-lanes.paradigm.yaml
-    local_path: _LIBRARY/paradigm-execution-lanes.md
   - id: PARADIGM:extract-then-publish-separation
     kind: paradigm
     title: Extract-Then-Publish Separation
@@ -1492,6 +1486,12 @@ catalog:
     summary: Operation-oriented guidance for using efficient local tools during repository work.
     source_path: ''
     local_path: _LIBRARY/toolguide-efficient-local-tooling.md
+  - id: TOOLGUIDE:execution-lanes
+    kind: toolguide
+    title: Execution Lanes
+    summary: "Operational guidance for Spec Kitty's default multi-lane implementation workspaces. Each lane branch runs its work packages in sequence in a lane worktree provided by spec-kitty implement, while mission status remains on the resolved status surface. Small missions use single_branch by default, and shared mainline state is reached only through review, consolidation, and quality gates.\n"
+    source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/toolguides/execution-lanes.toolguide.yaml
+    local_path: _LIBRARY/toolguide-execution-lanes.md
   - id: TOOLGUIDE:gherkin
     kind: toolguide
     title: The Gherkin Scenario Language
@@ -1673,7 +1673,6 @@ activated_paradigms:
 - c4-incremental-detail-modeling
 - deep-module-design
 - domain-driven-design
-- execution-lanes
 - extract-then-publish-separation
 - semantic-compression
 - specification-by-example
@@ -1845,6 +1844,7 @@ activated_toolguides:
 - contextive
 - drupal-review-checks
 - efficient-local-tooling
+- execution-lanes
 - gherkin
 - git-agent-commit-signing
 - git-worktree-pr-workflow
