@@ -29,9 +29,6 @@ nodes:
 - urn: paradigm:semantic-compression
   kind: paradigm
   label: Semantic Compression
-- urn: paradigm:shared-branch-ci
-  kind: paradigm
-  label: Shared-Branch CI
 - urn: paradigm:specification-by-example
   kind: paradigm
   label: Specification by Example
@@ -213,15 +210,6 @@ edges:
   relation: requires
 - source: paradigm:semantic-compression
   target: directive:DIRECTIVE_034
-  relation: requires
-- source: paradigm:shared-branch-ci
-  target: directive:DIRECTIVE_029
-  relation: requires
-- source: paradigm:shared-branch-ci
-  target: directive:DIRECTIVE_030
-  relation: requires
-- source: paradigm:shared-branch-ci
-  target: directive:DIRECTIVE_033
   relation: requires
 - source: paradigm:specification-by-example
   target: directive:DIRECTIVE_010
