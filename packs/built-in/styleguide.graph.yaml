@@ -88,11 +88,9 @@ nodes:
   label: TypeScript Conventions Styleguide
 edges:
 - source: styleguide:aggregate-design-rules
-  target: paradigm:domain-driven-design
-  relation: suggests
-- source: styleguide:aggregate-design-rules
   target: tactic:aggregate-boundary-design
   relation: suggests
+  when: Applying ongoing design constraints to aggregate structure (identity references, size, eventual consistency).
 - source: styleguide:aggregate-design-rules
   target: tactic:domain-event-capture
   relation: suggests
@@ -110,17 +108,17 @@ edges:
   relation: requires
   reason: "The common-docs styleguide's tooling rows and quality_test name the structural lint as their enforcing gate, and its structural_lint_config: block is the policy the asset loads; activating the styleguide requires the shipped lint asset."
 - source: styleguide:common-docs
-  target: directive:DIRECTIVE_042
-  relation: suggests
-- source: styleguide:common-docs
   target: tactic:common-docs-find
   relation: suggests
+  when: reading the frontmatter fields (section, doc_status, related:) the lockfile and DRG expose for resolution
 - source: styleguide:common-docs
   target: tactic:common-docs-scaffold
   relation: suggests
+  when: seeding frontmatter and naming the file to apply the schema, kebab-case naming, and section-index conventions
 - source: styleguide:common-docs
   target: tactic:common-docs-write
   relation: suggests
+  when: 'applying the frontmatter schema, the 50-180 description band, related: paths, Divio type, and naming'
 - source: styleguide:divio-type-discipline
   target: styleguide:common-docs
   relation: suggests
@@ -185,9 +183,11 @@ edges:
 - source: styleguide:planning-and-tracking
   target: tactic:ownership-map-leeway
   relation: suggests
+  when: setting up or reviewing task decomposition to understand the ownership-map constraints and leeway principles that govern WP isolation
 - source: styleguide:planning-and-tracking
   target: tactic:reviewer-implementer-role-separation
   relation: suggests
+  when: planning task decomposition to understand the role-separation discipline that governs who reviews each work package
 - source: styleguide:planning-and-tracking
   target: toolguide:github-tracker
   relation: suggests
@@ -225,9 +225,6 @@ edges:
   target: tactic:dialectic-research
   relation: suggests
 - source: styleguide:test-desiderata-and-boundaries
-  target: directive:DIRECTIVE_030
-  relation: suggests
-- source: styleguide:test-desiderata-and-boundaries
   target: directive:DIRECTIVE_034
   relation: suggests
 - source: styleguide:test-desiderata-and-boundaries
@@ -240,22 +237,13 @@ edges:
   target: styleguide:mutation-aware-test-design
   relation: suggests
 - source: styleguide:test-desiderata-and-boundaries
-  target: styleguide:testing-principles
-  relation: suggests
-- source: styleguide:test-desiderata-and-boundaries
   target: tactic:function-over-form-testing
   relation: suggests
 - source: styleguide:test-desiderata-and-boundaries
   target: tactic:test-boundaries-by-responsibility
   relation: suggests
 - source: styleguide:testing-principles
-  target: directive:DIRECTIVE_030
-  relation: suggests
-- source: styleguide:testing-principles
   target: directive:DIRECTIVE_034
-  relation: suggests
-- source: styleguide:testing-principles
-  target: directive:DIRECTIVE_041
   relation: suggests
 - source: styleguide:testing-principles
   target: styleguide:quadruple-a-test-format
@@ -286,9 +274,6 @@ edges:
   relation: suggests
 - source: styleguide:tiered-standards
   target: directive:DIRECTIVE_025
-  relation: suggests
-- source: styleguide:tiered-standards
-  target: directive:DIRECTIVE_030
   relation: suggests
 - source: styleguide:typescript-conventions
   target: directive:DIRECTIVE_030

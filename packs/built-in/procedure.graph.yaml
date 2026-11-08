@@ -613,9 +613,6 @@ edges:
   relation: requires
   reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
 - source: procedure:test-first-bug-fixing
-  target: procedure:disciplined-defect-diagnosis
-  relation: suggests
-- source: procedure:test-first-bug-fixing
   target: tactic:tdd-red-green-refactor
   relation: requires
   reason: Bug fixing follows the same red-green cycle; the failing test is the red phase.

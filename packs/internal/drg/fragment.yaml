@@ -339,10 +339,6 @@ edges:
   # planning-and-tracking, github-tracker) -- an internal node referencing a
   # built-in one is allowed; only the reverse direction is forbidden.
   - source: "tactic:tracker-backlog-iterative-deepening"
-    target: "procedure:tracker-organisation-workflow"
-    relation: suggests
-    when: "Sequencing the tracker-wide organisation sweep into widening rings."
-  - source: "tactic:tracker-backlog-iterative-deepening"
     target: "built-in::tactic:moscow-scoping-lens"
     relation: suggests
     when: "Scoping what an emergent epic must, should, could, or won't carry once a ring surfaces it."
