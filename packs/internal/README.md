@@ -76,7 +76,7 @@ packs/internal/
 └── assets/
     ├── spec-kitty-branded-pdf.py                    # the Markdown -> branded-PDF generator
     ├── spec-kitty-branded-pdf.py.asset.yaml         # its asset sidecar
-    ├── test-quality-scan.py                         # static test-quality triage (runs no tests)
+    ├── test-quality-scan.py                         # Python/pytest and Java/JUnit static triage (runs no tests)
     ├── test-quality-scan.py.asset.yaml              # its asset sidecar
     ├── validate-pr-body.py                          # PR-body contract validator (five sections, advisory closes link, git-grep discovery check)
     ├── validate-pr-body.py.asset.yaml               # its asset sidecar
@@ -104,7 +104,13 @@ The `test-suite-quality-assessment` procedure `requires` the
 asset, and it `suggests` the built-in test doctrine it applies
 (`test-desiderata-and-boundaries`, `testing-principles`, `DIRECTIVE_041`,
 `development-assist-test-cleanup`, `adversarial-squad-deployment`). Kick off a
-run with `make test-quality-scan`.
+Python run with `make test-quality-scan`. The same asset supports JUnit 4 and 5
+tests under `src/test/java`: run `uv run <resolved-asset-path> --paths
+src/test/java` so uv installs its exact PEP 723 tree-sitter pins. Plain
+`python` remains sufficient for Python-only scans and needs the two optional
+Java parser packages only when Java files are scanned. The asset sidecar title
+declares both supported languages because the pinned asset schema has no
+structured supported-languages field and rejects additional properties.
 
 The `semi-auto-delivery` procedure holds the runner-side **semi-auto standing
 orders** — the pattern a dispatch brief or a local invocation used to hand-type

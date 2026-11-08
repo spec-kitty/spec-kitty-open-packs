@@ -57,6 +57,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **The internal test-quality scanner supports Java/JUnit suites** (#115). One
+  asset now discovers and ranks Python/pytest and Java/JUnit 4 or 5 tests,
+  including Java weak-oracle and test-smell mappings, git window scans and
+  package-based ledgers. Java parsing uses exact, lazily imported tree-sitter
+  pins declared in PEP 723 metadata; Python-only scans remain standard-library
+  only. The sidecar title, toolguide, assessment procedure and generated pack
+  reference state the supported languages.
+
 - **Cloud-session orchestration rules are binding** (#76). The internal
   `CLOUD_SESSION_ORCHESTRATION` directive makes sibling read-only boundaries,
   orchestrator-mediated writes, blocked-session replacement and just-in-time shared
