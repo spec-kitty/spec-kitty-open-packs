@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 💥 Breaking
 
+- **SPDD/REASONS moved from `built-in` to the opt-in `spdd` pack** (#73, charter
+  ADR-0066). The paradigm, directive, two canvas tactics and canvas-writing
+  styleguide moved with five new step enhancements. The `software-dev` specify,
+  plan, tasks, implement and review prompts now declare only an empty
+  `spdd:reasons-block` slot; their former guidance lives in Markdown fragment
+  companions in `packs/spdd`. Existing consumers must configure `spdd` and
+  activate its `spdd` preset to restore the doctrine and prompt guidance. The
+  renderer must support ADR-0066 fragments; older core versions render the base
+  prompts without the SPDD blocks.
+
 - **Four built-in paradigms have been reclassified or retired** (#65). Consumers that select these paradigms must migrate their selections and graph URNs:
   - `paradigm:git-flow` is now `procedure:git-flow`.
   - `paradigm:shared-branch-ci` is retired; use `paradigm:trunk-based`, which now includes its shared-branch CI and staging guidance.

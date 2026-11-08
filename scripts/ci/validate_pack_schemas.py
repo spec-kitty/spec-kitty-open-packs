@@ -5,7 +5,7 @@ The charter repository owns the pack shapes (``contracts/packs/schemas/*.schema.
 and says which file gets which schema (``contracts/packs/file-kinds.yaml``). This script
 mirrors that mapping: it classifies every file of a pack by the ``files``, ``exclusions``,
 ``retired`` and ``payloads`` rules, validates YAML files against their schema, and reads
-Markdown companions (``pack.md``, guides, mission-step prompts and guidelines) into the
+Markdown companions (``pack.md``, guides, mission-step prompts, guidelines and prompt fragments) into the
 charter's Markdown model ``{frontmatter?, title?, preamble, sections}`` before validating
 that model against the rule's structure schema.
 
@@ -47,7 +47,7 @@ from jsonschema import Draft202012Validator
 CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
 # Commit of spec-kitty-charter whose contracts/packs/ this repository validates against.
 # A commit on charter main, bumped deliberately. Never float to a branch.
-CHARTER_COMMIT = "fb87f5162c9e529f0252801a5dc8d3df452e25bc"
+CHARTER_COMMIT = "465e3de2be6cd173d86bab1cea619b6d82c19ebd"
 CONTRACT_PATH = "contracts/packs"
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.
@@ -55,7 +55,7 @@ KNOWN_KIND_TOKENS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
         "agent", "step-contract", "asset", "glossary-pack", "skill", "mission-type",
-        "graph",
+        "step-enhancement", "graph",
     }
 )  # fmt: skip
 
@@ -566,6 +566,82 @@ def parse_markdown(text: str) -> dict[str, Any]:
     return model
 
 
+# --------------------------------------------------------------------------- prompt slots and fragments (ADR-0066)
+
+SLOT_ID = re.compile(r"[a-z][a-z0-9-]*:[a-z][a-z0-9-]*")
+_HTML_COMMENT = re.compile(r"<!--(.*?)-->", re.DOTALL)
+_SLOT_COMMENT = re.compile(r"\s*(\S+):(start|end)\s*")
+_SLOT_LIKE = re.compile(r":(?:start|end)\b")
+
+
+def _prompt_slot_problem(line: int, detail: str, code: str = "prompt_slot_malformed") -> str:
+    return f"{code} at line {line}: {detail}"
+
+
+def prompt_slot_violations(text: str, *, require_empty: bool) -> list[str]:
+    """The declaration checks of ADR-0066 decisions 2 and 8 for one base prompt.
+
+    All prompts get the well-formedness checks. Only a descriptor at schema_version 1.0
+    switches on ``prompt_slot_not_empty``; an unversioned descriptor keeps the legacy
+    gate-marker behavior without a shim.
+    """
+    problems: list[str] = []
+    declared: set[str] = set()
+    open_slots: list[tuple[str, int, int]] = []
+    for comment in _HTML_COMMENT.finditer(text):
+        body = comment.group(1)
+        match = _SLOT_COMMENT.fullmatch(body)
+        line = text.count("\n", 0, comment.start()) + 1
+        if match is None:
+            if _SLOT_LIKE.search(body):
+                problems.append(_prompt_slot_problem(line, f"malformed slot marker {comment.group(0)!r}"))
+            continue
+        slot_id, marker = match.groups()
+        if SLOT_ID.fullmatch(slot_id) is None:
+            problems.append(_prompt_slot_problem(line, f"invalid slot id {slot_id!r}"))
+            continue
+        if marker == "start":
+            if slot_id in declared:
+                problems.append(_prompt_slot_problem(line, f"slot {slot_id!r} is declared more than once"))
+            declared.add(slot_id)
+            if open_slots:
+                problems.append(_prompt_slot_problem(line, f"slot {slot_id!r} nests inside {open_slots[-1][0]!r}"))
+            open_slots.append((slot_id, line, comment.end()))
+            continue
+        if not open_slots:
+            problems.append(_prompt_slot_problem(line, f"slot {slot_id!r} ends before it starts"))
+            continue
+        open_id, start_line, content_start = open_slots.pop()
+        if open_id != slot_id:
+            problems.append(_prompt_slot_problem(line, f"slot {slot_id!r} closes open slot {open_id!r} from line {start_line}"))
+            continue
+        if require_empty and text[content_start:comment.start()].strip():
+            problems.append(_prompt_slot_problem(start_line, f"slot {slot_id!r} must contain only whitespace", "prompt_slot_not_empty"))
+    for slot_id, line, _ in open_slots:
+        problems.append(_prompt_slot_problem(line, f"slot {slot_id!r} has no end marker"))
+    return problems
+
+
+def declared_prompt_slots(text: str) -> set[str]:
+    """Ids whose well-formed start marker occurs in a base prompt (compose-time use)."""
+    slots = set()
+    for comment in _HTML_COMMENT.finditer(text):
+        match = _SLOT_COMMENT.fullmatch(comment.group(1))
+        if match is not None and match.group(2) == "start" and SLOT_ID.fullmatch(match.group(1)):
+            slots.add(match.group(1))
+    return slots
+
+
+def prompt_fragment_violations(text: str) -> list[str]:
+    """Refuse slot markers in raw fragment Markdown, which its structure schema cannot see."""
+    problems = []
+    for comment in _HTML_COMMENT.finditer(text):
+        if _SLOT_LIKE.search(comment.group(1)):
+            line = text.count("\n", 0, comment.start()) + 1
+            problems.append(f"prompt_fragment_invalid at line {line}: a fragment cannot declare or fill a slot")
+    return problems
+
+
 # --------------------------------------------------------------------------- validation
 
 
@@ -575,6 +651,7 @@ class PackReport:
     checked: int = 0
     skipped: int = 0
     violations: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -604,11 +681,35 @@ UNCLASSIFIED_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md",
 CHECKED_SUFFIXES = frozenset({".yaml", ".yml", ".md"})
 
 
+def _step_enhancement_violations(path: Path, document: dict[str, Any]) -> list[str]:
+    """Fragment addressing rules that JSON Schema cannot express over companion files."""
+    problems = []
+    expected_id = path.name.removesuffix(".step-enhancement.yaml")
+    if document.get("id") != expected_id:
+        problems.append(f"prompt_fragment_invalid: enhancement id {document.get('id')!r} is not its file stem {expected_id!r}")
+    entries = document.get("prompt_fragments")
+    seen: set[str] = set()
+    for index, entry in enumerate(entries if isinstance(entries, list) else []):
+        if not isinstance(entry, dict):
+            continue
+        slot = entry.get("slot")
+        if isinstance(slot, str):
+            if slot in seen:
+                problems.append(f"prompt_fragment_invalid: enhancement names slot {slot!r} more than once")
+            seen.add(slot)
+        companion = entry.get("path")
+        if isinstance(companion, str) and not (path.parent / companion).is_file():
+            problems.append(f"prompt_fragment_invalid at /prompt_fragments/{index}/path: companion {companion!r} does not exist beside the enhancement")
+    return problems
+
+
 def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     """Validate every file of one pack directory; violations are sorted and path-relative."""
     if not pack_dir.is_dir():
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
+    descriptor = _load_or_none(pack_dir / "pack.yaml")
+    require_empty_slots = isinstance(descriptor, dict) and descriptor.get("schema_version") == "1.0"
     manifest: dict[str, Any] | None = None
     payloads: set[str] = set()
     sidecars: list[tuple[str, str]] = []
@@ -658,6 +759,16 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         for error in errors:
             where = "/" + "/".join(str(part) for part in error.absolute_path)
             report.violations.append(f"{relative}: {rule.schema} schema at {where}: {_short(error.message)}")
+        if rule.schema == "mission-step-prompt":
+            for problem in prompt_slot_violations(text, require_empty=True):
+                if problem.startswith("prompt_slot_not_empty") and not require_empty_slots:
+                    report.warnings.append(f"{relative}: {problem}; an unversioned descriptor keeps this legacy block, descriptor 1.0 refuses it")
+                else:
+                    report.violations.append(f"{relative}: {problem}")
+        elif rule.schema == "prompt-fragment":
+            report.violations += [f"{relative}: {problem}" for problem in prompt_fragment_violations(text)]
+        elif rule.schema == "step-enhancement" and isinstance(document, dict):
+            report.violations += [f"{relative}: {problem}" for problem in _step_enhancement_violations(path, document)]
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
         if rule.schema == "asset" and isinstance(document, dict) and isinstance(document.get("path"), str):
@@ -706,6 +817,7 @@ ARTIFACT_SCHEMAS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
         "agent-profile", "mission-step-contract", "asset", "glossary-pack", "skill",
+        "step-enhancement",
     }
 )  # fmt: skip
 
@@ -977,6 +1089,79 @@ def composition_violations(
     return violations
 
 
+def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
+    """Resolve every fragment's target and slot, independently of activation (ADR-0066 d8).
+
+    Sibling enhancements are deliberately not a conflict. The graph's ``enhances`` edge
+    is the only target field; no target or activation key is read from the enhancement.
+
+    This checkout has no mission-step integrity metadata, so it cannot refuse enhancement of a
+    locked step. It also reads the target pack's declared prompt directly: prompt overrides that
+    drop a slot are a charter-service check, not reproduced here (no pack overrides these prompts).
+    """
+    loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
+    descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
+    by_name = {document.get("name"): pack for pack, document in descriptors.items() if isinstance(document.get("name"), str)}
+    problems: list[str] = []
+    for pack in pack_dirs:
+        pack_name = descriptors[pack].get("name")
+        closure = _depends_on_closure(pack, descriptors, {d.get("pack_id"): p for p, d in descriptors.items() if isinstance(d.get("pack_id"), str)})
+        graphs = [pack / "drg" / "fragment.yaml", *sorted(pack.glob("*.graph.yaml"))]
+        edges = []
+        for graph in graphs:
+            document = _load_or_none(graph)
+            for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
+                if isinstance(edge, dict):
+                    edges.append((graph, edge))
+        for enhancement in sorted(pack.glob("missions/*/enhancements/*.step-enhancement.yaml")):
+            document = _load_or_none(enhancement)
+            fragments = document.get("prompt_fragments") if isinstance(document, dict) else None
+            if not isinstance(fragments, list) or not fragments:
+                continue
+            enhancement_id = document.get("id")
+            source = f"step_enhancement:{enhancement_id}"
+            targets = []
+            for graph, edge in edges:
+                qualifier, urn = split_qualifier(edge.get("source", ""))
+                if edge.get("relation") == "enhances" and urn == source and (qualifier in (None, pack_name)):
+                    targets.append((graph, edge.get("target")))
+            file = f"{pack.name}/{enhancement.relative_to(pack).as_posix()}"
+            if len(targets) != 1 or not isinstance(targets[0][1], str):
+                problems.append(f"{file}: prompt_fragment_invalid: an enhancement with fragments needs exactly one enhances edge to a step")
+                continue
+            target = targets[0][1]
+            qualifier, urn = split_qualifier(target)
+            target_pack = pack if qualifier is None else by_name.get(qualifier)
+            if qualifier is not None and (target_pack is None or target_pack not in closure):
+                continue  # composition_violations reports the qualifier/dependency failure
+            kind, _, action = urn.partition(":")
+            if kind != "action" or action.count("/") != 1:
+                problems.append(f"{file}: prompt_fragment_invalid: target {target!r} is not an action:<type>/<step>")
+                continue
+            mission_id, step_id = action.split("/")
+            mission_path = target_pack / "missions" / mission_id / f"{mission_id}.mission-type.yaml"
+            mission = _load_or_none(mission_path)
+            steps = []
+            if isinstance(mission, dict):
+                steps = [*(mission.get("steps") or []), *(mission.get("on_demand_steps") or [])]
+            step = next((item for item in steps if isinstance(item, dict) and item.get("id") == step_id), None)
+            if step is None:
+                problems.append(f"{file}: pack_reference_artifact_missing: target {target!r} does not resolve to a step")
+                continue
+            prompt_path = step.get("prompt_path", f"steps/{step_id}.prompt.md")
+            prompt = target_pack / "missions" / mission_id / prompt_path
+            try:
+                slots = declared_prompt_slots(prompt.read_text(encoding="utf-8"))
+            except OSError:
+                problems.append(f"{file}: pack_reference_artifact_missing: target {target!r} has no readable prompt at {prompt_path}")
+                continue
+            for index, fragment in enumerate(fragments):
+                slot = fragment.get("slot") if isinstance(fragment, dict) else None
+                if isinstance(slot, str) and slot not in slots:
+                    problems.append(f"{file}: prompt_slot_missing at /prompt_fragments/{index}/slot: target {target!r} declares no slot {slot!r}")
+    return problems
+
+
 def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = None) -> list[str]:
     """Checks that only make sense across all packs together (formerly core's ``doctor charter-packs``).
 
@@ -1035,7 +1220,11 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
                     )
-    return violations + composition_violations(pack_dirs, held, contract)
+    return (
+        violations
+        + composition_violations(pack_dirs, held, contract)
+        + prompt_fragment_composition_violations(pack_dirs)
+    )
 
 
 # --------------------------------------------------------------------------- CLI
@@ -1076,6 +1265,8 @@ def main(argv: list[str] | None = None) -> int:
               f"{len(contract.validators)} schemas loaded")
         for pack in args.packs:
             report = validate_pack(pack, contract)
+            for line in report.warnings:
+                print(f"::warning file={pack}::{line}")
             for line in report.violations:
                 print(f"::error file={pack}::{line}")
             print(f"{'ok' if report.ok else 'FAIL'}: {pack} ({report.checked} files checked, "

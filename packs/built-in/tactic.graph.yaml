@@ -209,12 +209,6 @@ nodes:
 - urn: tactic:quality-gate-verification
   kind: tactic
   label: Quality Gate Verification
-- urn: tactic:reasons-canvas-fill
-  kind: tactic
-  label: REASONS Canvas Fill
-- urn: tactic:reasons-canvas-review
-  kind: tactic
-  label: REASONS Canvas Review
 - urn: tactic:refactoring-change-function-declaration
   kind: tactic
   label: 'Refactoring: Change Function Declaration'

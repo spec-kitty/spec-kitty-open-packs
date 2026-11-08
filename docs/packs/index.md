@@ -10,6 +10,7 @@ related:
 - packs/cave-kitty
 - packs/event-driven
 - packs/qa
+- packs/spdd
 - packs/internal
 - guides/use-a-charter-pack
 - guides/compose-packs
@@ -65,6 +66,7 @@ generator and fails on any drift. Purposes in this table are **authored** here:
 | `cave-kitty` | A re-voicing pack that compresses agent output into a terse, token-saving "caveman" voice while keeping every payload exact. Inert until a consumer opts in. | [cave-kitty reference](cave-kitty.md) |
 | `event-driven` | Event-sourced design guidance: a schema version on every event, one canonical writer behind an event-bridge port, projections and replay, upcasting, and idempotent consumers. | [event-driven reference](event-driven.md) |
 | `qa` | Quality assurance as governed work: a `qa` mission type and a description-to-acceptance CI loop that keeps acceptance tests tied to the product's promises. | [qa reference](qa.md) |
+| `spdd` | Opt-in Structured-Prompt-Driven Development and REASONS canvas guidance, including step-specific prompt fragments for `software-dev`. | [spdd reference](spdd.md) |
 | `internal` | Spec Kitty's own org-tier pack — the dogfooded charter that governs how the project's contributors and maintainers land PRs, process the tracker, and keep main honest. Not shipped to consumers. | [internal reference](internal.md) |
 
 ## The forward-looking catalog

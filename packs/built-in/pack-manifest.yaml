@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 87b5c54ef15616bd13e1499e0a9a5ed1e61d4c9a8c9b2586dfcb3230bcc6158f
+manifest_hash: f2cc648199104403891ada890594263fd014b23aec17e1bd897fe02a2936e86b
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -198,10 +198,6 @@ constituents:
   path: directives/037-living-documentation-sync.directive.yaml
   content_hash: 0ccf7c6147b417004619d6c3241aed274a543b6a7504cc95de142aa7738e0c80
 - kind: directive
-  id: DIRECTIVE_038
-  path: directives/038-structured-prompt-boundary.directive.yaml
-  content_hash: 0f033bb88038c1fefd5f36d57a27e996368d23f3cbd0824870c6e0de219fb9f1
-- kind: directive
   id: DIRECTIVE_039
   path: directives/039-lynn-cole-engineering-culture.directive.yaml
   content_hash: a1953f97b60049d9db5566432559bd356c0cdb6e63f9fdde507dd390afd28783
@@ -321,10 +317,6 @@ constituents:
   id: specification-by-example
   path: paradigms/specification-by-example.paradigm.yaml
   content_hash: 764dcd67104ab7bcc203c03c32416d42ea53d7064c8ac79d3b63d3043f0c678c
-- kind: paradigm
-  id: structured-prompt-driven-development
-  path: paradigms/structured-prompt-driven-development.paradigm.yaml
-  content_hash: 60eaa26e968dda6fc69bc281772be28f037078a02175a95eb88a71c6dbb537e9
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
@@ -678,10 +670,6 @@ constituents:
   path: styleguides/quadruple-a-test-format.styleguide.yaml
   content_hash: 6066cf40472ee6e4394380360af9c51adb8c8569e54c16dcb2c9d37f276685da
 - kind: styleguide
-  id: reasons-canvas-writing
-  path: styleguides/reasons-canvas-writing.styleguide.yaml
-  content_hash: b05c3f7d6710df70857b62a4b3c253350fcae68bfcf75c04c4a13a4f5fc34d22
-- kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
   content_hash: 870900b93a71381dbe69daac4a301a916d12a8ee092617dce0582193423ca629
@@ -977,14 +965,6 @@ constituents:
   id: quality-gate-verification
   path: tactics/testing/quality-gate-verification.tactic.yaml
   content_hash: 64a7697b41f2bf9cd8f8d3cd5ef81215b2ceb67caa0de9a4ac2f9f618705f963
-- kind: tactic
-  id: reasons-canvas-fill
-  path: tactics/reasons-canvas-fill.tactic.yaml
-  content_hash: 5afbf96d492586faf8fb328b6bb9ef8919588a7a8543e4dd367a917e71fb891b
-- kind: tactic
-  id: reasons-canvas-review
-  path: tactics/reasons-canvas-review.tactic.yaml
-  content_hash: 424270aa7960e8e870e264308045af9dae41a510a423720d486e6efa10a68415
 - kind: tactic
   id: refactoring-change-function-declaration
   path: tactics/refactoring/refactoring-change-function-declaration.tactic.yaml

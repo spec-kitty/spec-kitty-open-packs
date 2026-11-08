@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `96045d68e391c7c3f6455f6e049f5cff89385b0698b68a2d0f0cc8f385fa760d`
+- **Content checksum (sha256):** `3ec4d51d3ca9289171102b3b739c860803cf605b2a51183169c17220b4f10a4c`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -32,11 +32,11 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 39 |
-| `tactics` | 122 |
-| `styleguides` | 29 |
+| `directives` | 38 |
+| `tactics` | 120 |
+| `styleguides` | 28 |
 | `toolguides` | 38 |
-| `paradigms` | 10 |
+| `paradigms` | 9 |
 | `procedures` | 66 |
 | `agent_profiles` | 27 |
 | `assets` | 15 |
@@ -45,12 +45,12 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **481** |
+| **Total files** | **476** |
 
 ### Full listing
 
 <details>
-<summary><code>directives</code> (39)</summary>
+<summary><code>directives</code> (38)</summary>
 
 - `001-architectural-integrity-standard.directive.yaml`
 - `003-decision-documentation-requirement.directive.yaml`
@@ -68,7 +68,6 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `035-bulk-edit-occurrence-classification.directive.yaml`
 - `036-black-box-integration-testing.directive.yaml`
 - `037-living-documentation-sync.directive.yaml`
-- `038-structured-prompt-boundary.directive.yaml`
 - `039-lynn-cole-engineering-culture.directive.yaml`
 - `040-recurring-bug-structural-intervention.directive.yaml`
 - `041-tests-as-scaffold-not-friction.directive.yaml`
@@ -95,7 +94,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>tactics</code> (122)</summary>
+<summary><code>tactics</code> (120)</summary>
 
 - `adversarial-qa-handoff.tactic.yaml`
 - `analysis/ammerse-impact-analysis.tactic.yaml`
@@ -166,8 +165,6 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `op-or-mission-selection.tactic.yaml`
 - `ownership-map-leeway.tactic.yaml`
 - `pr-agent-worktree-isolation.tactic.yaml`
-- `reasons-canvas-fill.tactic.yaml`
-- `reasons-canvas-review.tactic.yaml`
 - `refactoring/refactoring-change-function-declaration.tactic.yaml`
 - `refactoring/refactoring-combine-functions-into-transform.tactic.yaml`
 - `refactoring/refactoring-conditional-to-strategy.tactic.yaml`
@@ -223,7 +220,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>styleguides</code> (29)</summary>
+<summary><code>styleguides</code> (28)</summary>
 
 - `aggregate-design-rules.styleguide.yaml`
 - `boring-code-review.styleguide.yaml`
@@ -246,7 +243,6 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `publication-authority.styleguide.yaml`
 - `python-conventions.styleguide.yaml`
 - `quadruple-a-test-format.styleguide.yaml`
-- `reasons-canvas-writing.styleguide.yaml`
 - `research-citation-discipline.styleguide.yaml`
 - `test-desiderata-and-boundaries.styleguide.yaml`
 - `testing-principles.styleguide.yaml`
@@ -302,7 +298,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 </details>
 
 <details>
-<summary><code>paradigms</code> (10)</summary>
+<summary><code>paradigms</code> (9)</summary>
 
 - `atomic-design.paradigm.yaml`
 - `behaviour-driven-development.paradigm.yaml`
@@ -312,7 +308,6 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 - `domain-driven-design.paradigm.yaml`
 - `semantic-compression.paradigm.yaml`
 - `specification-by-example.paradigm.yaml`
-- `structured-prompt-driven-development.paradigm.yaml`
 - `trunk-based.paradigm.yaml`
 
 </details>
