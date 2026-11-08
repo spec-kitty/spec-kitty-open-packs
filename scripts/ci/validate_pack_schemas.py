@@ -776,15 +776,24 @@ def split_qualifier(reference: str) -> tuple[str | None, str]:
     return (qualifier, rest) if separator else (None, reference)
 
 
-def edge_references(pack_dir: Path) -> Iterator[tuple[str, str | None, str]]:
-    """``(file, qualifier, urn)`` for both ends of each edge of a pack's graph documents, where a
-    pack authors its relationships, guards aside (charter ADR-0064)."""
+def edge_references(pack_dir: Path, pack_name: str | None) -> Iterator[tuple[str, str | None, str, bool]]:
+    """``(file, qualifier, urn, self_loop)`` for both ends of each edge of a pack's graph documents,
+    where a pack authors its relationships, guards aside (charter ADR-0064). ``self_loop`` is true
+    on the target end when both ends mean the same node of this pack: a bare end or one qualified with
+    this pack's own name. The charter refuses such an edge (``PackPolicy.joinsItself``); an edge from
+    an own node to the same urn qualified with another pack joins two artifacts and is allowed."""
     for graph in [pack_dir / "drg" / "fragment.yaml", *sorted(pack_dir.glob("*.graph.yaml"))]:
         document = _load_or_none(graph)
         for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
             for end in ("source", "target"):
                 if isinstance(edge, dict) and isinstance(edge.get(end), str):
-                    yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", *split_qualifier(edge[end]))
+                    other = edge.get("target" if end == "source" else "source")
+                    qualifier, urn = split_qualifier(edge[end])
+                    self_loop = False
+                    if end == "target" and isinstance(other, str):
+                        other_qualifier, other_urn = split_qualifier(other)
+                        self_loop = urn == other_urn and (qualifier or pack_name) == pack_name == (other_qualifier or pack_name)
+                    yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
 
 
 def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> set[Path]:
@@ -803,7 +812,9 @@ def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_
 
 def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]]) -> list[str]:
     """The composition defects worth catching before the charter service refuses them. The service
-    stays the authority: ordering, levels, version ranges and sibling rules are not judged here."""
+    stays the authority. Unknown dependency ids and edges that join a node of this pack to itself are
+    refused here, as the charter refuses them. Dependency version ranges, ordering, levels and
+    sibling rules are not judged here."""
     loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
     descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
     violations = [
@@ -824,8 +835,15 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
             if len(files) > 1
         ]
     for pack in pack_dirs:
+        entries = descriptors[pack].get("depends_on")
+        for entry in entries if isinstance(entries, list) else []:
+            pack_id = entry.get("pack_id") if isinstance(entry, dict) else None
+            if isinstance(pack_id, str) and pack_id not in index["pack_id"]:
+                violations.append(f"{pack.name}/pack.yaml: depends_on pack_id {pack_id!r} resolves to no pack")
         closure = _depends_on_closure(pack, descriptors, index["pack_id"])
-        for file, qualifier, urn in edge_references(pack):
+        for file, qualifier, urn, self_loop in edge_references(pack, descriptors[pack].get("name")):
+            if self_loop:
+                violations.append(f"{file}: an edge joins {urn!r} to itself")
             kind, _, node_id = urn.partition(":")
             if qualifier is None:
                 holder = next((other.name for other, nodes in held.items() if (kind, node_id) in nodes), None)
