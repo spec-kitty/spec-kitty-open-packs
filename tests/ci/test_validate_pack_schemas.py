@@ -607,14 +607,18 @@ class CompositionChecks(unittest.TestCase):
         self.assertIn("reference 'consumer::tactic:gone': consumer does not hold 'tactic:gone'", found)
 
     def profile_file(self, tactic_id: str = "own", styleguide_id: str | None = None,
-                     toolguide_id: str | None = None, procedure: str | None = None) -> str:
-        """An agent profile naming the given reference ids; ``None`` leaves a field out. The
-        default tactic id is the consumer pack's own tactic, which stays bare."""
+                     toolguide_id: str | None = None, directive_code: str | None = None,
+                     procedure: str | None = None) -> str:
+        """An agent profile naming the given reference ids (a directive by its ``code``);
+        ``None`` leaves a field out. The default tactic id is the consumer pack's own
+        tactic, which stays bare."""
         parts = [f"tactic-references:\n  - id: {tactic_id}\n    rationale: r\n"]
         if styleguide_id is not None:
             parts.append(f"styleguide-references:\n  - id: {styleguide_id}\n    rationale: r\n")
         if toolguide_id is not None:
             parts.append(f"toolguide-references:\n  - id: {toolguide_id}\n    rationale: r\n")
+        if directive_code is not None:
+            parts.append(f"directive-references:\n  - code: {directive_code}\n    name: n\n    rationale: r\n")
         if procedure is not None:
             parts.append(f"collaboration:\n  operating-procedures:\n    - {procedure}\n")
         return "".join(parts)
@@ -644,7 +648,27 @@ class CompositionChecks(unittest.TestCase):
             toolguide_id="built-in::held-tool", procedure="built-in::held-procedure")})
         self.assertEqual(self.found(built_in, qualified), "")
 
-    def test_an_agent_profiles_own_references_stay_bare_and_one_no_pack_holds_is_not_refused(self) -> None:
+    def test_a_bare_directive_code_held_only_by_a_dependency_fails_and_qualifying_fixes_it(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {"directives/held.directive.yaml": "id: DIR_HELD\n"})
+        bare = self.consumer(files={"agent_profiles/p.agent.yaml": self.profile_file(directive_code="DIR_HELD")})
+        self.assertIn(
+            "consumer/agent_profiles/p.agent.yaml: bare directive reference 'DIR_HELD' is held only by built-in; "
+            "qualify it with that pack's name",
+            self.found(built_in, bare),
+        )
+        qualified = self.consumer(files={"agent_profiles/p.agent.yaml": self.profile_file(directive_code="built-in::DIR_HELD")})
+        self.assertEqual(self.found(built_in, qualified), "")
+
+    def test_a_directive_code_also_names_an_id_numbered_under_directive(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {
+            "directives/numbered.directive.yaml": "id: DIRECTIVE_010\n",
+            "agent_profiles/own.agent.yaml": self.profile_file(tactic_id="held", directive_code="010"),
+        })
+        self.assertEqual(self.found(built_in), "")
+
+    def test_an_agent_profiles_own_references_stay_bare_and_one_no_pack_holds_is_refused(self) -> None:
         built_in = self.built_in()
         files = {
             "styleguides/own.styleguide.yaml": "id: own-style\n",
@@ -655,7 +679,31 @@ class CompositionChecks(unittest.TestCase):
         }
         self.assertEqual(self.found(built_in, self.consumer(files=files)), "")
         nowhere = self.consumer(files={"agent_profiles/p.agent.yaml": self.profile_file(tactic_id="nowhere")})
-        self.assertEqual(self.found(built_in, nowhere), "")
+        self.assertIn(
+            "consumer/agent_profiles/p.agent.yaml: bare tactic reference 'nowhere' resolves to no artifact of any pack",
+            self.found(built_in, nowhere),
+        )
+
+    def test_a_profile_reference_qualified_with_the_profiles_own_pack_is_refused(self) -> None:
+        built_in = self.built_in()
+        # the referrer looks like the real qa pack: directory `qa`, descriptor name `quality-assurance`
+        referrer = self.write("qa", {
+            "pack.yaml": self.descriptor(CONSUMER, "quality-assurance", (BUILT_IN,)),
+            "tactics/own.tactic.yaml": "id: own\n",
+            "drg/fragment.yaml": "nodes: []\nedges: []\n",
+        })
+        for qualifier in ("qa", "quality-assurance"):  # the directory name and the descriptor name
+            with self.subTest(qualifier=qualifier):
+                self.write("qa", {"agent_profiles/p.agent.yaml": self.profile_file(tactic_id=f"{qualifier}::own")})
+                found = self.found(built_in, referrer)
+                self.assertIn(
+                    f"qa/agent_profiles/p.agent.yaml: reference '{qualifier}::own' names this profile's own pack; "
+                    "references inside one pack stay bare",
+                    found,
+                )
+                self.assertNotIn("outside this pack's depends_on closure", found)
+        self.write("qa", {"agent_profiles/p.agent.yaml": self.profile_file(tactic_id="built-in::held")})
+        self.assertEqual(self.found(built_in, referrer), "")  # a dependency's qualifier keeps passing
 
     def test_a_qualified_agent_profile_reference_outside_the_closure_or_unheld_fails(self) -> None:
         built_in = self.built_in()

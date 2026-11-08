@@ -796,25 +796,35 @@ def edge_references(pack_dir: Path, pack_name: str | None) -> Iterator[tuple[str
                     yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
 
 
-#: The agent-profile reference fields whose ``id`` names an artifact of a kind, and the kind
-#: each names. Together with ``collaboration.operating-procedures`` (plain strings naming
-#: procedures) these are the selection data ADR-0064 keeps out of the graph; charter ADR-0053
-#: decision 7 writes a reference to another pack's artifact as ``<pack>::<id>`` in them.
+#: The agent-profile reference fields, the kind each names and the key an entry is keyed by:
+#: ``directive-references`` entries carry a ``code`` (``QA_001``), the others an ``id``.
+#: Together with ``collaboration.operating-procedures`` (plain strings naming procedures) these
+#: are the selection data ADR-0064 keeps out of the graph; charter ADR-0053 decision 7 writes a
+#: reference to another pack's artifact as ``<pack>::<id>`` in them.
 PROFILE_REFERENCE_FIELDS = frozenset(
     {
-        ("tactic-references", "tactic"),
-        ("styleguide-references", "styleguide"),
-        ("toolguide-references", "toolguide"),
+        ("directive-references", "directive", "code"),
+        ("tactic-references", "tactic", "id"),
+        ("styleguide-references", "styleguide", "id"),
+        ("toolguide-references", "toolguide", "id"),
     }
 )
 
 
+def _reference_keys(kind: str, reference: str) -> tuple[tuple[str, str], ...]:
+    """The ``held`` keys a profile reference of ``kind`` names. A directive's code is its id
+    (``QA_001``) or — built-in's convention — the number after ``DIRECTIVE_`` in its id: the
+    code ``010`` names ``DIRECTIVE_010``."""
+    return ((kind, reference), (kind, f"DIRECTIVE_{reference}")) if kind == "directive" else ((kind, reference),)
+
+
 def profile_references(pack_dir: Path, contract: Contract | None) -> Iterator[tuple[str, str, str]]:
-    """``(file, kind, reference)`` for every artifact id an agent profile of ``pack_dir`` names
-    in its tactic-, styleguide- and toolguide-references and in its collaboration
-    operating-procedures. A reference is bare when it names the profile's own pack and
-    ``<pack>::<id>`` when it names another pack's (charter ADR-0053 decision 7). Only files the
-    contract classifies as agent profiles are read; without a contract none are."""
+    """``(file, kind, reference)`` for every artifact an agent profile of ``pack_dir`` names
+    in its directive-, tactic-, styleguide- and toolguide-references (a directive by its
+    ``code``, the others by their ``id``) and in its collaboration operating-procedures. A
+    reference is bare when it names the profile's own pack and ``<pack>::<id>`` when it names
+    another pack's (charter ADR-0053 decision 7). Only files the contract classifies as agent
+    profiles are read; without a contract none are."""
     for path in sorted(pack_dir.rglob("*.agent.yaml")) if contract is not None else []:
         if path.is_symlink() or not path.is_file():
             continue
@@ -826,10 +836,10 @@ def profile_references(pack_dir: Path, contract: Contract | None) -> Iterator[tu
         if not isinstance(document, dict):
             continue
         file = f"{pack_dir.name}/{relative}"
-        for field, kind in sorted(PROFILE_REFERENCE_FIELDS):
+        for field, kind, key in sorted(PROFILE_REFERENCE_FIELDS):
             for entry in document.get(field) or []:
-                if isinstance(entry, dict) and isinstance(entry.get("id"), str):
-                    yield file, kind, entry["id"]
+                if isinstance(entry, dict) and isinstance(entry.get(key), str):
+                    yield file, kind, entry[key]
         collaboration = document.get("collaboration")
         procedures = collaboration.get("operating-procedures") if isinstance(collaboration, dict) else None
         for procedure in procedures if isinstance(procedures, list) else []:
@@ -887,12 +897,14 @@ def composition_violations(
     stays the authority. Unknown dependency ids, edges that join a node of this pack to itself and
     dependency cycles (charter C6: a pack that depends on itself, or any depends_on cycle back to
     it) are refused here, as the charter refuses them. Agent-profile references are judged like
-    edge ends (charter ADR-0053 decision 7): a bare id held only by another pack is refused, and a
-    qualified one must name a pack of the closure that holds it. C8 (version ranges), C9
-    (parent_pack), C10 (levels) and C14-C16 (sibling/identity) are deliberately not judged here
-    and are left to the charter. Of the three gate/charter disagreements WP01 accepted without
-    recording, #165 fixed the two the mission review named; the third was never written down, and
-    a dependency cycle is its likeliest candidate."""
+    edge ends (charter ADR-0053 decision 7): a bare id held only by another pack — or by no
+    pack at all, which resolves to no artifact — is refused, a reference qualified with the
+    profile's own pack is refused because references inside one pack stay bare, and a qualified
+    one must name a pack of the closure that holds it. C8 (version ranges), C9 (parent_pack),
+    C10 (levels) and C14-C16 (sibling/identity) are deliberately not judged here and are left to
+    the charter. Of the three gate/charter disagreements WP01 accepted without recording, #165
+    fixed the two the mission review named; the third was never written down, and a dependency
+    cycle is its likeliest candidate."""
     loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
     descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
     violations = [
@@ -939,16 +951,29 @@ def composition_violations(
                 violations.append(f"{file}: reference '{qualifier}::{urn}': {qualifier} does not hold {urn!r}")
         for file, kind, reference in profile_references(pack, contract):
             qualifier, ref_id = split_qualifier(reference)
+            keys = _reference_keys(kind, ref_id)
             if qualifier is None:
-                holder = next((other.name for other, nodes in held.items() if (kind, ref_id) in nodes), None)
-                if holder is not None and (kind, ref_id) not in held[pack]:
+                holder = next((other.name for other, nodes in held.items() if any(key in nodes for key in keys)), None)
+                if holder is None:
+                    violations.append(f"{file}: bare {kind} reference {ref_id!r} resolves to no artifact of any pack")
+                elif not any(key in held[pack] for key in keys):
                     violations.append(
                         f"{file}: bare {kind} reference {ref_id!r} is held only by {holder}; qualify it with that pack's name"
                     )
-            elif index["name"].get(qualifier) not in closure:
-                violations.append(f"{file}: reference '{qualifier}::{ref_id}' names a pack outside this pack's depends_on closure")
-            elif (kind, ref_id) not in held[index["name"][qualifier]]:
-                violations.append(f"{file}: reference '{qualifier}::{ref_id}': {qualifier} does not hold {kind} {ref_id!r}")
+            else:
+                named = index["name"].get(qualifier)
+                # the own pack, named by its descriptor name or by its directory (the natural way
+                # a pack qualifies itself, `qa::x` in the pack of packs/qa): references inside
+                # one pack stay bare, so no qualifier may name it
+                if named is pack or (named is None and qualifier == pack.name):
+                    violations.append(
+                        f"{file}: reference '{qualifier}::{ref_id}' names this profile's own pack; "
+                        "references inside one pack stay bare"
+                    )
+                elif named not in closure:
+                    violations.append(f"{file}: reference '{qualifier}::{ref_id}' names a pack outside this pack's depends_on closure")
+                elif not any(key in held[named] for key in keys):
+                    violations.append(f"{file}: reference '{qualifier}::{ref_id}': {qualifier} does not hold {kind} {ref_id!r}")
     return violations
 
 
@@ -962,9 +987,10 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
     * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
     * a DRG edge endpoint (``[<pack>::]<kind>:<id>``) in a pack's fragment that resolves to no node;
-    * an agent-profile reference (a tactic-, styleguide- or toolguide-references id, or an
-      operating-procedures item) that is bare but held only by another pack, or qualified with a
-      pack outside the referrer's depends_on closure or an id that pack does not hold;
+    * an agent-profile reference (a directive-, tactic-, styleguide- or toolguide-references
+      entry, or an operating-procedures item) that is bare but held only by another pack or by
+      no pack, or qualified with the profile's own pack (references inside one pack stay bare),
+      a pack outside the referrer's depends_on closure, or an id that pack does not hold;
     * the composition defects of ``composition_violations``.
 
     With ``contract``, artifact files count as declarations too (``declared_nodes``).

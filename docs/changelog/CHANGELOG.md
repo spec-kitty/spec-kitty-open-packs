@@ -62,9 +62,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `built-in` — 13 `tactic-references`, 6 `styleguide-references`, 1 `toolguide-references` and
   4 `operating-procedures` — are now written `built-in::<id>`; references inside one pack stay
   bare. `validate_pack_schemas.py --cross-pack` now refuses an agent-profile reference that is
-  bare but held only by another pack, qualified with a pack outside the referrer's `depends_on`
-  closure, or qualified with an id the named pack does not hold — edge ends and profile
-  selection fields judged alike.
+  bare but held only by another pack or by no pack, qualified with the profile's own pack
+  (references inside one pack stay bare), with a pack outside the referrer's `depends_on`
+  closure, or with an id the named pack does not hold — edge ends and profile selection
+  fields judged alike, `directive-references` codes included (a directive's code is its id or,
+  as built-in cites its own, the number after `DIRECTIVE_` in it).
 
 - **The internal test-quality scanner supports Java/JUnit suites** (#115). One
   asset now discovers and ranks Python/pytest and Java/JUnit 4 or 5 tests,
