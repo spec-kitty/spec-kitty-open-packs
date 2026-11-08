@@ -61,6 +61,7 @@ import sys
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from typing import Protocol
 
 #: Weight of each flag code in a file's triage score. Vacuous oracles weigh the
 #: most: they pass on a broken product. Style-level smells weigh the least.
@@ -438,8 +439,60 @@ def score(flags: list[str]) -> int:
     return sum(WEIGHTS.get(flag, 1) for flag in flags)
 
 
+class LanguageFrontend(Protocol):
+    """Language-specific discovery, parsing, flag detection and domain mapping."""
+
+    def matches(self, path: str) -> bool:
+        """Whether this front end owns ``path`` during discovery and window scans."""
+
+    def discover(self, base: Path) -> list[Path]:
+        """Return test files below a directory root."""
+
+    def domain_of(self, path: str) -> str:
+        """Return the review domain for a test file."""
+
+    def scan(self, repo: Path, rel: str, only: set[str] | None) -> tuple[FileRow, list[TestRow]]:
+        """Scan one test file, optionally restricting scoring to qualified test names."""
+
+    def changed_names(self, old_source: str, new_source: str) -> set[str]:
+        """Return test names whose source differs between two revisions."""
+
+
+class PythonFrontend:
+    """Python/pytest front end; deliberately standard-library only."""
+
+    def matches(self, path: str) -> bool:
+        return bool(re.search(r"(^|/)(test_[^/]*|[^/]*_test)\.py$", path))
+
+    def discover(self, base: Path) -> list[Path]:
+        return [*base.rglob("test_*.py"), *base.rglob("*_test.py")]
+
+    def domain_of(self, path: str) -> str:
+        return domain_of(path)
+
+    def scan(self, repo: Path, rel: str, only: set[str] | None) -> tuple[FileRow, list[TestRow]]:
+        return _scan_python_file(repo, rel, only)
+
+    def changed_names(self, old_source: str, new_source: str) -> set[str]:
+        return _python_changed_names(old_source, new_source)
+
+
+PYTHON_FRONTEND = PythonFrontend()
+FRONTENDS: tuple[LanguageFrontend, ...] = (PYTHON_FRONTEND,)
+
+
+def frontend_for(path: str) -> LanguageFrontend:
+    """Resolve a file to its language front end, retaining Python for explicit paths."""
+    return next((frontend for frontend in FRONTENDS if frontend.matches(path)), PYTHON_FRONTEND)
+
+
 def scan_file(repo: Path, rel: str, only: set[str] | None) -> tuple[FileRow, list[TestRow]]:
-    """Scan one module; ``only`` restricts scoring to those qualified test names."""
+    """Scan one module through its language front end."""
+    return frontend_for(rel).scan(repo, rel, only)
+
+
+def _scan_python_file(repo: Path, rel: str, only: set[str] | None) -> tuple[FileRow, list[TestRow]]:
+    """Scan one Python module; ``only`` restricts scoring to qualified test names."""
     row = FileRow(file=rel, domain=domain_of(rel))
     source = (repo / rel).read_text(encoding="utf-8", errors="replace")
     try:
@@ -471,11 +524,11 @@ def git(repo: Path, *args: str) -> str:
 
 
 def collect_paths(repo: Path, roots: list[str]) -> list[str]:
-    """Every ``test_*.py`` / ``*_test.py`` under the given roots, repo-relative."""
+    """Every test file discovered by a language front end, repo-relative."""
     found: set[str] = set()
     for root in roots:
         base = repo / root
-        candidates = [base] if base.is_file() else [*base.rglob("test_*.py"), *base.rglob("*_test.py")]
+        candidates = [base] if base.is_file() else [path for frontend in FRONTENDS for path in frontend.discover(base)]
         for path in candidates:
             if "__pycache__" not in path.parts:
                 found.add(path.relative_to(repo).as_posix())
@@ -493,15 +546,20 @@ def changed_tests_since(repo: Path, since: str, roots: list[str]) -> dict[str, s
     for line in listing.splitlines():
         parts = line.split("\t")
         status, path = parts[0], parts[-1]
-        if not re.search(r"(^|/)(test_[^/]*|[^/]*_test)\.py$", path):
+        frontend = next((candidate for candidate in FRONTENDS if candidate.matches(path)), None)
+        if frontend is None:
             continue
         old_path = parts[1] if status.startswith("R") else path
         old_source = git(repo, "show", f"{since}:{old_path}") if not status.startswith("A") else ""
-        out[path] = None if not old_source else _changed_names(old_source, (repo / path).read_text(encoding="utf-8"))
+        out[path] = None if not old_source else frontend.changed_names(old_source, (repo / path).read_text(encoding="utf-8"))
     return out
 
 
 def _changed_names(old_source: str, new_source: str) -> set[str]:
+    return _python_changed_names(old_source, new_source)
+
+
+def _python_changed_names(old_source: str, new_source: str) -> set[str]:
     def bodies(source: str) -> dict[str, str]:
         try:
             tree = ast.parse(source)
