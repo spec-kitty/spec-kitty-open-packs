@@ -25,6 +25,14 @@ You are the runner. Run the whole delivery in this session, following the standi
 
 You are the dispatcher, not the runner. Follow the `cloud-session-dispatch` procedure to build a complete dispatch prompt (no placeholders) and spawn a fresh cloud runner against `spec-kitty/spec-kitty` at `main`, inheriting the model and environment. The prompt BINDS the semi-auto standing orders by reference — it tells the runner to load `spec-kitty charter context --include procedure:semi-auto-delivery` and follow it — instead of re-typing them, and fills in the issue-set, the per-kind doctrine for the work, the numbered slices, and the closeout profile. Report the session id, the branch and the instruction summary; never predict results; read real state back from the session before claiming any progress. Relay later operator guidance as a labelled addendum. The runner performs the escalation pauses in its own session — the prompt instructs it to surface escalation-class decisions there.
 
+Apply the procedure's fleet controls rather than dispatching independently:
+
+1. Allow at most 3 runners with open, unmerged PRs per repository, never overlap a file family, sequence shared infrastructure and pin bumps first, and probe the environment with a throwaway session before a wave of more than two. Check that a consumer pin can read the producer's current shape.
+2. Settle foreseeable choices before dispatch: `issue-<n>-<slug>` branches from latest `origin/main`, no runner merges or tags, clean/rebased fallback branches after a refused force push, shared numbers checked at writing time, no empty CI-kick commits, `pr:pause-ci`, the operator's attribution, and operator rulings logged on the governing issue. Also settle two conventions: one changelog fragment per change under `docs/changelog/unreleased/<pr>.<section>.md`, never an edit to `CHANGELOG.md`; and no hand-edits to generated indexes (the docs retrieval index, the page inventory and the ADR era tables), which the `ci/regen-docs-index` bot PR regenerates.
+3. Tell the runner to send one batched decision message with recommendations, keep work on a recommendation reversible, and accept the later ruling. Require `command -v spec-kitty` before any install and permit only the one fallback, `uv tool install --prerelease allow spec-kitty-cli`. Sibling clones stay read-only; sibling drafts and `<repo>#TBD-<slug>` references return through the orchestrator for filing and replacement before merge.
+4. If a brief names a missing skill or squad, reproduce it as parallel profile-loaded subagents, one per lens. Replace a session blocked by its environment or permissions rather than retrying it.
+5. Relay every runner report promptly and keep one status table: repository, PR, state, blocked-on and operator action. Record stale branches for the operator and never claim unread progress.
+
 ## Stop and ask the operator when
 
 - the mode is ambiguous and this session can create cloud sessions;
