@@ -22,7 +22,8 @@ governance:
     selected_tactics: []
     selected_styleguides: []
     selected_toolguides: []
-    selected_procedures: []
+    selected_procedures:
+    - meeting-minutes-pipeline
     selected_agent_profiles: []
     selected_mission_step_contracts: []
     selected_glossary_packs: []
@@ -436,12 +437,6 @@ catalog:
     summary: "Software design guided by a deep model of the business domain. Strategic design decomposes a system into Bounded Contexts connected through explicit Context Mapping patterns (ACL, OHS, Shared Kernel, Published Language, etc.). Within each context a Ubiquitous Language keeps code, model, and domain expert communication aligned. Tactical patterns (Aggregates, Entities, Value Objects, Domain Events, Repositories, Domain Services) enforce invariants at the model boundary. DDD treats the domain model as the primary artifact — code is a direct expression of that model, not a translation layer above a database schema or UI framework.\n"
     source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/domain-driven-design.paradigm.yaml
     local_path: _LIBRARY/paradigm-domain-driven-design.md
-  - id: PARADIGM:extract-then-publish-separation
-    kind: paradigm
-    title: Extract-Then-Publish Separation
-    summary: "The meeting-minutes workflow separates extraction, validation, and chat presentation from optional deterministic publishing. Those stages must never be collapsed.\nExtraction (agent-powered, non-deterministic) converts an unstructured transcript into structured minutes, validates them (format contract plus ACTION_ITEM_ATTRIBUTION), and posts the result as Markdown in the originating chat. That validated Markdown is the canonical content. This stage is the mandatory default. It requires no wiki publish credentials. Unresolved attribution gaps are asked about in the same chat before any final minutes are returned and before any publish handoff.\nPublishing is optional, human-operated, and occurs only when the user explicitly requests it and identifies a wiki/knowledge-base destination. Rendering for that target is deterministic: it reuses the same validated Markdown already shown in chat. No second extraction. No LLM in the render/publish path. Chat-only runs skip this stage entirely.\nThis separation has three concrete consequences:\n1. Chat delivery does not depend on a wiki. A user who only wants minutes\n   in the originating chat never needs publish-surface credentials.\n\n2. Validation gates sit before both chat return and optional publish\n   handoff. Ownerless action items stop the workflow at the boundary.\n\n3. Agent extraction cost is incurred once per meeting. The validated\n   Markdown is the durable content. Re-publishing that same Markdown\n   does not require a second extraction.\n\nNever merge extraction and publishing into a single step. Never call the LLM from inside the publish path. Never treat `.minutes.json` or `.wiki.txt` as mandatory artifacts; the validated Markdown in chat is canonical.\n"
-    source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/extract-then-publish-separation.paradigm.yaml
-    local_path: _LIBRARY/paradigm-extract-then-publish-separation.md
   - id: PARADIGM:semantic-compression
     kind: paradigm
     title: Semantic Compression
@@ -1673,7 +1668,6 @@ activated_paradigms:
 - c4-incremental-detail-modeling
 - deep-module-design
 - domain-driven-design
-- extract-then-publish-separation
 - semantic-compression
 - specification-by-example
 - structured-prompt-driven-development

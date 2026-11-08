@@ -449,10 +449,6 @@ edges:
   target: directive:MINUTES_STAND_ALONE
   relation: requires
 - source: procedure:meeting-minutes-pipeline
-  target: paradigm:extract-then-publish-separation
-  relation: suggests
-  reason: Chat extraction and optional human-operated wiki publish stay separate. Validated Markdown in the originating chat is canonical.
-- source: procedure:meeting-minutes-pipeline
   target: styleguide:meeting-minutes-format
   relation: suggests
 - source: procedure:migrate-project-guidance-to-spec-kitty-charter

@@ -20,9 +20,6 @@ nodes:
 - urn: paradigm:domain-driven-design
   kind: paradigm
   label: Domain-Driven Design
-- urn: paradigm:extract-then-publish-separation
-  kind: paradigm
-  label: Extract-Then-Publish Separation
 - urn: paradigm:semantic-compression
   kind: paradigm
   label: Semantic Compression

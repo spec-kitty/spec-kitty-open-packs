@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 42569484fa2a1ce0e6ea1116d8a10d0fe2b79ef2dde268eebddeec29cf95c40e
+manifest_hash: 87b5c54ef15616bd13e1499e0a9a5ed1e61d4c9a8c9b2586dfcb3230bcc6158f
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -314,10 +314,6 @@ constituents:
   path: paradigms/domain-driven-design.paradigm.yaml
   content_hash: f320c56293d12bd976a80b0599f1b086223970e0a3555f086888f12dc2ddba7c
 - kind: paradigm
-  id: extract-then-publish-separation
-  path: paradigms/extract-then-publish-separation.paradigm.yaml
-  content_hash: 3dee3c84917ce5d39364266e58ec91382906dcb3bc104631733e878f71df947b
-- kind: paradigm
   id: semantic-compression
   path: paradigms/semantic-compression.paradigm.yaml
   content_hash: d12b4d3661660ca515f0f58e6f155d7b5cdfde4f273f8f478945e3a1bf1b06fd
@@ -484,7 +480,7 @@ constituents:
 - kind: procedure
   id: meeting-minutes-pipeline
   path: procedures/meeting-minutes-pipeline.procedure.yaml
-  content_hash: 5f493faaeb9fbb4d6666019397cec1264f1abfdb7cac30a85119146863771969
+  content_hash: bb4605798e1c98a4471714210ea3d4a03663b826bade1d4d9ae6ea174c138fb9
 - kind: procedure
   id: migrate-project-guidance-to-spec-kitty-charter
   path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
