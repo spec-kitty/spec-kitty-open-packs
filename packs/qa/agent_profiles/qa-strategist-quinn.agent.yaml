@@ -43,20 +43,20 @@ directive-references:
       risk-based ordering depends on.
 
 tactic-references:
-  - id: premortem-risk-identification
+  - id: built-in::premortem-risk-identification
     rationale: >
       General-purpose destructive-mindset risk-brainstorming tactic — not
       QA-authored content — reused for building and maintaining this
       profile's own risk register: generating the failure list, rating
       impact/likelihood, and prioritising the top risks the register ranks.
-  - id: requirements-validation-workflow
+  - id: built-in::requirements-validation-workflow
     rationale: >
       General-purpose evidence-based claim-analysis tactic — not QA-authored
       content — reused for authoring the requirement register: each FR/NFR/C
       entry this profile registers for traceability is treated as a claim to
       be sourced, classified for testability, and evidence-trailed, exactly
       as this tactic's steps describe.
-  - id: stopping-conditions
+  - id: built-in::stopping-conditions
     rationale: >
       General-purpose goal-thresholding tactic — not QA-authored content —
       reused for defining and freezing exit criteria: its positive-criteria,
@@ -64,11 +64,11 @@ tactic-references:
       criterion is (a measurable threshold for when QA effort stops).
 
 styleguide-references:
-  - id: test-desiderata-and-boundaries
+  - id: built-in::test-desiderata-and-boundaries
     rationale: >
       Grounds the quality-criteria vocabulary this profile uses when
       defining and freezing exit criteria at the strategy step.
-  - id: testing-principles
+  - id: built-in::testing-principles
     rationale: >
       Grounds the general test-strategy principles this profile applies
       when authoring the requirement register and risk register.

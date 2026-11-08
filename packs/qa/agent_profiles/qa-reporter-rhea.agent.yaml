@@ -62,7 +62,7 @@ directive-references:
       decision alongside the verdict it affects, rather than a silent change.
 
 tactic-references:
-  - id: quality-gate-verification
+  - id: built-in::quality-gate-verification
     rationale: >
       General-purpose gate-and-coverage-verification tactic — not QA-owned
       content — reused for the reporting step itself: its steps for running
@@ -70,7 +70,7 @@ tactic-references:
       introduced failures from pre-existing debt are the mechanics behind
       recomputing coverage and the go/no-go verdict from enumerated evidence
       at report time, rather than restating a prior status.
-  - id: traceable-decisions
+  - id: built-in::traceable-decisions
     rationale: >
       General-purpose decision-recording tactic — not QA-owned content —
       reused specifically for QA_004: when this profile discloses an
@@ -80,7 +80,7 @@ tactic-references:
       folding the amendment in silently.
 
 styleguide-references:
-  - id: test-desiderata-and-boundaries
+  - id: built-in::test-desiderata-and-boundaries
     rationale: >
       Cross-referenced for the quality-criteria half of the go/no-go call
       this profile owns. qa-strategist-quinn also cites this same styleguide
