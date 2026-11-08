@@ -69,11 +69,13 @@ steps:
 - title: Optional — render for human-operated wiki publish
   description: |
     Skip this step unless the user explicitly requests publishing to a wiki/knowledge-base and identifies the destination. Do not invent a destination. Chat-only runs end after the Markdown is posted and require no publish credentials.
-    Reuse the same validated Markdown already posted in chat (extract-then-publish-separation). Do not re-extract and do not invoke the LLM. If this chat does not already hold that Markdown, ask the user to paste it. If they provide a transcript instead, treat it as a new minutes run.
+    Reuse the same validated Markdown already posted in chat. Do not re-extract and do not invoke the LLM. If this chat does not already hold that Markdown, ask the user to paste it. If they provide a transcript instead, treat it as a new minutes run.
     Render the checked minutes to the target's storage/markup format for the human to create or update (idempotent create-or-update). Publishing is a human-operated step. When credentials for that surface are used, they must be least-privilege and must never be logged or echoed. Attribution and format validation must already have passed.
 - title: Confirm and close
   description: |
     In the same chat, confirm that the Markdown was posted, which format was produced (decision minutes or discussion notes), that every action item present has a named owner, and that stand-alone readability was checked (MINUTES_STAND_ALONE). If the transcript was truncated, restate that in the confirmation. If optional wiki render ran, confirm that the rendered page is ready for the human to publish and that no credential appeared in output.
+notes: |
+  Invariant: extraction, validation, chat presentation, and optional publishing are separate stages and must never be collapsed. The agent extracts once and posts validated Markdown in the originating chat; that Markdown is the canonical durable content. Validation and attribution gates run before both chat return and any publish handoff, so an ownerless action stops the workflow. Chat-only delivery needs no publish credentials. Publishing occurs only on an explicit user request with a destination, is human-operated and deterministic, reuses the same Markdown, and permits neither a second extraction nor an LLM call. Never require `.minutes.json` or `.wiki.txt` as delivery artifacts.
 anti_patterns:
 - title: Rendering without selecting a format
   content: |

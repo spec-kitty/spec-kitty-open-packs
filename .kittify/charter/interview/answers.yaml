@@ -70,9 +70,10 @@ answers:
     tracked follow-up. Pack validation and built-in parity are non-negotiable gates and are
     not waived.
 selected_paradigms:
-  - extract-then-publish-separation
   - behaviour-driven-development
   - specification-by-example
+selected_procedures:
+  - meeting-minutes-pipeline
 selected_directives:
   - DIRECTIVE_042
   - DIRECTIVE_044
