@@ -26,9 +26,6 @@ nodes:
 - urn: paradigm:extract-then-publish-separation
   kind: paradigm
   label: Extract-Then-Publish Separation
-- urn: paradigm:git-flow
-  kind: paradigm
-  label: Git Flow
 - urn: paradigm:semantic-compression
   kind: paradigm
   label: Semantic Compression
@@ -203,15 +200,6 @@ edges:
   target: directive:DIRECTIVE_030
   relation: requires
 - source: paradigm:execution-lanes
-  target: directive:DIRECTIVE_033
-  relation: requires
-- source: paradigm:git-flow
-  target: directive:DIRECTIVE_029
-  relation: requires
-- source: paradigm:git-flow
-  target: directive:DIRECTIVE_030
-  relation: requires
-- source: paradigm:git-flow
   target: directive:DIRECTIVE_033
   relation: requires
 - source: paradigm:semantic-compression

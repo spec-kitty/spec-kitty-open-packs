@@ -448,12 +448,6 @@ catalog:
     summary: "The meeting-minutes workflow separates extraction, validation, and chat presentation from optional deterministic publishing. Those stages must never be collapsed.\nExtraction (agent-powered, non-deterministic) converts an unstructured transcript into structured minutes, validates them (format contract plus ACTION_ITEM_ATTRIBUTION), and posts the result as Markdown in the originating chat. That validated Markdown is the canonical content. This stage is the mandatory default. It requires no wiki publish credentials. Unresolved attribution gaps are asked about in the same chat before any final minutes are returned and before any publish handoff.\nPublishing is optional, human-operated, and occurs only when the user explicitly requests it and identifies a wiki/knowledge-base destination. Rendering for that target is deterministic: it reuses the same validated Markdown already shown in chat. No second extraction. No LLM in the render/publish path. Chat-only runs skip this stage entirely.\nThis separation has three concrete consequences:\n1. Chat delivery does not depend on a wiki. A user who only wants minutes\n   in the originating chat never needs publish-surface credentials.\n\n2. Validation gates sit before both chat return and optional publish\n   handoff. Ownerless action items stop the workflow at the boundary.\n\n3. Agent extraction cost is incurred once per meeting. The validated\n   Markdown is the durable content. Re-publishing that same Markdown\n   does not require a second extraction.\n\nNever merge extraction and publishing into a single step. Never call the LLM from inside the publish path. Never treat `.minutes.json` or `.wiki.txt` as mandatory artifacts; the validated Markdown in chat is canonical.\n"
     source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/extract-then-publish-separation.paradigm.yaml
     local_path: _LIBRARY/paradigm-extract-then-publish-separation.md
-  - id: PARADIGM:git-flow
-    kind: paradigm
-    title: Git Flow
-    summary: "A branch-management paradigm built around long-lived integration and release branches, with Git Flow \"feature\" and \"hotfix\" branches feeding controlled release points. In Spec Kitty this exists as a resolvable compatibility paradigm for projects whose charter already requires Git Flow. It is not the default implementation workspace model; execution-lane worktrees remain the supported default when no project-specific branching paradigm is selected.\n"
-    source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/paradigms/git-flow.paradigm.yaml
-    local_path: _LIBRARY/paradigm-git-flow.md
   - id: PARADIGM:semantic-compression
     kind: paradigm
     title: Semantic Compression
@@ -544,6 +538,12 @@ catalog:
     summary: "Run continuous term capture and triage against a project's living glossary so that terminology drift is caught early and canonical definitions stay current, rather than accumulating into a large periodic cleanup effort. Orchestrates the existing glossary-curation-interview tactic (structured curation rounds), the terminology-extraction-mapping tactic (candidate term extraction and mapping), and the kitty-glossary-writing styleguide (definition quality bar) into a repeatable cadence.\n"
     source_path: ''
     local_path: _LIBRARY/procedure-glossary-maintenance-workflow.md
+  - id: PROCEDURE:git-flow
+    kind: procedure
+    title: Git Flow Branching Workflow
+    summary: "Coordinate Git Flow's long-lived integration and release branches, with feature and hotfix branches feeding controlled release points. Use this procedure when a project's charter requires Git Flow. It is not the default implementation workspace model; the execution-lanes toolguide describes the supported lane worktrees.\n"
+    source_path: ${SPEC_KITTY_PACKS_ROOT}/built-in/procedures/git-flow.procedure.yaml
+    local_path: _LIBRARY/procedure-git-flow.md
   - id: PROCEDURE:issue-triage-state-machine
     kind: procedure
     title: Issue Triage State Machine
@@ -1637,6 +1637,7 @@ activated_procedures:
 - event-storming-discovery
 - example-mapping-workshop
 - glossary-maintenance-workflow
+- git-flow
 - issue-triage-state-machine
 - legacy-codebase-triage
 - meeting-minutes-pipeline
@@ -1680,7 +1681,6 @@ activated_paradigms:
 - domain-driven-design
 - execution-lanes
 - extract-then-publish-separation
-- git-flow
 - semantic-compression
 - shared-branch-ci
 - specification-by-example

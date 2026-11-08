@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 96c8adc4ee1cbc9b2c8f3f511eb9281cbe696c2813deb71648a8cd7ffd7418ec
+manifest_hash: cbd236b7aace227da93519c89f028b439c2a0c6002fdab2093f63cc372e0e167
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -321,10 +321,6 @@ constituents:
   id: extract-then-publish-separation
   path: paradigms/extract-then-publish-separation.paradigm.yaml
   content_hash: 3dee3c84917ce5d39364266e58ec91382906dcb3bc104631733e878f71df947b
-- kind: paradigm
-  id: git-flow
-  path: paradigms/git-flow.paradigm.yaml
-  content_hash: e3140705cf1d870cef2c921d203a7b94e6ce8222a6667b430d246ee2c028ce11
 - kind: paradigm
   id: semantic-compression
   path: paradigms/semantic-compression.paradigm.yaml

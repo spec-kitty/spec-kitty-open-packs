@@ -341,7 +341,7 @@ edges:
   target: paradigm:execution-lanes
   relation: scope
 - source: action:software-dev/implement
-  target: paradigm:git-flow
+  target: procedure:git-flow
   relation: scope
 - source: action:software-dev/implement
   target: paradigm:shared-branch-ci
@@ -518,7 +518,7 @@ edges:
   target: paradigm:execution-lanes
   relation: scope
 - source: action:software-dev/review
-  target: paradigm:git-flow
+  target: procedure:git-flow
   relation: scope
 - source: action:software-dev/review
   target: paradigm:shared-branch-ci
