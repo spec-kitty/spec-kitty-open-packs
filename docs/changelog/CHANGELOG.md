@@ -50,6 +50,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Cloud dispatch now bounds multi-runner fleets** (#106, #76). The internal
+  `cloud-session-dispatch` procedure and cloud mode of the `semi-auto` skill set WIP limits,
+  staggering and collision rules, environment probes and pin checks, settled dispatch conventions,
+  batched decisions, and an orchestrator status record. Runners check tooling before the single
+  documented install fallback, keep sibling clones read-only, route `<repo>#TBD-<slug>` drafts back
+  through the orchestrator, replace blocked sessions, and reproduce a missing squad as parallel
+  profile-loaded lens subagents.
+
 - **Built-in `typescript-conventions` styleguide** (#131). Conventions for TypeScript code: a strict
   type-check gate, naming, named exports, `unknown` over `any`, no unchecked assertions,
   discriminated unions, promise ownership and RxJS stream discipline, with patterns,
