@@ -796,25 +796,58 @@ def edge_references(pack_dir: Path, pack_name: str | None) -> Iterator[tuple[str
                     yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
 
 
+def _depends_on(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> list[Path]:
+    """The packs ``pack``'s ``depends_on`` names that resolve to a configured pack, in the order
+    written; an unknown id names none."""
+    entries = descriptors[pack].get("depends_on")
+    targets = []
+    for entry in entries if isinstance(entries, list) else []:
+        pack_id = entry.get("pack_id") if isinstance(entry, dict) else None
+        target = by_id.get(pack_id) if isinstance(pack_id, str) else None
+        if target is not None:
+            targets.append(target)
+    return targets
+
+
 def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> set[Path]:
     """The pack and every pack it reaches through ``depends_on``, which names packs by ``pack_id``."""
     reached, pending = {pack}, [pack]
     while pending:
-        entries = descriptors[pending.pop()].get("depends_on")
-        for entry in entries if isinstance(entries, list) else []:
-            pack_id = entry.get("pack_id") if isinstance(entry, dict) else None
-            target = by_id.get(pack_id) if isinstance(pack_id, str) else None
-            if target is not None and target not in reached:
+        for target in _depends_on(pending.pop(), descriptors, by_id):
+            if target not in reached:
                 reached.add(target)
                 pending.append(target)
     return reached
 
 
+def _depends_on_cycle(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> list[Path] | None:
+    """The packs along a ``depends_on`` path from ``pack`` back to itself, ``pack`` first and last,
+    or ``None`` when there is none. The charter refuses such a cycle (C6, ``pack_dependency_cycle``):
+    a pack that depends on itself, or any cycle of dependencies back to it, refuses the compose."""
+    walked: set[Path] = set()
+    pending: list[list[Path]] = [[pack]]
+    while pending:
+        path = pending.pop()
+        if path[-1] in walked:
+            continue
+        for target in _depends_on(path[-1], descriptors, by_id):
+            if target == pack:
+                return path + [pack]
+            if target not in path and target not in walked:
+                pending.append(path + [target])
+        walked.add(path[-1])
+    return None
+
+
 def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]]) -> list[str]:
     """The composition defects worth catching before the charter service refuses them. The service
-    stays the authority. Unknown dependency ids and edges that join a node of this pack to itself are
-    refused here, as the charter refuses them. Dependency version ranges, ordering, levels and
-    sibling rules are not judged here."""
+    stays the authority. Unknown dependency ids, edges that join a node of this pack to itself and
+    dependency cycles (charter C6: a pack that depends on itself, or any depends_on cycle back to
+    it) are refused here, as the charter refuses them. C8 (version ranges), C9 (parent_pack), C10
+    (levels) and C14-C16 (sibling/identity) are deliberately not judged here and are left to the
+    charter. Of the three gate/charter disagreements WP01 accepted without recording, #165 fixed
+    the two the mission review named; the third was never written down, and a dependency cycle is
+    its likeliest candidate."""
     loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
     descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
     violations = [
@@ -840,6 +873,12 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
             pack_id = entry.get("pack_id") if isinstance(entry, dict) else None
             if isinstance(pack_id, str) and pack_id not in index["pack_id"]:
                 violations.append(f"{pack.name}/pack.yaml: depends_on pack_id {pack_id!r} resolves to no pack")
+        cycle = _depends_on_cycle(pack, descriptors, index["pack_id"])
+        # one cycle per pack, reported by its first member in the order the packs were given; a pack
+        # in two cycles shows the second once the first is fixed
+        if cycle is not None and pack == min(cycle[:-1], key=pack_dirs.index):
+            trail = " -> ".join(member.name for member in cycle)
+            violations.append(f"{pack.name}/pack.yaml: depends_on cycle {trail}")
         closure = _depends_on_closure(pack, descriptors, index["pack_id"])
         for file, qualifier, urn, self_loop in edge_references(pack, descriptors[pack].get("name")):
             if self_loop:

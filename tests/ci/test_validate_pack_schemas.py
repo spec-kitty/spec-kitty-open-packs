@@ -490,6 +490,34 @@ class CompositionChecks(unittest.TestCase):
                 found = self.found(built_in, loop)
                 self.assertIn("consumer/drg/fragment.yaml: an edge joins 'tactic:own' to itself", found)
 
+    def test_a_depends_on_cycle_fails_beside_a_diamond_control(self) -> None:
+        built_in = self.built_in()
+        left_id, right_id = "01ARWG13C000000000000000LL", "01ARWG13C000000000000000RR"
+        mate = self.write("mate", {"pack.yaml": self.descriptor(OTHER, "mate", (CONSUMER,))})
+        left = self.write("left", {"pack.yaml": self.descriptor(left_id, "left", (right_id,))})
+        right = self.write("right", {"pack.yaml": self.descriptor(right_id, "right", (CONSUMER,))})
+        for label, depends_on, cycle in (
+            ("itself", (CONSUMER,), "consumer -> consumer"),
+            ("two packs", (OTHER,), "consumer -> mate -> consumer"),
+            ("three packs", (left_id,), "consumer -> left -> right -> consumer"),
+        ):
+            with self.subTest(label):
+                found = self.found(built_in, self.consumer(depends_on=depends_on), mate, left, right)
+                self.assertIn(f"consumer/pack.yaml: depends_on cycle {cycle}", found)
+        base_id, west_id, east_id = "01ARWG13C000000000000000BB", "01ARWG13C000000000000000WW", "01ARWG13C000000000000000EE"
+        base = self.write("base", {"pack.yaml": self.descriptor(base_id, "base", (BUILT_IN,))})
+        west = self.write("west", {"pack.yaml": self.descriptor(west_id, "west", (base_id,))})
+        east = self.write("east", {"pack.yaml": self.descriptor(east_id, "east", (base_id,))})
+        apex = self.write("apex", {"pack.yaml": self.descriptor("01ARWG13C000000000000000AA", "apex", (west_id, east_id))})
+        self.assertEqual(self.found(built_in, base, west, east, apex), "")
+        north_id, south_id = "01ARWG13C000000000000000NN", "01ARWG13C000000000000000SS"
+        north = self.write("north", {"pack.yaml": self.descriptor(north_id, "north", (south_id,))})
+        south = self.write("south", {"pack.yaml": self.descriptor(south_id, "south", (north_id,))})
+        found = self.found(built_in, self.consumer(depends_on=(north_id,)), north, south)
+        self.assertNotIn("consumer/pack.yaml: depends_on cycle", found)
+        self.assertIn("north/pack.yaml: depends_on cycle north -> south -> north", found)
+        self.assertEqual(found.count("depends_on cycle"), 1)
+
     def test_a_qualified_target_must_be_held_by_the_named_pack_not_merely_by_some_pack(self) -> None:
         built_in = self.built_in()
         sibling = self.write("sibling", {"pack.yaml": self.descriptor(OTHER, "sibling"), "tactics/s.tactic.yaml": "id: s\n"})

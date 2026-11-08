@@ -456,6 +456,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   node of the pack to itself, whether its ends are bare or qualified with the pack's own name. An
   edge to the same urn in another pack joins two artifacts and stays allowed, as in the charter.
 
+- **Pack composition refuses dependency cycles, as the charter does** (#123). A pack whose
+  `depends_on` names its own `pack_id`, or that sits in any `depends_on` cycle, now fails
+  validation with the cycle's path reported (charter C6, `pack_dependency_cycle`); a diamond of
+  dependencies still passes. WP01's third accepted gate/charter disagreement was never recorded,
+  and a dependency cycle was its likeliest candidate, so the operator ruled that the gate judge C6.
+
 - **PR-body validation accepts GitHub's colon issue-link form** (#92). `Closes: #12`,
   `Fixes: #12` and the equivalent resolve forms now satisfy the advisory issue-link check. The
   internal delivery procedure clarifies that the Issue section and its closing link are needed only
