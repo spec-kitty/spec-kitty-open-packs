@@ -21,6 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 💥 Breaking
 
+- **Four built-in paradigms have been reclassified or retired** (#65). Consumers that select these paradigms must migrate their selections and graph URNs:
+  - `paradigm:git-flow` is now `procedure:git-flow`.
+  - `paradigm:shared-branch-ci` is retired; use `paradigm:trunk-based`, which now includes its shared-branch CI and staging guidance.
+  - `paradigm:execution-lanes` is now `toolguide:execution-lanes`.
+  - `paradigm:extract-then-publish-separation` is retired; use `procedure:meeting-minutes-pipeline`, which carries the separation as an invariant.
+  `semantic-compression` remains a paradigm. Core needs a coordinated open-packs pin bump with updates to cached charters, generated snapshots, and tests that reference the old ids. See [Use a Charter Pack](../guides/use-a-charter-pack.md#migrate-reclassified-built-in-paradigms).
+
 - **The packs follow strict composition, and the as-is CLI is no longer supported** (#118,
   [ADR 2026-11-04-1](../architecture/adr/2026-11-04-1-strict-pack-composition-and-the-end-of-cli-compatibility.md)).
   Every pack now has a `pack.yaml`, the org packs declare `depends_on` on `built-in` at `>=1.0,<2`,

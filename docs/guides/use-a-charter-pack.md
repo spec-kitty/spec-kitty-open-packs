@@ -2,7 +2,7 @@
 title: Use a Charter Pack
 description: Configure a Spec Kitty 4.x consumer project to fetch an open Charter Pack, activate it, and confirm it participates in context resolution.
 doc_status: wip
-updated: '2026-10-20'
+updated: '2026-11-08'
 related:
 - guides/compose-packs
 - guides
@@ -91,6 +91,19 @@ spec-kitty charter context --include directive:<ID>
 
 Resolved artifacts carry a `source` of `builtin`, `org`, or `project`. Artifacts your pack
 contributes appear with `source: org`.
+
+## Migrate reclassified built-in paradigms
+
+Four artifacts changed kind or were folded into another artifact. Update `selected_paradigms`, graph URNs, and other typed references as follows:
+
+| Old reference | New reference | Consumer action |
+| --- | --- | --- |
+| `paradigm:git-flow` | `procedure:git-flow` | Select `git-flow` as a procedure instead. |
+| `paradigm:shared-branch-ci` | `paradigm:trunk-based` | Replace the retired id with `trunk-based`. |
+| `paradigm:execution-lanes` | `toolguide:execution-lanes` | Select `execution-lanes` as a toolguide instead. |
+| `paradigm:extract-then-publish-separation` | `procedure:meeting-minutes-pipeline` | Replace the retired id with the pipeline procedure. |
+
+`semantic-compression` remains a paradigm. Core needs a coordinated open-packs pin bump together with updates to cached charters, generated snapshots, and tests that name the old URNs. Do not combine the new pack with a generated charter that still selects the old kinds.
 
 ## Why pin, and why opt in
 

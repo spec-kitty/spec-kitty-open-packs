@@ -7,5 +7,4 @@ summary: |
 guide_path: execution-lanes.guide.md
 commands:
 - spec-kitty implement
-- spec-kitty finalize-tasks
 last_updated: '2026-11-08'

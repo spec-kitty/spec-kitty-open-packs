@@ -148,12 +148,12 @@ The lean default every project can adopt without domain flooding.
 
 ### 9. `git-delivery-workflow`
 
-- **Paradigms:** `git-flow`, `trunk-based`, `shared-branch-ci`, `execution-lanes`.
+- **Paradigms:** `trunk-based`.
 - **Directives:** `029-agent-commit-signing-policy`, `033-targeted-staging-policy`,
   `045-prs-only-and-read-intent`, `046-readable-consistent-prs`.
-- **Toolguides:** `git-agent-commit-signing`, `github-tracker`.
+- **Toolguides:** `execution-lanes`, `git-agent-commit-signing`, `github-tracker`.
 - **Tactics:** `clean-linear-commit-history`, `pr-agent-worktree-isolation`.
-- **Procedures:** `tracker-organisation-workflow`, `issue-triage-state-machine`.
+- **Procedures:** `git-flow`, `tracker-organisation-workflow`, `issue-triage-state-machine`.
 
 ### 10. `refactoring-and-simplification`
 
