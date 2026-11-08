@@ -606,6 +606,70 @@ class CompositionChecks(unittest.TestCase):
         found = self.found(built_in, self.consumer("[{source: 'tactic:second', target: 'consumer::tactic:gone'}]", files=files))
         self.assertIn("reference 'consumer::tactic:gone': consumer does not hold 'tactic:gone'", found)
 
+    def profile_file(self, tactic_id: str = "own", styleguide_id: str | None = None,
+                     toolguide_id: str | None = None, procedure: str | None = None) -> str:
+        """An agent profile naming the given reference ids; ``None`` leaves a field out. The
+        default tactic id is the consumer pack's own tactic, which stays bare."""
+        parts = [f"tactic-references:\n  - id: {tactic_id}\n    rationale: r\n"]
+        if styleguide_id is not None:
+            parts.append(f"styleguide-references:\n  - id: {styleguide_id}\n    rationale: r\n")
+        if toolguide_id is not None:
+            parts.append(f"toolguide-references:\n  - id: {toolguide_id}\n    rationale: r\n")
+        if procedure is not None:
+            parts.append(f"collaboration:\n  operating-procedures:\n    - {procedure}\n")
+        return "".join(parts)
+
+    def test_a_bare_agent_profile_reference_held_only_by_a_dependency_fails_and_qualifying_fixes_it(self) -> None:
+        built_in = self.built_in()
+        self.write("built-in", {
+            "styleguides/held.styleguide.yaml": "id: held-style\n",
+            "toolguides/held.toolguide.yaml": "id: held-tool\n",
+            "procedures/held.procedure.yaml": "id: held-procedure\n",
+        })
+        bare = self.consumer(files={"agent_profiles/p.agent.yaml": self.profile_file(
+            tactic_id="held", styleguide_id="held-style", toolguide_id="held-tool", procedure="held-procedure")})
+        found = self.found(built_in, bare)
+        for kind, ref in (
+            ("tactic", "held"), ("styleguide", "held-style"),
+            ("toolguide", "held-tool"), ("procedure", "held-procedure"),
+        ):
+            with self.subTest(kind=kind):
+                self.assertIn(
+                    f"consumer/agent_profiles/p.agent.yaml: bare {kind} reference {ref!r} is held only by built-in; "
+                    "qualify it with that pack's name",
+                    found,
+                )
+        qualified = self.consumer(files={"agent_profiles/p.agent.yaml": self.profile_file(
+            tactic_id="built-in::held", styleguide_id="built-in::held-style",
+            toolguide_id="built-in::held-tool", procedure="built-in::held-procedure")})
+        self.assertEqual(self.found(built_in, qualified), "")
+
+    def test_an_agent_profiles_own_references_stay_bare_and_one_no_pack_holds_is_not_refused(self) -> None:
+        built_in = self.built_in()
+        files = {
+            "styleguides/own.styleguide.yaml": "id: own-style\n",
+            "toolguides/own.toolguide.yaml": "id: own-tool\n",
+            "procedures/own.procedure.yaml": "id: own-procedure\n",
+            "agent_profiles/p.agent.yaml": self.profile_file(
+                tactic_id="own", styleguide_id="own-style", toolguide_id="own-tool", procedure="own-procedure"),
+        }
+        self.assertEqual(self.found(built_in, self.consumer(files=files)), "")
+        nowhere = self.consumer(files={"agent_profiles/p.agent.yaml": self.profile_file(tactic_id="nowhere")})
+        self.assertEqual(self.found(built_in, nowhere), "")
+
+    def test_a_qualified_agent_profile_reference_outside_the_closure_or_unheld_fails(self) -> None:
+        built_in = self.built_in()
+        for label, depends_on, reference, expected in (
+            ("outside the closure", (), "built-in::held", "outside this pack's depends_on closure"),
+            ("no such pack", (BUILT_IN,), "nowhere::held", "outside this pack's depends_on closure"),
+            ("unheld by the named pack", (BUILT_IN,), "built-in::gone", "built-in does not hold tactic 'gone'"),
+        ):
+            with self.subTest(label):
+                profile = self.profile_file(tactic_id=reference)
+                found = self.found(built_in, self.consumer(files={"agent_profiles/p.agent.yaml": profile}, depends_on=depends_on))
+                self.assertIn(f"consumer/agent_profiles/p.agent.yaml: reference '{reference}'", found)
+                self.assertIn(expected, found)
+
 
 if __name__ == "__main__":
     unittest.main()

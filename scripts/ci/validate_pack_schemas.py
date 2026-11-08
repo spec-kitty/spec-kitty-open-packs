@@ -796,6 +796,47 @@ def edge_references(pack_dir: Path, pack_name: str | None) -> Iterator[tuple[str
                     yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
 
 
+#: The agent-profile reference fields whose ``id`` names an artifact of a kind, and the kind
+#: each names. Together with ``collaboration.operating-procedures`` (plain strings naming
+#: procedures) these are the selection data ADR-0064 keeps out of the graph; charter ADR-0053
+#: decision 7 writes a reference to another pack's artifact as ``<pack>::<id>`` in them.
+PROFILE_REFERENCE_FIELDS = frozenset(
+    {
+        ("tactic-references", "tactic"),
+        ("styleguide-references", "styleguide"),
+        ("toolguide-references", "toolguide"),
+    }
+)
+
+
+def profile_references(pack_dir: Path, contract: Contract | None) -> Iterator[tuple[str, str, str]]:
+    """``(file, kind, reference)`` for every artifact id an agent profile of ``pack_dir`` names
+    in its tactic-, styleguide- and toolguide-references and in its collaboration
+    operating-procedures. A reference is bare when it names the profile's own pack and
+    ``<pack>::<id>`` when it names another pack's (charter ADR-0053 decision 7). Only files the
+    contract classifies as agent profiles are read; without a contract none are."""
+    for path in sorted(pack_dir.rglob("*.agent.yaml")) if contract is not None else []:
+        if path.is_symlink() or not path.is_file():
+            continue
+        relative = path.relative_to(pack_dir).as_posix()
+        _, rule = classify(contract, f"{pack_dir.name}/{relative}")
+        if rule is None or rule.schema != "agent-profile":
+            continue
+        document = _load_or_none(path)
+        if not isinstance(document, dict):
+            continue
+        file = f"{pack_dir.name}/{relative}"
+        for field, kind in sorted(PROFILE_REFERENCE_FIELDS):
+            for entry in document.get(field) or []:
+                if isinstance(entry, dict) and isinstance(entry.get("id"), str):
+                    yield file, kind, entry["id"]
+        collaboration = document.get("collaboration")
+        procedures = collaboration.get("operating-procedures") if isinstance(collaboration, dict) else None
+        for procedure in procedures if isinstance(procedures, list) else []:
+            if isinstance(procedure, str):
+                yield file, "procedure", procedure
+
+
 def _depends_on(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> list[Path]:
     """The packs ``pack``'s ``depends_on`` names that resolve to a configured pack, in the order
     written; an unknown id names none."""
@@ -839,15 +880,19 @@ def _depends_on_cycle(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id
     return None
 
 
-def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]]) -> list[str]:
+def composition_violations(
+    pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]], contract: Contract | None = None
+) -> list[str]:
     """The composition defects worth catching before the charter service refuses them. The service
     stays the authority. Unknown dependency ids, edges that join a node of this pack to itself and
     dependency cycles (charter C6: a pack that depends on itself, or any depends_on cycle back to
-    it) are refused here, as the charter refuses them. C8 (version ranges), C9 (parent_pack), C10
-    (levels) and C14-C16 (sibling/identity) are deliberately not judged here and are left to the
-    charter. Of the three gate/charter disagreements WP01 accepted without recording, #165 fixed
-    the two the mission review named; the third was never written down, and a dependency cycle is
-    its likeliest candidate."""
+    it) are refused here, as the charter refuses them. Agent-profile references are judged like
+    edge ends (charter ADR-0053 decision 7): a bare id held only by another pack is refused, and a
+    qualified one must name a pack of the closure that holds it. C8 (version ranges), C9
+    (parent_pack), C10 (levels) and C14-C16 (sibling/identity) are deliberately not judged here
+    and are left to the charter. Of the three gate/charter disagreements WP01 accepted without
+    recording, #165 fixed the two the mission review named; the third was never written down, and
+    a dependency cycle is its likeliest candidate."""
     loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
     descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
     violations = [
@@ -892,6 +937,18 @@ def composition_violations(pack_dirs: list[Path], held: dict[Path, set[tuple[str
                 violations.append(f"{file}: reference '{qualifier}::{urn}' names a pack outside this pack's depends_on closure")
             elif kind not in UNHELD_KINDS and (kind, node_id) not in held[index["name"][qualifier]]:
                 violations.append(f"{file}: reference '{qualifier}::{urn}': {qualifier} does not hold {urn!r}")
+        for file, kind, reference in profile_references(pack, contract):
+            qualifier, ref_id = split_qualifier(reference)
+            if qualifier is None:
+                holder = next((other.name for other, nodes in held.items() if (kind, ref_id) in nodes), None)
+                if holder is not None and (kind, ref_id) not in held[pack]:
+                    violations.append(
+                        f"{file}: bare {kind} reference {ref_id!r} is held only by {holder}; qualify it with that pack's name"
+                    )
+            elif index["name"].get(qualifier) not in closure:
+                violations.append(f"{file}: reference '{qualifier}::{ref_id}' names a pack outside this pack's depends_on closure")
+            elif (kind, ref_id) not in held[index["name"][qualifier]]:
+                violations.append(f"{file}: reference '{qualifier}::{ref_id}': {qualifier} does not hold {kind} {ref_id!r}")
     return violations
 
 
@@ -905,6 +962,9 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
     * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
     * a DRG edge endpoint (``[<pack>::]<kind>:<id>``) in a pack's fragment that resolves to no node;
+    * an agent-profile reference (a tactic-, styleguide- or toolguide-references id, or an
+      operating-procedures item) that is bare but held only by another pack, or qualified with a
+      pack outside the referrer's depends_on closure or an id that pack does not hold;
     * the composition defects of ``composition_violations``.
 
     With ``contract``, artifact files count as declarations too (``declared_nodes``).
@@ -949,7 +1009,7 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
                     )
-    return violations + composition_violations(pack_dirs, held)
+    return violations + composition_violations(pack_dirs, held, contract)
 
 
 # --------------------------------------------------------------------------- CLI

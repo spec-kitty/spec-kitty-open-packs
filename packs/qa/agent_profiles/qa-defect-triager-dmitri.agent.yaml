@@ -27,8 +27,8 @@ collaboration:
   canonical-verbs:
     - triage
   operating-procedures:
-    - disciplined-defect-diagnosis
-    - issue-triage-state-machine
+    - built-in::disciplined-defect-diagnosis
+    - built-in::issue-triage-state-machine
 
 specialization-context:
   domain-keywords:
@@ -53,7 +53,7 @@ directive-references:
       ordering QA_005 governs.
 
 tactic-references:
-  - id: eisenhower-prioritisation
+  - id: built-in::eisenhower-prioritisation
     rationale: >
       A general-purpose importance/urgency prioritization tactic, not QA-authored content —
       reused, not redefined, for defect-triage prioritization.

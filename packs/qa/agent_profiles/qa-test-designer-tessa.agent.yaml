@@ -35,7 +35,7 @@ collaboration:
   canonical-verbs:
     - author
   operating-procedures:
-    - bdd-scenario-lifecycle
+    - built-in::bdd-scenario-lifecycle
 
 specialization-context:
   domain-keywords:
@@ -64,7 +64,7 @@ directive-references:
       timebox — before any exploratory session starts.
 
 tactic-references:
-  - id: bdd-scenario-formulation
+  - id: built-in::bdd-scenario-formulation
     rationale: >
       General-purpose BDD collaboration content (Three Amigos,
       discovery/formulation/automation) — cited here specifically for its
@@ -72,20 +72,20 @@ tactic-references:
       executable tests" steps, which directly match this profile's own
       given-when-then-authoring styleguide and gherkin toolguide. Reused,
       not redefined as QA-owned content (Decision 21).
-  - id: acceptance-test-first
+  - id: built-in::acceptance-test-first
     rationale: >
       General-purpose ATDD tactic — not QA-owned content — reused for this
       profile's own test-case authoring: capturing acceptance behavior as an
       executable, traceability-tagged, black-box scenario before execution,
       which is exactly the shape of the cases this profile designs.
-  - id: atdd-adversarial-acceptance
+  - id: built-in::atdd-adversarial-acceptance
     rationale: >
       General-purpose adversarial-scenario-generation tactic — not QA-owned
       content — reused for strengthening the test cases this profile designs:
       probing misuse, boundary, and integration angles and triaging which
       become explicit reject/degrade/tolerate test cases, rather than leaving
       only happy-path coverage.
-  - id: testing-select-appropriate-level
+  - id: built-in::testing-select-appropriate-level
     rationale: >
       General-purpose test-level-selection tactic — not QA-owned content —
       reused at suite-authoring time: when turning a risk-register entry into
@@ -94,13 +94,13 @@ tactic-references:
       system level.
 
 styleguide-references:
-  - id: given-when-then-authoring
+  - id: built-in::given-when-then-authoring
     rationale: >
       Test cases this profile authors are written in Given/When/Then form;
       this styleguide governs how that form is structured.
 
 toolguide-references:
-  - id: gherkin
+  - id: built-in::gherkin
     rationale: >
       Gherkin is the concrete syntax the test-case files this profile
       authors are written in.

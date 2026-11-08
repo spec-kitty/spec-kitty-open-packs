@@ -16,7 +16,9 @@
 #      fragment edge endpoint that resolves to no node, one id declared by two packs, and the
 #      composition rules: a pack with no descriptor, a shared pack_id or name, a bare reference held
 #      only by another pack, a qualifier outside the pack's depends_on closure, and a qualified target
-#      the named pack does not hold. The charter service stays the authority on composition.
+#      the named pack does not hold — edge ends and agent-profile references (tactic-, styleguide-
+#      and toolguide-references ids, operating-procedures items) alike. The charter service stays
+#      the authority on composition.
 #
 # The validator fails closed (exit 2) on an unloadable schema, a known-kind file with no schema
 # mapping, or a pack with zero files checked.
