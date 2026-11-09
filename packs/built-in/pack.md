@@ -7,6 +7,8 @@ layer is applied.
 
 It has no `parent_pack` (it is the root of every lineage chain).
 
+## Authored and generated files
+
 This file, and its sibling `pack.yaml`, are **authored** — hand-edited data
 that is never regenerated. The pack's constituent inventory, content hashes,
 and self-integrity hash live in the **generated** `pack-manifest.yaml` next
