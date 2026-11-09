@@ -209,8 +209,53 @@ edges:
   target: tactic:requirements-validation-workflow
   relation: scope
 - source: action:plan/plan
+  target: tactic:adr-drafting-workflow
+  relation: scope
+- source: action:plan/plan
+  target: tactic:decision-marker-capture
+  relation: scope
+- source: action:plan/plan
+  target: tactic:eisenhower-prioritisation
+  relation: scope
+- source: action:plan/plan
+  target: tactic:moscow-scoping-lens
+  relation: scope
+- source: action:plan/plan
+  target: tactic:premortem-risk-identification
+  relation: scope
+- source: action:plan/plan
+  target: tactic:problem-decomposition
+  relation: scope
+- source: action:plan/plan
+  target: tactic:traceable-decisions
+  relation: scope
+- source: action:plan/plan
   target: template:plan/plan-plan-skeleton.md
   relation: instantiates
+- source: action:plan/research
+  target: tactic:bounded-context-identification
+  relation: scope
+- source: action:plan/research
+  target: tactic:deepening-opportunity-assessment
+  relation: scope
+- source: action:plan/review
+  target: tactic:adr-drafting-workflow
+  relation: scope
+- source: action:plan/review
+  target: tactic:eisenhower-prioritisation
+  relation: scope
+- source: action:plan/review
+  target: tactic:moscow-scoping-lens
+  relation: scope
+- source: action:plan/review
+  target: tactic:premortem-risk-identification
+  relation: scope
+- source: action:plan/review
+  target: tactic:traceable-decisions
+  relation: scope
+- source: action:plan/specify
+  target: tactic:bounded-context-identification
+  relation: scope
 - source: action:plan/specify
   target: template:plan/plan-spec-skeleton.md
   relation: instantiates
