@@ -888,24 +888,31 @@ def split_qualifier(reference: str) -> tuple[str | None, str]:
     return (qualifier, rest) if separator else (None, reference)
 
 
+def graph_edges(pack_dir: Path) -> Iterator[tuple[Path, dict[str, Any]]]:
+    """Every edge dictionary in a pack's DRG fragment and root graph documents, in stable order."""
+    for graph in [pack_dir / "drg" / "fragment.yaml", *sorted(pack_dir.glob("*.graph.yaml"))]:
+        document = _load_or_none(graph)
+        for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
+            if isinstance(edge, dict):
+                yield graph, edge
+
+
 def edge_references(pack_dir: Path, pack_name: str | None) -> Iterator[tuple[str, str | None, str, bool]]:
     """``(file, qualifier, urn, self_loop)`` for both ends of each edge of a pack's graph documents,
     where a pack authors its relationships, guards aside (charter ADR-0064). ``self_loop`` is true
     on the target end when both ends mean the same node of this pack: a bare end or one qualified with
     this pack's own name. The charter refuses such an edge (``PackPolicy.joinsItself``); an edge from
     an own node to the same urn qualified with another pack joins two artifacts and is allowed."""
-    for graph in [pack_dir / "drg" / "fragment.yaml", *sorted(pack_dir.glob("*.graph.yaml"))]:
-        document = _load_or_none(graph)
-        for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
-            for end in ("source", "target"):
-                if isinstance(edge, dict) and isinstance(edge.get(end), str):
-                    other = edge.get("target" if end == "source" else "source")
-                    qualifier, urn = split_qualifier(edge[end])
-                    self_loop = False
-                    if end == "target" and isinstance(other, str):
-                        other_qualifier, other_urn = split_qualifier(other)
-                        self_loop = urn == other_urn and (qualifier or pack_name) == pack_name == (other_qualifier or pack_name)
-                    yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
+    for graph, edge in graph_edges(pack_dir):
+        for end in ("source", "target"):
+            if isinstance(edge.get(end), str):
+                other = edge.get("target" if end == "source" else "source")
+                qualifier, urn = split_qualifier(edge[end])
+                self_loop = False
+                if end == "target" and isinstance(other, str):
+                    other_qualifier, other_urn = split_qualifier(other)
+                    self_loop = urn == other_urn and (qualifier or pack_name) == pack_name == (other_qualifier or pack_name)
+                yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
 
 
 #: The agent-profile reference fields, the kind each names and the key an entry is keyed by:
@@ -1106,13 +1113,7 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
     for pack in pack_dirs:
         pack_name = descriptors[pack].get("name")
         closure = _depends_on_closure(pack, descriptors, {d.get("pack_id"): p for p, d in descriptors.items() if isinstance(d.get("pack_id"), str)})
-        graphs = [pack / "drg" / "fragment.yaml", *sorted(pack.glob("*.graph.yaml"))]
-        edges = []
-        for graph in graphs:
-            document = _load_or_none(graph)
-            for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
-                if isinstance(edge, dict):
-                    edges.append((graph, edge))
+        edges = list(graph_edges(pack))
         for enhancement in sorted(pack.glob("missions/*/enhancements/*.step-enhancement.yaml")):
             document = _load_or_none(enhancement)
             fragments = document.get("prompt_fragments") if isinstance(document, dict) else None
