@@ -2,7 +2,7 @@
 title: Packs
 description: The open Charter Pack catalog — what packs are, when to use them, and a link to each pack's generated reference page plus the forward-looking catalog.
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Hub
 related:
 - packs/catalog-proposal
@@ -33,6 +33,8 @@ Each pack is a directory of artifact-kind subdirectories (`directives/`,
 
 - a `pack.yaml` descriptor (`pack_id`, `name`, `pack_version`, `parent_pack`, and —
   when authored — `pack_level` / `depends_on`);
+- a `pack.md` — the pack's description, whose preamble the generated reference
+  page renders under its Purpose heading;
 - an `org-charter.yaml` declaring activation defaults;
 - a hand-written `README.md` with the authored "what it is and why" narrative.
 
@@ -57,8 +59,9 @@ The pages below are **generated** from the pack source by
 `scripts/docs/gen_pack_reference.py` (see the
 [docsite design](../architecture/docsite-design.md) for the generated-versus-authored
 boundary and the checksum design). They are never hand-edited; CI re-runs the
-generator and fails on any drift. Purposes in this table are **authored** here:
-`pack.yaml` has no such field, so the generator publishes none.
+generator and fails on any drift. Each page's Purpose section is the preamble of
+the pack's authored `pack.md` — the charter's pack description. The summaries in
+this table are authored **here**.
 
 | Pack | Purpose | Reference |
 | --- | --- | --- |

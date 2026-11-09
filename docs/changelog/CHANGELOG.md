@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-08'
+updated: '2026-11-09'
 ---
 # Changelog
 
@@ -66,6 +66,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (see Changed).
 
 ### ✨ Added
+
+- **Every pack now authors a `pack.md` — the charter's pack description — and the generated
+  reference pages render it** (#21). The charter contract maps `*/pack.md` to the
+  `pack-document` schema and calls it "A pack's description" (charter #260, ADR-0042 decision 8);
+  the closed `pack.yaml` descriptor schema declares identity and lineage only, so `pack.md` is
+  the description carrier. `scripts/docs/gen_pack_reference.py` now publishes each pack's
+  `pack.md` preamble under the page's Purpose heading instead of the "no such field" note
+  (a pack without a `pack.md` still falls back to it). `cave-kitty`, `event-driven`, `internal`,
+  `qa` and `spdd` gain an authored `pack.md`; `built-in`'s moves its authored/generated note
+  under an H2 so its preamble is purely descriptive (its tree digest is re-recorded). The
+  authoring guide now documents the `pack.yaml` / `pack.md` / `pack-manifest.yaml` split.
 
 - **Agent-profile references to another pack are qualified and guarded** (#119, charter
   ADR-0053 decision 7). The 24 references in `packs/qa/agent_profiles/*` that resolve only in

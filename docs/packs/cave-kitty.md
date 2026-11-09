@@ -2,7 +2,7 @@
 title: cave-kitty pack reference
 description: "Generated reference for the cave-kitty Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-17'
+  at: '2026-11-09'
 ---
 
 # cave-kitty pack reference
@@ -21,12 +21,19 @@ generated:
 
 - **Pack directory:** `packs/cave-kitty`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `92c159b3e5762486ceed31132014a480936c9be363d0e730590c5fe3cf1db06b`
+- **Content checksum (sha256):** `a4fb3e09eedda07e15a55955092c6e7bb0831f956fbd83fcce95eb7ffdfaf2a7`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+An open Spec Kitty Charter Pack that makes an agent answer in a compressed, token-saving
+"caveman" voice — outcome-first, filler cut — while keeping every payload and every negation
+exact and restoring full sentences at a cliff edge.
+
+The styleguide and directive are the clean instrument for that purpose. The pack's `cave-dev`
+mission type re-states the built-in `software-dev` step contract as prose and overrides only the
+agent's output prose, compressing it to the caveman voice; the engineering rigour stays
+`software-dev`'s. See the pack's `README.md` for the scope notes and runtime caveats.
 
 **Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
@@ -38,7 +45,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `styleguides` | 1 |
 | `drg` | 1 |
 | `missions` | 9 |
-| **Total files** | **16** |
+| **Total files** | **17** |
 
 ### Full listing
 

@@ -2,7 +2,7 @@
 title: built-in pack reference
 description: "Generated reference for the built-in Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-17'
+  at: '2026-11-09'
 ---
 
 # built-in pack reference
@@ -21,12 +21,17 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `3ec4d51d3ca9289171102b3b739c860803cf605b2a51183169c17220b4f10a4c`
+- **Content checksum (sha256):** `c6bd344ae121abfdf2cba515aae56a5c981e4383be4ebb027a8bf6a8ce066fbf`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+The **built-in** pack ships with Spec Kitty itself: the baseline directives,
+tactics, styleguides, toolguides, paradigms, procedures, agent profiles, and
+mission-step contracts every project starts with before any org or project
+layer is applied.
+
+It has no `parent_pack` (it is the root of every lineage chain).
 
 ## Artifact inventory
 

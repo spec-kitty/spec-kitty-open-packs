@@ -2,7 +2,7 @@
 title: event-driven pack reference
 description: "Generated reference for the event-driven Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-17'
+  at: '2026-11-09'
 ---
 
 # event-driven pack reference
@@ -21,12 +21,19 @@ generated:
 
 - **Pack directory:** `packs/event-driven`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `84be0169ddebd7c1d4ed6f2b863a3ebe8b8ce0d8b861ac9ca4784ec6fea25a84`
+- **Content checksum (sha256):** `118ad03eccdeb45937fff0dee96b405e216e4a566b4eacc31789cf94bddc0ca8`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+An open Spec Kitty Charter Pack for building systems where events are the source of truth and
+state is a projection of them: one canonical event writer behind an event-bridge port, a schema
+version on every event, producers that emit the latest version and consumers that choose which
+versions they accept, a pure domain core with side effects running in event consumers, and
+producers and consumers that share nothing but published event contracts.
+
+The pack names no framework, broker or storage. A JSONL file with one writer qualifies as a
+ledger as much as an event store does.
 
 **Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
@@ -42,7 +49,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **20** |
+| **Total files** | **21** |
 
 ### Full listing
 
