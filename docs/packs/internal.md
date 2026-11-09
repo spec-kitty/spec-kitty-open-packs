@@ -2,7 +2,7 @@
 title: internal pack reference
 description: "Generated reference for the internal Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-17'
+  at: '2026-11-09'
 ---
 
 # internal pack reference
@@ -21,12 +21,19 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `682c2f11775b6b3900765f5de3a600cf25115c9e745d7b6facd878a20208fe02`
+- **Content checksum (sha256):** `c9611af50028866b02d11e7973a43e8288b9f1600168ee848f33d101a28d0894`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+Spec Kitty's own internal Charter Pack: the doctrine that governs the Spec Kitty project's
+contributors, maintainers and core team. It is loaded as an org-tier pack (registered in
+`.kittify/config.yaml` under `charter_packs.org.packs`), overlaying the public `built-in`
+product doctrine.
+
+It is never shipped to consumers: maintainer-only doctrine — how PRs are landed, the tracker
+processed, main kept honest — must not be force-shipped on the wheel, so the packaging narrows
+its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 
 **Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
@@ -44,7 +51,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **75** |
+| **Total files** | **76** |
 
 ### Full listing
 

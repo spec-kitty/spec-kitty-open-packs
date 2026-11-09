@@ -2,7 +2,7 @@
 title: qa pack reference
 description: "Generated reference for the qa Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-17'
+  at: '2026-11-09'
 ---
 
 # qa pack reference
@@ -21,12 +21,20 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `def62089bf09ed2d1bad96269019f2add8906d2333e5a411cc67c6f978d9492f`
+- **Content checksum (sha256):** `dc1bb53add062eeed964638ab4db2c60acd481859a85420735cf92771fd15bc2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+An open Spec Kitty Charter Pack for running quality assurance as governed work, and for keeping
+a product's acceptance tests tied to what the product promises.
+
+It does two jobs: a `qa` mission type — the seven canonical steps redefined in QA terms, with
+QA agent profiles, step contracts, templates and evidence tools — and the
+description-to-acceptance-CI loop from a ratified promise page through a Given/When/Then
+scenario to a bound acceptance test and a release gate. The pack names no test runner: a
+project runs its own tests, and the pack governs what they must cover and how honestly they
+report.
 
 **Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
@@ -46,7 +54,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **73** |
+| **Total files** | **74** |
 
 ### Full listing
 

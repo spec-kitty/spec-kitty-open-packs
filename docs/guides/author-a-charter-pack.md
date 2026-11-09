@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets and an org-charter.yaml.
 doc_status: wip
-updated: '2026-11-05'
+updated: '2026-11-09'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -26,6 +26,7 @@ subset of the artifact kinds plus that fragment. Spec Kitty 4.x reads only this 
 ```
 my-pack/
 ├── pack.yaml                   # required: the pack's descriptor, with its pack_id and name
+├── pack.md                     # recommended: the pack's description (see below)
 ├── directives/                 # *.directive.yaml — project rules
 ├── tactics/                    # *.tactic.yaml — domain tactics (subdirs allowed)
 ├── styleguides/                # *.styleguide.yaml — style standards
@@ -47,6 +48,14 @@ Every pack needs a `pack.yaml`: [the gate](validate-a-pack.md) and the charter s
 pack without one. Its fields are in [the contracts reference](../contracts/index.md). If your pack
 references another pack's artifact, it declares `depends_on` and qualifies that reference as
 `<pack>::<kind>:<id>`. [Compose packs](compose-packs.md) has the details.
+
+Three pack-root files are easy to confuse, so keep their roles apart:
+
+| File | Who writes it | What it holds |
+| --- | --- | --- |
+| `pack.yaml` | you (hand-authored) | The descriptor: identity and lineage (`pack_id`, `name`, `pack_version`, `parent_pack`, `pack_level`, `depends_on`). Its charter schema is closed — it has no prose fields. |
+| `pack.md` | you (hand-authored) | The pack's **description**: an H1 title, a preamble of "what it is and why" prose, then optional H2 sections. The generated reference page renders the preamble under its Purpose heading. |
+| `pack-manifest.yaml` | tooling only | The constituent inventory and content hashes. |
 
 > **Do not hand-write `pack-manifest.yaml`.** It is written by tooling (`charter fetch` for
 > non-git sources, `charter pack assemble`); `charter pack validate` does not read it, so a
