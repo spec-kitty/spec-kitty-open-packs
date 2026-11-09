@@ -9,6 +9,8 @@ This is the *content-from-code* generator described in
 * a "generated — do not edit" banner plus a deterministic content checksum
   (sha256 over each file's ``relative-path + NUL + bytes + LF``, sorted by path);
 * the version and ``depends_on`` declared in ``pack.yaml``, *if present*;
+* the pack's authored description — the ``pack.md`` preamble (charter #260) —
+  under "Purpose";
 * an artifact inventory with per-kind counts;
 * validation status from the charter pack schemas, checked by
   ``scripts/ci/validate_pack_schemas.py``.
@@ -65,7 +67,7 @@ RESERVED_SLUGS = frozenset({"index", "catalog-proposal"})
 #: which makes a drift-gated generated page fail spuriously. The on-page content
 #: checksum is the real per-change freshness signal. Bump only on a deliberate
 #: generator change.
-GENERATED_PAGE_DATE = "2026-10-17"
+GENERATED_PAGE_DATE = "2026-11-09"
 
 #: Artifact-kind subdirectories understood by the doctrine model, in the order
 #: the design document lists them. Any *other* subdirectory a pack contains is
@@ -100,6 +102,21 @@ class PackDescriptor:
 
 
 @dataclass(frozen=True)
+class PackDocument:
+    """The authored ``pack.md`` — the charter's description of the pack.
+
+    The charter contract maps ``*/pack.md`` to the ``pack-document`` schema and
+    calls it "A pack's description" (charter #260, ADR-0042 decision 8). Only
+    the preamble — the "what it is and why" prose between the optional H1 title
+    and the first H2 section — is published: it is the author-facing purpose
+    the closed ``pack.yaml`` descriptor schema (identity and lineage only) can
+    never carry.
+    """
+
+    preamble: str = ""
+
+
+@dataclass(frozen=True)
 class ValidationResult:
     """Outcome of validating a pack against the charter pack schemas."""
 
@@ -118,6 +135,7 @@ class PackReference:
     rel_directory: str
     checksum: str
     descriptor: PackDescriptor
+    pack_document: PackDocument | None = None
     counts: list[tuple[str, int]] = field(default_factory=list)
     inventory: list[tuple[str, list[str]]] = field(default_factory=list)
     file_count: int = 0
@@ -185,6 +203,52 @@ def read_pack_descriptor(directory: Path) -> PackDescriptor:
             if isinstance(entry, dict)
         ),
     )
+
+
+# ---------------------------------------------------------------------------
+# pack.md reader
+# ---------------------------------------------------------------------------
+
+
+def read_pack_document(directory: Path) -> PackDocument | None:
+    """Read the pack's ``pack.md`` (the charter's pack description), if present.
+
+    Follows the ``pack-document`` model the charter validates the file against:
+    optional frontmatter, an optional H1 title, a preamble, then H2 sections in
+    order. Only the preamble is kept — the authored description prose rendered
+    under "Purpose". A missing file returns ``None`` so the page falls back to
+    its authored-context note.
+    """
+
+    path = directory / "pack.md"
+    if not path.is_file():
+        return None
+    lines = path.read_text(encoding="utf-8").splitlines()
+
+    # Optional frontmatter fence.
+    if lines and lines[0].strip() == "---":
+        close = next(
+            (i for i in range(1, len(lines)) if lines[i].strip() == "---"), None
+        )
+        if close is None:
+            # Unterminated fence: the file is malformed; treat it as no preamble
+            # rather than rendering frontmatter data as prose.
+            return PackDocument(preamble="")
+        lines = lines[close + 1 :]
+
+    # Skip blank lines, then the optional H1 title.
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    if lines and lines[0].startswith("# "):
+        lines = lines[1:]
+
+    # The preamble runs to the first H2 section.
+    preamble: list[str] = []
+    for line in lines:
+        if line.startswith("## "):
+            break
+        preamble.append(line)
+    return PackDocument(preamble="\n".join(preamble).strip())
 
 
 # ---------------------------------------------------------------------------
@@ -300,6 +364,7 @@ def build_reference(repo_root: Path, slug: str, directory: Path) -> PackReferenc
         rel_directory=rel_directory,
         checksum=compute_checksum(directory),
         descriptor=read_pack_descriptor(directory),
+        pack_document=read_pack_document(directory),
         counts=counts,
         inventory=inventory,
         file_count=file_count,
@@ -435,14 +500,21 @@ def render_page(ref: PackReference) -> str:
     )
     lines.append("")
 
-    # The closed descriptor schema has no purpose field, so none is ever shown.
+    # The authored pack.md is the charter's description of the pack (charter
+    # #260, ADR-0042 decision 8); its preamble is the purpose prose the closed
+    # pack.yaml descriptor schema — identity and lineage only — cannot carry.
+    # A pack without one falls back to pointing at authored context.
     lines.append("## Purpose")
     lines.append("")
-    lines.append(
-        "_No `purpose` is declared for a pack: the `pack.yaml` schema has no such "
-        "field. See the pack's `README.md` and the [Packs hub](index.md) for "
-        "authored context._"
-    )
+    preamble = ref.pack_document.preamble if ref.pack_document else ""
+    if preamble:
+        lines.append(preamble)
+    else:
+        lines.append(
+            "_No `purpose` is declared for this pack: it authors no `pack.md` "
+            "description. See the pack's `README.md` and the "
+            "[Packs hub](index.md) for authored context._"
+        )
     lines.append("")
 
     if ref.descriptor.depends_on:
