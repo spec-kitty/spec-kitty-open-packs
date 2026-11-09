@@ -305,6 +305,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The spdd step enhancements are proven against the charter's current schemas, and the
+  pinned charter commit moves to `55c7d824`** (#177, charter ADR-0066). The five
+  `missions/software-dev/enhancements/*.step-enhancement.yaml` files and their
+  `*.prompt-fragment.md` companions were already classified by the pinned `file-kinds.yaml`
+  and laid out per ADR-0066 (id equals the file stem, one `enhances` edge per enhancement to
+  `built-in::action:software-dev/*`, empty `spdd:reasons-block` slots in the base prompts,
+  `schema_version: "1.0"`); what was missing is proof against the schemas themselves.
+  `tests/ci/test_prompt_fragments.py` now asserts every spdd enhancement and fragment is
+  classified and validated by the pinned contract with zero violations, and that an id that
+  is not its file stem, a missing `schema_version`, an empty `prompt_fragments` list, a
+  fragment with frontmatter and a 65-character id are refused. The last case needs the id
+  `maxLength` of 64 that charter commit `55c7d824` added (the only schema change since
+  `465e3de2`, with 136- and 255-character caps beside it), which is what the pin bump
+  delivers; an audit confirmed every pack passes at the new pin. The `spdd` README's
+  activation wording follows charter rule E6 and ADR-0059 A4: an enhancement is in force
+  only while the `software-dev` mission type is, in addition to its own activation via the
+  preset, and activation cascades forward only.
+
 - **All 39 reverse-direction duplicate edges are collapsed under the operator's curation
   rule** (#135). ADR-0027 allows at most one unidirectional edge per unordered component pair;
   the ruling (2026-11-08) keeps the edge whose source is the more authoritative kind
