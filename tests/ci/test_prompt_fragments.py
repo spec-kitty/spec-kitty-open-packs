@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import contextlib
+import io
 import sys
 import tempfile
 import unittest
@@ -44,6 +46,28 @@ class PromptSlotValidation(unittest.TestCase):
                 found = validator.prompt_slot_violations(prompt, require_empty=True)
                 self.assertTrue(found, label)
                 self.assertTrue(any("prompt_slot_malformed" in problem for problem in found), found)
+
+    def test_validator_cli_prints_legacy_slot_warnings(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            contract = root / "contract"
+            (contract / "schemas").mkdir(parents=True)
+            (contract / "file-kinds.yaml").write_text(
+                'files:\n- match: "*/missions/*/steps/*.prompt.md"\n'
+                "  schema: mission-step-prompt\n  content_form: markdown\n",
+                encoding="utf-8",
+            )
+            (contract / "schemas" / "mission-step-prompt.schema.json").write_text('{"type": "object"}\n', encoding="utf-8")
+            pack = root / "base"
+            prompt = pack / "missions" / "dev" / "steps" / "specify.prompt.md"
+            prompt.parent.mkdir(parents=True)
+            prompt.write_text("<!-- spdd:x:start -->\nlegacy guidance\n<!-- spdd:x:end -->\n", encoding="utf-8")
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                code = validator.main([str(pack), "--contract", str(contract)])
+            self.assertEqual(code, validator.EXIT_OK)
+            self.assertIn(f"::warning file={pack}::base/missions/dev/steps/specify.prompt.md: prompt_slot_not_empty", out.getvalue())
+            self.assertIn("0 violations", out.getvalue())
 
 
 class PromptFragmentValidation(unittest.TestCase):
