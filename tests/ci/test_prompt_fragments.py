@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import contextlib
 import io
+import shutil
 import sys
 import tempfile
 import unittest
+from collections.abc import Callable
 from pathlib import Path
 from unittest import mock
 
@@ -125,6 +127,102 @@ class PromptFragmentValidation(unittest.TestCase):
             self.assertIn("prompt_slot_not_empty", "\n".join(legacy.warnings))
             (pack / "pack.yaml").write_text('schema_version: "1.0"\n', encoding="utf-8")
             self.assertIn("prompt_slot_not_empty", "\n".join(validator.validate_pack(pack, contract).violations))
+
+
+class SpddEnhancementsOnThePinnedContract(unittest.TestCase):
+    """The spdd step enhancements and fragments, proven against the pinned charter contract (#177).
+
+    The classification half pins that the pinned file-kinds.yaml maps every ``*.step-enhancement.yaml``
+    and ``*.prompt-fragment.md`` of packs/spdd to its schema, so none is skipped as payload; the
+    mutation half pins the contract's refusals on copies of the real pack. The over-long id case needs
+    the id maxLength of 64 that the pinned commit 55c7d824 added: at the previous pin (465e3de2) the
+    schema admits a 65-character id and that test fails, so the test guards the pin bump itself.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.contract = validator.contract_for(None)
+        cls.pack = ROOT / "packs" / "spdd"
+
+    def mutated(self, mutate: Callable[[Path], None]) -> str:
+        """The violations of a temporary copy of packs/spdd after ``mutate`` edited it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp) / "spdd"
+            shutil.copytree(self.pack, copy)
+            mutate(copy)
+            report = validator.validate_pack(copy, self.contract)
+            return "\n".join(report.violations)
+
+    def test_every_enhancement_and_fragment_is_classified_and_validated(self) -> None:
+        enhancements = sorted(self.pack.glob("missions/*/enhancements/*.step-enhancement.yaml"))
+        fragments = sorted(self.pack.glob("missions/*/enhancements/*.prompt-fragment.md"))
+        self.assertEqual(len(enhancements), 5)
+        self.assertEqual(len(fragments), 5)
+        for path, schema in [(path, "step-enhancement") for path in enhancements] + [
+            (path, "prompt-fragment") for path in fragments
+        ]:
+            relative = f"spdd/{path.relative_to(self.pack).as_posix()}"
+            with self.subTest(relative):
+                kind, rule = validator.classify(self.contract, relative)
+                self.assertEqual(kind, "file")
+                self.assertEqual(rule.schema if rule else None, schema)
+        report = validator.validate_pack(self.pack, self.contract)
+        self.assertEqual(report.violations, [])
+        self.assertEqual(report.warnings, [])
+
+    def test_an_id_that_is_not_the_file_stem_is_refused(self) -> None:
+        def mutate(pack: Path) -> None:
+            target = pack / "missions" / "software-dev" / "enhancements" / "spdd-specify.step-enhancement.yaml"
+            target.write_text(
+                target.read_text(encoding="utf-8").replace("id: spdd-specify", "id: spdd-other"), encoding="utf-8"
+            )
+
+        self.assertIn(
+            "prompt_fragment_invalid: enhancement id 'spdd-other' is not its file stem 'spdd-specify'", self.mutated(mutate)
+        )
+
+    def test_a_missing_schema_version_is_refused(self) -> None:
+        def mutate(pack: Path) -> None:
+            target = pack / "missions" / "software-dev" / "enhancements" / "spdd-specify.step-enhancement.yaml"
+            target.write_text(
+                target.read_text(encoding="utf-8").replace('schema_version: "1.0"\n', ""), encoding="utf-8"
+            )
+
+        found = self.mutated(mutate)
+        self.assertIn("spdd-specify.step-enhancement.yaml: step-enhancement schema", found)
+        self.assertIn("'schema_version' is a required property", found)
+
+    def test_an_empty_prompt_fragments_list_is_refused(self) -> None:
+        def mutate(pack: Path) -> None:
+            target = pack / "missions" / "software-dev" / "enhancements" / "spdd-specify.step-enhancement.yaml"
+            head, separator, _ = target.read_text(encoding="utf-8").partition("prompt_fragments:")
+            assert separator
+            target.write_text(head + "prompt_fragments: []\n", encoding="utf-8")
+
+        self.assertIn("spdd-specify.step-enhancement.yaml: step-enhancement schema at /prompt_fragments", self.mutated(mutate))
+
+    def test_a_fragment_with_frontmatter_is_refused(self) -> None:
+        def mutate(pack: Path) -> None:
+            target = pack / "missions" / "software-dev" / "enhancements" / "spdd-specify.prompt-fragment.md"
+            target.write_text("---\nid: no\n---\n" + target.read_text(encoding="utf-8"), encoding="utf-8")
+
+        found = self.mutated(mutate)
+        self.assertIn("spdd-specify.prompt-fragment.md: prompt-fragment schema", found)
+        self.assertIn("('frontmatter' was unexpected)", found)
+
+    def test_an_id_longer_than_the_pinned_maximum_is_refused(self) -> None:
+        def with_id_length(pack: Path, length: int) -> None:
+            directory = pack / "missions" / "software-dev" / "enhancements"
+            source = directory / "spdd-specify.step-enhancement.yaml"
+            long_id = "a" * length
+            text = source.read_text(encoding="utf-8").replace("id: spdd-specify", f"id: {long_id}")
+            source.unlink()
+            (directory / f"{long_id}.step-enhancement.yaml").write_text(text, encoding="utf-8")
+
+        found = self.mutated(lambda pack: with_id_length(pack, 65))
+        self.assertIn("step-enhancement schema at /id", found)
+        self.assertIn("is too long", found)
+        self.assertEqual(self.mutated(lambda pack: with_id_length(pack, 64)), "")
 
 
 class PromptFragmentComposition(unittest.TestCase):
