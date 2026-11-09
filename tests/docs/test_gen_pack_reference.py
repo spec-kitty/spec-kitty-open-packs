@@ -47,6 +47,16 @@ def _make_pack(root: Path) -> Path:
     (pack / "pack.yaml").write_text(
         "name: built-in\npack_version: 1.0.0\n", encoding="utf-8"
     )
+    (pack / "pack.md").write_text(
+        "# built-in\n"
+        "\n"
+        "The baseline pack every project starts with.\n"
+        "\n"
+        "## Details\n"
+        "\n"
+        "Section prose that must not render as the description.\n",
+        encoding="utf-8",
+    )
     return pack
 
 
@@ -121,13 +131,47 @@ class GeneratorDeterminismTest(unittest.TestCase):
             src.rename(pack / "directives" / "d-002.directive.yaml")
             self.assertNotEqual(baseline, gen.compute_checksum(pack))
 
-    def test_pack_without_pack_yaml_omits_purpose(self) -> None:
+    def test_pack_without_pack_md_falls_back_to_the_authored_context_note(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
-            (pack / "pack.yaml").unlink()
+            (pack / "pack.md").unlink()
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
             self.assertIn("No `purpose` is declared", page)
+            self.assertIn("the [Packs hub](index.md)", page)
+
+    def test_pack_md_preamble_is_rendered_under_purpose(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            # The authored pack.md preamble is the page's Purpose prose...
+            self.assertIn(
+                "## Purpose\n\nThe baseline pack every project starts with.\n",
+                page,
+            )
+            # ...while its frontmatter-free H1, H2 section and section prose are
+            # not published as the description.
+            self.assertNotIn("# built-in\n", page)
+            self.assertNotIn("## Details", page)
+            self.assertNotIn("Section prose that must not render", page)
+            self.assertNotIn("No `purpose` is declared", page)
+
+    def test_pack_md_preamble_ignores_frontmatter_and_skips_blank_lead(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            (pack / "pack.md").write_text(
+                "---\ntitle: ignored frontmatter\n---\n"
+                "\n"
+                "# built-in\n"
+                "\n"
+                "Description after frontmatter.\n",
+                encoding="utf-8",
+            )
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            self.assertIn("## Purpose\n\nDescription after frontmatter.\n", page)
+            self.assertNotIn("ignored frontmatter", page)
 
     def test_depends_on_is_published_with_every_entry_as_the_schema_shapes_it(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -155,8 +199,10 @@ class GeneratorDeterminismTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             page = gen.render_page(gen.build_reference(root, "built-in", _make_pack(root)))
+            # The description comes from pack.md, never from a pack.yaml prose
+            # field the closed descriptor schema forbids.
             self.assertNotIn("in this pack's `pack.yaml`", page)
-            self.assertIn("the `pack.yaml` schema has no such field", page)
+            self.assertNotIn("schema has no such field", page)
 
 
 if __name__ == "__main__":
