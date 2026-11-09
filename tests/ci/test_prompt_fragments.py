@@ -8,6 +8,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from jsonschema import Draft202012Validator
 
@@ -159,6 +160,11 @@ class PromptFragmentComposition(unittest.TestCase):
 
     def test_valid_target_and_slot_resolve_regardless_of_activation(self) -> None:
         self.assertEqual(self.found(), "")
+
+    def test_fragment_validation_uses_shared_graph_edge_discovery(self) -> None:
+        with mock.patch.object(validator, "graph_edges", wraps=validator.graph_edges) as graph_edges:
+            self.assertEqual(self.found(), "")
+        self.assertEqual(graph_edges.call_args_list, [mock.call(self.base), mock.call(self.spdd)])
 
     def test_missing_slot_is_refused(self) -> None:
         self.enhancement.write_text(self.enhancement.read_text().replace("spdd:reasons-block", "spdd:other"), encoding="utf-8")
