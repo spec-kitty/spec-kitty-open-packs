@@ -5,9 +5,12 @@ scope: operations
 applies_to_languages: []
 
 principles:
-  - "This styleguide is the Spec Kitty core team's concrete label scheme for spec-kitty/spec-kitty. It refines the tracker-neutral built-in planning-and-tracking styleguide, which states the hierarchy and hygiene principles without naming labels."
-  - "Priority is one `priority:P0`..`priority:P3` label; `priority:P2` is the canonical provisional default, paired with `triage:needs-revision` when the priority is a guess."
-  - "Community precedence on duplicates keys off GitHub author association NONE."
+  - name: "Concrete tracker label scheme"
+    description: "This styleguide is the Spec Kitty core team's concrete label scheme for spec-kitty/spec-kitty. It refines the tracker-neutral built-in planning-and-tracking styleguide, which states the hierarchy and hygiene principles without naming labels."
+  - name: "Priority is one `priority:P0`..`priority:P3` label"
+    description: "Priority is one `priority:P0`..`priority:P3` label; `priority:P2` is the canonical provisional default, paired with `triage:needs-revision` when the priority is a guess."
+  - name: "Community precedence keys off author association"
+    description: "Community precedence on duplicates keys off GitHub author association NONE."
 
 patterns:
   - name: Single canonical priority label

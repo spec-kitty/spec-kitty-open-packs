@@ -5,15 +5,24 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "This styleguide refines report-writing for one deliverable: the executive debrief, a 'WTF happened / WTF is up' report over a repository scope. It adds only what is specific to that deliverable; the voice, the least-technical-first ordering, the honest hedging, and the anti-machine-prose discipline all come from report-writing and are not restated here."
-  - "Two layouts, one discipline. The one-pager is a dashboard (tiles, pills, cluster cards) for a quick count-led read of a window or a milestone. The long-form debrief is a multi-page branded document (cover, executive summary, parts, open risks, appendix) for when the readers need the mechanism explained, a trend shown, or a decision prepared. Pick the long form when the answer to 'what happened' needs a 'why' or a 'what now'; pick the one-pager when the counts and a few labelled clusters say it all."
-  - "Name the readers and write the top for the least technical of them. A debrief goes to leadership (for example CTO, CEO, CPO, Head of QA) and to the maintainers in one document. The cover names them. The executive summary must be usable by a reader who knows the product but not the code; the parts and the appendix carry the maintainer detail. Explain an internal term the first time it appears, in one clause ('consolidate, the command that lands finished work')."
-  - "Two modes. A window debrief answers 'what landed since <T>' from merged PRs and closed issues; a scope debrief answers 'what is open in <milestone/label>'. Either mode can use either layout."
-  - "The facts are collected, never composed. A deterministic collector owns every count, author tally, SHA and issue/PR reference; the writer clusters, narrates and labels those facts and does nothing else. A number that did not come from a collected file does not appear. This is report-writing's attribute-every-number rule made mechanical."
-  - "Every reference must exist in the collected set. In the one-pager, each `#NNNN` must be in the collector's `valid_refs`, and the renderer fails closed on any other. A long-form debrief may add supplemental queries (open P0s, nightly runs, git statistics) when each result is saved as a file beside the collector output and named in the appendix; each `#NNNN` must then appear in the collector output or one of those files, and the writer checks that before rendering. The writer may cluster and prioritise, never invent an issue or a PR."
-  - "Name the failure class when it fits. The house framing for the most damaging defects is 'silent and exit 0': a command that destroys, mis-lands, or erases work while reporting success. Use it where the collected defects are of that kind, because it orients a reader faster than a per-issue description. Do not force it onto a debrief about something else (CI runtime, a milestone's shape)."
-  - "End the summary with what the readers must decide. A long-form debrief closes its executive summary with 'What we need from leadership': two to four decisions, each with the fact that forces it. A debrief that only reports leaves the reader to work out the ask."
-  - "Keep the Method honest. State the exact scope and as-of, generated from the collector, never typed. Distinguish 'closed' (GitHub's state_reason) from 'verified fixed' (a linked closing PR); in scope mode mark impact/cluster labels as a preliminary read until verified against the code. Say 'correlation, not a proven cause' when the data shows only that. When a claim rests on an earlier debrief rather than on this collection, say so in the sentence. Sources: docs/development/reporting/debrief-styleguide.md."
+  - name: "Refines report-writing for one deliverable"
+    description: "Refines report-writing for one deliverable: the executive debrief, a 'WTF happened / WTF is up' report over a repository scope. It adds only what is specific to that deliverable."
+  - name: "Two layouts, one discipline"
+    description: "Two layouts, one discipline. The one-pager is a dashboard (tiles, pills, cluster cards) for a quick count-led read; the long-form debrief is a multi-page branded document for when readers need the mechanism explained or a decision prepared."
+  - name: "Write the top for the least technical reader"
+    description: "Write the top for the least technical reader. A debrief goes to leadership and to the maintainers in one document; the cover names them. The executive summary must be usable by a reader who knows the product but not the code."
+  - name: "Two modes"
+    description: "Two modes. A window debrief answers 'what landed since <T>' from merged PRs and closed issues; a scope debrief answers 'what is open in <milestone/label>'. Either mode can use either layout."
+  - name: "Facts are collected, never composed"
+    description: "Facts are collected, never composed. A deterministic collector owns every count, author tally, SHA and issue/PR reference; the writer clusters, narrates and labels those facts and does nothing else. A number not from a collected file does not appear."
+  - name: "Every reference must exist in the collected set"
+    description: "Every reference must exist in the collected set. In the one-pager, each `#NNNN` must be in the collector's `valid_refs`, and the renderer fails closed on any other. The writer may cluster and prioritise, never invent an issue or a PR."
+  - name: "Name the failure class when it fits"
+    description: "Name the failure class when it fits. The house framing for the most damaging defects is 'silent and exit 0': a command that destroys, mis-lands, or erases work while reporting success. Do not force it onto a debrief about something else."
+  - name: "End the summary with the ask"
+    description: "End the summary with the ask. A long-form debrief closes its executive summary with 'What we need from leadership': two to four decisions, each with the fact that forces it."
+  - name: "Keep the Method honest"
+    description: "Keep the Method honest. State the exact scope and as-of, generated from the collector, never typed. Say 'correlation, not a proven cause' when the data shows only that."
 
 patterns:
   - name: Long-form layout grammar
@@ -92,6 +101,76 @@ patterns:
       collector's metrics. The attention number (open P0s / release-blocking)
       takes the red alert treatment. The long form puts the same numbers in the
       executive summary's table.
+  # Principles whose description was condensed to fit the 255-character cap
+  # (ADR-0067) carry their full original text as a pattern of the same name.
+  - name: Refines report-writing for one deliverable
+    description: >
+      This styleguide refines report-writing for one deliverable: the
+      executive debrief, a 'WTF happened / WTF is up' report over a repository
+      scope. It adds only what is specific to that deliverable; the voice, the
+      least-technical-first ordering, the honest hedging, and the
+      anti-machine-prose discipline all come from report-writing and are not
+      restated here.
+  - name: Two layouts, one discipline
+    description: >
+      Two layouts, one discipline. The one-pager is a dashboard (tiles, pills,
+      cluster cards) for a quick count-led read of a window or a milestone.
+      The long-form debrief is a multi-page branded document (cover, executive
+      summary, parts, open risks, appendix) for when the readers need the
+      mechanism explained, a trend shown, or a decision prepared. Pick the long
+      form when the answer to 'what happened' needs a 'why' or a 'what now';
+      pick the one-pager when the counts and a few labelled clusters say it
+      all.
+  - name: Write the top for the least technical reader
+    description: >
+      Name the readers and write the top for the least technical of them. A
+      debrief goes to leadership (for example CTO, CEO, CPO, Head of QA) and
+      to the maintainers in one document. The cover names them. The executive
+      summary must be usable by a reader who knows the product but not the
+      code; the parts and the appendix carry the maintainer detail. Explain an
+      internal term the first time it appears, in one clause ('consolidate,
+      the command that lands finished work').
+  - name: Facts are collected, never composed
+    description: >
+      The facts are collected, never composed. A deterministic collector owns
+      every count, author tally, SHA and issue/PR reference; the writer
+      clusters, narrates and labels those facts and does nothing else. A
+      number that did not come from a collected file does not appear. This is
+      report-writing's attribute-every-number rule made mechanical.
+  - name: Every reference must exist in the collected set
+    description: >
+      Every reference must exist in the collected set. In the one-pager, each
+      `#NNNN` must be in the collector's `valid_refs`, and the renderer fails
+      closed on any other. A long-form debrief may add supplemental queries
+      (open P0s, nightly runs, git statistics) when each result is saved as a
+      file beside the collector output and named in the appendix; each `#NNNN`
+      must then appear in the collector output or one of those files, and the
+      writer checks that before rendering. The writer may cluster and
+      prioritise, never invent an issue or a PR.
+  - name: Name the failure class when it fits
+    description: >
+      Name the failure class when it fits. The house framing for the most
+      damaging defects is 'silent and exit 0': a command that destroys,
+      mis-lands, or erases work while reporting success. Use it where the
+      collected defects are of that kind, because it orients a reader faster
+      than a per-issue description. Do not force it onto a debrief about
+      something else (CI runtime, a milestone's shape).
+  - name: End the summary with the ask
+    description: >
+      End the summary with what the readers must decide. A long-form debrief
+      closes its executive summary with 'What we need from leadership': two to
+      four decisions, each with the fact that forces it. A debrief that only
+      reports leaves the reader to work out the ask.
+  - name: Keep the Method honest
+    description: >
+      Keep the Method honest. State the exact scope and as-of, generated from
+      the collector, never typed. Distinguish 'closed' (GitHub's
+      state_reason) from 'verified fixed' (a linked closing PR); in scope mode
+      mark impact/cluster labels as a preliminary read until verified against
+      the code. Say 'correlation, not a proven cause' when the data shows only
+      that. When a claim rests on an earlier debrief rather than on this
+      collection, say so in the sentence. Sources:
+      docs/development/reporting/debrief-styleguide.md.
 
 anti_patterns:
   - name: Hand-counted or invented figures

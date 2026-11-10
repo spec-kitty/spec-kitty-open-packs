@@ -5,13 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "Write least-technical-first. The top of the report must give the least technical reader something they can use before any detail arrives: a one-line headline, then a two-minute brief, then the full write-up. A reader who stops after two minutes should still leave with the outcome and the trajectory."
-  - "Name the audience and serve all of them at once. A project report speaks to maintainers, stakeholders, and investors in the same document; write each section knowing which of them it is for and what that reader needs to decide. Do not bury the stakeholder outcome under maintainer detail, and do not strip the maintainer detail to please the stakeholder."
-  - "Attribute every number. Each figure is either traceable to the source that produced it or labelled as gathered first-hand for this report. A number without a source does not appear."
-  - "Hedge honestly rather than overclaim. When a figure is provisional, an identity fold is incomplete, or a metric could not be gathered, say so plainly and name the gap. An honest gap builds more trust than a confident guess, and a confident guess is the failure this rule exists to prevent."
-  - "Prefer concrete nouns and verbs to abstraction. A named subsystem and a counted commit carry a report; adjectives about how the cycle felt do not."
-  - "Keep the Spec Kitty voice: composed, direct, and concrete. No exclamation marks. The canonical product term is Mission; never write feature for a Mission."
-  - "Read your own prose for the tells of machine writing and cut them. The patterns below are the recurring ones; treat the list as a checklist you run before circulating, not as advice you apply when convenient."
+  - name: "Write least-technical-first"
+    description: "Write least-technical-first. The top of the report must give the least technical reader something they can use before any detail arrives: a one-line headline, then a two-minute brief, then the full write-up."
+  - name: "Name the audience, serve them all"
+    description: "Name the audience, serve them all. A project report speaks to maintainers, stakeholders, and investors in the same document; write each section knowing which of them it is for and what that reader needs to decide."
+  - name: "Attribute every number"
+    description: "Attribute every number. Each figure is either traceable to the source that produced it or labelled as gathered first-hand for this report. A number without a source does not appear."
+  - name: "Hedge honestly rather than overclaim"
+    description: "Hedge honestly rather than overclaim. When a figure is provisional, an identity fold is incomplete, or a metric could not be gathered, say so plainly and name the gap."
+  - name: "Prefer concrete nouns and verbs to abstraction"
+    description: "Prefer concrete nouns and verbs to abstraction. A named subsystem and a counted commit carry a report; adjectives about how the cycle felt do not."
+  - name: "Keep the Spec Kitty voice"
+    description: "Keep the Spec Kitty voice: composed, direct, and concrete. No exclamation marks. The canonical product term is Mission; never write feature for a Mission."
+  - name: "Cut the tells of machine writing"
+    description: "Read your own prose for the tells of machine writing and cut them. The patterns below are the recurring ones; treat the list as a checklist you run before circulating, not as advice you apply when convenient."
 
 patterns:
   - name: Progressive-disclosure structure
@@ -63,6 +70,30 @@ patterns:
       it from an upstream source such as a research-squad output. A consistent
       label lets a reviewer spot-check the load-bearing numbers and lets a
       later reader trust the ones that are not spot-checked.
+  # Principles whose description was condensed to fit the 255-character cap
+  # (ADR-0067) carry their full original text as a pattern of the same name.
+  - name: Write least-technical-first
+    description: >
+      Write least-technical-first. The top of the report must give the least
+      technical reader something they can use before any detail arrives: a
+      one-line headline, then a two-minute brief, then the full write-up. A
+      reader who stops after two minutes should still leave with the outcome
+      and the trajectory.
+  - name: Name the audience, serve them all
+    description: >
+      Name the audience and serve all of them at once. A project report
+      speaks to maintainers, stakeholders, and investors in the same document;
+      write each section knowing which of them it is for and what that reader
+      needs to decide. Do not bury the stakeholder outcome under maintainer
+      detail, and do not strip the maintainer detail to please the
+      stakeholder.
+  - name: Hedge honestly rather than overclaim
+    description: >
+      Hedge honestly rather than overclaim. When a figure is provisional, an
+      identity fold is incomplete, or a metric could not be gathered, say so
+      plainly and name the gap. An honest gap builds more trust than a
+      confident guess, and a confident guess is the failure this rule exists
+      to prevent.
 
 anti_patterns:
   - name: Technical-first burial

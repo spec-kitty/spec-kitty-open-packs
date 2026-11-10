@@ -5,7 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "This styleguide carries the Spec Kitty repository's own configuration for the common-docs structural lint (its root allowlist, sanctioned sections, frozen-evidence exclusions). It refines the built-in common-docs styleguide, whose structural_lint_config is a repository-agnostic default. The repository's docs gates load this file (scripts/docs/touched_set_gates.py, tests/docs/test_docs_structural_lint.py)."
+  - name: "Repository-specific structural-lint config"
+    description: "Repository-specific structural-lint config: the Spec Kitty repository's own configuration for the common-docs structural lint (its root allowlist, sanctioned sections, frozen-evidence exclusions)."
+
+patterns:
+  # Principles whose description was condensed to fit the 255-character cap
+  # (ADR-0067) carry their full original text as a pattern of the same name.
+  - name: Repository-specific structural-lint config
+    description: >
+      This styleguide carries the Spec Kitty repository's own configuration
+      for the common-docs structural lint (its root allowlist, sanctioned
+      sections, frozen-evidence exclusions). It refines the built-in
+      common-docs styleguide, whose structural_lint_config is a
+      repository-agnostic default. The repository's docs gates load this file
+      (scripts/docs/touched_set_gates.py, tests/docs/test_docs_structural_lint.py).
 
 # Machine-parseable policy store the docs structural lint LOADS as its single
 # source of truth (FR-011, C-005). The common-docs-structural-lint doctrine
