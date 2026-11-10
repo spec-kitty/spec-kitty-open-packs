@@ -5,13 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "Every non-decorative image carries descriptive alt text. Screenshots, diagrams, and figures that convey information must have alt text that communicates the same information to a reader using a screen reader. The alt text describes what the image says, not that it is an image — 'Kanban board with WP01 in review and WP02 approved', not 'screenshot'. Purely decorative images carry empty alt (`alt=\"\"`) so assistive tech skips them."
-  - "Headings form a strict, unbroken outline. Heading levels descend by exactly one and never skip — an H2 is followed by H3 for its subsection, never by H4. There is exactly one H1 (the page title). Screen-reader users navigate by heading outline; a skipped or misused level breaks that navigation. Headings are used for structure, never for visual size."
-  - "Link text is meaningful out of context. A link's visible text states its destination or action — 'read the execution-lanes architecture' — because assistive tech can present a list of links stripped of surrounding prose. 'Click here', 'this', 'read more', and a bare URL are prohibited as link text; they are meaningless in that list and give no cue about where the link goes."
-  - "Do not rely on colour, or on diagrams, as the sole carrier of meaning. Information encoded only in colour (red = failed, green = passed) is lost to colour-blind readers and to anyone reading in monochrome. Pair colour with a label, shape, or text. Likewise, never state a fact only inside a diagram: a Mermaid or PlantUML diagram is an enhancement, and the same relationship must also be stated in the surrounding prose so a reader who cannot see the render still gets it."
-  - "Diagrams meet contrast and labelling standards, and are text-authored. Author diagrams as text (Mermaid / PlantUML) so they are diffable, greppable, and re-themable, and so their node labels are real text rather than baked-in pixels. Ensure node/edge labels have sufficient contrast against their fill; do not encode a category by fill colour alone — also label it."
-  - "Tables have headers; data is not laid out with whitespace. Use real table markup with a header row so screen readers can announce each cell's column. Never simulate a table with aligned spaces or tabs — it collapses into an unreadable run of text for assistive tech."
-  - "Code blocks are fenced with a language, and prose never depends on syntax colour. Fence every code block and tag its language so it is announced and highlighted consistently. Any meaning a reader might take from highlight colour must also be present in the code or a comment, because highlighting is theme- and reader-dependent."
+  - name: "Every non-decorative image carries descriptive alt text"
+    description: "Every non-decorative image carries descriptive alt text. Screenshots, diagrams, and figures that convey information must have alt text that communicates the same information to a reader using a screen reader."
+  - name: "Headings form a strict, unbroken outline"
+    description: "Headings form a strict, unbroken outline. Heading levels descend by exactly one and never skip — an H2 is followed by H3 for its subsection, never by H4. There is exactly one H1 (the page title)."
+  - name: "Link text is meaningful out of context"
+    description: "Link text is meaningful out of context."
+  - name: "Do not rely on colour or diagrams alone"
+    description: "Do not rely on colour, or on diagrams, as the sole carrier of meaning. Information encoded only in colour (red = failed, green = passed) is lost to colour-blind readers and to anyone reading in monochrome. Pair colour with a label, shape, or text."
+  - name: "Author accessible, text-based diagrams"
+    description: "Diagrams meet contrast and labelling standards, and are text-authored. Author diagrams as text (Mermaid / PlantUML) so they are diffable, greppable, and re-themable, and so their node labels are real text rather than baked-in pixels."
+  - name: "Tables have headers"
+    description: "Tables have headers; data is not laid out with whitespace. Use real table markup with a header row so screen readers can announce each cell's column."
+  - name: "Fence code and avoid colour-only meaning"
+    description: "Code blocks are fenced with a language, and prose never depends on syntax colour. Fence every code block and tag its language so it is announced and highlighted consistently."
 
 patterns:
   - name: Informative alt text that carries the image's message
@@ -33,6 +40,56 @@ patterns:
       for how worktrees map to lanes.
     bad_example: |
       For how worktrees map to lanes, [click here](docs/architecture/execution-lanes.md).
+
+  - name: "Every non-decorative image carries descriptive alt text"
+    description: >-
+      Every non-decorative image carries descriptive alt text. Screenshots, diagrams, and figures that convey
+      information must have alt text that communicates the same information to a reader using a screen reader.
+      The alt text describes what the image says, not that it is an image — 'Kanban board with WP01 in review
+      and WP02 approved', not 'screenshot'. Purely decorative images carry empty alt (`alt=""`) so assistive
+      tech skips them.
+
+  - name: "Headings form a strict, unbroken outline"
+    description: >-
+      Headings form a strict, unbroken outline. Heading levels descend by exactly one and never skip — an H2
+      is followed by H3 for its subsection, never by H4. There is exactly one H1 (the page title).
+      Screen-reader users navigate by heading outline; a skipped or misused level breaks that navigation.
+      Headings are used for structure, never for visual size.
+
+  - name: "Link text is meaningful out of context"
+    description: >-
+      Link text is meaningful out of context. A link's visible text states its destination or action — 'read
+      the execution-lanes architecture' — because assistive tech can present a list of links stripped of
+      surrounding prose. 'Click here', 'this', 'read more', and a bare URL are prohibited as link text; they
+      are meaningless in that list and give no cue about where the link goes.
+
+  - name: "Do not rely on colour or diagrams alone"
+    description: >-
+      Do not rely on colour, or on diagrams, as the sole carrier of meaning. Information encoded only in
+      colour (red = failed, green = passed) is lost to colour-blind readers and to anyone reading in
+      monochrome. Pair colour with a label, shape, or text. Likewise, never state a fact only inside a
+      diagram: a Mermaid or PlantUML diagram is an enhancement, and the same relationship must also be stated
+      in the surrounding prose so a reader who cannot see the render still gets it.
+
+  - name: "Author accessible, text-based diagrams"
+    description: >-
+      Diagrams meet contrast and labelling standards, and are text-authored. Author diagrams as text (Mermaid
+      / PlantUML) so they are diffable, greppable, and re-themable, and so their node labels are real text
+      rather than baked-in pixels. Ensure node/edge labels have sufficient contrast against their fill; do not
+      encode a category by fill colour alone — also label it.
+
+  - name: "Tables have headers"
+    description: >-
+      Tables have headers; data is not laid out with whitespace. Use real table markup with a header row so
+      screen readers can announce each cell's column. Never simulate a table with aligned spaces or tabs — it
+      collapses into an unreadable run of text for assistive tech.
+
+  - name: "Fence code and avoid colour-only meaning"
+    description: >-
+      Code blocks are fenced with a language, and prose never depends on syntax colour. Fence every code block
+      and tag its language so it is announced and highlighted consistently. Any meaning a reader might take
+      from highlight colour must also be present in the code or a comment, because highlighting is theme- and
+      reader-dependent.
 
 anti_patterns:
   - name: Skipped or size-driven heading levels

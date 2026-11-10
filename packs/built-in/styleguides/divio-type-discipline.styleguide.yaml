@@ -5,13 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "One document, one Divio type. Every documentation page is exactly one of the four Divio quadrants — Tutorial, How-To, Reference, or Explanation — and declares that type in its frontmatter. A page that tries to be two types at once serves neither audience: a tutorial that pauses to explain architecture loses the beginner; a reference that narrates rationale loses the working developer scanning for a signature."
-  - "Match the type to the reader's situation, not to the author's convenience. Tutorials serve a beginner who is learning by doing and needs a guaranteed-to-work path. How-tos serve a competent user with a specific goal in the middle of real work. Reference serves a working developer who already knows what they want and needs an accurate, exhaustive description. Explanation serves an architect or decision-maker who wants to understand why. Choosing the wrong quadrant is the most common documentation defect."
-  - "Tutorials are learning-oriented and must not branch. A tutorial holds the reader's hand from a known start to a concrete, motivating result. It makes decisions for the reader, avoids alternatives and caveats, and every step must succeed for a first-time user on a clean environment. Optional detours, edge cases, and 'you could also' asides belong in a how-to or reference, never in a tutorial (source: packs/built-in/missions/documentation/templates/divio/tutorial-template.md)."
-  - "How-tos are task-oriented and goal-scoped. A how-to answers 'how do I achieve X?' for a reader who already has context. It states the goal, lists prerequisites, and gives the minimal ordered steps to the outcome. It does not teach fundamentals (link to a tutorial) and does not exhaustively describe every option (link to reference) (source: packs/built-in/missions/documentation/templates/divio/howto-template.md)."
-  - "Reference is information-oriented, exhaustive, and neutral. Reference describes the machinery — APIs, CLI flags, configuration keys, schema fields — accurately and completely, in a consistent structure, without narrative or opinion. It is consulted, not read front-to-back. Reference is where auto-generation (rustdoc, JSDoc, Sphinx autodoc) belongs; hand-written prose in a reference page is a smell unless it documents contract semantics the generator cannot infer (source: packs/built-in/missions/documentation/templates/divio/reference-template.md)."
-  - "Explanation is understanding-oriented and discusses trade-offs. Explanation illuminates a topic from a higher altitude — design rationale, historical context, alternatives considered, why the system is shaped the way it is. It is the natural home for the asides that would derail a tutorial or clutter a reference. An Architecture Decision Record is a bounded, dated form of explanation (source: packs/built-in/missions/documentation/templates/divio/explanation-template.md)."
-  - "Cross-link across quadrants instead of merging them. When a reader following one quadrant needs another, link — a tutorial links to reference for the full option list; a how-to links to explanation for the rationale. Linking preserves each page's single-audience focus while giving the reader a path to the adjacent need."
+  - name: "One document, one Divio type"
+    description: "One document, one Divio type. Every documentation page is exactly one of the four Divio quadrants — Tutorial, How-To, Reference, or Explanation — and declares that type in its frontmatter."
+  - name: "Match Divio type to the reader"
+    description: "Match the type to the reader's situation, not to the author's convenience. Tutorials serve a beginner who is learning by doing and needs a guaranteed-to-work path. How-tos serve a competent user with a specific goal in the middle of real work."
+  - name: "Tutorials are learning-oriented and must not branch"
+    description: "Tutorials are learning-oriented and must not branch. A tutorial holds the reader's hand from a known start to a concrete, motivating result."
+  - name: "How-tos are task-oriented and goal-scoped"
+    description: "How-tos are task-oriented and goal-scoped. A how-to answers 'how do I achieve X?' for a reader who already has context. It states the goal, lists prerequisites, and gives the minimal ordered steps to the outcome."
+  - name: "Reference is information-oriented, exhaustive, and neutral"
+    description: "Reference is information-oriented, exhaustive, and neutral. Reference describes the machinery — APIs, CLI flags, configuration keys, schema fields — accurately and completely, in a consistent structure, without narrative or opinion."
+  - name: "Explanation is understanding-oriented and discusses trade-offs"
+    description: "Explanation is understanding-oriented and discusses trade-offs. Explanation illuminates a topic from a higher altitude — design rationale, historical context, alternatives considered, why the system is shaped the way it is."
+  - name: "Cross-link across quadrants instead of merging them"
+    description: "Cross-link across quadrants instead of merging them. When a reader following one quadrant needs another, link — a tutorial links to reference for the full option list; a how-to links to explanation for the rationale."
 
 patterns:
   - name: Frontmatter declares the Divio type
@@ -43,6 +50,63 @@ patterns:
     bad_example: |
       docs/requests.md  # a tutorial intro, then every CLI flag, then a
                         # "Design Notes" section — three audiences, one page
+
+  - name: "One document, one Divio type"
+    description: >-
+      One document, one Divio type. Every documentation page is exactly one of the four Divio quadrants —
+      Tutorial, How-To, Reference, or Explanation — and declares that type in its frontmatter. A page that
+      tries to be two types at once serves neither audience: a tutorial that pauses to explain architecture
+      loses the beginner; a reference that narrates rationale loses the working developer scanning for a
+      signature.
+
+  - name: "Match Divio type to the reader"
+    description: >-
+      Match the type to the reader's situation, not to the author's convenience. Tutorials serve a beginner
+      who is learning by doing and needs a guaranteed-to-work path. How-tos serve a competent user with a
+      specific goal in the middle of real work. Reference serves a working developer who already knows what
+      they want and needs an accurate, exhaustive description. Explanation serves an architect or
+      decision-maker who wants to understand why. Choosing the wrong quadrant is the most common documentation
+      defect.
+
+  - name: "Tutorials are learning-oriented and must not branch"
+    description: >-
+      Tutorials are learning-oriented and must not branch. A tutorial holds the reader's hand from a known
+      start to a concrete, motivating result. It makes decisions for the reader, avoids alternatives and
+      caveats, and every step must succeed for a first-time user on a clean environment. Optional detours,
+      edge cases, and 'you could also' asides belong in a how-to or reference, never in a tutorial (source:
+      packs/built-in/missions/documentation/templates/divio/tutorial-template.md).
+
+  - name: "How-tos are task-oriented and goal-scoped"
+    description: >-
+      How-tos are task-oriented and goal-scoped. A how-to answers 'how do I achieve X?' for a reader who
+      already has context. It states the goal, lists prerequisites, and gives the minimal ordered steps to the
+      outcome. It does not teach fundamentals (link to a tutorial) and does not exhaustively describe every
+      option (link to reference) (source:
+      packs/built-in/missions/documentation/templates/divio/howto-template.md).
+
+  - name: "Reference is information-oriented, exhaustive, and neutral"
+    description: >-
+      Reference is information-oriented, exhaustive, and neutral. Reference describes the machinery — APIs,
+      CLI flags, configuration keys, schema fields — accurately and completely, in a consistent structure,
+      without narrative or opinion. It is consulted, not read front-to-back. Reference is where
+      auto-generation (rustdoc, JSDoc, Sphinx autodoc) belongs; hand-written prose in a reference page is a
+      smell unless it documents contract semantics the generator cannot infer (source:
+      packs/built-in/missions/documentation/templates/divio/reference-template.md).
+
+  - name: "Explanation is understanding-oriented and discusses trade-offs"
+    description: >-
+      Explanation is understanding-oriented and discusses trade-offs. Explanation illuminates a topic from a
+      higher altitude — design rationale, historical context, alternatives considered, why the system is
+      shaped the way it is. It is the natural home for the asides that would derail a tutorial or clutter a
+      reference. An Architecture Decision Record is a bounded, dated form of explanation (source:
+      packs/built-in/missions/documentation/templates/divio/explanation-template.md).
+
+  - name: "Cross-link across quadrants instead of merging them"
+    description: >-
+      Cross-link across quadrants instead of merging them. When a reader following one quadrant needs another,
+      link — a tutorial links to reference for the full option list; a how-to links to explanation for the
+      rationale. Linking preserves each page's single-audience focus while giving the reader a path to the
+      adjacent need.
 
 anti_patterns:
   - name: Tutorial that branches on reader choices

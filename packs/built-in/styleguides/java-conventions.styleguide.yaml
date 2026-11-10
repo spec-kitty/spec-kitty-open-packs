@@ -6,15 +6,24 @@ applies_to_languages:
   - java
 
 principles:
-  - "Naming conventions: classes and interfaces in PascalCase; methods, fields, and local variables in camelCase; constants in UPPER_SNAKE_CASE; packages in lowercase dot-separated segments."
-  - "Null safety: never return null from public methods — use Optional<T> for absent values. Fail fast with Objects.requireNonNull on constructor and method parameters."
-  - "Try-with-resources: always use try-with-resources for Closeable/AutoCloseable resources. Never rely on manual close() calls in finally blocks."
-  - "Explicit encoding: always specify StandardCharsets.UTF_8 (or an explicit Charset) when constructing readers, writers, or String conversions. Never rely on platform default encoding."
-  - "Specific exception types: catch and declare the most specific exception type applicable. Never catch Exception or Throwable unless at a top-level boundary."
-  - "Quad-A test structure: every test method follows Arrange, Assumption-check (assertThat preconditions), Act, Assert."
-  - "Test Data Builder pattern: use static factory methods or builder classes to create test objects. Never scatter new SomeEntity(...) constructor calls across test methods."
-  - "AssertJ for assertions: use AssertJ (assertThat(...).isEqualTo(...)) rather than JUnit assertEquals. Prefer chained fluent assertions for readability."
-  - "One assertion focus per test: each test validates a single behavior. Use @ParameterizedTest for variations."
+  - name: "Naming conventions"
+    description: "Naming conventions: classes and interfaces in PascalCase; methods, fields, and local variables in camelCase; constants in UPPER_SNAKE_CASE; packages in lowercase dot-separated segments."
+  - name: "Null safety"
+    description: "Null safety: never return null from public methods — use Optional<T> for absent values. Fail fast with Objects.requireNonNull on constructor and method parameters."
+  - name: "Manage resources with try-with-resources"
+    description: "Try-with-resources: always use try-with-resources for Closeable/AutoCloseable resources. Never rely on manual close() calls in finally blocks."
+  - name: "Explicit encoding"
+    description: "Explicit encoding: always specify StandardCharsets.UTF_8 (or an explicit Charset) when constructing readers, writers, or String conversions. Never rely on platform default encoding."
+  - name: "Specific exception types"
+    description: "Specific exception types: catch and declare the most specific exception type applicable. Never catch Exception or Throwable unless at a top-level boundary."
+  - name: "Quad-A test structure"
+    description: "Quad-A test structure: every test method follows Arrange, Assumption-check (assertThat preconditions), Act, Assert."
+  - name: "Test Data Builder pattern"
+    description: "Test Data Builder pattern: use static factory methods or builder classes to create test objects. Never scatter new SomeEntity(...) constructor calls across test methods."
+  - name: "AssertJ for assertions"
+    description: "AssertJ for assertions: use AssertJ (assertThat(...).isEqualTo(...)) rather than JUnit assertEquals. Prefer chained fluent assertions for readability."
+  - name: "One assertion focus per test"
+    description: "One assertion focus per test: each test validates a single behavior. Use @ParameterizedTest for variations."
 
 patterns:
   - name: Optional for Absent Values

@@ -3,108 +3,34 @@ id: meeting-minutes-format
 title: Meeting minutes format
 scope: docs
 principles:
-  - >
-    Two output formats. This styleguide governs both minutes formats the
-    Minutes Mahad agent can produce, and the agent asks the user which one to
-    use before agenda resolution or extraction (see meeting-minutes-pipeline,
-    step "Select minutes format"). Format 1 — DECISION MINUTES — is the executive record for
-    decision- and action-oriented meetings (Attendance / Minutes table /
-    Action Items; action attribution is a hard gate). Format 2 — DISCUSSION
-    NOTES — is a stand-alone briefing for discussion-oriented meetings
-    (Attendance / Topics Discussed / optional Action Items). The shared
-    principles below (title suffix, em-dash, stand-alone readability, no
-    invented content) apply to both; the format-specific principles are
-    labelled "Decision minutes:" or "Discussion notes:".
-  - >
-    Companion templates. Decision minutes use meeting-minutes
-    (templates/writing/meeting-minutes.md); discussion notes use
-    meeting-discussion-notes (templates/writing/meeting-discussion-notes.md).
-    Use the template matching the selected format as the canonical Markdown
-    scaffold for the originating chat response (and when manually
-    authoring or reviewing minutes). The same validated Markdown is reused if
-    the user later requests optional wiki publication. Each template is
-    pre-structured to match this styleguide's section order and layout for its
-    format.
-  - >
-    Decision minutes:
-    Document title uses the pattern "{Meeting Name} — Minutes" (em-dash, not hyphen).
-    The suffix " — Minutes" is always appended so the response is identifiable
-    in the originating chat, and so an optionally published wiki page is
-    identifiable in search and parent-page task roll-ups, without opening the
-    transcript.
-  - >
-    Decision minutes:
-    Three sections in fixed order: Attendance, Minutes, Action Items. Do not
-    reorder, rename, or merge sections. The fixed order is the format contract
-    for stand-alone minutes delivered in chat. When optionally published, the
-    same order is required for wiki task roll-up (action items aggregate
-    to the parent page only when they appear in the Action Items section).
-  - >
-    Decision minutes:
-    The Minutes section is a table with five columns in order: #, Agenda Item,
-    Notes, Decisions, Presenter. Do not add, remove, or reorder columns. Each
-    row is one agenda item (or one discovered topic in agenda-less mode).
-  - >
-    Decision minutes:
-    Notes brevity rule: at most 3–4 bullet phrases per agenda item, each
-    approximately 6–14 words. These are executive minutes — capture only the
-    major talking point of each item, not the discussion that led to it.
-    Separate multiple bullets with " / " in the stored string.
-  - >
-    Decision minutes:
-    Decisions column: one short line per decision, outcome only. Add
-    "— because <reason>" only if the reason was explicitly stated in the meeting
-    and is essential to understanding the decision. If no decision was reached,
-    leave the cell empty. Do not narrate the debate.
-  - >
-    Discussion notes:
-    Document title uses the pattern "{Meeting Name} — Discussion Notes"
-    (em-dash, not hyphen). The " — Discussion Notes" suffix distinguishes this
-    format from decision minutes at a glance in the originating chat and in any
-    optionally published wiki page, without opening the transcript.
-  - >
-    Discussion notes:
-    Two sections in fixed order — Attendance, Topics Discussed — plus an
-    OPTIONAL third section, Action Items, included only when concrete actions
-    were raised. Do not reorder or rename the sections. If no actions came up,
-    omit the Action Items section entirely rather than emitting an empty table.
-  - >
-    Discussion notes:
-    The Topics Discussed section is NOT a table. It is one "### {Topic}" heading
-    per discussed topic (aim for 3–8 topics), each followed by a bullet list.
-    Add an italic "_Presenter: {Name}_" line under a heading only when one
-    person clearly led that topic; omit it for open discussion.
-  - >
-    Discussion notes:
-    Per-topic bullets are a stand-alone summary, not the executive one-liner of
-    decision minutes and not a transcript. Write complete phrases — typically
-    3–7 bullets per topic, no hard word cap — that let a reader who was not
-    present understand what was covered, the reasoning, and where it landed
-    (including open questions). Capture substance over play-by-play; do not
-    reproduce the back-and-forth turn by turn.
-  - >
-    Discussion notes:
-    Action Items are OPTIONAL — omit the section when nothing actionable arose.
-    But any action that IS recorded must still carry a named owner
-    (ACTION_ITEM_ATTRIBUTION applies to every action present, in either format).
-    The absence of actions is valid for discussion notes; an ownerless action
-    is not.
-  - >
-    Action items have two representations of the same contract:
-    (1) Extraction string: "Owner Name — task description" with an em-dash.
-    If a deadline was stated: "Owner Name — task description (by <deadline>)".
-    Separate multiple actions from one agenda item with " / ".
-    (2) Rendered Markdown table (canonical for chat and wiki): columns
-    Owner | Action | Deadline. Split the extraction string so Owner is the
-    name before the em-dash, Action is the task text without the "(by …)"
-    suffix, and Deadline is the stated deadline or empty. Do not leave the
-    combined "Owner — task" string in the Owner column. Owner is mandatory
-    (see ACTION_ITEM_ATTRIBUTION directive).
-  - >
-    Attendance section: a single-column table listing the full name of every
-    speaker who actually spoke in the transcript, as their name appears in the
-    transcript. Do not infer or guess attendees from context — only speakers
-    with at least one utterance are listed.
+  - name: "Two output formats"
+    description: "Two output formats. This styleguide governs both minutes formats the Minutes Mahad agent can produce, and the agent asks the user which one to use before agenda resolution or extraction (see meeting-minutes-pipeline, step \"Select minutes format\")."
+  - name: "Companion templates"
+    description: "Companion templates. Decision minutes use meeting-minutes (templates/writing/meeting-minutes.md); discussion notes use meeting-discussion-notes (templates/writing/meeting-discussion-notes.md)."
+  - name: "Decision minutes: document title"
+    description: "Decision minutes: Document title uses the pattern \"{Meeting Name} — Minutes\" (em-dash, not hyphen)."
+  - name: "Decision minutes: fixed section order"
+    description: "Decision minutes: Three sections in fixed order: Attendance, Minutes, Action Items. Do not reorder, rename, or merge sections. The fixed order is the format contract for stand-alone minutes delivered in chat."
+  - name: "Decision minutes: minutes table"
+    description: "Decision minutes: The Minutes section is a table with five columns in order: #, Agenda Item, Notes, Decisions, Presenter. Do not add, remove, or reorder columns. Each row is one agenda item (or one discovered topic in agenda-less mode)."
+  - name: "Decision minutes: notes brevity"
+    description: "Decision minutes: Notes brevity rule: at most 3–4 bullet phrases per agenda item, each approximately 6–14 words. These are executive minutes — capture only the major talking point of each item, not the discussion that led to it."
+  - name: "Decision minutes: decisions column"
+    description: "Decision minutes: Decisions column: one short line per decision, outcome only. Add \"— because <reason>\" only if the reason was explicitly stated in the meeting and is essential to understanding the decision."
+  - name: "Discussion notes: document title"
+    description: "Discussion notes: Document title uses the pattern \"{Meeting Name} — Discussion Notes\" (em-dash, not hyphen)."
+  - name: "Discussion notes: section order"
+    description: "Discussion notes: Two sections in fixed order — Attendance, Topics Discussed — plus an OPTIONAL third section, Action Items, included only when concrete actions were raised. Do not reorder or rename the sections."
+  - name: "Discussion notes: topic format"
+    description: "Discussion notes: The Topics Discussed section is NOT a table. It is one \"### {Topic}\" heading per discussed topic (aim for 3–8 topics), each followed by a bullet list."
+  - name: "Discussion notes: per-topic summaries"
+    description: "Discussion notes: Per-topic bullets are a stand-alone summary, not the executive one-liner of decision minutes and not a transcript."
+  - name: "Discussion notes: optional action items"
+    description: "Discussion notes: Action Items are OPTIONAL — omit the section when nothing actionable arose. But any action that IS recorded must still carry a named owner (ACTION_ITEM_ATTRIBUTION applies to every action present, in either format)."
+  - name: "Action items use one contract"
+    description: "Action items have two representations of the same contract: (1) Extraction string: \"Owner Name — task description\" with an em-dash. If a deadline was stated: \"Owner Name — task description (by <deadline>)\"."
+  - name: "Attendance section"
+    description: "Attendance section: a single-column table listing the full name of every speaker who actually spoke in the transcript, as their name appears in the transcript."
 
 patterns:
   - name: Well-formed agenda item row
@@ -147,6 +73,102 @@ patterns:
       - Talked about hosting
       - Various options discussed
       - See recording for details
+
+  - name: "Two output formats"
+    description: >-
+      Two output formats. This styleguide governs both minutes formats the Minutes Mahad agent can produce,
+      and the agent asks the user which one to use before agenda resolution or extraction (see
+      meeting-minutes-pipeline, step "Select minutes format"). Format 1 — DECISION MINUTES — is the executive
+      record for decision- and action-oriented meetings (Attendance / Minutes table / Action Items; action
+      attribution is a hard gate). Format 2 — DISCUSSION NOTES — is a stand-alone briefing for
+      discussion-oriented meetings (Attendance / Topics Discussed / optional Action Items). The shared
+      principles below (title suffix, em-dash, stand-alone readability, no invented content) apply to both;
+      the format-specific principles are labelled "Decision minutes:" or "Discussion notes:".
+
+  - name: "Companion templates"
+    description: >-
+      Companion templates. Decision minutes use meeting-minutes (templates/writing/meeting-minutes.md);
+      discussion notes use meeting-discussion-notes (templates/writing/meeting-discussion-notes.md). Use the
+      template matching the selected format as the canonical Markdown scaffold for the originating chat
+      response (and when manually authoring or reviewing minutes). The same validated Markdown is reused if
+      the user later requests optional wiki publication. Each template is pre-structured to match this
+      styleguide's section order and layout for its format.
+
+  - name: "Decision minutes: document title"
+    description: >-
+      Decision minutes: Document title uses the pattern "{Meeting Name} — Minutes" (em-dash, not hyphen). The
+      suffix " — Minutes" is always appended so the response is identifiable in the originating chat, and so
+      an optionally published wiki page is identifiable in search and parent-page task roll-ups, without
+      opening the transcript.
+
+  - name: "Decision minutes: fixed section order"
+    description: >-
+      Decision minutes: Three sections in fixed order: Attendance, Minutes, Action Items. Do not reorder,
+      rename, or merge sections. The fixed order is the format contract for stand-alone minutes delivered in
+      chat. When optionally published, the same order is required for wiki task roll-up (action items
+      aggregate to the parent page only when they appear in the Action Items section).
+
+  - name: "Decision minutes: notes brevity"
+    description: >-
+      Decision minutes: Notes brevity rule: at most 3–4 bullet phrases per agenda item, each approximately
+      6–14 words. These are executive minutes — capture only the major talking point of each item, not the
+      discussion that led to it. Separate multiple bullets with " / " in the stored string.
+
+  - name: "Decision minutes: decisions column"
+    description: >-
+      Decision minutes: Decisions column: one short line per decision, outcome only. Add "— because <reason>"
+      only if the reason was explicitly stated in the meeting and is essential to understanding the decision.
+      If no decision was reached, leave the cell empty. Do not narrate the debate.
+
+  - name: "Discussion notes: document title"
+    description: >-
+      Discussion notes: Document title uses the pattern "{Meeting Name} — Discussion Notes" (em-dash, not
+      hyphen). The " — Discussion Notes" suffix distinguishes this format from decision minutes at a glance in
+      the originating chat and in any optionally published wiki page, without opening the transcript.
+
+  - name: "Discussion notes: section order"
+    description: >-
+      Discussion notes: Two sections in fixed order — Attendance, Topics Discussed — plus an OPTIONAL third
+      section, Action Items, included only when concrete actions were raised. Do not reorder or rename the
+      sections. If no actions came up, omit the Action Items section entirely rather than emitting an empty
+      table.
+
+  - name: "Discussion notes: topic format"
+    description: >-
+      Discussion notes: The Topics Discussed section is NOT a table. It is one "### {Topic}" heading per
+      discussed topic (aim for 3–8 topics), each followed by a bullet list. Add an italic "_Presenter:
+      {Name}_" line under a heading only when one person clearly led that topic; omit it for open discussion.
+
+  - name: "Discussion notes: per-topic summaries"
+    description: >-
+      Discussion notes: Per-topic bullets are a stand-alone summary, not the executive one-liner of decision
+      minutes and not a transcript. Write complete phrases — typically 3–7 bullets per topic, no hard word cap
+      — that let a reader who was not present understand what was covered, the reasoning, and where it landed
+      (including open questions). Capture substance over play-by-play; do not reproduce the back-and-forth
+      turn by turn.
+
+  - name: "Discussion notes: optional action items"
+    description: >-
+      Discussion notes: Action Items are OPTIONAL — omit the section when nothing actionable arose. But any
+      action that IS recorded must still carry a named owner (ACTION_ITEM_ATTRIBUTION applies to every action
+      present, in either format). The absence of actions is valid for discussion notes; an ownerless action is
+      not.
+
+  - name: "Action items use one contract"
+    description: >-
+      Action items have two representations of the same contract: (1) Extraction string: "Owner Name — task
+      description" with an em-dash. If a deadline was stated: "Owner Name — task description (by <deadline>)".
+      Separate multiple actions from one agenda item with " / ". (2) Rendered Markdown table (canonical for
+      chat and wiki): columns Owner | Action | Deadline. Split the extraction string so Owner is the name
+      before the em-dash, Action is the task text without the "(by …)" suffix, and Deadline is the stated
+      deadline or empty. Do not leave the combined "Owner — task" string in the Owner column. Owner is
+      mandatory (see ACTION_ITEM_ATTRIBUTION directive).
+
+  - name: "Attendance section"
+    description: >-
+      Attendance section: a single-column table listing the full name of every speaker who actually spoke in
+      the transcript, as their name appears in the transcript. Do not infer or guess attendees from context —
+      only speakers with at least one utterance are listed.
 
 anti_patterns:
   - name: Transcript-level detail in notes
