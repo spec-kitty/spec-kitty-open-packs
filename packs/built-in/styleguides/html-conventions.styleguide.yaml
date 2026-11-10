@@ -24,19 +24,32 @@ applies_to_languages:
 # spec-kitty-open-packs#131.
 
 principles:
-  - "Document skeleton: start with `<!doctype html>`, declare the page language on the `<html lang=\"…\">` element, and put `<meta charset=\"utf-8\">` at the top of `<head>` (it must fall within the first 1024 bytes of the document). Save files as UTF-8 without a byte-order mark."
-  - "Responsive pages declare the viewport: `<meta name=\"viewport\" content=\"width=device-width\">`. Without it, mobile browsers lay the page out in a wide (typically 980px) virtual viewport and scale it down, so width media queries do not match as intended."
-  - "Use each element for its purpose: `<a href>` navigates, `<button>` acts, headings are nested by rank without skipping a level, lists hold lists, and `<table>` holds tabular data only, never layout."
-  - "Mark up page regions with landmark elements (`<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>`), with one `<main>` per page."
-  - "Write valid HTML where possible and check it with a validator (in CI, as a house rule). Validity is a measurable baseline and catches errors a browser silently repairs."
-  - "Separate structure, presentation and behaviour: no `style` attributes, no `on*` handler attributes, no inline `<script>` logic. Presentation lives in stylesheets, behaviour in scripts referenced with `src`."
-  - "Every informative image has `alt` text that says what the image conveys; a decorative image has `alt=\"\"`. Audio and video have captions or transcripts."
-  - "Every form control has a label associated with it, explicitly (`<label for>` matching the control's `id`) or implicitly (a wrapping `<label>`), so assistive technology announces it and a click on the label activates the control."
-  - "Native semantics before ARIA: add a `role` or `aria-*` attribute only when no native element expresses the meaning. Do not restate an element's implicit role, and do not override its native semantics unless there is no alternative."
-  - "Formatting: lowercase element names, attribute names and attribute values (except text and CDATA), two-space indentation with no tabs, a new line for every block, list or table element with its children indented, double quotes around attribute values, no trailing whitespace."
-  - "Leave out `type` on stylesheet links and classic scripts (CSS and JavaScript are the defaults); write `type=\"module\"` only for module scripts. Load embedded resources over HTTPS where they are available over HTTPS."
-  - "Type characters directly in UTF-8; use entity references only for characters with special meaning in HTML (`&lt;`, `&amp;`) and for invisible characters such as non-breaking spaces."
-  - "Hooks: use `class` for styling and `data-*` attributes for scripting. Add an `id` only where it is needed (a `label for`, a fragment link, an ARIA reference), and keep ids unique and hyphenated (a hyphenated id cannot shadow a JavaScript global, since browsers expose ids as `window` properties)."
+  - name: "Document skeleton"
+    description: "Document skeleton: start with `<!doctype html>`, declare the page language on the `<html lang=\"…\">` element, and put `<meta charset=\"utf-8\">` at the top of `<head>` (it must fall within the first 1024 bytes of the document)."
+  - name: "Responsive pages declare the viewport"
+    description: "Responsive pages declare the viewport: `<meta name=\"viewport\" content=\"width=device-width\">`. Without it, mobile browsers lay the page out in a wide (typically 980px) virtual viewport and scale it down, so width media queries do not match as intended."
+  - name: "Use each element for its purpose"
+    description: "Use each element for its purpose: `<a href>` navigates, `<button>` acts, headings are nested by rank without skipping a level, lists hold lists, and `<table>` holds tabular data only, never layout."
+  - name: "Use landmark elements for page regions"
+    description: "Mark up page regions with landmark elements (`<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>`), with one `<main>` per page."
+  - name: "Validate HTML"
+    description: "Write valid HTML where possible and check it with a validator (in CI, as a house rule). Validity is a measurable baseline and catches errors a browser silently repairs."
+  - name: "Separate structure, presentation and behaviour"
+    description: "Separate structure, presentation and behaviour: no `style` attributes, no `on*` handler attributes, no inline `<script>` logic. Presentation lives in stylesheets, behaviour in scripts referenced with `src`."
+  - name: "Provide text alternatives for media"
+    description: "Every informative image has `alt` text that says what the image conveys; a decorative image has `alt=\"\"`. Audio and video have captions or transcripts."
+  - name: "Label every form control"
+    description: "Every form control has a label associated with it, explicitly (`<label for>` matching the control's `id`) or implicitly (a wrapping `<label>`), so assistive technology announces it and a click on the label activates the control."
+  - name: "Native semantics before ARIA"
+    description: "Native semantics before ARIA: add a `role` or `aria-*` attribute only when no native element expresses the meaning. Do not restate an element's implicit role, and do not override its native semantics unless there is no alternative."
+  - name: "Format HTML consistently"
+    description: "Format HTML consistently: use lowercase markup where applicable, two-space indentation without tabs, new lines and indentation for nested structural elements, double-quoted attributes, and no trailing whitespace."
+  - name: "Omit redundant script and stylesheet types"
+    description: "Leave out `type` on stylesheet links and classic scripts (CSS and JavaScript are the defaults); write `type=\"module\"` only for module scripts. Load embedded resources over HTTPS where they are available over HTTPS."
+  - name: "Type characters directly in UTF-8"
+    description: "Type characters directly in UTF-8; use entity references only for characters with special meaning in HTML (`&lt;`, `&amp;`) and for invisible characters such as non-breaking spaces."
+  - name: "Separate styling and scripting hooks"
+    description: "Hooks: use `class` for styling and `data-*` attributes for scripting."
 
 patterns:
   - name: Minimal Responsive Document
@@ -71,6 +84,24 @@ patterns:
     good_example: |
       <a href="/orders/42">View order</a>
       <button type="button" data-action="cancel-order">Cancel order</button>
+
+  - name: "Document skeleton"
+    description: >-
+      Document skeleton: start with `<!doctype html>`, declare the page language on the `<html lang="…">`
+      element, and put `<meta charset="utf-8">` at the top of `<head>` (it must fall within the first 1024
+      bytes of the document). Save files as UTF-8 without a byte-order mark.
+
+  - name: "Format HTML consistently"
+    description: >-
+      Formatting: lowercase element names, attribute names and attribute values (except text and CDATA),
+      two-space indentation with no tabs, a new line for every block, list or table element with its children
+      indented, double quotes around attribute values, no trailing whitespace.
+
+  - name: "Separate styling and scripting hooks"
+    description: >-
+      Hooks: use `class` for styling and `data-*` attributes for scripting. Add an `id` only where it is
+      needed (a `label for`, a fragment link, an ARIA reference), and keep ids unique and hyphenated (a
+      hyphenated id cannot shadow a JavaScript global, since browsers expose ids as `window` properties).
 
 anti_patterns:
   - name: Div as Button

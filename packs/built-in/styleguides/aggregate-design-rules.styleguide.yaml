@@ -4,9 +4,12 @@ title: Aggregate Design Rules
 scope: architecture
 
 principles:
-  - "Reference other aggregates by identity only: an aggregate must not hold a direct object reference to another aggregate. Use the other aggregate's ID instead to prevent transaction scope from spanning multiple aggregates."
-  - "Keep aggregates small: prefer small aggregates with few entities. Large aggregates create contention, slow load times, and complex transaction logic. Split if parts change independently and do not share invariants."
-  - "Design for eventual consistency between aggregates: when a business process spans multiple aggregates, use domain events to coordinate. The first aggregate commits and publishes an event; other aggregates react asynchronously."
+  - name: "Reference other aggregates by identity only"
+    description: "Reference other aggregates by identity only: an aggregate must not hold a direct object reference to another aggregate. Use the other aggregate's ID instead to prevent transaction scope from spanning multiple aggregates."
+  - name: "Keep aggregates small"
+    description: "Keep aggregates small: prefer small aggregates with few entities. Large aggregates create contention, slow load times, and complex transaction logic. Split if parts change independently and do not share invariants."
+  - name: "Design for eventual consistency between aggregates"
+    description: "Design for eventual consistency between aggregates: when a business process spans multiple aggregates, use domain events to coordinate. The first aggregate commits and publishes an event; other aggregates react asynchronously."
 
 patterns:
   - name: Identity Reference

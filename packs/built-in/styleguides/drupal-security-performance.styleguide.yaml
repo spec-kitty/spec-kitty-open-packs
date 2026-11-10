@@ -7,15 +7,24 @@ applies_to_languages:
   - twig
 
 principles:
-  - "Escape by default: rely on Twig auto-escaping; `|raw` is a deliberate, justified exception, never a convenience."
-  - "Access-check every entity query: explicit `accessCheck()` has been required since Drupal 9.2 and throws an error from Drupal 10.0 -- on Drupal 10/11 an unchecked query is a hard failure, not a warning (source: Drupal.org change record https://www.drupal.org/node/3201242, which this entry follows rather than the amazee.io source: deprecated in 9.2.0, an error from 10.0.0)."
-  - "An access-check bypass is a decision, not an oversight: `accessCheck(FALSE)` is only ever explicit and commented."
-  - "Cacheability is not optional: every render array that depends on data declares its tags, contexts, and max-age."
-  - "Cache contexts encode who content is for: a missing user-scoped context can leak one visitor's content to another."
-  - "Invalidate by cache tag on save, not by guessing an expiry: correctness first, freshness second."
-  - "Credentials never enter version control, not even briefly: git history retains what a later commit deletes."
-  - "Load entities in bulk: `loadMultiple()` over a loop of individual `load()` calls avoids an N+1 query storm."
-  - "Long-running work belongs in Batch or Queue API, never a single request that can hit the execution-time limit. Sources: amazee.io drupal-agents-md, Vanilla variant: Security & Performance Guidelines, Caching Strategies, Anti-Patterns #3, #6, #7, #10, #11 (https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md)."
+  - name: "Escape by default"
+    description: "Escape by default: rely on Twig auto-escaping; `|raw` is a deliberate, justified exception, never a convenience."
+  - name: "Access-check every entity query"
+    description: "Access-check every entity query: explicit `accessCheck()` is required from Drupal 9.2 and an unchecked query is a hard failure from Drupal 10.0. Follow the Drupal.org change record over the conflicting amazee.io source."
+  - name: "Make access-check bypasses explicit"
+    description: "An access-check bypass is a decision, not an oversight: `accessCheck(FALSE)` is only ever explicit and commented."
+  - name: "Cacheability is not optional"
+    description: "Cacheability is not optional: every render array that depends on data declares its tags, contexts, and max-age."
+  - name: "Cache contexts encode who content is for"
+    description: "Cache contexts encode who content is for: a missing user-scoped context can leak one visitor's content to another."
+  - name: "Invalidate caches by tag"
+    description: "Invalidate by cache tag on save, not by guessing an expiry: correctness first, freshness second."
+  - name: "Credentials never enter version control, not even briefly"
+    description: "Credentials never enter version control, not even briefly: git history retains what a later commit deletes."
+  - name: "Load entities in bulk"
+    description: "Load entities in bulk: `loadMultiple()` over a loop of individual `load()` calls avoids an N+1 query storm."
+  - name: "Use Batch or Queue for long-running work"
+    description: "Long-running work belongs in Batch or Queue API, never a single request that can hit the execution-time limit."
 
 patterns:
   - name: Cache Contexts For Personalized Output
@@ -95,6 +104,20 @@ patterns:
         ];
         batch_set($batch);
       }
+
+  - name: "Access-check every entity query"
+    description: >-
+      Access-check every entity query: explicit `accessCheck()` has been required since Drupal 9.2 and throws
+      an error from Drupal 10.0 -- on Drupal 10/11 an unchecked query is a hard failure, not a warning
+      (source: Drupal.org change record https://www.drupal.org/node/3201242, which this entry follows rather
+      than the amazee.io source: deprecated in 9.2.0, an error from 10.0.0).
+
+  - name: "Use Batch or Queue for long-running work"
+    description: >-
+      Long-running work belongs in Batch or Queue API, never a single request that can hit the execution-time
+      limit. Sources: amazee.io drupal-agents-md, Vanilla variant: Security & Performance Guidelines, Caching
+      Strategies, Anti-Patterns #3, #6, #7, #10, #11
+      (https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md).
 
 anti_patterns:
   - name: Twig Output Escaping

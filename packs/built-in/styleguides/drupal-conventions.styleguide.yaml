@@ -7,16 +7,26 @@ applies_to_languages:
   - twig
 
 principles:
-  - "Dependency injection over static calls: services arrive through the constructor; `\\Drupal::` is acceptable only inside `hook_` functions in `.module` files."
-  - "Entity API over direct queries: use entity storage and Entity Query rather than hand-written SQL."
-  - "Config for structured settings, State for ephemeral data: `configFactory()` is exportable and versioned; `\\Drupal::state()` is not."
-  - "Thin `.module` files: hook implementations route to injected services; business logic lives in `src/`."
-  - "Plugins declare their contract via annotation and receive dependencies through `create()`, never manual instantiation."
-  - "Forms extend the narrowest applicable base class (`ConfigFormBase`, `FormBase`) and declare editable config names explicitly."
-  - "Routes name a required permission explicitly; controllers receive dependencies through `create()`, never `\\Drupal::`."
-  - "Resolve identifiers dynamically: entity IDs, user IDs, and paths differ across environments."
-  - "Theming follows Drupal's asset pipeline: `*.libraries.yml` declarations and `Drupal.behaviors` with `once()`, not inline `<script>` or `document.ready`."
-  - "Views table columns are always aliased: ambiguous column names break at scale, not at authoring time. Sources: amazee.io drupal-agents-md, Vanilla variant (https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md); Drupal coding standards (https://www.drupal.org/docs/develop/standards)."
+  - name: "Dependency injection over static calls"
+    description: "Dependency injection over static calls: services arrive through the constructor; `\\Drupal::` is acceptable only inside `hook_` functions in `.module` files."
+  - name: "Entity API over direct queries"
+    description: "Entity API over direct queries: use entity storage and Entity Query rather than hand-written SQL."
+  - name: "Config for structured settings, State for ephemeral data"
+    description: "Config for structured settings, State for ephemeral data: `configFactory()` is exportable and versioned; `\\Drupal::state()` is not."
+  - name: "Thin `.module` files"
+    description: "Thin `.module` files: hook implementations route to injected services; business logic lives in `src/`."
+  - name: "Declare plugin contracts and inject dependencies"
+    description: "Plugins declare their contract via annotation and receive dependencies through `create()`, never manual instantiation."
+  - name: "Extend the narrowest form base class"
+    description: "Forms extend the narrowest applicable base class (`ConfigFormBase`, `FormBase`) and declare editable config names explicitly."
+  - name: "Routes name a required permission explicitly"
+    description: "Routes name a required permission explicitly; controllers receive dependencies through `create()`, never `\\Drupal::`."
+  - name: "Resolve identifiers dynamically"
+    description: "Resolve identifiers dynamically: entity IDs, user IDs, and paths differ across environments."
+  - name: "Theming follows Drupal's asset pipeline"
+    description: "Theming follows Drupal's asset pipeline: `*.libraries.yml` declarations and `Drupal.behaviors` with `once()`, not inline `<script>` or `document.ready`."
+  - name: "Views table columns are always aliased"
+    description: "Views table columns are always aliased: ambiguous column names break at scale, not at authoring time."
 
 patterns:
   - name: Plugin With Annotation
@@ -114,6 +124,13 @@ patterns:
         '#theme' => 'my_widget',
         '#label' => $node->label(),
       ];
+
+  - name: "Views table columns are always aliased"
+    description: >-
+      Views table columns are always aliased: ambiguous column names break at scale, not at authoring time.
+      Sources: amazee.io drupal-agents-md, Vanilla variant
+      (https://github.com/amazeeio/drupal-agents-md/blob/main/Vanilla/AGENTS.md); Drupal coding standards
+      (https://www.drupal.org/docs/develop/standards).
 
 anti_patterns:
   - name: Constructor Dependency Injection

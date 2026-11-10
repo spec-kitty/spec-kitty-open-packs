@@ -3,11 +3,17 @@ id: deployable-skill-authoring
 title: Deployable Skill Authoring Styleguide
 scope: docs
 principles:
-  - "A skill description is a routing contract: it must name what the skill does and the concrete triggers that should cause an agent to load it."
-  - "Keep SKILL.md focused on the common path. Move rare, long, or provider-specific detail into references, scripts, or assets."
-  - "Prefer deterministic scripts for repeatable validation, formatting, extraction, or setup work instead of asking agents to regenerate shell logic from prose."
-  - "Use stable, project-owned terminology so the same skill can be distributed across supported host surfaces without rewriting its concepts (source: docs/host-surface-parity.md; docs/adr/3.x/2026-04-14-2-agent-skills-renderer-for-codex-and-vibe.md)."
-  - "Review skills as executable governance: check trigger precision, context size, source authority, failure handling, and host portability."
+  - name: "A skill description is a routing contract"
+    description: "A skill description is a routing contract: it must name what the skill does and the concrete triggers that should cause an agent to load it."
+  - name: "Keep SKILL.md focused on the common path"
+    description: "Keep SKILL.md focused on the common path. Move rare, long, or provider-specific detail into references, scripts, or assets."
+  - name: "Use deterministic validation scripts"
+    description: "Prefer deterministic scripts for repeatable validation, formatting, extraction, or setup work instead of asking agents to regenerate shell logic from prose."
+  - name: "Use stable project-owned terminology"
+    description: "Use stable, project-owned terminology so the same skill can be distributed across supported host surfaces without rewriting its concepts (source: docs/host-surface-parity.md; docs/adr/3.x/2026-04-14-2-agent-skills-renderer-for-codex-and-vibe.md)."
+  - name: "Review skills as executable governance"
+    description: "Review skills as executable governance: check trigger precision, context size, source authority, failure handling, and host portability."
+
 patterns:
   - name: Trigger-rich description
     description: >
