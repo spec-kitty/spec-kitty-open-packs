@@ -1,8 +1,7 @@
 profile-id: qa-reporter-rhea
 name: qa-reporter-rhea
 schema-version: "1.0"
-roles:
-  - qa-reporter
+role: qa-reporter
 
 purpose: >
   qa-reporter-rhea owns the reporting step of the QA lifecycle: recomputing

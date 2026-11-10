@@ -3,8 +3,8 @@ schema-version: "1.0"
 name: Synthesizer Sam
 description: >
   Integrate multi-agent outputs into coherent, context-aligned insight systems.
-roles:
-- synthesizer
+role: synthesizer
+alt-roles:
 - researcher
 routing-priority: 50
 capabilities:

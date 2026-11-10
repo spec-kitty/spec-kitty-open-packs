@@ -2,8 +2,7 @@ profile-id: curator-carla
 name: Curator Carla
 description: Knowledge base and doctrine maintenance specialist
 schema-version: "1.0"
-roles:
-  - curator
+role: curator
 capabilities:
   - knowledge-organization
   - doctrine-maintenance

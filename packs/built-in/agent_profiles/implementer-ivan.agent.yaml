@@ -2,8 +2,7 @@ profile-id: implementer-ivan
 name: Implementer Ivan
 description: General-purpose software implementation specialist
 schema-version: "1.0"
-roles:
-  - implementer
+role: implementer
 capabilities:
   - code-implementation
   - unit-testing

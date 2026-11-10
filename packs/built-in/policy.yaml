@@ -1,0 +1,3 @@
+schema_version: 1
+artifacts:
+  agent_profile:generic-agent: locked

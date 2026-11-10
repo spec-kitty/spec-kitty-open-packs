@@ -2,8 +2,8 @@ profile-id: debugger-debbie
 name: Debugger Debbie
 description: Recurring-bug structural-root-cause investigator using five-paradigm parallel debugging
 schema-version: "1.0"
-roles:
-  - investigator
+role: investigator
+alt-roles:
   - reviewer
 capabilities:
   - root-cause-analysis

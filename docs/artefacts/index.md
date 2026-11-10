@@ -81,17 +81,19 @@ title, description and optional `role`), `anti_patterns`. Older packs used `name
 ## Agent profile
 
 ```yaml
-profile-id: curator-carla
-name: Curator Carla
-description: Knowledge base and doctrine maintenance specialist
-roles: [curator]
-capabilities: [knowledge-organization, glossary-management, documentation-audit]
+profile-id: analyst-annie
+name: Analyst Annie
+description: Requirements analysis specialist
+role: analyst
+alt-roles: [requirements-engineer]
+capabilities: [requirements-analysis, stakeholder-analysis, specification-writing]
 purpose: >
-  Maintain the health, consistency, and completeness of the project's knowledge base …
+  Elicit, analyse, and specify requirements …
 ```
 
-Key fields: `profile-id`, `name`, `description`, `roles`, `capabilities`, `purpose`,
-`specialization`, `collaboration`. Lineage between profiles is a DRG edge
+Key fields: `profile-id`, `name`, `description`, `role`, `alt-roles`, `capabilities`, `purpose`,
+`specialization`, `collaboration`. Omit `alt-roles` when empty. A pack declares its role-neutral
+fallback profile with `fallback_profile` in `pack.yaml`. Lineage between profiles is a DRG edge
 (`specializes_from`), not a profile field.
 
 ## Mission step contract

@@ -5,8 +5,8 @@ description: >
   Draft, edit, and calibrate professional written communications across all of a
   project's output surfaces — applying a defined tone framework and explicit
   audience-persona targeting.
-roles:
-- communicator
+role: communicator
+alt-roles:
 - researcher
 routing-priority: 55
 

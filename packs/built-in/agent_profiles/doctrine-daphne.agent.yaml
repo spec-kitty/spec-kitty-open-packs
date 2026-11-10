@@ -2,8 +2,8 @@ profile-id: doctrine-daphne
 name: Doctrine Daphne
 description: External-agent onboarding and doctrine artifact curation specialist
 schema-version: "1.0"
-roles:
-- curator
+role: curator
+alt-roles:
 - onboarding-guide
 capabilities:
 - agent-knowledge-audit

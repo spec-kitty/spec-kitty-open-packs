@@ -2,8 +2,7 @@ profile-id: designer-dagmar
 name: Designer Dagmar
 description: UX/UI and interaction design specialist
 schema-version: "1.0"
-roles:
-  - designer
+role: designer
 capabilities:
   - ux-design
   - ui-design

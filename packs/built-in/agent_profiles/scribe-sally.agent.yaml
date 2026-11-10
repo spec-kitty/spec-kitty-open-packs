@@ -4,8 +4,8 @@ name: Scribe Sally
 description: >
   Maintain traceable, neutral documentation integrity across meetings, agent exchanges,
   and structured knowledge artifacts.
-roles:
-- documentarian
+role: documentarian
+alt-roles:
 - transcriptionist
 capabilities:
 - structured-summarization
