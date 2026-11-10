@@ -4,10 +4,14 @@ title: Boring Code Review
 scope: code
 
 principles:
-  - "Prefer obvious control flow over clever control flow, unless the clever option clearly improves correctness, safety, or change cost."
-  - "Preserve a single source of truth: consolidate duplicated business logic, state rules, constants, and fragile assumptions; leave harmless syntactic repetition alone when an abstraction would add indirection without preserving meaning."
-  - "A new abstraction must earn its keep -- apply avoid-gold-plating's evidence-gate checklist (5+ of 7 checks, including 3+ real instances of failure) as the single owned threshold before adding one; do not restate a second, competing bar here."
-  - "Comment only where reasoning would otherwise be lost -- explain why the implementation diverges from the obvious pattern or records a non-obvious constraint, not what the code already says."
+  - name: "Prefer obvious control flow"
+    description: "Prefer obvious control flow over clever control flow, unless the clever option clearly improves correctness, safety, or change cost."
+  - name: "Preserve a single source of truth"
+    description: "Preserve a single source of truth: consolidate duplicated business logic, state rules, constants, and fragile assumptions; leave harmless syntactic repetition alone when an abstraction would add indirection without preserving meaning."
+  - name: "A new abstraction must earn its keep"
+    description: "A new abstraction must earn its keep -- apply avoid-gold-plating's evidence-gate checklist (5+ of 7 checks, including 3+ real instances of failure) as the single owned threshold before adding one; do not restate a second, competing bar here."
+  - name: "Comment only where reasoning would otherwise be lost"
+    description: "Comment only where reasoning would otherwise be lost -- explain why the implementation diverges from the obvious pattern or records a non-obvious constraint, not what the code already says."
 
 patterns:
   - name: Direct control flow

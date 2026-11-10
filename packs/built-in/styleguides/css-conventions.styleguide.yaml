@@ -26,21 +26,36 @@ applies_to_languages:
 # in the companion html-conventions styleguide; the viewport meta tag is set there.
 
 principles:
-  - "Write valid CSS where possible; deviate only for a validator bug or a deliberate proprietary syntax. Browser hacks and user-agent detection are a last resort; to use a feature that is not supported everywhere, gate it with an `@supports` feature query."
-  - "Class names say what an element is for, not how it looks (`.alert-error`, not `.red-text`); use a generic name for a purely presentational helper. Lowercase, words separated by hyphens, as short as possible but as long as necessary."
-  - "Keep specificity low: avoid ID selectors, do not qualify class names with type selectors (`ul.nav`), and leave out unnecessary ancestor selectors. Order competing groups of rules with cascade layers (`@layer`) rather than ever-stronger selectors."
-  - "Avoid `!important`; override with selector specificity instead. Where a UI requirement truly needs an important declaration, comment why next to it, so maintainers do not override it."
-  - "Formatting: indent block content by two spaces, put a space between the last selector and `{` on the same line, start each selector and each declaration on a new line, put a space after every colon and a semicolon after every declaration (including the last), and separate rules with a blank line. Use single quotes for attribute selectors and property values, and none in `url()`."
-  - "Declaration order: alphabetical unless your tooling enforces another consistent order."
-  - "Values: use shorthand properties whenever possible, even when only one value is set; leave out units after a zero length; always include the leading zero (`0.8em`); write hex colours in lowercase and in three characters where possible."
-  - "Intrinsic layout first: flexbox and grid (for example `repeat(auto-fill, minmax(12.5rem, 1fr))`) adapt to the space without a breakpoint. Ask whether you need a media query at all, and add one only where the content starts to break."
-  - "Mobile-first is usually the better approach: unqueried styles serve the narrowest viewport, and each `width >=` query adds to them, rather than desktop styles undone by narrower overrides."
-  - "Breakpoints come from the content, not from a list of devices, and are written in `em` so they follow the user's font size. Custom properties do not work inside a media condition, so to name breakpoints use a preprocessor variable or a build-time token, and say in a comment what breaks at each one."
-  - "Media types: use only `all` (the default), `screen` and `print`. The other CSS 2.1 and Media Queries 3 media types (`tv`, `handheld`, `projection` and so on) are deprecated in Media Queries 4 and should not be used. The `only` keyword has no effect in modern browsers."
-  - "Ship print styles for printable content, in `@media print` or a `<link media=\"print\">` stylesheet: hide navigation and interactive controls, and drop backgrounds and shadows. As house rules, print link targets after the link text and avoid page breaks inside figures and table rows."
-  - "Respect user preferences: use `prefers-reduced-motion` to remove or reduce non-essential motion, which can trigger discomfort for people with vestibular disorders; use `prefers-color-scheme` to offer a light or dark theme. Do not build a separate design for `forced-colors: active`; make only small tweaks where the forced palette leaves something illegible."
-  - "Query input capabilities, not sizes, for interaction: touchscreens and keyboard users cannot hover, so use `(hover: hover)` before relying on hover, and `(pointer: coarse)` to enlarge hit areas."
-  - "Write media conditions so they read plainly (`and`, a comma for 'or', `not`, range syntax such as `(40em <= width < 64em)`), keep each query next to the rule it modifies, and use a container query when a component should respond to its own space rather than the viewport."
+  - name: "Write valid CSS where possible"
+    description: "Write valid CSS where possible; deviate only for a validator bug or a deliberate proprietary syntax. Browser hacks and user-agent detection are a last resort; to use a feature that is not supported everywhere, gate it with an `@supports` feature query."
+  - name: "Name classes by purpose"
+    description: "Class names say what an element is for, not how it looks (`.alert-error`, not `.red-text`); use a generic name for a purely presentational helper. Lowercase, words separated by hyphens, as short as possible but as long as necessary."
+  - name: "Keep specificity low"
+    description: "Keep specificity low: avoid ID selectors, do not qualify class names with type selectors (`ul.nav`), and leave out unnecessary ancestor selectors. Order competing groups of rules with cascade layers (`@layer`) rather than ever-stronger selectors."
+  - name: "Avoid `!important`"
+    description: "Avoid `!important`; override with selector specificity instead. Where a UI requirement truly needs an important declaration, comment why next to it, so maintainers do not override it."
+  - name: "Format CSS consistently"
+    description: "Format CSS consistently: use two-space indentation, one selector and declaration per line, a space before `{`, spaces after colons, semicolons after every declaration, blank lines between rules, and the prescribed quoting."
+  - name: "Declaration order"
+    description: "Declaration order: alphabetical unless your tooling enforces another consistent order."
+  - name: "Write concise CSS values"
+    description: "Values: use shorthand properties whenever possible, even when only one value is set; leave out units after a zero length; always include the leading zero (`0.8em`); write hex colours in lowercase and in three characters where possible."
+  - name: "Intrinsic layout first"
+    description: "Intrinsic layout first: flexbox and grid (for example `repeat(auto-fill, minmax(12.5rem, 1fr))`) adapt to the space without a breakpoint. Ask whether you need a media query at all, and add one only where the content starts to break."
+  - name: "Mobile-first is usually the better approach"
+    description: "Mobile-first is usually the better approach: unqueried styles serve the narrowest viewport, and each `width >=` query adds to them, rather than desktop styles undone by narrower overrides."
+  - name: "Derive breakpoints from content"
+    description: "Breakpoints come from the content, not from a list of devices, and are written in `em` so they follow the user's font size."
+  - name: "Media types"
+    description: "Media types: use only `all` (the default), `screen` and `print`. The other CSS 2.1 and Media Queries 3 media types (`tv`, `handheld`, `projection` and so on) are deprecated in Media Queries 4 and should not be used."
+  - name: "Provide print styles"
+    description: "Ship print styles for printable content, in `@media print` or a `<link media=\"print\">` stylesheet: hide navigation and interactive controls, and drop backgrounds and shadows."
+  - name: "Respect user preferences"
+    description: "Respect user preferences: use `prefers-reduced-motion` to remove or reduce non-essential motion, which can trigger discomfort for people with vestibular disorders; use `prefers-color-scheme` to offer a light or dark theme."
+  - name: "Query input capabilities, not sizes, for interaction"
+    description: "Query input capabilities, not sizes, for interaction: touchscreens and keyboard users cannot hover, so use `(hover: hover)` before relying on hover, and `(pointer: coarse)` to enlarge hit areas."
+  - name: "Write readable media conditions"
+    description: "Write readable media conditions with explicit operators and range syntax, keep each query beside the rule it modifies, and use container queries when a component should respond to its own space."
 
 patterns:
   - name: Mobile-First Enhancement
@@ -105,6 +120,44 @@ patterns:
           break-inside: avoid;
         }
       }
+
+  - name: "Format CSS consistently"
+    description: >-
+      Formatting: indent block content by two spaces, put a space between the last selector and `{` on the
+      same line, start each selector and each declaration on a new line, put a space after every colon and a
+      semicolon after every declaration (including the last), and separate rules with a blank line. Use single
+      quotes for attribute selectors and property values, and none in `url()`.
+
+  - name: "Derive breakpoints from content"
+    description: >-
+      Breakpoints come from the content, not from a list of devices, and are written in `em` so they follow
+      the user's font size. Custom properties do not work inside a media condition, so to name breakpoints use
+      a preprocessor variable or a build-time token, and say in a comment what breaks at each one.
+
+  - name: "Media types"
+    description: >-
+      Media types: use only `all` (the default), `screen` and `print`. The other CSS 2.1 and Media Queries 3
+      media types (`tv`, `handheld`, `projection` and so on) are deprecated in Media Queries 4 and should not
+      be used. The `only` keyword has no effect in modern browsers.
+
+  - name: "Provide print styles"
+    description: >-
+      Ship print styles for printable content, in `@media print` or a `<link media="print">` stylesheet: hide
+      navigation and interactive controls, and drop backgrounds and shadows. As house rules, print link
+      targets after the link text and avoid page breaks inside figures and table rows.
+
+  - name: "Respect user preferences"
+    description: >-
+      Respect user preferences: use `prefers-reduced-motion` to remove or reduce non-essential motion, which
+      can trigger discomfort for people with vestibular disorders; use `prefers-color-scheme` to offer a light
+      or dark theme. Do not build a separate design for `forced-colors: active`; make only small tweaks where
+      the forced palette leaves something illegible.
+
+  - name: "Write readable media conditions"
+    description: >-
+      Write media conditions so they read plainly (`and`, a comma for 'or', `not`, range syntax such as `(40em
+      <= width < 64em)`), keep each query next to the rule it modifies, and use a container query when a
+      component should respond to its own space rather than the viewport.
 
 anti_patterns:
   - name: Desktop-First Overrides

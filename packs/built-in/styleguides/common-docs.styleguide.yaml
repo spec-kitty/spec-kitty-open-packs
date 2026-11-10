@@ -5,15 +5,24 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog. Each directory carries its own index.md. No second documentation root and no per-version shadow tree."
-  - "Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. The page-inventory rollup is regenerated FROM frontmatter as a freshness-gated lockfile; it is never a parallel hand-maintained store."
-  - "Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines. Where status already means something else in the project, use a namespaced key; the structural lint shipped with this pack reads doc_status by default. The freshness date is carried by updated: YYYY-MM-DD."
-  - "SEO description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive) consumed by the SEO post-processing step; descriptions outside that band are rejected."
-  - "Cross-references use related: resolvable paths. Cross-references are a related: frontmatter list of repo-relative .md paths that each resolve to an existing file. The dead citation_refs sidecar field is not reintroduced."
-  - "Audience is named in an audience: field. Every documentation page touched by a change declares its target reader in an audience: frontmatter field. Where the project keeps a persona source, each value resolves to it, as a repo-relative .md path or a list of paths. Where it keeps none, the field names the persona in plain words and the gap is recorded. This is the machine-checkable form of DIRECTIVE_047's audience-oriented-writing rule. The field is required on touched pages only, so untouched legacy pages are never failed for lacking it."
-  - "ADRs live under adr/<era>/ with YAML frontmatter. Architecture Decision Records are filed under adr/<era>/ (adr/1.x/ through adr/4.x/) by era of decision and carry YAML frontmatter so the docsite can index them. The living architectural design collapses into a single unversioned architecture/ location."
-  - "Naming is kebab-case and section-scoped. Documentation file and directory names are lowercase kebab-case; ADR filenames keep their dated prefix; one concern per file."
-  - "Curate by delete-stale. docs/ is not a wiki: one concern per file; DIRECTIVE_037 (Living Documentation Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled into a decision (adr/) or design (architecture/) and then retired rather than accumulating."
+  - name: "Single root, 13 sections"
+    description: "Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog."
+  - name: "Frontmatter is the per-page source of truth"
+    description: "Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. The page-inventory rollup is regenerated FROM frontmatter as a freshness-gated lockfile; it is never a parallel hand-maintained store."
+  - name: "Lifecycle state has one frontmatter key"
+    description: "Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines."
+  - name: "SEO description is bounded"
+    description: "SEO description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive) consumed by the SEO post-processing step; descriptions outside that band are rejected."
+  - name: "Cross-references use related"
+    description: "Cross-references use related: resolvable paths. Cross-references are a related: frontmatter list of repo-relative .md paths that each resolve to an existing file. The dead citation_refs sidecar field is not reintroduced."
+  - name: "Audience is named in an audience"
+    description: "Audience is named in an audience: field. Every documentation page touched by a change declares its target reader in an audience: frontmatter field."
+  - name: "ADRs live under adr/<era>/ with YAML frontmatter"
+    description: "ADRs live under adr/<era>/ with YAML frontmatter. Architecture Decision Records are filed under adr/<era>/ (adr/1.x/ through adr/4.x/) by era of decision and carry YAML frontmatter so the docsite can index them."
+  - name: "Naming is kebab-case and section-scoped"
+    description: "Naming is kebab-case and section-scoped. Documentation file and directory names are lowercase kebab-case; ADR filenames keep their dated prefix; one concern per file."
+  - name: "Curate by delete-stale"
+    description: "Curate by delete-stale. docs/ is not a wiki: keep one concern per file, update docs with behaviour changes under DIRECTIVE_037, and distil stale documents into decisions or designs before retiring them."
 
 patterns:
   - name: lifecycle key namespacing
@@ -67,6 +76,41 @@ patterns:
       updated: 2026-08-10
       audience: ../personas/maintainer.md
       ---
+
+  - name: "Single root, 13 sections"
+    description: >-
+      Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section
+      structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides,
+      operations, migrations, changelog. Each directory carries its own index.md. No second documentation root
+      and no per-version shadow tree.
+
+  - name: "Lifecycle state has one frontmatter key"
+    description: >-
+      Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with
+      the values the project defines. Where status already means something else in the project, use a
+      namespaced key; the structural lint shipped with this pack reads doc_status by default. The freshness
+      date is carried by updated: YYYY-MM-DD.
+
+  - name: "Audience is named in an audience"
+    description: >-
+      Audience is named in an audience: field. Every documentation page touched by a change declares its
+      target reader in an audience: frontmatter field. Where the project keeps a persona source, each value
+      resolves to it, as a repo-relative .md path or a list of paths. Where it keeps none, the field names the
+      persona in plain words and the gap is recorded. This is the machine-checkable form of DIRECTIVE_047's
+      audience-oriented-writing rule. The field is required on touched pages only, so untouched legacy pages
+      are never failed for lacking it.
+
+  - name: "ADRs live under adr/<era>/ with YAML frontmatter"
+    description: >-
+      ADRs live under adr/<era>/ with YAML frontmatter. Architecture Decision Records are filed under
+      adr/<era>/ (adr/1.x/ through adr/4.x/) by era of decision and carry YAML frontmatter so the docsite can
+      index them. The living architectural design collapses into a single unversioned architecture/ location.
+
+  - name: "Curate by delete-stale"
+    description: >-
+      Curate by delete-stale. docs/ is not a wiki: one concern per file; DIRECTIVE_037 (Living Documentation
+      Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled into a
+      decision (adr/) or design (architecture/) and then retired rather than accumulating.
 
 anti_patterns:
   - name: Second documentation root
