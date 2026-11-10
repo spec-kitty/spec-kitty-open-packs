@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   under an H2 so its preamble is purely descriptive (its tree digest is re-recorded). The
   authoring guide now documents the `pack.yaml` / `pack.md` / `pack-manifest.yaml` split.
 
-- **Every `plan` mission action now scopes the tactics named by its prompt** (#143). The specify, research, plan and review effective action contexts no longer resolve empty; each receives doctrine through direct `scope` edges in `packs/built-in/action.graph.yaml`, rather than relying on mission-type scope or template edges that are absent from the charter's effective graph.
+- **Every `plan` mission action now scopes the tactics named by its prompt** (#143, #141). The specify, research, plan and review effective action contexts no longer resolve empty; each receives doctrine through direct `scope` edges in `packs/built-in/action.graph.yaml`, rather than relying on mission-type scope or template edges that are absent from the charter's effective graph. The same orphan adjudication connects deployable-skill authoring to external-agent onboarding and gives the lexical profile a `vocabulary` edge to the Spec Kitty glossary.
 
 - **Agent-profile references to another pack are qualified and guarded** (#119, charter
   ADR-0053 decision 7). The 24 references in `packs/qa/agent_profiles/*` that resolve only in
