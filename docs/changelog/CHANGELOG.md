@@ -510,6 +510,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   uses. The `software-dev` implement and review steps' own profile-load instructions get the same
   fallback. An agent driven from the CLI could not follow the old wording.
 
+- **The analyze prompt no longer asks the agent to count its own findings** (#183). The
+  `software-dev` analyze step's `analysis-findings/v1` carrier example and rules leave `counts`
+  out and say the recorder tallies `findings[]` itself, which core already does when the field is
+  absent. A declared `counts` block is still accepted and still fails recording when it disagrees
+  with the tally. Reports were being rejected for a count the prompt had asked the agent to type.
+
 - **Internal procedure prose uses ASCII punctuation and puts regeneration exceptions first.** The
   `memory-curation-and-escalation` procedure replaces em dashes with sentence-appropriate ASCII
   punctuation. The `landing-contributor-prs` rebase step now names the docs retrieval index, page
