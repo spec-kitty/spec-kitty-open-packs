@@ -123,7 +123,7 @@ Body sections (in order):
    ```markdown
    ## Do This First: Load Agent Profile
 
-   Use the `/spk-charter-profile-load` skill to load an agent profile for the role below, and behave according to its guidance before parsing the rest of this prompt.
+   Use the `/spk-charter-profile-load` skill to load an agent profile for the role below, and behave according to its guidance before parsing the rest of this prompt. If your host cannot run skills, do what the skill does: run `spec-kitty agent profile show <profile-id>` and apply the profile it prints.
 
    - **Role**: `{role}`
    - **Profile override**: `{agent_profile}` (empty means: select from the role)
