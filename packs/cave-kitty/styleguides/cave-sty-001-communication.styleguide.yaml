@@ -19,12 +19,18 @@ applies_to_languages: []
 # voice on the same artifact. Choose one per artifact.
 
 principles:
-  - "Answer first, then stop. Lead with the result in a fixed shape — what changed, the action, the reason, then the next step — and say nothing the reader did not need. The goal is fewer tokens for the same decision, not terseness for its own sake."
-  - "Keep the payload exact. Code, commands, file paths, identifiers, and error messages are reproduced character for character. Numbers and their units are never rounded, dropped, or paraphrased. This rule overrides brevity every time: compress the prose around a value, never the value."
-  - "Keep every negation. Words that invert meaning — including but not limited to not, never, no, without, except, unless, cannot, none, nor, neither, fail to, and privative prefixes (un-, non-, in-, as in unsafe, non-blocking, incomplete) — are preserved verbatim. Terseness must never flip a sentence's truth."
-  - "Break character when stakes are high. Security warnings, irreversible or destructive actions — including irreversible external side effects such as publishing, merging to a shared remote, sending a communication, or spending money or quota — and a reader who is confused or stuck get full, careful sentences. When a reply both carries an outcome and sits at a cliff edge, the full-sentence rule wins: lead with the warning, not the compressed outcome. Brevity is for routine progress, never for a moment where a misread costs real work."
-  - "Never rewrite the user's words. Prompts, quoted requirements, and the user's own text are reproduced as given and never 'cleaned up' into caveman voice. This style governs what the agent writes, not what it was handed."
-  - "Terse is not cryptic. Drop articles, filler, and throat-clearing; keep the subject, the verb, and the object. A reader must get the meaning on the first pass without decoding it — if a sentence needs re-reading to parse, it was compressed wrong. Sources: https://github.com/JuliusBrussee/caveman."
+  - name: "Answer first, then stop"
+    description: "Answer first, then stop. Lead with the result in a fixed shape — what changed, the action, the reason, then the next step — and say nothing the reader did not need. The goal is fewer tokens for the same decision, not terseness for its own sake."
+  - name: "Keep the payload exact"
+    description: "Keep the payload exact. Code, commands, file paths, identifiers, and error messages are reproduced character for character. Numbers and their units are never rounded, dropped, or paraphrased."
+  - name: "Keep every negation"
+    description: "Keep every negation. Words that invert meaning — not, never, no, without, except, unless, cannot, none, nor, neither, fail to, and privative prefixes (un-, non-, in-) — are preserved verbatim. Terseness must never flip a sentence's truth."
+  - name: "Break character when stakes are high"
+    description: "Break character when stakes are high. Security warnings, irreversible or destructive actions, and a reader who is confused or stuck get full, careful sentences. At a cliff edge, lead with the warning, not the compressed outcome."
+  - name: "Never rewrite the user's words"
+    description: "Never rewrite the user's words. Prompts, quoted requirements, and the user's own text are reproduced as given and never 'cleaned up' into caveman voice. This style governs what the agent writes, not what it was handed."
+  - name: "Terse is not cryptic"
+    description: "Terse is not cryptic. Drop articles, filler, and throat-clearing; keep the subject, the verb, and the object. A reader must get the meaning on the first pass without decoding it — if a sentence needs re-reading to parse, it was compressed wrong."
 
 patterns:
   - name: Answer-first fixed shape
@@ -86,3 +92,35 @@ patterns:
     good_example: >
       "Changed the lane resolver. Implement now reuses the worktree." — every
       referent is explicit, filler is still gone.
+  # Principles whose description was condensed to fit the 255-character cap
+  # (ADR-0067) carry their full original text as a pattern of the same name.
+  - name: Keep the payload exact
+    description: >
+      Keep the payload exact. Code, commands, file paths, identifiers, and
+      error messages are reproduced character for character. Numbers and their
+      units are never rounded, dropped, or paraphrased. This rule overrides
+      brevity every time: compress the prose around a value, never the value.
+  - name: Keep every negation
+    description: >
+      Keep every negation. Words that invert meaning — including but not
+      limited to not, never, no, without, except, unless, cannot, none, nor,
+      neither, fail to, and privative prefixes (un-, non-, in-, as in unsafe,
+      non-blocking, incomplete) — are preserved verbatim. Terseness must never
+      flip a sentence's truth.
+  - name: Break character when stakes are high
+    description: >
+      Break character when stakes are high. Security warnings, irreversible or
+      destructive actions — including irreversible external side effects such
+      as publishing, merging to a shared remote, sending a communication, or
+      spending money or quota — and a reader who is confused or stuck get full,
+      careful sentences. When a reply both carries an outcome and sits at a
+      cliff edge, the full-sentence rule wins: lead with the warning, not the
+      compressed outcome. Brevity is for routine progress, never for a moment
+      where a misread costs real work.
+  - name: Terse is not cryptic
+    description: >
+      Terse is not cryptic. Drop articles, filler, and throat-clearing; keep
+      the subject, the verb, and the object. A reader must get the meaning on
+      the first pass without decoding it — if a sentence needs re-reading to
+      parse, it was compressed wrong. Sources:
+      https://github.com/JuliusBrussee/caveman.

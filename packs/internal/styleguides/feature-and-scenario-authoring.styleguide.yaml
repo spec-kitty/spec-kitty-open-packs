@@ -5,13 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "A feature describes a job a consumer wants done; a scenario describes one observable outcome they care about. Both are written from the user's point of view — what the system should do for them — never how it does it. The reader is the consumer of the product, not the person who built it."
-  - "The litmus for a scenario. It earns a .feature only if it states a user goal AND a consequence the user cares about, phrased so it stays true regardless of which command or internal delivers it. If the whole scenario reduces to 'the thing I put in is the thing I get back', it is mechanism: leave it in the unit/e2e tier."
-  - "Lead from the promise, not the command. Start from the guarantee the system makes (a doc, an ADR, an FR) and write the outcome. The command is an implementation detail the scenario should survive."
-  - "Describe desired behaviour, not defects. The .feature layer is the specification of what the system should do; it is not a bug-reproduction layer. Never tag a scenario @defect and never phrase it as a reproduction — a fixed defect becomes a positive promise, and its reproduction stays in the regression tier."
-  - "Name outcomes, not output surfaces. Assert the governed result the consumer experiences, not what a command printed. 'The governance in force includes the profiles I selected' is a promise; 'charter list prints researcher-ryan' is a technical echo."
-  - "One promise per scenario, concrete and checkable. Narrow to a single guarantee a step can witness. Breadth that cannot be observed — 'composition resolves the way I expect' — is not a scenario; split it into the specific guarantees that matter or drop it."
-  - "Stay in the consumer's language. No internal module names, file paths, event-log shapes, or implementation vocabulary in Feature or Scenario text. If a sentence only makes sense to someone who has read the source, rewrite it for the user. Sources: tests/scenarios/README.md; docs/development/testing/acceptance-scenarios.md."
+  - name: "Write from the consumer's point of view"
+    description: "Write from the consumer's point of view. A feature describes a job a consumer wants done; a scenario describes one observable outcome they care about — what the system should do for them, never how it does it."
+  - name: "Litmus for a scenario"
+    description: "Litmus for a scenario: it earns a .feature only if it states a user goal AND a consequence the user cares about, phrased so it stays true regardless of which command or internal delivers it."
+  - name: "Lead from the promise, not the command"
+    description: "Lead from the promise, not the command. Start from the guarantee the system makes (a doc, an ADR, an FR) and write the outcome. The command is an implementation detail the scenario should survive."
+  - name: "Describe desired behaviour, not defects"
+    description: "Describe desired behaviour, not defects. The .feature layer is the specification of what the system should do; it is not a bug-reproduction layer."
+  - name: "Name outcomes, not output surfaces"
+    description: "Name outcomes, not output surfaces. Assert the governed result the consumer experiences, not what a command printed. 'The governance in force includes the profiles I selected' is a promise; 'charter list prints researcher-ryan' is a technical echo."
+  - name: "One promise per scenario, concrete and checkable"
+    description: "One promise per scenario, concrete and checkable. Narrow to a single guarantee a step can witness. Breadth that cannot be observed — 'composition resolves the way I expect' — is not a scenario; split it into the specific guarantees that matter or drop it."
+  - name: "Stay in the consumer's language"
+    description: "Stay in the consumer's language. No internal module names, file paths, event-log shapes, or implementation vocabulary in Feature or Scenario text. If a sentence only makes sense to someone who has read the source, rewrite it for the user."
 
 patterns:
   - name: Outcome-first Feature title
@@ -48,6 +55,36 @@ patterns:
       why. "I can share governance across a team or project safely": a pack
       with an invalid profile is not reported healthy. Each is a consumer
       outcome, independent of the command that delivers it.
+  # Principles whose description was condensed to fit the 255-character cap
+  # (ADR-0067) carry their full original text as a pattern of the same name.
+  - name: Write from the consumer's point of view
+    description: >
+      A feature describes a job a consumer wants done; a scenario describes
+      one observable outcome they care about. Both are written from the user's
+      point of view — what the system should do for them — never how it does
+      it. The reader is the consumer of the product, not the person who built
+      it.
+  - name: Litmus for a scenario
+    description: >
+      The litmus for a scenario. It earns a .feature only if it states a user
+      goal AND a consequence the user cares about, phrased so it stays true
+      regardless of which command or internal delivers it. If the whole
+      scenario reduces to 'the thing I put in is the thing I get back', it is
+      mechanism: leave it in the unit/e2e tier.
+  - name: Describe desired behaviour, not defects
+    description: >
+      Describe desired behaviour, not defects. The .feature layer is the
+      specification of what the system should do; it is not a
+      bug-reproduction layer. Never tag a scenario @defect and never phrase it
+      as a reproduction — a fixed defect becomes a positive promise, and its
+      reproduction stays in the regression tier.
+  - name: Stay in the consumer's language
+    description: >
+      Stay in the consumer's language. No internal module names, file paths,
+      event-log shapes, or implementation vocabulary in Feature or Scenario
+      text. If a sentence only makes sense to someone who has read the source,
+      rewrite it for the user. Sources: tests/scenarios/README.md;
+      docs/development/testing/acceptance-scenarios.md.
 
 anti_patterns:
   - name: CRUD / affordance echo

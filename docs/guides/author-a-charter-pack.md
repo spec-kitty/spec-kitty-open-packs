@@ -85,9 +85,9 @@ Required fields per kind:
 | directive | upper case, `^[A-Z][A-Z0-9_-]*$` | `schema_version`, `id`, `title`, `intent`, `enforcement` |
 | tactic | lower-case kebab | `schema_version`, `id`, `name`, `steps` |
 | procedure | lower-case kebab | `schema_version`, `id`, `title`, `description`, `entry_condition`, `exit_condition`, `steps` |
-| styleguide | lower-case kebab | `schema_version`, `id`, `title`, `scope`, `principles` |
+| styleguide | lower-case kebab | `schema_version`, `id`, `title`, `scope`, `principles` — a list of `{name, description}` items (ADR-0067) |
 | toolguide | lower-case kebab | `schema_version`, `id`, `tool`, `title`, `guide_path` (`<id>.guide.md`), `summary` |
-| paradigm | lower-case kebab | `schema_version`, `id`, `name`, `summary` |
+| paradigm | lower-case kebab | `schema_version`, `id`, `name`, `summary`, optional `principles` — the same `{name, description}` items a styleguide uses |
 | agent profile | `profile-id` (not `id`) | `profile-id`, `name`, `purpose`, `specialization` |
 
 Resist dumping a whole policy page into one artifact — split so each rule can be cited
