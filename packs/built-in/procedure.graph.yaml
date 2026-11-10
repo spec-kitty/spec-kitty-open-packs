@@ -508,6 +508,11 @@ edges:
   relation: requires
   reason: Confirm shared understanding of artifact-kind terminology with the owner before decomposing.
 - source: procedure:onboard-external-agent-to-pack
+  target: styleguide:deployable-skill-authoring
+  relation: suggests
+  when: when the external agent's governed pack form is a deployable skill
+  reason: The procedure gathers the source agent's defining instructions and authors governed pack artifacts; this styleguide supplies the skill-specific routing, progressive-disclosure, deterministic-operation, source-authority and host-portability quality bar.
+- source: procedure:onboard-external-agent-to-pack
   target: template:decomposition-table-template
   relation: suggests
   reason: Provides the repeatable classification and overlap-audit table used before YAML authoring.
