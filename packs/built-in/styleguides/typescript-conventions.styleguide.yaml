@@ -22,20 +22,34 @@ applies_to_languages:
 # patterns, failure modes as anti_patterns. Ruling on spec-kitty-open-packs#131.
 
 principles:
-  - "Let the compiler check types: turn on `strict: true` from the start, and run `tsc --noEmit` in CI as a gate that fails the build. A transpiler or bundler can strip types without checking them, so a green build alone proves nothing about types."
-  - "Naming: UpperCamelCase for classes, interfaces, types, enums, decorators and type parameters (a single capital such as `T` is fine); lowerCamelCase for variables, parameters, functions, methods and properties; CONSTANT_CASE for global constants, including enum values. Do not put type information in a name: no `I` prefix or `Interface` suffix unless that is the idiom of the surrounding environment, and no leading or trailing underscores."
-  - "ES modules with named exports: do not use default exports, so every import of a symbol uses the same name and a rename breaks stale imports at compile time. Do not use `namespace` or `require()`."
-  - "`const` by default, `let` only when the binding is reassigned, never `var`."
-  - "`unknown` over `any`: a value whose type you do not know is `unknown` and is narrowed with a type guard before use. Type annotations disappear at runtime, so data from outside the program (JSON, a form, a response) is validated, not just typed."
-  - "Type assertions (`x as T`) and non-null assertions (`x!`) are unchecked claims. Prefer a runtime check or a type guard; where an assertion is the right call, add a comment explaining why it holds, unless that is obvious from the context."
-  - "Interfaces for object types; type aliases for unions, tuples and other non-object types. Keep to the simplest type construct that expresses the idea, and model alternatives as discriminated unions whose `switch` ends in an exhaustiveness check on `never`."
-  - "Optional means `?`: use optional fields and parameters rather than a `| undefined` type. Compare with `===` and `!==`; the one exception is `== null`, which deliberately matches both null and undefined."
-  - "Throw only `Error` instances or subclasses, always created with `new Error()`; only they carry a stack trace. The same applies to `Promise.reject`. A `catch` binding is `unknown` under `strict`; narrow it before reading `.message`."
-  - "Do not use `@ts-ignore`, `@ts-expect-error` or `@ts-nocheck` in production code. `@ts-expect-error` may appear in unit tests, sparingly and with a comment naming the expected error, because it suppresses every error on its line."
-  - "Class members: leave out `public`, except on a non-readonly public parameter property; mark members never reassigned after construction `readonly`; use TypeScript `private` rather than `#private` fields; use parameter properties rather than assigning constructor arguments by hand. Use `enum`, never `const enum`."
-  - "Every promise has an owner: it is awaited, returned, handled with `.catch` or a two-argument `.then`, or deliberately discarded with `void` and a comment. Never leave one floating."
-  - "RxJS: choose the flattening operator by its concurrency meaning (`switchMap` drops the previous inner stream, `concatMap` queues, `mergeMap` runs in parallel, `exhaustMap` ignores new values while busy). A `$` suffix on Observable names is a per-project choice; whichever you choose, apply it consistently. Never subscribe inside a subscribe, give every subscription an owner that ends it, expose a Subject to callers only as an Observable, and catch errors inside the flattening operator so one failure does not end the outer stream."
-  - "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert. Type-level expectations belong to the type-check gate, not to runtime asserts."
+  - name: "Let the compiler check types"
+    description: "Let the compiler check types: turn on `strict: true` from the start, and run `tsc --noEmit` in CI as a gate that fails the build. A transpiler or bundler can strip types without checking them, so a green build alone proves nothing about types."
+  - name: "Naming conventions"
+    description: "Naming: UpperCamelCase for classes, interfaces, types, enums, decorators and type parameters (a single capital such as `T` is fine); lowerCamelCase for variables, parameters, functions, methods and properties; CONSTANT_CASE for global constants."
+  - name: "ES modules with named exports"
+    description: "ES modules with named exports: do not use default exports, so every import of a symbol uses the same name and a rename breaks stale imports at compile time. Do not use `namespace` or `require()`."
+  - name: "`const` by default, `let` when reassigned"
+    description: "`const` by default, `let` only when the binding is reassigned, never `var`."
+  - name: "`unknown` over `any`"
+    description: "`unknown` over `any`: a value whose type you do not know is `unknown` and is narrowed with a type guard before use. Type annotations disappear at runtime, so data from outside the program (JSON, a form, a response) is validated, not just typed."
+  - name: "Assertions are unchecked claims"
+    description: "Type assertions (`x as T`) and non-null assertions (`x!`) are unchecked claims. Prefer a runtime check or a type guard; where an assertion is the right call, add a comment explaining why it holds, unless that is obvious from the context."
+  - name: "Interfaces for object types"
+    description: "Interfaces for object types; type aliases for unions, tuples and other non-object types. Keep to the simplest type construct that expresses the idea, and model alternatives as discriminated unions whose `switch` ends in an exhaustiveness check on `never`."
+  - name: "Optional means `?`"
+    description: "Optional means `?`: use optional fields and parameters rather than a `| undefined` type. Compare with `===` and `!==`; the one exception is `== null`, which deliberately matches both null and undefined."
+  - name: "Throw only `Error` instances"
+    description: "Throw only `Error` instances or subclasses, always created with `new Error()`; only they carry a stack trace. The same applies to `Promise.reject`. A `catch` binding is `unknown` under `strict`; narrow it before reading `.message`."
+  - name: "No `@ts-ignore` in production code"
+    description: "Do not use `@ts-ignore`, `@ts-expect-error` or `@ts-nocheck` in production code. `@ts-expect-error` may appear in unit tests, sparingly and with a comment naming the expected error, because it suppresses every error on its line."
+  - name: "Class members"
+    description: "Class members: leave out `public`; mark members never reassigned after construction `readonly`; use TypeScript `private` rather than `#private` fields; prefer parameter properties over assigning constructor arguments by hand."
+  - name: "Every promise has an owner"
+    description: "Every promise has an owner: it is awaited, returned, handled with `.catch` or a two-argument `.then`, or deliberately discarded with `void` and a comment. Never leave one floating."
+  - name: "RxJS operator discipline"
+    description: "RxJS: choose the flattening operator by its concurrency meaning (`switchMap` drops the previous inner stream, `concatMap` queues, `mergeMap` runs in parallel, `exhaustMap` ignores new values while busy)."
+  - name: "Quad-A test structure"
+    description: "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert. Type-level expectations belong to the type-check gate, not to runtime asserts."
 
 patterns:
   - name: Narrow Unknown Input
@@ -105,6 +119,31 @@ patterns:
           .subscribe((results) => {
             this.render(results);
           });
+  - name: "Naming conventions"
+    description: >
+      Naming: UpperCamelCase for classes, interfaces, types, enums, decorators and
+      type parameters (a single capital such as `T` is fine); lowerCamelCase for
+      variables, parameters, functions, methods and properties; CONSTANT_CASE for
+      global constants, including enum values. Do not put type information in a name:
+      no `I` prefix or `Interface` suffix unless that is the idiom of the surrounding
+      environment, and no leading or trailing underscores.
+  - name: "Class members"
+    description: >
+      Class members: leave out `public`, except on a non-readonly public parameter
+      property; mark members never reassigned after construction `readonly`; use
+      TypeScript `private` rather than `#private` fields; use parameter properties
+      rather than assigning constructor arguments by hand. Use `enum`, never
+      `const enum`.
+  - name: "RxJS operator discipline"
+    description: >
+      RxJS: choose the flattening operator by its concurrency meaning (`switchMap`
+      drops the previous inner stream, `concatMap` queues, `mergeMap` runs in
+      parallel, `exhaustMap` ignores new values while busy). A `$` suffix on
+      Observable names is a per-project choice; whichever you choose, apply it
+      consistently. Never subscribe inside a subscribe, give every subscription an
+      owner that ends it, expose a Subject to callers only as an Observable, and
+      catch errors inside the flattening operator so one failure does not end the
+      outer stream.
 
 anti_patterns:
   - name: Any Leakage

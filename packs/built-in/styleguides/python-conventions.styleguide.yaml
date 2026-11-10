@@ -6,14 +6,22 @@ applies_to_languages:
   - python
 
 principles:
-  - "Guard clauses over nesting: validate inputs early and fail fast rather than wrapping logic in conditional branches."
-  - "Type hints on all public APIs: function signatures, return types, and complex variables must be annotated."
-  - "Modern Python: use built-in generic types (dict, list, tuple), union syntax (str | None), and pathlib for all path operations."
-  - "f-strings only: no %-formatting, no .format(), no string concatenation for interpolation."
-  - "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert."
-  - "Fixtures over setup/teardown: use pytest fixtures for test isolation and automatic cleanup."
-  - "One assertion focus per test: each test validates a single behavior. Use parametrize for variations."
-  - "Docstrings on public APIs: Google-style docstrings on modules, classes, and public functions."
+  - name: "Guard clauses over nesting"
+    description: "Guard clauses over nesting: validate inputs early and fail fast rather than wrapping logic in conditional branches."
+  - name: "Type hints on all public APIs"
+    description: "Type hints on all public APIs: function signatures, return types, and complex variables must be annotated."
+  - name: "Modern Python"
+    description: "Modern Python: use built-in generic types (dict, list, tuple), union syntax (str | None), and pathlib for all path operations."
+  - name: "f-strings only"
+    description: "f-strings only: no %-formatting, no .format(), no string concatenation for interpolation."
+  - name: "Quad-A test structure"
+    description: "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert."
+  - name: "Fixtures over setup/teardown"
+    description: "Fixtures over setup/teardown: use pytest fixtures for test isolation and automatic cleanup."
+  - name: "One assertion focus per test"
+    description: "One assertion focus per test: each test validates a single behavior. Use parametrize for variations."
+  - name: "Docstrings on public APIs"
+    description: "Docstrings on public APIs: Google-style docstrings on modules, classes, and public functions."
 
 patterns:
   - name: Guard Clauses

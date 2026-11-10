@@ -3,14 +3,29 @@ id: research-citation-discipline
 title: Research Citation Discipline Styleguide
 scope: docs
 principles:
-  - "Every claim carries a source: any assertion of fact in a research output must be traceable to a named source (a document, a data run, an interview, or a reproducible observation). An unsourced factual claim is a hypothesis, and must be labelled as one."
-  - "Distinguish evidence from inference: separate what a source states from what the author concludes. State the source's claim first, then the interpretation, so a reader can accept the evidence while questioning the inference."
-  - "Tier the evidence: rank sources by strength — primary/reproducible (direct measurement, source code, an official spec) over secondary (documentation, third-party analysis) over anecdotal (a single report, an unverified claim). Name the tier when the strength is material to the conclusion."
-  - "Cite the specific locus, not the whole source: reference the exact section, line, table, or query that supports the claim, not merely the document title, so the reader can verify without re-deriving it."
-  - "Record retrieval context: capture when and how a source was obtained (date, version, query, commit) because sources drift; a citation without a retrieval context cannot be re-verified later."
-  - "Report contradicting evidence: when sources disagree, cite both and state how the disagreement was resolved. Suppressing a contradicting source to strengthen a conclusion is a citation failure, not an editorial choice."
-  - "Mark confidence explicitly: where the evidence is thin or the inference is a judgement call, say so. Confident prose over weak evidence misleads the reader about how much the conclusion can bear."
-  - "Keep a source register: maintain a running list of sources with their tiers and retrieval context so citations across the output stay consistent and auditable."
+  - name: "Every claim carries a source"
+    description: "Every claim carries a source: any assertion of fact in a research output must be traceable to a named source (a document, a data run, an interview, or a reproducible observation). An unsourced factual claim is a hypothesis, and must be labelled as one."
+  - name: "Distinguish evidence from inference"
+    description: "Distinguish evidence from inference: separate what a source states from what the author concludes. State the source's claim first, then the interpretation, so a reader can accept the evidence while questioning the inference."
+  - name: "Tier the evidence"
+    description: "Tier the evidence: rank sources by strength — primary/reproducible (direct measurement, source code, an official spec) over secondary (documentation, third-party analysis) over anecdotal (a single report, an unverified claim)."
+  - name: "Cite the specific locus, not the whole source"
+    description: "Cite the specific locus, not the whole source: reference the exact section, line, table, or query that supports the claim, not merely the document title, so the reader can verify without re-deriving it."
+  - name: "Record retrieval context"
+    description: "Record retrieval context: capture when and how a source was obtained (date, version, query, commit) because sources drift; a citation without a retrieval context cannot be re-verified later."
+  - name: "Report contradicting evidence"
+    description: "Report contradicting evidence: when sources disagree, cite both and state how the disagreement was resolved. Suppressing a contradicting source to strengthen a conclusion is a citation failure, not an editorial choice."
+  - name: "Mark confidence explicitly"
+    description: "Mark confidence explicitly: where the evidence is thin or the inference is a judgement call, say so. Confident prose over weak evidence misleads the reader about how much the conclusion can bear."
+  - name: "Keep a source register"
+    description: "Keep a source register: maintain a running list of sources with their tiers and retrieval context so citations across the output stay consistent and auditable."
+patterns:
+  - name: "Tier the evidence"
+    description: >
+      Tier the evidence: rank sources by strength — primary/reproducible (direct
+      measurement, source code, an official spec) over secondary (documentation,
+      third-party analysis) over anecdotal (a single report, an unverified claim).
+      Name the tier when the strength is material to the conclusion.
 anti_patterns:
   - name: Unsourced Assertion
     description: "Stating a fact with no traceable source, leaving the reader unable to verify it or judge its strength."

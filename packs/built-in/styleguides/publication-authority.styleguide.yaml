@@ -5,13 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "Code is the source of truth; documentation mirrors shipped behaviour. Documentation describes what the system actually does, never what it was hoped to do or what an old design intended. When code and docs disagree, the code is right and the docs are the defect. A page that documents behaviour the code does not implement is worse than no page — it manufactures false confidence. This is the source-of-truth half of publication authority (FR-005: source-of-truth)."
-  - "Every behaviour-changing change updates its documentation. DIRECTIVE_037 (Living Documentation Sync) is the single owner of the same-change documentation-update rule for a change that alters observable behaviour — a CLI flag, an API response, a config key, a workflow step. Documentation is not a follow-up ticket; deferring it is how docs drift from reality."
-  - "Reference that can be generated from the code is generated, not hand-copied. API signatures, CLI flags, and schema fields are extracted from the source (rustdoc, JSDoc, Sphinx autodoc) so they cannot drift from it. Hand-transcribing a signature into prose creates a second copy that silently goes stale. Hand-write only the contract semantics a generator cannot infer."
-  - "Publication is a gate, not a default. A page is published only after it passes the mission's validate action — Divio-type discipline, plain-language, accessibility, freshness, and source-of-truth fidelity are all green. Publishing is a deliberate, gated step in the publish action; a draft is never live by accident. This is the publication half of publication authority (FR-005: publication)."
-  - "One canonical home per fact; cross-reference instead of copying. Each fact lives in exactly one authoritative page and every other page links to it. Copy-pasting a fact into a second page creates two sources of truth that drift apart; the reader then cannot tell which is current. Curate by linking, and by distilling-then-retiring stale copies, not by duplicating."
-  - "Retire superseded documentation deliberately; do not leave it live. When a document no longer describes supported behaviour, distil its still-useful content into a decision (an ADR) or a design page and then retire the original, rather than leaving a stale page published where a reader will trust it. Deprecation is marked (`doc_status: deprecated | superseded`), not silent."
-  - "Provenance is explicit: mark drafts, generated pages, and deprecations. Frontmatter states a page's lifecycle (`doc_status`) and whether it is generated, so a reader and a gate can tell a live authoritative page from a draft, an auto-generated reference, or a retired one. Authority you cannot see is authority you cannot trust."
+  - name: "Code is the source of truth"
+    description: "Code is the source of truth; documentation mirrors shipped behaviour. Documentation describes what the system actually does, never what it was hoped to do or what an old design intended."
+  - name: "Every behaviour-changing change updates its documentation"
+    description: "Every behaviour-changing change updates its documentation. DIRECTIVE_037 (Living Documentation Sync) is the single owner of the same-change documentation-update rule for a change that alters observable behaviour."
+  - name: "Generated reference, not hand-copied"
+    description: "Reference that can be generated from the code is generated, not hand-copied. API signatures, CLI flags, and schema fields are extracted from the source (rustdoc, JSDoc, Sphinx autodoc) so they cannot drift from it."
+  - name: "Publication is a gate, not a default"
+    description: "Publication is a gate, not a default. A page is published only after it passes the mission's validate action — Divio-type discipline, plain-language, accessibility, freshness, and source-of-truth fidelity are all green."
+  - name: "One canonical home per fact"
+    description: "One canonical home per fact; cross-reference instead of copying. Each fact lives in exactly one authoritative page and every other page links to it."
+  - name: "Retire superseded documentation deliberately"
+    description: "Retire superseded documentation deliberately; do not leave it live. When a document no longer describes supported behaviour, distil its still-useful content into a decision (an ADR) or a design page and then retire the original."
+  - name: "Provenance is explicit"
+    description: "Provenance is explicit: mark drafts, generated pages, and deprecations. Frontmatter states a page's lifecycle (`doc_status`) and whether it is generated."
 
 patterns:
   - name: Behaviour change ships with its doc edit
@@ -35,6 +42,57 @@ patterns:
     bad_example: |
       docs/api/  a hand-maintained list of function signatures, already three
       releases out of date because nobody re-typed the last change.
+  - name: "Code is the source of truth"
+    description: >
+      Code is the source of truth; documentation mirrors shipped behaviour.
+      Documentation describes what the system actually does, never what it was hoped
+      to do or what an old design intended. When code and docs disagree, the code is
+      right and the docs are the defect. A page that documents behaviour the code does
+      not implement is worse than no page — it manufactures false confidence. This is
+      the source-of-truth half of publication authority (FR-005: source-of-truth).
+  - name: "Every behaviour-changing change updates its documentation"
+    description: >
+      Every behaviour-changing change updates its documentation. DIRECTIVE_037
+      (Living Documentation Sync) is the single owner of the same-change
+      documentation-update rule for a change that alters observable behaviour — a CLI
+      flag, an API response, a config key, a workflow step. Documentation is not a
+      follow-up ticket; deferring it is how docs drift from reality.
+  - name: "Generated reference, not hand-copied"
+    description: >
+      Reference that can be generated from the code is generated, not hand-copied.
+      API signatures, CLI flags, and schema fields are extracted from the source
+      (rustdoc, JSDoc, Sphinx autodoc) so they cannot drift from it. Hand-transcribing
+      a signature into prose creates a second copy that silently goes stale.
+      Hand-write only the contract semantics a generator cannot infer.
+  - name: "Publication is a gate, not a default"
+    description: >
+      Publication is a gate, not a default. A page is published only after it passes
+      the mission's validate action — Divio-type discipline, plain-language,
+      accessibility, freshness, and source-of-truth fidelity are all green. Publishing
+      is a deliberate, gated step in the publish action; a draft is never live by
+      accident. This is the publication half of publication authority (FR-005:
+      publication).
+  - name: "One canonical home per fact"
+    description: >
+      One canonical home per fact; cross-reference instead of copying. Each fact lives
+      in exactly one authoritative page and every other page links to it. Copy-pasting
+      a fact into a second page creates two sources of truth that drift apart; the
+      reader then cannot tell which is current. Curate by linking, and by
+      distilling-then-retiring stale copies, not by duplicating.
+  - name: "Retire superseded documentation deliberately"
+    description: >
+      Retire superseded documentation deliberately; do not leave it live. When a
+      document no longer describes supported behaviour, distil its still-useful
+      content into a decision (an ADR) or a design page and then retire the original,
+      rather than leaving a stale page published where a reader will trust it.
+      Deprecation is marked (`doc_status: deprecated | superseded`), not silent.
+  - name: "Provenance is explicit"
+    description: >
+      Provenance is explicit: mark drafts, generated pages, and deprecations.
+      Frontmatter states a page's lifecycle (`doc_status`) and whether it is generated,
+      so a reader and a gate can tell a live authoritative page from a draft, an
+      auto-generated reference, or a retired one. Authority you cannot see is
+      authority you cannot trust.
 
 anti_patterns:
   - name: Aspirational documentation ahead of the code
