@@ -17,29 +17,49 @@ principles:
   # — Kent Beck's twelve test desiderata: properties to OPTIMIZE via deliberate
   #   trade-offs, not to maximize all at once. Conflicts are often a design smell
   #   resolvable by better boundaries/composability, not an inherent limit.
-  - "Desiderata are trade-offs: choose which properties a given test optimizes; do not pretend one test maximizes all twelve at once."
-  - "Isolated: a test returns the same result regardless of the order tests run in — no shared mutable state, no order dependence."
-  - "Composable: dimensions of variability can be tested separately and combined, so coverage grows without combinatorial test counts."
-  - "Deterministic: if nothing changes, the result does not change — no reliance on clocks, randomness, network, or ambient filesystem state."
-  - "Fast: a test runs quickly enough to run after every small change without friction."
-  - "Writable: a test is cheap to write relative to the code it covers; expensive setup is a signal the boundary is wrong."
-  - "Readable: a test communicates the motivation and scenario to a future reader without spelunking the production code."
-  - "Behavioral: a test is sensitive to changes in the behavior of the code under test."
-  - "Structure-insensitive: a test does not change its result when internal structure is refactored without behavior change."
-  - "Automated: a test runs without human intervention."
-  - "Specific: when a test fails, the cause is obvious from the failure alone."
-  - "Predictive: when all tests pass, the code is fit for production."
-  - "Inspiring: passing the suite inspires confidence to ship."
+  - name: "Desiderata are trade-offs"
+    description: "Desiderata are trade-offs: choose which properties a given test optimizes; do not pretend one test maximizes all twelve at once."
+  - name: "Isolated from test order"
+    description: "Isolated: a test returns the same result regardless of the order tests run in — no shared mutable state, no order dependence."
+  - name: "Composable variability"
+    description: "Composable: dimensions of variability can be tested separately and combined, so coverage grows without combinatorial test counts."
+  - name: "Deterministic results"
+    description: "Deterministic: if nothing changes, the result does not change — no reliance on clocks, randomness, network, or ambient filesystem state."
+  - name: "Fast feedback"
+    description: "Fast: a test runs quickly enough to run after every small change without friction."
+  - name: "Writable tests"
+    description: "Writable: a test is cheap to write relative to the code it covers; expensive setup is a signal the boundary is wrong."
+  - name: "Readable tests"
+    description: "Readable: a test communicates the motivation and scenario to a future reader without spelunking the production code."
+  - name: "Behavioral sensitivity"
+    description: "Behavioral: a test is sensitive to changes in the behavior of the code under test."
+  - name: "Structure-insensitive"
+    description: "Structure-insensitive: a test does not change its result when internal structure is refactored without behavior change."
+  - name: "Automated execution"
+    description: "Automated: a test runs without human intervention."
+  - name: "Specific failures"
+    description: "Specific: when a test fails, the cause is obvious from the failure alone."
+  - name: "Predictive of production"
+    description: "Predictive: when all tests pass, the code is fit for production."
+  - name: "Inspiring confidence"
+    description: "Inspiring: passing the suite inspires confidence to ship."
   # — Clear Test Boundaries (Define Test Boundaries):
-  - "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
-  - "Stub infrastructure at the boundary: external services, data access, and IO (filesystem, database, clock, network, randomness, git) live OUTSIDE the boundary and are replaced by test doubles or pure inputs."
-  - "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
-  - "If a unit test needs heavy infrastructure scaffolding to run, the boundary is wrong: extract a pure seam that takes domain inputs so the behavior is testable without IO."
+  - name: "Boundary by responsibility, not by layer"
+    description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
+  - name: "Stub infrastructure at the boundary"
+    description: "Stub infrastructure at the boundary: external services, data access, and IO (filesystem, database, clock, network, randomness, git) live OUTSIDE the boundary and are replaced by test doubles or pure inputs."
+  - name: "Assert observable outcomes, not mechanisms"
+    description: "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
+  - name: "Heavy scaffolding signals a wrong boundary"
+    description: "If a unit test needs heavy infrastructure scaffolding to run, the boundary is wrong: extract a pure seam that takes domain inputs so the behavior is testable without IO."
   # — Detect as far left as possible: every desideratum a machine can check is
   #   checked before a human (or a slow suite) has to notice it.
-  - "Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run; what a unit test can catch never waits for an integration or end-to-end run; what a lint-time check can catch never waits for review."
-  - "Behavioral is proven, not assumed: a test that guards a contract shows it can go red — plant the break (or run against the unfixed code) and watch it fail. A test that asserts on data it built itself, or on a stub's return value, is not Behavioral however green it is."
-  - "The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test. Sources: https://testdesiderata.com/; https://patterns.sddevelopment.be/practices/define_test_boundaries/."
+  - name: "Shift detection left"
+    description: "Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run."
+  - name: "Behavioral is proven, not assumed"
+    description: "Behavioral is proven, not assumed: a test that guards a contract shows it can go red — plant the break (or run against the unfixed code) and watch it fail."
+  - name: "Test name is the contract"
+    description: "The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test."
 
 patterns:
   - name: Map each desideratum to its earliest detector
@@ -105,6 +125,26 @@ patterns:
       # Behavioral AND structure-insensitive: assert the outcome that crosses the
       # boundary, regardless of which internal helper produced it.
       assert resolve_action_context(repo, "m", "WP01").target_branch == expected
+  - name: "Shift detection left"
+    description: >
+      Shift detection left: catch each violation at the earliest, cheapest point
+      that can see it. What a formatter, linter, or static check can reject never
+      waits for a test run; what a unit test can catch never waits for an
+      integration or end-to-end run; what a lint-time check can catch never waits
+      for review.
+  - name: "Behavioral is proven, not assumed"
+    description: >
+      Behavioral is proven, not assumed: a test that guards a contract shows it
+      can go red — plant the break (or run against the unfixed code) and watch it
+      fail. A test that asserts on data it built itself, or on a stub's return
+      value, is not Behavioral however green it is.
+  - name: "Test name is the contract"
+    description: >
+      The name is the contract: Readable and Specific require that the body
+      asserts exactly what the name promises. A test named 'does not leak X' that
+      asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a
+      defect in the test. Sources: https://testdesiderata.com/;
+      https://patterns.sddevelopment.be/practices/define_test_boundaries/.
 
 anti_patterns:
   - name: Infrastructure as untyped shared mutable state

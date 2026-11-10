@@ -5,13 +5,20 @@ scope: docs
 applies_to_languages: []
 
 principles:
-  - "Write for the named audience, at their level. Plain language is not a fixed reading grade — it is calibrated to the reader the page is for. A tutorial for first-time users assumes no jargon; a reference for working developers may use precise domain terms without re-defining them. The audience is named at discover time (see the discover action's target-audience governance); every page then writes to that named reader, never to the author."
-  - "Prefer the short, common word. Choose 'use' over 'utilise', 'about' over 'approximately', 'help' over 'facilitate'. Reserve precise technical terms for where precision matters; do not reach for a longer word to sound authoritative. Every unnecessary syllable is friction between the reader and the answer."
-  - "One idea per sentence; short paragraphs. Long, clause-stacked sentences hide the actionable core. Split them. Keep paragraphs to a few sentences so a scanning reader can find the paragraph that answers their question. Front-load each paragraph with its point (the 'bottom line up front')."
-  - "Use the active voice and address the reader as 'you'. 'Run the command' and 'You then confirm the result' are direct and unambiguous about who does what. The passive voice ('the command should be run') hides the actor and reads as evasive in instructional prose."
-  - "Define a term once, at first use, then use it consistently. Introduce a domain term with a one-line definition or a link to the glossary the first time it appears on a page, then use exactly that term — never a rotating set of near-synonyms. Consistent terminology is a readability feature, not pedantry; it lets the reader build a stable model. Follow the project glossary and terminology canon."
-  - "Show, don't only tell. A concrete example, a command with its real output, or a short snippet communicates faster than a paragraph of description. Prefer a worked example over an abstract explanation wherever the reader's goal is to do something."
-  - "Cut hedging, filler, and meta-narration. Delete 'simply', 'just', 'obviously', 'it should be noted that', and 'in order to'. 'Simply' and 'just' also shame a reader for whom the step is not simple. Say the thing directly."
+  - name: "Write for the named audience, at their level"
+    description: "Write for the named audience, at their level. Plain language is not a fixed reading grade — it is calibrated to the reader the page is for."
+  - name: "Prefer the short, common word"
+    description: "Prefer the short, common word. Choose 'use' over 'utilise', 'about' over 'approximately', 'help' over 'facilitate'. Reserve precise technical terms for where precision matters; do not reach for a longer word to sound authoritative."
+  - name: "One idea per sentence"
+    description: "One idea per sentence; short paragraphs. Long, clause-stacked sentences hide the actionable core. Split them. Keep paragraphs to a few sentences so a scanning reader can find the paragraph that answers their question."
+  - name: "Active voice, addressed to 'you'"
+    description: "Use the active voice and address the reader as 'you'. 'Run the command' and 'You then confirm the result' are direct and unambiguous about who does what."
+  - name: "Define a term once, use it consistently"
+    description: "Define a term once, at first use, then use it consistently. Introduce a domain term with a one-line definition or a link to the glossary the first time it appears on a page, then use exactly that term — never a rotating set of near-synonyms."
+  - name: "Show, don't only tell"
+    description: "Show, don't only tell. A concrete example, a command with its real output, or a short snippet communicates faster than a paragraph of description. Prefer a worked example over an abstract explanation wherever the reader's goal is to do something."
+  - name: "Cut hedging, filler, and meta-narration"
+    description: "Cut hedging, filler, and meta-narration. Delete 'simply', 'just', 'obviously', 'it should be noted that', and 'in order to'. 'Simply' and 'just' also shame a reader for whom the step is not simple. Say the thing directly."
 
 patterns:
   - name: Bottom-line-up-front paragraph
@@ -39,6 +46,40 @@ patterns:
     bad_example: |
       A work package is claimed. The task is then implemented. Once the work
       item is done, the deliverable is reviewed.
+  - name: "Write for the named audience, at their level"
+    description: >
+      Write for the named audience, at their level. Plain language is not a fixed
+      reading grade — it is calibrated to the reader the page is for. A tutorial for
+      first-time users assumes no jargon; a reference for working developers may use
+      precise domain terms without re-defining them. The audience is named at discover
+      time (see the discover action's target-audience governance); every page then
+      writes to that named reader, never to the author.
+  - name: "Prefer the short, common word"
+    description: >
+      Prefer the short, common word. Choose 'use' over 'utilise', 'about' over
+      'approximately', 'help' over 'facilitate'. Reserve precise technical terms for
+      where precision matters; do not reach for a longer word to sound authoritative.
+      Every unnecessary syllable is friction between the reader and the answer.
+  - name: "One idea per sentence"
+    description: >
+      One idea per sentence; short paragraphs. Long, clause-stacked sentences hide
+      the actionable core. Split them. Keep paragraphs to a few sentences so a scanning
+      reader can find the paragraph that answers their question. Front-load each
+      paragraph with its point (the 'bottom line up front').
+  - name: "Active voice, addressed to 'you'"
+    description: >
+      Use the active voice and address the reader as 'you'. 'Run the command' and
+      'You then confirm the result' are direct and unambiguous about who does what.
+      The passive voice ('the command should be run') hides the actor and reads as
+      evasive in instructional prose.
+  - name: "Define a term once, use it consistently"
+    description: >
+      Define a term once, at first use, then use it consistently. Introduce a domain
+      term with a one-line definition or a link to the glossary the first time it
+      appears on a page, then use exactly that term — never a rotating set of
+      near-synonyms. Consistent terminology is a readability feature, not pedantry; it
+      lets the reader build a stable model. Follow the project glossary and
+      terminology canon.
 
 anti_patterns:
   - name: Jargon aimed at the wrong audience

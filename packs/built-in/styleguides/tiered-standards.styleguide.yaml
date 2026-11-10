@@ -4,12 +4,18 @@ title: Tiered Coding Standards
 scope: code
 
 principles:
-  - "Rigour must match risk: the closer a package is to mission-critical state management or runtime execution, the higher the quality bar it must meet."
-  - "Core packages own the invariants: status transitions, merge orchestration, dependency resolution, and mission runtime are load-bearing — they must be covered, typed, and lint-clean at all times."
-  - "Glue packages connect and delegate: CLI command shells, upgrade migrations, and render helpers orchestrate core behaviour and need integration coverage but may tolerate lighter unit-coverage targets."
-  - "Scripting packages are not production surfaces: shims, one-off scripts, and exploratory code operate under relaxed rules and must never bleed their laxity into core or glue packages."
-  - "Debt is not invisible: pre-existing failures in any tier must be recorded before handoff — never hidden inside new work."
-  - "Boundaries must not be crossed downward: core packages must not import from glue or scripting packages; glue packages must not import from scripting packages."
+  - name: "Rigour must match risk"
+    description: "Rigour must match risk: the closer a package is to mission-critical state management or runtime execution, the higher the quality bar it must meet."
+  - name: "Core packages own the invariants"
+    description: "Core packages own the invariants: status transitions, merge orchestration, dependency resolution, and mission runtime are load-bearing — they must be covered, typed, and lint-clean at all times."
+  - name: "Glue packages connect and delegate"
+    description: "Glue packages connect and delegate: CLI command shells, upgrade migrations, and render helpers orchestrate core behaviour and need integration coverage but may tolerate lighter unit-coverage targets."
+  - name: "Scripting packages are not production surfaces"
+    description: "Scripting packages are not production surfaces: shims, one-off scripts, and exploratory code operate under relaxed rules and must never bleed their laxity into core or glue packages."
+  - name: "Debt is not invisible"
+    description: "Debt is not invisible: pre-existing failures in any tier must be recorded before handoff — never hidden inside new work."
+  - name: "Boundaries must not be crossed downward"
+    description: "Boundaries must not be crossed downward: core packages must not import from glue or scripting packages; glue packages must not import from scripting packages."
 
 patterns:
   - name: Core Tier Standards
