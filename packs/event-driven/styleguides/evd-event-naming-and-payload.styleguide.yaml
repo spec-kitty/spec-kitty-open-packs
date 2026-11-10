@@ -5,26 +5,22 @@ scope: architecture
 applies_to_languages: []
 
 principles:
-  - "Name an event type as a past-tense fact in the domain's language: subject plus
-    past participle (`WorkPackageClaimed`, `ReviewRejected`, `MissionCreated`). The
-    name says what happened, not what the code did."
-  - "One event per business-meaningful change. A generic `<Thing>Updated` with a bag of
-    changed fields hides intent; split it into the facts a domain expert would name."
-  - "Separate the envelope from the payload. The envelope is the same for every type:
-    `event_id`, `event_type`, `schema_version`, the stream or aggregate id, the ordering
-    key, `occurred_at`, `actor`. The payload holds only what is specific to this type."
-  - "Carry the facts a consumer needs at the time it happened (the lane moved from and
-    to, the reviewer's verdict), not a pointer to mutable state it would have to look
-    up later."
-  - "Keep payloads small and flat. Use ids to refer to other aggregates; do not embed
-    their current state, which is someone else's to change."
-  - "Use explicit, typed values: enumerations as closed string sets documented in the
-    contract, timestamps in ISO 8601 UTC, durations and amounts with their unit in the
-    field name (`timeout_seconds`)."
-  - "Field names are stable for the life of a version. A rename is a new version and an
-    upcaster (`evd-event-versioning-and-upcasting`)."
-  - "Every published contract ships with a minimal valid example per version; the example
-    is checked in CI against the schema."
+  - name: "Name events as past-tense facts"
+    description: "Name an event type as a past-tense fact in the domain's language: subject plus past participle (`WorkPackageClaimed`, `ReviewRejected`, `MissionCreated`). The name says what happened, not what the code did."
+  - name: "One event per business-meaningful change"
+    description: "One event per business-meaningful change. A generic `<Thing>Updated` with a bag of changed fields hides intent; split it into the facts a domain expert would name."
+  - name: "Separate the envelope from the payload"
+    description: "Separate the envelope from the payload. The envelope is the same for every type: `event_id`, `event_type`, `schema_version`, the stream or aggregate id, the ordering key, `occurred_at`, `actor`. The payload holds only what is specific to this type."
+  - name: "Carry facts, not mutable-state pointers"
+    description: "Carry the facts a consumer needs at the time it happened (the lane moved from and to, the reviewer's verdict), not a pointer to mutable state it would have to look up later."
+  - name: "Keep payloads small and flat"
+    description: "Keep payloads small and flat. Use ids to refer to other aggregates; do not embed their current state, which is someone else's to change."
+  - name: "Use explicit, typed values"
+    description: "Use explicit, typed values: enumerations as closed string sets documented in the contract, timestamps in ISO 8601 UTC, durations and amounts with their unit in the field name (`timeout_seconds`)."
+  - name: "Field names are stable per version"
+    description: "Field names are stable for the life of a version. A rename is a new version and an upcaster (`evd-event-versioning-and-upcasting`)."
+  - name: "Ship a minimal valid example per version"
+    description: "Every published contract ships with a minimal valid example per version; the example is checked in CI against the schema."
 
 patterns:
   - name: Past-tense fact with a typed envelope
