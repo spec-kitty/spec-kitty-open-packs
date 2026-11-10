@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 3230541c7658934bfb20da11bdda8dfcd23087fe0fbf1ce9d82429ab4ddc4809
+manifest_hash: b06fd8845ca47ce4d6619b5645bdfb76bfacb2f61380ede1e3518325e6b4cb11
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -592,11 +592,11 @@ constituents:
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: f32a38c1c37e3ba435b71d87e02e3694b678ff4ea2e34e4cc15364c1833ce132
+  content_hash: b8da1c4b9669553f5102a3ad8e5afc6ed872aeb155cb064982853d8ba894a5fa
 - kind: styleguide
   id: css-conventions
   path: styleguides/css-conventions.styleguide.yaml
-  content_hash: d31f113caf6111b6a9d5128532c6094021d420c10be70ca3ad91a0fe4bc6a5c7
+  content_hash: ad7e2cac7a1ff80c6a2d583792a295d5e646b690de3100d8251d2e8ba751223f
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
@@ -608,7 +608,7 @@ constituents:
 - kind: styleguide
   id: docs-accessibility
   path: styleguides/docs-accessibility.styleguide.yaml
-  content_hash: 427dff4f46901ce8587b17ab2f4a9ed71fb2a432896f259712b28ab5223e2f3a
+  content_hash: 84f7d70c578e035ce12bebcf08dde9936789d9f1f7640a3c0266d880243dac20
 - kind: styleguide
   id: docs-freshness-sla
   path: styleguides/docs-freshness-sla.styleguide.yaml
@@ -640,7 +640,7 @@ constituents:
 - kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
-  content_hash: 8a3db4897e66c86720cc1a1f240ac0a15f0a1536675ac5fedc9f62e6724b37e8
+  content_hash: 7c7c1a968479781b66fd004a65db4ac8801c04ba25a67931f0c6a822e52897f3
 - kind: styleguide
   id: mutation-aware-test-design
   path: styleguides/mutation-aware-test-design.styleguide.yaml
@@ -652,7 +652,7 @@ constituents:
 - kind: styleguide
   id: planning-and-tracking
   path: styleguides/planning-and-tracking.styleguide.yaml
-  content_hash: b2a3085b78f527e4cb9427a4786de92a39be7a42198959f39e9626a0e233a91b
+  content_hash: 869e9ba9cc60a08cc597a321cd4ec73fb8a1e07ebaa1b7aafce5ab45775f79d9
 - kind: styleguide
   id: professional-communications
   path: styleguides/professional-communications.styleguide.yaml
@@ -676,7 +676,7 @@ constituents:
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: 6aa5951799da74d778c27bdb29486db9203a5d62e146fdec2c78b723e1428b0a
+  content_hash: cfbc72c9451bfcabf9c1dd126a3940ec79e22e4082303478dd2ef39db2eaa08a
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
@@ -688,7 +688,7 @@ constituents:
 - kind: styleguide
   id: typescript-conventions
   path: styleguides/typescript-conventions.styleguide.yaml
-  content_hash: 4dd88852284cbfd6abf3d427040f3c1825bca55793b7652a8c9edd996cb394c7
+  content_hash: 52dbb42d621e0b78bb0b944558f8fc81d35ea447c66c99febe6e888f29f7d9d7
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml

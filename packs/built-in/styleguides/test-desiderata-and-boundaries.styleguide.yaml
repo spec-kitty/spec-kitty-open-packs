@@ -57,7 +57,7 @@ principles:
   - name: "Shift detection left"
     description: "Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run."
   - name: "Behavioral is proven, not assumed"
-    description: "Behavioral is proven, not assumed: a test that guards a contract shows it can go red — plant the break (or run against the unfixed code) and watch it fail."
+    description: "Behavioral is proven, not assumed: a test guarding a contract shows it can go red (plant the break and watch it fail). A test asserting on data it built itself, or on a stub's return value, is not Behavioral however green."
   - name: "Test name is the contract"
     description: "The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test."
 

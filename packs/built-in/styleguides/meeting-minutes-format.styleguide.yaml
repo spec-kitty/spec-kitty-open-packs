@@ -16,7 +16,7 @@ principles:
   - name: "Decision minutes: notes brevity"
     description: "Decision minutes: Notes brevity rule: at most 3–4 bullet phrases per agenda item, each approximately 6–14 words. These are executive minutes — capture only the major talking point of each item, not the discussion that led to it."
   - name: "Decision minutes: decisions column"
-    description: "Decision minutes: Decisions column: one short line per decision, outcome only. Add \"— because <reason>\" only if the reason was explicitly stated in the meeting and is essential to understanding the decision."
+    description: "Decision minutes: Decisions column: one short line per decision, outcome only. Add \"— because <reason>\" only if the reason was stated and is essential. If no decision was reached, leave the cell empty. Do not narrate the debate."
   - name: "Discussion notes: document title"
     description: "Discussion notes: Document title uses the pattern \"{Meeting Name} — Discussion Notes\" (em-dash, not hyphen)."
   - name: "Discussion notes: section order"

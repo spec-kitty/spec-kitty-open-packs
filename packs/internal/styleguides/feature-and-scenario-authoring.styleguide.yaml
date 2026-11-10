@@ -12,7 +12,7 @@ principles:
   - name: "Lead from the promise, not the command"
     description: "Lead from the promise, not the command. Start from the guarantee the system makes (a doc, an ADR, an FR) and write the outcome. The command is an implementation detail the scenario should survive."
   - name: "Describe desired behaviour, not defects"
-    description: "Describe desired behaviour, not defects. The .feature layer is the specification of what the system should do; it is not a bug-reproduction layer."
+    description: "Describe desired behaviour, not defects. The .feature layer specifies what the system should do, not bug reproductions. Never tag a scenario @defect; a fixed defect becomes a positive promise and its reproduction stays in the regression tier."
   - name: "Name outcomes, not output surfaces"
     description: "Name outcomes, not output surfaces. Assert the governed result the consumer experiences, not what a command printed. 'The governance in force includes the profiles I selected' is a promise; 'charter list prints researcher-ryan' is a technical echo."
   - name: "One promise per scenario, concrete and checkable"
