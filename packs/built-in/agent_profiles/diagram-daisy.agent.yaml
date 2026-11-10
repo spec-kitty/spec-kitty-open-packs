@@ -4,8 +4,7 @@ name: Diagram Daisy
 description: >
   Transform conceptual and architectural structures into clear, semantically aligned
   diagrams using Mermaid, PlantUML, and Graphviz.
-roles:
-- diagram-author
+role: diagram-author
 routing-priority: 60
 capabilities:
 - diagram-as-code

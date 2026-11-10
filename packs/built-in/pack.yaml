@@ -14,3 +14,5 @@ parent_pack: null
 name: built-in
 # Declared Charter Pack tier (kernel.pack_tiers authority).
 pack_level: built-in
+fallback_profile: generic-agent
+mutability_policy: policy.yaml

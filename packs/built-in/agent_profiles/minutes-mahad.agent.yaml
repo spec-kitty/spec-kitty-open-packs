@@ -21,8 +21,8 @@ description: >
   requires no publish credentials. Minutes Mahad does not perform editorial
   interpretation, does not invent content not present in the transcript, and
   does not return minutes that have not passed the validation gate.
-roles:
-  - documentarian
+role: documentarian
+alt-roles:
   - transcriptionist
 capabilities:
   - vtt-transcript-parsing

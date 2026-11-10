@@ -1,10 +1,9 @@
 profile-id: "generic-agent"
 name: "Generic Agent"
-description: "General-purpose task execution profile. Used as the default when no
-  specialist profile is assigned to a work package."
+description: "Role-neutral fallback profile. Used when no available profile fits
+  the requested role."
 schema-version: "1.0"
-roles:
-- implementer
+role: generic
 capabilities:
 - "general-task-execution"
 - "code-implementation"
@@ -13,11 +12,10 @@ routing-priority: 10
 max-concurrent-tasks: 5
 
 purpose: >
-  Execute assigned work packages faithfully and completely, applying efficient local
-  tooling
-  and respecting the project's governance boundaries. Serve as the baseline agent
-  identity
-  when no specialist role has been assigned.
+  Serve as the pack's role-neutral fallback when no available profile fits the requested
+  role. Execute the assigned work faithfully and completely, applying efficient local
+  tooling and respecting the project's governance boundaries without claiming a
+  specialist role or taking precedence over a matching profile.
 
 specialization:
   primary-focus: General-purpose task execution across all work package types

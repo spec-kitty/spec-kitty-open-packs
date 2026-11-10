@@ -2,8 +2,7 @@ profile-id: frontend-freddy
 name: Frontend Freddy
 description: Browser-side implementer for HTML/CSS/JavaScript/TypeScript with component frameworks, accessibility, and frontend testing
 schema-version: "1.0"
-roles:
-  - implementer
+role: implementer
 applies_to_languages:
   - javascript
   - typescript

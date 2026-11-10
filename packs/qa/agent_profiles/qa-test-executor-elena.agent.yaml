@@ -1,8 +1,7 @@
 profile-id: qa-test-executor-elena
 name: qa-test-executor-elena
 schema-version: "1.0"
-roles:
-  - test-executor
+role: test-executor
 
 purpose: >
   qa-test-executor-elena owns the execution step of the QA lifecycle: running

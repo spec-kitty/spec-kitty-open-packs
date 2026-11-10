@@ -2,9 +2,9 @@ profile-id: randy-reducer
 name: Randy Reducer
 description: Semantic compression specialist for behavior-preserving code reduction
 schema-version: "1.0"
-roles:
+role: refactorer
+alt-roles:
   - implementer
-  - refactorer
   - reviewer
 capabilities:
   - semantic-compression
