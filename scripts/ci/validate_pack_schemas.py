@@ -47,7 +47,7 @@ from jsonschema import Draft202012Validator
 CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
 # Commit of spec-kitty-charter whose contracts/packs/ this repository validates against.
 # A commit on charter main, bumped deliberately. Never float to a branch.
-CHARTER_COMMIT = "55c7d824e96ebd8d55b245c4c42d1950afbf88e6"
+CHARTER_COMMIT = "62f274596d2ef4cc7bc7f34ec43c69785350cad4"
 CONTRACT_PATH = "contracts/packs"
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.
