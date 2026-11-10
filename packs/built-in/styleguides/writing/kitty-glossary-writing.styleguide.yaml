@@ -3,14 +3,22 @@ id: kitty-glossary-writing
 title: Kitty Glossary Writing Styleguide
 scope: glossary
 principles:
-  - "Clear, not clever: definitions exist to help the reader understand, not to demonstrate expertise."
-  - "No buzzword soup: avoid stacking jargon-heavy terms into a single sentence. If a definition requires re-reading, it has failed."
-  - "Functional over compositional: explain what something does, not what it is composed of."
-  - "Human-focused: write for the person encountering the term for the first time, not the person who already knows it."
-  - "Use Human-in-Charge (HiC) consistently: never use 'user' when referring to the human who holds decision authority."
-  - "One concept per definition: if a definition needs multiple paragraphs, it may be covering more than one term."
-  - "Foundational terms must be defined: if a definition depends on terms like API, CLI, YAML, or JSON, those terms must exist in the glossary."
-  - "All new terms enter as candidate: the HiC promotes to canonical. This is not optional. Sources: glossary/README.md; docs/context/."
+  - name: "Clear, not clever"
+    description: "Clear, not clever: definitions exist to help the reader understand, not to demonstrate expertise."
+  - name: "No buzzword soup"
+    description: "No buzzword soup: avoid stacking jargon-heavy terms into a single sentence. If a definition requires re-reading, it has failed."
+  - name: "Functional over compositional"
+    description: "Functional over compositional: explain what something does, not what it is composed of."
+  - name: "Human-focused"
+    description: "Human-focused: write for the person encountering the term for the first time, not the person who already knows it."
+  - name: "Use Human-in-Charge (HiC) consistently"
+    description: "Use Human-in-Charge (HiC) consistently: never use 'user' when referring to the human who holds decision authority."
+  - name: "One concept per definition"
+    description: "One concept per definition: if a definition needs multiple paragraphs, it may be covering more than one term."
+  - name: "Foundational terms must be defined"
+    description: "Foundational terms must be defined: if a definition depends on terms like API, CLI, YAML, or JSON, those terms must exist in the glossary."
+  - name: "All new terms enter as candidate"
+    description: "All new terms enter as candidate: the HiC promotes to canonical. This is not optional. Sources: glossary/README.md; docs/context/."
 
 anti_patterns:
   - name: Buzzword Soup

@@ -4,12 +4,18 @@ title: Mutation-Aware Test Design
 scope: testing
 
 principles:
-  - "Test boundary values: provide a test at the exact equality point for every >= or <= comparison, plus one step either side."
-  - "Avoid identity inputs: use values where the operator swap produces a different result — 3 not 1 for multiplication, non-zero for addition."
-  - "Cover both branches of logical operators: include at least one case where exactly one operand is true for every AND/OR guard."
-  - "Assert observable outcomes: verify return values, state changes, or side effects — an assertion-free test cannot kill any mutant."
-  - "Distinguish partial from total: test cases where some() and all() (or any() and all()) diverge."
-  - "Read the mutation score as a triage signal for where tests are structurally weak, not as a numeric target — see the mutation-testing-workflow tactic for the band table."
+  - name: "Test boundary values"
+    description: "Test boundary values: provide a test at the exact equality point for every >= or <= comparison, plus one step either side."
+  - name: "Avoid identity inputs"
+    description: "Avoid identity inputs: use values where the operator swap produces a different result — 3 not 1 for multiplication, non-zero for addition."
+  - name: "Cover both branches of logical operators"
+    description: "Cover both branches of logical operators: include at least one case where exactly one operand is true for every AND/OR guard."
+  - name: "Assert observable outcomes"
+    description: "Assert observable outcomes: verify return values, state changes, or side effects — an assertion-free test cannot kill any mutant."
+  - name: "Distinguish partial from total"
+    description: "Distinguish partial from total: test cases where some() and all() (or any() and all()) diverge."
+  - name: "Mutation score is a triage signal"
+    description: "Read the mutation score as a triage signal for where tests are structurally weak, not as a numeric target — see the mutation-testing-workflow tactic for the band table."
 
 patterns:
   - name: Boundary Pair

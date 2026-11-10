@@ -5,26 +5,29 @@ scope: testing
 applies_to_languages: []
 
 principles:
-  - "A test has four phases: Arrange, Assumption checks, Act, Assert. Naming
-    them turns a test into the canonical skeleton for pinning ONE behaviour."
-  - "Arrange: set up the system in the desired state to commence the test —
-    construct the objects, load the fixtures, and put collaborators into the
-    precondition the behaviour under test requires."
-  - "Assumption checks: verify the system is in the pre-condition state before
-    acting, so a wrong fixture fails loudly here instead of masquerading as a
-    failure of the behaviour under test. The assumption check MAY PRECEDE Arrange
-    when the system's default state already IS the precondition — you assert the
-    starting state first, then (if needed) arrange further — so the phase is
-    about position in intent, not a rigid line order."
-  - "Act: execute the code or behaviour under test, now that the system is in the
-    desired state. Exactly one action is exercised — the single trigger whose
-    effect the test exists to describe."
-  - "Assert: validate that the effects of the action are what you expect —
-    the observable outcome, the returned value, the raised error, the emitted
-    event — not the internal mechanism by which it was produced."
-  - "One behaviour per test. The four phases describe a single behavioural
-    increment; a test that needs two Act phases or two unrelated Assert clusters
-    is two behaviours and should be split."
+  - name: "A test has four phases"
+    description: "A test has four phases: Arrange, Assumption checks, Act, Assert. Naming
+      them turns a test into the canonical skeleton for pinning ONE behaviour."
+  - name: "Arrange phase"
+    description: "Arrange: set up the system in the desired state to commence the test —
+      construct the objects, load the fixtures, and put collaborators into the
+      precondition the behaviour under test requires."
+  - name: "Assumption checks"
+    description: "Assumption checks: verify the system is in the pre-condition state before
+      acting, so a wrong fixture fails loudly here instead of masquerading as a
+      failure of the behaviour under test."
+  - name: "Act phase"
+    description: "Act: execute the code or behaviour under test, now that the system is in the
+      desired state. Exactly one action is exercised — the single trigger whose
+      effect the test exists to describe."
+  - name: "Assert phase"
+    description: "Assert: validate that the effects of the action are what you expect —
+      the observable outcome, the returned value, the raised error, the emitted
+      event — not the internal mechanism by which it was produced."
+  - name: "One behaviour per test"
+    description: "One behaviour per test. The four phases describe a single behavioural
+      increment; a test that needs two Act phases or two unrelated Assert clusters
+      is two behaviours and should be split."
 
 patterns:
   - name: The Four Phases, Labelled
@@ -76,6 +79,14 @@ patterns:
           entry = LedgerEntry(amount=100)
           ledger.append(entry)
           assert ledger_path.exists()
+  - name: "Assumption checks"
+    description: >
+      Assumption checks: verify the system is in the pre-condition state before
+      acting, so a wrong fixture fails loudly here instead of masquerading as a
+      failure of the behaviour under test. The assumption check MAY PRECEDE Arrange
+      when the system's default state already IS the precondition — you assert the
+      starting state first, then (if needed) arrange further — so the phase is
+      about position in intent, not a rigid line order.
 
 anti_patterns:
   - name: Missing Assumption Check
