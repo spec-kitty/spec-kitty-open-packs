@@ -2,7 +2,7 @@
 title: spdd pack reference
 description: "Generated reference for the spdd Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
 doc_status: active
-updated: '2026-10-17'
+updated: '2026-11-09'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-10-17'
+  at: '2026-11-09'
 ---
 
 # spdd pack reference
@@ -21,12 +21,18 @@ generated:
 
 - **Pack directory:** `packs/spdd`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `6d3a6d724ae7c1815330883358e61ce97094b5ed02baa1e35de6221f1610f2d1`
+- **Content checksum (sha256):** `779178e190c0aa6b03b27f40cd92ef3b93a8495d57789a0786dc73b156244b98`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-_No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. See the pack's `README.md` and the [Packs hub](index.md) for authored context._
+Structured-Prompt-Driven Development (SPDD) treats structured prompts and REASONS canvases as
+governed change-intent and decision-boundary artifacts.
+
+This opt-in org pack holds the SPDD paradigm, its directive, the REASONS canvas fill/review
+tactics and writing styleguide, and the prompt enhancements for the `software-dev` specify,
+plan, tasks, implement and review steps. Activating its `spdd` preset selects the doctrine and
+all five step enhancements together.
 
 **Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
 
@@ -41,7 +47,7 @@ _No `purpose` is declared for a pack: the `pack.yaml` schema has no such field. 
 | `drg` | 1 |
 | `missions` | 10 |
 | `presets` | 1 |
-| **Total files** | **20** |
+| **Total files** | **21** |
 
 ### Full listing
 

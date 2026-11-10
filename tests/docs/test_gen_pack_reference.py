@@ -140,6 +140,19 @@ class GeneratorDeterminismTest(unittest.TestCase):
             self.assertIn("No `purpose` is declared", page)
             self.assertIn("the [Packs hub](index.md)", page)
 
+    def test_pack_md_without_a_preamble_has_a_distinct_note(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            (pack / "pack.md").write_text(
+                "# built-in\n\n## Details\n\nSection prose only.\n",
+                encoding="utf-8",
+            )
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            self.assertIn("This pack's `pack.md` has no preamble", page)
+            self.assertNotIn("authors no `pack.md`", page)
+            self.assertNotIn("Section prose only", page)
+
     def test_pack_md_preamble_is_rendered_under_purpose(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -172,6 +185,27 @@ class GeneratorDeterminismTest(unittest.TestCase):
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
             self.assertIn("## Purpose\n\nDescription after frontmatter.\n", page)
             self.assertNotIn("ignored frontmatter", page)
+
+    def test_pack_md_preamble_ignores_h2_headings_inside_fences(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            (pack / "pack.md").write_text(
+                "# built-in\n\n"
+                "Description before the fences.\n\n"
+                "```markdown\n## Inside a backtick fence\n```\n\n"
+                "~~~text\n## Inside a tilde fence\n~~~\n\n"
+                "## Details\n\nSection prose that must not render.\n",
+                encoding="utf-8",
+            )
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            self.assertIn(
+                "## Purpose\n\nDescription before the fences.\n\n"
+                "```markdown\n## Inside a backtick fence\n```\n\n"
+                "~~~text\n## Inside a tilde fence\n~~~\n",
+                page,
+            )
+            self.assertNotIn("Section prose that must not render", page)
 
     def test_depends_on_is_published_with_every_entry_as_the_schema_shapes_it(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

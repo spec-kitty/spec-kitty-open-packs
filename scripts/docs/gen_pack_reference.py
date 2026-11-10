@@ -210,6 +210,19 @@ def read_pack_descriptor(directory: Path) -> PackDescriptor:
 # ---------------------------------------------------------------------------
 
 
+def _markdown_fence(line: str) -> tuple[str, int, str] | None:
+    """Return a CommonMark fence's character, length and info string."""
+
+    stripped = line.lstrip(" ")
+    if len(line) - len(stripped) > 3 or not stripped or stripped[0] not in "`~":
+        return None
+    character = stripped[0]
+    length = len(stripped) - len(stripped.lstrip(character))
+    if length < 3:
+        return None
+    return character, length, stripped[length:]
+
+
 def read_pack_document(directory: Path) -> PackDocument | None:
     """Read the pack's ``pack.md`` (the charter's pack description), if present.
 
@@ -242,12 +255,26 @@ def read_pack_document(directory: Path) -> PackDocument | None:
     if lines and lines[0].startswith("# "):
         lines = lines[1:]
 
-    # The preamble runs to the first H2 section.
+    # The preamble runs to the first H2 section outside a code fence.
     preamble: list[str] = []
+    fence: tuple[str, int] | None = None
     for line in lines:
+        marker = _markdown_fence(line)
+        if fence:
+            preamble.append(line)
+            if (
+                marker
+                and marker[0] == fence[0]
+                and marker[1] >= fence[1]
+                and not marker[2].strip()
+            ):
+                fence = None
+            continue
         if line.startswith("## "):
             break
         preamble.append(line)
+        if marker:
+            fence = marker[:2]
     return PackDocument(preamble="\n".join(preamble).strip())
 
 
@@ -509,6 +536,11 @@ def render_page(ref: PackReference) -> str:
     preamble = ref.pack_document.preamble if ref.pack_document else ""
     if preamble:
         lines.append(preamble)
+    elif ref.pack_document is not None:
+        lines.append(
+            "_This pack's `pack.md` has no preamble. See the pack's `README.md` "
+            "and the [Packs hub](index.md) for authored context._"
+        )
     else:
         lines.append(
             "_No `purpose` is declared for this pack: it authors no `pack.md` "
