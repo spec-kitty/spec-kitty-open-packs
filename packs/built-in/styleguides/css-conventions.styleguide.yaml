@@ -51,7 +51,7 @@ principles:
   - name: "Provide print styles"
     description: "Ship print styles for printable content, in `@media print` or a `<link media=\"print\">` stylesheet: hide navigation and interactive controls, and drop backgrounds and shadows."
   - name: "Respect user preferences"
-    description: "Respect user preferences: use `prefers-reduced-motion` to remove or reduce non-essential motion, which can trigger discomfort for people with vestibular disorders; use `prefers-color-scheme` to offer a light or dark theme."
+    description: "Respect user preferences: use `prefers-reduced-motion` to reduce non-essential motion and `prefers-color-scheme` to offer light or dark themes. Do not build a separate design for `forced-colors: active`; only tweak what it leaves illegible."
   - name: "Query input capabilities, not sizes, for interaction"
     description: "Query input capabilities, not sizes, for interaction: touchscreens and keyboard users cannot hover, so use `(hover: hover)` before relying on hover, and `(pointer: coarse)` to enlarge hit areas."
   - name: "Write readable media conditions"

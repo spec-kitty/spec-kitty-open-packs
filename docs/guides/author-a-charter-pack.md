@@ -49,11 +49,12 @@ pack without one. Its fields are in [the contracts reference](../contracts/index
 references another pack's artifact, it declares `depends_on` and qualifies that reference as
 `<pack>::<kind>:<id>`. [Compose packs](compose-packs.md) has the details.
 
-Three pack-root files are easy to confuse, so keep their roles apart:
+Four pack-root files are easy to confuse, so keep their roles apart:
 
 | File | Who writes it | What it holds |
 | --- | --- | --- |
-| `pack.yaml` | you (hand-authored) | The descriptor: identity and lineage (`pack_id`, `name`, `pack_version`, `parent_pack`, `pack_level`, `depends_on`). Its charter schema is closed — it has no prose fields. |
+| `pack.yaml` | you (hand-authored) | The descriptor: identity and lineage (`pack_id`, `name`, `pack_version`, `parent_pack`, `pack_level`, `depends_on`), plus optional `mutability_policy` and `fallback_profile`. Its charter schema is closed — it has no prose fields. |
+| `policy.yaml` | you (hand-authored, optional) | Mutability levels (`open`, `extendable`, `locked`) per artifact kind or artifact; `pack.yaml` points to it with `mutability_policy`. A declared fallback profile must be `locked` here. |
 | `pack.md` | you (hand-authored) | The pack's **description**: an H1 title, a preamble of "what it is and why" prose, then optional H2 sections. The generated reference page renders the preamble under its Purpose heading. |
 | `pack-manifest.yaml` | tooling only | The constituent inventory and content hashes. |
 

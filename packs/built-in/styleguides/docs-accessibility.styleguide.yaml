@@ -10,7 +10,7 @@ principles:
   - name: "Headings form a strict, unbroken outline"
     description: "Headings form a strict, unbroken outline. Heading levels descend by exactly one and never skip — an H2 is followed by H3 for its subsection, never by H4. There is exactly one H1 (the page title)."
   - name: "Link text is meaningful out of context"
-    description: "Link text is meaningful out of context."
+    description: "Link text names its destination or action, because assistive tech can list links stripped of context. 'Click here', 'this', 'read more' and bare URLs are prohibited as link text."
   - name: "Do not rely on colour or diagrams alone"
     description: "Do not rely on colour, or on diagrams, as the sole carrier of meaning. Information encoded only in colour (red = failed, green = passed) is lost to colour-blind readers and to anyone reading in monochrome. Pair colour with a label, shape, or text."
   - name: "Author accessible, text-based diagrams"

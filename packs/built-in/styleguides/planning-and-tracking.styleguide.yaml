@@ -14,7 +14,7 @@ principles:
   - name: "Tiered granularity"
     description: "Tiered granularity: root -> coherent buckets -> leaves. A root epic holds buckets (sub-epics for distinct sub-classes), not a flat pile of mixed-granularity tickets."
   - name: "Community-precedence on duplicates"
-    description: "Community-precedence on duplicates. When two non-umbrella tickets duplicate, keep the community-authored one (opened by someone outside the core team) and close the core-team duplicate — but only after migrating its evidence into the survivor."
+    description: "Community-precedence on duplicates: keep the community-authored ticket and close the core-team duplicate, only after migrating its evidence into the survivor. Never greet a contributor with a bare duplicate-closed."
   - name: "Reuse canonical epics"
     description: "Reuse canonical epics; do not fork near-duplicates. Before creating an epic, search for an existing one whose charter already covers the domain and nest a focused slice under it rather than spawning a sibling."
   - name: "Read scope, flag overlaps"
@@ -26,7 +26,7 @@ principles:
   - name: "Hygiene invariants for every open ticket"
     description: "Hygiene invariants for every open ticket: it resolves to a functional epic (not an orphan, not meta-rooted, not under a closed epic); it carries an issue type; and it carries a priority label."
   - name: "Issue-matrix discipline"
-    description: "Issue-matrix discipline. At spec time, every issue the mission addresses must be listed in the issue-matrix with a verdict: in-scope, out-of-scope, or deferred. In-scope issues receive a claim and a tracker comment naming the mission."
+    description: "Issue-matrix discipline: at spec time, for ticket-based missions, list every addressed issue in the issue-matrix as in-scope, out-of-scope or deferred. In-scope issues get a claim (assigned to the operator) and a tracker comment naming the mission."
 
 patterns:
   - name: Single canonical priority per ticket

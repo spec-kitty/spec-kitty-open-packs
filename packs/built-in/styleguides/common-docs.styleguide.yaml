@@ -16,7 +16,7 @@ principles:
   - name: "Cross-references use related"
     description: "Cross-references use related: resolvable paths. Cross-references are a related: frontmatter list of repo-relative .md paths that each resolve to an existing file. The dead citation_refs sidecar field is not reintroduced."
   - name: "Audience is named in an audience"
-    description: "Audience is named in an audience: field. Every documentation page touched by a change declares its target reader in an audience: frontmatter field."
+    description: "Audience is named in an audience: field. Every documentation page touched by a change declares its target reader in an audience: frontmatter field. Required on touched pages only; untouched legacy pages never fail for lacking it."
   - name: "ADRs live under adr/<era>/ with YAML frontmatter"
     description: "ADRs live under adr/<era>/ with YAML frontmatter. Architecture Decision Records are filed under adr/<era>/ (adr/1.x/ through adr/4.x/) by era of decision and carry YAML frontmatter so the docsite can index them."
   - name: "Naming is kebab-case and section-scoped"

@@ -84,12 +84,12 @@ title, description and optional `role`), `anti_patterns`. Older packs used `name
 ```yaml
 profile-id: analyst-annie
 name: Analyst Annie
-description: Requirements analysis specialist
+description: Generalist functional analyst …
 role: analyst
 alt-roles: [requirements-engineer]
-capabilities: [requirements-analysis, stakeholder-analysis, specification-writing]
+capabilities: [requirements-elicitation, specification-authoring, acceptance-criteria-definition, …]
 purpose: >
-  Elicit, analyse, and specify requirements …
+  Translate informal requirements into structured, testable specifications …
 ```
 
 Key fields: `profile-id`, `name`, `description`, `role`, `alt-roles`, `capabilities`, `purpose`,

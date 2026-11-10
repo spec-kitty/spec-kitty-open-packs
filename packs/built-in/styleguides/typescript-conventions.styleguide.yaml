@@ -43,7 +43,7 @@ principles:
   - name: "No `@ts-ignore` in production code"
     description: "Do not use `@ts-ignore`, `@ts-expect-error` or `@ts-nocheck` in production code. `@ts-expect-error` may appear in unit tests, sparingly and with a comment naming the expected error, because it suppresses every error on its line."
   - name: "Class members"
-    description: "Class members: leave out `public`; mark members never reassigned after construction `readonly`; use TypeScript `private` rather than `#private` fields; prefer parameter properties over assigning constructor arguments by hand."
+    description: "Class members: omit `public` except on non-readonly public parameter properties; mark members never reassigned `readonly`; use TypeScript `private`, not `#private`; prefer parameter properties; use `enum`, never `const enum`."
   - name: "Every promise has an owner"
     description: "Every promise has an owner: it is awaited, returned, handled with `.catch` or a two-argument `.then`, or deliberately discarded with `void` and a comment. Never leave one floating."
   - name: "RxJS operator discipline"
