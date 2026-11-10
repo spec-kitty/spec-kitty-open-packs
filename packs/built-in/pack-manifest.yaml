@@ -1,110 +1,110 @@
 schema_version: '1.0'
-manifest_hash: f2cc648199104403891ada890594263fd014b23aec17e1bd897fe02a2936e86b
+manifest_hash: 3230541c7658934bfb20da11bdda8dfcd23087fe0fbf1ce9d82429ab4ddc4809
 constituents:
 - kind: agent_profile
   id: analyst-annie
   path: agent_profiles/analyst-annie.agent.yaml
-  content_hash: ec2b0fc1c4770c89e584adebeae416b943493df2753a73f7a60169471e5ee91d
+  content_hash: d42e234da32bb1cf54561b366dcf40a48df5226b446f09a5e819079b88430f41
 - kind: agent_profile
   id: architect-alphonso
   path: agent_profiles/architect-alphonso.agent.yaml
-  content_hash: 4bb8d2478259d776b3b9c94ffca4eaae64f46f8ebe971a42e25196b88ed6279a
+  content_hash: 51bff1fd8b80b0cd75b94564959092aceeaf395f92950541d1081b94eeffedb9
 - kind: agent_profile
   id: comms-cleo
   path: agent_profiles/comms-cleo.agent.yaml
-  content_hash: 280238243c6ff359aae39d06a99db9f5775c5c1fff91bffbfa014329de1c9620
+  content_hash: cc5ba2095a88609a731c733b80720259e845cea923ead97ccb8bf39dd3ac942c
 - kind: agent_profile
   id: curator-carla
   path: agent_profiles/curator-carla.agent.yaml
-  content_hash: e12b8469266434d833978274b10b1b0bea34f96282553a5d3fd9c6145e363088
+  content_hash: cced24fb63f4c59ac36a4c91ec3e3a5ebe0cad1ee49e748456552c6623a260c3
 - kind: agent_profile
   id: debugger-debbie
   path: agent_profiles/debugger-debbie.agent.yaml
-  content_hash: 84485d9915b7b090cfc644e13dc82ef8fc253c3da7ee1847e566ada767a03ad0
+  content_hash: 54934bcd325bf70b7eef35b30f4fc4accef105f99580144d457ff2f6f8a71ab7
 - kind: agent_profile
   id: designer-dagmar
   path: agent_profiles/designer-dagmar.agent.yaml
-  content_hash: 868b02e713161c5f77faa76df57b641f177724d169a663fd60e54eab4c66702f
+  content_hash: 8bf2007b94fd1137ae93577a910b7d8fa2af92bb92dec7bcd6912ff9c3ce5eb4
 - kind: agent_profile
   id: diagram-daisy
   path: agent_profiles/diagram-daisy.agent.yaml
-  content_hash: e97e20c245ab5dfbca810629a0be46666c9d85867e32440fa5a644fe525d1a8e
+  content_hash: 9d618938310108fec6ba7479127e7c6ad3de26e98fc1a94491425c648ed6d41b
 - kind: agent_profile
   id: doctrine-daphne
   path: agent_profiles/doctrine-daphne.agent.yaml
-  content_hash: 9121635d67c58fa61e91d590ecb9bd8153d1511999529d9459f617ad64abe5db
+  content_hash: 2b69fd602fd8341cf45c8bd38fdfb605dac72f1a1af0790fc6e0343844fbb36b
 - kind: agent_profile
   id: drupal-dries
   path: agent_profiles/drupal-dries.agent.yaml
-  content_hash: 4abc5883bfa67fa88ee24e852f7aa1ea004246209394d156bce021b69741bc72
+  content_hash: ebfa50408adc1795e5a91fce3bd1753d655e5618b7ff7c30a3cfb69517790dc4
 - kind: agent_profile
   id: frontend-freddy
   path: agent_profiles/frontend-freddy.agent.yaml
-  content_hash: 5a709fbefe06f192a12f829f76ebe6e65460b5105b830caca6ec4b8ad8472d3a
+  content_hash: 85655023879ace5ed64ef1a33da081e19b9c66c13fa6631c865c65daf6261c6c
 - kind: agent_profile
   id: generic-agent
   path: agent_profiles/generic-agent.agent.yaml
-  content_hash: c7f194a6af7dee105d4e7eeeb99c09f890dd310e6de51ec535233f0a459108e2
+  content_hash: 1aa93cd1fe30348928431f7ccf923ae4f3570d3aabc3e38b802f2f1ec1692aab
 - kind: agent_profile
   id: human-in-charge
   path: agent_profiles/human-in-charge.agent.yaml
-  content_hash: 8ec13207d607c41e7a8ed54c8ffe59365eff24b08e42aaa7189a181faecc40ca
+  content_hash: 2edf54dd9aa3648418b478fd75205cf654a2852e7de9e985e0534bdab8530a8c
 - kind: agent_profile
   id: implementer-ivan
   path: agent_profiles/implementer-ivan.agent.yaml
-  content_hash: d31147245e98b300125d966ea32f9ba411de0bab683774b4d4c0b190c70f99b2
+  content_hash: ceb113b7d41781d58dde15c4809b5e30a978c9e75fbad4d90590693580969cea
 - kind: agent_profile
   id: java-jenny
   path: agent_profiles/java-jenny.agent.yaml
-  content_hash: 5fe490e66479990ff03f6b66a5f4a2b8f07bd76fd191685df303088fbf4d824f
+  content_hash: 96b043dc30dc09559fc2cdcbbfbcba7dd1513590f5a53640eded5270f9846e6b
 - kind: agent_profile
   id: lexical-larry
   path: agent_profiles/lexical-larry.agent.yaml
-  content_hash: 66e45c1812df79ae1195a0427baa9d0b3cc7d964e40e2bed8c887cbc3d613b5f
+  content_hash: b7edf882ee9aa9e115c6ddc9115e7a9edd6edd2b8875e5324ff6d3402580c548
 - kind: agent_profile
   id: minutes-mahad
   path: agent_profiles/minutes-mahad.agent.yaml
-  content_hash: 7247e61f9768e6d0f9ea8936aeaeff152600e6e5d0902545894de156598298ca
+  content_hash: b480f4f47e6616ab7be0d0684d949eb216b8d0127c99b43a1f7b70016ff9a056
 - kind: agent_profile
   id: node-norris
   path: agent_profiles/node-norris.agent.yaml
-  content_hash: 0a7b5f6f138902466487b243de4d6c19e9f3f72193163d2c176ee354a5b26654
+  content_hash: aea9f5b352f33416db158318d51684e728b3b05a11587370257bbed098e02a82
 - kind: agent_profile
   id: paula-patterns
   path: agent_profiles/paula-patterns.agent.yaml
-  content_hash: 0926d47d576bdbe8dd8e9ad794209ad29e360832a570333382271d3f6c8450cc
+  content_hash: 226b104ca574350ae773ee1612b4fb940a5b43aea9774a726d7c60b53f7fc3f0
 - kind: agent_profile
   id: planner-priti
   path: agent_profiles/planner-priti.agent.yaml
-  content_hash: 1fa915e4c9874cd8135d9a324d95ae55686f68895f7b827858cc98bf49db86d4
+  content_hash: 5a6e33795c94509993e3545ed1ba40024671dfe1bb16e8061088f1f12321b3a4
 - kind: agent_profile
   id: python-pedro
   path: agent_profiles/python-pedro.agent.yaml
-  content_hash: 7184286bd3a7e781c593940a235fd4171647f89c60dfd201c3498bc48e1328ea
+  content_hash: bd126dd904c29f52d5f1dc749709b830f4a627ad41e9c24f66feaa723e9e832c
 - kind: agent_profile
   id: randy-reducer
   path: agent_profiles/randy-reducer.agent.yaml
-  content_hash: 27f3b27a66470422a932b0f7e2c3759501409b263b58842b8b34528af9b37bcf
+  content_hash: 132bb6d4b37f7367a1b7b081c2c11e545823512177c0610bc6beb792ec6b2660
 - kind: agent_profile
   id: researcher-robbie
   path: agent_profiles/researcher-robbie.agent.yaml
-  content_hash: f51b516086eeeaad75ca8634febb8819ce87bc82380971e0623769507ea32e40
+  content_hash: 6c683099a4acc7c53782d07bcdcfe26a82c46c2f62f1b82b8bcfa6e304a26b8d
 - kind: agent_profile
   id: retrospective-facilitator
   path: agent_profiles/retrospective-facilitator.agent.yaml
-  content_hash: d6f039737ce343e1376b84cd00deaefdaaf10145c7169d491f2f426d608fcf42
+  content_hash: d0ca05a5df8c155fa95072869fc6d9399c7ebc5b0fba58ec27446a54f40cd096
 - kind: agent_profile
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
-  content_hash: 9ae3b1c8fe9f97506a67b69ecc4e681fa6d6c8fb7e3e82b13031c5058328ad17
+  content_hash: 0bee3de90c36de4c75a997f0db0840f7af1a2a730adb9163b2d31875f0653bba
 - kind: agent_profile
   id: scribe-sally
   path: agent_profiles/scribe-sally.agent.yaml
-  content_hash: 6600c3d6ff7c1cfa57abc5bd03a94bd93154408dbd59d8a52f124361728bba5c
+  content_hash: 1f5e3f2329213dee94abd837a0f5c83392f16dfe9d36d5b4198668bb15a200f8
 - kind: agent_profile
   id: synthesizer-sam
   path: agent_profiles/synthesizer-sam.agent.yaml
-  content_hash: de4acb3c1542511c86da9ffd7b49c36c5d3e9e305fab2492f09e9a6a79b14388
+  content_hash: 896d8f14590d1f4fe1bb00e467ad74dad1ecceba0380d94e49f1c4d8c8f47040
 - kind: asset
   id: common-docs-structural-lint
   path: assets/docs_structural_lint.py.asset.yaml
@@ -584,111 +584,111 @@ constituents:
 - kind: styleguide
   id: aggregate-design-rules
   path: styleguides/aggregate-design-rules.styleguide.yaml
-  content_hash: 6f8805e7faf2f6a20861f3cff817ac5d3107f6bd05f3fb51fdc64f5ee7d12ba4
+  content_hash: 8ccaf90febe29715a901212c2294d61d7752e1f8a4ecee0e1469f011ddbaa1a8
 - kind: styleguide
   id: boring-code-review
   path: styleguides/boring-code-review.styleguide.yaml
-  content_hash: 6f68e28c416679ecc2735114613229fee508133d0e963b775d1044db1c3aec7b
+  content_hash: 8a6dcb53acc9cac88446e9bc3c960891752f10980ed530791e8cccc8ad26aed7
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: 79fa1c955e5ce5c13cd2877e46aa1019d1ab3994be0bb1dd4f21c38d69ba6c13
+  content_hash: f32a38c1c37e3ba435b71d87e02e3694b678ff4ea2e34e4cc15364c1833ce132
 - kind: styleguide
   id: css-conventions
   path: styleguides/css-conventions.styleguide.yaml
-  content_hash: 7fa6041067d7f741b56d6bb1433742d1ead263159d0a24682d7c9c628fb1cb7d
+  content_hash: d31f113caf6111b6a9d5128532c6094021d420c10be70ca3ad91a0fe4bc6a5c7
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
-  content_hash: 639f93593546e682340d5dd938adaace1be5a3fd4935f9b4599ce0c9b2c78ec2
+  content_hash: 521fd2540b489e987e70e85d773d05b57d650144125672cf99fdfafc7e73fec5
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
-  content_hash: d840a7cac8ec83b11b690bbda88027a637a3224595a247619a8d561d60c96266
+  content_hash: 94db7d85e1eef67e95b681f53247e0c0c295977326c15d7e47b626260f8f85d8
 - kind: styleguide
   id: docs-accessibility
   path: styleguides/docs-accessibility.styleguide.yaml
-  content_hash: 503cfa968438a262fb0b15b112e0c437275e0adfb3f141c865d6cf2b9c6e04f2
+  content_hash: 427dff4f46901ce8587b17ab2f4a9ed71fb2a432896f259712b28ab5223e2f3a
 - kind: styleguide
   id: docs-freshness-sla
   path: styleguides/docs-freshness-sla.styleguide.yaml
-  content_hash: ebba268b35d007c7b6c7e584d2bc01980311c2be053cd89c022148278919038f
+  content_hash: 87ff5960b7491068689d1da68d0b46e9aa9a15b5958583026a9b365dfab34670
 - kind: styleguide
   id: drupal-conventions
   path: styleguides/drupal-conventions.styleguide.yaml
-  content_hash: 68011c32d255df5f3db2aa52007fda5f43eae2da5ca4f70840c6c43eac0299bf
+  content_hash: 8e0c71a14c93f282630794686f016ae64aff11be5107b0b66c8f64dc8fd6014d
 - kind: styleguide
   id: drupal-security-performance
   path: styleguides/drupal-security-performance.styleguide.yaml
-  content_hash: fc9e762765a6e08c9e95e236d5c1d5dd1810e8ef24a23ee7e565d9adcd14e038
+  content_hash: f60a1286b92d35fe4bc7a68c0b1c1a55aadcff356c6b2d91e389142e70f16730
 - kind: styleguide
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
-  content_hash: 2c4d33afe0277ea862540f391d2fa4f009317a7cfde921ebef1aab1eac22441b
+  content_hash: 3576eb936e503646fe60bbe53d6f1bd5db5a94c2d48cc0438016aeba9f6744b8
 - kind: styleguide
   id: html-conventions
   path: styleguides/html-conventions.styleguide.yaml
-  content_hash: d547ff2425de267c21eab6de161fd35e5e8771c0a201c46e1316ca9371f1d5ac
+  content_hash: 49263ed6632c3d08edd3665b914b63e77a261a33d52d11bd212471565b534e32
 - kind: styleguide
   id: java-conventions
   path: styleguides/java-conventions.styleguide.yaml
-  content_hash: 323b11a82a07ca13f989ce3587de2265d8554c0ac72205073642bcf96aff14a2
+  content_hash: b1a4aa4d3cddb72a18b9c20b4eee68b2a2ed13f4f99754b44a7e4e295384d2b7
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
-  content_hash: 72ebf510bc73089b9b26e60ff304032f9fed6c6efc331117f2c769ba9afdbe59
+  content_hash: af325b5130ee77486924fc364048091d49ca8e8f28ec103be4d5582c61f5c729
 - kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
-  content_hash: a4d2c99f49fe3488573891399fe20f7a6751042cf866c130a095acda66e916ca
+  content_hash: 8a3db4897e66c86720cc1a1f240ac0a15f0a1536675ac5fedc9f62e6724b37e8
 - kind: styleguide
   id: mutation-aware-test-design
   path: styleguides/mutation-aware-test-design.styleguide.yaml
-  content_hash: 924232db19b32a38760fd680901e52aa2706b1ad4638131d57510b63ffcfe912
+  content_hash: e42077f80bb6c570f84a992688a8c3bc60ae8527346fab6ccff984ee50941714
 - kind: styleguide
   id: plain-language
   path: styleguides/plain-language.styleguide.yaml
-  content_hash: f6eae85122d966b98c3e0d039db868a86bd2d5a393b74e3a9cb5e92386b85774
+  content_hash: 14ef687d628e0dabcad8673b0505f9e965cb53c7aa95a12b148b76c54b3c5d4b
 - kind: styleguide
   id: planning-and-tracking
   path: styleguides/planning-and-tracking.styleguide.yaml
-  content_hash: db0f74f9fc77910b5a646c6703239dbbff94ed305f2605ec4ad99ada8ab15a9d
+  content_hash: b2a3085b78f527e4cb9427a4786de92a39be7a42198959f39e9626a0e233a91b
 - kind: styleguide
   id: professional-communications
   path: styleguides/professional-communications.styleguide.yaml
-  content_hash: a5dafe059fd289170105e1a99b340d38a17014d9af697fd5f8e126ed7aff39e2
+  content_hash: b890087a771bf7768eaebe163dbfe265a26ae7297f56b05d49f24ab40fae1796
 - kind: styleguide
   id: publication-authority
   path: styleguides/publication-authority.styleguide.yaml
-  content_hash: 0373b6458778f43932d05c0a09acacc75dc0bab81c8c0a364d7dc7a97ee9eb8e
+  content_hash: 7309d5c0f8b186c0ff9bb239c54696bfb54354d746cbdc3b5aa28aee5765c6c6
 - kind: styleguide
   id: python-conventions
   path: styleguides/python-conventions.styleguide.yaml
-  content_hash: 0a53b51d1219ac079ca20cb8dcaf1249fcf6c29cc954a848f193b1b79a701119
+  content_hash: 97712c40f99b4ed9cb8e36917f7f83172d2d4e2e31546a7cda2bed19dd196e48
 - kind: styleguide
   id: quadruple-a-test-format
   path: styleguides/quadruple-a-test-format.styleguide.yaml
-  content_hash: 6066cf40472ee6e4394380360af9c51adb8c8569e54c16dcb2c9d37f276685da
+  content_hash: cee9207eee799af779a2f46f205e4a384694d4447f60b0adef82472bdce2648d
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
-  content_hash: 870900b93a71381dbe69daac4a301a916d12a8ee092617dce0582193423ca629
+  content_hash: 8f2468da67c98ee6d1cfcd2e3a9e1c5bc14b5081e710cae85ebadf13440a0ab2
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: dd5a8fa15570e99bc85e15faa77e82dc1801d1ae55efca3ced18fc7dd0bcfe5c
+  content_hash: 6aa5951799da74d778c27bdb29486db9203a5d62e146fdec2c78b723e1428b0a
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: d8790b3262b0cae41bfb83706d5b41837862cc05e60b49dcfb8a04f8b3e84405
+  content_hash: f0b8274aec231a3a3806c71a59619f7137256438891c2fbbe7ef7576660ba091
 - kind: styleguide
   id: tiered-standards
   path: styleguides/tiered-standards.styleguide.yaml
-  content_hash: 7a04050df853ff86f1d08b6362590835ab367153ad09a1b94210b95eb7ee2a5d
+  content_hash: 6e19afcc4ccdca065289d3903292d5e6dc9a3bf2e9c4a0572eca4e95c9742796
 - kind: styleguide
   id: typescript-conventions
   path: styleguides/typescript-conventions.styleguide.yaml
-  content_hash: 849a33a94b63204d62e9ae4521efcd49fd0466d9c884b5b0e4d48d711cfbc35f
+  content_hash: 4dd88852284cbfd6abf3d427040f3c1825bca55793b7652a8c9edd996cb394c7
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml

@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `71503ebbe28c6b9c6fe74e9265611183774d8c053f7b5838acb7f4ccec8bfa32`
+- **Content checksum (sha256):** `3ce4c8935d986ca491dc10e685f418dd6de66b68047fecfd1fd72f081a013ed1`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -50,7 +50,7 @@ It has no `parent_pack` (it is the root of every lineage chain).
 | `presets` | 2 |
 | `skills` | 1 |
 | `templates` | 2 |
-| **Total files** | **476** |
+| **Total files** | **477** |
 
 ### Full listing
 

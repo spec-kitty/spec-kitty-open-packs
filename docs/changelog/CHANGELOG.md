@@ -21,6 +21,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 💥 Breaking
 
+- **Packs migrated to charter ADR-0067/0068/0069** (charter #474; #69, #70). Every agent
+  profile now declares one primary `role` plus optional `alt-roles` in place of `roles:`
+  (`randy-reducer` is primarily a `refactorer`). Styleguide `principles` are named
+  `{name, description}` items; descriptions over 255 characters were condensed and their full
+  text kept as a same-named entry in `patterns`. The built-in pack declares
+  `fallback_profile: generic-agent`, now role-neutral (`role: generic`) and locked by a new
+  `policy.yaml`. The stale `.github/agents/*.agent.md` bootstrap copies are removed. Charter
+  contracts are pinned to #474's head pending its merge.
+
 - **SPDD/REASONS moved from `built-in` to the opt-in `spdd` pack** (#73, charter
   ADR-0066). The paradigm, directive, two canvas tactics and canvas-writing
   styleguide moved with five new step enhancements. The `software-dev` specify,
