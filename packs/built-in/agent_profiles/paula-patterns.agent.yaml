@@ -2,8 +2,8 @@ profile-id: paula-patterns
 name: Paula Patterns
 description: Architecture-scout reviewer for recurring boundary leaks, ownership confusion, and whack-a-field fixes
 schema-version: "1.0"
-roles:
-  - architecture-scout
+role: architecture-scout
+alt-roles:
   - architect
   - reviewer
 capabilities:

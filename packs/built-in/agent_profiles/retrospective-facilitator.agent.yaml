@@ -2,8 +2,7 @@ profile-id: retrospective-facilitator
 name: Retrospective Facilitator
 description: Facilitates a structured mission retrospective at terminus
 schema-version: "1.0"
-roles:
-  - facilitator
+role: facilitator
 capabilities:
   - retrospective-facilitation
   - findings-capture

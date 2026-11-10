@@ -9,8 +9,8 @@ description: >
   by producing unambiguous, evidence-backed acceptance criteria and BDD scenarios
   that
   serve as the authoritative handoff to implementers.
-roles:
-- analyst
+role: analyst
+alt-roles:
 - requirements-engineer
 capabilities:
 - requirements-elicitation

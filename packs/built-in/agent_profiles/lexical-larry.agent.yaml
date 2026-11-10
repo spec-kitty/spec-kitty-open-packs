@@ -8,8 +8,8 @@ description: >
   drift,
   enforcing ubiquitous language, authoring traceable glossary entries, and diagnosing
   tonality divergence as a semantic problem, not a style problem.
-roles:
-- semantic-analyst
+role: semantic-analyst
+alt-roles:
 - terminology-reviewer
 - glossary-diagnostician
 capabilities:

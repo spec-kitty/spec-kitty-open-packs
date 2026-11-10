@@ -1,8 +1,7 @@
 profile-id: qa-defect-triager-dmitri
 name: qa-defect-triager-dmitri
 schema-version: "1.0"
-roles:
-  - defect-triager
+role: defect-triager
 
 purpose: >
   qa-defect-triager-dmitri is the cross-cutting defect-triage profile: it gatekeeps the

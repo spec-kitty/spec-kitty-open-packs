@@ -1,8 +1,7 @@
 profile-id: qa-test-designer-tessa
 name: qa-test-designer-tessa
 schema-version: "1.0"
-roles:
-  - test-designer
+role: test-designer
 
 purpose: >
   qa-test-designer-tessa owns the test-design step of the QA lifecycle:

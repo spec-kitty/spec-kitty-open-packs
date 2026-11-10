@@ -1,8 +1,7 @@
 profile-id: qa-strategist-quinn
 name: qa-strategist-quinn
 schema-version: "1.0"
-roles:
-  - qa-strategist
+role: qa-strategist
 
 purpose: >
   qa-strategist-quinn owns the strategy step of the QA lifecycle: authoring
