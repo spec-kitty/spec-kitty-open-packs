@@ -1,6 +1,6 @@
 ---
 title: 'ADR: Split built-in into foundation, writing and opt-in bundles'
-description: built-in becomes a distribution pack aggregating foundation and writing (and, by the 2026-11-11 amendment, the testing, refactoring, architecture and planning-analysis core bundles); the remaining doctrine ships as opt-in org bundles.
+description: built-in becomes a distribution pack over foundation, writing and (amended) the testing, refactoring, architecture and planning-analysis bundles; stacks stay opt-in.
 doc_status: active
 updated: '2026-11-11'
 related:
