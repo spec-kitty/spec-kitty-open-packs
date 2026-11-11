@@ -19,5 +19,5 @@ principles:
     description: What is shared has passed verification, so the mainline can be relied on at any moment.
   - name: Avoid long-lived divergence
     description: A branch that lives long becomes costly to merge and hides conflicts from the rest of the team.
-  - name: Every change is attributable and verified
-    description: Each change carries clear authorship and its own verification evidence before it joins shared state.
+  - name: Shared state is earned
+    description: Because everyone builds on the mainline, a change has to show who made it and that it works before others depend on it.

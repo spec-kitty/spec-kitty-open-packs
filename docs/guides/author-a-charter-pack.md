@@ -100,8 +100,8 @@ or directives.
 
 ```yaml
 principles:
-  - name: Isolated
-    description: Tests return the same results whatever order they run in.
+  - name: Small changes
+    description: A small change is easier to review, verify and undo.
 ```
 
 Resist dumping a whole policy page into one artifact — split so each rule can be cited

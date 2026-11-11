@@ -21,7 +21,7 @@ principles:
   - name: Examples over abstractions
     description: A concrete scenario exposes gaps and disagreements that an abstract statement of a requirement hides.
   - name: One language for everyone
-    description: Business, development and testing describe behaviour in the same plain words, so the specification needs no translation.
+    description: Business, development and testing describe behaviour in the same plain words, so nothing is lost translating between roles.
   - name: Specifications that can fail
     description: A specification tied to an executable check shows immediately when the system and the agreement drift apart.
   - name: Behaviour that matters to the business

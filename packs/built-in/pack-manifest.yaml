@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 42ee074ec3012baf68ec0d61b5f8e15fe01932c13cd27a9ae4418f414c456569
+manifest_hash: 5fcb7d4532535b846e3e6c618c177dd534cbbc8408a41dfb5b27e09bf435d631
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -288,15 +288,15 @@ constituents:
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
-  content_hash: b7d9357e30253b4bf9219cdf27757d66b548e11e43e82879418e0cb9014792da
+  content_hash: bf0fc2edf63a03a277010f6a96af278fd5918d1b3df5380111dc8656fb11ff89
 - kind: paradigm
   id: behaviour-driven-development
   path: paradigms/behaviour-driven-development.paradigm.yaml
-  content_hash: b9d52412699214d38541095abbafe0e63bb6d2f4193bb92f72ddfaec3ca41b61
+  content_hash: d13b9e3e0c8f2f28a6c194de1377dd6bcd8d61387e97460b9b6c3de840445b5c
 - kind: paradigm
   id: brownfield-onboarding
   path: paradigms/brownfield-onboarding.paradigm.yaml
-  content_hash: 9a1ced38606bf13078e7466f3fc2e640126016d87c4ad7ccd8c9715a1d258d03
+  content_hash: 79b7d1e3ad58c4282f54440929d9cb0beda65e24e7d31a33f29c3185adb199a1
 - kind: paradigm
   id: c4-incremental-detail-modeling
   path: paradigms/c4-incremental-detail-modeling.paradigm.yaml
@@ -316,11 +316,11 @@ constituents:
 - kind: paradigm
   id: specification-by-example
   path: paradigms/specification-by-example.paradigm.yaml
-  content_hash: 4b76880370567f821d89bdb795bc6d81b9b407311a29fd388b75807be306d5f3
+  content_hash: 725bae78038296ac4d7a0f15349e95b0c9232bab52040fc0f6ab675df1854beb
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
-  content_hash: 3cff795247e472a90b99caac68b88e96b167919a0bd26f5bbfc534ecec1d5197
+  content_hash: c9ad1d928625885241b5a1af87c516662c2995ff3197286030d3bf802083ca61
 - kind: procedure
   id: action-item-attribution-gate
   path: procedures/action-item-attribution-gate.procedure.yaml
