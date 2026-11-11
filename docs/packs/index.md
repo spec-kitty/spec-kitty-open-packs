@@ -18,6 +18,8 @@ related:
 - packs/javascript
 - packs/drupal
 - packs/java
+- packs/rust
+- packs/go
 - packs/cave-kitty
 - packs/event-driven
 - packs/qa
@@ -88,6 +90,8 @@ this table are authored **here**.
 | `javascript` | The opt-in JavaScript, TypeScript and frontend stack. | [javascript reference](javascript.md) |
 | `drupal` | The opt-in Drupal stack. | [drupal reference](drupal.md) |
 | `java` | The opt-in Java stack. | [java reference](java.md) |
+| `rust` | The opt-in Rust stack. | [rust reference](rust.md) |
+| `go` | The opt-in Go stack. | [go reference](go.md) |
 | `cave-kitty` | A re-voicing pack that compresses agent output into a terse, token-saving "caveman" voice while keeping every payload exact. Inert until a consumer opts in. | [cave-kitty reference](cave-kitty.md) |
 | `event-driven` | Event-sourced design guidance: a schema version on every event, one canonical writer behind an event-bridge port, projections and replay, upcasting, and idempotent consumers. | [event-driven reference](event-driven.md) |
 | `qa` | Quality assurance as governed work: a `qa` mission type and a description-to-acceptance CI loop that keeps acceptance tests tied to the product's promises. | [qa reference](qa.md) |

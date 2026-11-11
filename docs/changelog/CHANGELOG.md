@@ -177,6 +177,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`rust` Charter Pack** (`packs/rust/`, #191, epic #190). This is an opt-in org pack with Spec Kitty-authored MIT
+  doctrine for any Rust codebase:
+  - the `rust-conventions` styleguide: validated newtypes, parsing at the boundary, `thiserror` in
+    libraries and `anyhow` at binary edges, money as a decimal or a currency-carrying minor-units
+    type and never a float, exhaustive matches, and documented `unsafe`;
+  - the `rust-review-checks` toolguide: `cargo fmt`, `clippy -D warnings`, tests, `cargo doc` and
+    `cargo deny` / `cargo audit`, cheapest first;
+  - the `rust-ruben` implementer profile, which requires the conventions;
+  - a `rust` preset.
+
+  It depends on `foundation` and `testing`, and `built-in` does not aggregate it (#73).
+  `PROVENANCE.md` records the seed idioms it was re-authored from and how their contradictions
+  were resolved.
+
+- **`go` Charter Pack** (`packs/go/`, #192, epic #190). This is an opt-in org pack with Spec Kitty-authored MIT
+  doctrine for any Go codebase:
+  - the `go-conventions` styleguide: typed constants with a validated parse, errors wrapped with
+    `%w` and matched with `errors.Is`/`errors.As`, `context.Context` first, explicit dependencies
+    instead of package globals, money never `float64`, `defer` for cleanup, and owned goroutines;
+  - the `go-review-checks` toolguide: `gofmt`, `go vet`, staticcheck or golangci-lint,
+    `go test -race`, fuzzing and `govulncheck`, cheapest first;
+  - the `go-gwen` implementer profile, which requires the conventions;
+  - a `go` preset.
+
+  It depends on `foundation` and `testing`, and `built-in` does not aggregate it (#73).
+  `PROVENANCE.md` records the seed idioms it was re-authored from and how their contradictions
+  were resolved.
+
 - **Manifest-completeness guard** (#182). In a pack that ships a `pack-manifest.yaml`, the pack gate
   now fails when a file-backed doctrine artifact is not a constituent, and names the file. The kinds
   checked are profiles, directives, tactics, procedures, paradigms, styleguides, toolguides, assets,

@@ -66,6 +66,7 @@ schema and the validator — belongs to the charter, today inside the core CLI a
 | [`planning-analysis`](packs/planning-analysis/) | built-in | Planning, research, retrospectives and brownfield analysis. |
 | [`pack-authoring`](packs/pack-authoring/) | org (opt-in) | Doctrine and Charter Pack authoring. |
 | [`python`](packs/python/), [`javascript`](packs/javascript/), [`drupal`](packs/drupal/), [`java`](packs/java/) | org (opt-in) | The language stacks. |
+| [`rust`](packs/rust/), [`go`](packs/go/) | org (opt-in) | The Rust and Go stacks, authored here (#191, #192). |
 | [`spdd`](packs/spdd/) | org (opt-in) | Structured-Prompt-Driven Development (REASONS canvas). |
 | [`qa`](packs/qa/) | org (opt-in) | QA and promise traceability. |
 | [`event-driven`](packs/event-driven/) | org (opt-in) | Event-sourced design: versioned events, projections, idempotent consumers. |
@@ -118,7 +119,7 @@ The docsite is built with [doc-kitty](https://github.com/spec-kitty/doc-kitty) f
 
 | Aspect | State |
 | --- | --- |
-| Packs | `built-in` (distribution of `foundation`, `writing` and the `testing`, `refactoring`, `architecture` and `planning-analysis` core bundles), five opt-in bundles (`pack-authoring`, `python`, `javascript`, `drupal`, `java`) carved from it (#73), and `qa`, `event-driven`, `cave-kitty`, `spdd`, `internal` exist; the wider [catalog](docs/packs/catalog-proposal.md) is proposed. |
+| Packs | `built-in` (distribution of `foundation`, `writing` and the `testing`, `refactoring`, `architecture` and `planning-analysis` core bundles), five opt-in bundles (`pack-authoring`, `python`, `javascript`, `drupal`, `java`) carved from it (#73), the `rust` and `go` stack packs, and `qa`, `event-driven`, `cave-kitty`, `spdd`, `internal` exist; the wider [catalog](docs/packs/catalog-proposal.md) is proposed. |
 | Validation | CI validates every pack against the [spec-kitty-charter pack schemas](https://github.com/spec-kitty/spec-kitty-charter/tree/main/contracts/packs), not against the core CLI. |
 | Compound packs (`depends_on`) | Planned ([spec-kitty#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)). |
 | Trust / verified distribution | Planned ([spec-kitty#2539](https://github.com/spec-kitty/spec-kitty/issues/2539)). |

@@ -72,6 +72,8 @@ pack-ecosystem epics:
 | 15 | `doctrine-authoring` | Meta-pack for pack/skill authors and charter maintainers. | core-engineering |
 | 16 | `spec-kitty-internal` | Spec Kitty's own dogfooded charter: contributor/maintainer workflow, review process, tracker processing. | core-engineering, doctrine-authoring, git-delivery-workflow, adversarial-review |
 | 17 | `event-driven` | Event-sourced design: versioned events, one canonical writer, projections, upcasting, idempotent consumers. | core-engineering, domain-driven-design |
+| 18 | `rust` | Rust conventions, Cargo review checks, a Rust implementer profile (materialized; post-#73 pack names). | foundation, testing |
+| 19 | `go` | Go conventions, Go review checks, a Go implementer profile (materialized; post-#73 pack names). | foundation, testing |
 
 ### 1. `core-engineering`
 
@@ -270,6 +272,30 @@ in consumers) for any team that builds that way.
 - **Assets:** a worked example after Fowler's *Event Sourcing* article, set on a Spec Kitty
   lane board.
 
+### 18. `rust`
+
+**Materialized** in [`packs/rust/`](../../packs/rust/README.md) for
+[#191](https://github.com/spec-kitty/spec-kitty-open-packs/issues/191). **Net-new** content: the
+built-in corpus holds no Rust doctrine. It is an opt-in stack pack (#73), which `built-in` does not
+aggregate. It depends on `foundation` and `testing` from #73's split.
+
+- **Styleguides:** net-new `rust-conventions`.
+- **Toolguides:** net-new `rust-review-checks`.
+- **Agent profiles:** net-new `rust-ruben`, which requires `rust-conventions`.
+- **Presets:** `rust`.
+
+### 19. `go`
+
+**Materialized** in [`packs/go/`](../../packs/go/README.md) for
+[#192](https://github.com/spec-kitty/spec-kitty-open-packs/issues/192). **Net-new** content: the
+built-in corpus holds no Go doctrine. It is an opt-in stack pack (#73), which `built-in` does not
+aggregate. It depends on `foundation` and `testing` from #73's split.
+
+- **Styleguides:** net-new `go-conventions`.
+- **Toolguides:** net-new `go-review-checks`.
+- **Agent profiles:** net-new `go-gwen`, which requires `go-conventions`.
+- **Presets:** `go`.
+
 ## Compound packs (horizontal composition)
 
 The four compound packs below are tracked together under a **single epic** rather than one
@@ -295,7 +321,7 @@ This proposal does **not** claim them.
 
 ## From proposal to issues
 
-Each of the **17 base packs** above maps to its own tracking issue in this repository,
+Each of the **19 base packs** above maps to its own tracking issue in this repository,
 labelled `pack` + `doctrine` and cross-referencing the relevant core epic. The **four
 compound packs** are tracked under a single `epic` + `compound-pack` umbrella issue rather
 than one issue each. See the
