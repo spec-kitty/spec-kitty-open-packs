@@ -1,4 +1,4 @@
-# org-charter for the `testing` opt-in bundle.
+# org-charter for the `testing` core bundle.
 # Deliberately activates nothing on its own: a consumer opts in per project with
 # `spec-kitty charter activate ...`. Keeping the bundle inert by default lets it sit beside a
 # team's existing doctrine without changing it.

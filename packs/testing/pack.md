@@ -2,9 +2,9 @@
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`.
+A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`.
 
-## Who opts in
+## Who uses it
 
 Teams that want a deeper testing discipline, and every stack pack (java, python, javascript, drupal), whose profiles build on these practices.
 
