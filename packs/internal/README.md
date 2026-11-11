@@ -55,13 +55,16 @@ packs/internal/
 │   ├── operator-signal-emission.procedure.yaml      # emit each decision through an operator-visible sink (OPERATOR_SIGNAL_CONTRACT)
 │   ├── spec-kitty-red-main-triage.procedure.yaml    # trace and classify reds on main (SPEC_KITTY_RED_MAIN_POLICY)
 │   ├── spec-kitty-page-audience.procedure.yaml      # audience personas under docs/context/audience/ (refines declare-page-audience)
-│   └── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, adr/<era>/ (refines common-docs-page-authoring)
+│   ├── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, adr/<era>/ (refines common-docs-page-authoring)
+│   ├── mission-tracer-files.procedure.yaml          # per-mission tracer files (moved from built-in by #73)
+│   └── mission-wrap-up-sequence.procedure.yaml      # end-of-mission wrap-up and history compaction (moved from built-in by #73)
 ├── styleguides/
 │   ├── executive-debrief.styleguide.yaml            # house style for executive debriefs (refines report-writing)
 │   ├── report-writing.styleguide.yaml               # audience-first, anti-AI-prose, Spec Kitty voice
 │   ├── spec-kitty-docs-lint-config.styleguide.yaml  # this repo's docs structural-lint config (refines common-docs)
 │   ├── spec-kitty-package-tiers.styleguide.yaml     # this repo's package-to-tier map (refines tiered-standards)
-│   └── spec-kitty-tracker-labels.styleguide.yaml    # this repo's label scheme (refines planning-and-tracking)
+│   ├── spec-kitty-tracker-labels.styleguide.yaml    # this repo's label scheme (refines planning-and-tracking)
+│   └── tiered-standards.styleguide.yaml             # per-tier quality standards (moved from built-in by #73)
 ├── tactics/
 │   ├── branded-deliverable.tactic.yaml              # when and how to produce a branded document
 │   ├── spec-kitty-gate-non-vacuity-exemplar.tactic.yaml  # exemplar audit (refines architectural-gate-non-vacuity)
@@ -80,6 +83,8 @@ packs/internal/
     ├── test-quality-scan.py.asset.yaml              # its asset sidecar
     ├── validate-pr-body.py                          # PR-body contract validator (five sections, advisory closes link, git-grep discovery check)
     ├── validate-pr-body.py.asset.yaml               # its asset sidecar
+    ├── audiences/agentic-framework-core-team.md     # writing-audience persona (moved from built-in by #73)
+    ├── audiences/agentic-framework-core-team.md.asset.yaml  # its asset sidecar
     └── debrief/                                     # executive-debrief tooling; the template loads logo.png and fonts/ by relative path
         ├── collect-debrief.py                       # deterministic GitHub facts as one JSON document (debrief-collector)
         ├── render-debrief.py                        # one-pager renderer with the reference guard (debrief-renderer)

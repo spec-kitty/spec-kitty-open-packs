@@ -144,6 +144,11 @@ nodes:
   kind: assets
   title: "QA Promise Trace Lint"
   body_path: assets/qa_promise_trace_lint.py.asset.yaml
+- id: sonar
+  kind: toolguides
+  title: SonarQube Static Analysis and Quality Gate
+  body_path: toolguides/sonar.toolguide.yaml
+
 edges:
 - source: directive:QA_001
   target: asset:qa-traceability-lint
@@ -184,13 +189,13 @@ edges:
   relation: requires
   reason: "The release gate this procedure feeds."
 - source: procedure:qa-description-to-acceptance-ci
-  target: built-in::tactic:bdd-scenario-formulation
+  target: testing::tactic:bdd-scenario-formulation
   relation: suggests
 - source: procedure:qa-description-to-acceptance-ci
-  target: built-in::styleguide:given-when-then-authoring
+  target: testing::styleguide:given-when-then-authoring
   relation: suggests
 - source: procedure:qa-description-to-acceptance-ci
-  target: built-in::toolguide:gherkin
+  target: testing::toolguide:gherkin
   relation: suggests
 - source: toolguide:qa-promise-trace-lint
   target: asset:qa-promise-trace-lint
@@ -277,3 +282,9 @@ edges:
   target: directive:QA_003
   relation: suggests
   when: "when a minimized test case's re-run result must be verified rather than assumed, so reduced test data cannot silently produce a false-pass result that reads as preserved coverage"
+- source: foundation::directive:DIRECTIVE_030
+  target: toolguide:sonar
+  relation: suggests
+  when: running SonarQube static analysis and gating on NEW-code coverage, code smells, security hotspots and duplication
+  reason: The quality gate suggests the Sonar toolguide as the static-analysis gate that carries the size/complexity/duplication
+    metrics that do not belong in a per-file test gate; the `when` is the new toolguide's own scope. Delivered at implement/review.

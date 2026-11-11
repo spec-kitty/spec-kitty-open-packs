@@ -1,0 +1,78 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: drupal-dries
+  kind: agent_profiles
+  title: Drupal Dries
+  body_path: agent_profiles/drupal-dries.agent.yaml
+- id: drupal-conventions
+  kind: styleguides
+  title: Drupal Conventions Styleguide
+  body_path: styleguides/drupal-conventions.styleguide.yaml
+- id: drupal-security-performance
+  kind: styleguides
+  title: Drupal Security and Performance Styleguide
+  body_path: styleguides/drupal-security-performance.styleguide.yaml
+- id: drupal-review-checks
+  kind: toolguides
+  title: Drupal Review Checks
+  body_path: toolguides/drupal-review-checks.toolguide.yaml
+edges:
+- source: agent_profile:drupal-dries
+  target: foundation::agent_profile:implementer-ivan
+  relation: specializes_from
+- source: agent_profile:drupal-dries
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: foundation::directive:DIRECTIVE_051
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: testing::procedure:test-first-bug-fixing
+  relation: requires
+- source: agent_profile:drupal-dries
+  target: foundation::tactic:dependency-hygiene
+  relation: requires
+  reason: Pin Composer package versions in composer.json, restrict resolution to the packagist.org and drupal.org endpoints,
+    and document any patch applied via composer-patches
+- source: agent_profile:drupal-dries
+  target: foundation::tactic:supply-chain-install-safety
+  relation: requires
+  reason: Run the checklist, per DIRECTIVE_051, for both Composer (drupal/* packages) and npm (theming build dependencies)
+    before accepting a new or changed dependency
+- source: agent_profile:drupal-dries
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: requires
+  reason: Drives module and plugin implementation through red-green-refactor at the kernel and unit test tiers before touching
+    Drupal-native theming
+- source: agent_profile:drupal-dries
+  target: styleguide:drupal-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (php, twig);
+    operator ruling on spec-kitty-charter#405.
+- source: agent_profile:drupal-dries
+  target: styleguide:drupal-security-performance
+  relation: suggests
+  reason: The security- and performance-specific companion to the Drupal conventions; consulted when a change touches access,
+    caching or query cost.
+- source: styleguide:drupal-conventions
+  target: toolguide:drupal-review-checks
+  relation: suggests
+- source: styleguide:drupal-conventions
+  target: styleguide:drupal-security-performance
+  relation: suggests
+  reason: Each guide named the other as its companion ("See also"); this one is the security- and performance-specific treatment.

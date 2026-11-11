@@ -1,0 +1,269 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: designer-dagmar
+  kind: agent_profiles
+  title: Designer Dagmar
+  body_path: agent_profiles/designer-dagmar.agent.yaml
+- id: frontend-freddy
+  kind: agent_profiles
+  title: Frontend Freddy
+  body_path: agent_profiles/frontend-freddy.agent.yaml
+- id: node-norris
+  kind: agent_profiles
+  title: Node Norris
+  body_path: agent_profiles/node-norris.agent.yaml
+- id: atomic-design
+  kind: paradigms
+  title: Atomic Design
+  body_path: paradigms/atomic-design.paradigm.yaml
+- id: css-conventions
+  kind: styleguides
+  title: CSS Conventions Styleguide
+  body_path: styleguides/css-conventions.styleguide.yaml
+- id: html-conventions
+  kind: styleguides
+  title: HTML Conventions Styleguide
+  body_path: styleguides/html-conventions.styleguide.yaml
+- id: typescript-conventions
+  kind: styleguides
+  title: TypeScript Conventions Styleguide
+  body_path: styleguides/typescript-conventions.styleguide.yaml
+- id: atomic-design-review-checklist
+  kind: tactics
+  title: Atomic Design Review Checklist
+  body_path: tactics/architecture/atomic-design-review-checklist.tactic.yaml
+- id: atomic-state-ownership
+  kind: tactics
+  title: Atomic State Ownership
+  body_path: tactics/architecture/atomic-state-ownership.tactic.yaml
+- id: compositional-stream-boundaries
+  kind: tactics
+  title: Compositional Stream Boundaries
+  body_path: tactics/architecture/compositional-stream-boundaries.tactic.yaml
+- id: cross-cutting-state-via-store
+  kind: tactics
+  title: Cross-Cutting State via Store
+  body_path: tactics/architecture/cross-cutting-state-via-store.tactic.yaml
+- id: javascript-supply-chain
+  kind: toolguides
+  title: JavaScript/TypeScript Supply-Chain Install Safety
+  body_path: toolguides/javascript-supply-chain.toolguide.yaml
+- id: typescript-mutation-tools
+  kind: toolguides
+  title: TypeScript Mutation Testing with Stryker
+  body_path: toolguides/typescript-mutation-tools.toolguide.yaml
+edges:
+- source: agent_profile:designer-dagmar
+  target: foundation::directive:DIRECTIVE_031
+  relation: requires
+- source: agent_profile:frontend-freddy
+  target: foundation::agent_profile:implementer-ivan
+  relation: specializes_from
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  when: when assessing whether tests meet the quality gate they must pass
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
+    in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  when: when writing or reviewing the tests that accompany an implementation
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
+    channel (walks requires/specializes_from only), authored per the #3063 family-D operator attestation.'
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_041
+  relation: suggests
+  when: when keeping the tests they write a clear scaffold rather than friction
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DIRECTIVE_051
+  relation: requires
+- source: agent_profile:frontend-freddy
+  target: foundation::directive:DISCIPLINED_REFACTORING
+  relation: suggests
+  when: when tidying code, encountering long classes/methods, or discovering convoluted logic
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
+    under today''s traversal (the profile channel walks requires/specializes_from only), authored per the #3063 family-B operator
+    attestation.'
+- source: agent_profile:frontend-freddy
+  target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a change actually constrain its behaviour
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:frontend-freddy
+  target: testing::procedure:test-first-bug-fixing
+  relation: requires
+- source: agent_profile:frontend-freddy
+  target: testing::tactic:bdd-scenario-formulation
+  relation: requires
+  reason: BDD scenarios define acceptance criteria for browser components; wire Cucumber-JS/Playwright e2e scenarios as acceptance
+    tests before implementation
+- source: agent_profile:frontend-freddy
+  target: foundation::tactic:dependency-hygiene
+  relation: requires
+  reason: Pin and audit npm/yarn/pnpm dependencies (build tooling, component libraries, bundlers); run the supply-chain-install-safety
+    tactic's checklist alongside these steps for every dependency change.
+- source: agent_profile:frontend-freddy
+  target: foundation::tactic:supply-chain-install-safety
+  relation: requires
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed npm dependency, using the javascript-supply-chain
+    toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
+- source: agent_profile:frontend-freddy
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: requires
+  reason: Drives frontend implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it
+    names a tactic, not a procedure).
+- source: agent_profile:frontend-freddy
+  target: styleguide:css-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (css); operator
+    ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+- source: agent_profile:frontend-freddy
+  target: styleguide:html-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (html); operator
+    ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+- source: agent_profile:frontend-freddy
+  target: styleguide:typescript-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript);
+    operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+- source: agent_profile:node-norris
+  target: foundation::agent_profile:implementer-ivan
+  relation: specializes_from
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  when: when assessing whether tests meet the quality gate they must pass
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
+    in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  when: when writing or reviewing the tests that accompany an implementation
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
+    channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_041
+  relation: suggests
+  when: when keeping the tests they write a clear scaffold rather than friction
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:node-norris
+  target: foundation::directive:DIRECTIVE_051
+  relation: requires
+- source: agent_profile:node-norris
+  target: foundation::directive:DISCIPLINED_REFACTORING
+  relation: suggests
+  when: when tidying code, encountering long classes/methods, or discovering convoluted logic
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
+    under today''s traversal, authored per the #3063 family-B operator attestation.'
+- source: agent_profile:node-norris
+  target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a change actually constrain its behaviour
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:node-norris
+  target: testing::procedure:test-first-bug-fixing
+  relation: requires
+- source: agent_profile:node-norris
+  target: testing::tactic:bdd-scenario-formulation
+  relation: requires
+  reason: BDD scenarios define acceptance criteria for API endpoints; Cucumber-JS step definitions call the API via supertest
+- source: agent_profile:node-norris
+  target: foundation::tactic:dependency-hygiene
+  relation: requires
+  reason: Pin and audit npm/yarn/pnpm dependencies; run the supply-chain-install-safety tactic's checklist alongside these
+    steps for every dependency change.
+- source: agent_profile:node-norris
+  target: foundation::tactic:supply-chain-install-safety
+  relation: requires
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed npm dependency, using the javascript-supply-chain
+    toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
+- source: agent_profile:node-norris
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: requires
+  reason: Drives Node.js implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it
+    names a tactic, not a procedure).
+- source: agent_profile:node-norris
+  target: styleguide:typescript-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript);
+    operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+- source: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  target: toolguide:typescript-mutation-tools
+  relation: suggests
+  when: running mutation testing on TypeScript/JavaScript code with Stryker
+  reason: The mutation hub suggests the TypeScript/JavaScript mutation toolguide (Stryker) as the generator for that stack;
+    the `when` is the toolguide's own scope. Inert under today's traversal.
+- source: styleguide:html-conventions
+  target: styleguide:css-conventions
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: toolguide:javascript-supply-chain
+  relation: suggests
+- source: styleguide:typescript-conventions
+  target: toolguide:typescript-mutation-tools
+  relation: suggests
+- source: tactic:atomic-design-review-checklist
+  target: paradigm:atomic-design
+  relation: suggests
+- source: tactic:atomic-design-review-checklist
+  target: tactic:atomic-state-ownership
+  relation: suggests
+  when: Reviewing state ownership per atomic level (steps 1-3).
+- source: tactic:atomic-design-review-checklist
+  target: tactic:compositional-stream-boundaries
+  relation: suggests
+  when: Reviewing subscription cleanup and observable boundary violations (steps 6-7).
+- source: tactic:atomic-design-review-checklist
+  target: tactic:cross-cutting-state-via-store
+  relation: suggests
+  when: Verifying organism as subscription floor for store access (step 3).
+- source: tactic:atomic-state-ownership
+  target: tactic:cross-cutting-state-via-store
+  relation: suggests
+  when: Deciding whether state should be centralized (step 5).
+- source: tactic:compositional-stream-boundaries
+  target: tactic:atomic-state-ownership
+  relation: suggests
+  when: Determining which atomic level owns state before deciding stream scope.
+- source: testing::tactic:mutation-testing-workflow
+  target: toolguide:typescript-mutation-tools
+  relation: suggests
+  when: Use when applying the mutation testing workflow to TypeScript projects.
+- source: foundation::tactic:supply-chain-install-safety
+  target: toolguide:javascript-supply-chain
+  relation: suggests
+  when: Use for the exact ecosystem commands and file names behind this checklist's steps in a JavaScript/TypeScript project

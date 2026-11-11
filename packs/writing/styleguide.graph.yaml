@@ -1,0 +1,109 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: styleguide:common-docs
+  kind: styleguide
+  label: Common Docs Styleguide
+- urn: styleguide:divio-type-discipline
+  kind: styleguide
+  label: Divio Type Discipline Styleguide
+- urn: styleguide:docs-accessibility
+  kind: styleguide
+  label: Documentation Accessibility Styleguide
+- urn: styleguide:docs-freshness-sla
+  kind: styleguide
+  label: Documentation Freshness SLA Styleguide
+- urn: styleguide:kitty-glossary-writing
+  kind: styleguide
+  label: Kitty Glossary Writing Styleguide
+- urn: styleguide:meeting-minutes-format
+  kind: styleguide
+  label: Meeting minutes format
+- urn: styleguide:plain-language
+  kind: styleguide
+  label: Plain Language Styleguide
+- urn: styleguide:professional-communications
+  kind: styleguide
+  label: Professional Communications Styleguide
+- urn: styleguide:publication-authority
+  kind: styleguide
+  label: Publication Authority Styleguide
+- urn: styleguide:research-citation-discipline
+  kind: styleguide
+  label: Research Citation Discipline Styleguide
+edges:
+- source: styleguide:common-docs
+  target: asset:common-docs-structural-lint
+  relation: requires
+  reason: 'The common-docs styleguide''s tooling rows and quality_test name the structural lint as their enforcing gate, and
+    its structural_lint_config: block is the policy the asset loads; activating the styleguide requires the shipped lint asset.'
+- source: styleguide:common-docs
+  target: tactic:common-docs-find
+  relation: suggests
+  when: reading the frontmatter fields (section, doc_status, related:) the lockfile and DRG expose for resolution
+- source: styleguide:common-docs
+  target: tactic:common-docs-scaffold
+  relation: suggests
+  when: seeding frontmatter and naming the file to apply the schema, kebab-case naming, and section-index conventions
+- source: styleguide:common-docs
+  target: tactic:common-docs-write
+  relation: suggests
+  when: 'applying the frontmatter schema, the 50-180 description band, related: paths, Divio type, and naming'
+- source: styleguide:divio-type-discipline
+  target: styleguide:common-docs
+  relation: suggests
+- source: styleguide:docs-accessibility
+  target: styleguide:common-docs
+  relation: suggests
+- source: styleguide:docs-accessibility
+  target: toolguide:mermaid-diagramming
+  relation: suggests
+- source: styleguide:docs-accessibility
+  target: toolguide:plantuml-diagramming
+  relation: suggests
+- source: styleguide:docs-freshness-sla
+  target: foundation::directive:DIRECTIVE_037
+  relation: suggests
+- source: styleguide:docs-freshness-sla
+  target: procedure:documentation-gap-prioritization
+  relation: suggests
+- source: styleguide:docs-freshness-sla
+  target: styleguide:common-docs
+  relation: suggests
+- source: styleguide:docs-freshness-sla
+  target: styleguide:publication-authority
+  relation: suggests
+- source: styleguide:meeting-minutes-format
+  target: directive:DIRECTIVE_047
+  relation: suggests
+- source: styleguide:plain-language
+  target: styleguide:common-docs
+  relation: suggests
+- source: styleguide:plain-language
+  target: foundation::tactic:glossary-curation-interview
+  relation: suggests
+- source: styleguide:professional-communications
+  target: directive:DIRECTIVE_047
+  relation: suggests
+- source: styleguide:professional-communications
+  target: tactic:stakeholder-alignment
+  relation: suggests
+- source: styleguide:publication-authority
+  target: foundation::directive:DIRECTIVE_037
+  relation: suggests
+- source: styleguide:publication-authority
+  target: directive:DIRECTIVE_042
+  relation: suggests
+- source: styleguide:publication-authority
+  target: styleguide:common-docs
+  relation: suggests
+- source: styleguide:publication-authority
+  target: foundation::tactic:usage-examples-sync
+  relation: suggests
+- source: styleguide:research-citation-discipline
+  target: foundation::directive:DIRECTIVE_003
+  relation: suggests
+- source: styleguide:research-citation-discipline
+  target: foundation::tactic:dialectic-research
+  relation: suggests

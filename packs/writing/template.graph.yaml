@@ -1,0 +1,15 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: template:documentation/documentation-plan-template.md
+  kind: template
+  label: documentation/documentation-plan-template.md
+- urn: template:documentation/documentation-spec-template.md
+  kind: template
+  label: documentation/documentation-spec-template.md
+- urn: template:stakeholder-persona-template
+  kind: template
+- urn: template:system-context-canvas-template
+  kind: template
+edges: []

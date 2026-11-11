@@ -1,0 +1,47 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: mission_step_contract:plan/plan
+  kind: mission_step_contract
+  label: plan
+- urn: mission_step_contract:plan/research
+  kind: mission_step_contract
+  label: research
+- urn: mission_step_contract:plan/review
+  kind: mission_step_contract
+  label: review
+- urn: mission_step_contract:plan/specify
+  kind: mission_step_contract
+  label: specify
+- urn: mission_step_contract:research/gathering
+  kind: mission_step_contract
+  label: gathering
+- urn: mission_step_contract:research/methodology
+  kind: mission_step_contract
+  label: methodology
+- urn: mission_step_contract:research/output
+  kind: mission_step_contract
+  label: output
+- urn: mission_step_contract:research/scoping
+  kind: mission_step_contract
+  label: scoping
+- urn: mission_step_contract:research/synthesis
+  kind: mission_step_contract
+  label: synthesis
+- urn: mission_step_contract:software-dev/implement
+  kind: mission_step_contract
+  label: implement
+- urn: mission_step_contract:software-dev/plan
+  kind: mission_step_contract
+  label: plan
+- urn: mission_step_contract:software-dev/review
+  kind: mission_step_contract
+  label: review
+- urn: mission_step_contract:software-dev/specify
+  kind: mission_step_contract
+  label: specify
+- urn: mission_step_contract:software-dev/tasks
+  kind: mission_step_contract
+  label: tasks
+edges: []

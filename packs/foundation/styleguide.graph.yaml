@@ -1,0 +1,17 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: styleguide:boring-code-review
+  kind: styleguide
+  label: Boring Code Review
+edges:
+- source: styleguide:boring-code-review
+  target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
+  relation: suggests
+- source: styleguide:boring-code-review
+  target: tactic:avoid-gold-plating
+  relation: suggests
+- source: styleguide:boring-code-review
+  target: tactic:easy-to-change
+  relation: suggests

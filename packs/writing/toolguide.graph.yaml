@@ -1,0 +1,39 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: toolguide:contextive
+  kind: toolguide
+  label: Contextive
+- urn: toolguide:mermaid-diagramming
+  kind: toolguide
+  label: Mermaid Diagramming
+- urn: toolguide:plantuml-diagramming
+  kind: toolguide
+  label: PlantUML Diagramming
+edges:
+- source: toolguide:contextive
+  target: foundation::tactic:glossary-curation-interview
+  relation: suggests
+  when: capturing the terms produced by a glossary-curation round in an enforceable, IDE-surfaced ubiquitous-language glossary
+    (hover, auto-complete, per-context definitions)
+  reason: 'Contextive''s own summary is a tool to ''manage ubiquitous language ... glossary file setup ... alignment with
+    Spec Kitty glossary curation workflows'', and its guide ties the glossary-curation-interview tactic''s output to Contextive
+    format. It therefore supports the write-a-glossary workflow. INERT: contextive is action-unreachable, so its outbound
+    `suggests` are never walked.'
+- source: toolguide:contextive
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: treating terminology drift as an architectural signal -- an IDE-surfaced glossary makes same-term/different-meaning
+    and different-term/same-concept conflicts visible in the developer workflow
+  reason: 'Contextive surfaces ubiquitous-language definitions with compound-word recognition and multi-context term disambiguation
+    (its own guide), which is the tooling that makes the linguistic conflicts language-driven-design hunts for observable.
+    It therefore supports the language-oriented development approach. INERT: contextive is action-unreachable.'
+- source: toolguide:contextive
+  target: tactic:terminology-extraction-mapping
+  relation: suggests
+  when: capturing the extracted, bounded-context-owned terms in an enforceable Contextive glossary so the recovered ubiquitous
+    language is surfaced in the IDE rather than left in a static document
+  reason: 'Contextive is the ubiquitous-language glossary tool; the terms terminology-extraction-mapping extracts and validates
+    are exactly the content Contextive stores and enforces (its guide ties glossary-curation output to Contextive format).
+    It supports the extraction-mapping workflow''s output. INERT: contextive is action-unreachable.'

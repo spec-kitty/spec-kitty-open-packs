@@ -27,8 +27,8 @@ ledger as much as an event store does.
 | Asset | `evd-worked-example-lane-board` — a worked example after Martin Fowler's [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html): work packages moving through Spec Kitty lanes as versioned events, a projection that rebuilds the board (also "as of" a past point), a v1 -> v2 change handled by an upcaster, and an idempotent consumer. Markdown with a runnable, standard-library Python listing; it ships no executable file. |
 | Preset | `event-driven` — activates the paradigm, the six directives, the four tactics and the styleguide |
 
-Built-in doctrine is referenced, not restated. The DRG fragment links to the built-in
-`domain-event-capture` and `anti-corruption-layer` tactics, the `event-storming-discovery`
+Existing doctrine is referenced, not restated. The DRG fragment links to the `architecture`
+bundle's `domain-event-capture` and `anti-corruption-layer` tactics, the `event-storming-discovery`
 procedure, `reference-architectural-patterns`, and the `domain-driven-design` and
 `deep-module-design` paradigms.
 

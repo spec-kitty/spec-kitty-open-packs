@@ -1,0 +1,19 @@
+# Authored pack descriptor for foundation, a member of the built-in distribution (#73;
+# charter ADR-0048 decisions 12-13, ADR-0053 decisions 3 and 9).
+#
+# Authored, hand-edited data (never machine-rewritten). The sibling generated file,
+# pack-manifest.yaml, holds constituents/hashes and IS machine-written.
+#
+# pack_id is the canonical identity, minted once by a tool and never edited.
+schema_version: "1.0"
+pack_id: 01M75HSYR9S9KPA372PHGT0EX3
+pack_version: 1.0.0
+parent_pack: null
+name: foundation
+# Built-in level, so the built-in distribution pack may depend on it (ADR-0048 decision 7)
+# and every org pack (bundles, stacks) may build on it. It depends on nothing.
+pack_level: built-in
+# The fallback lives with the profile, so a pack that depends on foundation alone still sees it
+# (ADR-0068); policy.yaml locks it along the closure.
+fallback_profile: generic-agent
+mutability_policy: policy.yaml

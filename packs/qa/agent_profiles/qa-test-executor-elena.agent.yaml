@@ -41,20 +41,20 @@ directive-references:
       debrief and any overrun.
 
 tactic-references:
-  - id: built-in::no-parallel-duplicate-test-runs
+  - id: testing::no-parallel-duplicate-test-runs
     rationale: >
       General-purpose agent test-run discipline — not QA-owned content —
       reused directly: this profile is the one that starts timeboxed suite
       and case runs, so the single-authoritative-run and wait-for-result
       discipline this tactic defines applies verbatim to its own execution
       step.
-  - id: built-in::test-pyramid-progression
+  - id: testing::test-pyramid-progression
     rationale: >
       General-purpose bottom-up execution-ordering tactic — not QA-owned
       content — reused for running regression suites: fast layers first,
       stop at the first failing layer, so a slow layer's noise never masks
       a cheap layer's honest signal.
-  - id: built-in::mutation-testing-workflow
+  - id: testing::mutation-testing-workflow
     rationale: >
       General-purpose mutation-testing tactic — not QA-owned content —
       reused narrowly for its detection-strength and survived/killed
@@ -64,11 +64,11 @@ tactic-references:
       than a shallow one (QA_003).
 
 styleguide-references:
-  - id: built-in::testing-principles
+  - id: testing::testing-principles
     rationale: >
       Governs the execution-quality discipline this profile must hold suite
       and case runs to.
-  - id: built-in::mutation-aware-test-design
+  - id: testing::mutation-aware-test-design
     rationale: >
       Informs how this profile assesses whether a passing run is actually
       exercising mutation-aware test coverage, not a shallow pass.
@@ -77,7 +77,7 @@ collaboration:
   canonical-verbs:
     - run
   operating-procedures:
-    - built-in::spike-timebox-policy
+    - planning-analysis::spike-timebox-policy
 
 specialization-context:
   domain-keywords:

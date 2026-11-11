@@ -1,0 +1,494 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: tactic:acceptance-criteria-non-vacuity
+  kind: tactic
+  label: Acceptance Criteria Non-Vacuity
+- urn: tactic:acceptance-test-first
+  kind: tactic
+  label: Acceptance Test Driven Development (ATDD)
+- urn: tactic:adr-drafting-workflow
+  kind: tactic
+  label: ADR Drafting Workflow
+- urn: tactic:autonomous-operation-protocol
+  kind: tactic
+  label: Autonomous Operation Protocol
+- urn: tactic:avoid-gold-plating
+  kind: tactic
+  label: Avoid Gold Plating
+- urn: tactic:black-box-integration-testing
+  kind: tactic
+  label: Black-Box Integration Testing
+- urn: tactic:bounded-context-identification
+  kind: tactic
+  label: Bounded Context Identification
+- urn: tactic:canonical-source-unification
+  kind: tactic
+  label: Canonical Source Unification
+- urn: tactic:change-apply-smallest-viable-diff
+  kind: tactic
+  label: Change Apply Smallest Viable Diff
+- urn: tactic:clean-linear-commit-history
+  kind: tactic
+  label: Clean Linear Commit History via Snapshot Chain
+- urn: tactic:code-review-incremental
+  kind: tactic
+  label: Incremental Code Review
+- urn: tactic:decision-marker-capture
+  kind: tactic
+  label: Decision Marker Capture
+- urn: tactic:deepening-opportunity-assessment
+  kind: tactic
+  label: Deepening Opportunity Assessment
+- urn: tactic:delete-the-assertion-not-the-test
+  kind: tactic
+  label: Delete the Assertion, Not the Test
+- urn: tactic:dependency-hygiene
+  kind: tactic
+  label: Dependency Hygiene
+- urn: tactic:dialectic-research
+  kind: tactic
+  label: Dialectical Research
+- urn: tactic:easy-to-change
+  kind: tactic
+  label: Easy-to-Change Design Review
+- urn: tactic:eisenhower-prioritisation
+  kind: tactic
+  label: Eisenhower Prioritisation
+- urn: tactic:five-paradigm-parallel-debugging
+  kind: tactic
+  label: Five-Paradigm Parallel Debugging
+- urn: tactic:focused-function-complexity-check
+  kind: tactic
+  label: Focused Function Complexity Check
+- urn: tactic:forensic-repository-audit
+  kind: tactic
+  label: Forensic Repository Audit
+- urn: tactic:function-over-form-testing
+  kind: tactic
+  label: Function Over Form Testing
+- urn: tactic:generated-code-stewardship
+  kind: tactic
+  label: Generated Code Stewardship
+- urn: tactic:glossary-curation-interview
+  kind: tactic
+  label: Glossary Curation Interview
+- urn: tactic:input-validation-fail-fast
+  kind: tactic
+  label: Input Validation with Fail-Fast Feedback
+- urn: tactic:interface-variation-design
+  kind: tactic
+  label: Interface Variation Design
+- urn: tactic:lane-recovery
+  kind: tactic
+  label: Lane Recovery (DESTROYED_LANE, LANE_WORK_TIP_UNKNOWN)
+- urn: tactic:language-driven-design
+  kind: tactic
+  label: Language-Driven Design
+- urn: tactic:model-task-routing
+  kind: tactic
+  label: Model Task Routing
+- urn: tactic:moscow-scoping-lens
+  kind: tactic
+  label: MoSCoW Scoping Lens
+- urn: tactic:occurrence-classification-workflow
+  kind: tactic
+  label: Occurrence Classification Workflow
+- urn: tactic:op-or-mission-selection
+  kind: tactic
+  label: Op-or-Mission Selection
+- urn: tactic:ownership-map-leeway
+  kind: tactic
+  label: Ownership Map Leeway
+- urn: tactic:pr-agent-worktree-isolation
+  kind: tactic
+  label: PR Agent Worktree Isolation and No-Version Prescription
+- urn: tactic:premortem-risk-identification
+  kind: tactic
+  label: Premortem Risk Identification
+- urn: tactic:problem-decomposition
+  kind: tactic
+  label: Problem Decomposition
+- urn: tactic:quality-gate-verification
+  kind: tactic
+  label: Quality Gate Verification
+- urn: tactic:requirements-validation-workflow
+  kind: tactic
+  label: Requirements Validation Workflow
+- urn: tactic:reverse-speccing
+  kind: tactic
+  label: Reverse Specification from Tests
+- urn: tactic:review-intent-and-risk-first
+  kind: tactic
+  label: Review Intent and Risk First
+- urn: tactic:reviewer-implementer-role-separation
+  kind: tactic
+  label: Reviewer/Implementer Role Separation
+- urn: tactic:safe-to-fail-experiment
+  kind: tactic
+  label: Safe-to-Fail Experiment
+- urn: tactic:secure-design-checklist
+  kind: tactic
+  label: Secure Design Checklist
+- urn: tactic:secure-regex-catastrophic-backtracking
+  kind: tactic
+  label: Secure Regex — Avoid Catastrophic Backtracking
+- urn: tactic:split-brain-authority-detection
+  kind: tactic
+  label: Split Brain Authority Detection
+- urn: tactic:stopping-conditions
+  kind: tactic
+  label: Define Stopping Conditions
+- urn: tactic:supply-chain-install-safety
+  kind: tactic
+  label: Supply-Chain Install Safety Checklist
+- urn: tactic:tdd-red-green-refactor
+  kind: tactic
+  label: Test Driven Development (TDD)
+- urn: tactic:test-boundaries-by-responsibility
+  kind: tactic
+  label: Test Boundaries by Functional Responsibility
+- urn: tactic:test-readability-clarity-check
+  kind: tactic
+  label: Test Readability and Clarity Check
+- urn: tactic:test-scaffolding-as-design-smell
+  kind: tactic
+  label: Test Setup Scaffolding as a Design Smell
+- urn: tactic:testing-select-appropriate-level
+  kind: tactic
+  label: Select Appropriate Test Level
+- urn: tactic:traceable-decisions
+  kind: tactic
+  label: Traceable Decisions
+- urn: tactic:usage-examples-sync
+  kind: tactic
+  label: Usage Examples Sync
+- urn: tactic:work-package-completion-validation
+  kind: tactic
+  label: Work Package Completion Validation
+- urn: tactic:adversarial-qa-handoff
+  kind: tactic
+  label: Adversarial QA Handoff
+- urn: tactic:architectural-gate-non-vacuity
+  kind: tactic
+  label: Architectural Gate Non-Vacuity
+- urn: tactic:frozen-baseline-shrink-only-ratchet
+  kind: tactic
+  label: Frozen-Baseline Shrink-Only Ratchet
+
+edges:
+- source: tactic:acceptance-test-first
+  target: tactic:acceptance-criteria-non-vacuity
+  relation: suggests
+  when: Label the criterion and confirm a no-op cannot pass it
+- source: tactic:acceptance-test-first
+  target: tactic:tdd-red-green-refactor
+  relation: suggests
+  when: After the acceptance test fails for the right reason, drive implementation detail with Red-Green-Refactor cycles.
+- source: tactic:adr-drafting-workflow
+  target: tactic:premortem-risk-identification
+  relation: suggests
+  when: Decision has high impact or limited reversibility.
+- source: tactic:autonomous-operation-protocol
+  target: tactic:stopping-conditions
+  relation: suggests
+  when: Progress stalls or an unexpected blocker is encountered during autonomous work.
+- source: tactic:avoid-gold-plating
+  target: directive:DIRECTIVE_001
+  relation: suggests
+  when: Proposed changes that expand architectural scope must pass the integrity standard check
+- source: tactic:avoid-gold-plating
+  target: directive:DIRECTIVE_024
+  relation: suggests
+  when: This tactic is the practical application protocol for Directive 024; use the directive for policy, this tactic for
+    evaluation procedure
+- source: tactic:avoid-gold-plating
+  target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
+  relation: suggests
+  when: Once this tactic's evidence gate accepts an added complexity, the SIZE of the resulting change is a separate scope
+    decision reconciled through this directive.
+- source: tactic:avoid-gold-plating
+  target: tactic:easy-to-change
+  relation: suggests
+  when: After confirming the design is not gold-plated, use easy-to-change to verify that the simpler design still supports
+    anticipated future change.
+- source: tactic:black-box-integration-testing
+  target: directive:DIRECTIVE_030
+  relation: suggests
+  when: Black-box integration tests are part of the integration-level gate that must pass before handoff.
+- source: tactic:black-box-integration-testing
+  target: directive:DIRECTIVE_034
+  relation: suggests
+  when: Black-box integration tests can be written first to capture the external contract before implementation.
+- source: tactic:black-box-integration-testing
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: Acceptance tests define the outer behavioral boundary that black-box integration tests can refine at intermediate
+    scopes.
+- source: tactic:black-box-integration-testing
+  target: tactic:test-boundaries-by-responsibility
+  relation: suggests
+  when: Use this tactic first to select which components are inside vs. outside the responsibility boundary before applying
+    black-box integration testing.
+- source: tactic:bounded-context-identification
+  target: tactic:language-driven-design
+  relation: suggests
+  when: Detecting linguistic conflicts that signal a bounded context boundary.
+- source: tactic:code-review-incremental
+  target: tactic:change-apply-smallest-viable-diff
+  relation: suggests
+  when: Verifying the diff is the smallest viable change for the stated goal
+- source: tactic:code-review-incremental
+  target: tactic:review-intent-and-risk-first
+  relation: suggests
+  when: Applying the intent-first review philosophy that this tactic adds incremental discipline to
+- source: tactic:deepening-opportunity-assessment
+  target: tactic:avoid-gold-plating
+  relation: suggests
+  when: Use its evidence-gate checklist to require evidence that the added structure solves an observed, real problem.
+- source: tactic:deepening-opportunity-assessment
+  target: tactic:easy-to-change
+  relation: suggests
+  when: Use after identifying a candidate to test whether deepening improves future change cost.
+- source: tactic:delete-the-assertion-not-the-test
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: writing the replacement assertion against externally observable behavior
+- source: tactic:delete-the-assertion-not-the-test
+  target: tactic:tdd-red-green-refactor
+  relation: suggests
+  when: observing the replacement assertion RED before it is made GREEN
+- source: tactic:dependency-hygiene
+  target: directive:DIRECTIVE_001
+  relation: suggests
+  when: Dependency decisions affect the architectural integrity of the system; treat supply-chain choices as first-class architectural
+    decisions
+- source: tactic:dependency-hygiene
+  target: tactic:secure-design-checklist
+  relation: suggests
+  when: Dependency hygiene is a prerequisite for the Least Common Mechanism principle in the secure design checklist
+- source: tactic:dependency-hygiene
+  target: tactic:supply-chain-install-safety
+  relation: suggests
+  when: Run this tactic's ecosystem-neutral checklist (and its per-ecosystem toolguide) alongside these version-pinning/SBOM
+    steps for every dependency change
+- source: tactic:dialectic-research
+  target: tactic:bounded-context-identification
+  relation: suggests
+  when: The theory concerns whether two terms name one concept or two.
+- source: tactic:dialectic-research
+  target: tactic:premortem-risk-identification
+  relation: suggests
+  when: The adversarial pass benefits from imagining concrete ways the claim fails.
+- source: tactic:easy-to-change
+  target: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
+  relation: suggests
+  when: Once a recommended structural intervention is accepted, the SIZE of the resulting change is a separate scope decision
+    reconciled through this directive.
+- source: tactic:five-paradigm-parallel-debugging
+  target: tactic:code-review-incremental
+  relation: suggests
+  when: Apply during convergence synthesis to each sub-agent's output before authoring the fix plan
+- source: tactic:five-paradigm-parallel-debugging
+  target: tactic:review-intent-and-risk-first
+  relation: suggests
+  when: Evaluate the structural-fix plan for intent (does it close the class?) and risk (blast radius of structural change)
+    before handoff
+- source: tactic:focused-function-complexity-check
+  target: directive:DIRECTIVE_034
+  relation: suggests
+  when: Use test-first cycles before reshaping behavior.
+- source: tactic:forensic-repository-audit
+  target: directive:DIRECTIVE_001
+  relation: suggests
+  when: Audit findings that surface load-bearing complexity or single-author critical modules feed back into architectural-integrity
+    decisions and ADRs.
+- source: tactic:forensic-repository-audit
+  target: directive:DIRECTIVE_028
+  relation: suggests
+  when: The recipes rely on local `git`, `cloc`, and language-specific complexity tools; the directive governs how those tools
+    are configured and invoked.
+- source: tactic:forensic-repository-audit
+  target: tactic:eisenhower-prioritisation
+  relation: suggests
+  when: Hotspot tables, bug overlaps, and bus-factor concentrations populate the urgency-and-importance grid that drives the
+    triage buckets.
+- source: tactic:forensic-repository-audit
+  target: tactic:premortem-risk-identification
+  relation: suggests
+  when: Use the audit findings as input to a premortem on the planned remediation path; high-firefighting projects warrant
+    a premortem before any large refactor is scheduled.
+- source: tactic:function-over-form-testing
+  target: directive:DIRECTIVE_034
+  relation: suggests
+  when: Function-over-form tests are written test-first, expressing the behavioral requirement before implementation
+- source: tactic:function-over-form-testing
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: Acceptance tests are the canonical behavioral tests that function-over-form produces
+- source: tactic:generated-code-stewardship
+  target: directive:DIRECTIVE_030
+  relation: suggests
+  when: Generated code must pass the same gates as handwritten code.
+- source: tactic:generated-code-stewardship
+  target: styleguide:boring-code-review
+  relation: suggests
+  when: Use to remove clever or over-abstracted generated output.
+- source: tactic:input-validation-fail-fast
+  target: directive:DIRECTIVE_030
+  relation: suggests
+  when: Ensuring validation passes before handoff at quality gates
+- source: tactic:interface-variation-design
+  target: tactic:deepening-opportunity-assessment
+  relation: suggests
+  when: Run first to confirm that a real deepening opportunity exists.
+- source: tactic:interface-variation-design
+  target: tactic:traceable-decisions
+  relation: suggests
+  when: Record the selected interface when the trade-off is durable and non-obvious.
+- source: tactic:model-task-routing
+  target: tactic:autonomous-operation-protocol
+  relation: suggests
+  when: Consult alongside this tactic when delegating work to a subagent — model routing decides *which* model runs the delegated
+    work; the autonomous operation protocol decides *how* that agent should behave once dispatched.
+- source: tactic:pr-agent-worktree-isolation
+  target: directive:DIRECTIVE_045
+  relation: suggests
+  when: This tactic operationalizes the §7 worktree-isolation and no-version rules that DIRECTIVE_045 makes binding. Consult
+    the directive for the enforcement context and scope; consult this tactic for the procedural how-to.
+- source: tactic:pr-agent-worktree-isolation
+  target: tactic:clean-linear-commit-history
+  relation: suggests
+  when: 'Sibling discipline with a `refines`-type scope boundary: history compression after landing is governed by clean-linear-commit-history;
+    worktree isolation and version-prescription restraint are governed here. Refer to that tactic for compress-history steps;
+    refer to this tactic for PR-agent discipline.'
+- source: tactic:problem-decomposition
+  target: tactic:eisenhower-prioritisation
+  relation: suggests
+  when: When deciding which sub-problems must be solved now versus deferred.
+- source: tactic:problem-decomposition
+  target: tactic:review-intent-and-risk-first
+  relation: suggests
+  when: When validating the decomposition — confirm that the stated intent of the initiative is faithfully reflected in the
+    sub-problem set, and that the highest-risk sub-problems are explicitly identified before prioritisation begins.
+- source: tactic:reverse-speccing
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: Validating that ATDD tests effectively document acceptance criteria
+- source: tactic:reverse-speccing
+  target: tactic:code-review-incremental
+  relation: suggests
+  when: Applying lightweight reverse speccing during review to check test documentation quality
+- source: tactic:reverse-speccing
+  target: tactic:test-boundaries-by-responsibility
+  relation: suggests
+  when: Well-defined test boundaries make reconstruction clearer
+- source: tactic:secure-design-checklist
+  target: directive:DIRECTIVE_001
+  relation: suggests
+  when: Security boundaries are architectural boundaries; enforce both during design review
+- source: tactic:secure-design-checklist
+  target: tactic:black-box-integration-testing
+  relation: suggests
+  when: Verify security enforcement at integration boundaries, not only via unit tests
+- source: tactic:secure-design-checklist
+  target: tactic:code-review-incremental
+  relation: suggests
+  when: Use the nine-principle checklist as a secondary review lens during code review of security-relevant changes
+- source: tactic:secure-regex-catastrophic-backtracking
+  target: directive:DIRECTIVE_030
+  relation: suggests
+  when: Add the regression test alongside the rewrite so the quality gate enforces linear runtime on every CI pass
+- source: tactic:secure-regex-catastrophic-backtracking
+  target: tactic:secure-design-checklist
+  relation: suggests
+  when: Treat regex hardening as a design-phase property of any component that parses untrusted input, not as a post-hoc fix
+- source: tactic:split-brain-authority-detection
+  target: tactic:forensic-repository-audit
+  relation: suggests
+  when: Use when repository history may reveal repeated fixes, reverts, or ownership churn around split brain incidents.
+- source: tactic:split-brain-authority-detection
+  target: tactic:premortem-risk-identification
+  relation: suggests
+  when: Use before introducing multiple writers, active-active regions, offline clients, queue workers, or control-plane rollouts.
+- source: tactic:split-brain-authority-detection
+  target: tactic:quality-gate-verification
+  relation: suggests
+  when: Use to prove the detector, chaos drill, or invariant test is part of the release gate.
+- source: tactic:supply-chain-install-safety
+  target: tactic:secure-design-checklist
+  relation: suggests
+  when: Supply-chain install safety is a specialization of Fail-Safe Defaults (deny by default) applied to dependency install-time
+    hook scripts
+- source: tactic:test-boundaries-by-responsibility
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: Acceptance tests define the outer behavioral boundary that this tactic refines at the inner unit level
+- source: tactic:test-boundaries-by-responsibility
+  target: tactic:tdd-red-green-refactor
+  relation: suggests
+  when: Driving implementation inside the boundaries defined by this tactic
+- source: tactic:test-readability-clarity-check
+  target: tactic:test-boundaries-by-responsibility
+  relation: suggests
+  when: After identifying coverage gaps, use this tactic to determine the correct level at which to add missing tests
+- source: tactic:test-scaffolding-as-design-smell
+  target: tactic:function-over-form-testing
+  relation: suggests
+  when: Use to keep the extracted seam's tests asserting behavior, not structure, so they stay structure-insensitive
+- source: tactic:test-scaffolding-as-design-smell
+  target: tactic:test-boundaries-by-responsibility
+  relation: suggests
+  when: Use to decide what belongs inside the extracted seam versus what is stubbed at the boundary
+- source: tactic:testing-select-appropriate-level
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: Aligning system-level tests with acceptance criteria defined by ATDD
+- source: tactic:testing-select-appropriate-level
+  target: tactic:test-boundaries-by-responsibility
+  relation: suggests
+  when: Determining what to mock vs test real within the chosen test level
+- source: tactic:traceable-decisions
+  target: directive:DIRECTIVE_001
+  relation: suggests
+  when: Decisions that affect architectural integrity must be traced before implementation begins
+- source: tactic:traceable-decisions
+  target: directive:DIRECTIVE_037
+  relation: suggests
+  when: Decision records are living documentation; apply the sync discipline when updating superseded decisions
+- source: tactic:usage-examples-sync
+  target: directive:DIRECTIVE_010
+  relation: suggests
+  when: Use this directive to reject documentation and behavior drift during review
+- source: tactic:usage-examples-sync
+  target: tactic:acceptance-test-first
+  relation: suggests
+  when: Use this tactic when a canonical example should be represented by an executable acceptance check
+- source: tactic:work-package-completion-validation
+  target: directive:DIRECTIVE_034
+  relation: suggests
+  when: Tests validating acceptance criteria must exist before the WP is marked complete
+- source: tactic:adversarial-qa-handoff
+  target: tactic:quality-gate-verification
+  relation: suggests
+  when: Use to verify the automated gates before handoff.
+- source: tactic:adversarial-qa-handoff
+  target: tactic:review-intent-and-risk-first
+  relation: suggests
+  when: Use during review to compare the stated behavior contract with the diff.
+- source: tactic:architectural-gate-non-vacuity
+  target: tactic:frozen-baseline-shrink-only-ratchet
+  relation: suggests
+  when: Use alongside this tactic to maintain numeric allowlist-size baselines over time.
+- source: tactic:five-paradigm-parallel-debugging
+  target: procedure:adversarial-squad-deployment
+  relation: refines
+- source: tactic:op-or-mission-selection
+  target: procedure:adversarial-squad-deployment
+  relation: suggests
+- source: tactic:supply-chain-install-safety
+  target: procedure:adversarial-squad-deployment
+  relation: suggests
+  when: Use adversarial-squad challenge passes at plan/research and review point-cuts for security-impacting dependency decisions,
+    and disposition every contested finding explicitly

@@ -1,0 +1,17 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: paradigm:trunk-based
+  kind: paradigm
+  label: Trunk-Based Development
+edges:
+- source: paradigm:trunk-based
+  target: directive:DIRECTIVE_029
+  relation: requires
+- source: paradigm:trunk-based
+  target: directive:DIRECTIVE_030
+  relation: requires
+- source: paradigm:trunk-based
+  target: directive:DIRECTIVE_033
+  relation: requires

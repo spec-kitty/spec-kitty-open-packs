@@ -1,0 +1,18 @@
+# Authored pack descriptor for writing, a member of the built-in distribution (#73;
+# charter ADR-0053 decisions 3 and 9).
+#
+# Authored, hand-edited data (never machine-rewritten). The sibling generated file,
+# pack-manifest.yaml, holds constituents/hashes and IS machine-written.
+#
+# pack_id is the canonical identity, minted once by a tool and never edited.
+schema_version: "1.0"
+pack_id: 01M75HSYS69RYRFPB4WCC5AC9D
+pack_version: 1.0.0
+parent_pack: null
+name: writing
+pack_level: built-in
+# Writing's guidance builds on foundation's directives and tactics. Released in lockstep with
+# foundation, so the pin is exact (ADR-0048 decision 17).
+depends_on:
+  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
+    range: "==1.0.0"

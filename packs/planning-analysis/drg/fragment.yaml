@@ -1,0 +1,308 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: planner-priti
+  kind: agent_profiles
+  title: Planner Priti
+  body_path: agent_profiles/planner-priti.agent.yaml
+- id: researcher-robbie
+  kind: agent_profiles
+  title: Researcher Robbie
+  body_path: agent_profiles/researcher-robbie.agent.yaml
+- id: retrospective-facilitator
+  kind: agent_profiles
+  title: Retrospective Facilitator
+  body_path: agent_profiles/retrospective-facilitator.agent.yaml
+- id: brownfield-onboarding
+  kind: paradigms
+  title: Brownfield Onboarding
+  body_path: paradigms/brownfield-onboarding.paradigm.yaml
+- id: domain-aware-decision-interview
+  kind: procedures
+  title: Domain-Aware Decision Interview
+  body_path: procedures/domain-aware-decision-interview.procedure.yaml
+- id: issue-triage-state-machine
+  kind: procedures
+  title: Issue Triage State Machine
+  body_path: procedures/issue-triage-state-machine.procedure.yaml
+- id: legacy-codebase-triage
+  kind: procedures
+  title: Legacy Codebase Triage
+  body_path: procedures/legacy-codebase-triage.procedure.yaml
+- id: situational-assessment
+  kind: procedures
+  title: Situational Assessment
+  body_path: procedures/situational-assessment.procedure.yaml
+- id: spike-timebox-policy
+  kind: procedures
+  title: Spike Timebox Policy
+  body_path: procedures/spike-timebox-policy.procedure.yaml
+- id: planning-and-tracking
+  kind: styleguides
+  title: Planning & Tracking Styleguide
+  body_path: styleguides/planning-and-tracking.styleguide.yaml
+- id: analysis-extract-before-interpret
+  kind: tactics
+  title: Extract Before Interpret
+  body_path: tactics/analysis/analysis-extract-before-interpret.tactic.yaml
+- id: agent-brief-template
+  kind: templates
+  title: agent-brief-template
+- id: lightweight-prestudy-template
+  kind: templates
+  title: lightweight-prestudy-template
+- id: out-of-scope-record-template
+  kind: templates
+  title: out-of-scope-record-template
+- id: quality-attribute-assessment-template
+  kind: templates
+  title: quality-attribute-assessment-template
+- id: risk-identification-assessment-template
+  kind: templates
+  title: risk-identification-assessment-template
+edges:
+- source: writing::action:documentation/retrospect
+  target: agent_profile:retrospective-facilitator
+  relation: scope
+- source: foundation::action:research/retrospect
+  target: agent_profile:retrospective-facilitator
+  relation: scope
+- source: foundation::action:software-dev/implement
+  target: procedure:legacy-codebase-triage
+  relation: scope
+- source: foundation::action:software-dev/plan
+  target: procedure:domain-aware-decision-interview
+  relation: scope
+- source: foundation::action:software-dev/retrospect
+  target: agent_profile:retrospective-facilitator
+  relation: scope
+- source: foundation::action:software-dev/review
+  target: procedure:legacy-codebase-triage
+  relation: scope
+- source: foundation::action:software-dev/tasks
+  target: procedure:issue-triage-state-machine
+  relation: scope
+- source: agent_profile:planner-priti
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:planner-priti
+  target: foundation::directive:DIRECTIVE_053
+  relation: requires
+- source: agent_profile:planner-priti
+  target: foundation::procedure:adversarial-squad-deployment
+  relation: requires
+- source: agent_profile:researcher-robbie
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:researcher-robbie
+  target: procedure:spike-timebox-policy
+  relation: requires
+- source: agent_profile:retrospective-facilitator
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:retrospective-facilitator
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: agent_profile:retrospective-facilitator
+  target: foundation::directive:DIRECTIVE_018
+  relation: requires
+- source: foundation::directive:DIRECTIVE_025
+  target: paradigm:brownfield-onboarding
+  relation: suggests
+- source: foundation::directive:DIRECTIVE_044
+  target: styleguide:planning-and-tracking
+  relation: suggests
+- source: foundation::mission_type:plan
+  target: styleguide:planning-and-tracking
+  relation: scope
+- source: foundation::mission_type:research
+  target: procedure:domain-aware-decision-interview
+  relation: scope
+- source: foundation::mission_type:research
+  target: procedure:situational-assessment
+  relation: scope
+- source: foundation::mission_type:research
+  target: procedure:spike-timebox-policy
+  relation: scope
+- source: paradigm:brownfield-onboarding
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: paradigm:brownfield-onboarding
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: paradigm:brownfield-onboarding
+  target: foundation::directive:DIRECTIVE_041
+  relation: requires
+- source: paradigm:brownfield-onboarding
+  target: foundation::procedure:adversarial-squad-deployment
+  relation: suggests
+- source: paradigm:brownfield-onboarding
+  target: procedure:legacy-codebase-triage
+  relation: requires
+- source: paradigm:brownfield-onboarding
+  target: foundation::tactic:delete-the-assertion-not-the-test
+  relation: suggests
+- source: paradigm:brownfield-onboarding
+  target: foundation::tactic:forensic-repository-audit
+  relation: requires
+- source: paradigm:brownfield-onboarding
+  target: foundation::tactic:reverse-speccing
+  relation: suggests
+  when: reconstructing system understanding purely from test code and comparing it against the implementation and design docs
+    to reveal under-documented behaviour
+  reason: Brownfield onboarding suggests reverse-speccing as the technique for recovering intent from an existing system's
+    tests; the `when` is the tactic's own stated purpose. Delivered at d=2 per the family-D ACCEPT-DELIVERY ruling.
+- source: paradigm:brownfield-onboarding
+  target: testing::tactic:test-to-system-reconstruction
+  relation: suggests
+  when: scoring how effectively a legacy system's tests serve as executable specifications, identifying where they fail to
+    communicate behavioural, architectural, or operational intent
+  reason: Brownfield onboarding suggests test-to-system reconstruction as the scored dual-agent validation of a legacy suite's
+    specification quality; the `when` is the tactic's own stated purpose. Delivered at d=2.
+- source: procedure:domain-aware-decision-interview
+  target: procedure:situational-assessment
+  relation: requires
+  reason: Use when the interview reveals that the broader context is not yet understood.
+- source: procedure:domain-aware-decision-interview
+  target: foundation::tactic:adr-drafting-workflow
+  relation: suggests
+  reason: Use when the interview crystallizes a durable architectural decision.
+- source: procedure:domain-aware-decision-interview
+  target: foundation::tactic:glossary-curation-interview
+  relation: suggests
+  reason: Use when the interview resolves a new or ambiguous domain term.
+- source: procedure:domain-aware-decision-interview
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  reason: Use for detecting architectural significance in terminology conflicts.
+- source: procedure:issue-triage-state-machine
+  target: testing::procedure:disciplined-defect-diagnosis
+  relation: requires
+  reason: Use for bug reports that need diagnosis before they are ready for implementation.
+- source: procedure:issue-triage-state-machine
+  target: testing::procedure:test-first-bug-fixing
+  relation: suggests
+  reason: Use once a bug is reproducible and ready for a fix.
+- source: procedure:issue-triage-state-machine
+  target: foundation::tactic:requirements-validation-workflow
+  relation: suggests
+  reason: Use to validate enhancement claims and acceptance criteria before delegation.
+- source: procedure:issue-triage-state-machine
+  target: template:agent-brief-template
+  relation: suggests
+  reason: Use when moving an issue to ready-for-agent.
+- source: procedure:issue-triage-state-machine
+  target: template:out-of-scope-record-template
+  relation: suggests
+  reason: Use when rejecting an enhancement as out of scope.
+- source: procedure:legacy-codebase-triage
+  target: foundation::directive:DIRECTIVE_001
+  relation: suggests
+  reason: Triage findings that surface load-bearing complexity or single-author critical modules feed architectural-integrity
+    decisions.
+- source: procedure:legacy-codebase-triage
+  target: foundation::directive:DIRECTIVE_028
+  relation: requires
+  reason: Governs the local tooling (git, cloc, language-specific complexity probes) the procedure relies on.
+- source: procedure:legacy-codebase-triage
+  target: procedure:situational-assessment
+  relation: requires
+  reason: When the triage uncovers questions larger than its scope, escalate into a full situational assessment to establish
+    shared context before design.
+- source: procedure:legacy-codebase-triage
+  target: architecture::tactic:connascence-analysis
+  relation: suggests
+  reason: After triage identifies refactor priorities, connascence analysis classifies the coupling that drives the hotspot
+    status.
+- source: procedure:legacy-codebase-triage
+  target: foundation::tactic:eisenhower-prioritisation
+  relation: requires
+  reason: Step 6 buckets the consolidated findings into the urgency-and-importance matrix that drives the action plan.
+- source: procedure:legacy-codebase-triage
+  target: foundation::tactic:forensic-repository-audit
+  relation: requires
+  reason: The forensic-repository-audit tactic is the evidence-gathering core of this procedure; step 2 invokes it directly.
+- source: procedure:legacy-codebase-triage
+  target: foundation::tactic:premortem-risk-identification
+  relation: suggests
+  reason: Before scheduling any large remediation work that the triage flags, run a premortem on the proposed plan.
+- source: procedure:legacy-codebase-triage
+  target: architecture::tactic:strategic-domain-classification
+  relation: suggests
+  reason: Optional overlay invoked in step 4 when the project has identifiable bounded contexts.
+- source: procedure:situational-assessment
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: procedure:situational-assessment
+  target: architecture::tactic:ammerse-impact-analysis
+  relation: requires
+- source: procedure:situational-assessment
+  target: foundation::tactic:eisenhower-prioritisation
+  relation: requires
+- source: procedure:situational-assessment
+  target: foundation::tactic:premortem-risk-identification
+  relation: requires
+- source: procedure:situational-assessment
+  target: foundation::tactic:problem-decomposition
+  relation: requires
+- source: procedure:situational-assessment
+  target: foundation::tactic:safe-to-fail-experiment
+  relation: requires
+- source: procedure:situational-assessment
+  target: writing::tactic:stakeholder-alignment
+  relation: requires
+- source: procedure:situational-assessment
+  target: template:lightweight-prestudy-template
+  relation: suggests
+- source: procedure:situational-assessment
+  target: template:quality-attribute-assessment-template
+  relation: suggests
+- source: procedure:spike-timebox-policy
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+  reason: The spike terminates in a documented decision-or-abandon outcome; the decision-documentation requirement governs
+    how that finding is recorded.
+- source: procedure:spike-timebox-policy
+  target: foundation::tactic:safe-to-fail-experiment
+  relation: requires
+  reason: 'A timeboxed spike is a safe-to-fail experiment: bounded, reversible, and run in a throwaway space so a failed hypothesis
+    costs only the budget.'
+- source: styleguide:planning-and-tracking
+  target: foundation::tactic:ownership-map-leeway
+  relation: suggests
+  when: setting up or reviewing task decomposition to understand the ownership-map constraints and leeway principles that
+    govern WP isolation
+- source: styleguide:planning-and-tracking
+  target: foundation::tactic:reviewer-implementer-role-separation
+  relation: suggests
+  when: planning task decomposition to understand the role-separation discipline that governs who reviews each work package
+- source: styleguide:planning-and-tracking
+  target: foundation::toolguide:github-tracker
+  relation: suggests
+- source: tactic:analysis-extract-before-interpret
+  target: foundation::tactic:acceptance-test-first
+  relation: suggests
+  when: Extracting observable acceptance criteria before interpreting implementation requirements
+- source: tactic:analysis-extract-before-interpret
+  target: foundation::tactic:review-intent-and-risk-first
+  relation: suggests
+  when: The intent-first review tactic applies extraction-before-interpretation to the review context
+- source: foundation::tactic:premortem-risk-identification
+  target: template:risk-identification-assessment-template
+  relation: suggests
+  when: When recording the premortem assessment as a durable artifact.
+- source: foundation::tactic:problem-decomposition
+  target: template:lightweight-prestudy-template
+  relation: suggests
+  when: When recording the decomposition as part of a prestudy or design document.
+- source: writing::tactic:terminology-extraction-mapping
+  target: paradigm:brownfield-onboarding
+  relation: suggests
+  when: recovering a shared vocabulary from an existing system's source code and documentation (as a follow-up to code-documentation-analysis)
+    so the terminology latent in the codebase is named before it is changed
+  reason: The tactic's OWN text extracts domain terms from 'source code (class/method names), documentation ... as a follow-up
+    to code-documentation-analysis' -- recovering terminology from an existing system, which is exactly the 'terminology aliases
+    ... inferred from the code' durable artefact brownfield-onboarding's own summary names. INBOUND to the brownfield paradigm
+    from an action-unreachable source, so composition-only under today's traversal.
