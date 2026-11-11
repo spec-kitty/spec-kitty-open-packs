@@ -1,0 +1,159 @@
+{
+  "mission_slug": "foundation-writing-split-01M75HV3",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "Verify FR-001 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "packs/foundation/pack.yaml id 01M75HSYR9S9KPA372PHGT0EX3 built-in, no deps; 178 nodes script-verified vs membership.json (review-WP01 check 1/4); validate-packs rc 0; service check composes foundation alone-closure",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:00:54.861292+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "Verify FR-002 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "packs/writing/pack.yaml 01M75HSYS69RYRFPB4WCC5AC9D, depends foundation ==1.0.0; 67 nodes incl documentation mission (review-WP01 + WP03 fold); service check rc 0",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:00:59.898279+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "Verify FR-003 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "10 bundle pack.yaml ids/levels/depends_on match membership.json (review-WP01 check 4); all 10 register in charter_service_check (svc3.log, review-WP03 check 6)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:04.592217+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "Verify FR-004 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "qa received sonar and depends on testing; internal received 4 items (review-WP02 checks 1-2)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:09.246493+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "Verify FR-005 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "built-in 2.0.0, 0 artifacts, depends foundation/writing ==1.0.0, presets kept, fallback_profile generic-agent (review-WP01 check 4); check-built-in.sh digest 55a54489",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:13.961157+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "Verify FR-006 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "461/461 moved files detected as renames (review-WP01 check 7); ids unchanged",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:18.427565+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-007",
+      "description": "Verify FR-007 is satisfied",
+      "proof_type": "inspection",
+      "evidence": "generic-agent name and graph label 'Generic Giannis', id unchanged (review-WP01 check 3)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:22.903405+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-008",
+      "description": "Verify FR-008 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "1091 edges before/after, 110 relocated with qualified sources, homed per D4 (review-WP01 check 2)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:27.441054+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-009",
+      "description": "Verify FR-009 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "4 out-of-closure body refs dropped with edges relocated; 0 built-in:: in packs (review-WP02 check 1); validate-packs cross-pack 0 violations",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:31.956734+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-010",
+      "description": "Verify FR-010 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "org packs rewired, depends_on == referenced packs, bumped 1.1.0 (review-WP02 checks 1-4)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:36.445663+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-011",
+      "description": "Verify FR-011 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "charter_service_check.py stages built-in-level packs, registers org packs deps-first; 19 compose / 16 register / fixtures refused (review-WP03)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:40.834648+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-012",
+      "description": "Verify FR-012 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "foundation 139/139, writing 46/46, built-in 0/0 manifests; digest re-recorded; check-built-in ok",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:45.244117+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-013",
+      "description": "Verify FR-013 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "validate_pack_schemas.py unlisted_constituents + 4 tests in tests/ci; non-vacuity shown by disabling guard (review-WP03 check 2)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:49.609491+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-014",
+      "description": "Verify FR-014 is satisfied",
+      "proof_type": "inspection",
+      "evidence": "ADR 2026-11-11-1 (indexed), CHANGELOG Breaking+Added, READMEs, catalog, guides, 12 new + regenerated pack pages; gen --check clean (review-WP04 cycle 2)",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:53.990578+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-015",
+      "description": "Verify FR-015 is satisfied",
+      "proof_type": "inspection",
+      "evidence": "PROVENANCE.md in all 12 new packs; qa/internal PROVENANCE note received items",
+      "pass_fail": "pass",
+      "verified_by": "claude:orchestrator",
+      "verified_at": "2026-11-11T17:01:58.395484+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    }
+  ],
+  "negative_invariants": []
+}

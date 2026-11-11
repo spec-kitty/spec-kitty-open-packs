@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "mission_slug": "foundation-writing-split-01M75HV3",
+  "mission_id": "01M75HV38ZSX9BVZPHQGPJR1NY",
+  "mission_branch": "kitty/mission-foundation-writing-split-01M75HV3",
+  "target_branch": "feat/73-foundation-writing-split",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "packs/built-in/**",
+        "packs/foundation/**",
+        "packs/specialist-staging/**",
+        "packs/writing/**"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "app-shell",
+        "artifact-rendering",
+        "legacy-cleanup",
+        "workspace"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "packs/cave-kitty/**",
+        "packs/event-driven/**",
+        "packs/internal/**",
+        "packs/qa/**",
+        "packs/spdd/**"
+      ],
+      "predicted_surfaces": [
+        "artifact-rendering",
+        "workspace"
+      ],
+      "depends_on_lanes": [
+        "lane-a"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        ".github/workflows/**",
+        "packs/built-in.source.yaml",
+        "scripts/ci/**",
+        "tests/**"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "workspace"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        "CHANGELOG.md",
+        "README.md",
+        "docs/**",
+        "packs/README.md",
+        "site/**"
+      ],
+      "predicted_surfaces": [
+        "artifact-rendering",
+        "workspace"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b",
+        "lane-c"
+      ],
+      "parallel_group": 3
+    }
+  ],
+  "computed_at": "2026-11-11T15:04:45.835374+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "d10a1ee8afd095d9c8bd81a7c6a97f028da39496"
+}

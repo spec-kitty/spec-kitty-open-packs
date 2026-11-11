@@ -1,0 +1,372 @@
+{
+ "method": "plain-Python Louvain; strong=3 (requires,scope,instantiates,specializes_from,delegates_to,profile refs), reconciles_tension=2, suggests/refines=1, vocabulary=0.5, rejects/in_tension_with=0; consensus over 60 runs (3 resolutions x 20 seeds) at co-assignment>=0.7, then hub split and cycle-breaking moves",
+ "clusters": {
+  "C01-refactoring": {
+   "recommendation": "org bundle",
+   "size": 29,
+   "urns": [
+    "anti_pattern:big-bang-rewrite",
+    "anti_pattern:feature-envy",
+    "anti_pattern:global-data",
+    "anti_pattern:implicit-concept",
+    "anti_pattern:misplaced-field",
+    "anti_pattern:repeated-switches-on-state",
+    "anti_pattern:unencapsulated-record",
+    "directive:DISCIPLINED_REFACTORING",
+    "procedure:disciplined-refactoring-cycle",
+    "procedure:refactoring",
+    "tactic:chain-of-responsibility-rule-pipeline",
+    "tactic:refactoring-change-function-declaration",
+    "tactic:refactoring-combine-functions-into-transform",
+    "tactic:refactoring-conditional-to-strategy",
+    "tactic:refactoring-consolidate-conditional-expression",
+    "tactic:refactoring-encapsulate-record",
+    "tactic:refactoring-encapsulate-variable",
+    "tactic:refactoring-extract-class-by-responsibility-split",
+    "tactic:refactoring-extract-first-order-concept",
+    "tactic:refactoring-guard-clauses-before-polymorphism",
+    "tactic:refactoring-inline-temp",
+    "tactic:refactoring-introduce-null-object",
+    "tactic:refactoring-move-field",
+    "tactic:refactoring-move-method",
+    "tactic:refactoring-replace-magic-number-with-symbolic-constant",
+    "tactic:refactoring-replace-temp-with-query",
+    "tactic:refactoring-retry-pattern",
+    "tactic:refactoring-state-pattern-for-behavior",
+    "tactic:refactoring-strangler-fig"
+   ]
+  },
+  "C02-domain-driven-design": {
+   "recommendation": "org bundle",
+   "size": 16,
+   "urns": [
+    "agent_profile:paula-patterns",
+    "anti_pattern:anemic-domain-model",
+    "anti_pattern:big-ball-of-mud",
+    "anti_pattern:database-driven-design",
+    "paradigm:domain-driven-design",
+    "styleguide:aggregate-design-rules",
+    "tactic:aggregate-boundary-design",
+    "tactic:anti-corruption-layer",
+    "tactic:bounded-context-canvas-fill",
+    "tactic:context-mapping-classification",
+    "tactic:domain-event-capture",
+    "tactic:entity-value-object-classification",
+    "tactic:paula-patterns-architecture-scout-review",
+    "tactic:strategic-domain-classification",
+    "template:bounded-context-canvas-template",
+    "template:glossary-template"
+   ]
+  },
+  "C03-brownfield-assessment": {
+   "recommendation": "org bundle (foundation-pull on 3 scoped procedures)",
+   "size": 13,
+   "urns": [
+    "anti_pattern:big-upfront-design",
+    "paradigm:brownfield-onboarding",
+    "procedure:domain-aware-decision-interview",
+    "procedure:legacy-codebase-triage",
+    "procedure:situational-assessment",
+    "tactic:ammerse-impact-analysis",
+    "tactic:connascence-analysis",
+    "tactic:stakeholder-alignment",
+    "template:ammerse-analysis-template",
+    "template:lightweight-prestudy-template",
+    "template:quality-attribute-assessment-template",
+    "template:stakeholder-persona-template",
+    "template:system-context-canvas-template"
+   ]
+  },
+  "C04-semantic-compression": {
+   "recommendation": "org bundle",
+   "size": 9,
+   "urns": [
+    "agent_profile:randy-reducer",
+    "paradigm:semantic-compression",
+    "tactic:semantic-compression-abstraction-extraction",
+    "tactic:semantic-compression-behavioral-boundary-mapping",
+    "tactic:semantic-compression-dead-weight-elimination",
+    "tactic:semantic-compression-equivalence-verification",
+    "tactic:semantic-compression-redundancy-discovery",
+    "tactic:semantic-compression-semantic-consolidation",
+    "tactic:split-brain-authority-detection"
+   ]
+  },
+  "C05-c4-architecture": {
+   "recommendation": "writing (body ref diagram-daisy->USE_C4; documentation/design instantiates C4 templates)",
+   "size": 12,
+   "urns": [
+    "anti_pattern:code-is-the-documentation",
+    "anti_pattern:single-diagram-architecture",
+    "directive:USE_C4_MODEL_TECHNIQUES",
+    "paradigm:c4-incremental-detail-modeling",
+    "procedure:c4-diagram-authoring",
+    "procedure:drill-down-documentation",
+    "tactic:architecture-diagram-review-checklist",
+    "tactic:c4-zoom-in-architecture-documentation",
+    "tactic:reference-architectural-patterns",
+    "template:c4-component-mermaid-template",
+    "template:c4-container-mermaid-template",
+    "template:c4-context-mermaid-template"
+   ]
+  },
+  "C06-testing-craft": {
+   "recommendation": "org bundle, or merge into qa",
+   "size": 9,
+   "urns": [
+    "procedure:development-assist-test-cleanup",
+    "styleguide:quadruple-a-test-format",
+    "styleguide:test-desiderata-and-boundaries",
+    "styleguide:testing-principles",
+    "tactic:formalized-constraint-testing",
+    "tactic:test-minimisation",
+    "tactic:test-pyramid-progression",
+    "tactic:test-to-system-reconstruction",
+    "tactic:work-package-completion-validation"
+   ]
+  },
+  "C07-simple-design": {
+   "recommendation": "org bundle, or foundation (DIRECTIVE_034 requires test-first-cycle; implement/review scope boring-code-review)",
+   "size": 8,
+   "urns": [
+    "directive:DIRECTIVE_039",
+    "paradigm:deep-module-design",
+    "procedure:small-explicit-code-shaping",
+    "procedure:test-first-cycle",
+    "styleguide:boring-code-review",
+    "tactic:adversarial-qa-handoff",
+    "tactic:avoid-gold-plating",
+    "tactic:easy-to-change"
+   ]
+  },
+  "C08-spec-by-example-bdd": {
+   "recommendation": "org bundle; example-mapping-workshop is step-contract delegate (foundation-pull)",
+   "size": 10,
+   "urns": [
+    "agent_profile:architect-alphonso",
+    "paradigm:behaviour-driven-development",
+    "paradigm:specification-by-example",
+    "procedure:bdd-scenario-lifecycle",
+    "procedure:event-storming-discovery",
+    "procedure:example-mapping-workshop",
+    "styleguide:given-when-then-authoring",
+    "tactic:atdd-adversarial-acceptance",
+    "tactic:bdd-scenario-formulation",
+    "tactic:development-bdd"
+   ]
+  },
+  "C09-glossary-terminology": {
+   "recommendation": "writing (body refs lexical-larry -> 2 tactics)",
+   "size": 7,
+   "urns": [
+    "procedure:glossary-maintenance-workflow",
+    "procedure:migrate-project-guidance-to-spec-kitty-charter",
+    "styleguide:kitty-glossary-writing",
+    "tactic:code-documentation-analysis",
+    "tactic:context-boundary-inference",
+    "tactic:terminology-extraction-mapping",
+    "toolguide:contextive"
+   ]
+  },
+  "C10-squad-orchestration": {
+   "recommendation": "org bundle; op-or-mission-selection + five-paradigm-parallel-debugging are foundation-required",
+   "size": 6,
+   "urns": [
+    "agent_profile:debugger-debbie",
+    "agent_profile:planner-priti",
+    "procedure:adversarial-squad-deployment",
+    "tactic:five-paradigm-parallel-debugging",
+    "tactic:model-task-routing",
+    "tactic:op-or-mission-selection"
+   ]
+  },
+  "C11-pack-authoring": {
+   "recommendation": "org bundle (zero inbound)",
+   "size": 6,
+   "urns": [
+    "agent_profile:doctrine-daphne",
+    "procedure:onboard-external-agent-to-pack",
+    "styleguide:deployable-skill-authoring",
+    "template:decomposition-table-template",
+    "template:onboarded-artifact-set-template",
+    "template:source-agent-dossier-template"
+   ]
+  },
+  "C12-atomic-design": {
+   "recommendation": "org bundle (zero anchor edges)",
+   "size": 5,
+   "urns": [
+    "paradigm:atomic-design",
+    "tactic:atomic-design-review-checklist",
+    "tactic:atomic-state-ownership",
+    "tactic:compositional-stream-boundaries",
+    "tactic:cross-cutting-state-via-store"
+   ]
+  },
+  "C13-lang-web": {
+   "recommendation": "org bundle javascript",
+   "size": 6,
+   "urns": [
+    "agent_profile:frontend-freddy",
+    "agent_profile:node-norris",
+    "styleguide:css-conventions",
+    "styleguide:html-conventions",
+    "styleguide:typescript-conventions",
+    "toolguide:javascript-supply-chain"
+   ]
+  },
+  "C14-lang-java": {
+   "recommendation": "org bundle java (#5)",
+   "size": 4,
+   "urns": [
+    "agent_profile:java-jenny",
+    "styleguide:java-conventions",
+    "toolguide:java-supply-chain",
+    "toolguide:maven-review-checks"
+   ]
+  },
+  "C15-lang-python": {
+   "recommendation": "org bundle python",
+   "size": 4,
+   "urns": [
+    "agent_profile:python-pedro",
+    "styleguide:python-conventions",
+    "toolguide:python-review-checks",
+    "toolguide:python-supply-chain"
+   ]
+  },
+  "C16-lang-drupal": {
+   "recommendation": "org bundle drupal (depends on defect-workflow/foundation)",
+   "size": 4,
+   "urns": [
+    "agent_profile:drupal-dries",
+    "styleguide:drupal-conventions",
+    "styleguide:drupal-security-performance",
+    "toolguide:drupal-review-checks"
+   ]
+  },
+  "C17-change-scope": {
+   "recommendation": "foundation (all 4 required by foundation directives)",
+   "size": 4,
+   "urns": [
+    "procedure:change-scope-tension-resolution",
+    "procedure:keep-change-local",
+    "procedure:tidy-first-campsite-clean",
+    "procedure:touched-area-cleanup"
+   ]
+  },
+  "C18-planning-tracking": {
+   "recommendation": "merge with C19+C20 as delivery-workflow bundle, or foundation (plan mission_type scopes planning-and-tracking)",
+   "size": 4,
+   "urns": [
+    "styleguide:planning-and-tracking",
+    "tactic:ownership-map-leeway",
+    "tactic:reviewer-implementer-role-separation",
+    "toolguide:github-tracker"
+   ]
+  },
+  "C19-arch-gates": {
+   "recommendation": "merge into internal or delivery-workflow (internal requires post-merge-arch-gate-adjudication)",
+   "size": 3,
+   "urns": [
+    "procedure:post-merge-arch-gate-adjudication",
+    "tactic:architectural-gate-non-vacuity",
+    "tactic:frozen-baseline-shrink-only-ratchet"
+   ]
+  },
+  "C20-git-pr-workflow": {
+   "recommendation": "merge into internal or delivery-workflow (internal requires clean-linear-commit-history)",
+   "size": 3,
+   "urns": [
+    "tactic:clean-linear-commit-history",
+    "tactic:pr-agent-worktree-isolation",
+    "toolguide:git-worktree-pr-workflow"
+   ]
+  },
+  "C21-research-spike": {
+   "recommendation": "foundation (research mission_type scopes spike-timebox-policy) or research bundle",
+   "size": 2,
+   "urns": [
+    "agent_profile:researcher-robbie",
+    "procedure:spike-timebox-policy"
+   ]
+  },
+  "C22-defect-workflow": {
+   "recommendation": "foundation (software-dev implement/review/tasks scope; implementer-ivan requires test-first-bug-fixing)",
+   "size": 5,
+   "urns": [
+    "procedure:disciplined-defect-diagnosis",
+    "procedure:issue-triage-state-machine",
+    "procedure:test-first-bug-fixing",
+    "template:agent-brief-template",
+    "template:out-of-scope-record-template"
+   ]
+  },
+  "C23-foundation-orbit": {
+   "recommendation": "foundation, or a single org how-to bundle with relocated directive->procedure edges",
+   "size": 44,
+   "urns": [
+    "agent_profile:curator-carla",
+    "agent_profile:designer-dagmar",
+    "agent_profile:retrospective-facilitator",
+    "paradigm:trunk-based",
+    "procedure:agent-commit-signing",
+    "procedure:agent-self-declaration",
+    "procedure:black-box-integration-test-design",
+    "procedure:bounded-context-alignment",
+    "procedure:bulk-edit-occurrence-mapping",
+    "procedure:canonical-source-discipline",
+    "procedure:component-boundary-definition",
+    "procedure:credential-exposure-prevention",
+    "procedure:decision-record-keeping",
+    "procedure:defect-class-construction-gate",
+    "procedure:doctrine-version-change",
+    "procedure:durable-fix-investigation",
+    "procedure:failing-test-triage",
+    "procedure:five-paradigm-structural-intervention",
+    "procedure:git-flow",
+    "procedure:land-changes-via-pull-request",
+    "procedure:living-documentation-sync",
+    "procedure:local-tooling-selection",
+    "procedure:observable-contract-test-authoring",
+    "procedure:op-or-mission-lifecycle",
+    "procedure:read-intent-before-high-risk-operation",
+    "procedure:readable-pr-preparation",
+    "procedure:red-first-bug-reproduction",
+    "procedure:red-main-handling",
+    "procedure:specification-traceability-check",
+    "procedure:targeted-staging",
+    "procedure:tech-debt-point-cut-triage",
+    "procedure:term-interpretation-alignment",
+    "procedure:test-and-typecheck-gate-run",
+    "procedure:version-freshness-check",
+    "tactic:analysis-extract-before-interpret",
+    "tactic:canonical-source-unification",
+    "tactic:no-parallel-duplicate-test-runs",
+    "tactic:occurrence-classification-workflow",
+    "tactic:secure-regex-catastrophic-backtracking",
+    "tactic:zombies-tdd",
+    "template:risk-identification-assessment-template",
+    "toolguide:efficient-local-tooling",
+    "toolguide:execution-lanes",
+    "toolguide:git-agent-commit-signing"
+   ]
+  },
+  "C24-orphans": {
+   "recommendation": "no edges at all: any bundle or drop",
+   "size": 2,
+   "urns": [
+    "agent_profile:human-in-charge",
+    "toolguide:powershell-syntax"
+   ]
+  },
+  "C25-move-to-qa": {
+   "recommendation": "qa (anchored Louvain places them in qa; breaks qa<->lang cycle)",
+   "size": 2,
+   "urns": [
+    "toolguide:python-mutation-tools",
+    "toolguide:typescript-mutation-tools"
+   ]
+  }
+ }
+}
