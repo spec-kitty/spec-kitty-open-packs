@@ -46,7 +46,7 @@ about the doctrine itself, and an edit to any member or org pack passes the gate
 ## Decision Outcome
 
 **Chosen option:** "A sidecar per pack", because it sits outside the hashed tree, so the recipe and
-its exclusions stay as they are, it reuses the shape core already reads, and pull requests that touch
+its exclusions stay as they are, it reuses the key names of `built-in.source.yaml` (it is not a core pin lockfile, and core's `pack_pin` would reject it), and pull requests that touch
 different packs touch different files.
 
 Every directory `packs/<name>/` with a `pack.yaml` has `packs/<name>.source.yaml` holding
@@ -67,10 +67,21 @@ commit. This extends ADR 2026-10-20-1, which is not edited; it does not supersed
 #### Negative
 
 * Every pack edit restamps one sidecar line, and a rebase over another pack change may need it again.
+* Release tags cut before this change cannot be rebuilt by the current `release_assets.py`, which
+  needs a sidecar at the tagged commit. Their published `.sha256` stays authoritative.
 
 #### Neutral
 
 * The clean-tree-sha256 recipe and the generated-docs checksum (#23) stay separate decisions.
+* Three digests are not interchangeable: the sidecar `tree_digest.value` is the snapshot with
+  `pack-manifest.yaml` excluded; a core pin's `tree_digest.value` is the clean-tree-sha256; and a
+  core pin's `snapshot_sha256` includes the manifest.
+* The charter's `pack-manifest.yaml` carries its own `content_hash` and `manifest_hash`
+  (charter ADR-0042). Per-file integrity stays with the manifest where one exists, and 12 packs have
+  none. This digest excludes the manifest and claims no charter authority; see the
+  [contracts index](../../contracts/index.md).
+* The checksum that `gen_pack_reference` writes into the docs pages is a freshness signal, not an
+  integrity pin.
 
 ### Confirmation
 

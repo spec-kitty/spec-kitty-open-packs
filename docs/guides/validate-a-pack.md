@@ -84,10 +84,17 @@ covers every file in the pack directory except the root `pack-manifest.yaml`, an
 `pack.yaml` and no sidecar fails, as does a stale sidecar or a sidecar with no pack.
 
 - After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
-  sidecar. It restamps stale sidecars, creates missing ones and leaves a fresh one untouched.
+  sidecar. It restamps stale sidecars, creates missing ones and leaves a fresh one untouched. The
+  script needs pyyaml: `pip install pyyaml`, or `uv run --with pyyaml python3 scripts/ci/pack_digest.py --update`.
+  Only git-tracked files count, so `git add` a new file first; untracked and ignored files never
+  change the digest.
 - To run what CI runs, use
   [`scripts/ci/check-pack-digests.sh`](../../scripts/ci/check-pack-digests.sh), which calls
   [`pack_digest.py --check`](../../scripts/ci/pack_digest.py).
+
+Three digests are not interchangeable. The sidecar's `tree_digest.value` is the snapshot with
+`pack-manifest.yaml` excluded. A core pin's `tree_digest.value` is the clean-tree-sha256, and a core
+pin's `snapshot_sha256` includes the manifest. Never copy one into the other's place.
 
 A pack that ships a `pack-manifest.yaml` must also list every graph node it declares as a
 constituent, except actions, anti-patterns, templates, mission types and step contracts.
