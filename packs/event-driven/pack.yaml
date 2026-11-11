@@ -16,4 +16,4 @@ pack_drg: drg/fragment.yaml
 # Its DRG fragment references the architecture bundle's DDD tactics (#73 split built-in).
 depends_on:
   - pack_id: 01M75PCTDT75M19ZMXHRES4CSJ  # architecture
-    range: ">=1.0,<2"
+    range: ">=2.0,<3"

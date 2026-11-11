@@ -2,9 +2,9 @@
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `architecture`, `foundation`.
+A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `architecture`, `foundation`.
 
-## Who opts in
+## Who uses it
 
 Teams that plan and research in depth, run operator-led retrospectives, or onboard brownfield code.
 

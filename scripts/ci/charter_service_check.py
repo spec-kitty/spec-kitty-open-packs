@@ -19,7 +19,8 @@ Three phases, every one of which runs even when an earlier one failed:
    composition code) fails the run, printing the problem document.
 2. **Registration.** Built-in-level packs are read-only to registration (charter ADR-0065 D3), so a
    scratch root holds every pack declaring ``pack_level: built-in`` (the ``built-in`` distribution
-   and its members, ``foundation`` and ``writing``, since #73); every org and project pack is then
+   and its members, ``foundation``, ``writing``, ``testing``, ``refactoring``, ``architecture`` and
+   ``planning-analysis``, since #73); every org and project pack is then
    sent whole, dependencies first,
    with ``PUT /api/v1/packs/{packId}`` and its registration polled until it ends. A ``refused``
    registration fails the run, printing its problem and violations. The composed offering of the

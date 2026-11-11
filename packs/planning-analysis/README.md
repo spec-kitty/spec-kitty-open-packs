@@ -2,7 +2,7 @@
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-- **Level:** org (opt-in). Not aggregated by `built-in`.
+- **Level:** built-in. Aggregated by `built-in` (exact `==2.0.0` pin); read-only to registration.
 - **pack_id:** `01M75PCTEKGDXQW59TGSFQQ9QT`
 - **Depends on:** `architecture`, `foundation`
 - **Contents:** 5 procedures, 5 templates, 3 agent profiles, 1 paradigm, 1 styleguide, 1 tactic.
@@ -10,7 +10,7 @@ Planning, research and brownfield analysis: the planner and researcher profiles,
 
 ## Adopt
 
-Register the pack and its dependencies (see `depends_on` in `pack.yaml`), then activate what you
+Place the pack beside `built-in` and its dependencies (see `depends_on` in `pack.yaml`; it is not registered at org level), then activate what you
 need per project with `spec-kitty charter activate ...`. Reference its artifacts from another pack as
 `planning-analysis::<kind>:<id>`.
 

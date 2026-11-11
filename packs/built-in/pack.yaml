@@ -9,13 +9,13 @@
 # Descriptor 1.0 switches on ADR-0066's empty-prompt-slot validation.
 schema_version: "1.0"
 pack_id: 01ARWG13C000000000000000FG
-pack_version: 2.0.0
+pack_version: 3.0.0
 parent_pack: null
 name: built-in
 # Declared Charter Pack tier (kernel.pack_tiers authority).
 pack_level: built-in
 # A distribution pack (ADR-0048 decision 12, #73): built-in holds no artifacts of its own and
-# aggregates its members, released in lockstep with exact pins (decision 17). The fallback
+# aggregates its six members, released in lockstep with exact pins (decision 17). The fallback
 # profile and its lock live in foundation; declaring it here keeps the distribution's
 # fallback explicit (ADR-0068: a pack of the closure holds it, locked along the closure).
 fallback_profile: generic-agent
@@ -24,3 +24,11 @@ depends_on:
     range: "==1.0.0"
   - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
     range: "==1.0.0"
+  - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
+    range: "==2.0.0"
+  - pack_id: 01M75PCTD0V3AFZA9EAXDJ894D  # refactoring
+    range: "==2.0.0"
+  - pack_id: 01M75PCTDT75M19ZMXHRES4CSJ  # architecture
+    range: "==2.0.0"
+  - pack_id: 01M75PCTEKGDXQW59TGSFQQ9QT  # planning-analysis
+    range: "==2.0.0"

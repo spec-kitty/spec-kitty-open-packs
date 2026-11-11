@@ -19,4 +19,4 @@ depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
     range: ">=1.0,<2"
   - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
-    range: ">=1.0,<2"
+    range: ">=2.0,<3"
