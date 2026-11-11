@@ -253,6 +253,24 @@ class RequiredCheckAlwaysReports(unittest.TestCase):
                            and gh_expr.evaluate_if(step.get("if"), contexts(github))]
                     self.assertTrue(ran, f"{command!r} does not run under the required check")
 
+    def test_the_required_check_covers_every_pack_digest(self) -> None:
+        # A pack edit without its recorded digest must fail the required check on every unpaused event.
+        script = "scripts/ci/check-pack-digests.sh"
+        _, gate = job_named(self.workflow, GATE)
+        needs = gate.get("needs", [])
+        needs = [needs] if isinstance(needs, str) else needs
+        for label, github in RUNNING_EVENTS.items():
+            with self.subTest(event=label):
+                ran = [step for job_id in needs
+                       if gh_expr.evaluate_if(self.workflow["jobs"][job_id].get("if"), contexts(github))
+                       for step in self.workflow["jobs"][job_id].get("steps", [])
+                       if str(step.get("run", "")).strip() == script
+                       and gh_expr.evaluate_if(step.get("if"), contexts(github))]
+                self.assertTrue(ran, f"{script} does not run under the required check")
+        path = Path(__file__).resolve().parents[2] / script
+        self.assertTrue(path.is_file() and os.access(path, os.X_OK), f"{script} is missing or not executable")
+        self.assertIn("pack_digest.py --check", path.read_text(encoding="utf-8"))
+
 
 class CharterServiceJob(unittest.TestCase):
     """The job that asks the charter service (charter ADR-0070) is part of the required check."""
