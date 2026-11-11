@@ -1,0 +1,8 @@
+# Pack descriptor of the invalid fixture. The descriptor itself is well formed, so the charter service
+# refuses this pack for the shapes of its files (see expected-code), not for a missing descriptor.
+# Its pack_id is its own: sharing one with any other pack is refused.
+pack_id: 01M74KAZ00PQRSTV0W1X2Y3Z45
+pack_version: 1.0.0
+parent_pack: null
+name: legacy-shapes
+pack_level: org

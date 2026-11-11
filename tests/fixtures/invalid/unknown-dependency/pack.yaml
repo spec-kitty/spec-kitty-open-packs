@@ -1,0 +1,10 @@
+# Pack descriptor of the invalid fixture. Every file of this pack is well formed; the pack is refused
+# for what it composes with: it depends on a pack no configuration holds (see expected-code).
+pack_id: 01M74KAZ00PQRSTV0W1X2Y3Z46
+pack_version: 1.0.0
+parent_pack: null
+name: unknown-dependency
+pack_level: org
+depends_on:
+  - pack_id: 01M74KAZ00PQRSTV0W1X2Y3Z47   # a ULID no pack carries
+    range: ">=1.0"

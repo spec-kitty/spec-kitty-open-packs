@@ -148,15 +148,16 @@ printf '%s' "$STUB_LABELS"
 
 
 def run_gate(workflow: dict[str, Any], github: dict[str, Any], validate: str, *,
-             labels_now: tuple[str, ...] = (), api: str = "ok") -> str:
+             labels_now: tuple[str, ...] = (), api: str = "ok", service: str = "success") -> str:
     """Run the gate job's real step scripts under bash and return its result.
 
-    `validate` is the `needs.validate.result` the gate sees. `labels_now` is what the API reports for
+    `validate` and `service` are the `needs.validate.result` and `needs.charter-service.result` the gate
+    sees. `labels_now` is what the API reports for
     the pull request when the gate asks, which can differ from the run's payload; `api="down"` makes
     the call fail. Steps are chosen by their own `if`, and a failed step skips the ones after it.
     """
     _, gate = job_named(workflow, GATE)
-    ctx = contexts(github, {"validate": validate})
+    ctx = contexts(github, {"validate": validate, "charter-service": service})
     with tempfile.TemporaryDirectory() as tmp:
         for name, body in GATE_STUBS.items():
             path = Path(tmp) / name
@@ -198,7 +199,8 @@ def simulate(workflow: dict[str, Any], github: dict[str, Any]) -> dict[str, str]
             if not gh_expr.evaluate_if(job.get("if"), contexts(github, upstream), status=status):
                 results[job_id] = "skipped"
             elif job.get("name", job_id) == GATE:
-                results[job_id] = run_gate(workflow, github, upstream["validate"], labels_now=payload_labels)
+                results[job_id] = run_gate(workflow, github, upstream["validate"], labels_now=payload_labels,
+                                           service=upstream["charter-service"])
             else:
                 results[job_id] = "success"
     return results
@@ -252,6 +254,28 @@ class RequiredCheckAlwaysReports(unittest.TestCase):
                     self.assertTrue(ran, f"{command!r} does not run under the required check")
 
 
+class CharterServiceJob(unittest.TestCase):
+    """The job that asks the charter service (charter ADR-0070) is part of the required check."""
+
+    def setUp(self) -> None:
+        self.workflow = load(WORKFLOW)
+
+    def test_the_gate_waits_for_it_and_a_paused_pull_request_skips_it_like_the_other_work(self) -> None:
+        job_id, job = job_named(self.workflow, "Charter service validation")
+        _, gate = job_named(self.workflow, GATE)
+        self.assertIn(job_id, gate["needs"])
+        self.assertEqual(job["if"], self.workflow["jobs"]["validate"]["if"])
+
+    def test_it_reads_the_pin_and_runs_the_driver_script_on_the_jar_it_obtained(self) -> None:
+        _, job = job_named(self.workflow, "Charter service validation")
+        runs = "\n".join(str(step.get("run", "")) for step in job["steps"])
+        for command in ("charter_lock.py commit", "charter_service_jar.sh", "charter_service_check.py --jar"):
+            self.assertIn(command, runs)
+        self.assertEqual(job["steps"][-1]["env"]["SERVICE_JAR"], "${{ steps.service.outputs.jar }}")
+        java = [step for step in job["steps"] if str(step.get("uses", "")).startswith("actions/setup-java@")]
+        self.assertEqual([step["with"]["java-version"] for step in java], ["25"])
+
+
 class GateVerdict(unittest.TestCase):
     """The gate's own scripts, run under bash against each verdict of the validation job."""
 
@@ -264,6 +288,15 @@ class GateVerdict(unittest.TestCase):
                 with self.subTest(event=label, validate=validate):
                     expected = "success" if validate == "success" else "failure"
                     self.assertEqual(run_gate(self.workflow, github, validate), expected)
+
+    def test_only_a_successful_service_validation_passes_the_gate(self) -> None:
+        # The charter service job is as required as the validation job: either one red, skipped or
+        # cancelled fails the gate, on a pull request and on main.
+        for label, github in (("a pull request", pr_event()), ("a push to main", push_event())):
+            for service in ("skipped", "failure", "cancelled", "success"):
+                with self.subTest(event=label, service=service):
+                    expected = "success" if service == "success" else "failure"
+                    self.assertEqual(run_gate(self.workflow, github, "success", service=service), expected)
 
     def test_a_pause_label_on_the_pull_request_now_fails_the_gate_even_when_validation_passed(self) -> None:
         # The run's payload predates the label (a re-run, or another label's run): only the API knows.

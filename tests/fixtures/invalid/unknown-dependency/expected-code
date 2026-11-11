@@ -1,0 +1,6 @@
+# The codes the charter service must refuse this pack with (scripts/ci/charter_service_check.py).
+# The files are valid, so the per-pack schema pass accepts them: only the service can refuse the
+# dependency, once when the offering composes it and once when it is registered.
+composition: pack_dependency_unknown
+registration: pack_dependency_unknown
+precheck: accepted
