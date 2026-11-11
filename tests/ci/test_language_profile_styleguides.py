@@ -18,6 +18,8 @@ PACKS = Path(__file__).resolve().parents[2] / "packs"
 # Explicit language -> conventions styleguide map; Drupal breaks a `<lang>-conventions` name rule.
 CONVENTIONS = {
     "java": "java-conventions",
+    "rust": "rust-conventions",
+    "go": "go-conventions",
     "python": "python-conventions",
     "php": "drupal-conventions",
     "twig": "drupal-conventions",
@@ -60,8 +62,8 @@ class LanguageProfileStyleguideTest(unittest.TestCase):
                 self.assertIn((f"agent_profile:{profile["profile-id"]}", f"styleguide:{styleguide}"), edges,
                               f"agent_profile:{profile["profile-id"]} must `requires` styleguide:{styleguide}")
                 checked += 1
-        # 5 stack profiles carry 8 language pairs today; a lost profile or edge drops below this floor.
-        self.assertGreaterEqual(checked, 8)
+        # 7 stack profiles carry 10 language pairs today; a lost profile or edge drops below this floor.
+        self.assertGreaterEqual(checked, 10)
 
 
 if __name__ == "__main__":
