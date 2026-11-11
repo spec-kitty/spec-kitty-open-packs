@@ -122,6 +122,8 @@ Parse frontmatter for:
 Before proceeding with the review, load a reviewer profile with the
 `/spk-charter-profile-load` skill and apply its reviewer guidance and self-review gates
 for the rest of this review session.
+If your host cannot run skills, do what the skill does: run
+`spec-kitty agent profile show <profile-id>` and apply the profile it prints.
 
 The implementing agent should have set `role: "reviewer"` in the WP frontmatter before
 it moved the WP to `for_review`. If the frontmatter sets `agent_profile`, load that
