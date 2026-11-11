@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `{name, description}` items; descriptions over 255 characters were condensed and their full
   text kept as a same-named entry in `patterns`. The built-in pack declares
   `fallback_profile: generic-agent`, now role-neutral (`role: generic`) and locked by a new
-  `policy.yaml`. The stale `.github/agents/*.agent.md` bootstrap copies are removed. Charter
+  `policy.yaml`. The stale `.github/agents/*.agent.md` bootstrap copies are removed.
   `charter.lock.yaml` moves to #474's merge commit `fb24052`.
 
 - **SPDD/REASONS moved from `built-in` to the opt-in `spdd` pack** (#73, charter
