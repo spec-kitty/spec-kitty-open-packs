@@ -1,13 +1,13 @@
 {
-  "event_count": 6,
-  "last_event_id": "01M75ZRYMDNZ7PA6ARVGABNMR1",
-  "materialized_at": "2026-11-11T19:01:23.725266+00:00",
+  "event_count": 41,
+  "last_event_id": "01M761KDDEWQPE25HNM275281Y",
+  "materialized_at": "2026-11-11T19:33:19.406050+00:00",
   "mission_number": "",
   "mission_slug": "per-pack-digest-gate-01M75YJ0",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 0,
+    "approved": 6,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
@@ -15,50 +15,204 @@
     "for_review": 0,
     "in_progress": 0,
     "in_review": 0,
-    "planned": 6
+    "planned": 0
   },
   "work_packages": {
     "WP01": {
-      "actor": "finalize-tasks",
-      "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M75Z4YDT1C5NN610ATMFER82",
-      "last_transition_at": "2026-11-11T18:50:28.154787+00:00"
+      "actor": "claude",
+      "agent": "claude:opus:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 1,
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "approved",
+      "last_event_id": "01M760X328BG6KG90FG77321XM",
+      "last_transition_at": "2026-11-11T19:21:07.912389+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review",
+        "Ready for review: re-claimed with full identity; 3 review nits fixed with tests",
+        "Review passed: recipe byte-identical to main; shim CLI/output compatible (argparse restored, unknown flag exits 2); fail-closed states incl. symlink refusal emit ::error lines; --update text-preserving incl. CRLF; 26/26 + 161 suite green; check-built-in.sh green; complexity <=10; scope limited to owned files."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/kitty-specs/per-pack-digest-gate-01M75YJ0/tasks/WP01-generic-pack-digest-tool/review-cycle-2.md",
+        "reference": "review-cycle://per-pack-digest-gate-01M75YJ0/WP01-generic-pack-digest-tool/review-cycle-2.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 3964844,
+      "shell_pid_created_at": "1794424850.72",
+      "subtasks": {
+        "T001": "done",
+        "T002": "done",
+        "T003": "done",
+        "T004": "done",
+        "T005": "done",
+        "T006": "done"
+      }
     },
     "WP02": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude:opus:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M75Z4YYXTP6P61Q0X01WSE10",
-      "last_transition_at": "2026-11-11T18:50:28.701163+00:00"
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "approved",
+      "last_event_id": "01M7613EAS695JR0TQWYZJ9DQD",
+      "last_transition_at": "2026-11-11T19:24:36.057218+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review",
+        "Review passed: 19 sidecars fresh (--check exit 0, 19 ok); 18 new sidecars match WP01 template, no invented seeded_from; built-in.source.yaml non-comment lines byte-identical, value ad8412..38ca; vocabulary/validate-packs/docs drift/check-built-in green; full suite 161 passed; scope packs/*.source.yaml only; real-tree stale probe fails naming packs/writing.source.yaml."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/kitty-specs/per-pack-digest-gate-01M75YJ0/tasks/WP02-sidecar-per-pack/review-cycle-1.md",
+        "reference": "review-cycle://per-pack-digest-gate-01M75YJ0/WP02-sidecar-per-pack/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 3968157,
+      "shell_pid_created_at": "1794425040.62",
+      "subtasks": {
+        "T007": "done",
+        "T008": "done",
+        "T009": "done"
+      }
     },
     "WP03": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude:opus:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M75Z4ZFPS88YJBX089HDXB4R",
-      "last_transition_at": "2026-11-11T18:50:29.238985+00:00"
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "approved",
+      "last_event_id": "01M7616S1NPWH7RTB5TEPVZB69",
+      "last_transition_at": "2026-11-11T19:26:25.333358+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review. check-pack-digests.sh wall time 0.07s under uv (NFR-001 <10s). Non-vacuity: reverting step run to old script name fails the new test on all 7 events.",
+        "Review passed: step stays in validate job (gate needs it), if !cancelled kept; script fails closed via pack_digest --check (non-vacuity in tool), exec bit kept; workflow test fails (7 subtests) when run reverted to check-built-in.sh; remaining check-built-in refs are WP05-owned docs or historical ADR/released changelog; 0.085s wall; suite 162 passed."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/kitty-specs/per-pack-digest-gate-01M75YJ0/tasks/WP03-gate-wiring-and-rename/review-cycle-1.md",
+        "reference": "review-cycle://per-pack-digest-gate-01M75YJ0/WP03-gate-wiring-and-rename/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 3971110,
+      "shell_pid_created_at": "1794425163.45",
+      "subtasks": {
+        "T010": "done",
+        "T011": "done",
+        "T012": "done"
+      }
     },
     "WP04": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude:opus:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M75Z500V58SJ0HZZAPQTWZ56",
-      "last_transition_at": "2026-11-11T18:50:29.787064+00:00"
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "approved",
+      "last_event_id": "01M761BJ356BCNERSJ47WJMZ7E",
+      "last_transition_at": "2026-11-11T19:29:02.053619+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review. Real-tree demo: removing tactic atdd-adversarial-acceptance from packs/testing manifest fires both the file guard and the new 'graph node tactic:atdd-adversarial-acceptance is not a constituent' guard; reverted.",
+        "Review passed: exempt set exactly five kinds (pinned by test, reasons in research D4/spec); unknown kind fails closed (widget test); real tree 0 unlisted nodes over fragment and sharded graphs, validate-packs green; removing a testing tactic fires both file and node guards; positive control regenerates hashes via --regenerate-manifest and asserts EXIT_OK; unlisted_nodes CC 7; scope = 2 owned files; suite 166 passed. Nit: validate_pack pre-existing CC 58 -> 59."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/kitty-specs/per-pack-digest-gate-01M75YJ0/tasks/WP04-manifest-node-completeness/review-cycle-1.md",
+        "reference": "review-cycle://per-pack-digest-gate-01M75YJ0/WP04-manifest-node-completeness/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 3973159,
+      "shell_pid_created_at": "1794425291.25",
+      "subtasks": {
+        "T013": "done",
+        "T014": "done",
+        "T015": "done",
+        "T016": "done"
+      }
     },
     "WP05": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude:opus:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M75Z50J4CF2MX1GWXC545X6N",
-      "last_transition_at": "2026-11-11T18:50:30.340179+00:00"
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "approved",
+      "last_event_id": "01M761KDDEWQPE25HNM275281Y",
+      "last_transition_at": "2026-11-11T19:33:19.406050+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review. ADR description 140 chars; charter status identical before/after answers.yaml edit; PROVENANCE pointers are seed provenance, none edited.",
+        "Review passed: commands/asset names/exempt kinds/failure modes match WP01-04,06 code; ADR 2026-11-11-2 extends 2026-10-20-1 (unedited), all docs descriptions <=180; changelog adds-only under [Unreleased]; PR template line present; answers.yaml edit, charter status SYNCED; remaining check-built-in refs historical or 'formerly'; site npm run validate: 57 files valid, 353 links resolve (11 pre-existing wip warnings); scope = 9 owned files."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/kitty-specs/per-pack-digest-gate-01M75YJ0/tasks/WP05-docs-and-changelog/review-cycle-1.md",
+        "reference": "review-cycle://per-pack-digest-gate-01M75YJ0/WP05-docs-and-changelog/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 3978410,
+      "shell_pid_created_at": "1794425560.62",
+      "subtasks": {
+        "T017": "done",
+        "T018": "done",
+        "T019": "done",
+        "T020": "done",
+        "T021": "done",
+        "T022": "done"
+      }
     },
     "WP06": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude:opus:reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M75ZRYMDNZ7PA6ARVGABNMR1",
-      "last_transition_at": "2026-11-11T19:01:23.725266+00:00"
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "approved",
+      "last_event_id": "01M761ENJZS9A93M7YPPM8680S",
+      "last_transition_at": "2026-11-11T19:30:43.935611+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review. Dry run: 19 packs x3 = 57 assets, 19 .source.yaml byte-equal to committed, rebuild reproducible.",
+        "Review passed: sidecars read via ls-tree/cat-file at rev (tag-vs-working-tree test); missing/non-regular sidecar raises before out/ is created (dry-run at 8c1edfc^ fails, no dir written); repro diff covers *.source.yaml; names <pack>-vX.Y.Z.source.yaml; Publish counts ls dist so 57 = 19x3 assets; real dry-run bytes match HEAD and rebuild identical; release 13 passed, suite 171 passed; scope = 3 owned files."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/stijn/Documents/code/kitty/spec-kitty-open-packs/kitty-specs/per-pack-digest-gate-01M75YJ0/tasks/WP06-release-ships-sidecars/review-cycle-1.md",
+        "reference": "review-cycle://per-pack-digest-gate-01M75YJ0/WP06-release-ships-sidecars/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 3975407,
+      "shell_pid_created_at": "1794425421.35",
+      "subtasks": {
+        "T023": "done",
+        "T024": "done",
+        "T025": "done",
+        "T026": "done"
+      }
     }
   }
 }

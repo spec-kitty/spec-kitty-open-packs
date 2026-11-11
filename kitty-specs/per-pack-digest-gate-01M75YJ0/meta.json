@@ -1,4 +1,19 @@
 {
+  "accept_commit": "7865e3502bb1919582837e77f33d029706f50f19",
+  "acceptance_history": [
+    {
+      "accept_commit": "7865e3502bb1919582837e77f33d029706f50f19",
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-11T20:14:53.894268+00:00",
+      "accepted_by": "claude:opus:orchestrator",
+      "accepted_from_commit": "fe1d425cd8cfc438f48d7230c288d1fc351793e1",
+      "lenient": true
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-11T20:14:53.894268+00:00",
+  "accepted_by": "claude:opus:orchestrator",
+  "accepted_from_commit": "fe1d425cd8cfc438f48d7230c288d1fc351793e1",
   "change_mode": "bulk_edit",
   "created_at": "2026-11-11T18:40:07.373974+00:00",
   "flattened": false,
@@ -12,6 +27,7 @@
   "purpose_context": "After the built-in split, the only recorded digest covers the built-in shell, so doctrine edits in member and org packs are not pinned. This mission records a digest sidecar for every pack, verifies all of them in the required gate, and closes the residual manifest-completeness gap from #182.",
   "purpose_tldr": "Every pack in the catalogue carries a recorded tree digest that CI verifies, so no pack content can change unnoticed.",
   "slug": "per-pack-digest-gate-01M75YJ0",
+  "status_phase": "1",
   "target_branch": "feat/194-pack-digests",
   "topology": "single_branch",
   "topology_source": "owned_checkout"
