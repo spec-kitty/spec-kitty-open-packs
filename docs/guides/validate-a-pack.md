@@ -97,7 +97,9 @@ Three digests are not interchangeable. The sidecar's `tree_digest.value` is the 
 pin's `snapshot_sha256` includes the manifest. Never copy one into the other's place.
 
 A pack that ships a `pack-manifest.yaml` must also list every graph node it declares as a
-constituent, except actions, anti-patterns, templates, mission types and step contracts.
+constituent, except actions, anti-patterns, templates, mission types and step contracts. To exempt a
+new node kind, add it to `MANIFEST_EXEMPT_NODE_KINDS` in
+[`validate_pack_schemas.py`](../../scripts/ci/validate_pack_schemas.py); a kind in neither place fails.
 
 ## The charter service job
 

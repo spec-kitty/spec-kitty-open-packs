@@ -185,16 +185,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `scripts/ci/built_in_digest.py` stays as a compatibility entry point, and
   `packs/built-in.source.yaml` keeps its path and keys.
   - Release archives now ship each pack's sidecar as `<pack>-vX.Y.Z.source.yaml`.
-  - A pack manifest must list every graph node its pack declares, except actions, anti-patterns,
-    templates, mission types and step contracts (residual of #182).
-  - Manifest node guard: `scripts/ci/validate_pack_schemas.py` now fails a `pack-manifest.yaml`
-    that omits a file-backed graph node (#182, #194).
+  - Manifest node guard (residual of #182): `scripts/ci/validate_pack_schemas.py` fails a
+    `pack-manifest.yaml` that omits any graph node its pack declares, except actions,
+    anti-patterns, templates, mission types and step contracts. An unknown node kind fails closed.
   - For consumers: nothing changes for core. The `.source.yaml` release assets are informational
     and are not core pins. A release now has 3 assets per pack, so check any tooling that counts or
     globs assets. Tags cut before #194 cannot be rebuilt by the current `release_assets.py`; their
     published `.sha256` stays authoritative.
   - For contributors: every pack edit needs `python3 scripts/ci/pack_digest.py --update` in the
-    same commit, and the script needs pyyaml. `check-built-in.sh` was removed with no shim.
+    same commit, and the script needs pyyaml. The `check-built-in.sh` wrapper was removed; `built_in_digest.py --check` remains.
     Only git-tracked files are hashed, so `git add` a new file before restamping.
 - **`rust` Charter Pack** (`packs/rust/`, #191, epic #190). This is an opt-in org pack with Spec Kitty-authored MIT
   doctrine for any Rust codebase:

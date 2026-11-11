@@ -2,7 +2,7 @@
 title: 'ADR: Author built-in ahead of core, with a pending-vendoring allowlist'
 description: Decision that org packs validate against this repository's built-in, with a report-only pass against the pinned core for an explicit allowlist of ids core has not vendored yet.
 doc_status: active
-updated: '2026-10-26'
+updated: '2026-11-11'
 related:
 - architecture/adr/2026-10-20-1-semver-releases-with-per-pack-archives
 - guides/validate-a-pack
@@ -54,6 +54,9 @@ the pinned core", because it lets authoring proceed and keeps the consumer-facin
 * `scripts/ci/validate-packs.sh` sets `SPEC_KITTY_PACKS_ROOT` to `packs/`, so org packs validate
   against the built-in this repository authors. `scripts/ci/check-built-in.sh` still validates
   `packs/built-in` against the pinned core.
+  *Note (2026-11-11): `check-built-in.sh` was removed. `scripts/ci/check-pack-digests.sh` now checks
+  the recorded digest of every pack; see
+  [ADR 2026-11-11-2](2026-11-11-2-record-a-tree-digest-for-every-pack.md).*
 * A second `doctor charter-packs` pass runs without the override. Dangling targets listed in
   `scripts/ci/pending-core-vendoring.txt` are `::warning`s; any other dangling edge, error or
   unreadable report fails. A listed id that no longer dangles warns that the entry is stale.
