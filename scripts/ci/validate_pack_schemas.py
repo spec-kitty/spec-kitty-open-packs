@@ -21,7 +21,7 @@ It fails closed. Exit status:
      schema mapping, a pack with zero files checked, or an unreadable file.
 
 Needs ``pyyaml`` and ``jsonschema`` (Draft 2020-12). The contract is fetched from the
-pinned charter commit below unless ``--contract DIR`` (a directory holding
+pinned charter commit (``charter.lock.yaml``) unless ``--contract DIR`` (a directory holding
 ``file-kinds.yaml`` and ``schemas/``) or ``$CHARTER_CONTRACT_DIR`` is given.
 """
 
@@ -44,12 +44,16 @@ from typing import Any
 import yaml
 from jsonschema import Draft202012Validator
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import charter_lock  # noqa: E402
+
 CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
-# Commit of spec-kitty-charter whose contracts/packs/ this repository validates against.
-# A commit on charter main, bumped deliberately. Never float to a branch.
-# TEMPORARY: charter PR #474 head (ADR-0067/0068/0069) until it merges; re-pin to its merge commit.
-CHARTER_COMMIT = "62f274596d2ef4cc7bc7f34ec43c69785350cad4"
+# The commit of spec-kitty-charter whose contracts/packs/ this repository validates against is the
+# `commit` of charter.lock.yaml at the repository root, the one pin of every charter check (the
+# charter service job reads the same file). Read by `charter_commit()`, which fails closed unless it is
+# 40 lowercase hex characters; never a branch.
 CONTRACT_PATH = "contracts/packs"
+SCHEMA_NAME_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]*")
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.
 KNOWN_KIND_TOKENS = frozenset(
@@ -66,6 +70,14 @@ REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-m
 
 class GateError(Exception):
     """The validator cannot judge; the run must fail (exit 2)."""
+
+
+def charter_commit() -> str:
+    """The pinned charter commit, read from ``charter.lock.yaml``; a missing or malformed pin is a GateError."""
+    try:
+        return charter_lock.read()["commit"]
+    except charter_lock.LockError as exc:
+        raise GateError(f"charter.lock.yaml: {exc}") from exc
 
 
 # --------------------------------------------------------------------------- contract
@@ -141,7 +153,12 @@ def load_contract(contract_dir: Path) -> Contract:
             raise GateError(f"files rule {rule.match!r} names no schema")
         if name in contract.validators:
             continue
-        schema_path = contract_dir / "schemas" / f"{name}.schema.json"
+        if not SCHEMA_NAME_PATTERN.fullmatch(name):
+            raise GateError(f"files rule {rule.match!r} names an invalid schema {name!r}")
+        schemas_dir = (contract_dir / "schemas").resolve()
+        schema_path = (schemas_dir / f"{name}.schema.json").resolve()
+        if schema_path.parent != schemas_dir:
+            raise GateError(f"schema {name!r} resolves outside {schemas_dir}")
         try:
             schema = json.loads(schema_path.read_text(encoding="utf-8"))
             Draft202012Validator.check_schema(schema)
@@ -153,7 +170,7 @@ def load_contract(contract_dir: Path) -> Contract:
 
 def fetch_contract(dest: Path) -> Path:
     """Download file-kinds.yaml and the schemas it names from the pinned charter commit."""
-    base = f"https://raw.githubusercontent.com/{CHARTER_REPOSITORY}/{CHARTER_COMMIT}/{CONTRACT_PATH}"
+    base = f"https://raw.githubusercontent.com/{CHARTER_REPOSITORY}/{charter_commit()}/{CONTRACT_PATH}"
     headers = {}
     if token := os.environ.get("GITHUB_TOKEN"):
         headers["Authorization"] = f"Bearer {token}"
@@ -184,7 +201,7 @@ _CONTRACT_CACHE: dict[str, Contract] = {}
 def contract_for(contract_dir: Path | None) -> Contract:
     """The contract at ``contract_dir`` (or ``$CHARTER_CONTRACT_DIR``, else the pinned fetch)."""
     chosen = contract_dir or (Path(os.environ["CHARTER_CONTRACT_DIR"]) if os.environ.get("CHARTER_CONTRACT_DIR") else None)
-    key = str(chosen or f"pinned:{CHARTER_COMMIT}")
+    key = str(chosen or f"pinned:{charter_commit()}")
     if key not in _CONTRACT_CACHE:
         if chosen is None:
             with tempfile.TemporaryDirectory(prefix="charter-contract-") as scratch:
@@ -853,12 +870,6 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
     return found
 
 
-#: Node kinds with no artifact behind them: the charter never judges whether a qualified target of
-#: these exists. It skips guard and lifecycle too, but graph documents do not admit them yet and no
-#: pack writes one, so they are not listed until one does.
-UNHELD_KINDS = frozenset({"action"})
-
-
 #: A template's id is its path: ``templates/<path>``, or ``<type>/<path>`` under a mission type.
 TEMPLATE_PATH = re.compile(r"(?:missions/([^/]+)/)?templates/(.+)")
 
@@ -896,24 +907,6 @@ def graph_edges(pack_dir: Path) -> Iterator[tuple[Path, dict[str, Any]]]:
         for edge in (document.get("edges") or []) if isinstance(document, dict) else []:
             if isinstance(edge, dict):
                 yield graph, edge
-
-
-def edge_references(pack_dir: Path, pack_name: str | None) -> Iterator[tuple[str, str | None, str, bool]]:
-    """``(file, qualifier, urn, self_loop)`` for both ends of each edge of a pack's graph documents,
-    where a pack authors its relationships, guards aside (charter ADR-0064). ``self_loop`` is true
-    on the target end when both ends mean the same node of this pack: a bare end or one qualified with
-    this pack's own name. The charter refuses such an edge (``PackPolicy.joinsItself``); an edge from
-    an own node to the same urn qualified with another pack joins two artifacts and is allowed."""
-    for graph, edge in graph_edges(pack_dir):
-        for end in ("source", "target"):
-            if isinstance(edge.get(end), str):
-                other = edge.get("target" if end == "source" else "source")
-                qualifier, urn = split_qualifier(edge[end])
-                self_loop = False
-                if end == "target" and isinstance(other, str):
-                    other_qualifier, other_urn = split_qualifier(other)
-                    self_loop = urn == other_urn and (qualifier or pack_name) == pack_name == (other_qualifier or pack_name)
-                yield (f"{pack_dir.name}/{graph.relative_to(pack_dir).as_posix()}", qualifier, urn, self_loop)
 
 
 #: The agent-profile reference fields, the kind each names and the key an entry is keyed by:
@@ -991,84 +984,29 @@ def _depends_on_closure(pack: Path, descriptors: dict[Path, dict[str, Any]], by_
     return reached
 
 
-def _depends_on_cycle(pack: Path, descriptors: dict[Path, dict[str, Any]], by_id: dict[str, Path]) -> list[Path] | None:
-    """The packs along a ``depends_on`` path from ``pack`` back to itself, ``pack`` first and last,
-    or ``None`` when there is none. The charter refuses such a cycle (C6, ``pack_dependency_cycle``):
-    a pack that depends on itself, or any cycle of dependencies back to it, refuses the compose."""
-    walked: set[Path] = set()
-    pending: list[list[Path]] = [[pack]]
-    while pending:
-        path = pending.pop()
-        if path[-1] in walked:
-            continue
-        for target in _depends_on(path[-1], descriptors, by_id):
-            if target == pack:
-                return path + [pack]
-            if target not in path and target not in walked:
-                pending.append(path + [target])
-        walked.add(path[-1])
-    return None
+def _descriptors(pack_dirs: list[Path]) -> dict[Path, dict[str, Any]]:
+    loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
+    return {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
 
 
-def composition_violations(
+def profile_reference_violations(
     pack_dirs: list[Path], held: dict[Path, set[tuple[str, str]]], contract: Contract | None = None
 ) -> list[str]:
-    """The composition defects worth catching before the charter service refuses them. The service
-    stays the authority. Unknown dependency ids, edges that join a node of this pack to itself and
-    dependency cycles (charter C6: a pack that depends on itself, or any depends_on cycle back to
-    it) are refused here, as the charter refuses them. Agent-profile references are judged like
-    edge ends (charter ADR-0053 decision 7): a bare id held only by another pack — or by no
-    pack at all, which resolves to no artifact — is refused, a reference qualified with the
-    profile's own pack is refused because references inside one pack stay bare, and a qualified
-    one must name a pack of the closure that holds it. C8 (version ranges), C9 (parent_pack),
-    C10 (levels) and C14-C16 (sibling/identity) are deliberately not judged here and are left to
-    the charter. Of the three gate/charter disagreements WP01 accepted without recording, #165
-    fixed the two the mission review named; the third was never written down, and a dependency
-    cycle is its likeliest candidate."""
-    loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
-    descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
-    violations = [
-        f"{pack.name}/pack.yaml: missing: every pack needs a descriptor with its pack_id and name"
-        for pack in pack_dirs
-        if not (pack / "pack.yaml").is_file()
-    ]
-    index: dict[str, dict[str, Path]] = {"pack_id": {}, "name": {}}
-    for key, packs_by_value in index.items():
-        sharing: dict[str, list[str]] = {}
-        for pack, descriptor in descriptors.items():
-            if isinstance(descriptor.get(key), str):
-                packs_by_value[descriptor[key]] = pack
-                sharing.setdefault(descriptor[key], []).append(f"{pack.name}/pack.yaml")
-        violations += [
-            f"{', '.join(sorted(files))}: {key} {value!r} is declared by more than one pack"
-            for value, files in sorted(sharing.items())
-            if len(files) > 1
-        ]
+    """Agent-profile references, judged like edge ends (charter ADR-0053 decision 7): a bare id held
+    only by another pack, or by no pack at all (which resolves to no artifact), is refused; a reference
+    qualified with the profile's own pack is refused, because references inside one pack stay bare; a
+    qualified one must name a pack of the closure that holds it.
+
+    Kept because the charter service does not make these checks: a scratch pack with each of these
+    defects composes (``GET /offering``) and registers (``PUT /packs/{packId}``) without a refusal
+    (``docs/guides/validate-a-pack.md``, "What the service owns and what stays here"). The composition
+    rules the service does make (descriptors, ``depends_on``, edge ends) are not repeated here."""
+    descriptors = _descriptors(pack_dirs)
+    by_id = {d["pack_id"]: pack for pack, d in descriptors.items() if isinstance(d.get("pack_id"), str)}
+    by_name = {d["name"]: pack for pack, d in descriptors.items() if isinstance(d.get("name"), str)}
+    violations: list[str] = []
     for pack in pack_dirs:
-        entries = descriptors[pack].get("depends_on")
-        for entry in entries if isinstance(entries, list) else []:
-            pack_id = entry.get("pack_id") if isinstance(entry, dict) else None
-            if isinstance(pack_id, str) and pack_id not in index["pack_id"]:
-                violations.append(f"{pack.name}/pack.yaml: depends_on pack_id {pack_id!r} resolves to no pack")
-        cycle = _depends_on_cycle(pack, descriptors, index["pack_id"])
-        # one cycle per pack, reported by its first member in the order the packs were given; a pack
-        # in two cycles shows the second once the first is fixed
-        if cycle is not None and pack == min(cycle[:-1], key=pack_dirs.index):
-            trail = " -> ".join(member.name for member in cycle)
-            violations.append(f"{pack.name}/pack.yaml: depends_on cycle {trail}")
-        closure = _depends_on_closure(pack, descriptors, index["pack_id"])
-        for file, qualifier, urn, self_loop in edge_references(pack, descriptors[pack].get("name")):
-            if self_loop:
-                violations.append(f"{file}: an edge joins {urn!r} to itself")
-            kind, _, node_id = urn.partition(":")
-            if qualifier is None:
-                holder = next((other.name for other, nodes in held.items() if (kind, node_id) in nodes), None)
-                if holder is not None and (kind, node_id) not in held[pack]:
-                    violations.append(f"{file}: bare reference {urn!r} is held only by {holder}; qualify it with that pack's name")
-            elif index["name"].get(qualifier) not in closure:
-                violations.append(f"{file}: reference '{qualifier}::{urn}' names a pack outside this pack's depends_on closure")
-            elif kind not in UNHELD_KINDS and (kind, node_id) not in held[index["name"][qualifier]]:
-                violations.append(f"{file}: reference '{qualifier}::{urn}': {qualifier} does not hold {urn!r}")
+        closure = _depends_on_closure(pack, descriptors, by_id)
         for file, kind, reference in profile_references(pack, contract):
             qualifier, ref_id = split_qualifier(reference)
             keys = _reference_keys(kind, ref_id)
@@ -1081,7 +1019,7 @@ def composition_violations(
                         f"{file}: bare {kind} reference {ref_id!r} is held only by {holder}; qualify it with that pack's name"
                     )
             else:
-                named = index["name"].get(qualifier)
+                named = by_name.get(qualifier)
                 # the own pack, named by its descriptor name or by its directory (the natural way
                 # a pack qualifies itself, `qa::x` in the pack of packs/qa): references inside
                 # one pack stay bare, so no qualifier may name it
@@ -1098,7 +1036,13 @@ def composition_violations(
 
 
 def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
-    """Resolve every fragment's target and slot, independently of activation (ADR-0066 d8).
+    """Resolve every fragment's target step and slot, independently of activation (ADR-0066 d8).
+
+    Kept because the charter service resolves neither: an enhancement whose ``enhances`` target names
+    a step the mission does not have, or whose fragment names a slot the step's prompt does not
+    declare, composes and registers without a refusal. What the service does refuse is not repeated:
+    an enhancement without exactly one ``enhances`` edge, and a target that is not ``action:<type>/<step>``
+    (both ``pack_unreadable`` at composition, ``validation_failed`` at registration).
 
     Sibling enhancements are deliberately not a conflict. The graph's ``enhances`` edge
     is the only target field; no target or activation key is read from the enhancement.
@@ -1107,13 +1051,13 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
     locked step. It also reads the target pack's declared prompt directly: prompt overrides that
     drop a slot are a charter-service check, not reproduced here (no pack overrides these prompts).
     """
-    loaded = {pack: _load_or_none(pack / "pack.yaml") for pack in pack_dirs}
-    descriptors = {pack: document if isinstance(document, dict) else {} for pack, document in loaded.items()}
+    descriptors = _descriptors(pack_dirs)
+    by_id = {d["pack_id"]: pack for pack, d in descriptors.items() if isinstance(d.get("pack_id"), str)}
     by_name = {document.get("name"): pack for pack, document in descriptors.items() if isinstance(document.get("name"), str)}
     problems: list[str] = []
     for pack in pack_dirs:
         pack_name = descriptors[pack].get("name")
-        closure = _depends_on_closure(pack, descriptors, {d.get("pack_id"): p for p, d in descriptors.items() if isinstance(d.get("pack_id"), str)})
+        closure = _depends_on_closure(pack, descriptors, by_id)
         edges = list(graph_edges(pack))
         for enhancement in sorted(pack.glob("missions/*/enhancements/*.step-enhancement.yaml")):
             document = _load_or_none(enhancement)
@@ -1129,17 +1073,15 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
                     targets.append((graph, edge.get("target")))
             file = f"{pack.name}/{enhancement.relative_to(pack).as_posix()}"
             if len(targets) != 1 or not isinstance(targets[0][1], str):
-                problems.append(f"{file}: prompt_fragment_invalid: an enhancement with fragments needs exactly one enhances edge to a step")
-                continue
+                continue  # the service refuses an enhancement without exactly one enhances edge
             target = targets[0][1]
             qualifier, urn = split_qualifier(target)
             target_pack = pack if qualifier is None else by_name.get(qualifier)
             if qualifier is not None and (target_pack is None or target_pack not in closure):
-                continue  # composition_violations reports the qualifier/dependency failure
+                continue  # the service refuses a qualifier outside the closure
             kind, _, action = urn.partition(":")
             if kind != "action" or action.count("/") != 1:
-                problems.append(f"{file}: prompt_fragment_invalid: target {target!r} is not an action:<type>/<step>")
-                continue
+                continue  # the service refuses a target that is not action:<type>/<step>
             mission_id, step_id = action.split("/")
             mission_path = target_pack / "missions" / mission_id / f"{mission_id}.mission-type.yaml"
             mission = _load_or_none(mission_path)
@@ -1165,36 +1107,38 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
 
 
 def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = None) -> list[str]:
-    """Checks that only make sense across all packs together (formerly core's ``doctor charter-packs``).
+    """The checks across all packs together that the charter service does not make. The service is
+    the authority on composition (descriptors, ``depends_on``, edge ends, sibling conflicts) and runs
+    in its own job (``scripts/ci/charter_service_check.py``); what is left here is what a scratch pack
+    run through it showed it accepts:
 
-    * an id declared by two packs (same kind and id): a collision. Core reports an artifact of a
-      higher layer that shadows a lower one; here every pack is a layer of its own, so any
-      declaration shared by two packs is one, built-in included. There is no sanction list: a
-      pack that must override a built-in id would need an explicit allowance added here;
+    * an id declared by two packs of different levels: the service takes it as a layer override, this
+      repository does not allow an org pack to re-declare a built-in id (the same id in two packs of
+      one level is the service's ``pack_sibling_conflict``);
     * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
-    * a DRG edge endpoint (``[<pack>::]<kind>:<id>``) in a pack's fragment that resolves to no node;
-    * an agent-profile reference (a directive-, tactic-, styleguide- or toolguide-references
-      entry, or an operating-procedures item) that is bare but held only by another pack or by
-      no pack, or qualified with the profile's own pack (references inside one pack stay bare),
-      a pack outside the referrer's depends_on closure, or an id that pack does not hold;
-    * the composition defects of ``composition_violations``.
+    * a DRG edge endpoint written bare (``<kind>:<id>``) in a pack's fragment that resolves to no node
+      of any pack (a qualified endpoint is the service's ``pack_reference_*``);
+    * the agent-profile references of ``profile_reference_violations``;
+    * the prompt-fragment resolution of ``prompt_fragment_composition_violations``.
 
     With ``contract``, artifact files count as declarations too (``declared_nodes``).
 
     Fails closed (GateError) when no pack declares any node.
     """
     held = {pack: held_artifacts(pack, contract) for pack in pack_dirs}
-    owners: dict[tuple[str, str], list[str]] = {}
+    levels = {pack: descriptor.get("pack_level") for pack, descriptor in _descriptors(pack_dirs).items()}
+    owners: dict[tuple[str, str], list[Path]] = {}
     for pack in pack_dirs:
         for key in declared_nodes(pack, contract):
-            owners.setdefault(key, []).append(pack.name)
+            owners.setdefault(key, []).append(pack)
     if not owners:
         raise GateError("cross-pack checks: no pack declares any DRG node; the id index is empty and would prove nothing")
     violations = [
-        f"{kind}:{node_id}: declared by more than one pack ({', '.join(sorted(names))})"
-        for (kind, node_id), names in sorted(owners.items())
-        if len(names) > 1
+        f"{kind}:{node_id}: declared by packs of different levels "
+        f"({', '.join(sorted(f'{pack.name} [{levels[pack]}]' for pack in packs))}); a pack re-declaring another level's id is not allowed here"
+        for (kind, node_id), packs in sorted(owners.items())
+        if len({levels[pack] for pack in packs}) > 1
     ]
     for pack in pack_dirs:
         for preset in sorted((pack / "presets").glob("*.yaml")):
@@ -1217,14 +1161,17 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                 continue
             for end in ("source", "target"):
                 urn = edge.get(end)
-                kind, _, node_id = split_qualifier(urn)[1].partition(":") if isinstance(urn, str) else ("", "", "")
-                if (kind, node_id) not in owners and not any((kind, node_id) in nodes for nodes in held.values()):
+                if not isinstance(urn, str):
+                    continue
+                qualifier, rest = split_qualifier(urn)
+                kind, _, node_id = rest.partition(":")
+                if qualifier is None and (kind, node_id) not in owners and not any((kind, node_id) in nodes for nodes in held.values()):
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
                     )
     return (
         violations
-        + composition_violations(pack_dirs, held, contract)
+        + profile_reference_violations(pack_dirs, held, contract)
         + prompt_fragment_composition_violations(pack_dirs)
     )
 
@@ -1242,8 +1189,9 @@ def main(argv: list[str] | None = None) -> int:
                              "(membership is kept); refused, exit 1, if a listed file is missing. Validates only the "
                              "packs also given as positional arguments")
     parser.add_argument("--cross-pack", action="store_true",
-                        help="also check the given packs together: preset ids, DRG edge endpoints, id collisions "
-                             "and strict composition (descriptors and references across packs)")
+                        help="also check the given packs together, for what the charter service does not "
+                             "(scripts/ci/charter_service_check.py): preset ids, bare DRG edge endpoints, an id re-declared "
+                             "at another level, agent-profile references and prompt-fragment targets and slots")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
     if not args.packs and not args.expect_invalid and not args.regenerate_manifest:
@@ -1263,7 +1211,7 @@ def main(argv: list[str] | None = None) -> int:
         if not args.packs and not args.expect_invalid:
             return status
         contract = contract_for(args.contract)
-        print(f"charter contract: {args.contract or os.environ.get('CHARTER_CONTRACT_DIR') or CHARTER_COMMIT}; "
+        print(f"charter contract: {args.contract or os.environ.get('CHARTER_CONTRACT_DIR') or charter_commit()}; "
               f"{len(contract.validators)} schemas loaded")
         for pack in args.packs:
             report = validate_pack(pack, contract)
