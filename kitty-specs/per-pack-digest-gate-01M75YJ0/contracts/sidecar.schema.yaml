@@ -1,0 +1,15 @@
+# JSON Schema (YAML form) for packs/<name>.source.yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+required: [tree_digest]
+properties:
+  tree_digest:
+    type: object
+    required: [algorithm, value]
+    properties:
+      algorithm: {const: spec-kitty-snapshot-sha256}
+      value: {type: string, pattern: "^[0-9a-f]{64}$"}
+  seeded_from:
+    type: object
+    required: [repository, path, commit, date]
+additionalProperties: true   # built-in.source.yaml may grow keys core reads; unknown keys are kept

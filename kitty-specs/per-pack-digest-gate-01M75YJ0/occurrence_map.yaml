@@ -1,0 +1,41 @@
+# Occurrence map (DIRECTIVE_035) for the per-pack digest gate (#194).
+# The built-in-only gate entry point and its CI step are renamed to say they cover every pack.
+# Historical records (ADRs, released CHANGELOG sections, kitty-ops logs, other missions' specs)
+# describe what was true then and are never rewritten.
+target:
+  term: check-built-in.sh
+  replacement: check-pack-digests.sh
+  operation: rename
+
+categories:
+  code_symbols:         { action: rename }                 # none expected beyond the script itself
+  import_paths:         { action: do_not_change }          # scripts/ci/built_in_digest.py stays importable/runnable (kitty-stack)
+  filesystem_paths:     { action: manual_review }          # workflow run: line, docs links, charter answers prose
+  serialized_keys:      { action: do_not_change }          # packs/built-in.source.yaml keys (seeded_from, tree_digest) read by core
+  cli_commands:         { action: do_not_change }          # `built_in_digest.py` / `--check` invocations keep working
+  user_facing_strings:  { action: rename_if_user_visible } # CI step name "Check the built-in pack digest", guide prose
+  tests_fixtures:       { action: rename }
+  logs_telemetry:       { action: do_not_change }
+
+exceptions:
+  - path: "docs/architecture/adr/2026-10-*.md"
+    action: do_not_change
+    reason: "Existing ADRs are superseded, never edited (DIRECTIVE_003, charter); the new 2026-11-11-2 ADR and the index are authored, not renamed"
+  - path: "docs/changelog/CHANGELOG.md"
+    action: manual_review
+    reason: "Only the [Unreleased] section gains an entry; released sections are history"
+  - path: "kitty-ops/**"
+    action: do_not_change
+    reason: "Operational logs are historical records"
+  - path: "kitty-specs/**"
+    action: do_not_change
+    reason: "Other missions' artifacts are history; this mission's own artifacts name both terms deliberately"
+  - path: "scripts/ci/built_in_digest.py"
+    action: manual_review
+    reason: "Becomes a compatibility shim over pack_digest.py; its name and CLI stay for kitty-stack"
+
+moves:
+  - from:
+      - scripts/ci/check-built-in.sh
+    to: scripts/ci/check-pack-digests.sh
+    reason: "The entry point now checks every pack's sidecar, not only built-in"

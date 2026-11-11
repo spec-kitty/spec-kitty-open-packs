@@ -1,0 +1,113 @@
+{
+  "rows": {
+    "#124": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#182": {
+      "evidence_ref": "53df95d closed the file guard; FR-009 / WP04 adds node completeness",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Manifest completeness (closed; residual node-completeness folded in)",
+      "verdict": "in-mission",
+      "wp": "WP04"
+    },
+    "#19": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#190": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#194": {
+      "evidence_ref": "spec.md FR-001..FR-008; WP01-WP03,WP05",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Extend the built-in digest gate to every pack (anchor)",
+      "verdict": "in-mission",
+      "wp": "WP01"
+    },
+    "#195": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#23": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#37": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#73": {
+      "evidence_ref": "context only: epic/related/out-of-scope per spec C-004 and Issue Matrix",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "<fill at WP-implementation time>",
+      "verdict": "not-applicable",
+      "wp": null
+    }
+  },
+  "schema_version": 1
+}
