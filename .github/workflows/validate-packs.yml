@@ -59,9 +59,9 @@ jobs:
       # of the red; the job is red when any of them is.
       - name: Validate packs against the charter schemas
         run: scripts/ci/validate-packs.sh
-      - name: Check the built-in pack digest
+      - name: Check every pack's recorded digest
         if: ${{ !cancelled() }}
-        run: scripts/ci/check-built-in.sh
+        run: scripts/ci/check-pack-digests.sh
       - name: Vocabulary guard
         if: ${{ !cancelled() }}
         # Retired doctrine ids, the renamed `merge` command and the retired governing
