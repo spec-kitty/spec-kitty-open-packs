@@ -413,6 +413,16 @@ class ReusableWorkflowCallsStart(unittest.TestCase):
                             self.assertGreaterEqual(granted(allowed, scope), LEVELS[asked[scope]])
 
 
+class ReleaseChecksDigestsBeforeBuilding(unittest.TestCase):
+    def test_the_digest_check_runs_before_any_asset_is_built(self) -> None:
+        steps = load("release.yml")["jobs"]["release"]["steps"]
+        runs = [step.get("run", "") for step in steps]
+        check = next(i for i, run in enumerate(runs) if "scripts/ci/pack_digest.py --check" in run)
+        build = next(i for i, run in enumerate(runs) if "release_assets.py build" in run)
+        self.assertLess(check, build)
+        self.assertIn("pyyaml", runs[check])
+
+
 class ActionsArePinned(unittest.TestCase):
     def test_every_external_action_is_pinned_to_a_full_commit_sha(self) -> None:
         # A tag can be moved to other code; a full commit SHA cannot.
