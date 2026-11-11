@@ -1,0 +1,347 @@
+schema_version: "1.0"
+id: rust-conventions
+title: Rust Conventions Styleguide
+scope: code
+applies_to_languages:
+  - rust
+
+principles:
+  - name: "Make invalid states unrepresentable"
+    description: "Model validated or bounded values as newtypes with a private field and a fallible constructor, and closed sets as enums, so the compiler rejects a value that was never checked."
+  - name: "Parse at the boundary, not deeper in"
+    description: "Raw [u8; N], &[u8] and String inputs live only at I/O edges. Parse them into domain types once, where they enter, and pass the typed value inward; never re-validate a type you already own."
+  - name: "Typed errors in libraries, context in binaries"
+    description: "A library returns its own error enum (thiserror) with one variant per cause a caller can act on. A binary or application edge uses anyhow with .context(). anyhow::Error never appears in a library API."
+  - name: "No panics on recoverable paths"
+    description: "Propagate with ? instead of unwrap(). expect() is for invariants only, with #[expect(clippy::expect_used, reason)] saying why it holds. Input, I/O and parse failures are errors, never panics."
+  - name: "Public enums that may grow are non_exhaustive"
+    description: "Public library error enums and other public enums expected to grow carry #[non_exhaustive], so adding a variant is not a semver break. cargo semver-checks guards the rest of the public API."
+  - name: "Never block in async code"
+    description: "Move CPU-heavy work and blocking I/O to spawn_blocking or a dedicated thread. Never hold a std Mutex guard across .await (clippy::await_holding_lock); use an async mutex or drop the guard first."
+  - name: "Declare and check the supported toolchain"
+    description: "Declare rust-version (MSRV) in Cargo.toml and verify it in CI, for example with cargo hack check --rust-version. Pin the development toolchain in rust-toolchain.toml."
+  - name: "Money is never a float"
+    description: "Use a decimal type when scale varies or the arithmetic divides or applies rates, else a currency-carrying newtype over integer minor units with checked arithmetic. Never f32/f64, never a bare i64."
+  - name: "Enums over magic numbers and flags"
+    description: "Status codes, kinds and modes are enums, not integers or bools. Match your own domain enums exhaustively with no `_ =>` arm; a wildcard is needed only for #[non_exhaustive] enums from other crates."
+  - name: "Domain types do not know their storage"
+    description: "Core domain types carry no database or wire-format rules: no renames, defaults or skips. Map DTOs at the adapter; a value newtype may derive serde only via try_from/into its validated constructor."
+  - name: "Borrow in parameters, own in returns"
+    description: "Accept &str, &[T], &Path or impl AsRef<_> for values you only read; take ownership when you store them. Return borrows of self's data, owned values for what you create. Clone deliberately."
+  - name: "unsafe is isolated, justified and wrapped"
+    description: "Every unsafe block has a // SAFETY: comment naming the invariant it relies on, behind a safe API; prefer a safe API when one exists. Crates that need none set [lints.rust] unsafe_code = \"forbid\"."
+  - name: "Public items are documented"
+    description: "Every public item has a /// doc comment; fallible functions have an # Errors section and panicking ones a # Panics section. Libraries enable #![warn(missing_docs)]."
+  - name: "Formatted and clippy-clean"
+    description: "Code is cargo fmt formatted and passes clippy -D warnings. Prefer #[expect(lint, reason = \"...\")] (1.81+) over #[allow] so stale suppressions warn; keep lints in [workspace.lints], with [lints] workspace = true per crate."
+  - name: "Tests live beside the code they pin"
+    description: "Unit tests sit in #[cfg(test)] mod tests next to the code, integration tests in tests/, and public examples are doc-tests. Parsers and arithmetic also get property tests."
+
+patterns:
+  - name: Validated Newtype
+    description: "Wrap a primitive in a tuple struct with a private field. The only way in is a fallible constructor (TryFrom or a named parse function), so every value of the type has passed validation once."
+    bad_example: |
+      pub struct Order {
+          pub quantity: u32, // any u32, including 0
+          pub sku: String,   // any string, including ""
+      }
+    good_example: |
+      #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+      pub struct Quantity(u32);
+
+      impl TryFrom<u32> for Quantity {
+          type Error = OrderError;
+          fn try_from(value: u32) -> Result<Self, Self::Error> {
+              if value == 0 || value > 10_000 {
+                  return Err(OrderError::QuantityOutOfRange(value));
+              }
+              Ok(Self(value))
+          }
+      }
+
+      impl Quantity {
+          /// Returns the validated quantity.
+          pub fn get(self) -> u32 {
+              self.0
+          }
+      }
+
+  - name: Parse at the Boundary
+    description: "Read raw bytes or text at the edge, parse them into domain types immediately, and pass only the typed value inward. Fixed-width byte arrays are for data that has not been validated yet."
+    bad_example: |
+      fn apply(record: &[u8; 16], ledger: &mut Ledger) {
+          // Every caller re-checks bytes; a missed check is a silent bug.
+          let code = std::str::from_utf8(&record[0..4]).unwrap();
+          ledger.post(code, &record[4..]);
+      }
+    good_example: |
+      pub struct RawRecord(pub [u8; 16]); // unvalidated, I/O edge only
+
+      pub struct Posting {
+          account: AccountCode,
+          amount: Money,
+      }
+
+      impl TryFrom<&RawRecord> for Posting {
+          type Error = ParseError;
+          fn try_from(raw: &RawRecord) -> Result<Self, Self::Error> {
+              let account = AccountCode::parse(&raw.0[0..4])?;
+              let amount = Money::from_minor_bytes(&raw.0[4..16])?;
+              Ok(Self { account, amount })
+          }
+      }
+
+      fn apply(posting: &Posting, ledger: &mut Ledger) {
+          ledger.post(posting); // no bytes past this point
+      }
+
+  - name: Library Error Enum with thiserror
+    description: "A library defines one error enum per module or crate surface, one variant per cause a caller can act on, carrying the data needed to act. Wrap a lower-level error with #[from] or #[source] so the chain is kept."
+    good_example: |
+      use thiserror::Error;
+
+      #[derive(Debug, Error)]
+      #[non_exhaustive]
+      pub enum LedgerError {
+          #[error("account {0} does not exist")]
+          UnknownAccount(AccountCode),
+          #[error("posting would overdraw account {account} by {shortfall}")]
+          Overdraft { account: AccountCode, shortfall: Money },
+          #[error("ledger storage failed")]
+          Storage(#[from] std::io::Error),
+      }
+
+  - name: Application Errors with anyhow Context
+    description: "At a binary or service edge, collect errors with anyhow and add context at each step, so the report says what was being attempted, not only what failed underneath."
+    bad_example: |
+      fn main() -> Result<(), Box<dyn std::error::Error>> {
+          let text = std::fs::read_to_string("config.toml")?; // "No such file or directory"
+          let config: Config = toml::from_str(&text)?;
+          run(config)?;
+          Ok(())
+      }
+    good_example: |
+      use anyhow::Context;
+
+      fn main() -> anyhow::Result<()> {
+          let path = "config.toml";
+          let text = std::fs::read_to_string(path)
+              .with_context(|| format!("reading configuration from {path}"))?;
+          let config: Config = toml::from_str(&text)
+              .with_context(|| format!("parsing {path}"))?;
+          run(config).context("running the importer")
+      }
+
+  - name: Money as Minor Units with Currency
+    description: "When the scale is fixed and the arithmetic is additive, hold money as integer minor units inside a type that also carries the currency. Use checked arithmetic and refuse to mix currencies. Use a decimal type (rust_decimal) instead when the arithmetic divides, applies rates or the scale varies, and name the rounding mode explicitly."
+    bad_example: |
+      let price: f64 = 0.1 + 0.2;          // 0.30000000000000004
+      let total_cents: i64 = 1999 * qty;   // which currency? overflow wraps in release
+    good_example: |
+      #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+      pub struct Money {
+          minor: i64,
+          currency: Currency,
+      }
+
+      impl Money {
+          /// Adds two amounts of the same currency.
+          ///
+          /// # Errors
+          /// [`MoneyError::CurrencyMismatch`] for different currencies,
+          /// [`MoneyError::Overflow`] when the sum does not fit.
+          pub fn try_add(self, other: Money) -> Result<Money, MoneyError> {
+              if self.currency != other.currency {
+                  return Err(MoneyError::CurrencyMismatch(self.currency, other.currency));
+              }
+              let minor = self.minor.checked_add(other.minor).ok_or(MoneyError::Overflow)?;
+              Ok(Money { minor, currency: self.currency })
+          }
+      }
+
+      // Rates and division: decimal, with explicit rounding.
+      use rust_decimal::{Decimal, RoundingStrategy};
+
+      pub fn vat(net: Decimal, rate: Decimal) -> Decimal {
+          (net * rate).round_dp_with_strategy(2, RoundingStrategy::MidpointNearestEven)
+      }
+
+  - name: Exhaustive Match on Domain Enums
+    description: "Match every variant of a domain enum by name. Without a wildcard arm, adding a variant is a compile error at each place that must decide what the new case means."
+    bad_example: |
+      let can_reopen = match status {
+          Status::Open => true,
+          _ => false, // a new Status::Disputed silently lands here
+      };
+    good_example: |
+      let can_reopen = match status {
+          Status::Open => true,
+          Status::Settled | Status::Cancelled => false,
+      };
+
+  - name: Borrowed Parameters
+    description: "Take the most general borrowed form a function needs to read, so callers do not allocate or give up ownership just to call it."
+    bad_example: |
+      fn count_words(text: String) -> usize {
+          text.split_whitespace().count()
+      }
+      let n = count_words(title.clone()); // clone only to satisfy the signature
+    good_example: |
+      fn count_words(text: &str) -> usize {
+          text.split_whitespace().count()
+      }
+      let n = count_words(&title);
+
+  - name: Documented Unsafe Block
+    description: "Keep unsafe code small and behind a safe function, and only where no safe API does the job. State the invariant that makes the block sound in a SAFETY comment, and check it on the safe side where it can be checked."
+    bad_example: |
+      pub fn sum_pairs(values: &[u64], pairs: &[(usize, usize)]) -> u64 {
+          // No bounds check anywhere: undefined behaviour on a bad index.
+          pairs.iter().map(|&(a, b)| unsafe {
+              values.get_unchecked(a) + values.get_unchecked(b)
+          }).sum()
+      }
+    good_example: |
+      /// Sums `values[a] + values[b]` for every pair.
+      ///
+      /// # Panics
+      /// Panics if any index in `pairs` is out of bounds for `values`.
+      pub fn sum_pairs(values: &[u64], pairs: &[(usize, usize)]) -> u64 {
+          // Validate once, up front, so the hot loop can skip per-access checks.
+          let len = values.len();
+          assert!(pairs.iter().all(|&(a, b)| a < len && b < len), "pair index out of bounds");
+          pairs
+              .iter()
+              .map(|&(a, b)| {
+                  // SAFETY: every index was checked against `values.len()` by the assert above,
+                  // and `values` is not modified between the check and this access.
+                  unsafe { values.get_unchecked(a) + values.get_unchecked(b) }
+              })
+              .sum()
+      }
+      // Only reach for this after profiling shows the bounds checks matter; plain
+      // indexing is the default. Enable clippy::undocumented_unsafe_blocks, and in
+      // edition 2024 unsafe_op_in_unsafe_fn warns on unsafe operations in an unsafe fn body outside an explicit unsafe block.
+
+  - name: Documented Fallible Function
+    description: "A public fallible function documents what it does, the errors it returns and, where relevant, an example that runs as a doc-test."
+    good_example: |
+      /// Parses a four-character account code such as `"A102"`.
+      ///
+      /// # Errors
+      /// Returns [`ParseError::InvalidAccount`] when the input is not one
+      /// uppercase letter followed by three digits.
+      ///
+      /// # Examples
+      /// ```
+      /// # use ledger::AccountCode;
+      /// let code = AccountCode::parse(b"A102")?;
+      /// # Ok::<(), ledger::ParseError>(())
+      /// ```
+      pub fn parse(bytes: &[u8]) -> Result<AccountCode, ParseError> { /* ... */ }
+
+anti_patterns:
+  - name: Float Money
+    description: "Holding currency in f32 or f64. Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail."
+    bad_example: |
+      struct Invoice { total: f64 }
+      if invoice.total == 0.3 { /* never true for 0.1 + 0.2 */ }
+    good_example: |
+      struct Invoice { total: Money } // minor units + currency, or rust_decimal::Decimal
+
+  - name: Bare Integer Codes
+    description: "Passing status, kind or mode values as raw integers or chars. Any value type-checks, unknown codes are accepted silently, and the meaning lives in comments."
+    bad_example: |
+      fn set_status(id: u64, status: u8) { /* 1 = open, 2 = settled, 9 = ??? */ }
+    good_example: |
+      #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+      enum Status { Open, Settled, Cancelled }
+
+      impl TryFrom<u8> for Status {
+          type Error = ParseError;
+          fn try_from(code: u8) -> Result<Self, Self::Error> {
+              match code {
+                  1 => Ok(Status::Open),
+                  2 => Ok(Status::Settled),
+                  3 => Ok(Status::Cancelled),
+                  other => Err(ParseError::UnknownStatus(other)),
+              }
+          }
+      }
+
+  - name: Stringly-Typed Domain
+    description: "Using String for identifiers, codes and validated text throughout the core. Two different ids are interchangeable at the type level and every function re-validates or trusts blindly."
+    bad_example: |
+      fn transfer(from: String, to: String, amount: String) -> Result<(), String> { /* ... */ }
+    good_example: |
+      fn transfer(from: &AccountCode, to: &AccountCode, amount: Money) -> Result<(), LedgerError> { /* ... */ }
+
+  - name: unwrap on Input
+    description: "Calling unwrap() or expect() on data that comes from a user, a file, the network or another process. A malformed input becomes a crash instead of an error the caller can handle."
+    bad_example: |
+      let port: u16 = std::env::var("PORT").unwrap().parse().unwrap();
+    good_example: |
+      let port: u16 = std::env::var("PORT")
+          .context("PORT is not set")?
+          .parse()
+          .context("PORT is not a valid port number")?;
+
+  - name: Wildcard Match on a Domain Enum
+    description: "Ending a match on one of your own domain enums with `_ =>`. The compiler can no longer point at the code that must handle a new variant. Foreign #[non_exhaustive] enums, such as std::io::ErrorKind, are the exception: they require the wildcard."
+    bad_example: |
+      let fee = match tier { Tier::Gold => 0, _ => 5 };
+    good_example: |
+      let fee = match tier { Tier::Gold => 0, Tier::Silver | Tier::Basic => 5 };
+
+  - name: Boolean Parameters
+    description: "Functions taking bare bools whose meaning is invisible at the call site, and which cannot grow a third case."
+    bad_example: |
+      export(&report, true, false); // which flag is which?
+    good_example: |
+      enum Format { Csv, Json }
+      enum Compression { None, Gzip }
+      export(&report, Format::Csv, Compression::None);
+
+  - name: Clone to Silence the Borrow Checker
+    description: "Adding .clone() until the code compiles. It hides an ownership design problem and copies data on every call."
+    bad_example: |
+      for item in items.clone() {
+          process(item.clone(), config.clone());
+      }
+    good_example: |
+      for item in &items {
+          process(item, &config);
+      }
+
+  - name: anyhow in a Library API
+    description: "A library returning anyhow::Result from public functions. Callers cannot match on the cause, so every failure is equally opaque to them."
+    bad_example: |
+      pub fn load(path: &Path) -> anyhow::Result<Ledger> { /* ... */ }
+    good_example: |
+      pub fn load(path: &Path) -> Result<Ledger, LedgerError> { /* ... */ }
+
+  - name: Storage Attributes on Domain Types
+    description: "Deriving serde or ORM traits with renames, defaults and skips directly on core domain types, so a wire-format change silently changes business behaviour."
+    bad_example: |
+      #[derive(Serialize, Deserialize, sqlx::FromRow)]
+      pub struct Account {
+          #[serde(default)] // a missing field now means 0 to the business rules
+          pub balance: i64,
+      }
+    good_example: |
+      pub struct Account { balance: Money }          // domain
+
+      #[derive(Deserialize)]
+      struct AccountRow { balance_minor: i64, currency: String } // adapter
+
+      impl TryFrom<AccountRow> for Account { /* validate and convert */ }
+
+tooling:
+  formatter: "cargo fmt (rustfmt); CI runs cargo fmt --all --check"
+  linter: "cargo clippy --workspace --all-targets --all-features -- -D warnings"
+  test_runner: "cargo test --workspace --all-features (cargo nextest optional, plus cargo test --doc)"
+  docs: "RUSTDOCFLAGS='-D warnings' cargo doc --workspace --all-features --no-deps"
+  supply_chain: "cargo deny check (advisories, licenses, bans, sources); cargo audit is an advisories-only fallback where no deny.toml exists"
+  property_testing: "proptest for parsers, codecs and arithmetic"
+
+quality_test: "Can any caller construct a value of a domain type, or a money amount, without going through a fallible constructor, and would adding a variant to any domain enum compile without touching the code that matches on it?"

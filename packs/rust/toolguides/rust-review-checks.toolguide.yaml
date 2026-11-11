@@ -1,0 +1,21 @@
+id: rust-review-checks
+schema_version: '1.0'
+tool: cargo
+title: Rust Review Checks
+guide_path: rust-review-checks.guide.md
+summary: |
+  The automated checks a reviewer runs, or verifies the implementer has run, before approving Rust code: formatting, Clippy lints, tests and doc-tests, documentation, supply-chain advisories and licences, and, where they apply, unsafe-code checking under Miri, semver checks for published crates and mutation testing. They are ordered cheapest first.
+commands:
+- cargo fmt --all --check
+- cargo clippy --workspace --all-targets --all-features -- -D warnings
+- cargo test --workspace --all-features
+- RUSTDOCFLAGS="-D warnings" cargo doc --workspace --all-features --no-deps
+- cargo deny check
+- cargo audit
+- cargo hack check --feature-powerset --no-dev-deps
+- cargo hack check --rust-version
+- cargo semver-checks
+- cargo +nightly miri test
+- cargo mutants
+applies_to_languages:
+- rust
