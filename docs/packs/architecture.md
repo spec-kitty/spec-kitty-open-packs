@@ -20,17 +20,17 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/architecture`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `e56adfe0f167f6a2bf27f45eb9706fdb521e2b84fea68ab5e150a4a071e0519f`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `5fcf7e7e30853755d1205fa9ebf2d104f581b9e1162eec49bf234a2e59e932ce`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bounded-context and aggregate tactics, architecture templates and anti-patterns, and the Architect Alphonso and Paula Patterns profiles.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `refactoring`, `writing`.
+A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`, `refactoring`, `writing`.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTD0V3AFZA9EAXDJ894D >=1.0,<2`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTD0V3AFZA9EAXDJ894D ==2.0.0`, `01M75HSYS69RYRFPB4WCC5AC9D ==1.0.0`
 
 ## Artifact inventory
 

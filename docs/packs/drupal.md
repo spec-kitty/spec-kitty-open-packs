@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/drupal`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `ed33b1a37c2df2d6f6392842911f7f2d7c9a869e77257455a39961557124801b`
+- **Content checksum (sha256):** `a487f003d73bc70a682440a710b9f10d82d6449d9c5b3558ff4c4480c40106cc`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -30,7 +30,7 @@ The Drupal stack: the Drupal Dries profile, Drupal conventions, security and per
 
 An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
 ## Artifact inventory
 

@@ -20,17 +20,17 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/testing`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `37ef6343702a10b27e9ec6197d93dc4b2641222e77acd42e83ab87829a8c43db`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `46b63cfa2b0bc96bc050a2fc9a8eac40878783ae62ed7420476314f60a6fece5`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`.
+A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 
 ## Artifact inventory
 

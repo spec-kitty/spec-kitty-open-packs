@@ -76,13 +76,13 @@ this table are authored **here**.
 
 | Pack | Purpose | Reference |
 | --- | --- | --- |
-| `built-in` | The default distribution pack: holds no artifacts of its own and aggregates `foundation` and `writing`; keeps the `default` and `minimal` presets (#73). | [built-in reference](built-in.md) |
+| `built-in` | The default distribution pack: holds no artifacts of its own and aggregates `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`; keeps the `default` and `minimal` presets (#73). | [built-in reference](built-in.md) |
 | `foundation` | The basis every project builds on: Generic Giannis and the implementer, reviewer, analyst and human-in-charge profiles; the software-dev, plan and research missions; every cross-cutting directive with its how-to procedures, tactics and toolguides, including the adversarial-review squad practice. A member of built-in. | [foundation reference](foundation.md) |
 | `writing` | Documentation, communication and glossary doctrine, and the documentation mission. A member of built-in. | [writing reference](writing.md) |
-| `testing` | Opt-in test design, BDD and mutation testing, and debugger-debbie; the base for the stack packs. | [testing reference](testing.md) |
-| `refactoring` | Opt-in refactoring catalogue, semantic compression and code-smell anti-patterns. | [refactoring reference](refactoring.md) |
-| `architecture` | Opt-in domain-driven design and C4 modelling, with architect-alphonso and paula-patterns. | [architecture reference](architecture.md) |
-| `planning-analysis` | Opt-in planning, research, operator-led retrospectives and brownfield analysis. | [planning-analysis reference](planning-analysis.md) |
+| `testing` | Test design, BDD and mutation testing, and debugger-debbie; the base for the stack packs. A member of built-in. | [testing reference](testing.md) |
+| `refactoring` | Refactoring catalogue, semantic compression and code-smell anti-patterns. A member of built-in. | [refactoring reference](refactoring.md) |
+| `architecture` | Domain-driven design and C4 modelling, with architect-alphonso and paula-patterns. A member of built-in. | [architecture reference](architecture.md) |
+| `planning-analysis` | Planning, research, operator-led retrospectives and brownfield analysis. A member of built-in. | [planning-analysis reference](planning-analysis.md) |
 | `pack-authoring` | Opt-in doctrine and Charter Pack authoring, with doctrine-daphne. | [pack-authoring reference](pack-authoring.md) |
 | `python` | The opt-in Python stack. | [python reference](python.md) |
 | `javascript` | The opt-in JavaScript, TypeScript and frontend stack. | [javascript reference](javascript.md) |
@@ -97,7 +97,7 @@ this table are authored **here**.
 ## The forward-looking catalog
 
 The materialized packs above are the beginning: #73 carved `built-in` into `foundation`,
-`writing` and the opt-in bundles listed above, guided by this catalog and the charter's census. The
+`writing` and the bundles listed above (built-in aggregates `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`), guided by this catalog and the charter's census. The
 [pack catalog proposal](catalog-proposal.md) lays out the full intended set —
 base packs such as `core-engineering`, `domain-driven-design`, and
 `test-and-bdd`, plus compound stacks that bundle them — and maps each proposed

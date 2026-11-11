@@ -20,17 +20,17 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/refactoring`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `3ad5906d528c0480e99486018d36364d95560e00214f7c28f25da62964856740`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `cc6d84acd61d204c6475d858503d359b27a2226199e0ec4d98dc22b73ad71e9d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy patterns), semantic compression, the code-smell anti-patterns and the Randy Reducer profile.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
+A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`, `testing`.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTC6HS38NX8HJGT26VTP ==2.0.0`
 
 ## Artifact inventory
 

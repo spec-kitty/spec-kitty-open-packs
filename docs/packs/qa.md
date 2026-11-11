@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `a0f9d7f6b8d7fab1881037fd1d079578232bcd531a30b627ea7091e055c35fe1`
+- **Content checksum (sha256):** `8ce50afd67a14f33ebd9659216ee5caf5d2bfd5e4d784fab8acd72dd85afbda1`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -36,7 +36,7 @@ scenario to a bound acceptance test and a release gate. The pack names no test r
 project runs its own tests, and the pack governs what they must cover and how honestly they
 report.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=2.0,<3`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
 ## Artifact inventory
 

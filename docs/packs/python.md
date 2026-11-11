@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/python`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `a1886ea1b791b396c75f7a011c32275cf7013d70330e92628efd33534aec90cb`
+- **Content checksum (sha256):** `34fa557331941cbb049b9f50f0d486dcc8cf67d092d6127a3117b4986a805782`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -30,7 +30,7 @@ The Python stack: the Python Pedro profile, Python conventions, review checks, s
 
 An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
 ## Artifact inventory
 

@@ -17,8 +17,9 @@ related:
 > repository owns the *content* and *packaging*.
 
 > **Status (2026-11-11, #73).** `built-in` has been carved: it is now a distribution pack over
-> `foundation` and `writing` (foundation also absorbed the proposed `adversarial-review`), and the
-> rest ships as opt-in bundles: `testing`, `refactoring`, `architecture`, `planning-analysis`,
+> `foundation`, `writing` and the core bundles `testing`, `refactoring`, `architecture` and
+> `planning-analysis` (foundation also absorbed the proposed `adversarial-review`; the core bundles
+> joined built-in by the amendment of 2026-11-11), and the rest ships as opt-in bundles:
 > `pack-authoring`, `python`, `javascript`, `drupal` and `java`. The cut follows charter ADR-0048/ADR-0053 and a research squad
 > rather than this proposal one-to-one. See
 > [ADR 2026-11-11-1](../architecture/adr/2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md).

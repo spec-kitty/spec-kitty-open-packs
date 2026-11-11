@@ -1,6 +1,6 @@
 ---
 title: 'ADR: Split built-in into foundation, writing and opt-in bundles'
-description: built-in becomes a distribution pack aggregating foundation and writing; the remaining doctrine ships as nine opt-in org bundles.
+description: built-in becomes a distribution pack aggregating foundation and writing (and, by the 2026-11-11 amendment, the testing, refactoring, architecture and planning-analysis core bundles); the remaining doctrine ships as opt-in org bundles.
 doc_status: active
 updated: '2026-11-11'
 related:
@@ -206,3 +206,39 @@ medium on the bundle boundaries: the curation lens lists overlap clusters to rev
 
 * Nearly every software consumer must register `core-engineering`, and the directives in
   foundation are hollow without it.
+
+## Amendment 2026-11-11: built-in aggregates the core bundles
+
+The decision above made `built-in` aggregate only `foundation` and `writing` and shipped
+`testing`, `refactoring`, `architecture` and `planning-analysis` as opt-in org bundles. That part of
+the decision is amended. The original text above is kept as written; this section supersedes it for
+those four bundles.
+
+**Decision.** `built-in` is the aggregate of the general-purpose open-packs. The four bundles move
+from `pack_level: org` to `pack_level: built-in`, and `built-in` lists them in `depends_on` with
+exact `==` pins, beside `foundation` and `writing`. Built-in now has six members.
+
+**Why.** Pack membership is decided in this repository. Operator decision: a default distribution
+that leaves out test design, refactoring, architecture and planning guidance is too thin for general
+software work, and every stack pack already builds on `testing`. These four are general-purpose and
+carry no stack or organisation choice, so they belong in the default. The stacks (`python`,
+`javascript`, `drupal`, `java`), `pack-authoring` and the topical and process packs (`internal`,
+`qa`, `event-driven`, `spdd`, `cave-kitty`) stay opt-in at org level.
+
+**Constraint held.** A built-in-level pack may depend only on built-in-level packs (charter
+ADR-0048 decision 7). The closures of the four stay inside built-in level: `testing` depends on
+`foundation`; `refactoring` on `foundation` and `testing`; `architecture` on `foundation`,
+`refactoring` and `writing`; `planning-analysis` on `architecture` and `foundation`. Built-in-level
+packs are read-only to registration, so they are placed beside `built-in` and not registered at org
+level.
+
+**Versions.** A level change is breaking. `testing`, `refactoring`, `architecture` and
+`planning-analysis` go 1.0.0 → 2.0.0, and `built-in` 2.0.0 → 3.0.0 with `==` pins on all six
+members (`foundation` and `writing` stay at 1.0.0). Org packs that depend on the four move their
+range from `>=1.0,<2` to `>=2.0,<3`; their own versions are unchanged because their content is
+unchanged.
+
+**Consequences.** Consumers who registered any of the four at org level must drop that opt-in and
+place the packs as built-in members. The default distribution now carries the architect, planner,
+researcher, retrospective-facilitator, randy-reducer and debugger-debbie profiles, so the silent
+fallbacks described in the changelog for 3.0 no longer occur on the `default` preset.
