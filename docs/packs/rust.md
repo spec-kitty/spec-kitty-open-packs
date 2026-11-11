@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/rust`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `5d9eab00f31a992ca557d26c57138dd9156d21f8bd1258c83e1fabe9c0c587c2`
+- **Content checksum (sha256):** `1cabb3c67384a75aa1f120361ff9561dd3ae832df5c75fed09d7a56318bc403d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -33,7 +33,7 @@ This opt-in org stack pack holds the `rust-conventions` styleguide, the `rust-re
 toolguide and the `rust-ruben` implementer profile, which requires the conventions. Activating its
 `rust` preset puts all three in force; the pack's org charter activates nothing on its own.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
 ## Artifact inventory
 
