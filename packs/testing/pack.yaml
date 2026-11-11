@@ -1,17 +1,16 @@
 # Authored pack descriptor for the testing (built-in level) core bundle, carved from built-in by #73.
 #
 # Authored, hand-edited data (never machine-rewritten). This pack is UNSHARDED:
-# it carries a single drg/fragment.yaml and an org-charter.yaml active charter,
-# so it declares the built-in pack_level and the active-charter and DRG pointers
-# explicitly. No pack-manifest.yaml.
+# it carries a single drg/fragment.yaml, so it declares the built-in pack_level and the DRG
+# pointer explicitly. Its generated pack-manifest.yaml lists the file-backed constituents.
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
+schema_version: "1.0"
 pack_id: 01M75PCTC6HS38NX8HJGT26VTP
 pack_version: 2.0.0
 parent_pack: null
 name: testing
 pack_level: built-in
-active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
 # Every pack whose artifacts this pack's graph or bodies reference (the bundle DAG in
 # kitty-specs/foundation-writing-split-01M75HV3/membership.json; acyclic, built-in -> built-in only, charter ADR-0048 d7).

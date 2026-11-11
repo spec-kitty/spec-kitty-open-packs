@@ -1,0 +1,47 @@
+schema_version: '1.0'
+manifest_hash: f8301ae3343675ff51e4077456d86da2dbeea2564f016101822c446994a247b8
+constituents:
+- kind: agent_profile
+  id: planner-priti
+  path: agent_profiles/planner-priti.agent.yaml
+  content_hash: f8b3b8cd79df369be61f86942f1990b904c6313cdc10806167531fefab36923b
+- kind: agent_profile
+  id: researcher-robbie
+  path: agent_profiles/researcher-robbie.agent.yaml
+  content_hash: 1634f30b342fc02a607f6acac04a81b355265e14fabcc911f7fb732d8ead3943
+- kind: agent_profile
+  id: retrospective-facilitator
+  path: agent_profiles/retrospective-facilitator.agent.yaml
+  content_hash: 2ec8f74d67dce5fabb749cb0c6ce169f38775864275b47f0ae422a37d9767e85
+- kind: paradigm
+  id: brownfield-onboarding
+  path: paradigms/brownfield-onboarding.paradigm.yaml
+  content_hash: 79b7d1e3ad58c4282f54440929d9cb0beda65e24e7d31a33f29c3185adb199a1
+- kind: procedure
+  id: domain-aware-decision-interview
+  path: procedures/domain-aware-decision-interview.procedure.yaml
+  content_hash: b7bfbac4d102bd924d0579121fb712f238a203672914dac856084b8e23339a75
+- kind: procedure
+  id: issue-triage-state-machine
+  path: procedures/issue-triage-state-machine.procedure.yaml
+  content_hash: e8371aa1d0eaf00d1812db13027c6d9b586c5c16cdaa3fa3f1265a3c644efec3
+- kind: procedure
+  id: legacy-codebase-triage
+  path: procedures/legacy-codebase-triage.procedure.yaml
+  content_hash: c842735d116af9e688b6579ce74d2130803b5317d2cbcddb8ae6a4efd2405e14
+- kind: procedure
+  id: situational-assessment
+  path: procedures/situational-assessment.procedure.yaml
+  content_hash: 0ccf06832ad1b69ec581a40e691750a8fae4490845f83a6f92abaada4fed15c6
+- kind: procedure
+  id: spike-timebox-policy
+  path: procedures/spike-timebox-policy.procedure.yaml
+  content_hash: 2d16f78464481dc365099bb7d8642e67bca321880622c13da2a75b5912e8c6da
+- kind: styleguide
+  id: planning-and-tracking
+  path: styleguides/planning-and-tracking.styleguide.yaml
+  content_hash: 869e9ba9cc60a08cc597a321cd4ec73fb8a1e07ebaa1b7aafce5ab45775f79d9
+- kind: tactic
+  id: analysis-extract-before-interpret
+  path: tactics/analysis/analysis-extract-before-interpret.tactic.yaml
+  content_hash: 8fcfe5dbc82e1ddf27e33ffd0e8165b7038f7b040178545317a756d203d5c633
