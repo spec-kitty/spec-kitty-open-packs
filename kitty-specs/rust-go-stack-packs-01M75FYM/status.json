@@ -1,0 +1,179 @@
+{
+  "event_count": 30,
+  "last_event_id": "01M75VE4D1X6JVBNNG8NJT0TZT",
+  "materialized_at": "2026-11-11T17:45:34.881058+00:00",
+  "mission_number": "",
+  "mission_slug": "rust-go-stack-packs-01M75FYM",
+  "mission_type": "software-dev",
+  "schema_version": 2,
+  "summary": {
+    "approved": 5,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 0,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "reviewer-renata-rust-idiom",
+      "agent": "reviewer-renata-rust-idiom",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "approved",
+      "last_event_id": "01M75J9VFFXWBWGN2BEH2CTCH9",
+      "last_transition_at": "2026-11-11T15:05:57.487244+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review",
+        "Separate opus reviewer subagent (reviewer-renata, Rust idiom lens): approve-with-folds; all 15 findings folded in fix(rust) commit and re-validated."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://rust-go-stack-packs-01M75FYM/WP01-rust-doctrine/review-cycle-1.md",
+        "reviewer": "reviewer-renata-rust-idiom",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 1373,
+      "shell_pid_created_at": "1794408909.5",
+      "subtasks": {
+        "T001": "done",
+        "T002": "done",
+        "T003": "done",
+        "T004": "done",
+        "T005": "done"
+      }
+    },
+    "WP02": {
+      "actor": "reviewer-renata-go-idiom",
+      "agent": "reviewer-renata-go-idiom",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "approved",
+      "last_event_id": "01M75JA371H6Y6GCTYX72TWNCB",
+      "last_transition_at": "2026-11-11T15:06:05.409609+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review",
+        "Separate opus reviewer subagent (reviewer-renata, Go idiom lens): approve-with-folds; all 16 findings folded in fix(go) commit and re-validated."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://rust-go-stack-packs-01M75FYM/WP02-go-doctrine/review-cycle-1.md",
+        "reviewer": "reviewer-renata-go-idiom",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 1876,
+      "shell_pid_created_at": "1794409067.59",
+      "subtasks": {
+        "T006": "done",
+        "T007": "done",
+        "T008": "done",
+        "T009": "done",
+        "T010": "done"
+      }
+    },
+    "WP03": {
+      "actor": "reviewer-renata-pack-format",
+      "agent": "reviewer-renata-pack-format",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 1,
+      "implementer_of_record": "claude",
+      "lane": "approved",
+      "last_event_id": "01M75JKDENYEGM3B7G719WT4T9",
+      "last_transition_at": "2026-11-11T15:11:10.805477+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Implementation commit 6ba0c45 landed just before the claim (the claim was refused on a dirty tree holding WP04 drafts, now stashed). Gates green: validate-packs, check-built-in, check_vocabulary. The pre-review gate warning about packs/internal depends_on is the core CLI's older descriptor model, out of scope per AGENTS.md (charter-only alignment).",
+        "Separate opus reviewer subagent (reviewer-renata, pack-format/architecture lens): approve-with-folds. Folded 1 (README Adopt), 3 (real toolguide commands), 4 (depends_on comment). 2 is WP04 scope (generated pages); 5 is WP05 scope (specializes_from + explicit foundation requires before ready)."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://rust-go-stack-packs-01M75FYM/WP03-pack-shells-and-graph/review-cycle-1.md",
+        "reviewer": "reviewer-renata-pack-format",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 10545,
+      "shell_pid_created_at": "1794409591.64",
+      "subtasks": {
+        "T011": "done",
+        "T012": "done",
+        "T013": "done",
+        "T014": "done",
+        "T015": "done"
+      }
+    },
+    "WP04": {
+      "actor": "reviewer-renata-docs",
+      "agent": "reviewer-renata-docs",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "approved",
+      "last_event_id": "01M75N9FQAGMFHPPWYR6W31PCW",
+      "last_transition_at": "2026-11-11T15:58:11.178670+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review; docsite build is CI-only (npm ci needs a GitHub Packages token, 401 locally)",
+        "Separate reviewer subagent (reviewer-renata, docs lens): approve-with-folds; folded 1 (count), 2 (foundation pending), 4 and 5 (changelog parity/style). 3 skipped: appending still touches the same packs/README line. 7 pre-existing, out of scope."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://rust-go-stack-packs-01M75FYM/WP04-catalog-docs-changelog/review-cycle-1.md",
+        "reviewer": "reviewer-renata-docs",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 12682,
+      "shell_pid_created_at": "1794409876.17",
+      "subtasks": {
+        "T016": "done",
+        "T017": "done",
+        "T018": "done",
+        "T019": "done"
+      }
+    },
+    "WP05": {
+      "actor": "reviewer-renata-pre-pr-squad",
+      "agent": "reviewer-renata-pre-pr-squad",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "approved",
+      "last_event_id": "01M75VE4D1X6JVBNNG8NJT0TZT",
+      "last_transition_at": "2026-11-11T17:45:34.881058+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "foundation + testing (operator ruled: keep testing for java parity, 2026-11-11). Gates green on the branch stacked on #198.",
+        "Pre-PR squad (3 separate opus reviewers: pack-format/architecture, Rust idiom, Go idiom) reviewed the integrated diff incl. WP05 wiring: all qualified targets verified, closure acyclic. Every finding folded in the follow-up commit; all gates green."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://rust-go-stack-packs-01M75FYM/WP05-foundation-wiring/review-cycle-1.md",
+        "reviewer": "reviewer-renata-pre-pr-squad",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 1018,
+      "shell_pid_created_at": "1794417982.82",
+      "subtasks": {
+        "T020": "done",
+        "T021": "done",
+        "T022": "done"
+      }
+    }
+  }
+}

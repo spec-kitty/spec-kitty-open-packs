@@ -1,0 +1,139 @@
+{
+  "mission_slug": "rust-go-stack-packs-01M75FYM",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "Verify FR-001 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "packs/rust/{pack.yaml,pack.md,README.md,PROVENANCE.md,org-charter.yaml,presets/rust.yaml,drg/fragment.yaml}; validate-packs.sh 0 violations (20 packs, cross-pack clean)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:16.225640+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "Verify FR-002 is satisfied",
+      "proof_type": "review",
+      "evidence": "packs/rust/styleguides/rust-conventions.styleguide.yaml (15 principles, 9 patterns, 9 anti-patterns); 2 opus Rust idiom reviews folded; std examples clippy -D warnings clean on rustc 1.97",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:19.386533+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "Verify FR-003 is satisfied",
+      "proof_type": "review",
+      "evidence": "packs/rust/toolguides/rust-review-checks.{toolguide.yaml,guide.md}; GuideBlock layout; validate-packs.sh 0 violations (20 packs, cross-pack clean)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:22.367412+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "Verify FR-004 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "rust-ruben requires rust-conventions (drg edge); tests/ci/test_language_profile_styleguides.py OK",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:25.313800+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "Verify FR-005 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "packs/go shell + go preset; validate-packs.sh 0 violations (20 packs, cross-pack clean)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:28.287825+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "Verify FR-006 is satisfied",
+      "proof_type": "review",
+      "evidence": "packs/go/styleguides/go-conventions.styleguide.yaml (13 principles, 8 patterns, 10 anti-patterns); 2 opus Go idiom reviews folded; stdlib examples go vet + go test -race clean on go1.24.7",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:31.252275+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-007",
+      "description": "Verify FR-007 is satisfied",
+      "proof_type": "review",
+      "evidence": "packs/go/toolguides/go-review-checks.{toolguide.yaml,guide.md}; validate-packs.sh 0 violations (20 packs, cross-pack clean)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:34.485708+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-008",
+      "description": "Verify FR-008 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "go-gwen requires go-conventions (drg edge); tests/ci/test_language_profile_styleguides.py OK",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:37.624347+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-009",
+      "description": "Verify FR-009 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "depends_on foundation 01M75HSYR9S9KPA372PHGT0EX3 + testing 01M75PCTC6HS38NX8HJGT26VTP (operator: testing kept for java parity); 15 qualified targets verified present (research/foundation-wiring.md); charter service check runs in CI",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:40.808865+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-010",
+      "description": "Verify FR-010 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "check-built-in.sh digest matches; no packs/built-in change in this mission's diff",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:43.947486+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-011",
+      "description": "Verify FR-011 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "gen_pack_reference.py --check: no drift (19 pages incl rust.md, go.md); docsite build CI-only (GitHub Packages token)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:46.861550+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-012",
+      "description": "Verify FR-012 is satisfied",
+      "proof_type": "review",
+      "evidence": "README, packs/README, docs/packs/index.md, catalog rows 18/19 + sections, CHANGELOG Added; docs review folded",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:49.914021+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-013",
+      "description": "Verify FR-013 is satisfied",
+      "proof_type": "review",
+      "evidence": "packs/{rust,go}/PROVENANCE.md: seed 2c4ce2a, no copied text, contradictions table; verified by pack-format reviewer",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-11T17:46:52.909237+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    }
+  ],
+  "negative_invariants": []
+}
