@@ -56,8 +56,17 @@ def _git(repo: Path, *args: str) -> bytes:
     return subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True).stdout
 
 
+def _has_pack_yaml(repo: Path, rev: str, pack: str) -> bool:
+    out = _git(repo, "ls-tree", "-z", f"{rev}:{PACKS_DIR}/{pack}", "pack.yaml")
+    return out.split(b"\t", 1)[0].split()[1:2] == [b"blob"]
+
+
 def list_packs(repo: Path, rev: str) -> list[str]:
-    """Every directory directly under ``packs/`` at ``rev``."""
+    """Every directory directly under ``packs/`` at ``rev`` that holds a ``pack.yaml``.
+
+    The same rule as ``scripts/ci/pack_digest.py discover_packs``: a directory without a
+    ``pack.yaml`` is not a pack, has no sidecar and ships no archive.
+    """
     out = _git(repo, "ls-tree", "-z", f"{rev}:{PACKS_DIR}")
     packs = []
     for entry in out.split(b"\0"):
@@ -66,7 +75,8 @@ def list_packs(repo: Path, rev: str) -> list[str]:
         meta, name = entry.split(b"\t", 1)
         kind = meta.split()[1]
         if kind == b"tree":
-            packs.append(name.decode())
+            if _has_pack_yaml(repo, rev, name.decode()):
+                packs.append(name.decode())
         elif kind != b"blob":
             raise ReleaseError(f"{PACKS_DIR}/{name.decode()} is a {kind.decode()}; a pack must be a directory")
     return sorted(packs)

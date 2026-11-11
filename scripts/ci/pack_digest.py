@@ -34,10 +34,12 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT / "scripts" / "release"))
+from release_assets import SIDECAR_SUFFIX  # noqa: E402  (one definition, shared with the release build)
+
 PACKS = REPO_ROOT / "packs"
 MANIFEST = "pack-manifest.yaml"
 ALGORITHM = "spec-kitty-snapshot-sha256"
-SIDECAR_SUFFIX = ".source.yaml"
 
 _HEX64 = re.compile(r"[0-9a-f]{64}")
 _VALUE_LINE = re.compile(r"^(\s+value:\s*)([0-9a-f]{64})\s*$")

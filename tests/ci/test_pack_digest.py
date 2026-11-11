@@ -17,6 +17,8 @@ sys.path.insert(0, str(SCRIPTS))
 
 import pack_digest as pd  # noqa: E402
 
+sys.path.insert(0, str(SCRIPTS.parent / "release"))
+
 BUILT_IN_DIGEST = "ad841252089ca5cdc5da33d7a027fb34386a80fe64249c1e368e61162dea38ca"
 FIXTURE = {"a.txt": b"x", "sub/b.txt": b"yz", "pack-manifest.yaml": b"m"}
 
@@ -122,6 +124,26 @@ class TrackedOnlyTests(unittest.TestCase):
 
     def test_lister_is_injectable(self) -> None:
         self.assertEqual(pd.snapshot_sha256(self.root, lambda _root: ["a.md", "pack.yaml"]), self.base)
+
+
+class ReleaseAgreesTests(unittest.TestCase):
+    def test_release_and_gate_both_ignore_a_directory_without_pack_yaml(self) -> None:
+        import release_assets as release
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_tree(root, {"packs/p1/pack.yaml": b"a", "packs/scratch/notes.md": b"n"})
+            git_track(root)
+            env = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
+                   "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
+            subprocess.run(["git", "-C", str(root), "commit", "-qm", "seed"], check=True, capture_output=True, env=env)
+            self.assertEqual(release.list_packs(root, "HEAD"), ["p1"])
+            self.assertEqual([d.name for d in pd.discover_packs(root / "packs")], ["p1"])
+
+    def test_the_sidecar_suffix_is_shared(self) -> None:
+        import release_assets as release
+
+        self.assertEqual(pd.SIDECAR_SUFFIX, release.SIDECAR_SUFFIX)
 
 
 class DiscoveryTests(unittest.TestCase):

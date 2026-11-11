@@ -137,6 +137,13 @@ class ReleaseAssetsTest(unittest.TestCase):
         with self.assertRaisesRegex(release.ReleaseError, "packs/qa.source.yaml is a blob with mode 120000"):
             release.sidecar_bytes(self.repo, "HEAD", "qa")
 
+    def test_a_directory_without_pack_yaml_is_not_a_pack(self) -> None:
+        (self.repo / "packs/scratch").mkdir()
+        (self.repo / "packs/scratch/notes.md").write_text("not a pack\n")
+        _git(self.repo, "add", ".")
+        _git(self.repo, "commit", "-qm", "scratch dir")
+        self.assertEqual(release.list_packs(self.repo, "HEAD"), ["built-in", "qa"])
+
     def test_sidecars_are_not_packs(self) -> None:
         self.assertEqual(release.list_packs(self.repo, "v1.2.3"), ["built-in", "qa"])
 
