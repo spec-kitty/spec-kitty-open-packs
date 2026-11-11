@@ -16,3 +16,6 @@ kitty-specs/**/canary-evidence/** linguist-generated=true
 .kittify/workspaces/** -diff
 .kittify/migrations/** linguist-generated=true
 .kittify/migrations/** -diff
+
+# Pack contents are hashed byte-for-byte (#194); no EOL conversion, so local and CI digests agree.
+packs/** -text
