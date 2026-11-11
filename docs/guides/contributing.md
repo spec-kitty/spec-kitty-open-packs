@@ -85,12 +85,16 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
   - pack validation (the per-pack schema pre-check);
   - the charter service validation (every pack composed and registered through the charter service
     at the commit pinned in `charter.lock.yaml`, and every invalid fixture refused);
-  - the built-in digest;
+  - the recorded digest of every pack;
   - the vocabulary guard;
   - the generated-pack-page drift check;
   - the tooling tests.
 - **`Docs site`** builds the docsite. It runs only when docs, site or pack files change, so it
   cannot be required.
+
+After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
+`packs/<name>.source.yaml`; the gate fails while the recorded digest is stale. Rebasing over another
+pack change may need the same.
 
 Two pack changes that each re-seed `docs/packs/` can drift once combined. Each passes on its own, so
 a clash shows on the push to `main`, where the drift check fails. Fix it with a follow-up pull

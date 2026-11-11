@@ -73,9 +73,24 @@ check, `Validate packs gate`, needs both.
 3. checks the packs together for what the charter service does not (see
    [What the service owns and what stays here](#what-the-service-owns-and-what-stays-here)).
 
-[`scripts/ci/check-built-in.sh`](../../scripts/ci/check-built-in.sh) checks that the tree digest of
-`packs/built-in` matches `packs/built-in.source.yaml`. The vocabulary guard and the release and
-vocabulary tests run even when validation fails, so one run shows all the red.
+The vocabulary guard and the release and vocabulary tests run even when validation fails, so one
+run shows all the red.
+
+### Recorded pack digests
+
+Every pack records a digest of its own files, so no pack content changes unnoticed. The digest
+covers every file in the pack directory except the root `pack-manifest.yaml`, and is recorded in
+`packs/<name>.source.yaml`, beside the directory and outside what it hashes. A pack with a
+`pack.yaml` and no sidecar fails, as does a stale sidecar or a sidecar with no pack.
+
+- After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
+  sidecar. It restamps stale sidecars, creates missing ones and leaves a fresh one untouched.
+- To run what CI runs, use
+  [`scripts/ci/check-pack-digests.sh`](../../scripts/ci/check-pack-digests.sh), which calls
+  [`pack_digest.py --check`](../../scripts/ci/pack_digest.py).
+
+A pack that ships a `pack-manifest.yaml` must also list every graph node it declares as a
+constituent, except actions, anti-patterns, templates, mission types and step contracts.
 
 ## The charter service job
 

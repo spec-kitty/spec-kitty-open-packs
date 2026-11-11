@@ -177,6 +177,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Every pack has a recorded tree digest** (#194, epic #190; see also #23 and #19;
+  [ADR 2026-11-11-2](../architecture/adr/2026-11-11-2-record-a-tree-digest-for-every-pack.md)).
+  Each `packs/<name>/` now has a sidecar `packs/<name>.source.yaml`, and the required gate checks
+  all of them with `scripts/ci/check-pack-digests.sh` (formerly `check-built-in.sh`), failing on a
+  stale, missing or orphan sidecar. `python3 scripts/ci/pack_digest.py --update` restamps them.
+  `scripts/ci/built_in_digest.py` stays as a compatibility entry point, and
+  `packs/built-in.source.yaml` keeps its path and keys.
+  - Release archives now ship each pack's sidecar as `<pack>-vX.Y.Z.source.yaml`.
+  - A pack manifest must list every graph node its pack declares, except actions, anti-patterns,
+    templates, mission types and step contracts (residual of #182).
 - **`rust` Charter Pack** (`packs/rust/`, #191, epic #190). This is an opt-in org pack with Spec Kitty-authored MIT
   doctrine for any Rust codebase:
   - the `rust-conventions` styleguide: validated newtypes, parsing at the boundary, `thiserror` in
