@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Build the release assets for a ``vX.Y.Z`` tag (spec-kitty-open-packs#53).
 
-For every pack directory under ``packs/`` this writes ``<pack>-vX.Y.Z.tar.gz`` and
-``<pack>-vX.Y.Z.tar.gz.sha256``, and it writes the release notes taken from the
-matching ``CHANGELOG.md`` section. Core pins a release by these archive digests,
-so the archives must be reproducible:
+For every pack directory under ``packs/`` this writes ``<pack>-vX.Y.Z.tar.gz``,
+``<pack>-vX.Y.Z.tar.gz.sha256`` and ``<pack>-vX.Y.Z.source.yaml`` (the pack's recorded
+tree digest, the exact bytes of ``packs/<pack>.source.yaml`` at the tagged commit), and it
+writes the release notes taken from the matching ``CHANGELOG.md`` section. Core pins a
+release by these archive digests, so the archives must be reproducible. A pack with no
+sidecar at the tagged commit fails the build before any archive is written, so a tag cut
+before every pack had a sidecar cannot be rebuilt:
 
 - the content is read from the git tree of the tagged commit, never from the
   working tree, so untracked or modified files cannot leak in;
@@ -36,6 +39,7 @@ from pathlib import Path
 
 TAG_RE = re.compile(r"^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
 PACKS_DIR = "packs"
+SIDECAR_SUFFIX = ".source.yaml"
 
 
 class ReleaseError(Exception):
@@ -107,6 +111,22 @@ def _read_blobs(repo: Path, shas: list[str]) -> dict[str, bytes]:
     return blobs
 
 
+def sidecar_bytes(repo: Path, rev: str, pack: str) -> bytes:
+    """The committed bytes of ``packs/<pack>.source.yaml`` at ``rev``, read from the git tree."""
+    path = f"{PACKS_DIR}/{pack}{SIDECAR_SUFFIX}"
+    entry = _git(repo, "ls-tree", "-z", rev, "--", path).rstrip(b"\0")
+    missing = (
+        f"{path} is missing at {rev}; every released pack needs its recorded digest "
+        "(run python3 scripts/ci/pack_digest.py --update)"
+    )
+    if not entry:
+        raise ReleaseError(missing)
+    mode, kind, sha = entry.split(b"\t", 1)[0].decode().split()
+    if kind != "blob" or mode not in ("100644", "100755"):
+        raise ReleaseError(f"{path} is a {kind} with mode {mode} at {rev}; it must be a regular file")
+    return _read_blobs(repo, [sha])[sha]
+
+
 def build_archive(repo: Path, rev: str, pack: str) -> bytes:
     """The deterministic ``.tar.gz`` of ``packs/<pack>`` at ``rev``, rooted at ``<pack>/``."""
     mtime = int(_git(repo, "log", "-1", "--format=%ct", rev).strip())
@@ -144,22 +164,31 @@ def changelog_section(changelog: str, version: str) -> str:
 
 
 def write_assets(repo: Path, rev: str, tag: str, out: Path) -> list[Path]:
+    """Write every pack's archive, ``.sha256`` and recorded-digest sidecar into ``out``.
+
+    Every sidecar is read first, so a pack without one fails the build before any archive is
+    built. An error later (a symlink in a pack) leaves the earlier files in ``out``; the workflow
+    fails the job."""
     version_of(tag)
+    packs = list_packs(repo, rev)
+    sidecars = {pack: sidecar_bytes(repo, rev, pack) for pack in packs}
     out.mkdir(parents=True, exist_ok=True)
     written = []
-    for pack in list_packs(repo, rev):
+    for pack in packs:
         archive = out / f"{pack}-{tag}.tar.gz"
         archive.write_bytes(build_archive(repo, rev, pack))
         digest = out / f"{archive.name}.sha256"
         digest.write_text(f"{hashlib.sha256(archive.read_bytes()).hexdigest()}  {archive.name}\n")
-        written += [archive, digest]
+        sidecar = out / f"{pack}-{tag}{SIDECAR_SUFFIX}"
+        sidecar.write_bytes(sidecars[pack])
+        written += [archive, digest, sidecar]
     return written
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     sub = parser.add_subparsers(dest="command", required=True)
-    build = sub.add_parser("build", help="write every pack's archive and .sha256")
+    build = sub.add_parser("build", help="write every pack's archive, .sha256 and recorded-digest sidecar")
     build.add_argument("tag")
     build.add_argument("--rev", help="commit to archive (default: the tag)")
     build.add_argument("--out", type=Path, default=Path("dist"))

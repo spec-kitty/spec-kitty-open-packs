@@ -1,7 +1,8 @@
 name: Release
 
 # A vX.Y.Z tag publishes one GitHub release carrying, for every pack under packs/,
-# a deterministic <pack>-vX.Y.Z.tar.gz and its .sha256 (spec-kitty-open-packs#53).
+# a deterministic <pack>-vX.Y.Z.tar.gz, its .sha256 and <pack>-vX.Y.Z.source.yaml, the pack's
+# recorded tree digest (spec-kitty-open-packs#53, #194).
 # Core pins {tag, commit, archive_sha256}, so a release tag is never moved or
 # deleted: a bad release is superseded by a new version (see CONTRIBUTING.md).
 
@@ -68,14 +69,15 @@ jobs:
       - name: Archives are reproducible
         run: |
           scripts/release/release_assets.py build "$TAG" --out dist-rebuild > /dev/null
-          diff <(cd dist && sha256sum *.tar.gz) <(cd dist-rebuild && sha256sum *.tar.gz)
+          diff <(cd dist && sha256sum *.tar.gz *.source.yaml) <(cd dist-rebuild && sha256sum *.tar.gz *.source.yaml)
           (cd dist && sha256sum --check *.sha256)
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
         # Upload into a draft and publish only once every asset is there, so a failed upload
         # never leaves a published release with missing packs. A leftover draft from a failed
-        # run is replaced; a published release is never touched.
+        # run is replaced; a published release is never touched. The asset count below includes
+        # each pack's .source.yaml.
         run: |
           if [[ "$(gh release view "$TAG" --json isDraft -q .isDraft 2>/dev/null)" == "true" ]]; then
             gh release delete "$TAG" --yes

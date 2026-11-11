@@ -43,6 +43,8 @@ class ReleaseAssetsTest(unittest.TestCase):
             "packs/qa/assets/gate.sh": "#!/bin/sh\n",
             "packs/built-in/pack.yaml": "name: built-in\n",
             "packs/README.md": "not a pack\n",
+            "packs/qa.source.yaml": "# qa digest\ntree_digest:\n  algorithm: a\n  value: 1\n",
+            "packs/built-in.source.yaml": "# built-in digest\ntree_digest:\n  algorithm: a\n  value: 2\n",
         }
         for rel, text in files.items():
             (self.repo / rel).parent.mkdir(parents=True, exist_ok=True)
@@ -94,6 +96,49 @@ class ReleaseAssetsTest(unittest.TestCase):
         self._add_gitlink("packs/built-in/vendor")
         with self.assertRaisesRegex(release.ReleaseError, "packs/built-in/vendor is a commit"):
             release.build_archive(self.repo, "HEAD", "built-in")
+
+    def _shown(self, rev: str, path: str) -> bytes:
+        return subprocess.run(["git", "-C", str(self.repo), "show", f"{rev}:{path}"], check=True, capture_output=True).stdout
+
+    def test_every_pack_ships_its_sidecar(self) -> None:
+        out = self.repo / "dist"
+        written = release.write_assets(self.repo, "v1.2.3", "v1.2.3", out)
+        sidecars = sorted(p.name for p in written if p.name.endswith(".source.yaml"))
+        self.assertEqual(sidecars, ["built-in-v1.2.3.source.yaml", "qa-v1.2.3.source.yaml"])
+        for pack in ("built-in", "qa"):
+            self.assertEqual((out / f"{pack}-v1.2.3.source.yaml").read_bytes(), self._shown("v1.2.3", f"packs/{pack}.source.yaml"))
+
+    def test_sidecar_comes_from_the_tag_not_the_working_tree(self) -> None:
+        tagged = self._shown("v1.2.3", "packs/qa.source.yaml")
+        (self.repo / "packs/qa.source.yaml").write_text("edited after the tag\n")
+        out = self.repo / "dist"
+        release.write_assets(self.repo, "v1.2.3", "v1.2.3", out)
+        self.assertEqual((out / "qa-v1.2.3.source.yaml").read_bytes(), tagged)
+
+    def test_a_pack_without_a_sidecar_fails_the_release_before_any_archive(self) -> None:
+        _git(self.repo, "rm", "-q", "packs/qa.source.yaml")
+        _git(self.repo, "commit", "-qm", "drop the qa sidecar")
+        _git(self.repo, "tag", "v1.2.4")
+        out = self.repo / "dist"
+        with self.assertRaisesRegex(release.ReleaseError, "packs/qa.source.yaml is missing at v1.2.4"):
+            release.write_assets(self.repo, "v1.2.4", "v1.2.4", out)
+        self.assertFalse(list(out.glob("*")) if out.exists() else [])
+        _git(self.repo, "checkout", "-q", "v1.2.3", "--", "packs/qa.source.yaml")  # positive control
+        _git(self.repo, "commit", "-qm", "restore the qa sidecar")
+        _git(self.repo, "tag", "v1.2.5")
+        written = release.write_assets(self.repo, "v1.2.5", "v1.2.5", out)
+        self.assertIn(out / "qa-v1.2.5.source.yaml", written)
+
+    def test_a_sidecar_that_is_not_a_regular_file_fails(self) -> None:
+        _git(self.repo, "rm", "-q", "packs/qa.source.yaml")
+        (self.repo / "packs/qa.source.yaml").symlink_to("built-in.source.yaml")
+        _git(self.repo, "add", "packs/qa.source.yaml")
+        _git(self.repo, "commit", "-qm", "symlinked sidecar")
+        with self.assertRaisesRegex(release.ReleaseError, "packs/qa.source.yaml is a blob with mode 120000"):
+            release.sidecar_bytes(self.repo, "HEAD", "qa")
+
+    def test_sidecars_are_not_packs(self) -> None:
+        self.assertEqual(release.list_packs(self.repo, "v1.2.3"), ["built-in", "qa"])
 
     def test_sha256_file_matches_its_archive(self) -> None:
         out = self.repo / "dist"
