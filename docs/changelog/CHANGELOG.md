@@ -100,7 +100,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Versions: those four go 1.0.0 → 2.0.0; `built-in` goes 2.0.0 → 3.0.0 and pins all six members
     exactly (`foundation` and `writing` `==1.0.0`, the four `==2.0.0`).
   - Org packs that depend on the four (`python`, `javascript`, `drupal`, `java`, `qa`, `internal`,
-    `event-driven`, `spdd`) now require `>=2.0,<3` of them; their own versions are unchanged.
+    `event-driven`, `spdd`) now require `>=2.0,<3` of them, and each takes its next major
+    version because its `depends_on` changed: `python`, `javascript`, `drupal` and `java` go
+    1.0.0 → 2.0.0; `qa`, `internal`, `event-driven` and `spdd` go 2.0.0 → 3.0.0.
+  - The four bundles now declare `schema_version: "1.0"`, carry a generated `pack-manifest.yaml`,
+    and no longer ship an `org-charter.yaml` (nor its `active_charter` pointer); like `foundation`
+    and `writing`, they are not registered.
   - Everything else stays opt-in at org level: `pack-authoring`, `python`, `javascript`, `drupal`,
     `java`, `internal`, `qa`, `event-driven`, `spdd` and `cave-kitty`.
 
@@ -113,6 +118,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
      to `>=3.0,<4`.
   4. The `default` preset again reaches the architect, planner, researcher and retrospective
      profiles; the fallbacks listed in the entry above no longer apply once the four are placed.
+  5. This supersedes step 5 of the migration in the entry above: do not register `architecture`,
+     `planning-analysis` or `testing` at org level; place them with `built-in` as in step 2. Only
+     the stacks (and `pack-authoring`) are still registered.
 
 - **Packs migrated to charter ADR-0067/0068/0069** (charter #474; #69, #70). Every agent
   profile now declares one primary `role` plus optional `alt-roles` in place of `roles:`

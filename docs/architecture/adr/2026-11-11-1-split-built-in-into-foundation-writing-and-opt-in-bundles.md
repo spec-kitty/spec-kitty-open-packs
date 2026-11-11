@@ -235,8 +235,16 @@ level.
 **Versions.** A level change is breaking. `testing`, `refactoring`, `architecture` and
 `planning-analysis` go 1.0.0 → 2.0.0, and `built-in` 2.0.0 → 3.0.0 with `==` pins on all six
 members (`foundation` and `writing` stay at 1.0.0). Org packs that depend on the four move their
-range from `>=1.0,<2` to `>=2.0,<3`; their own versions are unchanged because their content is
-unchanged.
+range from `>=1.0,<2` to `>=2.0,<3`. Because their `depends_on` changed, each of those eight takes
+its next major version, as the split did for `qa` in 91b603f: `python`, `javascript`, `drupal` and
+`java` 1.0.0 → 2.0.0; `qa`, `internal`, `event-driven` and `spdd` 2.0.0 → 3.0.0. No pack pins them.
+
+**Descriptors and manifests.** The four bundles keep their unsharded layout (one `drg/fragment.yaml`)
+but now match the other built-in-level packs: `pack.yaml` declares `schema_version: "1.0"`, and each
+bundle carries a generated `pack-manifest.yaml` listing its file-backed constituents (the #182
+guard). Their `org-charter.yaml` and the `active_charter` pointer are removed, as `foundation` and
+`writing` have none. Only `foundation` holds the fallback lock, so the four need no
+`mutability_policy`.
 
 **Consequences.** Consumers who registered any of the four at org level must drop that opt-in and
 place the packs as built-in members. The default distribution now carries the architect, planner,

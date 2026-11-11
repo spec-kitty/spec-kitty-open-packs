@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/javascript`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `af646cad980977ede01482dee3b68164770b7e9158329d96206b364c82ea2a0f`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `9cd3d6367f1739dac4128f2ed96bab765a743d79ecd1f17bef5db82ce0b75b7e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

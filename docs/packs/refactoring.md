@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/refactoring`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `cc6d84acd61d204c6475d858503d359b27a2226199e0ec4d98dc22b73ad71e9d`
+- **Content checksum (sha256):** `867d2697ef0556d7ff20e8820d3c004357adf0c2fc45b73f2da77349feea390f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

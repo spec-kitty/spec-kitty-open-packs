@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/python`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `34fa557331941cbb049b9f50f0d486dcc8cf67d092d6127a3117b4986a805782`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `e3a503834b4e1090b87d780954e18ea0209a3faaf863fa83ef1e8a1e4f4e5652`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
