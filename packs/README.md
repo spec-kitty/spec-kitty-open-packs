@@ -8,6 +8,7 @@ This directory holds the materialized Charter Packs:
   [`planning-analysis/`](planning-analysis/README.md);
 - the opt-in bundles carved from it by #73: [`pack-authoring/`](pack-authoring/README.md), [`python/`](python/README.md),
   [`javascript/`](javascript/README.md), [`drupal/`](drupal/README.md) and [`java/`](java/README.md);
+- the opt-in stack packs [`rust/`](rust/README.md) and [`go/`](go/README.md);
 - the topical packs [`cave-kitty/`](cave-kitty/README.md), [`event-driven/`](event-driven/README.md),
   [`qa/`](qa/README.md) and [`spdd/`](spdd/README.md), and the maintainer pack
   [`internal/`](internal/README.md).
