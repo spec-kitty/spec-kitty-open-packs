@@ -77,7 +77,7 @@ depends_on:
 required beside it. The dependency must be configured too: the service does not fetch it, and refuses
 a `depends_on` that no configured pack answers.
 
-Here, every org pack depends on the packs it references, and on nothing else: `foundation`, `writing`, one of the core bundles `testing`, `refactoring`, `architecture` or `planning-analysis` (all built-in level), or one of the opt-in org bundles carved from `built-in` (#73). `built-in` itself is a distribution pack that holds no artifacts, so no pack depends on it to reach one.
+Here, every org pack depends on the packs it references, and on nothing else: `foundation`, `writing`, one of the core bundles `testing`, `refactoring`, `architecture` or `planning-analysis` (all built-in level), or one of the opt-in org bundles that remain: `pack-authoring`, `python`, `javascript`, `drupal` and `java` (#73). `built-in` itself is a distribution pack that holds no artifacts, so no pack depends on it to reach one.
 
 #### Referencing another pack's artifact
 

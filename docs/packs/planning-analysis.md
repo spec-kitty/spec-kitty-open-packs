@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/planning-analysis`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `8f410ac56a952d5819803ec0c79344423279df143135d633344b27e5de532bab`
+- **Content checksum (sha256):** `416e53f6f8a4ebd091dbe660d13590a20467d3b2416bbf00c4ef16829e6e8ade`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/drupal`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `a487f003d73bc70a682440a710b9f10d82d6449d9c5b3558ff4c4480c40106cc`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `eaba546f6b2acef8ad3cbd3a4cbfebede5621eafac0c5789877a6d61617bb2b2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

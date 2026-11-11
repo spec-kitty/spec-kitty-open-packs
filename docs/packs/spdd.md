@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/spdd`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `2d88ce9465e4bdc758a22b45f1f8ccbe0e9d717d0d5bbd64090dd9016ba58cbf`
+- **Declared version:** `3.0.0`
+- **Content checksum (sha256):** `4bfa16160058f764664e4d39dec8065e27381aca511af4810dab81843440d424`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
