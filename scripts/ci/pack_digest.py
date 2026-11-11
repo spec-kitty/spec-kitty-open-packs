@@ -89,8 +89,11 @@ def tracked_files(root: Path) -> list[str]:
 
 
 def snapshot_sha256(root: Path, lister: Callable[[Path], list[str]] = tracked_files) -> str:
+    files = lister(root)
+    if not files:  # the empty-set digest would pass for a pack nobody tracked
+        raise OSError("no git-tracked files; `git add` the pack first")
     digest = hashlib.sha256()
-    for posix in sorted(lister(root)):
+    for posix in sorted(files):
         path = root / posix
         if path.is_symlink():
             raise OSError(f"Snapshot contains unsupported symlink: {posix}")
@@ -175,7 +178,7 @@ def _report_failure(status: PackStatus, sidecar_rel: str) -> None:
     elif status.state == "missing":
         _fail(sidecar_rel, f"packs/{name}/ has no recorded digest", _remedy(name))
     elif status.state == "refused":
-        _fail(f"packs/{name}", status.message, "remove the symlink or special file from the pack")
+        _fail(f"packs/{name}", status.message, "a pack must hold git-tracked regular files only (no symlink or special file)")
     else:
         _fail(sidecar_rel, status.message, "fix the sidecar by hand; --update refuses a malformed one")
 
