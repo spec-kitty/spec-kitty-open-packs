@@ -71,7 +71,13 @@ Key fields: `id`, `tool`, `title`, `guide_path` (the sibling `<id>.guide.md`), `
 
 ## Paradigm
 
-Key fields: `id`, `name`, `summary`.
+Key fields: `id`, `name`, `summary`, `principles`.
+
+`principles` is optional in the schema but expected in this repository: an ordered list of
+`{name, description}` items (name 1-64 characters, unique ignoring case; description 1-255
+characters; charter ADR-0067). Write them in the style of Kent Beck's Test Desiderata: a handful
+(typically four to seven) of short core ideas that explain why the practices the paradigm brings in
+belong together. They are not rules or steps and do not restate the paradigm's tactics or directives.
 
 ## Procedure
 

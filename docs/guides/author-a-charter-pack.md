@@ -91,6 +91,19 @@ Required fields per kind:
 | paradigm | lower-case kebab | `schema_version`, `id`, `name`, `summary`, optional `principles` — the same `{name, description}` items a styleguide uses |
 | agent profile | `profile-id` (not `id`) | `profile-id`, `name`, `role`, `purpose`, `specialization` |
 
+A paradigm's `principles` are optional in the schema but expected here. Give each paradigm an
+ordered list of `{name, description}` items (name 1-64 characters, unique ignoring case;
+description 1-255 characters), placed directly after `summary`. Write them like Kent Beck's Test
+Desiderata: typically four to seven short core ideas that explain why the practices the paradigm
+brings in belong together. They are not rules or steps, and must not restate the paradigm's tactics
+or directives.
+
+```yaml
+principles:
+  - name: Isolated
+    description: Tests return the same results whatever order they run in.
+```
+
 Resist dumping a whole policy page into one artifact — split so each rule can be cited
 individually in lint advisories and review feedback.
 
