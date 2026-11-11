@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   text kept as a same-named entry in `patterns`. The built-in pack declares
   `fallback_profile: generic-agent`, now role-neutral (`role: generic`) and locked by a new
   `policy.yaml`. The stale `.github/agents/*.agent.md` bootstrap copies are removed. Charter
-  contracts are pinned to #474's head pending its merge.
+  `charter.lock.yaml` moves to #474's merge commit `fb24052`.
 
 - **SPDD/REASONS moved from `built-in` to the opt-in `spdd` pack** (#73, charter
   ADR-0066). The paradigm, directive, two canvas tactics and canvas-writing
