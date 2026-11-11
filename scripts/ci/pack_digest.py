@@ -5,7 +5,9 @@ The algorithm is spec-kitty core's ``snapshot_sha256`` (charter.offering.packs.p
 reimplemented here so no core install is needed: SHA-256 over every regular file of a pack
 directory except the top-level ``pack-manifest.yaml``, in order of POSIX relative path, each
 contributing an 8-byte big-endian path length, the UTF-8 path, an 8-byte big-endian size and the
-raw bytes. A symlink or a special file refuses.
+raw bytes. A symlink or a special file refuses. Only git-tracked files count (``git ls-files``),
+read from disk, so untracked and ignored files cannot change the digest; outside a git work tree
+the script refuses.
 
 Every directory under ``packs/`` that holds a ``pack.yaml`` is a pack and has a sidecar.
 
@@ -21,9 +23,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
+from collections.abc import Callable
 from pathlib import Path
 
 import yaml
@@ -60,17 +65,35 @@ class PackStatus:
     message: str = ""
 
 
-def snapshot_sha256(root: Path) -> str:
+def tracked_files(root: Path) -> list[str]:
+    """POSIX paths, relative to ``root``, of the git-tracked files under it.
+
+    Untracked and ignored files (``__pycache__``, editor droppings) never count, so a local run
+    and CI see the same tree. A tracked file that is modified or staged but not committed is
+    listed too and hashed from disk, which is what ``--update`` needs before the commit.
+    A tracked file deleted on disk is skipped, as it will be once the deletion is committed.
+    A brand-new file counts once it is ``git add``-ed.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(root), "ls-files", "-z", "--", "."], check=True, capture_output=True
+        ).stdout
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise OSError(f"{root} is not inside a git work tree; the digest covers tracked files only") from exc
+    return [entry.decode("utf-8") for entry in out.split(b"\0") if entry]
+
+
+def snapshot_sha256(root: Path, lister: Callable[[Path], list[str]] = tracked_files) -> str:
     digest = hashlib.sha256()
-    for path in sorted(root.rglob("*"), key=lambda p: p.relative_to(root).as_posix()):
-        relative = path.relative_to(root)
+    for posix in sorted(lister(root)):
+        path = root / posix
         if path.is_symlink():
-            raise OSError(f"Snapshot contains unsupported symlink: {relative}")
-        if relative.as_posix() == MANIFEST or path.is_dir():
+            raise OSError(f"Snapshot contains unsupported symlink: {posix}")
+        if posix == MANIFEST or not os.path.lexists(path):  # a tracked file deleted on disk is gone
             continue
         if not path.is_file():
-            raise OSError(f"Snapshot contains unsupported file type: {relative}")
-        name = relative.as_posix().encode("utf-8")
+            raise OSError(f"Snapshot contains unsupported file type: {posix}")
+        name = posix.encode("utf-8")
         digest.update(len(name).to_bytes(8, "big") + name)
         digest.update(path.stat().st_size.to_bytes(8, "big") + path.read_bytes())
     return digest.hexdigest()

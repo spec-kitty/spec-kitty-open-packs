@@ -40,6 +40,12 @@ def reference_digest(files: dict[str, bytes]) -> str:
     return digest.hexdigest()
 
 
+def git_track(root: Path) -> None:
+    """Make ``root`` a git work tree with everything in it tracked (the index is enough)."""
+    subprocess.run(["git", "-C", str(root), "init", "-q"], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(root), "add", "-A", "-f"], check=True, capture_output=True)
+
+
 def run(func, *args) -> tuple[int, str]:
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
@@ -51,6 +57,7 @@ class RecipeTests(unittest.TestCase):
     def test_vector_matches_independent_recipe_and_pinned_value(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             write_tree(Path(tmp), FIXTURE)
+            git_track(Path(tmp))
             actual = pd.snapshot_sha256(Path(tmp))
         self.assertEqual(actual, reference_digest(FIXTURE))
         self.assertEqual(actual, "825dfc8804c11988e9ad4c33e6565fa284d1e280d5d5db5830f59e0d8d4a43c9")
@@ -59,10 +66,12 @@ class RecipeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             write_tree(root, FIXTURE)
+            git_track(root)
             base = pd.snapshot_sha256(root)
             (root / "pack-manifest.yaml").write_bytes(b"changed")
             self.assertEqual(pd.snapshot_sha256(root), base)
             write_tree(root, {"sub/pack-manifest.yaml": b"nested"})
+            git_track(root)
             self.assertNotEqual(pd.snapshot_sha256(root), base)
 
     def test_symlink_refuses(self) -> None:
@@ -73,6 +82,7 @@ class RecipeTests(unittest.TestCase):
                 (root / "link").symlink_to(root / "a.txt")
             except (OSError, NotImplementedError):
                 self.skipTest("symlinks unsupported")
+            git_track(root)
             with self.assertRaises(OSError):
                 pd.snapshot_sha256(root)
 
@@ -80,6 +90,38 @@ class RecipeTests(unittest.TestCase):
         recorded = pd.recorded_digest(pd.PACKS / "built-in.source.yaml")
         self.assertEqual(pd.snapshot_sha256(pd.PACKS / "built-in"), recorded)
         self.assertEqual(recorded, BUILT_IN_DIGEST)
+
+
+class TrackedOnlyTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.root = Path(self._tmp.name)
+        write_tree(self.root, {"pack.yaml": b"id: p\n", "a.md": b"a"})
+        git_track(self.root)
+        self.base = pd.snapshot_sha256(self.root)
+
+    def test_untracked_and_ignored_files_do_not_change_the_digest(self) -> None:
+        write_tree(self.root, {"__pycache__/x.pyc": b"junk", "new.md": b"untracked", ".gitignore": b"*.log\n", "x.log": b"i"})
+        self.assertEqual(pd.snapshot_sha256(self.root), self.base)
+
+    def test_modified_tracked_file_is_hashed_from_disk(self) -> None:
+        (self.root / "a.md").write_bytes(b"changed")
+        self.assertNotEqual(pd.snapshot_sha256(self.root), self.base)
+
+    def test_staged_new_file_counts(self) -> None:
+        write_tree(self.root, {"new.md": b"n"})
+        subprocess.run(["git", "-C", str(self.root), "add", "new.md"], check=True)
+        self.assertNotEqual(pd.snapshot_sha256(self.root), self.base)
+
+    def test_outside_a_git_work_tree_refuses_clearly(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            write_tree(Path(tmp), {"a": b"x"})
+            with self.assertRaisesRegex(OSError, "not inside a git work tree"):
+                pd.snapshot_sha256(Path(tmp))
+
+    def test_lister_is_injectable(self) -> None:
+        self.assertEqual(pd.snapshot_sha256(self.root, lambda _root: ["a.md", "pack.yaml"]), self.base)
 
 
 class DiscoveryTests(unittest.TestCase):
@@ -106,6 +148,7 @@ class PackFixture(unittest.TestCase):
         self.addCleanup(self._tmp.cleanup)
         self.packs = Path(self._tmp.name) / "packs"
         write_tree(self.packs, {"p1/pack.yaml": b"id: p1\n", "p1/doc.md": b"doc\n"})
+        git_track(Path(self._tmp.name))
         self.pack = self.packs / "p1"
         self.sidecar = self.packs / "p1.source.yaml"
 
@@ -271,6 +314,7 @@ class SymlinkAndNewlineTests(PackFixture):
             os.symlink("doc.md", self.pack / "link.md")
         except (OSError, NotImplementedError):
             self.skipTest("symlinks unsupported")
+        git_track(Path(self._tmp.name))
 
     def test_symlink_in_pack_is_an_error_line_not_a_traceback(self) -> None:
         self.stamp()
