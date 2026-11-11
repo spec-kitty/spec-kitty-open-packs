@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "mission_slug": "rust-go-stack-packs-01M75FYM",
+  "mission_id": "01M75FYMR442XJD3FXVKE9NB93",
+  "mission_branch": "feat/rust-go-packs",
+  "target_branch": "feat/rust-go-packs",
+  "lanes": [
+    {
+      "lane_id": "lane-planning",
+      "wp_ids": [
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05"
+      ],
+      "write_scope": [
+        "README.md",
+        "docs/changelog/CHANGELOG.md",
+        "docs/packs/catalog-proposal.md",
+        "docs/packs/go.md",
+        "docs/packs/index.md",
+        "docs/packs/rust.md",
+        "kitty-specs/rust-go-stack-packs-01M75FYM/research/foundation-wiring.md",
+        "packs/README.md",
+        "packs/go/PROVENANCE.md",
+        "packs/go/README.md",
+        "packs/go/agent_profiles/**",
+        "packs/go/drg/fragment.yaml",
+        "packs/go/org-charter.yaml",
+        "packs/go/pack.md",
+        "packs/go/pack.yaml",
+        "packs/go/presets/**",
+        "packs/go/styleguides/**",
+        "packs/go/toolguides/**",
+        "packs/rust/PROVENANCE.md",
+        "packs/rust/README.md",
+        "packs/rust/agent_profiles/**",
+        "packs/rust/drg/fragment.yaml",
+        "packs/rust/org-charter.yaml",
+        "packs/rust/pack.md",
+        "packs/rust/pack.yaml",
+        "packs/rust/presets/**",
+        "packs/rust/styleguides/**",
+        "packs/rust/toolguides/**"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    }
+  ],
+  "computed_at": "2026-11-11T14:54:37.574606+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [
+    "WP05"
+  ],
+  "planning_commit_sha": "7579381b9c4444078db46dfc763c2d98c0ff31f1"
+}

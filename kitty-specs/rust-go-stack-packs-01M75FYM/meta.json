@@ -1,0 +1,35 @@
+{
+  "accept_commit": "6dcc6d1ca3a4ca2b9689244b86fcd6572d706e7b",
+  "acceptance_history": [
+    {
+      "accept_commit": "6dcc6d1ca3a4ca2b9689244b86fcd6572d706e7b",
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-11T17:47:11.268294+00:00",
+      "accepted_by": "claude",
+      "accepted_from_commit": "836dd59dda0d87cadee56b4e20385a1ee58267b5",
+      "lenient": true
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-11T17:47:11.268294+00:00",
+  "accepted_by": "claude",
+  "accepted_from_commit": "836dd59dda0d87cadee56b4e20385a1ee58267b5",
+  "contracts": "none",
+  "contracts_rationale": "The pack contract is owned by spec-kitty-charter contracts/packs; this mission authors pack content and defines no interface.",
+  "created_at": "2026-11-11T14:24:54.025170+00:00",
+  "flattened": false,
+  "friendly_name": "Rust and Go stack packs",
+  "mid8": "01M75FYM",
+  "mission_id": "01M75FYMR442XJD3FXVKE9NB93",
+  "mission_number": null,
+  "mission_slug": "rust-go-stack-packs-01M75FYM",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Teams building in Rust or Go get no stack doctrine from Spec Kitty today. This mission adds two opt-in org packs, rust and go, each with a conventions styleguide, a review-checks toolguide and a specialist profile, authored for this repository under MIT, so a project can activate idiomatic guidance for its stack with one preset.",
+  "purpose_tldr": "Ship opt-in Rust and Go Charter Packs with real, general-purpose language conventions and review checks.",
+  "slug": "rust-go-stack-packs-01M75FYM",
+  "status_phase": "1",
+  "target_branch": "feat/rust-go-packs",
+  "topology": "single_branch",
+  "topology_source": "explicit"
+}
