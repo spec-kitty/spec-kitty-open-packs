@@ -1,0 +1,18 @@
+{
+  "change_mode": "bulk_edit",
+  "created_at": "2026-11-11T18:40:07.373974+00:00",
+  "flattened": false,
+  "friendly_name": "Per-pack digest gate",
+  "mid8": "01M75YJ0",
+  "mission_id": "01M75YJ05ZRGC01JVQMTSDADE3",
+  "mission_number": null,
+  "mission_slug": "per-pack-digest-gate-01M75YJ0",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "After the built-in split, the only recorded digest covers the built-in shell, so doctrine edits in member and org packs are not pinned. This mission records a digest sidecar for every pack, verifies all of them in the required gate, and closes the residual manifest-completeness gap from #182.",
+  "purpose_tldr": "Every pack in the catalogue carries a recorded tree digest that CI verifies, so no pack content can change unnoticed.",
+  "slug": "per-pack-digest-gate-01M75YJ0",
+  "target_branch": "feat/194-pack-digests",
+  "topology": "single_branch",
+  "topology_source": "owned_checkout"
+}

@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "mission_slug": "per-pack-digest-gate-01M75YJ0",
+  "mission_id": "01M75YJ05ZRGC01JVQMTSDADE3",
+  "mission_branch": "feat/194-pack-digests",
+  "target_branch": "feat/194-pack-digests",
+  "lanes": [
+    {
+      "lane_id": "lane-planning",
+      "wp_ids": [
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP06",
+        "WP05"
+      ],
+      "write_scope": [
+        ".github/PULL_REQUEST_TEMPLATE.md",
+        ".github/workflows/release.yml",
+        ".github/workflows/validate-packs.yml",
+        ".kittify/charter/interview/answers.yaml",
+        "docs/architecture/adr/2026-11-11-2-record-a-tree-digest-for-every-pack.md",
+        "docs/architecture/adr/index.md",
+        "docs/changelog/CHANGELOG.md",
+        "docs/guides/contributing.md",
+        "docs/guides/publish-a-pack.md",
+        "docs/guides/validate-a-pack.md",
+        "packs/*.source.yaml",
+        "packs/README.md",
+        "scripts/ci/built_in_digest.py",
+        "scripts/ci/check-built-in.sh",
+        "scripts/ci/check-pack-digests.sh",
+        "scripts/ci/pack_digest.py",
+        "scripts/ci/validate_pack_schemas.py",
+        "scripts/release/release_assets.py",
+        "tests/ci/test_pack_digest.py",
+        "tests/ci/test_validate_pack_schemas.py",
+        "tests/ci/test_workflows.py",
+        "tests/release/test_release_assets.py"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    }
+  ],
+  "computed_at": "2026-11-11T19:01:24.257737+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "a1d2e7e126d65b4ac717d1cceb32710d156a2850"
+}

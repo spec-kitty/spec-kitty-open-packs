@@ -1,0 +1,100 @@
+work_packages:
+  - id: WP01
+    title: "Generic pack digest tool, built-in shim and unit tests"
+    dependencies: []
+    owned_files:
+      - "scripts/ci/pack_digest.py"
+      - "scripts/ci/built_in_digest.py"
+      - "tests/ci/test_pack_digest.py"
+    requirement_refs: [FR-001, FR-002, FR-003, FR-004, FR-006, FR-010, NFR-001, NFR-002, NFR-003, NFR-004, C-001, C-002]
+    plan_concern_refs: [IC-01]
+    subtasks: [T001, T002, T003, T004, T005, T006]
+    prompt_file: "tasks/WP01-generic-pack-digest-tool.md"
+    agent_profile: python-pedro
+    role: implementer
+    agent: claude
+    model: sonnet
+
+  - id: WP02
+    title: "Record a sidecar digest for every pack"
+    dependencies: [WP01]
+    owned_files:
+      - "packs/*.source.yaml"
+    requirement_refs: [FR-005, FR-006, FR-008, SC-001, SC-004, C-005]
+    plan_concern_refs: [IC-02]
+    subtasks: [T007, T008, T009]
+    prompt_file: "tasks/WP02-sidecar-per-pack.md"
+    agent_profile: python-pedro
+    role: implementer
+    agent: claude
+    model: sonnet
+
+  - id: WP03
+    title: "Wire the all-pack digest check into the required gate and rename it"
+    dependencies: [WP02]
+    owned_files:
+      - "scripts/ci/check-built-in.sh"
+      - "scripts/ci/check-pack-digests.sh"
+      - ".github/workflows/validate-packs.yml"
+      - "tests/ci/test_workflows.py"
+    requirement_refs: [FR-007, FR-008, C-003, SC-002]
+    plan_concern_refs: [IC-03]
+    subtasks: [T010, T011, T012]
+    prompt_file: "tasks/WP03-gate-wiring-and-rename.md"
+    agent_profile: python-pedro
+    role: implementer
+    agent: claude
+    model: sonnet
+
+  - id: WP04
+    title: "Manifest lists every file-backed graph node (#182 residual)"
+    dependencies: []
+    owned_files:
+      - "scripts/ci/validate_pack_schemas.py"
+      - "tests/ci/test_validate_pack_schemas.py"
+    requirement_refs: [FR-009, FR-010, SC-005]
+    plan_concern_refs: [IC-04]
+    subtasks: [T013, T014, T015, T016]
+    prompt_file: "tasks/WP04-manifest-node-completeness.md"
+    agent_profile: python-pedro
+    role: implementer
+    agent: claude
+    model: sonnet
+
+  - id: WP05
+    title: "Guides, PR template, ADR, packs README, charter prose and changelog"
+    dependencies: [WP03, WP04, WP06]
+    owned_files:
+      - "docs/guides/validate-a-pack.md"
+      - "docs/guides/contributing.md"
+      - "docs/guides/publish-a-pack.md"
+      - "docs/changelog/CHANGELOG.md"
+      - "docs/architecture/adr/2026-11-11-2-record-a-tree-digest-for-every-pack.md"
+      - "docs/architecture/adr/index.md"
+      - "packs/README.md"
+      - ".kittify/charter/interview/answers.yaml"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+    requirement_refs: [FR-008, FR-011, FR-013, FR-014, C-004, C-006, SC-003]
+    plan_concern_refs: [IC-05]
+    subtasks: [T017, T018, T019, T020, T021, T022]
+    prompt_file: "tasks/WP05-docs-and-changelog.md"
+    agent_profile: scribe-sally
+    role: documentarian
+    agent: claude
+    model: sonnet
+
+  - id: WP06
+    title: "Release archives ship each pack's sidecar"
+    dependencies: [WP02]
+    owned_files:
+      - "scripts/release/release_assets.py"
+      - "tests/release/test_release_assets.py"
+      - ".github/workflows/release.yml"
+    requirement_refs: [FR-012, SC-006, C-001, C-002]
+    plan_concern_refs: [IC-06]
+    subtasks: [T023, T024, T025, T026]
+    prompt_file: "tasks/WP06-release-ships-sidecars.md"
+    agent_profile: python-pedro
+    role: implementer
+    agent: claude
+    model: sonnet
