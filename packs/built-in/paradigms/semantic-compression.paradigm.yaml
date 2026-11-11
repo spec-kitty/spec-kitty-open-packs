@@ -10,3 +10,14 @@ summary: >
   The goal is not prettier code or architectural purity. The goal is a smaller
   implementation that still produces the same externally observable behavior,
   with evidence strong enough for the risk of the reduction.
+principles:
+  - name: Behaviour is the fixed point
+    description: Observable behaviour defines what must survive; everything else is open to change.
+  - name: Less accidental complexity
+    description: The aim is a smaller implementation, not a prettier or purer one.
+  - name: One concept, one place
+    description: Each idea is expressed once, so a change to it happens once.
+  - name: Equivalence needs evidence
+    description: A reduction is accepted on proof of unchanged behaviour, with the proof scaled to the risk.
+  - name: Map before you cut
+    description: Duplicated and dead expressions are found by mapping behaviour first, not by how the code looks.

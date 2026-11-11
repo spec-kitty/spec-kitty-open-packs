@@ -19,3 +19,16 @@ summary: >
   a legend, labelled elements with descriptions, and labelled unidirectional
   relationships. The guiding heuristic: produce only the levels that add
   value and keep each diagram reviewable in under five minutes.
+principles:
+  - name: Zoom, don't sprawl
+    description: Detail is revealed level by level, so a reader sees only as much as the question needs.
+  - name: Know your audience
+    description: Each diagram is aimed at a specific reader and answers the one question that reader has.
+  - name: Abstractions before notation
+    description: Consistent element types and levels matter more than the drawing tool or the notation chosen.
+  - name: Self-explanatory diagrams
+    description: A diagram carries its own title, legend and labelled elements and relationships, so it can be read without its author.
+  - name: Draw only what earns its place
+    description: Another level or diagram type is added only when it helps someone, and is dropped when it does not.
+  - name: Cheap to keep current
+    description: Detail that drifts quickly is generated or left out, so the diagrams people see stay trustworthy.

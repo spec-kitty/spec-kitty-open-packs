@@ -8,3 +8,14 @@ summary: >
   modes, configuration, and performance expectations. Deep modules improve
   locality because changes, bugs, and knowledge concentrate behind the interface
   instead of spreading across callers and tests.
+principles:
+  - name: Small interface, large capability
+    description: A module earns its keep by hiding much more than it exposes.
+  - name: The interface is everything a caller must know
+    description: Types, invariants, ordering, errors and performance expectations all count toward the cost of using a module.
+  - name: Hide what is likely to change
+    description: Design decisions kept behind the interface can change without touching callers.
+  - name: Pull complexity downward
+    description: The module absorbs difficulty so that its many callers do not each have to.
+  - name: Keep change local
+    description: Bugs, knowledge and edits concentrate in one place instead of spreading across callers and tests.

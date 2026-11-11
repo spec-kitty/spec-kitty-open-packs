@@ -11,3 +11,16 @@ summary: >
   the model boundary. DDD treats the domain model as the primary artifact —
   code is a direct expression of that model, not a translation layer above a
   database schema or UI framework.
+principles:
+  - name: The model is the product
+    description: The domain model is the main artifact, and the code is a direct expression of it.
+  - name: Experts and developers share one language
+    description: A language used in conversation, model and code alike removes translation errors between them.
+  - name: Meaning has boundaries
+    description: A term means one thing inside a bounded context, and the relationships between contexts are made explicit.
+  - name: Invest where the domain is distinctive
+    description: The deepest modelling effort goes to the parts that set the business apart; supporting parts get less.
+  - name: Protect invariants at the boundary
+    description: Rules that must always hold are enforced in one place around the data they govern.
+  - name: Models are learned and refined
+    description: Understanding deepens over time, and the model is reshaped as it does.

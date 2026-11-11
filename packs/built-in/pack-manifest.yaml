@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: b06fd8845ca47ce4d6619b5645bdfb76bfacb2f61380ede1e3518325e6b4cb11
+manifest_hash: 42ee074ec3012baf68ec0d61b5f8e15fe01932c13cd27a9ae4418f414c456569
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -288,39 +288,39 @@ constituents:
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
-  content_hash: 4c360b53091ef73c09725cb9f97eb5f1269e5bb12a9d16b182fe48808aaf8f2a
+  content_hash: b7d9357e30253b4bf9219cdf27757d66b548e11e43e82879418e0cb9014792da
 - kind: paradigm
   id: behaviour-driven-development
   path: paradigms/behaviour-driven-development.paradigm.yaml
-  content_hash: 5c20f5a8ef10183970ad7fbf0a0150a9038b67ee01380fdc8fdcdf666e7a3160
+  content_hash: b9d52412699214d38541095abbafe0e63bb6d2f4193bb92f72ddfaec3ca41b61
 - kind: paradigm
   id: brownfield-onboarding
   path: paradigms/brownfield-onboarding.paradigm.yaml
-  content_hash: 419e2e76406cdeb0ba1477f15290a7baee4f5910ea1e4fe03a3dc83a0503fe5d
+  content_hash: 9a1ced38606bf13078e7466f3fc2e640126016d87c4ad7ccd8c9715a1d258d03
 - kind: paradigm
   id: c4-incremental-detail-modeling
   path: paradigms/c4-incremental-detail-modeling.paradigm.yaml
-  content_hash: 5a2ee9f8432da4bf6bb70e1204e7635c04708a33768b3c0e4669235622126604
+  content_hash: d230849a6a6d3faf19a76584f923c181ca30c8ff8cb92dc7b54c4eee31ed9510
 - kind: paradigm
   id: deep-module-design
   path: paradigms/deep-module-design.paradigm.yaml
-  content_hash: 54ba7a715d05fe9d70ab5e3c18e9fa34fd8d2853c89ba0fe1146937f3cd74aac
+  content_hash: e0808260c30cabc0455de7f93c2c95ae5c8b2d9149de42fae89560b28b239e02
 - kind: paradigm
   id: domain-driven-design
   path: paradigms/domain-driven-design.paradigm.yaml
-  content_hash: f320c56293d12bd976a80b0599f1b086223970e0a3555f086888f12dc2ddba7c
+  content_hash: e5f8206c57fd952acb51488b8bc7b3e040d6c85adc3dc39db3c3e3df6ff5f31b
 - kind: paradigm
   id: semantic-compression
   path: paradigms/semantic-compression.paradigm.yaml
-  content_hash: d12b4d3661660ca515f0f58e6f155d7b5cdfde4f273f8f478945e3a1bf1b06fd
+  content_hash: f241812545b203f6bc059ff4e94497ecb502ba63bc75b73181ba678e79f042ec
 - kind: paradigm
   id: specification-by-example
   path: paradigms/specification-by-example.paradigm.yaml
-  content_hash: 764dcd67104ab7bcc203c03c32416d42ea53d7064c8ac79d3b63d3043f0c678c
+  content_hash: 4b76880370567f821d89bdb795bc6d81b9b407311a29fd388b75807be306d5f3
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
-  content_hash: f452ed5e90748df9dea017dda4b86cd4792e3d9f78f8cde9252a4d55ba26fb42
+  content_hash: 3cff795247e472a90b99caac68b88e96b167919a0bd26f5bbfc534ecec1d5197
 - kind: procedure
   id: action-item-attribution-gate
   path: procedures/action-item-attribution-gate.procedure.yaml
