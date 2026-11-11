@@ -1,0 +1,469 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: randy-reducer
+  kind: agent_profiles
+  title: Randy Reducer
+  body_path: agent_profiles/randy-reducer.agent.yaml
+- id: big-bang-rewrite
+  kind: anti_patterns
+  title: Big-Bang Rewrite
+- id: feature-envy
+  kind: anti_patterns
+  title: Feature Envy
+- id: global-data
+  kind: anti_patterns
+  title: Global Data
+- id: implicit-concept
+  kind: anti_patterns
+  title: Implicit Concept
+- id: misplaced-field
+  kind: anti_patterns
+  title: Misplaced Field
+- id: repeated-switches-on-state
+  kind: anti_patterns
+  title: Repeated Switches on State
+- id: unencapsulated-record
+  kind: anti_patterns
+  title: Unencapsulated Record
+- id: semantic-compression
+  kind: paradigms
+  title: Semantic Compression
+  body_path: paradigms/semantic-compression.paradigm.yaml
+- id: refactoring
+  kind: procedures
+  title: Refactoring
+  body_path: procedures/refactoring.procedure.yaml
+- id: chain-of-responsibility-rule-pipeline
+  kind: tactics
+  title: Chain of Responsibility — Rule-Based Pipeline
+  body_path: tactics/code-patterns/chain-of-responsibility-rule-pipeline.tactic.yaml
+- id: refactoring-change-function-declaration
+  kind: tactics
+  title: 'Refactoring: Change Function Declaration'
+  body_path: tactics/refactoring/refactoring-change-function-declaration.tactic.yaml
+- id: refactoring-combine-functions-into-transform
+  kind: tactics
+  title: 'Refactoring: Combine Functions into Transform'
+  body_path: tactics/refactoring/refactoring-combine-functions-into-transform.tactic.yaml
+- id: refactoring-conditional-to-strategy
+  kind: tactics
+  title: Refactoring Conditional to Strategy
+  body_path: tactics/refactoring/refactoring-conditional-to-strategy.tactic.yaml
+- id: refactoring-consolidate-conditional-expression
+  kind: tactics
+  title: 'Refactoring: Consolidate Conditional Expression'
+  body_path: tactics/refactoring/refactoring-consolidate-conditional-expression.tactic.yaml
+- id: refactoring-encapsulate-record
+  kind: tactics
+  title: 'Refactoring: Encapsulate Record'
+  body_path: tactics/refactoring/refactoring-encapsulate-record.tactic.yaml
+- id: refactoring-encapsulate-variable
+  kind: tactics
+  title: 'Refactoring: Encapsulate Variable'
+  body_path: tactics/refactoring/refactoring-encapsulate-variable.tactic.yaml
+- id: refactoring-extract-class-by-responsibility-split
+  kind: tactics
+  title: Refactoring Extract Class by Responsibility Split
+  body_path: tactics/refactoring/refactoring-extract-class-by-responsibility-split.tactic.yaml
+- id: refactoring-extract-first-order-concept
+  kind: tactics
+  title: Refactoring Extract First-Order Concept
+  body_path: tactics/refactoring/refactoring-extract-first-order-concept.tactic.yaml
+- id: refactoring-guard-clauses-before-polymorphism
+  kind: tactics
+  title: Refactoring Guard Clauses Before Polymorphism
+  body_path: tactics/refactoring/refactoring-guard-clauses-before-polymorphism.tactic.yaml
+- id: refactoring-inline-temp
+  kind: tactics
+  title: Refactoring Inline Temp
+  body_path: tactics/refactoring/refactoring-inline-temp.tactic.yaml
+- id: refactoring-introduce-null-object
+  kind: tactics
+  title: Refactoring Introduce Null Object
+  body_path: tactics/refactoring/refactoring-introduce-null-object.tactic.yaml
+- id: refactoring-move-field
+  kind: tactics
+  title: Refactoring Move Field
+  body_path: tactics/refactoring/refactoring-move-field.tactic.yaml
+- id: refactoring-move-method
+  kind: tactics
+  title: Refactoring Move Method
+  body_path: tactics/refactoring/refactoring-move-method.tactic.yaml
+- id: refactoring-replace-magic-number-with-symbolic-constant
+  kind: tactics
+  title: Refactoring Replace Magic Number With Symbolic Constant
+  body_path: tactics/refactoring/refactoring-replace-magic-number-with-symbolic-constant.tactic.yaml
+- id: refactoring-replace-temp-with-query
+  kind: tactics
+  title: Refactoring Replace Temp With Query
+  body_path: tactics/refactoring/refactoring-replace-temp-with-query.tactic.yaml
+- id: refactoring-retry-pattern
+  kind: tactics
+  title: Refactoring Retry Pattern
+  body_path: tactics/refactoring/refactoring-retry-pattern.tactic.yaml
+- id: refactoring-state-pattern-for-behavior
+  kind: tactics
+  title: 'Refactoring: State Pattern for Behavior'
+  body_path: tactics/refactoring/refactoring-state-pattern-for-behavior.tactic.yaml
+- id: refactoring-strangler-fig
+  kind: tactics
+  title: Refactoring Strangler Fig
+  body_path: tactics/refactoring/refactoring-strangler-fig.tactic.yaml
+- id: semantic-compression-abstraction-extraction
+  kind: tactics
+  title: Semantic Compression Abstraction Extraction
+  body_path: tactics/semantic-compression/semantic-compression-abstraction-extraction.tactic.yaml
+- id: semantic-compression-behavioral-boundary-mapping
+  kind: tactics
+  title: Semantic Compression Behavioral Boundary Mapping
+  body_path: tactics/semantic-compression/semantic-compression-behavioral-boundary-mapping.tactic.yaml
+- id: semantic-compression-dead-weight-elimination
+  kind: tactics
+  title: Semantic Compression Dead Weight Elimination
+  body_path: tactics/semantic-compression/semantic-compression-dead-weight-elimination.tactic.yaml
+- id: semantic-compression-equivalence-verification
+  kind: tactics
+  title: Semantic Compression Equivalence Verification
+  body_path: tactics/semantic-compression/semantic-compression-equivalence-verification.tactic.yaml
+- id: semantic-compression-redundancy-discovery
+  kind: tactics
+  title: Semantic Compression Redundancy Discovery
+  body_path: tactics/semantic-compression/semantic-compression-redundancy-discovery.tactic.yaml
+- id: semantic-compression-semantic-consolidation
+  kind: tactics
+  title: Semantic Compression Semantic Consolidation
+  body_path: tactics/semantic-compression/semantic-compression-semantic-consolidation.tactic.yaml
+edges:
+- source: foundation::action:software-dev/implement
+  target: procedure:refactoring
+  relation: scope
+- source: foundation::action:software-dev/review
+  target: procedure:refactoring
+  relation: scope
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  when: when assessing whether tests meet the quality gate they must pass
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
+    in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  when: when writing or reviewing the tests that accompany an implementation
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
+    channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DIRECTIVE_041
+  relation: requires
+  when: when keeping the tests they write a clear scaffold rather than friction
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:randy-reducer
+  target: foundation::directive:DISCIPLINED_REFACTORING
+  relation: suggests
+  when: when tidying code, encountering long classes/methods, or discovering convoluted logic
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
+    under today''s traversal, authored per the #3063 family-B operator attestation.'
+- source: agent_profile:randy-reducer
+  target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a change actually constrain its behaviour
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:randy-reducer
+  target: tactic:semantic-compression-abstraction-extraction
+  relation: requires
+  reason: Replace repeated concept implementations with one named abstraction
+- source: agent_profile:randy-reducer
+  target: tactic:semantic-compression-behavioral-boundary-mapping
+  relation: requires
+  reason: Establish the behavioral envelope before deleting or extracting code
+- source: agent_profile:randy-reducer
+  target: tactic:semantic-compression-dead-weight-elimination
+  relation: requires
+  reason: Remove code that has no protected observable effect
+- source: agent_profile:randy-reducer
+  target: tactic:semantic-compression-equivalence-verification
+  relation: requires
+  reason: Prove the smaller implementation still preserves the behavioral envelope
+- source: agent_profile:randy-reducer
+  target: tactic:semantic-compression-redundancy-discovery
+  relation: requires
+  reason: Find behavioral duplication across exact, parameterized, structural, and semantic levels
+- source: agent_profile:randy-reducer
+  target: tactic:semantic-compression-semantic-consolidation
+  relation: requires
+  reason: Collapse split business-rule paths into one canonical owner
+- source: agent_profile:randy-reducer
+  target: foundation::tactic:test-scaffolding-as-design-smell
+  relation: requires
+  reason: Heavy test setup signals duplicated, IO-coupled code paths and a missing seam — extract one pure boundary and collapse
+    the variants.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-encapsulate-record
+  relation: suggests
+  when: a raw data record (a dict, plain object, or mutably-used named tuple) is accessed by field name from many call sites,
+    and that direct access blocks adding validation, renaming fields, or changing the internal representation
+  reason: Disciplined refactoring suggests Encapsulate Record when the smell is an unencapsulated data record; the `when`
+    is the tactic's own stated applicability. Composition-only under today's traversal.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-encapsulate-variable
+  relation: suggests
+  when: a widely-accessed module-level or global variable (or public class attribute) is read and written from many locations
+    and needs a single chokepoint for monitoring, validation, or a later change of type
+  reason: Disciplined refactoring suggests Encapsulate Variable when the smell is a globally-accessed variable with no chokepoint;
+    the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-extract-first-order-concept
+  relation: suggests
+  when: an important concept is implicit, duplicated, or scattered across the code with no explicit name or single home
+  reason: Disciplined refactoring suggests Extract First-Order Concept when the smell is a hidden/duplicated concept that
+    should be named; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-move-field
+  relation: suggests
+  when: a field is read and modified more by another class than the one that declares it, so data ownership has drifted
+  reason: Disciplined refactoring suggests Move Field when the smell is a field living on the wrong owner; the `when` is the
+    tactic's own stated applicability. Composition-only under today's traversal.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-move-method
+  relation: suggests
+  when: a method uses more of another class's data and behaviour than its own host's (feature envy)
+  reason: Disciplined refactoring suggests Move Method when the smell is feature envy; the `when` is the tactic's own stated
+    applicability (its first step confirms feature envy and target ownership). Composition-only under today's traversal.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-state-pattern-for-behavior
+  relation: suggests
+  when: a class's methods are full of conditionals branching on the same internal state variable (enum, status flag, boolean),
+    and behaviour is driven by lifecycle state transitions
+  reason: Disciplined refactoring suggests State Pattern for Behavior when the smell is sprawling conditionals switching on
+    an object's lifecycle state; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+- source: foundation::directive:DISCIPLINED_REFACTORING
+  target: tactic:refactoring-strangler-fig
+  relation: suggests
+  when: a legacy component or code path must be replaced incrementally — running the new implementation alongside the old
+    and rerouting callers one at a time — because a single-step cutover is too risky
+  reason: Disciplined refactoring suggests Strangler Fig when the smell is a legacy path that cannot be replaced in one safe
+    step; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+- source: paradigm:semantic-compression
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: paradigm:semantic-compression
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: paradigm:semantic-compression
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+- source: paradigm:semantic-compression
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+- source: procedure:refactoring
+  target: foundation::directive:DISCIPLINED_REFACTORING
+  relation: suggests
+- source: procedure:refactoring
+  target: foundation::tactic:change-apply-smallest-viable-diff
+  relation: requires
+- source: procedure:refactoring
+  target: tactic:refactoring-change-function-declaration
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-combine-functions-into-transform
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-consolidate-conditional-expression
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-extract-class-by-responsibility-split
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-inline-temp
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-introduce-null-object
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-replace-magic-number-with-symbolic-constant
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-replace-temp-with-query
+  relation: suggests
+- source: procedure:refactoring
+  target: tactic:refactoring-retry-pattern
+  relation: suggests
+- source: tactic:chain-of-responsibility-rule-pipeline
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+  when: Characterization tests of the monolith come first; rules are extracted with the tests already green
+- source: tactic:chain-of-responsibility-rule-pipeline
+  target: foundation::tactic:function-over-form-testing
+  relation: suggests
+  when: Each rule is tested as a value transformer (input → expected output); the composition is tested end-to-end on realistic
+    fixtures
+- source: tactic:chain-of-responsibility-rule-pipeline
+  target: tactic:refactoring-extract-first-order-concept
+  relation: suggests
+  when: Each rule is a first-order concept extracted from a monolithic function; name it explicitly and give it a single responsibility
+- source: tactic:chain-of-responsibility-rule-pipeline
+  target: tactic:refactoring-guard-clauses-before-polymorphism
+  relation: suggests
+  when: Use guard clauses to flatten the source function before extracting per-rule helpers; the flattened form makes rule
+    boundaries visible
+- source: foundation::tactic:deepening-opportunity-assessment
+  target: procedure:refactoring
+  relation: suggests
+  when: Use when the selected deepening is an internal behavior-preserving restructuring.
+- source: foundation::tactic:focused-function-complexity-check
+  target: tactic:refactoring-guard-clauses-before-polymorphism
+  relation: suggests
+  when: Use when nested conditionals can be flattened without inventing a strategy hierarchy.
+- source: tactic:refactoring-encapsulate-record
+  target: anti_pattern:unencapsulated-record
+  relation: rejects
+  reason: 'Encapsulate Record rejects the Unencapsulated Record smell: a raw data record accessed by field name from many
+    call sites, where the direct access blocks adding validation, renaming fields, or changing the internal representation
+    (the tactic''s own attested `when`).'
+- source: tactic:refactoring-encapsulate-record
+  target: tactic:refactoring-encapsulate-variable
+  relation: suggests
+  when: The record is accessed via a module-level variable — encapsulate the variable first, then the record.
+- source: tactic:refactoring-encapsulate-variable
+  target: anti_pattern:global-data
+  relation: rejects
+  reason: 'Encapsulate Variable rejects the Global Data smell: a widely-accessed module-level or global variable read and
+    written from many locations with no single chokepoint for monitoring, validation, or a later change of type (the tactic''s
+    own attested `when`).'
+- source: tactic:refactoring-extract-first-order-concept
+  target: anti_pattern:implicit-concept
+  relation: rejects
+  reason: 'Extract First-Order Concept rejects the Implicit Concept smell: an important concept left implicit, duplicated,
+    or scattered across the code with no explicit name or single home (the tactic''s own attested `when`).'
+- source: tactic:refactoring-extract-first-order-concept
+  target: tactic:refactoring-strangler-fig
+  relation: suggests
+  when: Use when the extraction cannot be completed safely in a single change and needs coexistence before cutover.
+- source: tactic:refactoring-guard-clauses-before-polymorphism
+  target: tactic:refactoring-conditional-to-strategy
+  relation: suggests
+  when: Follow when the flattened variation points represent stable algorithm variants.
+- source: tactic:refactoring-move-field
+  target: anti_pattern:misplaced-field
+  relation: rejects
+  reason: 'Move Field rejects the Misplaced Field smell: a field read and modified more by another class than the one that
+    declares it, so data ownership has drifted to the wrong owner (the tactic''s own attested `when`).'
+- source: tactic:refactoring-move-field
+  target: tactic:refactoring-move-method
+  relation: suggests
+  when: Use alongside this tactic when behavior and data ownership have drifted together.
+- source: tactic:refactoring-move-method
+  target: anti_pattern:feature-envy
+  relation: rejects
+  reason: 'Move Method rejects the Feature Envy smell: a method that uses more of another class''s data and behaviour than
+    its own host''s (the tactic''s own attested `when`).'
+- source: tactic:refactoring-move-method
+  target: tactic:refactoring-extract-first-order-concept
+  relation: suggests
+  when: Use when the method really points to a missing concept rather than a better existing host.
+- source: tactic:refactoring-move-method
+  target: tactic:refactoring-strangler-fig
+  relation: suggests
+  when: Use when the move must be staged behind coexistence and gradual caller rerouting.
+- source: tactic:refactoring-state-pattern-for-behavior
+  target: anti_pattern:repeated-switches-on-state
+  relation: rejects
+  reason: 'State Pattern for Behavior rejects the Repeated Switches on State smell: a class whose methods are full of conditionals
+    branching on the same internal state variable, with behaviour driven by lifecycle state transitions (the tactic''s own
+    attested `when`).'
+- source: tactic:refactoring-state-pattern-for-behavior
+  target: tactic:refactoring-conditional-to-strategy
+  relation: suggests
+  when: Choosing between State and Strategy — State is for lifecycle-driven transitions, Strategy for interchangeable algorithms.
+- source: tactic:refactoring-strangler-fig
+  target: anti_pattern:big-bang-rewrite
+  relation: rejects
+  reason: 'Strangler Fig rejects the Big-Bang Rewrite anti-pattern: replacing a legacy component or code path in a single-step
+    cutover when it is too risky, instead of running the new implementation alongside the old and rerouting callers one at
+    a time (the tactic''s own attested `when`).'
+- source: tactic:semantic-compression-abstraction-extraction
+  target: foundation::directive:DIRECTIVE_001
+  relation: suggests
+  when: The abstraction changes component boundaries
+- source: tactic:semantic-compression-abstraction-extraction
+  target: paradigm:semantic-compression
+  relation: suggests
+  when: Use when duplication can be reduced by one named owner per concept
+- source: tactic:semantic-compression-abstraction-extraction
+  target: tactic:refactoring-extract-first-order-concept
+  relation: suggests
+  when: The duplicated behavior reveals a missing domain or implementation concept
+- source: tactic:semantic-compression-behavioral-boundary-mapping
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+  when: The behavioral envelope must be enforced by automated checks
+- source: tactic:semantic-compression-behavioral-boundary-mapping
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+  when: Boundary evidence is weak or missing
+- source: tactic:semantic-compression-behavioral-boundary-mapping
+  target: paradigm:semantic-compression
+  relation: suggests
+  when: Use as the first compression step before any behavior-preserving reduction
+- source: tactic:semantic-compression-dead-weight-elimination
+  target: foundation::directive:DIRECTIVE_024
+  relation: suggests
+  when: Removal must stay tied to proven dead weight
+- source: tactic:semantic-compression-dead-weight-elimination
+  target: paradigm:semantic-compression
+  relation: suggests
+  when: Use when code can be deleted without changing protected behavior
+- source: tactic:semantic-compression-dead-weight-elimination
+  target: foundation::tactic:quality-gate-verification
+  relation: suggests
+  when: The deletion changes executable or public behavior surfaces
+- source: tactic:semantic-compression-equivalence-verification
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+  when: Every compression change needs relevant automated verification
+- source: tactic:semantic-compression-equivalence-verification
+  target: foundation::directive:DIRECTIVE_036
+  relation: suggests
+  when: Equivalence must be proven at external boundaries
+- source: tactic:semantic-compression-equivalence-verification
+  target: paradigm:semantic-compression
+  relation: suggests
+  when: Use as the final compression gate before handoff
+- source: tactic:semantic-compression-redundancy-discovery
+  target: foundation::directive:DIRECTIVE_024
+  relation: suggests
+  when: Duplication removal should stay scoped to the mapped behavior
+- source: tactic:semantic-compression-redundancy-discovery
+  target: paradigm:semantic-compression
+  relation: suggests
+  when: Use after boundary mapping to locate removable behavioral redundancy
+- source: tactic:semantic-compression-redundancy-discovery
+  target: tactic:semantic-compression-behavioral-boundary-mapping
+  relation: suggests
+  when: Use first when the protected behavior is unclear
+- source: tactic:semantic-compression-semantic-consolidation
+  target: foundation::directive:DIRECTIVE_032
+  relation: suggests
+  when: Competing paths use different names for the same concept
+- source: tactic:semantic-compression-semantic-consolidation
+  target: paradigm:semantic-compression
+  relation: suggests
+  when: Use when multiple active paths express one protected behavior
+- source: tactic:semantic-compression-semantic-consolidation
+  target: foundation::tactic:split-brain-authority-detection
+  relation: suggests
+  when: Multiple writers or authorities disagree about the same state or rule

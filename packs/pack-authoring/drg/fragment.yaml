@@ -1,0 +1,95 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: doctrine-daphne
+  kind: agent_profiles
+  title: Doctrine Daphne
+  body_path: agent_profiles/doctrine-daphne.agent.yaml
+- id: migrate-project-guidance-to-spec-kitty-charter
+  kind: procedures
+  title: Migrate Project Guidance to Spec Kitty Charter
+  body_path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
+- id: onboard-external-agent-to-pack
+  kind: procedures
+  title: Onboard an External Agent into the Pack
+  body_path: procedures/onboard-external-agent-to-pack.procedure.yaml
+- id: deployable-skill-authoring
+  kind: styleguides
+  title: Deployable Skill Authoring Styleguide
+  body_path: styleguides/deployable-skill-authoring.styleguide.yaml
+- id: decomposition-table-template
+  kind: templates
+  title: decomposition-table-template
+- id: onboarded-artifact-set-template
+  kind: templates
+  title: onboarded-artifact-set-template
+- id: source-agent-dossier-template
+  kind: templates
+  title: source-agent-dossier-template
+edges:
+- source: agent_profile:doctrine-daphne
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:doctrine-daphne
+  target: foundation::directive:DIRECTIVE_018
+  relation: requires
+- source: agent_profile:doctrine-daphne
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: agent_profile:doctrine-daphne
+  target: foundation::directive:DIRECTIVE_043
+  relation: requires
+- source: agent_profile:doctrine-daphne
+  target: foundation::directive:DIRECTIVE_044
+  relation: requires
+- source: agent_profile:doctrine-daphne
+  target: procedure:onboard-external-agent-to-pack
+  relation: requires
+- source: procedure:migrate-project-guidance-to-spec-kitty-charter
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: procedure:migrate-project-guidance-to-spec-kitty-charter
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: procedure:migrate-project-guidance-to-spec-kitty-charter
+  target: foundation::directive:DIRECTIVE_018
+  relation: requires
+- source: procedure:migrate-project-guidance-to-spec-kitty-charter
+  target: writing::procedure:glossary-maintenance-workflow
+  relation: requires
+  reason: The vocabulary-capture step is an instance of the glossary maintenance workflow applied at migration time, so the
+    source's terms are triaged into the glossary before artifacts that depend on them are drafted.
+- source: procedure:onboard-external-agent-to-pack
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+  reason: Every classification, overlap-versus-augment call, and the profile-or-no-profile decision must be recorded with
+    rationale.
+- source: procedure:onboard-external-agent-to-pack
+  target: foundation::directive:DIRECTIVE_018
+  relation: requires
+  reason: Onboarded artifacts change charter offering layers and must be versioned with documented change rationale.
+- source: procedure:onboard-external-agent-to-pack
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+  reason: Confirm shared understanding of artifact-kind terminology with the owner before decomposing.
+- source: procedure:onboard-external-agent-to-pack
+  target: styleguide:deployable-skill-authoring
+  relation: suggests
+  when: when the external agent's governed pack form is a deployable skill
+  reason: The procedure gathers the source agent's defining instructions and authors governed pack artifacts; this styleguide
+    supplies the skill-specific routing, progressive-disclosure, deterministic-operation, source-authority and host-portability
+    quality bar.
+- source: procedure:onboard-external-agent-to-pack
+  target: template:decomposition-table-template
+  relation: suggests
+  reason: Provides the repeatable classification and overlap-audit table used before YAML authoring.
+- source: procedure:onboard-external-agent-to-pack
+  target: template:onboarded-artifact-set-template
+  relation: suggests
+  reason: Provides the final handoff record for created artifacts, DRG changes, and validation evidence.
+- source: procedure:onboard-external-agent-to-pack
+  target: template:source-agent-dossier-template
+  relation: suggests
+  reason: Provides the evidence record required before decomposing the external agent.

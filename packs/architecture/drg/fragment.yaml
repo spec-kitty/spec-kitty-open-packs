@@ -1,0 +1,697 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: architect-alphonso
+  kind: agent_profiles
+  title: Architect Alphonso
+  body_path: agent_profiles/architect-alphonso.agent.yaml
+- id: paula-patterns
+  kind: agent_profiles
+  title: Paula Patterns
+  body_path: agent_profiles/paula-patterns.agent.yaml
+- id: anemic-domain-model
+  kind: anti_patterns
+  title: Anemic Domain Model
+- id: big-ball-of-mud
+  kind: anti_patterns
+  title: Big Ball of Mud
+- id: big-upfront-design
+  kind: anti_patterns
+  title: Big Upfront Design
+- id: code-is-the-documentation
+  kind: anti_patterns
+  title: Code Is the Documentation
+- id: database-driven-design
+  kind: anti_patterns
+  title: Database-Driven Design
+- id: single-diagram-architecture
+  kind: anti_patterns
+  title: Single-Diagram Architecture
+- id: USE_C4_MODEL_TECHNIQUES
+  kind: directives
+  title: Use C4 Model Techniques
+  body_path: directives/use-c4-model-techniques.directive.yaml
+- id: c4-incremental-detail-modeling
+  kind: paradigms
+  title: C4 Incremental Detail Modeling
+  body_path: paradigms/c4-incremental-detail-modeling.paradigm.yaml
+- id: deep-module-design
+  kind: paradigms
+  title: Deep Module Design
+  body_path: paradigms/deep-module-design.paradigm.yaml
+- id: domain-driven-design
+  kind: paradigms
+  title: Domain-Driven Design
+  body_path: paradigms/domain-driven-design.paradigm.yaml
+- id: c4-diagram-authoring
+  kind: procedures
+  title: C4 Diagram Authoring
+  body_path: procedures/c4-diagram-authoring.procedure.yaml
+- id: drill-down-documentation
+  kind: procedures
+  title: Drill-Down Documentation
+  body_path: procedures/drill-down-documentation.procedure.yaml
+- id: event-storming-discovery
+  kind: procedures
+  title: Event Storming Discovery
+  body_path: procedures/event-storming-discovery.procedure.yaml
+- id: aggregate-design-rules
+  kind: styleguides
+  title: Aggregate Design Rules
+  body_path: styleguides/aggregate-design-rules.styleguide.yaml
+- id: aggregate-boundary-design
+  kind: tactics
+  title: Aggregate Boundary Design
+  body_path: tactics/architecture/aggregate-boundary-design.tactic.yaml
+- id: ammerse-impact-analysis
+  kind: tactics
+  title: AMMERSE Impact Analysis
+  body_path: tactics/analysis/ammerse-impact-analysis.tactic.yaml
+- id: anti-corruption-layer
+  kind: tactics
+  title: Anti-Corruption Layer
+  body_path: tactics/architecture/anti-corruption-layer.tactic.yaml
+- id: architecture-diagram-review-checklist
+  kind: tactics
+  title: Architecture Diagram Review Checklist
+  body_path: tactics/architecture/architecture-diagram-review-checklist.tactic.yaml
+- id: bounded-context-canvas-fill
+  kind: tactics
+  title: Bounded Context Canvas Fill
+  body_path: tactics/analysis/bounded-context-canvas-fill.tactic.yaml
+- id: c4-zoom-in-architecture-documentation
+  kind: tactics
+  title: C4 Zoom-In Architecture Documentation
+  body_path: tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml
+- id: connascence-analysis
+  kind: tactics
+  title: Connascence Analysis
+  body_path: tactics/analysis/connascence-analysis.tactic.yaml
+- id: context-mapping-classification
+  kind: tactics
+  title: Context Mapping Classification
+  body_path: tactics/analysis/context-mapping-classification.tactic.yaml
+- id: development-bdd
+  kind: tactics
+  title: BDD as Behavioral Contract Design
+  body_path: tactics/architecture/development-bdd.tactic.yaml
+- id: domain-event-capture
+  kind: tactics
+  title: Domain Event Capture
+  body_path: tactics/architecture/domain-event-capture.tactic.yaml
+- id: entity-value-object-classification
+  kind: tactics
+  title: Entity vs Value Object Classification
+  body_path: tactics/analysis/entity-value-object-classification.tactic.yaml
+- id: paula-patterns-architecture-scout-review
+  kind: tactics
+  title: Paula Patterns Architecture Scout Review
+  body_path: tactics/architecture/paula-patterns-architecture-scout-review.tactic.yaml
+- id: reference-architectural-patterns
+  kind: tactics
+  title: Reference Architectural Patterns Selection
+  body_path: tactics/architecture/reference-architectural-patterns.tactic.yaml
+- id: strategic-domain-classification
+  kind: tactics
+  title: Strategic Domain Classification
+  body_path: tactics/analysis/strategic-domain-classification.tactic.yaml
+- id: ammerse-analysis-template
+  kind: templates
+  title: ammerse-analysis-template
+- id: bounded-context-canvas-template
+  kind: templates
+  title: bounded-context-canvas-template
+- id: c4-component-mermaid-template
+  kind: templates
+  title: c4-component-mermaid-template
+- id: c4-container-mermaid-template
+  kind: templates
+  title: c4-container-mermaid-template
+- id: c4-context-mermaid-template
+  kind: templates
+  title: c4-context-mermaid-template
+- id: glossary-template
+  kind: templates
+  title: Glossary Template
+
+edges:
+- source: writing::action:documentation/design
+  target: template:c4-component-mermaid-template
+  relation: instantiates
+  reason: The documentation/design action instantiates the C4 Component mermaid template as one of its concrete architecture-diagram
+    outputs, completing the canonical Family-C topology (topology only; delivery rides the c4-zoom-in tactic's own references,
+    not this edge).
+- source: writing::action:documentation/design
+  target: template:c4-container-mermaid-template
+  relation: instantiates
+  reason: The documentation/design action instantiates the C4 Container mermaid template as one of its concrete architecture-diagram
+    outputs, completing the canonical Family-C topology (topology only; delivery rides the c4-zoom-in tactic's own references,
+    not this edge).
+- source: writing::action:documentation/design
+  target: template:c4-context-mermaid-template
+  relation: instantiates
+  reason: The documentation/design action instantiates the C4 System Context mermaid template as one of its concrete architecture-diagram
+    outputs, completing the canonical Family-C topology (topology only; delivery rides the c4-zoom-in tactic's own references,
+    not this edge).
+- source: foundation::action:software-dev/specify
+  target: paradigm:domain-driven-design
+  relation: scope
+  reason: The software-dev specify step aligns the mission design with architectural intent; Domain-Driven Design is the paradigm
+    that governs aligning that design with a deep model of the business domain (DDD's own summary). This scope edge is the
+    reaching entry point that makes the DDD paradigm action-reachable at the specify grain and delivers its strategic-design
+    family transitively (#3063 family-A). It is `scope` not `suggests` because a suggests edge sourced at an action node is
+    inert under resolve_context.
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_031
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_041
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_043
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_044
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: foundation::directive:DIRECTIVE_051
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: directive:USE_C4_MODEL_TECHNIQUES
+  relation: suggests
+  when: documenting or reviewing system architecture
+  reason: 'The architect profile should reach the C4 architecture-documentation hub when documenting or reviewing system architecture
+    (alphonso''s attested scope: system-design / architecture-review / component-design). Composition-only under today''s
+    traversal (the profile channel walks requires/specializes_from only), authored per the #3063 family-C operator attestation.'
+- source: agent_profile:architect-alphonso
+  target: paradigm:domain-driven-design
+  relation: suggests
+  when: designing or reviewing significant code changes
+  reason: 'When designing and reviewing significant code changes, the architect should reach Domain-Driven Design. Composition-only
+    under today''s traversal (the profile channel walks requires/specializes_from only), authored per the #3063 operator attestation.'
+- source: agent_profile:architect-alphonso
+  target: procedure:drill-down-documentation
+  relation: requires
+- source: agent_profile:architect-alphonso
+  target: procedure:event-storming-discovery
+  relation: suggests
+  when: discovering domain events, commands, aggregates, policies, read models, and bounded-context boundaries from real business
+    flows
+  reason: Event Storming is a DDD-cluster discovery procedure (family-A). The operator's earlier guard keeps it OUT of the
+    eager specify delivery (context-overload concern), so it is attached via the architect profile — INERT in the profile
+    channel (requires/specializes_from only) — rather than via paradigm:domain-driven-design, which is scope-resolved (family-A)
+    and would deliver it at specify. It can be switched to paradigm-delivered later if the operator wants it eager.
+- source: agent_profile:architect-alphonso
+  target: foundation::tactic:dependency-hygiene
+  relation: requires
+  reason: Dependency-tree decisions (registry restriction, transitive-CVE exclusion, JS/TS supply-chain posture) are first-class
+    architectural choices; review designs for a documented dependency-hygiene stance before treating a component boundary
+    as settled.
+- source: agent_profile:architect-alphonso
+  target: tactic:development-bdd
+  relation: requires
+  reason: Use BDD behavioral contract definition during architecture design to express observable system boundaries in stakeholder-readable
+    terms. Behavioral contracts precede implementation and shape system component boundaries.
+- source: agent_profile:architect-alphonso
+  target: foundation::tactic:supply-chain-install-safety
+  relation: requires
+  reason: Review a design's dependency-provenance stance against the checklist DIRECTIVE_051 names, per the javascript-supply-chain
+    toolguide for Node-ecosystem commands, and require an ADR when the design accepts elevated risk rather than a silently-skipped
+    default.
+- source: writing::agent_profile:diagram-daisy
+  target: directive:USE_C4_MODEL_TECHNIQUES
+  relation: requires
+- source: agent_profile:paula-patterns
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: agent_profile:paula-patterns
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:paula-patterns
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+- source: agent_profile:paula-patterns
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: agent_profile:paula-patterns
+  target: foundation::directive:DIRECTIVE_041
+  relation: requires
+- source: agent_profile:paula-patterns
+  target: paradigm:domain-driven-design
+  relation: suggests
+  when: investigating or inspecting code
+  reason: 'When investigating or inspecting code, the pattern scout should reach Domain-Driven Design. Composition-only under
+    today''s traversal, authored per the #3063 operator attestation.'
+- source: agent_profile:paula-patterns
+  target: tactic:anti-corruption-layer
+  relation: requires
+  reason: Use when external system details leak into domain or application decisions
+- source: agent_profile:paula-patterns
+  target: tactic:domain-event-capture
+  relation: requires
+  reason: Use when durable state transitions, replay, provenance, or event boundaries are missing
+- source: agent_profile:paula-patterns
+  target: tactic:paula-patterns-architecture-scout-review
+  relation: requires
+  reason: Canonical dispatch and synthesis procedure for the five architecture scouts and release-vs-long-term decision matrix
+- source: agent_profile:paula-patterns
+  target: foundation::tactic:review-intent-and-risk-first
+  relation: requires
+  reason: Evaluate whether the release fix closes the observed issue and what blast radius it carries before handoff
+- source: refactoring::agent_profile:randy-reducer
+  target: paradigm:domain-driven-design
+  relation: suggests
+  when: investigating or inspecting code
+  reason: 'When investigating or inspecting code, the reducer should reach Domain-Driven Design. Composition-only under today''s
+    traversal, authored per the #3063 operator attestation.'
+- source: foundation::directive:DIRECTIVE_001
+  target: tactic:paula-patterns-architecture-scout-review
+  relation: suggests
+  when: Paula Patterns is triggered by missing or violated architecture boundaries.
+- source: foundation::directive:DIRECTIVE_034
+  target: tactic:development-bdd
+  relation: suggests
+  when: designing observable behavioural contracts at a system's public interfaces before implementation, so stakeholders
+    can validate what the system must do
+  reason: 'Test-first development suggests BDD-as-behavioural-contract-design as the way to state required behaviour before
+    code; the `when` is the tactic''s own stated purpose. Delivered at implement/review (034 is scope-resolved) per the #3063
+    family-D ACCEPT-DELIVERY ruling.'
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: paradigm:c4-incremental-detail-modeling
+  relation: suggests
+  when: communicating a system's architecture to more than one audience at more than one level of detail, so it must be broken
+    into progressive zoom levels (System Context, Container, Component, Code) rather than a single all-in-one diagram
+  reason: The C4 hub suggests the C4 incremental-detail paradigm as its core mental model; the `when` is the paradigm's own
+    stated purpose (progressive zoom, right detail per audience). Composition-only under today's traversal.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: paradigm:domain-driven-design
+  relation: suggests
+  when: the architecture being documented is organised around a domain model, so its container/component boundaries should
+    reflect bounded contexts and the ubiquitous language
+  reason: 'The reinforcement (''supporting'') bridge the #3063 operator attested: the C4 architecture-documentation hub suggests
+    the Domain-Driven Design paradigm so architecture diagrams and domain boundaries reinforce each other. `suggests` is the
+    closest attested relation for a soft supporting/reinforces pointer (no new relation kind invented). INBOUND to the already-action-reachable
+    DDD paradigm (Family A), so it delivers nothing new and moves no pin — composition-only under today''s traversal. The
+    documentation-family leg of ''supporting the documentation and DDD paradigms'' is already covered by the member edge to
+    paradigm:c4-incremental-detail-modeling, which IS the documentation/architecture-modelling paradigm.'
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: procedure:c4-diagram-authoring
+  relation: requires
+  when: creating or revising an architecture diagram
+  reason: Zooms in from context only as far as needed, keeps one abstraction level per diagram, matches detail to the audience,
+    and keeps diagrams as code.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: procedure:drill-down-documentation
+  relation: suggests
+  when: capturing decisions, documentation, and architecture descriptions at a consistent abstraction level (organisational,
+    architecture, design, code) with upward and downward traceability, rather than mixing levels in one artifact
+  reason: The C4 hub suggests the drill-down documentation procedure as the abstraction-level discipline that keeps each artifact
+    at one C4 zoom level; the `when` is the procedure's own stated purpose/entry condition. Composition-only under today's
+    traversal.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: tactic:architecture-diagram-review-checklist
+  relation: suggests
+  when: an architecture diagram is about to be shared, committed, or included in documentation and must communicate to its
+    audience without a verbal walkthrough (title, legend, typed described elements, labelled unidirectional relationships)
+  reason: The C4 hub suggests the diagram review checklist as its quality gate; the `when` is the tactic's own stated purpose.
+    Composition-only under today's traversal.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: tactic:c4-zoom-in-architecture-documentation
+  relation: suggests
+  when: actually drawing the architecture diagrams — starting from the System Context and zooming in to Container and Component
+    levels only where additional detail adds value
+  reason: The C4 hub suggests the zoom-in documentation workflow as the concrete step-by-step technique; the `when` is the
+    tactic's own stated purpose. Composition-only under today's traversal.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: writing::tactic:code-documentation-analysis
+  relation: suggests
+  when: reverse-engineering or reviewing an existing system's architecture — extracting terminology from its code and documentation
+    to surface implicit context boundaries before they calcify into accidental coupling
+  reason: The C4 hub suggests code/documentation analysis as the technique for discovering an existing system's architecture
+    (implicit boundaries) prior to documenting it; the `when` is the tactic's own stated purpose (architectural review / boundary
+    discovery). Composition-only under today's traversal.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: writing::toolguide:mermaid-diagramming
+  relation: suggests
+  when: rendering the architecture diagrams as text-based, version-controlled diagram-as-code in Mermaid so they diff and
+    review beside the code
+  reason: The C4 hub suggests the Mermaid toolguide as one text-based rendering option satisfying its 'keep diagrams as diagram-as-code'
+    rule; the `when` is the toolguide's own stated scope. Composition-only under today's traversal.
+- source: directive:USE_C4_MODEL_TECHNIQUES
+  target: writing::toolguide:plantuml-diagramming
+  relation: suggests
+  when: rendering the architecture diagrams as text-based, version-controlled diagram-as-code in PlantUML so they diff and
+    review beside the code
+  reason: The C4 hub suggests the PlantUML toolguide as the other text-based rendering option satisfying its 'keep diagrams
+    as diagram-as-code' rule; the `when` is the toolguide's own stated scope. Composition-only under today's traversal.
+- source: writing::mission_type:documentation
+  target: procedure:drill-down-documentation
+  relation: scope
+- source: foundation::mission_type:plan
+  target: paradigm:c4-incremental-detail-modeling
+  relation: scope
+- source: foundation::mission_type:plan
+  target: paradigm:deep-module-design
+  relation: scope
+- source: foundation::mission_type:plan
+  target: paradigm:domain-driven-design
+  relation: scope
+- source: foundation::mission_type:research
+  target: procedure:event-storming-discovery
+  relation: scope
+- source: paradigm:c4-incremental-detail-modeling
+  target: anti_pattern:big-upfront-design
+  relation: rejects
+  reason: Big Upfront Design attempts to specify every architectural detail before implementation begins. C4 incremental detail
+    modeling favours progressive discovery -- start with a context diagram and add lower levels only when they earn their
+    keep.
+- source: paradigm:c4-incremental-detail-modeling
+  target: anti_pattern:code-is-the-documentation
+  relation: rejects
+  reason: Relying solely on source code as documentation forces every stakeholder -- including non-technical sponsors -- to
+    read code to understand system boundaries. C4 provides visual abstractions that make architecture accessible without requiring
+    code literacy.
+- source: paradigm:c4-incremental-detail-modeling
+  target: anti_pattern:single-diagram-architecture
+  relation: rejects
+  reason: A single all-in-one architecture diagram conflates audiences and abstraction levels, producing a poster that nobody
+    can review in a reasonable time. C4 explicitly separates concerns into distinct levels.
+- source: paradigm:c4-incremental-detail-modeling
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: paradigm:deep-module-design
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: paradigm:deep-module-design
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: paradigm:deep-module-design
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+- source: paradigm:deep-module-design
+  target: foundation::directive:DIRECTIVE_039
+  relation: requires
+- source: paradigm:domain-driven-design
+  target: anti_pattern:anemic-domain-model
+  relation: rejects
+  reason: Anemic Domain Models strip behaviour from domain objects, reducing them to data bags with external procedural services.
+    This defeats the purpose of a rich, expressive domain model and scatters invariant enforcement across service layers.
+- source: paradigm:domain-driven-design
+  target: anti_pattern:big-ball-of-mud
+  relation: rejects
+  reason: A Big Ball of Mud architecture has no explicit context boundaries or ubiquitous language. Concepts leak across modules,
+    coupling grows unchecked, and model integrity becomes impossible to maintain.
+- source: paradigm:domain-driven-design
+  target: anti_pattern:database-driven-design
+  relation: rejects
+  reason: 'Starting from a database schema and generating code around it inverts the DDD priority: the domain model should
+    drive persistence, not the other way around. Schema-first thinking produces models shaped by storage constraints rather
+    than business rules.'
+- source: paradigm:domain-driven-design
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: paradigm:domain-driven-design
+  target: foundation::directive:DIRECTIVE_031
+  relation: requires
+- source: paradigm:domain-driven-design
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: paradigm:domain-driven-design
+  target: styleguide:aggregate-design-rules
+  relation: requires
+  reason: The Aggregate Design Rules styleguide encodes DDD tactical aggregate discipline (reference by identity, keep aggregates
+    small, eventual consistency between aggregates via domain events). Activating DDD pulls it in.
+- source: paradigm:domain-driven-design
+  target: tactic:aggregate-boundary-design
+  relation: requires
+  reason: 'Aggregate Boundary Design is DDD tactical design (Evans / Vernon): defining transactional consistency boundaries
+    and aggregate roots within a bounded context. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: tactic:anti-corruption-layer
+  relation: requires
+  reason: 'The Anti-Corruption Layer is a DDD context-mapping pattern (Evans): a translation layer that keeps a foreign system''s
+    model from corrupting the domain''s ubiquitous language. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: tactic:bounded-context-canvas-fill
+  relation: requires
+  reason: 'Bounded Context Canvas Fill is DDD strategic design: it guides completing a Bounded Context Canvas (DDD Crew v5)
+    capturing a context''s strategic classification and ubiquitous language. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: foundation::tactic:bounded-context-identification
+  relation: requires
+  reason: 'Bounded Context Identification is DDD strategic design (Evans): drawing boundaries around regions where a single
+    consistent model and ubiquitous language apply. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: writing::tactic:context-boundary-inference
+  relation: requires
+  reason: 'Context Boundary Inference is DDD strategic design: it detects bounded-context boundaries from team ownership and
+    terminology conflicts, documenting ubiquitous language per context. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: tactic:context-mapping-classification
+  relation: requires
+  reason: 'Context Mapping Classification is DDD strategic design: it classifies every relationship between bounded contexts
+    using the canonical DDD context-mapping patterns. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: tactic:domain-event-capture
+  relation: requires
+  reason: 'Domain Event Capture is DDD tactical design (Evans / Fowler): funnelling significant state changes through immutable
+    Domain Event objects. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: tactic:entity-value-object-classification
+  relation: requires
+  reason: 'Entity vs Value Object Classification is DDD tactical design (Evans): classifying each domain object as an Entity
+    or a Value Object. Activating DDD pulls it in.'
+- source: paradigm:domain-driven-design
+  target: tactic:strategic-domain-classification
+  relation: requires
+  reason: 'Strategic Domain Classification is DDD strategic design (Evans): classifying each bounded context as Core, Supporting
+    or Generic subdomain to guide investment. Activating DDD pulls it in. (Already action-reachable via paula-patterns'' review
+    tactic; this edge records the paradigm membership without moving its reachability.)'
+- source: procedure:drill-down-documentation
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: procedure:drill-down-documentation
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: procedure:event-storming-discovery
+  target: tactic:aggregate-boundary-design
+  relation: suggests
+  reason: Aggregates discovered during this procedure feed into formal aggregate boundary design.
+- source: procedure:event-storming-discovery
+  target: foundation::tactic:bounded-context-identification
+  relation: suggests
+  reason: Event Storming discovery reveals bounded context boundaries through language clustering.
+- source: procedure:event-storming-discovery
+  target: tactic:domain-event-capture
+  relation: suggests
+  reason: Events discovered during this procedure become the basis for domain event modelling.
+- source: foundation::procedure:example-mapping-workshop
+  target: procedure:event-storming-discovery
+  relation: suggests
+  reason: Use when domain flows, events, and user journeys are not yet understood well enough to frame concrete examples.
+    Event storming surfaces the business narrative that example mapping then tightens into rules and canonical examples.
+- source: styleguide:aggregate-design-rules
+  target: tactic:aggregate-boundary-design
+  relation: suggests
+  when: Applying ongoing design constraints to aggregate structure (identity references, size, eventual consistency).
+- source: styleguide:aggregate-design-rules
+  target: tactic:domain-event-capture
+  relation: suggests
+- source: tactic:aggregate-boundary-design
+  target: foundation::tactic:bounded-context-identification
+  relation: suggests
+  when: Aggregates exist within a bounded context; identify the context first.
+- source: tactic:aggregate-boundary-design
+  target: tactic:domain-event-capture
+  relation: suggests
+  when: Coordinating eventual consistency between aggregates via domain events.
+- source: tactic:aggregate-boundary-design
+  target: tactic:entity-value-object-classification
+  relation: suggests
+  when: Classifying objects inside the aggregate as entities or value objects.
+- source: tactic:ammerse-impact-analysis
+  target: template:ammerse-analysis-template
+  relation: suggests
+  when: When recording the analysis as a standalone durable artifact.
+- source: tactic:anti-corruption-layer
+  target: foundation::tactic:bounded-context-identification
+  relation: suggests
+  when: The ACL sits at the boundary between bounded contexts — identify the contexts first.
+- source: tactic:anti-corruption-layer
+  target: refactoring::tactic:refactoring-strangler-fig
+  relation: suggests
+  when: Using ACL as part of an incremental migration strategy.
+- source: tactic:architecture-diagram-review-checklist
+  target: foundation::directive:DIRECTIVE_001
+  relation: suggests
+  when: Verifying that diagram boundaries align with documented architectural decisions.
+- source: tactic:architecture-diagram-review-checklist
+  target: tactic:c4-zoom-in-architecture-documentation
+  relation: suggests
+  when: Producing the diagrams that this checklist reviews.
+- source: tactic:architecture-diagram-review-checklist
+  target: writing::toolguide:mermaid-diagramming
+  relation: suggests
+  when: Rendering reviewed diagrams in Mermaid syntax.
+- source: tactic:architecture-diagram-review-checklist
+  target: writing::toolguide:plantuml-diagramming
+  relation: suggests
+  when: Rendering reviewed diagrams in PlantUML syntax.
+- source: tactic:bounded-context-canvas-fill
+  target: tactic:aggregate-boundary-design
+  relation: suggests
+  when: Filling the Domain Roles section with aggregates, entities, and value objects.
+- source: tactic:bounded-context-canvas-fill
+  target: foundation::tactic:bounded-context-identification
+  relation: suggests
+  when: Contexts must be identified before their canvases can be filled.
+- source: tactic:bounded-context-canvas-fill
+  target: tactic:context-mapping-classification
+  relation: suggests
+  when: Classifying the integration pattern for each relationship.
+- source: tactic:bounded-context-canvas-fill
+  target: foundation::tactic:glossary-curation-interview
+  relation: suggests
+  when: Systematically capturing and curating terms for the context's glossary.
+- source: tactic:bounded-context-canvas-fill
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: Verifying that the chosen name and purpose use ubiquitous language consistently.
+- source: tactic:bounded-context-canvas-fill
+  target: tactic:strategic-domain-classification
+  relation: suggests
+  when: Applying the classification framework to this context.
+- source: tactic:bounded-context-canvas-fill
+  target: template:bounded-context-canvas-template
+  relation: suggests
+  when: Recording terms in the canvas's Ubiquitous Language section.
+- source: tactic:bounded-context-canvas-fill
+  target: template:glossary-template
+  relation: suggests
+  when: Structuring glossary entries extracted during canvas fill.
+- source: tactic:bounded-context-canvas-fill
+  target: writing::toolguide:contextive
+  relation: suggests
+  when: Enforcing the glossary in code via IDE-integrated ubiquitous language management.
+- source: tactic:c4-zoom-in-architecture-documentation
+  target: foundation::directive:DIRECTIVE_001
+  relation: suggests
+  when: Ensuring C4 diagrams reflect and enforce documented component boundaries.
+- source: tactic:c4-zoom-in-architecture-documentation
+  target: foundation::tactic:adr-drafting-workflow
+  relation: suggests
+  when: Recording architectural decisions that change container or component boundaries shown in C4 diagrams.
+- source: tactic:c4-zoom-in-architecture-documentation
+  target: template:c4-component-mermaid-template
+  relation: suggests
+  when: Documenting logical structure inside a container that has non-trivial internal boundaries.
+- source: tactic:c4-zoom-in-architecture-documentation
+  target: template:c4-container-mermaid-template
+  relation: suggests
+  when: Documenting the internal structure of a software system at the deployment-unit level.
+- source: tactic:c4-zoom-in-architecture-documentation
+  target: template:c4-context-mermaid-template
+  relation: suggests
+  when: Starting a new system context diagram from scratch.
+- source: tactic:context-mapping-classification
+  target: tactic:anti-corruption-layer
+  relation: suggests
+  when: Implementing the ACL pattern identified during context mapping classification.
+- source: tactic:context-mapping-classification
+  target: foundation::tactic:bounded-context-identification
+  relation: suggests
+  when: Identify bounded contexts before classifying the relationships between them.
+- source: tactic:context-mapping-classification
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: Verifying that each context's ubiquitous language is internally consistent.
+- source: tactic:context-mapping-classification
+  target: refactoring::tactic:refactoring-strangler-fig
+  relation: suggests
+  when: Remediating Big Ball of Mud boundaries discovered in the context map.
+- source: foundation::tactic:deepening-opportunity-assessment
+  target: paradigm:deep-module-design
+  relation: suggests
+  when: This tactic operationalizes the paradigm's interface-leverage model.
+- source: tactic:development-bdd
+  target: foundation::procedure:example-mapping-workshop
+  relation: suggests
+  when: Use to collaboratively validate and refine the behavioral contracts with stakeholders — the Discovery phase this tactic's
+    contracts build on
+- source: tactic:development-bdd
+  target: testing::tactic:bdd-scenario-formulation
+  relation: suggests
+  when: Use this tactic to translate the behavioral contracts into executable Given/When/Then scenarios — the Formulation
+    phase that follows
+- source: tactic:entity-value-object-classification
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: Domain expert language reveals whether identity matters for a concept.
+- source: foundation::tactic:forensic-repository-audit
+  target: tactic:connascence-analysis
+  relation: suggests
+  when: After hotspots are identified, use connascence analysis on the highest-priority files to classify the coupling that
+    drives the churn.
+- source: foundation::tactic:interface-variation-design
+  target: paradigm:deep-module-design
+  relation: suggests
+  when: Interface options are evaluated by the paradigm's depth and leverage criteria.
+- source: tactic:paula-patterns-architecture-scout-review
+  target: foundation::directive:DIRECTIVE_032
+  relation: suggests
+  when: Scout findings reveal language drift or confused ownership concepts.
+- source: tactic:paula-patterns-architecture-scout-review
+  target: foundation::procedure:adversarial-squad-deployment
+  relation: refines
+- source: tactic:paula-patterns-architecture-scout-review
+  target: tactic:anti-corruption-layer
+  relation: suggests
+  when: External system details leak into domain or application decisions.
+- source: tactic:paula-patterns-architecture-scout-review
+  target: tactic:domain-event-capture
+  relation: suggests
+  when: Durable state transitions, replay, or provenance are missing.
+- source: tactic:paula-patterns-architecture-scout-review
+  target: foundation::tactic:review-intent-and-risk-first
+  relation: suggests
+  when: Evaluate whether the release fix closes the observed issue and what blast radius it carries.
+- source: tactic:reference-architectural-patterns
+  target: foundation::tactic:adr-drafting-workflow
+  relation: suggests
+  when: Document the selected pattern and its rationale in an ADR
+- source: tactic:reference-architectural-patterns
+  target: tactic:ammerse-impact-analysis
+  relation: suggests
+  when: Use for high-stakes decisions to quantify trade-offs across the seven AMMERSE dimensions
+- source: tactic:reference-architectural-patterns
+  target: tactic:architecture-diagram-review-checklist
+  relation: suggests
+  when: After selecting a pattern, use this tactic to validate the design diagram
+- source: tactic:strategic-domain-classification
+  target: foundation::tactic:bounded-context-identification
+  relation: suggests
+  when: Contexts must be identified before they can be classified.
+- source: tactic:strategic-domain-classification
+  target: tactic:context-mapping-classification
+  relation: suggests
+  when: Understanding relationships between contexts informs classification decisions.
+- source: writing::tactic:terminology-extraction-mapping
+  target: paradigm:domain-driven-design
+  relation: suggests
+  when: the extracted terms must be owned by a bounded context and cross-context uses translated at the boundary -- the strategic-DDD
+    ubiquitous-language and anti-corruption-layer concerns the mapping surfaces
+  reason: 'The terminology-extraction-mapping tactic''s OWN text attests DDD strategic design verbatim: it assigns term ownership
+    ''by bounded context'', translates cross-context uses ''at the context boundary'', and names ''missing ACL or translation
+    layers'' as a failure mode -- so it reinforces Domain-Driven Design. INBOUND to the already-action-reachable DDD paradigm
+    (family-A); a member->paradigm edge does not make the source reachable, so it is composition-only under today''s traversal.'

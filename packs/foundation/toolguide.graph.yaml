@@ -1,0 +1,49 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: toolguide:efficient-local-tooling
+  kind: toolguide
+  label: Efficient Local Tooling
+- urn: toolguide:execution-lanes
+  kind: toolguide
+  label: Execution Lanes
+- urn: toolguide:git-agent-commit-signing
+  kind: toolguide
+  label: Git Agent Commit Signing
+- urn: toolguide:git-worktree-pr-workflow
+  kind: toolguide
+  label: Git Worktree and PR-Landing Workflow
+- urn: toolguide:github-tracker
+  kind: toolguide
+  label: GitHub Issue-Tracker Operations (gh CLI + GraphQL)
+- urn: toolguide:powershell-syntax
+  kind: toolguide
+  label: PowerShell Syntax Guide
+edges:
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_024
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_028
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_029
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_030
+  relation: requires
+- source: toolguide:execution-lanes
+  target: directive:DIRECTIVE_033
+  relation: requires
+- source: toolguide:git-worktree-pr-workflow
+  target: tactic:clean-linear-commit-history
+  relation: suggests
+- source: toolguide:git-worktree-pr-workflow
+  target: tactic:lane-recovery
+  relation: suggests
+  when: A Spec Kitty command refuses a lane with DESTROYED_LANE or LANE_WORK_TIP_UNKNOWN after a lane worktree or lane branch
+    was removed.
+- source: toolguide:git-worktree-pr-workflow
+  target: tactic:pr-agent-worktree-isolation
+  relation: suggests

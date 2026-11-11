@@ -28,7 +28,7 @@ cover and how honestly they report.
 | Tactics | seven test-design tactics, plus **`qa-promise-elicitation`** |
 | Procedures | coverage gap analysis, defect triage, go/no-go review, test plan review, plus **`qa-description-to-acceptance-ci`** |
 | Styleguides | **`qa-promise-page`** |
-| Toolguides and assets | `qa-carrier-lint`, `qa-result-ingest`, **`qa-promise-trace-lint`** (Python, stdlib plus ruamel.yaml) |
+| Toolguides and assets | `qa-carrier-lint`, `qa-result-ingest`, **`qa-promise-trace-lint`** (Python, stdlib plus ruamel.yaml); `sonar` (moved from built-in by #73) |
 | Agent profiles | strategist, test designer, executor, reporter, defect triager |
 | Mission | `qa` mission type, step contracts, step prompts, artifact templates, **promise page and scenario templates** |
 | Glossary | ISTQB-grounded QA glossary |

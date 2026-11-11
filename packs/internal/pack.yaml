@@ -11,13 +11,22 @@
 # pack_id is the canonical identity, minted and owned here; downstream repos
 # (e.g. spec-kitty-charter) mirror it verbatim and must not re-mint or diverge it.
 pack_id: 01M4P01D5TWB5FKZGNNQG3943R
-pack_version: 1.0.0
+pack_version: 2.0.0
 parent_pack: null
 name: spec-kitty-internal
 pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
-# The DRG fragment targets built-in's artifacts, agent profiles included.
+# Its DRG fragment references foundation, writing and the testing, refactoring and
+# planning-analysis bundles (#73 split built-in into these packs).
 depends_on:
-  - pack_id: 01ARWG13C000000000000000FG
+  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
+    range: ">=1.0,<2"
+  - pack_id: 01M75PCTEKGDXQW59TGSFQQ9QT  # planning-analysis
+    range: ">=1.0,<2"
+  - pack_id: 01M75PCTD0V3AFZA9EAXDJ894D  # refactoring
+    range: ">=1.0,<2"
+  - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
+    range: ">=1.0,<2"
+  - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
     range: ">=1.0,<2"

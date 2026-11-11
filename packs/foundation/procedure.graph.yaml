@@ -1,0 +1,205 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: procedure:agent-commit-signing
+  kind: procedure
+  label: Agent Commit Signing
+- urn: procedure:agent-self-declaration
+  kind: procedure
+  label: Agent Self-Declaration
+- urn: procedure:black-box-integration-test-design
+  kind: procedure
+  label: Black-Box Integration Test Design
+- urn: procedure:bounded-context-alignment
+  kind: procedure
+  label: Bounded Context Alignment
+- urn: procedure:bulk-edit-occurrence-mapping
+  kind: procedure
+  label: Bulk-Edit Occurrence Mapping
+- urn: procedure:canonical-source-discipline
+  kind: procedure
+  label: Canonical Source Discipline
+- urn: procedure:change-scope-tension-resolution
+  kind: procedure
+  label: Change-Scope Tension Resolution
+- urn: procedure:component-boundary-definition
+  kind: procedure
+  label: Component Boundary Definition
+- urn: procedure:credential-exposure-prevention
+  kind: procedure
+  label: Credential Exposure Prevention
+- urn: procedure:decision-record-keeping
+  kind: procedure
+  label: Decision Record Keeping
+- urn: procedure:defect-class-construction-gate
+  kind: procedure
+  label: Defect-Class Construction Gate
+- urn: procedure:disciplined-refactoring-cycle
+  kind: procedure
+  label: Disciplined Refactoring Cycle
+- urn: procedure:doctrine-version-change
+  kind: procedure
+  label: Charter Artifact Version Change
+- urn: procedure:durable-fix-investigation
+  kind: procedure
+  label: Durable Fix Investigation
+- urn: procedure:example-mapping-workshop
+  kind: procedure
+  label: Example Mapping Workshop
+- urn: procedure:failing-test-triage
+  kind: procedure
+  label: Failing Test Triage
+- urn: procedure:five-paradigm-structural-intervention
+  kind: procedure
+  label: Five-Paradigm Structural Intervention
+- urn: procedure:git-flow
+  kind: procedure
+  label: Git Flow Branching Workflow
+- urn: procedure:keep-change-local
+  kind: procedure
+  label: Change Locality Check
+- urn: procedure:land-changes-via-pull-request
+  kind: procedure
+  label: Pull Request Landing
+- urn: procedure:living-documentation-sync
+  kind: procedure
+  label: Living Documentation Sync
+- urn: procedure:local-tooling-selection
+  kind: procedure
+  label: Local Tooling Selection
+- urn: procedure:observable-contract-test-authoring
+  kind: procedure
+  label: Observable-Contract Test Authoring
+- urn: procedure:op-or-mission-lifecycle
+  kind: procedure
+  label: Op or Mission Lifecycle
+- urn: procedure:read-intent-before-high-risk-operation
+  kind: procedure
+  label: High-Risk Operation Intent Check
+- urn: procedure:readable-pr-preparation
+  kind: procedure
+  label: Readable Pull Request Preparation
+- urn: procedure:red-first-bug-reproduction
+  kind: procedure
+  label: Red-First Bug Reproduction
+- urn: procedure:red-main-handling
+  kind: procedure
+  label: Red Main Handling
+- urn: procedure:small-explicit-code-shaping
+  kind: procedure
+  label: Small, Explicit Code Shaping
+- urn: procedure:specification-traceability-check
+  kind: procedure
+  label: Specification Traceability Check
+- urn: procedure:targeted-staging
+  kind: procedure
+  label: Targeted Staging
+- urn: procedure:tech-debt-point-cut-triage
+  kind: procedure
+  label: Tech-Debt Triage at Planning Point-Cuts
+- urn: procedure:term-interpretation-alignment
+  kind: procedure
+  label: Term Interpretation Alignment
+- urn: procedure:test-and-typecheck-gate-run
+  kind: procedure
+  label: Test and Typecheck Gate Run
+- urn: procedure:test-first-cycle
+  kind: procedure
+  label: Test-First Cycle
+- urn: procedure:tidy-first-campsite-clean
+  kind: procedure
+  label: Tidy-First Campsite Clean
+- urn: procedure:touched-area-cleanup
+  kind: procedure
+  label: Touched-Area Cleanup
+- urn: procedure:version-freshness-check
+  kind: procedure
+  label: Version Freshness Check
+- urn: procedure:adversarial-squad-deployment
+  kind: procedure
+  label: Adversarial Squad Deployment
+- urn: procedure:post-merge-arch-gate-adjudication
+  kind: procedure
+  label: Post-Merge Arch-Gate Adjudication
+
+edges:
+- source: procedure:change-scope-tension-resolution
+  target: procedure:keep-change-local
+  relation: reconciles_tension
+  reason: Its fixed order lets Locality of Change brake any growth of the file set while the Boy Scout Rule cleans inside
+    it, and its record step makes the outcome reviewable.
+- source: procedure:change-scope-tension-resolution
+  target: procedure:touched-area-cleanup
+  relation: reconciles_tension
+  reason: Its fixed order licenses touched-area cleanup strictly inside the file set chosen by smallest viable diff, which
+    Locality of Change then holds fixed.
+- source: procedure:change-scope-tension-resolution
+  target: procedure:tidy-first-campsite-clean
+  relation: reconciles_tension
+  reason: Its carve-out step lands an opening tidy-first cleanup as its own behavior-preserving step before the functional
+    change, so the cleanup never enlarges the file set the resolution order fixes.
+- source: procedure:example-mapping-workshop
+  target: directive:DIRECTIVE_037
+  relation: requires
+  reason: The workshop produces the canonical examples governed by the Living Documentation Sync directive.
+- source: procedure:example-mapping-workshop
+  target: tactic:acceptance-test-first
+  relation: suggests
+  reason: Stable canonical examples should hand off cleanly into executable acceptance checks.
+- source: procedure:example-mapping-workshop
+  target: tactic:reverse-speccing
+  relation: suggests
+  reason: 'Use when approaching a legacy area: reconstructing behaviour from existing tests yields the starting example set
+    that the workshop then validates and curates with stakeholders.'
+- source: procedure:example-mapping-workshop
+  target: tactic:usage-examples-sync
+  relation: requires
+  reason: Approved examples need an explicit sync step so docs, specs, and verification artifacts do not drift.
+- source: procedure:git-flow
+  target: directive:DIRECTIVE_029
+  relation: requires
+- source: procedure:git-flow
+  target: directive:DIRECTIVE_030
+  relation: requires
+- source: procedure:git-flow
+  target: directive:DIRECTIVE_033
+  relation: requires
+- source: procedure:failing-test-triage
+  target: procedure:read-intent-before-high-risk-operation
+  relation: in_tension_with
+  reason: Failing-test triage deletes a patchwork test on its verdict alone, while the intent check treats deleting a test
+    as a high-risk operation that needs explicitly confirmed intent.
+- source: procedure:keep-change-local
+  target: procedure:tech-debt-point-cut-triage
+  relation: in_tension_with
+  reason: Change locality keeps opportunistic cleanup out of functional work, while point-cut triage folds debt matching the
+    mission's domain into its scope.
+- source: procedure:keep-change-local
+  target: procedure:tidy-first-campsite-clean
+  relation: in_tension_with
+  reason: Change locality confines edits to files serving the stated goal and requires a rationale for any wider reach, while
+    the tidy-first campsite clean deliberately opens its own surfaces for preparatory cleanup before the functional change.
+- source: procedure:keep-change-local
+  target: procedure:touched-area-cleanup
+  relation: in_tension_with
+  reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures
+    and minor clutter in every touched file the default.
+- source: procedure:adversarial-squad-deployment
+  target: tactic:code-review-incremental
+  relation: requires
+  reason: Each delegate applies structured, observation-first review discipline within its assigned lens.
+- source: procedure:adversarial-squad-deployment
+  target: tactic:model-task-routing
+  relation: suggests
+- source: procedure:post-merge-arch-gate-adjudication
+  target: directive:DIRECTIVE_043
+  relation: requires
+  reason: 'This procedure operationalises the close-by-construction requirement from DIRECTIVE_043: gate failures that are
+    pre-existing must be tracked and structurally resolved, not ignored; regression failures must be fixed before further
+    merging proceeds.'
+- source: procedure:post-merge-arch-gate-adjudication
+  target: tactic:architectural-gate-non-vacuity
+  relation: requires
+  reason: The architectural gate non-vacuity tactic describes how to author gates that cannot silently pass; this procedure
+    describes what to do when those gates fire after a merge and the root cause (pre-existing vs. regression) must be determined.

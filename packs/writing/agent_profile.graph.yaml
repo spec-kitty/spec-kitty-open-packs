@@ -1,0 +1,120 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: agent_profile:comms-cleo
+  kind: agent_profile
+  label: Comms Cleo
+- urn: agent_profile:curator-carla
+  kind: agent_profile
+  label: Curator Carla
+- urn: agent_profile:diagram-daisy
+  kind: agent_profile
+  label: Diagram Daisy
+- urn: agent_profile:lexical-larry
+  kind: agent_profile
+  label: Lexical Larry
+- urn: agent_profile:minutes-mahad
+  kind: agent_profile
+  label: Minutes Mahad
+- urn: agent_profile:scribe-sally
+  kind: agent_profile
+  label: Scribe Sally
+- urn: agent_profile:synthesizer-sam
+  kind: agent_profile
+  label: Synthesizer Sam
+edges:
+- source: foundation::agent_profile:analyst-annie
+  target: directive:DIRECTIVE_047
+  relation: requires
+- source: agent_profile:comms-cleo
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:comms-cleo
+  target: directive:DIRECTIVE_047
+  relation: requires
+- source: agent_profile:comms-cleo
+  target: tactic:writing-audience-catalog
+  relation: requires
+  reason: Provides the ready-to-use catalog of writing-audience personas needed to satisfy the Audience-Oriented Writing directive.
+    Selects one of the built-in persona library's five personas (or an org-extension addition) instead of inventing an audience
+    ad hoc. Not the same pattern as the architecture stakeholder-alignment tactic — this is about who is reading the prose,
+    not who has a stake in a design decision.
+- source: agent_profile:curator-carla
+  target: foundation::directive:DIRECTIVE_018
+  relation: requires
+- source: agent_profile:diagram-daisy
+  target: toolguide:mermaid-diagramming
+  relation: suggests
+  reason: Mermaid syntax conventions and diagram-type fit are owned by this toolguide, not restated in the profile
+- source: agent_profile:diagram-daisy
+  target: toolguide:plantuml-diagramming
+  relation: suggests
+  reason: PlantUML / C4-PlantUML syntax conventions and diagram-type fit are owned by this toolguide, not restated in the
+    profile
+- source: agent_profile:lexical-larry
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:lexical-larry
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: agent_profile:lexical-larry
+  target: foundation::directive:DIRECTIVE_048
+  relation: requires
+- source: agent_profile:lexical-larry
+  target: foundation::glossary_pack:spec-kitty-core
+  relation: vocabulary
+  reason: Larry's authority is the domain vocabulary, and his DIRECTIVE_048 rationale requires terminology analysis to reference
+    the canonical glossary at its current version; this is the built-in Spec Kitty glossary.
+- source: agent_profile:lexical-larry
+  target: procedure:glossary-maintenance-workflow
+  relation: suggests
+- source: agent_profile:lexical-larry
+  target: tactic:context-boundary-inference
+  relation: requires
+  reason: Exposes vocabulary ownership conflicts between bounded contexts as a diagnostic input
+- source: agent_profile:lexical-larry
+  target: foundation::tactic:glossary-curation-interview
+  relation: requires
+  reason: Structured term-capture interview that feeds proposals to curator-carla for acceptance
+- source: agent_profile:lexical-larry
+  target: tactic:terminology-extraction-mapping
+  relation: requires
+  reason: Systematic term extraction and mapping is Larry's core drift-detection pass
+- source: agent_profile:minutes-mahad
+  target: directive:ACTION_ITEM_ATTRIBUTION
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: directive:DIRECTIVE_047
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: foundation::directive:DIRECTIVE_049
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: foundation::directive:DIRECTIVE_050
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: directive:MINUTES_STAND_ALONE
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: procedure:meeting-minutes-pipeline
+  relation: requires
+- source: agent_profile:minutes-mahad
+  target: styleguide:meeting-minutes-format
+  relation: suggests
+  reason: Decision-minutes and discussion-notes layout, action-item format, and length limits
+- source: agent_profile:scribe-sally
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:scribe-sally
+  target: directive:DIRECTIVE_047
+  relation: requires
+- source: agent_profile:scribe-sally
+  target: foundation::directive:DIRECTIVE_048
+  relation: requires
+- source: agent_profile:synthesizer-sam
+  target: directive:DIRECTIVE_047
+  relation: requires

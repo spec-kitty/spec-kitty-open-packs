@@ -1,0 +1,86 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: directive:ACTION_ITEM_ATTRIBUTION
+  kind: directive
+  label: Action Item Attribution
+- urn: directive:DIRECTIVE_042
+  kind: directive
+  label: Common Docs Documentation Standard
+- urn: directive:DIRECTIVE_047
+  kind: directive
+  label: Audience-Oriented Writing
+- urn: directive:MINUTES_STAND_ALONE
+  kind: directive
+  label: Minutes must stand alone
+edges:
+- source: directive:ACTION_ITEM_ATTRIBUTION
+  target: procedure:action-item-attribution-gate
+  relation: requires
+  when: extracting action items from a meeting transcript
+  reason: Turns the attribution rule into a validation gate that refuses minutes until every action item, including each part
+    of a multi-action entry, names a real owner.
+- source: foundation::directive:DIRECTIVE_032
+  target: styleguide:kitty-glossary-writing
+  relation: suggests
+- source: directive:DIRECTIVE_042
+  target: asset:common-docs-structural-lint
+  relation: requires
+  reason: DIRECTIVE_042 names the common-docs structural lint as the live mechanical gate that enforces it; activating the
+    directive requires the shipped lint asset to be present.
+- source: directive:DIRECTIVE_042
+  target: procedure:common-docs-page-authoring
+  relation: requires
+  when: creating, moving, or updating a documentation page or ADR
+  reason: Places pages in the Common Docs root with lifecycle metadata in frontmatter, files ADRs by era, and retires stale
+    pages.
+- source: directive:DIRECTIVE_042
+  target: procedure:declare-page-audience
+  relation: requires
+  when: a change touches a documentation page
+  reason: Adds the audience field the standard requires to every touched page, as machine-checkable frontmatter rather than
+    prose.
+- source: directive:DIRECTIVE_042
+  target: styleguide:common-docs
+  relation: suggests
+- source: directive:DIRECTIVE_042
+  target: tactic:common-docs-find
+  relation: suggests
+  when: applying the frontmatter-SSOT and generated-lockfile rules that make the DRG and page-inventory the authorities to
+    search
+- source: directive:DIRECTIVE_042
+  target: tactic:common-docs-scaffold
+  relation: suggests
+  when: choosing the section and path to apply the single-root, section-structure, doc_status placement rules
+- source: directive:DIRECTIVE_042
+  target: tactic:common-docs-write
+  relation: suggests
+  when: applying the binding frontmatter-SSOT and doc_status rules the styleguide conventions enforce
+- source: directive:DIRECTIVE_047
+  target: directive:DIRECTIVE_042
+  relation: suggests
+- source: directive:DIRECTIVE_047
+  target: procedure:audience-oriented-drafting
+  relation: requires
+  when: drafting an artifact for human readers
+  reason: Names the target reader before drafting, calibrates content to that reader, and splits into variants when audiences
+    genuinely differ.
+- source: directive:DIRECTIVE_047
+  target: procedure:declare-page-audience
+  relation: requires
+  when: the artifact is a documentation page under the Common Docs root
+  reason: Records the named audience on a documentation page as machine-checkable `audience:` frontmatter, so the audience
+    choice can be verified.
+- source: directive:DIRECTIVE_047
+  target: styleguide:common-docs
+  relation: suggests
+- source: directive:DIRECTIVE_047
+  target: tactic:writing-audience-catalog
+  relation: suggests
+- source: directive:MINUTES_STAND_ALONE
+  target: procedure:minutes-self-sufficiency-check
+  relation: requires
+  when: extracting or reviewing meeting notes
+  reason: Applies the missed-the-meeting test to each note, naming things, decisions and owners and adding missing context,
+    so minutes read on their own without becoming verbose.

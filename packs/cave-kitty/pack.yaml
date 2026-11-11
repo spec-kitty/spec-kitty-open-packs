@@ -7,15 +7,14 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M6MF4FV4S40ZJ44AZFDVTH1F
-pack_version: 1.0.0
+pack_version: 2.0.0
 parent_pack: null
 name: cave-kitty
 pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
-# No graph edge names another pack, but the mission prompts name built-in agent
-# profiles in prose (for example missions/cave-dev/steps/review.prompt.md), so the
-# dependency on built-in is real.
+# Its prompts bind foundation's base profiles in prose (implementer-ivan, reviewer-renata);
+# foundation holds them since #73 split built-in.
 depends_on:
-  - pack_id: 01ARWG13C000000000000000FG
+  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
     range: ">=1.0,<2"

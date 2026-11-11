@@ -1,16 +1,18 @@
 # Built-in Charter Pack
 
-The **built-in** pack ships with Spec Kitty itself: the baseline directives,
-tactics, styleguides, toolguides, paradigms, procedures, agent profiles, and
-mission-step contracts every project starts with before any org or project
-layer is applied.
+The **built-in** pack is Spec Kitty's default distribution. Since #73 it is a *distribution pack*
+(charter ADR-0048 decision 12): it holds no artifacts of its own and aggregates its two members,
+`foundation` and `writing`, through `depends_on`, pinned exactly and released in lockstep
+(decision 17). It keeps the `default` and `minimal` presets and declares the fallback profile.
+
+Specialist doctrine (testing, refactoring, architecture, planning and analysis, adversarial review,
+pack authoring, and the python, javascript, drupal and java stacks) ships as opt-in org bundles
+that build on `foundation`; built-in does not aggregate them (decision 14).
 
 It has no `parent_pack` (it is the root of every lineage chain).
 
 ## Authored and generated files
 
-This file, and its sibling `pack.yaml`, are **authored** — hand-edited data
-that is never regenerated. The pack's constituent inventory, content hashes,
-and self-integrity hash live in the **generated** `pack-manifest.yaml` next
-to this file; that file is machine-written only and must never be hand-edited
-(see `tests/architectural/test_pack_manifest_no_author_edit.py`).
+This file and its sibling `pack.yaml` are **authored**: hand-edited data that is never
+regenerated. The generated `pack-manifest.yaml` next to this file is machine-written only and must
+never be hand-edited.

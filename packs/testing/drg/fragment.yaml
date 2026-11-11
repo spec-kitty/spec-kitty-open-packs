@@ -1,0 +1,540 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: debugger-debbie
+  kind: agent_profiles
+  title: Debugger Debbie
+  body_path: agent_profiles/debugger-debbie.agent.yaml
+- id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  kind: directives
+  title: Use Mutation Testing to Validate Test Quality
+  body_path: directives/use-mutation-testing-to-validate-test-quality.directive.yaml
+- id: behaviour-driven-development
+  kind: paradigms
+  title: Behaviour-Driven Development
+  body_path: paradigms/behaviour-driven-development.paradigm.yaml
+- id: specification-by-example
+  kind: paradigms
+  title: Specification by Example
+  body_path: paradigms/specification-by-example.paradigm.yaml
+- id: bdd-scenario-lifecycle
+  kind: procedures
+  title: BDD Scenario Lifecycle
+  body_path: procedures/bdd-scenario-lifecycle.procedure.yaml
+- id: development-assist-test-cleanup
+  kind: procedures
+  title: Development-Assist Test Cleanup
+  body_path: procedures/development-assist-test-cleanup.procedure.yaml
+- id: disciplined-defect-diagnosis
+  kind: procedures
+  title: Disciplined Defect Diagnosis
+  body_path: procedures/disciplined-defect-diagnosis.procedure.yaml
+- id: mutation-testing-review
+  kind: procedures
+  title: Mutation Testing Review
+  body_path: procedures/mutation-testing-review.procedure.yaml
+- id: test-first-bug-fixing
+  kind: procedures
+  title: Test-First Bug Fixing
+  body_path: procedures/test-first-bug-fixing.procedure.yaml
+- id: given-when-then-authoring
+  kind: styleguides
+  title: Given-When-Then Scenario Authoring
+  body_path: styleguides/given-when-then-authoring.styleguide.yaml
+- id: mutation-aware-test-design
+  kind: styleguides
+  title: Mutation-Aware Test Design
+  body_path: styleguides/mutation-aware-test-design.styleguide.yaml
+- id: quadruple-a-test-format
+  kind: styleguides
+  title: Quadruple-A Test Format
+  body_path: styleguides/quadruple-a-test-format.styleguide.yaml
+- id: test-desiderata-and-boundaries
+  kind: styleguides
+  title: Test Desiderata and Clear Test Boundaries
+  body_path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
+- id: testing-principles
+  kind: styleguides
+  title: Testing Principles Styleguide
+  body_path: styleguides/testing-principles.styleguide.yaml
+- id: atdd-adversarial-acceptance
+  kind: tactics
+  title: Adversarial Acceptance Test Definition
+  body_path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
+- id: bdd-scenario-formulation
+  kind: tactics
+  title: BDD Scenario Formulation
+  body_path: tactics/testing/bdd-scenario-formulation.tactic.yaml
+- id: formalized-constraint-testing
+  kind: tactics
+  title: Formalized Constraint Testing
+  body_path: tactics/testing/formalized-constraint-testing.tactic.yaml
+- id: mutation-testing-workflow
+  kind: tactics
+  title: Mutation Testing Workflow
+  body_path: tactics/testing/mutation-testing-workflow.tactic.yaml
+- id: no-parallel-duplicate-test-runs
+  kind: tactics
+  title: No Parallel Duplicate Test Runs
+  body_path: tactics/testing/no-parallel-duplicate-test-runs.tactic.yaml
+- id: test-minimisation
+  kind: tactics
+  title: Test Minimisation
+  body_path: tactics/testing/test-minimisation.tactic.yaml
+- id: test-pyramid-progression
+  kind: tactics
+  title: Test Pyramid Progression
+  body_path: tactics/testing/test-pyramid-progression.tactic.yaml
+- id: test-to-system-reconstruction
+  kind: tactics
+  title: Test-to-System Reconstruction
+  body_path: tactics/testing/test-to-system-reconstruction.tactic.yaml
+- id: zombies-tdd
+  kind: tactics
+  title: ZOMBIES TDD
+  body_path: tactics/testing/zombies-tdd.tactic.yaml
+- id: gherkin
+  kind: toolguides
+  title: The Gherkin Scenario Language
+  body_path: toolguides/gherkin.toolguide.yaml
+edges:
+- source: foundation::action:software-dev/implement
+  target: procedure:disciplined-defect-diagnosis
+  relation: scope
+- source: foundation::action:software-dev/implement
+  target: procedure:test-first-bug-fixing
+  relation: scope
+- source: foundation::action:software-dev/review
+  target: procedure:disciplined-defect-diagnosis
+  relation: scope
+- source: foundation::action:software-dev/review
+  target: procedure:test-first-bug-fixing
+  relation: scope
+- source: agent_profile:debugger-debbie
+  target: foundation::directive:DIRECTIVE_001
+  relation: requires
+- source: agent_profile:debugger-debbie
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: agent_profile:debugger-debbie
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+- source: agent_profile:debugger-debbie
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: agent_profile:debugger-debbie
+  target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a defect actually constrain the behaviour that broke
+  reason: 'The investigator/reviewer profile should reach the mutation hub when checking that the tests around a defect genuinely
+    pin the behaviour. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:debugger-debbie
+  target: foundation::tactic:code-review-incremental
+  relation: requires
+  reason: Applied to each sub-agent's output during convergence synthesis to identify gaps before authoring the fix plan
+- source: agent_profile:debugger-debbie
+  target: foundation::tactic:five-paradigm-parallel-debugging
+  relation: requires
+  reason: The procedural how-to for dispatching, prompting, and synthesizing the five paradigms
+- source: agent_profile:debugger-debbie
+  target: foundation::tactic:review-intent-and-risk-first
+  relation: requires
+  reason: The structural-fix plan must be evaluated for intent (does this close the class?) and risk (what is the blast radius
+    of the structural change?) before handoff
+- source: foundation::agent_profile:implementer-ivan
+  target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a change actually constrain its behaviour
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: foundation::agent_profile:implementer-ivan
+  target: procedure:test-first-bug-fixing
+  relation: requires
+- source: foundation::agent_profile:reviewer-renata
+  target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests under review actually constrain behaviour
+  reason: 'The reviewer profile should reach the mutation hub when assessing test quality under review. Composition-only in
+    the profile channel, authored per the #3063 family-D operator attestation.'
+- source: foundation::directive:DIRECTIVE_030
+  target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+- source: foundation::directive:DIRECTIVE_030
+  target: styleguide:test-desiderata-and-boundaries
+  relation: suggests
+  when: assessing tests against the test desiderata (Kent Beck) and drawing each test's boundary by functional responsibility,
+    with infrastructure stubbed outside it
+  reason: The quality gate suggests the test-desiderata-and-boundaries styleguide as the finer-grained bar for a good test;
+    the `when` is the styleguide's own subject. Delivered at implement/review.
+- source: foundation::directive:DIRECTIVE_030
+  target: styleguide:testing-principles
+  relation: suggests
+  when: judging whether a test suite is fast, isolated, repeatable, self-validating, thorough and truthful — the properties
+    the quality gate exists to protect
+  reason: The quality gate suggests the testing-principles styleguide as the properties a suite must have to pass it; the
+    `when` is the styleguide's own subject. Delivered at implement/review.
+- source: foundation::directive:DIRECTIVE_030
+  target: tactic:no-parallel-duplicate-test-runs
+  relation: suggests
+- source: foundation::directive:DIRECTIVE_034
+  target: styleguide:given-when-then-authoring
+  relation: suggests
+  when: writing behavioural scenarios as Given (precondition) / When (single trigger) / Then (observable outcome) in domain
+    language, runner-agnostic
+  reason: Test-first development suggests the Given-When-Then authoring conventions for writing the scenarios; the `when`
+    is the new styleguide's own scope. Delivered at implement/review.
+- source: foundation::directive:DIRECTIVE_034
+  target: tactic:atdd-adversarial-acceptance
+  relation: suggests
+  when: hardening acceptance criteria by deliberately exploring how a feature could fail and turning selected failure modes
+    into adversarial acceptance tests
+  reason: Test-first development suggests adversarial acceptance-test definition as the technique for strengthening acceptance
+    criteria; the `when` is the tactic's own stated purpose. Delivered at implement/review.
+- source: foundation::directive:DIRECTIVE_034
+  target: tactic:formalized-constraint-testing
+  relation: suggests
+  when: verifying mathematical invariants and structural contracts (round-trip symmetry, equality/hash-code alignment, sparse
+    serialization) with property-based rather than example-based checks
+  reason: Test-first development suggests formalized constraint testing when the behaviour to pin is an invariant/contract
+    better checked by property patterns than by examples; the `when` is the tactic's own stated purpose. Delivered at implement/review.
+- source: foundation::directive:DIRECTIVE_034
+  target: toolguide:gherkin
+  relation: suggests
+  when: expressing those scenarios in the Gherkin DSL (Feature / Scenario / Given-When-Then / Examples), independent of any
+    runner
+  reason: Test-first development suggests the Gherkin toolguide as the notation for the scenarios; the `when` is the new toolguide's
+    own scope (language only, not a runner). Delivered at implement/review.
+- source: foundation::directive:DIRECTIVE_041
+  target: styleguide:quadruple-a-test-format
+  relation: suggests
+  when: structuring each test as Arrange / Assumption-check / Act / Assert so one behaviour is pinned and a wrong fixture
+    fails at the assumption check rather than masquerading as a behaviour failure
+  reason: Tests-as-scaffold suggests the new Quadruple-A test-format styleguide as the single-behaviour skeleton that keeps
+    tests clear; the `when` is the new styleguide's own subject. Inert (041 is not action-scoped).
+- source: foundation::directive:DIRECTIVE_041
+  target: styleguide:testing-principles
+  relation: suggests
+- source: foundation::directive:DIRECTIVE_041
+  target: tactic:zombies-tdd
+  relation: suggests
+  when: driving implementation through tiny behaviour increments (ZOMBIES) with failing tests to control complexity
+  reason: Tests-as-scaffold suggests ZOMBIES TDD as the increment-sized way to let tests scaffold the implementation; the
+    `when` is the tactic's own stated purpose. Inert (041 is not action-scoped).
+- source: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  target: procedure:mutation-testing-review
+  relation: requires
+  when: assessing a work package's tests with a mutation tool
+  reason: Scopes the mutation run to the change, treats each survivor as a located weak assertion, annotates true equivalents,
+    and reads the score as a signal.
+- source: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  target: styleguide:mutation-aware-test-design
+  relation: suggests
+  when: designing tests so common mutants (boundary, logic, membership, aggregate) are killed rather than tolerated
+  reason: The mutation hub suggests the mutation-aware test-design conventions as the design discipline that makes mutants
+    killable; the `when` is the styleguide's own scope. Inert under today's traversal.
+- source: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  target: tactic:mutation-testing-workflow
+  relation: suggests
+  when: running mutation testing to verify tests detect real bugs rather than merely execute code, and triaging the surviving
+    mutants
+  reason: The mutation hub suggests the run/triage workflow as its concrete step-by-step technique; the `when` is the tactic's
+    own stated purpose. Inert under today's traversal (the new hub directive is not action-scoped).
+- source: paradigm:behaviour-driven-development
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+- source: paradigm:behaviour-driven-development
+  target: foundation::directive:DIRECTIVE_037
+  relation: requires
+- source: paradigm:behaviour-driven-development
+  target: procedure:bdd-scenario-lifecycle
+  relation: requires
+- source: paradigm:behaviour-driven-development
+  target: styleguide:given-when-then-authoring
+  relation: suggests
+- source: paradigm:behaviour-driven-development
+  target: tactic:bdd-scenario-formulation
+  relation: requires
+- source: paradigm:behaviour-driven-development
+  target: toolguide:gherkin
+  relation: suggests
+- source: paradigm:specification-by-example
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: paradigm:specification-by-example
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+- source: paradigm:specification-by-example
+  target: foundation::directive:DIRECTIVE_037
+  relation: requires
+- source: paradigm:specification-by-example
+  target: foundation::tactic:acceptance-test-first
+  relation: requires
+- source: paradigm:specification-by-example
+  target: tactic:atdd-adversarial-acceptance
+  relation: requires
+- source: paradigm:specification-by-example
+  target: foundation::tactic:usage-examples-sync
+  relation: requires
+- source: procedure:bdd-scenario-lifecycle
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  reason: BDD scenarios are the failing acceptance tests in the test-first cycle — red before green.
+- source: procedure:bdd-scenario-lifecycle
+  target: foundation::directive:DIRECTIVE_037
+  relation: requires
+  reason: Published scenario reports are living documentation governed by the Living Documentation Sync directive.
+- source: procedure:bdd-scenario-lifecycle
+  target: foundation::procedure:example-mapping-workshop
+  relation: suggests
+  reason: The Discovery phase that produces the validated examples this procedure begins with.
+- source: procedure:bdd-scenario-lifecycle
+  target: styleguide:given-when-then-authoring
+  relation: requires
+  reason: 'Gherkin scenarios (step 1) are authored per this styleguide''s Given/When/Then conventions.
+
+    '
+- source: procedure:bdd-scenario-lifecycle
+  target: foundation::tactic:acceptance-test-first
+  relation: requires
+  reason: Canonical examples from step 1 hand off into executable acceptance checks in step 4.
+- source: procedure:bdd-scenario-lifecycle
+  target: tactic:bdd-scenario-formulation
+  relation: requires
+  reason: The technique tactic for writing individual Given/When/Then scenarios; used throughout steps 1-3 of this procedure.
+- source: procedure:bdd-scenario-lifecycle
+  target: toolguide:gherkin
+  relation: suggests
+  reason: Scenarios are expressed in the Gherkin DSL this toolguide documents.
+- source: procedure:development-assist-test-cleanup
+  target: foundation::directive:DIRECTIVE_025
+  relation: suggests
+  reason: DIRECTIVE_025 (Boy Scout Rule) governs pre-existing debt in a touched area; this procedure governs debt the current
+    mission itself created as scaffolding. The identify step defers to 025 for anything that predates the mission.
+- source: procedure:development-assist-test-cleanup
+  target: foundation::directive:DIRECTIVE_041
+  relation: requires
+  reason: This procedure applies DIRECTIVE_041's keep-vs-delete axis and its duplicate-test-knowledge-has-one-source rule
+    at a different trigger point — a proactive wrap-up audit of passing dev-assist tests, versus 041's reactive judgment of
+    a failing test (whose STALE / PATCHWORK / VALID provenance labels are a distinct classification).
+- source: procedure:development-assist-test-cleanup
+  target: foundation::tactic:delete-the-assertion-not-the-test
+  relation: requires
+  reason: The execute step retires spent assertions and folds duplicates into the standing guard following this tactic — excise
+    the spent assertion, never coverage of a live contract.
+- source: procedure:disciplined-defect-diagnosis
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  reason: The fix is not complete until relevant quality gates pass.
+- source: procedure:disciplined-defect-diagnosis
+  target: foundation::directive:DIRECTIVE_052
+  relation: suggests
+- source: procedure:disciplined-defect-diagnosis
+  target: procedure:test-first-bug-fixing
+  relation: requires
+  reason: Once the defect is minimized, the fix follows the test-first bug-fixing procedure.
+- source: procedure:disciplined-defect-diagnosis
+  target: foundation::tactic:testing-select-appropriate-level
+  relation: requires
+  reason: Test level selection identifies the correct seam for the regression test.
+- source: foundation::procedure:example-mapping-workshop
+  target: tactic:atdd-adversarial-acceptance
+  relation: suggests
+  reason: Run after a candidate example set is drafted to probe failure modes and promote selected adversarial scenarios into
+    additional canonical examples and rejection rules.
+- source: procedure:test-first-bug-fixing
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+  reason: Owns the tidy-first / enabler-sequencing rule — campsite-clean the surfaces this fix will touch in a separate, behaviour-preserving
+    commit BEFORE the red reproduction test, whenever doing so de-risks or simplifies the fix.
+- source: procedure:test-first-bug-fixing
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  reason: Quality gate requires tests pass before handoff — the reproduction test is part of that gate.
+- source: procedure:test-first-bug-fixing
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  reason: Reproduce the bug through the pre-existing (stable) entry point, never through the fix's not-yet-written API — the
+    reproduction test is the red phase of the test-first cycle DIRECTIVE_034 requires.
+- source: procedure:test-first-bug-fixing
+  target: foundation::directive:DIRECTIVE_052
+  relation: suggests
+- source: procedure:test-first-bug-fixing
+  target: foundation::directive:RED_MAIN_RELEASE_DISCIPLINE
+  relation: requires
+  reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on
+    the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
+- source: procedure:test-first-bug-fixing
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: requires
+  reason: Bug fixing follows the same red-green cycle; the failing test is the red phase.
+- source: procedure:test-first-bug-fixing
+  target: foundation::tactic:test-boundaries-by-responsibility
+  relation: requires
+  reason: Determines what to mock vs test real when writing the reproduction test.
+- source: styleguide:mutation-aware-test-design
+  target: tactic:mutation-testing-workflow
+  relation: suggests
+- source: styleguide:test-desiderata-and-boundaries
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+- source: styleguide:test-desiderata-and-boundaries
+  target: foundation::directive:DIRECTIVE_041
+  relation: suggests
+- source: styleguide:test-desiderata-and-boundaries
+  target: procedure:development-assist-test-cleanup
+  relation: suggests
+- source: styleguide:test-desiderata-and-boundaries
+  target: styleguide:mutation-aware-test-design
+  relation: suggests
+- source: styleguide:test-desiderata-and-boundaries
+  target: foundation::tactic:function-over-form-testing
+  relation: suggests
+- source: styleguide:test-desiderata-and-boundaries
+  target: foundation::tactic:test-boundaries-by-responsibility
+  relation: suggests
+- source: styleguide:testing-principles
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+- source: styleguide:testing-principles
+  target: styleguide:quadruple-a-test-format
+  relation: requires
+- source: styleguide:testing-principles
+  target: styleguide:test-desiderata-and-boundaries
+  relation: suggests
+- source: styleguide:testing-principles
+  target: foundation::tactic:acceptance-test-first
+  relation: suggests
+- source: styleguide:testing-principles
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: suggests
+- source: styleguide:testing-principles
+  target: foundation::tactic:test-boundaries-by-responsibility
+  relation: suggests
+- source: styleguide:testing-principles
+  target: tactic:test-minimisation
+  relation: suggests
+- source: styleguide:testing-principles
+  target: tactic:test-pyramid-progression
+  relation: suggests
+- source: styleguide:testing-principles
+  target: foundation::tactic:testing-select-appropriate-level
+  relation: suggests
+- source: foundation::tactic:acceptance-criteria-non-vacuity
+  target: tactic:mutation-testing-workflow
+  relation: suggests
+  when: Proving a compound fix's test suite depends on every independent part of the fix.
+- source: tactic:atdd-adversarial-acceptance
+  target: foundation::tactic:acceptance-criteria-non-vacuity
+  relation: suggests
+  when: Pair each refusal / state-unchanged assertion with a same-fixture positive control
+- source: tactic:atdd-adversarial-acceptance
+  target: foundation::tactic:acceptance-test-first
+  relation: suggests
+  when: Baseline happy-path acceptance tests are the foundation this tactic extends
+- source: tactic:atdd-adversarial-acceptance
+  target: foundation::tactic:input-validation-fail-fast
+  relation: suggests
+  when: Many adversarial scenarios surface input validation requirements
+- source: tactic:atdd-adversarial-acceptance
+  target: foundation::tactic:test-boundaries-by-responsibility
+  relation: suggests
+  when: Adversarial scenarios help clarify which boundaries need testing
+- source: tactic:bdd-scenario-formulation
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+  when: BDD scenarios become the failing acceptance tests in the test-first cycle
+- source: tactic:bdd-scenario-formulation
+  target: styleguide:given-when-then-authoring
+  relation: requires
+  when: Author each scenario's Given/When/Then steps per this styleguide's conventions
+- source: tactic:bdd-scenario-formulation
+  target: styleguide:test-desiderata-and-boundaries
+  relation: suggests
+  when: A passing BDD suite should be Inspiring — it should give confidence to ship
+- source: tactic:bdd-scenario-formulation
+  target: styleguide:testing-principles
+  relation: suggests
+  when: BDD scenarios should be Exemplary — the best usage example of the production code they exercise
+- source: tactic:bdd-scenario-formulation
+  target: foundation::tactic:acceptance-test-first
+  relation: suggests
+  when: BDD provides the scenario format; ATDD provides the workflow for writing those scenarios before implementation
+- source: tactic:bdd-scenario-formulation
+  target: toolguide:gherkin
+  relation: suggests
+  when: Express the formulated scenarios in the Gherkin DSL (Feature / Scenario / Given-When-Then / Examples)
+- source: foundation::tactic:delete-the-assertion-not-the-test
+  target: tactic:zombies-tdd
+  relation: suggests
+  when: enumerating the boundary and exceptional behaviors the original test encoded
+- source: tactic:formalized-constraint-testing
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+  when: Constraint tests must pass as part of the quality gate before merge
+- source: tactic:formalized-constraint-testing
+  target: foundation::tactic:acceptance-test-first
+  relation: suggests
+  when: Define acceptance criteria first, then formalise constraints as contract tests
+- source: tactic:formalized-constraint-testing
+  target: foundation::tactic:black-box-integration-testing
+  relation: suggests
+  when: Contract tests complement black-box integration tests at system boundaries
+- source: tactic:formalized-constraint-testing
+  target: tactic:test-minimisation
+  relation: suggests
+  when: Once contract tests cover a behavior class, use minimisation to identify which spot-checks are now redundant
+- source: foundation::tactic:function-over-form-testing
+  target: styleguide:testing-principles
+  relation: suggests
+  when: Function-over-form aligns with the Truthful, Specific, and Minimal test desiderata
+- source: foundation::tactic:function-over-form-testing
+  target: tactic:bdd-scenario-formulation
+  relation: suggests
+  when: BDD scenarios express the observable outcomes that function-over-form tests should validate
+- source: tactic:test-minimisation
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+  when: Coverage must meet the quality gate after removals
+- source: tactic:test-minimisation
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+  when: Test minimisation applies after a test-first cycle has produced coverage — never use it to avoid writing tests
+- source: foundation::tactic:test-readability-clarity-check
+  target: tactic:bdd-scenario-formulation
+  relation: suggests
+  when: BDD scenarios are the highest-readability form of test; use BDD if reconstruction consistently fails
+- source: foundation::tactic:test-scaffolding-as-design-smell
+  target: styleguide:test-desiderata-and-boundaries
+  relation: suggests
+  when: The styleguide this tactic operationalizes — desiderata as trade-offs and infrastructure-as-shared-state as the anti-pattern
+    this tactic detects
+- source: tactic:test-to-system-reconstruction
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+  when: Test-first discipline is a prerequisite for the test suite to serve as a living specification
+- source: tactic:test-to-system-reconstruction
+  target: styleguide:test-desiderata-and-boundaries
+  relation: suggests
+  when: The Inspiring desideratum defines the confidence-to-ship bar a reconstruction-worthy test suite must clear
+- source: tactic:test-to-system-reconstruction
+  target: styleguide:testing-principles
+  relation: suggests
+  when: The Exemplary desideratum defines what a reconstruction-worthy test suite looks like
+- source: tactic:test-to-system-reconstruction
+  target: foundation::tactic:acceptance-test-first
+  relation: suggests
+  when: ATDD produces the behavioral test scenarios whose clarity is evaluated by this tactic
+- source: tactic:test-to-system-reconstruction
+  target: foundation::tactic:reverse-speccing
+  relation: suggests
+  when: Reverse speccing provides the evaluative philosophy; this tactic is the scored execution procedure
+- source: foundation::tactic:testing-select-appropriate-level
+  target: tactic:test-pyramid-progression
+  relation: suggests
+  when: Executing tests in pyramid order after they are written
+- source: foundation::tactic:work-package-completion-validation
+  target: tactic:test-minimisation
+  relation: suggests
+  when: Redundant test removal is only safe after the completion validation confirms coverage is intact

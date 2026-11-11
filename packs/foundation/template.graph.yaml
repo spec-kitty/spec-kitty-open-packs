@@ -1,0 +1,23 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: template:plan/plan-plan-skeleton.md
+  kind: template
+  label: plan/plan-plan-skeleton.md
+- urn: template:plan/plan-spec-skeleton.md
+  kind: template
+  label: plan/plan-spec-skeleton.md
+- urn: template:research/research-plan-template.md
+  kind: template
+  label: research/research-plan-template.md
+- urn: template:research/research-spec-template.md
+  kind: template
+  label: research/research-spec-template.md
+- urn: template:software-dev/plan-template.md
+  kind: template
+  label: software-dev/plan-template.md
+- urn: template:software-dev/spec-template.md
+  kind: template
+  label: software-dev/spec-template.md
+edges: []

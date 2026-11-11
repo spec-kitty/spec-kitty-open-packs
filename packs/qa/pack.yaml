@@ -8,13 +8,18 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M6MF4FV4AMQF4RC8CY6JNESX
-pack_version: 1.0.0
+pack_version: 2.0.0
 parent_pack: null
 name: quality-assurance
 pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
-# The DRG fragment targets built-in's BDD tactic, styleguide and toolguide.
+# Its DRG fragment and profiles reference foundation's and the testing and planning-analysis
+# bundles' tactics, styleguides and procedures (#73 split built-in into these packs).
 depends_on:
-  - pack_id: 01ARWG13C000000000000000FG
+  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
+    range: ">=1.0,<2"
+  - pack_id: 01M75PCTEKGDXQW59TGSFQQ9QT  # planning-analysis
+    range: ">=1.0,<2"
+  - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
     range: ">=1.0,<2"

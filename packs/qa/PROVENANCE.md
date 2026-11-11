@@ -57,3 +57,9 @@ under `charter_packs.org.packs`:
   reported `verdict: ready`, 1 of 1 requirements covered.
 - Asset self-tests: `qa_result_ingest.py` 16 of 16, `qa_carrier_lint.py` 38 of 38,
   `qa_promise_trace_lint.py` 12 of 12.
+
+## Received from built-in (#73)
+
+The `sonar` toolguide (`toolguides/sonar.toolguide.yaml`, `sonar.guide.md`) moved here from
+`packs/built-in/` with `git mv` when #73 split built-in; its history follows the file. The mutation
+and Gherkin items once proposed for qa went to the `testing` bundle, which this pack now depends on.

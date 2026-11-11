@@ -2,12 +2,16 @@
 # schema_version 1.0 includes the ADR-0066 prompt-slot and fragment rules.
 schema_version: "1.0"
 pack_id: 01M6Y9ACNAAD96XPNQS0XWP2FF
-pack_version: 1.0.0
+pack_version: 2.0.0
 parent_pack: null
 name: spdd
 pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
+# Its step enhancements target foundation's software-dev actions and its fragment the
+# architecture bundle's architect profile (#73 split built-in).
 depends_on:
-  - pack_id: 01ARWG13C000000000000000FG
+  - pack_id: 01M75PCTDT75M19ZMXHRES4CSJ  # architecture
+    range: ">=1.0,<2"
+  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
     range: ">=1.0,<2"

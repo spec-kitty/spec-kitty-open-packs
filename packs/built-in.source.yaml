@@ -12,8 +12,11 @@ seeded_from:
   path: packs/built-in
   commit: f166339300dfe207ea7635a285e498beb877f1a0
   date: '2026-10-19'
+# Since #73, packs/built-in/ is a distribution pack: it holds no artifacts, only its descriptor,
+# pack.md, presets and an empty manifest, and depends on packs/foundation/ and packs/writing/.
+# A consumer that fetches packs/built-in/ alone gets no doctrine; fetch its members at the same pin.
 # snapshot_sha256 (scripts/ci/built_in_digest.py, core's algorithm) over packs/built-in/
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: eaf28f4519ce83ccf0ee1b5795de2d960201b00bf1e9075ed0d9be4a078b5fa7
+  value: 55a544890e47650ca17a3d625aac80df60a211a8d3c9ab1a9fabe540fcc8e125

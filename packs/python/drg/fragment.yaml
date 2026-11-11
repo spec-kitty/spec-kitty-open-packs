@@ -1,0 +1,138 @@
+# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
+# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
+# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
+# <pack-name>::<urn> and must sit in this pack's depends_on closure.
+nodes:
+- id: python-pedro
+  kind: agent_profiles
+  title: Python Pedro
+  body_path: agent_profiles/python-pedro.agent.yaml
+- id: python-conventions
+  kind: styleguides
+  title: Python Conventions Styleguide
+  body_path: styleguides/python-conventions.styleguide.yaml
+- id: python-mutation-tools
+  kind: toolguides
+  title: Python Mutation Testing with mutmut
+  body_path: toolguides/python-mutation-tools.toolguide.yaml
+- id: python-review-checks
+  kind: toolguides
+  title: Python Review Checks
+  body_path: toolguides/python-review-checks.toolguide.yaml
+- id: python-supply-chain
+  kind: toolguides
+  title: Python Supply-Chain Install Safety
+  body_path: toolguides/python-supply-chain.toolguide.yaml
+edges:
+- source: agent_profile:python-pedro
+  target: foundation::agent_profile:implementer-ivan
+  relation: specializes_from
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  when: when assessing whether tests meet the quality gate they must pass
+  reason: 'The primary implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
+    in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  when: when writing or reviewing the tests that accompany an implementation
+  reason: 'The primary implementer-role profile should reach the test-first hub when writing tests. Composition-only in the
+    profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_041
+  relation: requires
+  when: when keeping the tests they write a clear scaffold rather than friction
+  reason: 'The primary implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only
+    in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_043
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_044
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_045
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DIRECTIVE_051
+  relation: requires
+- source: agent_profile:python-pedro
+  target: foundation::directive:DISCIPLINED_REFACTORING
+  relation: suggests
+  when: when tidying code, encountering long classes/methods, or discovering convoluted logic
+  reason: 'The primary implementer-role profile should reach the disciplined-refactoring directive when restructuring code.
+    Composition-only under today''s traversal, authored per the #3063 family-B operator attestation.'
+- source: agent_profile:python-pedro
+  target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a change actually constrain its behaviour
+  reason: 'The primary implementer-role profile should reach the mutation hub when assessing test quality. Composition-only
+    in the profile channel, authored per the #3063 family-D operator attestation.'
+- source: agent_profile:python-pedro
+  target: foundation::tactic:delete-the-assertion-not-the-test
+  relation: requires
+  reason: When a touched test is friction (green for the wrong reason or false-red on a correct change), replace its assertion
+    with a contract-pinned, red-first one and keep the setup/edge-cases — mine the non-obvious regressions first. Delete a
+    whole test only when it is provably zero-coverage or superseded; never delete to dodge a red.
+- source: agent_profile:python-pedro
+  target: foundation::tactic:dependency-hygiene
+  relation: requires
+  reason: Pin direct dependency versions in pyproject.toml/uv.lock, restrict resolution to PyPI, audit license compliance,
+    and regenerate the SBOM after any dependency change — the pip/uv checks this tactic already covers for Python.
+- source: agent_profile:python-pedro
+  target: foundation::tactic:supply-chain-install-safety
+  relation: requires
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed pip/uv dependency, using the python-supply-chain
+    toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
+- source: agent_profile:python-pedro
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: requires
+  reason: Core Python red-green-refactor discipline; migrated from a misfiled operating-procedures entry (it names a tactic,
+    not a procedure).
+- source: agent_profile:python-pedro
+  target: foundation::tactic:test-scaffolding-as-design-smell
+  relation: requires
+  reason: Write code whose behavior is testable without infrastructure. If a unit test would need real files, git, or several
+    mocks to run, invert the dependency and extract a pure seam before adding the test, rather than expanding the mock setup.
+- source: agent_profile:python-pedro
+  target: styleguide:python-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (python);
+    operator ruling on spec-kitty-charter#405.
+- source: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  target: toolguide:python-mutation-tools
+  relation: suggests
+  when: running mutation testing on Python code with mutmut (run/browse/apply, equivalent-mutant annotation)
+  reason: The mutation hub suggests the Python mutation toolguide (mutmut) as the generator for Python; the `when` is the
+    toolguide's own scope. Inert under today's traversal.
+- source: styleguide:python-conventions
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+- source: styleguide:python-conventions
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: suggests
+- source: styleguide:python-conventions
+  target: toolguide:python-review-checks
+  relation: suggests
+- source: foundation::tactic:input-validation-fail-fast
+  target: styleguide:python-conventions
+  relation: suggests
+  when: Implementing guard clause patterns at the code level
+- source: testing::tactic:mutation-testing-workflow
+  target: toolguide:python-mutation-tools
+  relation: suggests
+  when: Use when applying the mutation testing workflow to Python projects.
+- source: foundation::tactic:supply-chain-install-safety
+  target: toolguide:python-supply-chain
+  relation: suggests
+  when: Use for the exact ecosystem commands and file names behind this checklist's steps in a Python project

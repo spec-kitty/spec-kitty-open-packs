@@ -1,0 +1,122 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: tactic:code-documentation-analysis
+  kind: tactic
+  label: Code and Documentation Analysis for Boundary Discovery
+- urn: tactic:common-docs-find
+  kind: tactic
+  label: Common Docs Find
+- urn: tactic:common-docs-scaffold
+  kind: tactic
+  label: Common Docs Scaffold
+- urn: tactic:common-docs-write
+  kind: tactic
+  label: Common Docs Write
+- urn: tactic:context-boundary-inference
+  kind: tactic
+  label: Context Boundary Inference
+- urn: tactic:documentation-curation-audit
+  kind: tactic
+  label: Documentation Curation Audit
+- urn: tactic:stakeholder-alignment
+  kind: tactic
+  label: Stakeholder Alignment
+- urn: tactic:terminology-extraction-mapping
+  kind: tactic
+  label: Terminology Extraction and Mapping
+- urn: tactic:writing-audience-catalog
+  kind: tactic
+  label: Writing-Audience Catalog
+edges:
+- source: tactic:code-documentation-analysis
+  target: foundation::directive:DIRECTIVE_001
+  relation: suggests
+  when: Context boundary proposals must be validated against the existing architectural integrity constraints
+- source: tactic:code-documentation-analysis
+  target: foundation::directive:DIRECTIVE_032
+  relation: suggests
+  when: Terminology conflicts discovered during analysis must be resolved to maintain conceptual alignment
+- source: tactic:code-documentation-analysis
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: Terminology analysis feeds directly into the language-driven design process for naming decisions
+- source: tactic:common-docs-scaffold
+  target: asset:common-docs-structural-lint
+  relation: requires
+  reason: The common-docs scaffold tactic relies on the structural lint's index_completeness check to enforce section-index
+    scaffolding; activating the tactic requires the shipped lint asset.
+- source: tactic:common-docs-write
+  target: asset:common-docs-structural-lint
+  relation: requires
+  reason: The common-docs write tactic's run-the-live-gates step directs the agent to run the structural lint before handoff;
+    activating the tactic requires the shipped lint asset.
+- source: tactic:context-boundary-inference
+  target: foundation::directive:DIRECTIVE_001
+  relation: suggests
+  when: Proposed context boundaries must be evaluated against the existing architectural integrity constraints
+- source: tactic:context-boundary-inference
+  target: foundation::directive:DIRECTIVE_032
+  relation: suggests
+  when: Context boundaries make conceptual alignment explicit; terminology violations at boundaries are directive violations
+- source: tactic:context-boundary-inference
+  target: tactic:code-documentation-analysis
+  relation: suggests
+  when: Code and documentation analysis provides the terminology extraction and co-occurrence data used in steps 1-2
+- source: tactic:context-boundary-inference
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: Terminology clusters from boundary inference become the ubiquitous language inputs for language-driven design
+- source: foundation::tactic:glossary-curation-interview
+  target: styleguide:kitty-glossary-writing
+  relation: suggests
+  when: Consult throughout all definition-writing and rewriting steps to enforce clarity, anti-pattern avoidance, and HiC
+    terminology standards.
+- source: foundation::tactic:problem-decomposition
+  target: tactic:stakeholder-alignment
+  relation: suggests
+  when: When enumeration of contributing factors reveals that stakeholder concerns or organisational dynamics are a significant
+    source of the problem. Run stakeholder alignment before clustering so that social and political factors are visible in
+    the decomposition.
+- source: tactic:stakeholder-alignment
+  target: template:stakeholder-persona-template
+  relation: suggests
+  when: When producing detailed stakeholder profiles for complex or long-running initiatives.
+- source: tactic:stakeholder-alignment
+  target: template:system-context-canvas-template
+  relation: suggests
+  when: When recording stakeholder findings as part of a full situational assessment.
+- source: tactic:terminology-extraction-mapping
+  target: tactic:code-documentation-analysis
+  relation: suggests
+  when: Use as the upstream term-extraction step before mapping relationships
+- source: tactic:terminology-extraction-mapping
+  target: foundation::tactic:glossary-curation-interview
+  relation: suggests
+  when: feeding the extracted, relationship-mapped, validated terms into the HiC-led curation rounds that promote them into
+    the living glossary
+  reason: 'The extraction-mapping tactic''s OWN purpose is to build ''a comprehensive, maintainable glossary'' and its final
+    step publishes the validated terms as ''the authoritative source for the project ubiquitous language'' -- the input the
+    glossary-curation-interview curation rounds consume. INERT: terminology-extraction-mapping is action-unreachable. (Its
+    sibling edge to `tactic:language-driven-design` is OMITTED here -- it already exists as an extractor-minted edge.)'
+- source: tactic:terminology-extraction-mapping
+  target: foundation::tactic:language-driven-design
+  relation: suggests
+  when: Apply after the glossary is validated to enforce the ubiquitous language in code
+- source: tactic:writing-audience-catalog
+  target: asset:writing-audience-automation-agent
+  relation: suggests
+  when: The reader is an AI/LLM-based automation agent consuming the prose.
+- source: tactic:writing-audience-catalog
+  target: asset:writing-audience-line-manager
+  relation: suggests
+  when: The reader is a line manager or non-technical leader.
+- source: tactic:writing-audience-catalog
+  target: asset:writing-audience-nontech-educator
+  relation: suggests
+  when: The reader is a non-technical teacher or educator.
+- source: tactic:writing-audience-catalog
+  target: asset:writing-audience-software-engineer
+  relation: suggests
+  when: The reader is a software or platform engineer; see assets/audiences/README.md.

@@ -1,0 +1,66 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: procedure:action-item-attribution-gate
+  kind: procedure
+  label: Action Item Attribution Gate
+- urn: procedure:audience-oriented-drafting
+  kind: procedure
+  label: Audience-Oriented Drafting
+- urn: procedure:common-docs-page-authoring
+  kind: procedure
+  label: Common Docs Page Authoring
+- urn: procedure:declare-page-audience
+  kind: procedure
+  label: Page Audience Declaration
+- urn: procedure:documentation-gap-prioritization
+  kind: procedure
+  label: Documentation Gap Prioritization
+- urn: procedure:glossary-maintenance-workflow
+  kind: procedure
+  label: Glossary Maintenance Workflow
+- urn: procedure:meeting-minutes-pipeline
+  kind: procedure
+  label: Meeting Minutes Pipeline
+- urn: procedure:minutes-self-sufficiency-check
+  kind: procedure
+  label: Minutes Self-Sufficiency Check
+edges:
+- source: procedure:action-item-attribution-gate
+  target: procedure:meeting-minutes-pipeline
+  relation: suggests
+  reason: The pipeline's validation step is the minutes validation check this gate runs.
+- source: procedure:glossary-maintenance-workflow
+  target: foundation::directive:DIRECTIVE_032
+  relation: requires
+- source: procedure:glossary-maintenance-workflow
+  target: styleguide:kitty-glossary-writing
+  relation: suggests
+- source: procedure:glossary-maintenance-workflow
+  target: tactic:context-boundary-inference
+  relation: requires
+- source: procedure:glossary-maintenance-workflow
+  target: foundation::tactic:glossary-curation-interview
+  relation: requires
+- source: procedure:glossary-maintenance-workflow
+  target: tactic:terminology-extraction-mapping
+  relation: requires
+- source: procedure:meeting-minutes-pipeline
+  target: directive:ACTION_ITEM_ATTRIBUTION
+  relation: requires
+- source: procedure:meeting-minutes-pipeline
+  target: foundation::directive:DIRECTIVE_003
+  relation: requires
+- source: procedure:meeting-minutes-pipeline
+  target: directive:DIRECTIVE_047
+  relation: requires
+- source: procedure:meeting-minutes-pipeline
+  target: foundation::directive:DIRECTIVE_050
+  relation: requires
+- source: procedure:meeting-minutes-pipeline
+  target: directive:MINUTES_STAND_ALONE
+  relation: requires
+- source: procedure:meeting-minutes-pipeline
+  target: styleguide:meeting-minutes-format
+  relation: suggests

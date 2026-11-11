@@ -56,7 +56,7 @@ edges:
   relation: suggests
 # Preserve the built-in architect's suggestion without leaving a built-in edge
 # to an opt-in artifact. There is one edge on this unordered pair (ADR-0027).
-- source: built-in::agent_profile:architect-alphonso
+- source: architecture::agent_profile:architect-alphonso
   target: styleguide:reasons-canvas-writing
   relation: suggests
   when: capturing the change-intent, decision boundaries and safeguards of a mission or a significant architectural change as a REASONS Canvas -- recording architectural decisions with rationale rather than mirroring code
@@ -64,17 +64,17 @@ edges:
 # The enhancements' only target relationship. Their activation comes from the
 # spdd preset (or explicit selection), never from these targets (ADR-0066 d4).
 - source: step_enhancement:spdd-specify
-  target: built-in::action:software-dev/specify
+  target: foundation::action:software-dev/specify
   relation: enhances
 - source: step_enhancement:spdd-plan
-  target: built-in::action:software-dev/plan
+  target: foundation::action:software-dev/plan
   relation: enhances
 - source: step_enhancement:spdd-tasks
-  target: built-in::action:software-dev/tasks
+  target: foundation::action:software-dev/tasks
   relation: enhances
 - source: step_enhancement:spdd-implement
-  target: built-in::action:software-dev/implement
+  target: foundation::action:software-dev/implement
   relation: enhances
 - source: step_enhancement:spdd-review
-  target: built-in::action:software-dev/review
+  target: foundation::action:software-dev/review
   relation: enhances

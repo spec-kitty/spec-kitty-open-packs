@@ -23,3 +23,9 @@ never edit it, re-mint its `pack_id` or diverge from it.
 
 A change lands here first and reaches a downstream repository when that
 repository bumps its pin. Nothing is copied back.
+
+## Received from built-in (#73)
+
+Four artifacts moved here from `packs/built-in/` with `git mv` when #73 split built-in, so their
+history follows the files: the `mission-tracer-files` and `mission-wrap-up-sequence` procedures,
+the `tiered-standards` styleguide and the `agentic-framework-core-team` writing-audience asset.
