@@ -262,6 +262,67 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_OK, output)
             self.assertNotIn("incomplete manifest", output)
 
+    GRAPH_RULES = '  - match: "*/drg/fragment.yaml"\n    schema: pack-descriptor\n  - match: "*/*.graph.yaml"\n    schema: pack-descriptor\n'
+
+    def node_pack(self, root: Path, files: dict[str, str], constituents: bool = False) -> Path:
+        """A manifest-bearing pack with a tactic file, `files` and (optionally) a `tactic:ghost` entry; hashes regenerated."""
+        paths = ["tactics/t.tactic.yaml"] + (["tactics/ghost.tactic.yaml"] if constituents else [])
+        pack = self.manifest_pack(root, paths, {"tactics/t.tactic.yaml": "id: t\n", **files})
+        self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack))[0], validator.EXIT_OK)
+        return pack
+
+    def test_a_graph_node_the_manifest_does_not_list_fails_naming_the_node(self) -> None:
+        """#182 residual: a node of drg/fragment.yaml with no constituent is reported; listing it clears it."""
+        fragment = "nodes:\n- {kind: tactics, id: ghost}\n"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, self.GRAPH_RULES)
+            pack = self.node_pack(root, {"drg/fragment.yaml": fragment})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("incomplete manifest: graph node tactic:ghost is not a constituent", output)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, self.GRAPH_RULES)
+            pack = self.node_pack(root, {"drg/fragment.yaml": fragment, "tactics/ghost.tactic.yaml": "id: ghost\n"}, constituents=True)
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+
+    def test_a_root_graph_shard_node_the_manifest_does_not_list_is_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, self.GRAPH_RULES)
+            pack = self.node_pack(root, {"tactic.graph.yaml": "nodes:\n- {urn: 'tactic:ghost'}\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("incomplete manifest: graph node tactic:ghost is not a constituent", output)
+
+    def test_exempt_graph_node_kinds_need_no_constituent_but_an_unknown_kind_does(self) -> None:
+        exempt = "nodes:\n" + "".join(
+            f"- {{kind: {k}, id: x}}\n"
+            for k in ("actions", "templates", "mission_types", "mission_step_contracts", "anti_patterns")
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, self.GRAPH_RULES)
+            pack = self.node_pack(root, {"drg/fragment.yaml": exempt})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            (pack / "drg" / "fragment.yaml").write_text(exempt + "- {kind: widgets, id: x}\n", encoding="utf-8")
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("graph node widget:x is not a constituent", output)
+
+    def test_unlisted_nodes_is_exact_and_the_exempt_kinds_are_the_five_documented(self) -> None:
+        manifest = {"constituents": [{"kind": "tactic", "id": "a"}, "junk"]}
+        nodes = {("tactic", "a"), ("tactic", "b"), ("action", "x")}
+        self.assertEqual(validator.unlisted_nodes(manifest, nodes), ["tactic:b"])
+        self.assertEqual(validator.unlisted_nodes({"constituents": [{"kind": "tactic", "id": "b"}]}, nodes - {("tactic", "a")}), [])
+        self.assertEqual(
+            validator.MANIFEST_EXEMPT_NODE_KINDS,
+            {"action", "anti_pattern", "template", "mission_type", "mission_step_contract"},
+        )
+
     def test_only_file_backed_doctrine_kinds_are_constituents(self) -> None:
         self.assertIn("tactic", validator.MANIFEST_CONSTITUENT_SCHEMAS)
         for exempt in ("preset", "pack-manifest", "pack-descriptor", "mission-type", "mission-step-contract", "graph-shard"):
