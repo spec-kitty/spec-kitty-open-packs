@@ -13,7 +13,7 @@ principles:
   - name: Shared understanding first
     description: The conversation that produces the examples matters as much as the examples themselves.
   - name: One source of truth
-    description: Requirements, acceptance checks and documentation come from the same examples and cannot disagree.
+    description: Requirements, acceptance checks and documentation come from the same examples, so they have no separate copies to drift apart.
   - name: Refine to the essential
     description: Examples are trimmed to what illustrates the behaviour, so they stay short and meaningful.
   - name: Executable when stable

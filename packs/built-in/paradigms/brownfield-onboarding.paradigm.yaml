@@ -31,8 +31,8 @@ principles:
     description: Restructuring something you do not yet understand risks removing what it quietly relies on.
   - name: Several lenses, one picture
     description: Forensic data, people's accounts and structural analysis each miss something, so findings are trusted when they agree.
-  - name: Knowledge outlives people
-    description: Capturing what is learned lowers the risk of depending on a few individuals.
+  - name: Document and transfer, then refactor
+    description: Structural change waits until what was learned is captured and shared, so the change cannot erase knowledge only the old code held, and the team no longer depends on a few individuals.
   - name: Record why, not only what
     description: The durable output is a navigable account of the system and its reasons, which later change can build on.
   - name: Respect without inertia
@@ -52,6 +52,9 @@ principles:
 #   directive is still open; promotion would obligate every mission on a mature
 #   codebase to gate refactor work on a captured knowledge artifact, which is a
 #   strong claim and deserves explicit ratification.
+# - [open question] Bus factor as a first-class risk rests on one engagement
+#   (2026-05 CaaCS); evidence from other brownfield work would strengthen or
+#   qualify it.
 # - Cross-links into the doctrine graph are declared in the per-kind
 #   packs/built-in/<kind>.graph.yaml fragments at this pack's root. The motivating tactic is forensic-repository-audit
 #   and the motivating procedure is legacy-codebase-triage; the structural

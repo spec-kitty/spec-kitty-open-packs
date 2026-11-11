@@ -11,8 +11,8 @@ principles:
     description: Larger parts are built by combining smaller ones, so variation comes from assembly and not from special cases inside a part.
   - name: One level, one concern
     description: Each level of the hierarchy owns a distinct kind of responsibility, which tells you where a piece of behaviour belongs.
-  - name: State lives at the lowest level that needs it
-    description: Narrow ownership of state and streams keeps the small parts predictable and reusable.
+  - name: State is scoped by level
+    description: Where state, streams and store access may live follows the same levels as the visual structure, so small parts stay predictable and reusable.
   - name: Dependencies point downward
     description: A part knows about the levels beneath it and never about the ones that use it, so it can be reused elsewhere.
   - name: Shared vocabulary
