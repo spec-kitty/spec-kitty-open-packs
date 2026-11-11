@@ -17,8 +17,10 @@ Three phases, every one of which runs even when an earlier one failed:
    configuration (charter ADR-0038). ``GET /api/v1/offering`` must answer 200, name every pack at its
    declared level and resolve every ``depends_on`` entry. A refusal (``pack_unreadable``, a
    composition code) fails the run, printing the problem document.
-2. **Registration.** Built-in is read-only to registration (charter ADR-0065 D3), so a scratch root
-   holds the built-in pack only; every org and project pack is then sent whole, dependencies first,
+2. **Registration.** Built-in-level packs are read-only to registration (charter ADR-0065 D3), so a
+   scratch root holds every pack declaring ``pack_level: built-in`` (the ``built-in`` distribution
+   and its members, ``foundation`` and ``writing``, since #73); every org and project pack is then
+   sent whole, dependencies first,
    with ``PUT /api/v1/packs/{packId}`` and its registration polled until it ends. A ``refused``
    registration fails the run, printing its problem and violations. The composed offering of the
    resulting root must also answer 200.
@@ -115,7 +117,7 @@ def read_descriptor(pack: Path) -> dict[str, Any]:
         elif in_depends:
             entry = raw.strip().removeprefix("-").strip()
             if entry.startswith("pack_id:"):
-                pack_id = entry.removeprefix("pack_id:").strip()
+                pack_id = entry.removeprefix("pack_id:").split("#", 1)[0].strip()
                 if PACK_ID_PATTERN.fullmatch(pack_id):
                     descriptor["depends_on"].append(pack_id)
     return descriptor
@@ -376,11 +378,11 @@ def check_composition(jar: Path, packs: list[Path], scratch: Path, report: Repor
             report.fail(f"composition: the offering names packs nobody configured: {extra}")
 
 
-def check_registration(jar: Path, packs: list[Path], built_in: Path, scratch: Path, report: Report) -> None:
+def check_registration(jar: Path, packs: list[Path], built_in: list[Path], scratch: Path, report: Report) -> None:
     root = scratch / "registration"
-    stage(root, [built_in])
+    stage(root, built_in)
     registrable = [pack for pack in packs if read_descriptor(pack).get("pack_level") in ("org", "project")]
-    others = [pack for pack in packs if pack.resolve() != built_in.resolve()]
+    others = [pack for pack in packs if pack not in built_in]
     if not registrable or len(registrable) != len(others):
         raise CannotRun(
             f"{len(registrable)} of {len(others)} non-built-in packs declare pack_level org or project; "
@@ -412,11 +414,11 @@ def refusal_code(document: Any) -> str | None:
     return document.get("code") if isinstance(document, dict) else None
 
 
-def check_invalid(jar: Path, fixtures: list[Path], built_in: Path, scratch: Path, report: Report) -> None:
+def check_invalid(jar: Path, fixtures: list[Path], built_in: list[Path], scratch: Path, report: Report) -> None:
     for fixture in fixtures:
         expected = parse_expected_code(fixture)
         compose_root = scratch / f"invalid-compose-{fixture.name}"
-        stage(compose_root, [built_in, fixture])
+        stage(compose_root, [*built_in, fixture])
         with running_service(jar, compose_root, registration=False, log_dir=scratch) as service:
             answer = service.get("/offering")
             code = refusal_code(answer.json())
@@ -427,7 +429,7 @@ def check_invalid(jar: Path, fixtures: list[Path], built_in: Path, scratch: Path
             else:
                 report.ok(f"non-vacuity: {fixture.name} refused at composition with {code}")
         register_root = scratch / f"invalid-register-{fixture.name}"
-        stage(register_root, [built_in])
+        stage(register_root, built_in)
         with running_service(jar, register_root, registration=True, log_dir=scratch) as service:
             result = register(service, fixture)
             code = refusal_code(result.get("problem"))
@@ -454,8 +456,8 @@ def main(argv: list[str] | None = None) -> int:
             raise CannotRun(f"no jar at {args.jar}")
         packs = pack_dirs(repo / "packs", repo / "tests" / "fixtures" / "valid")
         fixtures = pack_dirs(repo / "tests" / "fixtures" / "invalid")
-        built_in = repo / "packs" / BUILT_IN
-        if not packs or not fixtures or not (built_in / "pack.yaml").is_file():
+        built_in = [pack for pack in packs if read_descriptor(pack).get("pack_level") == "built-in"]
+        if not packs or not fixtures or not (repo / "packs" / BUILT_IN / "pack.yaml").is_file():
             raise CannotRun("no pack under packs/ or tests/fixtures/valid/, no invalid fixture, or no packs/built-in: the check would prove nothing")
         for fixture in fixtures:
             parse_expected_code(fixture)  # fail closed before any service starts
