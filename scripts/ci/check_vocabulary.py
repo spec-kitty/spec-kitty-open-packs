@@ -72,7 +72,7 @@ MOVED_TO_INTERNAL = frozenset({"iterative-deepening-review", "tracker-organisati
 #: mention of the stem, and a row whose phrase is gone is reported as stale.
 PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
     (
-        "packs/built-in/procedures/test-first-bug-fixing.procedure.yaml",
+        "packs/testing/procedures/test-first-bug-fixing.procedure.yaml",  # moved from built-in by #73
         "bug-fixing-checklist",
         "the retired bug-fixing-checklist tactic",
     ),

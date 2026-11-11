@@ -144,6 +144,16 @@ class Packs(unittest.TestCase):
         self.assertNotIn("parent_pack", descriptor)  # null is no value
         self.assertEqual(check.read_descriptor(self.root / "absent"), {"depends_on": []})
 
+    def test_a_trailing_comment_on_a_dependency_id_is_not_part_of_the_id(self) -> None:
+        """#73: descriptors name each dependency in a comment (`pack_id: <ULID>  # foundation`).
+        Read as part of the id, it emptied depends_on and broke the registration order."""
+        pack = self.make(self.root, "commented", "01AAA")
+        (pack / "pack.yaml").write_text(
+            "pack_id: 01AAA\nname: commented\npack_level: org\ndepends_on:\n"
+            "  - pack_id: 01BBB  # foundation\n    range: '>=1.0,<2'\n"
+            "  - pack_id: 01CCC # testing, no double space\n    range: '>=1.0,<2'\n", encoding="utf-8")
+        self.assertEqual(check.read_descriptor(pack)["depends_on"], ["01BBB", "01CCC"])
+
     def test_dependencies_are_registered_first_whatever_the_order_found(self) -> None:
         base = self.make(self.root, "a-base", "01BASE")
         middle = self.make(self.root, "b-middle", "01MID", depends_on=("01BASE",))

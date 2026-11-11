@@ -65,6 +65,15 @@ KNOWN_KIND_TOKENS = frozenset(
 )  # fmt: skip
 
 EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
+#: The schemas of file-backed doctrine artifacts a pack's manifest lists (#182). Every file one of
+#: these rules classifies must be a manifest constituent, or the manifest under-reports the pack:
+#: the git-flow and execution-lanes files shipped unlisted that way. Graph-only kinds (actions,
+#: anti-patterns) have no file. Mission types, step contracts and templates are not listed in this
+#: repository's manifests (the charter schema would admit them), so they are exempt here.
+MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
+    "agent-profile", "asset", "directive", "glossary-pack", "guard", "lifecycle", "paradigm", "procedure",
+    "skill", "styleguide", "tactic", "toolguide",
+})
 REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest"
 
 
@@ -364,6 +373,13 @@ def stale_manifest_fields(manifest: dict[str, Any], read: Callable[[str], bytes 
     if manifest["manifest_hash"] != manifest_hash(manifest):
         stale.append("manifest_hash")
     return [*stale, *(f"missing: {path}" for path in missing)]
+
+
+def unlisted_constituents(manifest: dict[str, Any], files: set[str]) -> list[str]:
+    """The file-backed doctrine files of a pack its manifest does not list (#182), sorted. A listed
+    file that is missing is ``stale_manifest_fields``'s to report."""
+    listed = {entry.get("path") for entry in manifest.get("constituents") or [] if isinstance(entry, dict)}
+    return sorted(files - listed)
 
 
 def regenerate_manifest(pack_dir: Path) -> list[str]:
@@ -731,6 +747,7 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     manifest: dict[str, Any] | None = None
     payloads: set[str] = set()
     sidecars: list[tuple[str, str]] = []
+    constituent_files: set[str] = set()
     for path in sorted(pack_dir.rglob("*")):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
@@ -789,6 +806,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             report.violations += [f"{relative}: {problem}" for problem in _step_enhancement_violations(path, document)]
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
+        if rule.schema in MANIFEST_CONSTITUENT_SCHEMAS:
+            constituent_files.add(inside)
         if rule.schema == "asset" and isinstance(document, dict) and isinstance(document.get("path"), str):
             sidecars.append((relative, document["path"]))
         # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
@@ -809,6 +828,11 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
                 else f"run `{REGENERATE_COMMAND} {pack_dir}`"
             )
             report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: stale manifest: {stale}; {remedy}")
+        report.violations += [
+            f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: {unlisted} is not a constituent; "
+            f"add its entry, then run `{REGENERATE_COMMAND} {pack_dir}`"
+            for unlisted in unlisted_constituents(manifest, constituent_files)
+        ]
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
     return report

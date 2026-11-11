@@ -223,6 +223,51 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertNotIn("--regenerate-manifest", missing_line)
             self.assertNotIn("u.tactic.yaml}.content_hash", output)
 
+    def test_a_doctrine_file_the_manifest_does_not_list_fails_naming_the_file(self) -> None:
+        """#182: a pack with a manifest lists every file-backed doctrine artifact it holds."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml"],
+                                      {"tactics/t.tactic.yaml": "id: t\n", "tactics/u.tactic.yaml": "id: u\n"})
+            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack))[0], validator.EXIT_OK)
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            line = next(line for line in output.splitlines() if "incomplete manifest" in line)
+            self.assertIn("tactics/u.tactic.yaml is not a constituent", line)
+            self.assertNotIn("tactics/t.tactic.yaml", line)
+
+            # Listing it (and restamping) clears the finding: the positive control.
+            pack.joinpath("pack-manifest.yaml").unlink()
+            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/u.tactic.yaml"],
+                                      {"tactics/t.tactic.yaml": "id: t\n", "tactics/u.tactic.yaml": "id: u\n"})
+            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack), str(pack))[0], validator.EXIT_OK)
+
+    def test_a_listed_constituent_with_no_file_still_fails_as_stale_not_as_incomplete(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/gone.tactic.yaml"], {"tactics/t.tactic.yaml": "id: t\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("stale manifest: missing: tactics/gone.tactic.yaml", output)
+            self.assertNotIn("incomplete manifest", output)
+
+    def test_a_pack_without_a_manifest_is_not_held_to_one(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n", "tactics/t.tactic.yaml": "id: t\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("incomplete manifest", output)
+
+    def test_only_file_backed_doctrine_kinds_are_constituents(self) -> None:
+        self.assertIn("tactic", validator.MANIFEST_CONSTITUENT_SCHEMAS)
+        for exempt in ("preset", "pack-manifest", "pack-descriptor", "mission-type", "mission-step-contract", "graph-shard"):
+            self.assertNotIn(exempt, validator.MANIFEST_CONSTITUENT_SCHEMAS)
+        self.assertEqual(validator.unlisted_constituents({"constituents": [{"path": "a"}]}, {"a", "b"}), ["b"])
+
     def test_a_carriage_return_in_markdown_is_refused_not_read_as_a_newline(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
