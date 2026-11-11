@@ -7,3 +7,16 @@ summary: >
   acceptance checks, and living documentation. Teams refine examples
   collaboratively, turn stable examples into executable acceptance tests, and
   keep narrative specs in sync whenever behavior changes.
+principles:
+  - name: Examples are the specification
+    description: Concrete, business-readable examples state the behaviour precisely enough to build and check against.
+  - name: Shared understanding first
+    description: The conversation that produces the examples matters as much as the examples themselves.
+  - name: One source of truth
+    description: Requirements, acceptance checks and documentation come from the same examples, so they have no separate copies to drift apart.
+  - name: Refine to the essential
+    description: Examples are trimmed to what illustrates the behaviour, so they stay short and meaningful.
+  - name: Executable when stable
+    description: Examples are automated once they settle, so the specification is checked continuously.
+  - name: Documentation that keeps pace
+    description: When behaviour changes the examples change with it, so the documentation does not go stale.

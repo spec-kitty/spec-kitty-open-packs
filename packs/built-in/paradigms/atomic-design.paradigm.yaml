@@ -6,3 +6,14 @@ summary: >
   templates, pages) where each level owns its appropriate concern. State
   ownership, reactive stream scope, and centralized store usage are bounded
   by the same compositional levels that govern visual structure.
+principles:
+  - name: Compose, don't customise
+    description: Larger parts are built by combining smaller ones, so variation comes from assembly and not from special cases inside a part.
+  - name: One level, one concern
+    description: Each level of the hierarchy owns a distinct kind of responsibility, which tells you where a piece of behaviour belongs.
+  - name: State is scoped by level
+    description: Where state, streams and store access may live follows the same levels as the visual structure, so small parts stay predictable and reusable.
+  - name: Dependencies point downward
+    description: A part knows about the levels beneath it and never about the ones that use it, so it can be reused elsewhere.
+  - name: Shared vocabulary
+    description: Naming the levels gives designers and developers the same words for the same things, and keeps the structure visible in the code.

@@ -9,3 +9,14 @@ summary: >
   change-boundary clarity reduces drift; not appropriate for tiny fixes,
   throwaway spikes, or purely visual exploration where canvas authoring is
   overhead.
+principles:
+  - name: Code stays the truth
+    description: Current behaviour is read from the code, and a canvas never claims to describe it.
+  - name: Intent is recorded before change
+    description: The canvas captures what was approved and why, so the work can be checked against it.
+  - name: Boundaries prevent drift
+    description: Stating what is in and out of scope keeps a change from expanding unnoticed.
+  - name: Safeguards are written down
+    description: The conditions a change must respect are explicit, not left to memory.
+  - name: Match ceremony to risk
+    description: Structure is worth its overhead on high-risk or multi-package work and not on small fixes or throwaway spikes.

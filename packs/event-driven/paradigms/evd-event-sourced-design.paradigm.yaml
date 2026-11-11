@@ -16,3 +16,18 @@ summary: >
   audit trail, replay, or independent consumers are worth the cost of
   versioning events forever; a plain CRUD store is the better default
   elsewhere.
+principles:
+  - name: The log is the truth
+    description: The ordered record of events is authoritative, and all other state is derived from it.
+  - name: Facts are immutable
+    description: An event states what happened and is never rewritten; corrections are new events.
+  - name: One writer per stream
+    description: A single owner appends to each stream, so ordering and responsibility are unambiguous and no two writers race to decide what happened.
+  - name: Producers and consumers stay apart
+    description: They share only published event contracts, so either side can change or be added without the other knowing.
+  - name: A pure core behind a port
+    description: The domain decides what happened without touching storage, so its decisions can be tested and replayed in isolation.
+  - name: State can always be rebuilt
+    description: Because the log is complete, any projection can be recreated or inspected at any past point.
+  - name: Pay for it only where it pays back
+    description: Audit, replay and independent consumers must justify the lasting cost of versioning events.

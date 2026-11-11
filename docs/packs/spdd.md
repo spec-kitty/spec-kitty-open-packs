@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/spdd`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `c6f7cbd75339ced1a5f816766038f2fc3a02dde3c0067d0bb3e59dc0807432a5`
+- **Content checksum (sha256):** `f27c75b2b0987902cd3e2e813a4bc637a68fffbbbc2c4dcff544a2e62b6d1906`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

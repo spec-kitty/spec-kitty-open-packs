@@ -15,3 +15,16 @@ summary: >
   one who will build it, one who will verify it. Distinct from Specification by Example
   (the broader technique); BDD mandates the collaboration process and executable
   automation as the canonical specification form.
+principles:
+  - name: Collaboration before code
+    description: Shared understanding comes from people with different viewpoints talking, before anyone builds anything.
+  - name: Examples over abstractions
+    description: A concrete scenario exposes gaps and disagreements that an abstract statement of a requirement hides.
+  - name: One language for everyone
+    description: Business, development and testing describe behaviour in the same plain words, so nothing is lost translating between roles.
+  - name: Specifications that can fail
+    description: A specification tied to an executable check shows immediately when the system and the agreement drift apart.
+  - name: Behaviour that matters to the business
+    description: Effort goes to behaviour with cross-functional value; detail-level logic is left to ordinary unit tests.
+  - name: Living documentation
+    description: The agreed behaviour is kept as readable, checked documentation, so it stays true as the system changes.

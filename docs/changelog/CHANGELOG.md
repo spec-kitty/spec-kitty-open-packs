@@ -76,6 +76,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Every paradigm now states its principles** (#66, charter ADR-0067). All eleven paradigms carry an
+  ordered `principles` list of `{name, description}` items in the style of Kent Beck's Test Desiderata,
+  explaining why the practices each paradigm brings in belong together. `brownfield-onboarding` is
+  ratified: its draft marker is gone and the open question on escalating "document and transfer first,
+  then refactor" to a directive is kept. The authoring guide and artefact index now say paradigms should
+  state principles.
 - **Every pack is validated through the charter service in CI** (charter ADR-0070, #188). A new
   `Charter service validation` job in `validate-packs.yml`, required by `Validate packs gate`, builds
   the charter service at the commit pinned in the new `charter.lock.yaml` (or downloads its release
