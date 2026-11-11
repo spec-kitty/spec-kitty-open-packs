@@ -21,6 +21,7 @@ or the manifest schema, it probably belongs there instead.
 
 - Pack name(s):
 - [ ] `scripts/ci/validate-packs.sh` passes locally (it validates every pack against the charter pack schemas)
+- [ ] Pack digests restamped: `python3 scripts/ci/pack_digest.py --update` and the changed `packs/<pack>.source.yaml` committed (`scripts/ci/check-pack-digests.sh` passes)
 - [ ] IDs are namespaced (or intentional built-in overrides are called out)
 - [ ] No pack ships executable gate assets, OR the executable surface is declared and the [security position](../SECURITY.md) was reviewed
 

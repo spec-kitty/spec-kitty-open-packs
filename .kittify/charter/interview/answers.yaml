@@ -15,7 +15,7 @@ answers:
   languages_frameworks: >
     Content-first: schema-validated YAML doctrine artifacts (validated against upstream
     core schemas) and Markdown documentation. CI is shell (scripts/ci/validate-packs.sh,
-    scripts/ci/check-built-in.sh). The documentation site is built with doc-kitty
+    scripts/ci/check-pack-digests.sh). The documentation site is built with doc-kitty
     (Astro-based, latest released version) and a content-from-code generator (Python)
     that emits per-pack reference pages from the pack YAML. No application runtime of the
     repository's own.

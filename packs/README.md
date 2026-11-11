@@ -44,6 +44,7 @@ The exceptions are the built-in-level packs. [`built-in/`](built-in/) is the def
 ADR-0048 decision 12). `foundation`, `writing` and `built-in` carry a generated
 `pack-manifest.yaml` and root `*.graph.yaml` shards instead of `drg/fragment.yaml`; the four core
 bundles keep their `drg/fragment.yaml` and carry a generated `pack-manifest.yaml`, with no `org-charter.yaml`. All six members are built-in level, so they depend only
-on built-in-level packs (ADR-0048 decision 7), and are read-only to registration. `scripts/ci/check-built-in.sh` checks the built-in digest; see
-[`built-in.source.yaml`](built-in.source.yaml) for its provenance. The stacks and `pack-authoring` carved from
+on built-in-level packs (ADR-0048 decision 7), and are read-only to registration. Every pack's tree digest is recorded in `packs/<name>.source.yaml` and checked by
+`scripts/ci/check-pack-digests.sh`; see
+[`built-in.source.yaml`](built-in.source.yaml) for built-in's provenance. The stacks and `pack-authoring` carved from
 built-in ship as opt-in org bundles: `pack-authoring`, `python`, `javascript`, `drupal` and `java`.

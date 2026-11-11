@@ -36,7 +36,8 @@ Upload a tarball to an HTTPS location (object storage, releases page); consumers
 extract.
 
 Every `spec-kitty-open-packs` release already does this: the release page carries a
-`<pack>-vX.Y.Z.tar.gz` and its `.sha256` for each pack. The archive holds the pack under a
+`<pack>-vX.Y.Z.tar.gz` and its `.sha256` for each pack, and a `<pack>-vX.Y.Z.source.yaml`, the
+pack's recorded tree digest at the tagged commit. The archive holds the pack under a
 single `<pack>/` top-level directory and is reproducible from the tag. For your own pack:
 
 ```bash

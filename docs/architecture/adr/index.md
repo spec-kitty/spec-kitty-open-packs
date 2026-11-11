@@ -38,6 +38,7 @@ context, the options considered, the chosen option, and its consequences.
 | 2026-11-01 | 1 | [main lands through a merge queue, and pr:pause-ci pauses a parked pull request](2026-11-01-1-merge-queue-readiness-and-pr-pause-ci.md) | Accepted; superseded in part (no merge queue, 2026-11-02) |
 | 2026-11-04 | 1 | [Strict pack composition and the end of as-is CLI compatibility](2026-11-04-1-strict-pack-composition-and-the-end-of-cli-compatibility.md) | Accepted |
 | 2026-11-11 | 1 | [Split built-in into foundation, writing and opt-in bundles](2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md) | Accepted |
+| 2026-11-11 | 2 | [Record a tree digest for every pack](2026-11-11-2-record-a-tree-digest-for-every-pack.md) | Accepted |
 
 The 2026-07-18 ADRs emerge from the docsite research and await HiC ratification; they document a
 recommended direction, not yet-implemented policy. **ADR 2026-07-18-1 (MkDocs Material) is
