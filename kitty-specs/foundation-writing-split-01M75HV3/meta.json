@@ -1,0 +1,20 @@
+{
+  "create_return_branch": "feat/73-foundation-writing-split",
+  "created_at": "2026-11-11T14:57:54.905233+00:00",
+  "flattened": false,
+  "friendly_name": "Split built-in into foundation and writing",
+  "mid8": "01M75HV3",
+  "mission_branch": "kitty/mission-foundation-writing-split-01M75HV3",
+  "mission_id": "01M75HV38ZSX9BVZPHQGPJR1NY",
+  "mission_number": null,
+  "mission_slug": "foundation-writing-split-01M75HV3",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Issue #73 (epic #190): per charter ADR-0048 d12 and ADR-0053 d3/d9, built-in stops holding artifacts and aggregates its members. The operator ruled foundation down to its bare basis (fallback, implementer, reviewer, analyst profiles and the base mission types), moved documentation work into writing, and parked the remaining specialist doctrine in a temporary org pack to be carved into bundles one PR at a time. Downstream stack packs (java, rust, go) depend on foundation.",
+  "purpose_tldr": "Make built-in a thin distribution pack that aggregates a strict foundation pack and a writing pack, with everything else parked in a staging pack.",
+  "slug": "foundation-writing-split-01M75HV3",
+  "target_branch": "feat/73-foundation-writing-split",
+  "topology": "single_branch",
+  "topology_settled": false,
+  "topology_source": "default"
+}
