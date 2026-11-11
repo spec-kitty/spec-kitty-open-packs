@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/go`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `b94cb2ae18bea033f6804076819441d333c70a8c47fb38a1313a284f888af1c0`
+- **Content checksum (sha256):** `97c89c91e858b946204bd6b7edcccf3b4aff761a99fe67f484cde181acd2b089`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ This opt-in org stack pack holds the `go-conventions` styleguide, the `go-review
 and the `go-gwen` implementer profile, which requires the conventions. Activating its `go` preset
 puts all three in force; the pack's org charter activates nothing on its own.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
 ## Artifact inventory
 

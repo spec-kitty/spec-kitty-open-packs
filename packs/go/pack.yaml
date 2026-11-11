@@ -9,9 +9,9 @@ pack_level: org
 active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
 # Every pack whose artifacts this pack's graph references. Never built-in itself: built-in is a
-# distribution of foundation + writing since #73 (mission rust-go-stack-packs C-003).
+# distribution of the built-in-level packs (#73, #200) (mission rust-go-stack-packs C-003).
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
     range: ">=1.0,<2"
   - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
-    range: ">=1.0,<2"
+    range: ">=2.0,<3"
