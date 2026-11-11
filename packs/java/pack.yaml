@@ -7,7 +7,7 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M75PCTK534T6D38GECDYXYG0
-pack_version: 1.0.0
+pack_version: 2.0.0
 parent_pack: null
 name: java
 pack_level: org
