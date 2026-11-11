@@ -74,6 +74,11 @@ MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
     "agent-profile", "asset", "directive", "glossary-pack", "guard", "lifecycle", "paradigm", "procedure",
     "skill", "styleguide", "tactic", "toolguide",
 })
+#: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` and ``anti_pattern``
+#: are graph-only: no file backs them. Mission types, step contracts and templates are deliberately
+#: not manifest constituents in this repository (see above). Any other declared node must be a
+#: constituent; a new kind fails closed until it is listed here.
+MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "anti_pattern", "template", "mission_type", "mission_step_contract"})
 REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest"
 
 
@@ -380,6 +385,17 @@ def unlisted_constituents(manifest: dict[str, Any], files: set[str]) -> list[str
     file that is missing is ``stale_manifest_fields``'s to report."""
     listed = {entry.get("path") for entry in manifest.get("constituents") or [] if isinstance(entry, dict)}
     return sorted(files - listed)
+
+
+def unlisted_nodes(manifest: dict[str, Any], nodes: set[tuple[str, str]]) -> list[str]:
+    """The declared graph nodes of a pack its manifest does not list as constituents (#182 residual),
+    sorted ``kind:id``; nodes of an exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
+    listed = {
+        (entry.get("kind"), entry.get("id"))
+        for entry in manifest.get("constituents") or []
+        if isinstance(entry, dict)
+    }
+    return sorted(f"{kind}:{node_id}" for kind, node_id in nodes if kind not in MANIFEST_EXEMPT_NODE_KINDS and (kind, node_id) not in listed)
 
 
 def regenerate_manifest(pack_dir: Path) -> list[str]:
@@ -832,6 +848,11 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: {unlisted} is not a constituent; "
             f"add its entry, then run `{REGENERATE_COMMAND} {pack_dir}`"
             for unlisted in unlisted_constituents(manifest, constituent_files)
+        ]
+        report.violations += [
+            f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: graph node {node} is not a constituent; "
+            f"add its entry, then run `{REGENERATE_COMMAND} {pack_dir}`"
+            for node in unlisted_nodes(manifest, declared_nodes(pack_dir))
         ]
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
