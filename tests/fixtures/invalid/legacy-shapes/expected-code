@@ -1,0 +1,5 @@
+# The codes the charter service must refuse this pack with (scripts/ci/charter_service_check.py).
+# The files hold 3.x-era shapes (a lowercase directive id, removed fields, a DRG shard an org pack no
+# longer reads), so the pack cannot be read at all.
+composition: pack_unreadable
+registration: validation_failed

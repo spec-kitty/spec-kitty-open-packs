@@ -1,0 +1,18 @@
+# The charter this repository's packs are proven against (charter ADR-0070).
+#
+# One pin, read by every check that needs the charter:
+#   - scripts/ci/validate_pack_schemas.py fetches the pack schemas (contracts/packs/) at `commit`;
+#   - the "Charter service validation" job builds, or downloads, the charter service for the same
+#     `commit` and asks it to compose and register every pack (scripts/ci/charter_service_check.py).
+#
+# commit       the spec-kitty-charter commit, 40 lowercase hex characters. Never a branch or a tag:
+#              a pin must name the same code tomorrow. Bump it deliberately, in the pull request that
+#              migrates the packs to what the new commit changed.
+# release_tag  the `service-v<version>` release of that commit, once the charter publishes one; empty
+#              until then (none exists yet). When set, the job downloads the release jar instead of
+#              building the commit, and `jar_sha256` is required.
+# jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters;
+#              empty while `release_tag` is empty. The job refuses a jar with any other digest.
+commit: f4acac975522e4bf8d423d552672f9d1d78e8186
+release_tag:
+jar_sha256:

@@ -268,15 +268,18 @@ class PromptFragmentComposition(unittest.TestCase):
         self.enhancement.write_text(self.enhancement.read_text().replace("spdd:reasons-block", "spdd:other"), encoding="utf-8")
         self.assertIn("prompt_slot_missing", self.found())
 
-    def test_non_step_and_missing_steps_are_refused(self) -> None:
-        self.fragment.write_text(self.fragment.read_text().replace("built-in::action:software-dev/specify", "directive:DIRECTIVE_038"), encoding="utf-8")
-        self.assertIn("is not an action:<type>/<step>", self.found())
-        self.fragment.write_text(self.fragment.read_text().replace("directive:DIRECTIVE_038", "built-in::action:software-dev/gone"), encoding="utf-8")
+    def test_a_missing_step_is_refused(self) -> None:
+        self.fragment.write_text(self.fragment.read_text().replace("software-dev/specify", "software-dev/gone"), encoding="utf-8")
         self.assertIn("pack_reference_artifact_missing", self.found())
 
-    def test_fragments_require_exactly_one_enhances_edge(self) -> None:
+    def test_what_the_service_refuses_is_not_judged_here(self) -> None:
+        # A target that is not action:<type>/<step> and an enhancement without exactly one enhances edge are
+        # pack_unreadable at composition and validation_failed at registration (charter_service_check.py).
+        target = self.fragment.read_text()
+        self.fragment.write_text(target.replace("built-in::action:software-dev/specify", "directive:DIRECTIVE_038"), encoding="utf-8")
+        self.assertEqual(self.found(), "")
         self.fragment.write_text("nodes: []\nedges: []\n", encoding="utf-8")
-        self.assertIn("exactly one enhances edge", self.found())
+        self.assertEqual(self.found(), "")
 
 
 if __name__ == "__main__":

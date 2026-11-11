@@ -31,7 +31,7 @@ between the two repositories is expected.
 
 Packs align with the contracts in [`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)
 (operator ruling, 2026-11-06). A pack change is gated on those contracts, which
-`scripts/ci/validate-packs.sh` checks, and not on a Spec Kitty core release. Core becomes
+`scripts/ci/validate-packs.sh` and the charter service job check, and not on a Spec Kitty core release. Core becomes
 compatible by wiring in the charter service's generated client. Following the contracts, and
 using them properly, is the consumer's decision. Neither this repository nor charter is
 responsible for it. A pin bump in a consumer, core included, is that consumer's choice.
@@ -82,7 +82,9 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
 - **`Validate packs gate`** is the one required check. It comes from
   `.github/workflows/validate-packs.yml`, which runs on every pull request, on `main`, and before a
   release. It covers:
-  - pack validation;
+  - pack validation (the per-pack schema pre-check);
+  - the charter service validation (every pack composed and registered through the charter service
+    at the commit pinned in `charter.lock.yaml`, and every invalid fixture refused);
   - the built-in digest;
   - the vocabulary guard;
   - the generated-pack-page drift check;

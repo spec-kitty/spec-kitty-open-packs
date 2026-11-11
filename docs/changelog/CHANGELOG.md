@@ -67,6 +67,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Every pack is validated through the charter service in CI** (charter ADR-0070, #188). A new
+  `Charter service validation` job in `validate-packs.yml`, required by `Validate packs gate`, builds
+  the charter service at the commit pinned in the new `charter.lock.yaml` (or downloads its release
+  jar, checked against `jar_sha256`, once the charter publishes one) and drives it with
+  `scripts/ci/charter_service_check.py`: `GET /offering` must compose every pack, every org and
+  project pack must register whole, and every pack under `tests/fixtures/invalid/` must be refused
+  with the code its new `expected-code` file names. `charter.lock.yaml` is now the one charter pin;
+  `validate_pack_schemas.py` reads its schema commit from it and fails closed unless it is a full
+  commit. Two fixtures carry `expected-code`: `legacy-shapes` (now with a `pack.yaml`, so it is
+  refused for its files, not for a missing descriptor) and the new `unknown-dependency`. The pin is
+  charter `main` at `f4acac9`: the packs validate there unchanged, and at the previous schema pin
+  (`55c7d82`) the service refuses the registration of `spdd`, whose step enhancements it did not yet model.
+
 - **Every pack now authors a `pack.md` — the charter's pack description — and the generated
   reference pages render it** (#21). The charter contract maps `*/pack.md` to the
   `pack-document` schema and calls it "A pack's description" (charter #260, ADR-0042 decision 8);
