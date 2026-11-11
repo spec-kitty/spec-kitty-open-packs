@@ -5,17 +5,20 @@
 # from a pinned commit of this repository (core's own packs/built-in.source.yaml).
 #
 # seeded_from records the last core commit this tree was seeded from, before the
-# authoring flip; it is history, not a re-seed instruction. Edit packs/built-in/ here and
-# update tree_digest below; scripts/ci/check-built-in.sh enforces it.
+# authoring flip; it is history, not a re-seed instruction. Edit packs/built-in/ here and run
+# `python3 scripts/ci/pack_digest.py --update`; scripts/ci/check-pack-digests.sh enforces it.
 seeded_from:
   repository: https://github.com/spec-kitty/spec-kitty
   path: packs/built-in
   commit: f166339300dfe207ea7635a285e498beb877f1a0
   date: '2026-10-19'
 # Since #73, packs/built-in/ is a distribution pack: it holds no artifacts, only its descriptor,
-# pack.md, presets and an empty manifest, and depends on packs/foundation/ and packs/writing/.
-# A consumer that fetches packs/built-in/ alone gets no doctrine; fetch its members at the same pin.
-# snapshot_sha256 (scripts/ci/built_in_digest.py, core's algorithm) over packs/built-in/
+# pack.md, presets and an empty manifest, and depends on its six members: foundation, writing,
+# testing, refactoring, architecture and planning-analysis. A consumer that fetches packs/built-in/
+# alone gets no doctrine; fetch its members at the same pin. Each member has its own sidecar,
+# packs/<member>.source.yaml, to check its tree against.
+# snapshot_sha256 (scripts/ci/pack_digest.py, core's algorithm; scripts/ci/built_in_digest.py stays as
+# the compatibility entry point) over packs/built-in/
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
