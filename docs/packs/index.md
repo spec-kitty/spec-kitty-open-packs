@@ -2,11 +2,22 @@
 title: Packs
 description: The open Charter Pack catalog — what packs are, when to use them, and a link to each pack's generated reference page plus the forward-looking catalog.
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-11'
 kind: Hub
 related:
 - packs/catalog-proposal
 - packs/built-in
+- packs/foundation
+- packs/writing
+- packs/testing
+- packs/refactoring
+- packs/architecture
+- packs/planning-analysis
+- packs/pack-authoring
+- packs/python
+- packs/javascript
+- packs/drupal
+- packs/java
 - packs/cave-kitty
 - packs/event-driven
 - packs/qa
@@ -65,7 +76,18 @@ this table are authored **here**.
 
 | Pack | Purpose | Reference |
 | --- | --- | --- |
-| `built-in` | Spec Kitty's complete built-in charter corpus — the baseline every project starts from, and the source material the focused packs are carved out of. | [built-in reference](built-in.md) |
+| `built-in` | The default distribution pack: holds no artifacts of its own and aggregates `foundation` and `writing`; keeps the `default` and `minimal` presets (#73). | [built-in reference](built-in.md) |
+| `foundation` | The basis every project builds on: Generic Giannis and the implementer, reviewer, analyst and human-in-charge profiles; the software-dev, plan and research missions; every cross-cutting directive with its how-to procedures, tactics and toolguides, including the adversarial-review squad practice. A member of built-in. | [foundation reference](foundation.md) |
+| `writing` | Documentation, communication and glossary doctrine, and the documentation mission. A member of built-in. | [writing reference](writing.md) |
+| `testing` | Opt-in test design, BDD and mutation testing, and debugger-debbie; the base for the stack packs. | [testing reference](testing.md) |
+| `refactoring` | Opt-in refactoring catalogue, semantic compression and code-smell anti-patterns. | [refactoring reference](refactoring.md) |
+| `architecture` | Opt-in domain-driven design and C4 modelling, with architect-alphonso and paula-patterns. | [architecture reference](architecture.md) |
+| `planning-analysis` | Opt-in planning, research, operator-led retrospectives and brownfield analysis. | [planning-analysis reference](planning-analysis.md) |
+| `pack-authoring` | Opt-in doctrine and Charter Pack authoring, with doctrine-daphne. | [pack-authoring reference](pack-authoring.md) |
+| `python` | The opt-in Python stack. | [python reference](python.md) |
+| `javascript` | The opt-in JavaScript, TypeScript and frontend stack. | [javascript reference](javascript.md) |
+| `drupal` | The opt-in Drupal stack. | [drupal reference](drupal.md) |
+| `java` | The opt-in Java stack. | [java reference](java.md) |
 | `cave-kitty` | A re-voicing pack that compresses agent output into a terse, token-saving "caveman" voice while keeping every payload exact. Inert until a consumer opts in. | [cave-kitty reference](cave-kitty.md) |
 | `event-driven` | Event-sourced design guidance: a schema version on every event, one canonical writer behind an event-bridge port, projections and replay, upcasting, and idempotent consumers. | [event-driven reference](event-driven.md) |
 | `qa` | Quality assurance as governed work: a `qa` mission type and a description-to-acceptance CI loop that keeps acceptance tests tied to the product's promises. | [qa reference](qa.md) |
@@ -74,7 +96,8 @@ this table are authored **here**.
 
 ## The forward-looking catalog
 
-The materialized packs above are the beginning. The
+The materialized packs above are the beginning: #73 carved `built-in` into `foundation`,
+`writing` and the opt-in bundles listed above, guided by this catalog and the charter's census. The
 [pack catalog proposal](catalog-proposal.md) lays out the full intended set —
 base packs such as `core-engineering`, `domain-driven-design`, and
 `test-and-bdd`, plus compound stacks that bundle them — and maps each proposed

@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/event-driven`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `c1be36ef49613c9e21979f749f201173eb73c30e21cecbb4d189ae953321af96`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `9cbe54c20870d911543970d075682ab8eeb95ccb8660b1ac300ac5b41716f68f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -35,7 +35,7 @@ producers and consumers that share nothing but published event contracts.
 The pack names no framework, broker or storage. A JSONL file with one writer qualifies as a
 ledger as much as an event store does.
 
-**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
+**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ >=1.0,<2`
 
 ## Artifact inventory
 

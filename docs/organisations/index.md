@@ -2,7 +2,7 @@
 title: Organisations
 description: "How organisations govern many projects with Charter Packs: tiers, the org charter, and the standard provisionings that ship."
 doc_status: draft
-updated: '2026-11-05'
+updated: '2026-11-11'
 related:
 - architecture/overview
 - contracts
@@ -68,10 +68,10 @@ What ships for an organisation to start from:
 
 | Provisioning | Where | What it gives |
 | --- | --- | --- |
-| Built-in `default` preset | `packs/built-in/presets/default.yaml` | Every built-in artefact effective; activates the `software-dev`, `documentation`, `research` and `plan` Mission types. |
+| Built-in `default` preset | `packs/built-in/presets/default.yaml` | Every artefact of the built-in distribution (`foundation` + `writing`) effective; activates the `software-dev`, `documentation`, `research` and `plan` Mission types. |
 | Built-in `minimal` preset | `packs/built-in/presets/minimal.yaml` | A small curated baseline of foundational directives and tactics for `software-dev`. |
 | `event-driven` preset | `packs/event-driven/presets/` | The event-sourced design paradigm, its directives, tactics and naming styleguide. |
-| Opt-in packs | `packs/qa`, `packs/event-driven`, `packs/cave-kitty` | Domain slices you activate artefact by artefact. |
+| Opt-in packs | `packs/qa`, `packs/event-driven`, `packs/cave-kitty`, and the bundles carved from built-in (`packs/testing`, `packs/architecture`, `packs/java`, …) | Domain slices you activate artefact by artefact. |
 | Maintainer pack | `packs/internal` | Spec Kitty's own in-house org pack — a worked example of `required_*` and `skill_namespace` (not shipped in the CLI). |
 
 Apply a preset with:

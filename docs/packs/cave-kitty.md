@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/cave-kitty`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `7b9aa6b96eebd936182c48aabf30391cc0b9446049a62c82a91b6a8c42d6d072`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `d25883c081297d632654aa7a1f5c61f8be8805181ac933e73955be70814e310f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -35,7 +35,7 @@ mission type re-states the built-in `software-dev` step contract as prose and ov
 agent's output prose, compressing it to the caveman voice; the engineering rigour stays
 `software-dev`'s. See the pack's `README.md` for the scope notes and runtime caveats.
 
-**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
 
 ## Artifact inventory
 
