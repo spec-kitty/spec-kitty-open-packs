@@ -31,18 +31,19 @@ Spec Kitty has three product lines:
 
 ```mermaid
 flowchart LR
-  BI["packs/built-in/<br/>(distribution: foundation + writing)"] -- vendored at release --> OF
+  BI["packs/built-in/<br/>(distribution: foundation, writing + 4 core bundles)"] -- vendored at release --> OF
   PK["packs/* (org)"] -- registered + fetched --> OF
   OF["Charter Offering<br/>built-in + org + project"] -- charter activate --> AC["Active Charter"]
   AC -- charter context --> CLI["Spec Kitty CLI"]
 ```
 
 - **`packs/built-in/`** is the built-in *distribution pack* (#73): it holds no artifacts of its own
-  and aggregates its two members, [`foundation`](packs/foundation/) and [`writing`](packs/writing/),
-  which must be fetched at the same pinned, checksummed commit. Each `vX.Y.Z`
+  and aggregates its six members, [`foundation`](packs/foundation/), [`writing`](packs/writing/),
+  [`testing`](packs/testing/), [`refactoring`](packs/refactoring/), [`architecture`](packs/architecture/)
+  and [`planning-analysis`](packs/planning-analysis/), which must be fetched at the same pinned, checksummed commit. Each `vX.Y.Z`
   release publishes every pack as a reproducible archive with a `.sha256`, so a consumer can
   pin a release instead of a commit.
-- **Every other `packs/*`** is an opt-in org-tier pack. A project registers them in `.kittify/config.yaml`
+- **Every other `packs/*`** (the stacks, `pack-authoring` and the topical and process packs) is an opt-in org-tier pack. A project registers them in `.kittify/config.yaml`
   and fetches them with `spec-kitty charter fetch`.
 - Together with the project's own layer they form the project's **Charter Offering**; what the
   project activates from it is its **Active Charter**. At each Mission step the CLI asks the
@@ -56,13 +57,13 @@ schema and the validator — belongs to the charter, today inside the core CLI a
 
 | Pack | Tier | What it is |
 | --- | --- | --- |
-| [`built-in`](packs/built-in/) | built-in | The default distribution: aggregates `foundation` and `writing`, holds the presets. |
+| [`built-in`](packs/built-in/) | built-in | The default distribution: aggregates `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`, holds the presets. |
 | [`foundation`](packs/foundation/) | built-in | The basis: base profiles (Generic Giannis, implementer, reviewer, analyst, human-in-charge), the software-dev, plan and research missions, every cross-cutting directive with its how-tos, including adversarial-review squads. |
 | [`writing`](packs/writing/) | built-in | Documentation, communication and glossary doctrine, and the documentation mission. |
-| [`testing`](packs/testing/) | org (opt-in) | Test design, BDD and mutation testing; the base for the stack packs. |
-| [`refactoring`](packs/refactoring/) | org (opt-in) | The refactoring catalogue and semantic compression. |
-| [`architecture`](packs/architecture/) | org (opt-in) | Domain-driven design and C4 modelling. |
-| [`planning-analysis`](packs/planning-analysis/) | org (opt-in) | Planning, research, retrospectives and brownfield analysis. |
+| [`testing`](packs/testing/) | built-in | Test design, BDD and mutation testing; the base for the stack packs. |
+| [`refactoring`](packs/refactoring/) | built-in | The refactoring catalogue and semantic compression. |
+| [`architecture`](packs/architecture/) | built-in | Domain-driven design and C4 modelling. |
+| [`planning-analysis`](packs/planning-analysis/) | built-in | Planning, research, retrospectives and brownfield analysis. |
 | [`pack-authoring`](packs/pack-authoring/) | org (opt-in) | Doctrine and Charter Pack authoring. |
 | [`python`](packs/python/), [`javascript`](packs/javascript/), [`drupal`](packs/drupal/), [`java`](packs/java/) | org (opt-in) | The language stacks. |
 | [`spdd`](packs/spdd/) | org (opt-in) | Structured-Prompt-Driven Development (REASONS canvas). |
@@ -117,7 +118,7 @@ The docsite is built with [doc-kitty](https://github.com/spec-kitty/doc-kitty) f
 
 | Aspect | State |
 | --- | --- |
-| Packs | `built-in` (distribution of `foundation` + `writing`), nine opt-in bundles carved from it (#73), and `qa`, `event-driven`, `cave-kitty`, `spdd`, `internal` exist; the wider [catalog](docs/packs/catalog-proposal.md) is proposed. |
+| Packs | `built-in` (distribution of `foundation`, `writing` and the `testing`, `refactoring`, `architecture` and `planning-analysis` core bundles), five opt-in bundles (`pack-authoring`, `python`, `javascript`, `drupal`, `java`) carved from it (#73), and `qa`, `event-driven`, `cave-kitty`, `spdd`, `internal` exist; the wider [catalog](docs/packs/catalog-proposal.md) is proposed. |
 | Validation | CI validates every pack against the [spec-kitty-charter pack schemas](https://github.com/spec-kitty/spec-kitty-charter/tree/main/contracts/packs), not against the core CLI. |
 | Compound packs (`depends_on`) | Planned ([spec-kitty#2467](https://github.com/spec-kitty/spec-kitty/issues/2467)). |
 | Trust / verified distribution | Planned ([spec-kitty#2539](https://github.com/spec-kitty/spec-kitty/issues/2539)). |

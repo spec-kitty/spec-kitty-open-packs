@@ -25,7 +25,7 @@ Charter artefacts resolve in layers, later layers overriding earlier ones by art
 built-in   →   org (packs)   →   project (local overlay)
 ```
 
-- **built-in** — the level of the default distribution: the `built-in` distribution pack and its members `foundation` and `writing`.
+- **built-in** — the level of the default distribution: the `built-in` distribution pack and its members `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`. A built-in-level pack may depend only on built-in-level packs, and none is registered at org level.
 - **org** — the packs you configure under `charter_packs.org.packs` (including open packs
   from this repository).
 - **project** — local, in-repo overrides under `.kittify/charter-packs/` for one project only.
@@ -77,7 +77,7 @@ depends_on:
 required beside it. The dependency must be configured too: the service does not fetch it, and refuses
 a `depends_on` that no configured pack answers.
 
-Here, every org pack depends on the packs it references, and on nothing else: `foundation`, `writing` or one of the opt-in bundles carved from `built-in` (#73). `built-in` itself is a distribution pack that holds no artifacts, so no pack depends on it to reach one.
+Here, every org pack depends on the packs it references, and on nothing else: `foundation`, `writing`, one of the core bundles `testing`, `refactoring`, `architecture` or `planning-analysis` (all built-in level), or one of the opt-in org bundles carved from `built-in` (#73). `built-in` itself is a distribution pack that holds no artifacts, so no pack depends on it to reach one.
 
 #### Referencing another pack's artifact
 

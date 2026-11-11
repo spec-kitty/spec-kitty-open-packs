@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/javascript`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `a61b19b1d0cdb1ed36895581d06bff988abc9298a2f5d01e61ad1f76d382a2f3`
+- **Content checksum (sha256):** `af646cad980977ede01482dee3b68164770b7e9158329d96206b364c82ea2a0f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -30,7 +30,7 @@ The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HT
 
 An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
 ## Artifact inventory
 

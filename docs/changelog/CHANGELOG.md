@@ -91,6 +91,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
      profiles or doctrine. The relocated graph edges come back with them; the three dropped
      profile-body references do not.
 
+- **`built-in` now aggregates the core bundles** (#73; amendment of 2026-11-11 to
+  [ADR 2026-11-11-1](../architecture/adr/2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md)).
+  Operator decision: built-in is the aggregate of the general-purpose open-packs.
+  - `testing`, `refactoring`, `architecture` and `planning-analysis` move from `pack_level: org`
+    to `pack_level: built-in` and are now members of `built-in`. Their ids and artifacts are
+    unchanged.
+  - Versions: those four go 1.0.0 → 2.0.0; `built-in` goes 2.0.0 → 3.0.0 and pins all six members
+    exactly (`foundation` and `writing` `==1.0.0`, the four `==2.0.0`).
+  - Org packs that depend on the four (`python`, `javascript`, `drupal`, `java`, `qa`, `internal`,
+    `event-driven`, `spdd`) now require `>=2.0,<3` of them; their own versions are unchanged.
+  - Everything else stays opt-in at org level: `pack-authoring`, `python`, `javascript`, `drupal`,
+    `java`, `internal`, `qa`, `event-driven`, `spdd` and `cave-kitty`.
+
+  **Migrate:**
+  1. If you registered any of the four at org level, drop that opt-in: built-in-level packs are
+     read-only and are not registered.
+  2. Place `testing`, `refactoring`, `architecture` and `planning-analysis` beside `built-in`,
+     `foundation` and `writing`, at the same commit.
+  3. Change any `depends_on` range on the four from `>=1.0,<2` to `>=2.0,<3`, and any on built-in
+     to `>=3.0,<4`.
+  4. The `default` preset again reaches the architect, planner, researcher and retrospective
+     profiles; the fallbacks listed in the entry above no longer apply once the four are placed.
+
 - **Packs migrated to charter ADR-0067/0068/0069** (charter #474; #69, #70). Every agent
   profile now declares one primary `role` plus optional `alt-roles` in place of `roles:`
   (`randy-reducer` is primarily a `refactorer`). Styleguide `principles` are named

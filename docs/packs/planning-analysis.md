@@ -20,17 +20,17 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/planning-analysis`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `56a23c3aa66fdc0f24462bb18951cf3edbc61ee47b01833bbb674fade22c397b`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `8f410ac56a952d5819803ec0c79344423279df143135d633344b27e5de532bab`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `architecture`, `foundation`.
+A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `architecture`, `foundation`.
 
-**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ >=1.0,<2`, `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
+**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ ==2.0.0`, `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 
 ## Artifact inventory
 

@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `0732561aa2d462f8a835f70627bc2916c029c6fa4e90376d23e5b2f3f9f31442`
+- **Content checksum (sha256):** `00aaed13e722e978b9896622c702bd78d7a9da32f3cfdff6e74a24a257207de8`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -35,7 +35,7 @@ It is never shipped to consumers: maintainer-only doctrine — how PRs are lande
 processed, main kept honest — must not be force-shipped on the wheel, so the packaging narrows
 its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=1.0,<2`, `01M75PCTD0V3AFZA9EAXDJ894D >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=2.0,<3`, `01M75PCTD0V3AFZA9EAXDJ894D >=2.0,<3`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
 
 ## Artifact inventory
 
