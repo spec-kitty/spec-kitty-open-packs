@@ -1,0 +1,2 @@
+{"event": "started", "invocation_id": "01M75W3W7W05B80P890QSYMMPF", "profile_id": "curator-carla", "action": "classify", "request_text": "Make built-in aggregate the core bundles", "actor": "claude", "mode_of_work": "task_execution", "governance_context_hash": "31fd4455a64414fb", "governance_context_available": true, "started_at": "2026-11-11T17:57:29.873921+00:00"}
+{"event": "completed", "invocation_id": "01M75W3W7W05B80P890QSYMMPF", "completed_at": "2026-11-11T18:01:26.381389+00:00", "outcome": "done", "closed_by": "agent"}
