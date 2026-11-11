@@ -1,20 +1,50 @@
 {
+  "acceptance_history": [
+    {
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-11T17:02:48.704458+00:00",
+      "accepted_by": "system",
+      "accepted_from_commit": "d10a1ee8afd095d9c8bd81a7c6a97f028da39496",
+      "lenient": true
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-11T17:02:48.704458+00:00",
+  "accepted_by": "system",
+  "accepted_from_commit": "d10a1ee8afd095d9c8bd81a7c6a97f028da39496",
+  "baseline_merge_commit": "d10a1ee8afd095d9c8bd81a7c6a97f028da39496",
+  "contracts": "none",
+  "contracts_rationale": "Content-only pack reorganisation: no API, event or interface is defined. The pack descriptor schema is owned by the charter at the lock pin.",
+  "coordination_branch": "kitty/mission-foundation-writing-split-01M75HV3",
   "create_return_branch": "feat/73-foundation-writing-split",
   "created_at": "2026-11-11T14:57:54.905233+00:00",
   "flattened": false,
   "friendly_name": "Split built-in into foundation and writing",
+  "merged_at": "2026-11-11T17:03:40.642343+00:00",
+  "merged_commit": "f16b464c78a8449bbd2e5e8a226ed2f586a8a712",
   "mid8": "01M75HV3",
   "mission_branch": "kitty/mission-foundation-writing-split-01M75HV3",
   "mission_id": "01M75HV38ZSX9BVZPHQGPJR1NY",
-  "mission_number": null,
+  "mission_number": 2,
   "mission_slug": "foundation-writing-split-01M75HV3",
   "mission_type": "software-dev",
   "pr_bound": true,
   "purpose_context": "Issue #73 (epic #190): per charter ADR-0048 d12 and ADR-0053 d3/d9, built-in stops holding artifacts and aggregates its members. The operator ruled foundation down to its bare basis (fallback, implementer, reviewer, analyst profiles and the base mission types), moved documentation work into writing, and parked the remaining specialist doctrine in a temporary org pack to be carved into bundles one PR at a time. Downstream stack packs (java, rust, go) depend on foundation.",
   "purpose_tldr": "Make built-in a thin distribution pack that aggregates a strict foundation pack and a writing pack, with everything else parked in a staging pack.",
   "slug": "foundation-writing-split-01M75HV3",
+  "status_phase": "1",
   "target_branch": "feat/73-foundation-writing-split",
-  "topology": "single_branch",
-  "topology_settled": false,
-  "topology_source": "default"
+  "topology": "lanes_with_coord",
+  "topology_decision": {
+    "code_lane_count": 4,
+    "from": "single_branch",
+    "rule": "lanes_with_coord",
+    "target_protected": false,
+    "to": "lanes_with_coord",
+    "wp_count": 4
+  },
+  "topology_settled": true,
+  "topology_source": "default",
+  "vcs": "git",
+  "vcs_locked_at": "2026-11-11T15:05:25.683161+00:00"
 }

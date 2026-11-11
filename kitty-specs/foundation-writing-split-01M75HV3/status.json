@@ -1,0 +1,85 @@
+{
+  "event_count": 36,
+  "last_event_id": "01M75S1AHAPRER7S78R39Y6K3X",
+  "materialized_at": "2026-11-11T17:03:38.027220+00:00",
+  "mission_number": "",
+  "mission_slug": "foundation-writing-split-01M75HV3",
+  "mission_type": "",
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 4,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M75S13CTZ7T6ZDP8JX1CMVSN",
+      "last_transition_at": "2026-11-11T17:03:30.714861+00:00",
+      "review_result": {
+        "reference": "review-cycle://foundation-writing-split-01M75HV3/WP01-pack-migration/review-cycle-1.md",
+        "reviewer": "claude-reviewer-subagent",
+        "verdict": "approved"
+      },
+      "shell_pid": 2864,
+      "shell_pid_created_at": "1794409520.14"
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 1,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M75S15TRHSMN7339K45JYZ6E",
+      "last_transition_at": "2026-11-11T17:03:33.208552+00:00",
+      "review_result": {
+        "reference": "review-cycle://foundation-writing-split-01M75HV3/WP02-rewire-org-packs/review-cycle-2.md",
+        "reviewer": "claude-reviewer-subagent",
+        "verdict": "approved"
+      },
+      "shell_pid": 8530,
+      "shell_pid_created_at": "1794414821.42"
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M75S18714C2E8JQETPNYVVFY",
+      "last_transition_at": "2026-11-11T17:03:35.649846+00:00",
+      "review_result": {
+        "reference": "review-cycle://foundation-writing-split-01M75HV3/WP03-gates-and-guard/review-cycle-1.md",
+        "reviewer": "claude-reviewer-subagent",
+        "verdict": "approved"
+      },
+      "shell_pid": 12938,
+      "shell_pid_created_at": "1794415176.39"
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 1,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M75S1AHAPRER7S78R39Y6K3X",
+      "last_transition_at": "2026-11-11T17:03:38.027220+00:00",
+      "review_result": {
+        "reference": "review-cycle://foundation-writing-split-01M75HV3/WP04-documentation/review-cycle-2.md",
+        "reviewer": "claude-reviewer-subagent",
+        "verdict": "approved"
+      },
+      "shell_pid": 17329,
+      "shell_pid_created_at": "1794415770.25"
+    }
+  }
+}
