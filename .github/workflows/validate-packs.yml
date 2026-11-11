@@ -109,8 +109,10 @@ jobs:
         id: pin
         run: |
           set -euo pipefail
-          echo "commit=$(python3 scripts/ci/charter_lock.py commit)" >> "$GITHUB_OUTPUT"
-          echo "release_tag=$(python3 scripts/ci/charter_lock.py release_tag)" >> "$GITHUB_OUTPUT"
+          commit="$(python3 scripts/ci/charter_lock.py commit)"
+          release_tag="$(python3 scripts/ci/charter_lock.py release_tag)"
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
           distribution: temurin
@@ -123,7 +125,10 @@ jobs:
       # pinned commit built with ./gradlew :deployable:bootJar. The same script runs on a developer machine.
       - name: Obtain the charter service
         id: service
-        run: echo "jar=$(scripts/ci/charter_service_jar.sh "$RUNNER_TEMP/charter-service")" >> "$GITHUB_OUTPUT"
+        run: |
+          set -euo pipefail
+          jar="$(scripts/ci/charter_service_jar.sh "$RUNNER_TEMP/charter-service")"
+          echo "jar=$jar" >> "$GITHUB_OUTPUT"
       - name: Compose, register and refuse through the charter service
         env:
           SERVICE_JAR: ${{ steps.service.outputs.jar }}

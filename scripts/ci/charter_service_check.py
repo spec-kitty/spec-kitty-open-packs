@@ -139,8 +139,8 @@ def parse_expected_code(fixture: Path) -> dict[str, str]:
         if not separator or key not in EXPECTED_CODE_KEYS or not value:
             raise CannotRun(f"{path}:{number}: expected 'composition|registration|precheck: <value>', got {raw!r}")
         if key == "precheck":
-            if value not in ("refused", "accepted"):
-                raise CannotRun(f"{path}:{number}: precheck is 'refused' or 'accepted', not {value!r}")
+            if value != "accepted":
+                raise CannotRun(f"{path}:{number}: precheck is only ever 'accepted' (omit it otherwise), not {value!r}")
         elif not CODE_PATTERN.match(value):
             raise CannotRun(f"{path}:{number}: {value!r} is not a refusal code (lower-case words joined by underscores)")
         expected[key] = value
@@ -358,6 +358,12 @@ def check_registration(jar: Path, packs: list[Path], built_in: Path, scratch: Pa
     root = scratch / "registration"
     stage(root, [built_in])
     registrable = [pack for pack in packs if read_descriptor(pack).get("pack_level") in ("org", "project")]
+    others = [pack for pack in packs if pack.resolve() != built_in.resolve()]
+    if not registrable or len(registrable) != len(others):
+        raise CannotRun(
+            f"{len(registrable)} of {len(others)} non-built-in packs declare pack_level org or project; "
+            "every non-built-in pack must be registered"
+        )
     with running_service(jar, root, registration=True, log_dir=scratch) as service:
         for pack in registration_order(registrable):
             left_out: list[str] = []
