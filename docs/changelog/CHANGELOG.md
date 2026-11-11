@@ -507,7 +507,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   task prompt templates, and the copy the `software-dev` tasks-packages step requires, still sends
   the agent to the `/spk-charter-profile-load` skill first. It now adds that a host which cannot
   run skills should run `spec-kitty agent profile show <profile-id>`, the command the skill itself
-  uses. An agent driven from the CLI could not follow the old wording.
+  uses. The `software-dev` implement and review steps' own profile-load instructions get the same
+  fallback. An agent driven from the CLI could not follow the old wording.
 
 - **Internal procedure prose uses ASCII punctuation and puts regeneration exceptions first.** The
   `memory-curation-and-escalation` procedure replaces em dashes with sentence-appropriate ASCII

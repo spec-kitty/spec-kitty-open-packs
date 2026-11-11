@@ -16,4 +16,4 @@ seeded_from:
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: afd817d0dd8179eae591abd01cc806352dad09f0e29e958e298e507ef7c18a2a
+  value: d6d34cd70946dc37213abc7f4c284e8a95eca162cd2dfd4034203a9009383c79
