@@ -89,7 +89,7 @@ Required fields per kind:
 | styleguide | lower-case kebab | `schema_version`, `id`, `title`, `scope`, `principles` — a list of `{name, description}` items (ADR-0067) |
 | toolguide | lower-case kebab | `schema_version`, `id`, `tool`, `title`, `guide_path` (`<id>.guide.md`), `summary` |
 | paradigm | lower-case kebab | `schema_version`, `id`, `name`, `summary`, optional `principles` — the same `{name, description}` items a styleguide uses |
-| agent profile | `profile-id` (not `id`) | `profile-id`, `name`, `purpose`, `specialization` |
+| agent profile | `profile-id` (not `id`) | `profile-id`, `name`, `role`, `purpose`, `specialization` |
 
 Resist dumping a whole policy page into one artifact — split so each rule can be cited
 individually in lint advisories and review feedback.

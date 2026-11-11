@@ -63,7 +63,7 @@ Key fields: `id`, `name`, `purpose`, `steps`, `failure_modes`.
 
 Key fields: `id`, `title`, `scope`, `applies_to_languages`, `principles` (a list of
 `{name, description}` items; names are unique within the list ignoring case and
-whitespace, ADR-0067), `patterns`, `anti_patterns`, `tooling`, `quality_test`.
+surrounding whitespace, ADR-0067), `patterns`, `anti_patterns`, `tooling`, `quality_test`.
 
 ## Toolguide
 

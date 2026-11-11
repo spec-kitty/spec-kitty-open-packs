@@ -141,7 +141,7 @@ Parse frontmatter for:
 Before proceeding, load an agent profile with the `/spk-charter-profile-load` skill and apply its guidance for the rest of this implementation session. If your host cannot run skills, do what the skill does: run `spec-kitty agent profile show <profile-id>` and apply the profile it prints.
 
 If the frontmatter sets `agent_profile`, load that profile. Otherwise:
-Select the profile from the WP's `role`: use the profile the active preset activates for that role if there is one; otherwise run `spec-kitty agent profile list` and load a profile whose roles include it, preferring one whose specialization context matches the WP's languages and `authoritative_surface`.
+Select the profile from the WP's `role`: use the profile the active preset activates for that role if there is one; otherwise run `spec-kitty agent profile list` and load a profile whose `role` is it (or, failing that, whose `alt-roles` include it), preferring one whose specialization context matches the WP's languages and `authoritative_surface`.
 
 ### 3. Verify Dependencies
 
