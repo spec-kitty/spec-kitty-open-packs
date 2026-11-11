@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/spdd`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `f27c75b2b0987902cd3e2e813a4bc637a68fffbbbc2c4dcff544a2e62b6d1906`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `5cb1aeb7b0d010303db26980480672125c6f6b8045266c12d8bd0b8d9ed2e619`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ tactics and writing styleguide, and the prompt enhancements for the `software-de
 plan, tasks, implement and review steps. Activating its `spdd` preset selects the doctrine and
 all five step enhancements together.
 
-**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
+**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ >=1.0,<2`, `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
 
 ## Artifact inventory
 

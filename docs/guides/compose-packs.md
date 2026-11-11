@@ -2,7 +2,7 @@
 title: Compose packs
 description: How Spec Kitty 4.x composes Charter Packs vertically (built-in, org, project) and horizontally (independent packs and compound depends_on packs), and how conflicts resolve.
 doc_status: wip
-updated: '2026-11-05'
+updated: '2026-11-11'
 related:
 - guides/use-a-charter-pack
 - packs/catalog-proposal
@@ -25,7 +25,7 @@ Charter artefacts resolve in layers, later layers overriding earlier ones by art
 built-in   →   org (packs)   →   project (local overlay)
 ```
 
-- **built-in** — the corpus shipped with Spec Kitty core.
+- **built-in** — the level of the default distribution: the `built-in` distribution pack and its members `foundation` and `writing`.
 - **org** — the packs you configure under `charter_packs.org.packs` (including open packs
   from this repository).
 - **project** — local, in-repo overrides under `.kittify/charter-packs/` for one project only.
@@ -77,7 +77,7 @@ depends_on:
 required beside it. The dependency must be configured too: the service does not fetch it, and refuses
 a `depends_on` that no configured pack answers.
 
-Here, every org pack depends on `built-in` and nothing else.
+Here, every org pack depends on the packs it references, and on nothing else: `foundation`, `writing` or one of the opt-in bundles carved from `built-in` (#73). `built-in` itself is a distribution pack that holds no artifacts, so no pack depends on it to reach one.
 
 #### Referencing another pack's artifact
 
@@ -88,7 +88,7 @@ graph edges, in the form `<pack>::<kind>:<id>`:
 ```yaml
 # An edge in packs/qa/drg/fragment.yaml.
 - source: procedure:qa-description-to-acceptance-ci
-  target: built-in::tactic:bdd-scenario-formulation
+  target: testing::tactic:bdd-scenario-formulation
   relation: suggests
 ```
 

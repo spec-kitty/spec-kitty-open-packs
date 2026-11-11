@@ -1,0 +1,121 @@
+---
+title: architecture pack reference
+description: "Generated reference for the architecture Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+doc_status: active
+updated: '2026-11-09'
+kind: Reference
+related:
+- packs
+- architecture/docsite-design
+- packs/catalog-proposal
+generated:
+  by: scripts/docs/gen_pack_reference.py
+  at: '2026-11-09'
+---
+
+# architecture pack reference
+
+> **Generated page — do not edit by hand.** This file is produced by `scripts/docs/gen_pack_reference.py` from the pack source. Hand edits are overwritten on regeneration, and the CI drift gate fails on any difference.
+
+## Provenance & integrity
+
+- **Pack directory:** `packs/architecture`
+- **Declared version:** `1.0.0`
+- **Content checksum (sha256):** `e56adfe0f167f6a2bf27f45eb9706fdb521e2b84fea68ab5e150a4a071e0519f`
+- **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
+
+## Purpose
+
+Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bounded-context and aggregate tactics, architecture templates and anti-patterns, and the Architect Alphonso and Paula Patterns profiles.
+
+An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `refactoring`, `writing`.
+
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTD0V3AFZA9EAXDJ894D >=1.0,<2`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
+
+## Artifact inventory
+
+| Kind | Count |
+| --- | --- |
+| `directives` | 1 |
+| `tactics` | 14 |
+| `styleguides` | 1 |
+| `paradigms` | 3 |
+| `procedures` | 3 |
+| `agent_profiles` | 2 |
+| `drg` | 1 |
+| **Total files** | **30** |
+
+### Full listing
+
+<details>
+<summary><code>directives</code> (1)</summary>
+
+- `use-c4-model-techniques.directive.yaml`
+
+</details>
+
+<details>
+<summary><code>tactics</code> (14)</summary>
+
+- `analysis/ammerse-impact-analysis.tactic.yaml`
+- `analysis/bounded-context-canvas-fill.tactic.yaml`
+- `analysis/connascence-analysis.tactic.yaml`
+- `analysis/context-mapping-classification.tactic.yaml`
+- `analysis/entity-value-object-classification.tactic.yaml`
+- `analysis/strategic-domain-classification.tactic.yaml`
+- `architecture/aggregate-boundary-design.tactic.yaml`
+- `architecture/anti-corruption-layer.tactic.yaml`
+- `architecture/architecture-diagram-review-checklist.tactic.yaml`
+- `architecture/c4-zoom-in-architecture-documentation.tactic.yaml`
+- `architecture/development-bdd.tactic.yaml`
+- `architecture/domain-event-capture.tactic.yaml`
+- `architecture/paula-patterns-architecture-scout-review.tactic.yaml`
+- `architecture/reference-architectural-patterns.tactic.yaml`
+
+</details>
+
+<details>
+<summary><code>styleguides</code> (1)</summary>
+
+- `aggregate-design-rules.styleguide.yaml`
+
+</details>
+
+<details>
+<summary><code>paradigms</code> (3)</summary>
+
+- `c4-incremental-detail-modeling.paradigm.yaml`
+- `deep-module-design.paradigm.yaml`
+- `domain-driven-design.paradigm.yaml`
+
+</details>
+
+<details>
+<summary><code>procedures</code> (3)</summary>
+
+- `c4-diagram-authoring.procedure.yaml`
+- `drill-down-documentation.procedure.yaml`
+- `event-storming-discovery.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>agent_profiles</code> (2)</summary>
+
+- `architect-alphonso.agent.yaml`
+- `paula-patterns.agent.yaml`
+
+</details>
+
+<details>
+<summary><code>drg</code> (1)</summary>
+
+- `fragment.yaml`
+
+</details>
+
+## Validation
+
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
+
+- Errors: 0

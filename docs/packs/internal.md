@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/internal`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `b91ac8f40328ac20dfcc02a1d6eabd3ea2e5620c90c832fe00237ee66ff7d62e`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `0732561aa2d462f8a835f70627bc2916c029c6fa4e90376d23e5b2f3f9f31442`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -35,7 +35,7 @@ It is never shipped to consumers: maintainer-only doctrine — how PRs are lande
 processed, main kept honest — must not be force-shipped on the wheel, so the packaging narrows
 its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 
-**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=1.0,<2`, `01M75PCTD0V3AFZA9EAXDJ894D >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
 
 ## Artifact inventory
 
@@ -43,15 +43,15 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 | --- | --- |
 | `directives` | 5 |
 | `tactics` | 4 |
-| `styleguides` | 6 |
+| `styleguides` | 7 |
 | `toolguides` | 6 |
-| `procedures` | 17 |
-| `assets` | 20 |
+| `procedures` | 19 |
+| `assets` | 22 |
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **76** |
+| **Total files** | **81** |
 
 ### Full listing
 
@@ -77,7 +77,7 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 </details>
 
 <details>
-<summary><code>styleguides</code> (6)</summary>
+<summary><code>styleguides</code> (7)</summary>
 
 - `executive-debrief.styleguide.yaml`
 - `feature-and-scenario-authoring.styleguide.yaml`
@@ -85,6 +85,7 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 - `spec-kitty-docs-lint-config.styleguide.yaml`
 - `spec-kitty-package-tiers.styleguide.yaml`
 - `spec-kitty-tracker-labels.styleguide.yaml`
+- `tiered-standards.styleguide.yaml`
 
 </details>
 
@@ -101,7 +102,7 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 </details>
 
 <details>
-<summary><code>procedures</code> (17)</summary>
+<summary><code>procedures</code> (19)</summary>
 
 - `charter-offering-scenario-extraction.procedure.yaml`
 - `cloud-session-dispatch.procedure.yaml`
@@ -110,6 +111,8 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 - `issue-triage-pass.procedure.yaml`
 - `landing-contributor-prs.procedure.yaml`
 - `memory-curation-and-escalation.procedure.yaml`
+- `mission-tracer-files.procedure.yaml`
+- `mission-wrap-up-sequence.procedure.yaml`
 - `operator-signal-emission.procedure.yaml`
 - `project-evolution-postmortem.procedure.yaml`
 - `semi-auto-delivery.procedure.yaml`
@@ -124,8 +127,10 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 </details>
 
 <details>
-<summary><code>assets</code> (20)</summary>
+<summary><code>assets</code> (22)</summary>
 
+- `audiences/agentic-framework-core-team.md`
+- `audiences/agentic-framework-core-team.md.asset.yaml`
 - `debrief/collect-debrief.py`
 - `debrief/collect-debrief.py.asset.yaml`
 - `debrief/debrief-template.html`

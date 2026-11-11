@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-08'
+updated: '2026-11-11'
 ---
 # Changelog
 
@@ -20,6 +20,76 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### 💥 Breaking
+
+- **`built-in` split into `foundation`, `writing` and nine opt-in bundles** (#73, epic #190;
+  charter ADR-0048 decisions 12-14, ADR-0053 decisions 3 and 9; [ADR 2026-11-11-1](../architecture/adr/2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md)).
+  `built-in` 2.0.0 is now a distribution pack that holds no artifacts of its own. It depends on its
+  members `foundation` and `writing` (exact `==1.0.0` pins) and keeps the `default` and `minimal`
+  presets.
+  - `foundation` holds:
+    - the profiles: Generic Giannis (`generic-agent`, display name only), `implementer-ivan`,
+      `reviewer-renata`, `analyst-annie` and `human-in-charge`;
+    - the `software-dev`, `plan` and `research` missions;
+    - every cross-cutting directive, with its procedures, tactics and toolguides, including the
+      adversarial-review squad practice;
+    - the fallback lock.
+  - `writing` holds the documentation mission and the comms, docs and glossary doctrine.
+  - Everything else ships as opt-in org packs: `testing`, `refactoring`, `architecture`,
+    `planning-analysis`, `pack-authoring`, `python`, `javascript`, `drupal` and `java`.
+
+  Artifact ids are unchanged. It breaks for:
+  - a deployer who places `packs/built-in` alone. Composition is refused with
+    `pack_dependency_unknown`; place `foundation` and `writing` beside it.
+  - every `built-in::<urn>` reference. It no longer resolves (`pack_reference_artifact_missing`),
+    because built-in holds nothing.
+  - every `depends_on` range on built-in below 2.0.
+  - anyone relying on specialist doctrine: the architect, planner, researcher, retrospective,
+    debugger and stack profiles, DDD, C4, refactoring and BDD extras. It is opt-in now.
+    - Activating such an id, or naming it in a preset, needs its bundle registered.
+    - Projects on the `default` preset keep every mission running, but some steps change silently.
+      Documentation `design` (role `architect`) and every `retrospect` step (role `facilitator`)
+      fall back to Generic Giannis. Research steps (role `researcher`) go to a `writing` profile
+      that lists it as an alt-role (`comms-cleo` or `synthesizer-sam`). Register `architecture`
+      and `planning-analysis` to restore the specialists.
+  - consumers of this repository's org packs. `internal`, `qa`, `event-driven`, `spdd` and
+    `cave-kitty` are all bumped to 2.0.0 and depend directly on the packs they reference instead
+    of on `built-in`, so their whole closure must be placed with them.
+    - For example, `qa` needs `foundation`, `testing` and `planning-analysis`, and through those
+      `architecture`, `refactoring` and `writing`. Placing `qa` alone is refused with
+      `pack_dependency_unknown`.
+    - `qa` also received the `sonar` toolguide, and `internal` four maintainer artifacts.
+  - guidance that is gone even with every pack registered:
+    - three profile-body references outside their pack's closure: `analyst-annie` →
+      DIRECTIVE_047, `diagram-daisy` → USE_C4_MODEL_TECHNIQUES, and `implementer-ivan`'s operating
+      procedure test-first-bug-fixing. Their graph edges survive, the body text does not.
+    - five graph edges the charter service refuses across packs: `generic-agent` →
+      USE_MUTATION_TESTING (the fallback is locked), and four edges from `planning-analysis` to
+      file-less templates and anti-patterns in `architecture` and `writing`.
+  - a third-party pack that overrides or enhances an id that moved into a bundle. It must now
+    depend on that bundle, or it no longer reaches the artifact.
+
+  spec-kitty core is out of scope here (AGENTS.md). If it bumps its pin as it is today, it breaks:
+  - it fetches `packs/built-in/` alone, so it must fetch the members at the same pin;
+  - it also hard-codes `researcher-robbie` and `architect-alphonso` as step defaults, which are
+    now opt-in, and its fallback never chooses `generic-agent`, so software-dev `plan` and `tasks`
+    would find no profile;
+  - its pinned `packs/internal` now needs a larger closure.
+
+  To stay on the old layout, pin the commit before this change or tag `v0.1.0`.
+
+  **Migrate:**
+  1. Place or fetch `foundation` and `writing` with `built-in`, at the same commit.
+  2. Rewrite each `built-in::<urn>` to the pack that now holds it. The pack pages list each pack's
+     artifacts, and `kitty-specs/foundation-writing-split-01M75HV3/membership.json` maps every one.
+     Its keys are pack names, which differ from directory names for `quality-assurance` (`qa/`)
+     and `spec-kitty-internal` (`internal/`).
+  3. Replace a `depends_on` on built-in with the packs you actually reference. Each entry names the
+     pack's `pack_id` (the ULID in its `pack.yaml`, also listed in `membership.json` `pack_ids`),
+     with a range of `>=1.0,<2`.
+  4. Place the closure of every pack you register: follow each `pack.yaml` `depends_on`.
+  5. Register `architecture`, `planning-analysis`, `testing` and the stacks if you relied on their
+     profiles or doctrine. The relocated graph edges come back with them; the three dropped
+     profile-body references do not.
 
 - **Packs migrated to charter ADR-0067/0068/0069** (charter #474; #69, #70). Every agent
   profile now declares one primary `role` plus optional `alt-roles` in place of `roles:`
@@ -75,6 +145,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (see Changed).
 
 ### ✨ Added
+
+- **Manifest-completeness guard** (#182). In a pack that ships a `pack-manifest.yaml`, the pack gate
+  now fails when a file-backed doctrine artifact is not a constituent, and names the file. The kinds
+  checked are profiles, directives, tactics, procedures, paradigms, styleguides, toolguides, assets,
+  glossary packs, skills, guards and lifecycles. The `git-flow` procedure and the
+  `execution-lanes` toolguide had shipped unlisted; they are listed now, in `foundation`.
+  `scripts/ci/charter_service_check.py` now stages every built-in-level pack and registers org
+  packs dependencies first (#73). The nine opt-in bundles carry no manifest, so the guard
+  does not cover them, as before for org packs.
 
 - **Every paradigm now states its principles** (#66, charter ADR-0067). All eleven paradigms carry an
   ordered `principles` list of `{name, description}` items in the style of Kent Beck's Test Desiderata,

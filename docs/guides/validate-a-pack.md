@@ -92,7 +92,7 @@ valid through the service, at a pinned charter version). The job:
    declares (`pack_level`; there is no other configuration), and calls `GET /api/v1/offering`. It must
    answer 200 and name every pack at its level with every `depends_on` resolved. A refusal
    (`pack_unreadable` or a composition code) fails the job and prints the problem document;
-3. **registers**: on a scratch root holding only `built-in` (built-in is read-only to registration,
+3. **registers**: on a scratch root holding only the built-in-level packs (`built-in`, `foundation`, `writing`; they are read-only to registration,
    charter ADR-0065), sends each org and project pack whole with `PUT /api/v1/packs/{packId}`,
    dependencies first, and polls `GET /api/v1/pack-registrations/{id}` until it ends. A `refused`
    registration fails the job and prints its problem and violations. A registration holds only files

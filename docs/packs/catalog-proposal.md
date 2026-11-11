@@ -2,7 +2,7 @@
 title: Pack Catalog Proposal
 description: Proposed set of domain and purpose Charter Packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
 doc_status: wip
-updated: '2026-10-14'
+updated: '2026-11-11'
 related:
 - guides/author-a-charter-pack
 - guides/compose-packs
@@ -15,6 +15,14 @@ related:
 > and membership are **subject to change** and will be refined issue-by-issue. Doctrine
 > *logic* stays in [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty); this
 > repository owns the *content* and *packaging*.
+
+> **Status (2026-11-11, #73).** `built-in` has been carved: it is now a distribution pack over
+> `foundation` and `writing` (foundation also absorbed the proposed `adversarial-review`), and the
+> rest ships as opt-in bundles: `testing`, `refactoring`, `architecture`, `planning-analysis`,
+> `pack-authoring`, `python`, `javascript`, `drupal` and `java`. The cut follows charter ADR-0048/ADR-0053 and a research squad
+> rather than this proposal one-to-one. See
+> [ADR 2026-11-11-1](../architecture/adr/2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md).
+> The remaining proposals here (for example compound stacks) are still open.
 
 ## Why carve the monolith
 

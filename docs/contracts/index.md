@@ -2,7 +2,7 @@
 title: Contracts
 description: "The machine contracts a Charter Pack meets: pack, org-charter, preset, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
-updated: '2026-11-05'
+updated: '2026-11-11'
 related:
 - artefacts
 - organisations
@@ -28,8 +28,9 @@ my-pack/
 └── <kind directories>/    # one per artefact kind — see Charter artefacts
 ```
 
-The built-in pack is the exception: it ships per-kind graph files (`<kind>.graph.yaml`) at its
-root instead of `drg/fragment.yaml`.
+The built-in-level packs are the exception: `built-in`, `foundation` and `writing` ship per-kind
+graph files (`<kind>.graph.yaml`) at their root instead of `drg/fragment.yaml` (`built-in` itself,
+a distribution pack since #73, ships none).
 
 ## `pack.yaml` — pack descriptor
 
@@ -62,7 +63,7 @@ RFC 8785 canonical JSON without `manifest_hash`. The pack gate fails on a stale 
 file that is missing. After changing a listed file, restamp the hashes (membership is kept) with
 
 ```bash
-python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest packs/built-in
+python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest packs/foundation
 ```
 
 The command only restamps; it validates nothing unless the pack is also passed as a positional
@@ -121,7 +122,7 @@ producer's output is `blocking`.
 
 ## `drg/fragment.yaml` — DRG fragment
 
-This covers org Charter Pack fragments; the built-in pack's `<kind>.graph.yaml` shards are a
+This covers org Charter Pack fragments; the built-in-level packs' `<kind>.graph.yaml` shards are a
 separate, generated format. The authoritative schema is spec-kitty-charter's pack schema
 ([charter#114](https://github.com/spec-kitty/spec-kitty-charter/issues/114), charter ADR-0017);
 this table summarises it.

@@ -2,7 +2,7 @@
 title: Architectural overview
 description: "How a Charter Pack reaches a running Mission: pack source, the built-in pin, the three-layer Charter Offering, the Active Charter and the charter seams."
 doc_status: draft
-updated: '2026-10-18'
+updated: '2026-11-11'
 related:
 - architecture
 - contracts
@@ -18,9 +18,9 @@ receives during a Mission.
 
 | Component | Owner | Role |
 | --- | --- | --- |
-| Pack source (`packs/built-in/`, `packs/<name>/`) | this repository | Authored charter artefacts, DRG fragments, presets, `pack.yaml`. |
+| Pack source (`packs/built-in/`, `packs/foundation/`, `packs/writing/`, `packs/<name>/`) | this repository | Authored charter artefacts, DRG fragments, presets, `pack.yaml`. |
 | Pack validator | the charter (core CLI) | `spec-kitty charter pack validate` — schema and DRG checks, run here in CI. |
-| Built-in pack pin | core CLI (`packs/built-in.source.yaml`) | Pins a commit and tree digest of this repository's `packs/built-in/`; core fetches it from there and ships it in every wheel. |
+| Built-in pack pin | core CLI (`packs/built-in.source.yaml`) | Pins a commit and tree digest of this repository's `packs/built-in/`; core fetches it from there and ships it in every wheel. Since #73 `built-in` is a distribution pack, so its members `foundation` and `writing` must be fetched at the same pin. |
 | Org pack cache | consumer machine | Packs fetched by `spec-kitty charter fetch` into `local_path`. |
 | Project layer | consumer project (`.kittify/charter-packs/`) | Project-local artefacts, pack id `project`. |
 | Charter Offering | the charter | The merged set a project can draw from. |
@@ -53,7 +53,7 @@ sequenceDiagram
 
 The Charter Offering is built from three additive layers, later layers refining earlier ones:
 
-1. **Built-in** — `pack_level: built-in`. One pack, shipped with the CLI.
+1. **Built-in** — `pack_level: built-in`. The default distribution, shipped with the CLI: the `built-in` distribution pack (no artifacts, the presets) and its members `foundation` and `writing` (#73).
 2. **Org** — `pack_level: org`. Any number of packs registered under `charter_packs.org.packs`;
    each may carry an `org-charter.yaml` that **requires** artefacts.
 3. **Project** — `pack_level: project`. The project's own `.kittify/charter-packs/`.
@@ -88,8 +88,10 @@ The charter service is not an event producer: Mission events come from the CLI a
 
 ## Where built-in content comes from
 
-`packs/built-in/` is authored here. Core keeps no copy (spec-kitty/spec-kitty#6451): it pins a
-commit and tree digest of this repository and fetches the pack from it for tests and wheel builds.
+`packs/built-in/` and its members `packs/foundation/` and `packs/writing/` are authored here. Core
+keeps no copy (spec-kitty/spec-kitty#6451): it pins a commit and tree digest of this repository and
+fetches the pack from it for tests and wheel builds. Since #73 `packs/built-in/` holds no doctrine
+of its own, so core must fetch the members at the same pin before it moves its pin.
 Content changes land here first; a core pin bump then picks them up (see
 [`packs/built-in.source.yaml`](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/packs/built-in.source.yaml)).
 The maintainer-only `internal` pack is also authored here, but it is an org pack and never

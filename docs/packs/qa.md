@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `e3a950edbcf4caf006fabde902837640c7318bc7eeddc4986222e0ccc075966f`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `a0f9d7f6b8d7fab1881037fd1d079578232bcd531a30b627ea7091e055c35fe1`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -36,7 +36,7 @@ scenario to a bound acceptance test and a release gate. The pack names no test r
 project runs its own tests, and the pack governs what they must cover and how honestly they
 report.
 
-**Depends on:** `01ARWG13C000000000000000FG >=1.0,<2`
+**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=1.0,<2`
 
 ## Artifact inventory
 
@@ -45,7 +45,7 @@ report.
 | `directives` | 8 |
 | `tactics` | 8 |
 | `styleguides` | 1 |
-| `toolguides` | 6 |
+| `toolguides` | 8 |
 | `procedures` | 5 |
 | `agent_profiles` | 5 |
 | `assets` | 6 |
@@ -54,7 +54,7 @@ report.
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **74** |
+| **Total files** | **76** |
 
 ### Full listing
 
@@ -94,7 +94,7 @@ report.
 </details>
 
 <details>
-<summary><code>toolguides</code> (6)</summary>
+<summary><code>toolguides</code> (8)</summary>
 
 - `qa-carrier-lint.guide.md`
 - `qa-carrier-lint.toolguide.yaml`
@@ -102,6 +102,8 @@ report.
 - `qa-promise-trace-lint.toolguide.yaml`
 - `qa-result-ingest.guide.md`
 - `qa-result-ingest.toolguide.yaml`
+- `sonar.guide.md`
+- `sonar.toolguide.yaml`
 
 </details>
 

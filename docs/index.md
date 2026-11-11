@@ -2,7 +2,7 @@
 title: Spec Kitty Open Packs
 description: "Overview of the Brain Kitty home of open Charter Packs, and how packs reach the Spec Kitty CLI through the Charter Offering."
 doc_status: draft
-updated: '2026-10-18'
+updated: '2026-11-11'
 related:
 - architecture/overview
 - packs
@@ -54,8 +54,9 @@ flowchart LR
   AC -- "charter context --action" --> CLI
 ```
 
-1. **Built-in** content (`packs/built-in/`) is vendored into the CLI at a pinned, checksummed ref,
-   so every consumer install carries it.
+1. **Built-in** content is vendored into the CLI at a pinned, checksummed ref, so every consumer
+   install carries it. `packs/built-in/` is a distribution pack over `packs/foundation/` and
+   `packs/writing/` (#73), which are fetched at the same ref.
 2. **Opt-in** packs (every other `packs/*`) are registered by a project or organisation under
    `charter_packs.org.packs` and fetched with `spec-kitty charter fetch`.
 3. Together with the project's own layer, they form the project's **Charter Offering**:
