@@ -1,0 +1,107 @@
+# The Go pack's only DRG document. Edge endpoints are URNs (<kind>:<id>), local nodes
+# included; endpoints held by another pack are qualified <pack-name>::<urn> and sit in this
+# pack's depends_on closure (spec-kitty-open-packs#190, #73). The profile relates to foundation
+# and testing only here, never through bare references in its YAML.
+nodes:
+- id: go-conventions
+  kind: styleguides
+  title: Go Conventions Styleguide
+  body_path: styleguides/go-conventions.styleguide.yaml
+- id: go-review-checks
+  kind: toolguides
+  title: Go Review Checks
+  body_path: toolguides/go-review-checks.toolguide.yaml
+- id: go-gwen
+  kind: agent_profiles
+  title: Go Gwen
+  body_path: agent_profiles/go-gwen.agent.yaml
+edges:
+- source: agent_profile:go-gwen
+  target: styleguide:go-conventions
+  relation: requires
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (go); spec-kitty-open-packs#131, operator ruling on spec-kitty-charter#405.
+- source: agent_profile:go-gwen
+  target: toolguide:go-review-checks
+  relation: suggests
+  when: self-reviewing a change before handoff, or reviewing someone else's Go change
+  reason: The profile's self-review protocol runs these checks; the toolguide owns the exact commands, their order and what each one catches.
+- source: styleguide:go-conventions
+  target: toolguide:go-review-checks
+  relation: suggests
+  when: verifying that a change follows the conventions
+  reason: The styleguide's formatting, lint and test rules are enforced mechanically by the checks this toolguide lists.
+- source: agent_profile:go-gwen
+  target: foundation::agent_profile:implementer-ivan
+  relation: specializes_from
+  reason: A language-specialist implementer inherits the implementer baseline, as java-jenny does.
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_010
+  relation: requires
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_024
+  relation: requires
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_025
+  relation: requires
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_030
+  relation: requires
+  when: when assessing whether tests meet the quality gate they must pass
+  reason: An implementer-role profile should reach the test-quality-gate hub when assessing test quality.
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_034
+  relation: requires
+  when: when writing or reviewing the tests that accompany an implementation
+  reason: An implementer-role profile should reach the test-first hub when writing tests.
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_041
+  relation: suggests
+  when: when keeping the tests they write a clear scaffold rather than friction
+  reason: An implementer-role profile should reach the tests-as-scaffold hub when writing tests.
+- source: agent_profile:go-gwen
+  target: foundation::directive:DIRECTIVE_051
+  relation: requires
+  reason: Every Go module dependency addition or upgrade is evaluated against the supply-chain controls this directive names.
+- source: agent_profile:go-gwen
+  target: foundation::directive:DISCIPLINED_REFACTORING
+  relation: suggests
+  when: when tidying code, encountering long functions, or discovering convoluted logic
+  reason: An implementer-role profile should reach the disciplined-refactoring directive when restructuring code.
+- source: agent_profile:go-gwen
+  target: foundation::tactic:acceptance-test-first
+  relation: requires
+  reason: Outside-in from acceptance criteria before production code.
+- source: agent_profile:go-gwen
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: requires
+  reason: Unit-level red-green-refactor is the default implementation rhythm.
+- source: agent_profile:go-gwen
+  target: foundation::tactic:dependency-hygiene
+  relation: requires
+  reason: Keep go.mod tidy and go.sum committed (go.sum pins module content), restrict module sources (GOPROXY, GOPRIVATE), and check advisories with govulncheck after any Go module dependency change.
+- source: agent_profile:go-gwen
+  target: foundation::tactic:supply-chain-install-safety
+  relation: requires
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed Go module dependency, using go-review-checks for the exact supply-chain commands, and record the evidence.
+- source: styleguide:go-conventions
+  target: foundation::directive:DIRECTIVE_030
+  relation: suggests
+- source: styleguide:go-conventions
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+- source: styleguide:go-conventions
+  target: foundation::tactic:tdd-red-green-refactor
+  relation: suggests
+- source: foundation::tactic:supply-chain-install-safety
+  target: toolguide:go-review-checks
+  relation: suggests
+  when: Use for the exact ecosystem commands behind this checklist's steps in a Go project
+- source: agent_profile:go-gwen
+  target: testing::procedure:test-first-bug-fixing
+  relation: requires
+  reason: The profile's debugging mode writes the failing reproduction test before the fix, as java-jenny does.
+- source: agent_profile:go-gwen
+  target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+  relation: suggests
+  when: when assessing whether the tests around a change actually constrain its behaviour
+  reason: An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, mirroring java-jenny.
