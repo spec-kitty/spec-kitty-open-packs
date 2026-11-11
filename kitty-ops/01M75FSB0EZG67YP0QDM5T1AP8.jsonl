@@ -1,0 +1,2 @@
+{"event": "started", "invocation_id": "01M75FSB0EZG67YP0QDM5T1AP8", "profile_id": "curator-carla", "action": "classify", "request_text": "Author paradigm principles for issue #66", "actor": "claude", "mode_of_work": "task_execution", "governance_context_hash": "31fd4455a64414fb", "governance_context_available": true, "started_at": "2026-11-11T14:22:02.034426+00:00"}
+{"event": "completed", "invocation_id": "01M75FSB0EZG67YP0QDM5T1AP8", "completed_at": "2026-11-11T14:24:36.071175+00:00", "outcome": "done", "closed_by": "agent"}
