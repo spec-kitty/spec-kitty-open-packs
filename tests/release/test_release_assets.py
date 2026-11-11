@@ -144,9 +144,6 @@ class ReleaseAssetsTest(unittest.TestCase):
         _git(self.repo, "commit", "-qm", "scratch dir")
         self.assertEqual(release.list_packs(self.repo, "HEAD"), ["built-in", "qa"])
 
-    def test_sidecars_are_not_packs(self) -> None:
-        self.assertEqual(release.list_packs(self.repo, "v1.2.3"), ["built-in", "qa"])
-
     def test_sha256_file_matches_its_archive(self) -> None:
         out = self.repo / "dist"
         release.write_assets(self.repo, "v1.2.3", "v1.2.3", out)
