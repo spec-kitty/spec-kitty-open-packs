@@ -53,6 +53,7 @@ CHARTER_REPOSITORY = "spec-kitty/spec-kitty-charter"
 # charter service job reads the same file). Read by `charter_commit()`, which fails closed unless it is
 # 40 lowercase hex characters; never a branch.
 CONTRACT_PATH = "contracts/packs"
+SCHEMA_NAME_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]*")
 
 #: File-name tokens (``<id>.<token>.yaml``) of kinds the contract must map to a schema.
 KNOWN_KIND_TOKENS = frozenset(
@@ -152,7 +153,12 @@ def load_contract(contract_dir: Path) -> Contract:
             raise GateError(f"files rule {rule.match!r} names no schema")
         if name in contract.validators:
             continue
-        schema_path = contract_dir / "schemas" / f"{name}.schema.json"
+        if not SCHEMA_NAME_PATTERN.fullmatch(name):
+            raise GateError(f"files rule {rule.match!r} names an invalid schema {name!r}")
+        schemas_dir = (contract_dir / "schemas").resolve()
+        schema_path = (schemas_dir / f"{name}.schema.json").resolve()
+        if schema_path.parent != schemas_dir:
+            raise GateError(f"schema {name!r} resolves outside {schemas_dir}")
         try:
             schema = json.loads(schema_path.read_text(encoding="utf-8"))
             Draft202012Validator.check_schema(schema)

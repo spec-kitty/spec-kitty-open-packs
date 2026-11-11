@@ -30,7 +30,7 @@ if [[ -n "$tag" ]]; then
   jar="$work/spec-kitty-charter-service-$version.jar"
   url="https://github.com/$repository/releases/download/$tag/spec-kitty-charter-service-$version.jar"
   echo "downloading $url" >&2
-  curl --fail --silent --show-error --location --retry 3 --output "$jar" "$url"
+  curl --proto "=https" --proto-redir "=https" --fail --silent --show-error --location --retry 3 --output "$jar" "$url"
   actual="$(sha256sum "$jar" | cut -d' ' -f1)"
   if [[ "$actual" != "$digest" ]]; then
     echo "::error::$jar has SHA-256 $actual, not the jar_sha256 $digest of charter.lock.yaml; refusing to run it" >&2

@@ -65,6 +65,8 @@ BUILT_IN = "built-in"
 START_TIMEOUT_SECONDS = 90
 REGISTRATION_TIMEOUT_SECONDS = 120  # the service's own deadline for one registration is 90 s
 MAX_ARCHIVE_BYTES = 32 * 1024 * 1024  # the service refuses a larger upload (413)
+KEY_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*")
+PACK_ID_PATTERN = re.compile(r"[0-9A-Za-z]+")
 EXPECTED_CODE_KEYS = {"composition", "registration", "precheck"}
 CODE_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
 #: Files a pack carries that a registration refuses as ``unmodelled`` ("a registration holds only
@@ -106,13 +108,16 @@ def read_descriptor(pack: Path) -> dict[str, Any]:
             continue
         if raw[0] not in " -":
             in_depends = raw.startswith("depends_on:")
-            match = re.match(r"^([A-Za-z_][\w-]*):\s*(.*?)\s*(?:#.*)?$", raw)
-            if match and match.group(2) not in ("", "null", "~"):
-                descriptor[match.group(1)] = match.group(2).strip("'\"")
+            key, separator, rest = raw.partition(":")
+            value = rest.split("#", 1)[0].strip()
+            if separator and KEY_PATTERN.fullmatch(key) and value not in ("", "null", "~"):
+                descriptor[key] = value.strip("'\"")
         elif in_depends:
-            match = re.match(r"^\s*-?\s*pack_id:\s*([0-9A-Za-z]+)", raw)
-            if match:
-                descriptor["depends_on"].append(match.group(1))
+            entry = raw.strip().removeprefix("-").strip()
+            if entry.startswith("pack_id:"):
+                pack_id = entry.removeprefix("pack_id:").strip()
+                if PACK_ID_PATTERN.fullmatch(pack_id):
+                    descriptor["depends_on"].append(pack_id)
     return descriptor
 
 
@@ -192,12 +197,29 @@ def free_port() -> int:
         return probe.getsockname()[1]
 
 
+def trusted_jar(jar: Path) -> Path:
+    """An existing ``.jar`` file, as an absolute path that cannot be read as an option."""
+    resolved = jar.resolve(strict=True)
+    if resolved.suffix != ".jar" or not resolved.is_file():
+        raise CannotRun(f"{jar} is not a jar file")
+    return resolved
+
+
+def trusted_dir(path: Path) -> Path:
+    """An existing directory, as an absolute path that cannot be read as an option."""
+    resolved = path.resolve(strict=True)
+    if not resolved.is_dir():
+        raise CannotRun(f"{path} is not a directory")
+    return resolved
+
+
 @contextmanager
 def running_service(jar: Path, root: Path, *, registration: bool, log_dir: Path) -> Iterator[Service]:
     """Start the jar over ``root``, wait until it answers, stop it afterwards."""
     java = Path(os.environ["JAVA_HOME"]) / "bin" / "java" if os.environ.get("JAVA_HOME") else "java"
+    jar, root = trusted_jar(jar), trusted_dir(root)
     port, token = free_port(), secrets.token_hex(20)
-    command = [str(java), "-jar", str(jar), f"--server.port={port}", "--configRootLocation", str(root)]
+    command = [str(java), "-jar", str(jar), f"--server.port={int(port)}", "--configRootLocation", str(root)]
     if registration:
         command.append("--charter.registration.enabled=true")
     log_path = log_dir / f"service-{port}.log"
