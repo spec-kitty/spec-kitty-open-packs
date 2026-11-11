@@ -129,7 +129,7 @@ Body sections (in order):
    - **Profile override**: `{agent_profile}` (empty means: select from the role)
    - **Agent/tool**: `{agent}`
 
-   If no profile override is set, use the profile the active preset activates for the role; otherwise run `spec-kitty agent profile list` and load a profile whose roles include it, preferring one whose specialization context matches this work package's languages and `authoritative_surface`.
+   If no profile override is set, use the profile the active preset activates for the role; otherwise run `spec-kitty agent profile list` and load a profile whose `role` is it (or, failing that, whose `alt-roles` include it), preferring one whose specialization context matches this work package's languages and `authoritative_surface`.
 
    ---
    ```

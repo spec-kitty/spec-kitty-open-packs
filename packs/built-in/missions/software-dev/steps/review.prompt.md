@@ -127,7 +127,7 @@ If your host cannot run skills, do what the skill does: run
 
 The implementing agent should have set `role: "reviewer"` in the WP frontmatter before
 it moved the WP to `for_review`. If the frontmatter sets `agent_profile`, load that
-profile. Otherwise: Select the profile from the WP's `role`: use the profile the active preset activates for that role if there is one; otherwise run `spec-kitty agent profile list` and load a profile whose roles include it, preferring one whose specialization context matches the WP's languages and `authoritative_surface`.
+profile. Otherwise: Select the profile from the WP's `role`: use the profile the active preset activates for that role if there is one; otherwise run `spec-kitty agent profile list` and load a profile whose `role` is it (or, failing that, whose `alt-roles` include it), preferring one whose specialization context matches the WP's languages and `authoritative_surface`.
 If `role` still says `implementer`, review under the reviewer role anyway and note the
 oversight in your review comments.
 
