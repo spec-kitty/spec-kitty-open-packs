@@ -227,6 +227,7 @@ class CheckTests(PackFixture):
 
     def test_every_failing_pack_is_reported(self) -> None:
         write_tree(self.packs, {"p2/pack.yaml": b"id: p2\n"})
+        git_track(Path(self._tmp.name))
         code, out = run(pd.check, self.packs, None)
         self.assertEqual(code, 1)
         self.assertIn("packs/p1.source.yaml", out)
@@ -270,6 +271,11 @@ class UpdateTests(PackFixture):
         self.assertEqual(run(pd.update, self.packs, None), (0, ""))
         self.assertEqual(self.sidecar.read_text(encoding="utf-8"), text)
         self.assertEqual(self.sidecar.stat().st_mtime, 1)
+        write_tree(self.packs, {"p2/pack.yaml": b"id: p2\n"})  # never git-added: no tracked files
+        code, out = run(pd.update, self.packs, ["p2"])
+        self.assertEqual(code, 1)
+        self.assertIn("no git-tracked files; `git add` the pack first", out)
+        self.assertFalse((self.packs / "p2.source.yaml").exists())
 
     def test_malformed_is_untouched_and_refused(self) -> None:
         self.sidecar.write_bytes(b"tree_digest: [unclosed\n")
