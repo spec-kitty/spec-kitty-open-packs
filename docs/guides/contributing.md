@@ -94,7 +94,8 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
 
 After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
 `packs/<name>.source.yaml`; the gate fails while the recorded digest is stale. Rebasing over another
-pack change may need the same.
+pack change may need the same. The script needs pyyaml (`pip install pyyaml`, or
+`uv run --with pyyaml python3 scripts/ci/pack_digest.py --update`).
 
 Two pack changes that each re-seed `docs/packs/` can drift once combined. Each passes on its own, so
 a clash shows on the push to `main`, where the drift check fails. Fix it with a follow-up pull

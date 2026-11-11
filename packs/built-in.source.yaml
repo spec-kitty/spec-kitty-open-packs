@@ -18,7 +18,7 @@ seeded_from:
 # alone gets no doctrine; fetch its members at the same pin. Each member has its own sidecar,
 # packs/<member>.source.yaml, to check its tree against.
 # snapshot_sha256 (scripts/ci/pack_digest.py, core's algorithm; scripts/ci/built_in_digest.py stays as
-# the compatibility entry point) over packs/built-in/
+# the compatibility entry point, and kitty-stack's `open-packs digest` is its caller) over packs/built-in/
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
