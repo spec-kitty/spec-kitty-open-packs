@@ -1,0 +1,400 @@
+schema_version: "1.0"
+id: go-conventions
+title: Go Conventions Styleguide
+scope: code
+applies_to_languages:
+  - go
+
+principles:
+  - name: "Money is never float64"
+    description: "Use a decimal type when scale varies or the arithmetic divides or applies rates, else a named integer minor-units type that carries its currency, with overflow checks. Never float32/float64."
+  - name: "Closed sets are typed constants with validation"
+    description: "Give each closed set a named type and typed constants. Values from outside enter only through a Parse function that rejects unknown values; a switch over the type has a default that errors."
+  - name: "Errors are values, wrapped and matched"
+    description: "Wrap with fmt.Errorf(\"...: %w\", err) to keep the chain. Match with errors.Is and errors.As, never by message text. Handle each error once: log it or return it, not both."
+  - name: "Return errors, do not panic"
+    description: "panic only for programmer errors that cannot happen, never across a package boundary and never for bad input. recover only at a goroutine or request root, to log and convert."
+  - name: "context.Context comes first"
+    description: "Every function that blocks, does I/O or crosses an API boundary takes ctx context.Context as its first parameter. Never store a Context in a struct and never pass nil."
+  - name: "No package-level mutable state"
+    description: "Pass dependencies explicitly through a struct built in main or a constructor. Package variables are for constants and sentinel errors; init() only registers, it never connects or reads config."
+  - name: "Small functions over long flows"
+    description: "Split long fall-through flows into small functions over an explicit state type and a switch. Return early on errors so the happy path stays at the left margin."
+  - name: "defer for cleanup, goto only forward"
+    description: "Release resources with defer right after acquiring them. goto is acceptable only as a forward jump to a cleanup label in the same function; never backwards and never into a block."
+  - name: "Accept interfaces, return structs"
+    description: "Define small interfaces where they are consumed, with only the methods the consumer calls. Return concrete types. Do not add an interface before a second implementation or a test seam needs it."
+  - name: "Every goroutine has an owner and an exit"
+    description: "Whoever starts a goroutine guarantees it stops, through context cancellation, errgroup or a closed channel, and waits for it. No unbounded fan-out; bound concurrency explicitly."
+  - name: "Useful zero values, safe copies"
+    description: "Design types so the zero value is valid or explicitly unknown. Keep a mutex next to the fields it guards, and never copy a struct that contains a sync.Mutex or sync.WaitGroup."
+  - name: "Documented, gofmt-clean, plainly named"
+    description: "Every exported identifier has a doc comment starting with its name. Code is gofmt-clean. Package names are short, lower case and specific: no util, common or helpers packages."
+  - name: "Table-driven, race-checked tests"
+    description: "Tests are table-driven with t.Run subtests, use t.Parallel() where safe, fuzz parsers with go test -fuzz, and run under -race in CI."
+
+patterns:
+  - name: Typed Constants with a Validated Parse
+    description: "A named type, typed constants, a String method, and a Parse function that is the only way to turn outside input into the type. The zero value is an explicit unknown, so an unset field is never mistaken for a real value."
+    bad_example: |
+      const (
+          StatusOpen    = 1
+          StatusSettled = 2
+      )
+
+      func SetStatus(id int64, status int) error { // any int is accepted
+          return store.Update(id, status)
+      }
+    good_example: |
+      type Status uint8
+
+      const (
+          StatusUnknown Status = iota
+          StatusOpen
+          StatusSettled
+          StatusCancelled
+      )
+
+      func (s Status) String() string {
+          switch s {
+          case StatusOpen:
+              return "open"
+          case StatusSettled:
+              return "settled"
+          case StatusCancelled:
+              return "cancelled"
+          default:
+              return "unknown"
+          }
+      }
+
+      var ErrUnknownStatus = errors.New("unknown status")
+
+      func ParseStatus(code string) (Status, error) {
+          switch code {
+          case "open":
+              return StatusOpen, nil
+          case "settled":
+              return StatusSettled, nil
+          case "cancelled":
+              return StatusCancelled, nil
+          default:
+              return StatusUnknown, fmt.Errorf("parse status %q: %w", code, ErrUnknownStatus)
+          }
+      }
+
+  - name: Wrapping and Matching Errors
+    description: "Add context while keeping the original error in the chain with %w. Callers decide with errors.Is for sentinel errors and errors.As for typed errors that carry data."
+    bad_example: |
+      if err != nil {
+          return errors.New("load failed: " + err.Error()) // chain lost
+      }
+      // caller:
+      if strings.Contains(err.Error(), "not found") { /* brittle */ }
+    good_example: |
+      var ErrNotFound = errors.New("not found")
+
+      type AccountID int64
+
+      func (r *Repo) Load(ctx context.Context, id AccountID) (*Account, error) {
+          var (
+              a   Account
+              cur string
+          )
+          err := r.db.QueryRowContext(ctx, query, id).Scan(&a.ID, &a.Balance.Minor, &cur)
+          if errors.Is(err, sql.ErrNoRows) {
+              return nil, fmt.Errorf("load account %d: %w", id, ErrNotFound)
+          }
+          if err != nil {
+              return nil, fmt.Errorf("load account %d: %w", id, err)
+          }
+          if a.Balance.Currency, err = ParseCurrency(cur); err != nil {
+              return nil, fmt.Errorf("load account %d: %w", id, err)
+          }
+          return &a, nil
+      }
+
+      // caller:
+      if errors.Is(err, ErrNotFound) { /* 404 */ }
+      var verr *ValidationError
+      if errors.As(err, &verr) { /* use verr.Field */ }
+
+  - name: Explicit Environment Struct
+    description: "Collect the dependencies a component needs in a struct built once in main, and pass it, or its fields, explicitly. Tests build their own instance; nothing reaches for a package variable."
+    good_example: |
+      type Env struct {
+          DB     *sql.DB
+          Clock  func() time.Time
+          Logger *slog.Logger
+      }
+
+      type Server struct{ env Env }
+
+      func NewServer(env Env) *Server { return &Server{env: env} }
+
+      func main() {
+          db, err := sql.Open("pgx", os.Getenv("DATABASE_URL")) // does not connect; db.PingContext(ctx) does
+          if err != nil {
+              log.Fatal(err)
+          }
+          defer db.Close()
+          srv := NewServer(Env{DB: db, Clock: time.Now, Logger: slog.Default()})
+          // ...
+      }
+
+  - name: Context-First Signature
+    description: "Take the caller's context first and pass it down to every blocking call, so cancellation and deadlines reach the I/O."
+    bad_example: |
+      func (c *Client) Fetch(id string) (*Item, error) {
+          req, _ := http.NewRequest(http.MethodGet, c.base+"/items/"+id, nil)
+          return c.do(req) // cannot be cancelled
+      }
+    good_example: |
+      func (c *Client) Fetch(ctx context.Context, id string) (*Item, error) {
+          req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.base+"/items/"+url.PathEscape(id), nil)
+          if err != nil {
+              return nil, fmt.Errorf("build request: %w", err)
+          }
+          return c.do(req)
+      }
+
+  - name: Minor Units with Currency
+    description: "When the scale is fixed and the arithmetic is additive, hold money as integer minor units in a struct that also carries the currency. Refuse to mix currencies and check for overflow. When the arithmetic divides, applies rates or the scale varies, use a decimal type (for example github.com/shopspring/decimal, or cockroachdb/apd for strict contexts) and name the rounding. Compare decimals with Equal or Cmp, never ==, which compares the representation (1.0 vs 1.00). Multiplying minor units needs its own overflow check, or math/big."
+    bad_example: |
+      total := 0.0
+      for _, line := range lines {
+          total += line.Price * float64(line.Qty) // drifts: 0.1 + 0.2 != 0.3
+      }
+    good_example: |
+      type Money struct {
+          Minor    int64
+          Currency Currency // validated ISO 4217 code, built only by ParseCurrency
+      }
+
+      var ErrCurrencyMismatch = errors.New("currency mismatch")
+      var ErrOverflow = errors.New("money overflow")
+
+      func (m Money) Add(o Money) (Money, error) {
+          if m.Currency != o.Currency {
+              return Money{}, fmt.Errorf("add %s to %s: %w", o.Currency, m.Currency, ErrCurrencyMismatch)
+          }
+          sum := m.Minor + o.Minor
+          if (o.Minor > 0 && sum < m.Minor) || (o.Minor < 0 && sum > m.Minor) {
+              return Money{}, ErrOverflow
+          }
+          return Money{Minor: sum, Currency: m.Currency}, nil
+      }
+
+      // Rates: decimal with explicit rounding.
+      vat := netAmount.Mul(rate).RoundBank(2) // shopspring/decimal
+
+  - name: Defer-based Cleanup
+    description: "Release a resource with defer immediately after acquiring it, and fold a close error into the returned error with errors.Join. A forward goto to a single cleanup label stays acceptable in a long function that cannot use defer, such as one that must release in a specific order before returning."
+    bad_example: |
+      f, err := os.Open(path)
+      if err != nil {
+          return err
+      }
+      data, err := io.ReadAll(f)
+      if err != nil {
+          return err // f leaks
+      }
+      f.Close()
+    good_example: |
+      func readAll(path string) (data []byte, err error) {
+          f, err := os.Open(path)
+          if err != nil {
+              return nil, fmt.Errorf("open %s: %w", path, err)
+          }
+          defer func() { err = errors.Join(err, f.Close()) }()
+          return io.ReadAll(f)
+      }
+
+  - name: errgroup-Owned Goroutines
+    description: "Start related goroutines in an errgroup tied to the caller's context. The first error cancels the rest, SetLimit bounds concurrency, and Wait guarantees none outlive the call."
+    good_example: |
+      func FetchAll(ctx context.Context, c *Client, ids []string) ([]*Item, error) {
+          g, ctx := errgroup.WithContext(ctx)
+          g.SetLimit(8)
+          items := make([]*Item, len(ids))
+          for i, id := range ids { // per-iteration variables when go.mod declares go >= 1.22
+              g.Go(func() error {
+                  item, err := c.Fetch(ctx, id)
+                  if err != nil {
+                      return fmt.Errorf("fetch %s: %w", id, err)
+                  }
+                  items[i] = item // each goroutine writes its own index
+                  return nil
+              })
+          }
+          if err := g.Wait(); err != nil {
+              return nil, err
+          }
+          return items, nil
+      }
+
+  - name: Table-Driven Test
+    description: "One test function and a table of named cases; each case runs as a subtest, so a failure names the case and cases can run in parallel."
+    good_example: |
+      func TestParseStatus(t *testing.T) {
+          t.Parallel()
+          tests := []struct {
+              name    string
+              in      string
+              want    Status
+              wantErr error
+          }{
+              {name: "open", in: "open", want: StatusOpen},
+              {name: "unknown code", in: "frozen", want: StatusUnknown, wantErr: ErrUnknownStatus},
+          }
+          for _, tt := range tests {
+              t.Run(tt.name, func(t *testing.T) {
+                  t.Parallel()
+                  got, err := ParseStatus(tt.in)
+                  if !errors.Is(err, tt.wantErr) {
+                      t.Fatalf("ParseStatus(%q) error = %v, want %v", tt.in, err, tt.wantErr)
+                  }
+                  if got != tt.want {
+                      t.Errorf("ParseStatus(%q) = %v, want %v", tt.in, got, tt.want)
+                  }
+              })
+          }
+      }
+
+anti_patterns:
+  - name: float64 Money
+    description: "Holding currency in float32 or float64. Binary floating point cannot represent most decimal fractions, so totals drift and equality checks fail."
+    bad_example: |
+      type Invoice struct{ Total float64 }
+    good_example: |
+      type Invoice struct{ Total Money } // minor units + currency, or a decimal type
+
+  - name: Unchecked Conversion into a Typed Set
+    description: "Converting outside input straight into a named type, as in Status(n), which accepts any value of the underlying type and lets unknown codes flow through the system."
+    bad_example: |
+      status := Status(req.StatusCode) // any uint8, e.g. 42, is now a "Status"
+    good_example: |
+      status, err := ParseStatusCode(req.StatusCode) // same shape as ParseStatus, for numeric codes
+      if err != nil {
+          return fmt.Errorf("decode request: %w", err)
+      }
+
+  - name: Error String Matching
+    description: "Deciding on an error by comparing or searching its message. Messages change, wrapping changes them, and the check silently stops matching."
+    bad_example: |
+      if err != nil && err.Error() == "record not found" { /* ... */ }
+    good_example: |
+      if errors.Is(err, ErrNotFound) { /* ... */ }
+
+  - name: Typed nil Error
+    description: "Returning a nil pointer of a concrete error type as an error. The interface holds a type and a nil value, so err != nil is true and callers see a failure that never happened. go vet does not catch it."
+    bad_example: |
+      func validate(o Order) error {
+          var verr *ValidationError // nil
+          if o.Qty <= 0 {
+              verr = &ValidationError{Field: "qty"}
+          }
+          return verr // non-nil error even when the order is valid
+      }
+    good_example: |
+      func validate(o Order) error {
+          if o.Qty <= 0 {
+              return &ValidationError{Field: "qty"}
+          }
+          return nil
+      }
+
+  - name: Package-level Mutable Globals
+    description: "Holding connections, configuration or caches in package variables set from init() or main. Tests interfere with each other, and dependencies are invisible in function signatures."
+    bad_example: |
+      var db *sql.DB
+
+      func init() {
+          db, _ = sql.Open("pgx", os.Getenv("DATABASE_URL"))
+      }
+    good_example: |
+      type Store struct{ db *sql.DB }
+
+      func NewStore(db *sql.DB) *Store { return &Store{db: db} }
+
+  - name: Context Stored in a Struct
+    description: "Keeping a context.Context in a struct field. Its lifetime no longer matches a call, so cancellation reaches the wrong work or none at all."
+    bad_example: |
+      type Worker struct {
+          ctx context.Context
+      }
+    good_example: |
+      type Worker struct{ /* dependencies only */ }
+
+      func (w *Worker) Run(ctx context.Context) error { /* ... */ }
+
+  - name: Fire-and-Forget Goroutine
+    description: "Starting a goroutine with no way to stop it and nobody waiting for it. It leaks on shutdown, races with tests, and its errors vanish."
+    bad_example: |
+      go sendAuditEvent(evt) // error ignored, may outlive the request
+    good_example: |
+      // Work that must outlive the request: context.WithoutCancel(ctx) (Go 1.21+), still owned and awaited.
+      g.Go(func() error { return sendAuditEvent(ctx, evt) })
+      // ... later
+      if err := g.Wait(); err != nil { /* handle */ }
+
+  - name: Producer-side Interface
+    description: "A package exporting an interface next to its only implementation, mirroring every method. Consumers depend on more than they use, and the interface changes with each new method."
+    bad_example: |
+      package store
+      type Store interface { Get(...); Put(...); Delete(...); List(...); Migrate(...) }
+      type PGStore struct{ /* ... */ }
+    good_example: |
+      package billing
+      // Only what billing calls.
+      type accountGetter interface {
+          Get(ctx context.Context, id AccountID) (*Account, error)
+      }
+
+  - name: Backward goto and Fall-through Flow
+    description: "Using goto to jump backwards or to emulate a sequence of fall-through steps. The control flow cannot be read top to bottom, and a step cannot be tested on its own."
+    bad_example: |
+      step1:
+          if !validate(r) {
+              goto step3
+          }
+          enrich(r)
+      step3:
+          if retry {
+              goto step1
+          }
+    good_example: |
+      var lastErr error
+      for attempt := 0; attempt < maxAttempts; attempt++ {
+          if err := validate(r); err != nil {
+              return fmt.Errorf("validate: %w", err)
+          }
+          if lastErr = enrich(ctx, r); lastErr == nil {
+              return nil
+          }
+      }
+      return fmt.Errorf("enrich after %d attempts: %w", maxAttempts, errors.Join(ErrRetriesExhausted, lastErr))
+
+  - name: Copying a Struct with a Mutex
+    description: "Passing or returning a struct that contains a sync.Mutex by value. The copy has its own lock, so the original fields are no longer protected. go vet's copylocks check reports it."
+    bad_example: |
+      type Counter struct {
+          mu sync.Mutex
+          n  int
+      }
+      func (c Counter) Inc() { c.mu.Lock(); c.n++; c.mu.Unlock() } // value receiver
+    good_example: |
+      func (c *Counter) Inc() {
+          c.mu.Lock()
+          defer c.mu.Unlock()
+          c.n++
+      }
+
+tooling:
+  formatter: "gofmt (or goimports); CI fails when gofmt -l lists any file"
+  vet: "go vet ./..."
+  linter: "staticcheck ./... or golangci-lint run (with staticcheck enabled)"
+  test_runner: "go test -race -count=1 ./...; fuzz targets with go test -fuzz"
+  supply_chain: "govulncheck ./..., go mod verify and go mod tidy -diff"
+
+quality_test: "Can any value from outside the program reach a domain type without passing a Parse or constructor that rejects bad input, and does every goroutine started by the change have a visible owner that waits for it?"

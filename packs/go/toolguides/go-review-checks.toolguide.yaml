@@ -1,0 +1,18 @@
+id: go-review-checks
+schema_version: '1.0'
+tool: go
+title: Go Review Checks
+guide_path: go-review-checks.guide.md
+summary: |
+  The automated checks a reviewer runs, or verifies the implementer has run, before approving Go code: formatting, go vet, static analysis with staticcheck or golangci-lint, tests under the race detector, fuzzing for parsers, known-vulnerability scanning with govulncheck, and module integrity. They are ordered cheapest first.
+commands:
+- test -z "$(gofmt -l $(git ls-files '*.go' ':!vendor'))"
+- go vet ./...
+- staticcheck ./...
+- golangci-lint run
+- go test -race -count=1 ./...
+- govulncheck ./...
+- go mod verify
+- go mod tidy -diff
+applies_to_languages:
+- go

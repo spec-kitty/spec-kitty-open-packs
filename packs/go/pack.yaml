@@ -1,0 +1,17 @@
+# Authored pack descriptor for the opt-in Go (org-tier) stack Charter Pack.
+# pack_id minted once with python-ulid (spec-kitty-open-packs#192); never edit it.
+schema_version: "1.0"
+pack_id: 01M75J18RTS91ZFEQBKBHSS4GX
+pack_version: 1.0.0
+parent_pack: null
+name: go
+pack_level: org
+active_charter: org-charter.yaml
+pack_drg: drg/fragment.yaml
+# Every pack whose artifacts this pack's graph references. Never built-in itself: built-in is a
+# distribution of foundation + writing since #73 (mission rust-go-stack-packs C-003).
+depends_on:
+  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
+    range: ">=1.0,<2"
+  - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
+    range: ">=1.0,<2"
