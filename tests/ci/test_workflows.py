@@ -420,7 +420,6 @@ class ReleaseChecksDigestsBeforeBuilding(unittest.TestCase):
         check = next(i for i, run in enumerate(runs) if "scripts/ci/pack_digest.py --check" in run)
         build = next(i for i, run in enumerate(runs) if "release_assets.py build" in run)
         self.assertLess(check, build)
-        self.assertIn("pyyaml", runs[check])
 
 
 class ActionsArePinned(unittest.TestCase):

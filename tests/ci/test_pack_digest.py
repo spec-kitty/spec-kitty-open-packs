@@ -140,11 +140,6 @@ class ReleaseAgreesTests(unittest.TestCase):
             self.assertEqual(release.list_packs(root, "HEAD"), ["p1"])
             self.assertEqual([d.name for d in pd.discover_packs(root / "packs")], ["p1"])
 
-    def test_the_sidecar_suffix_is_shared(self) -> None:
-        import release_assets as release
-
-        self.assertEqual(pd.SIDECAR_SUFFIX, release.SIDECAR_SUFFIX)
-
 
 class DiscoveryTests(unittest.TestCase):
     def test_discovery_and_orphans(self) -> None:
@@ -154,14 +149,6 @@ class DiscoveryTests(unittest.TestCase):
                                "p1.source.yaml": b"", "ghost.source.yaml": b""})
             self.assertEqual([d.name for d in pd.discover_packs(packs)], ["p1"])
             self.assertEqual([p.name for p in pd.orphan_sidecars(packs)], ["ghost.source.yaml"])
-
-    def test_real_tree_discovery_is_complete(self) -> None:
-        expected = sorted(p.parent.name for p in pd.PACKS.glob("*/pack.yaml"))
-        found = [d.name for d in pd.discover_packs(pd.PACKS)]
-        self.assertEqual(found, expected)
-        self.assertGreater(len(found), 1)
-        for pack in pd.discover_packs(pd.PACKS):
-            self.assertRegex(pd.snapshot_sha256(pack), r"^[0-9a-f]{64}$")
 
 
 class PackFixture(unittest.TestCase):

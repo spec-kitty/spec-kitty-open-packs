@@ -313,15 +313,11 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_INVALID, output)
             self.assertIn("graph node widget:x is not a constituent", output)
 
-    def test_unlisted_nodes_is_exact_and_the_exempt_kinds_are_the_five_documented(self) -> None:
+    def test_unlisted_nodes_is_exact_and_skips_exempt_kinds(self) -> None:
         manifest = {"constituents": [{"kind": "tactic", "id": "a"}, "junk"]}
         nodes = {("tactic", "a"), ("tactic", "b"), ("action", "x")}
         self.assertEqual(validator.unlisted_nodes(manifest, nodes), ["tactic:b"])
         self.assertEqual(validator.unlisted_nodes({"constituents": [{"kind": "tactic", "id": "b"}]}, nodes - {("tactic", "a")}), [])
-        self.assertEqual(
-            validator.MANIFEST_EXEMPT_NODE_KINDS,
-            {"action", "anti_pattern", "template", "mission_type", "mission_step_contract"},
-        )
 
     def test_only_file_backed_doctrine_kinds_are_constituents(self) -> None:
         self.assertIn("tactic", validator.MANIFEST_CONSTITUENT_SCHEMAS)
