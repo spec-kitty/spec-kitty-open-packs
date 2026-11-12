@@ -24,9 +24,11 @@ Three phases, every one of which runs even when an earlier one failed:
    sent whole, dependencies first,
    with ``PUT /api/v1/packs/{packId}`` and its registration polled until it ends. A ``refused``
    registration fails the run, printing its problem and violations. A succeeded registration's
-   diagnostics are printed as notices, and a ``file_not_held`` file outside ``NOT_HELD_ALLOWED_*``
-   fails the run: the charter leaves it out without refusing it (#451), so a misplaced guide, prompt
-   or skill body would otherwise pass unserved. The composed offering of the resulting root must also
+   diagnostics are printed as notices. Each ``file_not_held`` file is classified with the schema
+   validator's mirror of the pinned contract: an ``exclusions`` file passes, an ``ignored`` one passes
+   only under ``validate_pack_schemas.NOT_HELD_ALLOWANCES`` (the one policy both gates apply), and
+   any other fails the run, since the charter leaves it out without refusing it (#451) and a
+   misplaced guide, prompt or skill body would otherwise pass unserved. The composed offering of the resulting root must also
    answer 200.
 3. **Non-vacuity.** Every pack under ``tests/fixtures/invalid/`` names, in its ``expected-code`` file,
    the code the service must refuse it with, once composed and once registered. A fixture the service
@@ -38,7 +40,8 @@ Three phases, every one of which runs even when an earlier one failed:
     registration: validation_failed  # the code of the refused registration's problem
     precheck: accepted               # optional; ``accepted`` = the per-pack schema pass cannot see it
 
-Standard library only. Needs Java 25 for the jar (``JAVA_HOME`` is honoured). Exit 0 when every phase
+The service driver is standard library only; the ``file_not_held`` policy imports
+``validate_pack_schemas`` (``pyyaml``, ``jsonschema``) and its pinned contract. Needs Java 25 for the jar (``JAVA_HOME`` is honoured). Exit 0 when every phase
 passed, 1 when any check failed, 2 when the check could not run (no jar, the service would not start).
 """
 
@@ -74,15 +77,7 @@ KEY_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*")
 PACK_ID_PATTERN = re.compile(r"[0-9A-Za-z]+")
 EXPECTED_CODE_KEYS = {"composition", "registration", "precheck"}
 CODE_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
-#: Files a registration may report as ``file_not_held`` (the charter's exclusions and its ``ignored`` fallback,
-#: #451) without failing the run: orientation notes (a ``README.md`` at any depth), hidden files, and a mission
-#: template's ``plan-field-declaration.yaml``. Any other file the charter leaves out is a misplaced guide, prompt,
-#: skill body or note: it is not served, so the run fails on it. ``validate_pack_schemas.py`` holds the same
-#: policy (``NOT_HELD_ALLOWANCES``) for the packs no registration sees. Matched against the path's segments.
-NOT_HELD_ALLOWED_NAMES = frozenset({"README.md"})
-NOT_HELD_ALLOWED_IN_TEMPLATES = frozenset({"plan-field-declaration.yaml"})
 FILE_NOT_HELD = "file_not_held"
-NOT_HELD_DETAIL = re.compile(r"(?P<file>[^\s:][^:]*?): not held \(.*\)\Z", re.DOTALL)
 
 
 class CannotRun(Exception):
@@ -277,58 +272,88 @@ class Report:
             print(json.dumps(problem, indent=2, sort_keys=True))
 
 
+def is_invalid_fixture(pack: Path) -> bool:
+    """Whether ``pack`` is an invalid fixture (``…/fixtures/invalid/<name>``), whose ``expected-code`` is its own."""
+    parent = pack.resolve().parent
+    return parent.name == "invalid" and parent.parent.name == "fixtures"
+
+
+def _left_out(pack: Path) -> tuple[str, ...]:
+    return (".git", "expected-code") if is_invalid_fixture(pack) else (".git",)
+
+
 def stage(root: Path, packs: list[Path]) -> None:
     """Copy ``packs`` into ``<root>/packs/<directory name>/``: the layout of charter ADR-0038."""
     for pack in packs:
-        shutil.copytree(pack, root / "packs" / pack.name, ignore=shutil.ignore_patterns(".git", "expected-code"))
+        shutil.copytree(pack, root / "packs" / pack.name, ignore=shutil.ignore_patterns(*_left_out(pack)))
+
+
+def archive_members(pack: Path) -> list[Path]:
+    """The files and directories ``archive`` uploads, sorted: the tree less ``.git`` and a fixture's ``expected-code``."""
+    left_out = _left_out(pack)
+    members = []
+    for path in sorted(pack.rglob("*")):
+        relative = path.relative_to(pack)
+        if ".git" in relative.parts or (relative.as_posix() in left_out):
+            continue
+        members.append(path)
+    return members
 
 
 def archive(pack: Path) -> bytes:
     """The pack as a gzip tar with ``pack.yaml`` at its root, the form ``PUT /packs/{packId}`` takes.
 
-    The real tree, less ``expected-code`` (a fixture's own file) and ``.git``: what the charter does not hold, it
+    The real tree, less ``.git`` and an invalid fixture's own ``expected-code``: what the charter does not hold, it
     leaves out itself and reports (``file_not_held``), and what it does not model, it refuses."""
     buffer = io.BytesIO()
     with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
-        for path in sorted(pack.rglob("*")):
-            relative = path.relative_to(pack)
-            name = relative.as_posix()
-            if name == "expected-code" or ".git" in relative.parts:
-                continue
-            tar.add(path, arcname=name, recursive=False)
+        for path in archive_members(pack):
+            tar.add(path, arcname=path.relative_to(pack).as_posix(), recursive=False)
     return buffer.getvalue()
 
 
-def _not_held_allowed(file: str) -> bool:
-    parts = file.split("/")
-    name = parts[-1]
-    return (
-        name in NOT_HELD_ALLOWED_NAMES
-        or name.startswith(".")
-        or (name in NOT_HELD_ALLOWED_IN_TEMPLATES and "templates" in parts[:-1])
-    )
+def _validator() -> Any:
+    try:
+        import validate_pack_schemas
+    except ImportError as error:
+        raise CannotRun(f"the file_not_held policy needs the schema validator's dependencies: {error}") from error
+    return validate_pack_schemas
 
 
-def not_held_findings(result: dict[str, Any]) -> tuple[list[str], list[str]]:
-    """The diagnostics of a succeeded registration, as (notices, failures).
+def not_held_findings(result: dict[str, Any], pack_name: str, files: set[str], contract: Any) -> tuple[list[str], list[str]]:
+    """The diagnostics of a succeeded registration of ``pack_name``, as (notices, failures).
 
-    Every diagnostic is a notice (``<code>: <detail>``; a ``file_not_held`` detail is the file and the rule's
-    reason). A ``file_not_held`` file outside the allowlist is also a failure, and so is one whose detail
-    names no file: the check fails closed rather than guess."""
+    Every diagnostic is a notice. A ``file_not_held`` detail (``<file>: not held (<reason>)``) is matched to the
+    longest uploaded file (``files``, pack-relative) it starts with, and that file is classified with the validator's
+    mirror of ``contract``: excluded passes, ignored passes under ``NOT_HELD_ALLOWANCES``, and anything else fails.
+    A diagnostic that is not a ``{code, detail}`` object, or that names no uploaded file, fails: the check fails
+    closed rather than guess."""
+    validator = _validator()
     notices: list[str] = []
     failures: list[str] = []
     for diagnostic in (result.get("result") or {}).get("diagnostics") or []:
-        code = diagnostic.get("code") if isinstance(diagnostic, dict) else None
-        detail = str(diagnostic.get("detail", "")) if isinstance(diagnostic, dict) else repr(diagnostic)
+        if not isinstance(diagnostic, dict) or not isinstance(diagnostic.get("detail"), str):
+            failures.append(f"cannot read a diagnostic of the registration: {diagnostic!r}")
+            continue
+        code, detail = diagnostic.get("code"), diagnostic["detail"]
         if code != FILE_NOT_HELD:
             notices.append(f"{code}: {detail}")
             continue
         notices.append(detail)
-        named = NOT_HELD_DETAIL.match(detail)
-        if named is None:
-            failures.append(f"cannot read the file a file_not_held diagnostic names: {detail!r}")
-        elif not _not_held_allowed(named.group("file")):
+        named = [name for name in files if detail.startswith(f"{name}: not held (")]
+        if not named:
+            failures.append(f"cannot read the uploaded file a file_not_held diagnostic names: {detail!r}")
+            continue
+        file = max(named, key=len)
+        relative = f"{pack_name}/{file}"
+        kind, _ = validator.classify(contract, relative)
+        if kind == "excluded" or (kind == "ignored" and validator.not_held_allowed(relative)):
+            continue
+        if kind == "ignored":
             failures.append(detail)
+        else:
+            failures.append(f"{detail}; this repository's mirror classifies it as {kind}, not as a file the charter "
+                            "leaves out: scripts/ci/validate_pack_schemas.py has drifted from the pin")
     return notices, failures
 
 
@@ -416,11 +441,17 @@ def check_registration(jar: Path, packs: list[Path], built_in: list[Path], scrat
             f"{len(registrable)} of {len(others)} non-built-in packs declare pack_level org or project; "
             "every non-built-in pack must be registered"
         )
+    validator = _validator()
+    try:
+        contract = validator.contract_for(None)
+    except validator.GateError as error:
+        raise CannotRun(f"the file_not_held policy cannot load the pinned contract: {error}") from error
     with running_service(jar, root, registration=True, log_dir=scratch) as service:
         for pack in registration_order(registrable):
             result = register(service, pack)
             if result["state"] == "succeeded":
-                notices, failures = not_held_findings(result)
+                files = {path.relative_to(pack).as_posix() for path in archive_members(pack) if path.is_file()}
+                notices, failures = not_held_findings(result, pack.name, files, contract)
                 for notice in notices:
                     print(f"::notice::registration: {pack.name}: {notice}")
                 for failure in failures:

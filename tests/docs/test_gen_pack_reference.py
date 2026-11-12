@@ -228,7 +228,8 @@ class GeneratorDeterminismTest(unittest.TestCase):
                 "depends_on:\n"
                 "- pack_id: 01ARWG13C000000000000000AA\n"
                 "  range: '>=1.0,<2'\n"
-                "- {pack_id: 01ARWG13C000000000000000BB, range: '>=2.1,<3'}\n",
+                "- {pack_id: 01ARWG13C000000000000000BB, range: '>=2.1,<3'}\n"
+                "- {pack_id: null, range: '>=1.0'}\n",
                 encoding="utf-8",
             )
             foundation = root / "packs" / "foundation"
@@ -243,6 +244,7 @@ class GeneratorDeterminismTest(unittest.TestCase):
                 page,
             )
             self.assertIn("- **Pack level:** `org`", page)
+            self.assertNotIn("None", page)
             self.assertIn("- **Declared version:** `1.0.0`", page)
             self.assertIn("- **Pack level:** `built-in`",
                           gen.render_page(gen.build_reference(root, "foundation", foundation)))

@@ -17,7 +17,7 @@ It fails closed. Exit status:
      files it lists: ``--regenerate-manifest PACK`` restamps them) and every ``--expect-invalid`` pack has schema violations;
      ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
 * 1  a schema violation, a retired-layout file, a file no rule models (``unmodelled``, as the charter
-     refuses it at registration) or a file the charter would not hold outside ``NOT_HELD_ALLOWANCES``
+     refuses it at registration) or a file only the ``ignored`` rule takes outside ``NOT_HELD_ALLOWANCES``
      (``not_held``) in a pack, an ``--expect-invalid``
      pack that came out clean, or a ``--regenerate-manifest`` pack whose manifest lists a missing file
      (that manifest is left as it was, like the charter's refused write);
@@ -117,7 +117,9 @@ class Contract:
     exclusions: list[Rule]
     retired: list[Rule]
     payloads: list[Rule]
-    #: The last-resort ``ignored`` rules (#451), matched case-insensitively; ``regex`` is the folded glob.
+    #: The last-resort ``ignored`` rules (#451), matched case-insensitively; ``regex`` is the folded glob. Python's
+    #: ``str.lower`` folds Unicode where Java's CASE_INSENSITIVE folds ASCII only; the pin's one rule (``**/*.md``) is
+    #: ASCII, so the two cannot differ on it.
     ignored: list[Rule] = field(default_factory=list)
     validators: dict[str, Draft202012Validator] = field(default_factory=dict)
 
@@ -764,15 +766,52 @@ def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     return "unmodelled", None
 
 
-#: Files the charter leaves out of a pack (``file_not_held``) that this repository lets a pack carry: the
-#: orientation notes (a ``README.md`` at any depth; the root one is the pack document and is held) and a
-#: skill's ``*.skill.md`` body (held as its skill's companion when it sits beside the skill; the charter
-#: service check sees one that does not). Any other file only the ``ignored`` rule takes is a misplaced guide,
-#: prompt or note, and fails as ``not_held``. ``scripts/ci/charter_service_check.py`` holds the same list for
-#: what a registration reports. Globs match like the contract's, case-sensitively.
-NOT_HELD_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md", "**/*.skill.md"))
+#: The one policy for files the charter leaves out of a pack without refusing them (``file_not_held``, #451).
+#: A file an ``exclusions`` rule names is left out by the contract's own decision, and passes. A file only the
+#: ``ignored`` fallback takes passes only when it matches one of these globs: orientation notes, a ``README.md`` at
+#: any depth (the root one is the pack document and is held). Any other is a misplaced guide, prompt, skill body or
+#: note, which nothing serves, and fails as ``not_held``. A skill body its skill's ``body_path`` names is held as a
+#: companion (``companion_claims``), so it never reaches the fallback. ``scripts/ci/charter_service_check.py``
+#: applies this same tuple, through ``classify``, to what a registration reports. Globs match like the contract's,
+#: case-sensitively.
+NOT_HELD_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md",))
 #: A fixture's own file, never pack content (``tests/fixtures/invalid/*/expected-code``).
 FIXTURE_FILES = frozenset({"expected-code"})
+
+
+def is_invalid_fixture(pack_dir: Path) -> bool:
+    """Whether ``pack_dir`` is an invalid fixture (``…/fixtures/invalid/<name>``), whose ``expected-code`` is its own."""
+    parent = pack_dir.resolve().parent
+    return parent.name == "invalid" and parent.parent.name == "fixtures"
+
+
+def not_held_allowed(relative: str) -> bool:
+    """Whether ``relative`` (``<pack>/<path>``), which only the ``ignored`` fallback takes, may be carried unheld."""
+    return any(allowed.match(relative) for allowed in NOT_HELD_ALLOWANCES)
+
+
+def companion_claims(pack_dir: Path, contract: Contract) -> set[str]:
+    """The pack-relative files a skill claims as its body (``body_path``, relative to the skill file).
+
+    The charter removes companion files before it classifies the rest (``WholePackStore``), so a claimed body is held
+    whatever its name or suffix and never falls to ``ignored`` or ``unmodelled``. A path that leaves the pack claims
+    nothing."""
+    claims: set[str] = set()
+    root = pack_dir.resolve()
+    for path in sorted(pack_dir.rglob("*.yaml")):
+        if path.is_symlink() or not path.is_file():
+            continue
+        _, rule = classify(contract, f"{pack_dir.name}/{path.relative_to(pack_dir).as_posix()}")
+        if rule is None or rule.schema != "skill":
+            continue
+        document = _load_or_none(path)
+        body = document.get("body_path") if isinstance(document, dict) else None
+        if not isinstance(body, str):
+            continue
+        target = (path.parent / body).resolve()
+        if target.is_relative_to(root):
+            claims.add(target.relative_to(root).as_posix())
+    return claims
 
 
 def _step_enhancement_violations(path: Path, document: dict[str, Any]) -> list[str]:
@@ -808,6 +847,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     payloads: set[str] = set()
     sidecars: list[tuple[str, str]] = []
     constituent_files: set[str] = set()
+    claimed = companion_claims(pack_dir, contract)
+    fixture = is_invalid_fixture(pack_dir)
     for path in sorted(pack_dir.rglob("*")):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
@@ -824,18 +865,21 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             continue
         if kind == "payload" and inside.startswith("assets/"):
             payloads.add(inside.removeprefix("assets/"))
+        if kind in ("ignored", "unmodelled") and inside in claimed:
+            report.skipped += 1  # a skill's body: held as its companion
+            continue
         if kind != "file" or rule is None:
             tokens = path.name.rsplit(".", 2)
             if kind == "unmodelled" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
                 raise GateError(f"{relative}: a `{tokens[1]}` file has no schema mapping in file-kinds.yaml")
-            if kind == "unmodelled" and inside not in FIXTURE_FILES:
+            if kind == "unmodelled" and not (fixture and inside in FIXTURE_FILES):
                 report.violations.append(f"{relative}: unmodelled: no file-kinds.yaml rule models this file; "
                                          "the charter refuses it at registration")
                 continue
-            if kind == "ignored" and rule is not None and not any(allowed.match(relative) for allowed in NOT_HELD_ALLOWANCES):
+            if kind == "ignored" and rule is not None and not not_held_allowed(relative):
                 report.violations.append(
                     f"{relative}: not_held: the charter leaves this file out ({rule.match}: {rule.reason}); "
-                    "only README.md notes and *.skill.md bodies may be carried unheld"
+                    "only README.md notes may be carried unheld"
                 )
                 continue
             report.skipped += 1
@@ -1211,8 +1255,8 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
       one level is the service's ``pack_sibling_conflict``);
     * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
-      a ``must_have: true`` entry must be declared within the preset pack's ``depends_on`` closure
-      (the charter's ``requiredNotHeld``), not merely by some pack;
+      a ``must_have: true`` entry must be held (a file, not just a graph node) within the preset
+      pack's ``depends_on`` closure (the charter's ``requiredNotHeld``), not merely by some pack;
     * a DRG edge endpoint written bare (``<kind>:<id>``) in a pack's fragment that resolves to no node
       of any pack (a qualified endpoint is the service's ``pack_reference_*``);
     * the agent-profile references of ``profile_reference_violations``;
@@ -1256,11 +1300,13 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                         violations.append(
                             f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r}, which no pack declares as a {kind}"
                         )
-                    elif entry.get("must_have") is True and not closure.intersection(owners[(kind, entry_id)]):
+                    elif entry.get("must_have") is True and not any((kind, entry_id) in held[member] for member in closure):
+                        # The charter's RequiredFloor takes a must-have item only from what the closure holds
+                        # (its files; a graph node without one is held by nobody).
                         reached = ", ".join([pack.name, *sorted(p.name for p in closure if p != pack)])
                         violations.append(
                             f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r} as must_have, but no pack in its "
-                            f"depends_on closure ({reached}) declares it as a {kind}"
+                            f"depends_on closure ({reached}) holds it as a {kind}"
                         )
         fragment = _load_or_none(pack / "drg" / "fragment.yaml")
         for edge in (fragment.get("edges") or []) if isinstance(fragment, dict) else []:
