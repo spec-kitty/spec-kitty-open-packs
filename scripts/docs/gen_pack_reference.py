@@ -9,8 +9,8 @@ This is the *content-from-code* generator described in
 * a "generated — do not edit" banner plus a deterministic content checksum
   (sha256 over each file's ``relative-path + NUL + bytes + LF``, sorted by path);
 * the version and ``depends_on`` declared in ``pack.yaml``, *if present*;
-* the pack's authored description — the ``pack.md`` preamble (charter #260) —
-  under "Purpose";
+* the pack's authored description — the preamble of its root ``README.md``,
+  the pack document (charter #260, #451) — under "Purpose";
 * an artifact inventory with per-kind counts;
 * validation status from the charter pack schemas, checked by
   ``scripts/ci/validate_pack_schemas.py``.
@@ -103,10 +103,11 @@ class PackDescriptor:
 
 @dataclass(frozen=True)
 class PackDocument:
-    """The authored ``pack.md`` — the charter's description of the pack.
+    """The authored root ``README.md`` — the charter's description of the pack.
 
-    The charter contract maps ``*/pack.md`` to the ``pack-document`` schema and
-    calls it "A pack's description" (charter #260, ADR-0042 decision 8). Only
+    The charter contract maps ``*/README.md`` to the ``pack-document`` schema and
+    calls it "A pack's description" (charter #260, #451, ADR-0042 decision 8 as
+    amended 2026-11-11). Only
     the preamble — the "what it is and why" prose between the optional H1 title
     and the first H2 section — is published: it is the author-facing purpose
     the closed ``pack.yaml`` descriptor schema (identity and lineage only) can
@@ -206,7 +207,7 @@ def read_pack_descriptor(directory: Path) -> PackDescriptor:
 
 
 # ---------------------------------------------------------------------------
-# pack.md reader
+# Pack document (README.md) reader
 # ---------------------------------------------------------------------------
 
 
@@ -224,7 +225,7 @@ def _markdown_fence(line: str) -> tuple[str, int, str] | None:
 
 
 def read_pack_document(directory: Path) -> PackDocument | None:
-    """Read the pack's ``pack.md`` (the charter's pack description), if present.
+    """Read the pack's root ``README.md`` (the charter's pack document), if present.
 
     Follows the ``pack-document`` model the charter validates the file against:
     optional frontmatter, an optional H1 title, a preamble, then H2 sections in
@@ -233,7 +234,7 @@ def read_pack_document(directory: Path) -> PackDocument | None:
     its authored-context note.
     """
 
-    path = directory / "pack.md"
+    path = directory / "README.md"
     if not path.is_file():
         return None
     lines = path.read_text(encoding="utf-8").splitlines()
@@ -527,8 +528,8 @@ def render_page(ref: PackReference) -> str:
     )
     lines.append("")
 
-    # The authored pack.md is the charter's description of the pack (charter
-    # #260, ADR-0042 decision 8); its preamble is the purpose prose the closed
+    # The authored README.md is the charter's description of the pack (charter
+    # #260, #451, ADR-0042 decision 8); its preamble is the purpose prose the closed
     # pack.yaml descriptor schema — identity and lineage only — cannot carry.
     # A pack without one falls back to pointing at authored context.
     lines.append("## Purpose")
@@ -538,14 +539,13 @@ def render_page(ref: PackReference) -> str:
         lines.append(preamble)
     elif ref.pack_document is not None:
         lines.append(
-            "_This pack's `pack.md` has no preamble. See the pack's `README.md` "
-            "and the [Packs hub](index.md) for authored context._"
+            "_This pack's `README.md` has no preamble. See the pack's `README.md` "
+            "sections and the [Packs hub](index.md) for authored context._"
         )
     else:
         lines.append(
-            "_No `purpose` is declared for this pack: it authors no `pack.md` "
-            "description. See the pack's `README.md` and the "
-            "[Packs hub](index.md) for authored context._"
+            "_No `purpose` is declared for this pack: it authors no `README.md` "
+            "description. See the [Packs hub](index.md) for authored context._"
         )
     lines.append("")
 

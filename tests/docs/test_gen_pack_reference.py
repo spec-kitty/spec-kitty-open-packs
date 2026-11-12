@@ -47,7 +47,7 @@ def _make_pack(root: Path) -> Path:
     (pack / "pack.yaml").write_text(
         "name: built-in\npack_version: 1.0.0\n", encoding="utf-8"
     )
-    (pack / "pack.md").write_text(
+    (pack / "README.md").write_text(
         "# built-in\n"
         "\n"
         "The baseline pack every project starts with.\n"
@@ -131,34 +131,43 @@ class GeneratorDeterminismTest(unittest.TestCase):
             src.rename(pack / "directives" / "d-002.directive.yaml")
             self.assertNotEqual(baseline, gen.compute_checksum(pack))
 
-    def test_pack_without_pack_md_falls_back_to_the_authored_context_note(self) -> None:
+    def test_pack_without_readme_falls_back_to_the_authored_context_note(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
-            (pack / "pack.md").unlink()
+            (pack / "README.md").unlink()
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
             self.assertIn("No `purpose` is declared", page)
             self.assertIn("the [Packs hub](index.md)", page)
 
-    def test_pack_md_without_a_preamble_has_a_distinct_note(self) -> None:
+    def test_a_retired_pack_md_is_not_read_as_the_description(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
-            (pack / "pack.md").write_text(
+            (pack / "README.md").rename(pack / "pack.md")
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            self.assertNotIn("The baseline pack every project starts with.", page)
+            self.assertIn("No `purpose` is declared", page)
+
+    def test_readme_without_a_preamble_has_a_distinct_note(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            (pack / "README.md").write_text(
                 "# built-in\n\n## Details\n\nSection prose only.\n",
                 encoding="utf-8",
             )
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
-            self.assertIn("This pack's `pack.md` has no preamble", page)
-            self.assertNotIn("authors no `pack.md`", page)
+            self.assertIn("This pack's `README.md` has no preamble", page)
+            self.assertNotIn("authors no `README.md`", page)
             self.assertNotIn("Section prose only", page)
 
-    def test_pack_md_preamble_is_rendered_under_purpose(self) -> None:
+    def test_readme_preamble_is_rendered_under_purpose(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
-            # The authored pack.md preamble is the page's Purpose prose...
+            # The authored README.md preamble is the page's Purpose prose...
             self.assertIn(
                 "## Purpose\n\nThe baseline pack every project starts with.\n",
                 page,
@@ -170,11 +179,11 @@ class GeneratorDeterminismTest(unittest.TestCase):
             self.assertNotIn("Section prose that must not render", page)
             self.assertNotIn("No `purpose` is declared", page)
 
-    def test_pack_md_preamble_ignores_frontmatter_and_skips_blank_lead(self) -> None:
+    def test_readme_preamble_ignores_frontmatter_and_skips_blank_lead(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
-            (pack / "pack.md").write_text(
+            (pack / "README.md").write_text(
                 "---\ntitle: ignored frontmatter\n---\n"
                 "\n"
                 "# built-in\n"
@@ -186,11 +195,11 @@ class GeneratorDeterminismTest(unittest.TestCase):
             self.assertIn("## Purpose\n\nDescription after frontmatter.\n", page)
             self.assertNotIn("ignored frontmatter", page)
 
-    def test_pack_md_preamble_ignores_h2_headings_inside_fences(self) -> None:
+    def test_readme_preamble_ignores_h2_headings_inside_fences(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
-            (pack / "pack.md").write_text(
+            (pack / "README.md").write_text(
                 "# built-in\n\n"
                 "Description before the fences.\n\n"
                 "```markdown\n## Inside a backtick fence\n```\n\n"
@@ -233,7 +242,7 @@ class GeneratorDeterminismTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             page = gen.render_page(gen.build_reference(root, "built-in", _make_pack(root)))
-            # The description comes from pack.md, never from a pack.yaml prose
+            # The description comes from README.md, never from a pack.yaml prose
             # field the closed descriptor schema forbids.
             self.assertNotIn("in this pack's `pack.yaml`", page)
             self.assertNotIn("schema has no such field", page)

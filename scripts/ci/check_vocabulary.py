@@ -83,7 +83,7 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
     ),
     # Not in core, which never scans packs/qa: keep this row when syncing with core.
     (
-        "packs/qa/PROVENANCE.md",
+        "packs/qa/README.md",  # its Provenance section (#241)
         "behavior-driven-development",
         "Its old reference, `behavior-driven-development`, was retired",
     ),

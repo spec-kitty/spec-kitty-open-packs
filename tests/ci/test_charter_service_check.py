@@ -165,7 +165,7 @@ class Packs(unittest.TestCase):
         cyclic_b = self.make(self.root, "y", "01Y", depends_on=("01X",))
         self.assertEqual(len(check.registration_order([cyclic_a, cyclic_b])), 2)  # a cycle is the service's to refuse
 
-    def test_the_archive_leaves_out_fixture_files_and_unmodelled_documentation_only(self) -> None:
+    def test_the_archive_uploads_the_pack_document_and_retired_files_and_leaves_out_template_notes_only(self) -> None:
         pack = self.make(self.root, "p", "01P")
         for name in ("expected-code", "README.md", "PROVENANCE.md", "org-charter.yaml", "stray.md",
                      "missions/m/templates/README.md", "missions/m/templates/plan-field-declaration.yaml",
@@ -176,10 +176,12 @@ class Packs(unittest.TestCase):
         body = check.archive(pack, left_out)
         with tarfile.open(fileobj=io.BytesIO(body), mode="r:gz") as tar:
             names = set(tar.getnames())
-        self.assertEqual(names, {"pack.yaml", "directives", "directives/d.directive.yaml", "directives/README.md", "stray.md",
+        # README.md is the pack document and is sent; a retired file is sent too, so the service refuses it.
+        self.assertEqual(names, {"pack.yaml", "README.md", "PROVENANCE.md", "org-charter.yaml", "directives",
+                                 "directives/d.directive.yaml", "directives/README.md", "stray.md",
                                  "missions", "missions/m", "missions/m/templates", "missions/m/templates/kept.md"})
-        self.assertEqual(sorted(left_out), ["PROVENANCE.md", "README.md", "missions/m/templates/README.md",
-                                            "missions/m/templates/plan-field-declaration.yaml", "org-charter.yaml"])
+        self.assertEqual(sorted(left_out), ["missions/m/templates/README.md",
+                                            "missions/m/templates/plan-field-declaration.yaml"])
 
     def test_two_directories_with_one_name_cannot_share_a_configuration_root(self) -> None:
         self.make(self.root / "one", "same", "01A")
