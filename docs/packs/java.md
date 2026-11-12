@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/java`
 - **Declared version:** `2.1.0`
-- **Content checksum (sha256):** `d80d7ffe3f00b419998e4727a577ead00b364600d7c0be41f8b95ad0c391316a`
+- **Content checksum (sha256):** `adb3249458cf24fbe02b6b509322b8408136a37c963729be691b9c4f59ceb4db`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-The Java stack: the Java Jenny profile, Java conventions, Maven review checks and Java supply-chain guidance.
+The Java stack: the Java Jenny profile, Java conventions, Maven review checks and Java supply-chain guidance. The supply-chain guidance also applies to Kotlin on Maven or Gradle.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
+- **Contents:** 2 toolguides, 1 agent profile, 1 styleguide.
+- **Agent profiles:** `java-jenny`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -40,7 +41,7 @@ An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 de
 | `toolguides` | 4 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **12** |
+| **Total files** | **9** |
 
 ### Full listing
 

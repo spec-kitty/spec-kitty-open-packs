@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/pack-authoring`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `d70d267c8387c89ce63226172f22499ddc5d14d196a64dc3e33d42dcf8f17f9f`
+- **Content checksum (sha256):** `572820de68414007d69d76ed5c3b6a1eb9c896a8f43eb111cdcf89ff6fa4e323`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external agents into a pack, deployable skill authoring and the migration-to-charter procedure.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `writing`.
+- **Contents:** 3 templates, 2 procedures, 1 agent profile, 1 styleguide.
+- **Agent profiles:** `doctrine-daphne`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
 
@@ -40,7 +41,7 @@ An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 de
 | `procedures` | 2 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **10** |
+| **Total files** | **7** |
 
 ### Full listing
 

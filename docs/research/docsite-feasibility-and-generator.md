@@ -27,8 +27,8 @@ related:
 ## What a pack is on disk (the raw material)
 
 A pack is a directory with one subdirectory per artifact kind (`directives/`, `tactics/`,
-`styleguides/`, `toolguides/`, `paradigms/`, `procedures/`, `agent_profiles/`, `drg/`) plus an
-optional `org-charter.yaml`. Each artifact is a **schema-validated, Pydantic-modelled YAML file**
+`styleguides/`, `toolguides/`, `paradigms/`, `procedures/`, `agent_profiles/`, `drg/`) plus, at the time, an
+optional `org-charter.yaml` (retired since #242). Each artifact is a **schema-validated, Pydantic-modelled YAML file**
 in core:
 
 - **Directive** (`src/doctrine/directives/models.py`): `id`, `schema_version`, `title`, `intent`,
@@ -56,7 +56,7 @@ show a **purpose** and a **`depends_on`** list. Neither exists as a source field
   It carries `pack_version`, `fetched_at`, `source_type`, `source_url`, `artifact_counts` — no
   `name`, `purpose`, or `depends_on`.
 - `depends_on` has **no pack-level schema in core at all** (it exists only on *mission steps*).
-- `org-charter.yaml` carries activation defaults, not a description or dependency DAG.
+- `org-charter.yaml` carried activation defaults, not a description or dependency DAG (it is retired since #242; presets carry them).
 
 **Fix:** introduce one small, hand-authored, author-facing manifest per pack — `pack.yaml`
 (distinct from the tooling-written `pack-manifest.yaml`) — with just `name`, `purpose`,
@@ -116,7 +116,7 @@ or consistency payoff for this repo.
 SOURCE OF TRUTH (in-repo, versioned)
   packs/<name>/{directives,tactics,...}/*.<kind>.yaml   # per-artifact fields (id/title/intent/enforcement)
   packs/<name>/pack.yaml            # NEW hand-authored: name, purpose, depends_on[], maturity
-  packs/<name>/org-charter.yaml     # optional activation defaults (defined upstream)
+  packs/<name>/presets/*.yaml       # optional activation defaults (org-charter.yaml retired, #242)
         │
         ▼
 GENERATION STEP  (scripts/docs/generate_pack_reference.py — net-new, Python)

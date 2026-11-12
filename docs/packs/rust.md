@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/rust`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `1cabb3c67384a75aa1f120361ff9561dd3ae832df5c75fed09d7a56318bc403d`
+- **Content checksum (sha256):** `84fdc3327786ee4b281fb7bb1b38862841524b3c6e1fa9c740d7b40a8b00cfbb`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -29,9 +29,15 @@ generated:
 Idiomatic Rust for any Rust codebase: domain values as validated types, typed errors, money that is
 never a float, exhaustive matches, isolated `unsafe`, and a cheapest-first Cargo review gate.
 
-This opt-in org stack pack holds the `rust-conventions` styleguide, the `rust-review-checks`
-toolguide and the `rust-ruben` implementer profile, which requires the conventions. Activating its
-`rust` preset puts all three in force; the pack's org charter activates nothing on its own.
+An opt-in org stack pack with general-purpose Rust doctrine for teams that build in Rust under Spec
+Kitty.
+
+| Artifact | Kind | What it gives an agent |
+| --- | --- | --- |
+| `rust-conventions` | styleguide | How to write the code: validated newtypes, parsing at the boundary, `thiserror` in libraries and `anyhow` at binary edges, money as a decimal or a currency-carrying minor-units type, exhaustive matches, documented `unsafe`, `///` docs. Each rule comes with bad and good examples. |
+| `rust-review-checks` | toolguide | What to run before approving: `cargo fmt`, `clippy -D warnings`, tests and doc-tests, `cargo doc`, `cargo deny` / `cargo audit`, and where they apply `cargo hack`, `cargo semver-checks`, Miri and `cargo mutants`. Cheapest first. |
+| `rust-ruben` | agent profile | A Rust implementer that requires `rust-conventions` and self-reviews with `rust-review-checks`. |
+| `rust` | preset | Puts the three above in force. |
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -44,7 +50,7 @@ toolguide and the `rust-ruben` implementer profile, which requires the conventio
 | `agent_profiles` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **11** |
+| **Total files** | **8** |
 
 ### Full listing
 

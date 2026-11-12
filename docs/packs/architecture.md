@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/architecture`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `43f801057c75d9431c8124d6a8e28c12914238dcf67c2d576be5b9bf547bb684`
+- **Content checksum (sha256):** `c0100fa9a938b39693b722ae1e3d84e73f98a57d4e52b1c0a0fdb030455f61ad`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bounded-context and aggregate tactics, architecture templates and anti-patterns, and the Architect Alphonso and Paula Patterns profiles.
 
-A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`, `refactoring`, `writing`.
+- **Contents:** 14 tactics, 6 anti patterns, 5 templates, 3 paradigms, 3 procedures, 2 agent profiles, 1 directive, 1 styleguide.
+- **Agent profiles:** `architect-alphonso`, `paula-patterns`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTD0V3AFZA9EAXDJ894D ==2.0.0`, `01M75HSYS69RYRFPB4WCC5AC9D ==1.0.0`
 
@@ -43,7 +44,7 @@ A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by 
 | `procedures` | 3 |
 | `agent_profiles` | 2 |
 | `drg` | 1 |
-| **Total files** | **30** |
+| **Total files** | **28** |
 
 ### Full listing
 

@@ -65,7 +65,7 @@ spec-kitty charter fetch --dry-run                    # preview without contacti
 spec-kitty doctor charter-packs
 ```
 
-This lists each configured pack with its artifact counts and `org-charter.yaml` status, and
+This lists each configured pack with its artifact counts, and
 reports collisions between layers and dangling DRG endpoints. Add `--json` for scripting.
 
 ## 4. Activate what you want
@@ -79,8 +79,9 @@ spec-kitty charter activate --pack <pack> --preset <preset>
 ```
 
 A preset writes ordinary `activated_<kind>` keys into `.kittify/config.yaml`; edit them
-afterwards as you like. A pack's `org-charter.yaml` can also put artifacts in force through
-its `required_*` lists.
+afterwards as you like. An org pack can also put artifacts in force for every project with a
+governing preset, whose `must_have: true` items cannot be deactivated
+([Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md)).
 
 ## 5. Confirm it participates in resolution
 

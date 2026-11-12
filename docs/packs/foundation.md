@@ -21,20 +21,22 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `cc9420d4af7b5b3063087d0b42b7ba67c05eff534199ecb64d46bde7556a89f3`
+- **Content checksum (sha256):** `f0f2c778d11d3d877afaf89c510cb073db469f4a33a474467091768c3fa1a626`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-The basis every Spec Kitty project builds on: the fallback profile (Generic Giannis), the
-implementer, reviewer, analyst and human-in-charge profiles; the software-dev, plan and research
-mission types with their step contracts and templates; every cross-cutting directive with the
-procedures, tactics and toolguides that make it actionable (git workflow, execution lanes and
-adversarial-review squads included); and the spec-kitty-core glossary.
+The basis of every Spec Kitty project, and a member of the `built-in` distribution.
 
-A member of the `built-in` distribution (charter ADR-0048 decisions 12-13, ADR-0053 decisions 3
-and 9), at `pack_level: built-in`, depending on nothing. Stack packs and specialist bundles depend
-on it. Carved out of `built-in` by #73.
+- **Agent profiles:** `generic-agent` (Generic Giannis, the fallback), `implementer-ivan`,
+  `reviewer-renata`, `analyst-annie`, `human-in-charge`.
+- **Mission types:** `software-dev`, `plan`, `research`.
+- **Doctrine:** every cross-cutting directive with its how-to procedures, tactics and toolguides.
+
+Build on it from another pack with `depends_on` (`range: ">=1.0,<2"`) and reference its artifacts
+as `foundation::<kind>:<id>`. Mission roles no installed profile fills (for example `researcher`
+without the `planning-analysis` bundle) go to a profile that lists the role as an alt-role (for
+example `comms-cleo` or `synthesizer-sam` in `writing`, for `researcher`), else to Generic Giannis.
 
 ## Artifact inventory
 
@@ -49,7 +51,7 @@ on it. Carved out of `built-in` by #73.
 | `agent_profiles` | 6 |
 | `glossary_packs` | 1 |
 | `missions` | 74 |
-| **Total files** | **243** |
+| **Total files** | **241** |
 
 ### Full listing
 
@@ -334,6 +336,10 @@ on it. Carved out of `built-in` by #73.
 
 ## Validation
 
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **failing**.
 
-- Errors: 0
+- Errors: 1
+
+### Errors
+
+- foundation/pack-manifest.yaml: stale manifest: constituents{glossary_packs/spec-kitty-core.glossary-pack.yaml}.content_hash; run `python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest /home/user/spec-kitty-open-packs/.worktrees/charter-slice-b-migration-01M78K20-lane-d/packs/foundation`

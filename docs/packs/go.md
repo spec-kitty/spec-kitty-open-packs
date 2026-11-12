@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/go`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `97c89c91e858b946204bd6b7edcccf3b4aff761a99fe67f484cde181acd2b089`
+- **Content checksum (sha256):** `fa8269b6195a8049be50f4eb99b7219bc6fce948cbee17fb1eba1f4f4c1fdd8d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -30,9 +30,14 @@ Idiomatic Go for any Go codebase: validated typed constants, wrapped errors matc
 `errors.Is`/`errors.As`, context first, explicit dependencies instead of package globals, money that
 is never `float64`, owned goroutines, and a cheapest-first review gate.
 
-This opt-in org stack pack holds the `go-conventions` styleguide, the `go-review-checks` toolguide
-and the `go-gwen` implementer profile, which requires the conventions. Activating its `go` preset
-puts all three in force; the pack's org charter activates nothing on its own.
+An opt-in org stack pack with general-purpose Go doctrine for teams that build in Go under Spec Kitty.
+
+| Artifact | Kind | What it gives an agent |
+| --- | --- | --- |
+| `go-conventions` | styleguide | How to write the code: typed constants with a validated parse, errors wrapped with `%w` and matched with `errors.Is`/`errors.As`, `context.Context` first, an explicit dependency struct instead of package globals, money as a decimal or minor units with its currency, `defer` for cleanup, owned goroutines, table-driven tests. Each rule comes with bad and good examples. |
+| `go-review-checks` | toolguide | What to run before approving: `gofmt`, `go vet`, `staticcheck` or `golangci-lint`, `go test -race`, fuzzing, `govulncheck`, `go mod verify`. Cheapest first. |
+| `go-gwen` | agent profile | A Go implementer that requires `go-conventions` and self-reviews with `go-review-checks`. |
+| `go` | preset | Puts the three above in force. |
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -45,7 +50,7 @@ puts all three in force; the pack's org charter activates nothing on its own.
 | `agent_profiles` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **11** |
+| **Total files** | **8** |
 
 ### Full listing
 

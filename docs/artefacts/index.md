@@ -119,9 +119,9 @@ Key fields: `id`, `description`, `provenance`, `terms`.
 ## Skill
 
 Key fields: `id`, `title`, `description`, `triggers`, `form`, `body_path`, `parameters`,
-`invocation`, `version`, `maintainers`. A pack that ships skills needs a `skill_namespace`
-([Organisations](../organisations/index.md)); the skill renders as
-`<skill_namespace>-<id>/SKILL.md`.
+`invocation`, `version`, `maintainers`. The charter model has no skill namespace: how a skill's
+directory is named when it is rendered (for example core's `kitty-<id>/SKILL.md` for the
+`internal` pack) is the consumer's rendering.
 
 ## How artefacts connect
 

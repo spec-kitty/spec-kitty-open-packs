@@ -21,18 +21,19 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `602903daaf7367f1432f9f9372d6032b11457ea01a541c5a7ce3227740084df1`
+- **Content checksum (sha256):** `8c45806d7e9b9554f66088ecb89c4997c7a930a01141069aaadf4083ada550c7`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-Documentation, communication and terminology doctrine: the documentation mission type; the
-comms, scribe, minutes, synthesis, diagram, lexical and curator profiles; Common Docs and
-audience-oriented writing directives, the documentation styleguides, diagram toolguides, the
-glossary-stewardship tactics and templates, and the writing-audience assets.
+Documentation, communication and terminology doctrine, and a member of the `built-in`
+distribution.
 
-A member of the `built-in` distribution (charter ADR-0053 decisions 3 and 9), at
-`pack_level: built-in`, depending on `foundation`. Carved out of `built-in` by #73.
+- **Agent profiles:** `comms-cleo`, `curator-carla`, `diagram-daisy`, `lexical-larry`,
+  `minutes-mahad`, `scribe-sally`, `synthesizer-sam`.
+- **Mission type:** `documentation`.
+
+Reference its artifacts from another pack as `writing::<kind>:<id>`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 
@@ -49,7 +50,7 @@ A member of the `built-in` distribution (charter ADR-0053 decisions 3 and 9), at
 | `assets` | 13 |
 | `missions` | 38 |
 | `templates` | 2 |
-| **Total files** | **114** |
+| **Total files** | **112** |
 
 ### Full listing
 

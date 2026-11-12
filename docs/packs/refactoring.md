@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/refactoring`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `867d2697ef0556d7ff20e8820d3c004357adf0c2fc45b73f2da77349feea390f`
+- **Content checksum (sha256):** `ec8da4a7a7c68df8d83379607ed523500e93e0330dd7064eb81b4dcc99eb8af4`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy patterns), semantic compression, the code-smell anti-patterns and the Randy Reducer profile.
 
-A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`, `testing`.
+- **Contents:** 25 tactics, 7 anti patterns, 1 agent profile, 1 paradigm, 1 procedure.
+- **Agent profiles:** `randy-reducer`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTC6HS38NX8HJGT26VTP ==2.0.0`
 
@@ -41,7 +42,7 @@ A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by 
 | `procedures` | 1 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **34** |
+| **Total files** | **32** |
 
 ### Full listing
 

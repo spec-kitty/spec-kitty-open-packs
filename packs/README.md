@@ -30,7 +30,9 @@ packs/<pack-name>/
 ├── glossary_packs/      # *.glossary-pack.yaml
 ├── presets/             # <name>.yaml activation presets
 ├── drg/fragment.yaml    # additive DRG fragment
-└── org-charter.yaml     # optional policy / required artifacts
+├── pack.yaml            # the descriptor: identity, level and lineage (required)
+├── README.md            # the pack document: its description, served by the charter
+└── policy.yaml          # optional mutability levels (open, extendable, locked)
 ```
 
 See [Author a Charter Pack](../docs/guides/author-a-charter-pack.md) to add one, and
@@ -43,7 +45,7 @@ The exceptions are the built-in-level packs. [`built-in/`](built-in/) is the def
 [`architecture/`](architecture/) and [`planning-analysis/`](planning-analysis/) (#73, charter
 ADR-0048 decision 12). `foundation`, `writing` and `built-in` carry a generated
 `pack-manifest.yaml` and root `*.graph.yaml` shards instead of `drg/fragment.yaml`; the four core
-bundles keep their `drg/fragment.yaml` and carry a generated `pack-manifest.yaml`, with no `org-charter.yaml`. All six members are built-in level, so they depend only
+bundles keep their `drg/fragment.yaml` and carry a generated `pack-manifest.yaml`. All six members are built-in level, so they depend only
 on built-in-level packs (ADR-0048 decision 7), and are read-only to registration. Every pack's tree digest is recorded in `packs/<name>.source.yaml` and checked by
 `scripts/ci/check-pack-digests.sh`; see
 [`built-in.source.yaml`](built-in.source.yaml) for built-in's provenance. The stacks and `pack-authoring` carved from

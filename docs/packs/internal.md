@@ -21,19 +21,15 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `de624465c07e940b96d4766b4acb4aee54d63ae045844448c839a707df3827d3`
+- **Content checksum (sha256):** `87c8152a2da5172a948d603f944d841ffc7b086e0771f9302889a05e70657751`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-Spec Kitty's own internal Charter Pack: the doctrine that governs the Spec Kitty project's
-contributors, maintainers and core team. It is loaded as an org-tier pack (registered in
-`.kittify/config.yaml` under `charter_packs.org.packs`), overlaying the public `built-in`
-product doctrine.
-
-It is never shipped to consumers: maintainer-only doctrine — how PRs are landed, the tracker
-processed, main kept honest — must not be force-shipped on the wheel, so the packaging narrows
-its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
+This is Spec Kitty's own **internal** Charter Pack: the doctrine that governs
+*contributors, maintainers, and the core team* of the Spec Kitty project itself.
+It is loaded as an **org-tier** pack (registered in `.kittify/config.yaml` under
+`charter_packs.org.packs`), overlaying the public `packs/built-in/` product doctrine.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=2.0,<3`, `01M75PCTD0V3AFZA9EAXDJ894D >=2.0,<3`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
 
@@ -51,7 +47,7 @@ its `packs` include to `packs/built-in/` specifically to keep this tree in-repo.
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **81** |
+| **Total files** | **78** |
 
 ### Full listing
 

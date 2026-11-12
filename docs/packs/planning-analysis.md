@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/planning-analysis`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `416e53f6f8a4ebd091dbe660d13590a20467d3b2416bbf00c4ef16829e6e8ade`
+- **Content checksum (sha256):** `e106bb0c4428f0a9872bc8212beb4fefcf8cd3da020d2ea69315e27352122bdb`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `architecture`, `foundation`.
+- **Contents:** 5 procedures, 5 templates, 3 agent profiles, 1 paradigm, 1 styleguide, 1 tactic.
+- **Agent profiles:** `planner-priti`, `researcher-robbie`, `retrospective-facilitator`.
 
 **Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ ==2.0.0`, `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 
@@ -42,7 +43,7 @@ A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by 
 | `procedures` | 5 |
 | `agent_profiles` | 3 |
 | `drg` | 1 |
-| **Total files** | **17** |
+| **Total files** | **15** |
 
 ### Full listing
 

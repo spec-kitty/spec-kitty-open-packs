@@ -66,7 +66,6 @@ pack_version: 1.0.0
 parent_pack: null
 name: quality-assurance
 pack_level: org
-active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
 depends_on:
   - pack_id: 01ARWG13C000000000000000FG

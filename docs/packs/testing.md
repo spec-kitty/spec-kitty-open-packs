@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/testing`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `0d7932d66a25cb3321351384fdcb6f2a38ba65903a5ee9739d0912840a955e80`
+- **Content checksum (sha256):** `d0b8806e0a7328a7dfeafdbe1c0289233fbb3dcffcb71ca8fbe5989c4dd2aee6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
-A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by it since 3.0.0 (ADR 2026-11-11-1, amendment 2026-11-11). It builds on `foundation`.
+- **Contents:** 9 tactics, 5 procedures, 5 styleguides, 2 paradigms, 1 agent profile, 1 directive, 1 toolguide.
+- **Agent profiles:** `debugger-debbie`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 
@@ -44,7 +45,7 @@ A built-in-level core bundle, carved out of `built-in` by #73 and aggregated by 
 | `procedures` | 5 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **31** |
+| **Total files** | **29** |
 
 ### Full listing
 

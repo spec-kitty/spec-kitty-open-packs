@@ -21,16 +21,22 @@ generated:
 
 - **Pack directory:** `packs/event-driven`
 - **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `df73a2f34ff40720521f9410f17af504ec84e843b6030c2819d41782ebbcac10`
+- **Content checksum (sha256):** `1c4cb17739b698b6bd908a7cd3005671289c4fbd9a2685e6f0375b726f05595e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-An open Spec Kitty Charter Pack for building systems where events are the source of truth and
-state is a projection of them: one canonical event writer behind an event-bridge port, a schema
-version on every event, producers that emit the latest version and consumers that choose which
-versions they accept, a pure domain core with side effects running in event consumers, and
-producers and consumers that share nothing but published event contracts.
+An open Spec Kitty Charter Pack for building systems where **events are the source of truth**
+and state is a projection of them. It encodes the rules Spec Kitty's own core is moving to:
+one canonical event writer behind an event-bridge port, a schema version on every event,
+producers that emit the latest version and consumers that choose which versions they accept,
+a pure domain core with side effects (git, filesystem, network) running in event consumers,
+and producers and consumers that share nothing but published event contracts:
+
+```
+domain core --decides--> EventBridge port --> canonical writer --> ledger --> subscribers
+  (pure)                                        (one per stream)   (truth)    projections, side effects
+```
 
 The pack names no framework, broker or storage. A JSONL file with one writer qualifies as a
 ledger as much as an event store does.
@@ -49,7 +55,7 @@ ledger as much as an event store does.
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **21** |
+| **Total files** | **19** |
 
 ### Full listing
 

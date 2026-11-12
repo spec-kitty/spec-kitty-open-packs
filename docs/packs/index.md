@@ -46,10 +46,10 @@ Each pack is a directory of artifact-kind subdirectories (`directives/`,
 
 - a `pack.yaml` descriptor (`pack_id`, `name`, `pack_version`, `parent_pack`, and —
   when authored — `pack_level` / `depends_on`);
-- a `pack.md` — the pack's description, whose preamble the generated reference
-  page renders under its Purpose heading;
-- an `org-charter.yaml` declaring activation defaults;
-- a hand-written `README.md` with the authored "what it is and why" narrative.
+- a `README.md` — the pack document: the authored "what it is and why"
+  narrative, whose preamble the generated reference page renders under its Purpose
+  heading;
+- optional activation presets (`presets/<name>.yaml`) and a `policy.yaml`.
 
 Content and packaging live in this repository; charter **logic** — resolution,
 the DRG, activation, the manifest schema, and the pack validator — lives in
@@ -73,7 +73,7 @@ The pages below are **generated** from the pack source by
 [docsite design](../architecture/docsite-design.md) for the generated-versus-authored
 boundary and the checksum design). They are never hand-edited; CI re-runs the
 generator and fails on any drift. Each page's Purpose section is the preamble of
-the pack's authored `pack.md` — the charter's pack description. The summaries in
+the pack's authored `README.md` — the charter's pack document. The summaries in
 this table are authored **here**.
 
 | Pack | Purpose | Reference |

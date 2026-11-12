@@ -13,7 +13,7 @@ seeded_from:
   commit: f166339300dfe207ea7635a285e498beb877f1a0
   date: '2026-10-19'
 # Since #73, packs/built-in/ is a distribution pack: it holds no artifacts, only its descriptor,
-# pack.md, presets and an empty manifest, and depends on its six members: foundation, writing,
+# README.md, presets and an empty manifest, and depends on its six members: foundation, writing,
 # testing, refactoring, architecture and planning-analysis. A consumer that fetches packs/built-in/
 # alone gets no doctrine; fetch its members at the same pin. Each member has its own sidecar,
 # packs/<member>.source.yaml, to check its tree against.
@@ -22,4 +22,4 @@ seeded_from:
 # (every file except pack-manifest.yaml; length-prefixed path + size + bytes).
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: ad841252089ca5cdc5da33d7a027fb34386a80fe64249c1e368e61162dea38ca
+  value: 80bb107a4064c5be4ac1deb8e177fefb47c9a0db680ae8d0210a4000f6a32700
