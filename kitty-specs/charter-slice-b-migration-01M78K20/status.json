@@ -64,6 +64,9 @@
       "last_event_id": "01M78M0Q5FSY8R688A1Z55GK2P",
       "last_transition_at": "2026-11-12T19:33:38.607793+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "19 READMEs merged; pack.md/PROVENANCE.md gone; shape check 19/19; content-loss check: 0 missing paragraphs except one deliberate rewording (built-in 'This file' -> 'This README')."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 23847,
