@@ -118,7 +118,7 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude:opus:implementer-ivan",
+      "agent": "claude:opus:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -129,7 +129,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Docs fixed; pages regenerated; digests restamped. Gates at 17ce3f9: check-pack-digests ok, validate_pack_schemas 0 violations over 19 packs, check_vocabulary 0 findings, gen --check no drift, unittest release/vocabulary/ci/docs/assets OK, docs validate + links OK, charter_service_check exit 0 (13 org packs + example-pack registered, 20 compose, non-vacuity holds). Out-of-map edit: tests/ci/test_pack_digest.py BUILT_IN_DIGEST follows the README rename.",
-        "Cycle 2: foundation manifest regenerated (MAJOR); overview skills sentence attributed to core with the charter's absent-means-none (NIT). All gates exit 0: digests, validate_pack_schemas (cross-pack, every pack ok), vocabulary, gen --check, validate-packs.sh, unittest x5."
+        "Cycle 2: foundation manifest regenerated (MAJOR); overview skills sentence attributed to core with the charter's absent-means-none (NIT). All gates exit 0: digests, validate_pack_schemas (cross-pack, every pack ok), vocabulary, gen --check, validate-packs.sh, unittest x5.",
+        "Cycle 2: foundation manifest restamped (content_hash 7870b3c3...), foundation.md regenerated to passing; overview.md now separates core's unrestricted-by-default from the charter's absent-means-none (ADR-0053 d10, DIV-203). All gates exit 0: digests 19/19, validate_pack_schemas cross-pack 0 violations, vocabulary 0 findings, gen --check no drift, unittests release 13/vocabulary 15/ci 133/docs 13/assets 21. BUILT_IN_DIGEST independently recomputed (80bb107a...); built-in change is rename + wording only. No live retired-mechanism mentions outside ADRs/changelog."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
