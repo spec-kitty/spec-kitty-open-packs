@@ -1,0 +1,56 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-12T19:17:05.431473Z",
+      "decision_id": "01M78K2D8QKHE0ZD1K8RRYQHDE",
+      "final_answer": "17ce3f9 (main tip)",
+      "input_key": "charter_pin_commit",
+      "mission_id": "01M78K20HSVDWPYCH30Q1CKBJ5",
+      "mission_slug": "charter-slice-b-migration-01M78K20",
+      "opened_by": "cli",
+      "options": [
+        "17ce3f9 (main tip)",
+        "1d244f3",
+        "ddfd954",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Charter has no release; which commit should charter.lock.yaml pin?",
+      "rationale": null,
+      "resolved_at": "2026-11-12T19:17:07.336868Z",
+      "resolved_by": null,
+      "slot_key": "specify.pin.charter-commit",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-12T19:17:09.211185Z",
+      "decision_id": "01M78K2GYV7HYY8D31AN4JMZ2X",
+      "final_answer": "Governing-preset wording: 'An org pack enforces activations through a governing preset: a preset whose items carry must_have: true.' A core issue mirrors it.",
+      "input_key": "glossary_charter_pack_wording",
+      "mission_id": "01M78K20HSVDWPYCH30Q1CKBJ5",
+      "mission_slug": "charter-slice-b-migration-01M78K20",
+      "opened_by": "cli",
+      "options": [
+        "Governing-preset wording",
+        "Drop sentence, track in core",
+        "Leave it, track in core",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "What replaces the core-seeded Charter Pack glossary sentence about required_<kind> lists in org-charter.yaml?",
+      "rationale": null,
+      "resolved_at": "2026-11-12T19:17:11.322526Z",
+      "resolved_by": null,
+      "slot_key": "specify.glossary.charter-pack-wording",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M78K20HSVDWPYCH30Q1CKBJ5",
+  "version": 1
+}

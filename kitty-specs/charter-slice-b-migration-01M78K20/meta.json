@@ -16,5 +16,7 @@
   "target_branch": "feat/slice1-readme-retire-org-charter",
   "topology": "single_branch",
   "topology_settled": false,
-  "topology_source": "default"
+  "topology_source": "default",
+  "contracts": "none",
+  "contracts_rationale": "No API or interface is defined: the mission migrates pack content and CI scripts to the charter service contract that the charter repository owns."
 }
