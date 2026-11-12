@@ -6,12 +6,12 @@
   "criteria": [
     {
       "criterion_id": "FR-001",
-      "description": "Verify FR-001 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "description": "charter.lock.yaml pins charter 17ce3f9 with an empty release tag and jar digest",
+      "proof_type": "manual_inspection",
+      "evidence": "charter.lock.yaml commit 17ce3f940a3f98a4980b808428d99574ca1e68ee; release_tag and jar_sha256 empty (commit b43a491)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T19:51:00.778416+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
