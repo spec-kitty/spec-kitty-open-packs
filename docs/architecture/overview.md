@@ -65,9 +65,11 @@ is used.
 
 ## Offering versus activation
 
-The offering is everything **available**; the Active Charter is what is **in force**. A kind
-with no activation key is unrestricted (every offered artefact of that kind is effective) —
-except skills, where only required skills are in force until the project activates more.
+The offering is everything **available**; the Active Charter is what is **in force**. In Spec
+Kitty core, a kind with no activation key is unrestricted (every offered artefact of that kind is
+effective), except skills, where only required skills are in force until the project activates
+more. The charter service reads an absent list as nothing in force, skills included (charter
+ADR-0053 decision 10; the difference from core is its divergence DIV-203).
 A governing preset's must-have items are the required floor of every project whose closure holds
 the pack; deactivating one is refused (see [Organisations](../organisations/index.md)).
 
