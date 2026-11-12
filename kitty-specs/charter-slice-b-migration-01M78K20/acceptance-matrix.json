@@ -46,12 +46,12 @@
     },
     {
       "criterion_id": "FR-005",
-      "description": "Verify FR-005 is satisfied",
+      "description": "Every README is readable by the charter's Markdown model",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "shape check 19/19 READMEs; validate_pack_schemas pack-document rule passes; charter_service_check registers every org pack (/tmp/claude-0/-home-user-spec-kitty-open-packs/b8c847cd-a26b-53ec-9f64-8ed81b4ef851/scratchpad/final-svc.log)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T19:51:19.836828+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
