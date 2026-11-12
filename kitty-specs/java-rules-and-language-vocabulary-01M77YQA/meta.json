@@ -1,0 +1,32 @@
+{
+  "accept_commit": "dfacc58880b5b0add7795c8870deb8519f7faea1",
+  "acceptance_history": [
+    {
+      "accept_commit": "dfacc58880b5b0add7795c8870deb8519f7faea1",
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-12T13:39:57.445193+00:00",
+      "accepted_by": "claude",
+      "accepted_from_commit": "663bfcdec349df7f19077f4fc4dd84583929aa2a",
+      "lenient": true
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-12T13:39:57.445193+00:00",
+  "accepted_by": "claude",
+  "accepted_from_commit": "663bfcdec349df7f19077f4fc4dd84583929aa2a",
+  "created_at": "2026-11-12T13:21:31.014499+00:00",
+  "flattened": false,
+  "friendly_name": "java rules and language vocabulary",
+  "mid8": "01M77YQA",
+  "mission_id": "01M77YQA3MKM8TS8RVXQ2B3VG6",
+  "mission_number": null,
+  "mission_slug": "java-rules-and-language-vocabulary-01M77YQA",
+  "mission_type": "software-dev",
+  "purpose_context": "This mission advances java rules and language vocabulary on feat/java-rules-and-language-vocabulary so stakeholders can track the work from mission creation onward.",
+  "purpose_tldr": "java rules and language vocabulary",
+  "slug": "java-rules-and-language-vocabulary-01M77YQA",
+  "status_phase": "1",
+  "target_branch": "feat/java-rules-and-language-vocabulary",
+  "topology": "single_branch",
+  "topology_source": "explicit"
+}
