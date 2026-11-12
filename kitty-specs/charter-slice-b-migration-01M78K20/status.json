@@ -118,7 +118,7 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude:opus:implementer-ivan",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -131,6 +131,7 @@
         "Docs fixed; pages regenerated; digests restamped. Gates at 17ce3f9: check-pack-digests ok, validate_pack_schemas 0 violations over 19 packs, check_vocabulary 0 findings, gen --check no drift, unittest release/vocabulary/ci/docs/assets OK, docs validate + links OK, charter_service_check exit 0 (13 org packs + example-pack registered, 20 compose, non-vacuity holds). Out-of-map edit: tests/ci/test_pack_digest.py BUILT_IN_DIGEST follows the README rename."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/charter-slice-b-migration-01M78K20-coord/kitty-specs/charter-slice-b-migration-01M78K20/tasks/WP04-docs-pages-digests-proof/review-cycle-1.md",
         "reference": "review-cycle://charter-slice-b-migration-01M78K20/WP04-docs-pages-digests-proof/review-cycle-1.md",
@@ -138,13 +139,13 @@
         "verdict": "changes_requested"
       },
       "role": "implementer",
-      "shell_pid": 4995,
-      "shell_pid_created_at": "1794512417.42",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T015": "done",
-        "T016": "done",
-        "T017": "done",
-        "T018": "done"
+        "T015": "planned",
+        "T016": "planned",
+        "T017": "planned",
+        "T018": "planned"
       }
     }
   }
