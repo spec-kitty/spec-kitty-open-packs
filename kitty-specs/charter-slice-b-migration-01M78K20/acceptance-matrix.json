@@ -16,12 +16,12 @@
     },
     {
       "criterion_id": "FR-002",
-      "description": "Verify FR-002 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "description": "Each of the 19 packs holds one root README.md that merges pack.md",
+      "proof_type": "automated_check",
+      "evidence": "find packs -maxdepth 2 -iname pack.md: none; 19 root READMEs; WP02 review",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T19:51:05.533920+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
