@@ -1,8 +1,8 @@
 ---
 title: architecture pack reference
-description: "Generated reference for the architecture Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the architecture Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # architecture pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/architecture`
+- **Pack level:** `built-in`
 - **Declared version:** `2.0.0`
 - **Content checksum (sha256):** `ce181ab96b26c620508e6d354ded09f3416ec2ca678bd98aef5b03cd9bac9a84`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -28,7 +29,7 @@ generated:
 
 Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bounded-context and aggregate tactics, architecture templates and anti-patterns, and the Architect Alphonso and Paula Patterns profiles.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTD0V3AFZA9EAXDJ894D ==2.0.0`, `01M75HSYS69RYRFPB4WCC5AC9D ==1.0.0`
+**Depends on:** [`foundation`](foundation.md) `==1.0.0`, [`refactoring`](refactoring.md) `==2.0.0`, [`writing`](writing.md) `==1.0.0`
 
 ## Artifact inventory
 
@@ -111,9 +112,3 @@ Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bo
 - `fragment.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

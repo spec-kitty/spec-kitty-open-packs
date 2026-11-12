@@ -1,8 +1,8 @@
 ---
 title: qa pack reference
-description: "Generated reference for the qa Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the qa Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # qa pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/qa`
+- **Pack level:** `org`
 - **Declared version:** `3.0.0`
 - **Content checksum (sha256):** `e174291300918416db65c77e1a2463da2c7983d585de0b0656a9ebec79f26ec4`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -46,7 +47,7 @@ It does two jobs:
 The pack names no test runner. Your project runs its own tests; the pack governs what they must
 cover and how honestly they report.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=2.0,<3`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=1.0,<2`, [`planning-analysis`](planning-analysis.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
 
 ## Artifact inventory
 
@@ -210,9 +211,3 @@ cover and how honestly they report.
 - `qa.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

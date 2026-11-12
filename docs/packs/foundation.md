@@ -1,8 +1,8 @@
 ---
 title: foundation pack reference
-description: "Generated reference for the foundation Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the foundation Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # foundation pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/foundation`
+- **Pack level:** `built-in`
 - **Declared version:** `1.0.0`
 - **Content checksum (sha256):** `3da911a300519cd7b9435721ece4ee8ab627e11df44328a5ff30ae49672988b2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -328,9 +329,3 @@ glossary.
 - `software-dev/templates/tasks-template.md`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

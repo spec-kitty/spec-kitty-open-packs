@@ -1,8 +1,8 @@
 ---
 title: writing pack reference
-description: "Generated reference for the writing Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the writing Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # writing pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/writing`
+- **Pack level:** `built-in`
 - **Declared version:** `1.0.0`
 - **Content checksum (sha256):** `8163257eacb43a050986a33f4f21731af8f4123a2176dd45dd9c73a1d5818736`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -32,7 +33,7 @@ lexical and curator profiles; Common Docs and audience-oriented writing directiv
 documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
 the writing-audience assets.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
+**Depends on:** [`foundation`](foundation.md) `==1.0.0`
 
 ## Artifact inventory
 
@@ -202,9 +203,3 @@ the writing-audience assets.
 - `writing/meeting-minutes.md`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

@@ -1,8 +1,8 @@
 ---
 title: event-driven pack reference
-description: "Generated reference for the event-driven Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the event-driven Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # event-driven pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/event-driven`
+- **Pack level:** `org`
 - **Declared version:** `3.0.0`
 - **Content checksum (sha256):** `1c4cb17739b698b6bd908a7cd3005671289c4fbd9a2685e6f0375b726f05595e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -41,7 +42,7 @@ domain core --decides--> EventBridge port --> canonical writer --> ledger --> su
 The pack names no framework, broker or storage. A JSONL file with one writer qualifies as a
 ledger as much as an event store does.
 
-**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ >=2.0,<3`
+**Depends on:** [`architecture`](architecture.md) `>=2.0,<3`
 
 ## Artifact inventory
 
@@ -123,9 +124,3 @@ ledger as much as an event store does.
 - `event-driven.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

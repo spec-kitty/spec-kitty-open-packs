@@ -1,8 +1,8 @@
 ---
 title: drupal pack reference
-description: "Generated reference for the drupal Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the drupal Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # drupal pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/drupal`
+- **Pack level:** `org`
 - **Declared version:** `2.0.0`
 - **Content checksum (sha256):** `8765e858a5375f78a51aaa7832e15ebe5306866df5d1a5a0e0cb0c70bf667143`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -28,7 +29,7 @@ generated:
 
 The Drupal stack: the Drupal Dries profile, Drupal conventions, security and performance guidance, and review checks.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=1.0,<2`, [`testing`](testing.md) `>=2.0,<3`
 
 ## Artifact inventory
 
@@ -71,9 +72,3 @@ The Drupal stack: the Drupal Dries profile, Drupal conventions, security and per
 - `fragment.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

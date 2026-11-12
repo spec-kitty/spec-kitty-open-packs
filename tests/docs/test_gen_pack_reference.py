@@ -216,7 +216,7 @@ class GeneratorDeterminismTest(unittest.TestCase):
             )
             self.assertNotIn("Section prose that must not render", page)
 
-    def test_depends_on_is_published_with_every_entry_as_the_schema_shapes_it(self) -> None:
+    def test_level_and_dependencies_are_published_by_pack_name(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             pack = _make_pack(root)
@@ -231,12 +231,33 @@ class GeneratorDeterminismTest(unittest.TestCase):
                 "- {pack_id: 01ARWG13C000000000000000BB, range: '>=2.1,<3'}\n",
                 encoding="utf-8",
             )
+            foundation = root / "packs" / "foundation"
+            foundation.mkdir(parents=True)
+            (foundation / "pack.yaml").write_text(
+                "pack_id: 01ARWG13C000000000000000AA\nname: foundation\npack_level: built-in\n", encoding="utf-8"
+            )
             page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            # A dependency this repository holds is named and linked; any other keeps its pack_id.
             self.assertIn(
-                "**Depends on:** `01ARWG13C000000000000000AA >=1.0,<2`, `01ARWG13C000000000000000BB >=2.1,<3`",
+                "**Depends on:** [`foundation`](foundation.md) `>=1.0,<2`, `01ARWG13C000000000000000BB` `>=2.1,<3`",
                 page,
             )
+            self.assertIn("- **Pack level:** `org`", page)
             self.assertIn("- **Declared version:** `1.0.0`", page)
+            self.assertIn("- **Pack level:** `built-in`",
+                          gen.render_page(gen.build_reference(root, "foundation", foundation)))
+
+    def test_the_page_records_no_validation_verdict(self) -> None:
+        # CI's gates are the verdict; a page that recorded one could be committed failing and still pass --check.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack = _make_pack(root)
+            (pack / "stray.txt").write_text("not pack content\n", encoding="utf-8")
+            page = gen.render_page(gen.build_reference(root, "built-in", pack))
+            self.assertNotIn("## Validation", page)
+            self.assertNotIn("validation status", page)
+            self.assertNotIn(str(root), page)
+            self.assertFalse(hasattr(gen, "validate_pack"))
 
     def test_the_page_does_not_invite_a_purpose_field_the_closed_schema_forbids(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

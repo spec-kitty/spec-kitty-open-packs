@@ -8,12 +8,16 @@ This is the *content-from-code* generator described in
 * doc-kitty-valid frontmatter (so the Astro site keeps building);
 * a "generated — do not edit" banner plus a deterministic content checksum
   (sha256 over each file's ``relative-path + NUL + bytes + LF``, sorted by path);
-* the version and ``depends_on`` declared in ``pack.yaml``, *if present*;
+* the version, ``pack_level`` and ``depends_on`` declared in ``pack.yaml``, *if
+  present*, each dependency named by the pack of this repository that holds its
+  ``pack_id`` (a bare ``pack_id`` otherwise);
 * the pack's authored description — the preamble of its root ``README.md``,
   the pack document (charter #260, #451) — under "Purpose";
-* an artifact inventory with per-kind counts;
-* validation status from the charter pack schemas, checked by
-  ``scripts/ci/validate_pack_schemas.py``.
+* an artifact inventory with per-kind counts.
+
+It records no validation verdict: the CI gates (``scripts/ci/validate-packs.sh``
+and ``scripts/ci/charter_service_check.py``) are the verdict, and a page that
+recorded one could be committed failing and still pass ``--check`` (#249).
 
 The output is **deterministic**: re-running on an unchanged tree yields a
 byte-identical file. WP05 adds a CI drift gate that re-runs this generator and
@@ -25,19 +29,16 @@ Run it from the repository root::
     python3 scripts/docs/gen_pack_reference.py            # write pages
     python3 scripts/docs/gen_pack_reference.py --check    # fail on any drift
 
-``pack.yaml`` is read with ``pyyaml``. The validation status also needs
-``jsonschema`` (``pyyaml`` is shared with the validator) and the pinned
-charter schemas, which it fetches unless ``$CHARTER_CONTRACT_DIR`` names a local
-copy of ``contracts/packs``.
+``pack.yaml`` is read with ``pyyaml``; nothing else is needed, and nothing is
+fetched.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 import sys
-from collections.abc import Iterable, Sequence
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -48,7 +49,6 @@ import yaml
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO_ROOT / "scripts" / "ci"))
 DOCS_PACKS_DIR = REPO_ROOT / "docs" / "packs"
 GENERATOR_REL = "scripts/docs/gen_pack_reference.py"
 
@@ -67,7 +67,7 @@ RESERVED_SLUGS = frozenset({"index", "catalog-proposal"})
 #: which makes a drift-gated generated page fail spuriously. The on-page content
 #: checksum is the real per-change freshness signal. Bump only on a deliberate
 #: generator change.
-GENERATED_PAGE_DATE = "2026-11-09"
+GENERATED_PAGE_DATE = "2026-11-12"
 
 #: Artifact-kind subdirectories understood by the doctrine model, in the order
 #: the design document lists them. Any *other* subdirectory a pack contains is
@@ -98,7 +98,10 @@ class PackDescriptor:
 
     name: str | None = None
     pack_version: str | None = None
-    depends_on: tuple[str, ...] = ()
+    pack_id: str | None = None
+    pack_level: str | None = None
+    #: ``(pack_id, range)`` per entry, in the order written; ``range`` is ``None`` when absent.
+    depends_on: tuple[tuple[str, str | None], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -117,16 +120,6 @@ class PackDocument:
     preamble: str = ""
 
 
-@dataclass(frozen=True)
-class ValidationResult:
-    """Outcome of validating a pack against the charter pack schemas."""
-
-    available: bool
-    ok: bool | None = None
-    errors: tuple[str, ...] = ()
-    note: str | None = None
-
-
 @dataclass
 class PackReference:
     """Everything needed to render one pack's reference page."""
@@ -140,9 +133,8 @@ class PackReference:
     counts: list[tuple[str, int]] = field(default_factory=list)
     inventory: list[tuple[str, list[str]]] = field(default_factory=list)
     file_count: int = 0
-    validation: ValidationResult = field(
-        default_factory=lambda: ValidationResult(available=False)
-    )
+    #: ``pack_id`` -> slug of every pack of the repository, to name dependencies.
+    pack_names: dict[str, str] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------
@@ -180,7 +172,7 @@ def read_pack_descriptor(directory: Path) -> PackDescriptor:
 
     Packs without a ``pack.yaml`` degrade gracefully: the page omits what the
     descriptor would have said. A ``depends_on`` entry names the pack by
-    ``pack_id`` with a version ``range``, and is published as those two values.
+    ``pack_id`` with a version ``range``.
     """
 
     path = directory / "pack.yaml"
@@ -198,12 +190,25 @@ def read_pack_descriptor(directory: Path) -> PackDescriptor:
     return PackDescriptor(
         name=_text("name"),
         pack_version=_text("pack_version"),
+        pack_id=_text("pack_id"),
+        pack_level=_text("pack_level"),
         depends_on=tuple(
-            " ".join(str(entry[key]) for key in ("pack_id", "range") if key in entry)
+            (str(entry["pack_id"]), None if entry.get("range") is None else str(entry["range"]))
             for entry in (entries if isinstance(entries, list) else [])
-            if isinstance(entry, dict)
+            if isinstance(entry, dict) and "pack_id" in entry
         ),
     )
+
+
+def pack_names(repo_root: Path) -> dict[str, str]:
+    """``pack_id`` -> slug for every pack ``discover_packs`` finds."""
+
+    names: dict[str, str] = {}
+    for slug, directory in discover_packs(repo_root):
+        pack_id = read_pack_descriptor(directory).pack_id
+        if pack_id is not None:
+            names.setdefault(pack_id, slug)
+    return names
 
 
 # ---------------------------------------------------------------------------
@@ -343,44 +348,13 @@ def build_inventory(
 
 
 # ---------------------------------------------------------------------------
-# Validation (charter pack schemas)
-# ---------------------------------------------------------------------------
-
-
-def validate_pack(directory: Path) -> ValidationResult:
-    """Validate ``directory`` against the charter pack schemas.
-
-    If the schemas cannot be loaded (offline, missing dependency) the result is
-    marked unavailable rather than failing generation: the page then says so
-    instead of asserting a validation status it could not obtain.
-    """
-
-    try:
-        import validate_pack_schemas as validator
-    except ImportError as exc:
-        return ValidationResult(available=False, note=f"the validator's dependencies are missing ({exc.name}).")
-    try:
-        report = validator.validate_pack(directory, validator.contract_for(None))
-    except validator.GateError as exc:
-        return ValidationResult(
-            available=False,
-            note=f"the charter pack schemas could not be used ({exc}).",
-        )
-    # Violations are path-relative to the pack directory's parent, so the page is
-    # identical on every machine.
-    return ValidationResult(
-        available=True,
-        ok=report.ok,
-        errors=tuple(sorted(report.violations)),
-    )
-
-
-# ---------------------------------------------------------------------------
 # Assembly
 # ---------------------------------------------------------------------------
 
 
-def build_reference(repo_root: Path, slug: str, directory: Path) -> PackReference:
+def build_reference(
+    repo_root: Path, slug: str, directory: Path, names: dict[str, str] | None = None
+) -> PackReference:
     counts, inventory, file_count = build_inventory(directory)
     try:
         rel_directory = directory.resolve().relative_to(repo_root.resolve()).as_posix()
@@ -396,7 +370,7 @@ def build_reference(repo_root: Path, slug: str, directory: Path) -> PackReferenc
         counts=counts,
         inventory=inventory,
         file_count=file_count,
-        validation=validate_pack(directory),
+        pack_names=pack_names(repo_root) if names is None else names,
     )
 
 
@@ -419,7 +393,7 @@ def render_frontmatter(ref: PackReference) -> list[str]:
     title = f"{ref.slug} pack reference"
     description = (
         f"Generated reference for the {ref.slug} Charter Pack: artifact "
-        f"inventory, per-kind counts, content checksum, and validation status."
+        f"inventory, per-kind counts, and content checksum."
     )
     lines = [
         "---",
@@ -445,30 +419,12 @@ def render_frontmatter(ref: PackReference) -> list[str]:
     return lines
 
 
-def render_validation(validation: ValidationResult) -> list[str]:
-    lines = ["## Validation", ""]
-    if not validation.available:
-        note = validation.note or "Validation status was not available."
-        lines.append(
-            f"Validation status unavailable — {note} "
-            "Run `python3 scripts/ci/validate_pack_schemas.py <dir>` locally."
-        )
-        lines.append("")
-        return lines
+def render_dependency(pack_id: str, version_range: str | None, names: dict[str, str]) -> str:
+    """A dependency by name, linked to its page, when this repository holds it; else by ``pack_id``."""
 
-    status = "passing" if validation.ok else "failing"
-    lines.append(
-        f"Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **{status}**."
-    )
-    lines.append("")
-    lines.append(f"- Errors: {len(validation.errors)}")
-    lines.append("")
-    if validation.errors:
-        lines.append("### Errors")
-        lines.append("")
-        lines.extend(f"- {error}" for error in validation.errors)
-        lines.append("")
-    return lines
+    slug = names.get(pack_id)
+    named = f"[`{slug}`]({slug}.md)" if slug else f"`{pack_id}`"
+    return f"{named} `{version_range}`" if version_range else named
 
 
 def render_inventory(ref: PackReference) -> list[str]:
@@ -518,6 +474,8 @@ def render_page(ref: PackReference) -> str:
     lines.append("## Provenance & integrity")
     lines.append("")
     lines.append(f"- **Pack directory:** `{ref.rel_directory}`")
+    if ref.descriptor.pack_level:
+        lines.append(f"- **Pack level:** `{ref.descriptor.pack_level}`")
     if ref.descriptor.pack_version:
         lines.append(f"- **Declared version:** `{ref.descriptor.pack_version}`")
     lines.append(f"- **Content checksum (sha256):** `{ref.checksum}`")
@@ -550,12 +508,14 @@ def render_page(ref: PackReference) -> str:
     lines.append("")
 
     if ref.descriptor.depends_on:
-        deps = ", ".join(f"`{dep}`" for dep in ref.descriptor.depends_on)
+        deps = ", ".join(
+            render_dependency(pack_id, version_range, ref.pack_names)
+            for pack_id, version_range in ref.descriptor.depends_on
+        )
         lines.append(f"**Depends on:** {deps}")
         lines.append("")
 
     lines.extend(render_inventory(ref))
-    lines.extend(render_validation(ref.validation))
 
     return "\n".join(lines).rstrip("\n") + "\n"
 
@@ -587,8 +547,9 @@ def generate(
     drifted: list[str] = []
     written: list[str] = []
 
+    names = pack_names(repo_root)
     for slug, directory in packs:
-        ref = build_reference(repo_root, slug, directory)
+        ref = build_reference(repo_root, slug, directory, names)
         content = render_page(ref)
         target = docs_packs_dir / f"{slug}.md"
 

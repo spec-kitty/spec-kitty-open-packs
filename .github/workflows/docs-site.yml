@@ -115,10 +115,10 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
-      - name: Install the validator dependencies
-        # The generator reports each pack's validation status from the charter pack
-        # schemas (scripts/ci/validate_pack_schemas.py, which pins the charter commit).
-        run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0"
+      - name: Install the generator dependency
+        # The generator reads pack.yaml and records no validation verdict (#249); the
+        # validate-packs.yml gates are the verdict.
+        run: pip install "pyyaml==6.0.3"
       - name: Check generated pack pages are up to date
         # --check exits non-zero on any drift (equivalent to re-running the
         # generator and `git diff --exit-code docs/packs/`).

@@ -1,8 +1,8 @@
 ---
 title: cave-kitty pack reference
-description: "Generated reference for the cave-kitty Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the cave-kitty Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # cave-kitty pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/cave-kitty`
+- **Pack level:** `org`
 - **Declared version:** `2.0.0`
 - **Content checksum (sha256):** `f015fb624eee2c3be4eefab6b9f3638891627ee7af1e4a11b0311e8c89d58177`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -30,7 +31,7 @@ An open Spec Kitty Charter Pack that makes an agent answer in a **compressed, to
 "caveman" voice** — outcome-first, filler cut — while keeping every payload and every negation
 exact and restoring full sentences at a cliff edge.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
+**Depends on:** [`foundation`](foundation.md) `>=1.0,<2`
 
 ## Artifact inventory
 
@@ -79,9 +80,3 @@ exact and restoring full sentences at a cliff edge.
 - `cave-dev/steps/tasks.prompt.md`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

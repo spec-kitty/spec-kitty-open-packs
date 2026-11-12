@@ -20,10 +20,10 @@ choice is recorded as an [ADR](adr/index.md).
 ## Design principles
 
 1. **Generated evidence, authored explanation — never both.** Facts derivable from the code (pack
-   inventories, checksums, validation status) are **generated**; *why* and *how-to* are
+   inventories, checksums) are **generated**; *why* and *how-to* are
    **authored**. The two must never restate the same datum.
 2. **Decouple from core internals.** The generator parses pack YAML with a light local schema and
-   only shells out to the CLI for `validate --json`, so the docsite does not depend on core's
+   records no validation verdict (the CI gates are the verdict, #249), so the docsite does not depend on core's
    internal package layout ([ADR-2](adr/2026-07-18-2-pack-reference-generated-from-source.md)).
 3. **Adopt core's canonical mechanisms as they land.** Interim solutions (own checksum, shelled-out
    validator) are explicitly labelled as bridges to core #2467/#2471/#2539.
@@ -45,7 +45,7 @@ choice is recorded as an [ADR](adr/index.md).
 | Pack purpose | the authored [Packs hub](../packs/index.md) and each pack's `README.md` (the pack document) | in-repo |
 | Activation defaults | `packs/<name>/presets/*.yaml` (optional) | in-repo, upstream-schema'd |
 | Artifact inventory & counts | derived by the generator | generated |
-| Validation status | `spec-kitty charter pack validate --json` | generated |
+| Validation status | the CI gates (`validate-packs.yml`), not the pages: a recorded verdict could be committed failing (#249) | not on the page |
 | Checksum / integrity | sha256 over sorted artifact contents | generated |
 
 The **only new source-of-truth file** is a small `pack.yaml` (`pack_id`, `name`, `pack_version`,
@@ -59,8 +59,8 @@ closes the one true feasibility gap: `depends_on` has no field in the tooling-wr
 SOURCE (versioned)      packs/<name>/{<kind>/*.yaml, pack.yaml, README.md, presets/*.yaml?}
         │
 GENERATE                scripts/docs/gen_pack_reference.py   (Python; models core's generate_kitty_specs_docs.py)
-  per pack →  read pack.yaml · parse artifacts · validate --json · sha256 · emit docs/packs/<name>.md
-  catalog  →  docs/packs/index.md (table: pack · purpose · depends_on · counts · checksum · validation)
+  per pack →  read pack.yaml · parse artifacts · sha256 · emit docs/packs/<name>.md
+  catalog  →  docs/packs/index.md (table: pack · purpose · depends_on · counts · checksum)
   machine  →  docs/packs/reference/checksums.json   (planned; not emitted by the as-built generator)
   contracts→  docs/api/pack-validator.md (taxonomy + captured --help), docs/api/pack-manifest-schema.md
         │
