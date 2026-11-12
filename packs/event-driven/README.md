@@ -60,12 +60,18 @@ spec-kitty charter context --include directive:EVD_002
 spec-kitty charter pack asset path evd-worked-example-lane-board
 ```
 
-The pack activates nothing by itself. To make the rules binding for every mission instead of
-opt-in per project, list them in the consuming org's charter:
+The pack activates nothing by itself. To put the rules in force for every project, add a
+governing preset to the org's own pack: a preset whose `activated_directives` items are marked
+`must_have: true` (the charter's guide "Enforce presets on an organization's projects"):
 
 ```yaml
-required_directives: [EVD_001, EVD_002, EVD_003, EVD_004, EVD_005, EVD_006]
+activated_directives:
+  - id: EVD_001
+    must_have: true
+  # ... EVD_002 to EVD_006 the same way
 ```
+
+Without one, the pack's `event-driven` preset stays opt-in per project.
 
 ## Status
 

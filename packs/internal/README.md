@@ -21,7 +21,8 @@ It is loaded as an **org-tier** pack (registered in `.kittify/config.yaml` under
 
 ```
 packs/internal/
-├── org-charter.yaml                                 # pack name, skill_namespace (kitty) + required_* activation lists
+├── pack.yaml                                        # the descriptor: identity, level and lineage
+├── README.md                                        # this file: the pack document
 ├── drg/fragment.yaml                                # SINGLE DRG fragment (org tier), not sharded *.graph.yaml;
 │                                                    #   declares every node and edge below
 ├── directives/
@@ -37,7 +38,7 @@ packs/internal/
 │   ├── semi-auto.skill.yaml                         # kitty-semi-auto: dual-mode (local|cloud) entry point to semi-auto-delivery
 │   └── *.skill.md                                   # their prompt bodies (goal, inputs, ordered pointers, stop conditions)
 ├── presets/
-│   └── base.yaml                                    # base preset: must-have items mirror required_directives (ADR-0031)
+│   └── base.yaml                                    # governing preset: the org's required floor, as must-have items (ADR-0031)
 ├── glossary_packs/
 │   └── spk-internal-glossary.glossary-pack.yaml     # spk-internal-glossary — maintainer/engineering glossary
 ├── procedures/
@@ -144,9 +145,11 @@ entry point: it states the goal, the order of the steps and the stop conditions,
 leaves the rules to the procedure it requires. A `requires` edge in
 `drg/fragment.yaml` points it at the procedure that holds the rules, and the rendered
 `SKILL.md` tells the agent to load that procedure with
-`spec-kitty charter context --include <urn>`. The namespace is `kitty`, so they
-render as `kitty-land-pr`, `kitty-issue-triage`, `kitty-mission-from-issue`,
-`kitty-report-debrief` and `kitty-semi-auto`, and `required_skills` puts all five in force for every project that registers this pack.
+`spec-kitty charter context --include <urn>`. Spec Kitty core renders them with a `kitty-`
+prefix, as `kitty-land-pr`, `kitty-issue-triage`, `kitty-mission-from-issue`,
+`kitty-report-debrief` and `kitty-semi-auto`. The prefix is core's rendering: the charter
+model has no skill namespace. The `base` preset's must-have items put all five in force for
+every project whose closure holds this pack.
 The `SKILL.md` files are not on disk until `spec-kitty upgrade` projects them into each
 configured tool's project skill root. Two known defects affect that today:
 
@@ -183,3 +186,35 @@ test-run and red-main substance.
 > First-step scaffold. See the initiative synthesis for the deferred decisions
 > (built-in ownership inversion, open-packs as the permanent home, private-vs-public
 > reconciliation with catalog pack #16 `spec-kitty-internal`).
+
+## Provenance
+
+This is the **canonical home** of the in-house (org-tier) **internal** Charter
+Pack. It is registered for `spec-kitty-open-packs`' own governance via
+`.kittify/config.yaml` → `charter_packs.org.packs`, and other repositories take
+it from here at a pinned commit.
+
+### Identity is minted and owned here
+
+`pack.yaml` pins the canonical `pack_id`. `spec-kitty-open-packs` is the single
+minting authority for the `spec-kitty-internal` identity. Downstream repositories
+that need this pack take it as it is at a pinned commit of this repository: they
+never edit it, re-mint its `pack_id` or diverge from it.
+
+### How downstream repositories take the pack
+
+- `spec-kitty-charter` holds no tracked copy (spec-kitty-charter#364). Its
+  `packs/internal` and `packs/qa` are gitignored copies that `./gradlew syncPacks`
+  syncs from this repository at the commit named by `openPacksRef` in
+  `gradle.properties`; `packs/open-packs.lock.yaml` records their tree digests.
+- `spec-kitty` core pins a commit of this repository the same way and takes the
+  pack with `spec-kitty charter pack vendor --pack internal --ref <sha>`.
+
+A change lands here first and reaches a downstream repository when that
+repository bumps its pin. Nothing is copied back.
+
+### Received from built-in (#73)
+
+Four artifacts moved here from `packs/built-in/` with `git mv` when #73 split built-in, so their
+history follows the files: the `mission-tracer-files` and `mission-wrap-up-sequence` procedures,
+the `tiered-standards` styleguide and the `agentic-framework-core-team` writing-audience asset.

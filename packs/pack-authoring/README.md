@@ -2,11 +2,12 @@
 
 Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external agents into a pack, deployable skill authoring and the migration-to-charter procedure.
 
-- **Level:** org (opt-in). Not aggregated by `built-in`.
-- **pack_id:** `01M75PCTG46SQ9VA5NQF8ZZ2AG`
-- **Depends on:** `foundation`, `writing`
 - **Contents:** 3 templates, 2 procedures, 1 agent profile, 1 styleguide.
 - **Agent profiles:** `doctrine-daphne`.
+
+## Who opts in
+
+Authors of Charter Packs and doctrine.
 
 ## Adopt
 
@@ -16,4 +17,11 @@ need per project with `spec-kitty charter activate ...`. Reference its artifacts
 
 ## Provenance
 
-Carved from `packs/built-in/` by #73; see [PROVENANCE.md](PROVENANCE.md).
+Every artifact in this pack was carved out of `packs/built-in/` by #73 (mission
+`kitty-specs/foundation-writing-split-01M75HV3/`), with `git mv`, so `git log --follow <file>` shows
+its full history. The ids and content are unchanged; only cross-pack references were qualified and
+graph edges re-homed (see that mission's `research.md`, D4 and D11).
+
+`packs/built-in/` was itself seeded from spec-kitty core (`packs/built-in` at commit
+`f166339300dfe207ea7635a285e498beb877f1a0`, 2026-10-19) and has been authored in this repository since;
+see `packs/built-in.source.yaml`.
