@@ -96,12 +96,12 @@
     },
     {
       "criterion_id": "FR-010",
-      "description": "Verify FR-010 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "description": "No live doc presents the retired mechanisms as live",
+      "proof_type": "manual_inspection",
+      "evidence": "repository grep for live pack.md/PROVENANCE.md/org-charter/active_charter/required_<kind>/skill_namespace: only retirement or history mentions; WP04 review",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T19:51:42.646557+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
