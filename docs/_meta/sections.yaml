@@ -42,6 +42,12 @@ sections:
     type: Architecture
     purpose: How open packs reach the Spec Kitty CLI through the Charter Offering, plus the vision and decision records.
 
+  - id: plans
+    label: Plans
+    order: 65
+    type: Plan
+    purpose: Point-in-time work plans for the pack backlog, such as the order of the next slices and what holds them.
+
   - id: research
     label: Research
     order: 70
