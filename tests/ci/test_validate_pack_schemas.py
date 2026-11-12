@@ -47,6 +47,8 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
     "*/pack.yaml": "pack-descriptor",
     "*/README.md": "pack-doc",  # the one markdown rule: the pack document
     "**/*.asset.yaml": "asset",
+    "**/*.skill.yaml": "skill",
+    "**/toolguides/*.guide.md": "pack-doc",  # a markdown rule beneath the root, for the folded guard
 }
 
 
@@ -72,7 +74,7 @@ class ValidatorExitCodes(unittest.TestCase):
             for glob, name in RULES.items()
         )
         (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}{IGNORED}", encoding="utf-8")
-        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA, "asset": OPEN_SCHEMA}
+        schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA, "asset": OPEN_SCHEMA, "skill": OPEN_SCHEMA}
         for name, schema in schemas.items():
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
 
@@ -379,9 +381,11 @@ class ValidatorExitCodes(unittest.TestCase):
             root = Path(tmp)
             self.write_contract(root)
             # The charter leaves these out without refusing them and reports file_not_held; this repository
-            # allows only orientation notes and skill bodies (charter_service_check.py holds the same allowlist).
-            stray = ["docs/notes.md", "x.promt.md", "tactics/GUIDE.MD", "tactics/t.guide.md"]
-            allowed = ["README.md", "skills/s.skill.md", "tactics/README.md", "docs/deep/README.md"]
+            # allows only README.md orientation notes (charter_service_check.py applies the same NOT_HELD_ALLOWANCES).
+            # An orphan skill body is not held: only the body a skill's body_path names is its companion.
+            stray = ["docs/notes.md", "x.promt.md", "tactics/GUIDE.MD", "tactics/t.guide.md", "skills/orphan.skill.md",
+                     "directives/.draft.md"]
+            allowed = ["README.md", "tactics/README.md", "docs/deep/README.md"]
             pack = self.write_pack(root, {name: "# t\n" for name in [*stray, *allowed]})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
@@ -389,6 +393,39 @@ class ValidatorExitCodes(unittest.TestCase):
                 self.assertIn(f"pack/{name}: not_held: the charter leaves this file out (**/*.md: Author aid, not pack content.)", output)
             for name in allowed:
                 self.assertNotIn(f"pack/{name}:", output)
+
+    def test_a_skill_body_its_skill_names_is_held_as_a_companion_whatever_its_name(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            # As the charter removes companions before it classifies (WholePackStore), the file a skill's
+            # body_path names is held: Markdown or not, and whatever its name.
+            pack = self.write_pack(root, {
+                "skills/s.skill.yaml": "id: s\nbody_path: s.skill.md\n", "skills/s.skill.md": "# s\n",
+                "skills/t.skill.yaml": "id: t\nbody_path: bodies/t.txt\n", "skills/bodies/t.txt": "t\n",
+                "skills/u.skill.yaml": "id: u\nbody_path: notes.md\n", "skills/notes.md": "# u\n",
+                "skills/v.skill.yaml": "id: v\nbody_path: ../../outside.md\n",
+            })
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            (pack / "skills" / "u.skill.yaml").write_text("id: u\n", encoding="utf-8")  # no longer claimed
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack/skills/notes.md: not_held", output)
+
+    def test_expected_code_is_exempt_only_in_an_invalid_fixture(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"expected-code": "composition: a\nregistration: b\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack/expected-code: unmodelled", output)
+            fixture = root / "fixtures" / "invalid" / "x"
+            fixture.parent.mkdir(parents=True)
+            pack.rename(fixture)
+            code, output = self.run_validator(root, str(fixture))
+            self.assertEqual(code, validator.EXIT_OK, output)
 
     def test_without_an_ignored_rule_stray_markdown_is_unmodelled(self) -> None:
         contract = validator.Contract(files=[], exclusions=[], retired=[], payloads=[])
@@ -425,7 +462,13 @@ class ValidatorExitCodes(unittest.TestCase):
                                 'payloads:\n  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n')
             contract = validator.contract_for(root / "contract")
             for path, kind in (("p/README.md", "file"), ("p/missions/README.md", "excluded"), ("p/PROVENANCE.md", "retired"),
-                               ("p/templates/a.md", "payload"), ("p/docs/a.md", "ignored"), ("p/docs/A.MD", "ignored")):
+                               ("p/templates/a.md", "payload"), ("p/docs/a.md", "ignored"), ("p/docs/A.MD", "ignored"),
+                               # folded onto an exclusion: still the fallback's
+                               ("p/Missions/README.md", "ignored"),
+                               # folded onto a files rule: refused, never swept up by the fallback
+                               ("p/toolguides/x.guide.MD", "unmodelled"), ("p/Templates/a.md", "unmodelled"),
+                               # a case variant is a root file only: `*/presets/*.yaml` anchors no root file
+                               ("p/Presets/x.yaml", "unmodelled")):
                 with self.subTest(path):
                     self.assertEqual(validator.classify(contract, path)[0], kind)
 
@@ -611,8 +654,13 @@ class CompositionChecks(unittest.TestCase):
         outside = self.consumer(files={"presets/p.yaml": preset + "  - {id: far, must_have: true}\n"}, directory="outside")
         found = self.found(built_in, stranger, outside)
         self.assertIn("outside/presets/p.yaml: activated_tactics names 'far' as must_have, but no pack in its "
-                      "depends_on closure (outside, built-in) declares it as a tactic", found)
+                      "depends_on closure (outside, built-in) holds it as a tactic", found)
         self.assertEqual(found.count("must_have"), 1)
+        # A node of the closure's graph with no file is held by nobody (the charter's RequiredFloor reads held items).
+        ghost = self.consumer(files={"presets/p.yaml": "schema_version: '1.0'\nid: p\nactivated_tactics:\n  - {id: ghost, must_have: true}\n",
+                                     "drg/fragment.yaml": "nodes:\n  - {id: ghost, kind: tactics}\nedges: []\n"}, directory="ghost")
+        self.assertIn("ghost/presets/p.yaml: activated_tactics names 'ghost' as must_have, but no pack in its depends_on closure "
+                      "(ghost, built-in) holds it as a tactic", self.found(built_in, ghost))
         orphan = self.consumer(files={"presets/p.yaml": preset}, depends_on=(), directory="orphan")
         self.assertIn("orphan/presets/p.yaml: activated_tactics names 'held' as must_have", self.found(built_in, stranger, orphan))
 

@@ -538,11 +538,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `PROVENANCE.MD`) as `retired` under the rule it shadows. A file no rule models (`notes.txt`,
     `x.tactic.yml`) fails as `unmodelled`, in built-in-level packs too.
   - The validator also applies the charter's `ignored` rule last. Markdown only that rule takes now
-    fails as `not_held`, unless it is a `README.md` note or a `*.skill.md` body. It used to fail as
-    `unclassified`.
-  - A preset's `must_have` id must be declared within the preset pack's `depends_on` closure.
+    fails as `not_held`, unless it is a `README.md` note. It used to fail as `unclassified`. A
+    skill body that a skill's `body_path` names is held as its companion.
+  - A preset's `must_have` id must be held, as a file, within the preset pack's `depends_on` closure.
   - `charter_service_check.py` uploads each pack's real tree. It prints every registration
-    diagnostic and fails on a `file_not_held` file outside the same allowlist.
+    diagnostic and classifies each `file_not_held` file with the validator's mirror, so one
+    allowlist fails in both gates.
   - The generated `docs/packs/` pages show the pack level and name each dependency. They no
     longer record a validation verdict.
 

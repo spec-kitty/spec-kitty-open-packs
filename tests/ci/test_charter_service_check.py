@@ -165,9 +165,9 @@ class Packs(unittest.TestCase):
         cyclic_b = self.make(self.root, "y", "01Y", depends_on=("01X",))
         self.assertEqual(len(check.registration_order([cyclic_a, cyclic_b])), 2)  # a cycle is the service's to refuse
 
-    def test_the_archive_is_the_real_tree_less_the_fixtures_own_file(self) -> None:
+    def test_the_archive_is_the_real_tree(self) -> None:
         pack = self.make(self.root, "p", "01P")
-        for name in ("expected-code", "README.md", "PROVENANCE.md", "org-charter.yaml", "stray.md",
+        for name in ("README.md", "PROVENANCE.md", "org-charter.yaml", "stray.md",
                      "missions/m/templates/README.md", "missions/m/templates/plan-field-declaration.yaml",
                      "directives/README.md", ".git/HEAD"):
             (pack / name).parent.mkdir(parents=True, exist_ok=True)
@@ -175,7 +175,8 @@ class Packs(unittest.TestCase):
         with tarfile.open(fileobj=io.BytesIO(check.archive(pack)), mode="r:gz") as tar:
             names = set(tar.getnames())
         # The pinned charter excludes the template notes itself (and reports them file_not_held), so nothing
-        # is held back: a retired file is sent so the service refuses it, and a stray note so it reports it.
+        # is held back but .git: a retired file is sent so the service refuses it, and a stray note so it reports it.
+        # (A fixture's expected-code: test_the_archive_keeps_expected_code_outside_an_invalid_fixture.)
         self.assertEqual(names, {"pack.yaml", "README.md", "PROVENANCE.md", "org-charter.yaml", "directives",
                                  "directives/d.directive.yaml", "directives/README.md", "stray.md",
                                  "missions", "missions/m", "missions/m/templates", "missions/m/templates/README.md",
@@ -190,7 +191,7 @@ class Packs(unittest.TestCase):
             check.pack_dirs(self.root / "one", self.root / "two")
 
     def test_staging_lays_packs_out_as_the_configuration_root_expects(self) -> None:
-        pack = self.make(self.root / "src", "p", "01P")
+        pack = self.make(self.root / "fixtures" / "invalid", "p", "01P")
         (pack / "expected-code").write_text("composition: a\nregistration: b\n", encoding="utf-8")
         check.stage(self.root / "cfg", [pack])
         self.assertTrue((self.root / "cfg" / "packs" / "p" / "pack.yaml").is_file())
@@ -198,32 +199,60 @@ class Packs(unittest.TestCase):
 
 
 class NotHeld(unittest.TestCase):
-    """A succeeded registration's file_not_held diagnostics: each printed, and one outside the allowlist fails."""
+    """A succeeded registration's diagnostics: each printed; a file_not_held file the shared policy does not allow fails."""
+
+    CONTRACT = validator.Contract(
+        files=[validator.Rule(validator.glob_to_regex(g), g, schema="x") for g in ("*/pack.yaml", "*/README.md")],
+        exclusions=[validator.Rule(validator.glob_to_regex(g), g, reason="notes")
+                    for g in ("*/missions/*/templates/**/README.md", "**/templates/plan-field-declaration.yaml", "*/assets/**/.*")],
+        retired=[], payloads=[],
+        ignored=[validator.Rule(validator.glob_to_regex("**/*.md"), "**/*.md", reason="Author aid")],
+    )
 
     @staticmethod
-    def result(*diagnostics: tuple[str, str]) -> dict:
-        return {"state": "succeeded", "result": {"outcome": "created",
-                                                 "diagnostics": [{"code": c, "detail": d} for c, d in diagnostics]}}
+    def result(*diagnostics: object) -> dict:
+        return {"state": "succeeded", "result": {"outcome": "created", "diagnostics": [
+            {"code": d[0], "detail": d[1]} if isinstance(d, tuple) else d for d in diagnostics]}}
 
-    def test_allowed_files_are_notices_and_any_other_not_held_file_fails(self) -> None:
-        allowed = ["README.md", "agent_profiles/README.md", "missions/m/templates/README.md",
-                   "missions/m/templates/plan-field-declaration.yaml", "templates/plan-field-declaration.yaml",
-                   "assets/.gitkeep", "missions/m/.DS_Store"]
-        stray = ["docs/notes.md", "toolguides/x.guide.md", "skills/orphan.skill.md", "Readme.MD/notes.md",
-                 "plan-field-declaration.yaml", "missions/m/README.mdx"]
-        result = self.result(*[("file_not_held", f"{f}: not held (a reason: with a colon)") for f in [*allowed, *stray]],
-                             ("prompt_slot_not_empty", "missions/m/steps/s.md: legacy text in slot a:b"))
-        notices, failures = check.not_held_findings(result)
-        self.assertEqual([n.split(": not held")[0] for n in notices if "not held" in n], [*allowed, *stray])
+    def findings(self, files: list[str], *diagnostics: object) -> tuple[list[str], list[str]]:
+        return check.not_held_findings(self.result(*diagnostics), "p", set(files), self.CONTRACT)
+
+    def test_excluded_files_and_readme_notes_are_notices_and_any_other_not_held_file_fails(self) -> None:
+        allowed = ["agent_profiles/README.md", "missions/m/templates/README.md",
+                   "missions/m/templates/plan-field-declaration.yaml", "assets/.gitkeep"]
+        stray = ["docs/notes.md", "skills/orphan.skill.md", "directives/.draft.md", "pack.yaml"]
+        notices, failures = self.findings(
+            [*allowed, *stray, "missions/m/steps/s.md"],
+            *[("file_not_held", f"{f}: not held (a reason: with a colon)") for f in [*allowed, *stray]],
+            ("prompt_slot_not_empty", "missions/m/steps/s.md: legacy text in slot a:b"),
+        )
+        self.assertEqual(len(notices), len(allowed) + len(stray) + 1)
         self.assertIn("prompt_slot_not_empty: missions/m/steps/s.md: legacy text in slot a:b", notices)
         self.assertEqual([f.split(": not held")[0] for f in failures], stray)
+        self.assertIn("this repository's mirror classifies it as file", failures[-1])
+
+    def test_the_file_is_the_longest_uploaded_name_the_detail_starts_with(self) -> None:
+        tricky = "dir/README.md: not held (y).md"
+        _, failures = self.findings([tricky, "dir/README.md"], ("file_not_held", f"{tricky}: not held (Author aid)"))
+        self.assertEqual(len(failures), 1)
 
     def test_an_unreadable_diagnostic_fails_closed_and_none_is_quiet(self) -> None:
-        self.assertEqual(check.not_held_findings(self.result()), ([], []))
-        self.assertEqual(check.not_held_findings({"state": "succeeded", "result": {}}), ([], []))
-        _, failures = check.not_held_findings(self.result(("file_not_held", "no path named here")))
-        self.assertEqual(len(failures), 1)
-        self.assertIn("cannot read", failures[0])
+        self.assertEqual(self.findings([]), ([], []))
+        self.assertEqual(check.not_held_findings({"state": "succeeded", "result": {}}, "p", set(), self.CONTRACT), ([], []))
+        for bad in (("file_not_held", "no path named here"), ("file_not_held", "gone.md: not held (x)"), "oops"):
+            with self.subTest(bad):
+                _, failures = self.findings(["README.md"], bad)
+                self.assertEqual(len(failures), 1)
+
+    def test_the_archive_keeps_expected_code_outside_an_invalid_fixture(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            for parent, kept in ((Path(tmp) / "packs", True), (Path(tmp) / "fixtures" / "invalid", False)):
+                pack = parent / "p"
+                pack.mkdir(parents=True)
+                (pack / "pack.yaml").write_text("pack_id: 01P\n", encoding="utf-8")
+                (pack / "expected-code").write_text("x\n", encoding="utf-8")
+                with tarfile.open(fileobj=io.BytesIO(check.archive(pack)), mode="r:gz") as tar:
+                    self.assertEqual("expected-code" in tar.getnames(), kept)
 
 
 if __name__ == "__main__":

@@ -49,9 +49,10 @@ The validator classifies a file as the charter at the pin does (`file-kinds.yaml
 from a ruled root file (`Readme.md`, `PROVENANCE.MD`, `Pack.yaml`), refused as `retired` under the rule it
 shadows; last the `ignored` rule, which takes Markdown nothing else models, in any letter case. The charter
 leaves an ignored file out without refusing it, and a registration reports it as `file_not_held`. This
-repository allows only orientation notes (a `README.md` at any depth) and `*.skill.md` skill bodies to be
-carried that way: any other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place)
-fails as `not_held`. A file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt
+repository allows only orientation notes (a `README.md` at any depth) to be carried that way: any
+other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place, a skill body no
+skill's `body_path` names) fails as `not_held`. A file a skill's `body_path` names is held as that
+skill's companion, whatever its name. A file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt
 artifact name) fails as `unmodelled`, as the charter refuses it at registration. Both checks run on
 every pack, built-in-level ones included, which no registration sees.
 
@@ -65,7 +66,7 @@ every pack, built-in-level ones included, which no registration sees.
 | A preset in the old shape (`name`, bare id strings, `mission_type_activations`) | Violation |
 | A file in a retired layout (for example `mission.yaml` beside a mission type), or a root case variant of a ruled file (`Readme.md`) | Violation |
 | A file no rule models (`notes.txt`, `x.tactic.yml`) | Violation (`unmodelled`) |
-| Markdown only the `ignored` rule takes, other than a `README.md` or a `*.skill.md` | Violation (`not_held`) |
+| Markdown only the `ignored` rule takes, other than a `README.md` (an orphan skill body included) | Violation (`not_held`) |
 
 The schemas check each file on its own. Composition and registration, which look at packs
 together, are the charter service's to judge: see [The charter service job](#the-charter-service-job).
@@ -139,9 +140,11 @@ valid through the service, at a pinned charter version). The job:
    file (`pack.md`, `PROVENANCE.md`, `org-charter.yaml`, or a root case variant of a ruled file) is
    refused as `retired`, any other file the service does not model is refused as `unmodelled`, and a
    file an exclusion or the `ignored` rule takes is left out and reported as a `file_not_held`
-   diagnostic. Every diagnostic of a succeeded registration is printed as a notice, and a
-   `file_not_held` file other than a `README.md`, a hidden file or a mission template's
-   `plan-field-declaration.yaml` fails the job;
+   diagnostic. Every diagnostic of a succeeded registration is printed as a notice. Each
+   `file_not_held` file is classified with the schema validator's mirror of the pinned contract, so
+   both gates apply one policy: a file an exclusion names passes, an `ignored` one passes only if it
+   is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
+   mirror has drifted from the pin);
 4. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code
    its `expected-code` file names, once when composed and once when registered. A fixture the service
    accepts, or refuses with another code, fails the job.
@@ -190,7 +193,7 @@ judged by the validator:
 The service accepts these, at composition and at registration, so `--cross-pack` still judges them:
 
 - a preset naming an id no pack declares, or a `must_have: true` item that no pack in the preset
-  pack's `depends_on` closure declares;
+  pack's `depends_on` closure holds as a file (a graph node without one is held by nobody);
 - a bare DRG edge end that resolves to no node of any pack;
 - an id re-declared by a pack of another level (the service takes it as a layer override; this
   repository does not allow it);

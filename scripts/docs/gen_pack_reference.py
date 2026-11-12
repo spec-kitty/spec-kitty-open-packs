@@ -195,7 +195,7 @@ def read_pack_descriptor(directory: Path) -> PackDescriptor:
         depends_on=tuple(
             (str(entry["pack_id"]), None if entry.get("range") is None else str(entry["range"]))
             for entry in (entries if isinstance(entries, list) else [])
-            if isinstance(entry, dict) and "pack_id" in entry
+            if isinstance(entry, dict) and entry.get("pack_id") is not None
         ),
     )
 
