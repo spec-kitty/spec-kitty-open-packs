@@ -9,6 +9,9 @@ requirement_refs:
 planning_base_branch: feat/slice1-readme-retire-org-charter
 merge_target_branch: feat/slice1-readme-retire-org-charter
 branch_strategy: Planning artifacts for this mission were generated on feat/slice1-readme-retire-org-charter. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/slice1-readme-retire-org-charter unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-charter-slice-b-migration-01M78K20
+base_commit: 4239c450ffac61fa52a99c8b771e8d7e21ce3c26
+created_at: '2026-11-12T19:36:24.629544+00:00'
 subtasks:
 - T011
 - T012
