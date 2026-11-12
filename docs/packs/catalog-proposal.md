@@ -2,7 +2,7 @@
 title: Pack Catalog Proposal
 description: Proposed set of domain and purpose Charter Packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
 doc_status: wip
-updated: '2026-11-11'
+updated: '2026-11-12'
 related:
 - guides/author-a-charter-pack
 - guides/compose-packs
@@ -24,6 +24,12 @@ related:
 > rather than this proposal one-to-one. See
 > [ADR 2026-11-11-1](../architecture/adr/2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md).
 > The remaining proposals here (for example compound stacks) are still open.
+
+> **Disposition (2026-11-12 triage).** Every base-pack proposal below now has a home in the packs
+> that ship, so the per-pack tracking issues are closed. See [Where each proposal landed](#where-each-proposal-landed).
+> Two proposals stay open as candidates for future opt-in bundles: `frontend` (#6) and
+> `brownfield` (#12). The compound stacks (#17) are still open and need re-basing on the current
+> pack names.
 
 ## Why carve the monolith
 
@@ -321,9 +327,38 @@ This proposal does **not** claim them.
 
 ## From proposal to issues
 
-Each of the **19 base packs** above maps to its own tracking issue in this repository,
+Each of the **19 base packs** above mapped to its own tracking issue in this repository,
 labelled `pack` + `doctrine` and cross-referencing the relevant core epic. The **four
-compound packs** are tracked under a single `epic` + `compound-pack` umbrella issue rather
-than one issue each. See the
-[issue tracker](https://github.com/spec-kitty/spec-kitty-open-packs/issues). Membership lists
-here are a **starting point** — each issue refines its own pack's contents during authoring.
+compound packs** are tracked under a single `epic` + `compound-pack` umbrella issue (#17) rather
+than one issue each. Pack redistribution as a whole is tracked by the epic #190. See the
+[issue tracker](https://github.com/spec-kitty/spec-kitty-open-packs/issues).
+
+## Where each proposal landed
+
+The #73 split (PRs #198 and #200) and the language packs (PR #199) cut the corpus along charter
+ADR-0048/ADR-0053 rather than this proposal one-to-one. The table records where each proposed
+pack's content lives now. Columns: the proposal, the pack that holds its content, and the state of its tracking issue.
+
+| Proposal | Now in | Tracking issue |
+| --- | --- | --- |
+| 1. `core-engineering` | `foundation` | #1, closed |
+| 2. `domain-driven-design` | `architecture` (paradigms, aggregate rules); `foundation` (analysis tactics); `planning-analysis` (event storming) | #2, closed |
+| 3. `test-and-bdd` | `testing` | #3, closed |
+| 4. `python-development` | `python` | #4, closed |
+| 5. `java-development` | `java` | #5, closed |
+| 6. `frontend-webdesign` | `javascript` (`frontend-freddy`, `designer-dagmar`, HTML/CSS and atomic design) | #6, open: candidate `frontend` bundle |
+| 7. `architecture-and-modeling` | `architecture` | #7, closed |
+| 8. `documentation-and-glossary` | `writing` | #8, closed |
+| 9. `git-delivery-workflow` | `foundation` (`git-flow`, `clean-linear-commit-history`) | #9, closed |
+| 10. `refactoring-and-simplification` | `refactoring` | #10, closed |
+| 11. `adversarial-review` | `foundation` (`adversarial-squad-deployment`) | #11, closed |
+| 12. `brownfield-onboarding` | `planning-analysis` (`brownfield-onboarding` paradigm) | #12, open: candidate `brownfield` bundle |
+| 13. `planning-and-analysis` | `planning-analysis` | #13, closed |
+| 14. `structured-prompt-driven-development` | `spdd` | #14, closed |
+| 15. `doctrine-authoring` | `pack-authoring` | #15, closed |
+| 16. `spec-kitty-internal` | `internal` | #16, closed |
+| 17. `event-driven` | `event-driven` | no per-pack tracking issue |
+| 18. `rust` | `rust` | #191, closed |
+| 19. `go` | `go` | #192, closed |
+
+Three shipped packs have no proposal here: `qa` (quality assurance), `cave-kitty` and `drupal`.
