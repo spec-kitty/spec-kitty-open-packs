@@ -87,7 +87,7 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude:opus:implementer-ivan",
+      "agent": "claude:opus:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -97,7 +97,8 @@
       "last_transition_at": "2026-11-12T19:39:55.979596+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "12 org charters and the fixture's retired; internal base preset has the 18 must-have items (all ids verified in internal); validator cross-pack 0 violations over 19 packs; fixture valid. Digests restamped in WP04."
+        "12 org charters and the fixture's retired; internal base preset has the 18 must-have items (all ids verified in internal); validator cross-pack 0 violations over 19 packs; fixture valid. Digests restamped in WP04.",
+        "Approved. base.yaml lists exactly the 18 #242 ids, each must_have: true, all held in packs/internal; preset YAML well formed. org-charter.yaml removed from all 12 packs and the example-pack fixture; no active_charter remains under packs/ or tests/fixtures; header comments rewritten; internal pack.yaml points at the README Provenance section; go/rust preset descriptions match #242 wording; no policy.yaml added. validate_pack_schemas --cross-pack (19 packs) and fixture validation: 0 violations. pytest: 177 passed, only the 4 expected test_pack_digest failures (WP04 restamps). Charter service check (jar 17ce3f9): all 19 packs compose, 13 org packs + example-pack register and read back, non-vacuity holds."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
