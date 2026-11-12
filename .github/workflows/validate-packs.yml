@@ -116,7 +116,7 @@ jobs:
       # The file_not_held policy classifies each file a registration leaves out with the schema validator's
       # mirror of the pinned contract (one allowlist for both gates), so this job needs its two dependencies.
       - name: Install the schema validator's dependencies
-        run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0"
+        run: pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
           distribution: temurin
