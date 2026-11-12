@@ -1,0 +1,69 @@
+{
+  "mission_slug": "java-rules-and-language-vocabulary-01M77YQA",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "Verify FR-001 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "packs/java/toolguides/*.toolguide.yaml; validate-packs.sh exit 0",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T13:36:55.161623+00:00",
+      "notes": "java-supply-chain [java, kotlin]; maven-review-checks [java]"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "Verify FR-002 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "check_vocabulary.py 0 findings; tests/vocabulary RuntimeFamilyLanguageTest (15 tests OK)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T13:36:59.824497+00:00",
+      "notes": "guard refuses runtime-family language names; proven to flag the old jvm file"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "Verify FR-003 is satisfied",
+      "proof_type": "manual_review",
+      "evidence": "docs/guides/author-a-charter-pack.md 'Language names'",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T13:37:03.917645+00:00",
+      "notes": "reviewed by WP01 reviewer and pack-format lens"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "Verify FR-004 is satisfied",
+      "proof_type": "manual_review",
+      "evidence": "java-conventions.styleguide.yaml: 3 principles, 2 patterns, 1 anti-pattern",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T13:37:08.543501+00:00",
+      "notes": "doctrine-quality lens: compile fixes folded"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "Verify FR-005 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "packs/java/pack.yaml 2.1.0; CHANGELOG Changed #204 + Fixed #202",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T13:37:12.938475+00:00",
+      "notes": "minor bump; no pack depends on java"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "Verify FR-006 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "gen_pack_reference.py --check no drift; check-pack-digests.sh exit 0",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T13:37:16.987996+00:00",
+      "notes": "regenerated, not hand-edited"
+    }
+  ],
+  "negative_invariants": []
+}

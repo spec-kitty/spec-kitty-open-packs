@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "mission_slug": "java-rules-and-language-vocabulary-01M77YQA",
+  "mission_id": "01M77YQA3MKM8TS8RVXQ2B3VG6",
+  "mission_branch": "feat/java-rules-and-language-vocabulary",
+  "target_branch": "feat/java-rules-and-language-vocabulary",
+  "lanes": [
+    {
+      "lane_id": "lane-planning",
+      "wp_ids": [
+        "WP01",
+        "WP02"
+      ],
+      "write_scope": [
+        "docs/changelog/CHANGELOG.md",
+        "docs/guides/author-a-charter-pack.md",
+        "docs/packs/java.md",
+        "packs/java.source.yaml",
+        "packs/java/pack.yaml",
+        "packs/java/styleguides/java-conventions.styleguide.yaml",
+        "packs/java/toolguides/java-supply-chain.toolguide.yaml",
+        "packs/java/toolguides/maven-review-checks.toolguide.yaml",
+        "scripts/ci/check_vocabulary.py",
+        "tests/vocabulary/test_check_vocabulary.py"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    }
+  ],
+  "computed_at": "2026-11-12T13:24:59.222301+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "2cc953174db847ef27cf69db76b115bd8e9bdee6"
+}
