@@ -26,12 +26,12 @@
     },
     {
       "criterion_id": "FR-003",
-      "description": "Verify FR-003 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "description": "Every PROVENANCE.md body is a ## Provenance section with headings demoted, and the file is gone",
+      "proof_type": "automated_check",
+      "evidence": "content-loss script: every PROVENANCE.md paragraph present under ## Provenance; 0 PROVENANCE.md files; WP02 review",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T19:51:10.473201+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
