@@ -20,8 +20,8 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/java`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `a7cc36b560f7ff859c12f7cdd453dbf8d8c8fd34c48d6ee83b845a8099f2587b`
+- **Declared version:** `2.1.0`
+- **Content checksum (sha256):** `d80d7ffe3f00b419998e4727a577ead00b364600d7c0be41f8b95ad0c391316a`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
