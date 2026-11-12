@@ -26,7 +26,11 @@ charter_packs:
     # packs/internal/README.md); it is registered here for the repo's own
     # maintainer governance. Its governing `base` preset's must-have items (the
     # skills land-pr, issue-triage, mission-from-issue, report-debrief, semi-auto
-    # and the maintainer procedures) are its required floor.
+    # and the maintainer procedures) are its required floor in the charter
+    # service. Core does not apply must_have yet, and without org-charter.yaml's
+    # skill_namespace it cannot render the kitty-* skills: do not run
+    # `spec-kitty upgrade` here until core aligns, or it retires the committed
+    # kitty-* skill directories (see packs/internal/README.md, "Pack skills").
     - name: internal
       local_path: packs/internal
     # spec-kitty-qa (org tier): the QA / promise-traceability doctrine pack that

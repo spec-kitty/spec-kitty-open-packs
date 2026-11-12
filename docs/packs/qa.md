@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `b86fb3da59f6dc0350c688ff6c652d616e1883ab443da38ce802777c643c67aa`
+- **Content checksum (sha256):** `e174291300918416db65c77e1a2463da2c7983d585de0b0656a9ebec79f26ec4`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ It does two jobs:
 1. **A `qa` mission type.** The seven canonical steps redefined in QA terms (discovery, test
    strategy, test plan, test design, test execution, test report review, acceptance), with five
    QA agent profiles, step contracts, templates, and two evidence tools. Ported from
-   `spec-kitty-qa-pack`; see Provenance below.
+   `spec-kitty-qa-pack`; see the README's Provenance section.
 2. **Description to acceptance CI.** A standing loop from a human-readable product description to
    an automated release gate:
 

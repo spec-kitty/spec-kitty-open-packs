@@ -1,10 +1,11 @@
 # The `base` activation preset of the internal pack, in the sanitized preset shape of charter
 # ADR-0042. It is a governing preset: its must-have items are the required floor of every
 # project whose closure holds this pack, and a deactivation of one is refused
-# (charter ADR-0031: requirement is authored as a preset; #242 retired org-charter.yaml).
+# (charter ADR-0031: requirement is authored as a preset; charter #431 retired org-charter.yaml,
+# tracked here as #242).
 schema_version: "1.0"
 id: base
-description: The required floor of every Spec Kitty core-team project that registers this pack.
+description: The required floor of every Spec Kitty core-team project whose closure holds this pack.
 activated_directives:
   - id: NO_FULL_HEAVY_SUITES_IN_MISSION
     must_have: true

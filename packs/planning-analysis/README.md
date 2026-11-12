@@ -2,6 +2,8 @@
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
+## Contents
+
 - **Contents:** 5 procedures, 5 templates, 3 agent profiles, 1 paradigm, 1 styleguide, 1 tactic.
 - **Agent profiles:** `planner-priti`, `researcher-robbie`, `retrospective-facilitator`.
 

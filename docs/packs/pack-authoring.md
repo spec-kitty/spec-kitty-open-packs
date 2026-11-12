@@ -21,15 +21,12 @@ generated:
 
 - **Pack directory:** `packs/pack-authoring`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `572820de68414007d69d76ed5c3b6a1eb9c896a8f43eb111cdcf89ff6fa4e323`
+- **Content checksum (sha256):** `e88c755b619b667d812cba59c594ced7f8502e169fd68ce8ad2af83dbf1792a0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external agents into a pack, deployable skill authoring and the migration-to-charter procedure.
-
-- **Contents:** 3 templates, 2 procedures, 1 agent profile, 1 styleguide.
-- **Agent profiles:** `doctrine-daphne`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75HSYS69RYRFPB4WCC5AC9D >=1.0,<2`
 

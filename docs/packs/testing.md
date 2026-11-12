@@ -21,15 +21,12 @@ generated:
 
 - **Pack directory:** `packs/testing`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `d0b8806e0a7328a7dfeafdbe1c0289233fbb3dcffcb71ca8fbe5989c4dd2aee6`
+- **Content checksum (sha256):** `d181830f946f7a63309509fa777c496045f4c6be3ca7066736cbbd0f0e0f9ff6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
-
-- **Contents:** 9 tactics, 5 procedures, 5 styleguides, 2 paradigms, 1 agent profile, 1 directive, 1 toolguide.
-- **Agent profiles:** `debugger-debbie`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 

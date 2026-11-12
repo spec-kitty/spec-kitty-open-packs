@@ -21,19 +21,16 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `8c45806d7e9b9554f66088ecb89c4997c7a930a01141069aaadf4083ada550c7`
+- **Content checksum (sha256):** `8163257eacb43a050986a33f4f21731af8f4123a2176dd45dd9c73a1d5818736`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Documentation, communication and terminology doctrine, and a member of the `built-in`
-distribution.
-
-- **Agent profiles:** `comms-cleo`, `curator-carla`, `diagram-daisy`, `lexical-larry`,
-  `minutes-mahad`, `scribe-sally`, `synthesizer-sam`.
-- **Mission type:** `documentation`.
-
-Reference its artifacts from another pack as `writing::<kind>:<id>`.
+distribution: the documentation mission type; the comms, scribe, minutes, synthesis, diagram,
+lexical and curator profiles; Common Docs and audience-oriented writing directives, the
+documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
+the writing-audience assets.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
 

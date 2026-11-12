@@ -2,6 +2,8 @@
 
 The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HTML and CSS conventions, atomic design, supply-chain and mutation tooling.
 
+## Contents
+
 - **Contents:** 4 tactics, 3 agent profiles, 3 styleguides, 2 toolguides, 1 paradigm.
 - **Agent profiles:** `designer-dagmar`, `frontend-freddy`, `node-norris`.
 

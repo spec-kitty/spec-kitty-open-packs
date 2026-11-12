@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/cave-kitty`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `bb3e60efd1e4470181c7c3d13cf21bdc353fc1537ba94cf30d7148a15ada2993`
+- **Content checksum (sha256):** `f015fb624eee2c3be4eefab6b9f3638891627ee7af1e4a11b0311e8c89d58177`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -29,24 +29,6 @@ generated:
 An open Spec Kitty Charter Pack that makes an agent answer in a **compressed, token-saving
 "caveman" voice** — outcome-first, filler cut — while keeping every payload and every negation
 exact and restoring full sentences at a cliff edge.
-
-> **Scope note.** The styleguide and directive are complete and usable today, and are the clean
-> instrument for the pack's purpose (see "Which path for a token A/B?" below). The `cave-dev`
-> mission type **re-states the built-in `software-dev` step contract as prose** and overrides one
-> thing only — the agent's output prose, which it compresses to the caveman voice. Its eight
-> step prompts follow the same structured shape the canonical `qa` open pack uses (role +
-> software-dev mapping, bound built-in profile, directive & styleguide citation, artifact/template
-> binding, and the per-step voice specialization). cave-dev deliberately ships no templates and no
-> personas of its own: the voice applies to prose, not to document structure, and not to the
-> engineering rigour, which is `software-dev`'s.
->
-> **Runtime caveat.** "Re-states the contract" is a documentation relationship, not a runtime one.
-> Under `spec-kitty next`, the per-WP iteration and the step guards the loop runs for
-> `implement`/`review`, and the analysis-currency gate ahead of `implement`, are keyed to the
-> built-in `software-dev` family in the CLI and do **not** fire for a `cave-dev`-typed mission —
-> its `implement`/`review` steps advance as generic single-shot DAG steps. The lane/worktree
-> execution path (`spec-kitty implement WP##`) is unaffected. For a WP-iterating, guarded run in
-> the caveman voice, use the voice-activation path (`--type software-dev` + activate the voice).
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
 

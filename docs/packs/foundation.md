@@ -21,22 +21,17 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `69fcfb882c776c0ded9b90e29f0119660f4319bd128c811a2a0f2bf00ca02a9d`
+- **Content checksum (sha256):** `3da911a300519cd7b9435721ece4ee8ab627e11df44328a5ff30ae49672988b2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-The basis of every Spec Kitty project, and a member of the `built-in` distribution.
-
-- **Agent profiles:** `generic-agent` (Generic Giannis, the fallback), `implementer-ivan`,
-  `reviewer-renata`, `analyst-annie`, `human-in-charge`.
-- **Mission types:** `software-dev`, `plan`, `research`.
-- **Doctrine:** every cross-cutting directive with its how-to procedures, tactics and toolguides.
-
-Build on it from another pack with `depends_on` (`range: ">=1.0,<2"`) and reference its artifacts
-as `foundation::<kind>:<id>`. Mission roles no installed profile fills (for example `researcher`
-without the `planning-analysis` bundle) go to a profile that lists the role as an alt-role (for
-example `comms-cleo` or `synthesizer-sam` in `writing`, for `researcher`), else to Generic Giannis.
+The basis of every Spec Kitty project, and a member of the `built-in` distribution: the fallback
+profile (Generic Giannis), the implementer, reviewer, analyst and human-in-charge profiles; the
+software-dev, plan and research mission types with their step contracts and templates; every
+cross-cutting directive with the procedures, tactics and toolguides that make it actionable (git
+workflow, execution lanes and adversarial-review squads included); and the spec-kitty-core
+glossary.
 
 ## Artifact inventory
 

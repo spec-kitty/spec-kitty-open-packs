@@ -56,7 +56,8 @@ maintenance (`issue-triage-state-machine`).
 
 This repository is the **canonical home** of the `spec-kitty-internal` pack
 (`packs/internal`, registered under `charter_packs.org.packs`). Its governing
-`base` preset puts maintainer doctrine in force as must-have items: the `kitty-*` skills (`land-pr`,
+`base` preset puts maintainer doctrine in force as must-have items in the charter service
+(core does not apply them yet; see "Pack skills" in `packs/internal/README.md`): the `kitty-*` skills (`land-pr`,
 `issue-triage`, `mission-from-issue`, `report-debrief`, `semi-auto`) and the
 `landing-contributor-prs`, `memory-curation-and-escalation`,
 `executive-debrief-generation`, `cloud-session-dispatch`, `semi-auto-delivery`,

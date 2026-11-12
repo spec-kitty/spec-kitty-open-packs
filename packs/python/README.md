@@ -2,6 +2,8 @@
 
 The Python stack: the Python Pedro profile, Python conventions, review checks, supply-chain and mutation tooling.
 
+## Contents
+
 - **Contents:** 3 toolguides, 1 agent profile, 1 styleguide.
 - **Agent profiles:** `python-pedro`.
 

@@ -79,9 +79,11 @@ spec-kitty charter activate --pack <pack> --preset <preset>
 ```
 
 A preset writes ordinary `activated_<kind>` keys into `.kittify/config.yaml`; edit them
-afterwards as you like. An org pack can also put artifacts in force for every project with a
-governing preset, whose `must_have: true` items cannot be deactivated
+afterwards as you like. In the charter service, an org pack can also put artifacts in force for
+every project whose closure holds it with a governing preset, whose `must_have: true` items cannot
+be deactivated
 ([Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md)).
+Spec Kitty core does not apply `must_have` yet.
 
 ## 5. Confirm it participates in resolution
 

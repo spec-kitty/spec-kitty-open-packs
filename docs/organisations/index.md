@@ -61,7 +61,7 @@ activated_skills:
   deactivate one (`409 artifact_required`, naming the requiring pack).
 - To stop projects changing an artefact as well, lock it with `policy.yaml` (levels `open`,
   `extendable`, `locked`).
-- `org-charter.yaml`, its `required_<kind>` lists and `skill_namespace` are retired (#242). See the
+- `org-charter.yaml`, its `required_<kind>` lists and `skill_namespace` are retired (charter #431; tracked here as #242). See the
   charter's [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md) to convert one.
 
 An org pack can also stay **inert**: ship artefacts and presets but require nothing, so each

@@ -21,15 +21,12 @@ generated:
 
 - **Pack directory:** `packs/python`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `fb1f8f7b8f60115601a2287f1d67554d8b7dd2220ddc5832ffd5f22c611dd0bf`
+- **Content checksum (sha256):** `a1794512fa2e5fd8bcb0e8e574a8ddfcb18a7e88be74aee7d68206a85d7abba6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The Python stack: the Python Pedro profile, Python conventions, review checks, supply-chain and mutation tooling.
-
-- **Contents:** 3 toolguides, 1 agent profile, 1 styleguide.
-- **Agent profiles:** `python-pedro`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 

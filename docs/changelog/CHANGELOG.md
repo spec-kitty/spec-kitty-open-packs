@@ -28,9 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   declares `active_charter`.
   - Each pack's root `README.md` is its only document, held and served by the charter.
     `pack.md` is merged into it, and `PROVENANCE.md` is folded in as a `## Provenance` section;
-    both files are gone from all 19 packs. READMEs no longer restate the Level, `pack_id` or
-    Depends-on facts that `pack.yaml` holds. The generated pack pages take their Purpose from
-    the README preamble.
+    both files are gone from all 19 packs. The Level, `pack_id` and Depends-on bullets that
+    restated `pack.yaml` are dropped. The generated pack pages take their Purpose from
+    the README preamble, so the preamble holds only the description (contents and adoption
+    move under H2 sections).
   - `org-charter.yaml` and `active_charter` are gone from the 12 packs that had them and from the
     valid example fixture. `internal`'s required lists (18 ids) are now `must_have: true` items
     of its governing `presets/base.yaml`, and its `skill_namespace` is dropped (the `kitty-`
@@ -38,7 +39,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     levels; the guides, contracts and Organisations pages say so and point at the charter's
     "Enforce presets on an organization's projects" guide.
   - Spec Kitty core still reads `org-charter.yaml`: until core aligns with the charter, a project
-    that runs `internal` through core no longer sees its required lists or skill namespace.
+    that runs `internal` through core no longer sees its required lists or skill namespace, and core
+    applies no `must_have`. Core then reports the committed `kitty-*` skill directories as orphaned,
+    and `spec-kitty upgrade` would retire them: do not run it in a repository that relies on them
+    until core aligns.
+  - A new invalid fixture, `tests/fixtures/invalid/retired-pack-document`, proves the service
+    refuses a pack that still ships `pack.md` or `PROVENANCE.md`.
   - `charter_service_check.py` uploads the README and no longer leaves out the retired files;
     `validate_pack_schemas.py` keys its descriptor pre-check on `README.md` and no longer allows
     `PROVENANCE.md`; `check_vocabulary.py` reads the qa provenance phrase from the README.

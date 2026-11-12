@@ -2,6 +2,8 @@
 
 The Drupal stack: the Drupal Dries profile, Drupal conventions, security and performance guidance, and review checks.
 
+## Contents
+
 - **Contents:** 2 styleguides, 1 agent profile, 1 toolguide.
 - **Agent profiles:** `drupal-dries`.
 
