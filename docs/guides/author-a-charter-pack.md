@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets and an org-charter.yaml.
 doc_status: wip
-updated: '2026-11-09'
+updated: '2026-11-12'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -106,6 +106,21 @@ principles:
 
 Resist dumping a whole policy page into one artifact — split so each rule can be cited
 individually in lint advisories and review feedback.
+
+### Language names
+
+`applies_to_languages`, on any artifact that carries it, is matched against a project's
+`languages` as plain strings. The charter has no language-family alias, so the names must be
+the ones projects declare:
+
+- Use the language's own lowercase name, one entry per language: `java`, `kotlin`, `python`,
+  `typescript`.
+- Never use a runtime or platform family, such as `jvm`. A `jvm` tag hides the
+  artifact from a project that declares `languages: [java]`. List every language the artifact
+  really covers instead, for example `[java, kotlin]` for Maven and Gradle mechanics.
+- Use `[]` for language-neutral content.
+
+`scripts/ci/check_vocabulary.py` refuses runtime-family names.
 
 ## 3. Namespace your IDs
 

@@ -12,6 +12,11 @@ change can reach a pin. Keep the rules in step with core's guards:
 * the retired governing glossary surface --
   ``tests/architectural/test_transition_guard_shrink_only.py``.
 
+One rule is this repository's own (spec-kitty/spec-kitty-open-packs#202): an
+``applies_to_languages`` entry names a language, never a runtime or platform family
+such as ``jvm``. The charter matches the field as a free string with no family alias,
+so a ``jvm`` tag silently filters the artifact out of a ``languages: [java]`` project.
+
 Stdlib only. It scans the tracked text files under ``packs/``. Run it with::
 
     python3 scripts/ci/check_vocabulary.py
@@ -99,6 +104,50 @@ _RETIRED_SURFACE_TOKEN = "doc" + "trine"
 RETIRED_SURFACE = re.compile(rf"""^\s*(?:-\s*)?surface:\s*(["']?){_RETIRED_SURFACE_TOKEN}\1\s*(?:#.*)?$""")
 GLOSSARY_PACK_SUFFIX = ".glossary-pack.yaml"
 
+#: Runtime and platform families that are not language names (#202). The charter
+#: compares ``applies_to_languages`` entries as plain strings, so a family tag never
+#: matches a project's ``languages``.
+RUNTIME_FAMILIES = frozenset({"jvm", "dotnet", "clr", "beam", "node", "nodejs"})
+_LANGUAGES_KEY = re.compile(r"^(?P<indent>\s*)applies_to_languages:\s*(?P<rest>.*)$")
+_BLOCK_ITEM = re.compile(r"^\s*-\s*(?P<value>[^#\s]+)")
+
+
+def _unquoted(value: str) -> str:
+    return value.strip().strip("'\"").lower()
+
+
+def family_languages_in(text: str) -> list[tuple[int, str]]:
+    """(line, value) for every ``applies_to_languages`` entry that names a runtime family.
+
+    Reads both the flow form (``[java, jvm]``) and the block form (``- jvm`` lines that
+    follow the key, indented at least as deep). Prose that merely mentions ``jvm`` is
+    not an entry and is not reported. Line-based by design (stdlib only): a flow list
+    split over several lines, a quoted key or a key inside a list item is not read.
+    No pack uses those forms.
+    """
+    found: list[tuple[int, str]] = []
+    lines = text.splitlines()
+    for index, line in enumerate(lines):
+        key = _LANGUAGES_KEY.match(line)
+        if not key:
+            continue
+        rest = key.group("rest").split("#", 1)[0].strip()
+        if rest.startswith("["):
+            for value in rest.strip("[]").split(","):
+                if _unquoted(value) in RUNTIME_FAMILIES:
+                    found.append((index + 1, _unquoted(value)))
+            continue
+        indent = len(key.group("indent"))
+        for offset, item in enumerate(lines[index + 1 :], start=index + 2):
+            if not item.strip() or item.lstrip().startswith("#"):
+                continue
+            match = _BLOCK_ITEM.match(item)
+            if not match or len(item) - len(item.lstrip()) < indent:
+                break
+            if _unquoted(match.group("value")) in RUNTIME_FAMILIES:
+                found.append((offset, _unquoted(match.group("value"))))
+    return found
+
 
 def _without_provenance(text: str, rel: str) -> str:
     """*text* with this file's provenance phrases blanked out, line breaks kept."""
@@ -137,6 +186,9 @@ def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
             found.append((number, "names the renamed `merge` command; use `spec-kitty consolidate`"))
         if rel.endswith(GLOSSARY_PACK_SUFFIX) and RETIRED_SURFACE.match(line):
             found.append((number, "declares the retired governing glossary surface"))
+    if rel.endswith((".yaml", ".yml")):
+        for number, family in family_languages_in(text):
+            found.append((number, f"applies_to_languages names the runtime family '{family}'; name the language (for example java, kotlin)"))
     return found
 
 

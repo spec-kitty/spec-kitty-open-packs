@@ -1,6 +1,6 @@
 # Java pack (`java`)
 
-The Java stack: the Java Jenny profile, Java conventions, Maven review checks and Java supply-chain guidance.
+The Java stack: the Java Jenny profile, Java conventions, Maven review checks and Java supply-chain guidance. The supply-chain guidance also applies to Kotlin on Maven or Gradle.
 
 - **Level:** org (opt-in). Not aggregated by `built-in`.
 - **pack_id:** `01M75PCTK534T6D38GECDYXYG0`
