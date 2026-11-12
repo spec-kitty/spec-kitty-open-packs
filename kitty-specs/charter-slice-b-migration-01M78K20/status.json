@@ -1,5 +1,5 @@
 {
-  "event_count": 32,
+  "event_count": 36,
   "last_event_id": "01M78MYQ1CEQMV9R2CKEP0G4K5",
   "materialized_at": "2026-11-12T19:50:01.516457+00:00",
   "mission_number": "",
@@ -51,7 +51,11 @@
         "T003": "done",
         "T004": "done",
         "T005": "done"
-      }
+      },
+      "tracker_refs": [
+        "#241",
+        "#242"
+      ]
     },
     "WP02": {
       "actor": "claude",
@@ -83,7 +87,11 @@
         "T008": "done",
         "T009": "done",
         "T010": "done"
-      }
+      },
+      "tracker_refs": [
+        "#241",
+        "#242"
+      ]
     },
     "WP03": {
       "actor": "claude",
@@ -114,7 +122,10 @@
         "T012": "done",
         "T013": "done",
         "T014": "done"
-      }
+      },
+      "tracker_refs": [
+        "#242"
+      ]
     },
     "WP04": {
       "actor": "claude",
@@ -147,7 +158,11 @@
         "T016": "done",
         "T017": "done",
         "T018": "done"
-      }
+      },
+      "tracker_refs": [
+        "#241",
+        "#242"
+      ]
     }
   }
 }
