@@ -15,4 +15,4 @@ commands:
 - mvn dependency-check:check
 - mvn org.pitest:pitest-maven:mutationCoverage
 applies_to_languages:
-- jvm
+- java

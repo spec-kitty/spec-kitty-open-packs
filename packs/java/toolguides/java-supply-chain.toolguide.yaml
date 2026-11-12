@@ -11,5 +11,6 @@ commands:
 - gradle --write-verification-metadata sha256 help
 - gradle dependencies --write-locks
 applies_to_languages:
-- jvm
+- java
+- kotlin
 last_updated: '2026-09-28'

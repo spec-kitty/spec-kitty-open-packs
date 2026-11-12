@@ -7,7 +7,8 @@ checklist in a Maven/Gradle project. The tactic states the ecosystem-neutral
 checklist shape and evidence contract (registry authenticity, freshness,
 install-time hook scripts, lockfile-driven reproducibility, incident/IoC
 posture); this guide gives the exact commands and file names for the Java
-stack. It builds on, and does not restate, the `dependency-hygiene` tactic's
+stack. The mechanics are those of the build tool, so they apply unchanged to a
+Kotlin project on Maven or Gradle. It builds on, and does not restate, the `dependency-hygiene` tactic's
 Maven-specific pinning, BOM, and exclusion steps.
 
 ## Registry authenticity

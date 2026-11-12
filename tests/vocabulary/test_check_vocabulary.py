@@ -99,6 +99,29 @@ class CommandAndSurfaceTest(unittest.TestCase):
         self.assertEqual(vocab.findings_in(text, "packs/built-in/notes.yaml"), [])
 
 
+class RuntimeFamilyLanguageTest(unittest.TestCase):
+    """#202: a runtime family such as ``jvm`` is not a language name."""
+
+    def test_flags_block_and_flow_entries(self) -> None:
+        block = "id: x\napplies_to_languages:\n- java\n- jvm\nlast_updated: '2026-01-01'\n"
+        flow = "applies_to_languages: [java, 'dotnet']\n"
+        self.assertEqual(vocab.family_languages_in(block), [(4, "jvm")])
+        self.assertEqual(vocab.family_languages_in(flow), [(1, "dotnet")])
+        self.assertTrue(any("runtime family 'jvm'" in message for _, message in vocab.findings_in(block, "packs/java/x.yaml")))
+
+    def test_spares_languages_prose_and_later_lists(self) -> None:
+        snippet = (
+            "applies_to_languages:\n  - java\n  - kotlin\n"
+            "summary: runs on the jvm\n"
+            "commands:\n- jvm --version\n"
+            "applies_to_languages: []\n"
+        )
+        self.assertEqual(vocab.family_languages_in(snippet), [])
+
+    def test_only_yaml_files_are_checked(self) -> None:
+        self.assertEqual(vocab.findings_in("applies_to_languages:\n- jvm\n", "packs/java/README.md"), [])
+
+
 class MainTest(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
