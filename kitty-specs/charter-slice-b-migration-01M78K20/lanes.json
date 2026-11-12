@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "mission_slug": "charter-slice-b-migration-01M78K20",
+  "mission_id": "01M78K20HSVDWPYCH30Q1CKBJ5",
+  "mission_branch": "kitty/mission-charter-slice-b-migration-01M78K20",
+  "target_branch": "feat/slice1-readme-retire-org-charter",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "charter.lock.yaml",
+        "scripts/ci/charter_service_check.py",
+        "scripts/ci/check_vocabulary.py",
+        "scripts/ci/validate_pack_schemas.py",
+        "scripts/docs/gen_pack_reference.py",
+        "tests/ci/test_charter_service_check.py",
+        "tests/ci/test_validate_pack_schemas.py",
+        "tests/docs/test_gen_pack_reference.py",
+        "tests/vocabulary/test_check_vocabulary.py"
+      ],
+      "predicted_surfaces": [
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "packs/*/PROVENANCE.md",
+        "packs/*/README.md",
+        "packs/*/pack.md"
+      ],
+      "predicted_surfaces": [
+        "app-shell",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-a"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        "packs/*/org-charter.yaml",
+        "packs/*/pack.yaml",
+        "packs/go/presets/go.yaml",
+        "packs/internal/presets/base.yaml",
+        "packs/rust/presets/rust.yaml",
+        "tests/fixtures/valid/example-pack/**"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [
+        "lane-b"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        ".kittify/charter/charter.md",
+        ".kittify/config.yaml",
+        "CHANGELOG.md",
+        "README.md",
+        "docs/**",
+        "packs/*.source.yaml",
+        "packs/README.md",
+        "packs/foundation/glossary_packs/spec-kitty-core.glossary-pack.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b",
+        "lane-c"
+      ],
+      "parallel_group": 3
+    }
+  ],
+  "computed_at": "2026-11-12T19:20:31.383803+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "34a4de9893894818a190cc9d8fd62d08968ab17a"
+}
