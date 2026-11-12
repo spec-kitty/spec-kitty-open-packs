@@ -32,7 +32,8 @@
       "notes": [
         "Scripts follow slice B; baseline service check at 17ce3f9 showed only the expected retired/active_charter refusals. Kept the two template entries in NOT_REGISTERED (U1).",
         "Ready for review (implementer claude:opus:implementer-ivan)",
-        "x"
+        "x",
+        "Ready for review"
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": null,
