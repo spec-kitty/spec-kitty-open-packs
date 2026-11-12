@@ -1,7 +1,7 @@
 {
-  "event_count": 30,
-  "last_event_id": "01M78MWX14DCQNXP07N3F64DGQ",
-  "materialized_at": "2026-11-12T19:49:02.116619+00:00",
+  "event_count": 31,
+  "last_event_id": "01M78MYMXEPYTEYHWAPJ4MGYYR",
+  "materialized_at": "2026-11-12T19:49:59.342313+00:00",
   "mission_number": "",
   "mission_slug": "charter-slice-b-migration-01M78K20",
   "mission_type": "software-dev",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 0
   },
   "work_packages": {
@@ -123,9 +123,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude:opus:implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M78MWX14DCQNXP07N3F64DGQ",
-      "last_transition_at": "2026-11-12T19:49:02.116619+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M78MYMXEPYTEYHWAPJ4MGYYR",
+      "last_transition_at": "2026-11-12T19:49:59.342313+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Docs fixed; pages regenerated; digests restamped. Gates at 17ce3f9: check-pack-digests ok, validate_pack_schemas 0 violations over 19 packs, check_vocabulary 0 findings, gen --check no drift, unittest release/vocabulary/ci/docs/assets OK, docs validate + links OK, charter_service_check exit 0 (13 org packs + example-pack registered, 20 compose, non-vacuity holds). Out-of-map edit: tests/ci/test_pack_digest.py BUILT_IN_DIGEST follows the README rename.",
@@ -139,7 +139,7 @@
         "reviewer": "claude:opus:reviewer-renata",
         "verdict": "changes_requested"
       },
-      "role": "implementer",
+      "role": "reviewer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
