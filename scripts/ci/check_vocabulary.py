@@ -108,7 +108,7 @@ GLOSSARY_PACK_SUFFIX = ".glossary-pack.yaml"
 #: compares ``applies_to_languages`` entries as plain strings, so a family tag never
 #: matches a project's ``languages``.
 RUNTIME_FAMILIES = frozenset({"jvm", "dotnet", "clr", "beam", "node", "nodejs"})
-_LANGUAGES_KEY = re.compile(r"^(?P<indent>\s*)applies_to_languages:\s*(?P<rest>.*)$")
+_LANGUAGES_KEY = re.compile(r"^(?P<indent>[ \t]*)applies_to_languages:(?P<rest>.*)$")
 _BLOCK_ITEM = re.compile(r"^\s*-\s*(?P<value>[^#\s]+)")
 
 
