@@ -1,8 +1,8 @@
 ---
 title: planning-analysis pack reference
-description: "Generated reference for the planning-analysis Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the planning-analysis Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # planning-analysis pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/planning-analysis`
+- **Pack level:** `built-in`
 - **Declared version:** `2.0.0`
 - **Content checksum (sha256):** `5fbf024b73d995ad0ac6415dfae4d548c16cbd2f87b13e26d32639545de41831`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -28,7 +29,7 @@ generated:
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ ==2.0.0`, `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
+**Depends on:** [`architecture`](architecture.md) `==2.0.0`, [`foundation`](foundation.md) `==1.0.0`
 
 ## Artifact inventory
 
@@ -91,9 +92,3 @@ Planning, research and brownfield analysis: the planner and researcher profiles,
 - `fragment.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

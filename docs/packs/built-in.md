@@ -1,8 +1,8 @@
 ---
 title: built-in pack reference
-description: "Generated reference for the built-in Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the built-in Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # built-in pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/built-in`
+- **Pack level:** `built-in`
 - **Declared version:** `3.0.0`
 - **Content checksum (sha256):** `d81052032c70759bb6f5e2ddfa3daed148b23f4387a92590de2ff9d2a92422c0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -39,7 +40,7 @@ built-in-level pack, so it depends only on built-in-level packs (decision 7). Th
 
 It has no `parent_pack` (it is the root of every lineage chain).
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75HSYS69RYRFPB4WCC5AC9D ==1.0.0`, `01M75PCTC6HS38NX8HJGT26VTP ==2.0.0`, `01M75PCTD0V3AFZA9EAXDJ894D ==2.0.0`, `01M75PCTDT75M19ZMXHRES4CSJ ==2.0.0`, `01M75PCTEKGDXQW59TGSFQQ9QT ==2.0.0`
+**Depends on:** [`foundation`](foundation.md) `==1.0.0`, [`writing`](writing.md) `==1.0.0`, [`testing`](testing.md) `==2.0.0`, [`refactoring`](refactoring.md) `==2.0.0`, [`architecture`](architecture.md) `==2.0.0`, [`planning-analysis`](planning-analysis.md) `==2.0.0`
 
 ## Artifact inventory
 
@@ -57,9 +58,3 @@ It has no `parent_pack` (it is the root of every lineage chain).
 - `minimal.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

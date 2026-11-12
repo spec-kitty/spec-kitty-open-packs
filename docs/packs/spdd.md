@@ -1,8 +1,8 @@
 ---
 title: spdd pack reference
-description: "Generated reference for the spdd Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the spdd Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # spdd pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/spdd`
+- **Pack level:** `org`
 - **Declared version:** `3.0.0`
 - **Content checksum (sha256):** `300da79af62f552b54baeeb8bc27e227f5617de093e4844766dacaa01121a3ac`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -33,7 +34,7 @@ fill/review tactics and writing styleguide, and prompt enhancements for the
 `software-dev` specify, plan, tasks, implement and review steps. Activating its `spdd`
 preset selects the doctrine and all five step enhancements together.
 
-**Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ >=2.0,<3`, `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
+**Depends on:** [`architecture`](architecture.md) `>=2.0,<3`, [`foundation`](foundation.md) `>=1.0,<2`
 
 ## Artifact inventory
 
@@ -108,9 +109,3 @@ preset selects the doctrine and all five step enhancements together.
 - `spdd.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0

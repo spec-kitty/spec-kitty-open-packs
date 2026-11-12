@@ -1,8 +1,8 @@
 ---
 title: testing pack reference
-description: "Generated reference for the testing Charter Pack: artifact inventory, per-kind counts, content checksum, and validation status."
+description: "Generated reference for the testing Charter Pack: artifact inventory, per-kind counts, and content checksum."
 doc_status: active
-updated: '2026-11-09'
+updated: '2026-11-12'
 kind: Reference
 related:
 - packs
@@ -10,7 +10,7 @@ related:
 - packs/catalog-proposal
 generated:
   by: scripts/docs/gen_pack_reference.py
-  at: '2026-11-09'
+  at: '2026-11-12'
 ---
 
 # testing pack reference
@@ -20,6 +20,7 @@ generated:
 ## Provenance & integrity
 
 - **Pack directory:** `packs/testing`
+- **Pack level:** `built-in`
 - **Declared version:** `2.0.0`
 - **Content checksum (sha256):** `d181830f946f7a63309509fa777c496045f4c6be3ca7066736cbbd0f0e0f9ff6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
@@ -28,7 +29,7 @@ generated:
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
-**Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`
+**Depends on:** [`foundation`](foundation.md) `==1.0.0`
 
 ## Artifact inventory
 
@@ -119,9 +120,3 @@ Test design and test-first practice beyond the foundation basics: BDD and specif
 - `fragment.yaml`
 
 </details>
-
-## Validation
-
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
-
-- Errors: 0
