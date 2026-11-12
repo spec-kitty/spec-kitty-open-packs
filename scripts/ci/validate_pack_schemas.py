@@ -5,7 +5,7 @@ The charter repository owns the pack shapes (``contracts/packs/schemas/*.schema.
 and says which file gets which schema (``contracts/packs/file-kinds.yaml``). This script
 mirrors that mapping: it classifies every file of a pack by the ``files``, ``exclusions``,
 ``retired`` and ``payloads`` rules, validates YAML files against their schema, and reads
-Markdown companions (``pack.md``, guides, mission-step prompts, guidelines and prompt fragments) into the
+Markdown files (the pack document ``README.md``, guides, mission-step prompts, guidelines and prompt fragments) into the
 charter's Markdown model ``{frontmatter?, title?, preamble, sections}`` before validating
 that model against the rule's structure schema.
 
@@ -724,10 +724,12 @@ def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     return "unclassified", None
 
 
-#: Files the charter's ADR-0036 file table names as pack content without a schema (README.md,
-#: PROVENANCE.md, a skill's ``*.skill.md`` body), which file-kinds.yaml does not list. Everything
-#: else of .yaml/.yml/.md that no rule classifies is a violation. Globs match like the contract's.
-UNCLASSIFIED_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md", "*/PROVENANCE.md", "**/*.skill.md"))
+#: Markdown the charter leaves out of a pack without refusing it (a README note deeper in the pack, such
+#: as ``agent_profiles/README.md``; a skill's ``*.skill.md`` body), which file-kinds.yaml does not list
+#: as a ``files`` rule. The root ``README.md`` is the pack document and has its own rule; ``PROVENANCE.md``
+#: is retired (#451). Everything else of .yaml/.yml/.md that no rule classifies is a violation. Globs
+#: match like the contract's.
+UNCLASSIFIED_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md", "**/*.skill.md"))
 CHECKED_SUFFIXES = frozenset({".yaml", ".yml", ".md"})
 
 
@@ -829,11 +831,11 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
         if rule.schema == "preset" and isinstance(document, dict) and "id" in document and document["id"] != path.stem:
             report.violations.append(f"{relative}: preset id {document['id']!r} is not its file stem {path.stem!r}")
-    # A pack with pack-level files (pack.md, a manifest) needs its descriptor even when judged alone.
-    # A pack with no descriptor at all is refused when the packs are checked together.
-    if not (pack_dir / "pack.yaml").is_file() and any((pack_dir / n).is_file() for n in ("pack.md", MANIFEST_NAME)):
+    # A pack with pack-level files (its README.md document, a manifest) needs its descriptor even when
+    # judged alone. A pack with no descriptor at all is refused when the packs are checked together.
+    if not (pack_dir / "pack.yaml").is_file() and any((pack_dir / n).is_file() for n in ("README.md", MANIFEST_NAME)):
         report.violations.append(
-            f"{pack_dir.name}/pack.yaml: missing: a pack with a pack.md or a {MANIFEST_NAME} needs its descriptor"
+            f"{pack_dir.name}/pack.yaml: missing: a pack with a README.md or a {MANIFEST_NAME} needs its descriptor"
         )
     # The charter's SidecarPayloads rule: a sidecar names, exactly, an asset payload the pack holds.
     report.violations += [f"{file}: payload assets/{named} does not exist" for file, named in sidecars if named not in payloads]

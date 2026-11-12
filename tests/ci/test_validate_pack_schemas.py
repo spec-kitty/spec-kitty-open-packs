@@ -45,7 +45,7 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
     "*/pack-manifest.yaml": "pack-manifest",
     "**/*.tactic.yaml": "tactic",
     "*/pack.yaml": "pack-descriptor",
-    "*/pack.md": "pack-doc",  # the one markdown rule
+    "*/README.md": "pack-doc",  # the one markdown rule: the pack document
     "**/*.asset.yaml": "asset",
 }
 
@@ -329,10 +329,10 @@ class ValidatorExitCodes(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            pack = self.write_pack(root, {"pack.md": "# Title\r\n\r\nText.\r\n"})
+            pack = self.write_pack(root, {"README.md": "# Title\r\n\r\nText.\r\n"})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("pack.md: not readable as markdown: line 1: a carriage return is not admitted", output)
+            self.assertIn("README.md: not readable as markdown: line 1: a carriage return is not admitted", output)
 
     def test_duplicate_keys_and_non_plain_values_are_refused_in_yaml_and_frontmatter(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -341,22 +341,23 @@ class ValidatorExitCodes(unittest.TestCase):
             pack = self.write_pack(root, {
                 "tactics/dup.tactic.yaml": "id: a\nid: b\n",
                 "tactics/bin.tactic.yaml": "id: !!binary aGk=\n",
-                "pack.md": "---\nname: a\nname: b\n---\n# Title\n",
+                "README.md": "---\nname: a\nname: b\n---\n# Title\n",
             })
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("pack/tactics/dup.tactic.yaml: not readable as yaml: ", output)
             self.assertIn("found duplicate key 'id'", output)
             self.assertIn("pack/tactics/bin.tactic.yaml: not readable as yaml: a value is not a string", output)
-            self.assertIn("pack/pack.md: not readable as markdown: line 1: frontmatter is not valid YAML: ", output)
+            self.assertIn("pack/README.md: not readable as markdown: line 1: frontmatter is not valid YAML: ", output)
             self.assertIn("found duplicate key 'name'", output)
 
     def test_a_yaml_or_markdown_file_no_rule_covers_fails_unless_documented(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml", "presets/sub/x.yaml", "x.promt.md"]
-            allowed = ["README.md", "PROVENANCE.md", "skills/s.skill.md", "tactics/README.md"]
+            # PROVENANCE.md is retired (#451): no longer documentation the gate lets through.
+            stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml", "presets/sub/x.yaml", "x.promt.md", "PROVENANCE.md"]
+            allowed = ["README.md", "skills/s.skill.md", "tactics/README.md"]
             pack = self.write_pack(root, {name: "id: x\n" for name in [*stray, *allowed]})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
@@ -384,10 +385,10 @@ class ValidatorExitCodes(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            pack = self.write_pack(root, {"pack.md": "# Title\n", "presets/p.yaml": "id: q\n"})
+            pack = self.write_pack(root, {"README.md": "# Title\n", "presets/p.yaml": "id: q\n"})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("pack/pack.yaml: missing: a pack with a pack.md or a pack-manifest.yaml needs its descriptor", output)
+            self.assertIn("pack/pack.yaml: missing: a pack with a README.md or a pack-manifest.yaml needs its descriptor", output)
             self.assertIn("pack/presets/p.yaml: preset id 'q' is not its file stem 'p'", output)
 
     def test_markdown_blankness_and_line_separators_follow_the_java_codec(self) -> None:
