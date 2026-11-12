@@ -50,6 +50,13 @@ RULES = {  # file-kinds `files` rules, glob -> schema name
 }
 
 
+# The charter's last-resort rule (#451), as file-kinds.yaml writes it at the pin: Markdown nothing else takes is
+# left out, in any letter case. Every contract write_contract builds carries it, as the real table does.
+IGNORED = 'ignored:\n  - match: "**/*.md"\n    reason: Author aid, not pack content.\n'
+RETIRED = ('retired:\n  - match: "*/PROVENANCE.md"\n    reason: folded into README.md\n'
+           '  - match: "*/org-charter.yaml"\n    reason: org enforcement is a preset\n')
+
+
 class ValidatorExitCodes(unittest.TestCase):
     def run_validator(self, root: Path, *args: str) -> tuple[int, str]:
         out = io.StringIO()
@@ -64,7 +71,7 @@ class ValidatorExitCodes(unittest.TestCase):
             f'  - match: "{glob}"\n    schema: {name}\n' + ("    content_form: markdown\n" if name == "pack-doc" else "")
             for glob, name in RULES.items()
         )
-        (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}", encoding="utf-8")
+        (root / "contract" / "file-kinds.yaml").write_text(f"files:\n{rules}{extra}{IGNORED}", encoding="utf-8")
         schemas = {"preset": OPEN_SCHEMA, "pack-manifest": MANIFEST_SCHEMA, "tactic": OPEN_SCHEMA, "pack-doc": OPEN_SCHEMA, "pack-descriptor": OPEN_SCHEMA, "asset": OPEN_SCHEMA}
         for name, schema in schemas.items():
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(schema), encoding="utf-8")
@@ -148,7 +155,7 @@ class ValidatorExitCodes(unittest.TestCase):
     def test_an_asset_sidecar_names_a_payload_the_pack_holds_under_assets(self) -> None:
         payloads = ('payloads:\n  - match: "*/assets/**/*"\n    kind: asset-payload\n    content_form: bytes\n'
                     '  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n')
-        held = {"assets/kept/held.txt": "x\n", "assets/t.tactic.yaml": "id: t2\n", "beside.txt": "x\n", "templates/held.md": "# t\n"}
+        held = {"assets/kept/held.txt": "x\n", "assets/t.tactic.yaml": "id: t2\n", "templates/beside.txt": "x\n", "templates/held.md": "# t\n"}
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root, payloads)
@@ -351,20 +358,76 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertIn("pack/README.md: not readable as markdown: line 1: frontmatter is not valid YAML: ", output)
             self.assertIn("found duplicate key 'name'", output)
 
-    def test_a_yaml_or_markdown_file_no_rule_covers_fails_unless_documented(self) -> None:
+    def test_a_file_no_rule_takes_is_unmodelled_as_the_charter_refuses_it(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            # PROVENANCE.md is retired (#451): no longer documentation the gate lets through.
-            stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml", "presets/sub/x.yaml", "x.promt.md", "PROVENANCE.md"]
-            allowed = ["README.md", "skills/s.skill.md", "tactics/README.md"]
-            pack = self.write_pack(root, {name: "id: x\n" for name in [*stray, *allowed]})
+            # Not Markdown, or Markdown a files rule takes in another letter case (the fallback never sweeps those
+            # up): the charter refuses each as `unmodelled` at registration, and built-in packs are never
+            # registered, so this gate is the only one that sees them there.
+            stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml",
+                     "presets/sub/x.yaml", "notes.txt", "data/table.json", "tactics/.gitkeep", "tactics/z.Tactic.yaml"]
+            pack = self.write_pack(root, {name: "id: x\n" for name in stray})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
             for name in stray:
-                self.assertIn(f"pack/{name}: unclassified", output)
+                self.assertIn(f"pack/{name}: unmodelled: no file-kinds.yaml rule models this file", output)
+            self.assertNotIn("unclassified", output)
+
+    def test_markdown_only_the_ignored_rule_takes_is_not_held_and_fails_outside_the_allowlist(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            # The charter leaves these out without refusing them and reports file_not_held; this repository
+            # allows only orientation notes and skill bodies (charter_service_check.py holds the same allowlist).
+            stray = ["docs/notes.md", "x.promt.md", "tactics/GUIDE.MD", "tactics/t.guide.md"]
+            allowed = ["README.md", "skills/s.skill.md", "tactics/README.md", "docs/deep/README.md"]
+            pack = self.write_pack(root, {name: "# t\n" for name in [*stray, *allowed]})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            for name in stray:
+                self.assertIn(f"pack/{name}: not_held: the charter leaves this file out (**/*.md: Author aid, not pack content.)", output)
             for name in allowed:
                 self.assertNotIn(f"pack/{name}:", output)
+
+    def test_without_an_ignored_rule_stray_markdown_is_unmodelled(self) -> None:
+        contract = validator.Contract(files=[], exclusions=[], retired=[], payloads=[])
+        self.assertEqual(validator.classify(contract, "pack/docs/notes.md"), ("unmodelled", None))
+
+    def test_a_root_case_variant_is_refused_under_the_rule_it_shadows(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, RETIRED)
+            variants = {"Readme.md": "README.md", "PROVENANCE.MD": "PROVENANCE.md", "Pack.yaml": "pack.yaml",
+                        "ORG-CHARTER.yaml": "org-charter.yaml"}
+            pack = self.write_pack(root, {name: "# t\n" for name in variants})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            for name, shadowed in variants.items():
+                self.assertIn(f"pack/{name}: retired layout: differs only in letter case from '{shadowed}'", output)
+            self.assertNotIn("not_held", output)
+            # Only a root file: deeper, a case variant is ordinary Markdown the fallback takes.
+            contract = validator.contract_for(root / "contract")
+            self.assertEqual(validator.classify(contract, "pack/tactics/Readme.md")[0], "ignored")
+            self.assertEqual(validator.classify(contract, "pack/README.md")[0], "file")
+            # The repository's non-vacuity fixture for FR-022 holds the variant, and only the variant.
+            fixture = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "invalid" / "case-variant-readme"
+            names = {path.name for path in fixture.iterdir()}
+            self.assertIn("Readme.md", names)
+            self.assertNotIn("README.md", names)
+            self.assertEqual(validator.classify(contract, "case-variant-readme/Readme.md")[1].reason,
+                             "differs only in letter case from 'README.md'")
+
+    def test_the_ignored_rule_comes_after_every_other_rule(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, RETIRED + 'exclusions:\n  - match: "*/missions/README.md"\n    reason: notes\n'
+                                'payloads:\n  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n')
+            contract = validator.contract_for(root / "contract")
+            for path, kind in (("p/README.md", "file"), ("p/missions/README.md", "excluded"), ("p/PROVENANCE.md", "retired"),
+                               ("p/templates/a.md", "payload"), ("p/docs/a.md", "ignored"), ("p/docs/A.MD", "ignored")):
+                with self.subTest(path):
+                    self.assertEqual(validator.classify(contract, path)[0], kind)
 
     def test_a_symlinked_file_or_directory_in_a_pack_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -534,6 +597,24 @@ class CompositionChecks(unittest.TestCase):
         # two org packs holding one id are a sibling conflict, which the service refuses (pack_sibling_conflict)
         self.assertEqual(self.found(built_in, sibling).count("different levels"), 1)
         self.assertNotIn("different levels", self.found(org, sibling))
+
+    def test_a_must_have_id_resolves_within_the_presets_closure_and_another_id_anywhere(self) -> None:
+        # The charter's requiredNotHeld: a governing preset's must-have item is held by the preset's pack or a
+        # pack its depends_on reaches. A plain activation keeps the any-pack check.
+        built_in = self.built_in()
+        stranger = self.write("stranger", {"pack.yaml": self.descriptor(OTHER, "stranger"),
+                                           "tactics/far.tactic.yaml": "id: far\n"})
+        preset = ("schema_version: '1.0'\nid: p\nactivated_tactics:\n  - {id: held, must_have: true}\n"
+                  "  - {id: own, must_have: true}\n  - {id: far}\n")
+        inside = self.consumer(files={"presets/p.yaml": preset})
+        self.assertNotIn("must_have", self.found(built_in, stranger, inside))
+        outside = self.consumer(files={"presets/p.yaml": preset + "  - {id: far, must_have: true}\n"}, directory="outside")
+        found = self.found(built_in, stranger, outside)
+        self.assertIn("outside/presets/p.yaml: activated_tactics names 'far' as must_have, but no pack in its "
+                      "depends_on closure (outside, built-in) declares it as a tactic", found)
+        self.assertEqual(found.count("must_have"), 1)
+        orphan = self.consumer(files={"presets/p.yaml": preset}, depends_on=(), directory="orphan")
+        self.assertIn("orphan/presets/p.yaml: activated_tactics names 'held' as must_have", self.found(built_in, stranger, orphan))
 
     def test_a_bare_dangling_edge_end_fails_and_composition_defects_are_left_to_the_service(self) -> None:
         built_in = self.built_in()

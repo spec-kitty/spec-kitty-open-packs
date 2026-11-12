@@ -30,8 +30,10 @@ The script fetches the schemas from the charter commit it pins (`commit` in
 Exit codes:
 
 - `0` — every pack passes.
-- `1` — at least one schema violation, or a file in a retired layout. Each is printed with the
-  file, the schema and the location inside the file. Fix and re-run.
+- `1` — at least one schema violation, a file in a retired layout, a file no rule models
+  (`unmodelled`), or Markdown the charter would not hold outside the allowlist (`not_held`). Each is
+  printed with the file, and a schema violation with the schema and the location inside the file.
+  Fix and re-run.
 - `2` — the validator cannot judge and fails closed: a schema that does not load, a file of a
   known kind with no schema mapping, or a pack with no file checked.
 
@@ -42,6 +44,17 @@ step prompts and guidelines) are read into a title, preamble and sections model 
 that. Assets, templates, other READMEs (a mission template's or an asset's notes) and other files the contract lists as exclusions or payloads are
 not schema-checked.
 
+The validator classifies a file as the charter at the pin does (`file-kinds.yaml`): the `files`,
+`exclusions`, `retired` and `payloads` rules first; then a root file that differs only in letter case
+from a ruled root file (`Readme.md`, `PROVENANCE.MD`, `Pack.yaml`), refused as `retired` under the rule it
+shadows; last the `ignored` rule, which takes Markdown nothing else models, in any letter case. The charter
+leaves an ignored file out without refusing it, and a registration reports it as `file_not_held`. This
+repository allows only orientation notes (a `README.md` at any depth) and `*.skill.md` skill bodies to be
+carried that way: any other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place)
+fails as `not_held`. A file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt
+artifact name) fails as `unmodelled`, as the charter refuses it at registration. Both checks run on
+every pack, built-in-level ones included, which no registration sees.
+
 ## What the schemas catch
 
 | Condition | Result |
@@ -50,7 +63,9 @@ not schema-checked.
 | A field the schema does not define (the schemas are closed) | Violation |
 | A DRG fragment with a provenance header, or an edge endpoint that is a bare id rather than `<kind>:<id>` | Violation |
 | A preset in the old shape (`name`, bare id strings, `mission_type_activations`) | Violation |
-| A file in a retired layout (for example `mission.yaml` beside a mission type) | Violation |
+| A file in a retired layout (for example `mission.yaml` beside a mission type), or a root case variant of a ruled file (`Readme.md`) | Violation |
+| A file no rule models (`notes.txt`, `x.tactic.yml`) | Violation (`unmodelled`) |
+| Markdown only the `ignored` rule takes, other than a `README.md` or a `*.skill.md` | Violation (`not_held`) |
 
 The schemas check each file on its own. Composition and registration, which look at packs
 together, are the charter service's to judge: see [The charter service job](#the-charter-service-job).
@@ -119,11 +134,14 @@ valid through the service, at a pinned charter version). The job:
 3. **registers**: on a scratch root holding only the built-in-level packs (`built-in`, `foundation`, `writing`; they are read-only to registration,
    charter ADR-0065), sends each org and project pack whole with `PUT /api/v1/packs/{packId}`,
    dependencies first, and polls `GET /api/v1/pack-registrations/{id}` until it ends. A `refused`
-   registration fails the job and prints its problem and violations. A registration holds only files
-   the service models. The pack's root `README.md` is the pack document and is uploaded; a mission
-   template's `README.md` and `plan-field-declaration.yaml` are left out of the upload and listed in
-   the log; a retired file (`pack.md`, `PROVENANCE.md`, `org-charter.yaml`) is uploaded and refused as
-   `retired`, and any other file the service does not model is a refusal;
+   registration fails the job and prints its problem and violations. The whole tree is uploaded
+   (less a fixture's `expected-code`). A registration holds only files the service models: a retired
+   file (`pack.md`, `PROVENANCE.md`, `org-charter.yaml`, or a root case variant of a ruled file) is
+   refused as `retired`, any other file the service does not model is refused as `unmodelled`, and a
+   file an exclusion or the `ignored` rule takes is left out and reported as a `file_not_held`
+   diagnostic. Every diagnostic of a succeeded registration is printed as a notice, and a
+   `file_not_held` file other than a `README.md`, a hidden file or a mission template's
+   `plan-field-declaration.yaml` fails the job;
 4. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code
    its `expected-code` file names, once when composed and once when registered. A fixture the service
    accepts, or refuses with another code, fails the job.
@@ -171,7 +189,8 @@ judged by the validator:
 
 The service accepts these, at composition and at registration, so `--cross-pack` still judges them:
 
-- a preset naming an id no pack declares;
+- a preset naming an id no pack declares, or a `must_have: true` item that no pack in the preset
+  pack's `depends_on` closure declares;
 - a bare DRG edge end that resolves to no node of any pack;
 - an id re-declared by a pack of another level (the service takes it as a layer override; this
   repository does not allow it);

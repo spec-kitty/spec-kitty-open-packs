@@ -4,7 +4,9 @@
 The charter repository owns the pack shapes (``contracts/packs/schemas/*.schema.json``)
 and says which file gets which schema (``contracts/packs/file-kinds.yaml``). This script
 mirrors that mapping: it classifies every file of a pack by the ``files``, ``exclusions``,
-``retired`` and ``payloads`` rules, validates YAML files against their schema, and reads
+``retired`` and ``payloads`` rules, then a root case variant of a ruled file (refused under that rule,
+FR-022) and last the ``ignored`` fallback (Markdown nothing models, left out, not held), validates
+YAML files against their schema, and reads
 Markdown files (the pack document ``README.md``, guides, mission-step prompts, guidelines and prompt fragments) into the
 charter's Markdown model ``{frontmatter?, title?, preamble, sections}`` before validating
 that model against the rule's structure schema.
@@ -14,7 +16,9 @@ It fails closed. Exit status:
 * 0  every pack is valid (its ``pack-manifest.yaml``, when it has one, carries the hashes of the
      files it lists: ``--regenerate-manifest PACK`` restamps them) and every ``--expect-invalid`` pack has schema violations;
      ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
-* 1  a schema violation (or a retired-layout file) in a pack, an ``--expect-invalid``
+* 1  a schema violation, a retired-layout file, a file no rule models (``unmodelled``, as the charter
+     refuses it at registration) or a file the charter would not hold outside ``NOT_HELD_ALLOWANCES``
+     (``not_held``) in a pack, an ``--expect-invalid``
      pack that came out clean, or a ``--regenerate-manifest`` pack whose manifest lists a missing file
      (that manifest is left as it was, like the charter's refused write);
 * 2  the gate cannot judge: unloadable contract or schema, a file of a known kind with no
@@ -28,6 +32,7 @@ pinned charter commit (``charter.lock.yaml``) unless ``--contract DIR`` (a direc
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import json
 import os
@@ -112,6 +117,8 @@ class Contract:
     exclusions: list[Rule]
     retired: list[Rule]
     payloads: list[Rule]
+    #: The last-resort ``ignored`` rules (#451), matched case-insensitively; ``regex`` is the folded glob.
+    ignored: list[Rule] = field(default_factory=list)
     validators: dict[str, Draft202012Validator] = field(default_factory=dict)
 
 
@@ -131,12 +138,12 @@ def glob_to_regex(glob: str) -> re.Pattern[str]:
     return re.compile("".join(out) + r"\Z")
 
 
-def _rules(table: dict[str, Any], section: str) -> list[Rule]:
+def _rules(table: dict[str, Any], section: str, *, folded: bool = False) -> list[Rule]:
     rules = []
     for entry in table.get(section) or []:
         rules.append(
             Rule(
-                regex=glob_to_regex(entry["match"]),
+                regex=glob_to_regex(entry["match"].lower() if folded else entry["match"]),
                 match=entry["match"],
                 schema=entry.get("schema"),
                 content_form=entry.get("content_form", "yaml"),
@@ -156,6 +163,7 @@ def load_contract(contract_dir: Path) -> Contract:
             exclusions=_rules(table, "exclusions"),
             retired=_rules(table, "retired"),
             payloads=_rules(table, "payloads"),
+            ignored=_rules(table, "ignored", folded=True),
         )
     except (OSError, yaml.YAMLError, KeyError, TypeError, AttributeError) as exc:
         raise GateError(f"cannot read {table_path}: {exc!r}") from exc
@@ -712,25 +720,59 @@ def _short(message: str, limit: int = 300) -> str:
     return message if len(message) <= limit else message[: limit - 3] + "..."
 
 
-def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
-    """The charter's classification of a path relative to the directory holding the packs."""
-    for kind, rules in (("file", contract.files), ("excluded", contract.exclusions), ("retired", contract.retired)):
+@functools.lru_cache(maxsize=None)
+def _folded_regex(glob: str) -> re.Pattern[str]:
+    """``glob`` in lower case, compiled once: matched against a path folded the same way."""
+    return glob_to_regex(glob.lower())
+
+
+def _exact(contract: Contract, relative: str, *, folded: bool = False) -> tuple[str, Rule | None]:
+    """``files``, ``exclusions``, ``retired``, then ``payloads``: the first rule that matches, as written or folded."""
+    path = relative.lower() if folded else relative
+    for kind, rules in (("file", contract.files), ("excluded", contract.exclusions), ("retired", contract.retired),
+                        ("payload", contract.payloads)):
         for rule in rules:
-            if rule.regex.match(relative):
+            regex = _folded_regex(rule.match) if folded else rule.regex
+            if regex.match(path):
                 return kind, rule
-    for rule in contract.payloads:
-        if rule.regex.match(relative):
-            return "payload", rule
-    return "unclassified", None
+    return "unmodelled", None
 
 
-#: Markdown the charter leaves out of a pack without refusing it (a README note deeper in the pack, such
-#: as ``agent_profiles/README.md``; a skill's ``*.skill.md`` body), which file-kinds.yaml does not list
-#: as a ``files`` rule. The root ``README.md`` is the pack document and has its own rule; ``PROVENANCE.md``
-#: is retired (#451). Everything else of .yaml/.yml/.md that no rule classifies is a violation. Globs
-#: match like the contract's.
-UNCLASSIFIED_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md", "**/*.skill.md"))
-CHECKED_SUFFIXES = frozenset({".yaml", ".yml", ".md"})
+ROOT_FILE = re.compile(r"\*/([^*/]+)")
+
+
+def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
+    """The charter's classification of a path relative to the directory holding the packs.
+
+    As ``PackFileKind.classify`` does at the pin: the exact rules first; then a root file that differs only in
+    letter case from a root-anchored ``files`` or ``retired`` rule's file (``Readme.md``, ``PROVENANCE.MD``),
+    refused as ``retired`` under that rule (FR-022); then the first ``ignored`` rule, matched case-insensitively,
+    unless a ``files``, ``retired`` or ``payloads`` rule takes the path in another letter case (``a.guide.MD``).
+    What is left is ``unmodelled``: the charter refuses it at registration."""
+    kind, rule = _exact(contract, relative)
+    if kind != "unmodelled":
+        return kind, rule
+    folded = relative.lower()
+    for candidate in (*contract.files, *contract.retired):
+        root = ROOT_FILE.fullmatch(candidate.match)
+        if root and _folded_regex(candidate.match).match(folded):
+            return "retired", Rule(candidate.regex, candidate.match, reason=f"differs only in letter case from '{root.group(1)}'")
+    if _exact(contract, relative, folded=True)[0] in ("unmodelled", "excluded"):
+        for candidate in contract.ignored:
+            if candidate.regex.match(folded):
+                return "ignored", candidate
+    return "unmodelled", None
+
+
+#: Files the charter leaves out of a pack (``file_not_held``) that this repository lets a pack carry: the
+#: orientation notes (a ``README.md`` at any depth; the root one is the pack document and is held) and a
+#: skill's ``*.skill.md`` body (held as its skill's companion when it sits beside the skill; the charter
+#: service check sees one that does not). Any other file only the ``ignored`` rule takes is a misplaced guide,
+#: prompt or note, and fails as ``not_held``. ``scripts/ci/charter_service_check.py`` holds the same list for
+#: what a registration reports. Globs match like the contract's, case-sensitively.
+NOT_HELD_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md", "**/*.skill.md"))
+#: A fixture's own file, never pack content (``tests/fixtures/invalid/*/expected-code``).
+FIXTURE_FILES = frozenset({"expected-code"})
 
 
 def _step_enhancement_violations(path: Path, document: dict[str, Any]) -> list[str]:
@@ -784,12 +826,17 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             payloads.add(inside.removeprefix("assets/"))
         if kind != "file" or rule is None:
             tokens = path.name.rsplit(".", 2)
-            if kind == "unclassified" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
+            if kind == "unmodelled" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
                 raise GateError(f"{relative}: a `{tokens[1]}` file has no schema mapping in file-kinds.yaml")
-            if kind == "unclassified" and path.suffix.lower() in CHECKED_SUFFIXES and not any(
-                allowed.match(relative) for allowed in UNCLASSIFIED_ALLOWANCES
-            ):
-                report.violations.append(f"{relative}: unclassified: no file-kinds.yaml rule covers this file")
+            if kind == "unmodelled" and inside not in FIXTURE_FILES:
+                report.violations.append(f"{relative}: unmodelled: no file-kinds.yaml rule models this file; "
+                                         "the charter refuses it at registration")
+                continue
+            if kind == "ignored" and rule is not None and not any(allowed.match(relative) for allowed in NOT_HELD_ALLOWANCES):
+                report.violations.append(
+                    f"{relative}: not_held: the charter leaves this file out ({rule.match}: {rule.reason}); "
+                    "only README.md notes and *.skill.md bodies may be carried unheld"
+                )
                 continue
             report.skipped += 1
             continue
@@ -1164,6 +1211,8 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
       one level is the service's ``pack_sibling_conflict``);
     * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
       declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
+      a ``must_have: true`` entry must be declared within the preset pack's ``depends_on`` closure
+      (the charter's ``requiredNotHeld``), not merely by some pack;
     * a DRG edge endpoint written bare (``<kind>:<id>``) in a pack's fragment that resolves to no node
       of any pack (a qualified endpoint is the service's ``pack_reference_*``);
     * the agent-profile references of ``profile_reference_violations``;
@@ -1187,7 +1236,10 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
         for (kind, node_id), packs in sorted(owners.items())
         if len({levels[pack] for pack in packs}) > 1
     ]
+    descriptors = _descriptors(pack_dirs)
+    by_id = {d["pack_id"]: pack for pack, d in descriptors.items() if isinstance(d.get("pack_id"), str)}
     for pack in pack_dirs:
+        closure = _depends_on_closure(pack, descriptors, by_id)
         for preset in sorted((pack / "presets").glob("*.yaml")):
             document = _load_or_none(preset)
             if not isinstance(document, dict):
@@ -1198,9 +1250,17 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                 kind = _singular(key.removeprefix("activated_"))
                 for entry in entries:
                     entry_id = entry.get("id") if isinstance(entry, dict) else None
-                    if isinstance(entry_id, str) and (kind, entry_id) not in owners:
+                    if not isinstance(entry_id, str):
+                        continue
+                    if (kind, entry_id) not in owners:
                         violations.append(
                             f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r}, which no pack declares as a {kind}"
+                        )
+                    elif entry.get("must_have") is True and not closure.intersection(owners[(kind, entry_id)]):
+                        reached = ", ".join([pack.name, *sorted(p.name for p in closure if p != pack)])
+                        violations.append(
+                            f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r} as must_have, but no pack in its "
+                            f"depends_on closure ({reached}) declares it as a {kind}"
                         )
         fragment = _load_or_none(pack / "drg" / "fragment.yaml")
         for edge in (fragment.get("edges") or []) if isinstance(fragment, dict) else []:

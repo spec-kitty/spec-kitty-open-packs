@@ -1,0 +1,9 @@
+# Pack descriptor of the invalid fixture. Its descriptor and directive are well formed; the pack is
+# refused because its pack document is spelt `Readme.md`: a root file that differs only in letter case
+# from a ruled root file is refused by name under the rule it shadows (charter FR-022, #249). It holds
+# no README.md, so a case-insensitive checkout has no clash. See expected-code.
+pack_id: 01M78PZ000CASEVARNTREADME0
+pack_version: 1.0.0
+parent_pack: null
+name: case-variant-readme
+pack_level: org

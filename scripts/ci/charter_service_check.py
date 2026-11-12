@@ -23,8 +23,11 @@ Three phases, every one of which runs even when an earlier one failed:
    ``planning-analysis``, since #73); every org and project pack is then
    sent whole, dependencies first,
    with ``PUT /api/v1/packs/{packId}`` and its registration polled until it ends. A ``refused``
-   registration fails the run, printing its problem and violations. The composed offering of the
-   resulting root must also answer 200.
+   registration fails the run, printing its problem and violations. A succeeded registration's
+   diagnostics are printed as notices, and a ``file_not_held`` file outside ``NOT_HELD_ALLOWED_*``
+   fails the run: the charter leaves it out without refusing it (#451), so a misplaced guide, prompt
+   or skill body would otherwise pass unserved. The composed offering of the resulting root must also
+   answer 200.
 3. **Non-vacuity.** Every pack under ``tests/fixtures/invalid/`` names, in its ``expected-code`` file,
    the code the service must refuse it with, once composed and once registered. A fixture the service
    accepts, or refuses with another code, fails the run: a service that passes everything is not a gate.
@@ -42,7 +45,6 @@ passed, 1 when any check failed, 2 when the check could not run (no jar, the ser
 from __future__ import annotations
 
 import argparse
-import fnmatch
 import io
 import json
 import os
@@ -72,18 +74,15 @@ KEY_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*")
 PACK_ID_PATTERN = re.compile(r"[0-9A-Za-z]+")
 EXPECTED_CODE_KEYS = {"composition", "registration", "precheck"}
 CODE_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
-#: Files a pack carries that the service does not model: the mission template notes. They are left
-#: out of the uploaded archive, and only these. Any other non-Markdown file the service does not model
-#: (a misspelt artifact file name, a new kind of file) is refused and fails the run; unmodelled
-#: Markdown is not refused but left out by the charter's `ignored` rule. The pinned charter excludes
-#: both itself, so listing them only keeps the archive identical to what it registers. The pack's root
-#: ``README.md`` is the pack document (charter ADR-0042, #451) and is uploaded; the retired files
-#: (``pack.md``, ``PROVENANCE.md``, ``org-charter.yaml``) are not listed, so a pack that still ships one
-#: is refused ``retired``. Matched with ``fnmatch`` against the path relative to the pack root.
-NOT_REGISTERED = (
-    "missions/*/templates/README.md",
-    "missions/*/templates/plan-field-declaration.yaml",
-)
+#: Files a registration may report as ``file_not_held`` (the charter's exclusions and its ``ignored`` fallback,
+#: #451) without failing the run: orientation notes (a ``README.md`` at any depth), hidden files, and a mission
+#: template's ``plan-field-declaration.yaml``. Any other file the charter leaves out is a misplaced guide, prompt,
+#: skill body or note: it is not served, so the run fails on it. ``validate_pack_schemas.py`` holds the same
+#: policy (``NOT_HELD_ALLOWANCES``) for the packs no registration sees. Matched against the path's segments.
+NOT_HELD_ALLOWED_NAMES = frozenset({"README.md"})
+NOT_HELD_ALLOWED_IN_TEMPLATES = frozenset({"plan-field-declaration.yaml"})
+FILE_NOT_HELD = "file_not_held"
+NOT_HELD_DETAIL = re.compile(r"(?P<file>[^\s:][^:]*?): not held \(.*\)\Z", re.DOTALL)
 
 
 class CannotRun(Exception):
@@ -284,11 +283,11 @@ def stage(root: Path, packs: list[Path]) -> None:
         shutil.copytree(pack, root / "packs" / pack.name, ignore=shutil.ignore_patterns(".git", "expected-code"))
 
 
-def archive(pack: Path, left_out: list[str] | None = None) -> bytes:
+def archive(pack: Path) -> bytes:
     """The pack as a gzip tar with ``pack.yaml`` at its root, the form ``PUT /packs/{packId}`` takes.
 
-    Leaves out ``expected-code`` (a fixture's own file) and ``NOT_REGISTERED``; ``left_out`` collects the
-    latter so the run can name them."""
+    The real tree, less ``expected-code`` (a fixture's own file) and ``.git``: what the charter does not hold, it
+    leaves out itself and reports (``file_not_held``), and what it does not model, it refuses."""
     buffer = io.BytesIO()
     with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
         for path in sorted(pack.rglob("*")):
@@ -296,17 +295,46 @@ def archive(pack: Path, left_out: list[str] | None = None) -> bytes:
             name = relative.as_posix()
             if name == "expected-code" or ".git" in relative.parts:
                 continue
-            if any(fnmatch.fnmatchcase(name, pattern) for pattern in NOT_REGISTERED):
-                if left_out is not None and path.is_file():
-                    left_out.append(name)
-                continue
             tar.add(path, arcname=name, recursive=False)
     return buffer.getvalue()
 
 
-def register(service: Service, pack: Path, left_out: list[str] | None = None) -> dict[str, Any]:
+def _not_held_allowed(file: str) -> bool:
+    parts = file.split("/")
+    name = parts[-1]
+    return (
+        name in NOT_HELD_ALLOWED_NAMES
+        or name.startswith(".")
+        or (name in NOT_HELD_ALLOWED_IN_TEMPLATES and "templates" in parts[:-1])
+    )
+
+
+def not_held_findings(result: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """The diagnostics of a succeeded registration, as (notices, failures).
+
+    Every diagnostic is a notice (``<code>: <detail>``; a ``file_not_held`` detail is the file and the rule's
+    reason). A ``file_not_held`` file outside the allowlist is also a failure, and so is one whose detail
+    names no file: the check fails closed rather than guess."""
+    notices: list[str] = []
+    failures: list[str] = []
+    for diagnostic in (result.get("result") or {}).get("diagnostics") or []:
+        code = diagnostic.get("code") if isinstance(diagnostic, dict) else None
+        detail = str(diagnostic.get("detail", "")) if isinstance(diagnostic, dict) else repr(diagnostic)
+        if code != FILE_NOT_HELD:
+            notices.append(f"{code}: {detail}")
+            continue
+        notices.append(detail)
+        named = NOT_HELD_DETAIL.match(detail)
+        if named is None:
+            failures.append(f"cannot read the file a file_not_held diagnostic names: {detail!r}")
+        elif not _not_held_allowed(named.group("file")):
+            failures.append(detail)
+    return notices, failures
+
+
+def register(service: Service, pack: Path) -> dict[str, Any]:
     """Send ``pack`` whole and poll its registration to an end; returns the final status document."""
-    body = archive(pack, left_out)
+    body = archive(pack)
     if len(body) > MAX_ARCHIVE_BYTES:
         raise CannotRun(f"{pack.name}: the archive is {len(body)} bytes; the service accepts at most {MAX_ARCHIVE_BYTES}")
     accepted = service.request("PUT", f"/packs/{pack.name}", body, "application/gzip")
@@ -390,11 +418,13 @@ def check_registration(jar: Path, packs: list[Path], built_in: list[Path], scrat
         )
     with running_service(jar, root, registration=True, log_dir=scratch) as service:
         for pack in registration_order(registrable):
-            left_out: list[str] = []
-            result = register(service, pack, left_out)
-            if left_out:
-                print(f"::notice::registration: {pack.name}: not uploaded, the service does not model them: {', '.join(left_out)}")
+            result = register(service, pack)
             if result["state"] == "succeeded":
+                notices, failures = not_held_findings(result)
+                for notice in notices:
+                    print(f"::notice::registration: {pack.name}: {notice}")
+                for failure in failures:
+                    report.fail(f"registration: {pack.name}: {failure}; move the file where a rule models it, or delete it")
                 stored = service.get(f"/packs/{pack.name}")
                 outcome = result.get("result", {}).get("outcome", "?")
                 if stored.status == 200:
