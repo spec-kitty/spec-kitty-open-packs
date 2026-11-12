@@ -6,7 +6,6 @@ pack_version: 3.0.0
 parent_pack: null
 name: spdd
 pack_level: org
-active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
 # Its step enhancements target foundation's software-dev actions and its fragment the
 # architecture bundle's architect profile (#73 split built-in).

@@ -2,8 +2,8 @@ schema_version: "1.0"
 id: go
 description: >-
   Put the Go stack doctrine in force: the go-conventions styleguide, the
-  go-review-checks toolguide and the go-gwen implementer profile. The pack's org
-  charter activates nothing, so this preset is the opt-in.
+  go-review-checks toolguide and the go-gwen implementer profile. Registering
+  the pack activates nothing, so this preset is the opt-in.
 activated_styleguides:
   - id: go-conventions
 activated_toolguides:

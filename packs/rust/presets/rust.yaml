@@ -2,8 +2,8 @@ schema_version: "1.0"
 id: rust
 description: >-
   Put the Rust stack doctrine in force: the rust-conventions styleguide, the
-  rust-review-checks toolguide and the rust-ruben implementer profile. The pack's
-  org charter activates nothing, so this preset is the opt-in.
+  rust-review-checks toolguide and the rust-ruben implementer profile.
+  Registering the pack activates nothing, so this preset is the opt-in.
 activated_styleguides:
   - id: rust-conventions
 activated_toolguides:

@@ -6,7 +6,6 @@ pack_version: 1.0.0
 parent_pack: null
 name: go
 pack_level: org
-active_charter: org-charter.yaml
 pack_drg: drg/fragment.yaml
 # Every pack whose artifacts this pack's graph references. Never built-in itself: built-in is a
 # distribution of the built-in-level packs (#73, #200) (mission rust-go-stack-packs C-003).
