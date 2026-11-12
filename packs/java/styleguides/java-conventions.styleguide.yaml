@@ -14,6 +14,12 @@ principles:
     description: "Try-with-resources: always use try-with-resources for Closeable/AutoCloseable resources. Never rely on manual close() calls in finally blocks."
   - name: "Explicit encoding"
     description: "Explicit encoding: always specify StandardCharsets.UTF_8 (or an explicit Charset) when constructing readers, writers, or String conversions. Never rely on platform default encoding."
+  - name: "Decimal money with an explicit MathContext"
+    description: "Decimal money: money and other exact decimals use BigDecimal with an explicit MathContext or scale and RoundingMode; never double or float. Build from String or valueOf(long), not new BigDecimal(double); compare with compareTo."
+  - name: "Decode coded values through a checked factory"
+    description: "Coded values: turn a stored or wire code into an enum through a static fromCode/fromByte factory that throws a named exception on an unknown value. Never index values() by ordinal or fall back to a silent default."
+  - name: "Keep the wire codec out of the persistence model"
+    description: "Wire codec: a positional or wire-format layout is read and written by its own codec into a plain record; an explicit mapper builds the domain or JPA entity. Never put @Entity straight over a wire or record layout."
   - name: "Specific exception types"
     description: "Specific exception types: catch and declare the most specific exception type applicable. Never catch Exception or Throwable unless at a top-level boundary."
   - name: "Quad-A test structure"
@@ -62,6 +68,61 @@ patterns:
       new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)
       new String(bytes, StandardCharsets.UTF_8)
       Files.newBufferedWriter(path, StandardCharsets.UTF_8)
+
+  - name: Decimal Money with an Explicit MathContext
+    description: "Money is a BigDecimal whose precision and rounding are stated where the arithmetic happens. Division and percentage maths name a MathContext (or setScale with a RoundingMode), so the result does not depend on a default or throw on a non-terminating expansion."
+    bad_example: |
+      double sum = 0.10 + 0.20;                          // 0.30000000000000004
+      double gross = 19.99 * 1.21;                       // rounding left to the caller
+      BigDecimal share = BigDecimal.TEN.divide(BigDecimal.valueOf(3)); // ArithmeticException: non-terminating
+      BigDecimal price = new BigDecimal("10.00");
+      boolean same = price.equals(new BigDecimal("10.0"));             // false: the scales differ
+    good_example: |
+      // HALF_EVEN by default; use the rounding mode your domain or regulator mandates
+      private static final MathContext MONEY = new MathContext(19, RoundingMode.HALF_EVEN);
+
+      BigDecimal net = new BigDecimal("19.99");
+      BigDecimal gross = net.multiply(new BigDecimal("1.21"), MONEY)
+              .setScale(2, RoundingMode.HALF_EVEN);       // 24.19
+      BigDecimal share = BigDecimal.TEN.divide(BigDecimal.valueOf(3), MONEY)
+              .setScale(2, RoundingMode.HALF_EVEN);       // 3.33
+      BigDecimal price = new BigDecimal("10.00");
+      boolean same = price.compareTo(new BigDecimal("10.0")) == 0;   // true
+
+  - name: Checked Decoding of Coded Values
+    description: "Each enum that crosses a storage or wire boundary carries its external code and a static factory that maps the code back. An unknown code is a named, catchable failure at the boundary, not a wrong constant deep in the domain."
+    bad_example: |
+      enum AccountStatus { ACTIVE, FROZEN, CLOSED }
+
+      // the stored byte is an ordinal: reordering the enum changes meaning, a bad byte throws AIOOBE
+      AccountStatus status = AccountStatus.values()[record[12]];
+
+      byte code = record[27];
+      AccountStatus other = switch (code) {
+          case 'A' -> AccountStatus.ACTIVE;
+          case 'F' -> AccountStatus.FROZEN;
+          default -> AccountStatus.CLOSED;                  // a corrupt byte closes the account
+      };
+    good_example: |
+      final class UnknownCodeException extends IllegalArgumentException {
+          UnknownCodeException(String type, byte code) { super("unknown " + type + " code: " + code); }
+      }
+
+      enum AccountStatus {
+          ACTIVE((byte) 'A'), FROZEN((byte) 'F'), CLOSED((byte) 'C');
+
+          private final byte code;
+          AccountStatus(byte code) { this.code = code; }
+
+          byte code() { return code; }
+
+          static AccountStatus fromByte(byte code) {
+              for (AccountStatus status : values()) {
+                  if (status.code == code) return status;
+              }
+              throw new UnknownCodeException("AccountStatus", code);
+          }
+      }
 
   - name: Test Data Builder
     description: "Centralise test object construction in a dedicated builder/fixture class. Keeps test methods readable and makes structural changes easy to propagate."
@@ -145,6 +206,37 @@ anti_patterns:
     good_example: |
       Order o1 = OrderFixtures.standardOrder().withAmount(50000L).build();
       Order o2 = OrderFixtures.expressOrder().withAmount(10000L).build();
+
+  - name: Entity over a Wire Layout
+    description: "Annotating a fixed-width or positional record as a JPA @Entity ties the database schema, the domain model and the wire format together: a field added to one breaks the others, and offsets, padding and sign handling leak into persistence code. Keep a codec for the layout and map explicitly."
+    bad_example: |
+      @Entity
+      @Table(name = "payment")
+      public class PaymentRecord {               // also parsed from a fixed-width import file
+          @Id @Column(length = 16) String reference;   // bytes 0-15, space padded
+          @Column(length = 11) String amountCents;     // bytes 16-26, signed digits
+          @Column(length = 1) char statusCode;         // byte 27
+      }
+    good_example: |
+      record PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing else
+
+      final class PaymentLineCodec {
+          PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling live here */ }
+          void write(PaymentLine payment, ByteBuffer out) { /* ... */ }
+      }
+
+      final class PaymentMapper {                       // PaymentStatus follows the fromByte pattern above
+          Payment toDomain(PaymentLine line) {
+              return new Payment(line.reference().strip(),
+                      BigDecimal.valueOf(line.amountCents(), 2),
+                      PaymentStatus.fromByte(line.status()));
+          }
+
+          PaymentEntity toEntity(Payment payment) { /* field by field, no layout knowledge */ }
+      }
+
+      @Entity
+      class PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING) PaymentStatus status; }
 
   - name: jqwik as a Test Dependency
     description: "Do not add jqwik (net.jqwik:*, 1.10.0 and later) to a project. Since 1.10.0 its test engine prints a line to stdout telling AI agents to disregard previous instructions and ignore all jqwik results (1.10.0 told them to delete the jqwik tests and code); agents read that captured output to judge test evidence. Upstream calls this its Anti-AI Usage Clause: https://jqwik.net/docs/current/user-guide.html#anti-ai-usage-clause. It is in the docs and the engine output, not in the licence, which is still EPL-2.0. For property-style tests use @ParameterizedTest with @MethodSource or @FieldSource fed by generated inputs (a seeded java.util.Random stream plus explicit edge cases)."

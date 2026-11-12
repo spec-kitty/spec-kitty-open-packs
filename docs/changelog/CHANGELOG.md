@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-11'
+updated: '2026-11-12'
 ---
 # Changelog
 
@@ -502,6 +502,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **`java` 2.1.0: three business-code rules in `java-conventions`** (#204, epic #190). New
+  principles, each with a bad and a good example:
+  - money is a `BigDecimal` with an explicit `MathContext` or scale and `RoundingMode`, never
+    `double` or `float`, and is compared with `compareTo`;
+  - a stored or wire code becomes an enum through a `fromCode`/`fromByte` factory that throws a
+    named exception on an unknown value, never `values()[ordinal]` or a silent default;
+  - a positional or wire-format layout has its own codec and an explicit mapper; JPA `@Entity` is
+    never put straight over it.
+
+  Additive: no artifact id changes and no pack depends on `java`.
+
 - **The spdd step enhancements are proven against the charter's current schemas, and the
   pinned charter commit moves to `55c7d824`** (#177, charter ADR-0066). The five
   `missions/software-dev/enhancements/*.step-enhancement.yaml` files and their
@@ -645,13 +656,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `common-docs-scaffold` tactic used `adr/3.x/` as the home of a new ADR, though that era takes
   no new records. The prompt now names `docs/adr/`, filed by era, and the tactic's examples use
   `adr/4.x/`. `packs/built-in.source.yaml` records the new tree digest.
-- **The shared JVM toolguides now apply to Kotlin projects** (spec-kitty/spec-kitty#6444).
-  **Before:** `java-supply-chain` and `maven-review-checks` were tagged `java`, so a Kotlin
-  project, or one that declares only Gradle or Maven, never received them. **After:** both are
-  tagged `jvm`. Core expands `java` and `kotlin` to the `jvm` family when it matches doctrine,
-  so Java and Kotlin projects both get them; `java-jenny` and `java-conventions` stay
-  Java-only. Needs a core that knows the `jvm` family (spec-kitty/spec-kitty#6444).
-
 - **Org DRG fragments now match the charter's pack schema**
   ([spec-kitty-charter#114](https://github.com/spec-kitty/spec-kitty-charter/issues/114)), so the
   charter service can load every pack here. Before, `packs/internal/drg/fragment.yaml` had 84
@@ -685,6 +689,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 
 ### 🐛 Fixed
+
+- **A Java project no longer loses its JVM toolguides** (#202, `java` 2.1.0). `java-supply-chain`
+  and `maven-review-checks` declared `applies_to_languages: [jvm]`, so an activation filtered to
+  `languages: [java]` dropped them (`languageFiltered`): the charter matches the field as a plain
+  string and has no language-family alias. They now declare `[java, kotlin]` and `[java]`, so a
+  Kotlin project on Maven or Gradle gets the supply-chain guide and not the Java review checks.
+  This replaces the `jvm` tagging of spec-kitty/spec-kitty#6444, which relied on core expanding
+  `java` and `kotlin` to a `jvm` family. `check_vocabulary.py` refuses a runtime family (`jvm` and
+  its like) as a language name, and the authoring guide states the rule.
 
 - **Work-package profile loading names the CLI command for hosts without skills** (#184). The
   "Do This First: Load Agent Profile" block in the `software-dev`, `documentation` and `research`
