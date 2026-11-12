@@ -55,7 +55,7 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude:opus:implementer-ivan",
+      "agent": "claude:opus:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -65,7 +65,8 @@
       "last_transition_at": "2026-11-12T19:35:56.806490+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "19 READMEs merged; pack.md/PROVENANCE.md gone; shape check 19/19; content-loss check: 0 missing paragraphs except one deliberate rewording (built-in 'This file' -> 'This README')."
+        "19 READMEs merged; pack.md/PROVENANCE.md gone; shape check 19/19; content-loss check: 0 missing paragraphs except one deliberate rewording (built-in 'This file' -> 'This README').",
+        "Approved: 19 root READMEs, no pack.md/PROVENANCE.md in any case; every README has one H1, ATX only, no closing #, no CR/BOM, fences closed; all PROVENANCE.md lines present under ## Provenance with headings demoted (qa row 151 tense-adjusted for #242); kept pack.md H2s added, Contents dropped; descriptor bullets gone; go/rust opening paragraph kept; qa 'see Provenance below'; internal tree/base.yaml comment/Pack skills fixed per #242; event-driven/qa required_* advice now governing-preset advice. validate_pack_schemas: only 24 WP03 errors (retired org-charter.yaml, active_charter) across 12 packs; check_vocabulary 0 findings. Follow-ups out of WP02 scope: packs/internal/pack.yaml:3 'see PROVENANCE.md' (WP03), packs/built-in.source.yaml:16 (WP04)."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
