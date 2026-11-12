@@ -13,7 +13,7 @@
       "wp": "WP02"
     },
     "#242": {
-      "evidence_ref": "#242-org-charters",
+      "evidence_ref": "WP03+WP04 approved; mission accepted f0ed3d8; charter_service_check exit 0 at 17ce3f9",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -21,7 +21,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#431": {
