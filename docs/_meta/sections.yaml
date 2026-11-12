@@ -28,13 +28,13 @@ sections:
     label: Organisations
     order: 40
     type: Explanation
-    purpose: How organisations govern many projects — multi-tier packs, the org charter, and the standard provisionings that ship.
+    purpose: How organisations govern many projects — multi-tier packs, governing presets, and the standard provisionings that ship.
 
   - id: contracts
     label: Contracts
     order: 50
     type: Reference
-    purpose: The machine contracts a pack meets — pack, org-charter, preset and manifest files, consumer registration, the validator, and the charter entry seams.
+    purpose: The machine contracts a pack meets — pack, README, preset, policy and manifest files, consumer registration, the validator, and the charter entry seams.
 
   - id: architecture
     label: Architecture

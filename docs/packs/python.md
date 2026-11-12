@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/python`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `e3a503834b4e1090b87d780954e18ea0209a3faaf863fa83ef1e8a1e4f4e5652`
+- **Content checksum (sha256):** `fb1f8f7b8f60115601a2287f1d67554d8b7dd2220ddc5832ffd5f22c611dd0bf`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The Python stack: the Python Pedro profile, Python conventions, review checks, supply-chain and mutation tooling.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
+- **Contents:** 3 toolguides, 1 agent profile, 1 styleguide.
+- **Agent profiles:** `python-pedro`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -40,7 +41,7 @@ An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 de
 | `toolguides` | 6 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **14** |
+| **Total files** | **11** |
 
 ### Full listing
 

@@ -22,15 +22,16 @@ charter_packs:
   org:
     packs:
     # spec-kitty-internal (org tier): the in-house / maintainer doctrine pack.
-    # This repository is its CANONICAL home (see packs/internal/PROVENANCE.md);
-    # it is registered here for the repo's own maintainer governance. Its
-    # org-charter's required_skills (land-pr, issue-triage, mission-from-issue,
-    # report-debrief, semi-auto) and required_procedures come into force on sync.
+    # This repository is its CANONICAL home (see the Provenance section of
+    # packs/internal/README.md); it is registered here for the repo's own
+    # maintainer governance. Its governing `base` preset's must-have items (the
+    # skills land-pr, issue-triage, mission-from-issue, report-debrief, semi-auto
+    # and the maintainer procedures) are its required floor.
     - name: internal
       local_path: packs/internal
     # spec-kitty-qa (org tier): the QA / promise-traceability doctrine pack that
     # lives here. Registered for the repo's own governance; inert by default
-    # (its org-charter forces nothing), with specific entries opted in per
+    # (it requires nothing), with specific entries opted in per
     # mission via `charter activate`.
     - name: qa
       local_path: packs/qa

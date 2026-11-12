@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/drupal`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `eaba546f6b2acef8ad3cbd3a4cbfebede5621eafac0c5789877a6d61617bb2b2`
+- **Content checksum (sha256):** `3fb65d328f244c21dd9233956d80ba427d650ea0f2890683c64b965b0d7618ee`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The Drupal stack: the Drupal Dries profile, Drupal conventions, security and performance guidance, and review checks.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
+- **Contents:** 2 styleguides, 1 agent profile, 1 toolguide.
+- **Agent profiles:** `drupal-dries`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -40,7 +41,7 @@ An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 de
 | `toolguides` | 2 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **11** |
+| **Total files** | **8** |
 
 ### Full listing
 

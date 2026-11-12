@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `3a4029e42744ac4696aa0e48cc9887272730c1d96d15be6967850a912ab02a23`
+- **Content checksum (sha256):** `b86fb3da59f6dc0350c688ff6c652d616e1883ab443da38ce802777c643c67aa`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -29,12 +29,22 @@ generated:
 An open Spec Kitty Charter Pack for running quality assurance as governed work, and for keeping
 a product's acceptance tests tied to what the product promises.
 
-It does two jobs: a `qa` mission type — the seven canonical steps redefined in QA terms, with
-QA agent profiles, step contracts, templates and evidence tools — and the
-description-to-acceptance-CI loop from a ratified promise page through a Given/When/Then
-scenario to a bound acceptance test and a release gate. The pack names no test runner: a
-project runs its own tests, and the pack governs what they must cover and how honestly they
-report.
+It does two jobs:
+
+1. **A `qa` mission type.** The seven canonical steps redefined in QA terms (discovery, test
+   strategy, test plan, test design, test execution, test report review, acceptance), with five
+   QA agent profiles, step contracts, templates, and two evidence tools. Ported from
+   `spec-kitty-qa-pack`; see Provenance below.
+2. **Description to acceptance CI.** A standing loop from a human-readable product description to
+   an automated release gate:
+
+   ```
+   promise page (DocKitty)  ->  Given/When/Then scenario  ->  bound acceptance test  ->  CI gate
+        ratified by product        @promise:<id>              project's own runner     trace lint + run
+   ```
+
+The pack names no test runner. Your project runs its own tests; the pack governs what they must
+cover and how honestly they report.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTEKGDXQW59TGSFQQ9QT >=2.0,<3`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -54,7 +64,7 @@ report.
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **76** |
+| **Total files** | **73** |
 
 ### Full listing
 

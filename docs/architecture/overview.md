@@ -55,7 +55,7 @@ The Charter Offering is built from three additive layers, later layers refining 
 
 1. **Built-in** — `pack_level: built-in`. The default distribution, shipped with the CLI: the `built-in` distribution pack (no artifacts, the presets) and its six members `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis` (#73).
 2. **Org** — `pack_level: org`. Any number of packs registered under `charter_packs.org.packs`;
-   each may carry an `org-charter.yaml` that **requires** artefacts.
+   each may ship a governing preset whose must-have items **require** artefacts.
 3. **Project** — `pack_level: project`. The project's own `.kittify/charter-packs/`.
 
 Each layer contributes artefacts and a Doctrine Relationship Graph (DRG) fragment. The charter
@@ -67,10 +67,9 @@ is used.
 
 The offering is everything **available**; the Active Charter is what is **in force**. A kind
 with no activation key is unrestricted (every offered artefact of that kind is effective) —
-except skills, where only org-required skills are in force until the project activates more.
-Org `required_<kind>` lists are in force for projects that register the pack; for most kinds
-they also join the project's selection, while required skills, glossary packs and assets are
-required without being merged into it (see [Organisations](../organisations/index.md)).
+except skills, where only required skills are in force until the project activates more.
+A governing preset's must-have items are the required floor of every project whose closure holds
+the pack; deactivating one is refused (see [Organisations](../organisations/index.md)).
 
 ## The charter entry seams
 

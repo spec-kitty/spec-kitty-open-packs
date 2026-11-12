@@ -21,14 +21,14 @@ two ever disagree, core wins.
 - **Charter Pack** — A distributable bundle of charter artefacts and their DRG edges, with optional activation presets. Identified by its `pack_id`; declares its tier in `pack.yaml`.
 - **Pack tier** (`pack_level`) — `built-in`, `org` or `project`. The built-in level holds the default distribution (`built-in`, which aggregates `foundation` and `writing`) and ships with the CLI; org packs are registered by a project; the project layer is the project's own.
 - **Compound pack** — A pack that depends on other packs (`depends_on`). `built-in` itself is one: a distribution pack aggregating `foundation` and `writing`. Every org pack here depends on the packs it references (for example `foundation` or `testing`); the charter service reads it, the as-is CLI rejects it.
-- **Org charter** (`org-charter.yaml`) — An org pack's policy file: `required_<kind>` lists and an optional `skill_namespace`.
+- **Governing preset** — An activation preset with at least one `must_have: true` item. Its must-have items are the required floor of every project whose closure holds the pack. It replaces the retired org charter (`org-charter.yaml`); see [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md).
 - **Activation preset** — A named activation bundle a pack ships under `presets/<name>.yaml`. The `built-in` distribution pack ships `default` and `minimal`.
 - **Charter Offering** — Everything offered to a project: the built-in distribution (`built-in`, `foundation`, `writing`), each configured org pack, and the project layer.
 - **Active Charter** — What a project has activated from its offering: its `activated_<kind>` keys and mission-type activations. Served by `ActiveCharterService`.
 - **Charter context** — The action-scoped guidance the charter renders for a Mission step (`spec-kitty charter context --action <action>`).
 - **Doctrine Relationship Graph (DRG)** — The graph of artefacts and their relations (`requires`, `suggests`, `specializes_from`, `enhances`, `overrides`, …). Each layer contributes a fragment; the charter merges them.
 - **Pack manifest** (`pack-manifest.yaml`) — The generated inventory of a pack's constituents and content hashes. Never hand-edited.
-- **Pack skill** — An artefact of kind `skill`: a thin, parameterised entry point (for example a team command) rendered as `<skill_namespace>-<id>/SKILL.md` into each configured agent tool.
+- **Pack skill** — An artefact of kind `skill`: a thin, parameterised entry point (for example a team command) rendered as a `SKILL.md` into each configured agent tool (the directory name is the consumer's rendering; core uses `<prefix>-<id>`).
 
 ## Product lines
 

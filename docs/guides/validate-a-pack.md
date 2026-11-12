@@ -37,7 +37,7 @@ Exit codes:
 
 Each file is mapped to its schema by name: `*.directive.yaml` to the directive schema,
 `pack.yaml` to the pack descriptor, `presets/<id>.yaml` to the preset schema, `*.mission-type.yaml`
-to the mission-type schema, and so on. Markdown companions (`pack.md`, toolguide guides, mission
+to the mission-type schema, and so on. Markdown files (the pack document `README.md`, toolguide guides, mission
 step prompts and guidelines) are read into a title, preamble and sections model and validated as
 that. Assets, templates, READMEs and other files the contract lists as exclusions or payloads are
 not schema-checked.
@@ -120,10 +120,10 @@ valid through the service, at a pinned charter version). The job:
    charter ADR-0065), sends each org and project pack whole with `PUT /api/v1/packs/{packId}`,
    dependencies first, and polls `GET /api/v1/pack-registrations/{id}` until it ends. A `refused`
    registration fails the job and prints its problem and violations. A registration holds only files
-   the service models, so the documentation and charter files it does not model (`README.md`,
-   `PROVENANCE.md`, `org-charter.yaml`, a mission template's `README.md` and
-   `plan-field-declaration.yaml`) are left out of the upload and listed in the log; any other file the
-   service does not model is a refusal;
+   the service models. The pack's root `README.md` is the pack document and is uploaded; a mission
+   template's `README.md` and `plan-field-declaration.yaml` are left out of the upload and listed in
+   the log; a retired file (`pack.md`, `PROVENANCE.md`, `org-charter.yaml`) is uploaded and refused as
+   `retired`, and any other file the service does not model is a refusal;
 4. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code
    its `expected-code` file names, once when composed and once when registered. A fixture the service
    accepts, or refuses with another code, fails the job.

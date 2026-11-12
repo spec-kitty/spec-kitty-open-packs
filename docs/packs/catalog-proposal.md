@@ -230,7 +230,7 @@ Spec Kitty project itself is run, so contributors and downstream teams can adopt
 its way of working. Partly a curation of built-in artifacts that describe the project's
 process, partly **net-new artifacts** derived from the repository's own maintainer/contributor
 material (`HOW_TO_MAINTAIN.md`, `CONTRIBUTING.md`, `RELEASE_CHECKLIST.md`, tracker
-conventions). Ships the project's own `org-charter.yaml`. Grounded in the catfooding epic
+conventions). Ships the project's own governing preset (must-have items). Grounded in the catfooding epic
 [core #2196](https://github.com/spec-kitty/spec-kitty/issues/2196).
 
 - **Directives:** `039-lynn-cole-engineering-culture`, `025-boy-scout-rule` (curated),
@@ -245,7 +245,7 @@ conventions). Ships the project's own `org-charter.yaml`. Grounded in the catfoo
   `adversarial-squad-deployment`, `development-assist-test-cleanup`.
 - **Agent profiles:** `human-in-charge`, `reviewer-renata`, `doctrine-daphne`,
   `retrospective-facilitator`.
-- **Charter:** ships `org-charter.yaml` — the compiled Spec Kitty charter (catfooding).
+- **Charter:** ships a governing preset — the compiled Spec Kitty charter as must-have items (catfooding).
 
 This pack doubles as the reference example for "how do I encode my team's whole way of
 working as a pack," and as the eventual self-governance pack for this very repository.

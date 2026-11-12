@@ -1,6 +1,6 @@
 ---
 title: Contracts
-description: "The machine contracts a Charter Pack meets: pack, org-charter, preset, manifest and DRG files, registration, commands and charter seams."
+description: "The machine contracts a Charter Pack meets: pack, README, preset, policy, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
 updated: '2026-11-11'
 related:
@@ -22,7 +22,8 @@ reference pages are tracked in
 my-pack/
 ├── pack.yaml              # authored descriptor (required for every pack)
 ├── pack-manifest.yaml     # generated inventory — never hand-edit
-├── org-charter.yaml       # org packs only: requirements and skill namespace
+├── README.md              # the pack document: its description (held and served)
+├── policy.yaml            # optional mutability levels
 ├── drg/fragment.yaml      # the pack's DRG fragment (empty is valid)
 ├── presets/<name>.yaml    # optional activation presets
 └── <kind directories>/    # one per artefact kind — see Charter artefacts
@@ -89,16 +90,19 @@ a core pin and it is not charter-owned: this repository defines it, and its valu
 interchangeable with a core pin's digests. CI fails on a stale, missing or orphan sidecar. See
 [Validate a pack](../guides/validate-a-pack.md#recorded-pack-digests).
 
-## `org-charter.yaml` — org policy
+## Org enforcement — governing presets and `policy.yaml`
 
-| Field | Meaning |
+`org-charter.yaml` is retired (#242). The charter refuses a pack that ships it (`retired`), and a
+`pack.yaml` that declares `active_charter` cannot be read (`pack_unreadable`). Org enforcement is:
+
+| You want | Write |
 | --- | --- |
-| `schema_version` | Optional schema version. |
-| `org_name` | The organisation the pack represents. |
-| `skill_namespace` | Prefix for rendered pack skills: lowercase ASCII, starts with a letter, `[a-z0-9]` segments joined by `-`, at most 32 characters; `spk-`, `spec-kitty-` and `spec-kitty.` are reserved. Required when the pack ships skills. |
-| `required_<plural kind>` | Artefact ids that are always in force for any project registering the pack, e.g. `required_directives`, `required_procedures`, `required_toolguides`, `required_glossary_packs`, `required_skills`. |
+| An artefact in force for every project whose closure holds the pack | A **governing preset**: an item with `must_have: true` in `presets/<id>.yaml`. Deactivating it is refused (`409 artifact_required`). |
+| An artefact (or kind) no project may change | `policy.yaml` with level `locked` (or `extendable`), and `mutability_policy: policy.yaml` in `pack.yaml`. |
 
-See [Organisations](../organisations/index.md) for how these are used.
+The retired file's `skill_namespace`, `org_name`, `interview_defaults` and advisory
+`governance_policies` have no charter equivalent. See the charter's
+[Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md) and [Organisations](../organisations/index.md).
 
 ## `presets/<id>.yaml` — activation presets
 

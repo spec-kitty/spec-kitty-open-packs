@@ -1,6 +1,6 @@
 ---
 title: Author a Charter Pack
-description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets and an org-charter.yaml.
+description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets, a governing preset and a policy.yaml.
 doc_status: wip
 updated: '2026-11-12'
 related:
@@ -26,7 +26,7 @@ subset of the artifact kinds plus that fragment. Spec Kitty 4.x reads only this 
 ```
 my-pack/
 ├── pack.yaml                   # required: the pack's descriptor, with its pack_id and name
-├── pack.md                     # recommended: the pack's description (see below)
+├── README.md                   # recommended: the pack document, its description (see below)
 ├── directives/                 # *.directive.yaml — project rules
 ├── tactics/                    # *.tactic.yaml — domain tactics (subdirs allowed)
 ├── styleguides/                # *.styleguide.yaml — style standards
@@ -37,11 +37,11 @@ my-pack/
 ├── mission_step_contracts/     # *.step-contract.yaml — mission step contracts
 ├── glossary_packs/             # *.glossary-pack.yaml — terminology
 ├── assets/                     # *.asset.yaml sidecars plus the files they describe
-├── skills/                     # *.skill.yaml — agent skills, installed under skill_namespace
+├── skills/                     # *.skill.yaml — agent skills
 ├── missions/                   # <type>/<type>.mission-type.yaml plus steps/ — custom mission types
 ├── presets/                    # <name>.yaml — activation presets
 ├── drg/fragment.yaml           # additive DRG fragment (the only DRG file an org pack may have)
-└── org-charter.yaml            # optional: policy, required artifacts, interview defaults
+└── policy.yaml                 # optional: mutability levels (open, extendable, locked)
 ```
 
 Every pack needs a `pack.yaml`: [the gate](validate-a-pack.md) and the charter service both refuse a
@@ -55,7 +55,7 @@ Four pack-root files are easy to confuse, so keep their roles apart:
 | --- | --- | --- |
 | `pack.yaml` | you (hand-authored) | The descriptor: identity and lineage (`pack_id`, `name`, `pack_version`, `parent_pack`, `pack_level`, `depends_on`), plus optional `mutability_policy` and `fallback_profile`. Its charter schema is closed — it has no prose fields. |
 | `policy.yaml` | you (hand-authored, optional) | Mutability levels (`open`, `extendable`, `locked`) per artifact kind or artifact; `pack.yaml` points to it with `mutability_policy`. A declared fallback profile must be `locked` here. |
-| `pack.md` | you (hand-authored) | The pack's **description**: an H1 title, a preamble of "what it is and why" prose, then optional H2 sections. The generated reference page renders the preamble under its Purpose heading. |
+| `README.md` | you (hand-authored) | The pack **document**, its description: an H1 title, a preamble of "what it is and why" prose, then optional H2 sections (provenance goes in a `## Provenance` section). The charter holds and serves it; the generated reference page renders the preamble under its Purpose heading. `pack.md` and `PROVENANCE.md` are retired and refused. |
 | `pack-manifest.yaml` | tooling only | The constituent inventory and content hashes. |
 
 > **Do not hand-write `pack-manifest.yaml`.** It is written by tooling (`charter fetch` for
@@ -200,27 +200,27 @@ in force and leave the rest out.
 The old shape (`name:`, `activated_directives: [ACME_001_SECRET_HANDLING]`,
 `mission_type_activations`) fails validation. Core up to 4.0.0rc8 reads only the old shape.
 
-An `org-charter.yaml` at the pack root can pre-fill the consumer's charter interview, put
-artifacts in force for every consumer, or surface advisory policy. Prefer presets for packs
-that should stay opt-in:
+To put artifacts in force for every project that registers an org pack, mark them
+`must_have: true` in a preset. A preset with at least one must-have item is a **governing
+preset**: its must-have items are the required floor of every project whose closure holds the
+pack, and the charter refuses to deactivate one (`409 artifact_required`). To stop projects
+changing an artifact as well, give it the level `locked` in `policy.yaml` and point `pack.yaml`'s
+`mutability_policy` at that file:
 
 ```yaml
-# org-charter.yaml
-schema_version: 2
-org_name: acme
-interview_defaults:
-  language: python
-  test_framework: pytest
-required_directives:
-  - ACME_001_SECRET_HANDLING
-governance_policies:
-  - field: min_test_coverage
-    value: "80"
-    enforcement: advisory
+# presets/base.yaml
+schema_version: "1.0"
+id: base
+description: The required floor of every Acme project.
+activated_directives:
+  - id: ACME_001_SECRET_HANDLING
+    must_have: true
 ```
 
-Omit it entirely for packs that ship only artifacts. `spec-kitty charter org init` scaffolds
-a schema-2 `org-charter.yaml` and a starter preset (rewrite the preset in the shape above).
+Keep a pack opt-in by shipping only convenience presets (no must-have items).
+`org-charter.yaml` and the `active_charter` key of `pack.yaml` are retired: the charter refuses a
+pack that ships the file (`retired`) and cannot read a descriptor that declares the key. The
+charter's guide [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md) shows how to convert one.
 
 ### Mission step inputs
 

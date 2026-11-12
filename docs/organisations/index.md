@@ -1,6 +1,6 @@
 ---
 title: Organisations
-description: "How organisations govern many projects with Charter Packs: tiers, the org charter, and the standard provisionings that ship."
+description: "How organisations govern many projects with Charter Packs: tiers, governing presets, and the standard provisionings that ship."
 doc_status: draft
 updated: '2026-11-11'
 related:
@@ -38,26 +38,31 @@ flowchart TB
 
 ## What an org pack can enforce
 
-An org pack's `org-charter.yaml` turns artefacts **on for every project that registers it**,
-with no per-project activation step:
+An org pack turns artefacts **on for every project whose closure holds it** with a
+**governing preset**: a preset whose items carry `must_have: true`:
 
 ```yaml
-org_name: your-company
-skill_namespace: acme              # renders skills as acme-<id>
-required_directives: [SEC_001]
-required_procedures: [release-checklist]
-required_toolguides: [internal-ci]
-required_glossary_packs: [acme-glossary]
-required_skills: [land-pr]
+# presets/base.yaml in your org pack
+schema_version: "1.0"
+id: base
+description: The required floor of every Acme project.
+activated_directives:
+  - id: SEC_001
+    must_have: true
+activated_procedures:
+  - id: release-checklist
+    must_have: true
+activated_skills:
+  - id: land-pr
+    must_have: true
 ```
 
-- `required_<kind>` lists are always in force for projects that register the pack.
-- For most kinds the org's required list also joins the project's selection; skills, glossary
-  packs and assets are required without being merged into it.
-- Skills are the one kind that is **not** unrestricted by default: until a project activates
-  skills, only the org-required skills (plus built-in defaults) are in force.
-- `skill_namespace` is mandatory for an org that ships skills. See
-  [Contracts](../contracts/index.md#org-charteryaml--org-policy) for the naming rules.
+- A governing preset's must-have items are the project's required floor; the charter refuses to
+  deactivate one (`409 artifact_required`, naming the requiring pack).
+- To stop projects changing an artefact as well, lock it with `policy.yaml` (levels `open`,
+  `extendable`, `locked`).
+- `org-charter.yaml`, its `required_<kind>` lists and `skill_namespace` are retired (#242). See the
+  charter's [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md) to convert one.
 
 An org pack can also stay **inert**: ship artefacts and presets but require nothing, so each
 project opts in. The open packs here (`qa`, `event-driven`, `cave-kitty`) are inert by design.
@@ -72,7 +77,7 @@ What ships for an organisation to start from:
 | Built-in `minimal` preset | `packs/built-in/presets/minimal.yaml` | A small curated baseline of foundational directives and tactics for `software-dev`. |
 | `event-driven` preset | `packs/event-driven/presets/` | The event-sourced design paradigm, its directives, tactics and naming styleguide. |
 | Opt-in packs | `packs/qa`, `packs/event-driven`, `packs/cave-kitty`, and the opt-in bundles carved from built-in (`packs/pack-authoring`, `packs/python`, `packs/java`, …) | Domain slices you activate artefact by artefact. |
-| Maintainer pack | `packs/internal` | Spec Kitty's own in-house org pack — a worked example of `required_*` and `skill_namespace` (not shipped in the CLI). |
+| Maintainer pack | `packs/internal` | Spec Kitty's own in-house org pack — a worked example of a governing preset, `presets/base.yaml` (not shipped in the CLI). |
 
 Apply a preset with:
 
@@ -85,7 +90,7 @@ spec-kitty charter pack list        # packs in the offering and the presets each
 
 1. **Pick a baseline** — `minimal` for a light start, `default` for everything built-in.
 2. **Author your org pack** — company directives, procedures and skills, with an
-   `org-charter.yaml` naming what is mandatory. See
+   governing preset naming what is mandatory. See
    [Author a Charter Pack](../guides/author-a-charter-pack.md).
 3. **Publish it** at a pinned ref ([Publish a pack](../guides/publish-a-pack.md)).
 4. **Register it** in each project's `.kittify/config.yaml`, next to any open packs you adopt

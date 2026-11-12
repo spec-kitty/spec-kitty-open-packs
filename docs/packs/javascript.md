@@ -21,14 +21,15 @@ generated:
 
 - **Pack directory:** `packs/javascript`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `9cd3d6367f1739dac4128f2ed96bab765a743d79ecd1f17bef5db82ce0b75b7e`
+- **Content checksum (sha256):** `078e82fc4c275f9402bd5b8cbafd57f8edd4a47c25f2e50eb4ea81ca62d5b507`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HTML and CSS conventions, atomic design, supply-chain and mutation tooling.
 
-An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 decision 14). It builds on `foundation`, `testing`.
+- **Contents:** 4 tactics, 3 agent profiles, 3 styleguides, 2 toolguides, 1 paradigm.
+- **Agent profiles:** `designer-dagmar`, `frontend-freddy`, `node-norris`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 
@@ -42,7 +43,7 @@ An opt-in, org-level bundle carved out of `built-in` by #73 (charter ADR-0048 de
 | `paradigms` | 1 |
 | `agent_profiles` | 3 |
 | `drg` | 1 |
-| **Total files** | **21** |
+| **Total files** | **18** |
 
 ### Full listing
 
