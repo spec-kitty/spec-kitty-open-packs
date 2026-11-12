@@ -1,4 +1,17 @@
 {
+  "acceptance_history": [
+    {
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-12T19:52:02.734596+00:00",
+      "accepted_by": "system",
+      "accepted_from_commit": "5852eab7fee89e13a1117d335ec2c72b7e52eab1",
+      "lenient": true
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-12T19:52:02.734596+00:00",
+  "accepted_by": "system",
+  "accepted_from_commit": "5852eab7fee89e13a1117d335ec2c72b7e52eab1",
   "contracts": "none",
   "contracts_rationale": "No API or interface is defined: the mission migrates pack content and CI scripts to the charter service contract that the charter repository owns.",
   "coordination_branch": "kitty/mission-charter-slice-b-migration-01M78K20",
