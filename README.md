@@ -101,7 +101,7 @@ Full walkthrough: [Getting started](https://spec-kitty.github.io/spec-kitty-open
 ## For organisations
 
 Packs are layered **built-in → org → project**. An org pack can make artefacts mandatory for
-every project that registers it with a governing preset (preset items marked `must_have: true`)
+every project whose closure holds it with a governing preset (preset items marked `must_have: true`)
 and lock them with `policy.yaml` ([Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md)); the built-in pack ships `default` and `minimal` presets as standard
 provisionings. See [Organisations](https://spec-kitty.github.io/spec-kitty-open-packs/organisations/).
 

@@ -200,7 +200,7 @@ in force and leave the rest out.
 The old shape (`name:`, `activated_directives: [ACME_001_SECRET_HANDLING]`,
 `mission_type_activations`) fails validation. Core up to 4.0.0rc8 reads only the old shape.
 
-To put artifacts in force for every project that registers an org pack, mark them
+To put artifacts in force for every project whose closure holds an org pack, mark them
 `must_have: true` in a preset. A preset with at least one must-have item is a **governing
 preset**: its must-have items are the required floor of every project whose closure holds the
 pack, and the charter refuses to deactivate one (`409 artifact_required`). To stop projects

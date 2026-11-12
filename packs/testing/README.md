@@ -2,6 +2,8 @@
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
+## Contents
+
 - **Contents:** 9 tactics, 5 procedures, 5 styleguides, 2 paradigms, 1 agent profile, 1 directive, 1 toolguide.
 - **Agent profiles:** `debugger-debbie`.
 

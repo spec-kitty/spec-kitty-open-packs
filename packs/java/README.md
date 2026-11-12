@@ -2,6 +2,8 @@
 
 The Java stack: the Java Jenny profile, Java conventions, Maven review checks and Java supply-chain guidance. The supply-chain guidance also applies to Kotlin on Maven or Gradle.
 
+## Contents
+
 - **Contents:** 2 toolguides, 1 agent profile, 1 styleguide.
 - **Agent profiles:** `java-jenny`.
 

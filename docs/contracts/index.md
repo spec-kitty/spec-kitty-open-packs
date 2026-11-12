@@ -92,13 +92,14 @@ interchangeable with a core pin's digests. CI fails on a stale, missing or orpha
 
 ## Org enforcement — governing presets and `policy.yaml`
 
-`org-charter.yaml` is retired (#242). The charter refuses a pack that ships it (`retired`), and a
+`org-charter.yaml` is retired (charter #431; tracked here as #242). The charter refuses a pack that ships it (`retired`), and a
 `pack.yaml` that declares `active_charter` cannot be read (`pack_unreadable`). Org enforcement is:
 
 | You want | Write |
 | --- | --- |
 | An artefact in force for every project whose closure holds the pack | A **governing preset**: an item with `must_have: true` in `presets/<id>.yaml`. Deactivating it is refused (`409 artifact_required`). |
-| An artefact (or kind) no project may change | `policy.yaml` with level `locked` (or `extendable`), and `mutability_policy: policy.yaml` in `pack.yaml`. |
+| An artefact (or kind) no project may change | `policy.yaml` with level `locked`, and `mutability_policy: policy.yaml` in `pack.yaml`. |
+| An artefact projects may extend but not otherwise change | `policy.yaml` with level `extendable`. |
 
 The retired file's `skill_namespace`, `org_name`, `interview_defaults` and advisory
 `governance_policies` have no charter equivalent. See the charter's
@@ -122,7 +123,7 @@ a profile for every role its mission types name.
 | `description` | What applying the preset puts in force. Required. |
 | `activated_kinds` | Optional kind gate: the kinds the preset activates, each once. A kind left out is switched off; without the key no kind is gated. |
 | `activated_mission_types` | Mission types to activate, each item `{id: <mission type id>}`. |
-| `activated_<plural kind>` | Artefacts to activate for that kind, each item `{id: <artefact id>}` and optionally `must_have: true`. Use the artefact's `id`, not its file name. A kind with no key stays unrestricted; a key is never an empty list. |
+| `activated_<plural kind>` | Artefacts to activate for that kind, each item `{id: <artefact id>}` and optionally `must_have: true`. Use the artefact's `id`, not its file name. A key the preset leaves out leaves that kind of the project's activation untouched; a key is never an empty list. |
 
 ```yaml
 schema_version: "1.0"

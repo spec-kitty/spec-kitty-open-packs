@@ -1,0 +1,8 @@
+# Pack descriptor of the invalid fixture. Its descriptor, directive and README.md are well formed;
+# the pack is refused because it still ships the pack-level files charter slice B retired
+# (#241, charter #451): pack.md and PROVENANCE.md. See expected-code.
+pack_id: 01M78PZ000RETRDPACKD0CM3NT
+pack_version: 1.0.0
+parent_pack: null
+name: retired-pack-document
+pack_level: org

@@ -2,6 +2,8 @@
 
 The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy patterns), semantic compression, the code-smell anti-patterns and the Randy Reducer profile.
 
+## Contents
+
 - **Contents:** 25 tactics, 7 anti patterns, 1 agent profile, 1 paradigm, 1 procedure.
 - **Agent profiles:** `randy-reducer`.
 

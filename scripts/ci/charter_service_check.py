@@ -73,8 +73,9 @@ PACK_ID_PATTERN = re.compile(r"[0-9A-Za-z]+")
 EXPECTED_CODE_KEYS = {"composition", "registration", "precheck"}
 CODE_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
 #: Files a pack carries that the service does not model: the mission template notes. They are left
-#: out of the uploaded archive, and only these: any other file the service does not model (a misspelt
-#: artifact file name, a new kind of file) is refused and fails the run. The pinned charter excludes
+#: out of the uploaded archive, and only these. Any other non-Markdown file the service does not model
+#: (a misspelt artifact file name, a new kind of file) is refused and fails the run; unmodelled
+#: Markdown is not refused but left out by the charter's `ignored` rule. The pinned charter excludes
 #: both itself, so listing them only keeps the archive identical to what it registers. The pack's root
 #: ``README.md`` is the pack document (charter ADR-0042, #451) and is uploaded; the retired files
 #: (``pack.md``, ``PROVENANCE.md``, ``org-charter.yaml``) are not listed, so a pack that still ships one

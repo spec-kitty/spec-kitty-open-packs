@@ -11,18 +11,20 @@ related:
 # Glossary
 
 These terms follow the canonical glossary in Spec Kitty core
-([`docs/context/`](https://github.com/spec-kitty/spec-kitty/tree/main/docs/context)). If the
-two ever disagree, core wins.
+([`docs/context/`](https://github.com/spec-kitty/spec-kitty/tree/main/docs/context)). Where core
+and the charter differ on a pack's shape (the pack document, presets, retired files), this
+repository follows the charter, as its `AGENTS.md` says; otherwise core wins.
 
 ## Charter terms
 
 - **Charter** — The governance of a project: its purpose, constraints and norms, and the body of charter artefacts that govern its Missions. It is the governing term — do not say "doctrine" for it.
 - **Charter artefact** — One governed unit — a directive, tactic, styleguide, toolguide, paradigm, procedure, agent profile, mission step contract, template, asset, glossary pack, anti-pattern or skill. Also called a *doctrine artifact* in the domain model. See [Charter artefacts](../artefacts/index.md).
 - **Charter Pack** — A distributable bundle of charter artefacts and their DRG edges, with optional activation presets. Identified by its `pack_id`; declares its tier in `pack.yaml`.
+- **Pack document** — A pack's root `README.md`: its description, held and served by the charter. Its preamble is the Purpose on the pack's generated reference page; provenance goes in a `## Provenance` section. It replaces the retired `pack.md` and `PROVENANCE.md`.
 - **Pack tier** (`pack_level`) — `built-in`, `org` or `project`. The built-in level holds the default distribution (`built-in`, which aggregates `foundation` and `writing`) and ships with the CLI; org packs are registered by a project; the project layer is the project's own.
 - **Compound pack** — A pack that depends on other packs (`depends_on`). `built-in` itself is one: a distribution pack aggregating `foundation` and `writing`. Every org pack here depends on the packs it references (for example `foundation` or `testing`); the charter service reads it, the as-is CLI rejects it.
-- **Governing preset** — An activation preset with at least one `must_have: true` item. Its must-have items are the required floor of every project whose closure holds the pack. It replaces the retired org charter (`org-charter.yaml`); see [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md).
 - **Activation preset** — A named activation bundle a pack ships under `presets/<name>.yaml`. The `built-in` distribution pack ships `default` and `minimal`.
+- **Governing preset** — An activation preset with at least one `must_have: true` item. Its must-have items are the required floor of every project whose closure holds the pack. It replaces the retired org charter (`org-charter.yaml`); see [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md).
 - **Charter Offering** — Everything offered to a project: the built-in distribution (`built-in`, `foundation`, `writing`), each configured org pack, and the project layer.
 - **Active Charter** — What a project has activated from its offering: its `activated_<kind>` keys and mission-type activations. Served by `ActiveCharterService`.
 - **Charter context** — The action-scoped guidance the charter renders for a Mission step (`spec-kitty charter context --action <action>`).

@@ -1,0 +1,6 @@
+# The codes the charter service must refuse this pack with (scripts/ci/charter_service_check.py).
+# pack.md and PROVENANCE.md are retired by name (charter #451, file-kinds.yaml `retired`): the
+# composition cannot read the pack, and a registration refuses it with `retired` violations. The
+# per-pack schema pass refuses them too (retired layout), so there is no precheck line.
+composition: pack_unreadable
+registration: validation_failed

@@ -3,7 +3,8 @@
 This is Spec Kitty's own **internal** Charter Pack: the doctrine that governs
 *contributors, maintainers, and the core team* of the Spec Kitty project itself.
 It is loaded as an **org-tier** pack (registered in `.kittify/config.yaml` under
-`charter_packs.org.packs`), overlaying the public `packs/built-in/` product doctrine.
+`charter_packs.org.packs`), overlaying the public `packs/built-in/` product doctrine. It is never shipped to consumers:
+maintainer-only doctrine must not be force-shipped on the wheel.
 
 ## Why this is a separate pack — and why it is NOT built-in
 
@@ -145,13 +146,21 @@ entry point: it states the goal, the order of the steps and the stop conditions,
 leaves the rules to the procedure it requires. A `requires` edge in
 `drg/fragment.yaml` points it at the procedure that holds the rules, and the rendered
 `SKILL.md` tells the agent to load that procedure with
-`spec-kitty charter context --include <urn>`. Spec Kitty core renders them with a `kitty-`
-prefix, as `kitty-land-pr`, `kitty-issue-triage`, `kitty-mission-from-issue`,
-`kitty-report-debrief` and `kitty-semi-auto`. The prefix is core's rendering: the charter
-model has no skill namespace. The `base` preset's must-have items put all five in force for
+`spec-kitty charter context --include <urn>`. They are committed as `kitty-land-pr`,
+`kitty-issue-triage`, `kitty-mission-from-issue`, `kitty-report-debrief` and
+`kitty-semi-auto`: the `kitty-` prefix is core's rendering, and the charter model has no skill
+namespace. In the charter service, the `base` preset's must-have items put all five in force for
 every project whose closure holds this pack.
-The `SKILL.md` files are not on disk until `spec-kitty upgrade` projects them into each
-configured tool's project skill root. Two known defects affect that today:
+
+> **Core gap (until core aligns with the charter).** Core took the `kitty` prefix from
+> `skill_namespace` in `org-charter.yaml`, which the charter retired (#242, charter #431). Core
+> can no longer render these skills, and it does not apply `must_have` items. `spec-kitty doctor
+> skills` reports the committed `kitty-*` directories as orphaned, and `spec-kitty upgrade` would
+> retire them. Do not run `spec-kitty upgrade` in a repository that relies on them until core
+> aligns.
+
+Where core can render them, the `SKILL.md` files are not on disk until `spec-kitty upgrade`
+projects them into each configured tool's project skill root. Two known defects affect that:
 
 - When `claude` is a configured tool and the clone has no `.claude/` directory, `upgrade`
   fails with an "Owner effect conflict" on that directory (#4275). Run `mkdir .claude`

@@ -1,11 +1,18 @@
 # Writing pack (`writing`)
 
 Documentation, communication and terminology doctrine, and a member of the `built-in`
-distribution.
+distribution: the documentation mission type; the comms, scribe, minutes, synthesis, diagram,
+lexical and curator profiles; Common Docs and audience-oriented writing directives, the
+documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
+the writing-audience assets.
+
+## Contents
 
 - **Agent profiles:** `comms-cleo`, `curator-carla`, `diagram-daisy`, `lexical-larry`,
   `minutes-mahad`, `scribe-sally`, `synthesizer-sam`.
 - **Mission type:** `documentation`.
+
+## Adopt
 
 Reference its artifacts from another pack as `writing::<kind>:<id>`.
 

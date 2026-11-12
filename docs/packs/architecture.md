@@ -21,15 +21,12 @@ generated:
 
 - **Pack directory:** `packs/architecture`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `c0100fa9a938b39693b722ae1e3d84e73f98a57d4e52b1c0a0fdb030455f61ad`
+- **Content checksum (sha256):** `ce181ab96b26c620508e6d354ded09f3416ec2ca678bd98aef5b03cd9bac9a84`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bounded-context and aggregate tactics, architecture templates and anti-patterns, and the Architect Alphonso and Paula Patterns profiles.
-
-- **Contents:** 14 tactics, 6 anti patterns, 5 templates, 3 paradigms, 3 procedures, 2 agent profiles, 1 directive, 1 styleguide.
-- **Agent profiles:** `architect-alphonso`, `paula-patterns`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTD0V3AFZA9EAXDJ894D ==2.0.0`, `01M75HSYS69RYRFPB4WCC5AC9D ==1.0.0`
 

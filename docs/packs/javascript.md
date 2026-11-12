@@ -21,15 +21,12 @@ generated:
 
 - **Pack directory:** `packs/javascript`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `078e82fc4c275f9402bd5b8cbafd57f8edd4a47c25f2e50eb4ea81ca62d5b507`
+- **Content checksum (sha256):** `d9ac0faeea72ce74519dc9c12d473fd2e177000bc01d316aa7e3e75f1540af4b`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HTML and CSS conventions, atomic design, supply-chain and mutation tooling.
-
-- **Contents:** 4 tactics, 3 agent profiles, 3 styleguides, 2 toolguides, 1 paradigm.
-- **Agent profiles:** `designer-dagmar`, `frontend-freddy`, `node-norris`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`, `01M75PCTC6HS38NX8HJGT26VTP >=2.0,<3`
 

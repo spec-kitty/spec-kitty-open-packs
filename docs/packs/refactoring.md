@@ -21,15 +21,12 @@ generated:
 
 - **Pack directory:** `packs/refactoring`
 - **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `ec8da4a7a7c68df8d83379607ed523500e93e0330dd7064eb81b4dcc99eb8af4`
+- **Content checksum (sha256):** `8090e19a39495a3c9199c3463f16e7142711485b9316c386d34040915cd32cc7`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy patterns), semantic compression, the code-smell anti-patterns and the Randy Reducer profile.
-
-- **Contents:** 25 tactics, 7 anti patterns, 1 agent profile, 1 paradigm, 1 procedure.
-- **Agent profiles:** `randy-reducer`.
 
 **Depends on:** `01M75HSYR9S9KPA372PHGT0EX3 ==1.0.0`, `01M75PCTC6HS38NX8HJGT26VTP ==2.0.0`
 

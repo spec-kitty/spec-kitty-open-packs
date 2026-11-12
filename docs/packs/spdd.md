@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/spdd`
 - **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `eccb74e1f720cb047e52459cdbacdf42049021203506d7aa8de833a6c94fb881`
+- **Content checksum (sha256):** `300da79af62f552b54baeeb8bc27e227f5617de093e4844766dacaa01121a3ac`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -30,7 +30,8 @@ Structured-Prompt-Driven Development (SPDD) treats structured prompts and
 REASONS canvases as governed change-intent and decision-boundary artifacts.
 This opt-in org pack holds the SPDD paradigm, its directive, the REASONS canvas
 fill/review tactics and writing styleguide, and prompt enhancements for the
-`software-dev` specify, plan, tasks, implement and review steps.
+`software-dev` specify, plan, tasks, implement and review steps. Activating its `spdd`
+preset selects the doctrine and all five step enhancements together.
 
 **Depends on:** `01M75PCTDT75M19ZMXHRES4CSJ >=2.0,<3`, `01M75HSYR9S9KPA372PHGT0EX3 >=1.0,<2`
 

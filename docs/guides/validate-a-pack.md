@@ -39,7 +39,7 @@ Each file is mapped to its schema by name: `*.directive.yaml` to the directive s
 `pack.yaml` to the pack descriptor, `presets/<id>.yaml` to the preset schema, `*.mission-type.yaml`
 to the mission-type schema, and so on. Markdown files (the pack document `README.md`, toolguide guides, mission
 step prompts and guidelines) are read into a title, preamble and sections model and validated as
-that. Assets, templates, READMEs and other files the contract lists as exclusions or payloads are
+that. Assets, templates, other READMEs (a mission template's or an asset's notes) and other files the contract lists as exclusions or payloads are
 not schema-checked.
 
 ## What the schemas catch
