@@ -165,23 +165,23 @@ class Packs(unittest.TestCase):
         cyclic_b = self.make(self.root, "y", "01Y", depends_on=("01X",))
         self.assertEqual(len(check.registration_order([cyclic_a, cyclic_b])), 2)  # a cycle is the service's to refuse
 
-    def test_the_archive_uploads_the_pack_document_and_retired_files_and_leaves_out_template_notes_only(self) -> None:
+    def test_the_archive_is_the_real_tree_less_the_fixtures_own_file(self) -> None:
         pack = self.make(self.root, "p", "01P")
         for name in ("expected-code", "README.md", "PROVENANCE.md", "org-charter.yaml", "stray.md",
                      "missions/m/templates/README.md", "missions/m/templates/plan-field-declaration.yaml",
-                     "missions/m/templates/kept.md", "directives/README.md"):
+                     "directives/README.md", ".git/HEAD"):
             (pack / name).parent.mkdir(parents=True, exist_ok=True)
             (pack / name).write_text("x\n", encoding="utf-8")
-        left_out: list[str] = []
-        body = check.archive(pack, left_out)
-        with tarfile.open(fileobj=io.BytesIO(body), mode="r:gz") as tar:
+        with tarfile.open(fileobj=io.BytesIO(check.archive(pack)), mode="r:gz") as tar:
             names = set(tar.getnames())
-        # README.md is the pack document and is sent; a retired file is sent too, so the service refuses it.
+        # The pinned charter excludes the template notes itself (and reports them file_not_held), so nothing
+        # is held back: a retired file is sent so the service refuses it, and a stray note so it reports it.
         self.assertEqual(names, {"pack.yaml", "README.md", "PROVENANCE.md", "org-charter.yaml", "directives",
                                  "directives/d.directive.yaml", "directives/README.md", "stray.md",
-                                 "missions", "missions/m", "missions/m/templates", "missions/m/templates/kept.md"})
-        self.assertEqual(sorted(left_out), ["missions/m/templates/README.md",
-                                            "missions/m/templates/plan-field-declaration.yaml"])
+                                 "missions", "missions/m", "missions/m/templates", "missions/m/templates/README.md",
+                                 "missions/m/templates/plan-field-declaration.yaml"})
+        self.assertFalse(hasattr(check, "NOT_REGISTERED"))
+
 
     def test_two_directories_with_one_name_cannot_share_a_configuration_root(self) -> None:
         self.make(self.root / "one", "same", "01A")
@@ -195,6 +195,35 @@ class Packs(unittest.TestCase):
         check.stage(self.root / "cfg", [pack])
         self.assertTrue((self.root / "cfg" / "packs" / "p" / "pack.yaml").is_file())
         self.assertFalse((self.root / "cfg" / "packs" / "p" / "expected-code").exists())
+
+
+class NotHeld(unittest.TestCase):
+    """A succeeded registration's file_not_held diagnostics: each printed, and one outside the allowlist fails."""
+
+    @staticmethod
+    def result(*diagnostics: tuple[str, str]) -> dict:
+        return {"state": "succeeded", "result": {"outcome": "created",
+                                                 "diagnostics": [{"code": c, "detail": d} for c, d in diagnostics]}}
+
+    def test_allowed_files_are_notices_and_any_other_not_held_file_fails(self) -> None:
+        allowed = ["README.md", "agent_profiles/README.md", "missions/m/templates/README.md",
+                   "missions/m/templates/plan-field-declaration.yaml", "templates/plan-field-declaration.yaml",
+                   "assets/.gitkeep", "missions/m/.DS_Store"]
+        stray = ["docs/notes.md", "toolguides/x.guide.md", "skills/orphan.skill.md", "Readme.MD/notes.md",
+                 "plan-field-declaration.yaml", "missions/m/README.mdx"]
+        result = self.result(*[("file_not_held", f"{f}: not held (a reason: with a colon)") for f in [*allowed, *stray]],
+                             ("prompt_slot_not_empty", "missions/m/steps/s.md: legacy text in slot a:b"))
+        notices, failures = check.not_held_findings(result)
+        self.assertEqual([n.split(": not held")[0] for n in notices if "not held" in n], [*allowed, *stray])
+        self.assertIn("prompt_slot_not_empty: missions/m/steps/s.md: legacy text in slot a:b", notices)
+        self.assertEqual([f.split(": not held")[0] for f in failures], stray)
+
+    def test_an_unreadable_diagnostic_fails_closed_and_none_is_quiet(self) -> None:
+        self.assertEqual(check.not_held_findings(self.result()), ([], []))
+        self.assertEqual(check.not_held_findings({"state": "succeeded", "result": {}}), ([], []))
+        _, failures = check.not_held_findings(self.result(("file_not_held", "no path named here")))
+        self.assertEqual(len(failures), 1)
+        self.assertIn("cannot read", failures[0])
 
 
 if __name__ == "__main__":

@@ -11,14 +11,18 @@
 #
 #   1. Every file of every pack under packs/ (built-in included) and of tests/fixtures/valid/
 #      validates against the schema the contract maps it to, and every asset sidecar names, by a
-#      path relative to assets/, a payload the pack holds.
+#      path relative to assets/, a payload the pack holds. A file is classified as the charter does
+#      (a root case variant of a ruled file is retired; Markdown nothing models falls to `ignored`):
+#      a file no rule models fails as `unmodelled`, and an ignored file other than a README.md note or
+#      a *.skill.md body fails as `not_held`, in built-in-level packs too, which no registration sees.
 #   2. Non-vacuity: every pack under tests/fixtures/invalid/ must FAIL validation, so a
 #      validator that silently passes everything turns this job red. A fixture whose expected-code
 #      says `precheck: accepted` is well formed file by file and refused only by the service
 #      (a dependency no pack holds); it is left to the service job.
 #
 #   3. Cross-pack (--cross-pack, all packs together), only what the charter service does not check:
-#      a preset naming an id no pack declares, a bare DRG fragment edge endpoint that resolves to no
+#      a preset naming an id no pack declares (or a must_have id outside the preset pack's depends_on
+#      closure, the charter's requiredNotHeld), a bare DRG fragment edge endpoint that resolves to no
 #      node, an id re-declared by a pack of another level, an agent-profile reference that is bare but
 #      held by another pack or by none, qualified with the profile's own pack, outside its depends_on
 #      closure or not held by the named pack, and a prompt fragment whose target step or slot does not
