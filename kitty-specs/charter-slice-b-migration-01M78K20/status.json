@@ -1,7 +1,7 @@
 {
-  "event_count": 13,
-  "last_event_id": "01M78KVJN8NP8S7DWV5XKA7ZDJ",
-  "materialized_at": "2026-11-12T19:30:50.152978+00:00",
+  "event_count": 15,
+  "last_event_id": "01M78KW5A53W6RSQ1PJW6V06MY",
+  "materialized_at": "2026-11-12T19:31:09.173625+00:00",
   "mission_number": "",
   "mission_slug": "charter-slice-b-migration-01M78K20",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 3
+    "planned": 2
   },
   "work_packages": {
     "WP01": {
@@ -54,11 +54,20 @@
       }
     },
     "WP02": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude:opus:implementer-ivan",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M78K8K5ARQRPCFGB4PH55BB5",
-      "last_transition_at": "2026-11-12T19:20:28.074350+00:00"
+      "implementer_of_record": "claude:opus:implementer-ivan",
+      "lane": "in_progress",
+      "last_event_id": "01M78KW5A53W6RSQ1PJW6V06MY",
+      "last_transition_at": "2026-11-12T19:31:09.173625+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 23847,
+      "shell_pid_created_at": "1794511862.26"
     },
     "WP03": {
       "actor": "finalize-tasks",
