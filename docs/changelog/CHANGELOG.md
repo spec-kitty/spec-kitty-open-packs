@@ -532,6 +532,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The pack gates follow the charter's slice B file model** (#249). Both gates now
+  classify files as the charter at `17ce3f9` does, and they fail on the same files.
+  - `validate_pack_schemas.py` refuses a root case variant of a ruled file (`Readme.md`,
+    `PROVENANCE.MD`) as `retired` under the rule it shadows. A file no rule models (`notes.txt`,
+    `x.tactic.yml`) fails as `unmodelled`, in built-in-level packs too.
+  - The validator also applies the charter's `ignored` rule last. Markdown only that rule takes now
+    fails as `not_held`, unless it is a `README.md` note or a `*.skill.md` body. It used to fail as
+    `unclassified`.
+  - A preset's `must_have` id must be declared within the preset pack's `depends_on` closure.
+  - `charter_service_check.py` uploads each pack's real tree. It prints every registration
+    diagnostic and fails on a `file_not_held` file outside the same allowlist.
+  - The generated `docs/packs/` pages show the pack level and name each dependency. They no
+    longer record a validation verdict.
+
 - **`java` 2.1.0: three business-code rules in `java-conventions`** (#204, epic #190). New
   principles, each with a bad and a good example:
   - money is a `BigDecimal` with an explicit `MathContext` or scale and `RoundingMode`, never
