@@ -13,7 +13,7 @@
       "wp": "WP02"
     },
     "#242": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "#242-org-charters",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -21,8 +21,8 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "verdict": "in-mission",
+      "wp": "WP03"
     },
     "#501": {
       "evidence_ref": "<auto-classified: no action required>",
