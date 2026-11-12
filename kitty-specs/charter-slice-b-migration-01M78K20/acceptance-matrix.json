@@ -106,12 +106,12 @@
     },
     {
       "criterion_id": "FR-011",
-      "description": "Verify FR-011 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "description": "The Charter Pack glossary entry names the governing preset",
+      "proof_type": "manual_inspection",
+      "evidence": "packs/foundation/glossary_packs/spec-kitty-core.glossary-pack.yaml Charter Pack entry uses the operator wording (DM 01M78K2G)",
+      "pass_fail": "pass",
+      "verified_by": "claude",
+      "verified_at": "2026-11-12T19:51:47.232136+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
