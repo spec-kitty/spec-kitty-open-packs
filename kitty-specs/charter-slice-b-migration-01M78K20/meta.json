@@ -31,6 +31,7 @@
   "purpose_context": "The charter service now refuses pack.md, PROVENANCE.md and org-charter.yaml, and cannot read a pack.yaml that declares active_charter. This mission merges each pack's documentation into its README, converts internal's required lists into must-have items of its base preset, deletes the inert org charters, moves the charter pin to 17ce3f9, and fixes the scripts, docs and generated pages, so all 19 packs register again (#241, #242).",
   "purpose_tldr": "Make every open pack register against the charter's slice B: one README per pack, no org-charter.yaml, and a charter pin that carries slice B.",
   "slug": "charter-slice-b-migration-01M78K20",
+  "status_phase": "1",
   "target_branch": "feat/slice1-readme-retire-org-charter",
   "topology": "lanes_with_coord",
   "topology_decision": {
