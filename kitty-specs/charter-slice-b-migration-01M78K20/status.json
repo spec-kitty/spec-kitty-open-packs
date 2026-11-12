@@ -20,7 +20,7 @@
   "work_packages": {
     "WP01": {
       "actor": "claude",
-      "agent": "claude:opus:implementer-ivan",
+      "agent": "claude:opus:reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -33,7 +33,8 @@
         "Scripts follow slice B; baseline service check at 17ce3f9 showed only the expected retired/active_charter refusals. Kept the two template entries in NOT_REGISTERED (U1).",
         "Ready for review (implementer claude:opus:implementer-ivan)",
         "x",
-        "Ready for review"
+        "Ready for review",
+        "Independent review (reviewer-renata subagent) passed: all eight changed files are within WP01's ownership. NOT_REGISTERED keeps only the template notes; the archive test asserts README.md and the retired files are uploaded. The validator pre-check keys on README.md and PROVENANCE.md is no longer an allowance. The vocabulary qa row reads README.md. The generator reads the README preamble, with a non-vacuity test that a leftover pack.md is not read. pytest: 159 passed, 2 expected failures (spdd content fixed by WP02/WP03)."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
