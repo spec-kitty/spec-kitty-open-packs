@@ -49,7 +49,7 @@
       "wp": null
     },
     "#509": {
-      "evidence_ref": "charter-drift-report-cleared-by-registration-proof",
+      "evidence_ref": "spec-kitty/spec-kitty-charter#509 closes on the charter side once this PR lands and its drift watch re-runs",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,7 +57,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP04"
     }
   },
