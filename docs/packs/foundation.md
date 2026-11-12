@@ -21,7 +21,7 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `f0f2c778d11d3d877afaf89c510cb073db469f4a33a474467091768c3fa1a626`
+- **Content checksum (sha256):** `69fcfb882c776c0ded9b90e29f0119660f4319bd128c811a2a0f2bf00ca02a9d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -336,10 +336,6 @@ example `comms-cleo` or `synthesizer-sam` in `writing`, for `researcher`), else 
 
 ## Validation
 
-Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **failing**.
+Reported by the charter pack schemas (`scripts/ci/validate_pack_schemas.py`): **passing**.
 
-- Errors: 1
-
-### Errors
-
-- foundation/pack-manifest.yaml: stale manifest: constituents{glossary_packs/spec-kitty-core.glossary-pack.yaml}.content_hash; run `python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest /home/user/spec-kitty-open-packs/.worktrees/charter-slice-b-migration-01M78K20-lane-d/packs/foundation`
+- Errors: 0
