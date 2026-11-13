@@ -15,6 +15,6 @@
 #              building the commit, and `jar_sha256` is required.
 # jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters;
 #              empty while `release_tag` is empty. The job refuses a jar with any other digest.
-commit: 848170ec8d8d66b3794c8a76711b5b0a38e4a8f2
+commit: eacbc3c705ecfa9b9091ac39d7264fd2d66a5706
 release_tag:
 jar_sha256:
