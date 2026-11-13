@@ -736,8 +736,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🐛 Fixed
 
 - **Every pack carries the manifest the charter derives, and CI round-trips every pack through the
-  charter** (#255, #250, #252; charter #542, #545). `charter.lock.yaml` moves from `17ce3f9` to
-  `848170e`. From charter #542 on, the charter derives a manifest's lists from the pack and refuses
+  charter** (#255, #250, #252; charter #542, #545, #547). `charter.lock.yaml` moves from `17ce3f9` to
+  `eacbc3c`, which also holds charter #547: the round trip now fails loudly on a file kind it does not
+  model. From charter #542 on, the charter derives a manifest's lists from the pack and refuses
   any other lists as `manifest_membership`. At that pin it refused the hand-written manifests of
   `built-in` (it left out the presets `default` and `minimal`), `foundation` (it left out 31
   constituents) and `writing` (21).
