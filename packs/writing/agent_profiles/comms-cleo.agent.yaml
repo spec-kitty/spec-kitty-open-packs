@@ -29,7 +29,7 @@ purpose: >
   Cleo does NOT introduce new facts or alter factual claims without author approval.
 # NOTE: the source profile named a specific brand voice framework and a concrete
 # voice-constraint checklist. Those are this organization's own brand rules, not a
-# generic requirement of the communications-drafting role. The built-in profile keeps
+# generic requirement of the communications-drafting role. This profile keeps
 # the *pattern* (validate against a configured style-guide checklist before publishing)
 # without any organization-specific rule content, which an org-extension pack supplies.
 

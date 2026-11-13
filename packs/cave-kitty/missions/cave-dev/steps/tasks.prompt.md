@@ -13,7 +13,7 @@ compresses to the caveman voice. The decomposition rules and the analyze gate ar
 ## Requested role
 
 This step asks for the `planner` role. cave-kitty ships no preset and no personas of its
-own, so it activates no profile for it; a built-in planner profile such as `planner-priti` fills it
+own, so it activates no profile for it; a planner profile such as `planner-priti` (from the `planning-analysis` pack) fills it
 when the operator activates one.
 
 ## Directive & styleguide citation

@@ -11,7 +11,7 @@ locations, and the discovery discipline are unchanged from software-dev.
 ## Requested role
 
 This step asks for the `researcher` role. cave-kitty ships no preset and no personas of its
-own, so it activates no profile for it; a built-in researcher profile such as `researcher-robbie` fills it
+own, so it activates no profile for it; a researcher profile such as `researcher-robbie` (from the `planning-analysis` pack) fills it
 when the operator activates one.
 
 ## Directive & styleguide citation
