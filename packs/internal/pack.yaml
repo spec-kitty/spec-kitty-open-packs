@@ -11,7 +11,7 @@
 # pack_id is the canonical identity, minted and owned here; downstream repos
 # (e.g. spec-kitty-charter) mirror it verbatim and must not re-mint or diverge it.
 pack_id: 01M4P01D5TWB5FKZGNNQG3943R
-pack_version: 3.0.0
+pack_version: 3.0.1
 parent_pack: null
 name: spec-kitty-internal
 pack_level: org

@@ -2,7 +2,7 @@
 # pack_id minted once with python-ulid (spec-kitty-open-packs#191); never edit it.
 schema_version: "1.0"
 pack_id: 01M75J18PY5RDV7FM3F8K03PCN
-pack_version: 1.0.0
+pack_version: 1.0.1
 parent_pack: null
 name: rust
 pack_level: org

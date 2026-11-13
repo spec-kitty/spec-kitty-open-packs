@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: d50f70a70275fd3a8c050c84ec8ee3db934fe4747123d830f4c60a3d0b5aa1e3
+manifest_hash: 322f3f00452c51f04e5c9e6be5a5232c8f9625725ac31c340d108b23b837988a
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -30,10 +30,6 @@ constituents:
   path: agent_profiles/synthesizer-sam.agent.yaml
   content_hash: 896d8f14590d1f4fe1bb00e467ad74dad1ecceba0380d94e49f1c4d8c8f47040
 - kind: asset
-  id: common-docs-structural-lint
-  path: assets/docs_structural_lint.py.asset.yaml
-  content_hash: 4e296b6339ccf94528331048fa4e73698e4eb4a30b7eb9cb149f8119d28e323c
-- kind: asset
   id: writing-audience-automation-agent
   path: assets/audiences/automation_agent.md.asset.yaml
   content_hash: bcf2778df5ee0697b4af4e5382d95f5c31fc7021571d9edd9cda0e6ade923716
@@ -49,10 +45,10 @@ constituents:
   id: writing-audience-software-engineer
   path: assets/audiences/software_engineer.md.asset.yaml
   content_hash: 43bff173e04f682ec21b842458947f3bf0b2a43709cb876bdb7da1a9abcd8166
-- kind: directive
-  id: ACTION_ITEM_ATTRIBUTION
-  path: directives/action-item-attribution.directive.yaml
-  content_hash: 9f44a4654a67a7307fa0c8d21948441f0660315f886fa0a2a0163edf1c3d5b28
+- kind: asset
+  id: common-docs-structural-lint
+  path: assets/docs_structural_lint.py.asset.yaml
+  content_hash: 4e296b6339ccf94528331048fa4e73698e4eb4a30b7eb9cb149f8119d28e323c
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
@@ -62,9 +58,89 @@ constituents:
   path: directives/047-audience-oriented-writing.directive.yaml
   content_hash: 7d6c4e13ad09abe516af56dc690684aae5255f49e524422911ff6383e64d18f7
 - kind: directive
+  id: ACTION_ITEM_ATTRIBUTION
+  path: directives/action-item-attribution.directive.yaml
+  content_hash: 9f44a4654a67a7307fa0c8d21948441f0660315f886fa0a2a0163edf1c3d5b28
+- kind: directive
   id: MINUTES_STAND_ALONE
   path: directives/minutes-stand-alone.directive.yaml
   content_hash: 20e035b3deb6223650f57cdeac84506a38d4f65f65c7674082c8ec5d91f863b0
+- kind: mission_step_contract
+  id: documentation-accept
+  path: missions/built_in_step_contracts/documentation-accept.step-contract.yaml
+  content_hash: b3836da59d107397b1efb6f9784b18619e563ea5ec0b8ccdaee4932a2fb93998
+- kind: mission_step_contract
+  id: documentation-audit
+  path: missions/built_in_step_contracts/documentation-audit.step-contract.yaml
+  content_hash: a878c2a3cc480300d82df402dc06fcabc62cc52599332af913c23cc11d280dd1
+- kind: mission_step_contract
+  id: documentation-design
+  path: missions/built_in_step_contracts/documentation-design.step-contract.yaml
+  content_hash: a6ac4195a757b03d8b7a04694dc1cf618adf57a9e773cfd8753e03c635f9d209
+- kind: mission_step_contract
+  id: documentation-discover
+  path: missions/built_in_step_contracts/documentation-discover.step-contract.yaml
+  content_hash: 03c55913a66c07d381702b569a2c4d5c104f4987a09bfba2fd891732b56748c3
+- kind: mission_step_contract
+  id: documentation-generate
+  path: missions/built_in_step_contracts/documentation-generate.step-contract.yaml
+  content_hash: 2cfd48fb7c86e534809f612fcea9e2bbd4efb93c22608d4789dd30a1703ec9ac
+- kind: mission_step_contract
+  id: documentation-publish
+  path: missions/built_in_step_contracts/documentation-publish.step-contract.yaml
+  content_hash: 6e865b0ae9ac2094a8c4a14b03455567804cf7fe20ae638e7e7ccfae4363acdd
+- kind: mission_step_contract
+  id: documentation-validate
+  path: missions/built_in_step_contracts/documentation-validate.step-contract.yaml
+  content_hash: 723cd60a37d4c3770c830dcae953a8056e931c290abefe356f1b5ada132796f1
+- kind: mission_type
+  id: documentation
+  path: missions/documentation/documentation.mission-type.yaml
+  content_hash: 6406e5464615c4b5162f6abcc6b9369a4b1892c62f46efff810b8b02590c9eeb
+- kind: template
+  id: documentation/divio/explanation-template.md
+  path: missions/documentation/templates/divio/explanation-template.md
+  content_hash: 3877064de46c446f13827f18816d631b78e6d1b15255e1e22afb811f9bc00774
+- kind: template
+  id: documentation/divio/howto-template.md
+  path: missions/documentation/templates/divio/howto-template.md
+  content_hash: 6d4202e52307ed59d9d5b7d720dc5f276d336658dafad5bd95e41e4b7d2bb453
+- kind: template
+  id: documentation/divio/reference-template.md
+  path: missions/documentation/templates/divio/reference-template.md
+  content_hash: 4248dbc772b59e72b8c395ba74f37bd042a212269a7b53652c96ed2313ea0064
+- kind: template
+  id: documentation/divio/tutorial-template.md
+  path: missions/documentation/templates/divio/tutorial-template.md
+  content_hash: d6d6471062a68c34689eb6b9f1872afde1164ded39aea5d9e54586d4120211b9
+- kind: template
+  id: documentation/documentation-plan-template.md
+  path: missions/documentation/templates/documentation-plan-template.md
+  content_hash: 76a1d4a90b62a7b5438f0ba8d1cd74b51e75a2aa9ee57330528b68bd63a9f7f6
+- kind: template
+  id: documentation/documentation-spec-template.md
+  path: missions/documentation/templates/documentation-spec-template.md
+  content_hash: 0edbe5e6923be80b7af8d45baeb55fb9de92dfe8f7f1f8de7131bb7bb4307924
+- kind: template
+  id: documentation/generators/jsdoc.json.template
+  path: missions/documentation/templates/generators/jsdoc.json.template
+  content_hash: 76206c45be8215c2c832474c19cda68dcaef1f417cd27966e56489daca4c9d19
+- kind: template
+  id: documentation/generators/sphinx-conf.py.template
+  path: missions/documentation/templates/generators/sphinx-conf.py.template
+  content_hash: 9033d66b251f205d38bde9553bb5893866a323e71b211cb0e2a99d88684e437b
+- kind: template
+  id: documentation/release-template.md
+  path: missions/documentation/templates/release-template.md
+  content_hash: 7fc4dc87867768b093c7712884c920721fd61c61d710a57042750ea8617852aa
+- kind: template
+  id: documentation/task-prompt-template.md
+  path: missions/documentation/templates/task-prompt-template.md
+  content_hash: 11b3089d7abb36afd54949b597363e73e9bb139b3da07566fb5cec90956ec728
+- kind: template
+  id: documentation/tasks-template.md
+  path: missions/documentation/templates/tasks-template.md
+  content_hash: 1d99a1ab33e7c9f12a65c86c732b73ed1a6bab2730689d1b70b1d61af67d22f3
 - kind: procedure
   id: action-item-attribution-gate
   path: procedures/action-item-attribution-gate.procedure.yaml
@@ -114,10 +190,6 @@ constituents:
   path: styleguides/docs-freshness-sla.styleguide.yaml
   content_hash: 87ff5960b7491068689d1da68d0b46e9aa9a15b5958583026a9b365dfab34670
 - kind: styleguide
-  id: kitty-glossary-writing
-  path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
-  content_hash: af325b5130ee77486924fc364048091d49ca8e8f28ec103be4d5582c61f5c729
-- kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
   content_hash: 7c7c1a968479781b66fd004a65db4ac8801c04ba25a67931f0c6a822e52897f3
@@ -137,10 +209,22 @@ constituents:
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
   content_hash: 8f2468da67c98ee6d1cfcd2e3a9e1c5bc14b5081e710cae85ebadf13440a0ab2
+- kind: styleguide
+  id: kitty-glossary-writing
+  path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
+  content_hash: af325b5130ee77486924fc364048091d49ca8e8f28ec103be4d5582c61f5c729
 - kind: tactic
   id: code-documentation-analysis
   path: tactics/analysis/code-documentation-analysis.tactic.yaml
   content_hash: 8e8ff318a159eac21d85c79cfc5a23a10dfc923fd7a85e05c348f1cbd1c73229
+- kind: tactic
+  id: context-boundary-inference
+  path: tactics/analysis/context-boundary-inference.tactic.yaml
+  content_hash: a47c397f689a0fd9d9f07afb177afafa1bc063c7433536f9283fc7be02816a8a
+- kind: tactic
+  id: terminology-extraction-mapping
+  path: tactics/analysis/terminology-extraction-mapping.tactic.yaml
+  content_hash: a31bc3c3b1f40e5d305b11e20439ff9fd0942a6fd9200c3eb4dc61b8ceb09869
 - kind: tactic
   id: common-docs-find
   path: tactics/common-docs-find.tactic.yaml
@@ -154,10 +238,6 @@ constituents:
   path: tactics/common-docs-write.tactic.yaml
   content_hash: 486441ce3a0aeac4b0ceb9eeeeeeadfb91b061c996a0a28f4751b1364bd9dcb1
 - kind: tactic
-  id: context-boundary-inference
-  path: tactics/analysis/context-boundary-inference.tactic.yaml
-  content_hash: a47c397f689a0fd9d9f07afb177afafa1bc063c7433536f9283fc7be02816a8a
-- kind: tactic
   id: documentation-curation-audit
   path: tactics/communication/documentation-curation-audit.tactic.yaml
   content_hash: 9794fbe55c3fb3431c0ca04b264fe6183e0d82a43bf34d24c0cbf1413e825aa4
@@ -166,13 +246,17 @@ constituents:
   path: tactics/communication/stakeholder-alignment.tactic.yaml
   content_hash: 7fc3217f702ea83a4fa05eb90f3615b67a34a7b6be8ea380ced38e436eec078e
 - kind: tactic
-  id: terminology-extraction-mapping
-  path: tactics/analysis/terminology-extraction-mapping.tactic.yaml
-  content_hash: a31bc3c3b1f40e5d305b11e20439ff9fd0942a6fd9200c3eb4dc61b8ceb09869
-- kind: tactic
   id: writing-audience-catalog
   path: tactics/communication/writing-audience-catalog.tactic.yaml
   content_hash: a91a3ee70b6f4ea603f022a25904a4e652eae0c4847a7b77ec2ee513e18490d6
+- kind: template
+  id: writing/meeting-discussion-notes.md
+  path: templates/writing/meeting-discussion-notes.md
+  content_hash: 1236a67f21f1e4f4f17af147141944800e8c8fd879aba59a290c6377b9e9bf6e
+- kind: template
+  id: writing/meeting-minutes.md
+  path: templates/writing/meeting-minutes.md
+  content_hash: 2478adfd6fb03126d57a999de9887330052d45e601b028ef34f03cbe7ae51a02
 - kind: toolguide
   id: contextive
   path: toolguides/contextive.toolguide.yaml

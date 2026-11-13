@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Pack level:** `org`
-- **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `a059e749077212b3946d4269569944807d5b1179e8e582068a1200eac28bcc4f`
+- **Declared version:** `3.0.1`
+- **Content checksum (sha256):** `c879655e48eeba1110b7f73686097a97fd115492464e9291d370151d703d104f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -49,7 +49,7 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **78** |
+| **Total files** | **79** |
 
 ### Full listing
 

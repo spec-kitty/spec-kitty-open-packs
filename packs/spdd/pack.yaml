@@ -2,7 +2,7 @@
 # schema_version 1.0 includes the ADR-0066 prompt-slot and fragment rules.
 schema_version: "1.0"
 pack_id: 01M6Y9ACNAAD96XPNQS0XWP2FF
-pack_version: 3.0.0
+pack_version: 3.0.1
 parent_pack: null
 name: spdd
 pack_level: org

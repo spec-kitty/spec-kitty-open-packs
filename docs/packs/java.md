@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/java`
 - **Pack level:** `org`
-- **Declared version:** `2.1.0`
-- **Content checksum (sha256):** `24c6f7beb45a3a88b4777d3cfaf485301603286bb53f46a7cf2eae5df1350ff5`
+- **Declared version:** `2.1.1`
+- **Content checksum (sha256):** `54f52b19ce84f112f7991b51e6710a7424b0d32e0f2844e90cc1ef5fdf9ab2c0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,7 +39,7 @@ The Java stack: the Java Jenny profile, Java conventions, Maven review checks an
 | `toolguides` | 4 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **9** |
+| **Total files** | **10** |
 
 ### Full listing
 

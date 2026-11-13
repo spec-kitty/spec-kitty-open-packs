@@ -1,0 +1,23 @@
+schema_version: '1.0'
+manifest_hash: 33191f6922eb48670594b749dcf13492eb140c1050c79c2cdd08d0d1c1540612
+constituents:
+- kind: agent_profile
+  id: python-pedro
+  path: agent_profiles/python-pedro.agent.yaml
+  content_hash: 323d157bdbc2f1ee053d6a83e1d3cb95137d6d02cbcf129270bc5ac8a1d3895d
+- kind: styleguide
+  id: python-conventions
+  path: styleguides/python-conventions.styleguide.yaml
+  content_hash: 97712c40f99b4ed9cb8e36917f7f83172d2d4e2e31546a7cda2bed19dd196e48
+- kind: toolguide
+  id: python-mutation-tools
+  path: toolguides/python-mutation-tools.toolguide.yaml
+  content_hash: 0c105ca2e9999d18955389469ae72d988798bf31106e3b520c2152d87361c5e3
+- kind: toolguide
+  id: python-review-checks
+  path: toolguides/python-review-checks.toolguide.yaml
+  content_hash: 7093877c579d66e12a15502473a83779887cfd83669fdff16489b38ec37c912f
+- kind: toolguide
+  id: python-supply-chain
+  path: toolguides/python-supply-chain.toolguide.yaml
+  content_hash: b08452c1b7428135447179cebc28b560b061307dc13699a42e1cfbebe9e75808

@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/pack-authoring`
 - **Pack level:** `org`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `e88c755b619b667d812cba59c594ced7f8502e169fd68ce8ad2af83dbf1792a0`
+- **Declared version:** `1.0.1`
+- **Content checksum (sha256):** `17adef938565a8c5ea93586f4bc861b46b3b15668c4882521f6aebae3feaf6c2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,7 +39,7 @@ Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external ag
 | `procedures` | 2 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **7** |
+| **Total files** | **8** |
 
 ### Full listing
 

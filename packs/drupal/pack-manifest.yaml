@@ -1,0 +1,19 @@
+schema_version: '1.0'
+manifest_hash: 279e3a1b4e8fc1bd8e159e9ae9762dc6045cfdbef05ddd84fc9b5579e1ddf41a
+constituents:
+- kind: agent_profile
+  id: drupal-dries
+  path: agent_profiles/drupal-dries.agent.yaml
+  content_hash: d290d10cb601ac4347fe5131483fca5fd084e5443d23d3f0660d575657fec4d2
+- kind: styleguide
+  id: drupal-conventions
+  path: styleguides/drupal-conventions.styleguide.yaml
+  content_hash: 8e0c71a14c93f282630794686f016ae64aff11be5107b0b66c8f64dc8fd6014d
+- kind: styleguide
+  id: drupal-security-performance
+  path: styleguides/drupal-security-performance.styleguide.yaml
+  content_hash: f60a1286b92d35fe4bc7a68c0b1c1a55aadcff356c6b2d91e389142e70f16730
+- kind: toolguide
+  id: drupal-review-checks
+  path: toolguides/drupal-review-checks.toolguide.yaml
+  content_hash: 184184822f7b02172f3284a49957342cb9df6c987945ca9c3e74100349a0ab03

@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/cave-kitty`
 - **Pack level:** `org`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `f015fb624eee2c3be4eefab6b9f3638891627ee7af1e4a11b0311e8c89d58177`
+- **Declared version:** `2.0.1`
+- **Content checksum (sha256):** `c4fa498ab30f23c2a3f2ff4813507f89914abc11afdc43217cdaca934cd15ff5`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -41,7 +41,7 @@ exact and restoring full sentences at a cliff edge.
 | `styleguides` | 1 |
 | `drg` | 1 |
 | `missions` | 9 |
-| **Total files** | **14** |
+| **Total files** | **15** |
 
 ### Full listing
 

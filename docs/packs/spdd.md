@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/spdd`
 - **Pack level:** `org`
-- **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `300da79af62f552b54baeeb8bc27e227f5617de093e4844766dacaa01121a3ac`
+- **Declared version:** `3.0.1`
+- **Content checksum (sha256):** `89fe105c6a09bce0fe626f6370f1c8aa9e7eb0a03cf214b863da72f32919c100`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -47,7 +47,7 @@ preset selects the doctrine and all five step enhancements together.
 | `drg` | 1 |
 | `missions` | 10 |
 | `presets` | 1 |
-| **Total files** | **19** |
+| **Total files** | **20** |
 
 ### Full listing
 

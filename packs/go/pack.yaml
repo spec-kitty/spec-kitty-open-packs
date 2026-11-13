@@ -2,7 +2,7 @@
 # pack_id minted once with python-ulid (spec-kitty-open-packs#192); never edit it.
 schema_version: "1.0"
 pack_id: 01M75J18RTS91ZFEQBKBHSS4GX
-pack_version: 1.0.0
+pack_version: 1.0.1
 parent_pack: null
 name: go
 pack_level: org

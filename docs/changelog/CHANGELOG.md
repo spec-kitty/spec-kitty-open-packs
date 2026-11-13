@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-12'
+updated: '2026-11-13'
 ---
 # Changelog
 
@@ -734,6 +734,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 
 ### 🐛 Fixed
+
+- **Every pack carries the manifest the charter derives, and CI round-trips every pack through the
+  charter** (#255, #250, #252; charter #542, #545). `charter.lock.yaml` moves from `17ce3f9` to
+  `848170e`. From charter #542 on, the charter derives a manifest's lists from the pack and refuses
+  any other lists as `manifest_membership`. At that pin it refused the hand-written manifests of
+  `built-in` (it left out the presets `default` and `minimal`), `foundation` (it left out 31
+  constituents) and `writing` (21).
+  - All 19 packs and the valid example fixture now carry a `pack-manifest.yaml` generated from the
+    derived lists: every artifact file, mission types, step contracts and templates included, and
+    every preset, in path order. The twelve org packs had none. The four bundles that already
+    matched are rewritten in path order.
+  - `validate_pack_schemas.py --derive-manifest PACK` writes the manifest, mirroring the charter's
+    `ManifestMembership`. `validate-packs.sh` passes `--derived-manifests`, which fails a pack whose
+    manifest is missing or whose lists differ, worded as the charter words it.
+  - The `Charter service validation` job runs the charter's `:packs:driftTest` over every pack from
+    the pinned source (`scripts/ci/charter_drift_test.sh`) and uploads its report. It is a gate, and
+    the only check the charter makes on a built-in-level pack, which is never registered.
+  - The twelve org packs get a patch release, because a registered pack re-sent at the same version
+    with new content answers `409`: `cave-kitty` 2.0.1, `drupal` 2.0.1, `event-driven` 3.0.1, `go`
+    1.0.1, `internal` 3.0.1, `java` 2.1.1, `javascript` 2.0.1, `pack-authoring` 1.0.1, `python`
+    2.0.1, `qa` 3.0.1, `rust` 1.0.1, `spdd` 3.0.1. Built-in-level packs cannot be registered, so their
+    versions and the exact pins between them do not change.
 
 - **A Java project no longer loses its JVM toolguides** (#202, `java` 2.1.0). `java-supply-chain`
   and `maven-review-checks` declared `applies_to_languages: [jvm]`, so an activation filtered to

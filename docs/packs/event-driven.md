@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/event-driven`
 - **Pack level:** `org`
-- **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `1c4cb17739b698b6bd908a7cd3005671289c4fbd9a2685e6f0375b726f05595e`
+- **Declared version:** `3.0.1`
+- **Content checksum (sha256):** `3dd887c6a04a0beb562da560cac3c0d9e24045b25a82b915a57a5d5d7f605939`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -56,7 +56,7 @@ ledger as much as an event store does.
 | `glossary_packs` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **19** |
+| **Total files** | **20** |
 
 ### Full listing
 
