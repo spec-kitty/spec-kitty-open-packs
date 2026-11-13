@@ -1,0 +1,47 @@
+schema_version: '1.0'
+manifest_hash: 59f1f5ee92427771ae5e331edd43f43ec1e02e4f808d2de47458544de19b48db
+constituents:
+- kind: directive
+  id: DIRECTIVE_038
+  path: directives/038-structured-prompt-boundary.directive.yaml
+  content_hash: 0f033bb88038c1fefd5f36d57a27e996368d23f3cbd0824870c6e0de219fb9f1
+- kind: step_enhancement
+  id: spdd-implement
+  path: missions/software-dev/enhancements/spdd-implement.step-enhancement.yaml
+  content_hash: bfb236cc347f206ca2f7cc62b1dab51386e94764fbfd050302ae3f901fcfe77f
+- kind: step_enhancement
+  id: spdd-plan
+  path: missions/software-dev/enhancements/spdd-plan.step-enhancement.yaml
+  content_hash: ae02e7782a8393ad2ef7b4e39d15daa8fd7d5b210dbb11397dbec7a95cedf7af
+- kind: step_enhancement
+  id: spdd-review
+  path: missions/software-dev/enhancements/spdd-review.step-enhancement.yaml
+  content_hash: 8eb59c3b0d4dd7efa530363d4625a27254badac179f1cf7fe29707b381e226f1
+- kind: step_enhancement
+  id: spdd-specify
+  path: missions/software-dev/enhancements/spdd-specify.step-enhancement.yaml
+  content_hash: 5bda512f323561767123ea5d74e8085fa895d1e69c31463e58720d9462e66741
+- kind: step_enhancement
+  id: spdd-tasks
+  path: missions/software-dev/enhancements/spdd-tasks.step-enhancement.yaml
+  content_hash: f3b3ea2ea20b4dd91217d3b234f403e4e07c5325eee25817d914069015335336
+- kind: paradigm
+  id: structured-prompt-driven-development
+  path: paradigms/structured-prompt-driven-development.paradigm.yaml
+  content_hash: 17fc7012448027620b843b9c50ab99515adc6a70d321088fa97765bd3dfc8e9d
+- kind: styleguide
+  id: reasons-canvas-writing
+  path: styleguides/reasons-canvas-writing.styleguide.yaml
+  content_hash: 50b9e542e3d27ebf756bb3754adc69abca97942647b67408cbd7a048d986f812
+- kind: tactic
+  id: reasons-canvas-fill
+  path: tactics/reasons-canvas-fill.tactic.yaml
+  content_hash: 5afbf96d492586faf8fb328b6bb9ef8919588a7a8543e4dd367a917e71fb891b
+- kind: tactic
+  id: reasons-canvas-review
+  path: tactics/reasons-canvas-review.tactic.yaml
+  content_hash: 424270aa7960e8e870e264308045af9dae41a510a423720d486e6efa10a68415
+presets:
+- id: spdd
+  path: presets/spdd.yaml
+  content_hash: 5a28a4f570b1d5a9b03f26cab58cfa452eedc789c366ec461f1000b2b576734d

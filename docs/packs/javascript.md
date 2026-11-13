@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/javascript`
 - **Pack level:** `org`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `d9ac0faeea72ce74519dc9c12d473fd2e177000bc01d316aa7e3e75f1540af4b`
+- **Declared version:** `2.0.1`
+- **Content checksum (sha256):** `9f638ccfdb5d05f65092c60555e84dd41283b654a207ac5c82866d0a9f98ea74`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -41,7 +41,7 @@ The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HT
 | `paradigms` | 1 |
 | `agent_profiles` | 3 |
 | `drg` | 1 |
-| **Total files** | **18** |
+| **Total files** | **19** |
 
 ### Full listing
 

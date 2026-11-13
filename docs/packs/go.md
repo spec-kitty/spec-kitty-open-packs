@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/go`
 - **Pack level:** `org`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `fa8269b6195a8049be50f4eb99b7219bc6fce948cbee17fb1eba1f4f4c1fdd8d`
+- **Declared version:** `1.0.1`
+- **Content checksum (sha256):** `f30b45831cbaca24f059e9ca6d90e1c141b0715f566a2331642442b9c039c5e9`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -51,7 +51,7 @@ An opt-in org stack pack with general-purpose Go doctrine for teams that build i
 | `agent_profiles` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **8** |
+| **Total files** | **9** |
 
 ### Full listing
 

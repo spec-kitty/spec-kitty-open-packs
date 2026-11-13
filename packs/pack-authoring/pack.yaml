@@ -6,7 +6,7 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M75PCTG46SQ9VA5NQF8ZZ2AG
-pack_version: 1.0.0
+pack_version: 1.0.1
 parent_pack: null
 name: pack-authoring
 pack_level: org

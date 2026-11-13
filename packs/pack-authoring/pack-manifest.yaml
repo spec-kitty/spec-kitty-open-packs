@@ -1,0 +1,19 @@
+schema_version: '1.0'
+manifest_hash: 6e51b11d933f62579f8bd3efd5cc77e3349bfd5a193a31cf8f79fd1ec32c7a06
+constituents:
+- kind: agent_profile
+  id: doctrine-daphne
+  path: agent_profiles/doctrine-daphne.agent.yaml
+  content_hash: fd06652ea41b4cdd69c1697053262053333cff9600a2e9344400ae67364f7dd9
+- kind: procedure
+  id: migrate-project-guidance-to-spec-kitty-charter
+  path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
+  content_hash: 225c92b683ca0a60671dbfe5360237b9d41546a8aee55333b564db802f46e445
+- kind: procedure
+  id: onboard-external-agent-to-pack
+  path: procedures/onboard-external-agent-to-pack.procedure.yaml
+  content_hash: fdba0016361278f441e3d354b8a8bc5335fb46f99bad978613d82b6b9928511f
+- kind: styleguide
+  id: deployable-skill-authoring
+  path: styleguides/deployable-skill-authoring.styleguide.yaml
+  content_hash: 521fd2540b489e987e70e85d773d05b57d650144125672cf99fdfafc7e73fec5

@@ -7,7 +7,7 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M6MF4FV4AMQF4RC8CY6JNESX
-pack_version: 3.0.0
+pack_version: 3.0.1
 parent_pack: null
 name: quality-assurance
 pack_level: org

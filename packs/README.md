@@ -43,9 +43,10 @@ The exceptions are the built-in-level packs. [`built-in/`](built-in/) is the def
 *distribution pack*: it holds no artifacts and aggregates [`foundation/`](foundation/),
 [`writing/`](writing/), [`testing/`](testing/), [`refactoring/`](refactoring/),
 [`architecture/`](architecture/) and [`planning-analysis/`](planning-analysis/) (#73, charter
-ADR-0048 decision 12). `foundation`, `writing` and `built-in` carry a generated
-`pack-manifest.yaml` and root `*.graph.yaml` shards instead of `drg/fragment.yaml`; the four core
-bundles keep their `drg/fragment.yaml` and carry a generated `pack-manifest.yaml`. All six members are built-in level, so they depend only
+ADR-0048 decision 12). `foundation`, `writing` and `built-in` carry root
+`*.graph.yaml` shards instead of `drg/fragment.yaml`; the four core bundles keep their
+`drg/fragment.yaml`. Every pack in this directory carries the `pack-manifest.yaml` the charter derives
+(`validate_pack_schemas.py --derive-manifest`, #255). All six members are built-in level, so they depend only
 on built-in-level packs (ADR-0048 decision 7), and are read-only to registration. Every pack's tree digest is recorded in `packs/<name>.source.yaml` and checked by
 `scripts/ci/check-pack-digests.sh`; see
 [`built-in.source.yaml`](built-in.source.yaml) for built-in's provenance. The stacks and `pack-authoring` carved from

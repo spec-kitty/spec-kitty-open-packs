@@ -1,0 +1,19 @@
+schema_version: '1.0'
+manifest_hash: c6325cf1c1a469886a33ff8e3c38cf45d3803e751a5f22904708e1fe7b15e627
+constituents:
+- kind: agent_profile
+  id: rust-ruben
+  path: agent_profiles/rust-ruben.agent.yaml
+  content_hash: 0beb723d88036a71567b91d5268ff83367b47373621bb4400e03c8bde69f4d01
+- kind: styleguide
+  id: rust-conventions
+  path: styleguides/rust-conventions.styleguide.yaml
+  content_hash: b2fac8b5f63fdf176e5b824a0b8b4f383cc26bfa665abd82b24d7299b9fd1c9f
+- kind: toolguide
+  id: rust-review-checks
+  path: toolguides/rust-review-checks.toolguide.yaml
+  content_hash: e9fd5d6209208b006936918625ddef5b96d1e5d4d30af844421e1c40b54d599b
+presets:
+- id: rust
+  path: presets/rust.yaml
+  content_hash: 7754f0ba2b042d822b1453c53920387e70c2e84a25fa86b442dd6bc676baa689

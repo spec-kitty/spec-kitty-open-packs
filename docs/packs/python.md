@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/python`
 - **Pack level:** `org`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `a1794512fa2e5fd8bcb0e8e574a8ddfcb18a7e88be74aee7d68206a85d7abba6`
+- **Declared version:** `2.0.1`
+- **Content checksum (sha256):** `7975315d216fa2d6a2d651d24bf2dd0a2fe9e83d32bd2d90345be0e461124b99`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,7 +39,7 @@ The Python stack: the Python Pedro profile, Python conventions, review checks, s
 | `toolguides` | 6 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **11** |
+| **Total files** | **12** |
 
 ### Full listing
 

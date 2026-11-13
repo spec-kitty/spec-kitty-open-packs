@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 253adde886ac968af6c5567190c15f443d18d72a7bc5981d852005e582461cda
+manifest_hash: 479f49b9bca807ca287fa0dac08fd9bfad9f9319d40645d43046c21a924ba044
 constituents:
 - kind: agent_profile
   id: architect-alphonso
@@ -42,29 +42,13 @@ constituents:
   path: styleguides/aggregate-design-rules.styleguide.yaml
   content_hash: 8ccaf90febe29715a901212c2294d61d7752e1f8a4ecee0e1469f011ddbaa1a8
 - kind: tactic
-  id: aggregate-boundary-design
-  path: tactics/architecture/aggregate-boundary-design.tactic.yaml
-  content_hash: 515066eb8d8679859e08bf490e68d6550b4f165abe377be65e37a8ee5de6b9c0
-- kind: tactic
   id: ammerse-impact-analysis
   path: tactics/analysis/ammerse-impact-analysis.tactic.yaml
   content_hash: d48be5aeec84aab28350803cf4f4a16289f0a4fd27ccfef4d1f687fdf78c4bd4
 - kind: tactic
-  id: anti-corruption-layer
-  path: tactics/architecture/anti-corruption-layer.tactic.yaml
-  content_hash: bfa0b062718906193f5ad231083a79c8c375fda3617f914d4f5e67939de556d0
-- kind: tactic
-  id: architecture-diagram-review-checklist
-  path: tactics/architecture/architecture-diagram-review-checklist.tactic.yaml
-  content_hash: 2b2573e285f919a40f13e405655e4e7d4828b4c219fa3d8e5a7a705f124ba2e9
-- kind: tactic
   id: bounded-context-canvas-fill
   path: tactics/analysis/bounded-context-canvas-fill.tactic.yaml
   content_hash: 278f643e1a201296e6858e3968da9740d97e9b7f09789d51c8407dcd6e583ba4
-- kind: tactic
-  id: c4-zoom-in-architecture-documentation
-  path: tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml
-  content_hash: 1b309f41a2383ffdeddefec79d443d757a73bbef52937d9b24ed6372ca3cac9c
 - kind: tactic
   id: connascence-analysis
   path: tactics/analysis/connascence-analysis.tactic.yaml
@@ -74,6 +58,30 @@ constituents:
   path: tactics/analysis/context-mapping-classification.tactic.yaml
   content_hash: 0560d9dd2d78b19d1e5b89128aa59e10ec6cf8c6b4d7f42bb489da586a7cc5fe
 - kind: tactic
+  id: entity-value-object-classification
+  path: tactics/analysis/entity-value-object-classification.tactic.yaml
+  content_hash: 842a7be17b65c1cebee79e3afbe9c382186a90962a74245d532b004da7dcdd75
+- kind: tactic
+  id: strategic-domain-classification
+  path: tactics/analysis/strategic-domain-classification.tactic.yaml
+  content_hash: fd00c257fd999b279a0d91279c151233005779d767fe6b66002f1492d7f963b8
+- kind: tactic
+  id: aggregate-boundary-design
+  path: tactics/architecture/aggregate-boundary-design.tactic.yaml
+  content_hash: 515066eb8d8679859e08bf490e68d6550b4f165abe377be65e37a8ee5de6b9c0
+- kind: tactic
+  id: anti-corruption-layer
+  path: tactics/architecture/anti-corruption-layer.tactic.yaml
+  content_hash: bfa0b062718906193f5ad231083a79c8c375fda3617f914d4f5e67939de556d0
+- kind: tactic
+  id: architecture-diagram-review-checklist
+  path: tactics/architecture/architecture-diagram-review-checklist.tactic.yaml
+  content_hash: 2b2573e285f919a40f13e405655e4e7d4828b4c219fa3d8e5a7a705f124ba2e9
+- kind: tactic
+  id: c4-zoom-in-architecture-documentation
+  path: tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml
+  content_hash: 1b309f41a2383ffdeddefec79d443d757a73bbef52937d9b24ed6372ca3cac9c
+- kind: tactic
   id: development-bdd
   path: tactics/architecture/development-bdd.tactic.yaml
   content_hash: a235ada9aeb22e969d4f936bb7ea99ab5da428646224d2cd20e0989d1dc600a4
@@ -82,10 +90,6 @@ constituents:
   path: tactics/architecture/domain-event-capture.tactic.yaml
   content_hash: 8545fad4846e7592c7cc6c35efd8e4b1f706b122cb6d76f215dfccac1f097640
 - kind: tactic
-  id: entity-value-object-classification
-  path: tactics/analysis/entity-value-object-classification.tactic.yaml
-  content_hash: 842a7be17b65c1cebee79e3afbe9c382186a90962a74245d532b004da7dcdd75
-- kind: tactic
   id: paula-patterns-architecture-scout-review
   path: tactics/architecture/paula-patterns-architecture-scout-review.tactic.yaml
   content_hash: 5ae9cd000221a7d5b700246a0b6f5b5f539fbaf8d1ace9ead2104111e31388c8
@@ -93,7 +97,3 @@ constituents:
   id: reference-architectural-patterns
   path: tactics/architecture/reference-architectural-patterns.tactic.yaml
   content_hash: 2c2d6673266178d960ad912ee612a5b1d32beba833740eb47e99980f0e05cbcc
-- kind: tactic
-  id: strategic-domain-classification
-  path: tactics/analysis/strategic-domain-classification.tactic.yaml
-  content_hash: fd00c257fd999b279a0d91279c151233005779d767fe6b66002f1492d7f963b8

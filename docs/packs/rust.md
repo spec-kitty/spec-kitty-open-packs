@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/rust`
 - **Pack level:** `org`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `84fdc3327786ee4b281fb7bb1b38862841524b3c6e1fa9c740d7b40a8b00cfbb`
+- **Declared version:** `1.0.1`
+- **Content checksum (sha256):** `bf88dcfa298964ed184c71e14dee14ca7e3ea5728bb74f44f441cda225e95dfc`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -51,7 +51,7 @@ Kitty.
 | `agent_profiles` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **8** |
+| **Total files** | **9** |
 
 ### Full listing
 

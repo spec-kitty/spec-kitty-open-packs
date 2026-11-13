@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Pack level:** `org`
-- **Declared version:** `3.0.0`
-- **Content checksum (sha256):** `e174291300918416db65c77e1a2463da2c7983d585de0b0656a9ebec79f26ec4`
+- **Declared version:** `3.0.1`
+- **Content checksum (sha256):** `38337d46304d6541ec61e319497355b382c2855b7a30eed41c9bd139be97ef27`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -65,7 +65,7 @@ cover and how honestly they report.
 | `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **73** |
+| **Total files** | **74** |
 
 ### Full listing
 

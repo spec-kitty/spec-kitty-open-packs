@@ -6,7 +6,7 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M6MF4FV4FEBPHD67V9PECGTD
-pack_version: 3.0.0
+pack_version: 3.0.1
 parent_pack: null
 name: event-driven
 pack_level: org

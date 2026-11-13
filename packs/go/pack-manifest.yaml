@@ -1,0 +1,19 @@
+schema_version: '1.0'
+manifest_hash: 91b1472416feabd1af933cf65050b0ed5fc2067a9f08fbd6bf214d26006cdd7b
+constituents:
+- kind: agent_profile
+  id: go-gwen
+  path: agent_profiles/go-gwen.agent.yaml
+  content_hash: 90a934af0bea9a06920e4cb5919797b5e91312e2ff76b46592f91b4c116670de
+- kind: styleguide
+  id: go-conventions
+  path: styleguides/go-conventions.styleguide.yaml
+  content_hash: 883d02a8be52ddeb2ff68ac50c6ba26c6537b7d7ddcb4a80edc3274da215752e
+- kind: toolguide
+  id: go-review-checks
+  path: toolguides/go-review-checks.toolguide.yaml
+  content_hash: db43ffb3dc10565650ffee77f8758fcf034a8e7564ee14f0725de72e55e835e2
+presets:
+- id: go
+  path: presets/go.yaml
+  content_hash: 9c7143319f76aab53dd881de7fae7a5d9212d6221e4816b888ae38d70e3d924d

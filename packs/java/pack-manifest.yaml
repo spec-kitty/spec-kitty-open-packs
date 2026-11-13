@@ -1,0 +1,19 @@
+schema_version: '1.0'
+manifest_hash: 23552b369fbbe05a7b9212a86b6560da6b92ea47ab1d9e6804e3a6604639f842
+constituents:
+- kind: agent_profile
+  id: java-jenny
+  path: agent_profiles/java-jenny.agent.yaml
+  content_hash: 8c961d8eabeb5bb1bc0d0a1ef57c57ca01dd7f7550ee06acf04a2658bd7592bc
+- kind: styleguide
+  id: java-conventions
+  path: styleguides/java-conventions.styleguide.yaml
+  content_hash: 136969d71d3d89a2fce4d610ad681c1f21a2bc3838d1bcdcdf42dd2b349903ce
+- kind: toolguide
+  id: java-supply-chain
+  path: toolguides/java-supply-chain.toolguide.yaml
+  content_hash: 5c63a993da48b635775b5ca9e0597f6c32e22cf9937cc73a35105ca158b628ae
+- kind: toolguide
+  id: maven-review-checks
+  path: toolguides/maven-review-checks.toolguide.yaml
+  content_hash: 2db826b70429c684dd1d493841d8c62318d5684e71938bf88d6ba2be9f996401

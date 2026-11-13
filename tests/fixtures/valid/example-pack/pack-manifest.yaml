@@ -1,0 +1,15 @@
+schema_version: '1.0'
+manifest_hash: 5f6bba7dfd4724f9676c79c1a4897426b4e40e4472f75d2da60567763ddf91c0
+constituents:
+- kind: directive
+  id: EXAMPLE_001_SECRET_HANDLING
+  path: directives/example-001-secret-handling.directive.yaml
+  content_hash: b989d102a704d8b953f0876931994d903f4a09648dae38c0f5a1d5459b71dec2
+- kind: tactic
+  id: example-tac-001-scan-staged
+  path: tactics/example-tac-001.tactic.yaml
+  content_hash: 82b14edad720128223690491dfe428fca5fda2d0df9285800170bff0f49dec8d
+presets:
+- id: example
+  path: presets/example.yaml
+  content_hash: 77e8d30bb98af408b5a2d39ebc341fbc5bee517e5b330909dc4fa3572209f70d
