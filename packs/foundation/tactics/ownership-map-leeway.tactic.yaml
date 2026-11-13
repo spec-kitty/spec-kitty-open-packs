@@ -44,7 +44,7 @@ notes: >
   a small, well-justified out-of-map edit is acceptable when recorded with a
   one-line rationale (the no-overlap rule above is the real guard against
   parallel-WP collisions)."
-  (packs/built-in/missions/software-dev/steps/tasks-packages.prompt.md
-  and packs/built-in/missions/software-dev/steps/tasks.prompt.md)
+  (packs/foundation/missions/software-dev/steps/tasks-packages.prompt.md
+  and packs/foundation/missions/software-dev/steps/tasks.prompt.md)
   This tactic references that language as its authority — it does NOT
   restate or supersede the no-overlap rule with a different formulation.
