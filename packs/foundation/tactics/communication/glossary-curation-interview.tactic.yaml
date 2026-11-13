@@ -13,7 +13,7 @@ steps:
       (4) Communication — issue tracker descriptions, PR discussions, and design review notes.
       Record which sources are available and how to access them before proceeding to extraction.
     examples:
-      - "For a 430-commit diff: 8 new Python modules in src/specify_cli/dossier/, 3 mission specs in kitty-specs/, 2 new ADRs in docs/adr/4.x/."
+      - "For a 430-commit diff: 8 new Python modules in src/myproject/dossier/, 3 mission specs in kitty-specs/, 2 new ADRs in docs/adr/."
       - "Source inventory: dossier/ (8 modules), glossary/ (16 modules), charter/ (11 modules), next/ (3 modules), plus 6 untracked mission spec directories."
 
   - title: Extract candidate terms
@@ -27,7 +27,7 @@ steps:
       generic terms." Combine results from all methods into a single candidate list.
     examples:
       - "AST diff of 430 commits extracted 120 new class/function names; LLM pass over 6 spec.md files added 40 domain noun phrases; combined list before dedup: 160 candidates."
-      - "Manual scan of src/specify_cli/dossier/models.py yielded: MissionDossier, ArtifactRef, ArtifactClassEnum, ArtifactKey, ContentHash."
+      - "Manual scan of src/myproject/dossier/models.py yielded: MissionDossier, ArtifactRef, ArtifactClassEnum, ArtifactKey, ContentHash."
 
   - title: Filter and deduplicate candidates
     description: >
