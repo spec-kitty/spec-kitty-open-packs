@@ -46,7 +46,7 @@ Command: `grep -rn "packs/built-in/" packs .agents`, plus `grep -rnE "\bsrc/"` f
 | `qa/missions/qa/steps/discovery.prompt.md:11` | "`researcher-robbie` (built-in)" | name the pack |
 | `writing/agent_profiles/comms-cleo.agent.yaml:32` (comment) | "The built-in profile keeps..." | "This profile keeps..." |
 
-Every other profile's collaboration list already uses role words (`architect`, `reviewer`, ...). The script that checked this against the closure is reproduced in the PR's Tests run section.
+Every other profile's collaboration list already uses role words (`architect`, `reviewer`, ...) or profile ids inside its pack's closure. The script that checked this against the closure is reproduced in the PR's Tests run section.
 
 ### File and link (out of scope: not a prompt, procedure or tactic)
 
@@ -62,6 +62,7 @@ Every other profile's collaboration list already uses role words (`architect`, `
 - **`foundation/missions/README.md:38`:** describes where core reads the data; core's own layout.
 - **`doctrine-daphne.agent.yaml:149`:** a dated measurement ("16 built-in profiles carry..."), not a profile pointer.
 - **Profile names in prose outside a collaboration list:** the squad procedure's "Example casting" notes and `reviewer-implementer-role-separation` ("such as python-pedro or java-jenny"). These are labelled examples, not pointers, and they don't claim the profiles are installed.
+- **"the built-in software-dev `<action>`" and "default built-in template chain" in the `cave-kitty` step prompts:** these name core's `software-dev` mission family, which the CLI keys on. They don't name a profile or a path.
 - **`canonical-source-unification.tactic.yaml:27`:** a generic `grep ... src/ tests/`.
 - **`foundation/glossary_packs/spec-kitty-core.glossary-pack.yaml`:** cites core `src/` deliberately as the core glossary. Glossary work waits on #221 and #234.
 
