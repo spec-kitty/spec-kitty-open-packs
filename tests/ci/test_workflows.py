@@ -293,6 +293,24 @@ class CharterServiceJob(unittest.TestCase):
         java = [step for step in job["steps"] if str(step.get("uses", "")).startswith("actions/setup-java@")]
         self.assertEqual([step["with"]["java-version"] for step in java], ["25"])
 
+    def test_it_round_trips_every_pack_at_the_pin_and_keeps_the_report(self) -> None:
+        # #252: the charter's driftTest is a gate here, from the pinned source, whatever the pin's form.
+        _, job = job_named(self.workflow, "Charter service validation")
+        steps = job["steps"]
+        drift = next(step for step in steps if "charter_drift_test.sh" in str(step.get("run", "")))
+        self.assertEqual(drift.get("id"), "drift")
+        self.assertNotIn("continue-on-error", drift)
+        script = (ROOT / "scripts" / "ci" / "charter_drift_test.sh").read_text(encoding="utf-8")
+        self.assertIn('--max-workers=1 :packs:driftTest -PopenPacksDir="$repo"', script)
+        gradle = next(step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@"))
+        self.assertNotIn("if", gradle)
+        upload = next(step for step in steps if str(step.get("uses", "")).startswith("actions/upload-artifact@"))
+        self.assertGreater(steps.index(upload), steps.index(drift))
+        self.assertIn("always()", upload["if"])
+        self.assertTrue(upload["with"]["path"].endswith("spec-kitty-charter/service/packs/build/reports/tests/driftTest"))
+        # The service check still runs when the round trip is red, so one run reports both.
+        self.assertIn("!cancelled()", steps[-1]["if"])
+
 
 class GateVerdict(unittest.TestCase):
     """The gate's own scripts, run under bash against each verdict of the validation job."""

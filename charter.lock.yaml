@@ -4,6 +4,8 @@
 #   - scripts/ci/validate_pack_schemas.py fetches the pack schemas (contracts/packs/) at `commit`;
 #   - the "Charter service validation" job builds, or downloads, the charter service for the same
 #     `commit` and asks it to compose and register every pack (scripts/ci/charter_service_check.py).
+#   - the same job runs the charter's whole-pack round trip (`:packs:driftTest`) over every pack from the
+#     source at `commit` (scripts/ci/charter_drift_test.sh), whatever the pin's form.
 #
 # commit       the spec-kitty-charter commit, 40 lowercase hex characters. Never a branch or a tag:
 #              a pin must name the same code tomorrow. Bump it deliberately, in the pull request that
@@ -13,6 +15,6 @@
 #              building the commit, and `jar_sha256` is required.
 # jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters;
 #              empty while `release_tag` is empty. The job refuses a jar with any other digest.
-commit: 17ce3f940a3f98a4980b808428d99574ca1e68ee
+commit: 848170ec8d8d66b3794c8a76711b5b0a38e4a8f2
 release_tag:
 jar_sha256:

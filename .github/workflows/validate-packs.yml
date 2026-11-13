@@ -92,13 +92,15 @@ jobs:
   # The charter service is the authority on composition and on whole-pack registration (charter
   # ADR-0070): this job starts it at the commit pinned in charter.lock.yaml and asks it to compose every
   # pack, register every org and project pack, and refuse every invalid fixture with the code its
-  # expected-code file names. The per-pack schema pass above stays as the fast pre-check.
+  # expected-code file names. It also runs the charter's whole-pack round trip (driftTest) over every
+  # pack from the same pinned source (#252). The per-pack schema pass above stays as the fast pre-check.
   charter-service:
     name: Charter service validation
     # Skipped on a paused pull request; the gate then fails.
     if: ${{ !(github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'pr:pause-ci')) }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # The service build and the round trip share one Gradle build of the pinned source.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
@@ -123,9 +125,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "25"
-      # Only a build from the pinned commit needs Gradle; a release pin downloads the jar.
+      # The round trip below always runs from the pinned source, so Gradle is set up for a release pin too.
       - name: Set up Gradle
-        if: ${{ steps.pin.outputs.release_tag == '' }}
         uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       # A release jar (checked against jar_sha256) when the pin names a service-v* release, else the
       # pinned commit built with ./gradlew :deployable:bootJar. The same script runs on a developer machine.
@@ -135,7 +136,23 @@ jobs:
           set -euo pipefail
           jar="$(scripts/ci/charter_service_jar.sh "$RUNNER_TEMP/charter-service")"
           echo "jar=$jar" >> "$GITHUB_OUTPUT"
+      # The charter's whole-pack round trip over every pack, built-in-level ones included (#252; charter ADR-0070
+      # decision 4, amended 2026-11-13): load, write back, compare by meaning. It refuses a pack-manifest.yaml whose
+      # lists differ from the derived ones (manifest_membership), which no registration sees for a built-in-level pack.
+      - name: Round-trip every pack through the charter (driftTest)
+        id: drift
+        if: ${{ !cancelled() }}
+        run: scripts/ci/charter_drift_test.sh "$RUNNER_TEMP/charter-service"
+      - name: Upload the round-trip report
+        if: ${{ always() && steps.drift.outcome != 'skipped' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: charter-drift-test-report
+          path: ${{ runner.temp }}/charter-service/spec-kitty-charter/service/packs/build/reports/tests/driftTest
+          if-no-files-found: warn
+          retention-days: 14
       - name: Compose, register and refuse through the charter service
+        if: ${{ !cancelled() && steps.service.outcome == 'success' }}
         env:
           SERVICE_JAR: ${{ steps.service.outputs.jar }}
         run: python3 scripts/ci/charter_service_check.py --jar "$SERVICE_JAR"
