@@ -87,7 +87,7 @@ specialization:
 collaboration:
   handoff-from:
   - analyst-annie
-  - architect-alphonso
+  - architect
   - curator-carla
   handoff-to:
   - comms-cleo

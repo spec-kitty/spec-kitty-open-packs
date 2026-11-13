@@ -12,7 +12,7 @@ thresholds are unchanged from software-dev.
 ## Requested role
 
 This step asks for the `analyst` role. cave-kitty ships no preset and no personas of its
-own, so it activates no profile for it; a built-in analyst profile such as `analyst-annie` fills it
+own, so it activates no profile for it; a analyst profile such as `analyst-annie` (from the `foundation` pack) fills it
 when the operator activates one.
 
 ## Directive & styleguide citation

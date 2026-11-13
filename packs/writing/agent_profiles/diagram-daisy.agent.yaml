@@ -46,7 +46,7 @@ specialization:
 
 collaboration:
   works-with:
-  - architect-alphonso
+  - architect
   output-artifacts:
   - diagram.mmd
   - diagram.puml

@@ -61,6 +61,7 @@ Every other profile's collaboration list already uses role words (`architect`, `
 - **`packs/built-in.source.yaml`:** a provenance sidecar.
 - **`foundation/missions/README.md:38`:** describes where core reads the data; core's own layout.
 - **`doctrine-daphne.agent.yaml:149`:** a dated measurement ("16 built-in profiles carry..."), not a profile pointer.
+- **Profile names in prose outside a collaboration list:** the squad procedure's "Example casting" notes and `reviewer-implementer-role-separation` ("such as python-pedro or java-jenny"). These are labelled examples, not pointers, and they don't claim the profiles are installed.
 - **`canonical-source-unification.tactic.yaml:27`:** a generic `grep ... src/ tests/`.
 - **`foundation/glossary_packs/spec-kitty-core.glossary-pack.yaml`:** cites core `src/` deliberately as the core glossary. Glossary work waits on #221 and #234.
 

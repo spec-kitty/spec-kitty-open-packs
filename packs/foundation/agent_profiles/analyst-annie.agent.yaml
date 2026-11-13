@@ -70,15 +70,13 @@ specialization:
 
 collaboration:
   handoff-from:
-  - lexical-larry
-  - architect-alphonso
+  - semantic-analyst
+  - architect
   handoff-to:
-  - implementer-ivan
-  - python-pedro
-  - java-jenny
+  - implementer
   works-with:
-  - lexical-larry
-  - architect-alphonso
+  - semantic-analyst
+  - architect
   output-artifacts:
   - spec.md
   - acceptance-criteria.md

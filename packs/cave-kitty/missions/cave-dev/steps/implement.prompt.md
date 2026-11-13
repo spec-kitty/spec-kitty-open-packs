@@ -13,7 +13,7 @@ unchanged from software-dev.
 ## Requested role
 
 This step asks for the `implementer` role. cave-kitty ships no preset and no personas of its
-own, so it activates no profile for it; a built-in implementer profile such as `implementer-ivan` fills it
+own, so it activates no profile for it; a implementer profile such as `implementer-ivan` (from the `foundation` pack) fills it
 when the operator activates one.
 
 ## Directive & styleguide citation

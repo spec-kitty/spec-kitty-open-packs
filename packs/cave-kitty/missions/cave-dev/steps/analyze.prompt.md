@@ -20,7 +20,7 @@ software-dev.
 ## Requested role
 
 This step asks for the `reviewer` role. cave-kitty ships no preset and no personas of its
-own, so it activates no profile for it; a built-in reviewer profile such as `reviewer-renata` fills it
+own, so it activates no profile for it; a reviewer profile such as `reviewer-renata` (from the `foundation` pack) fills it
 when the operator activates one.
 
 ## Directive & styleguide citation
