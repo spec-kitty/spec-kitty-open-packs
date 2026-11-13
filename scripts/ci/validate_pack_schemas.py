@@ -16,6 +16,8 @@ It fails closed. Exit status:
 * 0  every pack is valid (its ``pack-manifest.yaml``, when it has one, carries the hashes of the
      files it lists: ``--regenerate-manifest PACK`` restamps them) and every ``--expect-invalid`` pack has schema violations;
      ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
+     ``--derive-manifest PACK`` writes the manifest the charter derives (membership and hashes); with
+     ``--derived-manifests`` every validated pack must carry exactly that membership (#255);
 * 1  a schema violation, a retired-layout file, a file no rule models (``unmodelled``, as the charter
      refuses it at registration) or a file only the ``ignored`` rule takes outside ``NOT_HELD_ALLOWANCES``
      (``not_held``) in a pack, an ``--expect-invalid``
@@ -73,15 +75,16 @@ EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
 #: The schemas of file-backed doctrine artifacts a pack's manifest lists (#182). Every file one of
 #: these rules classifies must be a manifest constituent, or the manifest under-reports the pack:
 #: the git-flow and execution-lanes files shipped unlisted that way. Graph-only kinds (actions,
-#: anti-patterns) have no file. Mission types, step contracts and templates are not listed in this
-#: repository's manifests (the charter schema would admit them), so they are exempt here.
+#: anti-patterns) have no file. Mission types, step contracts and templates are exempt from this
+#: older check only; ``--derived-manifests`` holds every manifest to the full derived lists, which
+#: list them (#255, charter #542).
 MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
     "agent-profile", "asset", "directive", "glossary-pack", "guard", "lifecycle", "paradigm", "procedure",
     "skill", "styleguide", "tactic", "toolguide",
 })
 #: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` and ``anti_pattern``
-#: are graph-only: no file backs them. Mission types, step contracts and templates are deliberately
-#: not manifest constituents in this repository (see above). Any other declared node must be a
+#: are graph-only: no file backs them. Mission types, step contracts and templates are exempt here
+#: and judged by the derived membership instead (see above). Any other declared node must be a
 #: constituent; a new kind fails closed until it is listed here.
 MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "anti_pattern", "template", "mission_type", "mission_step_contract"})
 REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest"
@@ -433,6 +436,112 @@ def regenerate_manifest(pack_dir: Path) -> list[str]:
     except (OSError, UnicodeDecodeError, yaml.YAMLError, KeyError, TypeError, AttributeError) as exc:
         raise GateError(f"{path}: cannot regenerate the manifest: {exc!r}") from exc
     return missing
+
+
+# --------------------------------------------------------------------------- derived manifest membership
+
+#: The schemas whose files are the artifacts the charter's whole-pack load holds, with the kind token a manifest
+#: constituent carries (``ArtifactKind.token`` at the pin). Graph-only kinds (``action``, ``anti_pattern``) have no
+#: file, so no constituent. Templates are payloads, not schema files: ``derived_manifest`` adds them by path.
+CONSTITUENT_KIND_BY_SCHEMA = {
+    "agent-profile": "agent_profile", "asset": "asset", "directive": "directive",
+    "glossary-pack": "glossary_pack", "guard": "guard", "lifecycle": "lifecycle",
+    "mission-step-contract": "mission_step_contract", "mission-type": "mission_type", "paradigm": "paradigm",
+    "procedure": "procedure", "skill": "skill", "step-enhancement": "step_enhancement",
+    "styleguide": "styleguide", "tactic": "tactic", "toolguide": "toolguide",
+}  # fmt: skip
+DERIVE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --derive-manifest"
+
+
+def _path_order(path: str) -> list[int]:
+    """The charter's path order: the order of the path's UTF-16 code units (``String.compareTo``)."""
+    data = path.encode("utf-16-be")
+    return [int.from_bytes(data[i : i + 2], "big") for i in range(0, len(data), 2)]
+
+
+def derived_manifest(pack_dir: Path, contract: Contract) -> dict[str, Any]:
+    """The manifest lists the charter derives for ``pack_dir`` (``ManifestMembership.derived``), hashes empty.
+
+    One constituent per artifact file the pack holds (kind token, id, pack-relative path) and one preset entry per
+    ``presets/<id>.yaml``, each list in path order. An artifact's id is its document's ``id`` (an agent profile's
+    ``profile-id``); a template's is its path under ``templates/``, prefixed with its mission type under
+    ``missions/<type>/templates/``. A file the charter leaves out (excluded, ignored, a skill's body) is not listed."""
+    constituents: list[dict[str, str]] = []
+    presets: list[dict[str, str]] = []
+    claimed = companion_claims(pack_dir, contract)
+    for path in sorted(pack_dir.rglob("*")):
+        if path.is_symlink() or not path.is_file():
+            continue
+        inside = path.relative_to(pack_dir).as_posix()
+        if inside in claimed:
+            continue
+        category, rule = classify(contract, f"{pack_dir.name}/{inside}")
+        template = TEMPLATE_PATH.fullmatch(inside) if category == "payload" else None
+        if template:
+            template_id = "/".join(part for part in template.groups() if part)
+            constituents.append({"kind": "template", "id": template_id, "path": inside, "content_hash": ""})
+            continue
+        if category != "file" or rule is None:
+            continue
+        if rule.schema == "preset":
+            presets.append({"id": path.stem, "path": inside, "content_hash": ""})
+            continue
+        kind = CONSTITUENT_KIND_BY_SCHEMA.get(rule.schema or "")
+        document = _load_or_none(path) if kind else None
+        if not isinstance(document, dict):
+            continue
+        artifact_id = document.get("profile-id", document.get("id"))
+        if isinstance(artifact_id, str):
+            constituents.append({"kind": kind, "id": artifact_id, "path": inside, "content_hash": ""})
+    constituents.sort(key=lambda entry: _path_order(entry["path"]))
+    presets.sort(key=lambda entry: _path_order(entry["path"]))
+    manifest: dict[str, Any] = {"schema_version": "1.0", "manifest_hash": "", "constituents": constituents}
+    if presets:
+        manifest["presets"] = presets
+    return manifest
+
+
+def _membership(manifest: dict[str, Any], name: str) -> list[str]:
+    entries = [entry for entry in manifest.get(name) or [] if isinstance(entry, dict)]
+    if name == "constituents":
+        return [f"{e.get('kind')}:{e.get('id')} at {e.get('path')}" for e in entries]
+    return [f"{e.get('id')} at {e.get('path')}" for e in entries]
+
+
+def membership_mismatch(listed: dict[str, Any], derived: dict[str, Any]) -> list[str]:
+    """Each difference between a manifest's lists and the derived ones, worded and ordered as the charter's
+    ``ManifestMembership.mismatch`` words them: listed but not held, listed twice, then held but left out. Entry order
+    and the derived hashes are not judged."""
+    out: list[str] = []
+    lists = {name: (_membership(listed, name), _membership(derived, name)) for name in MANIFEST_LISTS}
+    for name, (have, want) in lists.items():
+        out += [f"lists {name[:-1]} {entry}, which the pack does not hold" for entry in dict.fromkeys(have) if entry not in want]
+    for name, (have, _) in lists.items():
+        for entry in dict.fromkeys(have):
+            count = have.count(entry)
+            if count > 1:
+                out.append(f"lists {name[:-1]} {entry}" + (" twice" if count == 2 else f" {count} times"))
+    for name, (have, want) in lists.items():
+        out += [f"leaves out {name[:-1]} {entry}, which the pack holds" for entry in want if entry not in have]
+    return out
+
+
+def derive_manifest(pack_dir: Path, contract: Contract) -> None:
+    """Write ``pack_dir``/pack-manifest.yaml from the derived lists and stamp every derived field, replacing the
+    manifest the pack held or creating it, as the charter's ``ManifestMembership.stamp`` does on every write."""
+    path = pack_dir / MANIFEST_NAME
+    if path.is_symlink() or (path.exists() and not path.is_file()):
+        raise GateError(f"{path}: not a regular file; refusing to write through it")
+    manifest = derived_manifest(pack_dir, contract)
+    read = _bytes_reader(pack_dir)
+    for name in MANIFEST_LISTS:
+        for entry in manifest.get(name) or []:
+            data = read(entry["path"])
+            if data is None:
+                raise GateError(f"{path}: would list {entry['path']}, which the pack does not hold as a file")
+            entry["content_hash"] = content_hash(data)
+    manifest["manifest_hash"] = manifest_hash(manifest)
+    path.write_text(yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
 
 
 # --------------------------------------------------------------------------- Markdown model
@@ -836,8 +945,11 @@ def _step_enhancement_violations(path: Path, document: dict[str, Any]) -> list[s
     return problems
 
 
-def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
-    """Validate every file of one pack directory; violations are sorted and path-relative."""
+def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool = False) -> PackReport:
+    """Validate every file of one pack directory; violations are sorted and path-relative.
+
+    With ``derived_manifests`` the pack must also carry a ``pack-manifest.yaml`` whose lists are the ones the charter
+    derives (``derived_manifest``): the charter refuses any other with ``manifest_membership`` (#255)."""
     if not pack_dir.is_dir():
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
@@ -947,6 +1059,16 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             f"add its entry, then run `{REGENERATE_COMMAND} {pack_dir}`"
             for node in unlisted_nodes(manifest, declared_nodes(pack_dir))
         ]
+    if derived_manifests and not fixture:
+        derive = f"run `{DERIVE_COMMAND} {pack_dir}`"
+        if not (pack_dir / MANIFEST_NAME).is_file():
+            report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: missing: every pack carries the manifest the "
+                                     f"charter derives; {derive}")
+        elif manifest is not None:
+            report.violations += [
+                f"{pack_dir.name}/{MANIFEST_NAME}: manifest_membership: {reason}; {derive}"
+                for reason in membership_mismatch(manifest, derived_manifest(pack_dir, contract))
+            ]
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
     return report
@@ -1341,13 +1463,19 @@ def main(argv: list[str] | None = None) -> int:
                         help="restamp the content_hash and manifest_hash fields of PACK/pack-manifest.yaml "
                              "(membership is kept); refused, exit 1, if a listed file is missing. Validates only the "
                              "packs also given as positional arguments")
+    parser.add_argument("--derive-manifest", action="append", default=[], type=Path, metavar="PACK",
+                        help="write PACK/pack-manifest.yaml from the lists the charter derives (every artifact file and "
+                             "preset the pack holds, in path order) and stamp its hashes, replacing or creating it")
+    parser.add_argument("--derived-manifests", action="store_true",
+                        help="also require every given pack to carry a pack-manifest.yaml whose lists are the derived "
+                             "ones (the charter refuses any other with manifest_membership)")
     parser.add_argument("--cross-pack", action="store_true",
                         help="also check the given packs together, for what the charter service does not "
                              "(scripts/ci/charter_service_check.py): preset ids, bare DRG edge endpoints, an id re-declared "
                              "at another level, agent-profile references and prompt-fragment targets and slots")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
-    if not args.packs and not args.expect_invalid and not args.regenerate_manifest:
+    if not args.packs and not args.expect_invalid and not args.regenerate_manifest and not args.derive_manifest:
         parser.error("give at least one pack directory")
     try:
         status = EXIT_OK
@@ -1361,13 +1489,18 @@ def main(argv: list[str] | None = None) -> int:
                 status = EXIT_INVALID
             else:
                 print(f"regenerated: {pack / MANIFEST_NAME}")
-        if not args.packs and not args.expect_invalid:
+        if not args.packs and not args.expect_invalid and not args.derive_manifest:
             return status
         contract = contract_for(args.contract)
+        for pack in args.derive_manifest:
+            derive_manifest(pack, contract)
+            print(f"derived: {pack / MANIFEST_NAME}")
+        if not args.packs and not args.expect_invalid:
+            return status
         print(f"charter contract: {args.contract or os.environ.get('CHARTER_CONTRACT_DIR') or charter_commit()}; "
               f"{len(contract.validators)} schemas loaded")
         for pack in args.packs:
-            report = validate_pack(pack, contract)
+            report = validate_pack(pack, contract, derived_manifests=args.derived_manifests)
             for line in report.warnings:
                 print(f"::warning file={pack}::{line}")
             for line in report.violations:

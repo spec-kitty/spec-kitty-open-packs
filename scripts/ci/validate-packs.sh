@@ -48,7 +48,8 @@ mapfile -t invalid < <(find tests/fixtures/invalid -mindepth 1 -maxdepth 1 -type
 (( ${#packs[@]} > 0 )) || { echo "::error::no pack found under packs/ or tests/fixtures/valid/; the validation would prove nothing"; exit 1; }
 (( ${#invalid[@]} > 0 )) || { echo "::error::tests/fixtures/invalid/ holds no fixture; the non-vacuity check would prove nothing"; exit 1; }
 
-args=(--cross-pack "${packs[@]}")
+# Every pack and valid fixture carries the manifest the charter derives (#255); invalid fixtures are exempt.
+args=(--cross-pack --derived-manifests "${packs[@]}")
 service_only=()
 for pack in "${invalid[@]}"; do
   [[ -f "$pack/expected-code" ]] || { echo "::error::$pack has no expected-code file; an invalid fixture must name the code the service refuses it with"; exit 1; }

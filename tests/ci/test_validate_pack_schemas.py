@@ -847,5 +847,122 @@ class CompositionChecks(unittest.TestCase):
                 self.assertIn(expected, found)
 
 
+class DerivedManifests(unittest.TestCase):
+    """#255: every pack carries the manifest the charter derives (ManifestMembership at the pin); the generator writes
+    it and the check refuses any other membership, as the charter's round trip and registration do."""
+
+    run_validator = ValidatorExitCodes.run_validator
+    write_pack = ValidatorExitCodes.write_pack
+
+    # The kinds a derived manifest lists beyond the base rules: profiles, step contracts, mission types and the
+    # template payloads, with a skill whose body is its companion and an excluded note beside the templates.
+    EXTRA = (
+        '  - match: "**/*.agent.yaml"\n    schema: agent-profile\n'
+        '  - match: "**/*.step-contract.yaml"\n    schema: mission-step-contract\n'
+        '  - match: "**/*.mission-type.yaml"\n    schema: mission-type\n'
+        'exclusions:\n  - match: "*/missions/*/templates/**/README.md"\n    reason: notes\n'
+        'payloads:\n  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n'
+        '  - match: "*/missions/*/templates/**/*"\n    kind: template\n    content_form: bytes\n'
+    )
+    FILES = {
+        "pack.yaml": "pack_id: x\n",
+        "presets/b.yaml": "schema_version: '1.0'\nid: b\n",
+        "presets/a.yaml": "schema_version: '1.0'\nid: a\n",
+        "agent_profiles/ann.agent.yaml": "profile-id: annie\n",
+        "missions/dev/dev.mission-type.yaml": "id: dev\n",
+        "missions/dev/templates/plan.md": "# plan\n",
+        "missions/dev/templates/README.md": "# notes\n",
+        "missions/steps/plan.step-contract.yaml": "id: plan\n",
+        "templates/writing/notes.md": "# notes\n",
+        "skills/s.skill.yaml": "id: s\nbody_path: s.body.md\n",
+        "skills/s.body.md": "# body\n",
+        "tactics/T.tactic.yaml": "id: upper\n",  # upper case sorts before lower case in UTF-16 order
+    }
+
+    def write_contract(self, root: Path) -> None:
+        ValidatorExitCodes.write_contract(self, root, self.EXTRA)  # type: ignore[arg-type]
+        for name in ("agent-profile", "mission-step-contract", "mission-type"):
+            (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(OPEN_SCHEMA), encoding="utf-8")
+
+    def test_the_derived_lists_hold_every_artifact_file_and_preset_in_path_order(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, self.FILES)
+            derived = validator.derived_manifest(pack, validator.load_contract(root / "contract"))
+            self.assertEqual(
+                [(e["kind"], e["id"], e["path"]) for e in derived["constituents"]],
+                [
+                    ("agent_profile", "annie", "agent_profiles/ann.agent.yaml"),
+                    ("mission_type", "dev", "missions/dev/dev.mission-type.yaml"),
+                    ("template", "dev/plan.md", "missions/dev/templates/plan.md"),
+                    ("mission_step_contract", "plan", "missions/steps/plan.step-contract.yaml"),
+                    ("skill", "s", "skills/s.skill.yaml"),
+                    ("tactic", "upper", "tactics/T.tactic.yaml"),
+                    ("tactic", "t", "tactics/t.tactic.yaml"),
+                    ("template", "writing/notes.md", "templates/writing/notes.md"),
+                ],
+            )
+            self.assertEqual([(e["id"], e["path"]) for e in derived["presets"]], [("a", "presets/a.yaml"), ("b", "presets/b.yaml")])
+
+    def test_the_generator_writes_a_manifest_the_check_accepts_and_the_check_refuses_drift(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, self.FILES)
+            code, output = self.run_validator(root, "--derived-manifests", str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("pack/pack-manifest.yaml: missing: every pack carries the manifest the charter derives", output)
+
+            code, output = self.run_validator(root, "--derive-manifest", str(pack), "--derived-manifests", str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("manifest_hash", output)  # stamped: the hash check agrees
+
+            (pack / "tactics" / "new.tactic.yaml").write_text("id: new\n", encoding="utf-8")
+            (pack / "presets" / "a.yaml").unlink()
+            code, output = self.run_validator(root, "--derived-manifests", str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertIn("manifest_membership: lists preset a at presets/a.yaml, which the pack does not hold", output)
+            self.assertIn("manifest_membership: leaves out constituent tactic:new at tactics/new.tactic.yaml, which the pack holds", output)
+            self.assertIn("--derive-manifest", output)
+            # Without the flag the membership is not judged (an authored manifest stays the older checks' to judge).
+            self.assertNotIn("manifest_membership", self.run_validator(root, str(pack))[1])
+
+    def test_an_invalid_fixture_is_not_held_to_a_derived_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n"})
+            fixture = root / "fixtures" / "invalid" / "f"
+            fixture.parent.mkdir(parents=True)
+            pack.rename(fixture)
+            self.assertNotIn("missing: every pack", self.run_validator(root, "--derived-manifests", str(fixture))[1])
+
+    def test_mismatch_is_worded_and_ordered_like_the_charter(self) -> None:
+        def manifest(constituents: list[tuple[str, str, str]], presets: list[tuple[str, str]]) -> dict:
+            return {"constituents": [{"kind": k, "id": i, "path": p} for k, i, p in constituents],
+                    "presets": [{"id": i, "path": p} for i, p in presets]}
+
+        listed = manifest([("tactic", "a", "a.yaml"), ("tactic", "x", "x.yaml"), ("tactic", "a", "a.yaml")], [("p", "presets/p.yaml")])
+        derived = manifest([("tactic", "a", "a.yaml"), ("tactic", "b", "b.yaml")], [("q", "presets/q.yaml")])
+        self.assertEqual(validator.membership_mismatch(listed, derived), [
+            "lists constituent tactic:x at x.yaml, which the pack does not hold",
+            "lists preset p at presets/p.yaml, which the pack does not hold",
+            "lists constituent tactic:a at a.yaml twice",
+            "leaves out constituent tactic:b at b.yaml, which the pack holds",
+            "leaves out preset q at presets/q.yaml, which the pack holds",
+        ])
+        self.assertEqual(validator.membership_mismatch(derived, derived), [])
+
+    def test_the_generator_refuses_to_write_through_a_link(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n"})
+            (pack / "pack-manifest.yaml").symlink_to(root / "elsewhere.yaml")
+            self.assertEqual(self.run_validator(root, "--derive-manifest", str(pack))[0], validator.EXIT_GATE)
+            self.assertFalse((root / "elsewhere.yaml").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
