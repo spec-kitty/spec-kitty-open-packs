@@ -137,8 +137,9 @@ jobs:
           jar="$(scripts/ci/charter_service_jar.sh "$RUNNER_TEMP/charter-service")"
           echo "jar=$jar" >> "$GITHUB_OUTPUT"
       # The charter's whole-pack round trip over every pack, built-in-level ones included (#252; charter ADR-0070
-      # decision 4, amended 2026-11-13): load, write back, compare by meaning. It refuses a pack-manifest.yaml whose
-      # lists differ from the derived ones (manifest_membership), which no registration sees for a built-in-level pack.
+      # decision 4, amended 2026-11-13): load, write back, compare by meaning. A pack-manifest.yaml whose lists differ
+      # from the derived ones fails it ("pack-manifest.yaml: refused: leaves out ..."); no registration sees a built-in-level
+      # pack, so this is the only charter check of their manifests. The reasons are in the uploaded report.
       - name: Round-trip every pack through the charter (driftTest)
         id: drift
         if: ${{ !cancelled() }}

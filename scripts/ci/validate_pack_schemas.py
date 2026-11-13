@@ -1042,6 +1042,8 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
         )
     # The charter's SidecarPayloads rule: a sidecar names, exactly, an asset payload the pack holds.
     report.violations += [f"{file}: payload assets/{named} does not exist" for file, named in sidecars if named not in payloads]
+    # The charter judges membership only on a load with no other violation (WholePackStore.loadStaged).
+    clean_load = not report.violations
     if manifest is not None:
         for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
             remedy = (
@@ -1051,12 +1053,12 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
             report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: stale manifest: {stale}; {remedy}")
         report.violations += [
             f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: {unlisted} is not a constituent; "
-            f"add its entry, then run `{REGENERATE_COMMAND} {pack_dir}`"
+            f"run `{DERIVE_COMMAND} {pack_dir}`"
             for unlisted in unlisted_constituents(manifest, constituent_files)
         ]
         report.violations += [
             f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: graph node {node} is not a constituent; "
-            f"add its entry, then run `{REGENERATE_COMMAND} {pack_dir}`"
+            f"declare it in a file the pack holds, or drop the node, then run `{DERIVE_COMMAND} {pack_dir}`"
             for node in unlisted_nodes(manifest, declared_nodes(pack_dir))
         ]
     if derived_manifests and not fixture:
@@ -1064,7 +1066,7 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
         if not (pack_dir / MANIFEST_NAME).is_file():
             report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: missing: every pack carries the manifest the "
                                      f"charter derives; {derive}")
-        elif manifest is not None:
+        elif manifest is not None and clean_load:
             report.violations += [
                 f"{pack_dir.name}/{MANIFEST_NAME}: manifest_membership: {reason}; {derive}"
                 for reason in membership_mismatch(manifest, derived_manifest(pack_dir, contract))
