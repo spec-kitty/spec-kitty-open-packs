@@ -16,7 +16,13 @@ steps:
     Choose profiles whose declared focus answers this point-cut's question. Cast distinct lenses over headcount — more delegates is not better, distinct lenses are — and scale the cast to the question, not to a fixed number. Recurrence-only profiles (those whose avoidance-boundary excludes first-occurrence work) are cast only on escalation, and there they run in their squad-delegate mode.
 - title: Dispatch in parallel, profile-LOADED
   description: |
-    Dispatch the delegates concurrently. Each delegate FIRST runs `spec-kitty agent profile show <id>` and `spec-kitty charter context --action <action> --json`, then applies the resolved initialization, boundaries, directives, and tactics and states which it applied. Loading the profile — not merely naming a persona — is the point. Only a read-only harness that cannot invoke the CLI may read `packs/built-in/agent_profiles/<id>.agent.yaml`; that degraded fallback can diverge because overlays, `specializes_from` lineage, and `enhances`/`overrides` semantics are not applied. Each delegate is read-only unless its task is an isolated implementation in its own worktree. A profile cast on escalation runs in its squad-delegate mode: it answers the squad's question from its own lens directly, as one delegate, without dispatching its own sub-agent swarm.
+    Dispatch the delegates concurrently. Each delegate works from its resolved profile (initialization, boundaries, directives, and tactics) and states which it applied. Loading the profile, not merely naming a persona, is the point. Load it by the first of these routes the harness supports:
+    1. Injected (preferred). The orchestrator resolves each lens once, with overlays, `specializes_from` lineage, and `enhances`/`overrides` applied (`spec-kitty agent profile show <id>` and `spec-kitty charter context --action <action> --json`), and puts the resolved profile and the compact action context in the delegate prompt. A lens that does not resolve fails at the orchestrator, which substitutes, activates, or aborts; a delegate is never dispatched unprofiled. The delegate needs no shell to load it.
+    2. Self-loaded. A delegate that can run processes may instead FIRST run those two commands itself.
+    3. On-disk fallback (degraded). Only when neither route is available may the delegate read the profile file in the pack that ships it, `packs/<pack>/agent_profiles/<id>.agent.yaml`. That fallback can diverge because overlays, `specializes_from` lineage, and `enhances`/`overrides` semantics are not applied; the delegate states the limitation in its verdict.
+    Read-only depends on the harness. In some harnesses a read-only delegate can run no process at all (for example, a Cursor subagent in Ask mode): not the `spec-kitty` CLI, not `git`, not MCP tools, as well as no file edits. Before dispatch, the orchestrator checks what read-only means in its harness. Where it means no shell, the orchestrator either injects the profile (route 1) and the evidence below, or launches the delegate in a mode that can run processes, with an explicit instruction not to edit, stage, or commit.
+    Pre-load the evidence. When a delegate cannot run `git` or MCP, the orchestrator puts the review target's diff in the delegate prompt: the diff of the PR head or branch under review, not the working tree, which may be another checkout such as `main`. A delegate that reads the working tree in place of the target raises false findings and misses real ones, and nothing reports the error.
+    Each delegate is read-only unless its task is an isolated implementation in its own worktree. A profile cast on escalation runs in its squad-delegate mode: it answers the squad's question from its own lens directly, as one delegate, without dispatching its own sub-agent swarm.
 - title: Require structured, non-fakeable output
   description: |
     Every delegate returns findings as "[SEVERITY] file:line - issue - recommendation" ending in a verdict, grounded in concrete cited evidence, with honest concession of where its lens does NOT apply. A steelman that over-claims is weak; an adversary that concedes nothing is noise.
@@ -34,6 +40,8 @@ steps:
 anti_patterns:
 - title: Persona without profile
   content: Naming a persona without loading its agent profile — a persona label is not a lens.
+- title: Reviewing the wrong tree
+  content: Dispatching a read-only delegate that cannot run `git` without putting the review target's diff in its prompt, so it reads whatever checkout is on disk (often `main`) and reports on code the change does not contain.
 - title: Unbounded squad
   content: Dozens of delegates for a question that a small, distinct set of lenses would answer; more delegates is not better.
 - title: Casting by habit
