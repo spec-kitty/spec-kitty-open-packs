@@ -66,14 +66,14 @@ failure_modes:
 notes: >
   Role and profile wiring lives outside this tactic. A step in a mission type
   names the role it needs: in
-  packs/built-in/missions/software-dev/software-dev.mission-type.yaml the
+  packs/foundation/missions/software-dev/software-dev.mission-type.yaml the
   implement step names the implementer role and the review step names the
   reviewer role. The
   activation preset decides which profiles are active, and Spec Kitty selects
   a profile for the role (charter ADR-0032); a derived pack may pin a profile
   to a role. The implement and review step prompts
-  (packs/built-in/missions/software-dev/steps/implement.prompt.md and
-  packs/built-in/missions/software-dev/steps/review.prompt.md) carry the role handoff in the WP frontmatter.
+  (packs/foundation/missions/software-dev/steps/implement.prompt.md and
+  packs/foundation/missions/software-dev/steps/review.prompt.md) carry the role handoff in the WP frontmatter.
   This tactic adds the doctrine-layer rationale and constraint. It does NOT
   introduce role or profile wiring: change a step's role in the mission-type
   file, and change which profile fills a role in the preset or in a derived
