@@ -757,6 +757,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     1.0.1, `internal` 3.0.1, `java` 2.1.1, `javascript` 2.0.1, `pack-authoring` 1.0.1, `python`
     2.0.1, `qa` 3.0.1, `rust` 1.0.1, `spdd` 3.0.1. Built-in-level packs cannot be registered, so their
     versions and the exact pins between them do not change.
+- **Shipped prompts, procedures and tactics no longer point at paths the pack split removed**
+  (#195, #227, #159). The #198 split moved files byte-for-byte, so they still named
+  `packs/built-in/...` paths that no longer exist.
+  - **Stale paths.** Step prompts, a plan template, a research guideline and five tactics now point
+    at `packs/foundation/...`, or at the per-pack `packs/<pack>/...` pattern where any pack may hold
+    the file.
+  - **Core `src/` paths.** The `glossary-curation-interview` tactic drops spec-kitty's own
+    `src/specify_cli/` paths for a neutral `src/myproject/`.
+  - **Collaboration lists.** `analyst-annie`, `diagram-daisy` and `lexical-larry` name roles
+    (`architect`, `semantic-analyst`, `implementer`), not profiles their pack's dependency closure
+    does not hold.
+  - **"Built-in" prose.** The `cave-kitty` and `qa` step prompts name the pack that ships a profile,
+    not "built-in".
+  - **Adversarial-squad dispatch.** The `adversarial-squad-deployment` dispatch step is
+    harness-aware. Read-only can mean no process at all, so the orchestrator injects each resolved
+    profile first, and self-loading and the per-pack on-disk fallback follow. Where a delegate
+    cannot run `git`, the orchestrator puts the review target's diff, not the working tree, in the
+    delegate prompt.
 
 - **A Java project no longer loses its JVM toolguides** (#202, `java` 2.1.0). `java-supply-chain`
   and `maven-review-checks` declared `applies_to_languages: [jvm]`, so an activation filtered to
