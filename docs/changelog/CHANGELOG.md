@@ -760,7 +760,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Shipped prompts, procedures and tactics no longer point at paths the pack split removed**
   (#195, #227, #159). The #198 split moved files byte-for-byte, so they still named
   `packs/built-in/...` paths that no longer exist.
-  - **Stale paths.** Step prompts, a plan template, a research guideline and five tactics now point
+  - **Stale paths.** Step prompts, a plan template, a research guideline and four tactics now point
     at `packs/foundation/...`, or at the per-pack `packs/<pack>/...` pattern where any pack may hold
     the file.
   - **Core `src/` paths.** The `glossary-curation-interview` tactic drops spec-kitty's own
