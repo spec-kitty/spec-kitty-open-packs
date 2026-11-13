@@ -113,8 +113,9 @@ Three digests are not interchangeable. The sidecar's `tree_digest.value` is the 
 pin's `snapshot_sha256` includes the manifest. Never copy one into the other's place.
 
 A pack that ships a `pack-manifest.yaml` must also list every graph node it declares as a
-constituent, except actions, anti-patterns, templates, mission types and step contracts. To exempt a
-new node kind, add it to `MANIFEST_EXEMPT_NODE_KINDS` in
+constituent. Actions and anti-patterns have no file, so they are never listed. Templates, mission types
+and step contracts are exempt from this older check, but the derived membership below lists them. To
+exempt a new node kind from this check, add it to `MANIFEST_EXEMPT_NODE_KINDS` in
 [`validate_pack_schemas.py`](../../scripts/ci/validate_pack_schemas.py); a kind in neither place fails.
 
 ### Derived pack manifests
@@ -125,7 +126,8 @@ ADR-0042 as amended 2026-11-12). Its lists come from the pack itself, never from
 - one entry for each `presets/<id>.yaml`.
 
 Both lists are in path order, and the hashes are stamped from the files. The charter refuses a
-manifest with any other lists as `manifest_membership`, both at registration and in the round trip.
+manifest with any other lists: as `manifest_membership` at registration, and in the round trip as
+`pack-manifest.yaml: refused: leaves out ...`.
 So `validate-packs.sh` passes `--derived-manifests`, which fails a pack whose manifest is missing or
 whose lists differ. After adding, removing or renaming an artifact or preset, regenerate the
 manifest, then restamp the digests:
@@ -170,8 +172,9 @@ valid through the service, at a pinned charter version). The job:
    charter source at the pin, it runs `./gradlew --max-workers=1 :packs:driftTest
    -PopenPacksDir=<this checkout>` ([`charter_drift_test.sh`](../../scripts/ci/charter_drift_test.sh)).
    Every pack with a `pack.yaml`, built-in-level ones included, is loaded through the charter's store,
-   written back and compared by meaning. A load violation (`manifest_membership` among them), an
-   unmodelled file, a load warning or a file that does not round-trip fails the job. The report is
+   written back and compared by meaning. A load violation, an unmodelled file, a load warning, a file
+   that does not round-trip, or a manifest whose lists differ from the derived ones fails the job.
+   On a release pin, `commit` must be the commit `release_tag` was built from. The report is
    uploaded as the `charter-drift-test-report` artifact. No registration sees a built-in-level pack,
    so this is the only check of their manifests that the charter itself makes;
 5. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code

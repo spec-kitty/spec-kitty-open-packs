@@ -300,6 +300,7 @@ class CharterServiceJob(unittest.TestCase):
         drift = next(step for step in steps if "charter_drift_test.sh" in str(step.get("run", "")))
         self.assertEqual(drift.get("id"), "drift")
         self.assertNotIn("continue-on-error", drift)
+        self.assertIn("!cancelled()", drift["if"])  # it runs even when obtaining the service jar failed
         script = (ROOT / "scripts" / "ci" / "charter_drift_test.sh").read_text(encoding="utf-8")
         self.assertIn('--max-workers=1 :packs:driftTest -PopenPacksDir="$repo"', script)
         gradle = next(step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@"))

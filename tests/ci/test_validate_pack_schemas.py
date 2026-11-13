@@ -936,7 +936,9 @@ class DerivedManifests(unittest.TestCase):
             fixture = root / "fixtures" / "invalid" / "f"
             fixture.parent.mkdir(parents=True)
             pack.rename(fixture)
-            self.assertNotIn("missing: every pack", self.run_validator(root, "--derived-manifests", str(fixture))[1])
+            code, output = self.run_validator(root, "--derived-manifests", str(fixture))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("missing: every pack", output)
 
     def test_mismatch_is_worded_and_ordered_like_the_charter(self) -> None:
         def manifest(constituents: list[tuple[str, str, str]], presets: list[tuple[str, str]]) -> dict:
