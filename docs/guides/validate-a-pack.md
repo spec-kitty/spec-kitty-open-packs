@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-11'
+updated: '2026-11-13'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -117,6 +117,27 @@ constituent, except actions, anti-patterns, templates, mission types and step co
 new node kind, add it to `MANIFEST_EXEMPT_NODE_KINDS` in
 [`validate_pack_schemas.py`](../../scripts/ci/validate_pack_schemas.py); a kind in neither place fails.
 
+### Derived pack manifests
+
+Every pack, and every valid fixture, carries the `pack-manifest.yaml` the charter derives (#255; charter
+ADR-0042 as amended 2026-11-12). Its lists come from the pack itself, never from an author:
+- one constituent for each artifact file the pack holds, with its kind, id and path;
+- one entry for each `presets/<id>.yaml`.
+
+Both lists are in path order, and the hashes are stamped from the files. The charter refuses a
+manifest with any other lists as `manifest_membership`, both at registration and in the round trip.
+So `validate-packs.sh` passes `--derived-manifests`, which fails a pack whose manifest is missing or
+whose lists differ. After adding, removing or renaming an artifact or preset, regenerate the
+manifest, then restamp the digests:
+
+```bash
+python3 scripts/ci/validate_pack_schemas.py --derive-manifest packs/<name>
+python3 scripts/ci/pack_digest.py --update
+```
+
+`--derive-manifest` mirrors the charter's `ManifestMembership` at the pin. The round trip below is
+the authority: if the two ever disagree, the mirror has drifted from the pin.
+
 ## The charter service job
 
 **`Charter service validation`** asks the charter service itself (charter
@@ -145,7 +166,15 @@ valid through the service, at a pinned charter version). The job:
    both gates apply one policy: a file an exclusion names passes, an `ignored` one passes only if it
    is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
    mirror has drifted from the pin);
-4. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code
+4. **round-trips every pack** (#252; charter ADR-0070 decision 4, amended 2026-11-13): from the
+   charter source at the pin, it runs `./gradlew --max-workers=1 :packs:driftTest
+   -PopenPacksDir=<this checkout>` ([`charter_drift_test.sh`](../../scripts/ci/charter_drift_test.sh)).
+   Every pack with a `pack.yaml`, built-in-level ones included, is loaded through the charter's store,
+   written back and compared by meaning. A load violation (`manifest_membership` among them), an
+   unmodelled file, a load warning or a file that does not round-trip fails the job. The report is
+   uploaded as the `charter-drift-test-report` artifact. No registration sees a built-in-level pack,
+   so this is the only check of their manifests that the charter itself makes;
+5. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code
    its `expected-code` file names, once when composed and once when registered. A fixture the service
    accepts, or refuses with another code, fails the job.
 
@@ -165,6 +194,12 @@ Run it locally, with the jar of the pin (Java 25 on the `PATH` or in `JAVA_HOME`
 ```bash
 jar="$(scripts/ci/charter_service_jar.sh /tmp/charter-service)"
 python3 scripts/ci/charter_service_check.py --jar "$jar"
+```
+
+and the round trip, at the pin (Java 25; it fetches the pinned charter source into the directory):
+
+```bash
+scripts/ci/charter_drift_test.sh /tmp/charter-service
 ```
 
 `charter_service_check.py` takes any service jar, so a jar you built from a charter branch tells you

@@ -218,6 +218,10 @@ class SpddEnhancementsOnThePinnedContract(unittest.TestCase):
             text = source.read_text(encoding="utf-8").replace("id: spdd-specify", f"id: {long_id}")
             source.unlink()
             (directory / f"{long_id}.step-enhancement.yaml").write_text(text, encoding="utf-8")
+            # A whole rename: the graph and preset follow the id, and the manifest is re-derived (#255).
+            for named in (pack / "drg" / "fragment.yaml", pack / "presets" / "spdd.yaml"):
+                named.write_text(named.read_text(encoding="utf-8").replace("spdd-specify", long_id), encoding="utf-8")
+            validator.derive_manifest(pack, self.contract)
 
         found = self.mutated(lambda pack: with_id_length(pack, 65))
         self.assertIn("step-enhancement schema at /id", found)

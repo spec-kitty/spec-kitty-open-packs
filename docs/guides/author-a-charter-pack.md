@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets, a governing preset and a policy.yaml.
 doc_status: wip
-updated: '2026-11-12'
+updated: '2026-11-13'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -56,11 +56,13 @@ Four pack-root files are easy to confuse, so keep their roles apart:
 | `pack.yaml` | you (hand-authored) | The descriptor: identity and lineage (`pack_id`, `name`, `pack_version`, `parent_pack`, `pack_level`, `depends_on`), plus optional `mutability_policy` and `fallback_profile`. Its charter schema is closed — it has no prose fields. |
 | `policy.yaml` | you (hand-authored, optional) | Mutability levels (`open`, `extendable`, `locked`) per artifact kind or artifact; `pack.yaml` points to it with `mutability_policy`. A declared fallback profile must be `locked` here. |
 | `README.md` | you (hand-authored) | The pack **document**, its description: an H1 title, a preamble of "what it is and why" prose, then optional H2 sections (provenance goes in a `## Provenance` section). The charter holds and serves it; the generated reference page renders the preamble under its Purpose heading. `pack.md` and `PROVENANCE.md` are retired and refused. |
-| `pack-manifest.yaml` | tooling only | The constituent inventory and content hashes. |
+| `pack-manifest.yaml` | tooling only | The constituent inventory and content hashes, derived from the pack. |
 
-> **Do not hand-write `pack-manifest.yaml`.** It is written by tooling (`charter fetch` for
-> non-git sources, `charter pack assemble`); `charter pack validate` does not read it, so a
-> hand-edited manifest goes unnoticed rather than flagged.
+> **Do not hand-write `pack-manifest.yaml`.** The charter derives its lists from the pack: every
+> artifact file and every preset, in path order. It refuses a manifest with any other lists
+> (`manifest_membership`). In this repository, generate it with
+> `python3 scripts/ci/validate_pack_schemas.py --derive-manifest packs/<name>`; CI fails a pack whose
+> manifest is missing or differs (see [Validate a pack](validate-a-pack.md#derived-pack-manifests)).
 
 ## 2. Write artifacts — one rule per file
 
