@@ -131,9 +131,11 @@ vulture src/ --min-confidence 80
 
 Mutation testing — modifies code and checks whether tests catch the mutations. Measures test suite effectiveness beyond line coverage.
 
+Set the code to mutate in `[tool.mutmut]` (`source_paths`), then scope a run to one module by its dotted name (`mypackage.core*`). The `python-mutation-tools` toolguide covers setup.
+
 ```bash
-mutmut run --paths-to-mutate=src/specify_cli/status/
-mutmut results
+uv run mutmut run "mypackage.core*"
+uv run mutmut results
 ```
 
 **What it catches:** tests that achieve high coverage but don't actually assert meaningful behavior (weak assertions, tests that pass regardless of code changes).

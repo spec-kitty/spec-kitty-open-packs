@@ -16,8 +16,10 @@ steps:
       dispatch when at least one of: the bug class has recurred three or
       more times under different symptoms; multiple reactive PRs have
       not stopped the chain; the bug crosses a contested system boundary;
-      MTTR-of-class is shorter than MTTF-of-fix. Otherwise recommend the
-      lighter /investigate skill and stop.
+      MTTR-of-class is shorter than MTTF-of-fix. Otherwise stop this tactic
+      and follow a lighter procedure instead: `failing-test-triage` for a
+      failing test, or `durable-fix-investigation` for a single bug. Load one
+      with `spec-kitty charter context --include procedure:<id>`.
   - title: Frame the bug statement
     description: >
       Write one paragraph that all five sub-agents will investigate

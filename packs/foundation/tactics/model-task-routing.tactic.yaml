@@ -5,7 +5,7 @@ purpose: >
   Match model strength to task difficulty: route hard-judgment work (sizing,
   fakeability, code-truth, review, architecture) to the strongest available
   model, and grounded or mechanical passes to a cheaper model. Advisory —
-  the recommendation surfaces alongside the task, it never substitutes for
+  when a routing recommendation is shown, weigh it; it never substitutes for
   the operator's or orchestrator's own judgment about who should run a step.
 steps:
   - title: Classify the task's judgment weight
@@ -22,21 +22,21 @@ steps:
         cheapest model in the fleet."
       - "Renaming a variable across a bounded diff, or applying a mechanical
         occurrence-map edit, is grounded/mechanical."
-  - title: Consult the model-to-task_type catalog
+  - title: Use a routing recommendation if one is shown
     description: >
-      Resolve the task's judgment weight against the packaged
-      model-to-task_type catalog that ships with Spec Kitty (resolved through
-      the doctrine chain, not a source-tree path). The catalog's
-      `task_fit` scores, `routing_policy.objective`, and `tier_constraints`
-      determine the recommended model for the classified task type.
+      `spec-kitty dispatch` prints a "Model Routing Recommendation
+      (advisory)" panel for the request it routes (`--dry-run` shows it
+      without starting the work), and some harnesses show their own. Read
+      a recommendation against the judgment weight you classified. When
+      none is shown, pick the model from the classification above and the
+      models available to you.
     examples:
-      - "Under `objective: quality_first`, the catalog favors the
-        strongest-fit model for hard-judgment task types even when a cheaper
-        model has a non-trivial fit score."
+      - "A recommendation that favors quality picks the strongest-fit model
+        for hard-judgment work even when a cheaper model also fits."
   - title: Apply the recommendation as advisory
     description: >
-      Treat the routing recommendation as advisory only (`override_policy:
-      advisory` in the catalog) — the seam never spawns a model on its own.
+      Treat a routing recommendation as advisory only: it never spawns a
+      model on its own.
       The orchestrator or operator may override the recommendation; when
       they do, both the recommended and the chosen model should remain
       visible for provenance.
@@ -44,16 +44,15 @@ steps:
     description: >
       Sizing, fakeability judgment, code-truth verification, adversarial
       review, and architecture decisions must not be delegated to the
-      cheapest available model, regardless of what the catalog's
-      cost-optimized path would otherwise suggest. This rule overrides a
-      `cost_first` or `balanced` objective for these task types.
+      cheapest available model, regardless of what a cost-optimized
+      recommendation would otherwise suggest. This rule overrides a
+      cost-first or balanced routing objective for these task types.
 failure_modes:
   - "Running an architecture or sizing pass on the cheapest available model
     to save cost or time — the resulting judgment is unreliable and the
     failure surfaces much later (undersized missions, missed fakeability)."
-  - "Treating the recommendation as binding (gated/required) when the
-    catalog declares `override_policy: advisory` — this seam is advisory
-    only; it never spawns a model or blocks dispatch."
-  - "Ignoring the catalog entirely and hand-picking a model from memory —
-    the catalog is the single source of truth for task_fit and cost tiers,
-    and hand-picking drifts from it silently."
+  - "Treating a routing recommendation as binding (gated/required) — it is
+    advisory only; it never spawns a model or blocks dispatch."
+  - "Overriding a routing recommendation without recording why in the
+    work-package note or the PR body — the override stays invisible to
+    later review."

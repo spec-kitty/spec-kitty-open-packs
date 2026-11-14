@@ -16,8 +16,8 @@ Minimal `pyproject.toml` section:
 
 ```toml
 [tool.mutmut]
-paths_to_mutate = ["src/mypackage/"]
-runner = "python -m pytest -x --tb=no -q"
+source_paths = ["src/mypackage/"]
+pytest_add_cli_args = ["-x", "--tb=no", "-q"]
 also_copy = ["src/mypackage/"]
 ```
 
@@ -25,33 +25,32 @@ Key options:
 
 | Option | Purpose |
 |--------|---------|
-| `paths_to_mutate` | Modules to mutate (dotted paths or file globs) |
+| `source_paths` | Directories holding the code to mutate. mutmut before 3.4 called it `paths_to_mutate`; later 3.x still reads that name but warns |
 | `also_copy` | Extra directories copied into the sandbox |
-| `runner` | Command mutmut uses to run tests against each mutant |
 | `pytest_add_cli_args` | Extra pytest flags appended in sandbox runs (add `--ignore=` here to exclude slow/integration tests) |
 
 ## Usage
 
 ```bash
-# Full run
+# Full run. Runs are incremental: a re-run reuses the results in mutants/ and
+# re-tests only what changed. Delete mutants/ to start from scratch.
 uv run mutmut run
 
 # Scope to one module (dotted name, not a file path)
 uv run mutmut run "mypackage.core*"
-
-# Incremental — skip mutants that passed last time
-uv run mutmut run --rerun-all=false
 ```
 
 ## Reviewing Results
 
 ```bash
-# Summary table (Killed / Survived / No Coverage / Timeout / Equivalent)
+# List mutants that were not killed, by name and status
 uv run mutmut results
 
-# Show surviving mutants as diffs
-uv run mutmut show <id>
-uv run mutmut show all
+# List every mutant, killed ones included
+uv run mutmut results --all true
+
+# Show one mutant as a diff (names look like mypackage.core.x_add__mutmut_1)
+uv run mutmut show <mutant-name>
 
 # Interactive TUI browser
 uv run mutmut browse
@@ -76,7 +75,7 @@ return f"v{major}.{minor}.{patch}"  # pragma: no mutate
 
 ```bash
 # Apply a surviving mutant as a patch to see what test it needs
-uv run mutmut apply <id>
+uv run mutmut apply <mutant-name>
 
 # Revert after writing the test
 git checkout -- <file>
@@ -158,8 +157,8 @@ git checkout -- <file>
 
 ## mutmut 3.x-Specific Gotchas
 
-- **`mutmut results` shows only survivors.** Killed mutants are filtered out of the
-  summary table, so it cannot be used to compute a kill rate directly. Read the
+- **`mutmut results` hides killed mutants** unless you pass `--all true`, so its
+  default output cannot be used to compute a kill rate directly. Read the
   `.meta` JSON files under `mutants/` to count kills:
 
   ```python
