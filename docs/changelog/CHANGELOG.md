@@ -547,6 +547,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `landing-contributor-prs`, `memory-curation-and-escalation` and the skills point at those
     steps. Delegate profile loading points at `adversarial-squad-deployment`, and the cloud
     integrity rules at `CLOUD_SESSION_ORCHESTRATION`.
+  - The closeout step also owns commit attribution (the operator's convention, no AI model
+    identifier), now for every internal procedure that opens a PR. `semi-auto-delivery`,
+    `cloud-session-dispatch` and `landing-contributor-prs` now `require` `mission-wrap-up-sequence`.
+  - Delegates load their profiles by `adversarial-squad-deployment`'s routes, which include its
+    degraded on-disk fallback; the old "never a raw profile file" wording is gone.
   - `semi-auto.skill.md` keeps only the order and the mode fork. The long landing and triage
     steps are split.
 

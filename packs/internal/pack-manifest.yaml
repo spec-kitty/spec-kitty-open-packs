@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 78b2809aa0a7cde5b6b9cf9001a66cd3d1b243c82a836f2e90bbe90e437891c9
+manifest_hash: 894ea2bee6635edbd54abe2d609cf83ad2f880fe054e714ab7e62c26617c339d
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -76,7 +76,7 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: 848b98db57dd00b1ee23d93f851d5757d1974363fba97717ddb76f7280ff5d56
+  content_hash: d8b47258ef610a860394914be8d458aa741d0c9110cfabe423feae1412aaf521
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
@@ -84,15 +84,15 @@ constituents:
 - kind: procedure
   id: issue-to-mission-delivery
   path: procedures/issue-to-mission-delivery.procedure.yaml
-  content_hash: 8adf16d99bc42b89bfb66902a468dbbf70b1b1ba93e54c01829d6eadb2423282
+  content_hash: b9916b82d16bfc2d6ac920d9f83d2248029d049aba480db450fb957d581faa5e
 - kind: procedure
   id: issue-triage-pass
   path: procedures/issue-triage-pass.procedure.yaml
-  content_hash: eb4d9142c24cd05b1bd817b73960290d5d68fdb9962c5d798d4a85f97ed98a37
+  content_hash: f09956a5ee2ecf3d3cab1d7321e9573be5462b3777e8e1312153c7ab56d172ba
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: 9acf96a3508680a07715d0b2f184cf5071b7e3bf4e327e7febfbd63fe9ca3c1b
+  content_hash: 0964c9af0f3a6d9024b5a147d87f031890b4f0af233819dfbe00221ecb04a810
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
@@ -104,7 +104,7 @@ constituents:
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: d86bfac283625888376dffe4d1b6f5564c84639fb341cdc3ae3df3f56fab8699
+  content_hash: 61b6dcf9ec55b44073d09b20f144e2b883847c45664928b03495453bbd7edbe4
 - kind: procedure
   id: operator-signal-emission
   path: procedures/operator-signal-emission.procedure.yaml

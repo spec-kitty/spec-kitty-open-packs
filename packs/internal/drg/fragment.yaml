@@ -452,7 +452,8 @@ edges:
   # rather than re-typing them into every prompt.
   - source: "procedure:cloud-session-dispatch"
     target: "procedure:semi-auto-delivery"
-    relation: suggests
+    relation: requires
+    reason: "The runner's standing orders, including the grounding and discovery squads the prompt binds by reference."
   # One owner per delivery rule: the dispatch prompt binds the closeout rules of
   # mission-wrap-up-sequence and the delegate-loading rule of adversarial-squad-deployment
   # by reference instead of re-typing them.
@@ -465,7 +466,7 @@ edges:
     relation: suggests
     reason: "How a reproduced squad's delegates load their profiles and get their evidence."
   # Semi-auto delivery binds the bounded-test and operator-signal contracts it
-  # enforces, and suggests the closeout, red-first and review doctrine its steps name.
+  # enforces and the closeout that owns the delivery rules, and suggests the red-first and review doctrine its steps name.
   - source: "procedure:semi-auto-delivery"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
@@ -495,7 +496,7 @@ edges:
     relation: suggests
     reason: "The commit-history shape the closeout aims for — coherent, reviewable commits, bookkeeping compressed."
   # Dual-mode pack skill: requires the standing-orders procedure (both modes) and
-  # the dispatch procedure (cloud mode); suggests the Mission closeout sequence.
+  # the dispatch procedure (cloud mode), and the closeout that owns the delivery rules.
   - source: "skill:semi-auto"
     target: "procedure:semi-auto-delivery"
     relation: requires
@@ -504,7 +505,7 @@ edges:
     relation: requires
   - source: "skill:semi-auto"
     target: "procedure:mission-wrap-up-sequence"
-    relation: suggests
+    relation: requires
   # Triage pass: binds the label scheme and the backlog workflow rather than
   # restating them.
   - source: "procedure:issue-triage-pass"
