@@ -12,17 +12,17 @@ Whether the PR is ready for review or you were told to land a draft, ask the ope
 
 ## Step 2: Run the landing procedure
 
-Follow the `landing-contributor-prs` procedure from its second step onward. It carries the rules and the commands; this list is the order:
+Follow the `landing-contributor-prs` procedure from its second step onward. It carries the rules and the commands, and takes the shared delivery rules (deferral bar, tree check, PR body, changelog, generated docs) from `mission-wrap-up-sequence`; this list is the order:
 
 1. Decide whether the PR is worth landing: the full check for an old or substantive PR, the short check for a recent mechanical one. Stop and report the recommendation (LAND, RESCOPE or CLOSE) unless it is LAND.
 2. Claim the PR with a comment and assign it to the operator.
 3. Work in a separate worktree under `.worktrees/`; rebase onto the canonical remote's `main`; regenerate what the rebase made stale.
 4. Classify every red check, and file an issue for each pre-existing red that has none.
 5. Fix what blocks the PR, one landing fix per commit, delegated to subagents. Apply the test economy rule in every brief. Read CI before running anything locally; never run a full heavy suite. For a bugfix PR, verify the red-first proof.
-6. Run an independent review of the integrated diff and fix every finding, except one that is highly impactful, takes significant effort, or needs a significant operator decision. Name each exception in the PR body with its reason.
-7. Tidy the commit history only when needed. The merge bar is the PR head, not each commit. Before a force-push, the rebuilt tree must be byte-identical to the old head.
+6. Run an independent review of the integrated diff and fix every finding the deferral bar does not exempt.
+7. Tidy the commit history only when needed, and run the tree check before a force-push.
 8. Vet the tests the landing added with a reviewer who is not the implementer.
-9. Update the PR body and docs, and add a changelog fragment, `docs/changelog/unreleased/<pr>.<section>.md` (never edit `docs/changelog/CHANGELOG.md` directly).
+9. Update the PR body, the changelog and the docs.
 10. Push (SSH is the preferred transport), then post the remediation summary.
 11. File a tracked issue for every deferred item and leave the landing queue readable (the procedure's follow-up hygiene step).
 
