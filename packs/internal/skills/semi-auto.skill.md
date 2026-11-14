@@ -1,37 +1,31 @@
-Goal: take the named issue-set through a governed delivery run that works on its own but pauses to escalate the operator's decisions, landing a draft PR the operator merges. The same standing orders run two ways — here in this session (local), or handed to a fresh cloud runner (cloud). The operator is the maintainer who invoked this skill; the canonical remote is the git remote that points at `spec-kitty/spec-kitty` (find it with `git remote -v`).
+Goal: take the named issue-set through a governed delivery run that works on its own but pauses to escalate the operator's decisions, landing a PR flipped to ready for review, which the operator merges. The same standing orders run two ways — here in this session (local), or handed to a fresh cloud runner (cloud). The operator is the maintainer who invoked this skill; the canonical remote is the git remote that points at `spec-kitty/spec-kitty` (find it with `git remote -v`).
 
 Input: the issue numbers or issue-set (parameter `issues`), the mode (parameter `mode`), optional guidance and a closeout profile. If no issue is named, ask which to run. If the mode is not given: ask whether to run here or dispatch when this session can create cloud sessions, otherwise run local.
 
 The standing orders are identical in both modes and live in the `semi-auto-delivery` procedure — it carries the rules; this skill carries only the order and the mode fork. Load it with `spec-kitty charter context --include procedure:semi-auto-delivery`, and `--action implement` / `--action review` for the phase doctrine.
 
-## Both modes: the standing orders
+## Both modes: the order
 
-Follow the `semi-auto-delivery` procedure end to end:
+Follow the `semi-auto-delivery` procedure end to end. Its steps, in order:
 
-1. Orientation gate — sync the environment, read CLAUDE.md, AGENTS.md and the charter in full, load the phase context. The charter overrides any brief.
-2. Research, grounding and discovery squads first — commit the read-only grounding note (sizes, responsibility map, invariants with citations, the gates and ledgers touched, test seams, open-P0 and sibling-run interactions, 90-day churn) plus the two discovery-squad verdicts — sibling surfaces and related/superseding issues, each with its disposition — before any spec exists. The discovery verdict lands in the PR's Discovery sub-section at closeout; it beats the pointfix tendency.
-3. Decide Mission vs Ops by blast radius; split an issue-set that spans unrelated surfaces. State the choice.
-4. Work autonomously, but STOP and surface the decision to the operator on the escalation classes: a regression-vs-stale-test verdict; a shared-seam, public-contract or architectural-boundary change; a test-expectation edit; scope widening; a charter Decision Moment; contract versioning. A path that decides also signals — never resolve one silently.
-5. Brownfield discipline — smallest viable diff, locality of change, single canonical source, red-first, and never skip/disable/xfail/quarantine a test or retry-to-green.
-6. Test policy — `make test-fast` plus the test files of every module the diff touches and the owning subsystem's own test directory, plus the specific architectural gate files a cross-cutting change implicates (named individually); never a heavy-suite sweep or `make test-full` (CI owns those at the draft PR); `make format-check`; zero ruff and mypy. Record commands and counts in "Tests run".
-7. Rebase cadence — onto the canonical remote's `main` after spec, plan and tasks (before implement), then only on a staleness notice. Never push `main`.
-8. Closeout — clean branch, rebase, add a changelog fragment (`docs/changelog/unreleased/<pr>.<section>.md`), pre-PR review squad, fold the findings, open a DRAFT PR targeting `main` with the five-section body contract (validate with `validate-pr-body.py`), watch CI to green, then flip to ready-for-review with a reviewer handover comment. The operator merges.
+1. Orientation gate.
+2. Research, grounding and discovery squads, before any spec.
+3. Decide Mission vs Ops by blast radius.
+4. Work autonomously, but pause and escalate on the operator's decisions.
+5. Hold the brownfield standing orders.
+6. Test to the calibrated blast radius, never the heavy suites.
+7. Rebase on the fixed cadence.
+8. Close out through the closeout step of `mission-wrap-up-sequence`. The operator merges.
 
 ## Local mode
 
-You are the runner. Run the whole delivery in this session, following the standing orders above directly, and land the draft PR from here. Every escalation-class decision pauses THIS conversation and asks the operator before you proceed.
+You are the runner. Run the whole delivery in this session, following the standing orders above directly, and deliver the PR from here. Every escalation-class decision pauses THIS conversation and asks the operator before you proceed.
 
 ## Cloud mode
 
 You are the dispatcher, not the runner. Follow the `cloud-session-dispatch` procedure to build a complete dispatch prompt (no placeholders) and spawn a fresh cloud runner against `spec-kitty/spec-kitty` at `main`, inheriting the model and environment. The prompt BINDS the semi-auto standing orders by reference — it tells the runner to load `spec-kitty charter context --include procedure:semi-auto-delivery` and follow it — instead of re-typing them, and fills in the issue-set, the per-kind doctrine for the work, the numbered slices, and the closeout profile. Report the session id, the branch and the instruction summary; never predict results; read real state back from the session before claiming any progress. Relay later operator guidance as a labelled addendum. The runner performs the escalation pauses in its own session — the prompt instructs it to surface escalation-class decisions there.
 
-Apply the procedure's fleet controls rather than dispatching independently:
-
-1. Allow at most 3 runners with open, unmerged PRs per repository, never overlap a file family, sequence shared infrastructure and pin bumps first, and probe the environment with a throwaway session before a wave of more than two. Check that a consumer pin can read the producer's current shape.
-2. Settle foreseeable choices before dispatch: `issue-<n>-<slug>` branches from latest `origin/main`, no runner merges or tags, clean/rebased fallback branches after a refused force push, shared numbers checked at writing time, no empty CI-kick commits, `pr:pause-ci`, the operator's attribution, and operator rulings logged on the governing issue. Also settle two conventions: one changelog fragment per change under `docs/changelog/unreleased/<pr>.<section>.md`, never an edit to `CHANGELOG.md`; and no hand-edits to generated indexes (the docs retrieval index, the page inventory and the ADR era tables), which the `ci/regen-docs-index` bot PR regenerates.
-3. Tell the runner to send one batched decision message with recommendations, keep work on a recommendation reversible, and accept the later ruling. Require `command -v spec-kitty` before any install and permit only the one fallback, `uv tool install --prerelease allow spec-kitty-cli`. Sibling clones stay read-only; sibling drafts and `<repo>#TBD-<slug>` references return through the orchestrator for filing and replacement before merge.
-4. If a brief names a missing skill or squad, reproduce it as parallel profile-loaded subagents, one per lens. Replace a session blocked by its environment or permissions rather than retrying it.
-5. Relay every runner report promptly and keep one status table: repository, PR, state, blocked-on and operator action. Record stale branches for the operator and never claim unread progress.
+Apply the fleet controls of `cloud-session-dispatch` (capacity and collisions, settled conventions, the batched decision message, the setup fallback, the missing-skill fallback and the fleet record) and the integrity rules of `CLOUD_SESSION_ORCHESTRATION`, rather than dispatching independently.
 
 ## Stop and ask the operator when
 
@@ -42,8 +36,6 @@ Apply the procedure's fleet controls rather than dispatching independently:
 
 ## Hand-off
 
-Local: the flip from draft to ready-for-review is the hand-off to the maintainers. Report the PR link, the issues it closes, what each review round changed, and every still-red check with the reason it is not this PR's. Never flip a PR that is red or still being changed; never merge or arm auto-merge on your own initiative.
+Local: the closeout step of `mission-wrap-up-sequence` owns the flip to ready for review, which is the hand-off to the maintainers; report as its last step says and stop.
 
-Cloud: the hand-off is the spawned session plus its dispatch summary; the runner delivers its own draft PR and performs its own hand-off. Do not archive or interrupt a session unless the operator asks.
-
-In either mode, the operator's commit attribution trailer rides every commit, no AI model identifier appears in any commit or PR, and GitHub posts follow the operator's and the harness's attribution conventions.
+Cloud: the hand-off is the spawned session plus its dispatch summary; the runner delivers its own PR and performs its own hand-off. Do not archive or interrupt a session unless the operator asks.

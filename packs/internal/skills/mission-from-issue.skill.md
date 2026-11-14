@@ -11,12 +11,10 @@ Follow the `issue-to-mission-delivery` procedure. It carries the rules and the c
 3. Claim every issue (comment, assign the operator, add `status:claimed` and `taken-by-human`) and verify it before any planning artifact exists.
 4. Specify, plan and tasks through the canonical commands; fill the issue matrix; keep the tracer files.
 5. Survey the existing code, then implement red-first with `spec-kitty next --agent <name> --mission <slug>`.
-6. Run the `mission-wrap-up-sequence` procedure: accept, issue verdicts, aggregate review, consolidate, compact, rebase.
-7. Review the integrated diff and fix every finding, except one that is highly impactful, takes significant effort, or needs a significant operator decision. Name each exception in the PR body with its reason.
-8. Add a changelog fragment, `docs/changelog/unreleased/<pr>.<section>.md` (never edit `docs/changelog/CHANGELOG.md` directly), and update the docs.
-9. Open the PR as a draft with the `taken-by-human` label, follow CI to green, then flip it to ready for review and label it `ready-for-squad`.
+6. Run the `mission-wrap-up-sequence` procedure end to end: accept, issue verdicts, aggregate review, consolidate, compact, rebase, changelog and docs, pre-PR review and folds, PR body, then its closeout step. Label the PR `taken-by-human` when the closeout opens it.
+7. Label the PR `ready-for-squad` after the closeout's flip.
 
-Every subagent you dispatch first loads its profile with `spec-kitty agent profile show <id>`. Use the cheaper model tier for implementation and the stronger tier for review.
+Every subagent you dispatch loads its profile as `adversarial-squad-deployment` describes. Use the cheaper model tier for implementation and the stronger tier for review.
 
 ## Stop and ask the operator when
 
@@ -27,4 +25,4 @@ Every subagent you dispatch first loads its profile with `spec-kitty agent profi
 
 ## Hand-off
 
-The flip from draft to ready for review is the hand-off to the maintainers. Never flip a PR that is red or still being changed. Report the PR link, the issues it closes, what each review round changed, and every check still failing with the reason it is not caused by this PR. Then stop. Do not merge, and do not arm auto-merge, on your own initiative.
+The closeout step of `mission-wrap-up-sequence` owns the flip to ready for review, which is the hand-off to the maintainers. Report as its last step says, then stop: the operator merges.

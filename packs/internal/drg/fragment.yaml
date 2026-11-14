@@ -268,6 +268,12 @@ edges:
   - source: "procedure:landing-contributor-prs"
     target: "foundation::tactic:pr-agent-worktree-isolation"
     relation: refines
+  # The landing pass takes the shared delivery rules (deferral bar, tree check, PR body,
+  # changelog, generated docs, base ref) from their one owner.
+  - source: "procedure:landing-contributor-prs"
+    target: "procedure:mission-wrap-up-sequence"
+    relation: requires
+    reason: "The deferral bar, tree check, base ref, PR-body contract, changelog and generated-docs rules a landing pass applies."
   # No-full-heavy-suite directive reconciles with (does not duplicate) the
   # built-in test-run discipline and red-main policy: bounded/single test
   # runs, and reds outside blast radius are CI's to report, not to chase
@@ -446,9 +452,21 @@ edges:
   # rather than re-typing them into every prompt.
   - source: "procedure:cloud-session-dispatch"
     target: "procedure:semi-auto-delivery"
+    relation: requires
+    reason: "The runner's standing orders, including the grounding and discovery squads the prompt binds by reference."
+  # One owner per delivery rule: the dispatch prompt binds the closeout rules of
+  # mission-wrap-up-sequence and the delegate-loading rule of adversarial-squad-deployment
+  # by reference instead of re-typing them.
+  - source: "procedure:cloud-session-dispatch"
+    target: "procedure:mission-wrap-up-sequence"
+    relation: requires
+    reason: "The runner's closeout and the shared delivery rules (changelog, generated docs, PR body, ready-for-review flip, attribution)."
+  - source: "procedure:cloud-session-dispatch"
+    target: "foundation::procedure:adversarial-squad-deployment"
     relation: suggests
+    reason: "How a reproduced squad's delegates load their profiles and get their evidence."
   # Semi-auto delivery binds the bounded-test and operator-signal contracts it
-  # enforces, and suggests the closeout, red-first and review doctrine its steps name.
+  # enforces and the closeout that owns the delivery rules, and suggests the red-first and review doctrine its steps name.
   - source: "procedure:semi-auto-delivery"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires
@@ -463,8 +481,8 @@ edges:
     reason: "A deciding path must also signal — every escalation-class decision surfaces on an operator-visible surface, never resolved silently."
   - source: "procedure:semi-auto-delivery"
     target: "procedure:mission-wrap-up-sequence"
-    relation: suggests
-    reason: "The canonical accept, verdict, aggregate-review, consolidate, compact and rebase closeout for a Mission-shaped run."
+    relation: requires
+    reason: "The closeout and the shared delivery rules it owns; a Mission runs it end to end, an Op enters at its compaction step."
   - source: "procedure:semi-auto-delivery"
     target: "testing::procedure:test-first-bug-fixing"
     relation: suggests
@@ -478,7 +496,7 @@ edges:
     relation: suggests
     reason: "The commit-history shape the closeout aims for — coherent, reviewable commits, bookkeeping compressed."
   # Dual-mode pack skill: requires the standing-orders procedure (both modes) and
-  # the dispatch procedure (cloud mode); suggests the Mission closeout sequence.
+  # the dispatch procedure (cloud mode), and the closeout that owns the delivery rules.
   - source: "skill:semi-auto"
     target: "procedure:semi-auto-delivery"
     relation: requires
@@ -487,7 +505,7 @@ edges:
     relation: requires
   - source: "skill:semi-auto"
     target: "procedure:mission-wrap-up-sequence"
-    relation: suggests
+    relation: requires
   # Triage pass: binds the label scheme and the backlog workflow rather than
   # restating them.
   - source: "procedure:issue-triage-pass"
@@ -499,6 +517,14 @@ edges:
   - source: "procedure:issue-triage-pass"
     target: "foundation::tactic:model-task-routing"
     relation: suggests
+  - source: "procedure:issue-triage-pass"
+    target: "foundation::procedure:adversarial-squad-deployment"
+    relation: suggests
+    reason: "How each triage subagent loads its profile."
+  - source: "procedure:memory-curation-and-escalation"
+    target: "procedure:mission-wrap-up-sequence"
+    relation: suggests
+    reason: "The generated-docs rule a new doc page follows."
   - source: "procedure:issue-triage-pass"
     target: "planning-analysis::agent_profile:planner-priti"
     relation: suggests
