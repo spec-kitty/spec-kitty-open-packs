@@ -207,6 +207,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`pack-authoring` styleguide `doctrine-instruction-voice`** (#275): canonical glossary terms in
+  instructions, no unauthorized high-risk operation in an example, and roles instead of one
+  project's local values. `pack-authoring` moves to 1.1.0.
+
 - **Every pack has a recorded tree digest** (#194, epic #190; see also #23 and #19;
   [ADR 2026-11-11-2](../architecture/adr/2026-11-11-2-record-a-tree-digest-for-every-pack.md)).
   Each `packs/<name>/` now has a sidecar `packs/<name>.source.yaml`, and the required gate checks
@@ -747,7 +751,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `migrate-project-guidance-to-spec-kitty-charter` names the project and org tiers and the real
     commands (`charter new`, `validate`, `org validate`, `org add`, `activate`, `interview`,
     `generate`, `synthesize`, `context`, `consistency-check`, `lint`, `glossary validate`) instead of
-    "promote into the shipped set".
+    "promote into the shipped set". Both procedures and the profile state the project tier's limit:
+    only directives, tactics, styleguides, procedures and agent profiles become nodes there, and edges
+    come only from a project agent profile.
   - New `pack-authoring` styleguide `doctrine-instruction-voice` holds the two doctrine-voice rules that
     `DIRECTIVE_045` carried (quote a deprecated term; no unauthorized high-risk operation in an
     example). `DIRECTIVE_045` now names the protected default branch, not `main`, and the duplicate

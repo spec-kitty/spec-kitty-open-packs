@@ -6,7 +6,7 @@ description: |
 entry_condition: |
   An agent exists outside the pack — in any format, for example Cursor rules, a prompt, a no-code bot, a framework script, a custom GPT, or a written description in a wiki or Markdown document — and its owner wants to bring its behaviour under governance. The owner can describe the agent's purpose and point to or provide its instructions, tools, documentation, and example behaviour; the owner does not need to be technical. The pack validates cleanly before any new work begins.
 exit_condition: |
-  The chosen tier's validation reports zero errors (zero advisories preferred; residual advisories require documented justification). Every artifact extracted from the source agent is written under the correct pack subdirectory and registered in the DRG with appropriate edges. If a dedicated agent profile was warranted it is created; if not, the decision not to create one is recorded. For an org pack, spec-kitty doctor charter-packs reports the pack installed with the expected artifact counts; for the project tier, spec-kitty charter list shows the new artifacts activated.
+  The chosen tier's validation reports zero errors (zero advisories preferred; residual advisories require documented justification). Every artifact extracted from the source agent is written in the chosen tier's layout and registered in the DRG with appropriate edges. If a dedicated agent profile was warranted it is created; if not, the decision not to create one is recorded. For an org pack, spec-kitty doctor charter-packs reports the pack installed with the expected artifact counts; for the project tier, spec-kitty charter list shows the new artifacts activated.
 steps:
 - title: Choose the target tier and confirm baseline validation passes
   description: |
@@ -38,7 +38,7 @@ steps:
     Produce a short source inventory / dossier using the source-agent-dossier-template before decomposing anything, and confirm your understanding of the agent's purpose back to the owner before proceeding. If the owner only has a vague description and no documentation, elicit concrete behaviour with examples — a plausible-sounding description is not a specification.
 - title: Audit the target pack, its dependencies and the active charter for overlap and connections
   description: |
-    Before classifying source material, inventory the registered artifact ids across the target pack, the packs it depends on, and the project's active charter (`spec-kitty charter list`) (directives, tactics, procedures, paradigms, styleguides, toolguides, agent profiles, and the DRG node list). For each piece of knowledge identified during the interview, check whether a semantically similar artifact already exists. If significant overlap is found:
+    Before classifying source material, inventory the registered artifact ids across the target pack, the packs it depends on, and every artifact the project can see, active or not (`spec-kitty charter list --all`) (directives, tactics, procedures, paradigms, styleguides, toolguides, agent profiles, and the DRG node list). For each piece of knowledge identified during the interview, check whether a semantically similar artifact already exists. If significant overlap is found:
 
       - Flag it explicitly to the owner: name the overlapping artifact and describe the overlap.
       - Propose augmenting the existing artifact (via an enhances edge or a content update)
@@ -88,7 +88,7 @@ steps:
       | Source fragment | Artifact kind | Proposed id | Target path |
 - title: Author each artifact as typed YAML
   description: |
-    For each row in the decomposition table, scaffold the file with spec-kitty charter new <kind> <id> (add --pack <pack-dir> for an org pack), which places it in the chosen tier's layout with the kind's required fields, then fill it in following the artifact schemas. Write instructions and examples in the voice the doctrine-instruction-voice styleguide sets. Do not invent fields outside the schema. Preserve the concrete guidance, examples, and anti-patterns from the source agent; do not discard detail on the assumption it is obvious. When a single block mixes a policy rule with the steps to satisfy it, keep the rule in a directive and the steps in a tactic or procedure, linked by a DRG edge. Cite related artifacts by their id, never by file path.
+    For each row in the decomposition table, scaffold the file with spec-kitty charter new <kind> <id> (add --pack <pack-dir> for an org pack), which places it in the chosen tier's layout with the kind's required fields, then fill it in following the artifact schemas. charter new takes the kind in snake case (agent_profile), while charter activate takes it hyphenated (agent-profile). charter new does not scaffold templates: write a template by hand under the pack's templates/ directory and add a templates node for it to the pack's drg/fragment.yaml. Write instructions and examples in the voice the doctrine-instruction-voice styleguide sets. Do not invent fields outside the schema. Preserve the concrete guidance, examples, and anti-patterns from the source agent; do not discard detail on the assumption it is obvious. When a single block mixes a policy rule with the steps to satisfy it, keep the rule in a directive and the steps in a tactic or procedure, linked by a DRG edge. Cite related artifacts by their id, never by file path.
 - title: Check content-DRG consistency and flag external references
   description: |
     For each newly authored artifact, scan all text fields (intent, scope, summary, principles, purpose, description, etc.) for:
@@ -131,11 +131,16 @@ steps:
         runtime reads it directly, so there is no graph to regenerate.
       - Project tier — there is no fragment to edit. Activate the new artifacts with
         spec-kitty charter activate <kind> <id> --cascade all, which writes the project graph.
-        Project-graph edges are projected from a project agent profile's typed reference fields
-        (directive-references, tactic-references, toolguide-references, styleguide-references)
-        and its collaboration.operating-procedures, so list each new artifact in the matching
-        field of the profile that should carry it (the one created or chosen in the
-        profile-decision step). These typed fields are not the legacy inline references: list.
+        Project-graph edges are projected only from a project agent profile's typed reference
+        fields (directive-references, tactic-references, toolguide-references,
+        styleguide-references) and its collaboration.operating-procedures, so list each new
+        artifact in the matching field of the project profile that should carry it (the one
+        created or chosen in the profile-decision step; a built-in or pack profile cannot carry
+        project-tier artifacts). These typed fields are not the legacy inline references: list.
+        Only directives, tactics, styleguides, procedures and agent profiles become project-graph
+        nodes, so a project-tier toolguide or paradigm cannot be wired, and an edge between two
+        non-profile artifacts (a directive requiring a tactic) cannot be made at this tier. If
+        the onboarded agent needs either, choose the org pack tier.
 - title: Run validation and fix errors
   description: |
     After writing each artifact (or in batches of 3-5), run the tier's validation command from the first step. Resolve schema errors (id pattern violations, controlled-vocabulary fields, required example pairs on patterns/anti_patterns, disallowed extra fields). An id collision with a shipped built-in surfaces as an advisory; resolve it by declaring an enhances/overrides edge with rationale, or rename if the collision is accidental. For any template/styleguide pair, verify bidirectional linkage in both directions.

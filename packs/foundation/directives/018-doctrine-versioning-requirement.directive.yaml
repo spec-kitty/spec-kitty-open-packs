@@ -8,16 +8,15 @@ intent: >
   it is compatible, and what to do.
 enforcement: required
 scope: >
-  Applies to directives, tactics, procedures, toolguides, styleguides and
-  agent profiles that the project or organization authors, in its project tier
-  or in a Charter Pack it maintains. It does not apply to artifacts the project
+  Applies to every artifact the project or organization authors, in its
+  project tier or in a Charter Pack it maintains. It does not apply to artifacts the project
   only consumes from someone else's pack: those are changed by their
   maintainer.
 integrity_rules:
   - A breaking change to a pack (an artifact removed or renamed, or a rule
     tightened so that conforming work stops conforming) raises the pack's
     major version and carries upgrade guidance.
-  - Each artifact's `schema_version` matches the contract the validator
+  - Each artifact's `schema_version` (`schema-version` on an agent profile) matches the contract the validator
     supports; it is never raised or lowered to silence a validation error.
 validation_criteria:
   - Each version-affecting change has a recorded rationale and, where a

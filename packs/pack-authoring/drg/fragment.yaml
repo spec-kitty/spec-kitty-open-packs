@@ -89,6 +89,11 @@ edges:
   reason: The procedure gathers the source agent's defining instructions and authors governed pack artifacts; this styleguide
     supplies the skill-specific routing, progressive-disclosure, deterministic-operation, source-authority and host-portability
     quality bar.
+- source: styleguide:doctrine-instruction-voice
+  target: foundation::directive:DIRECTIVE_045
+  relation: suggests
+  when: an example shows a push to the protected default branch, a force push or a pull-request merge
+  reason: The authorization an example must carry is the one this directive requires.
 - source: procedure:onboard-external-agent-to-pack
   target: styleguide:doctrine-instruction-voice
   relation: requires

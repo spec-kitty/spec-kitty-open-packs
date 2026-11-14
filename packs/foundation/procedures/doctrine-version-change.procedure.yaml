@@ -13,13 +13,13 @@ steps:
     Decide whether the change is breaking (an artifact removed or renamed, an id changed, or a rule tightened so that conforming work stops conforming), additive (a new artifact, edge or optional field), or a fix that leaves behaviour unchanged. When unsure, treat it as breaking.
 - title: Bump the pack version
   description: |
-    For a Charter Pack, raise `pack_version` in the pack's `pack.yaml` by semantic versioning: major for breaking, minor for additive, patch for a fix. Never change `pack_id`. A project-tier artifact has no version field; its version is the commit that changes it, so skip this step for the project tier.
+    For a Charter Pack, raise `pack_version` in the pack's `pack.yaml` by semantic versioning: major for breaking, minor for additive, patch for a fix. Never change `pack_id`. A pack whose version is set by its distribution's release follows that release instead. A project-tier artifact has no version field; its version is the commit that changes it, so skip this step for the project tier.
 - title: Record the rationale and migration note
   description: |
     Record why the artifact changed and, for a breaking change, what a consumer must do (rename an activation, re-run `spec-kitty charter activate`, adopt a replacement artifact). Put it where consumers read it: the pack's changelog or release notes for a pack, and the commit message or an ADR for the project tier.
 - title: Keep schema_version on the supported contract
   description: |
-    Leave each artifact's `schema_version` at the value the validator supports. If validation fails, fix the artifact; do not edit the version to silence the error.
+    Leave each artifact's `schema_version` (`schema-version` on an agent profile) at the value the validator supports. If validation fails, fix the artifact; do not edit the version to silence the error.
 - title: Validate the changed tier and the active charter
   description: |
-    For a Charter Pack run `spec-kitty charter org validate <pack-dir>`; for the project tier run `spec-kitty charter validate .kittify/charter-packs`. Expect zero errors. Then, in a project that uses the change, run `spec-kitty charter consistency-check` and `spec-kitty charter lint`, and resolve every finding the change introduced.
+    For a Charter Pack run `spec-kitty charter org validate <pack-dir>`; for the project tier run `spec-kitty charter validate .kittify/charter-packs`. Expect zero errors. Then, in a project that uses the change, register or refresh the pack (`spec-kitty charter org add <name> --local-path <pack-dir>`, or `spec-kitty charter fetch` for a remote pack), activate what changed, and run `spec-kitty charter consistency-check` and `spec-kitty charter lint`, and resolve every finding the change introduced.
