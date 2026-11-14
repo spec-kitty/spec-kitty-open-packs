@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 5549ef2380728cf3baa4dee4cb0955a83b8ed38e4bc448f142bdaca50372bd96
+manifest_hash: b8157a6070bbba6496d2c4d0ea95bdb762342b9167189c7b892702b35aafff4f
 constituents:
 - kind: agent_profile
   id: analyst-annie
   path: agent_profiles/analyst-annie.agent.yaml
-  content_hash: 5c68c280d04add0fa660b0abdcb6e8e2319e003d00b10725a1df8ef89ac6bbee
+  content_hash: f9f5acb64bb7685ce32aae2edcc6a11d914511470dd36139622507166779cfab
 - kind: agent_profile
   id: generic-agent
   path: agent_profiles/generic-agent.agent.yaml
@@ -264,7 +264,7 @@ constituents:
 - kind: template
   id: software-dev/plan-template.md
   path: missions/software-dev/templates/plan-template.md
-  content_hash: 23724c536bcc6d474eda9d50a9c1f8f0d513aa67c578fa054498f126cb1c83af
+  content_hash: af53d92b45c19507102df786521550e358c8d9e5446dcd19401be3441f8de825
 - kind: template
   id: software-dev/spec-template.md
   path: missions/software-dev/templates/spec-template.md
@@ -284,7 +284,7 @@ constituents:
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: d5ff1098a721cc8cca89a886912b600091ff5a1008b1f73d55023069628775da
+  content_hash: 096204ae07a3e7c125bfeac871242829f86aefdafb9d4ccc6d23e8d8f2e1acb3
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
@@ -516,7 +516,7 @@ constituents:
 - kind: tactic
   id: canonical-source-unification
   path: tactics/canonical-source-unification.tactic.yaml
-  content_hash: 31f87d079d21af8df9a365597d44c28dfbbaccaa0c66f65eb9fc69979424a350
+  content_hash: 299cc9c54a226534225c368f62596aec824e8392cc695c6c858b1f6e7f8f2552
 - kind: tactic
   id: change-apply-smallest-viable-diff
   path: tactics/change-apply-smallest-viable-diff.tactic.yaml
@@ -540,7 +540,7 @@ constituents:
 - kind: tactic
   id: glossary-curation-interview
   path: tactics/communication/glossary-curation-interview.tactic.yaml
-  content_hash: 0cc839053459d4c02e089b35a2b856cd40fb914de40ecbf5ec555a00b61a97c0
+  content_hash: 5ee59e6aa59c4adcab09a8b2749bfe839f76bdb62b89577bdc26a911691ea12a
 - kind: tactic
   id: traceable-decisions
   path: tactics/communication/traceable-decisions.tactic.yaml
@@ -600,7 +600,7 @@ constituents:
 - kind: tactic
   id: ownership-map-leeway
   path: tactics/ownership-map-leeway.tactic.yaml
-  content_hash: 41260043634e0cdf7e072d2503ed0ad7096cd3e176e026d8756dcaebffbf25bf
+  content_hash: 11d54bf9a65e334169375ad54ee89a0e75d4c12d543dfc6219cf2d5b8a220aea
 - kind: tactic
   id: pr-agent-worktree-isolation
   path: tactics/pr-agent-worktree-isolation.tactic.yaml
@@ -612,7 +612,7 @@ constituents:
 - kind: tactic
   id: reviewer-implementer-role-separation
   path: tactics/reviewer-implementer-role-separation.tactic.yaml
-  content_hash: 0783a6b31d1b7c6329565306667e200d184ccae285d589f25ab365e1c0b967b8
+  content_hash: ea51eb15a35ceea94e89c43e6725f783b2f9d8724d23c31afa648ffa4ba8d616
 - kind: tactic
   id: secure-design-checklist
   path: tactics/secure-design-checklist.tactic.yaml

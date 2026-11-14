@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 322f3f00452c51f04e5c9e6be5a5232c8f9625725ac31c340d108b23b837988a
+manifest_hash: 3e00e68dd092a85d7303dc2a72d20c94934f80120d9d2a9b609076e671f16d58
 constituents:
 - kind: agent_profile
   id: comms-cleo
   path: agent_profiles/comms-cleo.agent.yaml
-  content_hash: b79f394bbd50e6412dca4ed3bc963a384b3e4b3e76bee3a85afe65ce1847552a
+  content_hash: 2d9cfff2590c884a11928be2741257325e9aeb85835918ea19b92139d96998de
 - kind: agent_profile
   id: curator-carla
   path: agent_profiles/curator-carla.agent.yaml
@@ -12,11 +12,11 @@ constituents:
 - kind: agent_profile
   id: diagram-daisy
   path: agent_profiles/diagram-daisy.agent.yaml
-  content_hash: 693efc509f811c47cacb86446fa995d045da9c60fba90e5bab459d74b92d4772
+  content_hash: a494bc81a436b63496844a206a78a195067701c08e8ce8830d73221933a87681
 - kind: agent_profile
   id: lexical-larry
   path: agent_profiles/lexical-larry.agent.yaml
-  content_hash: 1a433bcf0782717de7b0f37bf3ff68cf0a3f263ca2dc223c82e7da8c4d2ae1b1
+  content_hash: 750084aad86f5740d6b3a934b3a8a20b27ff44f9b3d109094a0011334a7b72e8
 - kind: agent_profile
   id: minutes-mahad
   path: agent_profiles/minutes-mahad.agent.yaml
@@ -228,7 +228,7 @@ constituents:
 - kind: tactic
   id: common-docs-find
   path: tactics/common-docs-find.tactic.yaml
-  content_hash: f0554e6b026a82c302e93ae24ab812f142e6d867e89cdc5afcf0b46b0c83f757
+  content_hash: 180b2e087da04cf8e26edb430af1cab6b07f8d659a5297e6b1b9cac3158649ae
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
