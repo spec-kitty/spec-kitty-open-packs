@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 894ea2bee6635edbd54abe2d609cf83ad2f880fe054e714ab7e62c26617c339d
+manifest_hash: bb3666a1164f1c4f3c5e0e9041fb01fa77aa192cbf33830e60d78ab634e65364
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -92,7 +92,7 @@ constituents:
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: 0964c9af0f3a6d9024b5a147d87f031890b4f0af233819dfbe00221ecb04a810
+  content_hash: 494d6bf25874a0e11b6dc1e7d995c819e543a64dfccc95d68772e80c87257236
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
