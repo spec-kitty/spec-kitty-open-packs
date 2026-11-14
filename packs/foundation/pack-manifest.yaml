@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 392a634e8b71ca835b7b9b82fc69a11cd238e44b2ef24a33d8cefaac85aac253
+manifest_hash: 4076e96d276abf466c1ba122ad8e78eb6c4b1843309ba9466f1bd29ba511a5d2
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -36,7 +36,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_018
   path: directives/018-doctrine-versioning-requirement.directive.yaml
-  content_hash: 14512a43abf915248141278c18459a6c3761e1d483a36f9c1430cd573b57ab79
+  content_hash: ffd97734f3ef11658aa531e17499baf7566f84d69315d6783b0fd9534e08da3e
 - kind: directive
   id: DIRECTIVE_024
   path: directives/024-locality-of-change.directive.yaml
@@ -108,7 +108,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_045
   path: directives/045-prs-only-and-read-intent.directive.yaml
-  content_hash: 56d96ac12a2bb5f58dff00aca0e40f56d6ecfe1590f7aaacec99e73cc66631d6
+  content_hash: 2680b3e2c099a7272a2550a1f15c73acec9740a804dde199e9189fd725e5064f
 - kind: directive
   id: DIRECTIVE_046
   path: directives/046-readable-consistent-prs.directive.yaml
@@ -336,7 +336,7 @@ constituents:
 - kind: procedure
   id: doctrine-version-change
   path: procedures/doctrine-version-change.procedure.yaml
-  content_hash: 24a845cbd4206e0a8982c78e42e246e2f8b70fc40d257c571885540a184905ba
+  content_hash: ba3f09d5fbf6310443ee4d078e70366e7c4062d0030d4733df9aa755c1f3face
 - kind: procedure
   id: durable-fix-investigation
   path: procedures/durable-fix-investigation.procedure.yaml

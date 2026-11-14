@@ -1,18 +1,18 @@
 schema_version: '1.0'
-manifest_hash: 411e092530eb9d05a8af60ac47bb888df6bfb88f71b091acfb352a767590f6e5
+manifest_hash: 58096337c278f9c37b463650f9f3e1774665496f7f48948f1425016da5c8b92b
 constituents:
 - kind: agent_profile
   id: doctrine-daphne
   path: agent_profiles/doctrine-daphne.agent.yaml
-  content_hash: 044fa2692fac2bd5d8065988024d65816d0d040e3ef5d94ff4356acfc40a3ebc
+  content_hash: 21d0a1d7d8a865ae41496bae07f387102fc5de1c92684b63faf0da989e01c3a0
 - kind: procedure
   id: migrate-project-guidance-to-spec-kitty-charter
   path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
-  content_hash: af4420b99dbf39760e6348c6ddd13a74f4eb8a8676177d1047344d2afac8aade
+  content_hash: 55fcb49bb2c020094eabb3950921cd071e2e716b28374c7fc3e6074a9a1b795d
 - kind: procedure
   id: onboard-external-agent-to-pack
   path: procedures/onboard-external-agent-to-pack.procedure.yaml
-  content_hash: ff94cd7863bfe68f8467a38452926e51e89de13254d9a29c8db7ab05154c90f3
+  content_hash: f32c2abd63edc0cb48710b216ac898622c50e3ebb4022081ba64bede3196203e
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
@@ -20,4 +20,4 @@ constituents:
 - kind: styleguide
   id: doctrine-instruction-voice
   path: styleguides/doctrine-instruction-voice.styleguide.yaml
-  content_hash: 23b945adb12a8b2a2aa2405f3f9393033c2e6cc1e7e184e60d570c47afb43c92
+  content_hash: 399ef3eb5a55104b43901b9571ab8fc374e7fa01aaf69582d9a29f17a35beee8

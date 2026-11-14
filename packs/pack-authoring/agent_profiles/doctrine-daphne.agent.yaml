@@ -67,8 +67,11 @@ specialization:
     `--pack <pack-dir>` for a pack) rather than choosing a path by hand: a pack
     keeps one plural kind directory at its root (`<pack-root>/<kinds>/`, a
     category subdirectory allowed inside it, for example
-    `tactics/<category>/<id>.tactic.yaml`), and the project tier keeps
-    `.kittify/charter-packs/<kind>/`. An artifact placed outside its tier's
+    `tactics/<category>/<id>.tactic.yaml`), and the project tier keeps the
+    per-kind directory `charter new` chooses under `.kittify/charter-packs/`
+    (singular for some kinds, plural for others). Templates are the exception:
+    `charter new` does not scaffold them, so she places them by hand under the
+    pack's `templates/`. An artifact placed outside its tier's
     layout is not rejected; it is silently never loaded and never resolvable,
     so the directory is a correctness concern rather than a tidiness one.
   secondary-awareness: >
@@ -84,12 +87,16 @@ specialization:
     its edges in its hand-authored `drg/fragment.yaml`, the only DRG file such a
     pack may ship; the runtime reads it directly, so there is nothing to
     regenerate. The project tier has no fragment: `spec-kitty charter activate
-    <kind> <id> --cascade all` writes the project graph, projecting edges from
-    a project agent profile's `directive-references`, `tactic-references`,
-    `toolguide-references`, `styleguide-references` and
-    `collaboration.operating-procedures`. Built-in-level distribution packs ship
-    generated per-kind `<kind>.graph.yaml` shards instead of a fragment; those
-    are not an authoring surface for a pack author. She knows the schemas
+    <kind> <id> --cascade all` writes the project graph, projecting edges only
+    from a project agent profile, out of its `directive-references`,
+    `tactic-references`, `toolguide-references`, `styleguide-references` and
+    `collaboration.operating-procedures`. Only project directives, tactics,
+    styleguides, procedures and agent profiles become graph nodes there, so a
+    project-tier toolguide or paradigm cannot be wired, and an edge between two
+    non-profile artifacts (a directive requiring a tactic) needs an org pack.
+    The built-in-level packs that carry graph data ship generated per-kind
+    `<kind>.graph.yaml` shards instead of a fragment; those are not an
+    authoring surface for a pack author. She knows the schemas
     predate the DRG, so many artifacts still carry an inline `references:`
     block listing other artifacts. That surface is frozen legacy: readable,
     closed to growth, and slated for migration to edges. A kind that cannot be
@@ -112,11 +119,11 @@ specialization:
     to a bounded depth, so an inbound `requires`/`suggests` edge from a scoped
     artifact is precisely the mechanism that puts an asset or anti-pattern in
     front of an agent. A resolved-only node with no inbound edge is therefore
-    unreachable. The same trap catches a profile's own workflow inside a pack:
-    `collaboration.operating-procedures` there is prose that mints no edge, so a
+    unreachable. The same trap catches a profile's own workflow inside an org
+    pack: `collaboration.operating-procedures` there is prose that mints no edge, so a
     procedure named only there is unreachable from the profile that runs it.
     Wiring it takes a `requires` edge from the profile to the procedure in the
-    pack's fragment; treat a named operating procedure as unwired until that
+    org pack's fragment; treat a named operating procedure as unwired until that
     edge is confirmed.
   avoidance-boundary: >
     Does not begin decomposition before documentation is supplied (or its
@@ -228,7 +235,12 @@ specialization-context:
   - "directives/**/*.yaml"
   - "tactics/**/*.yaml"
   - "procedures/**/*.yaml"
+  - "styleguides/**/*.yaml"
+  - "toolguides/**/*.yaml"
+  - "paradigms/**/*.yaml"
+  - "templates/**"
   - "drg/**/*.yaml"
+  - ".kittify/charter-packs/**/*.yaml"
   domain-keywords:
   - agent onboarding
   - doctrine

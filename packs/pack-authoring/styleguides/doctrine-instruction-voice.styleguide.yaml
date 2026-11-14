@@ -20,17 +20,18 @@ patterns:
     bad_example: |
       Rebase the feature branch onto the default branch before review.
     good_example: |
-      Rebase the topic branch onto the default branch before review. (Users
-      may say "feature branch"; answer with the canonical term.)
+      Rebase the topic branch (also called "feature branch") onto the default
+      branch before review.
   - name: Authorization on every high-risk example
     description: >
       An example that pushes to the protected default branch, force-pushes or
       merges a pull request carries the operator-authorization language the
-      governing directive requires, or is replaced by the pull-request route.
+      governing directive (DIRECTIVE_045 in foundation) requires, or is
+      replaced by the pull-request route.
     bad_example: |
       git push origin main
     good_example: |
-      git push -u origin <topic-branch>   # then open a pull request; the operator merges
+      git push -u origin my-topic-branch   # then open a pull request; the operator merges
 
 anti_patterns:
   - name: Local values as canonical rules
