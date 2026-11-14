@@ -2,11 +2,11 @@ schema_version: '1.0'
 id: mission-wrap-up-sequence
 title: Mission Wrap-Up Sequence
 description: |
-  Drive a mission from "all work packages approved" to "a clean, reviewable draft pull request handed to the operator" through one standing, repeatable close-out sequence. The sequence makes the last mile deterministic: it verifies readiness, resolves every tracked-issue verdict, subjects the aggregate diff to an independent review, lands locally, compacts the branch into readable history, and opens a draft PR — so no mission ends in an ad-hoc, unreviewed, or messy state. It complements (does not replace) the per-work-package implement/review loop.
+  Drive a mission from "all work packages approved" to "a green pull request flipped to ready for review, which the operator merges" through one standing, repeatable close-out sequence. The sequence makes the last mile deterministic: it verifies readiness, resolves every tracked-issue verdict, subjects the aggregate diff to an independent review, lands locally, compacts the branch into readable history, rebases it, updates the changelog and docs, folds a pre-PR review, opens a draft PR, follows CI to green and flips the PR to ready for review, so no mission ends in an ad-hoc, unreviewed or messy state. It complements (does not replace) the per-work-package implement/review loop. It is also the single owner of the delivery rules that every PR-producing procedure in this pack shares: the tree check before a force-push, the base ref, the changelog and generated-docs rules, the deferral bar, the PR-body contract, the ready-for-review flip and commit attribution. issue-to-mission-delivery, semi-auto-delivery, cloud-session-dispatch and landing-contributor-prs point at these steps rather than restating them. An Op (semi-auto-delivery) enters at the compaction step; a landing pass (landing-contributor-prs) applies the steps it names.
 entry_condition: |
-  Every work package in the mission is approved (the per-WP implement/review loop is complete). Acceptance has not yet been recorded and the mission branch has not yet been consolidated locally.
+  Every work package in the mission is approved (the per-WP implement/review loop is complete). Acceptance has not yet been recorded and the mission branch has not yet been consolidated locally. An Op has no work packages: it enters at "Compact the branch into readable history".
 exit_condition: |
-  Acceptance is recorded; every tracker issue referenced by the spec carries a terminal issue-matrix verdict; the aggregate diff has passed an independent review (the adversarial squad being the recommended mechanism); the lanes are consolidated into the mission branch; the branch history is compacted into a small set of readable, logically-sliced commits rebased onto the current upstream base; and a draft pull request is open and handed to the operator. The operator — not the agent — performs the merge to the protected mainline.
+  Acceptance is recorded; every tracker issue referenced by the spec carries a terminal issue-matrix verdict; the aggregate diff has passed an independent review (the adversarial squad being the recommended mechanism); the lanes are consolidated into the mission branch; the branch history is compacted into a small set of readable, logically sliced commits rebased onto the canonical remote's main; the changelog and docs are updated; the pre-PR review's findings are folded; the pull request was opened as a draft, its CI is green, and the implementer has flipped it to ready for review and handed it to the operator. The operator, not the agent, merges to the protected mainline.
 steps:
 - title: Confirm readiness and run acceptance
   description: |
@@ -17,26 +17,43 @@ steps:
 - title: Resolve every tracked-issue verdict to terminal
   description: |
     For each issue referenced in the spec, set a terminal issue-matrix verdict (fixed, verified-already-fixed, or deferred-with-followup). An in-mission placeholder must be driven to a terminal state before the mission can reach done. Record the evidence for each verdict.
-- title: Independently review the aggregate diff before landing
+- title: Independently review the aggregate diff before consolidating
   description: |
-    The sum of the per-WP reviews is not the final gate — the WPs only coexist once combined. Obtain an independent review of the aggregate diff — the adversarial review squad (adversarial-squad-deployment) is the recommended mechanism — to catch cross-WP integration issues, behaviour drift, and any documented exception that no longer holds. Synthesize a LAND / HOLD verdict and resolve anything real before landing.
+    The sum of the per-WP reviews is not the final gate — the WPs only coexist once combined. Obtain an independent review of the aggregate diff — the adversarial review squad (adversarial-squad-deployment) is the recommended mechanism — to catch cross-WP integration issues, behaviour drift, and any documented exception that no longer holds. Synthesize a LAND / HOLD verdict and resolve anything real before consolidating.
 - title: Consolidate the lanes locally
   description: |
     Consolidate the Mission's lane branches (every WP `approved`) into the mission branch with the host consolidate command (`spec-kitty consolidate --mission <slug>`), which lands locally only. As its last step it removes the Mission's lane worktrees and lane branches (and any coordination worktree and branch) that it can prove have landed; it does not wait for the pull request to merge, and it keeps the mission branch, which the next steps compact and push. Lanes it cannot prove landed are kept and reported; `spec-kitty doctor workspaces` reports anything left behind. If it reports a stale lane, follow the command it prints; never `git merge` inside a lane worktree by hand. Do not push to the protected mainline and never merge it yourself — the operator does that.
 - title: Compact the branch into readable history
   description: |
-    Rewrite the mission branch into a small set of readable, logically-sliced commits (for example docs / surface / repoints), following the clean-linear-commit-history tactic (a non-reordering, behaviour-preserving snapshot chain) — never an interactive reorder. Verify the compacted tree is identical to the pre-compaction tree except for intentionally-dropped ignored artefacts.
-- title: Rebase onto the current upstream base
+    Rewrite the branch into a small set of readable, logically sliced commits (for example docs / surface / repoints), following the clean-linear-commit-history tactic (a non-reordering, behaviour-preserving snapshot chain), non-interactively and never as an interactive reorder. Keep each commit's author. The merge bar is the PR head going green, not each commit: an intermediate commit may fail a gate that only reconciles at the tip (a regenerated docs index, say), so do not rewrite history only to make each commit green. Remove personal data and machine-local paths from the commit that introduced them. This step owns the tree check before any force-push: the rebuilt tree equals the pre-cleanup head's tree (`git rev-parse <old>^{tree}` and `git rev-parse <new>^{tree}` are equal, and `git diff <old> <new>` is empty), except for the files you deliberately removed (committed ignored artefacts, personal data, machine-local paths). With such removals, `git diff <old> <new>` shows only those removals, and the hand-off lists them. If it shows anything else, do not push.
+- title: Rebase onto the canonical remote's main
   description: |
-    Fetch the true upstream mainline and rebase the compacted commits onto it so the branch is ahead-only (rebase over merge — linear history). Re-run the affected tests on the rebased tip to confirm the newer base introduced no break, then force-push with lease.
+    This step owns the base ref. The base is the `main` of the canonical remote: the git remote that points at the canonical repository, found with `git remote -v`. In a fork clone that is not `origin`; in a fresh checkout of the canonical repository it is `origin`. Fetch it and rebase the compacted commits onto it so the branch is ahead-only, with no merge commits (rebase over merge, linear history). Re-run the affected tests on the rebased tip to confirm the newer base introduced no break, then force-push with a lease. SSH is the preferred transport. Take the lease from an explicit ref: fetch the branch into `refs/remotes/<remote>/<branch>` and read its sha with `git rev-parse` immediately before the push. Never push `main`.
   on_failure: |
     If the rebase conflicts with new upstream work, resolve slice-by-slice and re-verify; if the base has diverged unexpectedly, fetch and reconcile before pushing rather than forcing over unseen commits.
-- title: Open a draft pull request and run a pre-merge squad
+- title: Update the changelog
   description: |
-    Open a draft PR against the upstream mainline with a body that states the change, the review evidence, and any remaining reviewer/Sonar work. Run (or, for speed, run in parallel to opening the draft) a final adversarial review squad on the branch; fold any real finding in while it is still a draft.
+    This step owns the changelog rule. For any user-facing change add one changelog fragment, `docs/changelog/unreleased/<id>.<section>.md`. `<id>` is the PR number, the issue number or a short lowercase slug (lowercase letters, digits and `-`); `<section>` is one of breaking, upgrade-notes, added, changed, fixed or internal, and an entry for a second section goes in a second file. Never edit `docs/changelog/CHANGELOG.md`: the release assembles it from the fragments. On a rebase conflict in `CHANGELOG.md`, move the branch's entry into a fragment instead of resolving the conflict. The entry is a bold, impact-first lead that names the symptom the user saw, with the `(#issue)` reference, then a short before and after, in the existing style and under 1,200 characters. Run `python -m scripts.docs.check_changelog_style` and `python -m scripts.docs.check_spelling --pass unreleased`. A trivial change that is its own record may need no entry.
+- title: Update the docs, and leave generated docs to the bot
+  description: |
+    This step owns the generated-docs rule. Update the docs the change affects: documented behaviour, a new CLI surface, or a pack-author or extension seam. Never regenerate the docs retrieval index, the page inventory or the ADR era tables in a PR, even after adding an ADR or a page: `scripts/ci/check_generated_docs_untouched.py` refuses those edits, and the `ci/regen-docs-index` bot PR regenerates them on main after the merge. On a rebase conflict, take main's copy of those generated files and of the ADR era-table rows, and keep the branch's own edits to existing rows and to the page's prose. Regenerate any other generated surface the rebase made stale with its own script. Run `uv run python -m scripts.docs.check_docs_freshness --ci` (expect errors=0; index and inventory lag shows as warnings until the bot PR merges) and tests/architectural/test_no_legacy_terminology.py.
+- title: Review the rebased branch and fold every finding
+  description: |
+    Run the pre-PR review squad (adversarial-squad-deployment) over the rebased branch, scaled to the work and on the stronger model tier: for example correctness and failure handling, and boundaries and overlap with existing code. Fix every finding (major, minor and note) on the branch, each as its own commit. This step owns the deferral bar, which refines DIRECTIVE_046. Leave a finding out of the PR only when it takes significant effort (DIRECTIVE_046's high-effort or mission-sized work), needs a significant operator decision (escalate it), or is so impactful that it needs its own reviewable PR. Never defer genuinely small work to close faster. File an issue for each exception the same day, parented under a functional epic, and name it in the PR body's Deferred section with the reason. File an issue for each pre-existing red that has none, and cite it in the hand-off (charter, Pre-existing Failure Reporting Rule).
+- title: Write the PR body
+  description: |
+    This step owns the PR-body contract. Start from .github/PULL_REQUEST_TEMPLATE.md: exactly five sections in order (Issue, with `closes #<n>` only when the PR closes an issue; Change; Tests run, with a `Self-review:` block and the exact commands and counts; Blast radius, with `Discovery:` for the discovery-squad verdicts and `Files:`; Deferred). Title `[#<n>] <what changes>`. Lead `## Change` with what changes for a user or operator and the symptom they saw, then the fix, the red-first proof, the review evidence and any remaining review that needs the SonarCloud web interface. Validate the body before opening the PR with the internal pack's asset: `python "$(spec-kitty charter pack asset path validate-pr-body)" body.md`.
+- title: 'Close out: draft PR, green CI, then ready for review'
+  description: |
+    This step owns the ready-for-review rule. Every procedure in this pack that opens a PR follows it and does not restate it. In order:
+    1. Finish the consolidation closeout: the history is compacted and rebased onto the canonical remote's main, the changelog and docs are updated, and the pre-PR review's findings are folded (the steps above).
+    2. Open the PR as a draft against `main`, with the body from the previous step.
+    3. Watch CI on the draft until it is green. A new push cancels the previous run, so read the newest run on the head SHA; `cancelled` is not a failure. Classify every red against the merge base, using a full, unshallowed history: pre-existing reds, CI-environment failures and stale-install false reds are not this PR's. Fix what is yours. Never skip, disable or retry a test to green, push no empty commit to re-run CI, and respect `pr:pause-ci`.
+    4. Flip the PR to ready for review yourself, and post a reviewer handover comment: what changed, the escalation decisions surfaced, the review verdicts, and the test and gate evidence. The flip is the hand-off to the maintainers: it signals that a landing pass may start. Flip only a PR that is green (or green apart from reds classified as not this PR's) and complete; never flip a PR that is red or still being changed.
+    Merging stays with the operator: never merge, arm auto-merge or remove `pr:pause-ci`. This step also owns commit attribution: every commit carries the operator's attribution convention, and no AI model identifier appears in any commit, PR or pushed artifact; GitHub posts follow the operator's and the harness's attribution conventions.
 - title: Hand off to the operator
   description: |
-    Summarise the outcome (what shipped, the review verdicts, which development-assist tests were retired / split / kept-and-renamed, open follow-ups) and hand the draft PR to the operator to mark ready and merge. Capture durable learnings in the mission retrospective and memory. Do not mark the PR ready or merge to the mainline on the agent's own initiative.
+    Report the PR link, the issues it closes, what shipped, what each review round changed, which development-assist tests were retired / split / kept-and-renamed, any files the tree check recorded as deliberately removed, every check still failing with the reason it is not caused by this PR, and open follow-ups. Capture durable learnings in the mission retrospective and memory. Then stop: the operator merges.
 anti_patterns:
 - title: Per-WP green treated as the final gate
   content: |
@@ -44,12 +61,18 @@ anti_patterns:
 - title: Merge commits instead of a linear history
   content: |
     Landing the mission as a tangle of merge/status commits rather than a compacted, rebased, linear branch. Readability and bisectability are lost.
+- title: Per-commit green as a requirement
+  content: |
+    Rewriting history only to make each commit pass a gate. The merge bar is the PR head.
 - title: Deferring instead of finishing
   content: |
-    Punting genuinely small remaining work to a follow-up to close the mission faster. Only genuinely high-effort / mission-sized work is deferred; the rest is completed before hand-off.
+    Punting genuinely small remaining work to a follow-up to close the mission faster. Only the exceptions in the deferral bar ("Review the rebased branch and fold every finding") are deferred; the rest is completed before hand-off.
+- title: Flipping a red or still-changing PR to ready for review
+  content: |
+    The flip hands the PR to the maintainers. Do it only when the PR is green and complete.
 - title: Agent merges the mainline
   content: |
-    Marking the PR ready and merging to the protected mainline on the agent's own initiative. The operator merges; the agent prepares and hands off.
+    Merging to the protected mainline or arming auto-merge on the agent's own initiative. The agent flips a green PR to ready for review and stops; the operator merges.
 - title: Unresolved issue verdicts at close
   content: |
     Leaving in-mission or empty verdicts in the issue matrix at hand-off. Every referenced issue must reach a terminal verdict before done.
@@ -60,8 +83,13 @@ notes: |
 
   Sequence summary: accept -> retire/split dev-assist tests -> resolve issue verdicts
   -> aggregate review squad -> local consolidation -> compact history -> rebase onto
-  upstream -> draft PR + pre-merge squad -> hand off. The operator performs the
-  mainline merge (DIRECTIVE_045).
+  the canonical remote's main -> changelog -> docs -> pre-PR review squad and folds
+  -> PR body -> draft PR, CI to green, flip to ready for review -> hand off. The
+  operator performs the mainline merge (DIRECTIVE_045).
+
+  One owner per delivery rule: the steps that say "this step owns" are the
+  only statement of that rule in this pack; other procedures and skills point at
+  them.
 
   The three quality pillars this enforces are captured as a standard in the
   readable-consistent-prs directive (DIRECTIVE_046): linear, consistent/complete,
