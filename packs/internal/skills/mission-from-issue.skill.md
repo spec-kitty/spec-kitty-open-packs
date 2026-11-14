@@ -11,8 +11,8 @@ Follow the `issue-to-mission-delivery` procedure. It carries the rules and the c
 3. Claim every issue (comment, assign the operator, add `status:claimed` and `taken-by-human`) and verify it before any planning artifact exists.
 4. Specify, plan and tasks through the canonical commands; fill the issue matrix; keep the tracer files.
 5. Survey the existing code, then implement red-first with `spec-kitty next --agent <name> --mission <slug>`.
-6. Run the `mission-wrap-up-sequence` procedure end to end: accept, issue verdicts, aggregate review, consolidate, compact, rebase, changelog and docs, pre-PR review and folds, PR body, then its closeout (draft PR, CI to green, flip to ready for review).
-7. Label the PR `taken-by-human` when you open it and `ready-for-squad` after the flip.
+6. Run the `mission-wrap-up-sequence` procedure end to end: accept, issue verdicts, aggregate review, consolidate, compact, rebase, changelog and docs, pre-PR review and folds, PR body, then its closeout step. Label the PR `taken-by-human` when the closeout opens it.
+7. Label the PR `ready-for-squad` after the closeout's flip.
 
 Every subagent you dispatch loads its profile as `adversarial-squad-deployment` describes. Use the cheaper model tier for implementation and the stronger tier for review.
 

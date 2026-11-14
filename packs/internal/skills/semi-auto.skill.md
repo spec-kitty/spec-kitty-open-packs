@@ -15,7 +15,7 @@ Follow the `semi-auto-delivery` procedure end to end. Its steps, in order:
 5. Hold the brownfield standing orders.
 6. Test to the calibrated blast radius, never the heavy suites.
 7. Rebase on the fixed cadence.
-8. Close out through `mission-wrap-up-sequence`, which ends with the draft PR going green and you flipping it to ready for review. The operator merges.
+8. Close out through the closeout step of `mission-wrap-up-sequence`. The operator merges.
 
 ## Local mode
 
