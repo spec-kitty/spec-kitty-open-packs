@@ -735,6 +735,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Commands, flags and skills that agents were told to run now exist and behave as described**
+  (#264). Each instance gave an agent an error, a dead end, or quietly did the wrong thing.
+  - `foundation` PowerShell toolguide: it told agents to chain with `;`, so a work package
+    could move to review after its tests failed. It now separates Windows PowerShell 5.1 from
+    `pwsh` 7: use `&&` on 7, and check `$LASTEXITCODE` or `$?` on 5.1. It no longer tells agents
+    to write spec-kitty flags as `-Json`; that advice now covers cmdlets only. The `NNN-` worktree
+    and branch names, the `tasks\planned` folder, the core-only `SPEC_KITTY_TEMPLATE_ROOT`
+    example and the backslash-only rule are gone. Start-up failures point at
+    `spec-kitty verify-setup --diagnostics`, not `pip show`.
+  - `python` toolguides: `python-review-checks` uses the mutmut 3 form (`[tool.mutmut]` and
+    `uv run mutmut run "<module>*"`), not mutmut 2's `--paths-to-mutate`. `python-mutation-tools`
+    drops `--rerun-all=false`, `runner` and `show all`, which mutmut 3 does not have, and names
+    `source_paths` and mutant names.
+  - `cave-kitty` README: `--type` becomes `--mission-type`, the only spelling the CLI accepts.
+  - `internal` `landing-contributor-prs`: the retired `scripts.docs.description_length_check`
+    becomes `tests/docs/test_docs_seo.py`.
+  - `foundation` tactics: `five-paradigm-parallel-debugging` names the `failing-test-triage` and
+    `durable-fix-investigation` procedures instead of an `/investigate` skill no pack ships.
+    `model-task-routing` no longer sends agents to a catalog they cannot open: it names the
+    advisory panel `spec-kitty dispatch` prints, and says what to do when none is shown.
+
 - **Every pack carries the manifest the charter derives, and CI round-trips every pack through the
   charter** (#255, #250, #252; charter #542, #545, #547). `charter.lock.yaml` moves from `17ce3f9` to
   `eacbc3c`, which also holds charter #547: the round trip now fails loudly on a file kind it does not
