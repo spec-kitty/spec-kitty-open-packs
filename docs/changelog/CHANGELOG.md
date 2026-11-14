@@ -760,7 +760,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     terminology note leaves `pr-agent-worktree-isolation`.
   - `DIRECTIVE_018` and `doctrine-version-change` stay in foundation, rewritten for the doctrine a
     project or organization authors: classify the change, bump `pack_version`, record rationale and
-    migration notes, keep `schema_version`, validate with named commands.
+    migration notes, keep `schema_version`, validate with named commands. Its scope narrows: it no longer
+    covers schema changes or a repository-wide validation pass over shipped doctrine.
   - `moscow-scoping-lens` names the project's priority scheme (if any) instead of `priority:P0`..`P3`,
     and `github-tracker` drops the keyring-token advice and the unreachable styleguide citation.
 
