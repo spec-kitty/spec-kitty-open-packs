@@ -6,8 +6,8 @@ purpose: >
   negotiating the boundary of a mission or a backlog slice, so the smallest
   viable Must set is committed and everything else is explicitly deferred or
   declined. MoSCoW is a planning lens applied at scoping and negotiation time;
-  it is deliberately distinct from the `priority:Px` label taxonomy, which is a
-  per-ticket backlog-state attribute.
+  it is deliberately distinct from the project's priority scheme (if any),
+  which is a per-ticket backlog-state attribute.
 steps:
   - title: Frame the scope being negotiated
     description: >
@@ -31,24 +31,24 @@ steps:
       scope, and record the Coulds and Won'ts as deferred rather than dropped.
       An explicit Won't is a decision with a rationale, not an omission — it
       prevents the same item being re-argued every planning cycle.
-  - title: Translate, do not conflate, with the priority label taxonomy
+  - title: Translate, do not conflate, with the project's priority scheme
     description: >
-      Keep MoSCoW and `priority:Px` in their own registers. MoSCoW answers "is
-      this in this cut?" at scoping time; `priority:Px` answers "how urgent is
-      this ticket in the backlog?" at backlog-state time. A Must in one mission
-      may be a `priority:P2` ticket in the backlog, and a `priority:P0` ticket
-      may be a Won't for the current cut because it belongs to a different unit.
-      Do not relabel one as the other or treat MoSCoW buckets as priority
-      labels.
+      Keep MoSCoW and the project's priority scheme (if any) in their own
+      registers. MoSCoW answers "is this in this cut?" at scoping time; a
+      backlog priority answers "how urgent is this ticket in the backlog?" at
+      backlog-state time. A Must in one mission may be a medium-priority ticket
+      in the backlog, and a top-priority ticket may be a Won't for the current
+      cut because it belongs to a different unit. Do not relabel one as the
+      other or treat MoSCoW buckets as priority labels.
 failure_modes:
-  - "Conflating MoSCoW buckets with `priority:Px` labels, so scoping decisions overwrite backlog-state priority or vice versa."
+  - "Conflating MoSCoW buckets with backlog priority labels, so scoping decisions overwrite backlog-state priority or vice versa."
   - "An oversized Must set that defeats the lens — if almost everything is a Must, the trade-off was never made."
   - "Dropping Coulds and Won'ts silently instead of recording them as deferred decisions, inviting the same items to be relitigated."
   - "Applying MoSCoW to rank the standing backlog rather than to bound a single committed unit."
 applies_to_languages: []
 notes: >
-  MoSCoW is a scoping lens, not a priority scheme. In Spec Kitty the priority
-  scheme is the canonical `priority:P0`..`priority:P3` label set (see the
-  planning-and-tracking glossary subset); MoSCoW operates one level up, at the
-  moment a mission or slice boundary is being negotiated. When each applies:
-  MoSCoW at scoping and negotiation time; `priority:Px` at backlog-state time.
+  MoSCoW is a scoping lens, not a priority scheme. The project's priority
+  scheme (if any), such as a set of priority labels on its tracker, ranks
+  tickets in the backlog; MoSCoW operates one level up, at the moment a
+  mission or slice boundary is being negotiated. When each applies: MoSCoW at
+  scoping and negotiation time; the priority scheme at backlog-state time.

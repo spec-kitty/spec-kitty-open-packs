@@ -2,41 +2,45 @@ schema_version: '1.0'
 id: migrate-project-guidance-to-spec-kitty-charter
 title: Migrate Project Guidance to Spec Kitty Charter
 description: |
-  Convert an existing project guidance or charter document into doctrine-backed governance artifacts that can be compiled into a Spec Kitty charter bundle with functional parity.
+  Convert an existing project guidance or charter document into doctrine artifacts in the project tier or an org Charter Pack, activate them, and verify through the generated charter and action context that the migrated governance has functional parity with the source.
 entry_condition: |
-  A project has an existing guidance document, charter, or operating policy that must be preserved during migration to Spec Kitty.
+  A project has an existing guidance document, charter, or operating policy that must be preserved during migration to Spec Kitty, and Spec Kitty is initialised in the repository.
 exit_condition: |
-  The legacy guidance has been decomposed into doctrine artifacts, curated into the active catalog, activated through mission defaults or agent profiles, and verified through compiled charter output. Every term the source defines or uses with a specific meaning is in the project glossary at the right scope, or intentionally excluded with a stated reason. All generated/curated artefacts are internally consistent, use the glossary surfaces verbatim, and are retrievable through the charter offering's repository classes.
+  The legacy guidance has been decomposed into doctrine artifacts in the chosen tier, the tier validates with zero errors, the artifacts are activated, and the generated charter and action context surface every material rule, or the rule is retired with a stated reason. Every term the source defines or uses with a specific meaning is in the glossary at the right scope, or intentionally excluded with a stated reason, and the artifacts use the accepted terms verbatim.
 steps:
 - title: Inventory the source guidance
   description: |
     Read the legacy guidance document end to end, list every rule, workflow, constraint, and tool preference, and separate mandatory behavior from explanatory narrative.
   role: operator
+- title: Choose the target tier
+  description: |
+    Decide where the migrated artifacts live. Project tier: they govern only this repository and live under .kittify/charter-packs/. Org Charter Pack: they are shared across repositories, live in a pack directory, and each consuming project registers the pack with spec-kitty charter org add <name> --local-path <pack-dir> (or --url to fetch it). Guidance that only this project follows belongs in the project tier.
+  role: operator
 - title: Classify each guidance item by doctrine artifact type
   description: |
-    Map each item to the best doctrine target: directive for obligations, tactic for reusable how-to behavior, styleguide for conventions, toolguide for tool-specific rules, paradigm for high-level posture, and procedure for multi-step operational workflows. Prefer the directive+tactic pairing when a policy also requires a repeatable execution method and not just a static rule.
+    Map each item to the best doctrine target: directive for obligations, tactic for reusable how-to behavior, styleguide for conventions, toolguide for tool-specific rules, paradigm for high-level posture, and procedure for multi-step operational workflows. Prefer the directive+tactic pairing when a policy also requires a repeatable execution method and not just a static rule. Before drafting, check spec-kitty charter list and the packs the project already uses for an artifact that already says the same thing, and prefer activating or augmenting it.
 - title: Capture the source vocabulary in the glossary
   description: |
-    Before drafting, extract every term the source defines or uses with a specific meaning — severity levels, role names, system and environment names, canonical verbs, named gates — and record each in the project glossary seed for the narrowest scope that owns it: team_domain for the team's own conventions, audience_domain for industry or regulatory terms the source takes as given. Run the glossary-maintenance-workflow procedure for the triage: accept, reject with reason, or defer with an owner. A term that already exists in a broader scope with a different sense is recorded in the narrower scope and the conflict surfaced, never overwritten. The accepted surfaces are the vocabulary the drafted artifacts must use verbatim.
+    Before drafting, extract every term the source defines or uses with a specific meaning — severity levels, role names, system and environment names, canonical verbs, named gates — and record each in the project's glossary seed (for an org pack, in a glossary pack under the pack's glossary_packs/) for the narrowest scope that owns it: team_domain for the team's own conventions, audience_domain for industry or regulatory terms the source takes as given. Check the seed with spec-kitty glossary validate <path>. Run the glossary-maintenance-workflow procedure for the triage: accept, reject with reason, or defer with an owner. A term that already exists in a broader scope with a different sense is recorded in the narrower scope and the conflict surfaced, never overwritten. The accepted surfaces are the vocabulary the drafted artifacts must use verbatim.
   on_failure: |
     If the source is inconsistent with itself about a term, do not pick a sense silently; record both as candidates and escalate to the guidance owner before drafting artifacts that depend on it.
-- title: Draft doctrine artifacts in proposed state
+- title: Draft doctrine artifacts
   description: |
-    Create candidate doctrine YAML artifacts for every classified item, preserving the original behavior while rewriting it into doctrine-native fields and cross references. Where a legacy section mixes policy and execution detail, split it into a directive for the requirement and a tactic for the operational method.
-- title: Wire cross-artifact references
+    Scaffold each classified item with spec-kitty charter new <kind> <id> (add --pack <pack-dir> for an org pack), then fill it in, preserving the original behavior while rewriting it into doctrine-native fields. Where a legacy section mixes policy and execution detail, split it into a directive for the requirement and a tactic for the operational method. Validate as you go: spec-kitty charter validate .kittify/charter-packs for the project tier, spec-kitty charter org validate <pack-dir> for an org pack.
+- title: Wire cross-artifact relationships
   description: |
-    Connect directives to tactics, tactics to styleguides, toolguides, and procedures, and add any needed profile or mission-default activation targets so the compiled charter can surface the migrated behavior.
-- title: Curate and promote accepted artifacts
+    Connect directives to tactics, tactics to styleguides, toolguides, and procedures, as typed edges. In an org pack, add them to the pack's drg/fragment.yaml. At the project tier, list the artifacts in the typed reference fields (directive-references, tactic-references, toolguide-references, styleguide-references) and collaboration.operating-procedures of the project agent profile that carries them; activation projects those into the project graph.
+- title: Review the drafted artifacts with the guidance owner
   description: |
-    Review the proposed artifacts through the doctrine curation workflow, revise weak candidates, and promote accepted artifacts into the shipped set used by charter compilation.
+    Review the drafted artifacts with the owner of the legacy guidance through the doctrine curation workflow, revise weak candidates, and delete the ones the owner rejects. Only accepted artifacts go on to activation.
   role: operator
-- title: Activate migrated guidance in mission defaults
+- title: Activate the migrated guidance
   description: |
-    Update charter interview defaults, profile-aware governance selection, or mission-specific defaults so the migrated artifacts are actually selected during compilation.
+    Activate each accepted artifact with spec-kitty charter activate <kind> <id> --cascade all, or, for an org pack that ships a preset, with spec-kitty charter activate --pack <pack> --preset <preset>. If the project generates its charter from interview answers, record the same selection there (spec-kitty charter interview, for example --selected-directives) so the next spec-kitty charter generate keeps it. If agent-generated project-local artifacts were written for synthesis, promote them with spec-kitty charter synthesize.
 - title: Compile and compare for functional parity
   description: |
-    Generate a charter bundle from the migrated artifacts, compare the resulting obligations and referenced guidance against the legacy source, confirm every defined term resolves in the glossary, and record any remaining behavior or vocabulary gaps.
+    Regenerate the charter with spec-kitty charter generate, then render spec-kitty charter context --action <action> for each mission action the legacy guidance governed. Compare the obligations and referenced guidance against the legacy source, confirm every defined term resolves in the glossary, run spec-kitty charter consistency-check and spec-kitty charter lint, and record any remaining behavior or vocabulary gaps.
 - title: Close remaining gaps
   description: |
-    Add or revise doctrine artifacts until every material rule from the legacy guidance is either activated in the compiled charter or intentionally retired with rationale.
+    Add or revise doctrine artifacts until every material rule from the legacy guidance is either surfaced by the generated charter and action context or intentionally retired with rationale.
   role: operator

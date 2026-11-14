@@ -735,6 +735,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **pack-authoring tells one authoring story, and foundation no longer ships house authoring rules**
+  (#275, epic #263).
+  - `doctrine-daphne` and `onboard-external-agent-to-pack` now agree with each other and with this
+    repository: a pack keeps plural kind directories at its root (`charter new` places each file), an
+    org pack's edges live in its hand-authored `drg/fragment.yaml` with nothing to regenerate, the
+    project tier gets its edges from a profile's typed `*-references` fields on `charter activate
+    --cascade all`, and built-in-level graph shards are not an authoring surface. Neither authors an
+    `applies` edge, and neither grows a legacy inline `references:` list. The core-only gates and the
+    frozen profile measurement are gone from the profile.
+  - `migrate-project-guidance-to-spec-kitty-charter` names the project and org tiers and the real
+    commands (`charter new`, `validate`, `org validate`, `org add`, `activate`, `interview`,
+    `generate`, `synthesize`, `context`, `consistency-check`, `lint`, `glossary validate`) instead of
+    "promote into the shipped set".
+  - New `pack-authoring` styleguide `doctrine-instruction-voice` holds the two doctrine-voice rules that
+    `DIRECTIVE_045` carried (quote a deprecated term; no unauthorized high-risk operation in an
+    example). `DIRECTIVE_045` now names the protected default branch, not `main`, and the duplicate
+    terminology note leaves `pr-agent-worktree-isolation`.
+  - `DIRECTIVE_018` and `doctrine-version-change` stay in foundation, rewritten for the doctrine a
+    project or organization authors: classify the change, bump `pack_version`, record rationale and
+    migration notes, keep `schema_version`, validate with named commands.
+  - `moscow-scoping-lens` names the project's priority scheme (if any) instead of `priority:P0`..`P3`,
+    and `github-tracker` drops the keyring-token advice and the unreachable styleguide citation.
+
 - **Every pack carries the manifest the charter derives, and CI round-trips every pack through the
   charter** (#255, #250, #252; charter #542, #545, #547). `charter.lock.yaml` moves from `17ce3f9` to
   `eacbc3c`, which also holds charter #547: the round trip now fails loudly on a file kind it does not

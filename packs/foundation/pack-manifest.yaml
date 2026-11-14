@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: b8157a6070bbba6496d2c4d0ea95bdb762342b9167189c7b892702b35aafff4f
+manifest_hash: 392a634e8b71ca835b7b9b82fc69a11cd238e44b2ef24a33d8cefaac85aac253
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -36,7 +36,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_018
   path: directives/018-doctrine-versioning-requirement.directive.yaml
-  content_hash: 8d0e5dac05e583d42376f280570c29fbbfce738fe5d5a3a881fb597ca24a6670
+  content_hash: 14512a43abf915248141278c18459a6c3761e1d483a36f9c1430cd573b57ab79
 - kind: directive
   id: DIRECTIVE_024
   path: directives/024-locality-of-change.directive.yaml
@@ -108,7 +108,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_045
   path: directives/045-prs-only-and-read-intent.directive.yaml
-  content_hash: 8f4f92e62f0610dff04109df79d75c7e023691c55e8d9b850f5440261490e99e
+  content_hash: 56d96ac12a2bb5f58dff00aca0e40f56d6ecfe1590f7aaacec99e73cc66631d6
 - kind: directive
   id: DIRECTIVE_046
   path: directives/046-readable-consistent-prs.directive.yaml
@@ -336,7 +336,7 @@ constituents:
 - kind: procedure
   id: doctrine-version-change
   path: procedures/doctrine-version-change.procedure.yaml
-  content_hash: 254e7d7aa1740c51f04bc22f46df697bd57fc94277235a64e0eaa567c77b80ba
+  content_hash: 24a845cbd4206e0a8982c78e42e246e2f8b70fc40d257c571885540a184905ba
 - kind: procedure
   id: durable-fix-investigation
   path: procedures/durable-fix-investigation.procedure.yaml
@@ -588,7 +588,7 @@ constituents:
 - kind: tactic
   id: moscow-scoping-lens
   path: tactics/moscow-scoping-lens.tactic.yaml
-  content_hash: 79a8ff03e31666c2c29ce66d0d85a9ced5bbc8681a557d266a17db0d6b005a0c
+  content_hash: aa3840ae796ae26638a95ce683d9b19f59179ec7d1b6a680eaa620d674fb9bad
 - kind: tactic
   id: occurrence-classification-workflow
   path: tactics/occurrence-classification-workflow.tactic.yaml
@@ -604,7 +604,7 @@ constituents:
 - kind: tactic
   id: pr-agent-worktree-isolation
   path: tactics/pr-agent-worktree-isolation.tactic.yaml
-  content_hash: 57bc9642f996f962f9bace6a7f0d1f3ae1f054116d2186b3f63db72dede3544f
+  content_hash: 15fb914d926e3d791199aface9bb4103e5304176715109c2b020f5c7fa47297d
 - kind: tactic
   id: review-intent-and-risk-first
   path: tactics/review-intent-and-risk-first.tactic.yaml

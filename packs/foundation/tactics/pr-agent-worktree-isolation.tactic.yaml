@@ -72,7 +72,3 @@ notes: >
   around PR scope: worktree isolation prevents contamination of the active
   checkout; version restraint preserves the product owner's release authority.
   Neither rule has standalone value as a micro-tactic.
-
-  Terminology: "PR branch" and "mission branch" are the canonical terms for
-  branches associated with a pull request. Do not use "feature branch" in
-  canonical voice.
