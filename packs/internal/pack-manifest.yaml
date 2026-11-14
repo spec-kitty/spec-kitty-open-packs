@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 74823640e301c59a36fbcd376486443d2dc70e12012e9fae23a6130ee1f416f4
+manifest_hash: 78b2809aa0a7cde5b6b9cf9001a66cd3d1b243c82a836f2e90bbe90e437891c9
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -76,7 +76,7 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: d8096b9ab6faa9b901d5cbf934f6924dceec231af33c8e4c22c4bd274006b15a
+  content_hash: 848b98db57dd00b1ee23d93f851d5757d1974363fba97717ddb76f7280ff5d56
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
@@ -84,19 +84,19 @@ constituents:
 - kind: procedure
   id: issue-to-mission-delivery
   path: procedures/issue-to-mission-delivery.procedure.yaml
-  content_hash: b86d4b4aa749982dabda21cad679817761379d12e25ce93b583ee2afbbd0173f
+  content_hash: 8adf16d99bc42b89bfb66902a468dbbf70b1b1ba93e54c01829d6eadb2423282
 - kind: procedure
   id: issue-triage-pass
   path: procedures/issue-triage-pass.procedure.yaml
-  content_hash: 9473264c01abd0732440899a8d134cc8eeb79062b6e49b1c93d0f415741ddabe
+  content_hash: eb4d9142c24cd05b1bd817b73960290d5d68fdb9962c5d798d4a85f97ed98a37
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: ae43a42c5f714e8cf13e138e71f289850c84d1a6fa3642f2f0c1271c32a53884
+  content_hash: 9acf96a3508680a07715d0b2f184cf5071b7e3bf4e327e7febfbd63fe9ca3c1b
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
-  content_hash: 3a88b551cd2b4f7d4c79c0c74c046de836eea883f22717b4ae4c1bd78ab3d487
+  content_hash: 9b9049a69066ce207e6b9406f48579a9bb2c41969147cf4e9520e56a99a10c3d
 - kind: procedure
   id: mission-tracer-files
   path: procedures/mission-tracer-files.procedure.yaml
@@ -104,7 +104,7 @@ constituents:
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: f76de42b6c8501f20b082f4f988b0b7195e4fc161a8206c4ffb0680dfc134f84
+  content_hash: d86bfac283625888376dffe4d1b6f5564c84639fb341cdc3ae3df3f56fab8699
 - kind: procedure
   id: operator-signal-emission
   path: procedures/operator-signal-emission.procedure.yaml
@@ -116,7 +116,7 @@ constituents:
 - kind: procedure
   id: semi-auto-delivery
   path: procedures/semi-auto-delivery.procedure.yaml
-  content_hash: 50bfae5f1214132f0ea1779042a26ae2996c47293dd5737a568783893072e30c
+  content_hash: 60b11496277a15a01c89cc9e2f194ff0dab3b72be9350503577573c59106843f
 - kind: procedure
   id: spec-kitty-arch-gate-adjudication
   path: procedures/spec-kitty-arch-gate-adjudication.procedure.yaml
@@ -164,7 +164,7 @@ constituents:
 - kind: skill
   id: semi-auto
   path: skills/semi-auto.skill.yaml
-  content_hash: 508224e378d80e57f12293c445a2989c017ae4dfb0debbea6cc52e89fc246c02
+  content_hash: 84b4c82a90a9b2214c656a5946a9aeb1cbca70eb175560636742ebd53da38db3
 - kind: styleguide
   id: executive-debrief
   path: styleguides/executive-debrief.styleguide.yaml

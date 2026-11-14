@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-13'
+updated: '2026-11-14'
 ---
 # Changelog
 
@@ -531,6 +531,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
+
+- **The implementer flips a green PR to ready for review, and each internal delivery rule has
+  one owner** (#271, #260). Before: `mission-wrap-up-sequence` told the agent never to mark the
+  PR ready, while `issue-to-mission-delivery` and `semi-auto-delivery` told it to flip, so one run
+  got opposite orders; the changelog, docs-index, PR-body, deferral, tree-check and base-ref rules
+  were restated up to eight times and had drifted. After:
+  - `mission-wrap-up-sequence` owns the shared delivery rules, one step each. Its closeout step
+    runs: consolidation closeout, draft PR, CI to green, then the implementer flips the PR to ready
+    for review. Merging stays with the operator.
+  - The changelog fragment is `<id>.<section>.md` with the spelling check; the PR body is
+    validated through `spec-kitty charter pack asset path validate-pr-body`. The deferral bar
+    refines DIRECTIVE_046, and the tree check allows only deliberate, listed removals.
+  - `issue-to-mission-delivery`, `semi-auto-delivery`, `cloud-session-dispatch`,
+    `landing-contributor-prs`, `memory-curation-and-escalation` and the skills point at those
+    steps. Delegate profile loading points at `adversarial-squad-deployment`, and the cloud
+    integrity rules at `CLOUD_SESSION_ORCHESTRATION`.
+  - `semi-auto.skill.md` keeps only the order and the mode fork. The long landing and triage
+    steps are split.
 
 - **The pack gates follow the charter's slice B file model** (#249). Both gates now
   classify files as the charter at `17ce3f9` does, and they fail on the same files.
