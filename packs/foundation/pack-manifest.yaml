@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: b8157a6070bbba6496d2c4d0ea95bdb762342b9167189c7b892702b35aafff4f
+manifest_hash: 0c148e359e69fb7afa6bdce65d2dc5ef10a347365a4040ec394cad1374e324dc
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -560,7 +560,7 @@ constituents:
 - kind: tactic
   id: five-paradigm-parallel-debugging
   path: tactics/five-paradigm-parallel-debugging.tactic.yaml
-  content_hash: 5ae35c4106d61592e7eb5e4f12511bbac8a11ecf8061b06fb5406a577eb9e50b
+  content_hash: 7acc16d71e83adf68cd0c04fc672b570a55b3061cb69e456b31313c3c269b961
 - kind: tactic
   id: focused-function-complexity-check
   path: tactics/focused-function-complexity-check.tactic.yaml
@@ -584,7 +584,7 @@ constituents:
 - kind: tactic
   id: model-task-routing
   path: tactics/model-task-routing.tactic.yaml
-  content_hash: 0f4a63bbaf0d83b5b45b16a02ef612ec11f14cbd5414a67d666a69e73119c579
+  content_hash: e646b0c4c039faadc95943d69ee2d285f8c8c28a013af6731146f7186a90da56
 - kind: tactic
   id: moscow-scoping-lens
   path: tactics/moscow-scoping-lens.tactic.yaml
