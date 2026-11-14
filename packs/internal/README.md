@@ -59,7 +59,7 @@ packs/internal/
 │   ├── spec-kitty-page-audience.procedure.yaml      # audience personas under docs/context/audience/ (refines declare-page-audience)
 │   ├── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, adr/<era>/ (refines common-docs-page-authoring)
 │   ├── mission-tracer-files.procedure.yaml          # per-mission tracer files (moved from built-in by #73)
-│   └── mission-wrap-up-sequence.procedure.yaml      # end-of-mission wrap-up and history compaction (moved from built-in by #73)
+│   └── mission-wrap-up-sequence.procedure.yaml      # end-of-mission wrap-up; owns the shared delivery rules (moved from built-in by #73)
 ├── styleguides/
 │   ├── executive-debrief.styleguide.yaml            # house style for executive debriefs (refines report-writing)
 │   ├── report-writing.styleguide.yaml               # audience-first, anti-AI-prose, Spec Kitty voice
@@ -127,12 +127,21 @@ autonomously but surfaces the operator's decisions — regression-vs-stale-test
 verdicts, shared-seam / public-contract / architectural-boundary changes,
 test-expectation edits, scope widening, charter Decision Moments, contract
 versioning), brownfield discipline, the bounded test policy, the rebase cadence,
-and the canonical closeout to a draft PR the operator merges. It is mode-agnostic:
+and the canonical closeout to a PR flipped to ready for review, which the operator merges. It is mode-agnostic:
 the conduct is the same whether run locally or in a cloud session. It `requires`
 `NO_FULL_HEAVY_SUITES_IN_MISSION` and `OPERATOR_SIGNAL_CONTRACT` (the bounded-test
-and deciding-path-also-signals contracts it enforces) and `suggests`
-`mission-wrap-up-sequence`, `test-first-bug-fixing`, `adversarial-squad-deployment`
-and `clean-linear-commit-history`. The dual-mode `semi-auto` skill is its thin
+and deciding-path-also-signals contracts it enforces) and `mission-wrap-up-sequence`
+(its closeout), and `suggests` `test-first-bug-fixing`, `adversarial-squad-deployment`
+and `clean-linear-commit-history`.
+
+**One owner per delivery rule.** The delivery rules every PR-producing procedure here
+shares are stated once, in `mission-wrap-up-sequence`: the tree check before a
+force-push, the base ref, the changelog and generated-docs rules, the deferral bar, the
+PR-body contract, the ready-for-review flip and commit attribution. The implementer
+flips a green PR to ready for review; the operator merges. `issue-to-mission-delivery`,
+`semi-auto-delivery`, `cloud-session-dispatch`, `landing-contributor-prs` and the skills
+point at those steps. Delegate profile loading belongs to `adversarial-squad-deployment`,
+and the cloud runner's integrity rules to `CLOUD_SESSION_ORCHESTRATION`. The dual-mode `semi-auto` skill is its thin
 entry point: `local` runs the delivery in the invoking session, `cloud` dispatches
 it through `cloud-session-dispatch` to a fresh runner. The dispatch procedure's
 prompt-authoring step now tells the dispatcher to **bind** these standing orders
