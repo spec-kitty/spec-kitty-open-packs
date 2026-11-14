@@ -19,6 +19,10 @@ nodes:
   kind: styleguides
   title: Deployable Skill Authoring Styleguide
   body_path: styleguides/deployable-skill-authoring.styleguide.yaml
+- id: doctrine-instruction-voice
+  kind: styleguides
+  title: Doctrine Instruction Voice Styleguide
+  body_path: styleguides/doctrine-instruction-voice.styleguide.yaml
 - id: decomposition-table-template
   kind: templates
   title: decomposition-table-template
@@ -47,6 +51,10 @@ edges:
 - source: agent_profile:doctrine-daphne
   target: procedure:onboard-external-agent-to-pack
   relation: requires
+- source: agent_profile:doctrine-daphne
+  target: styleguide:doctrine-instruction-voice
+  relation: requires
+  reason: Every instruction and example she authors is written in the voice this styleguide sets.
 - source: procedure:migrate-project-guidance-to-spec-kitty-charter
   target: foundation::directive:DIRECTIVE_003
   relation: requires
@@ -81,6 +89,10 @@ edges:
   reason: The procedure gathers the source agent's defining instructions and authors governed pack artifacts; this styleguide
     supplies the skill-specific routing, progressive-disclosure, deterministic-operation, source-authority and host-portability
     quality bar.
+- source: procedure:onboard-external-agent-to-pack
+  target: styleguide:doctrine-instruction-voice
+  relation: requires
+  reason: The authoring step writes instructions and examples in the voice this styleguide sets.
 - source: procedure:onboard-external-agent-to-pack
   target: template:decomposition-table-template
   relation: suggests

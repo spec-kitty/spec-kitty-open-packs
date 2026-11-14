@@ -2,15 +2,25 @@ schema_version: "1.0"
 id: DIRECTIVE_018
 title: Doctrine Versioning Requirement
 intent: >
-  Doctrine artifacts must be versioned with traceable change rationale so
-  downstream consumers can understand compatibility and migration impact.
+  A change to governance artifacts the project or organization authors (its
+  project-tier doctrine or its Charter Packs) carries a version and a recorded
+  rationale, so every project that consumes them can see what changed, whether
+  it is compatible, and what to do.
 enforcement: required
 scope: >
-  Applies to directives, tactics, toolguides, styleguides, and schemas that
-  define governance behavior for agent execution.
+  Applies to directives, tactics, procedures, toolguides, styleguides and
+  agent profiles that the project or organization authors, in its project tier
+  or in a Charter Pack it maintains. It does not apply to artifacts the project
+  only consumes from someone else's pack: those are changed by their
+  maintainer.
 integrity_rules:
-  - Breaking doctrine changes require explicit upgrade guidance.
-  - Artifact version metadata must not drift from actual schema expectations.
+  - A breaking change to a pack (an artifact removed or renamed, or a rule
+    tightened so that conforming work stops conforming) raises the pack's
+    major version and carries upgrade guidance.
+  - Each artifact's `schema_version` matches the contract the validator
+    supports; it is never raised or lowered to silence a validation error.
 validation_criteria:
-  - Version-affecting doctrine changes include compatibility notes.
-  - Validation checks pass across shipped doctrine artifacts after updates.
+  - Each version-affecting change has a recorded rationale and, where a
+    consumer must act, a migration note.
+  - The changed pack or project tier validates with zero errors, and the
+    active charter passes its consistency check after the change.

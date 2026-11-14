@@ -22,12 +22,12 @@ generated:
 - **Pack directory:** `packs/pack-authoring`
 - **Pack level:** `org`
 - **Declared version:** `1.0.1`
-- **Content checksum (sha256):** `17adef938565a8c5ea93586f4bc861b46b3b15668c4882521f6aebae3feaf6c2`
+- **Content checksum (sha256):** `a7b107ff94128653647896375a216aa35dffbf1f904690e985f6a66a3bad9bd4`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
-Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external agents into a pack, deployable skill authoring and the migration-to-charter procedure.
+Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external agents into a pack, deployable skill authoring, the voice doctrine instructions are written in, and the migration-to-charter procedure.
 
 **Depends on:** [`foundation`](foundation.md) `>=1.0,<2`, [`writing`](writing.md) `>=1.0,<2`
 
@@ -35,18 +35,19 @@ Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external ag
 
 | Kind | Count |
 | --- | --- |
-| `styleguides` | 1 |
+| `styleguides` | 2 |
 | `procedures` | 2 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **8** |
+| **Total files** | **9** |
 
 ### Full listing
 
 <details>
-<summary><code>styleguides</code> (1)</summary>
+<summary><code>styleguides</code> (2)</summary>
 
 - `deployable-skill-authoring.styleguide.yaml`
+- `doctrine-instruction-voice.styleguide.yaml`
 
 </details>
 

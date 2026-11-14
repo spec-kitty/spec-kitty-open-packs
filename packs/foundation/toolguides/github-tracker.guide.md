@@ -4,8 +4,9 @@
 
 This guide covers driving the GitHub issue tracker from the CLI: native
 sub-issues (the parent/child source of truth), issue types, walking the parent
-chain, auth, and the rate-limit and id-confusion traps. It is the operational
-companion to the **Planning & Tracking Styleguide**.
+chain, auth, and the rate-limit and id-confusion traps. It covers the
+mechanics only; how the project uses its tracker (labels, types, states) is
+the project's own convention.
 
 ## When to use
 
@@ -14,12 +15,16 @@ dedup sweeps). These are the mechanics and the gotchas that silently waste hours
 
 ## Setup
 
-- **`unset GITHUB_TOKEN` before `gh` calls on org repos.** The ambient
-  `GITHUB_TOKEN` often has limited scopes (`Missing required token scopes`).
-  Unsetting it falls back to the keyring `gho_*` token with full `repo` scope.
-- **Background shells lack keyring auth.** `gh` invoked in a backgrounded shell
-  returns empty or fails silently — the keyring is not available there. Run
-  `gh` loops in the foreground.
+- **If `gh` reports missing scopes, check which token is active.** `gh auth
+  status` names the token in use and its scopes. An environment variable such
+  as `GITHUB_TOKEN` or `GH_TOKEN` takes precedence over a stored login, so a
+  narrowly scoped token in the environment fails calls a stored login would
+  pass (`Missing required token scopes`). Ask the operator for a token with the
+  scopes the call needs; do not unset a token CI or the harness supplied.
+- **Check auth where the loop runs.** A background shell, CI job or cloud
+  agent may not see the credentials of the interactive shell, and `gh` then
+  returns empty or fails silently. Run `gh auth status` in the same context as
+  the loop before trusting an empty result.
 
 ## Sub-issues — the native parent/child source of truth
 
@@ -188,7 +193,7 @@ silently stops after page 1. On that host, loop `&page=N` manually instead of tr
 | `422 not of type integer` on sub_issue | used `-f` / passed issue number | `-F sub_issue_id=<DB id>` |
 | `422 may only have one parent` | re-add without remove | `DELETE` old parent first |
 | Loop returns 0, single call works | secondary rate limit (errors hidden) | throttle; verify with a single call |
-| Background `gh` empty / fails | no keyring auth in background shell | run in the foreground |
+| Background `gh` empty / fails | no credentials in that shell, job or agent | run `gh auth status` there; supply a token |
 | `Expected NAME, actual INT` | shell-interpolated GraphQL query | GraphQL variables + single-quoted query |
 | Epic "missing" a child | no `--paginate` (30-item page) | add `--paginate` |
 | REST `.parent` null but child exists | REST parent is unreliable | use GraphQL `parent` |
