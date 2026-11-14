@@ -22,7 +22,7 @@ exact and restoring full sentences at a cliff edge.
 > built-in `software-dev` family in the CLI and do **not** fire for a `cave-dev`-typed mission —
 > its `implement`/`review` steps advance as generic single-shot DAG steps. The lane/worktree
 > execution path (`spec-kitty implement WP##`) is unaffected. For a WP-iterating, guarded run in
-> the caveman voice, use the voice-activation path (`--type software-dev` + activate the voice).
+> the caveman voice, use the voice-activation path (`--mission-type software-dev` + activate the voice).
 
 ## What it is — and isn't
 
@@ -46,22 +46,22 @@ when it writes; it is not an enforced runtime switch.
 Two layers, kept separate on purpose:
 
 - **Activate the styleguide and/or `CAVE_001`** → the agent *writes* caveman while you keep
-  running `--type software-dev`. The built-in prompts are unchanged; only the output voice is.
-- **Run `--type cave-dev`** → you select the re-voiced lifecycle. `software-dev` itself stays
+  running `--mission-type software-dev`. The built-in prompts are unchanged; only the output voice is.
+- **Run `--mission-type cave-dev`** → you select the re-voiced lifecycle. `software-dev` itself stays
   byte-identical. This pack deliberately does **not** override the built-in `software-dev`
   prompts, so activation never silently mutates the canonical type. Note the runtime caveat in the
-  scope note above: `--type cave-dev` does not inherit software-dev's `next`-loop WP iteration or
+  scope note above: `--mission-type cave-dev` does not inherit software-dev's `next`-loop WP iteration or
   guards.
 
 ## Which path for a token A/B?
 
 The pack exists to measure the caveman voice's token impact against a software-dev baseline. Use
-the **voice-activation path** for that: run `--type software-dev` once as the baseline and once
+the **voice-activation path** for that: run `--mission-type software-dev` once as the baseline and once
 with `CAVE_001` + the styleguide activated. The only variable that changes is the output voice —
 same input prompts, same runtime, same WP machinery — so any token delta is attributable to the
 voice.
 
-Do **not** A/B `--type cave-dev` against `--type software-dev`: that confounds three variables at
+Do **not** A/B `--mission-type cave-dev` against `--mission-type software-dev`: that confounds three variables at
 once — the output voice, a smaller and lossy *input* prompt corpus, and (per the runtime caveat) a
 structurally different `implement`/`review`. cave-dev's input-prompt shrinkage is a separate,
 deliberate experiment, not the voice measurement.
@@ -76,7 +76,7 @@ spec-kitty charter activate styleguide cave-sty-001-communication
 spec-kitty charter activate directive CAVE_001
 
 # Or run the re-voiced lifecycle:
-spec-kitty agent mission create --type cave-dev ...
+spec-kitty agent mission create <slug> --mission-type cave-dev ...
 ```
 
 ## Validate
@@ -134,4 +134,4 @@ next`, software-dev's per-WP iteration, its `implement`/`review` guards, and its
 gate are keyed to the built-in `software-dev` family in the CLI and do not fire for a
 `cave-dev`-typed mission. Generalising that CLI coupling beyond the literal `software-dev` family
 is out of scope for this pack. For a WP-iterating, guarded run in the caveman voice, use the
-voice-activation path (`--type software-dev` + activate the voice).
+voice-activation path (`--mission-type software-dev` + activate the voice).
