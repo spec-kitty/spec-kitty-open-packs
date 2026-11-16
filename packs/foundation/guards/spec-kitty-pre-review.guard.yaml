@@ -1,7 +1,7 @@
 schema_version: '1.0'
 id: spec-kitty-pre-review
 title: The pre-review checks pass
-description: The checks a work package runs before it moves to review. It replaces the gate of the software-dev review step contract, which the step-contract fold retires (charter ADR-0054 decision 12, ADR-0077 decision 3).
+description: The checks a work package runs before it moves to review. It guards the work package's move from in_progress to for_review (charter ADR-0054 decision 12, ADR-0077 decision 3).
 interface: guard/1
 implemented_by: builtin:spec-kitty-pre-review
 on_indeterminate: pass

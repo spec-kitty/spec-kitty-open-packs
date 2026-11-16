@@ -8,7 +8,7 @@ exact and restoring full sentences at a cliff edge.
 
 > **Scope note.** The styleguide and directive are complete and usable today, and are the clean
 > instrument for the pack's purpose (see "Which path for a token A/B?" below). The `cave-dev`
-> mission type **re-states the built-in `software-dev` step contract as prose** and overrides one
+> mission type **re-states the built-in `software-dev` steps' substeps as prose** and overrides one
 > thing only — the agent's output prose, which it compresses to the caveman voice. Its eight
 > step prompts follow the same structured shape the canonical `qa` open pack uses (role +
 > software-dev mapping, bound built-in profile, directive & styleguide citation, artifact/template
@@ -115,7 +115,7 @@ project is referenced for attribution of the idea; no code or prose from it is i
 ### Status
 
 Complete for its stated scope (see the scope note above). The styleguide and directive are usable today.
-The `cave-dev` mission type re-states the built-in `software-dev` step contract as prose and
+The `cave-dev` mission type re-states the built-in `software-dev` steps' substeps as prose and
 overrides only the output voice; its eight step prompts follow the same structured shape
 the canonical `qa` open pack uses — role + software-dev mapping, bound built-in profile,
 directive & styleguide citation, artifact/template binding, and a per-step voice specialization.

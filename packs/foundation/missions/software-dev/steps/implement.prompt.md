@@ -160,7 +160,7 @@ Work through each subtask in order:
 
 ### 4a. Supply-Chain Security Check (dependency changes)
 
-If this WP adds, upgrades, or removes a dependency (any ecosystem - npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` - this mirrors the `supply_chain_security_check` step already present in the `implement` step contract. Use the matching ecosystem toolguide (for example `javascript-supply-chain`, `python-supply-chain`, `java-supply-chain`) for the exact commands and file names.
+If this WP adds, upgrades, or removes a dependency (any ecosystem - npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` - this mirrors the `supply-chain-security-check` substep of the `implement` step. Use the matching ecosystem toolguide (for example `javascript-supply-chain`, `python-supply-chain`, `java-supply-chain`) for the exact commands and file names.
 
 - **Risk disclosure**: record what was checked and the resulting decision for every control DIRECTIVE_051 names in the WP implementation notes or commit message, so a reviewer does not have to re-derive the analysis.
 

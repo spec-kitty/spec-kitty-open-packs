@@ -25,7 +25,7 @@ when the operator activates one.
 
 - Canonical artifact: `tasks.md` plus the per-WP files `tasks/WP##*.md` (blocking at this step).
 - Template: resolved from the default built-in template chain (software-dev's `tasks-template.md`
-  / `task-prompt-template.md`); cave-dev ships none and pins none (`template_set: null`).
+  / `task-prompt-template.md`); cave-dev ships and pins no templates.
 
 ## Voice at this step
 
