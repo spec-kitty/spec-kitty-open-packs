@@ -42,6 +42,12 @@ sections:
     type: Architecture
     purpose: How open packs reach the Spec Kitty CLI through the Charter Offering, plus the vision and decision records.
 
+  - id: plans
+    label: Plans
+    order: 65
+    type: Plan
+    purpose: Where the work is going — the living roadmap of themes and horizons, and the tracker epics that deliver each theme.
+
   - id: research
     label: Research
     order: 70
