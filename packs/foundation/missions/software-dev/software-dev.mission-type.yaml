@@ -170,7 +170,7 @@ steps:
     description: Load charter context for this action
     command: spec-kitty charter context --action tasks --json
   - id: outline
-    description: Produce tasks.md: work packages translated from implementation concerns in the plan
+    description: Produce tasks.md with the work packages translated from implementation concerns in the plan
     delegates_to:
       kind: tactic
       candidates:
@@ -304,7 +304,7 @@ steps:
       candidates:
       - review-intent-and-risk-first
   - id: supply-chain-security-review
-    description: 'Require explicit supply-chain evidence, per DIRECTIVE_051 and the supply-chain-install-safety tactic, before recommending approval for any change that touches the dependency tree. Advisory in v1 per NFR-003/C-003: this step does not add a new fail-closed transition gate -- the `spec-kitty-pre-review` guard on the work-package lifecycle's in_progress -> for_review transition is unchanged -- but silence or an unexamined default is treated as a gap in evidence, not a pass.'
+    description: 'Require explicit supply-chain evidence, per DIRECTIVE_051 and the supply-chain-install-safety tactic, before recommending approval for any change that touches the dependency tree. Advisory in v1 per NFR-003/C-003: this step does not add a new fail-closed transition gate -- the `spec-kitty-pre-review` guard on the in_progress -> for_review transition of the work-package lifecycle is unchanged -- but silence or an unexamined default is treated as a gap in evidence, not a pass.'
     delegates_to:
       kind: tactic
       candidates:
