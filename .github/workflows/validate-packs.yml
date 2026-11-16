@@ -149,7 +149,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: charter-drift-test-report
-          path: ${{ runner.temp }}/charter-service/spec-kitty-charter/service/packs/build/reports/tests/driftTest
+          path: ${{ runner.temp }}/charter-service/spec-kitty-charter/service/pack-validation/build/reports/tests/driftTest
           if-no-files-found: warn
           retention-days: 14
       - name: Compose, register and refuse through the charter service
