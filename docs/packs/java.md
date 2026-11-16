@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/java`
 - **Pack level:** `org`
-- **Declared version:** `2.1.1`
-- **Content checksum (sha256):** `54f52b19ce84f112f7991b51e6710a7424b0d32e0f2844e90cc1ef5fdf9ab2c0`
+- **Declared version:** `2.2.0`
+- **Content checksum (sha256):** `6b194462ce9d75f61edffb75c43e00d24616682ff3868d94abbd1edbbfdfe7c9`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The Java stack: the Java Jenny profile, Java conventions, Maven review checks and Java supply-chain guidance. The supply-chain guidance also applies to Kotlin on Maven or Gradle.
 
-**Depends on:** [`foundation`](foundation.md) `>=1.0,<2`, [`testing`](testing.md) `>=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
 
 ## Artifact inventory
 

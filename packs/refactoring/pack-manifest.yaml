@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: b59c9deabb8009cbe106c5660563d23bfcfcb04f8019b5cdae9159aa270c7d57
+manifest_hash: 6a916b1501186b5a1459ed2bc9441231359bdb41f70bf6539cfd825ecb29e245
 constituents:
 - kind: agent_profile
   id: randy-reducer
   path: agent_profiles/randy-reducer.agent.yaml
-  content_hash: 2a2258db1925cf38ee0a2afb4237e3641c11f5d73aad622634a93a9eb975731d
+  content_hash: 95a76cf82068c8b08d0be1621d0682e983a394699a52cfdacc3c178b07d5acaa
 - kind: paradigm
   id: semantic-compression
   path: paradigms/semantic-compression.paradigm.yaml

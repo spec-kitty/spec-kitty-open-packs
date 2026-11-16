@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 58096337c278f9c37b463650f9f3e1774665496f7f48948f1425016da5c8b92b
+manifest_hash: 4e680ed155f44e36afbbe1f1758c407b32b0421526f7491afd5a0e9c66c90099
 constituents:
 - kind: agent_profile
   id: doctrine-daphne
@@ -8,7 +8,7 @@ constituents:
 - kind: procedure
   id: migrate-project-guidance-to-spec-kitty-charter
   path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
-  content_hash: 55fcb49bb2c020094eabb3950921cd071e2e716b28374c7fc3e6074a9a1b795d
+  content_hash: 35eef37c05e648cba5bf27e02db996c22b1a29c50d8734197db7ae2e2e167377
 - kind: procedure
   id: onboard-external-agent-to-pack
   path: procedures/onboard-external-agent-to-pack.procedure.yaml
