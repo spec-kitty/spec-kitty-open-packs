@@ -74,6 +74,13 @@ transitions:
   - approved
   to: blocked
   event: block
-- from: '*'
+- from:
+  - planned
+  - claimed
+  - in_progress
+  - for_review
+  - in_review
+  - approved
+  - blocked
   to: canceled
   event: cancel
