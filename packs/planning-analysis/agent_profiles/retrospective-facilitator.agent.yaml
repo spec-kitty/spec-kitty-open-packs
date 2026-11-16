@@ -43,7 +43,7 @@ specialization:
 
 collaboration:
   handoff-to:
-    - human-in-charge
+    - operator
     - synthesize-command  # `agent retrospect synthesize` is the explicit ACL for proposal application
   handoff-from:
     - implementer
@@ -52,7 +52,7 @@ collaboration:
     - researcher
     - generic-agent
   works-with:
-    - human-in-charge
+    - operator
   output-artifacts:
     - retrospective.yaml
     - retrospective-events

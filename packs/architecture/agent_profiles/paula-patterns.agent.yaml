@@ -44,7 +44,7 @@ collaboration:
     - reviewer
     - architect
     - debugger
-    - human-in-charge
+    - operator
   works-with:
     - implementer
     - reviewer
