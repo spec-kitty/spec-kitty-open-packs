@@ -2,8 +2,8 @@
 Use this template for pull requests to spec-kitty-open-packs.
 
 This repository distributes charter *content* (packs) and docs. Charter *logic*
-lives in spec-kitty/spec-kitty — if your change is about resolution, validation,
-or the manifest schema, it probably belongs there instead.
+is owned by spec-kitty/spec-kitty-charter — if your change is about resolution,
+validation, or the pack schemas, it probably belongs there instead.
 -->
 
 ## Summary
