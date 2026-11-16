@@ -7,7 +7,7 @@ It does two jobs:
 
 1. **A `qa` mission type.** The seven canonical steps redefined in QA terms (discovery, test
    strategy, test plan, test design, test execution, test report review, acceptance), with five
-   QA agent profiles, step substeps, templates, and two evidence tools. Ported from
+   QA agent profiles, its steps' substeps, templates, and two evidence tools. Ported from
    `spec-kitty-qa-pack`; see the README's Provenance section.
 2. **Description to acceptance CI.** A standing loop from a human-readable product description to
    an automated release gate:
