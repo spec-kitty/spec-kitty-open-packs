@@ -56,6 +56,33 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/documentation-spec-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action discover --json
+  - id: capture-documentation-needs
+    description: Capture target audience, iteration mode, and goals; emit spec.md
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_010
+      - foundation::DIRECTIVE_003
+  - id: validate-scope
+    description: Validate documentation scope boundaries and feasibility
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: write-spec
+    description: Write spec.md to kitty-specs/{mission_slug}/
+    command: Write spec.md in kitty-specs/{mission_slug}/
+  - id: commit-spec
+    description: Commit the documentation spec to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 - id: audit
   title: Documentation Audit
   description: Analyze existing documentation and produce gap-analysis.md.
@@ -71,6 +98,32 @@ steps:
     artifact_class: evidence
     path_pattern: gap-analysis.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action audit --json
+  - id: inventory-existing-docs
+    description: Inventory existing documentation surfaces and prior coverage
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_037
+  - id: identify-gaps
+    description: Identify documentation gaps relative to the spec and current code surfaces
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: write-gap-analysis
+    description: Write gap-analysis.md to kitty-specs/{mission_slug}/
+    command: Write gap-analysis.md in kitty-specs/{mission_slug}/
+  - id: commit-gap-analysis
+    description: Commit the documentation gap analysis to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 - id: design
   title: Documentation Design
   description: Plan documentation structure, Divio types, and generator configuration in plan.md.
@@ -90,6 +143,38 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/documentation-plan-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action design --json
+  - id: plan-divio-types
+    description: Plan Divio documentation types (tutorial, how-to, reference, explanation) for the deliverable
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_001
+  - id: architecture-decision
+    description: Capture architecture decisions for documentation structure and tooling
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::adr-drafting-workflow
+  - id: validate-design
+    description: Validate the documentation plan against spec requirements and audit findings
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: write-plan
+    description: Write plan.md to kitty-specs/{mission_slug}/
+    command: Write plan.md in kitty-specs/{mission_slug}/
+  - id: commit-plan
+    description: Commit the documentation plan to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 - id: generate
   title: Documentation Generation
   description: Produce documentation artifacts under docs/.
@@ -104,6 +189,38 @@ steps:
   - artifact_key: output.docs.generated
     artifact_class: output
     path_pattern: docs/**/*.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action generate --json
+  - id: produce-artifacts
+    description: Produce documentation artifacts according to the plan and spec
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_010
+  - id: living-doc-sync
+    description: Synchronise newly produced documentation with the living documentation surfaces
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_037
+  - id: validate-output
+    description: Validate generated documentation against the plan and spec
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: write-docs
+    description: Write generated docs/**/*.md under kitty-specs/{mission_slug}/
+    command: Write docs/**/*.md under kitty-specs/{mission_slug}/
+  - id: commit-docs
+    description: Commit the generated documentation artifacts to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 - id: validate
   title: Documentation Validation
   description: Verify Divio adherence, accessibility, and completeness; emit audit-report.md.
@@ -121,6 +238,38 @@ steps:
     artifact_class: evidence
     path_pattern: audit-report.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action validate --json
+  - id: quality-gates
+    description: Apply quality gates to the documentation deliverable
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_010
+  - id: risk-review
+    description: Surface documentation risks via a pre-mortem review
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::premortem-risk-identification
+  - id: validate-against-spec
+    description: Validate the documentation deliverable against the original spec
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: write-audit-report
+    description: Write audit-report.md to kitty-specs/{mission_slug}/
+    command: Write audit-report.md in kitty-specs/{mission_slug}/
+  - id: commit-audit-report
+    description: Commit the documentation audit report to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 - id: publish
   title: Documentation Publication
   description: Prepare documentation for release and emit release.md handoff.
@@ -136,6 +285,38 @@ steps:
     artifact_class: output
     path_pattern: release.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action publish --json
+  - id: living-doc-sync
+    description: Synchronise the published documentation with the living documentation surfaces
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_037
+  - id: specification-fidelity
+    description: Confirm published documentation honours specification fidelity requirements
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_010
+  - id: final-validation
+    description: Final validation pass against the documentation spec prior to release
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: write-release
+    description: Write release.md to kitty-specs/{mission_slug}/
+    command: Write release.md in kitty-specs/{mission_slug}/
+  - id: commit-release
+    description: Commit the documentation release notes to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 - id: accept
   title: Acceptance
   description: Validate documentation completeness, quality gates, and readiness for publication.
@@ -149,6 +330,35 @@ steps:
   - artifact_key: evidence.audit-report
     path_pattern: audit-report.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action accept --json
+  - id: confirm-publication-handoff
+    description: Confirm release.md records publication target, source revision, owner, and living-documentation cadence
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_037
+  - id: validate-acceptance-fidelity
+    description: Validate the accepted documentation baseline against the mission specification and publish handoff
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_010
+  - id: acceptance-decision
+    description: Record whether the documentation mission is accepted or blocked for follow-up work
+    delegates_to:
+      kind: tactic
+      candidates:
+      - foundation::requirements-validation-workflow
+  - id: commit-acceptance
+    description: Commit acceptance evidence or blocker notes to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - foundation::DIRECTIVE_029
+      - foundation::DIRECTIVE_033
 on_demand_steps:
 - id: retrospect
   title: Retrospective

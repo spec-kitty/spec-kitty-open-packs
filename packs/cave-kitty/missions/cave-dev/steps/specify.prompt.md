@@ -24,7 +24,7 @@ when the operator activates one.
 
 - Canonical artifact: `spec.md` (blocking at this step).
 - Template: resolved from the default built-in template chain (software-dev's `spec-template.md`);
-  cave-dev ships none and pins none (`template_set: null`). The voice compresses the connective
+  cave-dev ships and pins no templates. The voice compresses the connective
   prose, never the template's required sections.
 
 ## Voice at this step

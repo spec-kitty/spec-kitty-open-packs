@@ -25,7 +25,7 @@ when the operator activates one.
 - Canonical artifact: `plan.md` (blocking at this step). Phase 1 may add `data-model.md`,
   `contracts/`, `quickstart.md` per the software-dev contract.
 - Template: resolved from the default built-in template chain (software-dev's `plan-template.md`);
-  cave-dev ships none and pins none (`template_set: null`).
+  cave-dev ships and pins no templates.
 
 ## Voice at this step
 
