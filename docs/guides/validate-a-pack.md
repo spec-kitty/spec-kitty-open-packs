@@ -168,7 +168,8 @@ valid through the service, at a pinned charter version). The job:
    both gates apply one policy: a file an exclusion names passes, an `ignored` one passes only if it
    is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
    mirror has drifted from the pin);
-4. **round-trips every pack** (#252; charter ADR-0070 decision 4, amended 2026-11-13): from the
+4. **round-trips every pack** (#252, #284; charter ADR-0070 decision 4, amended 2026-11-13, and ADR-0075
+   decision 8, amended 2026-11-15): from the
    charter source at the pin, it runs `./gradlew --max-workers=1 :pack-validation:driftTest
    -PopenPacksDir=<this checkout>` ([`charter_drift_test.sh`](../../scripts/ci/charter_drift_test.sh)).
    Every pack with a `pack.yaml`, built-in-level ones included, is loaded through the charter's store,

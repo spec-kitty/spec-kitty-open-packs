@@ -25,7 +25,10 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 | Toolguide | `toolguides/` | `<id>.toolguide.yaml` | How to use one tool, with commands. |
 | Paradigm | `paradigms/` | `<id>.paradigm.yaml` | A way of working that ties directives together. |
 | Procedure | `procedures/` | `<id>.procedure.yaml` | A multi-step process with entry and exit conditions. |
-| Agent profile | `agent_profiles/` | `<id>.agent.yaml` | A role an agent can adopt. |
+| Agent profile | `agent_profiles/` | `<id>.agent.yaml` | A role an agent (or, with `performer: human`, a person) can adopt. |
+| Mission type | `missions/<type>/` | `<type>.mission-type.yaml` | A Mission's steps in run order; each step carries its `substeps`. |
+| Lifecycle | `lifecycles/` | `<id>.lifecycle.yaml` | Lanes and the transitions between them. |
+| Guard | `guards/` | `<id>.guard.yaml` | A check that runs on a lifecycle transition. |
 | Template | `templates/` | any (Markdown etc.) | Document skeletons used by Missions. |
 | Asset | `assets/` | `<file>.asset.yaml` + the file | A file shipped with the pack (scripts, gate code). |
 | Glossary | `glossaries/` | `<id>.glossary.yaml` | A glossary context: a bounded set of canonical terms. |
@@ -113,7 +116,7 @@ pack's trust surface — read the [security position](https://github.com/spec-ki
 
 A glossary context (charter ADR-0049), one per file; the file stem is its `id`. Key fields: `schema_version`
 (`"1.0"`), `id`, `name`, `description`, optional `tags` and `applies_to`, and `terms`. Each term has an `id`
-(a letter-first kebab slug minted from its `name`), `name`, `definition`, `status` (`draft`, `active` or
+(a letter-first kebab slug, by this repository's convention minted from its `name`), `name`, `definition`, `status` (`draft`, `active` or
 `deprecated`), and optional `aliases`, `avoid` and `see_also`. A term's address is `term:<context-id>/<term-id>`;
 a `see_also` entry is such an address, written `<pack>::term:<context-id>/<term-id>` when another pack of the
 `depends_on` closure holds the term. In graphs the context is the node `glossary_context:<id>`, and a preset

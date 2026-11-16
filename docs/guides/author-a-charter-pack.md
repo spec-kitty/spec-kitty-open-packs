@@ -243,8 +243,8 @@ pack of the `depends_on` closure does.
 
 The charter checks two links in the DRG fragment or graph documents. Every step is linked from its
 mission type by a `mission_type:<type> -requires-> action:<type>/<step>` edge, and every delegation
-candidate by a `scope` edge from that step's action. Each relation joins only the endpoint kinds the
-charter's ADR-0077 decision 5 allows.
+candidate by a `scope` edge from that step's action. See charter ADR-0077 decisions 2 and 4; each relation
+joins only the endpoint kinds decision 5 allows.
 
 ## 6. Reuse existing built-in artifacts
 
