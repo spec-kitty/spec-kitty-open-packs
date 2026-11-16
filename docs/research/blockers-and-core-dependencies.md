@@ -2,13 +2,23 @@
 title: Blockers & core dependencies
 description: "What missing Spec Kitty core functionality stands between today and a content-from-code docsite with checksum-tagged packs: a capability-to-epic map and a ranked blocker list."
 doc_status: active
-updated: '2026-07-18'
+updated: '2026-11-16'
 related:
 - research
 - research/docsite-feasibility-and-generator
 - architecture/adr/2026-07-18-3-build-time-checksum-tagging
 ---
 # Blockers & core dependencies
+
+> **Superseded ownership (2026-11-16).** This is a dated research record and is kept as written.
+> Its premise that core owns the pack manifest schema, the validator and verified distribution no
+> longer holds: by operator ruling, packs and their schema, structure and validation are no longer
+> a core repository concern. The charter repository
+> ([`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)) owns that logic, core
+> is the deployable surface that assembles it, and this repository validates against the charter
+> commit pinned in `charter.lock.yaml`. Read the core issue numbers below as history. Current
+> ownership is in the [vision](../architecture/vision.md#division-of-responsibility); current work
+> is on the [roadmap](../plans/roadmap.md).
 
 > Research capture, 2026-07-18. Read-only investigation of `spec-kitty-open-packs` and the core
 > tracker/codebase (`spec-kitty/spec-kitty`). Issue states verified at time of writing. Feeds

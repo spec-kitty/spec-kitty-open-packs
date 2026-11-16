@@ -6,18 +6,30 @@ holds the rationale; the YAML is what the runtime reads.
 ## What this repository is
 
 `spec-kitty-open-packs` is the open, free **doctrine-pack marketplace** for Spec
-Kitty. It holds **content and packaging** — doctrine artifacts, individual and
-compound packs (`built-in`, `cave-kitty`, `event-driven`, `qa`), authoring/usage
-guides, and a published documentation site. The doctrine **logic** (resolution,
-the DRG, activation, the manifest schema, the validator) stays upstream in
-[`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) and is
-consumed here. The repo is public, MIT, and work-in-progress.
+Kitty. It holds **content and packaging** — doctrine artifacts, the `built-in`
+distribution and its members, opt-in org packs, presets (compound stacks are
+curated presets on `built-in`, not separate packs that `depends_on` a stack),
+authoring/usage guides, and a published documentation site. The repo is public,
+MIT, and work-in-progress.
+
+**Ownership (operator ruling, 2026-11-16).** Packs and their schema, structure
+and validation are no longer a concern of the core repository. Core
+([`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty)) is the
+deployable, assembler surface; the canonical owner of the logic (the pack
+schemas, validation, resolution, the DRG, activation) is the charter repository
+([`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)).
+Content ownership is in the packs repositories.
+
+**Lockstep with charter `main`.** This repository aligns to the charter, not to
+core: `charter.lock.yaml` pins a charter commit, every pack validates against
+the schemas at that pin, and the pin follows the charter's `main`. A core
+release is never a gate for pack work.
 
 ## Governing paradigm
 
-**Extract-then-publish separation** — content is extracted from core and
-published here as opt-in packs; the two repositories keep a clean division of
-responsibility.
+**Author-and-publish, charter-aligned** — doctrine content is authored here
+(including content once extracted from core) and published as opt-in packs and
+presets; the charter owns the logic that reads it, and core assembles it.
 
 ## How we work (enforced policy — see `charter.yaml` for the catalog)
 

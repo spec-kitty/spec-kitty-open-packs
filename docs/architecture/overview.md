@@ -2,7 +2,7 @@
 title: Architectural overview
 description: "How a Charter Pack reaches a running Mission: pack source, the built-in pin, the three-layer Charter Offering, the Active Charter and the charter seams."
 doc_status: draft
-updated: '2026-11-11'
+updated: '2026-11-16'
 related:
 - architecture
 - contracts
@@ -14,12 +14,17 @@ related:
 This page follows a charter artefact from the file it is authored in to the guidance an agent
 receives during a Mission.
 
+Ownership (operator ruling, 2026-11-16): the charter repository
+([`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)) owns the pack schemas,
+structure and validation; core is the deployable surface that assembles the charter and the packs
+into the CLI; content is owned here. See the [vision](vision.md#division-of-responsibility).
+
 ## Components
 
 | Component | Owner | Role |
 | --- | --- | --- |
 | Pack source (`packs/built-in/`, `packs/foundation/`, `packs/writing/`, the core bundles, `packs/<name>/`) | this repository | Authored charter artefacts, DRG fragments, presets, `pack.yaml`. |
-| Pack validator | the charter (core CLI) | `spec-kitty charter pack validate` — schema and DRG checks, run here in CI. |
+| Pack schemas and validation | the charter (`spec-kitty-charter`) | The JSON Schemas in `contracts/packs/` at the commit pinned in `charter.lock.yaml`; CI validates every pack against them and round-trips the packs through the charter service. |
 | Built-in pack pin | core CLI (`packs/built-in.source.yaml`) | Pins a commit and tree digest of this repository's `packs/built-in/`; core fetches it from there and ships it in every wheel. Since #73 `built-in` is a distribution pack, so its six members (`foundation`, `writing`, `testing`, `refactoring`, `architecture`, `planning-analysis`) must be fetched at the same pin. |
 | Org pack cache | consumer machine | Packs fetched by `spec-kitty charter fetch` into `local_path`. |
 | Project layer | consumer project (`.kittify/charter-packs/`) | Project-local artefacts, pack id `project`. |

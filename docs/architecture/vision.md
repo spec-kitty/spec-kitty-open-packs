@@ -2,11 +2,12 @@
 title: Vision — canonical publishing home for Spec Kitty Charter Packs
 description: The product vision for spec-kitty-open-packs as the curated, checksum-verifiable publishing home for Spec Kitty Charter Packs, served by a content-from-code docsite.
 doc_status: active
-updated: '2026-07-18'
+updated: '2026-11-16'
 related:
 - architecture
 - architecture/docsite-design
 - packs/catalog-proposal
+- plans/roadmap
 ---
 # Vision
 
@@ -19,7 +20,9 @@ session's context** with charter artefacts it does not need.
 
 `spec-kitty-open-packs` replaces the monolith with **coherent, composable, opt-in packs** — domain
 and purpose slices a team adopts deliberately, composed both **vertically** (built-in → org →
-project) and **horizontally** (independent packs, and compound packs via `depends_on`).
+project) and **horizontally** (independent packs, plus compound stacks shipped as curated **presets
+on `built-in`**, not as separate packs that `depends_on` a stack; see epic
+[#17](https://github.com/spec-kitty/spec-kitty-open-packs/issues/17)).
 
 ## The vision statement
 
@@ -53,20 +56,31 @@ The docsite is the **public face** of these commitments. It must be:
 - **Trust-surfacing** — each generated pack page shows its integrity block (version, checksum, trust
   tier) so evaluators can judge a pack before adopting it.
 
-## Division of responsibility (unchanged)
+## Division of responsibility
+
+Operator ruling, 2026-11-16: packs and their schema, structure and validation are no longer a
+concern of the core repository. Core is the deployable, assembler surface; the canonical owner of
+the logic is the charter repository; content ownership is in the packs repositories.
 
 | Concern | Lives in |
 | --- | --- |
-| Charter artefacts, packs, compound packs, **the docsite** | **this repo** (`spec-kitty-open-packs`) |
+| Charter artefacts, packs, presets (including the compound stacks), **the docsite** | **this repo** (`spec-kitty-open-packs`) |
 | Pack authoring & usage guides | **this repo** (`docs/guides/`) |
-| Charter mechanics, resolution, DRG, activation | core (`spec-kitty/spec-kitty`) |
-| Pack **manifest schema, validator, checksum/verified distribution** | core (consumed here) |
+| Pack schemas and structure, validation, resolution, DRG, activation | the charter ([`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)) |
+| Assembling and shipping the CLI that consumes the packs | core (`spec-kitty/spec-kitty`) |
 
-The docsite direction leans on core work that is **planned but not fully landed** — the pack
-manifest schema (core #2467), the reusable validator surface (#2471), and checksum/verified
-distribution (#2539/#2543). The [docsite design](docsite-design.md) is explicitly built to make
-progress **now**, decoupled from that upstream schedule, and to adopt core's canonical mechanisms as
-they arrive. See [blockers & core dependencies](../research/blockers-and-core-dependencies.md).
+Packs move in lockstep with the charter's `main`: this repository pins a charter commit in
+[`charter.lock.yaml`](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/charter.lock.yaml),
+validates every pack against the schemas at that pin, and moves the pin forward as the charter
+moves. A core release is not a gate for pack work; core becomes compatible by consuming the
+charter.
+
+The July 2026 docsite direction leaned on core work then planned for the manifest schema, the
+validator surface and verified distribution. That ownership has since moved to the charter (see
+[blockers & core dependencies](../research/blockers-and-core-dependencies.md), kept as a dated
+research record). The [docsite design](docsite-design.md) still makes progress decoupled from the
+upstream schedule and adopts the canonical mechanisms as they arrive. The themes that deliver this
+vision, and their order, are on the [roadmap](../plans/roadmap.md).
 
 ## What success looks like
 

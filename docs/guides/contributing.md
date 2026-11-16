@@ -2,7 +2,7 @@
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author and submit Charter Packs and docs here, where charter logic lives, and the required check on main.
 doc_status: wip
-updated: '2026-11-02'
+updated: '2026-11-16'
 related:
 - architecture/adr/2026-11-01-1-merge-queue-readiness-and-pr-pause-ci
 - guides/author-a-charter-pack
@@ -15,17 +15,18 @@ Thanks for your interest. This repository distributes **open, free Charter Packs
 in-the-open** — a product-direction shift toward Charter-Packs-as-a-marketplace. Conventions
 here will change; contributions that help shape them are welcome.
 
-## What belongs here vs. in core
+## What belongs here vs. in the charter or core
 
 | You want to… | Contribute to |
 | --- | --- |
 | Propose or author a Charter Pack | **this repository** |
 | Improve a usage or authoring guide | **this repository** |
-| Change how charter artefacts are resolved, validated, or composed | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
+| Change how charter artefacts are resolved, validated, or composed | [`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) |
 | Change the pack schemas (`contracts/packs/`) | [`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) |
+| Change how the CLI is assembled, installed or runs Missions | [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty) |
 
 If you are unsure, open an issue here first and we will help route it. Cross-referencing
-between the two repositories is expected.
+between the repositories is expected.
 
 ### Contracts, not core releases
 

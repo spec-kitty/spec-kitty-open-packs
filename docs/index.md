@@ -2,7 +2,7 @@
 title: Spec Kitty Open Packs
 description: "Overview of the Brain Kitty home of open Charter Packs, and how packs reach the Spec Kitty CLI through the Charter Offering."
 doc_status: draft
-updated: '2026-11-11'
+updated: '2026-11-16'
 related:
 - architecture/overview
 - packs
@@ -85,7 +85,8 @@ Read the [architecture overview](architecture/overview.md) for the full picture.
 | Concern | Lives in |
 | --- | --- |
 | Charter artefacts, packs, presets, authoring and usage guides | this repository |
-| Pack resolution, DRG merge, activation, manifest schema, validator | the charter — today `src/charter/` in [`spec-kitty`](https://github.com/spec-kitty/spec-kitty), moving to [`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) |
-| Running Missions | the Spec Kitty CLI |
+| Pack schemas and structure, validation, resolution, DRG merge, activation | the charter, [`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) (canonical owner of the logic) |
+| Assembling the CLI and running Missions | core, the Spec Kitty CLI ([`spec-kitty`](https://github.com/spec-kitty/spec-kitty)) |
 
-Issues here track **pack content**; issues in core track **charter behaviour**.
+Issues here track **pack content**; issues in the charter track **charter behaviour**. Where the
+work is going is on the [roadmap](plans/roadmap.md).
