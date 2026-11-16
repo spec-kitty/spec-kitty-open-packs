@@ -3,6 +3,6 @@ contact_links:
   - name: 📖 Contributing guide
     url: https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/docs/guides/contributing.md
     about: How to propose, author, and submit Charter Packs and docs.
-  - name: 🧠 Charter logic & pack mechanics (Spec Kitty core)
-    url: https://github.com/spec-kitty/spec-kitty/issues
-    about: Changes to resolution, the pack validator, or the manifest schema belong in the core repository.
+  - name: 🧠 Charter logic & pack mechanics (spec-kitty-charter)
+    url: https://github.com/spec-kitty/spec-kitty-charter/issues
+    about: Changes to resolution, pack validation, or the pack schemas belong in the charter repository.
