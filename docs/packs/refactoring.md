@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/refactoring`
 - **Pack level:** `built-in`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `8090e19a39495a3c9199c3463f16e7142711485b9316c386d34040915cd32cc7`
+- **Declared version:** `2.1.0`
+- **Content checksum (sha256):** `580ad9e910189d6502a2f7f849d312c0f92bc85cffaf682e21c2a6bce3af8405`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy patterns), semantic compression, the code-smell anti-patterns and the Randy Reducer profile.
 
-**Depends on:** [`foundation`](foundation.md) `==1.0.0`, [`testing`](testing.md) `==2.0.0`
+**Depends on:** [`foundation`](foundation.md) `==2.0.0`, [`testing`](testing.md) `==2.1.0`
 
 ## Artifact inventory
 

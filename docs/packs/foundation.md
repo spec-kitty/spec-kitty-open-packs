@@ -21,15 +21,16 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `4ff4e225981666d84cc75f3b846dc89426fbb0ac08bc52e1222d3bd1e42e5862`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `459aa0f563b2d563bac208ef4cf0946f5c95b91a273023cfda77b78877f24280`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The basis of every Spec Kitty project, and a member of the `built-in` distribution: the fallback
-profile (Generic Giannis), the implementer, reviewer, analyst and human-in-charge profiles; the
-software-dev, plan and research mission types with their step contracts and templates; every
+profile (Generic Giannis), the implementer, reviewer and analyst profiles, and the human-performed
+`human-in-charge` profile (role `operator`); the
+software-dev, plan and research mission types, with their steps' substeps, and templates; every
 cross-cutting directive with the procedures, tactics and toolguides that make it actionable (git
 workflow, execution lanes and adversarial-review squads included); and the spec-kitty-core
 glossary.
@@ -45,11 +46,11 @@ glossary.
 | `paradigms` | 1 |
 | `procedures` | 40 |
 | `agent_profiles` | 6 |
-| `glossary_packs` | 1 |
+| `glossaries` | 1 |
 | `guards` | 1 |
 | `lifecycles` | 1 |
-| `missions` | 74 |
-| **Total files** | **243** |
+| `missions` | 60 |
+| **Total files** | **228** |
 
 ### Full listing
 
@@ -246,9 +247,9 @@ glossary.
 </details>
 
 <details>
-<summary><code>glossary_packs</code> (1)</summary>
+<summary><code>glossaries</code> (1)</summary>
 
-- `spec-kitty-core.glossary-pack.yaml`
+- `spec-kitty-core.glossary.yaml`
 
 </details>
 
@@ -267,23 +268,9 @@ glossary.
 </details>
 
 <details>
-<summary><code>missions</code> (74)</summary>
+<summary><code>missions</code> (60)</summary>
 
 - `README.md`
-- `built_in_step_contracts/implement.step-contract.yaml`
-- `built_in_step_contracts/plan-plan.step-contract.yaml`
-- `built_in_step_contracts/plan-research.step-contract.yaml`
-- `built_in_step_contracts/plan-review.step-contract.yaml`
-- `built_in_step_contracts/plan-specify.step-contract.yaml`
-- `built_in_step_contracts/plan.step-contract.yaml`
-- `built_in_step_contracts/research-gathering.step-contract.yaml`
-- `built_in_step_contracts/research-methodology.step-contract.yaml`
-- `built_in_step_contracts/research-output.step-contract.yaml`
-- `built_in_step_contracts/research-scoping.step-contract.yaml`
-- `built_in_step_contracts/research-synthesis.step-contract.yaml`
-- `built_in_step_contracts/review.step-contract.yaml`
-- `built_in_step_contracts/specify.step-contract.yaml`
-- `built_in_step_contracts/tasks.step-contract.yaml`
 - `plan/README.md`
 - `plan/plan.mission-type.yaml`
 - `plan/steps/plan.prompt.md`
