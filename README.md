@@ -58,7 +58,7 @@ schema and the validator — belongs to the charter, today inside the core CLI a
 | Pack | Tier | What it is |
 | --- | --- | --- |
 | [`built-in`](packs/built-in/) | built-in | The default distribution: aggregates `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`, holds the presets. |
-| [`foundation`](packs/foundation/) | built-in | The basis: base profiles (Generic Giannis, implementer, reviewer, analyst, human-in-charge), the software-dev, plan and research missions, every cross-cutting directive with its how-tos, including adversarial-review squads. |
+| [`foundation`](packs/foundation/) | built-in | The basis: base profiles (Generic Giannis, implementer, reviewer, analyst, and the human-performed operator profile human-in-charge), the software-dev, plan and research missions, every cross-cutting directive with its how-tos, including adversarial-review squads. |
 | [`writing`](packs/writing/) | built-in | Documentation, communication and glossary doctrine, and the documentation mission. |
 | [`testing`](packs/testing/) | built-in | Test design, BDD and mutation testing; the base for the stack packs. |
 | [`refactoring`](packs/refactoring/) | built-in | The refactoring catalogue and semantic compression. |

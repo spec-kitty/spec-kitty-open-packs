@@ -50,7 +50,7 @@ collaboration:
     - implementer
     - architect
   handoff-from:
-    - human-in-charge
+    - operator
     - reviewer
     - architect
     - implementer

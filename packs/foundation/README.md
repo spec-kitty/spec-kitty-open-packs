@@ -1,7 +1,8 @@
 # Foundation pack (`foundation`)
 
 The basis of every Spec Kitty project, and a member of the `built-in` distribution: the fallback
-profile (Generic Giannis), the implementer, reviewer, analyst and human-in-charge profiles; the
+profile (Generic Giannis), the implementer, reviewer and analyst profiles, and the human-performed
+`human-in-charge` profile (role `operator`); the
 software-dev, plan and research mission types, with their steps' substeps, and templates; every
 cross-cutting directive with the procedures, tactics and toolguides that make it actionable (git
 workflow, execution lanes and adversarial-review squads included); and the spec-kitty-core
@@ -10,7 +11,8 @@ glossary.
 ## Contents
 
 - **Agent profiles:** `generic-agent` (Generic Giannis, the fallback), `implementer-ivan`,
-  `reviewer-renata`, `analyst-annie`, `human-in-charge`.
+  `reviewer-renata`, `analyst-annie`, and `human-in-charge` (`performer: human`, role `operator`: a
+  human serves every step or procedure that asks for the operator).
 - **Mission types:** `software-dev`, `plan`, `research`.
 - **Doctrine:** every cross-cutting directive with its how-to procedures, tactics and toolguides.
 
