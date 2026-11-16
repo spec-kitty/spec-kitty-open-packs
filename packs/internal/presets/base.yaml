@@ -28,7 +28,7 @@ activated_procedures:
     must_have: true
   - id: semi-auto-delivery
     must_have: true
-activated_glossary_packs:
+activated_glossaries:
   - id: spk-internal-glossary
     must_have: true
 activated_toolguides:
