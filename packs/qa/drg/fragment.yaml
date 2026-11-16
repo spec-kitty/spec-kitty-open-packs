@@ -148,6 +148,27 @@ nodes:
   kind: toolguides
   title: SonarQube Static Analysis and Quality Gate
   body_path: toolguides/sonar.toolguide.yaml
+- id: qa/discovery
+  kind: actions
+  title: Discovery
+- id: qa/specify
+  kind: actions
+  title: Test Strategy
+- id: qa/plan
+  kind: actions
+  title: Test Plan
+- id: qa/tasks
+  kind: actions
+  title: Test Design
+- id: qa/implement
+  kind: actions
+  title: Test Execution
+- id: qa/review
+  kind: actions
+  title: Test Report Review
+- id: qa/accept
+  kind: actions
+  title: Acceptance
 
 edges:
 - source: directive:QA_001
@@ -218,6 +239,27 @@ edges:
 - source: mission_type:qa
   target: directive:QA_006
   relation: scope
+- source: mission_type:qa
+  target: action:qa/discovery
+  relation: requires
+- source: mission_type:qa
+  target: action:qa/specify
+  relation: requires
+- source: mission_type:qa
+  target: action:qa/plan
+  relation: requires
+- source: mission_type:qa
+  target: action:qa/tasks
+  relation: requires
+- source: mission_type:qa
+  target: action:qa/implement
+  relation: requires
+- source: mission_type:qa
+  target: action:qa/review
+  relation: requires
+- source: mission_type:qa
+  target: action:qa/accept
+  relation: requires
 - source: procedure:qa-coverage-gap-analysis
   target: directive:QA_001
   relation: suggests
@@ -288,3 +330,57 @@ edges:
   when: running SonarQube static analysis and gating on NEW-code coverage, code smells, security hotspots and duplication
   reason: The quality gate suggests the Sonar toolguide as the static-analysis gate that carries the size/complexity/duplication
     metrics that do not belong in a per-file test gate; the `when` is the new toolguide's own scope. Delivered at implement/review.
+- source: action:qa/accept
+  target: directive:QA_003
+  relation: scope
+- source: action:qa/accept
+  target: procedure:qa-go-no-go-readiness-review
+  relation: scope
+- source: action:qa/discovery
+  target: directive:QA_006
+  relation: scope
+- source: action:qa/discovery
+  target: tactic:qa-exploratory-charter-writing
+  relation: scope
+- source: action:qa/implement
+  target: directive:QA_002
+  relation: scope
+- source: action:qa/implement
+  target: tactic:qa-flaky-test-quarantine
+  relation: scope
+- source: action:qa/implement
+  target: tactic:qa-test-data-minimization
+  relation: scope
+- source: action:qa/implement
+  target: tactic:qa-regression-suite-selection
+  relation: scope
+- source: action:qa/plan
+  target: directive:QA_005
+  relation: scope
+- source: action:qa/plan
+  target: tactic:qa-risk-based-test-prioritization
+  relation: scope
+- source: action:qa/plan
+  target: procedure:qa-test-plan-review-workshop
+  relation: scope
+- source: action:qa/review
+  target: directive:QA_003
+  relation: scope
+- source: action:qa/review
+  target: procedure:qa-defect-triage-ritual
+  relation: scope
+- source: action:qa/specify
+  target: directive:QA_001
+  relation: scope
+- source: action:qa/specify
+  target: directive:QA_004
+  relation: scope
+- source: action:qa/tasks
+  target: tactic:qa-pairwise-test-reduction
+  relation: scope
+- source: action:qa/tasks
+  target: tactic:qa-boundary-equivalence-partitioning
+  relation: scope
+- source: action:qa/tasks
+  target: procedure:qa-coverage-gap-analysis
+  relation: scope
