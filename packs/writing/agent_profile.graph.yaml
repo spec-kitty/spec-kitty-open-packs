@@ -62,7 +62,7 @@ edges:
   target: foundation::directive:DIRECTIVE_048
   relation: requires
 - source: agent_profile:lexical-larry
-  target: foundation::glossary_pack:spec-kitty-core
+  target: foundation::glossary_context:spec-kitty-core
   relation: vocabulary
   reason: Larry's authority is the domain vocabulary, and his DIRECTIVE_048 rationale requires terminology analysis to reference
     the canonical glossary at its current version; this is the built-in Spec Kitty glossary.

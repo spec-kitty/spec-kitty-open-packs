@@ -27,7 +27,7 @@ packs/<pack-name>/
 ├── procedures/          # *.procedure.yaml
 ├── agent_profiles/      # *.agent.yaml
 ├── assets/              # asset files + *.asset.yaml sidecars
-├── glossary_packs/      # *.glossary-pack.yaml
+├── glossaries/         # <id>.glossary.yaml glossary contexts
 ├── presets/             # <name>.yaml activation presets
 ├── drg/fragment.yaml    # additive DRG fragment
 ├── pack.yaml            # the descriptor: identity, level and lineage (required)
