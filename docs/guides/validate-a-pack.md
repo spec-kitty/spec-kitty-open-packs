@@ -169,7 +169,7 @@ valid through the service, at a pinned charter version). The job:
    is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
    mirror has drifted from the pin);
 4. **round-trips every pack** (#252; charter ADR-0070 decision 4, amended 2026-11-13): from the
-   charter source at the pin, it runs `./gradlew --max-workers=1 :packs:driftTest
+   charter source at the pin, it runs `./gradlew --max-workers=1 :pack-validation:driftTest
    -PopenPacksDir=<this checkout>` ([`charter_drift_test.sh`](../../scripts/ci/charter_drift_test.sh)).
    Every pack with a `pack.yaml`, built-in-level ones included, is loaded through the charter's store,
    written back and compared by meaning. A load violation, an unmodelled file, a load warning, a file

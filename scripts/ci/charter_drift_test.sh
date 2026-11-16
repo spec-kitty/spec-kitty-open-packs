@@ -6,12 +6,12 @@
 #
 # From the pinned spec-kitty-charter checkout at <work-dir>/spec-kitty-charter (fetched when absent, as
 # charter_service_jar.sh fetches it for a commit pin), runs
-#   ./gradlew --max-workers=1 :packs:driftTest -PopenPacksDir=<this repository>
+#   ./gradlew --max-workers=1 :pack-validation:driftTest -PopenPacksDir=<this repository>
 # which loads every pack with a pack.yaml through the production store, writes it back and compares every file by
 # meaning. A load violation, an unmodelled file, a load warning or a file that does not round-trip fails it; a
 # pack-manifest.yaml whose lists differ from the derived ones fails as "pack-manifest.yaml: refused: leaves out ...".
 # On a release pin, `commit` must be the commit `release_tag` was built from, or the two steps judge different charters.
-# The report is at <work-dir>/spec-kitty-charter/service/packs/build/reports/tests/driftTest.
+# The report is at <work-dir>/spec-kitty-charter/service/pack-validation/build/reports/tests/driftTest.
 # Needs Java 25 on the PATH or in JAVA_HOME, and network access to github.com and the Gradle dependency repositories.
 set -euo pipefail
 
@@ -37,6 +37,6 @@ if [[ "$(git -C "$source_dir" rev-parse HEAD 2>/dev/null || true)" != "$commit" 
 fi
 [[ "$(git -C "$source_dir" rev-parse HEAD)" == "$commit" ]] || { echo "::error::the checkout is not at the pinned commit $commit" >&2; exit 1; }
 
-echo "round-tripping every pack of $repo through the charter at $commit (./gradlew :packs:driftTest)" >&2
+echo "round-tripping every pack of $repo through the charter at $commit (./gradlew :pack-validation:driftTest)" >&2
 cd "$source_dir"
-./gradlew --console=plain --no-daemon --max-workers=1 :packs:driftTest -PopenPacksDir="$repo"
+./gradlew --console=plain --no-daemon --max-workers=1 :pack-validation:driftTest -PopenPacksDir="$repo"
