@@ -316,7 +316,7 @@ These declare `depends_on` over base packs; a consumer configures **one** name.
 Some built-in artifacts are foundational runtime mechanics rather than domain guidance, and
 are expected to remain built-in (or move only when core decides). Examples:
 `035-bulk-edit-occurrence-classification` and its `occurrence-classification-workflow`,
-`model-task-routing`, mission-type/step-contract machinery, and the retrospective mechanics.
+`model-task-routing`, mission-type machinery, and the retrospective mechanics.
 This proposal does **not** claim them.
 
 ## From proposal to issues

@@ -26,7 +26,6 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 | Paradigm | `paradigms/` | `<id>.paradigm.yaml` | A way of working that ties directives together. |
 | Procedure | `procedures/` | `<id>.procedure.yaml` | A multi-step process with entry and exit conditions. |
 | Agent profile | `agent_profiles/` | `<id>.agent.yaml` | A role an agent can adopt. |
-| Mission step contract | `mission_step_contracts/` | `<id>.step-contract.yaml` | What one Mission action must do and produce. |
 | Template | `templates/` | any (Markdown etc.) | Document skeletons used by Missions. |
 | Asset | `assets/` | `<file>.asset.yaml` + the file | A file shipped with the pack (scripts, gate code). |
 | Glossary | `glossaries/` | `<id>.glossary.yaml` | A glossary context: a bounded set of canonical terms. |
@@ -102,10 +101,6 @@ Key fields: `profile-id`, `name`, `description`, `role`, `alt-roles`, `capabilit
 `specialization`, `collaboration`. Omit `alt-roles` when empty. A pack declares its role-neutral
 fallback profile with `fallback_profile` in `pack.yaml`. Lineage between profiles is a DRG edge
 (`specializes_from`), not a profile field.
-
-## Mission step contract
-
-Key fields: `id`, `action`, `mission`, `steps`.
 
 ## Asset
 

@@ -162,9 +162,11 @@ consumer's registration (`.kittify/config.yaml`), so `pack_name`, `source_kind`,
 them and bare-id endpoints. This repository validates against the charter's schemas, so
 `scripts/ci/validate-packs.sh` enforces the rule for its packs.
 
-Relations include `requires`, `suggests`, `applies`, `scope`, `vocabulary`, `delegates_to`,
-`specializes_from`, `enhances`, `overrides`, `refines`, `replaces`, `rejects`, `instantiates`,
-`in_tension_with` and `reconciles_tension`.
+Relations are `requires`, `suggests`, `applies`, `scope`, `vocabulary`, `instantiates`,
+`specializes_from`, `enhances`, `overrides`, `refines`, `in_tension_with`, `reconciles_tension` and
+`rejects`. Charter slice F (ADR-0077) retired `impacts`, `replaces` and `delegates_to`: a former
+`replaces` edge is written `overrides`. Each relation joins only the source and target kinds the
+charter's endpoint table allows (ADR-0077 decision 5).
 
 ## Consumer registration — `.kittify/config.yaml`
 

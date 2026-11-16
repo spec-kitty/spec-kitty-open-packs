@@ -34,11 +34,12 @@ my-pack/
 ├── paradigms/                  # *.paradigm.yaml — paradigm definitions
 ├── procedures/                 # *.procedure.yaml — operational procedures
 ├── agent_profiles/             # *.agent.yaml — agent personas
-├── mission_step_contracts/     # *.step-contract.yaml — mission step contracts
 ├── glossaries/                 # <id>.glossary.yaml — glossary contexts (terminology)
 ├── assets/                     # *.asset.yaml sidecars plus the files they describe
 ├── skills/                     # *.skill.yaml — agent skills
 ├── missions/                   # <type>/<type>.mission-type.yaml plus steps/ — custom mission types
+├── lifecycles/                 # *.lifecycle.yaml — lifecycles (lanes and transitions)
+├── guards/                     # *.guard.yaml — guards on a lifecycle's transitions
 ├── presets/                    # <name>.yaml — activation presets
 ├── drg/fragment.yaml           # additive DRG fragment (the only DRG file an org pack may have)
 └── policy.yaml                 # optional: mutability levels (open, extendable, locked)
@@ -138,7 +139,6 @@ collisions visible:
 | Paradigms | `*.paradigm.yaml` | `<org>-par-<seq>` |
 | Procedures | `*.procedure.yaml` | `<org>-proc-<seq>` |
 | Agent profiles | `*.agent.yaml` | `<org>-<role>` |
-| Mission step contracts | `*.step-contract.yaml` | `<org>-msc-<seq>` |
 
 Colliding with a built-in id is *permitted* but raises a `same_id_collision` advisory, and the
 artifact field-merges into the built-in. Say what you mean with a DRG edge from your artifact to
@@ -231,6 +231,20 @@ A mission type's step lists what it needs under `expected_input_artifacts`. Reus
 when that producer's `expected_output_artifacts` entry is `blocking`. An input whose producer is
 not blocking stays non-blocking, so a step is not held up by an artifact that may legitimately be
 absent.
+
+### Step substeps
+
+What a step does is written on the step itself, as `substeps` (charter ADR-0077; the separate
+step-contract files are retired). Each substep has an `id`, a letter-first kebab slug of at most 64
+characters unique within its step, and a `description`, with an optional `command`, `inputs`,
+`guidance` and `delegates_to`. `delegates_to` names one guidance `kind` and its `candidates`, each
+written `[<pack>::]<id>`: bare when your pack holds it, qualified with the pack's name when another
+pack of the `depends_on` closure does.
+
+The charter checks two links in the DRG fragment or graph documents. Every step is linked from its
+mission type by a `mission_type:<type> -requires-> action:<type>/<step>` edge, and every delegation
+candidate by a `scope` edge from that step's action. Each relation joins only the endpoint kinds the
+charter's ADR-0077 decision 5 allows.
 
 ## 6. Reuse existing built-in artifacts
 
