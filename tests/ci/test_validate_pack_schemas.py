@@ -537,6 +537,34 @@ class ValidatorExitCodes(unittest.TestCase):
         with self.assertRaises(validator.MarkdownRefused):  # a plain space-only title is still empty
             validator.parse_markdown("## \u2003\n")
 
+    def test_a_specializes_from_cycle_among_agent_profiles_is_named_in_order(self) -> None:
+        """#286 (charter ADR-0078 decision 2): the specialization edges are acyclic; a profile may have several parents."""
+        def pack(root: Path, name: str, edges: str) -> Path:
+            (root / name / "drg").mkdir(parents=True)
+            (root / name / "pack.yaml").write_text(f"pack_id: {name}\nname: {name}\npack_level: org\n", encoding="utf-8")
+            (root / name / "drg" / "fragment.yaml").write_text(f"nodes: []\nedges: {edges}\n", encoding="utf-8")
+            return root / name
+
+        spec = "{{source: 'agent_profile:{}', target: '{}agent_profile:{}', relation: specializes_from}}"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # Several parents and a shared ancestor: acyclic, so nothing to report.
+            base = pack(root, "base", f"[{spec.format('ivan', '', 'generic')}]")
+            langs = pack(root, "langs", "[" + ", ".join((spec.format("gwen", "base::", "ivan"), spec.format("gwen", "base::", "generic"),
+                                                          spec.format("jenny", "base::", "ivan"))) + "]")
+            self.assertEqual(validator.specialization_cycle_violations([base, langs]), [])
+            # The positive control: two profiles that specialize each other, across packs and qualified.
+            loop = pack(root, "loop", f"[{spec.format('zed', 'base::', 'ivan')}, {spec.format('generic', 'loop::', 'zed')}]")
+            self.assertEqual(validator.specialization_cycle_violations([base, langs, loop]),
+                             ["specializes_from cycle among agent profiles: generic -> zed -> ivan -> generic"])
+            mutual = pack(root, "mutual", f"[{spec.format('bob', '', 'amy')}, {spec.format('amy', '', 'bob')}]")
+            self.assertEqual(validator.specialization_cycle_violations([mutual]),
+                             ["specializes_from cycle among agent profiles: amy -> bob -> amy"])
+            # Edges of another relation, or between other kinds, are not specialization edges.
+            other = pack(root, "other", "[{source: 'agent_profile:x', target: 'agent_profile:y', relation: requires}, "
+                                        "{source: 'agent_profile:y', target: 'agent_profile:x', relation: requires}]")
+            self.assertEqual(validator.specialization_cycle_violations([other]), [])
+
     def test_cross_pack_checks_catch_a_missing_preset_id_a_dangling_bare_edge_and_an_id_shared_across_levels(self) -> None:
         def pack(root: Path, name: str, nodes: str, edges: str = "[]", preset: str = "", level: str = "org") -> Path:
             (root / name / "drg").mkdir(parents=True)

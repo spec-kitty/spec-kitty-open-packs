@@ -100,7 +100,9 @@ purpose: >
 Key fields: `profile-id`, `name`, `description`, `role`, `alt-roles`, `capabilities`, `purpose`,
 `specialization`, `collaboration`. Omit `alt-roles` when empty. A pack declares its role-neutral
 fallback profile with `fallback_profile` in `pack.yaml`. Lineage between profiles is a DRG edge
-(`specializes_from`), not a profile field.
+(`specializes_from`), not a profile field. The edges are acyclic (the charter refuses a cycle), and a
+profile may have several parents. Set `performer: human` on a profile a person carries out; the role
+`operator` is reserved for such a profile.
 
 ## Asset
 
