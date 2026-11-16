@@ -15,7 +15,7 @@
 ## What this is
 
 A **Charter Pack** is a distributable bundle of charter artefacts — directives, tactics,
-styleguides, toolguides, paradigms, procedures, agent profiles, skills, glossary packs and
+styleguides, toolguides, paradigms, procedures, agent profiles, skills, glossaries and
 presets — that shapes how AI agents work on a governed [Spec Kitty](https://github.com/spec-kitty/spec-kitty)
 project. This repository is where those packs are **authored, validated and published**.
 
