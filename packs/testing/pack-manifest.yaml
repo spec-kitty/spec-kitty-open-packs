@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 643db1a11e75df0945c5623c43e34af82e2c781da1dcba1ff4d01962a593e4a1
+manifest_hash: 59059e79e47b9ce751ee25779b57b6ed5fb7b57dea34f47b68e5390f0e4991b6
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -24,7 +24,7 @@ constituents:
 - kind: procedure
   id: development-assist-test-cleanup
   path: procedures/development-assist-test-cleanup.procedure.yaml
-  content_hash: 70d827f7430272a5f0f7534262b5847be61b332370948ef0be9eb218db376d5d
+  content_hash: fc0812097dc34c353149682a0c9f506b74c116659d33faf99f550a46d5953f86
 - kind: procedure
   id: disciplined-defect-diagnosis
   path: procedures/disciplined-defect-diagnosis.procedure.yaml
@@ -56,7 +56,7 @@ constituents:
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: f0b8274aec231a3a3806c71a59619f7137256438891c2fbbe7ef7576660ba091
+  content_hash: 876aea27aa3b876081b9403369ba257027a177bbb987b8f4dbafa98db2e9ce2a
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
@@ -68,7 +68,7 @@ constituents:
 - kind: tactic
   id: formalized-constraint-testing
   path: tactics/testing/formalized-constraint-testing.tactic.yaml
-  content_hash: 8277d21dd40a55588657960ece612672d06be1f2f4b843320ccfe0031684a776
+  content_hash: d15e0b8d2fff3f58e25a5310009ec100b1e57181badbb553607e67e37b41d1a0
 - kind: tactic
   id: mutation-testing-workflow
   path: tactics/testing/mutation-testing-workflow.tactic.yaml

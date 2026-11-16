@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: f8301ae3343675ff51e4077456d86da2dbeea2564f016101822c446994a247b8
+manifest_hash: 468e1ceef448fcc0bd929bd10833b9185d34b7c97d75bc4f00a3b11e50d30451
 constituents:
 - kind: agent_profile
   id: planner-priti
@@ -16,7 +16,7 @@ constituents:
 - kind: paradigm
   id: brownfield-onboarding
   path: paradigms/brownfield-onboarding.paradigm.yaml
-  content_hash: 79b7d1e3ad58c4282f54440929d9cb0beda65e24e7d31a33f29c3185adb199a1
+  content_hash: 6f82f9de06cbb7701331bd7b5b770e53701405d926192f1242a8dfe23663259b
 - kind: procedure
   id: domain-aware-decision-interview
   path: procedures/domain-aware-decision-interview.procedure.yaml
@@ -40,7 +40,7 @@ constituents:
 - kind: styleguide
   id: planning-and-tracking
   path: styleguides/planning-and-tracking.styleguide.yaml
-  content_hash: 869e9ba9cc60a08cc597a321cd4ec73fb8a1e07ebaa1b7aafce5ab45775f79d9
+  content_hash: c4718b7a25d587f7bc3030396216c8b563237a5e8fc379c35774a307ff841a88
 - kind: tactic
   id: analysis-extract-before-interpret
   path: tactics/analysis/analysis-extract-before-interpret.tactic.yaml

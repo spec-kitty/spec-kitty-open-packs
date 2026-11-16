@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 479f49b9bca807ca287fa0dac08fd9bfad9f9319d40645d43046c21a924ba044
+manifest_hash: d38ccc05e4410927e81f934ea97b353354e6996cac599b820aeb386d09434772
 constituents:
 - kind: agent_profile
   id: architect-alphonso
   path: agent_profiles/architect-alphonso.agent.yaml
-  content_hash: f251be185f3e8c9c942d97004d44f7bfbd3909caa3424c8c1078c16103b0df7f
+  content_hash: b4be59eee4f5afef9660cc0f99f19237c1d2047ed98d81affde00275d031fa1f
 - kind: agent_profile
   id: paula-patterns
   path: agent_profiles/paula-patterns.agent.yaml
