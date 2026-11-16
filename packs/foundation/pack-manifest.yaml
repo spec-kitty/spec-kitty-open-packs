@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4d9f4a5a80603fa4262dcc5d408f233f835b99ae6f4546ec452a1e161cf359c1
+manifest_hash: ab8c1266325e614bb906243fdbe32e9730d77d1684f7489683d40cb8feb2d55b
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -153,6 +153,14 @@ constituents:
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
   content_hash: 7870b3c38464e6138086dbf647656943bf64ce08ec1aec8cbb5fd742f650b52a
+- kind: guard
+  id: spec-kitty-pre-review
+  path: guards/spec-kitty-pre-review.guard.yaml
+  content_hash: b8bd82ffdb2c016de0051f6491cbf3718f8ee11bda7fc9b0d9b613b8b421efa5
+- kind: lifecycle
+  id: work-package
+  path: lifecycles/work-package.lifecycle.yaml
+  content_hash: 74e42fb052a00f955791a9c6cd476722e259d1097f36ebc07d08893d14fc6039
 - kind: mission_step_contract
   id: implement
   path: missions/built_in_step_contracts/implement.step-contract.yaml

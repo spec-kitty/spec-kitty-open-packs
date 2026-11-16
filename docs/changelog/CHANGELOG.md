@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-14'
+updated: '2026-11-16'
 ---
 # Changelog
 
@@ -206,6 +206,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (see Changed).
 
 ### ✨ Added
+
+- **Every mission step is linked from its mission type, every delegation candidate is scoped,
+  and foundation has a work-package lifecycle with the pre-review guard** (#285 items 2 to 4;
+  charter slice F, ADR-0077). These are additive and valid at the current pin. They prepare the
+  pin move, which refuses an unlinked step (`mission_step_unlinked`) and an unscoped candidate
+  (`substep_delegation_unscoped`).
+  - 26 `mission_type:<t> -requires-> action:<t>/<s>` edges, so each of the six mission types
+    links every step and on-demand step: cave-dev 8, qa 7, software-dev 8, research 2,
+    documentation 1 (plan was already complete). 23 of their targets get a new `action` node:
+    cave-dev 8, qa 7, software-dev 7, research 1.
+  - 79 `scope` edges from a step's action to each step-contract delegation candidate that had
+    none (80 uses: foundation 47, qa 18, writing 14; writing's targets are `foundation::`).
+    `scope` puts the candidate in force for that step's context. The delegation already named
+    it, so this is intended.
+  - foundation: guard `spec-kitty-pre-review` (`builtin:spec-kitty-pre-review`,
+    `on_indeterminate: pass`) and lifecycle `work-package` with core's nine lanes. The guard runs
+    on `in_progress -> for_review` (charter ADR-0054 decision 12). The software-dev `review` step
+    contract keeps its `gates[]` entry until the fold (#285 item 1) retires the contract.
+  - `qa` moves to 3.1.0 and `cave-kitty` to 2.1.0 (additive, DIRECTIVE_018). `foundation` and
+    `writing` stay at 1.0.0 for now: six packs pin them exactly, released in lockstep, so their
+    bump is left to the operator's call on #285.
 
 - **`pack-authoring` styleguide `doctrine-instruction-voice`** (#275): canonical glossary terms in
   instructions, no unauthorized high-risk operation in an example, and roles instead of one

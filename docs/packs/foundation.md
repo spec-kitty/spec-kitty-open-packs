@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
 - **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `0ad3c53041b20370fb2a6d0f3a1c24386115c9c0fcabdc70c866cf90687beaf1`
+- **Content checksum (sha256):** `4ff4e225981666d84cc75f3b846dc89426fbb0ac08bc52e1222d3bd1e42e5862`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -46,8 +46,10 @@ glossary.
 | `procedures` | 40 |
 | `agent_profiles` | 6 |
 | `glossary_packs` | 1 |
+| `guards` | 1 |
+| `lifecycles` | 1 |
 | `missions` | 74 |
-| **Total files** | **241** |
+| **Total files** | **243** |
 
 ### Full listing
 
@@ -247,6 +249,20 @@ glossary.
 <summary><code>glossary_packs</code> (1)</summary>
 
 - `spec-kitty-core.glossary-pack.yaml`
+
+</details>
+
+<details>
+<summary><code>guards</code> (1)</summary>
+
+- `spec-kitty-pre-review.guard.yaml`
+
+</details>
+
+<details>
+<summary><code>lifecycles</code> (1)</summary>
+
+- `work-package.lifecycle.yaml`
 
 </details>
 

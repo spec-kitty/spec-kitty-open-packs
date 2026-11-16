@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/cave-kitty`
 - **Pack level:** `org`
-- **Declared version:** `2.0.1`
-- **Content checksum (sha256):** `be3af998d260150acc147299fb090f54895cc071f4d476d00f0762d74ad151d4`
+- **Declared version:** `2.1.0`
+- **Content checksum (sha256):** `6349fd6ff271a25e4fe49eb09ec60696de280162cd73b88f77ea1f96b32c777e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
