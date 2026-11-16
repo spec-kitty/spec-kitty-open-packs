@@ -97,6 +97,9 @@ The resulting packs:
     procedure mandatory.)
   * In-closure profile references to another pack are qualified (`foundation::010`). Step-contract
     `delegates_to` candidates stay bare, which the charter allows within the closure.
+    *Amended 2026-11-16 (#285):* no longer holds. Charter slice F (ADR-0077 decision 2) folds the step
+    contracts into the substeps of their mission-type steps, and a delegation candidate another pack holds
+    is written `<pack>::<id>` (writing's 34 candidates are `foundation::`-qualified).
 * **Service-only refusals**, found by the service check:
   * A bundle may not add a relationship to the locked fallback profile.
   * A graph-only node (no file) is not held for a cross-pack reference.
