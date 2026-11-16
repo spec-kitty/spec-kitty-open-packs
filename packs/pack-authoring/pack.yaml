@@ -6,7 +6,7 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M75PCTG46SQ9VA5NQF8ZZ2AG
-pack_version: 1.1.0
+pack_version: 1.2.0
 parent_pack: null
 name: pack-authoring
 pack_level: org
@@ -15,6 +15,6 @@ pack_drg: drg/fragment.yaml
 # kitty-specs/foundation-writing-split-01M75HV3/membership.json; acyclic, org -> org or built-in).
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: ">=1.0,<2"
+    range: ">=2.0,<3"
   - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
-    range: ">=1.0,<2"
+    range: ">=2.0,<3"
