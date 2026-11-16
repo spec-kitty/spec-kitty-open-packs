@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Pack level:** `org`
-- **Declared version:** `3.1.0`
-- **Content checksum (sha256):** `e05a76ac49a2073140f24601c5f056ca8e487d54560576f78a9720da8582bfa7`
+- **Declared version:** `4.0.0`
+- **Content checksum (sha256):** `8df15fbec5b66e5fefe730b710c0ecfaa565c893302999ee6aaec603af459754`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ It does two jobs:
 
 1. **A `qa` mission type.** The seven canonical steps redefined in QA terms (discovery, test
    strategy, test plan, test design, test execution, test report review, acceptance), with five
-   QA agent profiles, step contracts, templates, and two evidence tools. Ported from
+   QA agent profiles, its steps' substeps, templates, and two evidence tools. Ported from
    `spec-kitty-qa-pack`; see the README's Provenance section.
 2. **Description to acceptance CI.** A standing loop from a human-readable product description to
    an automated release gate:
@@ -47,7 +47,7 @@ It does two jobs:
 The pack names no test runner. Your project runs its own tests; the pack governs what they must
 cover and how honestly they report.
 
-**Depends on:** [`foundation`](foundation.md) `>=1.0,<2`, [`planning-analysis`](planning-analysis.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<3`, [`planning-analysis`](planning-analysis.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
 
 ## Artifact inventory
 
@@ -60,12 +60,11 @@ cover and how honestly they report.
 | `procedures` | 5 |
 | `agent_profiles` | 5 |
 | `assets` | 6 |
-| `glossary_packs` | 1 |
+| `glossaries` | 1 |
 | `drg` | 1 |
-| `mission_step_contracts` | 7 |
 | `missions` | 20 |
 | `presets` | 1 |
-| **Total files** | **74** |
+| **Total files** | **67** |
 
 ### Full listing
 
@@ -153,9 +152,9 @@ cover and how honestly they report.
 </details>
 
 <details>
-<summary><code>glossary_packs</code> (1)</summary>
+<summary><code>glossaries</code> (1)</summary>
 
-- `qa-glossary.glossary-pack.yaml`
+- `qa-glossary.glossary.yaml`
 
 </details>
 
@@ -163,19 +162,6 @@ cover and how honestly they report.
 <summary><code>drg</code> (1)</summary>
 
 - `fragment.yaml`
-
-</details>
-
-<details>
-<summary><code>mission_step_contracts</code> (7)</summary>
-
-- `qa-accept.step-contract.yaml`
-- `qa-discovery.step-contract.yaml`
-- `qa-implement.step-contract.yaml`
-- `qa-plan.step-contract.yaml`
-- `qa-review.step-contract.yaml`
-- `qa-specify.step-contract.yaml`
-- `qa-tasks.step-contract.yaml`
 
 </details>
 

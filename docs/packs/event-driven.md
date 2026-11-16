@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/event-driven`
 - **Pack level:** `org`
-- **Declared version:** `3.0.1`
-- **Content checksum (sha256):** `3dd887c6a04a0beb562da560cac3c0d9e24045b25a82b915a57a5d5d7f605939`
+- **Declared version:** `4.0.0`
+- **Content checksum (sha256):** `179ece956ce61694019e28496839a71031455f5e5cda89422da463a5208f193a`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -53,7 +53,7 @@ ledger as much as an event store does.
 | `styleguides` | 1 |
 | `paradigms` | 1 |
 | `assets` | 2 |
-| `glossary_packs` | 1 |
+| `glossaries` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
 | **Total files** | **20** |
@@ -105,9 +105,9 @@ ledger as much as an event store does.
 </details>
 
 <details>
-<summary><code>glossary_packs</code> (1)</summary>
+<summary><code>glossaries</code> (1)</summary>
 
-- `evd-glossary.glossary-pack.yaml`
+- `evd-glossary.glossary.yaml`
 
 </details>
 
