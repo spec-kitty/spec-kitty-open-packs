@@ -28,6 +28,9 @@ edges:
   target: action:documentation/validate
   relation: requires
 - source: mission_type:documentation
+  target: action:documentation/retrospect
+  relation: requires
+- source: mission_type:documentation
   target: directive:DIRECTIVE_042
   relation: scope
 - source: mission_type:documentation

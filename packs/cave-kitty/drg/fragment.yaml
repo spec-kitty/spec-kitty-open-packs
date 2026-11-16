@@ -16,6 +16,30 @@ nodes:
     kind: mission_types
     title: "Cave Dev Mission Type"
     body_path: missions/cave-dev/cave-dev.mission-type.yaml
+  - id: cave-dev/discovery
+    kind: actions
+    title: "Discovery (caveman)"
+  - id: cave-dev/specify
+    kind: actions
+    title: "Specify (caveman)"
+  - id: cave-dev/plan
+    kind: actions
+    title: "Plan (caveman)"
+  - id: cave-dev/tasks
+    kind: actions
+    title: "Tasks (caveman)"
+  - id: cave-dev/analyze
+    kind: actions
+    title: "Analyze (caveman)"
+  - id: cave-dev/implement
+    kind: actions
+    title: "Implement (caveman)"
+  - id: cave-dev/review
+    kind: actions
+    title: "Review (caveman)"
+  - id: cave-dev/accept
+    kind: actions
+    title: "Accept (caveman)"
 edges:
   - source: directive:CAVE_001
     target: styleguide:cave-sty-001-communication
@@ -26,3 +50,27 @@ edges:
   - source: mission_type:cave-dev
     target: styleguide:cave-sty-001-communication
     relation: scope
+  - source: mission_type:cave-dev
+    target: action:cave-dev/discovery
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/specify
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/plan
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/tasks
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/analyze
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/implement
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/review
+    relation: requires
+  - source: mission_type:cave-dev
+    target: action:cave-dev/accept
+    relation: requires

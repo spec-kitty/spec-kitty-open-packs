@@ -39,6 +39,12 @@ edges:
 - source: action:documentation/accept
   target: foundation::tactic:requirements-validation-workflow
   relation: scope
+- source: action:documentation/accept
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/accept
+  target: foundation::directive:DIRECTIVE_033
+  relation: scope
 - source: action:documentation/audit
   target: foundation::directive:DIRECTIVE_003
   relation: scope
@@ -47,6 +53,12 @@ edges:
   relation: scope
 - source: action:documentation/audit
   target: foundation::tactic:requirements-validation-workflow
+  relation: scope
+- source: action:documentation/audit
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/audit
+  target: foundation::directive:DIRECTIVE_033
   relation: scope
 - source: action:documentation/design
   target: foundation::directive:DIRECTIVE_001
@@ -66,6 +78,12 @@ edges:
 - source: action:documentation/design
   target: template:documentation/documentation-plan-template.md
   relation: instantiates
+- source: action:documentation/design
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/design
+  target: foundation::directive:DIRECTIVE_033
+  relation: scope
 - source: action:documentation/discover
   target: foundation::directive:DIRECTIVE_003
   relation: scope
@@ -84,6 +102,12 @@ edges:
 - source: action:documentation/discover
   target: template:documentation/documentation-spec-template.md
   relation: instantiates
+- source: action:documentation/discover
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/discover
+  target: foundation::directive:DIRECTIVE_033
+  relation: scope
 - source: action:documentation/generate
   target: foundation::directive:DIRECTIVE_010
   relation: scope
@@ -101,6 +125,12 @@ edges:
 - source: action:documentation/generate
   target: foundation::tactic:requirements-validation-workflow
   relation: scope
+- source: action:documentation/generate
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/generate
+  target: foundation::directive:DIRECTIVE_033
+  relation: scope
 - source: action:documentation/publish
   target: foundation::directive:DIRECTIVE_010
   relation: scope
@@ -109,6 +139,12 @@ edges:
   relation: scope
 - source: action:documentation/publish
   target: foundation::tactic:requirements-validation-workflow
+  relation: scope
+- source: action:documentation/publish
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/publish
+  target: foundation::directive:DIRECTIVE_033
   relation: scope
 - source: action:documentation/retrospect
   target: foundation::directive:DIRECTIVE_003
@@ -148,6 +184,12 @@ edges:
   relation: scope
 - source: action:documentation/validate
   target: foundation::tactic:requirements-validation-workflow
+  relation: scope
+- source: action:documentation/validate
+  target: foundation::directive:DIRECTIVE_029
+  relation: scope
+- source: action:documentation/validate
+  target: foundation::directive:DIRECTIVE_033
   relation: scope
 - source: foundation::action:research/retrospect
   target: styleguide:kitty-glossary-writing

@@ -14,6 +14,9 @@ nodes:
 - urn: action:plan/specify
   kind: action
   label: specify
+- urn: action:research/accept
+  kind: action
+  label: accept
 - urn: action:research/gathering
   kind: action
   label: gathering
@@ -32,6 +35,18 @@ nodes:
 - urn: action:research/synthesis
   kind: action
   label: synthesis
+- urn: action:software-dev/accept
+  kind: action
+  label: accept
+- urn: action:software-dev/analyze
+  kind: action
+  label: analyze
+- urn: action:software-dev/charter
+  kind: action
+  label: charter
+- urn: action:software-dev/discovery
+  kind: action
+  label: discovery
 - urn: action:software-dev/implement
   kind: action
   label: implement
@@ -50,6 +65,15 @@ nodes:
 - urn: action:software-dev/tasks
   kind: action
   label: tasks
+- urn: action:software-dev/tasks-finalize
+  kind: action
+  label: tasks-finalize
+- urn: action:software-dev/tasks-outline
+  kind: action
+  label: tasks-outline
+- urn: action:software-dev/tasks-packages
+  kind: action
+  label: tasks-packages
 edges:
 - source: action:plan/plan
   target: tactic:adr-drafting-workflow
@@ -75,11 +99,47 @@ edges:
 - source: action:plan/plan
   target: template:plan/plan-plan-skeleton.md
   relation: instantiates
+- source: action:plan/plan
+  target: directive:DIRECTIVE_010
+  relation: scope
+- source: action:plan/plan
+  target: tactic:requirements-validation-workflow
+  relation: scope
+- source: action:plan/plan
+  target: directive:DIRECTIVE_003
+  relation: scope
+- source: action:plan/plan
+  target: tactic:supply-chain-install-safety
+  relation: scope
+- source: action:plan/plan
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:plan/plan
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:plan/research
   target: tactic:bounded-context-identification
   relation: scope
 - source: action:plan/research
   target: tactic:deepening-opportunity-assessment
+  relation: scope
+- source: action:plan/research
+  target: directive:DIRECTIVE_010
+  relation: scope
+- source: action:plan/research
+  target: tactic:requirements-validation-workflow
+  relation: scope
+- source: action:plan/research
+  target: tactic:adr-drafting-workflow
+  relation: scope
+- source: action:plan/research
+  target: directive:DIRECTIVE_003
+  relation: scope
+- source: action:plan/research
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:plan/research
+  target: directive:DIRECTIVE_033
   relation: scope
 - source: action:plan/review
   target: tactic:adr-drafting-workflow
@@ -96,12 +156,45 @@ edges:
 - source: action:plan/review
   target: tactic:traceable-decisions
   relation: scope
+- source: action:plan/review
+  target: directive:DIRECTIVE_010
+  relation: scope
+- source: action:plan/review
+  target: directive:DIRECTIVE_037
+  relation: scope
+- source: action:plan/review
+  target: tactic:review-intent-and-risk-first
+  relation: scope
+- source: action:plan/review
+  target: tactic:quality-gate-verification
+  relation: scope
+- source: action:plan/review
+  target: tactic:stopping-conditions
+  relation: scope
 - source: action:plan/specify
   target: tactic:bounded-context-identification
   relation: scope
 - source: action:plan/specify
   target: template:plan/plan-spec-skeleton.md
   relation: instantiates
+- source: action:plan/specify
+  target: directive:DIRECTIVE_010
+  relation: scope
+- source: action:plan/specify
+  target: directive:DIRECTIVE_037
+  relation: scope
+- source: action:plan/specify
+  target: tactic:requirements-validation-workflow
+  relation: scope
+- source: action:plan/specify
+  target: directive:DIRECTIVE_003
+  relation: scope
+- source: action:plan/specify
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:plan/specify
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:research/gathering
   target: directive:DIRECTIVE_003
   relation: scope
@@ -110,6 +203,15 @@ edges:
   relation: scope
 - source: action:research/gathering
   target: tactic:requirements-validation-workflow
+  relation: scope
+- source: action:research/gathering
+  target: directive:DIRECTIVE_010
+  relation: scope
+- source: action:research/gathering
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:research/gathering
+  target: directive:DIRECTIVE_033
   relation: scope
 - source: action:research/methodology
   target: directive:DIRECTIVE_003
@@ -126,6 +228,12 @@ edges:
 - source: action:research/methodology
   target: template:research/research-plan-template.md
   relation: instantiates
+- source: action:research/methodology
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:research/methodology
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:research/output
   target: directive:DIRECTIVE_010
   relation: scope
@@ -134,6 +242,24 @@ edges:
   relation: scope
 - source: action:research/output
   target: tactic:requirements-validation-workflow
+  relation: scope
+- source: action:research/output
+  target: tactic:usage-examples-sync
+  relation: scope
+- source: action:research/output
+  target: tactic:review-intent-and-risk-first
+  relation: scope
+- source: action:research/output
+  target: tactic:quality-gate-verification
+  relation: scope
+- source: action:research/output
+  target: tactic:stopping-conditions
+  relation: scope
+- source: action:research/output
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:research/output
+  target: directive:DIRECTIVE_033
   relation: scope
 - source: action:research/retrospect
   target: directive:DIRECTIVE_003
@@ -171,6 +297,15 @@ edges:
 - source: action:research/scoping
   target: template:research/research-spec-template.md
   relation: instantiates
+- source: action:research/scoping
+  target: directive:DIRECTIVE_037
+  relation: scope
+- source: action:research/scoping
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:research/scoping
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:research/synthesis
   target: directive:DIRECTIVE_003
   relation: scope
@@ -182,6 +317,15 @@ edges:
   relation: scope
 - source: action:research/synthesis
   target: tactic:requirements-validation-workflow
+  relation: scope
+- source: action:research/synthesis
+  target: tactic:adr-drafting-workflow
+  relation: scope
+- source: action:research/synthesis
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:research/synthesis
+  target: directive:DIRECTIVE_033
   relation: scope
 - source: action:software-dev/implement
   target: directive:DIRECTIVE_001
@@ -285,6 +429,9 @@ edges:
 - source: action:software-dev/implement
   target: toolguide:efficient-local-tooling
   relation: scope
+- source: action:software-dev/implement
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:software-dev/plan
   target: directive:DIRECTIVE_003
   relation: scope
@@ -312,6 +459,12 @@ edges:
 - source: action:software-dev/plan
   target: template:software-dev/plan-template.md
   relation: instantiates
+- source: action:software-dev/plan
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:software-dev/plan
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:software-dev/retrospect
   target: directive:DIRECTIVE_003
   relation: scope
@@ -420,6 +573,18 @@ edges:
 - source: action:software-dev/specify
   target: template:software-dev/spec-template.md
   relation: instantiates
+- source: action:software-dev/specify
+  target: directive:DIRECTIVE_037
+  relation: scope
+- source: action:software-dev/specify
+  target: procedure:example-mapping-workshop
+  relation: scope
+- source: action:software-dev/specify
+  target: directive:DIRECTIVE_029
+  relation: scope
+- source: action:software-dev/specify
+  target: directive:DIRECTIVE_033
+  relation: scope
 - source: action:software-dev/tasks
   target: directive:DIRECTIVE_003
   relation: scope
