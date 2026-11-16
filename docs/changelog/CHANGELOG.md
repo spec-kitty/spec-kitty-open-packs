@@ -207,6 +207,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **A roadmap in the docs: a new Plans section** (ADR 2026-11-16-1). `docs/plans/roadmap.md` is
+  one living page with a section per theme (charter lockstep, pack content quality, doctrine from
+  core, catalog shape and publication, docsite and trust). Each section gives the goal it serves,
+  quoted from the vision or charter, its horizon (Now, Next or Later), its exit criteria and an
+  `Epics:` line; every open epic is named on exactly one. Progress stays in the tracker
+  (`DIRECTIVE_044`); rendering it on the docsite is planned in doc-kitty#350.
+
 - **Every mission step is linked from its mission type, every delegation candidate is scoped,
   and foundation has a work-package lifecycle with the pre-review guard** (#285 items 2 to 4;
   charter slice F, ADR-0077). These are additive and valid at the current pin. They prepare the
