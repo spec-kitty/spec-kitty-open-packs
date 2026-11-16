@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/python`
 - **Pack level:** `org`
 - **Declared version:** `2.0.1`
-- **Content checksum (sha256):** `e95217d18deac8a5cfa5aac752e096d50755268ef4558ca677ac6f69ff5210cd`
+- **Content checksum (sha256):** `793655d85fefbfc24d0a5e12204848802cc5512ad719c3e53d6838adecddf762`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

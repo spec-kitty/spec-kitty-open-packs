@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 3e00e68dd092a85d7303dc2a72d20c94934f80120d9d2a9b609076e671f16d58
+manifest_hash: 6f1435b609ab0e83194297fc96a912504bd81b84c060d1497e720c41efc82adb
 constituents:
 - kind: agent_profile
   id: comms-cleo
   path: agent_profiles/comms-cleo.agent.yaml
-  content_hash: 2d9cfff2590c884a11928be2741257325e9aeb85835918ea19b92139d96998de
+  content_hash: 728b7d83259d1f9a36e7f4518a773a20b3054346aab6ce605eeac0c58d8b3e97
 - kind: agent_profile
   id: curator-carla
   path: agent_profiles/curator-carla.agent.yaml
@@ -12,7 +12,7 @@ constituents:
 - kind: agent_profile
   id: diagram-daisy
   path: agent_profiles/diagram-daisy.agent.yaml
-  content_hash: a494bc81a436b63496844a206a78a195067701c08e8ce8830d73221933a87681
+  content_hash: 8375af85ec5cb44050b66f0d5318a5ec37bb1dfdab3689f9cdba63c0a16c2e75
 - kind: agent_profile
   id: lexical-larry
   path: agent_profiles/lexical-larry.agent.yaml
@@ -176,19 +176,19 @@ constituents:
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: b8da1c4b9669553f5102a3ad8e5afc6ed872aeb155cb064982853d8ba894a5fa
+  content_hash: ed3a12dad951a0a41efd4b7eafee6becce3b1df4b3daf3914a58cd6b51a04c54
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
-  content_hash: 94db7d85e1eef67e95b681f53247e0c0c295977326c15d7e47b626260f8f85d8
+  content_hash: d1db19089b401ec34f7a5159649d8f89fe486dc2175373501381ced87db89e52
 - kind: styleguide
   id: docs-accessibility
   path: styleguides/docs-accessibility.styleguide.yaml
-  content_hash: 84f7d70c578e035ce12bebcf08dde9936789d9f1f7640a3c0266d880243dac20
+  content_hash: 94f580254480a4fb15e4a45e29be3a286c89a6d8f92393051d691db1aef7da1d
 - kind: styleguide
   id: docs-freshness-sla
   path: styleguides/docs-freshness-sla.styleguide.yaml
-  content_hash: 87ff5960b7491068689d1da68d0b46e9aa9a15b5958583026a9b365dfab34670
+  content_hash: 0dabdc0cb977cb82d0ee29e8a11f2a1e6f6821f007c529ab897a9d28ed8fccb1
 - kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
@@ -204,7 +204,7 @@ constituents:
 - kind: styleguide
   id: publication-authority
   path: styleguides/publication-authority.styleguide.yaml
-  content_hash: 7309d5c0f8b186c0ff9bb239c54696bfb54354d746cbdc3b5aa28aee5765c6c6
+  content_hash: 6410434ffc7fc5c7077f3d58a9a2db4fcf2d53a81c02d17109986e6a1d64af57
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
@@ -228,7 +228,7 @@ constituents:
 - kind: tactic
   id: common-docs-find
   path: tactics/common-docs-find.tactic.yaml
-  content_hash: 180b2e087da04cf8e26edb430af1cab6b07f8d659a5297e6b1b9cac3158649ae
+  content_hash: eebcfd0acfac8e7a83e98fcb7dbc426568801701fced6f3e4d56e2c7cebd9c3e
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
@@ -244,11 +244,11 @@ constituents:
 - kind: tactic
   id: stakeholder-alignment
   path: tactics/communication/stakeholder-alignment.tactic.yaml
-  content_hash: 7fc3217f702ea83a4fa05eb90f3615b67a34a7b6be8ea380ced38e436eec078e
+  content_hash: 08d248d7b8eaf035d1a4c6109f503195391c2f21e7aa9f8652cc7363f7a55419
 - kind: tactic
   id: writing-audience-catalog
   path: tactics/communication/writing-audience-catalog.tactic.yaml
-  content_hash: a91a3ee70b6f4ea603f022a25904a4e652eae0c4847a7b77ec2ee513e18490d6
+  content_hash: 9c432f93fde2e800d0736308d9ed0a01eefeeb1145da060178a5c637aa7a1973
 - kind: template
   id: writing/meeting-discussion-notes.md
   path: templates/writing/meeting-discussion-notes.md

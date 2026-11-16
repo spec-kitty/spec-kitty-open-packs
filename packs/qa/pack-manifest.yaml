@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 82954ac1612af42a0f57925a3373ce541f1e5388940304e14ac4b0068a320f73
+manifest_hash: 6dae08371810b269a941c5a397a02dc1594d18af6e064151a71a28a9b9ed78a3
 constituents:
 - kind: agent_profile
   id: qa-defect-triager-dmitri
@@ -156,7 +156,7 @@ constituents:
 - kind: procedure
   id: qa-go-no-go-readiness-review
   path: procedures/qa-go-no-go-readiness-review.procedure.yaml
-  content_hash: ceed72673886ce0c5a04e40e1aa5a74b2049128d6a29f7dd78e9d88d3adf5fe4
+  content_hash: ff9eeed0f7da964d959a466062c46a445a0433c6c78943f3c3f93a636121d506
 - kind: procedure
   id: qa-test-plan-review-workshop
   path: procedures/qa-test-plan-review-workshop.procedure.yaml

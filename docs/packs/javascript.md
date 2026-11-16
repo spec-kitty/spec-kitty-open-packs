@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/javascript`
 - **Pack level:** `org`
 - **Declared version:** `2.0.1`
-- **Content checksum (sha256):** `9f638ccfdb5d05f65092c60555e84dd41283b654a207ac5c82866d0a9f98ea74`
+- **Content checksum (sha256):** `16a4c9d171130f6df6401e0497d9fe98c74581d39d68d3beb04a331164540ef0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
