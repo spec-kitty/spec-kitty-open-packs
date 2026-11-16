@@ -43,5 +43,6 @@ steps:
   - title: Record findings in the context canvas or prestudy
     description: >
       Document the stakeholder map, concerns, success criteria, and named
-      tensions in the System Context Canvas or prestudy. Flag unresolved
+      tensions in the project's context canvas (its problem statement,
+      organisational context and stakeholder map) or prestudy. Flag unresolved
       tensions for escalation before design decisions are finalised.

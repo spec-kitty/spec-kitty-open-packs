@@ -8,8 +8,4 @@ nodes:
 - urn: template:documentation/documentation-spec-template.md
   kind: template
   label: documentation/documentation-spec-template.md
-- urn: template:stakeholder-persona-template
-  kind: template
-- urn: template:system-context-canvas-template
-  kind: template
 edges: []

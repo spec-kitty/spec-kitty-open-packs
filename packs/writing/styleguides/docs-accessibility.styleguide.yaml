@@ -119,7 +119,7 @@ anti_patterns:
 
 tooling:
   alt-text-and-heading-check: "documentation mission validate action (asserts every non-decorative image has non-empty alt text, the heading outline descends without skips, and no link text is a bare 'click here'/URL)."
-  diagram-accessibility: "packs/built-in/toolguides/mermaid-diagramming.toolguide.yaml and plantuml-diagramming.toolguide.yaml (text-authored diagrams with labelled, contrasting nodes; relationships also stated in prose)."
+  diagram-accessibility: "the mermaid-diagramming and plantuml-diagramming toolguides (text-authored diagrams with labelled, contrasting nodes; relationships also stated in prose)."
 
 quality_test: >
   Can a reader using a screen reader or a monochrome display obtain every fact

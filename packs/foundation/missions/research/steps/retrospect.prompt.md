@@ -40,7 +40,7 @@ On demand, outside the step sequence: at mission terminus, or when the operator 
    ```
 
 3. **Enrich the findings.** For each helped / not-helpful / gap entry, cite where it shows: an event, a review cycle, an artifact line. A finding with no provenance is opinion; drop it or find the evidence.
-4. **Stage proposals, do not apply them.** Write each proposed doctrine, DRG or glossary change as a proposal in the record. Glossary proposals follow the `kitty-glossary-writing` styleguide.
+4. **Stage proposals, do not apply them.** Write each proposed doctrine, DRG or glossary change as a proposal in the record. Glossary proposals follow the writing pack's `kitty-glossary-writing` styleguide, when installed.
 5. **Keep product and process apart.** A defect in what the mission researched belongs in the tracker, not in the retrospective; the retrospective is about how the mission ran.
 6. **Commit** `retrospective.yaml` with co-author attribution.
 

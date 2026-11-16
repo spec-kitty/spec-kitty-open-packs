@@ -68,7 +68,7 @@ pytest tests/architecture/ -v
 ```
 
 **What it catches:** classes in wrong packages, forbidden dependencies between modules, naming convention violations, circular imports.
-**Example rule:** "Modules in `src/specify_cli/status/` must not import from `src/specify_cli/cli/`."
+**Example rule:** "Modules in `src/myproject/domain/` must not import from `src/myproject/cli/`."
 
 ## Security and Supply Chain
 

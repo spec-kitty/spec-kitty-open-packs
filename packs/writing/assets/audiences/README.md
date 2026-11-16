@@ -1,6 +1,6 @@
 ---
 packaged: true
-audiences: [software_engineer, automation_agent, agentic-framework-core-team, line_manager, nontech_educator]
+audiences: [software_engineer, automation_agent, line_manager, nontech_educator]
 note: >-
   Starter library of writing-audience personas. See
   tactics/communication/writing-audience-catalog.tactic.yaml for
@@ -14,10 +14,10 @@ structure of written communications — reports, wiki pages, release notes, exec
 and other prose artifacts. Each persona describes **who is reading a piece of prose** and how to
 calibrate it for them.
 
-**This is not the architecture stakeholder-persona pattern.** `templates/architecture/
-stakeholder-persona-template.md` and `tactics/communication/stakeholder-alignment.tactic.yaml`
-describe a different concept: identifying who has a *stake in a design or architecture decision*
-and surfacing inter-group conflict before that decision is made. The personas in this library are
+**This is not the stakeholder-persona pattern.** The `stakeholder-alignment` tactic
+(`tactics/communication/stakeholder-alignment.tactic.yaml`) describes a different concept:
+identifying who has a *stake in a design or architecture decision* and surfacing inter-group
+conflict before that decision is made. The personas in this library are
 about calibrating the tone and detail of a piece of writing for its intended reader, not about
 decision stakeholders. The two patterns are deliberately not wired together.
 
@@ -39,7 +39,6 @@ of these personas before drafting.
 |---|---|
 | `software_engineer.md` | Software Engineer / Platform Engineer |
 | `automation_agent.md` | Automation Agent (AI/LLM-based reader) |
-| `agentic-framework-core-team.md` | Agentic Framework Core Team |
 | `line_manager.md` | Manager / Non-Technical Leader |
 | `nontech_educator.md` | Non-Technical Teacher / Educator |
 

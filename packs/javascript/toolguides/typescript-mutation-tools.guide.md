@@ -3,8 +3,9 @@
 ## Overview
 
 Operator reference and workflow for mutation testing TypeScript/JavaScript code with Stryker. Use
-alongside the [Mutation-Aware Test Design](../styleguides/mutation-aware-test-design.styleguide.yaml)
-styleguide and the [Mutation Testing Workflow](../tactics/testing/mutation-testing-workflow.tactic.yaml) tactic.
+alongside the testing pack's Mutation-Aware Test Design styleguide
+(`testing::styleguide:mutation-aware-test-design`) and Mutation Testing Workflow tactic
+(`testing::tactic:mutation-testing-workflow`).
 
 ## Setup
 
@@ -192,5 +193,5 @@ drop is a real regression signal rather than triage noise:
 - **Equivalent mutant inflation above ~10 %** — tests over-specify implementation rather than behaviour.
 
 For the mutation-score triage bands (the single owner of that table), see the
-[Mutation Testing Workflow](../tactics/testing/mutation-testing-workflow.tactic.yaml)
-tactic's notes.
+notes of the testing pack's Mutation Testing Workflow tactic
+(`testing::tactic:mutation-testing-workflow`).

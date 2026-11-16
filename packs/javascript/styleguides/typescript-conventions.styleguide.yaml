@@ -15,7 +15,7 @@ applies_to_languages:
 #   - RxJS guide, operators and subscriptions: https://rxjs.dev/guide/operators, https://rxjs.dev/guide/subscription
 # House rules (no source above, common practice in RxJS codebases): no subscribe inside a
 # subscribe, an owner for every subscription, exposing a Subject only as an Observable, and
-# catching errors inside the flattening operator. Quad-A tests follow the built-in
+# catching errors inside the flattening operator. Quad-A tests follow the testing pack's
 # quadruple-a-test-format styleguide.
 # Shape follows the primer approach of penguin-pragmatic-patterns (language philosophy, naming,
 # tooling, testing, idioms), fitted to the styleguide schema: one rule per principle, idioms as

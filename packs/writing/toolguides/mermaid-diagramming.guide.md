@@ -21,7 +21,7 @@ Avoid Mermaid when:
 - Fine-grained layout control is needed (Mermaid auto-layout is less
   configurable than PlantUML).
 - Workshop-style sticky note macros or causal mapping DSLs are required
-  (use PlantUML stickies theme instead).
+  (use PlantUML with a sticky-note theme instead).
 - The diagram type is not yet well-supported in Mermaid (deployment,
   component packages, mind maps with deep nesting).
 
@@ -241,14 +241,11 @@ flowchart LR
     class b external;
 ```
 
-Theme snippets are available as copy-paste templates in
-`src/charter/offering/templates/diagrams/mermaid/themes/`.
-
 ## Project Conventions
 
 1. Prefer Mermaid for diagrams embedded in Markdown documentation.
 2. Prefer PlantUML for standalone diagram files, workshop visuals, and
-   diagrams needing the stickies/causal DSL.
+   diagrams needing sticky-note or causal-map macros.
 3. Use the `%%{init}%%` directive to apply project theme variables
    consistently.
 4. Use `classDef` for role-based node styling (core, external, storage,
@@ -265,23 +262,10 @@ Theme snippets are available as copy-paste templates in
 - Ensure sufficient color contrast between node fill and text.
 - Test diagrams in both light and dark mode rendering contexts.
 
-## Template Library
+## Templates
 
-Spec Kitty ships ready-to-copy Mermaid templates in
-`src/charter/offering/templates/diagrams/mermaid/examples/`:
-
-- `causal-map-mermaid-template.md`
-- `content-map-mermaid-template.md`
-- `frontend-architecture-mermaid-template.md`
-- `repo-content-graph-mermaid-template.md`
-- `request-lifecycle-sequence-mermaid-template.md`
-- `structure-meta-model-mermaid-template.md`
-- `system-map-mermaid-template.md`
-
-Theme snippets are in `src/charter/offering/templates/diagrams/themes/`:
-
-- `mermaid-theme-common-template.md`
-- `mermaid-theme-bluegray-conversation-template.md`
+This pack ships no Mermaid diagram templates or theme files: copy the theme
+snippets above into your project and keep the diagrams it reuses beside them.
 
 ## Cautions
 

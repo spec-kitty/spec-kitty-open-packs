@@ -10,7 +10,7 @@ exit_condition: |
 steps:
 - title: Select the test-first tactic for the scope
   description: |
-    Before the first production edit, pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, zombies-tdd for incremental case discovery.
+    Before the first production edit, pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, the testing pack's zombies-tdd (when installed) for incremental case discovery.
 - title: Write a failing test first
   description: |
     Write a test that captures the intended behavior and fails before any production code is written.

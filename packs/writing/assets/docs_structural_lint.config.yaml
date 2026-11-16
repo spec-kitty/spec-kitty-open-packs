@@ -6,7 +6,7 @@
 # `structural_lint_config:` from whatever file `--styleguide PATH` /
 # `SPEC_KITTY_STYLEGUIDE` points at; only the file a consumer of the
 # built-in DEFAULT points those knobs at has moved, from
-# packs/built-in/styleguides/common-docs.styleguide.yaml to this file.
+# the common-docs styleguide (styleguide:common-docs) to this file.
 #
 # A repository that needs a different policy keeps its own styleguide or
 # data file carrying a `structural_lint_config:` block and points

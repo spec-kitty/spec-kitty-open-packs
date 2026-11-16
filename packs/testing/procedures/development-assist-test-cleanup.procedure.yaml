@@ -4,7 +4,7 @@ title: Development-Assist Test Cleanup
 description: |
   Retire or re-home the development-assist tests a mission wrote to facilitate its own slices, once those slices have landed. It is common and legitimate to write targeted, narrowly-scoped tests to drive a development slice — characterization and parity oracles, before/after timing gates, per-work-package shape / delegate / __module__ assertions. Once the slice lands, those tests frequently become friction: inert (a self-compare against what is now the merged state), duplicative of a broader standing guard, or pinning transient code-shape that fights the next refactor. This procedure runs a judge-the-test pass at mission close so scaffolding is not carried forward as permanent suite bloat. It is the proactive, wrap-up-point-cut companion to DIRECTIVE_041's reactive judge-a-failing-test rubric.
 entry_condition: |
-  A mission's work packages are approved and the mission is at wrap-up (the dev-assist-test-cleanup step of the mission-wrap-up sequence, immediately after the accept step). The mission added or heavily modified test files to facilitate its own slices — characterization oracles, parity/timing gates, per-WP shape/delegate/re-export checks — that were justified while the slice was in flight.
+  A mission's work packages are approved and the mission is at wrap-up: after acceptance, before merge. The mission added or heavily modified test files to facilitate its own slices — characterization oracles, parity/timing gates, per-WP shape/delegate/re-export checks — that were justified while the slice was in flight.
 exit_condition: |
   Every development-assist test the mission added has a recorded verdict — keep, retire, or split-by-kind. Retired tests are deleted (or folded into the standing guard they duplicated); kept tests that guard real behavior or standing architecture are named off any WP##/NFR-### mission label; mission mega-files that mixed kinds are split into purpose-named files. Any source docstring that named a moved or deleted test file is re-pointed. When the same spent pattern is copy-pasted across sibling files beyond this mission's diff, a suite-wide audit is filed as a tracked follow-up rather than swept inside the landing PR. The hand-off summary records which tests were retired / split / kept-and-renamed. Every issue-named test file the mission added (test_issue_NNNN*, test_repro_NNNN*) carries a recorded fold-or-keep verdict in that summary; this is required, not advisory, and the mission is not ready to hand off without it.
 steps:
@@ -39,9 +39,8 @@ anti_patterns:
   content: |
     Auditing and rewriting every sibling file that shares the pattern inside the mission's own PR, inflating the diff far past the mission's scope. The in-mission cleanup covers the tests the mission created; the wider sweep is a tracked follow-up.
 notes: |
-  Trigger point-cut: the mission-wrap-up sequence, alongside the accept step and the
-  tracer-files assess step. This procedure is proactive (audit passing dev-assist
-  tests at close) where DIRECTIVE_041 is reactive (judge a test when it goes red);
+  Trigger point-cut: mission close, after acceptance and before merge. This
+  procedure is proactive (audit passing dev-assist tests at close) where DIRECTIVE_041 is reactive (judge a test when it goes red);
   the two share one standard — a test earns its place by guarding a live contract,
   and duplicate test knowledge has one source of truth — rather than two rubrics.
   Note 041's STALE / PATCHWORK / VALID labels classify a *failing* test's
@@ -59,8 +58,7 @@ notes: |
   (keep / retire / split, applying DIRECTIVE_041's keep-vs-delete axis) -> execute
   (delete-the-assertion,
   split-by-kind, strip WP/NFR labels, re-point docstrings) -> scope the residue
-  (file the suite-wide audit). Feeds the wrap-up hand-off summary the way tracer-files
-  assess does.
+  (file the suite-wide audit). Feeds the mission's hand-off summary.
 
   Provenance: folds the post-slice test-cleanup practice surfaced at mission
   runtime-bridge-degod (#2531) closeout and scoped by issue #2557, under the

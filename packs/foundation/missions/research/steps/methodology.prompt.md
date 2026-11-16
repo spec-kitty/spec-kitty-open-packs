@@ -3,7 +3,7 @@ description: Design and document a reproducible research methodology from the lo
 ---
 # Methodology Design — Lock the Research Approach
 
-**Mission type**: `research` | **Step**: `methodology` (sequence index 1, depends on `scoping`) | **Requested role**: `researcher` (a researcher profile such as `researcher-robbie` fills it)
+**Mission type**: `research` | **Step**: `methodology` (sequence index 1, depends on `scoping`) | **Requested role**: `researcher` (a researcher profile, such as the planning-analysis pack's `researcher-robbie` when installed, fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/plan.md`). Never refer to a file by name alone.
 
@@ -44,7 +44,7 @@ spec-kitty charter context --action methodology --json
 - **Data sources** — which databases, repositories, or populations; distinguish primary from secondary sources.
 - **Search strategy** — keywords, inclusion criteria, exclusion criteria. A vague search strategy produces a non-reproducible review.
 - **Analysis framework** — coding scheme, synthesis method (thematic analysis, meta-analysis, narrative synthesis), and quality assessment approach.
-- **Quality criteria** — how source quality will be evaluated and how confidence levels will be assigned; this is what `research-citation-discipline`'s evidence-tiering later depends on.
+- **Quality criteria** — how source quality will be evaluated and how confidence levels will be assigned; this is what the evidence-tiering of the writing pack's `research-citation-discipline` styleguide (when installed) later depends on.
 
 ## Reproducibility Standards
 

@@ -268,8 +268,9 @@ implementation cycle selects an implementer profile again:
    ```
 
 2. Leave `agent_profile` empty unless the operator pinned a profile for this WP; the
-   profile is selected from the role (a language specialist such as `python-pedro`
-   fills `implementer` when its context matches).
+   profile is selected from the role (a language specialist, such as the python
+   pack's `python-pedro` when that pack is installed, fills `implementer` when its
+   context matches).
 
 3. Write your review feedback to a file, then commit the updated frontmatter together
    with your review notes **before** running:

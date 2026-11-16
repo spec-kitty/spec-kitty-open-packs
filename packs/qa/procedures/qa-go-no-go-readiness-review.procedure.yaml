@@ -2,7 +2,7 @@ schema_version: '1.0'
 id: qa-go-no-go-readiness-review
 title: QA Go/No-Go Readiness Review
 description: |
-  An ISTQB-style go/no-go release-readiness review meeting, evaluating exit criteria and outstanding defects before a release decision. This review is cited as adjacent to, and distinct from, three related-but-different built-ins, none of which is a duplicate: post-merge-arch-gate-adjudication (post-merge architectural-gate regression classification, code-shaped — not a release-readiness meeting), mission-wrap-up-sequence (spec-kitty mission close-out — not QA release governance), and the RED_MAIN_RELEASE_DISCIPLINE directive (mainline CI-signal integrity discipline, keeping the mainline CI signal honest — not an ISTQB-style go/no-go review).
+  An ISTQB-style go/no-go release-readiness review meeting, evaluating exit criteria and outstanding defects before a release decision. This review is cited as adjacent to, and distinct from, two related-but-different built-ins and a project's own mission close-out, none of which is a duplicate: post-merge-arch-gate-adjudication (post-merge architectural-gate regression classification, code-shaped — not a release-readiness meeting), a mission close-out sequence (mission wrap-up — not QA release governance), and the RED_MAIN_RELEASE_DISCIPLINE directive (mainline CI-signal integrity discipline, keeping the mainline CI signal honest — not an ISTQB-style go/no-go review).
 entry_condition: |
   Exit criteria and defect status are both available for review ahead of a release decision.
 exit_condition: |

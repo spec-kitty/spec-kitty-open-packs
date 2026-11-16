@@ -165,7 +165,7 @@ quality_test: >
 
 # The machine-parseable structural_lint_config:
 # policy block that used to live here has moved to the lint asset's own data
-# file, packs/built-in/assets/docs_structural_lint.config.yaml — owned by
+# file, assets/docs_structural_lint.config.yaml in this pack — owned by
 # the lint asset, not by this styleguide. The loader contract is unchanged
 # (the pinned wrapper key structural_lint_config: still resolves through
 # --styleguide PATH / SPEC_KITTY_STYLEGUIDE); only the file the BUILT-IN

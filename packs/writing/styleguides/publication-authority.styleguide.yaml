@@ -118,7 +118,7 @@ anti_patterns:
       tutorial and how-to link to it. One change updates every reader.
 
 tooling:
-  living-documentation-sync: "packs/built-in/directives/037-living-documentation-sync.directive.yaml — the single owner of the same-change documentation-update rule (DIRECTIVE_037)."
+  living-documentation-sync: "DIRECTIVE_037 (living-documentation-sync, foundation pack) — the single owner of the same-change documentation-update rule."
   publication-gate: "documentation mission publish action (a page goes live only after the validate action is green — Divio type, plain language, accessibility, freshness, and source-of-truth fidelity all pass)."
 
 quality_test: >

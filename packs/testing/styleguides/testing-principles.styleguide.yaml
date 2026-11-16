@@ -104,7 +104,7 @@ patterns:
       # AST scan: fails only when the forbidden call is introduced — survives all renaming.
       import ast, pathlib
       def test_no_direct_os_getcwd_in_resolver():
-          src = pathlib.Path("src/specify_cli/resolver.py").read_text()
+          src = pathlib.Path("src/myproject/resolver.py").read_text()
           tree = ast.parse(src)
           direct_calls = [
               node for node in ast.walk(tree)
@@ -117,7 +117,7 @@ patterns:
       # Literal-presence scan: breaks on reformatting, passes when a renamed-but-
       # semantically-equivalent path is taken — encodes zero architectural invariant.
       def test_resolver_uses_canonical_root():
-          src = pathlib.Path("src/specify_cli/resolver.py").read_text()
+          src = pathlib.Path("src/myproject/resolver.py").read_text()
           assert "canonical_root()" in src  # re-pin required on every rename
   - name: "Realistic test data"
     description: >
@@ -214,16 +214,16 @@ anti_patterns:
       wrong-fixture bug. Prefer production-shaped data; if malformed input must be tested, do it
       in a test whose name declares that intent, never as incidental setup.
     bad_example: |
-      # A mission_id is ALWAYS a 26-char ULID in production. This fixture fakes a short one:
-      meta = {"mission_id": "01KMID"}   # 6 chars — impossible on any real path
+      # An order_id is ALWAYS a 26-char ULID in production. This fixture fakes a short one:
+      meta = {"order_id": "01KORD"}   # 6 chars — impossible on any real path
       # Short ids resolve down a different branch than real ones, so this fixture invents an
       # "edge case" the system never produces — here it cost a full adversarial investigation
       # to prove the "divergence" was a fixture artifact, not a code defect.
     good_example: |
-      # Use a production-shaped value: a full 26-char ULID (mid8 -> "01KV7SFD").
-      meta = {"mission_id": "01KV7SFD0123456789ABCDEFGH"}
+      # Use a production-shaped value: a full 26-char ULID.
+      meta = {"order_id": "01KV7SFD0123456789ABCDEFGH"}
       # Genuinely testing malformed input? Name the test for it and isolate it:
-      #   def test_rejects_short_mission_id(): ...   # the short id is the subject, not setup
+      #   def test_rejects_short_order_id(): ...   # the short id is the subject, not setup
 
   - name: The Literal-Scan Trap
     description: >
@@ -240,23 +240,23 @@ anti_patterns:
       # Must be re-pinned every time the class is renamed or the file is reorganised —
       # even when no behavior changed. Two re-pins = one deletion waiting to happen.
       def test_domain_object_present():
-          src = Path("src/specify_cli/mission/domain.py").read_text()
-          assert "class MissionDomainObject" in src  # shape pin, not a behavioral contract
+          src = Path("src/myproject/orders/domain.py").read_text()
+          assert "class Order" in src  # shape pin, not a behavioral contract
 
       # LOC gate: fails for the contributor who added a docstring;
       # passes for the one who doubled a neighboring file not under the gate.
-      def test_tasks_module_not_too_large():
-          lines = Path("src/specify_cli/cli/commands/tasks.py").read_text().splitlines()
-          assert len(lines) <= 500, f"tasks.py too large: {len(lines)} lines"
+      def test_orders_module_not_too_large():
+          lines = Path("src/myproject/cli/orders.py").read_text().splitlines()
+          assert len(lines) <= 500, f"orders.py too large: {len(lines)} lines"
     good_example: |
       # Behavioral contract through the public surface — survives any internal reorganisation.
-      def test_mission_domain_object_rejects_empty_slug():
-          with pytest.raises(ValueError, match="slug"):
-              MissionDomainObject(slug="", friendly_name="Test")
+      def test_order_rejects_empty_customer_id():
+          with pytest.raises(ValueError, match="customer_id"):
+              Order(customer_id="", total_cents=1200)
 
       # Size metric delegated to Sonar / ruff; pytest asserts the behavioral contract only.
-      def test_tasks_command_lists_all_work_packages(runner, tmp_mission):
-          result = runner.invoke(app, ["agent", "tasks", "status", "--mission", tmp_mission])
+      def test_orders_command_lists_all_orders(runner, tmp_store):
+          result = runner.invoke(app, ["orders", "list", "--store", tmp_store])
           assert result.exit_code == 0
 
 quality_test: "Can a new contributor read one test and understand what behavior it validates, what preconditions are required, and what a failure means — without reading the production code?"
