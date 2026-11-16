@@ -2,7 +2,7 @@
 
 The basis of every Spec Kitty project, and a member of the `built-in` distribution: the fallback
 profile (Generic Giannis), the implementer, reviewer, analyst and human-in-charge profiles; the
-software-dev, plan and research mission types with their step contracts and templates; every
+software-dev, plan and research mission types, with their steps' substeps, and templates; every
 cross-cutting directive with the procedures, tactics and toolguides that make it actionable (git
 workflow, execution lanes and adversarial-review squads included); and the spec-kitty-core
 glossary.

@@ -58,6 +58,39 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/research-spec-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action scoping --json
+  - id: capture-question
+    description: Capture the research question, scope boundaries, and stakeholder context
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+      - DIRECTIVE_037
+  - id: validate-scope
+    description: Validate scope boundaries against research mission inputs and feasibility
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+  - id: document-decisions
+    description: Record any scoping decisions made during specification
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_003
+  - id: write-spec
+    description: Write spec.md to kitty-specs/{mission_slug}/
+    command: Write spec.md in kitty-specs/{mission_slug}/
+  - id: commit-spec
+    description: Commit the research spec to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: methodology
   title: Methodology Design
   description: Document the research methodology, frameworks, and reproducibility plan.
@@ -74,6 +107,39 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/research-plan-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action methodology --json
+  - id: read-spec
+    description: Read and understand the research spec produced in scoping
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+  - id: design-methodology
+    description: Document research methodology — design choices, frameworks, reproducibility plan
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+      - adr-drafting-workflow
+  - id: document-decisions
+    description: Record methodology decisions as ADRs
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_003
+  - id: write-plan
+    description: Write plan.md to kitty-specs/{mission_slug}/
+    command: Write plan.md in kitty-specs/{mission_slug}/
+  - id: commit-plan
+    description: Commit the methodology plan to main branch
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: gathering
   title: Source Gathering
   description: Register sources with citations and emit source_documented events.
@@ -89,6 +155,36 @@ steps:
     artifact_class: evidence
     path_pattern: research/source-register.csv
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action gathering --json
+  - id: read-methodology
+    description: Read the methodology plan to align gathering against the documented approach
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+  - id: collect-sources
+    description: Collect, register, and cite research sources; emit source_documented events for the run engine
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+    guidance: Each accepted source must be appended to source-register.csv and the run engine must observe a `source_documented` event for it. The minimum-source threshold is enforced by the runtime's `event_count("source_documented", 3)` guard, not by this substep.
+  - id: validate-sources
+    description: Verify each row in source-register.csv has citation, retrieval evidence, and trust grading
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+  - id: commit-register
+    description: Commit source-register.csv updates with co-author attribution
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: synthesis
   title: Findings Synthesis
   description: Synthesize evidence into findings, tracing each conclusion to documented sources.
@@ -104,6 +200,40 @@ steps:
     artifact_class: output
     path_pattern: findings.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action synthesis --json
+  - id: read-sources
+    description: Read source-register.csv and supporting evidence collected during gathering
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+  - id: synthesize-findings
+    description: Synthesize documented evidence into findings; trace each conclusion to source rows
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+      - adr-drafting-workflow
+    guidance: Every claim in findings.md must cite at least one row from source-register.csv. If evidence is insufficient for a conclusion, route back to gathering via the `gather_more` transition rather than weakening the finding.
+  - id: document-decisions
+    description: Record synthesis decisions, alternative interpretations, and excluded evidence
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_003
+  - id: write-findings
+    description: Write findings.md to kitty-specs/{mission_slug}/
+    command: Write findings.md in kitty-specs/{mission_slug}/
+  - id: commit-findings
+    description: Commit findings.md with co-author attribution
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: output
   title: Publication Output
   description: Prepare findings for publication; verify citation completeness and methodology clarity.
@@ -119,6 +249,47 @@ steps:
     artifact_class: output
     path_pattern: report.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action output --json
+  - id: verify-findings-fidelity
+    description: Verify the publication candidate matches findings.md and cited sources
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+      - DIRECTIVE_037
+  - id: verify-citation-completeness
+    description: Confirm every claim in the publication traces to a source-register.csv row and that all sources are cited
+    delegates_to:
+      kind: tactic
+      candidates:
+      - usage-examples-sync
+  - id: assess-publication-readiness
+    description: Evaluate clarity, methodology disclosure, and risk of misinterpretation for peer review
+    delegates_to:
+      kind: tactic
+      candidates:
+      - review-intent-and-risk-first
+  - id: write-report
+    description: Write report.md to kitty-specs/{mission_slug}/
+    command: Write report.md in kitty-specs/{mission_slug}/
+  - id: gate-publication-approved
+    description: Record the publication_approved gate event so the runtime's transition to done unblocks
+    delegates_to:
+      kind: tactic
+      candidates:
+      - quality-gate-verification
+      - stopping-conditions
+    guidance: The `publication_approved` gate is emitted by the run engine, not by this substep; this step exists so reviewers know which gate must pass for the output -> done transition guarded by the runtime.
+  - id: commit-report
+    description: Commit the published report with co-author attribution
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: accept
   title: Acceptance
   description: Validate research completeness and readiness for publication.

@@ -24,7 +24,7 @@ These guidelines govern the quality and discipline standards for the **gathering
 
 ## Minimum-Source Threshold
 
-- The research mission step contract requires at least three sources to be documented before gathering can be considered complete (`event_count('source_documented', 3)`).
+- The research mission type's `gathering` step requires at least three sources to be documented before gathering can be considered complete (`event_count('source_documented', 3)`).
 - This threshold is a floor, not a ceiling. Most missions need substantially more. Use the success criteria from scoping to set the actual target.
 - Document the source count as it grows; do not delay registration to the end of the phase.
 
@@ -48,5 +48,5 @@ Notes that begin to weave findings together belong in the synthesis phase, not i
 - Citation format is consistent across the register.
 - Every online source has an access date.
 - Confidence levels are assigned and justified.
-- The minimum-source threshold from the step contract is met.
+- The minimum-source threshold of the `gathering` step is met.
 - Evidence rows are stable enough that later phases can cite them by ID.

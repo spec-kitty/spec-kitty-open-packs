@@ -21,6 +21,22 @@ steps:
   description: Investigate the feature under test and gather the context a test strategy will be authored against.
   role: researcher
   prompt_path: steps/discovery.prompt.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action discovery --mission-type qa --json
+  - id: scope-qa-charter
+    description: Scope a timeboxed exploratory QA charter for this mission
+    delegates_to:
+      kind: directive
+      candidates:
+      - QA_006
+  - id: apply-exploratory-tactics
+    description: Apply exploratory-testing charter-writing technique to the scoped charter
+    delegates_to:
+      kind: tactic
+      candidates:
+      - qa-exploratory-charter-writing
 - id: specify
   title: Test Strategy
   description: 'Define the QA test strategy: scope, risk areas, and what will and will not be tested.'
@@ -32,6 +48,17 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/test-strategy-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action specify --mission-type qa --json
+  - id: define-traceable-exit-criteria
+    description: Write the QA spec with traceable requirements and exit criteria that precede execution
+    delegates_to:
+      kind: directive
+      candidates:
+      - QA_001
+      - QA_004
 - id: plan
   title: Test Plan
   description: Translate the test strategy into a detailed, executable test plan with exit criteria, environments, and test data.
@@ -47,6 +74,28 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/test-plan-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action plan --mission-type qa --json
+  - id: prioritize-by-risk
+    description: Structure the QA test plan using risk-based prioritization
+    delegates_to:
+      kind: directive
+      candidates:
+      - QA_005
+  - id: apply-prioritization-tactic
+    description: Apply the risk-based test prioritization technique to the plan's structure
+    delegates_to:
+      kind: tactic
+      candidates:
+      - qa-risk-based-test-prioritization
+  - id: review-test-plan
+    description: Review the drafted test plan before it is handed off to task decomposition
+    delegates_to:
+      kind: procedure
+      candidates:
+      - qa-test-plan-review-workshop
 - id: tasks
   title: Test Design
   description: Design the concrete test suite and work packages that implement the test plan, including exploratory charters.
@@ -62,6 +111,23 @@ steps:
     path_pattern: tasks.md
     blocking: true
     template_path: templates/test-suite-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action tasks --mission-type qa --json
+  - id: reduce-test-surface
+    description: Decompose the test-design task set using test-surface reduction techniques
+    delegates_to:
+      kind: tactic
+      candidates:
+      - qa-pairwise-test-reduction
+      - qa-boundary-equivalence-partitioning
+  - id: close-coverage-gaps
+    description: Identify and close coverage gaps in the resulting task list
+    delegates_to:
+      kind: procedure
+      candidates:
+      - qa-coverage-gap-analysis
 - id: implement
   title: Test Execution
   description: Execute the designed test suite and record defects found during execution.
@@ -76,6 +142,24 @@ steps:
     artifact_class: output
     path_pattern: defect-log.md
     template_path: templates/defect-log-template.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action implement --mission-type qa --json
+  - id: report-defects
+    description: Execute the planned tests and report defects found during execution
+    delegates_to:
+      kind: directive
+      candidates:
+      - QA_002
+  - id: apply-execution-tactics
+    description: Apply execution-time techniques while running the test suite
+    delegates_to:
+      kind: tactic
+      candidates:
+      - qa-flaky-test-quarantine
+      - qa-test-data-minimization
+      - qa-regression-suite-selection
 - id: review
   title: Test Report Review
   description: Review execution results for genuine, no-fake-green outcomes and produce the test report.
@@ -97,6 +181,22 @@ steps:
     artifact_class: evidence
     path_pattern: qa-traceability.yaml
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action review --mission-type qa --json
+  - id: verify-no-fake-green
+    description: Verify that implement's reported results are genuine, not a fake-green result
+    delegates_to:
+      kind: directive
+      candidates:
+      - QA_003
+  - id: triage-defects
+    description: Triage the defects surfaced during implementation
+    delegates_to:
+      kind: procedure
+      candidates:
+      - qa-defect-triage-ritual
 - id: accept
   title: Acceptance
   description: Confirm exit criteria were actually met and record the release/acceptance decision.
@@ -114,3 +214,19 @@ steps:
     artifact_class: evidence
     path_pattern: qa-coverage.json
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action accept --mission-type qa --json
+  - id: confirm-evidence-integrity
+    description: Confirm the no-fake-green principle holds one last time before go/no-go sign-off
+    delegates_to:
+      kind: directive
+      candidates:
+      - QA_003
+  - id: run-go-no-go-review
+    description: Run the go/no-go readiness review before accepting the mission
+    delegates_to:
+      kind: procedure
+      candidates:
+      - qa-go-no-go-readiness-review
