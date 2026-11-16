@@ -1392,6 +1392,45 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
     return problems
 
 
+def specialization_cycle_violations(pack_dirs: list[Path]) -> list[str]:
+    """Each cycle among the ``specializes_from`` edges between agent profiles of ``pack_dirs`` (#286; charter ADR-0078
+    decision 2: a role's candidates are ranked by their longest in-force chain, so the edges must be acyclic). A
+    profile is keyed by its id, its pack qualifier dropped (an id is declared once across levels, which
+    ``cross_pack_violations`` checks). Each cycle the depth-first walk meets is reported once, naming its ids in edge
+    order from the smallest id: ``a -> b -> a``; every cyclic component yields at least one. A profile may have several
+    parents."""
+    parents: dict[str, set[str]] = {}
+    for pack in pack_dirs:
+        for _, edge in graph_edges(pack):
+            if edge.get("relation") != "specializes_from":
+                continue
+            ends = [split_qualifier(edge.get(end))[1] if isinstance(edge.get(end), str) else "" for end in ("source", "target")]
+            kinds_ids = [end.partition(":") for end in ends]
+            if all(kind == "agent_profile" and node_id for kind, _, node_id in kinds_ids):
+                parents.setdefault(kinds_ids[0][2], set()).add(kinds_ids[1][2])
+    cycles: set[tuple[str, ...]] = set()
+    state: dict[str, int] = {}  # 1 on the current path, 2 done
+    path: list[str] = []
+
+    def visit(node: str) -> None:
+        state[node] = 1
+        path.append(node)
+        for parent in sorted(parents.get(node, ())):
+            if state.get(parent) == 1:
+                cycle = path[path.index(parent):]
+                start = cycle.index(min(cycle))
+                cycles.add(tuple(cycle[start:] + cycle[:start]))
+            elif parent not in state:
+                visit(parent)
+        path.pop()
+        state[node] = 2
+
+    for node in sorted(parents):
+        if node not in state:
+            visit(node)
+    return [f"specializes_from cycle among agent profiles: {' -> '.join((*cycle, cycle[0]))}" for cycle in sorted(cycles)]
+
+
 def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = None) -> list[str]:
     """The checks across all packs together that the charter service does not make. The service is
     the authority on composition (descriptors, ``depends_on``, edge ends, sibling conflicts) and runs
@@ -1408,7 +1447,10 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
     * a DRG edge endpoint written bare (``<kind>:<id>``) in a pack's fragment that resolves to no node
       of any pack (a qualified endpoint is the service's ``pack_reference_*``);
     * the agent-profile references of ``profile_reference_violations``;
-    * the prompt-fragment resolution of ``prompt_fragment_composition_violations``.
+    * the prompt-fragment resolution of ``prompt_fragment_composition_violations``;
+    * a cycle among the agent profiles' ``specializes_from`` edges (``specialization_cycle_violations``), which the
+      charter refuses at registration (``422 specialization_cycle``, ADR-0078 decision 2) only for the closure it
+      registers.
 
     With ``contract``, artifact files count as declarations too (``declared_nodes``).
 
@@ -1473,6 +1515,7 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
     return (
         violations
         + profile_reference_violations(pack_dirs, held, contract)
+        + specialization_cycle_violations(pack_dirs)
         + prompt_fragment_composition_violations(pack_dirs)
     )
 
