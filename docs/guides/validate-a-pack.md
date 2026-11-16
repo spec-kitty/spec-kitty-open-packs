@@ -113,8 +113,8 @@ Three digests are not interchangeable. The sidecar's `tree_digest.value` is the 
 pin's `snapshot_sha256` includes the manifest. Never copy one into the other's place.
 
 A pack that ships a `pack-manifest.yaml` must also list every graph node it declares as a
-constituent. Actions and anti-patterns have no file, so they are never listed. Templates, mission types
-and step contracts are exempt from this older check, but the derived membership below lists them. To
+constituent. Actions and anti-patterns have no file, so they are never listed. Templates and mission types
+are exempt from this older check, but the derived membership below lists them. To
 exempt a new node kind from this check, add it to `MANIFEST_EXEMPT_NODE_KINDS` in
 [`validate_pack_schemas.py`](../../scripts/ci/validate_pack_schemas.py); a kind in neither place fails.
 

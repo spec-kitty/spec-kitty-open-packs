@@ -66,7 +66,7 @@ SCHEMA_NAME_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]*")
 KNOWN_KIND_TOKENS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
-        "agent", "step-contract", "asset", "glossary", "skill", "mission-type",
+        "agent", "asset", "glossary", "skill", "mission-type",
         "step-enhancement", "graph",
     }
 )  # fmt: skip
@@ -75,7 +75,7 @@ EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
 #: The schemas of file-backed doctrine artifacts a pack's manifest lists (#182). Every file one of
 #: these rules classifies must be a manifest constituent, or the manifest under-reports the pack:
 #: the git-flow and execution-lanes files shipped unlisted that way. Graph-only kinds (actions,
-#: anti-patterns) have no file. Mission types, step contracts and templates are exempt from this
+#: anti-patterns) have no file. Mission types and templates are exempt from this
 #: older check only; ``--derived-manifests`` holds every manifest to the full derived lists, which
 #: list them (#255, charter #542).
 MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
@@ -83,10 +83,10 @@ MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
     "skill", "styleguide", "tactic", "toolguide",
 })
 #: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` and ``anti_pattern``
-#: are graph-only: no file backs them. Mission types, step contracts and templates are exempt here
+#: are graph-only: no file backs them. Mission types and templates are exempt here
 #: and judged by the derived membership instead (see above). Any other declared node must be a
 #: constituent; a new kind fails closed until it is listed here.
-MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "anti_pattern", "template", "mission_type", "mission_step_contract"})
+MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "anti_pattern", "template", "mission_type"})
 #: The node kind of an artifact kind whose URN token differs from it (contracts/packs/file-kinds.yaml at the pin): a
 #: glossary is the glossary context ``glossary_context:<id>`` (charter ADR-0053 decision 13). Any other artifact
 #: kind is its own node kind.
@@ -450,7 +450,7 @@ def regenerate_manifest(pack_dir: Path) -> list[str]:
 CONSTITUENT_KIND_BY_SCHEMA = {
     "agent-profile": "agent_profile", "asset": "asset", "directive": "directive",
     "glossary": "glossary", "guard": "guard", "lifecycle": "lifecycle",
-    "mission-step-contract": "mission_step_contract", "mission-type": "mission_type", "paradigm": "paradigm",
+    "mission-type": "mission_type", "paradigm": "paradigm",
     "procedure": "procedure", "skill": "skill", "step-enhancement": "step_enhancement",
     "styleguide": "styleguide", "tactic": "tactic", "toolguide": "toolguide",
 }  # fmt: skip
@@ -842,14 +842,21 @@ def _folded_regex(glob: str) -> re.Pattern[str]:
 
 
 def _exact(contract: Contract, relative: str, *, folded: bool = False) -> tuple[str, Rule | None]:
-    """``files``, ``exclusions``, ``retired``, then ``payloads``: the first rule that matches, as written or folded."""
+    """``files``, ``exclusions``, ``retired``, then ``payloads``: the first rule that matches, as written or folded;
+    except that a ``retired`` rule beats a ``files`` rule that also matches, unless an ``exclusions`` rule matches too
+    (the contract's classifier-cases rule 1: ``core/mission_step_contract.graph.yaml`` is retired, not a graph shard)."""
     path = relative.lower() if folded else relative
-    for kind, rules in (("file", contract.files), ("excluded", contract.exclusions), ("retired", contract.retired),
-                        ("payload", contract.payloads)):
-        for rule in rules:
-            regex = _folded_regex(rule.match) if folded else rule.regex
-            if regex.match(path):
-                return kind, rule
+
+    def first(rules: list[Rule]) -> Rule | None:
+        return next((rule for rule in rules if (_folded_regex(rule.match) if folded else rule.regex).match(path)), None)
+
+    file_rule, excluded, retired = first(contract.files), first(contract.exclusions), first(contract.retired)
+    if retired is not None and excluded is None:
+        return "retired", retired
+    for kind, rule in (("file", file_rule), ("excluded", excluded), ("retired", retired),
+                       ("payload", first(contract.payloads))):
+        if rule is not None:
+            return kind, rule
     return "unmodelled", None
 
 
@@ -1113,7 +1120,7 @@ def _load_or_none(path: Path) -> Any:
 ARTIFACT_SCHEMAS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
-        "agent-profile", "mission-step-contract", "asset", "glossary", "skill",
+        "agent-profile", "asset", "glossary", "skill",
         "step-enhancement",
     }
 )  # fmt: skip

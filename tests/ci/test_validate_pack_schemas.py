@@ -309,7 +309,7 @@ class ValidatorExitCodes(unittest.TestCase):
     def test_exempt_graph_node_kinds_need_no_constituent_but_an_unknown_kind_does(self) -> None:
         exempt = "nodes:\n" + "".join(
             f"- {{kind: {k}, id: x}}\n"
-            for k in ("actions", "templates", "mission_types", "mission_step_contracts", "anti_patterns")
+            for k in ("actions", "templates", "mission_types", "anti_patterns")
         )
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -321,6 +321,11 @@ class ValidatorExitCodes(unittest.TestCase):
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID, output)
             self.assertIn("graph node widget:x is not a constituent", output)
+            # The retired step-contract kind (charter slice F) is no longer exempt: it fails like any unknown kind.
+            (pack / "drg" / "fragment.yaml").write_text(exempt + "- {kind: mission_step_contracts, id: x}\n", encoding="utf-8")
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("graph node mission_step_contract:x is not a constituent", output)
 
     def test_unlisted_nodes_is_exact_and_skips_exempt_kinds(self) -> None:
         manifest = {"constituents": [{"kind": "tactic", "id": "a"}, "junk"]}
@@ -330,7 +335,7 @@ class ValidatorExitCodes(unittest.TestCase):
 
     def test_only_file_backed_doctrine_kinds_are_constituents(self) -> None:
         self.assertIn("tactic", validator.MANIFEST_CONSTITUENT_SCHEMAS)
-        for exempt in ("preset", "pack-manifest", "pack-descriptor", "mission-type", "mission-step-contract", "graph-shard"):
+        for exempt in ("preset", "pack-manifest", "pack-descriptor", "mission-type", "graph-shard"):
             self.assertNotIn(exempt, validator.MANIFEST_CONSTITUENT_SCHEMAS)
         self.assertEqual(validator.unlisted_constituents({"constituents": [{"path": "a"}]}, {"a", "b"}), ["b"])
 
@@ -472,6 +477,30 @@ class ValidatorExitCodes(unittest.TestCase):
                 with self.subTest(path):
                     self.assertEqual(validator.classify(contract, path)[0], kind)
 
+    def test_a_retired_rule_beats_a_files_rule_unless_an_exclusion_matches_too(self) -> None:
+        """Charter slice F (ADR-0077): the folded step contracts' graph fragment is a `**/*.graph.yaml` its retired rule
+        refuses by name (classifier-cases rule 1), so a leftover reports one `retired layout`, not graph-shard errors."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, '  - match: "*/*.graph.yaml"\n    schema: tactic\n'
+                                'retired:\n  - match: "**/*.step-contract.yaml"\n    reason: folded into substeps\n'
+                                '  - match: "**/mission_step_contract.graph.yaml"\n    reason: folded into substeps\n')
+            pack = self.write_pack(root, {"steps/x.step-contract.yaml": "id: x\n",
+                                          "mission_step_contract.graph.yaml": "nodes: [{urn: 'mission_step_contract:x'}]\n",
+                                          "tactic.graph.yaml": "nodes: []\n"})
+            contract = validator.contract_for(root / "contract")
+            self.assertEqual(validator.classify(contract, "pack/mission_step_contract.graph.yaml")[0], "retired")
+            self.assertEqual(validator.classify(contract, "pack/tactic.graph.yaml")[0], "file")
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertEqual(output.count("retired layout"), 2, output)
+            self.assertNotIn("schema at", output)
+            # When an exclusion matches too, the retired rule does not take precedence: table order decides again.
+            excluded = validator.Contract(files=contract.files, exclusions=[validator.Rule(
+                validator.glob_to_regex("*/mission_step_contract.graph.yaml"), "*/mission_step_contract.graph.yaml",
+                reason="kept")], retired=contract.retired, payloads=[])
+            self.assertEqual(validator.classify(excluded, "pack/mission_step_contract.graph.yaml")[0], "file")
+
     def test_a_symlinked_file_or_directory_in_a_pack_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -532,31 +561,32 @@ class ValidatorExitCodes(unittest.TestCase):
             for expected in ("'DIRECTIVE_999'", "'tactic:T_9'", "directive:D_1: declared by packs of different levels (a [org], c [built-in])"):
                 self.assertIn(expected, found)
             # Artifact files declare ids too, by the kind their schema names (needs the contract).
+            # A glossary file declares the node glossary_context:<id>, which the preset key activated_glossaries
+            # and the fragment plural glossaries name too (file-kinds.yaml, charter ADR-0053 decision 13).
             contract = validator.Contract(
-                files=[validator.Rule(validator.glob_to_regex("**/*.step-contract.yaml"), "**/*.step-contract.yaml",
-                                      schema="mission-step-contract")],
+                files=[validator.Rule(validator.glob_to_regex("**/*.glossary.yaml"), "**/*.glossary.yaml", schema="glossary")],
                 exclusions=[], retired=[], payloads=[],
             )
-            filed = pack(root, "e", node, preset="activated_mission_step_contracts:\n  - id: qa-plan\n")
-            (filed / "steps").mkdir()
-            (filed / "steps" / "qa-plan.step-contract.yaml").write_text("id: qa-plan\n", encoding="utf-8")
+            filed = pack(root, "e", node, preset="activated_glossaries:\n  - id: qa-terms\n")
+            (filed / "glossaries").mkdir()
+            (filed / "glossaries" / "qa-terms.glossary.yaml").write_text("id: qa-terms\n", encoding="utf-8")
             self.assertEqual(validator.cross_pack_violations([filed], contract), [])  # a file-only id satisfies the preset
             self.assertTrue(validator.cross_pack_violations([filed]))  # ...but only when the contract classifies files
             # A file and a node for one id of one pack are a single declaration, not a collision.
-            (filed / "steps" / "d1.step-contract.yaml").write_text("id: D_1\n", encoding="utf-8")
-            (filed / "drg" / "fragment.yaml").write_text("nodes:\n  - {id: D_1, kind: mission_step_contracts}\nedges: []\n", encoding="utf-8")
+            (filed / "glossaries" / "d1.glossary.yaml").write_text("id: D_1\n", encoding="utf-8")
+            (filed / "drg" / "fragment.yaml").write_text("nodes:\n  - {id: D_1, kind: glossaries}\nedges: []\n", encoding="utf-8")
             self.assertEqual(validator.cross_pack_violations([filed], contract), [])
-            # The right id of the wrong kind does not satisfy a preset: D_1 is a directive in `a`, not a step contract.
-            wrong = pack(root, "f", "", preset="activated_mission_step_contracts:\n  - id: D_1\n")
+            # The right id of the wrong kind does not satisfy a preset: D_1 is a directive in `a`, not a glossary.
+            wrong = pack(root, "f", "", preset="activated_glossaries:\n  - id: D_1\n")
             (wrong / "drg" / "fragment.yaml").write_text("nodes: []\nedges: []\n", encoding="utf-8")
             found = "\n".join(validator.cross_pack_violations([clean, wrong], contract))
-            self.assertIn("names 'D_1', which no pack declares as a mission_step_contract", found)
+            self.assertIn("names 'D_1', which no pack declares as a glossary_context", found)
             # A file-only id shared by two packs is a collision.
             other = pack(root, "g", "  - {id: D_3, kind: directives}\n", level="built-in")
-            (other / "steps").mkdir()
-            (other / "steps" / "qa-plan.step-contract.yaml").write_text("id: qa-plan\n", encoding="utf-8")
+            (other / "glossaries").mkdir()
+            (other / "glossaries" / "qa-terms.glossary.yaml").write_text("id: qa-terms\n", encoding="utf-8")
             found = "\n".join(validator.cross_pack_violations([filed, other], contract))
-            self.assertIn("mission_step_contract:qa-plan: declared by packs of different levels (e [org], g [built-in])", found)
+            self.assertIn("glossary_context:qa-terms: declared by packs of different levels (e [org], g [built-in])", found)
             empty = pack(root, "d", "", "[]")
             (empty / "drg" / "fragment.yaml").write_text("nodes: []\n", encoding="utf-8")
             with self.assertRaises(validator.GateError):  # an empty id index must not pass
@@ -579,7 +609,7 @@ class CompositionChecks(unittest.TestCase):
             validator.Rule(validator.glob_to_regex(f"**/*.{suffix}.yaml"), f"**/*.{suffix}.yaml", schema=schema)
             for suffix, schema in (("directive", "directive"), ("tactic", "tactic"), ("paradigm", "paradigm"),
                                    ("procedure", "procedure"), ("mission-type", "mission-type"),
-                                   ("agent", "agent-profile"), ("step-contract", "mission-step-contract"),
+                                   ("agent", "agent-profile"),
                                    ("asset", "asset"), ("glossary", "glossary"), ("skill", "skill"),
                                    ("styleguide", "styleguide"), ("toolguide", "toolguide"))
         ],
@@ -854,11 +884,11 @@ class DerivedManifests(unittest.TestCase):
     run_validator = ValidatorExitCodes.run_validator
     write_pack = ValidatorExitCodes.write_pack
 
-    # The kinds a derived manifest lists beyond the base rules: profiles, step contracts, mission types and the
+    # The kinds a derived manifest lists beyond the base rules: profiles, glossaries, mission types and the
     # template payloads, with a skill whose body is its companion and an excluded note beside the templates.
     EXTRA = (
         '  - match: "**/*.agent.yaml"\n    schema: agent-profile\n'
-        '  - match: "**/*.step-contract.yaml"\n    schema: mission-step-contract\n'
+        '  - match: "**/*.glossary.yaml"\n    schema: glossary\n'
         '  - match: "**/*.mission-type.yaml"\n    schema: mission-type\n'
         'exclusions:\n  - match: "*/missions/*/templates/**/README.md"\n    reason: notes\n'
         'payloads:\n  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n'
@@ -872,7 +902,7 @@ class DerivedManifests(unittest.TestCase):
         "missions/dev/dev.mission-type.yaml": "id: dev\n",
         "missions/dev/templates/plan.md": "# plan\n",
         "missions/dev/templates/README.md": "# notes\n",
-        "missions/steps/plan.step-contract.yaml": "id: plan\n",
+        "glossaries/plan.glossary.yaml": "id: plan\n",
         "templates/writing/notes.md": "# notes\n",
         "skills/s.skill.yaml": "id: s\nbody_path: s.body.md\n",
         "skills/s.body.md": "# body\n",
@@ -881,7 +911,7 @@ class DerivedManifests(unittest.TestCase):
 
     def write_contract(self, root: Path) -> None:
         ValidatorExitCodes.write_contract(self, root, self.EXTRA)  # type: ignore[arg-type]
-        for name in ("agent-profile", "mission-step-contract", "mission-type"):
+        for name in ("agent-profile", "glossary", "mission-type"):
             (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(OPEN_SCHEMA), encoding="utf-8")
 
     def test_the_derived_lists_hold_every_artifact_file_and_preset_in_path_order(self) -> None:
@@ -894,9 +924,9 @@ class DerivedManifests(unittest.TestCase):
                 [(e["kind"], e["id"], e["path"]) for e in derived["constituents"]],
                 [
                     ("agent_profile", "annie", "agent_profiles/ann.agent.yaml"),
+                    ("glossary", "plan", "glossaries/plan.glossary.yaml"),
                     ("mission_type", "dev", "missions/dev/dev.mission-type.yaml"),
                     ("template", "dev/plan.md", "missions/dev/templates/plan.md"),
-                    ("mission_step_contract", "plan", "missions/steps/plan.step-contract.yaml"),
                     ("skill", "s", "skills/s.skill.yaml"),
                     ("tactic", "upper", "tactics/T.tactic.yaml"),
                     ("tactic", "t", "tactics/t.tactic.yaml"),
