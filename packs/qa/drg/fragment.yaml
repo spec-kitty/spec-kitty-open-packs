@@ -73,9 +73,9 @@ nodes:
   title: "QA Go/No-Go Readiness Review"
   body_path: procedures/qa-go-no-go-readiness-review.procedure.yaml
 - id: qa-glossary
-  kind: glossary_packs
+  kind: glossaries
   title: "QA Glossary"
-  body_path: glossary_packs/qa-glossary.glossary-pack.yaml
+  body_path: glossaries/qa-glossary.glossary.yaml
 - id: qa-traceability-lint
   kind: assets
   title: "QA Traceability Lint"

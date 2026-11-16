@@ -51,9 +51,9 @@ nodes:
   title: "Event Naming and Payload Shape"
   body_path: styleguides/evd-event-naming-and-payload.styleguide.yaml
 - id: evd-glossary
-  kind: glossary_packs
+  kind: glossaries
   title: "Event-Driven Glossary"
-  body_path: glossary_packs/evd-glossary.glossary-pack.yaml
+  body_path: glossaries/evd-glossary.glossary.yaml
 - id: evd-worked-example-lane-board
   kind: assets
   title: "Worked Example: Event-Sourced Work-Package Board"
