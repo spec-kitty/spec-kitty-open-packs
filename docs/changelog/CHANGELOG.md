@@ -21,6 +21,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 💥 Breaking
 
+- **The packs follow charter `main` at `050d780`** (epic #287). `charter.lock.yaml` moves from
+  `eacbc3c` to `050d780876c6e9bd4265c7ec3335abe1b95cda61`, charter `main` HEAD on 2026-11-16. It
+  holds glossary contexts (#106), slice F's kind taxonomy (#537, ADR-0077), the round trip in
+  `pack-validation` (#555), slice G's profile selection (#538, ADR-0078) and identifiers on the
+  shared slug grammar (#552). The pin refuses the old content, so the migrations below land
+  with it in one pull request.
+  - **Glossary packs become glossary contexts** (#283; charter ADR-0049, ADR-0076). Each
+    `glossary_packs/<id>.glossary-pack.yaml` is now `glossaries/<id>.glossary.yaml`, with
+    `schema_version: "1.0"`, a `name`, and terms carrying a minted `id`, `name` (was `surface`)
+    and `avoid` (was `synonyms_to_avoid`); `confidence`, `introduced_in_mission` and `provenance`
+    are gone. The four ids are kept (`spec-kitty-core`, `qa-glossary`, `evd-glossary`,
+    `spk-internal-glossary`), and a term's address is `term:<context-id>/<term-id>`. The graph
+    node is `glossary_context:<id>`, a fragment lists `glossaries`, and a preset activates them
+    with `activated_glossaries`. `see_also` entries that named no term are dropped (three), and
+    so is the `step contract` term. **Upgrade:** rename `activated_glossary_packs` to
+    `activated_glossaries` in your presets, and address terms as `term:<context>/<term-id>`.
+  - **Step contracts are folded into their steps' `substeps`** (#285 items 1 and 5; charter
+    ADR-0077). The 28 `*.step-contract.yaml` files and the two `mission_step_contract.graph.yaml`
+    fragments are gone; 149 substeps sit on 28 steps of the software-dev, plan, research,
+    documentation and qa mission types. 115 substep ids now use `-` instead of `_`
+    (`quality_gate` is `quality-gate`), and writing's 34 delegation candidates are written
+    `foundation::<id>`. **Upgrade:** a pack that overrode or enhanced a step contract writes its
+    change against the step's substeps.
+  - **`human-in-charge` is human-performed, with the role `operator`** (#139; charter ADR-0078
+    decision 4). `sentinel: true` becomes `performer: human`, and `role: human-in-charge` becomes
+    `role: operator`; the five collaboration entries that named the role say `operator`. The
+    profile id is unchanged. **Upgrade:** a profile or step that names the role
+    `human-in-charge` names `operator`.
+  - **Versions** (DIRECTIVE_018: a removed or renamed artifact raises the major). Major:
+    `foundation` 2.0.0, `writing` 2.0.0, `built-in` 4.0.0, `qa` 4.0.0, `event-driven` 4.0.0,
+    `internal` 4.0.0. Minor: `architecture`, `planning-analysis`, `refactoring` and `testing`
+    2.1.0 (role references only); `cave-kitty` 2.2.0, `drupal` 2.1.0, `go` 1.1.0, `java` 2.2.0,
+    `javascript` 2.1.0, `pack-authoring` 1.2.0, `python` 2.1.0, `rust` 1.1.0 and `spdd` 3.1.0
+    (their `foundation`/`writing` range moves to `>=2.0,<3`). The built-in members stay pinned
+    exactly and in lockstep (`==2.0.0`, `==2.1.0`; charter ADR-0048 decision 17). This carries
+    the `foundation`/`writing` bump #285's slice A deferred.
+
 - **Every pack registers against the charter's slice B: one `README.md` per pack, and no
   `org-charter.yaml`** (#241, #242; charter #451, #431, PR #501). `charter.lock.yaml` now pins
   charter `17ce3f9` (a commit pin; the charter has no release yet), which refuses `pack.md`,
@@ -206,6 +243,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (see Changed).
 
 ### ✨ Added
+
+- **The validator refuses a `specializes_from` cycle among agent profiles** (#286; charter
+  ADR-0078 decision 2). `--cross-pack` names each cycle in order (`a -> b -> a`) across all
+  packs; the charter refuses one only within the closure it registers. A profile may have
+  several parents. Open-packs has no cycle.
 
 - **Every mission step is linked from its mission type, every delegation candidate is scoped,
   and foundation has a work-package lifecycle with the pre-review guard** (#285 items 2 to 4;
@@ -556,6 +598,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
+
+- **The round trip runs `:pack-validation:driftTest`** (#284; charter #555, ADR-0075 decision 8).
+  The `Charter service validation` job uploads the report from
+  `service/pack-validation/build/reports/tests/driftTest`. The judgement is unchanged.
+- **The validator follows the new pin's file rules** (#285 item 5): a `retired` rule beats a
+  `files` rule that also matches, unless an exclusion matches too, so a leftover
+  `mission_step_contract.graph.yaml` is one `retired layout` violation; the step-contract kind is
+  no longer known, and a glossary declares the node `glossary_context:<id>`.
 
 - **The implementer flips a green PR to ready for review, and each internal delivery rule has
   one owner** (#271, #260). Before: `mission-wrap-up-sequence` told the agent never to mark the
