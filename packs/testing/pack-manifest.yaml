@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 59059e79e47b9ce751ee25779b57b6ed5fb7b57dea34f47b68e5390f0e4991b6
+manifest_hash: 8e0d84e428ce62497d712971fd9300090ba981ecaeff7c89eff151ba22ad62df
 constituents:
 - kind: agent_profile
   id: debugger-debbie
   path: agent_profiles/debugger-debbie.agent.yaml
-  content_hash: ce9b3ff13eab9e4fff3217bde371de04d7b580b71a36d21f21d1e2d79a4e2c77
+  content_hash: 136320cda231e1efd60b28f4357d2d03fd5b73dcc47583762954016c33334f1b
 - kind: directive
   id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   path: directives/use-mutation-testing-to-validate-test-quality.directive.yaml

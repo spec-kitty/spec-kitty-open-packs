@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 8c8787bd9004b1244ec7f9091863b0aa96af75c9f35cfd4de984f1f69a4e474f
+manifest_hash: 72895d5b00a00addf962b849bff968209773923e896bf5cd6ac0b55e5662be0f
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -65,10 +65,10 @@ constituents:
   id: SPEC_KITTY_RED_MAIN_POLICY
   path: directives/spec-kitty-red-main-policy.directive.yaml
   content_hash: af0afc525a1f7fe50f6344ea5bee5194cb4929a163f7acc16c427c24ced578b6
-- kind: glossary_pack
+- kind: glossary
   id: spk-internal-glossary
-  path: glossary_packs/spk-internal-glossary.glossary-pack.yaml
-  content_hash: d0c5f0ec4e58a312c6071bbf7a7ad69a97480516c2a8fdce3a85234b30a4c00e
+  path: glossaries/spk-internal-glossary.glossary.yaml
+  content_hash: c9535d00bbfd53b9f7330f6b640d56fd382d7de20f8daca0e8f265cb5697f6bf
 - kind: procedure
   id: charter-offering-scenario-extraction
   path: procedures/charter-offering-scenario-extraction.procedure.yaml
@@ -224,4 +224,4 @@ constituents:
 presets:
 - id: base
   path: presets/base.yaml
-  content_hash: ad3a07b4df098fab79ccbf15bb3b3d87f9b7cb9be048715e8c04524f4174e8c2
+  content_hash: 6b9b0237febd42fc0a00a7f9f35a54e82641e7e82707eba2ac6a3a7e025fe0a1

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4bd7e56f8274617dd1892cc22ea6d1cf7768366b0ed748f0517d8e2b0fc26f1d
+manifest_hash: 7d5d0056427a84d188dbb60cdf19e1da03a83d69606e362e2c4cf763d6a5c5f7
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -12,7 +12,7 @@ constituents:
 - kind: agent_profile
   id: human-in-charge
   path: agent_profiles/human-in-charge.agent.yaml
-  content_hash: 2edf54dd9aa3648418b478fd75205cf654a2852e7de9e985e0534bdab8530a8c
+  content_hash: 2c04501e7767256478f17ff67122c65a58a9407b48b1ce12a1b6cae1403b0b9f
 - kind: agent_profile
   id: implementer-ivan
   path: agent_profiles/implementer-ivan.agent.yaml
@@ -149,78 +149,22 @@ constituents:
   id: RED_MAIN_RELEASE_DISCIPLINE
   path: directives/red-main-release-discipline.directive.yaml
   content_hash: 23d768ba77bb18866fd91a6adca59f3d123d517d077ffe85a4340403bfce0a46
-- kind: glossary_pack
+- kind: glossary
   id: spec-kitty-core
-  path: glossary_packs/spec-kitty-core.glossary-pack.yaml
-  content_hash: 7870b3c38464e6138086dbf647656943bf64ce08ec1aec8cbb5fd742f650b52a
+  path: glossaries/spec-kitty-core.glossary.yaml
+  content_hash: 63d4d47ccf1867497d0b60cb3fffca8244d90b5b727cc09a82127e0d51553109
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
-  content_hash: b8bd82ffdb2c016de0051f6491cbf3718f8ee11bda7fc9b0d9b613b8b421efa5
+  content_hash: 6dc409d4e6c1627dc336f5e62c2e66181fd3811438c4352643c01221dff848b8
 - kind: lifecycle
   id: work-package
   path: lifecycles/work-package.lifecycle.yaml
   content_hash: d04a43cad867d715f5f200dda24d74295f6ee707787432fb7380c7e6e17148ad
-- kind: mission_step_contract
-  id: implement
-  path: missions/built_in_step_contracts/implement.step-contract.yaml
-  content_hash: fef2f7f8402526cf20087ad5b2104f20847ab28d4554e8bab36caab926fc6a77
-- kind: mission_step_contract
-  id: plan-plan
-  path: missions/built_in_step_contracts/plan-plan.step-contract.yaml
-  content_hash: 40ec493818812ceff882944ce997bb38c98f4c3223a15c4bb27ca170b76e5cb0
-- kind: mission_step_contract
-  id: plan-research
-  path: missions/built_in_step_contracts/plan-research.step-contract.yaml
-  content_hash: 32fcb00d813a52d020eefc4a2e9ea63e814d8811bb9dfccb36c6689734751c86
-- kind: mission_step_contract
-  id: plan-review
-  path: missions/built_in_step_contracts/plan-review.step-contract.yaml
-  content_hash: db97f1c62e648bdac8920bb047c97c3a9b77dab8b2e5707be3438ec37e61c40e
-- kind: mission_step_contract
-  id: plan-specify
-  path: missions/built_in_step_contracts/plan-specify.step-contract.yaml
-  content_hash: 59fbf6381a1cd155aeac6cce6a3cb2c530c2f660d7e27ceea1cd75434e401fa9
-- kind: mission_step_contract
-  id: plan
-  path: missions/built_in_step_contracts/plan.step-contract.yaml
-  content_hash: 729a3ad149f06039772af72dcb9131ec78cc60916b5b0ba08c888a765636fdbf
-- kind: mission_step_contract
-  id: research-gathering
-  path: missions/built_in_step_contracts/research-gathering.step-contract.yaml
-  content_hash: f27e2a575d768f2c8d1d464dbc08cee3200348f793c692dbc3bc6f1b5d002fa5
-- kind: mission_step_contract
-  id: research-methodology
-  path: missions/built_in_step_contracts/research-methodology.step-contract.yaml
-  content_hash: 65163edf94b86c80047c40855c2ca0df0c62fd550304fa854472dadfeb4cd593
-- kind: mission_step_contract
-  id: research-output
-  path: missions/built_in_step_contracts/research-output.step-contract.yaml
-  content_hash: 14e3784c2ee6658a1a10250f13e34b730ed2465e4260ade486c115443e9b2cf0
-- kind: mission_step_contract
-  id: research-scoping
-  path: missions/built_in_step_contracts/research-scoping.step-contract.yaml
-  content_hash: 95289a43bec9c7bbc05a42a75a426de22240f47e27430ae7504817bcbc823790
-- kind: mission_step_contract
-  id: research-synthesis
-  path: missions/built_in_step_contracts/research-synthesis.step-contract.yaml
-  content_hash: b323f8229e05c738bd0032dbcecfb42d56f9f6d1aa16e386b779a817bdd85db0
-- kind: mission_step_contract
-  id: review
-  path: missions/built_in_step_contracts/review.step-contract.yaml
-  content_hash: c150f34e268fdaab1f680910fb0cea785b4af0e5c3e77f091f6f57f778f0d75e
-- kind: mission_step_contract
-  id: specify
-  path: missions/built_in_step_contracts/specify.step-contract.yaml
-  content_hash: 94b194e080cba0c22d30fe35016eb41f79676e50fd769327ca02070ba4186374
-- kind: mission_step_contract
-  id: tasks
-  path: missions/built_in_step_contracts/tasks.step-contract.yaml
-  content_hash: 5db598a1a48436ebe6736827d5a9abae6dc9280705323c9eb8c20c6d2c37333d
 - kind: mission_type
   id: plan
   path: missions/plan/plan.mission-type.yaml
-  content_hash: c9284fdc66b5eb37ebfbc5ae1f864a155b3d2040ca96aa9eb703c6317a0375b7
+  content_hash: dfb3a9fe2b863d095e13187dde320abb5d8bf315240c383aac94b253700ca574
 - kind: template
   id: plan/plan-plan-skeleton.md
   path: missions/plan/templates/plan-plan-skeleton.md
@@ -232,7 +176,7 @@ constituents:
 - kind: mission_type
   id: research
   path: missions/research/research.mission-type.yaml
-  content_hash: 5ffc3714b588db7eb9f106d230d70997230c7d4e3802af4b84b3a6a07dffc1b7
+  content_hash: 93e8fb8ea8a2d3d02963c855167b650dd7915005f58a3dc47c32140a7bdb8f0e
 - kind: template
   id: research/data-model-template.md
   path: missions/research/templates/data-model-template.md
@@ -268,7 +212,7 @@ constituents:
 - kind: mission_type
   id: software-dev
   path: missions/software-dev/software-dev.mission-type.yaml
-  content_hash: 66925e6bd61c3db41f25d2ed4c765836f834f9bfc912c3982bec233264b7830c
+  content_hash: 92616687ec228f3d2bdd6c1e7bcee0c8d75c82c48047901c13b2b292f05027c2
 - kind: template
   id: software-dev/plan-template.md
   path: missions/software-dev/templates/plan-template.md

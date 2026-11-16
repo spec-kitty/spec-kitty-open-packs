@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: d38ccc05e4410927e81f934ea97b353354e6996cac599b820aeb386d09434772
+manifest_hash: 6451f635d3465187e7c6423b677b500e95f1a7e0a17c3976945dd589b04805f1
 constituents:
 - kind: agent_profile
   id: architect-alphonso
@@ -8,7 +8,7 @@ constituents:
 - kind: agent_profile
   id: paula-patterns
   path: agent_profiles/paula-patterns.agent.yaml
-  content_hash: 2054d3545abcf76a2adfab884501e3077bc043c64ef4a671724a9e61a2be25c0
+  content_hash: c269b18b74903cf2d62107cd41aad8aa07f6c75f8060a1f11d52d19b094dfddd
 - kind: directive
   id: USE_C4_MODEL_TECHNIQUES
   path: directives/use-c4-model-techniques.directive.yaml
