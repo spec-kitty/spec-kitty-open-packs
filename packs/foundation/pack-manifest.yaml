@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: f7292b29a340b38c4b58a3130a1e3fb6575d7495155ce515fce951f81dba7b76
+manifest_hash: 4bd7e56f8274617dd1892cc22ea6d1cf7768366b0ed748f0517d8e2b0fc26f1d
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -148,7 +148,7 @@ constituents:
 - kind: directive
   id: RED_MAIN_RELEASE_DISCIPLINE
   path: directives/red-main-release-discipline.directive.yaml
-  content_hash: a4d9b8945efb5e30b6eeb42447d8edac692ed23e82dbd41276804732233bf977
+  content_hash: 23d768ba77bb18866fd91a6adca59f3d123d517d077ffe85a4340403bfce0a46
 - kind: glossary_pack
   id: spec-kitty-core
   path: glossary_packs/spec-kitty-core.glossary-pack.yaml
@@ -272,7 +272,7 @@ constituents:
 - kind: template
   id: software-dev/plan-template.md
   path: missions/software-dev/templates/plan-template.md
-  content_hash: af53d92b45c19507102df786521550e358c8d9e5446dcd19401be3441f8de825
+  content_hash: d80f6d3875710a78c0449f3f5e0953ac76f770661bdcbd9e925d2f2c41349740
 - kind: template
   id: software-dev/spec-template.md
   path: missions/software-dev/templates/spec-template.md
@@ -292,7 +292,7 @@ constituents:
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: 096204ae07a3e7c125bfeac871242829f86aefdafb9d4ccc6d23e8d8f2e1acb3
+  content_hash: 1850eb4c36e80b507e268fa6b5723c6fc556059b348f8f16ea03e8892f5b04b1
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
@@ -436,7 +436,7 @@ constituents:
 - kind: procedure
   id: test-first-cycle
   path: procedures/test-first-cycle.procedure.yaml
-  content_hash: 6bba03ee62efae733251f3577aed2071f1b002a35120f51e7a426a64bcb1e4d3
+  content_hash: fb6570b4cb503856ed9611593b1f8e73c165fccad3efd08062588f644d9c8961
 - kind: procedure
   id: tidy-first-campsite-clean
   path: procedures/tidy-first-campsite-clean.procedure.yaml
@@ -500,7 +500,7 @@ constituents:
 - kind: tactic
   id: dependency-hygiene
   path: tactics/architecture/dependency-hygiene.tactic.yaml
-  content_hash: efe2d0df25181926143a8e7eac59050548b28af8294a11d392825480894a1693
+  content_hash: 98897da229727dac61afe8169f032f117a8465e5197c2d5e04767f4cad5966fd
 - kind: tactic
   id: interface-variation-design
   path: tactics/architecture/interface-variation-design.tactic.yaml
@@ -524,7 +524,7 @@ constituents:
 - kind: tactic
   id: canonical-source-unification
   path: tactics/canonical-source-unification.tactic.yaml
-  content_hash: 299cc9c54a226534225c368f62596aec824e8392cc695c6c858b1f6e7f8f2552
+  content_hash: 0015ea634dfa87de5a8eec3082bb4b44b1886fc7b04f79448e906bc150eb9657
 - kind: tactic
   id: change-apply-smallest-viable-diff
   path: tactics/change-apply-smallest-viable-diff.tactic.yaml
@@ -608,7 +608,7 @@ constituents:
 - kind: tactic
   id: ownership-map-leeway
   path: tactics/ownership-map-leeway.tactic.yaml
-  content_hash: 11d54bf9a65e334169375ad54ee89a0e75d4c12d543dfc6219cf2d5b8a220aea
+  content_hash: 2eaccf0b1819b13dcba29a5892359cee7111b2139d2ffaeab549b67989be80dc
 - kind: tactic
   id: pr-agent-worktree-isolation
   path: tactics/pr-agent-worktree-isolation.tactic.yaml
@@ -620,7 +620,7 @@ constituents:
 - kind: tactic
   id: reviewer-implementer-role-separation
   path: tactics/reviewer-implementer-role-separation.tactic.yaml
-  content_hash: ea51eb15a35ceea94e89c43e6725f783b2f9d8724d23c31afa648ffa4ba8d616
+  content_hash: dccac9b2a8272deccd8ccc7a6d0991266b5bbeb3cc74d446edd9a4bf6e424761
 - kind: tactic
   id: secure-design-checklist
   path: tactics/secure-design-checklist.tactic.yaml
