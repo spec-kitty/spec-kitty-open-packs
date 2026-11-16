@@ -145,16 +145,16 @@ Keys and values support markdown and emoji.
 
 ### Glossary curation
 
-The [glossary-curation-interview](../tactics/communication/glossary-curation-interview.tactic.yaml)
-tactic defines the process for systematically expanding a living glossary.
+The foundation pack's `foundation::tactic:glossary-curation-interview` defines the process
+for systematically expanding a living glossary.
 Terms curated through that process should be captured in Contextive format
 so they are immediately enforceable in the IDE.
 
 ### Bounded Context Canvas
 
-Section 7 (Ubiquitous Language) of the
-[Bounded Context Canvas](../../../src/charter/offering/templates/architecture/bounded-context-canvas-template.md)
-should be backed by a Contextive glossary file. This ensures the canvas
+The Ubiquitous Language section of a Bounded Context Canvas (see the
+architecture pack's `architecture::tactic:bounded-context-canvas-fill`, when that
+pack is installed) should be backed by a Contextive glossary file. This ensures the canvas
 is not just documentation but an active, enforceable artifact.
 
 ### Glossary writing styleguide

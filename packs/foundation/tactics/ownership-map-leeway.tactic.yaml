@@ -39,12 +39,11 @@ failure_modes:
   - "Treating strict same-files-only prohibition as the invariant and working around it with TODOs, deferred fixes, or duplicated logic instead of a bounded, justified edit."
 notes: >
   This tactic aligns with the "no-overlap is the real guard" language in the
-  tasks-packages and tasks step prompts:
+  software-dev mission's tasks-packages and tasks step prompts
+  (mission_type:software-dev):
   "Agents working on a WP should prefer to stay within their owned_files list;
   a small, well-justified out-of-map edit is acceptable when recorded with a
   one-line rationale (the no-overlap rule above is the real guard against
   parallel-WP collisions)."
-  (packs/foundation/missions/software-dev/steps/tasks-packages.prompt.md
-  and packs/foundation/missions/software-dev/steps/tasks.prompt.md)
   This tactic references that language as its authority — it does NOT
   restate or supersede the no-overlap rule with a different formulation.

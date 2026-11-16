@@ -74,7 +74,7 @@ patterns:
       start to a concrete, motivating result. It makes decisions for the reader, avoids alternatives and
       caveats, and every step must succeed for a first-time user on a clean environment. Optional detours,
       edge cases, and 'you could also' asides belong in a how-to or reference, never in a tutorial (source:
-      packs/built-in/missions/documentation/templates/divio/tutorial-template.md).
+      the documentation mission's divio/tutorial-template.md template).
 
   - name: "How-tos are task-oriented and goal-scoped"
     description: >-
@@ -82,7 +82,7 @@ patterns:
       already has context. It states the goal, lists prerequisites, and gives the minimal ordered steps to the
       outcome. It does not teach fundamentals (link to a tutorial) and does not exhaustively describe every
       option (link to reference) (source:
-      packs/built-in/missions/documentation/templates/divio/howto-template.md).
+      the documentation mission's divio/howto-template.md template).
 
   - name: "Reference is information-oriented, exhaustive, and neutral"
     description: >-
@@ -91,7 +91,7 @@ patterns:
       without narrative or opinion. It is consulted, not read front-to-back. Reference is where
       auto-generation (rustdoc, JSDoc, Sphinx autodoc) belongs; hand-written prose in a reference page is a
       smell unless it documents contract semantics the generator cannot infer (source:
-      packs/built-in/missions/documentation/templates/divio/reference-template.md).
+      the documentation mission's divio/reference-template.md template).
 
   - name: "Explanation is understanding-oriented and discusses trade-offs"
     description: >-
@@ -99,7 +99,7 @@ patterns:
       higher altitude — design rationale, historical context, alternatives considered, why the system is
       shaped the way it is. It is the natural home for the asides that would derail a tutorial or clutter a
       reference. An Architecture Decision Record is a bounded, dated form of explanation (source:
-      packs/built-in/missions/documentation/templates/divio/explanation-template.md).
+      the documentation mission's divio/explanation-template.md template).
 
   - name: "Cross-link across quadrants instead of merging them"
     description: >-

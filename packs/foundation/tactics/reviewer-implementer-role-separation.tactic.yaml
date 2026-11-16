@@ -15,10 +15,10 @@ steps:
       it needs (implementer for implement, reviewer for review), never a
       profile. The project's activation preset decides which profiles are
       active, and Spec Kitty picks a profile for each role (charter
-      ADR-0032). In the
-      built-in pack, implementer-ivan or a language-specific implementer such
-      as python-pedro or java-jenny fills the implementer role, and
-      reviewer-renata fills the reviewer role. This tactic gives the rationale
+      ADR-0032). This pack ships implementer-ivan for the implementer role
+      and reviewer-renata for the reviewer role; an installed language pack
+      may add a specialist implementer (for example the python pack's
+      python-pedro). This tactic gives the rationale
       and the constraint; it adds no role or profile wiring.
   - title: Do not review your own implementation
     description: >
@@ -65,15 +65,13 @@ failure_modes:
   - "Self-certified approval: an approved review-cycle artifact is manufactured or hand-authored rather than produced by a genuine independent review, defeating the two-party-review integrity that role separation exists to protect. Recovery is a fresh independent review, not a rationale for the existing artifact."
 notes: >
   Role and profile wiring lives outside this tactic. A step in a mission type
-  names the role it needs: in
-  packs/foundation/missions/software-dev/software-dev.mission-type.yaml the
-  implement step names the implementer role and the review step names the
-  reviewer role. The
+  names the role it needs: in the software-dev mission type
+  (mission_type:software-dev) the implement step names the implementer role
+  and the review step names the reviewer role. The
   activation preset decides which profiles are active, and Spec Kitty selects
   a profile for the role (charter ADR-0032); a derived pack may pin a profile
-  to a role. The implement and review step prompts
-  (packs/foundation/missions/software-dev/steps/implement.prompt.md and
-  packs/foundation/missions/software-dev/steps/review.prompt.md) carry the role handoff in the WP frontmatter.
+  to a role. The software-dev implement and review step prompts carry the
+  role handoff in the WP frontmatter.
   This tactic adds the doctrine-layer rationale and constraint. It does NOT
   introduce role or profile wiring: change a step's role in the mission-type
   file, and change which profile fills a role in the preset or in a derived

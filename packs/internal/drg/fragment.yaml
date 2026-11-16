@@ -260,8 +260,8 @@ nodes:
 edges:
   # Reference-not-duplicate: the landing runbook refines built-in Charter Pack doctrine that
   # already ships publicly, rather than re-authoring it. Targets are
-  # fully-qualified <kind>:<id> DRG URNs (singular kind), verified present in
-  # packs/built-in/.
+  # fully-qualified <pack>::<kind>:<id> DRG URNs (singular kind), verified present in
+  # the named pack under packs/.
   - source: "procedure:landing-contributor-prs"
     target: "foundation::directive:RED_MAIN_RELEASE_DISCIPLINE"
     relation: refines

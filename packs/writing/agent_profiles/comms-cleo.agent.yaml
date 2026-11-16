@@ -119,7 +119,7 @@ tactic-references:
     Provides the ready-to-use catalog of writing-audience personas needed to satisfy
     the
     Audience-Oriented Writing directive. Selects one of the built-in
-    persona library's five personas (or an org-extension addition) instead of inventing
+    persona library's four personas (or an org-extension addition) instead of inventing
     an
     audience ad hoc. Not the same pattern as the architecture stakeholder-alignment
     tactic —

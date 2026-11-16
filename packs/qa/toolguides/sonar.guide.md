@@ -3,10 +3,9 @@
 ## Overview
 
 Operator reference for running SonarQube (SonarCloud or a self-hosted SonarQube
-server) as a static-analysis and quality-gate tool. Use alongside the
-[Testing Principles](../styleguides/testing-principles.styleguide.yaml)
-and [Quadruple-A Test Format](../styleguides/quadruple-a-test-format.styleguide.yaml)
-styleguides; Sonar tracks the size/complexity/duplication metrics that do **not**
+server) as a static-analysis and quality-gate tool. Use alongside the testing pack's
+Testing Principles (`testing::styleguide:testing-principles`) and Quadruple-A Test Format
+(`testing::styleguide:quadruple-a-test-format`) styleguides; Sonar tracks the size/complexity/duplication metrics that do **not**
 belong in a per-file test gate.
 
 ## What Sonar Measures

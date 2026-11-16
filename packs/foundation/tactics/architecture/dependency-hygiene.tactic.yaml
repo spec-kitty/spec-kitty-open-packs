@@ -10,7 +10,8 @@ purpose: >
   addition or upgrade, across any ecosystem) is a separate concern owned by the
   supply-chain-install-safety tactic — run that tactic's checklist alongside
   these steps rather than restating it here; its ecosystem toolguides (for
-  example javascript-supply-chain) carry the exact per-ecosystem commands.
+  example the javascript pack's javascript-supply-chain, when installed) carry
+  the exact per-ecosystem commands.
 steps:
   - title: Pin all direct dependency versions explicitly
     description: >

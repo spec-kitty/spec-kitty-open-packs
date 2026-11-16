@@ -15,5 +15,7 @@ bundles that build on this pack (#73). A role no installed profile fills falls b
 | `analyst-annie.agent.yaml` | `analyst-annie` | analyst |
 | `human-in-charge.agent.yaml` | `human-in-charge` | human-in-charge |
 
-Shipped profiles are read-only at the package level. Project-level overrides in
-`.kittify/charter/agents/` can customize any profile by matching `profile-id`.
+Shipped profiles are read-only at the package level. A project adds its own
+profiles in its project pack layer, `.kittify/charter-packs/agent_profiles/`,
+under a `profile-id` no installed pack declares; to tailor a shipped profile, it
+authors a new profile that specializes the shipped one.

@@ -55,7 +55,7 @@ principles:
 # - [open question] Bus factor as a first-class risk rests on one engagement
 #   (2026-05 CaaCS); evidence from other brownfield work would strengthen or
 #   qualify it.
-# - Cross-links into the doctrine graph are declared in the per-kind
-#   packs/built-in/<kind>.graph.yaml fragments at this pack's root. The motivating tactic is forensic-repository-audit
+# - Cross-links into the doctrine graph are declared in this pack's
+#   graph fragment (drg/fragment.yaml). The motivating tactic is forensic-repository-audit
 #   and the motivating procedure is legacy-codebase-triage; the structural
 #   overlays are domain-driven-design and deep-module-design.

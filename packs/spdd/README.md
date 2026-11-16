@@ -9,7 +9,8 @@ preset selects the doctrine and all five step enhancements together.
 
 ## Adopt
 
-Configure this pack with `built-in` in its dependency closure, then activate
+Install this pack with its dependencies (architecture and foundation, which bring
+in refactoring, testing and writing), then activate
 the `spdd` preset. The preset selects the doctrine and all five step
 enhancements together; beyond that selection there is no second test for SPDD
 artifacts (charter ADR-0066 decision 4). An enhancement is still not in force

@@ -16,7 +16,8 @@ scope: >
   accepted, when a release is being considered, and whenever mainline CI goes
   red.
   It governs how a red main is read, recorded, gated on and worked down; how a
-  failing test is fixed is test-first-bug-fixing's subject.
+  failing test is fixed is the subject of the testing pack's test-first-bug-fixing
+  procedure, when installed.
 integrity_rules:
   - >
     Do NOT green-wash: never revert an honest red or decline to merge a bug's

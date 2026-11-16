@@ -12,7 +12,7 @@ cleanly and produce consistent, auto-laid-out visuals. Use PlantUML when:
 - Diagrams must be diffable and reviewable in pull requests.
 - Consistent auto-layout matters more than pixel-perfect positioning.
 - The diagram type is well-supported: sequence, component, class, deployment,
-  C4, activity, state, mind map, or the custom stickies DSL.
+  C4, activity, state, mind map, or sticky-note macros from a project theme.
 
 Avoid PlantUML when:
 
@@ -57,7 +57,7 @@ plantuml diagram.puml
 plantuml -tsvg diagram.puml
 
 # Render all .puml files in a directory
-plantuml -tsvg "src/charter/offering/templates/diagrams/plantuml/examples/*.puml"
+plantuml -tsvg "docs/diagrams/*.puml"
 
 # Watch mode
 plantuml -gui diagram.puml
@@ -201,8 +201,9 @@ Rel(taskSystem, emailSystem, "Sends emails via")
 
 ## Theming
 
-Spec Kitty provides three PlantUML themes in
-`src/charter/offering/templates/diagrams/plantuml/themes/`:
+This pack ships no PlantUML theme files. Keep your project's themes as `.puml`
+files under version control and `!include` them. Three themes cover most needs
+(the names are suggestions):
 
 | Theme | Use Case |
 |---|---|
@@ -273,19 +274,10 @@ end note
 - Use descriptive labels; avoid abbreviations.
 - Add `'` comments in PlantUML source to explain design intent.
 
-## Template Library
+## Templates
 
-Spec Kitty ships ready-to-copy PlantUML templates in
-`src/charter/offering/templates/diagrams/plantuml/examples/`:
-
-- `causal-map-plantuml-template.md`
-- `content-map-plantuml-template.md`
-- `frontend-architecture-plantuml-template.md`
-- `repo-content-graph-plantuml-template.md`
-- `request-lifecycle-plantuml-template.md`
-- `structure-meta-model-plantuml-template.md`
-- `system-map-plantuml-template.md`
-- `event-storming-plantuml-template.md`
+This pack ships no PlantUML diagram templates. Keep the ones your project reuses
+beside its theme files.
 
 ## Cautions
 

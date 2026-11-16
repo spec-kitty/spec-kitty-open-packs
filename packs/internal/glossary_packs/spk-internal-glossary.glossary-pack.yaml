@@ -1,7 +1,7 @@
 # spk-internal-glossary.glossary-pack.yaml
 # Spec Kitty INTERNAL glossary — maintainer/engineering domain terms that govern
 # how the core team works on the project itself. These are deliberately NOT part
-# of the public product glossary (packs/built-in/glossary_packs/spec-kitty-core)
+# of the public product glossary (packs/foundation/glossary_packs/spec-kitty-core)
 # and must not ship to consumers. Net-new internal terms only; product terms live
 # in the built-in pack.
 id: spk-internal-glossary

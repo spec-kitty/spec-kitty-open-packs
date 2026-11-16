@@ -79,14 +79,6 @@ edges:
   when: When enumeration of contributing factors reveals that stakeholder concerns or organisational dynamics are a significant
     source of the problem. Run stakeholder alignment before clustering so that social and political factors are visible in
     the decomposition.
-- source: tactic:stakeholder-alignment
-  target: template:stakeholder-persona-template
-  relation: suggests
-  when: When producing detailed stakeholder profiles for complex or long-running initiatives.
-- source: tactic:stakeholder-alignment
-  target: template:system-context-canvas-template
-  relation: suggests
-  when: When recording stakeholder findings as part of a full situational assessment.
 - source: tactic:terminology-extraction-mapping
   target: tactic:code-documentation-analysis
   relation: suggests

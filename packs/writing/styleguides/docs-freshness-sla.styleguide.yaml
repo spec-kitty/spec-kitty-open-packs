@@ -137,7 +137,7 @@ anti_patterns:
 tooling:
   freshness-date-present: "documentation mission validate action (asserts every page carries an `updated: YYYY-MM-DD` and flags pages past their tier threshold as stale)."
   generated-page-lockfile-gate: "page-inventory lockfile freshness gate (regenerates the rollup FROM frontmatter and reds on drift; see common-docs.styleguide.yaml `frontmatter-ssot-lockfile`)."
-  stale-page-triage: "packs/built-in/procedures/documentation-gap-prioritization.procedure.yaml (triage flagged-stale pages by reader impact and fill or retire in priority order)."
+  stale-page-triage: "the documentation-gap-prioritization procedure (triage flagged-stale pages by reader impact and fill or retire in priority order)."
 
 quality_test: >
   For any documentation page, can you tell whether it is fresh — does it carry a

@@ -13,7 +13,7 @@ applies_to_languages: []
 # styleguide is advisory context an agent applies when it writes output, not an
 # enforced runtime switch. Activate it deliberately: its intent is the opposite of
 # a progressive-disclosure, audience-serving communications styleguide (for
-# example the built-in `professional-communications`), and nothing in the
+# example the writing pack's `professional-communications`, when installed), and nothing in the
 # styleguide schema enforces mutual exclusion — both share `scope: docs`. So do
 # NOT co-activate it with such a styleguide; activating both yields an undefined
 # voice on the same artifact. Choose one per artifact.

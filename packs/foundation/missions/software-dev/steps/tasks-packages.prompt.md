@@ -236,7 +236,8 @@ spec-kitty agent profile list --json
 ```
 
 > Only a read-only harness that cannot invoke the CLI may inspect profiles under
-> each pack's `packs/<pack>/agent_profiles/` directory and any user-defined profile directory.
+> each installed pack's `agent_profiles/` directory and the project pack layer
+> (`.kittify/charter-packs/agent_profiles/`).
 > This degraded fallback can diverge because organization/project overlays,
 > `specializes_from` lineage, and `enhances`/`overrides` semantics are not applied;
 > state that limitation when selecting a profile this way.

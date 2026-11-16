@@ -3,7 +3,7 @@ description: Interpret gathered evidence into traceable findings, naming limitat
 ---
 # Findings Synthesis — Interpret the Evidence
 
-**Mission type**: `research` | **Step**: `synthesis` (sequence index 3, depends on `gathering`) | **Requested role**: `researcher` (a researcher profile such as `researcher-robbie` fills it)
+**Mission type**: `research` | **Step**: `synthesis` (sequence index 3, depends on `gathering`) | **Requested role**: `researcher` (a researcher profile, such as the planning-analysis pack's `researcher-robbie` when installed, fills it)
 
 **Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `kitty-specs/<mission>/findings.md`). Never refer to a file by name alone.
 
@@ -31,7 +31,7 @@ spec-kitty charter context --action synthesis --json
 
 - Raw evidence rows live in `research/evidence-log.csv`. Synthesis **interprets** that evidence — naming patterns, identifying themes, drawing conclusions.
 - Keep the line between the two visible. A synthesis claim must be reframable as "the evidence shows X, and from X we conclude Y." If the evidence step is missing, the claim is unmoored.
-- Cite **every** synthesis claim back to the evidence row(s) that support it, per `research-citation-discipline`. Conclusions without traceable evidence are opinions, not findings.
+- Cite **every** synthesis claim back to the evidence row(s) that support it, per the writing pack's `research-citation-discipline` styleguide (when installed). Conclusions without traceable evidence are opinions, not findings.
 
 ## Trace Conclusions to Evidence Rows
 

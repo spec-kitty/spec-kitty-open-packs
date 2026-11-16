@@ -73,9 +73,10 @@ fetch + when-doing stanza only when the budget would otherwise be exceeded):
 profile is loaded for the WP's `role`):
 
 - Every `DIRECTIVE_NNN` declared in the loaded agent profile's
-  `directive-references` list (for example, `python-pedro` cites
-  `DIRECTIVE_010` - Specification Fidelity Requirement, `DIRECTIVE_024` -
-  Locality of Change, `DIRECTIVE_030` - Test and Typecheck Quality Gate).
+  `directive-references` list (for example, `implementer-ivan` cites
+  `DIRECTIVE_010` - Specification Fidelity Requirement, `DIRECTIVE_043` -
+  Close Defect Classes by Construction, `DIRECTIVE_051` - Supply-Chain Install
+  Safety).
 - Every tactic-id declared in the loaded agent profile's `tactic-references`
   list.
 
@@ -160,7 +161,7 @@ Work through each subtask in order:
 
 ### 4a. Supply-Chain Security Check (dependency changes)
 
-If this WP adds, upgrades, or removes a dependency (any ecosystem - npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` - this mirrors the `supply_chain_security_check` step already present in the `implement` step contract. Use the matching ecosystem toolguide (for example `javascript-supply-chain`, `python-supply-chain`, `java-supply-chain`) for the exact commands and file names.
+If this WP adds, upgrades, or removes a dependency (any ecosystem - npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.), run the `supply-chain-install-safety` tactic's checklist before the quality gate, per `DIRECTIVE_051` - this mirrors the `supply_chain_security_check` step already present in the `implement` step contract. Use the matching ecosystem toolguide, when its language pack is installed (for example `javascript::toolguide:javascript-supply-chain`, `python::toolguide:python-supply-chain` or `java::toolguide:java-supply-chain`), for the exact commands and file names.
 
 - **Risk disclosure**: record what was checked and the resulting decision for every control DIRECTIVE_051 names in the WP implementation notes or commit message, so a reviewer does not have to re-derive the analysis.
 
@@ -285,20 +286,19 @@ After completing bulk renames:
    - **Missed rename**: Fix it
    - **New occurrence**: Introduced by parallel work -- rename if appropriate
 
-3. **Search the template source directories** explicitly. Command templates now
-   live as step prompts beside each mission-type file, in the pack that ships
-   the mission, at `packs/<pack>/missions/<type>/steps/<step>.prompt.md`; edit
-   those SOURCE files, never the generated agent copies:
-   ```bash
-   grep -rn "old_term" packs/*/missions/*/steps/
-   ```
+3. **Search the project's own template sources** explicitly: the templates,
+   scaffolds and project pack files (for example under `.kittify/charter-packs/`)
+   that this project authors itself. Edit those SOURCE files, never a generated
+   copy.
 
-4. **Search the configured agent directories** explicitly. Resolve the agent
-   command/skill directories this project actually has with
-   `spec-kitty agent config list`, then grep each one for the old term, for
-   example:
+4. **Search the project-authored agent files** explicitly: the agent instruction
+   files this project writes itself (for example `AGENTS.md` or `CLAUDE.md`) and
+   any custom command or skill it added. Skip the commands and skills Spec Kitty
+   installs into the agent directories (`spec-kitty agent config list` names
+   them): they are regenerated, so an old term in them is not this WP's to fix.
+   For example:
    ```bash
-   grep -rn "old_term" .claude/commands/ .agents/skills/
+   grep -rn "old_term" AGENTS.md CLAUDE.md
    ```
 
 5. **Produce a verification report**:
@@ -335,8 +335,8 @@ choice.
 
 If this WP adds or modifies `.github/workflows/*`, the changed workflow must be
 exercised on a real GitHub Actions runner before review hand-off. Per
-`DIRECTIVE_045` and `mission-wrap-up-sequence`, the WP agent pushes and reports;
-the orchestrator opens the draft PR:
+`DIRECTIVE_045`, the WP agent pushes and reports; the orchestrator opens the
+draft PR:
 
 1. Commit with `spec-kitty safe-commit <files> -m "<msg>" --to-branch <lane branch>`,
    then push the WP branch.

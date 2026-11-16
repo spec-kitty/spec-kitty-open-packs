@@ -14,8 +14,7 @@ steps:
       Before inventing a bespoke persona, check assets/audiences/ (and any org-pack
       extension under an assets/audiences/ directory) for an existing match. The built-in library
       currently covers: software engineer / platform engineer, automation agent (an AI/LLM-based
-      reader), the agentic framework core team, manager / non-technical leader, and the
-      non-technical teacher / educator.
+      reader), manager / non-technical leader, and the non-technical teacher / educator.
   - title: Match the task to a persona
     description: >
       Compare the task's stated or implied reader against each candidate persona's Overview and

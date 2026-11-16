@@ -133,8 +133,8 @@ directive-references:
       architectural decision, not an implementation-detail afterthought — a
       design that accepts elevated supply-chain risk must document the
       rationale as an ADR, per DIRECTIVE_003. Node runtime baseline is a
-      separate architectural concern, governed by the javascript-supply-chain
-      toolguide, not by DIRECTIVE_051.
+      separate architectural concern, governed by the javascript pack's
+      javascript-supply-chain toolguide (when installed), not by DIRECTIVE_051.
 
 tactic-references:
   - id: foundation::dependency-hygiene
@@ -146,8 +146,8 @@ tactic-references:
   - id: foundation::supply-chain-install-safety
     rationale: >
       Review a design's dependency-provenance stance against the checklist
-      DIRECTIVE_051 names, per the javascript-supply-chain toolguide for
-      Node-ecosystem commands, and require an ADR when the design accepts
+      DIRECTIVE_051 names, per the javascript pack's javascript-supply-chain
+      toolguide (when installed) for Node-ecosystem commands, and require an ADR when the design accepts
       elevated risk rather than a silently-skipped default.
   - id: development-bdd
     rationale: >
