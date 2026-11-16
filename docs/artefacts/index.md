@@ -29,7 +29,7 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 | Mission step contract | `mission_step_contracts/` | `<id>.step-contract.yaml` | What one Mission action must do and produce. |
 | Template | `templates/` | any (Markdown etc.) | Document skeletons used by Missions. |
 | Asset | `assets/` | `<file>.asset.yaml` + the file | A file shipped with the pack (scripts, gate code). |
-| Glossary pack | `glossary_packs/` | `<id>.glossary-pack.yaml` | A set of canonical terms. |
+| Glossary | `glossaries/` | `<id>.glossary.yaml` | A glossary context: a bounded set of canonical terms. |
 | Skill | `skills/` | `<id>.skill.yaml` + body | A parameterised entry point rendered for agent tools. |
 | Anti-pattern | inside other artefacts / the DRG | — | A named failure mode; not a standalone file. |
 
@@ -112,9 +112,15 @@ Key fields: `id`, `action`, `mission`, `steps`.
 Key fields: `id`, `mime`, `path`, `title`. Assets that carry executable code are part of the
 pack's trust surface — read the [security position](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/SECURITY.md).
 
-## Glossary pack
+## Glossary
 
-Key fields: `id`, `description`, `provenance`, `terms`.
+A glossary context (charter ADR-0049), one per file; the file stem is its `id`. Key fields: `schema_version`
+(`"1.0"`), `id`, `name`, `description`, optional `tags` and `applies_to`, and `terms`. Each term has an `id`
+(a letter-first kebab slug minted from its `name`), `name`, `definition`, `status` (`draft`, `active` or
+`deprecated`), and optional `aliases`, `avoid` and `see_also`. A term's address is `term:<context-id>/<term-id>`;
+a `see_also` entry is such an address, written `<pack>::term:<context-id>/<term-id>` when another pack of the
+`depends_on` closure holds the term. In graphs the context is the node `glossary_context:<id>`, and a preset
+activates it with `activated_glossaries`.
 
 ## Skill
 

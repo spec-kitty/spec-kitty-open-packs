@@ -93,9 +93,9 @@ class CommandAndSurfaceTest(unittest.TestCase):
         )
         self.assertEqual(vocab.findings_in(text, "packs/qa/prompt.md"), [])
 
-    def test_flags_the_retired_surface_only_in_a_glossary_pack(self) -> None:
-        text = f"terms:\n  - surface: {_SURFACE}\n  - surface: {_SURFACE} pack\n  - surface: \"{_SURFACE}\"\n  - surface: '{_SURFACE}'  # old\n"
-        self.assertEqual([line for line, _ in vocab.findings_in(text, "packs/built-in/glossary_packs/x.glossary-pack.yaml")], [2, 4, 5])
+    def test_flags_the_retired_surface_only_in_a_glossary(self) -> None:
+        text = f"terms:\n  - name: {_SURFACE}\n  - name: {_SURFACE} pack\n  - name: \"{_SURFACE}\"\n  - name: '{_SURFACE}'  # old\n"
+        self.assertEqual([line for line, _ in vocab.findings_in(text, "packs/foundation/glossaries/x.glossary.yaml")], [2, 4, 5])
         self.assertEqual(vocab.findings_in(text, "packs/built-in/notes.yaml"), [])
 
 
