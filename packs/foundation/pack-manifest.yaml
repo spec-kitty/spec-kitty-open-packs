@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: ab8c1266325e614bb906243fdbe32e9730d77d1684f7489683d40cb8feb2d55b
+manifest_hash: f7292b29a340b38c4b58a3130a1e3fb6575d7495155ce515fce951f81dba7b76
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -160,7 +160,7 @@ constituents:
 - kind: lifecycle
   id: work-package
   path: lifecycles/work-package.lifecycle.yaml
-  content_hash: 74e42fb052a00f955791a9c6cd476722e259d1097f36ebc07d08893d14fc6039
+  content_hash: d04a43cad867d715f5f200dda24d74295f6ee707787432fb7380c7e6e17148ad
 - kind: mission_step_contract
   id: implement
   path: missions/built_in_step_contracts/implement.step-contract.yaml
