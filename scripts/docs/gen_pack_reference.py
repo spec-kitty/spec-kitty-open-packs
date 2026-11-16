@@ -82,7 +82,7 @@ CANONICAL_KINDS: tuple[str, ...] = (
     "procedures",
     "agent_profiles",
     "assets",
-    "glossary_packs",
+    "glossaries",
     "drg",
 )
 
