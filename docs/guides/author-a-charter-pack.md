@@ -35,7 +35,7 @@ my-pack/
 ├── procedures/                 # *.procedure.yaml — operational procedures
 ├── agent_profiles/             # *.agent.yaml — agent personas
 ├── mission_step_contracts/     # *.step-contract.yaml — mission step contracts
-├── glossary_packs/             # *.glossary-pack.yaml — terminology
+├── glossaries/                 # <id>.glossary.yaml — glossary contexts (terminology)
 ├── assets/                     # *.asset.yaml sidecars plus the files they describe
 ├── skills/                     # *.skill.yaml — agent skills
 ├── missions/                   # <type>/<type>.mission-type.yaml plus steps/ — custom mission types
