@@ -239,7 +239,10 @@ The service accepts these, at composition and at registration, so `--cross-pack`
   `operating-procedures`) that is bare but held by another pack or by none, qualified with the profile's
   own pack, outside its `depends_on` closure, or not held by the named pack;
 - a prompt fragment whose `enhances` target step does not exist, or whose slot the step's prompt does
-  not declare.
+  not declare;
+- a cycle among the agent profiles' `specializes_from` edges, named in order (`a -> b -> a`). The
+  service refuses one only within the closure it registers (`specialization_cycle`, charter ADR-0078
+  decision 2); this check covers every pack at once.
 
 ## The charter pin
 
