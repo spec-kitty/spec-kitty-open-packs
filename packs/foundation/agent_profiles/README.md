@@ -13,7 +13,7 @@ bundles that build on this pack (#73). A role no installed profile fills falls b
 | `implementer-ivan.agent.yaml` | `implementer-ivan` | implementer |
 | `reviewer-renata.agent.yaml` | `reviewer-renata` | reviewer |
 | `analyst-annie.agent.yaml` | `analyst-annie` | analyst |
-| `human-in-charge.agent.yaml` | `human-in-charge` | human-in-charge |
+| `human-in-charge.agent.yaml` | `human-in-charge` (human-performed: `performer: human`) | operator |
 
 Shipped profiles are read-only at the package level. Project-level overrides in
 `.kittify/charter/agents/` can customize any profile by matching `profile-id`.
