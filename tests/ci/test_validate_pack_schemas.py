@@ -580,7 +580,7 @@ class CompositionChecks(unittest.TestCase):
             for suffix, schema in (("directive", "directive"), ("tactic", "tactic"), ("paradigm", "paradigm"),
                                    ("procedure", "procedure"), ("mission-type", "mission-type"),
                                    ("agent", "agent-profile"), ("step-contract", "mission-step-contract"),
-                                   ("asset", "asset"), ("glossary-pack", "glossary-pack"), ("skill", "skill"),
+                                   ("asset", "asset"), ("glossary", "glossary"), ("skill", "skill"),
                                    ("styleguide", "styleguide"), ("toolguide", "toolguide"))
         ],
         exclusions=[], retired=[],

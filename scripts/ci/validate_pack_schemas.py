@@ -66,7 +66,7 @@ SCHEMA_NAME_PATTERN = re.compile(r"[a-z0-9][a-z0-9-]*")
 KNOWN_KIND_TOKENS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
-        "agent", "step-contract", "asset", "glossary-pack", "skill", "mission-type",
+        "agent", "step-contract", "asset", "glossary", "skill", "mission-type",
         "step-enhancement", "graph",
     }
 )  # fmt: skip
@@ -79,7 +79,7 @@ EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
 #: older check only; ``--derived-manifests`` holds every manifest to the full derived lists, which
 #: list them (#255, charter #542).
 MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
-    "agent-profile", "asset", "directive", "glossary-pack", "guard", "lifecycle", "paradigm", "procedure",
+    "agent-profile", "asset", "directive", "glossary", "guard", "lifecycle", "paradigm", "procedure",
     "skill", "styleguide", "tactic", "toolguide",
 })
 #: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` and ``anti_pattern``
@@ -87,6 +87,10 @@ MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
 #: and judged by the derived membership instead (see above). Any other declared node must be a
 #: constituent; a new kind fails closed until it is listed here.
 MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "anti_pattern", "template", "mission_type", "mission_step_contract"})
+#: The node kind of an artifact kind whose URN token differs from it (contracts/packs/file-kinds.yaml at the pin): a
+#: glossary is the glossary context ``glossary_context:<id>`` (charter ADR-0053 decision 13). Any other artifact
+#: kind is its own node kind.
+NODE_KIND_BY_ARTIFACT_KIND = {"glossary": "glossary_context"}
 REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest"
 
 
@@ -404,7 +408,7 @@ def unlisted_nodes(manifest: dict[str, Any], nodes: set[tuple[str, str]]) -> lis
     """The declared graph nodes of a pack its manifest does not list as constituents (#182 residual),
     sorted ``kind:id``; nodes of an exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
     listed = {
-        (entry.get("kind"), entry.get("id"))
+        (NODE_KIND_BY_ARTIFACT_KIND.get(entry.get("kind"), entry.get("kind")), entry.get("id"))
         for entry in manifest.get("constituents") or []
         if isinstance(entry, dict)
     }
@@ -445,7 +449,7 @@ def regenerate_manifest(pack_dir: Path) -> list[str]:
 #: file, so no constituent. Templates are payloads, not schema files: ``derived_manifest`` adds them by path.
 CONSTITUENT_KIND_BY_SCHEMA = {
     "agent-profile": "agent_profile", "asset": "asset", "directive": "directive",
-    "glossary-pack": "glossary_pack", "guard": "guard", "lifecycle": "lifecycle",
+    "glossary": "glossary", "guard": "guard", "lifecycle": "lifecycle",
     "mission-step-contract": "mission_step_contract", "mission-type": "mission_type", "paradigm": "paradigm",
     "procedure": "procedure", "skill": "skill", "step-enhancement": "step_enhancement",
     "styleguide": "styleguide", "tactic": "tactic", "toolguide": "toolguide",
@@ -1079,9 +1083,21 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
 # --------------------------------------------------------------------------- cross-pack checks
 
 
+#: A fragment kind plural that is not its node kind plus ``s`` (the contract's ``fragment_kinds``).
+NODE_KIND_BY_PLURAL = {"glossaries": "glossary_context"}
+
+
 def _singular(kind: str) -> str:
-    """``directives`` -> ``directive``: fragments name kinds in the plural, URNs in the singular."""
-    return kind.removesuffix("s")
+    """``directives`` -> ``directive``: fragments name kinds in the plural, URNs in the singular; ``glossaries`` ->
+    ``glossary_context``, the glossary's node kind."""
+    return NODE_KIND_BY_PLURAL.get(kind, kind.removesuffix("s"))
+
+
+def _schema_node_kind(schema: str) -> str:
+    """The node kind an artifact file of ``schema`` declares: the schema name with ``_`` for ``-``, through
+    ``NODE_KIND_BY_ARTIFACT_KIND``."""
+    kind = schema.replace("-", "_")
+    return NODE_KIND_BY_ARTIFACT_KIND.get(kind, kind)
 
 
 def _load_or_none(path: Path) -> Any:
@@ -1092,11 +1108,12 @@ def _load_or_none(path: Path) -> Any:
 
 
 #: Schemas of the artifact files whose ``id`` is a declaration of a node kind (the schema name with
-#: ``-`` for ``_`` is the kind): ``qa-plan.step-contract.yaml`` declares ``mission_step_contract:qa-plan``.
+#: ``-`` for ``_`` is the kind, through ``NODE_KIND_BY_ARTIFACT_KIND``): ``qa-001.directive.yaml`` declares
+#: ``directive:QA_001`` and ``qa-glossary.glossary.yaml`` declares ``glossary_context:qa-glossary``.
 ARTIFACT_SCHEMAS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
-        "agent-profile", "mission-step-contract", "asset", "glossary-pack", "skill",
+        "agent-profile", "mission-step-contract", "asset", "glossary", "skill",
         "step-enhancement",
     }
 )  # fmt: skip
@@ -1117,7 +1134,7 @@ def declared_nodes(pack_dir: Path, contract: Contract | None = None) -> set[tupl
                 continue
             document = _load_or_none(path)
             if isinstance(document, dict) and isinstance(document.get("id"), str):
-                found.add((rule.schema.replace("-", "_"), document["id"]))
+                found.add((_schema_node_kind(rule.schema), document["id"]))
     fragment = _load_or_none(pack_dir / "drg" / "fragment.yaml")
     for node in (fragment.get("nodes") or []) if isinstance(fragment, dict) else []:
         if isinstance(node, dict) and isinstance(node.get("id"), str) and isinstance(node.get("kind"), str):
@@ -1152,7 +1169,7 @@ def held_artifacts(pack_dir: Path, contract: Contract | None) -> set[tuple[str, 
             document = _load_or_none(path)
             artifact_id = document.get("profile-id", document.get("id")) if isinstance(document, dict) else None
             if isinstance(artifact_id, str):
-                held.add((rule.schema.replace("-", "_"), artifact_id))
+                held.add((_schema_node_kind(rule.schema), artifact_id))
     return held
 
 

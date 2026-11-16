@@ -101,8 +101,9 @@ RETIRED_COMMAND = re.compile(r"spec-kitty merge(?![\w-])", re.IGNORECASE)
 #: fragments so this file never carries the governing line itself. Stricter than
 #: core's marker: a quoted value or a trailing comment is caught too.
 _RETIRED_SURFACE_TOKEN = "doc" + "trine"
-RETIRED_SURFACE = re.compile(rf"""^\s*(?:-\s*)?surface:\s*(["']?){_RETIRED_SURFACE_TOKEN}\1\s*(?:#.*)?$""")
-GLOSSARY_PACK_SUFFIX = ".glossary-pack.yaml"
+RETIRED_SURFACE = re.compile(rf"""^\s*(?:-\s*)?name:\s*(["']?){_RETIRED_SURFACE_TOKEN}\1\s*(?:#.*)?$""")
+#: A glossary context file (charter ADR-0049); a term's surface form is its ``name``.
+GLOSSARY_SUFFIX = ".glossary.yaml"
 
 #: Runtime and platform families that are not language names (#202). The charter
 #: compares ``applies_to_languages`` entries as plain strings, so a family tag never
@@ -184,7 +185,7 @@ def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
     for number, line in enumerate(text.splitlines(), start=1):
         if RETIRED_COMMAND.search(line):
             found.append((number, "names the renamed `merge` command; use `spec-kitty consolidate`"))
-        if rel.endswith(GLOSSARY_PACK_SUFFIX) and RETIRED_SURFACE.match(line):
+        if rel.endswith(GLOSSARY_SUFFIX) and RETIRED_SURFACE.match(line):
             found.append((number, "declares the retired governing glossary surface"))
     if rel.endswith((".yaml", ".yml")):
         for number, family in family_languages_in(text):
