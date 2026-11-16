@@ -564,6 +564,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The direction docs state who owns what** (operator ruling, 2026-11-16). Packs and their
+  schema, structure and validation are no longer a core repository concern: core is the
+  deployable, assembler surface, the charter repository owns the logic, and content is owned in
+  the packs repositories. The vision and the project charter (`charter.md` and the interview
+  answers) say so, and add that packs move in lockstep with the charter's `main` and that
+  compound stacks are presets on `built-in` (#17), not `depends_on` stack packs. The
+  architecture overview and index, the docsite design, the home page, the README, the
+  contributing guide and the catalog proposal are aligned; the July blockers research is
+  annotated as a dated record.
+
 - **The implementer flips a green PR to ready for review, and each internal delivery rule has
   one owner** (#271, #260). Before: `mission-wrap-up-sequence` told the agent never to mark the
   PR ready, while `issue-to-mission-delivery` and `semi-auto-delivery` told it to flip, so one run

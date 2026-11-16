@@ -4,25 +4,30 @@ profile: comprehensive
 answers:
   project_intent: >
     spec-kitty-open-packs is the open, free doctrine-pack marketplace for Spec Kitty.
-    It holds CONTENT and PACKAGING — doctrine artifacts, individual and compound packs
-    (built-in, cave-kitty, event-driven, qa), authoring/usage guides, and a published
-    documentation site. The doctrine LOGIC (resolution, DRG, activation, manifest schema,
-    the pack validator) stays upstream in spec-kitty/spec-kitty and is consumed here.
+    It holds CONTENT and PACKAGING — doctrine artifacts, the built-in distribution and its
+    members, opt-in org packs, presets (compound stacks are curated presets on built-in, not
+    depends_on stack packs), authoring/usage guides, and a published documentation site.
+    Ownership (operator ruling, 2026-11-16): packs and their schema, structure and validation
+    are no longer a core repository concern. Core (spec-kitty/spec-kitty) is the deployable,
+    assembler surface; the canonical owner of the LOGIC (pack schemas, validation, resolution,
+    DRG, activation) is the charter repository (spec-kitty/spec-kitty-charter); content
+    ownership is in the packs repositories. This repository moves in lockstep with charter
+    main through the commit pinned in charter.lock.yaml.
     The repository is public, MIT-licensed, and explicitly work-in-progress: pack names,
     boundaries, and composition mechanics are expected to churn while the direction is
-    shaped in the open. Issues here track pack creation; core's issues track doctrine
+    shaped in the open. Issues here track pack content; the charter's issues track doctrine
     functionality.
   languages_frameworks: >
-    Content-first: schema-validated YAML doctrine artifacts (validated against upstream
-    core schemas) and Markdown documentation. CI is shell (scripts/ci/validate-packs.sh,
+    Content-first: schema-validated YAML doctrine artifacts (validated against the charter's
+    pack schemas at the pinned commit) and Markdown documentation. CI is shell (scripts/ci/validate-packs.sh,
     scripts/ci/check-pack-digests.sh). The documentation site is built with doc-kitty
     (Astro-based, latest released version) and a content-from-code generator (Python)
     that emits per-pack reference pages from the pack YAML. No application runtime of the
     repository's own.
   testing_requirements: >
-    Lightweight and content-appropriate. Every pack must pass the canonical validator
-    (spec-kitty doctrine pack validate --json; errors=0, advisories tolerated) and the
-    built-in parity check. The docsite must build clean, and generated reference content
+    Lightweight and content-appropriate. Every pack must validate against the charter's pack
+    schemas at the pinned commit (errors=0, advisories tolerated) and the built-in parity
+    check. The docsite must build clean, and generated reference content
     must match its source (a checksum/drift gate), so hand-edits to generated pages are
     caught. Do not manufacture unit-test suites for static content; tests exist only where
     they guard real behaviour or a standing invariant (DIRECTIVE_041).
@@ -59,8 +64,8 @@ answers:
     The most costly failure is eroding trust in the marketplace: publishing inaccurate or
     misleading pack guidance, or a pack that fails validation downstream. Fail CLOSED on pack
     validation and on generated-content drift. Never fabricate a pack identity. Hold the
-    division of responsibility with core — no doctrine logic is reimplemented here; interim
-    bridges (local checksum, shelled-out validator) are labelled as bridges to core.
+    division of responsibility: no charter logic is reimplemented here; interim bridges (local
+    checksum, local schema validation) are labelled as bridges to the charter.
   amendment_process: >
     Charter changes go through /spec-kitty.charter (edit answers.yaml, regenerate) and are
     committed explicitly. Material architecture or process decisions are recorded as ADRs

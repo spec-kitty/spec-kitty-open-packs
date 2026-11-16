@@ -2,7 +2,7 @@
 title: Pack Catalog Proposal
 description: Proposed set of domain and purpose Charter Packs carved from the Spec Kitty built-in corpus, with source-artifact mappings, dependencies, and compound stacks.
 doc_status: wip
-updated: '2026-11-11'
+updated: '2026-11-16'
 related:
 - guides/author-a-charter-pack
 - guides/compose-packs
@@ -13,7 +13,8 @@ related:
 > Kitty **built-in** charter corpus could be carved into coherent, composable **packs**. It
 > is the grounding for the per-pack tracking issues in this repository. Names, boundaries,
 > and membership are **subject to change** and will be refined issue-by-issue. Doctrine
-> *logic* stays in [`spec-kitty/spec-kitty`](https://github.com/spec-kitty/spec-kitty); this
+> *logic* is owned by the charter repository,
+> [`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter); this
 > repository owns the *content* and *packaging*.
 
 > **Status (2026-11-11, #73).** `built-in` has been carved: it is now a distribution pack over
@@ -23,7 +24,12 @@ related:
 > `pack-authoring`, `python`, `javascript`, `drupal` and `java`. The cut follows charter ADR-0048/ADR-0053 and a research squad
 > rather than this proposal one-to-one. See
 > [ADR 2026-11-11-1](../architecture/adr/2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md).
-> The remaining proposals here (for example compound stacks) are still open.
+> The remaining proposals here are still open.
+
+> **Status (2026-11-16, #17).** Compound stacks are reshaped: a stack ships as a curated **preset on
+> `built-in`**, not as a separate pack that `depends_on` its base packs. The compound-pack text
+> below (design principle 4 and the stack sections) records the July proposal; the
+> [roadmap](../plans/roadmap.md#catalog-shape-and-publication) tracks the preset model.
 
 ## Why carve the monolith
 

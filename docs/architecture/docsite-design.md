@@ -2,7 +2,7 @@
 title: Docsite design — content-from-code publishing with checksum tagging
 description: "The architecture of the open-packs docsite: the source-of-truth model, the generation pipeline, the generated-versus-authored boundary, checksum tagging, and the CI drift gate."
 doc_status: active
-updated: '2026-07-18'
+updated: '2026-11-16'
 related:
 - architecture/vision
 - architecture/adr
@@ -25,8 +25,10 @@ choice is recorded as an [ADR](adr/index.md).
 2. **Decouple from core internals.** The generator parses pack YAML with a light local schema and
    records no validation verdict (the CI gates are the verdict, #249), so the docsite does not depend on core's
    internal package layout ([ADR-2](adr/2026-07-18-2-pack-reference-generated-from-source.md)).
-3. **Adopt core's canonical mechanisms as they land.** Interim solutions (own checksum, shelled-out
-   validator) are explicitly labelled as bridges to core #2467/#2471/#2539.
+3. **Adopt the canonical mechanisms as they land.** Interim solutions (own checksum, local schema
+   validation) are explicitly labelled as bridges. When this design was written they bridged to
+   core #2467/#2471/#2539; that ownership has since moved to the charter repository (operator
+   ruling, 2026-11-16, see the [vision](vision.md#division-of-responsibility)).
 4. **One shared docs toolchain across the product line** — Common Docs conventions, doc-kitty (Astro)
    with shared Brain Kitty branding, GitHub Pages
    ([ADR 2026-10-17-1](adr/2026-10-17-1-doc-kitty-astro-as-docsite-generator.md), which supersedes the

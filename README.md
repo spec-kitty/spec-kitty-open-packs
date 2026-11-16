@@ -49,9 +49,11 @@ flowchart LR
   project activates from it is its **Active Charter**. At each Mission step the CLI asks the
   charter for the guidance that applies.
 
-The **logic** — resolution, the Doctrine Relationship Graph (DRG), activation, the manifest
-schema and the validator — belongs to the charter, today inside the core CLI and moving to
-`spec-kitty-charter`. This repository holds **content and packaging**.
+The **logic** — the pack schemas and structure, validation, resolution, the Doctrine
+Relationship Graph (DRG) and activation — is owned by the charter repository,
+[`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter). Core is the deployable
+surface that assembles the charter and the packs into the CLI. This repository holds **content
+and packaging**, in lockstep with the charter's `main`.
 
 ## The packs
 
