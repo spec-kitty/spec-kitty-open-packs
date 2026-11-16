@@ -302,13 +302,13 @@ class CharterServiceJob(unittest.TestCase):
         self.assertNotIn("continue-on-error", drift)
         self.assertIn("!cancelled()", drift["if"])  # it runs even when obtaining the service jar failed
         script = (ROOT / "scripts" / "ci" / "charter_drift_test.sh").read_text(encoding="utf-8")
-        self.assertIn('--max-workers=1 :packs:driftTest -PopenPacksDir="$repo"', script)
+        self.assertIn('--max-workers=1 :pack-validation:driftTest -PopenPacksDir="$repo"', script)
         gradle = next(step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@"))
         self.assertNotIn("if", gradle)
         upload = next(step for step in steps if str(step.get("uses", "")).startswith("actions/upload-artifact@"))
         self.assertGreater(steps.index(upload), steps.index(drift))
         self.assertIn("always()", upload["if"])
-        self.assertTrue(upload["with"]["path"].endswith("spec-kitty-charter/service/packs/build/reports/tests/driftTest"))
+        self.assertTrue(upload["with"]["path"].endswith("spec-kitty-charter/service/pack-validation/build/reports/tests/driftTest"))
         # The service check still runs when the round trip is red, so one run reports both.
         self.assertIn("!cancelled()", steps[-1]["if"])
 
