@@ -1162,7 +1162,8 @@ TEMPLATE_PATH = re.compile(r"(?:missions/([^/]+)/)?templates/(.+)")
 
 def held_artifacts(pack_dir: Path, contract: Contract | None) -> set[tuple[str, str]]:
     """The ``(kind, id)`` pairs a pack holds, in the charter's sense (``compositionFacts``): its
-    artifact files and its ``anti_pattern`` nodes. Any other node without a file is held by nobody."""
+    artifact files, its ``anti_pattern`` nodes and the terms of its glossaries (``term``, ``<context-id>/<term-id>``:
+    never declared, the target of a ``vocabulary`` edge). Any other node without a file is held by nobody."""
     held = {key for key in declared_nodes(pack_dir) if key[0] == "anti_pattern"}
     for path in sorted(pack_dir.rglob("*")) if contract is not None else []:
         if path.is_symlink() or not path.is_file():
@@ -1177,6 +1178,12 @@ def held_artifacts(pack_dir: Path, contract: Contract | None) -> set[tuple[str, 
             artifact_id = document.get("profile-id", document.get("id")) if isinstance(document, dict) else None
             if isinstance(artifact_id, str):
                 held.add((_schema_node_kind(rule.schema), artifact_id))
+                if rule.schema == "glossary":
+                    held.update(
+                        ("term", f"{artifact_id}/{term['id']}")
+                        for term in document.get("terms") or []
+                        if isinstance(term, dict) and isinstance(term.get("id"), str)
+                    )
     return held
 
 
@@ -1398,7 +1405,8 @@ def specialization_cycle_violations(pack_dirs: list[Path]) -> list[str]:
     profile is keyed by its id, its pack qualifier dropped (an id is declared once across levels, which
     ``cross_pack_violations`` checks). Each cycle the depth-first walk meets is reported once, naming its ids in edge
     order from the smallest id: ``a -> b -> a``; every cyclic component yields at least one. A profile may have several
-    parents."""
+    parents. The edges of all the given packs are pooled on purpose, stricter than the charter's per-closure check:
+    two packs that are never composed together still may not close a cycle between them."""
     parents: dict[str, set[str]] = {}
     for pack in pack_dirs:
         for _, edge in graph_edges(pack):
@@ -1410,24 +1418,26 @@ def specialization_cycle_violations(pack_dirs: list[Path]) -> list[str]:
                 parents.setdefault(kinds_ids[0][2], set()).add(kinds_ids[1][2])
     cycles: set[tuple[str, ...]] = set()
     state: dict[str, int] = {}  # 1 on the current path, 2 done
-    path: list[str] = []
-
-    def visit(node: str) -> None:
-        state[node] = 1
-        path.append(node)
-        for parent in sorted(parents.get(node, ())):
-            if state.get(parent) == 1:
+    for root in sorted(parents):
+        if root in state:
+            continue
+        # An explicit stack, so a long chain cannot exhaust the interpreter's recursion limit.
+        path: list[str] = [root]
+        pending: list[Iterator[str]] = [iter(sorted(parents.get(root, ())))]
+        state[root] = 1
+        while pending:
+            parent = next(pending[-1], None)
+            if parent is None:
+                state[path.pop()] = 2
+                pending.pop()
+            elif state.get(parent) == 1:
                 cycle = path[path.index(parent):]
                 start = cycle.index(min(cycle))
                 cycles.add(tuple(cycle[start:] + cycle[:start]))
             elif parent not in state:
-                visit(parent)
-        path.pop()
-        state[node] = 2
-
-    for node in sorted(parents):
-        if node not in state:
-            visit(node)
+                state[parent] = 1
+                path.append(parent)
+                pending.append(iter(sorted(parents.get(parent, ()))))
     return [f"specializes_from cycle among agent profiles: {' -> '.join((*cycle, cycle[0]))}" for cycle in sorted(cycles)]
 
 

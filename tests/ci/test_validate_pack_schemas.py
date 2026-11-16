@@ -6,10 +6,14 @@ import contextlib
 import hashlib
 import io
 import json
+import os
 import sys
 import tempfile
 import unittest
+import urllib.request
 from pathlib import Path
+
+import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts" / "ci"))
 
@@ -565,6 +569,35 @@ class ValidatorExitCodes(unittest.TestCase):
                                         "{source: 'agent_profile:y', target: 'agent_profile:x', relation: requires}]")
             self.assertEqual(validator.specialization_cycle_violations([other]), [])
 
+    def test_a_long_specialization_chain_does_not_exhaust_the_recursion_limit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "deep"
+            (root / "drg").mkdir(parents=True)
+            (root / "pack.yaml").write_text("pack_id: deep\nname: deep\npack_level: org\n", encoding="utf-8")
+            edges = "".join(f"  - {{source: 'agent_profile:p{i}', target: 'agent_profile:p{i + 1}', relation: specializes_from}}\n"
+                            for i in range(5000))
+            (root / "drg" / "fragment.yaml").write_text(f"nodes: []\nedges:\n{edges}", encoding="utf-8")
+            self.assertEqual(validator.specialization_cycle_violations([root]), [])
+
+    def test_a_bare_vocabulary_edge_to_a_held_term_resolves(self) -> None:
+        """A term is never declared: a vocabulary edge reaches it as term:<context-id>/<term-id> (charter ADR-0049)."""
+        contract = validator.Contract(
+            files=[validator.Rule(validator.glob_to_regex("**/*.glossary.yaml"), "**/*.glossary.yaml", schema="glossary")],
+            exclusions=[], retired=[], payloads=[],
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = Path(tmp) / "g"
+            (pack / "drg").mkdir(parents=True)
+            (pack / "glossaries").mkdir()
+            (pack / "pack.yaml").write_text("pack_id: g\nname: g\npack_level: org\n", encoding="utf-8")
+            (pack / "glossaries" / "core.glossary.yaml").write_text("id: core\nterms:\n  - {id: foo, name: foo}\n", encoding="utf-8")
+            (pack / "drg" / "fragment.yaml").write_text(
+                "nodes:\n  - {id: D_1, kind: directives}\nedges:\n"
+                "  - {source: 'directive:D_1', target: 'term:core/foo', relation: vocabulary}\n"
+                "  - {source: 'directive:D_1', target: 'term:core/bar', relation: vocabulary}\n", encoding="utf-8")
+            found = validator.cross_pack_violations([pack], contract)
+            self.assertEqual(found, ["g/drg/fragment.yaml: edge target 'term:core/bar' resolves to no node of any pack"])
+
     def test_cross_pack_checks_catch_a_missing_preset_id_a_dangling_bare_edge_and_an_id_shared_across_levels(self) -> None:
         def pack(root: Path, name: str, nodes: str, edges: str = "[]", preset: str = "", level: str = "org") -> Path:
             (root / name / "drg").mkdir(parents=True)
@@ -1026,3 +1059,33 @@ class DerivedManifests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ClassifierConformance(unittest.TestCase):
+    """The charter's own classification cases at the pin (contracts/packs/conformance/classifier-cases.yaml): every
+    path is classified as the charter states, by the same rule (precedence of retired over files included)."""
+
+    EXPECT = {"file": "mapped", "payload": "mapped", "excluded": "excluded", "ignored": "excluded",
+              "retired": "retired", "unmodelled": "unmodelled"}
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.contract = validator.contract_for(None)
+        relative = "conformance/classifier-cases.yaml"
+        if local := os.environ.get("CHARTER_CONTRACT_DIR"):
+            text = (Path(local) / relative).read_text(encoding="utf-8")
+        else:
+            url = (f"https://raw.githubusercontent.com/{validator.CHARTER_REPOSITORY}/{validator.charter_commit()}/"
+                   f"{validator.CONTRACT_PATH}/{relative}")
+            with urllib.request.urlopen(url, timeout=30) as response:  # noqa: S310 - fixed https URL
+                text = response.read().decode("utf-8")
+        cls.cases = yaml.safe_load(text)["cases"]
+
+    def test_every_case_is_classified_as_the_charter_states(self) -> None:
+        self.assertGreater(len(self.cases), 50)
+        for case in self.cases:
+            with self.subTest(case["path"]):
+                kind, rule = validator.classify(self.contract, case["path"])
+                self.assertEqual(self.EXPECT[kind], case["expect"])
+                if "rule" in case:
+                    self.assertEqual(rule.match if rule else None, case["rule"])
