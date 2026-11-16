@@ -18,7 +18,7 @@ repository follows the charter, as its `AGENTS.md` says; otherwise core wins.
 ## Charter terms
 
 - **Charter** — The governance of a project: its purpose, constraints and norms, and the body of charter artefacts that govern its Missions. It is the governing term — do not say "doctrine" for it.
-- **Charter artefact** — One governed unit — a directive, tactic, styleguide, toolguide, paradigm, procedure, agent profile, mission step contract, template, asset, glossary pack, anti-pattern or skill. Also called a *doctrine artifact* in the domain model. See [Charter artefacts](../artefacts/index.md).
+- **Charter artefact** — One governed unit — a directive, tactic, styleguide, toolguide, paradigm, procedure, agent profile, mission type, template, asset, glossary, anti-pattern or skill. Also called a *doctrine artifact* in the domain model. See [Charter artefacts](../artefacts/index.md).
 - **Charter Pack** — A distributable bundle of charter artefacts and their DRG edges, with optional activation presets. Identified by its `pack_id`; declares its tier in `pack.yaml`.
 - **Pack document** — A pack's root `README.md`: its description, held and served by the charter. Its preamble is the Purpose on the pack's generated reference page; provenance goes in a `## Provenance` section. It replaces the retired `pack.md` and `PROVENANCE.md`.
 - **Pack tier** (`pack_level`) — `built-in`, `org` or `project`. The built-in level holds the default distribution (`built-in`, which aggregates `foundation` and `writing`) and ships with the CLI; org packs are registered by a project; the project layer is the project's own.
