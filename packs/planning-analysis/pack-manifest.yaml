@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 468e1ceef448fcc0bd929bd10833b9185d34b7c97d75bc4f00a3b11e50d30451
+manifest_hash: a163b8c6c31652a2079665a40086be700190aab754272eb2d17d7cd334d9b0ae
 constituents:
 - kind: agent_profile
   id: planner-priti
@@ -12,7 +12,7 @@ constituents:
 - kind: agent_profile
   id: retrospective-facilitator
   path: agent_profiles/retrospective-facilitator.agent.yaml
-  content_hash: 2ec8f74d67dce5fabb749cb0c6ce169f38775864275b47f0ae422a37d9767e85
+  content_hash: f159a962cda6ca9506b0bedbb52550c6545aece0d0c5a486d652b10c5c593f09
 - kind: paradigm
   id: brownfield-onboarding
   path: paradigms/brownfield-onboarding.paradigm.yaml

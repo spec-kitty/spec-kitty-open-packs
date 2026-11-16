@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6dae08371810b269a941c5a397a02dc1594d18af6e064151a71a28a9b9ed78a3
+manifest_hash: 92c64aafe0b7862aa1c3e0711d100508a4ea1a890fae808f060fb8a45da27c87
 constituents:
 - kind: agent_profile
   id: qa-defect-triager-dmitri
@@ -65,46 +65,18 @@ constituents:
   id: QA_008
   path: directives/qa-008-reproductions-gate-releases.directive.yaml
   content_hash: bb31be4e4970cc63be1e05ab36d8915d15d752857c5024daf66fbe27934c9279
-- kind: glossary_pack
+- kind: glossary
   id: qa-glossary
-  path: glossary_packs/qa-glossary.glossary-pack.yaml
-  content_hash: 25a5563d3e51fae13817455467c48cae7b6d04399fd2bce2b4bdb0c85d04e873
-- kind: mission_step_contract
-  id: qa-accept
-  path: mission_step_contracts/qa-accept.step-contract.yaml
-  content_hash: 84c5a8eb4a5cf0149383b233798daee0d853c06989931c8b247a9999c955cde0
-- kind: mission_step_contract
-  id: qa-discovery
-  path: mission_step_contracts/qa-discovery.step-contract.yaml
-  content_hash: 4d90f329a73762809b21363978a57b831fb8c0f2c0ecf50ecd1de5db5b115509
-- kind: mission_step_contract
-  id: qa-implement
-  path: mission_step_contracts/qa-implement.step-contract.yaml
-  content_hash: 484111b53c94651200b1022d9e59176aaa503ed855314862f8a394ca2db54b46
-- kind: mission_step_contract
-  id: qa-plan
-  path: mission_step_contracts/qa-plan.step-contract.yaml
-  content_hash: 9e74f4d237fdc52496fd10aec452c5a56915ee6a9165684760fcb2064f0cda95
-- kind: mission_step_contract
-  id: qa-review
-  path: mission_step_contracts/qa-review.step-contract.yaml
-  content_hash: 972c4ec19a484b2a16c19c6d7318ef823d230d3691d9398a752fecc21265782b
-- kind: mission_step_contract
-  id: qa-specify
-  path: mission_step_contracts/qa-specify.step-contract.yaml
-  content_hash: 04a8912f46509efe1636e561d547abf7b25848626889cdedd40103f15dad70c1
-- kind: mission_step_contract
-  id: qa-tasks
-  path: mission_step_contracts/qa-tasks.step-contract.yaml
-  content_hash: 7e81cf22259acd6589dc7f59f078578d43f4eff617df7d93a759e750664bc720
+  path: glossaries/qa-glossary.glossary.yaml
+  content_hash: 8f116a30e6c3a5db82ce3d967583adf9bcd35f8fa63bb3dc27cfdd038861b6d2
 - kind: mission_type
   id: qa
   path: missions/qa/qa.mission-type.yaml
-  content_hash: 27cce236f9670ada342edc17693e60276b55c49e523c1999051a93a97b980c0d
+  content_hash: aa4ef6040d6459355b05e84b0e45c9fd62f02bc39ac2db027bdd8fa3f8bd9405
 - kind: template
   id: qa/EVIDENCE.md
   path: missions/qa/templates/EVIDENCE.md
-  content_hash: c99873d9b7f1c8338a51167da8592ed92cac4f131618f7506ee5847cd99c23af
+  content_hash: f213180752506dfadf3eb107e6cfdd991856105976709321fdda06ec4c0678b2
 - kind: template
   id: qa/defect-log-template.md
   path: missions/qa/templates/defect-log-template.md

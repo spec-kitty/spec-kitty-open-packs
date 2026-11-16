@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6f1435b609ab0e83194297fc96a912504bd81b84c060d1497e720c41efc82adb
+manifest_hash: 73b4e5553e915717337faf6205fe8cac12640dd0a382fa483786696263a5ff57
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -65,38 +65,10 @@ constituents:
   id: MINUTES_STAND_ALONE
   path: directives/minutes-stand-alone.directive.yaml
   content_hash: 20e035b3deb6223650f57cdeac84506a38d4f65f65c7674082c8ec5d91f863b0
-- kind: mission_step_contract
-  id: documentation-accept
-  path: missions/built_in_step_contracts/documentation-accept.step-contract.yaml
-  content_hash: b3836da59d107397b1efb6f9784b18619e563ea5ec0b8ccdaee4932a2fb93998
-- kind: mission_step_contract
-  id: documentation-audit
-  path: missions/built_in_step_contracts/documentation-audit.step-contract.yaml
-  content_hash: a878c2a3cc480300d82df402dc06fcabc62cc52599332af913c23cc11d280dd1
-- kind: mission_step_contract
-  id: documentation-design
-  path: missions/built_in_step_contracts/documentation-design.step-contract.yaml
-  content_hash: a6ac4195a757b03d8b7a04694dc1cf618adf57a9e773cfd8753e03c635f9d209
-- kind: mission_step_contract
-  id: documentation-discover
-  path: missions/built_in_step_contracts/documentation-discover.step-contract.yaml
-  content_hash: 03c55913a66c07d381702b569a2c4d5c104f4987a09bfba2fd891732b56748c3
-- kind: mission_step_contract
-  id: documentation-generate
-  path: missions/built_in_step_contracts/documentation-generate.step-contract.yaml
-  content_hash: 2cfd48fb7c86e534809f612fcea9e2bbd4efb93c22608d4789dd30a1703ec9ac
-- kind: mission_step_contract
-  id: documentation-publish
-  path: missions/built_in_step_contracts/documentation-publish.step-contract.yaml
-  content_hash: 6e865b0ae9ac2094a8c4a14b03455567804cf7fe20ae638e7e7ccfae4363acdd
-- kind: mission_step_contract
-  id: documentation-validate
-  path: missions/built_in_step_contracts/documentation-validate.step-contract.yaml
-  content_hash: 723cd60a37d4c3770c830dcae953a8056e931c290abefe356f1b5ada132796f1
 - kind: mission_type
   id: documentation
   path: missions/documentation/documentation.mission-type.yaml
-  content_hash: 6406e5464615c4b5162f6abcc6b9369a4b1892c62f46efff810b8b02590c9eeb
+  content_hash: 57a2fb262baf7e45c03133b947c81d069f44bb6ad6a7f06800d4fa929663fb5f
 - kind: template
   id: documentation/divio/explanation-template.md
   path: missions/documentation/templates/divio/explanation-template.md

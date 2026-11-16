@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Pack level:** `built-in`
-- **Declared version:** `1.0.0`
-- **Content checksum (sha256):** `ab74432b1cef6a39ff6e8074dc82229cbf4b380f26dd4d38bcc4b3458e574e3d`
+- **Declared version:** `2.0.0`
+- **Content checksum (sha256):** `755409334a97e52f8ce72754c3127e6a8ba8c19e0fa4b5b56786095b1addf308`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -33,7 +33,7 @@ lexical and curator profiles; Common Docs and audience-oriented writing directiv
 documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
 the writing-audience assets.
 
-**Depends on:** [`foundation`](foundation.md) `==1.0.0`
+**Depends on:** [`foundation`](foundation.md) `==2.0.0`
 
 ## Artifact inventory
 
@@ -46,9 +46,9 @@ the writing-audience assets.
 | `procedures` | 8 |
 | `agent_profiles` | 7 |
 | `assets` | 13 |
-| `missions` | 38 |
+| `missions` | 31 |
 | `templates` | 2 |
-| **Total files** | **112** |
+| **Total files** | **104** |
 
 ### Full listing
 
@@ -153,15 +153,8 @@ the writing-audience assets.
 </details>
 
 <details>
-<summary><code>missions</code> (38)</summary>
+<summary><code>missions</code> (31)</summary>
 
-- `built_in_step_contracts/documentation-accept.step-contract.yaml`
-- `built_in_step_contracts/documentation-audit.step-contract.yaml`
-- `built_in_step_contracts/documentation-design.step-contract.yaml`
-- `built_in_step_contracts/documentation-discover.step-contract.yaml`
-- `built_in_step_contracts/documentation-generate.step-contract.yaml`
-- `built_in_step_contracts/documentation-publish.step-contract.yaml`
-- `built_in_step_contracts/documentation-validate.step-contract.yaml`
 - `documentation/README.md`
 - `documentation/documentation.mission-type.yaml`
 - `documentation/steps/accept.guidelines.md`
