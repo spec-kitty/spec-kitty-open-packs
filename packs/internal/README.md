@@ -40,8 +40,8 @@ packs/internal/
 │   └── *.skill.md                                   # their prompt bodies (goal, inputs, ordered pointers, stop conditions)
 ├── presets/
 │   └── base.yaml                                    # governing preset: the org's required floor, as must-have items (ADR-0031)
-├── glossary_packs/
-│   └── spk-internal-glossary.glossary-pack.yaml     # spk-internal-glossary — maintainer/engineering glossary
+├── glossaries/
+│   └── spk-internal-glossary.glossary.yaml          # spk-internal-glossary — maintainer/engineering glossary context
 ├── procedures/
 │   ├── landing-contributor-prs.procedure.yaml       # maintainer PR-landing runbook (behind kitty-land-pr)
 │   ├── issue-triage-pass.procedure.yaml             # orchestrated batch triage of open issues (behind kitty-issue-triage)

@@ -1,8 +1,8 @@
 nodes:
   - id: spk-internal-glossary
-    kind: glossary_packs
+    kind: glossaries
     title: "Spec Kitty Internal Glossary (maintainer/engineering terms)"
-    body_path: glossary_packs/spk-internal-glossary.glossary-pack.yaml
+    body_path: glossaries/spk-internal-glossary.glossary.yaml
   - id: landing-contributor-prs
     kind: procedures
     title: "Landing Contributor PRs (maintainer runbook)"

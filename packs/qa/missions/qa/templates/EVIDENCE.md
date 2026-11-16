@@ -43,7 +43,7 @@ its own (it is a mapping table plus install-path prose). **Files checked: 7 of 7
 | smoke vs. sanity vs. regression | `test-plan-template.md` | Yes — Section 4 (Suite Breakdown) states all three as a bulleted list, prefaced "states, once... no other file in this template set restates or re-derives it." | None. `test-suite-template.md` uses "smoke" exactly once, inside the example suite name `Login smoke suite` in its worked table row — an incidental use inside an example, not a definition. | **0 competing definitions** |
 
 FR-015's forward-looking citation-readiness half — checking these term pairs against a
-not-yet-existing ISTQB-citing glossary pack — is out of this mission's scope (spec.md Decision 13)
+not-yet-existing ISTQB-citing glossary — is out of this mission's scope (spec.md Decision 13)
 and is **not evaluated here**. The three-pair, seven-file internal-consistency check above is the
 whole of what this subtask verifies.
 
