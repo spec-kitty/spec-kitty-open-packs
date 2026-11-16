@@ -783,6 +783,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Consumer packs no longer point agents at this repository's tree, internal-only artifacts or
+  paths a consumer does not have** (#258, #259, #265, epic #263).
+  - `packs/built-in/...` paths in writing and planning-analysis styleguides, the lint config and
+    graph comments now name the artifact (and its pack) instead.
+  - Spec Kitty core `src/` paths become neutral `src/myproject/...` examples in `testing-principles`
+    and `python-review-checks`. The Mermaid and PlantUML guides no longer promise theme and template
+    files that ship in no pack.
+  - The software-dev `implement` prompt no longer sends agents into a `packs/` tree or into Spec
+    Kitty's generated agent commands: the bulk-edit sweep searches project-authored templates and
+    agent files. It no longer cites the internal `mission-wrap-up-sequence`, and neither do the qa
+    go/no-go review or testing's `development-assist-test-cleanup`, which now triggers "after
+    acceptance, before merge". The internal pack keeps the sequencing edge.
+  - Project profiles point at `.kittify/charter-packs/agent_profiles/` (with a new id that
+    specializes a shipped profile), not the unread `.kittify/charter/agents/`. The squad
+    procedure casts by role and its on-disk fallback reads the installed pack; tactics cite the
+    software-dev mission type instead of file paths.
+  - The six mutation-guide links, the qa Sonar guide's two links and the contextive guide's two
+    links that broke across packs now cite artifacts by `<pack>::<kind>:<id>`.
+  - writing ships four writing-audience personas and now says so; the fifth is internal. The
+    file-less `stakeholder-persona-template` and `system-context-canvas-template` nodes and their
+    two edges are removed (#196 tracks authoring them).
+  - Prose that names an artifact outside the pack's `depends_on` closure names the pack and says
+    "when installed" (supply-chain toolguides, `python-pedro`, `researcher-robbie`,
+    `research-citation-discipline`, `kitty-glossary-writing`, `test-first-bug-fixing`, `zombies-tdd`,
+    `use-c4-model-techniques`, the jqwik warning's `java-conventions`). `canonical-source-unification`
+    no longer names a `packs/` path (#274 keeps its other core examples), and spdd's README names
+    its real dependencies.
 - **pack-authoring tells one authoring story, and foundation no longer ships house authoring rules**
   (#275, epic #263).
   - `doctrine-daphne` and `onboard-external-agent-to-pack` now agree with each other and with this
