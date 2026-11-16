@@ -7,7 +7,7 @@ It does two jobs:
 
 1. **A `qa` mission type.** The seven canonical steps redefined in QA terms (discovery, test
    strategy, test plan, test design, test execution, test report review, acceptance), with five
-   QA agent profiles, step contracts, templates, and two evidence tools. Ported from
+   QA agent profiles, step substeps, templates, and two evidence tools. Ported from
    `spec-kitty-qa-pack`; see the README's Provenance section.
 2. **Description to acceptance CI.** A standing loop from a human-readable product description to
    an automated release gate:
@@ -30,7 +30,7 @@ cover and how honestly they report.
 | Styleguides | **`qa-promise-page`** |
 | Toolguides and assets | `qa-carrier-lint`, `qa-result-ingest`, **`qa-promise-trace-lint`** (Python, stdlib plus ruamel.yaml); `sonar` (moved from built-in by #73) |
 | Agent profiles | strategist, test designer, executor, reporter, defect triager |
-| Mission | `qa` mission type, step contracts, step prompts, artifact templates, **promise page and scenario templates** |
+| Mission | `qa` mission type with its steps' substeps, step prompts, artifact templates, **promise page and scenario templates** |
 | Glossary | ISTQB-grounded QA glossary |
 
 The scenario-writing doctrine itself is not duplicated: the procedure points at Spec Kitty's
@@ -152,7 +152,7 @@ them. Read them there for the reasoning behind each artifact.
 | Added QA_007 (promise traceability), QA_008 (reproductions gate releases), the `qa-promise-elicitation` tactic, the `qa-promise-page` styleguide, the `qa-description-to-acceptance-ci` procedure, the `qa-promise-trace-lint` asset and toolguide, and two templates. | The promise -> scenario -> acceptance CI layer (from private-packs PR #1). |
 | `qa_result_ingest.py` reads test cases from fenced ```yaml blocks in the work-package body, with self-test Pair15. | Fixes spec-kitty-qa-pack#5: the template puts cases in the body (WPMetadata forbids them in the frontmatter), but the ingester read only the frontmatter, so a template-conformant mission ingested `cases_total: 0` with exit 0. |
 | Removed `qa.graph.yaml`, `missions/qa/governance-profile.yaml`, the `qa-reviewer-quinn` placeholder profile, the empty `paradigms/` and every `.gitkeep`. | The empty pack-root graph and the duplicate governance profile are not read (the mission type still activates and creates missions without them); the placeholder profile carried no content and nothing referenced it. |
-| Step-contract bootstrap commands are `charter context --action <a> --mission-type qa --json`. | The source's `--role` flag and `--profile`/`--tool` inputs do not exist on 4.x; all seven bootstrap commands failed with "No such option". |
+| The `bootstrap` substeps' commands are `charter context --action <a> --mission-type qa --json`. | The source's `--role` flag and `--profile`/`--tool` inputs do not exist on 4.x; all seven bootstrap commands failed with "No such option". |
 | `qa-test-designer-tessa` cites the tactic `bdd-scenario-formulation`. | Its old reference, `behavior-driven-development`, was retired in 4.0.0rc5 in favour of that tactic. |
 | The `test-case-template.md` examples (`TC-014`, `TC-015`) use `text` fences, and the ingester reads every CommonMark yaml fence form (`YAML`, `yml`, info-string attributes, tildes, longer and indented fences), warning on a repeated case id or an unclosed fence (self-test Pair16). | With the #5 fix the template's own examples would otherwise be ingested as cases, and other valid fence forms were dropped without a word. |
 | Internal finding ids (`SK-NNN`) replaced by plain descriptions. | They point at a ledger outside this repository. |

@@ -143,7 +143,7 @@ For each subtask:
 
 ### 3a. Supply-Chain Security Evidence Check (dependency changes)
 
-If the diff adds, upgrades, or removes a dependency (any ecosystem), verify the implementer's evidence trail against `DIRECTIVE_051` and the `supply-chain-install-safety` tactic - this mirrors the `supply_chain_security_review` step already present in the `review` step contract:
+If the diff adds, upgrades, or removes a dependency (any ecosystem), verify the implementer's evidence trail against `DIRECTIVE_051` and the `supply-chain-install-safety` tactic - this mirrors the `supply-chain-security-review` substep of the `review` step:
 
 - A result for every control DIRECTIVE_051 names is documented, not assumed or waved through.
 - Any adversarial-squad or reviewer challenge to a supply-chain finding has an explicit disposition, per the `adversarial-squad-deployment` procedure's findings-disposition contract (load it with `spec-kitty charter context --include procedure:adversarial-squad-deployment`), traceable to an evidence location. Do not approve a WP that silently drops a contested finding.

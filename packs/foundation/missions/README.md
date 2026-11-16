@@ -32,7 +32,7 @@ The layout is set by charter ADR-0044.
 ## Python utilities
 
 The mission **logic modules** are **not** in this directory — this pack ships mission
-**data** only (mission-type files, prompts, templates, step contracts). The Python modules
+**data** only (mission-type files with their steps' substeps, prompts, templates). The Python modules
 (`primitives.py` with `PrimitiveExecutionContext`, `glossary_hook.py` with
 `execute_with_glossary()`, `repository.py`, and the other 8 logic modules) live in the
 `charter.offering` package at `src/charter/offering/missions/` and read this data at

@@ -20,6 +20,40 @@ steps:
     path_pattern: spec.md
     blocking: true
     template_path: templates/plan-spec-skeleton.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action specify --json
+  - id: frame-problem
+    description: Capture the decision-shaped problem and stakeholder intent
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+      - DIRECTIVE_037
+  - id: validate-boundaries
+    description: Make goals, non-goals, constraints, and success criteria explicit and testable
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+  - id: document-decisions
+    description: Record any scoping decisions made while framing the plan spec
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_003
+  - id: write-spec
+    description: Write spec.md to kitty-specs/{mission_slug}/
+    command: Write spec.md in kitty-specs/{mission_slug}/
+    guidance: 'A plan spec is DECISION-shaped, not a feature spec: state the problem, goals and non-goals, stakeholders, constraints, success criteria, open questions, and what is explicitly out of scope.'
+  - id: commit-spec
+    description: Commit the plan spec with co-author attribution
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: research
   title: Research
   description: Gather research inputs and technical context
@@ -33,6 +67,40 @@ steps:
     artifact_class: evidence
     path_pattern: research.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action research --json
+  - id: read-open-questions
+    description: Read spec.md and enumerate the open questions research must resolve
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+  - id: gather-and-validate
+    description: Gather evidence for each open question and validate it against the plan intent
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+      - adr-drafting-workflow
+    guidance: Every answer written to research.md must trace to concrete evidence. Where evidence is weak or absent, keep the question open rather than recording a speculative answer.
+  - id: document-decisions
+    description: Record research decisions, alternatives considered, and excluded evidence
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_003
+  - id: write-research
+    description: Write research.md to kitty-specs/{mission_slug}/
+    command: Write research.md in kitty-specs/{mission_slug}/
+  - id: commit-research
+    description: Commit research.md with co-author attribution
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: plan
   title: Planning
   description: Design and create planning artifacts
@@ -50,6 +118,46 @@ steps:
     path_pattern: plan.md
     blocking: true
     template_path: templates/plan-plan-skeleton.md
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action plan --json
+  - id: read-inputs
+    description: Read spec.md and research.md before decomposing the plan
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+  - id: decompose-and-decide
+    description: Break the decision into sub-problems with owners and sequencing; decide each trade-off
+    delegates_to:
+      kind: tactic
+      candidates:
+      - requirements-validation-workflow
+      - adr-drafting-workflow
+    guidance: Name each sub-problem, its owner, and where it sits in the sequence. Decide every trade-off explicitly and record the rejected alternatives, not only the chosen path.
+  - id: document-decisions
+    description: Record the planning decisions as ADR-style entries
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_003
+  - id: supply-chain-check
+    description: 'Surface install-time and dependency supply-chain risk, per DIRECTIVE_051 and the supply-chain-install-safety tactic, for any dependency the plan introduces or upgrades. Advisory: visibility and evidence are required, but this step does not gate the transition.'
+    delegates_to:
+      kind: tactic
+      candidates:
+      - supply-chain-install-safety
+  - id: write-plan
+    description: Write plan.md to kitty-specs/{mission_slug}/
+    command: Write plan.md in kitty-specs/{mission_slug}/
+  - id: commit-plan
+    description: Commit plan.md with co-author attribution
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_029
+      - DIRECTIVE_033
 - id: review
   title: Review
   description: Review and validate planning artifacts
@@ -61,3 +169,30 @@ steps:
   - artifact_key: output.plan.main
     path_pattern: plan.md
     blocking: true
+  substeps:
+  - id: bootstrap
+    description: Load charter context for this action
+    command: spec-kitty charter context --action review --json
+  - id: verify-plan-fidelity
+    description: Verify the plan honors the spec's intent and stays in sync with spec.md and research.md
+    delegates_to:
+      kind: directive
+      candidates:
+      - DIRECTIVE_010
+      - DIRECTIVE_037
+  - id: assess-intent-and-risk
+    description: Evaluate the plan for intent alignment and risk
+    delegates_to:
+      kind: tactic
+      candidates:
+      - review-intent-and-risk-first
+  - id: verify-decisions-complete
+    description: Check that every decision and trade-off is resolved and stopping conditions are met
+    delegates_to:
+      kind: tactic
+      candidates:
+      - quality-gate-verification
+      - stopping-conditions
+  - id: record-outcome
+    description: Record the review outcome and advance the mission loop
+    guidance: A plan mission has no work packages, so there is no task to move to `approved` and no pre-review gate. Advance the loop with `spec-kitty next --result success` when the plan passes, or `spec-kitty next --result blocked` with a reason when it does not.

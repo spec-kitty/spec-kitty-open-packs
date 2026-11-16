@@ -87,5 +87,5 @@ Notes that begin to weave findings together belong in synthesis, not in the sour
 - Citation format is consistent across the register.
 - Every online source has an access date.
 - Confidence levels are assigned and justified.
-- The minimum-source threshold from the step contract is met, with real `source_documented` events, not just CSV rows.
+- The minimum-source threshold of the `gathering` step is met, with real `source_documented` events, not just CSV rows.
 - Evidence rows are stable enough that later phases can cite them by ID.
