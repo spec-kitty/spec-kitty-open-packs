@@ -2,7 +2,7 @@
 # pack_id minted once with python-ulid (spec-kitty-open-packs#192); never edit it.
 schema_version: "1.0"
 pack_id: 01M75J18RTS91ZFEQBKBHSS4GX
-pack_version: 1.0.1
+pack_version: 1.1.0
 parent_pack: null
 name: go
 pack_level: org
@@ -11,6 +11,6 @@ pack_drg: drg/fragment.yaml
 # distribution of the built-in-level packs (#73, #200) (mission rust-go-stack-packs C-003).
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: ">=1.0,<2"
+    range: ">=2.0,<3"
   - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
     range: ">=2.0,<3"

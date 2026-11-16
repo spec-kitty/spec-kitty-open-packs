@@ -7,7 +7,7 @@
 # pack_id is the canonical identity, minted once by a tool and never edited.
 schema_version: "1.0"
 pack_id: 01M75HSYS69RYRFPB4WCC5AC9D
-pack_version: 1.0.0
+pack_version: 2.0.0
 parent_pack: null
 name: writing
 pack_level: built-in
@@ -15,4 +15,4 @@ pack_level: built-in
 # foundation, so the pin is exact (ADR-0048 decision 17).
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: "==1.0.0"
+    range: "==2.0.0"
