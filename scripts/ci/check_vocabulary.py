@@ -20,11 +20,11 @@ so a ``jvm`` tag silently filters the artifact out of a ``languages: [java]`` pr
 The second (spec-kitty/spec-kitty-open-packs#233): pack prose never states how strictly a
 directive binds ("advisory in v1", "this is advisory guidance", "binding charter content").
 The level is the directive's ``enforcement:`` field, read as the pack-supplied default, and
-the adopting charter decides the level that applies
+the adopting charter decides the level that applies (core spec-kitty#5207)
 (``docs/architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md``;
 ``term:spec-kitty-core/enforcement-level``). The rule matches phrases, never single words, so
 an npm *advisory* or a *mandatory* report field stays legal. It closes the explicit phrasings
-that recurred (on ``main`` before #233 it hit 29 of the files the sweep changed); a claim made
+that recurred (on ``main`` before #233 it hit 30 of the files the sweep changed); a claim made
 with one bare word ("the mandatory output", "binding rules" in another shape) is left to
 review, because those words have legitimate senses. A phrase wrapped across two lines counts.
 
