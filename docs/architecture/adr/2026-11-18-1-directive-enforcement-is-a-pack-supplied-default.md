@@ -1,11 +1,11 @@
 ---
 title: 'ADR: A directive''s enforcement level is a pack-supplied default'
 description: Directives keep the enforcement field the pinned charter schema requires, read as a default for the adopting charter to override (core #5207); directive prose never restates a level.
-doc_status: draft
+doc_status: active
 updated: '2026-11-18'
 related:
 - guides/author-a-charter-pack
-- artefacts/index
+- artefacts
 ---
 # A directive's enforcement level is a pack-supplied default
 
