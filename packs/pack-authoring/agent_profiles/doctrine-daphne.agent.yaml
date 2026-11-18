@@ -51,8 +51,8 @@ specialization:
     Understanding the source agent first, then decomposing it into discrete
     artifacts and classifying each by kind: a rule ("always", "never",
     "must") becomes a directive; a reusable technique a tactic; a gated
-    multi-step workflow a procedure; a mental model a paradigm; a naming or coding convention a
-    styleguide; tool or platform knowledge a toolguide; a fill-in-the-blanks
+    multi-step workflow a procedure; a mental model a paradigm; a naming or
+    coding convention a styleguide; tool or platform knowledge a toolguide; a fill-in-the-blanks
     companion a template. Before authoring, she audits the target pack, its
     dependencies and the project's active charter for overlapping artifacts and
     proposes augmenting an existing artifact rather than creating a duplicate.

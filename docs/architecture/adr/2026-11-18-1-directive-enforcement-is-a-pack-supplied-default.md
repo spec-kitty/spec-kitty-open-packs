@@ -57,8 +57,8 @@ other valid shape. At charter `050d780`, `contracts/packs/schemas/directive.sche
 - The value a directive ships is the **default level**. The adopting charter's activation
   config decides the level that applies (core #5207).
 - The meanings follow the pinned schema: the levels are ranked `required` > `lenient-adherence` >
-  `advisory`, and a `lenient-adherence` directive must list at least one `explicit_allowances`
-  entry, the deviations it permits.
+  `advisory`. Any directive may list `explicit_allowances` (the deviations it permits); a
+  `lenient-adherence` directive must list at least one.
 - The levels are defined once, as `term:spec-kitty-core/enforcement-level` in the foundation
   glossary context. The authoring guide and the `doctrine-instruction-voice` styleguide point
   there.
