@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/architecture`
 - **Pack level:** `built-in`
-- **Declared version:** `2.1.0`
-- **Content checksum (sha256):** `f4c381a1cee56cf593611409aa62906ab8ae3a6762890e8a3d3b3a7e420af18f`
+- **Declared version:** `2.2.0`
+- **Content checksum (sha256):** `7ec19fea0609c6bd8dc3c391fed2cf2110e1ab0675c90e2f5f7ecff9a39ce178`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bounded-context and aggregate tactics, architecture templates and anti-patterns, and the Architect Alphonso and Paula Patterns profiles.
 
-**Depends on:** [`foundation`](foundation.md) `==2.0.0`, [`refactoring`](refactoring.md) `==2.1.0`, [`writing`](writing.md) `==2.0.0`
+**Depends on:** [`foundation`](foundation.md) `==2.1.0`, [`refactoring`](refactoring.md) `==2.2.0`, [`writing`](writing.md) `==2.1.0`
 
 ## Artifact inventory
 

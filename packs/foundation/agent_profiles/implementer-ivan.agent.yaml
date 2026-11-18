@@ -95,6 +95,12 @@ specialization-context:
     - test
     - refactor
     - unit test
+    - ci
+    - ci matrix
+    - ci pipeline
+    - github actions
+    - github workflow
+    - continuous integration
   writing-style:
     - pragmatic
     - documented

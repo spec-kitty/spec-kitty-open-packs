@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 7d5d0056427a84d188dbb60cdf19e1da03a83d69606e362e2c4cf763d6a5c5f7
+manifest_hash: d9dbe37bcce5cf4a1173e87baaf07263b8d977c00bfc9fe29f0cc90d4a4c3205
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -16,7 +16,7 @@ constituents:
 - kind: agent_profile
   id: implementer-ivan
   path: agent_profiles/implementer-ivan.agent.yaml
-  content_hash: da1c4fd0a64d64d9fc6066cc551a4b39bcea228b9f2a4232a448ac0833bcdb1d
+  content_hash: 71338b9b211a76eaf82f74e4a8bd7b24388c034782eefa252b1d23b0cbe7c8eb
 - kind: agent_profile
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
