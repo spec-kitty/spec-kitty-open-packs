@@ -99,7 +99,8 @@ jobs:
     # Skipped on a paused pull request; the gate then fails.
     if: ${{ !(github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'pr:pause-ci')) }}
     runs-on: ubuntu-latest
-    # The service build and the round trip share one Gradle build of the pinned source.
+    # The round trip builds the pinned source with Gradle; on a commit pin the service jar is built from the same
+    # checkout, and on a release pin it is downloaded instead.
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
