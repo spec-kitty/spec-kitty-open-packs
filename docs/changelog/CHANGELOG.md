@@ -244,6 +244,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **The glossary contexts carry core's docs/context terminology, and "Op" is defined** (#221, #234;
+  epic #288). Core's `docs/context/` pages (at core `01e577d`) defined about 290 terms that no
+  shipped glossary held. Each of the 297 source terms now has a recorded verdict and reason in
+  `kitty-specs/glossary-docs-context-terms-01M7PN2S/research/ledger.yaml`.
+  - **foundation** (`spec-kitty-core`, 139 → 295 terms) gains 156 consumer-facing terms: the
+    charter, activation and DRG-relation vocabulary, Mission topology, branches, lanes and gates,
+    the dossier, decisions and events, the four mission types, and the foundational technology
+    terms (API, CLI, UI, Markdown, YAML, JSON, SHA256) that the writing pack's glossary styleguide
+    requires. Definitions cite no core source path, test, ADR or issue; where core describes a
+    surface the charter retired (the org charter, `required_<kind>`, `activated_glossary_packs`,
+    step contracts, `mission-runtime.yaml`), the definition follows the charter.
+  - **`op`** (#234) is the dispatched, governed ad-hoc unit of work of DIRECTIVE_053: alias
+    `profile invocation`, see also `mission`.
+  - **internal** (`spk-internal-glossary`, 12 → 91 terms) gains 79 house terms: core's code
+    symbols, architectural test gates and pytest markers (ids ending `-test-marker`), tracker
+    labels, product lines, retired hosted vocabulary and the tool-vs-agent naming record.
+
 - **A roadmap in the docs: a new Plans section** (ADR 2026-11-16-1). `docs/plans/roadmap.md` is
   one living page with a section per theme (charter lockstep, pack content quality, doctrine from
   core, catalog shape and publication, docsite and trust). Each section gives the goal it serves,
@@ -613,6 +630,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The accountable human is "the operator" in pack prose and both glossaries** (#139). "HiC",
+  "Human-in-Charge" and "human-in-command" no longer name a role: the glossary term is
+  `operator` (avoid: "human in charge", "human in command"), the kitty-glossary-writing
+  styleguide drops its rule requiring "HiC" in every definition (now 7 principles) and its
+  "Passive Authority" anti-pattern, glossary-curation-interview drops its "Apply HiC
+  terminology" step, and procedures, tactics, the contextive toolguide, the writing tactic
+  graph and the software-dev charter prompt say "the operator". The `human-in-charge` agent
+  profile keeps its id. **Upgrade:** retrospective-facilitator's mode `hic` is now `operator`.
+- **`spec-kitty-core.glossary.yaml` is the authoring source** (#234). Its description no longer
+  says it was migrated from `spec_kitty_core.yaml`, and its header names the curation workflow.
+  29 pre-existing definitions drop core source paths, ADRs, issue numbers, `docs/context` pointers, core
+  work-package history and HiC wording (ids and names unchanged); `review-py-package`, a core
+  layout detail, is deprecated.
+- **Versions:** none of its own. Per the operator's ruling of 2026-11-18, #300, #302 and #303
+  share one bump: this content lands inside foundation and writing 2.1.0, the core bundles 2.2.0
+  and built-in 4.1.0 from #302, and internal 4.0.1 from #303.
 - **A directive states its rule, never how strictly it binds** (#233, epic #245; core
   spec-kitty#5207). How strictly a directive binds is the adopting charter's call; the packs said
   it twice and disagreed (DIRECTIVE_051 was `required` but called itself "advisory in v1").
