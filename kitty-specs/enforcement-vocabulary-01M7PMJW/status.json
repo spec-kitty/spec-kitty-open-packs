@@ -57,7 +57,7 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude::",
+      "agent": "claude::implementer-ivan",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -71,7 +71,8 @@
         "Guard green on the swept tree: 728 files, 0 findings; 19 vocabulary tests OK",
         "Changes requested",
         "Review findings 1-3, 10 addressed; 22 tests OK; one remaining tree hit is WP04's cloud-session-dispatch miss",
-        "Identity hop for independent review"
+        "Identity hop for independent review",
+        "Re-submitted with implementer identity claude::implementer-ivan"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
