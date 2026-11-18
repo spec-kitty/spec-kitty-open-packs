@@ -1,19 +1,19 @@
 {
-  "event_count": 47,
-  "last_event_id": "01M7PPJ076F273XQ1P0Z3AXBNH",
-  "materialized_at": "2026-11-18T06:47:24.134866+00:00",
+  "event_count": 48,
+  "last_event_id": "01M7PPJCBKCZETNRAPD6HRZ4BD",
+  "materialized_at": "2026-11-18T06:47:36.563727+00:00",
   "mission_number": "",
   "mission_slug": "enforcement-vocabulary-01M7PMJW",
   "mission_type": "software-dev",
   "summary": {
-    "approved": 1,
+    "approved": 2,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
     "done": 0,
     "for_review": 1,
     "in_progress": 0,
-    "in_review": 2,
+    "in_review": 1,
     "planned": 1
   },
   "work_packages": {
@@ -62,9 +62,9 @@
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
-      "lane": "in_review",
-      "last_event_id": "01M7PPH5QP2D2T9E9FX097DE2K",
-      "last_transition_at": "2026-11-18T06:46:57.014945+00:00",
+      "lane": "approved",
+      "last_event_id": "01M7PPJCBKCZETNRAPD6HRZ4BD",
+      "last_transition_at": "2026-11-18T06:47:36.563727+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep",
@@ -78,10 +78,10 @@
       "provider": "__resolved_provider_absent__",
       "review": null,
       "review_result": {
-        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP02-guard/review-cycle-1.md",
-        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP02-guard/review-cycle-1.md",
-        "reviewer": "reviewer-renata",
-        "verdict": "changes_requested"
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP02-guard/review-cycle-2.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP02-guard/review-cycle-2.md",
+        "reviewer": "session_019C2Tk4QwtKE32zTy58HRVd",
+        "verdict": "approved"
       },
       "role": "reviewer",
       "shell_pid": 2966,
