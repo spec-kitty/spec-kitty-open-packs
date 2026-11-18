@@ -113,7 +113,7 @@
     },
     "WP04": {
       "actor": "user",
-      "agent": "claude",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -123,9 +123,11 @@
       "last_transition_at": "2026-11-18T06:38:10.108830+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Citing-content sweep done; guard 0 findings; ASCII test OK"
+        "Citing-content sweep done; guard 0 findings; ASCII test OK",
+        "Changes requested"
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP04-citing-content-sweep/review-cycle-1.md",
         "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP04-citing-content-sweep/review-cycle-1.md",
@@ -133,14 +135,14 @@
         "verdict": "changes_requested"
       },
       "role": "implementer",
-      "shell_pid": 5680,
-      "shell_pid_created_at": "1794983478.53",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T013": "done",
-        "T014": "done",
-        "T015": "done",
-        "T016": "done",
-        "T017": "done"
+        "T013": "planned",
+        "T014": "planned",
+        "T015": "planned",
+        "T016": "planned",
+        "T017": "planned"
       }
     },
     "WP05": {
