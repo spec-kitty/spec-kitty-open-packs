@@ -20,7 +20,7 @@
   "work_packages": {
     "WP01": {
       "actor": "user",
-      "agent": null,
+      "agent": "claude::",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -32,7 +32,8 @@
       "notes": [
         "Term, docs, styleguide principle, ADR consistent; guard 0 findings",
         "Changes requested",
-        "Review findings 5-6 addressed: semantics sourced from the pin, override hedged to #5207, policy.yaml named"
+        "Review findings 5-6 addressed: semantics sourced from the pin, override hedged to #5207, policy.yaml named",
+        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
