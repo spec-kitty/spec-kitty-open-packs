@@ -81,3 +81,627 @@ terms:
       One per pull request; never shared across pull requests and never a status surface. `spec-kitty doctor workspaces --prune`
       removes it after the pull request merges.
     status: active
+  - id: contract-scenario
+    name: Contract Scenario
+    definition: 'A Gherkin scenario that is the behavior half of the charter contract: it names pack files, calls one operation
+      of `contracts/charter/openapi.yaml` and states the answer. Scenarios tagged `@contract` run in `verifyAll`; `@provisional`
+      marks behavior the conformance corpus has yet to decide.'
+    status: draft
+  - id: import-candidate
+    name: Import Candidate
+    definition: A pull-based curation record for an external doctrine idea. Captures source provenance, target classification,
+      adaptation notes, and adoption status before canonization.
+    status: active
+  - id: trigger-registry
+    name: Trigger Registry
+    definition: 'Canonical frozenset of agent-action tokens (e.g. `write_comment`, `write_docstring`, `rename_identifier`,
+      `add_dependency`) the prompt builder knows how to emit "when you <token>, …" stanzas for. It is `REGISTERED_TRIGGERS`
+      in `src/charter/activation/activations.py`: the ten `ALLOWED_ACTIONS` tokens plus four fine-grained ones (`write_comment`,
+      `write_docstring`, `rename_identifier`, `add_dependency`). An Activation Registry entry''s `action` must be a member
+      or a wildcard (`any`, `generic`). No test checks the `triggers:` values on shipped doctrine artifacts against it today:
+      the architectural test that did, `test_trigger_registry_coverage.py`, was removed in #3285 (2026-08-12). Mission B''s
+      WP05 populated the initial set.'
+    status: active
+  - id: charter-facade
+    name: Charter Facade
+    definition: 'A `src/charter/<facade>.py` module that re-exports (or thinly wraps) a doctrine surface so runtime callers
+      can consume it as `from charter.<facade> import X` instead of `from doctrine.<x> import X`. Examples: `charter.profiles`,
+      `charter.mission_steps`, `charter.drg`, `charter.primitives`, `charter.resolution`, `charter.versioning`. The set of
+      facades is the runtime → charter → doctrine boundary''s public surface.'
+    status: active
+  - id: mission-type-profile
+    name: Mission-Type Profile
+    definition: Shipped governance profile per mission type (`software-dev`, `documentation`, `research`, `plan`) at `packs/built-in/missions/<type>/governance-profile.yaml`.
+      Declares default selections and default activations for that mission type. The charter resolver reads `meta.json mission_type`,
+      picks the matching profile, and unions its declarations into the project + org selections. No `software-dev-default`
+      fallback for non-software missions — the resolver hard-fails if a mission's `mission_type` has no matching profile and
+      the project has not declared its own.
+    status: active
+  - id: charterscope
+    name: CharterScope
+    definition: A resolution context (`charter.activation.scope::CharterScope`) that maps a filesystem path to the appropriate
+      charter when multiple charters coexist in a monorepo. Single-project repositories use `CharterScope.default(repo_root)`
+      which returns the root-scoped charter. Monorepos with multiple sub-project charters configure `charter_scopes:` in `.kittify/config.yaml`;
+      `CharterScope.resolve(repo_root, feature_dir)` then finds the nearest-enclosing charter for any given Mission directory
+      (`feature_dir`). The resolved `scope.root` is forwarded to `build_charter_context` (or via `build_with_scope`) so the
+      correct per-package charter governs prompt generation. See ADR-8 (`docs/adr/3.x/2026-05-18-1-monorepo-charter-scope.md`).
+    status: active
+    see_also:
+      - term:spk-internal-glossary/workflow-sequence
+  - id: workflow-sequence
+    name: Workflow Sequence
+    definition: A named, ordered list of mission-action steps with declared entry conditions, exit conditions, and optional
+      per-step runtime hooks. Stored as a `WorkflowSequence` Pydantic model in `spec-kitty next`'s internal runtime schema
+      registry. Org packs may contribute custom workflow sequences that extend or override the shipped set when activated
+      via the Activation Registry.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/mission-type-profile
+  - id: workflow-id
+    name: Workflow ID
+    definition: The stable, kebab-case identifier of a Workflow Sequence (e.g. `software-dev-default`). Used as the lookup
+      key in the workflow schema registry and in the `meta.json` `workflow_id` field to record which sequence drove a given
+      mission run. Org packs must not reuse shipped workflow IDs without explicit override semantics.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/workflow-sequence
+      - term:spk-internal-glossary/mission-type-profile
+  - id: ratchet-baseline
+    name: Ratchet Baseline
+    definition: A snapshot of a quality metric (failure count, symbol count, dead-module count) recorded in `tests/architectural/_baselines.yaml`
+      and enforced by the corresponding architectural gate (`tests/architectural/test_ratchet_baselines.py`). A ratchet baseline
+      only moves in the decreasing direction during normal development; any increase fails CI. Org packs may declare additional
+      ratchet metrics via governance policies, but cannot lower an existing shipped baseline.
+    status: active
+  - id: cat-7-grandfathered-orphan
+    name: Cat-7 Grandfathered Orphan
+    definition: 'A dead-module or dead-symbol violation that has been explicitly classified as category 7 ("deferred — grandfathered"):
+      listed in `_CATEGORY_7_GRANDFATHERED_ORPHANS` in `tests/architectural/test_no_dead_modules.py`. Cat-7 items are excluded
+      from the active failure count tracked by the ratchet baseline but must not be added to the allowlist via side-effect
+      imports (the C2 anti-pattern). Each cat-7 record must carry a deferral reason and a target WP for cleanup.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/ratchet-baseline
+      - term:spk-internal-glossary/symbol-level-dead-code
+  - id: symbol-level-dead-code
+    name: Symbol-level Dead Code
+    definition: A public symbol (function, class, constant) exported by a module but not referenced by any other module or
+      test in the codebase, as detected by `tests/architectural/test_no_dead_symbols.py`. Distinguished from module-level
+      dead code (an entire module with no importers). Symbol-level findings are reported per-file and contribute to the dead-symbol
+      ratchet baseline.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/ratchet-baseline
+      - term:spk-internal-glossary/cat-7-grandfathered-orphan
+      - term:spk-internal-glossary/all-declaration-convention
+  - id: all-declaration-convention
+    name: __all__ Declaration Convention
+    definition: The project convention that every Python module with a public API must declare an `__all__` list enumerating
+      its exported symbols. The `test_no_dead_symbols.py` architectural gate scans the union of a module's `__all__` members
+      and every public (non-underscore) module-level `def`, `class` and assignment (#470). A public name outside `__all__`
+      that is used inside its own module is not dead; an `__all__` member used only inside its own module still is, because
+      `__all__` claims a cross-module export.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/symbol-level-dead-code
+      - term:spk-internal-glossary/ratchet-baseline
+  - id: artifactref
+    name: ArtifactRef
+    definition: Immutable reference to a single indexed artifact carrying identity (artifact key), location (path), content
+      hash (SHA256), and provenance metadata.
+    status: draft
+  - id: baseline-key
+    name: Baseline Key
+    definition: The combination of identifiers (`project_uuid`, `node_id`, `mission_slug`, `target_branch`, `mission_type`,
+      `manifest_version`) that uniquely scopes a parity baseline. Ensures that a baseline captured in one context is never
+      accidentally compared against artifacts from a different context.
+    status: draft
+  - id: tool-surface
+    name: Tool Surface
+    definition: A tool-visible artifact or configuration entry that Spec Kitty installs, verifies, repairs, or packages for
+      a concrete execution tool. This is `surface` **Sense 1** — the tool-facing sense, one of two unrelated domains that
+      share the word. Realized in code by the `ToolSurfaceKind` enum in `src/specify_cli/tool_surface/enums.py` (members `COMMAND_SKILL`,
+      `CHARTER_SKILL`, `CONTEXT_FILE`, `RULE`, `HOOK`, `AGENT_PROFILE`, `PLUGIN_MANIFEST`, `NATIVE_CONFIG`, `COMMAND_FILE`),
+      renamed from the bare `SurfaceKind` per ADR 2026-07-23-1.
+    status: draft
+  - id: middleware-pipeline
+    name: Middleware Pipeline
+    definition: An ordered chain of processing steps that run before a mission step produces output. Each layer in the chain
+      can extract terms, check for semantic conflicts, gate generation, prompt the operator for clarification, or resume from
+      a checkpoint.
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/checkpoint-resume
+  - id: checkpoint-resume
+    name: Checkpoint/Resume
+    definition: A mechanism that lets a glossary pipeline pause at a generation boundary and pick up where it left off in
+      a later session. The pause point and its context are saved so no work is lost.
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/middleware-pipeline
+  - id: governancecontext
+    name: GovernanceContext
+    definition: 'A design concept, not a code type: the resolved set of Charter and Doctrine artifacts active for an operation,
+      resolved once per operation and passed down, never re-derived mid-operation. No `GovernanceContext` type and no "Governance
+      module" exist in `src/` today.'
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/missionexecutioncontext
+      - term:spk-internal-glossary/infracontext
+  - id: missionexecutioncontext
+    name: MissionExecutionContext
+    definition: The resolved set of workspace root, branch name, Mission directory (code field `feature_dir`), and WP identity
+      for an operation. Owned by `mission_runtime/context.py` (Open Host Service facade). Resolved once per operation via
+      `resolve_action_context`; never re-derived from CWD by individual command surfaces. Renamed from `ExecutionContext`
+      (FR-012) to match the ubiquitous language and disambiguate from the unrelated `core/context_validation.py::ExecutionContext(StrEnum)`.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/governancecontext
+      - term:spk-internal-glossary/infracontext
+  - id: infracontext
+    name: InfraContext
+    definition: 'A design concept, not a code type: the resolved set of infrastructure credentials and endpoints for an operation,
+      such as the git remote URL, a CI endpoint and external service tokens. No `InfraContext` type and no "Execution module"
+      exist in `src/` today.'
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/missionexecutioncontext
+      - term:spk-internal-glossary/governancecontext
+  - id: effector
+    name: Effector
+    definition: The Actor realized inside the Execution domain — the execution-bound realization of an Actor that performs
+      actions within a Mission, producing or consuming communication artifacts (commits, PRs, comments). Named concept in
+      docs only; no code type until a concrete actor-kind-mismatch bug triggers materialization.
+    status: active
+  - id: shadow-clone
+    name: Shadow Clone (Isolated Dev Environment)
+    definition: 'A contributor/maintainer practice for developing Spec Kitty itself: a standalone repository-root checkout
+      of the Spec Kitty codebase whose CLI and runtime state are pinned to that checkout, so it does not interfere with a
+      machine-global install or with sibling checkouts. Isolation has two axes — **code** (a clone-local `.venv` editable
+      install placed first on `PATH`, so `spec-kitty` runs the checkout''s live `src/`) and **state** (`SPEC_KITTY_HOME` pointed
+      at a clone-local root so the offline queue, sync daemon, event journal, auth, gate-locks, and trackers do not land in
+      the shared `~/.spec-kitty`). It is the non-containerised isolation option, chosen for speed over the stronger isolation
+      of a container.'
+    status: draft
+  - id: activation-chokepoint
+    name: Activation Chokepoint
+    definition: The single activation filter applied by `charter.activation.resolver.ActiveCharterService` (the activation-aware
+      wrapper). It enforces the project charter's per-kind activation state on a doctrine service's `paradigms`, `procedures`,
+      and `agent_profiles` surfaces, so every profile-resolving path passes through one consistent filter rather than re-implementing
+      activation logic. The factory `charter.activation.active_charter_service_builder.build_active_charter_service` is the
+      single construction seam that routes callers through this chokepoint.
+    status: active
+  - id: audience-persona
+    name: Audience Persona
+    definition: Architecture-level stakeholder persona used to model needs, constraints, and success criteria for Spec Kitty
+      usage and adoption. A doc page also names one as its reader in its `audience:` frontmatter.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/internal-audience-persona
+      - term:spk-internal-glossary/external-audience-persona
+  - id: internal-audience-persona
+    name: Internal Audience Persona
+    definition: Persona representing contributors or runtime actors who directly shape or operate Spec Kitty from inside the
+      delivery boundary.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/audience-persona
+  - id: external-audience-persona
+    name: External Audience Persona
+    definition: Persona representing evaluators and decision-makers outside the delivery boundary who assess Spec Kitty value,
+      fit, and adoption risk.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/audience-persona
+  - id: engagement
+    name: engagement
+    definition: 'The client relationship a Mission is carried out under — the real-world party whose work the Mission delivers.
+      Because Missions are named after the work, **a mission slug is a client engagement name**, and so are the issue titles
+      derived from it. The term therefore names a *third party*, not a unit of work: disclosing a mission identifier discloses
+      who the client is. This is the whole ground of the project-egress consent boundary — only the project that owns a record
+      may consent to that record leaving the machine, and inability to determine which project owns it is never consent.'
+    status: active
+  - id: mission-runtime-yaml
+    name: Mission-Runtime YAML
+    definition: Configuration file (`mission-runtime.yaml`) that defines a mission type's step graph, action ordering, dependencies,
+      and prompt-template bindings.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/step-dependency
+  - id: step-dependency
+    name: Step Dependency
+    definition: A declared relationship saying "this step cannot start until that step finishes." Defined in mission-runtime
+      YAML to enforce ordering.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/mission-runtime-yaml
+  - id: runtime-bridge
+    name: Runtime Bridge
+    definition: The adapter that connects the CLI's decision loop to the mission execution engine. It translates internal
+      runtime decisions into the format the operator or agent sees while keeping mission identity separate from mission-run
+      identity.
+    status: active
+  - id: mission-state-derivation
+    name: Mission State Derivation
+    definition: The process of figuring out where a mission currently stands by reading filesystem artifacts and event logs,
+      so the system can determine what mission actions are available next.
+    status: active
+  - id: publish-to-origin-main
+    name: Publish to origin/main
+    definition: 'The operator-only act of publishing the landed mission work to `origin/main`. In this repository it always
+      goes through a pull request — never a direct push. Represented in the consolidation flow by `push_requested`. By default
+      `spec-kitty consolidate` does **not** perform this step: it stops at the local landing. Its opt-in `--push` flag runs
+      `git push origin <target branch>` after the local integration (`src/specify_cli/consolidation/phase_finalize.py`); this
+      repository''s workflow forbids using it for `main`. This is `merge` **Sense 3** — the publish operation, sometimes called
+      "operator merge".'
+    status: active
+  - id: window-open-sha
+    name: Window-open SHA
+    definition: The lane head recorded under `policy_metadata.wp_window.open_sha` on the status event of a non-migration move
+      into `claimed` or `in_progress`. The window opens at the one recorded on the window opener. It is branch-relative provenance,
+      valid for one consolidation attempt. ADR 2026-11-08-2.
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/window-opener
+  - id: window-opener
+    name: Window opener
+    definition: 'The opening event a work package''s window binds to: the first non-migration move into `claimed` or `in_progress`
+      after the work package last returned to `planned` from a non-review status lane (a review rejection does not reset it),
+      skipping leading `lane_branch_missing` openers, with the openers of that cycle ordered by lane topology and by event-log
+      order when their SHAs are unrelated (FR-021). ADR 2026-11-08-2.'
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/window-open-sha
+      - term:spk-internal-glossary/named-window-variant
+  - id: exemption-anchor
+    name: Exemption anchor
+    definition: 'A commit whose reach exempts lane commits from the window refusal: the closed-world anchors (dependency-lane
+      tips of lanes that are not fully canceled, the target''s pre-consolidation tip) and the approval stamps of **other**
+      bounded lanes. A lane''s own approval stamps are not exemption anchors on the window path. ADR 2026-11-08-2.'
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/claim-inputs
+  - id: claim-inputs
+    name: Claim inputs
+    definition: '`ClaimInputs`: the one frozen value the consolidation gate''s claim is built from, with one constructor and
+      three sources (`LIVE` for the forecast, `LIVE_THEN_SAVED` for a fresh run, `SAVED` for a resume). It holds the target
+      base, the coordination base, the frozen lane tips, the frozen dependency anchors, the dependency pins, the excluded
+      canceled work packages, the strategy and the status directory read. ADR 2026-11-08-2.'
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/exemption-anchor
+  - id: named-window-variant
+    name: Named window variant
+    definition: 'A deliberate difference between window definitions that ADR 2026-11-08-2 records by name instead of unifying:
+      "lane anchor" (`blocked` opens), "canceled-content windows" (`WorkWindow`), "owned-file evidence", and the `single_branch`
+      authorship window.'
+    status: draft
+    see_also:
+      - term:spk-internal-glossary/window-opener
+      - term:spk-internal-glossary/exemption-anchor
+  - id: routing
+    name: Routing
+    definition: '"Routing" has no single meaning in this codebase — it is an umbrella word covering at least six **live governed**
+      decisions, one **retired** governed sense retained here as a named referent, plus several **infrastructural** ones that
+      are explicitly out of scope here. This entry extends, not restates, PRIMARY partition / COORD partition / Topology Surface
+      above, which already frame the **placement** sense; naming an exclusion is disambiguation, silence is not.'
+    status: active
+  - id: the-drain
+    name: The drain
+    definition: '"The drain" is retired historical terminology on this line. It previously named three distinct flows — the
+      **dispatch-selection drain** (in the delivery subsystem), the **body drain** (the sync transport''s background body-queue
+      sender), and the **queue-backed event drain** (the sync transport''s batch sender, removed upstream by #3167) — all
+      of which were deleted with the `sync` / `delivery` / `event_journal` subsystems (spec-kitty#5 / PR #114). The entry
+      is retained as a named referent so historical prose, commit messages and issue threads that say "the drain" stay resolvable.
+      Bare use is not resolvable from context; in new prose, name the concrete current operation instead.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/routing
+  - id: residue
+    name: Residue
+    definition: '"Residue" names a `kitty-specs/` child directory that is not a Mission — but it has no single rule. Three
+      live code senses each answer "is this folder a Mission?" differently for their own surface, and each is justified in
+      its owning docstring. This entry extends, not restates, Mission; naming the senses is disambiguation, silence is not
+      (the same footgun class as Routing above, issue #6759).'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/routing
+      - term:spk-internal-glossary/the-drain
+  - id: functional-epic
+    name: functional epic
+    definition: An epic that represents a real domain of work — a subsystem, capability, or bug-class — and owns its tickets
+      as native sub-issues. Contrasted with a meta-tracker. Functional epics, not meta-trackers, are the canonical parents
+      of work.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/meta-tracker
+      - term:spk-internal-glossary/issue-type
+  - id: meta-tracker
+    name: meta-tracker
+    definition: A tracking or convenience issue — release gate, go/no-go, or program rollup — that references work via checklist
+      but must NOT own functional tickets as their canonical parent. Titles are prefixed `META-TRACKER:`. Release gating belongs
+      in milestones or labels, not in issues-as-parents.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/functional-epic
+  - id: issue-type
+    name: issue type
+    definition: The GitHub issue-type classification (Task, Bug, or Feature) applied to every ticket, orthogonal to priority.
+      Epics are typed Feature. The invariant `bug label <-> type Bug` holds. Type captures the kind of work; the legacy Px-description
+      labels that conflated priority with type are retired.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/priority-scheme
+      - term:spk-internal-glossary/triage-status
+  - id: priority-scheme
+    name: priority scheme
+    definition: The canonical issue-priority labels `priority:P0` .. `priority:P3`. The legacy `Px-description` labels (P0-critical,
+      P1-bug, P2-enhancement, P3-future, P4-wontfix) are retired in favor of `priority:Px` plus the orthogonal issue-type
+      field.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/issue-type
+  - id: triage-status
+    name: triage status
+    definition: 'A cross-priority label namespace marking a ticket''s disposition pending triage: `triage:stale` (reproduce
+      and close if no longer valid), `triage:needs-revision` (scope/spec needs rework), and `triage:maybe-duplicate` (suspected
+      duplicate pending confirmation — distinct from the confirmed `duplicate` label).'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/issue-type
+      - term:spk-internal-glossary/priority-scheme
+  - id: usability-label
+    name: usability (label)
+    definition: The `usability` label, marking operator/user-experience and ergonomics concerns (CLI surface, status display,
+      command clarity). Narrows the UX overlap previously folded into the `workflow` label.
+    status: active
+  - id: mostly-invisible-process
+    name: Mostly Invisible Process
+    definition: Glossary checks should run by default with minimal interruption during normal flow.
+    status: active
+  - id: highly-visible-outcomes
+    name: Highly Visible Outcomes
+    definition: Conflict results, block reasons, and clarification decisions must be visible in artifacts/logs.
+    status: active
+  - id: append-only-semantic-history
+    name: Append-Only Semantic History
+    definition: Term/sense changes and conflict decisions are recorded as immutable events, not rewritten in place.
+    status: active
+  - id: deterministic-gate-human-clarification
+    name: Deterministic Gate, Human Clarification
+    definition: Conflict detection/gating is deterministic; only ambiguity resolution requires human input.
+    status: active
+  - id: build-kitty
+    name: Build Kitty
+    definition: 'The open-core producer line for governed mission delivery: the free CLI and its Mission Status Read API,
+      the stable entry point to ledger and event data that consumers read across a public contract boundary. The API''s Java
+      service is built and released by `spec-kitty-events` (ADR 2026-10-29-1); the CLI does not launch it.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/brain-kitty
+      - term:spk-internal-glossary/team-kitty
+  - id: brain-kitty
+    name: Brain Kitty
+    definition: 'The open-core governance and doctrine line: the charter, a producer-side open-core unit. The Python charter
+      stays in core until it is retired; its offering reads cut over to the `spec-kitty-charter` service through `charter.offering.api`
+      (the repository extraction of ADR 2026-10-12-2 is superseded, 2026-10-19).'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/build-kitty
+      - term:spk-internal-glossary/team-kitty
+  - id: team-kitty
+    name: Team Kitty
+    definition: 'The consumer line, framed as "Multiplayer Mode": the UI and multiplayer surfaces (mission-ui, the pack composer)
+      that consume the open-core Mission Status Read API across its public contract, never reaching into CLI internals. The
+      hosted, sync and drain surfaces and their clients were removed from open-core in #6164 (the code is preserved in `spec-kitty/event-router`);
+      what that leaves is in Team Kitty and Zeitgeist.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/build-kitty
+      - term:spk-internal-glossary/brain-kitty
+  - id: unit-test-marker
+    name: Unit (core test marker)
+    definition: A test that asserts the behavior of a single module in isolation. No subprocess invocation, no real filesystem
+      writes beyond `tmp_path`, no network, no real git. Helper modules may be imported, but third-party services and shell
+      commands are off-limits.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/fast-test-marker
+      - term:spk-internal-glossary/integration-test-marker
+  - id: integration-test-marker
+    name: Integration (core test marker)
+    definition: 'A test that exercises behavior across module boundaries against real (process-local) collaborators: real
+      filesystem under `tmp_path`, real in-process I/O, real git when explicitly needed. No external network, no spawned long-running
+      services.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/unit-test-marker
+      - term:spk-internal-glossary/e2e-test-marker
+      - term:spk-internal-glossary/git-repo-test-marker
+  - id: contract-test-marker
+    name: Contract (core test marker)
+    definition: A consumer-surface test that pins the shape of an external public API this project depends on (currently the
+      `spec-kitty-events` and `spec-kitty-tracker` PyPI packages and the pinned service assets). The test fails when an upstream
+      contract changes in a way that would break this CLI's consumption.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/integration-test-marker
+      - term:spk-internal-glossary/e2e-test-marker
+  - id: architectural-test-marker
+    name: Architectural (core test marker)
+    definition: A test that asserts an architectural invariant — layer dependency rules (via pytestarch), import-boundary
+      scans, shared-package boundary, naming conventions, schema enforcement, "this directory may not import that subsystem",
+      "every test file must declare a marker", etc. These tests do not run product code; they introspect the source tree.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/contract-test-marker
+  - id: e2e-test-marker
+    name: E2E (core test marker)
+    definition: An end-to-end test that drives the full CLI as a subprocess (or via `typer.testing.CliRunner` with maximum
+      integration depth), against a realistic `.kittify/` tree, and asserts the user-visible outcome (files produced, exit
+      code, observable side-effects). May be slow.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/integration-test-marker
+      - term:spk-internal-glossary/slow-test-marker
+  - id: adversarial-test-marker
+    name: Adversarial (core test marker)
+    definition: A security or fuzz-style test that asserts the system rejects malicious or malformed inputs (CSV formula injection,
+      path traversal, malformed YAML, oversized payloads, etc.) without crashing or leaking.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/contract-test-marker
+  - id: doctrine-test-marker
+    name: Doctrine (core test marker)
+    definition: A smoke or integration test against the charter offering package — verifying that directives, tactics, paradigms,
+      styleguides, toolguides, procedures, agent profiles, and mission step contracts load correctly from `src/charter/offering/`,
+      merge across layers (built-in / org / project), and surface through `CharterOfferingService`.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/unit-test-marker
+      - term:spk-internal-glossary/integration-test-marker
+  - id: fast-test-marker
+    name: Fast (core test marker)
+    definition: A performance characterization, not a behavioral category. The marker declares the test runs in well under
+      a second per item, performs no subprocess work, no git, no network, and no heavy fixture setup. Orthogonal to the unit/integration/contract
+      category — both a `unit` test and an `integration` test may be `fast` if they happen to be quick.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/slow-test-marker
+      - term:spk-internal-glossary/unit-test-marker
+  - id: slow-test-marker
+    name: Slow (core test marker)
+    definition: A performance characterization declaring the test takes >30 seconds wall-clock per item (`pytest.ini`), requires
+      heavy setup (wheel build, distribution install, large fixture tree), or otherwise should not run on every developer
+      save. Orthogonal to category — an `integration` or `e2e` test may also be `slow`.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/fast-test-marker
+      - term:spk-internal-glossary/e2e-test-marker
+      - term:spk-internal-glossary/distribution-test-marker
+  - id: git-repo-test-marker
+    name: Git Repo (core test marker)
+    definition: A test that creates a real git repository (via `git init`, `subprocess.run`, or the `GitRepo` fixture) and
+      exercises real git plumbing — commits, branches, worktrees, refs.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/integration-test-marker
+  - id: distribution-test-marker
+    name: Distribution (core test marker)
+    definition: A test that builds a wheel from the working tree, installs it into a temporary venv, and verifies the installed
+      surface (`spec-kitty --version`, CLI commands work from a fresh install with no `SPEC_KITTY_TEMPLATE_ROOT` override,
+      etc.). Catches the "works on developer machine, fails on PyPI install" gap.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/slow-test-marker
+      - term:spk-internal-glossary/e2e-test-marker
+  - id: platform-darwin-test-marker
+    name: Platform Darwin / Platform Linux (core test marker)
+    definition: A test that asserts OS-specific behavior (case-insensitive FS on macOS, POSIX path semantics on Linux, etc.).
+      No conftest skips them automatically, so a carrier must skip itself on the wrong platform.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/windows-ci-test-marker
+  - id: windows-ci-test-marker
+    name: Windows CI (core test marker)
+    definition: A test that must pass on the native windows-latest CI job. Auto-skipped on non-Windows hosts via the top-level
+      conftest. Covers Windows-specific hook execution, file-backed auth storage, path helpers, worktree fallback, regression
+      guards for Windows path quirks.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/platform-darwin-test-marker
+  - id: requires-symlinks-test-marker
+    name: Requires Symlinks (core test marker)
+    definition: 'A test that needs functioning symlink support on the host filesystem. The marker itself skips nothing: carriers
+      use a fixture that reports symlink support (for example `symlink_factory` in `tests/adversarial/conftest.py`) and skip
+      themselves where symlinks are unavailable (some Windows configurations, restricted CI runners).'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/windows-ci-test-marker
+  - id: live-adapter-test-marker
+    name: Live Adapter (core test marker)
+    definition: A test that calls the real Anthropic API (or any other live external service) instead of a mocked adapter.
+      Always opt-in; default CI excludes it via `-m "not live_adapter"`.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/contract-test-marker
+      - term:spk-internal-glossary/integration-test-marker
+  - id: asyncio-test-marker
+    name: Asyncio (core test marker)
+    definition: A test that requires the `pytest-asyncio` event-loop fixture to run a coroutine. Marker is set automatically
+      by `pytest-asyncio` when the test function is `async def` (the project's `asyncio_mode = auto`), so explicit tagging
+      is optional but harmless.
+    status: active
+  - id: timeout-test-marker
+    name: Timeout (core test marker)
+    definition: 'A per-test wall-clock budget enforced by `pytest-timeout`. The marker carries a numeric argument: `@pytest.mark.timeout(N)`.
+      Different in shape from the categorical markers above.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/slow-test-marker
+  - id: no-readiness-stub-test-marker
+    name: No Readiness Stub (core test marker)
+    definition: An opt-out from the autouse readiness-stub fixture that the tracker CLI test suite installs by default. The
+      test wires its own readiness machinery and would be perturbed by the stub. Introduced for mission 082 tracker CLI tests.
+    status: active
+  - id: non-sandbox-test-marker
+    name: Non Sandbox (core test marker)
+    definition: A test that is structurally incompatible with `mutmut`'s forked sandbox (subprocess CLI calls, whole-codebase
+      AST walks, wheel builds, or repo-state fixtures outside `also_copy`). Documented in ADR `docs/adr/2.x/2026-04-20-1`.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/flaky-test-marker
+  - id: flaky-test-marker
+    name: Flaky (core test marker)
+    definition: A test that passes in the standard suite but is non-deterministic under `mutmut` or forked pipelines. Each
+      entry is debt — the goal is to root-cause and remove the marker, not to accumulate them. See ADR `docs/adr/2.x/2026-04-20-1`.
+    status: active
+    see_also:
+      - term:spk-internal-glossary/non-sandbox-test-marker
+  - id: orchestrator-smoke-test-marker
+    name: Orchestrator Smoke / Availability / Fixtures / Happy Path / Review Cycles / Parallel (core test marker)
+    definition: 'A family of fine-grained markers for the orchestrator test suite. Each marker selects a slice: `orchestrator_smoke`
+      (basic agent invocation), `orchestrator_availability` (agent availability detection), `orchestrator_fixtures` (fixture
+      loading), `orchestrator_happy_path` (E2E happy paths), `orchestrator_review_cycles` (review approval/rejection cycles),
+      `orchestrator_parallel` (parallel execution and dependency graphs).'
+    status: active
+  - id: core-agent-test-marker
+    name: Core Agent / Extended Agent (core test marker)
+    definition: '`core_agent` declares the test requires a core-tier agent runtime to be available (fails if unavailable).
+      `extended_agent` declares the test prefers an extended-tier agent but skips cleanly when unavailable.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/live-adapter-test-marker
+  - id: exploratory-test-marker
+    name: Exploratory (core test marker)
+    definition: A test intended for human-driven exploration only, not for CI runs. Gives the test a marker without obligating
+      CI to execute it.
+    status: active
+  - id: tool-vs-agent-naming
+    name: tool vs agent naming decision
+    definition: 'The team''s agreed naming rule (2026-02-15): "tool" is a concrete execution product (Claude Code, Codex,
+      opencode), used for install, config and invocation concerns; "agent" is a logical collaborator identity or role, used
+      for assignment, handoff and role concerns. Historical names such as `spec-kitty agent config` and the `agents.available`
+      config key are compatibility aliases for configured tools, not licence to say "agent" for install concerns.'
+    status: active
+    see_also:
+      - term:spk-internal-glossary/tool-surface
+  - id: zeitgeist
+    name: Zeitgeist
+    definition: The per-team presence-and-moments relay the hosted Team Kitty product runs, one container per team. Its client
+      side was removed from open-core (#6164); the code lives in the separate event-router repository.
+    status: deprecated
+    avoid:
+      - event server
+      - sync server
+    see_also:
+      - term:spk-internal-glossary/moment
+      - term:spk-internal-glossary/team-kitty
+  - id: moment
+    name: moment
+    definition: One content-agnostic, bounded status event published to a Zeitgeist relay. Retired with the hosted surfaces.
+    status: deprecated
+    avoid:
+      - sync event
+    see_also:
+      - term:spk-internal-glossary/zeitgeist
