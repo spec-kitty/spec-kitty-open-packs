@@ -244,6 +244,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **The charter pin follows charter releases on its own** (#253, epic #287). A daily
+  `charter-track.yml` lists the charter's releases and checks the newest `service-v*` release or
+  pre-release that is newer than `charter.lock.yaml`. It runs the required check's own jobs with that
+  release's jar, checked against its `.sha256` asset, and with `commit` set to the tag's commit. From
+  `main` only, a green run opens one bump pull request with the re-derived manifests, digests and pack
+  pages; a red run opens one `charter:release-red` issue that names the failing jobs' errors. On
+  demand (a dispatch with `track: ref` and `charter_ref`, default `main`, or the `charter:head` label
+  on a pull request), the same checks, the round trip included, run against charter source and only
+  report. `validate-packs.yml` takes the charter target as `workflow_call` inputs, and
+  `scripts/ci/charter_pin.py` resolves and applies one. This replaces charter's `open-packs-drift.yml`.
+
 - **The glossary contexts carry core's docs/context terminology, and "Op" is defined** (#221, #234;
   epic #288). Core's `docs/context/` pages (at core `01e577d`) defined about 290 terms that no
   shipped glossary held. Each of the 297 source terms now has a recorded verdict and reason in

@@ -2,7 +2,7 @@
 title: Contributing to Spec Kitty Open Packs
 description: How to propose, author and submit Charter Packs and docs here, where charter logic lives, and the required check on main.
 doc_status: wip
-updated: '2026-11-16'
+updated: '2026-11-18'
 related:
 - architecture/adr/2026-11-01-1-merge-queue-readiness-and-pr-pause-ci
 - guides/author-a-charter-pack
@@ -90,6 +90,12 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
   - the vocabulary guard;
   - the generated-pack-page drift check;
   - the tooling tests.
+- **`Charter track`** (`.github/workflows/charter-track.yml`, #253) follows the charter: daily, it
+  checks the newest charter service release and, from `main`, opens one bump pull request when the
+  packs pass against it, or one `charter:release-red` issue when they do not. Dispatched with
+  `track: ref`, or by the `charter:head` label on a pull request, it checks the packs against
+  unreleased charter (`main` by default) and only reports. It is not a required check; see
+  [Validate a pack](validate-a-pack.md#following-charter-releases).
 - **`Docs site`** builds the docsite. It runs only when docs, site or pack files change, so it
   cannot be required.
 
