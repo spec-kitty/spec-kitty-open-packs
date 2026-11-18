@@ -625,7 +625,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     authoring guide, the artefact reference and pack-authoring's `doctrine-instruction-voice`
     styleguide ("State the rule, not its strictness") point to it.
   - The field stays: at charter `050d780` the directive schema requires it. No default value
-    changes (ADR 2026-11-18-1, Proposed).
+    changes (ADR 2026-11-18-1, Accepted).
   - Level prose is removed from directive bodies: DIRECTIVE_051 (its scope sentence and its
     level-only fifth integrity rule; the evidence rules stay), 052, 049,
     `RECONCILE_CHANGE_SCOPE_TENSIONS`, `CLOUD_SESSION_ORCHESTRATION`, QA_002,
