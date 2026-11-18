@@ -1,0 +1,73 @@
+work_packages:
+  - id: WP01
+    title: "Foundation glossary: consumer terms, the Op term and the authoring-source header"
+    dependencies: []
+    owned_files:
+      - "packs/foundation/glossaries/spec-kitty-core.glossary.yaml"
+    requirement_refs: [FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, NFR-002, NFR-003, C-001, C-002, SC-001, SC-002, SC-003]
+    plan_concern_refs: [IC-01, IC-02]
+    subtasks: [T001, T002, T003, T004]
+    prompt_file: "tasks/WP01-foundation-glossary.md"
+    agent_profile: curator-carla
+    role: implementer
+    agent: claude
+    model: opus
+
+  - id: WP02
+    title: "Internal glossary: house terms"
+    dependencies: [WP01]
+    owned_files:
+      - "packs/internal/glossaries/spk-internal-glossary.glossary.yaml"
+    requirement_refs: [FR-002, FR-004, NFR-002, NFR-003, SC-002]
+    plan_concern_refs: [IC-03]
+    subtasks: [T005, T006]
+    prompt_file: "tasks/WP02-internal-glossary.md"
+    agent_profile: curator-carla
+    role: implementer
+    agent: claude
+    model: opus
+
+  - id: WP03
+    title: "Versions, derived outputs, changelog and the glossary content test"
+    dependencies: [WP04]
+    owned_files:
+      - "packs/*/pack.yaml"
+      - "packs/*/pack-manifest.yaml"
+      - "packs/*.source.yaml"
+      - "docs/packs/*.md"
+      - "docs/changelog/CHANGELOG.md"
+      - "tests/ci/test_glossary_content.py"
+    requirement_refs: [FR-008, FR-009, FR-010, FR-011, NFR-001, C-003, C-004, C-005, C-006, SC-004]
+    plan_concern_refs: [IC-04]
+    subtasks: [T007, T008, T009, T010, T011]
+    prompt_file: "tasks/WP03-versions-derived-changelog-test.md"
+    agent_profile: python-pedro
+    role: implementer
+    agent: claude
+    model: opus
+
+  - id: WP04
+    title: "Operator wording in pack prose (#139)"
+    dependencies: [WP02]
+    owned_files:
+      - "packs/foundation/tactics/stopping-conditions.tactic.yaml"
+      - "packs/foundation/tactics/communication/glossary-curation-interview.tactic.yaml"
+      - "packs/foundation/missions/software-dev/steps/charter.prompt.md"
+      - "packs/foundation/procedures/example-mapping-workshop.procedure.yaml"
+      - "packs/architecture/procedures/event-storming-discovery.procedure.yaml"
+      - "packs/architecture/tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml"
+      - "packs/writing/styleguides/writing/kitty-glossary-writing.styleguide.yaml"
+      - "packs/writing/styleguides/writing/README.md"
+      - "packs/writing/toolguides/contextive.guide.md"
+      - "packs/writing/tactic.graph.yaml"
+      - "packs/writing/procedures/glossary-maintenance-workflow.procedure.yaml"
+      - "packs/planning-analysis/agent_profiles/retrospective-facilitator.agent.yaml"
+      - "packs/internal/procedures/*.procedure.yaml"
+    requirement_refs: [FR-012, SC-005]
+    plan_concern_refs: [IC-05]
+    subtasks: [T012, T013]
+    prompt_file: "tasks/WP04-operator-wording.md"
+    agent_profile: curator-carla
+    role: implementer
+    agent: claude
+    model: opus

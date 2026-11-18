@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "mission_slug": "glossary-docs-context-terms-01M7PN2S",
+  "mission_id": "01M7PN2SP2YV6QJTYJSE2EDBJN",
+  "mission_branch": "issue-221-234-glossary-content",
+  "target_branch": "issue-221-234-glossary-content",
+  "lanes": [
+    {
+      "lane_id": "lane-planning",
+      "wp_ids": [
+        "WP01",
+        "WP02",
+        "WP04",
+        "WP03"
+      ],
+      "write_scope": [
+        "docs/changelog/CHANGELOG.md",
+        "docs/packs/*.md",
+        "packs/*.source.yaml",
+        "packs/*/pack-manifest.yaml",
+        "packs/*/pack.yaml",
+        "packs/architecture/procedures/event-storming-discovery.procedure.yaml",
+        "packs/architecture/tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml",
+        "packs/foundation/glossaries/spec-kitty-core.glossary.yaml",
+        "packs/foundation/missions/software-dev/steps/charter.prompt.md",
+        "packs/foundation/procedures/example-mapping-workshop.procedure.yaml",
+        "packs/foundation/tactics/communication/glossary-curation-interview.tactic.yaml",
+        "packs/foundation/tactics/stopping-conditions.tactic.yaml",
+        "packs/internal/glossaries/spk-internal-glossary.glossary.yaml",
+        "packs/internal/procedures/*.procedure.yaml",
+        "packs/planning-analysis/agent_profiles/retrospective-facilitator.agent.yaml",
+        "packs/writing/procedures/glossary-maintenance-workflow.procedure.yaml",
+        "packs/writing/styleguides/writing/README.md",
+        "packs/writing/styleguides/writing/kitty-glossary-writing.styleguide.yaml",
+        "packs/writing/tactic.graph.yaml",
+        "packs/writing/toolguides/contextive.guide.md",
+        "tests/ci/test_glossary_content.py"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    }
+  ],
+  "computed_at": "2026-11-18T06:41:26.110662+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "b66d527a66ef48bb7c5ff4edf6b365fd4dd11b3b"
+}
