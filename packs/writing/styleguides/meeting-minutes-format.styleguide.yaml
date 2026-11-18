@@ -80,7 +80,7 @@ patterns:
       and the agent asks the user which one to use before agenda resolution or extraction (see
       meeting-minutes-pipeline, step "Select minutes format"). Format 1 — DECISION MINUTES — is the executive
       record for decision- and action-oriented meetings (Attendance / Minutes table / Action Items; action
-      attribution is a hard gate). Format 2 — DISCUSSION NOTES — is a stand-alone briefing for
+      attribution is checked). Format 2 — DISCUSSION NOTES — is a stand-alone briefing for
       discussion-oriented meetings (Attendance / Topics Discussed / optional Action Items). The shared
       principles below (title suffix, em-dash, stand-alone readability, no invented content) apply to both;
       the format-specific principles are labelled "Decision minutes:" or "Discussion notes:".

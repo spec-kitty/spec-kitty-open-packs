@@ -143,7 +143,7 @@ steps:
       candidates:
       - DIRECTIVE_003
   - id: supply-chain-check
-    description: 'Surface install-time and dependency supply-chain risk, per DIRECTIVE_051 and the supply-chain-install-safety tactic, for any dependency the plan introduces or upgrades. Advisory: visibility and evidence are required, but this step does not gate the transition.'
+    description: 'Surface install-time and dependency supply-chain risk, per DIRECTIVE_051 and the supply-chain-install-safety tactic, for any dependency the plan introduces or upgrades. Visibility and evidence are required: an unexamined default is a gap, not a pass.'
     delegates_to:
       kind: tactic
       candidates:

@@ -255,7 +255,7 @@ If the mission is not a bulk edit, skip this step.
 Apply this section whenever the plan adds, upgrades, or removes a dependency, in any ecosystem (npm/yarn/pnpm, pip/uv, Maven/Gradle, etc.).
 
 - **Security checks**: Reference `DIRECTIVE_051` and the `supply-chain-install-safety` tactic. Planning output (Technical Context and/or `research.md`) must surface a result for every control the directive names for any dependency decision - this mirrors the `supply-chain-security-check` substep of the `plan` step. Use the matching ecosystem toolguide for the exact commands.
-- **Advisory posture**: This is advisory in v1 - it does not add a new blocking gate to the Commit Boundary gates above - but an unexamined default is a gap in the plan, not a pass. Silence is not compliance.
+- **Evidence**: an unexamined default is a gap in the plan, not a pass. Silence is not compliance.
 - **Adversarial evidence (mandatory for plan/research)**: When a security-impacting dependency decision is made, run (or explicitly document deferral of) an adversarial-squad challenge pass before claiming plan readiness, per the `adversarial-squad-deployment` procedure. Record each contested finding's disposition in `research.md` per that procedure's findings-disposition contract (load it with `spec-kitty charter context --include procedure:adversarial-squad-deployment`). No contested finding may be silently dropped.
 
 ## Outline
