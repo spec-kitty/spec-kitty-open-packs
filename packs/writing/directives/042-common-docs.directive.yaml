@@ -5,7 +5,7 @@ intent: >
   Documentation is governed, single-source-of-truth content, not a wiki. Every
   documentation file lives under the single Common Docs root, declares its own
   lifecycle metadata in in-file frontmatter, and is curated under a delete-stale
-  policy. This directive binds the conventions decided in the Common Docs
+  policy. This directive carries the conventions decided in the Common Docs
   reconciliation ADR (2026-06-27) so they are enforced by live checks rather than
   remembered by authors.
 enforcement: required

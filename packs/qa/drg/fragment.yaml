@@ -6,7 +6,7 @@
 nodes:
 - id: QA_001
   kind: directives
-  title: "QA Traceability Mandatory"
+  title: "QA Requirement Traceability"
   body_path: directives/qa-001-traceability-mandatory.directive.yaml
 - id: QA_002
   kind: directives

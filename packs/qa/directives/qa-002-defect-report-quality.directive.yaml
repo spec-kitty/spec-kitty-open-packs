@@ -15,8 +15,8 @@ validation_criteria:
   - "Seven fields are mandatory on every defect report, each present as its own field, never
     combined: repro steps, expected result, actual result, environment, severity, priority,
     attached evidence."
-  - "A report missing any one of the seven is judged incomplete. This is not a recommendation —
-    every one of the seven is mandatory, with no partial-credit reading."
+  - "A report missing any one of the seven is judged incomplete: every one of
+    the seven counts, with no partial-credit reading."
   - "Severity and priority are set independently: neither is derived from, defaulted from, or
     substituted for the other. The two may legitimately disagree — a cosmetic-severity defect can
     carry the highest priority for a launch-blocking business reason — and disagreement between

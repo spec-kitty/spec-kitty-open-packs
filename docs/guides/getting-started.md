@@ -85,7 +85,7 @@ nothing is active yet.
 
 ## Step 4 — Activate one rule
 
-Turn on a single directive — `QA_001`, "QA Traceability Mandatory":
+Turn on a single directive — `QA_001`, "QA Requirement Traceability":
 
 ```bash
 spec-kitty charter activate directive QA_001

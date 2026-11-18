@@ -27,7 +27,7 @@ initialization-declaration: >
 
 directive-references:
   - code: QA_001
-    name: QA Traceability Mandatory
+    name: QA Requirement Traceability
     rationale: >
       This profile authors and owns the FR/NFR/C requirement register the
       traceability condition is measured against.
