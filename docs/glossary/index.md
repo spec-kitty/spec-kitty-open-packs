@@ -2,7 +2,7 @@
 title: Glossary
 description: "Canonical Charter vocabulary used in these docs, aligned with the Spec Kitty core glossary."
 doc_status: draft
-updated: '2026-11-11'
+updated: '2026-11-18'
 related:
 - architecture/overview
 - artefacts
@@ -25,6 +25,7 @@ repository follows the charter, as its `AGENTS.md` says; otherwise core wins.
 - **Compound pack** — A pack that depends on other packs (`depends_on`). `built-in` itself is one: a distribution pack aggregating `foundation` and `writing`. Every org pack here depends on the packs it references (for example `foundation` or `testing`); the charter service reads it, the as-is CLI rejects it.
 - **Activation preset** — A named activation bundle a pack ships under `presets/<name>.yaml`. The `built-in` distribution pack ships `default` and `minimal`.
 - **Governing preset** — An activation preset with at least one `must_have: true` item. Its must-have items are the required floor of every project whose closure holds the pack. It replaces the retired org charter (`org-charter.yaml`); see [Enforce presets on an organization's projects](https://github.com/spec-kitty/spec-kitty-charter/blob/main/docs/guides/enforce-org-presets.md).
+- **Enforcement level** — How strictly an in-force directive binds, ranked `required` > `lenient-adherence` > `advisory`: under `required`, a deviation outside the directive's own `explicit_allowances` is a defect; a `lenient-adherence` directive must also list at least one such allowance; and `advisory` is guidance an agent weighs. A directive's `enforcement` field is the pack-supplied default; which level applies in a project is the adopting charter's decision ([spec-kitty#5207](https://github.com/spec-kitty/spec-kitty/issues/5207)). Not the same as a governing preset's `must_have` items or `policy.yaml` levels, which decide which artefacts are in force. Defined once in `term:spec-kitty-core/enforcement-level`.
 - **Charter Offering** — Everything offered to a project: the built-in distribution (`built-in`, `foundation`, `writing`), each configured org pack, and the project layer.
 - **Active Charter** — What a project has activated from its offering: its `activated_<kind>` keys and mission-type activations. Served by `ActiveCharterService`.
 - **Charter context** — The action-scoped guidance the charter renders for a Mission step (`spec-kitty charter context --action <action>`).
