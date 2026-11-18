@@ -9,7 +9,7 @@ related:
 ---
 # A directive's enforcement level is a pack-supplied default
 
-**Status:** Proposed (the operator accepts it by merging #233's pull request)
+**Status:** Accepted (operator, 2026-11-18, at the landing of #303)
 
 **Date:** 2026-11-18
 
