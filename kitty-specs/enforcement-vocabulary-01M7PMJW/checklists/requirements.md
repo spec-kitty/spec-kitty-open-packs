@@ -37,4 +37,4 @@
 ## Notes
 
 - This is a content Mission over pack files: naming the files a rule lives in (glossary context, directive ids, the vocabulary guard) is the scope, not an implementation choice.
-- Q1 to Q3 are resolved on the runner's recommendations and were sent to the operator on 2026-11-18. If the operator overrules one, update the spec and re-run this checklist.
+- Q1 to Q3 were resolved as A, A and A, confirmed by the operator via the orchestrator on 2026-11-18.

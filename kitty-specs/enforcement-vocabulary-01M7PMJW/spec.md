@@ -108,8 +108,8 @@ A future pull request that adds "This directive is advisory in v1" to a pack fai
 |----|-------|------------|----------|----------|--------|
 | C-001 | Pinned contract | The `enforcement:` field stays: at charter `050d780` it is a required property of the directive schema, with the enum `required`, `lenient-adherence`, `advisory`. | Technical | High | Open |
 | C-002 | Charter alignment | The work aligns to the charter, not to core; core compatibility does not block or reshape it (AGENTS.md). | Technical | High | Open |
-| C-003 | No default-level changes | Directive `enforcement:` values are not changed in this mission (operator question Q2; recommendation A). | Business | High | Open |
-| C-004 | Identity stable | No artefact id or file name changes; QA_001 is retitled only (operator question Q3; recommendation A). | Technical | Medium | Open |
+| C-003 | No default-level changes | Directive `enforcement:` values are not changed in this mission (operator ruling Q2: A). | Business | High | Open |
+| C-004 | Identity stable | No artefact id or file name changes; QA_001 is retitled only (operator ruling Q3: A). | Technical | Medium | Open |
 
 ### Key Entities
 
@@ -120,9 +120,9 @@ A future pull request that adds "This directive is advisory in v1" to a pack fai
 
 ## Assumptions
 
-- Q1 (which prose counts): recommendation A. Statements about how strictly a directive binds are removed; descriptions of a concrete check a procedure or tool performs stay. Sent to the operator 2026-11-18; revisit if overruled.
-- Q2 (default values): recommendation A, values unchanged. Sent to the operator.
-- Q3 (QA_001 title): recommendation A, retitle only. Sent to the operator.
+- Q1 (which prose counts): recommendation A. Statements about how strictly a directive binds are removed; descriptions of a concrete check a procedure or tool performs stay. Confirmed by the operator (via the orchestrator) on 2026-11-18.
+- Q2 (default values): recommendation A, values unchanged. Confirmed by the operator on 2026-11-18.
+- Q3 (QA_001 title): recommendation A, retitle only. Confirmed by the operator on 2026-11-18.
 - #266 and #273 have no open PR on 2026-11-18, so no rebase onto them is needed now. A rebase onto `main` restamps the changelog and digests.
 
 ## Success Criteria *(mandatory)*
