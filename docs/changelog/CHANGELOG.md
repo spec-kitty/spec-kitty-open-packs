@@ -253,7 +253,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   demand (a dispatch with `track: ref` and `charter_ref`, default `main`, or the `charter:head` label
   on a pull request), the same checks, the round trip included, run against charter source and only
   report. `validate-packs.yml` takes the charter target as `workflow_call` inputs, and
-  `scripts/ci/charter_pin.py` resolves and applies one. This replaces charter's `open-packs-drift.yml`.
+  `scripts/ci/charter_pin.py` resolves and applies one. While a bump pull request is open, the track
+  does not check its release again, and it closes a red issue once the lock passes that release. This
+  replaces charter's `open-packs-drift.yml`, which spec-kitty/spec-kitty-charter#604 retires.
 
 - **The glossary contexts carry core's docs/context terminology, and "Op" is defined** (#221, #234;
   epic #288). Core's `docs/context/` pages (at core `01e577d`) defined about 290 terms that no
