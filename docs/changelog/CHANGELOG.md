@@ -645,9 +645,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     phrase wrapped across two lines. A claim made with a single bare word is left to review.
   - Versions (DIRECTIVE_018): `pack-authoring` 1.3.0 (the styleguide principle); `qa` 4.0.1,
     `internal` 4.0.1 and `cave-kitty` 2.2.1 (wording; a registered pack re-sent at the same
-    version answers `409`). The built-in members `foundation` and `writing` are never registered
-    and stay at their unreleased 2.0.0, so the exact `==2.0.0` pins on them (in `built-in` and five
-    other packs) do not move; `built-in`'s own tree is unchanged.
+    version answers `409`). The built-in members `foundation` and `writing` are never registered;
+    their changes ride the batch's shared bump to 2.1.0 (with `built-in` 4.1.0), so the exact
+    `==2.1.0` pins on them (in `built-in` and five other packs) do not move again.
   - **Upgrade:** none. A project that relied on a directive's prose for its level reads its
     charter, or the field.
 - **The direction docs state who owns what** (operator ruling, 2026-11-16). Packs and their
