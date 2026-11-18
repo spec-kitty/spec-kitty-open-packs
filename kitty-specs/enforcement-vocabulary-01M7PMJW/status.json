@@ -1,7 +1,7 @@
 {
-  "event_count": 28,
-  "last_event_id": "01M7PP6KC4QE71SQMNEREANXTE",
-  "materialized_at": "2026-11-18T06:41:10.532122+00:00",
+  "event_count": 30,
+  "last_event_id": "01M7PP6QHPG5QWDVARC5E4FM7K",
+  "materialized_at": "2026-11-18T06:41:14.802566+00:00",
   "mission_number": "",
   "mission_slug": "enforcement-vocabulary-01M7PMJW",
   "mission_type": "software-dev",
@@ -13,21 +13,21 @@
     "claimed": 0,
     "done": 0,
     "for_review": 3,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 2
+    "planned": 1
   },
   "work_packages": {
     "WP01": {
-      "actor": "user",
+      "actor": "claude",
       "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude",
-      "lane": "planned",
-      "last_event_id": "01M7PNZX8GEDDCDH72QBVMSCEY",
-      "last_transition_at": "2026-11-18T06:37:31.280209+00:00",
+      "lane": "in_progress",
+      "last_event_id": "01M7PP6QHPG5QWDVARC5E4FM7K",
+      "last_transition_at": "2026-11-18T06:41:14.802566+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Term, docs, styleguide principle, ADR consistent; guard 0 findings",
