@@ -251,9 +251,9 @@ The service accepts these, at composition and at registration, so `--cross-pack`
 the service job both read it, so the schemas and the service always come from the same charter:
 
 ```yaml
-commit: f4acac975522e4bf8d423d552672f9d1d78e8186   # 40 lowercase hex characters; never a branch or a tag
+commit: ebce9083cc132c4cc7f7602f8b8681b933dac98a   # 40 lowercase hex characters; never a branch or a tag
 release_tag: service-v0.1.0-rc.1                   # the service-vX.Y.Z[-pre] release of `commit`; empty for a main pin
-jar_sha256: <64 lowercase hex characters>           # the release jar's SHA-256; required with release_tag
+jar_sha256: 596a7861b8efbf2756492b6462c6baa3f8a682eee14190e1cdf047edaa941714  # the release jar's SHA-256; required with release_tag
 ```
 
 Both scripts fail closed on anything but a full commit. The pin names a charter release or pre-release
