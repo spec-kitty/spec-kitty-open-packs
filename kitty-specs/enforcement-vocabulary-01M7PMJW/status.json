@@ -136,7 +136,8 @@
         "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)",
         "Re-review fix applied",
         "Identity hop for independent review",
-        "Re-submitted with implementer identity claude::curator-carla"
+        "Re-submitted with implementer identity claude::curator-carla",
+        "Independent review passed. T013-T016 applied with substance kept (evidence rules, gap-not-pass); T017 grep leaves only QA format versions; software-dev ASCII test OK; residual 'mandatory'/'binding' hits are other-sense or the Q3-sanctioned QA_001 slug. Non-blocking nit: minutes-mahad 'The mandatory output is that chat Markdown' (agent-output sense). Gates: tests/{release,vocabulary,ci,docs,assets} OK; check_vocabulary 0 findings; validate-packs (+cross-pack) clean except stale manifests (WP05)."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
