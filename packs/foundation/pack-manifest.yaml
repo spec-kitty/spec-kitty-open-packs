@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: b901f4039bb161dcd2a323e8528e5282a5a6db074a366e8eeb04faaba8e9d3f4
+manifest_hash: d7f2e2e7c87139838d2eab7e5f01e09f46b187a48c2b28b58850ab37be286953
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -152,7 +152,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: 5d2c79daab4c67dfe88b8d4a15c06f554df3a2ce261bf1727ebdbb905a2d8803
+  content_hash: 1a24866a03e7627e1aea7ba3834bbcd41a2273347dce4033cc4273c359b1a30d
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
