@@ -1,7 +1,7 @@
 {
-  "event_count": 16,
-  "last_event_id": "01M7PNQ9F2KFVZ1NAE4EWR3089",
-  "materialized_at": "2026-11-18T06:32:48.866553+00:00",
+  "event_count": 18,
+  "last_event_id": "01M7PNQHFJ7ZTHZ3HG99BPY119",
+  "materialized_at": "2026-11-18T06:32:57.070388+00:00",
   "mission_number": "",
   "mission_slug": "enforcement-vocabulary-01M7PMJW",
   "mission_type": "software-dev",
@@ -13,17 +13,26 @@
     "claimed": 0,
     "done": 0,
     "for_review": 3,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 2
+    "planned": 1
   },
   "work_packages": {
     "WP01": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M7PN223V9T95XCX5MKH39QH5",
-      "last_transition_at": "2026-11-18T06:21:13.211524+00:00"
+      "implementer_of_record": "claude",
+      "lane": "in_progress",
+      "last_event_id": "01M7PNQHFJ7ZTHZ3HG99BPY119",
+      "last_transition_at": "2026-11-18T06:32:57.070388+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 6924,
+      "shell_pid_created_at": "1794983573.99"
     },
     "WP02": {
       "actor": "claude",
