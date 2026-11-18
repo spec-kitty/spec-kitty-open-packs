@@ -59,6 +59,9 @@
       "last_event_id": "01M7PNMR23DBTZF9KZTPKXEJ4Q",
       "last_transition_at": "2026-11-18T06:31:25.507855+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Directive sweep done; manifests are restamped in WP05"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 5234,
