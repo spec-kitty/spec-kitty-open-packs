@@ -68,7 +68,9 @@ other valid shape. At charter `050d780`, `contracts/packs/schemas/directive.sche
   ("advisory in v1", "this is advisory guidance", "binding charter content" and similar, even
   when wrapped across lines). A claim made with a single bare word is left to review, since
   words such as "mandatory" and "binding" have legitimate senses.
-- No default value changed in the migration.
+- No default value changed in the migration. DIRECTIVE_028 stays `required`: its rules say
+  "prefer", which is the strictness of the rule's wording, not a claim about its level; the
+  adopting charter can lower its level.
 - This vocabulary is separate from activation presets' `must_have` items and `policy.yaml`
   levels, which decide *which* artefacts are in force (#242, #201).
 

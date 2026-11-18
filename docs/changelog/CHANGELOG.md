@@ -636,14 +636,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     supply-chain substep (all drop "advisory in v1"); the `supply-chain-install-safety` tactic;
     graph edge reasons in foundation, internal and writing; the cave-dev step prompts; and
     wording in the cave-kitty README and styleguide, writing's minutes, glossary-writing, comms and
-    scaffold artefacts, and pack-authoring's onboarding profile and procedure.
+    scaffold artefacts, pack-authoring's onboarding profile and procedure, internal's
+    `cloud-session-dispatch` procedure, and the QA_001 title in qa's graph fragment and three
+    profiles. The adversarial-squad term and procedure stop calling the squad "advisory" (a
+    procedure, not a directive, but the word now names a level).
   - `check_vocabulary.py` gains a rule that refuses self-binding phrasings ("advisory in v1",
     "this is advisory guidance", "binding charter content", ...) in every pack file, including a
     phrase wrapped across two lines. A claim made with a single bare word is left to review.
   - Versions (DIRECTIVE_018): `pack-authoring` 1.3.0 (the styleguide principle); `qa` 4.0.1,
     `internal` 4.0.1 and `cave-kitty` 2.2.1 (wording; a registered pack re-sent at the same
-    version answers `409`). `foundation`, `writing` and `built-in` fold into their unreleased
-    2.0.0, 2.0.0 and 4.0.0, so no exact pin moves.
+    version answers `409`). The built-in members `foundation` and `writing` are never registered
+    and stay at their unreleased 2.0.0, so the exact `==2.0.0` pins on them (in `built-in` and five
+    other packs) do not move; `built-in`'s own tree is unchanged.
   - **Upgrade:** none. A project that relied on a directive's prose for its level reads its
     charter, or the field.
 - **The direction docs state who owns what** (operator ruling, 2026-11-16). Packs and their
