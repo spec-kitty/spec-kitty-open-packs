@@ -161,8 +161,9 @@ def resolve_ref(ref: str) -> str:
 
 # ------------------------------------------------------------------------------------------------ apply
 
-def write_lock(commit: str, release_tag: str, jar_sha256: str, path: Path | None = None) -> None:
-    path = path or charter_lock.LOCK_FILE
+def write_lock(commit: str, release_tag: str, jar_sha256: str) -> None:
+    """Set the three pin values in ``charter.lock.yaml``, comments kept. The new text is checked with the lock's own
+    rules before it is written, so a refused pin leaves the lock as it was."""
     if not charter_lock.COMMIT.fullmatch(commit):
         raise PinError(f"commit must be 40 lowercase hex characters, got {commit!r}")
     if release_tag and not charter_lock.RELEASE_TAG.fullmatch(release_tag):
@@ -170,7 +171,8 @@ def write_lock(commit: str, release_tag: str, jar_sha256: str, path: Path | None
     if jar_sha256 and not charter_lock.SHA256.fullmatch(jar_sha256):
         raise PinError(f"jar_sha256 must be empty or 64 lowercase hex characters, got {jar_sha256!r}")
     values = {"commit": commit, "release_tag": release_tag, "jar_sha256": jar_sha256}
-    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    lock_file = charter_lock.LOCK_FILE
+    lines = lock_file.read_text(encoding="utf-8").splitlines(keepends=True)
     seen: set[str] = set()
     for index, line in enumerate(lines):
         match = re.match(r"(commit|release_tag|jar_sha256):", line)
@@ -179,20 +181,14 @@ def write_lock(commit: str, release_tag: str, jar_sha256: str, path: Path | None
             seen.add(key)
             lines[index] = f"{key}: {values[key] or EMPTY}\n"
     if seen != set(values):
-        raise PinError(f"{path} lacks {', '.join(sorted(set(values) - seen))}; cannot move the pin")
-    # Written beside the lock and read back with the lock's own rules first, so a refused pin leaves the lock alone.
-    candidate = path.with_name(path.name + ".candidate")
-    candidate.write_text("".join(lines), encoding="utf-8")
+        raise PinError(f"the lock lacks {', '.join(sorted(set(values) - seen))}; cannot move the pin")
+    text = "".join(lines)
     try:
-        if charter_lock.read(candidate) != values:
-            raise PinError(f"{path} would not read back as the pin asked for")
+        if charter_lock.check(charter_lock.parse(text)) != values:
+            raise PinError("the lock would not read back as the pin asked for")
     except charter_lock.LockError as error:
-        candidate.unlink()
-        raise PinError(f"{path}: {error}") from error
-    except PinError:
-        candidate.unlink()
-        raise
-    os.replace(candidate, path)
+        raise PinError(f"the lock: {error}") from error
+    lock_file.write_text(text, encoding="utf-8")
 
 
 def _run(*command: str) -> None:

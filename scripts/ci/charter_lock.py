@@ -53,7 +53,11 @@ def read(path: Path | None = None) -> dict[str, str]:
         text = path.read_text(encoding="utf-8")
     except OSError as error:
         raise LockError(f"cannot read {path}: {error}") from error
-    lock = parse(text)
+    return check(parse(text))
+
+
+def check(lock: dict[str, str]) -> dict[str, str]:
+    """The checked pin of parsed ``key: value`` pairs: all three keys present as strings (empty when unset)."""
     commit = lock.get("commit", "")
     if not COMMIT.fullmatch(commit):
         raise LockError(f"commit must be 40 lowercase hex characters (never a branch or a tag), got {commit!r}")

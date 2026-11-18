@@ -91,13 +91,16 @@ class WriteLock(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.tmp)
         self.lock = self.tmp / "charter.lock.yaml"
         shutil.copyfile(ROOT / "charter.lock.yaml", self.lock)
+        patcher = mock.patch.object(charter_lock, "LOCK_FILE", self.lock)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_a_release_pin_and_a_main_pin_read_back_and_keep_the_comments(self) -> None:
         comments = [line for line in self.lock.read_text(encoding="utf-8").splitlines() if line.startswith("#")]
-        charter_pin.write_lock(COMMIT, "service-v9.0.0-rc.1", DIGEST, self.lock)
+        charter_pin.write_lock(COMMIT, "service-v9.0.0-rc.1", DIGEST)
         self.assertEqual(charter_lock.read(self.lock),
                          {"commit": COMMIT, "release_tag": "service-v9.0.0-rc.1", "jar_sha256": DIGEST})
-        charter_pin.write_lock(COMMIT, "", "", self.lock)
+        charter_pin.write_lock(COMMIT, "", "")
         self.assertEqual(charter_lock.read(self.lock), {"commit": COMMIT, "release_tag": "", "jar_sha256": ""})
         kept = [line for line in self.lock.read_text(encoding="utf-8").splitlines() if line.startswith("#")]
         self.assertEqual(kept, comments)
@@ -107,7 +110,7 @@ class WriteLock(unittest.TestCase):
         for commit, tag, digest in (("main", "", ""), (COMMIT, "v1.0.0", DIGEST), (COMMIT, "service-v1.0.0", ""),
                                     (COMMIT, "service-v1.0.0", "x" * 64)):
             with self.subTest(commit=commit, tag=tag, digest=digest), self.assertRaises(charter_pin.PinError):
-                charter_pin.write_lock(commit, tag, digest, self.lock)
+                charter_pin.write_lock(commit, tag, digest)
         self.assertEqual(self.lock.read_text(encoding="utf-8"), before)
 
 
