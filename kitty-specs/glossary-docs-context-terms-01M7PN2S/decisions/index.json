@@ -1,0 +1,102 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-18T06:24:39.691470Z",
+      "decision_id": "01M7PN8BRB951MCEC2M5DXPFHP",
+      "final_answer": "one context (spec-kitty-core): the dispatch brief (operator-approved scope) names the foundation glossary context; a single context also needs no cross-context uniqueness story (issue #221 hard part 2).",
+      "input_key": "context_split",
+      "mission_id": "01M7PN2SP2YV6QJTYJSE2EDBJN",
+      "mission_slug": "glossary-docs-context-terms-01M7PN2S",
+      "opened_by": "cli",
+      "options": [
+        "one context (spec-kitty-core)",
+        "one context per page",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "One flat foundation glossary context, or one glossary context per docs/context page?",
+      "rationale": null,
+      "resolved_at": "2026-11-18T06:24:49.615982Z",
+      "resolved_by": null,
+      "slot_key": "specify.shape.context-split",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-18T06:24:42.346216Z",
+      "decision_id": "01M7PN8EBAANW2PYHMVW7FXGZN",
+      "final_answer": "internal context: issue #221's binding constraint sends anything about core's own code, repo layout or team practice to the internal pack; spk-internal-glossary is not shipped to consumers.",
+      "input_key": "core_code_terms",
+      "mission_id": "01M7PN2SP2YV6QJTYJSE2EDBJN",
+      "mission_slug": "glossary-docs-context-terms-01M7PN2S",
+      "opened_by": "cli",
+      "options": [
+        "internal context",
+        "excluded",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Where do core code-level terms (class names, src/ paths, core tests, core issue labels) go?",
+      "rationale": null,
+      "resolved_at": "2026-11-18T06:24:52.089841Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.core-code-terms",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-18T06:24:44.805577Z",
+      "decision_id": "01M7PN8GR51G0YAS30CRRJ0NWP",
+      "final_answer": "excluded: they fail #221's consumer test (not Spec Kitty concepts) and are not house terms; recorded in the classification ledger and flagged in the PR for operator override.",
+      "input_key": "generic_tech_terms",
+      "mission_id": "01M7PN2SP2YV6QJTYJSE2EDBJN",
+      "mission_slug": "glossary-docs-context-terms-01M7PN2S",
+      "opened_by": "cli",
+      "options": [
+        "excluded",
+        "foundation",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Do generic technology terms (API, CLI, UI, Markdown, YAML, JSON, SHA256) join a glossary?",
+      "rationale": null,
+      "resolved_at": "2026-11-18T06:24:54.570259Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.generic-tech-terms",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-18T06:24:47.226972Z",
+      "decision_id": "01M7PN8K3TZZP603TE4CHA41ZA",
+      "final_answer": "minor bumps plus exact-pin followers: additive terms are non-breaking (DIRECTIVE_018); foundation 2.0.0->2.1.0 and internal 4.0.0->4.1.0, and every pack pinning foundation ==2.0.0 moves its pin and takes a minor bump, as #287 did.",
+      "input_key": "version_bump",
+      "mission_id": "01M7PN2SP2YV6QJTYJSE2EDBJN",
+      "mission_slug": "glossary-docs-context-terms-01M7PN2S",
+      "opened_by": "cli",
+      "options": [
+        "minor bumps plus exact-pin followers",
+        "no bump",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "How are the changed packs versioned under DIRECTIVE_018?",
+      "rationale": null,
+      "resolved_at": "2026-11-18T06:24:57.142916Z",
+      "resolved_by": null,
+      "slot_key": "specify.release.version-bump",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M7PN2SP2YV6QJTYJSE2EDBJN",
+  "version": 1
+}

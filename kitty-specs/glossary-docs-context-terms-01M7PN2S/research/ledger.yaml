@@ -1,0 +1,1864 @@
+source: spec-kitty/spec-kitty docs/context @ 01e577d
+rows:
+- page: charter.md
+  heading: charter
+  source_status: canonical
+  verdict: exists
+  id: charter
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Charter offering
+  source_status: canonical
+  verdict: exists
+  id: charter-offering
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Charter Pack
+  source_status: canonical
+  verdict: exists
+  id: charter-pack
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Contract Scenario
+  source_status: candidate
+  verdict: internal
+  id: contract-scenario
+  reason: the charter's own contract-test vocabulary
+- page: charter.md
+  heading: Activation preset
+  source_status: canonical
+  verdict: exists
+  id: activation-preset
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Active charter
+  source_status: canonical
+  verdict: exists
+  id: active-charter
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Activation ledger
+  source_status: canonical
+  verdict: exists
+  id: activation-ledger
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Exclusion
+  source_status: canonical
+  verdict: foundation
+  id: exclusion
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Effective deny
+  source_status: canonical
+  verdict: foundation
+  id: effective-deny
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Required floor
+  source_status: canonical
+  verdict: foundation
+  id: required-floor
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Project layer
+  source_status: canonical
+  verdict: exists
+  id: project-layer
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Charter Bundle
+  source_status: canonical
+  verdict: exists
+  id: charter-bundle
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Doctrine Domain
+  source_status: canonical
+  verdict: foundation
+  id: doctrine-domain
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Guideline
+  source_status: canonical
+  verdict: excluded
+  id: guideline
+  reason: core's doctrine precedence layer; the charter has no guideline artifact kind
+- page: charter.md
+  heading: Paradigm
+  source_status: canonical
+  verdict: foundation
+  id: paradigm
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Directive
+  source_status: canonical
+  verdict: exists
+  id: directive
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Tactic
+  source_status: canonical
+  verdict: exists
+  id: tactic
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Procedure
+  source_status: canonical
+  verdict: foundation
+  id: procedure
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Template Set
+  source_status: canonical
+  verdict: foundation
+  id: template-set
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Styleguide
+  source_status: canonical
+  verdict: exists
+  id: styleguide
+  reason: already a term of the foundation context
+  context: foundation
+- page: charter.md
+  heading: Toolguide
+  source_status: canonical
+  verdict: foundation
+  id: toolguide
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Schema (Doctrine Artifact)
+  source_status: canonical
+  verdict: foundation
+  id: schema
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Import Candidate
+  source_status: canonical
+  verdict: internal
+  id: import-candidate
+  reason: core's doctrine-curation record; no charter counterpart
+- page: charter.md
+  heading: Specification by Example (Paradigm)
+  source_status: canonical
+  verdict: foundation
+  id: specification-by-example
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Living Documentation Sync (Directive)
+  source_status: canonical
+  verdict: foundation
+  id: living-documentation-sync
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Usage Examples Sync (Tactic)
+  source_status: canonical
+  verdict: foundation
+  id: usage-examples-sync
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Example Mapping Workshop (Procedure)
+  source_status: canonical
+  verdict: foundation
+  id: example-mapping-workshop
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Charter-Mediated Selection
+  source_status: canonical
+  verdict: foundation
+  id: charter-mediated-selection
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Global Selection
+  source_status: canonical
+  verdict: foundation
+  id: global-selection
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Context-Scoped Selection
+  source_status: canonical
+  verdict: foundation
+  id: context-scoped-selection
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Activation Registry
+  source_status: canonical
+  verdict: foundation
+  id: activation-registry
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Activation Context
+  source_status: canonical
+  verdict: foundation
+  id: activation-context
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Trigger Registry
+  source_status: canonical
+  verdict: internal
+  id: trigger-registry
+  reason: core code symbol or module, not something a consumer meets
+- page: charter.md
+  heading: Charter Facade
+  source_status: canonical
+  verdict: internal
+  id: charter-facade
+  reason: core code symbol or module, not something a consumer meets
+- page: charter.md
+  heading: Mission-Type Profile
+  source_status: canonical
+  verdict: internal
+  id: mission-type-profile
+  reason: core's per-type governance profile file; no pack carries one
+- page: charter.md
+  heading: '`selected_<kind>` / `required_<kind>`'
+  source_status: canonical
+  verdict: foundation
+  id: selected-kind
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: '`activated_<kind>`'
+  source_status: canonical
+  verdict: foundation
+  id: activated-kind
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Three-layer DRG
+  source_status: canonical
+  verdict: foundation
+  id: three-layer-drg
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Tension — `in_tension_with` (DRG Relation)
+  source_status: deprecated
+  verdict: foundation
+  id: tension
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Reconciliation — `reconciles_tension` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: reconciliation
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Rejection — `rejects` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: rejection
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Hard Dependency — `requires` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: hard-dependency
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Soft Recommendation — `suggests` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: soft-recommendation
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Workflow Application — `applies` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: workflow-application
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Governance Scope — `scope` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: governance-scope
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Glossary Vocabulary — `vocabulary` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: glossary-vocabulary
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Template Instantiation — `instantiates` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: template-instantiation
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Supersession — `replaces` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: supersession
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Delegation — `delegates_to` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: delegation
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Lineage — `specializes_from` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: lineage
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Overlay Enhancement — `enhances` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: overlay-enhancement
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Overlay Override — `overrides` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: overlay-override
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Refinement — `refines` (DRG Relation)
+  source_status: canonical
+  verdict: foundation
+  id: refinement
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: Organization Tier
+  source_status: canonical
+  verdict: foundation
+  id: organization-tier
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: CharterScope
+  source_status: canonical
+  verdict: internal
+  id: charterscope
+  reason: core code symbol or module, not something a consumer meets
+- page: charter.md
+  heading: Workflow Sequence
+  source_status: canonical
+  verdict: internal
+  id: workflow-sequence
+  reason: core runtime's internal schema registry
+- page: charter.md
+  heading: Workflow ID
+  source_status: canonical
+  verdict: internal
+  id: workflow-id
+  reason: core runtime's internal schema registry key
+- page: charter.md
+  heading: Ratchet Baseline
+  source_status: canonical
+  verdict: internal
+  id: ratchet-baseline
+  reason: core's architectural test gates
+- page: charter.md
+  heading: Cat-7 Grandfathered Orphan
+  source_status: canonical
+  verdict: internal
+  id: cat-7-grandfathered-orphan
+  reason: core's architectural test gates
+- page: charter.md
+  heading: Symbol-level Dead Code
+  source_status: canonical
+  verdict: internal
+  id: symbol-level-dead-code
+  reason: core's architectural test gates
+- page: charter.md
+  heading: Catalog Miss
+  source_status: canonical
+  verdict: foundation
+  id: catalog-miss
+  reason: charter, activation and DRG vocabulary a project's charter and its packs use
+- page: charter.md
+  heading: '`__all__` Declaration Convention'
+  source_status: canonical
+  verdict: internal
+  id: all-declaration-convention
+  reason: core's Python module convention
+- page: configuration-project-structure.md
+  heading: '`.kittify/`'
+  source_status: canonical
+  verdict: foundation
+  id: kittify
+  reason: a directory or file every Spec Kitty project has
+- page: configuration-project-structure.md
+  heading: '`kitty-specs/`'
+  source_status: canonical
+  verdict: foundation
+  id: kitty-specs
+  reason: a directory or file every Spec Kitty project has
+- page: configuration-project-structure.md
+  heading: '`.worktrees/`'
+  source_status: canonical
+  verdict: foundation
+  id: worktrees
+  reason: a directory or file every Spec Kitty project has
+- page: configuration-project-structure.md
+  heading: '`glossary/`'
+  source_status: canonical
+  verdict: excluded
+  id: glossary
+  reason: names a directory the page says does not exist
+- page: configuration-project-structure.md
+  heading: Bootstrap (Candidate)
+  source_status: candidate
+  verdict: excluded
+  id: bootstrap
+  reason: a proposed flow, not shipped; the page says it is not a command
+- page: configuration-project-structure.md
+  heading: Project Charter
+  source_status: canonical
+  verdict: foundation
+  id: project-charter
+  reason: a directory or file every Spec Kitty project has
+- page: configuration-project-structure.md
+  heading: Charter Library
+  source_status: candidate
+  verdict: excluded
+  id: charter-library
+  reason: the page says the compiler writes no separate library
+- page: dossier.md
+  heading: Artifact
+  source_status: candidate
+  verdict: foundation
+  id: artifact
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Mission Dossier
+  source_status: candidate
+  verdict: foundation
+  id: mission-dossier
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: ArtifactRef
+  source_status: candidate
+  verdict: internal
+  id: artifactref
+  reason: core code symbol or module, not something a consumer meets
+- page: dossier.md
+  heading: Artifact Class
+  source_status: candidate
+  verdict: foundation
+  id: artifact-class
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Artifact Key
+  source_status: candidate
+  verdict: foundation
+  id: artifact-key
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Content Hash
+  source_status: candidate
+  verdict: foundation
+  id: content-hash
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Expected Artifact Manifest
+  source_status: candidate
+  verdict: foundation
+  id: expected-artifact-manifest
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Completeness Status
+  source_status: candidate
+  verdict: foundation
+  id: completeness-status
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Parity Hash
+  source_status: candidate
+  verdict: foundation
+  id: parity-hash
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Parity Baseline
+  source_status: candidate
+  verdict: foundation
+  id: parity-baseline
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Baseline Key
+  source_status: candidate
+  verdict: internal
+  id: baseline-key
+  reason: lists core's internal baseline fields
+- page: dossier.md
+  heading: Parity Drift
+  source_status: candidate
+  verdict: foundation
+  id: parity-drift
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Dossier Snapshot
+  source_status: candidate
+  verdict: foundation
+  id: dossier-snapshot
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Artifact Indexing
+  source_status: candidate
+  verdict: foundation
+  id: artifact-indexing
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: dossier.md
+  heading: Missing Detection
+  source_status: candidate
+  verdict: foundation
+  id: missing-detection
+  reason: what `spec-kitty reconcile` and the Mission dossier report to a project
+- page: execution.md
+  heading: Tool
+  source_status: canonical
+  verdict: foundation
+  id: tool
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Tool Surface
+  source_status: candidate
+  verdict: internal
+  id: tool-surface
+  reason: derived term of the tool-vs-agent naming record; installer internals
+- page: execution.md
+  heading: Tool-surface drift
+  source_status: candidate
+  verdict: exists
+  id: tool-surface-drift
+  reason: already a term of the foundation context
+  context: foundation
+- page: execution.md
+  heading: Pack skill
+  source_status: canonical
+  verdict: foundation
+  id: pack-skill
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Slash Command
+  source_status: canonical
+  verdict: foundation
+  id: slash-command
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Semantic Check
+  source_status: canonical
+  verdict: foundation
+  id: semantic-check
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Glossary Strictness
+  source_status: canonical
+  verdict: foundation
+  id: glossary-strictness
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Clarification Prompt
+  source_status: canonical
+  verdict: foundation
+  id: clarification-prompt
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Generation Boundary
+  source_status: canonical
+  verdict: foundation
+  id: generation-boundary
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Middleware Pipeline
+  source_status: candidate
+  verdict: internal
+  id: middleware-pipeline
+  reason: core's glossary runtime design
+- page: execution.md
+  heading: Checkpoint/Resume
+  source_status: candidate
+  verdict: internal
+  id: checkpoint-resume
+  reason: core's glossary runtime design
+- page: execution.md
+  heading: Seed File
+  source_status: candidate
+  verdict: excluded
+  id: seed-file
+  reason: the .kittify/glossaries seed is retiring in core (#5269); the pack yaml is the source
+- page: execution.md
+  heading: Collaboration Mode
+  source_status: candidate
+  verdict: foundation
+  id: collaboration-mode
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Interactive Mode
+  source_status: candidate
+  verdict: foundation
+  id: interactive-mode
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Hands-off with Review Mode
+  source_status: candidate
+  verdict: foundation
+  id: hands-off-with-review-mode
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Fully Delegated Mode
+  source_status: candidate
+  verdict: foundation
+  id: fully-delegated-mode
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: GovernanceContext
+  source_status: candidate
+  verdict: internal
+  id: governancecontext
+  reason: design concept with no code type (core)
+- page: execution.md
+  heading: MissionExecutionContext
+  source_status: canonical
+  verdict: internal
+  id: missionexecutioncontext
+  reason: core code symbol or module, not something a consumer meets
+- page: execution.md
+  heading: InfraContext
+  source_status: candidate
+  verdict: internal
+  id: infracontext
+  reason: design concept with no code type (core)
+- page: execution.md
+  heading: Effector
+  source_status: canonical
+  verdict: internal
+  id: effector
+  reason: core's domain-model naming, docs only
+- page: execution.md
+  heading: communication artifact
+  source_status: canonical
+  verdict: foundation
+  id: communication-artifact
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: repository root checkout
+  source_status: canonical
+  verdict: exists
+  id: repository-root-checkout
+  reason: already a term of the foundation context
+  context: foundation
+- page: execution.md
+  heading: integrating worktree
+  source_status: candidate
+  verdict: exists
+  id: integrating-worktree
+  reason: already a term of the foundation context
+  context: foundation
+- page: execution.md
+  heading: owned checkout
+  source_status: candidate
+  verdict: foundation
+  id: owned-checkout
+  reason: a runtime or tool concept a project meets when running Missions
+- page: execution.md
+  heading: Shadow Clone (Isolated Dev Environment)
+  source_status: candidate
+  verdict: internal
+  id: shadow-clone
+  reason: practice for developing Spec Kitty itself
+- page: governance.md
+  heading: Charter
+  source_status: canonical
+  verdict: exists
+  id: charter
+  reason: already a term of the foundation context
+  context: foundation
+- page: governance.md
+  heading: ADR (Architectural Decision Record)
+  source_status: canonical
+  verdict: foundation
+  id: adr
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Glossary Strictness Policy
+  source_status: canonical
+  verdict: foundation
+  id: glossary-strictness-policy
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Clarification Burst Policy
+  source_status: canonical
+  verdict: foundation
+  id: clarification-burst-policy
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Precedence Rule
+  source_status: canonical
+  verdict: foundation
+  id: precedence-rule
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Pack Level
+  source_status: canonical
+  verdict: foundation
+  id: pack-level
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Charter Interview
+  source_status: canonical
+  verdict: foundation
+  id: charter-interview
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Charter Compiler
+  source_status: canonical
+  verdict: foundation
+  id: charter-compiler
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Governance Resolution
+  source_status: canonical
+  verdict: foundation
+  id: governance-resolution
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Activation Chokepoint
+  source_status: canonical
+  verdict: internal
+  id: activation-chokepoint
+  reason: core code symbol or module, not something a consumer meets
+- page: governance.md
+  heading: Activated vs Available Profile
+  source_status: canonical
+  verdict: foundation
+  id: activated-vs-available-profile
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Effective Set
+  source_status: canonical
+  verdict: foundation
+  id: effective-set
+  reason: a charter-governance concept a project configures or reads
+- page: governance.md
+  heading: Abstract Base Profile
+  source_status: canonical
+  verdict: foundation
+  id: abstract-base-profile
+  reason: a charter-governance concept a project configures or reads
+- page: identity-fields.md
+  heading: repository_uuid
+  source_status: canonical
+  verdict: exists
+  id: repository-uuid
+  reason: already a term of the foundation context
+  context: foundation
+- page: identity-fields.md
+  heading: repository_label
+  source_status: canonical
+  verdict: exists
+  id: repository-label
+  reason: already a term of the foundation context
+  context: foundation
+- page: identity-fields.md
+  heading: project_uuid
+  source_status: canonical
+  verdict: exists
+  id: project-uuid
+  reason: already a term of the foundation context
+  context: foundation
+- page: identity-fields.md
+  heading: repo_slug
+  source_status: canonical
+  verdict: exists
+  id: repo-slug
+  reason: already a term of the foundation context
+  context: foundation
+- page: identity-fields.md
+  heading: build_id
+  source_status: canonical
+  verdict: exists
+  id: build-id
+  reason: already a term of the foundation context
+  context: foundation
+- page: identity-fields.md
+  heading: node_id
+  source_status: canonical
+  verdict: exists
+  id: node-id
+  reason: already a term of the foundation context
+  context: foundation
+- page: identity.md
+  heading: Agent
+  source_status: canonical
+  verdict: foundation
+  id: agent
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Role
+  source_status: canonical
+  verdict: foundation
+  id: role
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Agent Profile
+  source_status: candidate
+  verdict: foundation
+  id: agent-profile
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Authored Intent
+  source_status: candidate
+  verdict: foundation
+  id: authored-intent
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Resolved Binding
+  source_status: candidate
+  verdict: foundation
+  id: resolved-binding
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Audience Persona
+  source_status: canonical
+  verdict: internal
+  id: audience-persona
+  reason: personas model Spec Kitty's own docs audience
+- page: identity.md
+  heading: Internal Audience Persona
+  source_status: canonical
+  verdict: internal
+  id: internal-audience-persona
+  reason: personas model Spec Kitty's own docs audience
+- page: identity.md
+  heading: External Audience Persona
+  source_status: canonical
+  verdict: internal
+  id: external-audience-persona
+  reason: personas model Spec Kitty's own docs audience
+- page: identity.md
+  heading: Mission Participant
+  source_status: canonical
+  verdict: foundation
+  id: mission-participant
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Mission Owner
+  source_status: canonical
+  verdict: foundation
+  id: mission-owner
+  reason: a collaborator identity a project's Missions and profiles name
+- page: identity.md
+  heading: Human-in-Charge (HiC)
+  source_status: canonical
+  verdict: foundation
+  id: operator
+  reason: the accountable human a project's Missions and procedures name; worded 'operator' (#139)
+- page: identity.md
+  heading: engagement
+  source_status: canonical
+  verdict: internal
+  id: engagement
+  reason: core's project-egress consent rationale
+- page: lexical.md
+  heading: Term Surface
+  source_status: candidate
+  verdict: foundation
+  id: term-surface
+  reason: how the glossary runtime treats a project's terms
+- page: lexical.md
+  heading: Term Sense
+  source_status: candidate
+  verdict: foundation
+  id: term-sense
+  reason: how the glossary runtime treats a project's terms
+- page: lexical.md
+  heading: Provenance
+  source_status: candidate
+  verdict: exists
+  id: provenance
+  reason: already a term of the foundation context
+  context: foundation
+- page: lexical.md
+  heading: Confidence Score
+  source_status: candidate
+  verdict: foundation
+  id: confidence-score
+  reason: how the glossary runtime treats a project's terms
+- page: orchestration.md
+  heading: Repository
+  source_status: canonical
+  verdict: exists
+  id: repository
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Project
+  source_status: canonical
+  verdict: exists
+  id: project
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Mission Type
+  source_status: canonical
+  verdict: foundation
+  id: mission-type
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Build
+  source_status: canonical
+  verdict: exists
+  id: build
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Mission
+  source_status: canonical
+  verdict: exists
+  id: mission
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Mission Run
+  source_status: canonical
+  verdict: exists
+  id: mission-run
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Feature
+  source_status: deprecated
+  verdict: foundation
+  id: feature
+  reason: consumer meets the retired word; carried as deprecated
+- page: orchestration.md
+  heading: work package
+  source_status: canonical
+  verdict: exists
+  id: work-package
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Mission Action
+  source_status: canonical
+  verdict: foundation
+  id: mission-action
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: step contract
+  source_status: canonical
+  verdict: excluded
+  id: step-contract
+  reason: 'retired by the charter: step contracts are folded into their steps'' substeps (#285), and the term was dropped
+    (#283)'
+- page: orchestration.md
+  heading: Workflow
+  source_status: canonical
+  verdict: foundation
+  id: workflow
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: WorkPackage (Alias)
+  source_status: canonical
+  verdict: alias
+  id: work-package
+  reason: alias row of work package
+- page: orchestration.md
+  heading: Lane
+  source_status: canonical
+  verdict: exists
+  id: lane
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Mission-Runtime YAML
+  source_status: canonical
+  verdict: internal
+  id: mission-runtime-yaml
+  reason: core's runtime file; a charter mission type is <id>.mission-type.yaml
+- page: orchestration.md
+  heading: Step Dependency
+  source_status: canonical
+  verdict: internal
+  id: step-dependency
+  reason: core's runtime step DAG; a charter mission type orders its steps by list
+- page: orchestration.md
+  heading: Step Sequence
+  source_status: canonical
+  verdict: foundation
+  id: step-sequence
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Command Template
+  source_status: canonical
+  verdict: foundation
+  id: command-template
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Template Resolution
+  source_status: canonical
+  verdict: foundation
+  id: template-resolution
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Mission Discovery
+  source_status: canonical
+  verdict: foundation
+  id: mission-discovery
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Command Envelope
+  source_status: canonical
+  verdict: foundation
+  id: command-envelope
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Contract Version
+  source_status: canonical
+  verdict: foundation
+  id: contract-version
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Orchestrator API
+  source_status: canonical
+  verdict: foundation
+  id: orchestrator-api
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Decision
+  source_status: canonical
+  verdict: foundation
+  id: decision
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Decision Kind
+  source_status: canonical
+  verdict: foundation
+  id: decision-kind
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Decision Input Request
+  source_status: canonical
+  verdict: foundation
+  id: decision-input-request
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Decision Input Answer
+  source_status: canonical
+  verdict: foundation
+  id: decision-input-answer
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Runtime Bridge
+  source_status: canonical
+  verdict: internal
+  id: runtime-bridge
+  reason: core code symbol or module, not something a consumer meets
+- page: orchestration.md
+  heading: Mission State Derivation
+  source_status: canonical
+  verdict: internal
+  id: mission-state-derivation
+  reason: core runtime internals
+- page: orchestration.md
+  heading: base branch
+  source_status: canonical
+  verdict: exists
+  id: base-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: branch strategy gate
+  source_status: canonical
+  verdict: exists
+  id: branch-strategy-gate
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: current branch
+  source_status: canonical
+  verdict: exists
+  id: current-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: topic branch
+  source_status: canonical
+  verdict: exists
+  id: topic-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: feature branch
+  source_status: deprecated
+  verdict: exists
+  id: feature-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: gate binding
+  source_status: canonical
+  verdict: exists
+  id: gate-binding
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: gate handler
+  source_status: canonical
+  verdict: exists
+  id: gate-handler
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Merge target branch
+  source_status: canonical
+  verdict: exists
+  id: merge-target-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Planning base branch
+  source_status: canonical
+  verdict: exists
+  id: planning-base-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: primary branch
+  source_status: canonical
+  verdict: exists
+  id: primary-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: pr-bound mission
+  source_status: canonical
+  verdict: exists
+  id: pr-bound-mission
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: start branch
+  source_status: canonical
+  verdict: exists
+  id: start-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: target branch
+  source_status: canonical
+  verdict: exists
+  id: target-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: transition gate
+  source_status: canonical
+  verdict: exists
+  id: transition-gate
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Tracker Connector
+  source_status: canonical
+  verdict: foundation
+  id: tracker-connector
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Tracker Connector Boundary (Alias)
+  source_status: canonical
+  verdict: alias
+  id: tracker-connector
+  reason: alias row of Tracker Connector
+- page: orchestration.md
+  heading: PRIMARY partition
+  source_status: canonical
+  verdict: foundation
+  id: primary-partition
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Target Ref / Commit Target
+  source_status: canonical
+  verdict: foundation
+  id: target-ref
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Lane Consolidation
+  source_status: canonical
+  verdict: foundation
+  id: lane-consolidation
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Branch Integration / Git Merge
+  source_status: canonical
+  verdict: foundation
+  id: branch-integration
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Publish to origin/main
+  source_status: canonical
+  verdict: internal
+  id: publish-to-origin-main
+  reason: core repository's own publishing rule
+- page: orchestration.md
+  heading: Branch-relative provenance
+  source_status: canonical
+  verdict: foundation
+  id: branch-relative-provenance
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Work-package window
+  source_status: candidate
+  verdict: foundation
+  id: work-package-window
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Window-open SHA
+  source_status: candidate
+  verdict: internal
+  id: window-open-sha
+  reason: consolidation-gate internals
+- page: orchestration.md
+  heading: Window opener
+  source_status: candidate
+  verdict: internal
+  id: window-opener
+  reason: consolidation-gate internals
+- page: orchestration.md
+  heading: Window gap
+  source_status: candidate
+  verdict: foundation
+  id: window-gap
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Gap report
+  source_status: candidate
+  verdict: foundation
+  id: gap-report
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Exemption anchor
+  source_status: candidate
+  verdict: internal
+  id: exemption-anchor
+  reason: consolidation-gate internals
+- page: orchestration.md
+  heading: Claim inputs
+  source_status: candidate
+  verdict: internal
+  id: claim-inputs
+  reason: core code symbol or module, not something a consumer meets
+- page: orchestration.md
+  heading: Named window variant
+  source_status: candidate
+  verdict: internal
+  id: named-window-variant
+  reason: consolidation-gate design record
+- page: orchestration.md
+  heading: Evidence gate
+  source_status: canonical
+  verdict: foundation
+  id: evidence-gate
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Origin freshness check
+  source_status: canonical
+  verdict: foundation
+  id: origin-freshness-check
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Status evidence branch
+  source_status: canonical
+  verdict: foundation
+  id: status-evidence-branch
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: COORD partition
+  source_status: canonical
+  verdict: foundation
+  id: coord-partition
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Target-owned bookkeeping
+  source_status: candidate
+  verdict: exists
+  id: target-owned-bookkeeping
+  reason: already a term of the foundation context
+  context: foundation
+- page: orchestration.md
+  heading: Topology Surface
+  source_status: canonical
+  verdict: foundation
+  id: topology-surface
+  reason: Mission lifecycle, branch or gate vocabulary of a project's Missions and CLI output
+- page: orchestration.md
+  heading: Routing
+  source_status: canonical
+  verdict: internal
+  id: routing
+  reason: umbrella word over core code senses
+- page: orchestration.md
+  heading: The drain
+  source_status: canonical
+  verdict: internal
+  id: the-drain
+  reason: retired core vocabulary
+- page: orchestration.md
+  heading: Residue
+  source_status: canonical
+  verdict: internal
+  id: residue
+  reason: core code senses of a kitty-specs child
+- page: planning-and-tracking.md
+  heading: functional epic
+  source_status: canonical
+  verdict: internal
+  id: functional-epic
+  reason: a label or issue convention of core's GitHub tracker
+- page: planning-and-tracking.md
+  heading: meta-tracker
+  source_status: canonical
+  verdict: internal
+  id: meta-tracker
+  reason: a label or issue convention of core's GitHub tracker
+- page: planning-and-tracking.md
+  heading: issue type
+  source_status: canonical
+  verdict: internal
+  id: issue-type
+  reason: a label or issue convention of core's GitHub tracker
+- page: planning-and-tracking.md
+  heading: priority scheme
+  source_status: canonical
+  verdict: internal
+  id: priority-scheme
+  reason: a label or issue convention of core's GitHub tracker
+- page: planning-and-tracking.md
+  heading: triage status
+  source_status: canonical
+  verdict: internal
+  id: triage-status
+  reason: a label or issue convention of core's GitHub tracker
+- page: planning-and-tracking.md
+  heading: usability (label)
+  source_status: canonical
+  verdict: internal
+  id: usability-label
+  reason: a label or issue convention of core's GitHub tracker
+- page: planning-and-tracking.md
+  heading: op
+  source_status: candidate
+  verdict: foundation
+  id: op
+  reason: 'consumer concept: the Op of DIRECTIVE_053 (#234); authored by hand'
+- page: practices-principles.md
+  heading: Mostly Invisible Process
+  source_status: canonical
+  verdict: internal
+  id: mostly-invisible-process
+  reason: design principle of core's glossary runtime
+- page: practices-principles.md
+  heading: Highly Visible Outcomes
+  source_status: canonical
+  verdict: internal
+  id: highly-visible-outcomes
+  reason: design principle of core's glossary runtime
+- page: practices-principles.md
+  heading: Append-Only Semantic History
+  source_status: canonical
+  verdict: internal
+  id: append-only-semantic-history
+  reason: design principle of core's glossary runtime
+- page: practices-principles.md
+  heading: Deterministic Gate, Human Clarification
+  source_status: canonical
+  verdict: internal
+  id: deterministic-gate-human-clarification
+  reason: design principle of core's glossary runtime
+- page: practices-principles.md
+  heading: High-Severity Block Rule
+  source_status: canonical
+  verdict: foundation
+  id: high-severity-block-rule
+  reason: a glossary-strictness rule a project's generation is held to
+- page: practices-principles.md
+  heading: Human-in-Charge (Cross-Reference)
+  source_status: canonical
+  verdict: excluded
+  id: human-in-charge
+  reason: a cross-reference to Human-in-Charge (HiC), not a term
+- page: product-lines.md
+  heading: Build Kitty
+  source_status: canonical
+  verdict: internal
+  id: build-kitty
+  reason: a Spec Kitty Inc. product line, not a concept a project meets
+- page: product-lines.md
+  heading: Brain Kitty
+  source_status: canonical
+  verdict: internal
+  id: brain-kitty
+  reason: a Spec Kitty Inc. product line, not a concept a project meets
+- page: product-lines.md
+  heading: Team Kitty
+  source_status: canonical
+  verdict: internal
+  id: team-kitty
+  reason: a Spec Kitty Inc. product line, not a concept a project meets
+- page: spec-driven.md
+  heading: Requirement ID
+  source_status: canonical
+  verdict: exists
+  id: requirement-id
+  reason: already a term of the foundation context
+  context: foundation
+- page: spec-driven.md
+  heading: Success criterion
+  source_status: canonical
+  verdict: exists
+  id: success-criterion
+  reason: already a term of the foundation context
+  context: foundation
+- page: spec-driven.md
+  heading: Qualified citation
+  source_status: canonical
+  verdict: exists
+  id: qualified-citation
+  reason: already a term of the foundation context
+  context: foundation
+- page: system-events.md
+  heading: Event Envelope
+  source_status: canonical
+  verdict: foundation
+  id: event-envelope
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Glossary Evolution Log
+  source_status: canonical
+  verdict: foundation
+  id: glossary-evolution-log
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Glossary Scope
+  source_status: canonical
+  verdict: foundation
+  id: glossary-scope
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Semantic Check Evaluation
+  source_status: canonical
+  verdict: foundation
+  id: semantic-check-evaluation
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Replay
+  source_status: canonical
+  verdict: foundation
+  id: replay
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Telemetry (Out of Scope for This Slice)
+  source_status: candidate
+  verdict: excluded
+  id: telemetry
+  reason: out of scope per its own page
+- page: system-events.md
+  heading: Dossier Event
+  source_status: candidate
+  verdict: foundation
+  id: dossier-event
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Anomaly Event
+  source_status: candidate
+  verdict: foundation
+  id: anomaly-event
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: WPStatusChanged
+  source_status: canonical
+  verdict: foundation
+  id: wpstatuschanged
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Lamport Clock
+  source_status: canonical
+  verdict: foundation
+  id: lamport-clock
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Tail cursor
+  source_status: candidate
+  verdict: foundation
+  id: tail-cursor
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: resume token
+  source_status: candidate
+  verdict: foundation
+  id: resume-token
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: '`log_truncated`'
+  source_status: candidate
+  verdict: foundation
+  id: log-truncated
+  reason: an event or log a project's Missions write or a consumer reads
+- page: system-events.md
+  heading: Tail envelope
+  source_status: candidate
+  verdict: foundation
+  id: tail-envelope
+  reason: an event or log a project's Missions write or a consumer reads
+- page: technology-foundations.md
+  heading: API
+  source_status: candidate
+  verdict: foundation
+  id: api
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: technology-foundations.md
+  heading: CLI
+  source_status: candidate
+  verdict: foundation
+  id: cli
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: technology-foundations.md
+  heading: UI
+  source_status: candidate
+  verdict: foundation
+  id: ui
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: technology-foundations.md
+  heading: Markdown
+  source_status: candidate
+  verdict: foundation
+  id: markdown
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: technology-foundations.md
+  heading: YAML
+  source_status: candidate
+  verdict: foundation
+  id: yaml
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: technology-foundations.md
+  heading: JSON
+  source_status: candidate
+  verdict: foundation
+  id: json
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: technology-foundations.md
+  heading: SHA256
+  source_status: candidate
+  verdict: foundation
+  id: sha256
+  reason: a foundational term other definitions rely on; the writing pack's glossary styleguide and the curation-interview
+    tactic require it to be defined (reverses decision 01M7PN8GR51G0YAS30CRRJ0NWP)
+- page: testing-taxonomy.md
+  heading: Unit
+  source_status: canonical
+  verdict: internal
+  id: unit-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Unit (core test marker)
+- page: testing-taxonomy.md
+  heading: Integration
+  source_status: canonical
+  verdict: internal
+  id: integration-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Integration (core test marker)
+- page: testing-taxonomy.md
+  heading: Contract
+  source_status: canonical
+  verdict: internal
+  id: contract-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Contract (core test marker)
+- page: testing-taxonomy.md
+  heading: Architectural
+  source_status: canonical
+  verdict: internal
+  id: architectural-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Architectural (core test marker)
+- page: testing-taxonomy.md
+  heading: E2E
+  source_status: canonical
+  verdict: internal
+  id: e2e-test-marker
+  reason: a pytest marker of core's own test suite
+  name: E2E (core test marker)
+- page: testing-taxonomy.md
+  heading: Adversarial
+  source_status: canonical
+  verdict: internal
+  id: adversarial-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Adversarial (core test marker)
+- page: testing-taxonomy.md
+  heading: Doctrine
+  source_status: canonical
+  verdict: internal
+  id: doctrine-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Doctrine (core test marker)
+- page: testing-taxonomy.md
+  heading: Fast
+  source_status: canonical
+  verdict: internal
+  id: fast-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Fast (core test marker)
+- page: testing-taxonomy.md
+  heading: Slow
+  source_status: canonical
+  verdict: internal
+  id: slow-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Slow (core test marker)
+- page: testing-taxonomy.md
+  heading: Git Repo
+  source_status: canonical
+  verdict: internal
+  id: git-repo-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Git Repo (core test marker)
+- page: testing-taxonomy.md
+  heading: Distribution
+  source_status: canonical
+  verdict: internal
+  id: distribution-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Distribution (core test marker)
+- page: testing-taxonomy.md
+  heading: Platform Darwin / Platform Linux
+  source_status: canonical
+  verdict: internal
+  id: platform-darwin-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Platform Darwin / Platform Linux (core test marker)
+- page: testing-taxonomy.md
+  heading: Windows CI
+  source_status: canonical
+  verdict: internal
+  id: windows-ci-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Windows CI (core test marker)
+- page: testing-taxonomy.md
+  heading: Requires Symlinks
+  source_status: canonical
+  verdict: internal
+  id: requires-symlinks-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Requires Symlinks (core test marker)
+- page: testing-taxonomy.md
+  heading: Live Adapter
+  source_status: canonical
+  verdict: internal
+  id: live-adapter-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Live Adapter (core test marker)
+- page: testing-taxonomy.md
+  heading: Asyncio
+  source_status: canonical
+  verdict: internal
+  id: asyncio-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Asyncio (core test marker)
+- page: testing-taxonomy.md
+  heading: Timeout
+  source_status: canonical
+  verdict: internal
+  id: timeout-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Timeout (core test marker)
+- page: testing-taxonomy.md
+  heading: No Readiness Stub
+  source_status: canonical
+  verdict: internal
+  id: no-readiness-stub-test-marker
+  reason: a pytest marker of core's own test suite
+  name: No Readiness Stub (core test marker)
+- page: testing-taxonomy.md
+  heading: Non Sandbox
+  source_status: canonical
+  verdict: internal
+  id: non-sandbox-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Non Sandbox (core test marker)
+- page: testing-taxonomy.md
+  heading: Flaky
+  source_status: canonical
+  verdict: internal
+  id: flaky-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Flaky (core test marker)
+- page: testing-taxonomy.md
+  heading: Orchestrator Smoke / Availability / Fixtures / Happy Path / Review Cycles / Parallel
+  source_status: canonical
+  verdict: internal
+  id: orchestrator-smoke-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Orchestrator Smoke / Availability / Fixtures / Happy Path / Review Cycles / Parallel (core test marker)
+- page: testing-taxonomy.md
+  heading: Core Agent / Extended Agent
+  source_status: canonical
+  verdict: internal
+  id: core-agent-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Core Agent / Extended Agent (core test marker)
+- page: testing-taxonomy.md
+  heading: Exploratory
+  source_status: canonical
+  verdict: internal
+  id: exploratory-test-marker
+  reason: a pytest marker of core's own test suite
+  name: Exploratory (core test marker)
+- page: topology.md
+  heading: Topology
+  source_status: canonical
+  verdict: foundation
+  id: topology
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Size default
+  source_status: canonical
+  verdict: foundation
+  id: size-default
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Topic branch
+  source_status: canonical
+  verdict: exists
+  id: topic-branch
+  reason: already a term of the foundation context
+  context: foundation
+- page: topology.md
+  heading: Write checkout
+  source_status: canonical
+  verdict: exists
+  id: write-checkout
+  reason: already a term of the foundation context
+  context: foundation
+- page: topology.md
+  heading: Repo-root lane
+  source_status: canonical
+  verdict: foundation
+  id: repo-root-lane
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Code lane
+  source_status: canonical
+  verdict: foundation
+  id: code-lane
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Protected target
+  source_status: canonical
+  verdict: foundation
+  id: protected-target
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Mission branch
+  source_status: canonical
+  verdict: foundation
+  id: mission-branch
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Lane work tip
+  source_status: canonical
+  verdict: foundation
+  id: lane-work-tip
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Absorbed lane
+  source_status: canonical
+  verdict: foundation
+  id: absorbed-lane
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Execution-mode stamp
+  source_status: canonical
+  verdict: foundation
+  id: execution-mode-stamp
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: Started work package
+  source_status: canonical
+  verdict: foundation
+  id: started-work-package
+  reason: Mission topology vocabulary of a project's `meta.json`, lanes and CLI errors
+- page: topology.md
+  heading: LANE_MEMBERSHIP_FROZEN
+  source_status: canonical
+  verdict: foundation
+  id: lane-membership-frozen
+  reason: consumer meets the error from finalize-tasks
+- page: mission-types.md
+  heading: software-dev
+  source_status: canonical
+  verdict: foundation
+  id: software-dev-mission
+  reason: shipped mission type; authored by hand
+- page: mission-types.md
+  heading: research
+  source_status: canonical
+  verdict: foundation
+  id: research-mission
+  reason: shipped mission type; authored by hand
+- page: mission-types.md
+  heading: documentation
+  source_status: canonical
+  verdict: foundation
+  id: documentation-mission
+  reason: shipped mission type; authored by hand
+- page: mission-types.md
+  heading: plan
+  source_status: canonical
+  verdict: foundation
+  id: plan-mission
+  reason: shipped mission type; authored by hand
+- page: ops-vs-missions.md
+  heading: Op
+  source_status: canonical
+  verdict: folded
+  id: op
+  reason: same concept as planning-and-tracking.md `op`; one term
+- page: naming-decision-tool-vs-agent.md
+  heading: 'Naming Decision: Tool vs Agent'
+  source_status: canonical
+  verdict: internal
+  id: tool-vs-agent-naming
+  reason: the team's internal decision record (#221)
+- page: team-kitty.md
+  heading: Team Kitty
+  source_status: canonical
+  verdict: folded
+  id: team-kitty
+  reason: same as product-lines.md Team Kitty
+- page: team-kitty.md
+  heading: Zeitgeist
+  source_status: canonical
+  verdict: internal
+  id: zeitgeist
+  reason: retired hosted vocabulary
+- page: team-kitty.md
+  heading: Moment
+  source_status: canonical
+  verdict: internal
+  id: moment
+  reason: retired hosted vocabulary
+- page: team-kitty.md
+  heading: Drain
+  source_status: canonical
+  verdict: folded
+  id: the-drain
+  reason: same as orchestration.md The drain

@@ -1,0 +1,155 @@
+{
+  "event_count": 38,
+  "last_event_id": "01M7PRBBK84VWRKZ3ABFWQY8Z6",
+  "materialized_at": "2026-11-18T07:18:43.561043+00:00",
+  "mission_number": "",
+  "mission_slug": "glossary-docs-context-terms-01M7PN2S",
+  "mission_type": "software-dev",
+  "schema_version": 2,
+  "summary": {
+    "approved": 4,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 0,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "claude-reviewer-019C2Tk4",
+      "agent": "claude-reviewer-019C2Tk4",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 5,
+      "lane": "approved",
+      "last_event_id": "01M7PQ3J6XVGPAVNWZ6TT2QBQ3",
+      "last_transition_at": "2026-11-18T06:56:59.613117+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Rendering the consumer terms",
+        "Ready for review: implementation commit 45fc8ee; forced because no claim base was recorded (planned -> in_progress without claim)",
+        "Review rework: findings 1-12 and the #139 operator wording",
+        "Rework done in 7a98462 (forced: the guard records no claim base for this single_branch WP); research/ and tools/ are mission files in the shared lane, edited only by WP01",
+        "Review cycle 2 rework: five pre-existing definitions",
+        "Cycle 2 fix in 502e3d8 (forced: the guard records no claim base for this single_branch WP)",
+        "Review passed (cycle 3, independent reviewer session_019C2Tk4): the cycle-2 FR-005 finding is fixed in 502e3d8, which changes only the five named definitions; the citation scan finds 0 hits over 294 terms; FR-001/002/003/005/006/007, NFR-002/003, C-001/002 and SC-001/002/003 verified"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/glossary-docs-context-terms-01M7PN2S/tasks/WP01-foundation-glossary/review-cycle-3.md",
+        "reference": "review-cycle://glossary-docs-context-terms-01M7PN2S/WP01-foundation-glossary/review-cycle-3.md",
+        "reviewer": "claude-reviewer-019C2Tk4",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 1145,
+      "shell_pid_created_at": "1794984972.27",
+      "subtasks": {
+        "T001": "done",
+        "T002": "done",
+        "T003": "done",
+        "T004": "done"
+      }
+    },
+    "WP02": {
+      "actor": "claude-reviewer-019C2Tk4",
+      "agent": "claude-reviewer-019C2Tk4",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 1,
+      "lane": "approved",
+      "last_event_id": "01M7PQ6W39SRHG2A62974VEX8M",
+      "last_transition_at": "2026-11-18T06:58:48.041850+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Claimed after WP01 approval",
+        "Implemented in f4f2e77, re-rendered in 823b86b; validated at 321a23b: internal 0 violations, vocabulary 0, every internal ledger row present, no HiC wording. Forced: the content predates the claim (rendered with WP01's single render run)",
+        "Review passed (independent reviewer session_019C2Tk4). Content of spk-internal-glossary checked at HEAD; the recorded range is empty because the content predates the claim (f4f2e77, 823b86b). FR-004/SC-002: all 79 internal ledger rows present, none duplicated into foundation. NFR-003: 91 terms, 0 duplicate ids or names. Every see_also resolves in-context. The 12 pre-existing terms are unchanged. No HiC wording. Test-marker names are qualified. Non-blocking: 32 internal ledger rows (testing-taxonomy, planning-and-tracking, product-lines) share one generic reason; a per-page reason would satisfy FR-002 more literally."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/glossary-docs-context-terms-01M7PN2S/tasks/WP02-internal-glossary/review-cycle-1.md",
+        "reference": "review-cycle://glossary-docs-context-terms-01M7PN2S/WP02-internal-glossary/review-cycle-1.md",
+        "reviewer": "claude-reviewer-019C2Tk4",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 1800,
+      "shell_pid_created_at": "1794985090.76",
+      "subtasks": {
+        "T005": "done",
+        "T006": "done"
+      }
+    },
+    "WP03": {
+      "actor": "claude-reviewer-019C2Tk4",
+      "agent": "claude-reviewer-019C2Tk4",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 3,
+      "lane": "approved",
+      "last_event_id": "01M7PRBBK84VWRKZ3ABFWQY8Z6",
+      "last_transition_at": "2026-11-18T07:18:43.561043+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Claimed after WP04 approval",
+        "Versions/derived/changelog/test in 4257f6b and 0df01da (committed before the claim), charter summaries in 1fb4a4c; all local gates pass; forced: the guard records no claim base for this single_branch WP",
+        "Review cycle 1 rework: Sonar security triggers, changelog count",
+        "Cycle 1 rework in 4a3ba18; forced: the guard records no claim base for this single_branch WP",
+        "Review passed (cycle 2, independent reviewer session_019C2Tk4). Cycle-1 findings fixed. SC-004/NFR-001: on PR #300 head 69422fb all checks are green: SonarCloud quality gate (was Security E / Reliability C), Charter service validation, Charter Pack validation, Validate packs gate, Generated-content drift gate, build. The mission tools take no paths from argv (4a3ba18), and the S8786 regexes are rewritten (69422fb); the implementer reports the re-renders are byte-identical, and no pack, doc or test file changed after 9757a4d. FR-010: the changelog says 28, matching research.md. FR-008/009/011 verified in cycle 1. Note: 69422fb's commit message names 0bcfd6c for the argv fix; the right hash is 4a3ba18."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/glossary-docs-context-terms-01M7PN2S/tasks/WP03-versions-derived-changelog-test/review-cycle-2.md",
+        "reference": "review-cycle://glossary-docs-context-terms-01M7PN2S/WP03-versions-derived-changelog-test/review-cycle-2.md",
+        "reviewer": "claude-reviewer-019C2Tk4",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 214,
+      "shell_pid_created_at": "1794986305.91",
+      "subtasks": {
+        "T007": "done",
+        "T008": "done",
+        "T009": "done",
+        "T010": "done",
+        "T011": "done"
+      }
+    },
+    "WP04": {
+      "actor": "claude-reviewer-019C2Tk4",
+      "agent": "claude-reviewer-019C2Tk4",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 1,
+      "lane": "approved",
+      "last_event_id": "01M7PQBQFRXWTTHTDJ2XC85J70",
+      "last_transition_at": "2026-11-18T07:01:27.160875+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Claimed after WP02 approval",
+        "Prose in 996c76c (committed before the claim), ledger reasons in e48619c; forced: the guard records no claim base for this single_branch WP",
+        "Review passed (independent reviewer session_019C2Tk4). FR-012/SC-005: grep -rniE '\\bHiC\\b|human-in-command' packs finds 0 hits. Hyphenated human-in-charge remains only as the profile id and its catalog entries (which #139's 2026-11-18 narrowing puts out of scope) and in the operator glossary term. 996c76c covers all 11 files of #139's list plus the C4 tactic: the HiC curation step is dropped; the kitty-glossary-writing HiC principle, its Passive Authority anti-pattern and the core Sources citation are retired; the README row says 7 principles, which matches; mode hic is now operator, and no pack references the mode id; the tactic-graph when texts are reworded. Non-blocking follow-ups, outside packs/: .kittify/charter/charter.yaml keeps stale summaries ('HiC-led curation rounds', 'Workflow sentinel … HIC'), which a later charter regeneration should refresh; docs/research and ADR records keep HiC as history."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/glossary-docs-context-terms-01M7PN2S/tasks/WP04-operator-wording/review-cycle-1.md",
+        "reference": "review-cycle://glossary-docs-context-terms-01M7PN2S/WP04-operator-wording/review-cycle-1.md",
+        "reviewer": "claude-reviewer-019C2Tk4",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2314,
+      "shell_pid_created_at": "1794985249.46",
+      "subtasks": {
+        "T012": "done",
+        "T013": "done"
+      }
+    }
+  }
+}

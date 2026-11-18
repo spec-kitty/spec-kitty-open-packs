@@ -1,0 +1,430 @@
+# Editorial overrides for render_terms.py, keyed by term id. A key replaces the field the source
+# table gives; a term whose source has no table is authored here in full.
+
+# --- #234: the Op term (DIRECTIVE_053, core docs/context/ops-vs-missions.md)
+op:
+  name: Op
+  definition: 'A lightweight, governed ad-hoc unit of work, opened with `spec-kitty dispatch "<request>"`, which routes the
+    request to an agent profile, loads the charter context for it and writes a `started` event to an append-only Op record
+    under `kitty-ops/`. An Op creates no spec, plan, work package, branch or worktree; it is opened and closed within one
+    sitting, and closed with `spec-kitty profile-invocation complete --outcome <done|failed|abandoned>`. Unclosed Ops are
+    reported by `spec-kitty doctor ops` and swept to `abandoned`, which is a lapse, not a completion. DIRECTIVE_053 requires choosing an Op or a Mission before
+    work starts; Mission-sized work (a spec, reviewable work packages, a review gate, more than one sitting) is never an Op.'
+  status: active
+  aliases:
+    - profile invocation
+  see_also:
+    - term:spec-kitty-core/mission
+    - term:spec-kitty-core/tool
+
+# --- mission types (core docs/context/mission-types.md)
+software-dev-mission:
+  name: software-dev mission
+  definition: The Mission type for building or changing software (a feature, a fix, a refactor, with tests). It runs discovery,
+    specify, plan, tasks, analyze, implement, review and accept, and favours test-first work.
+  status: active
+  see_also:
+    - term:spec-kitty-core/mission-type
+    - term:spec-kitty-core/mission
+research-mission:
+  name: research mission
+  definition: The Mission type for systematically investigating a question and producing evidence-backed findings. It runs
+    scoping, methodology, gathering, synthesis, output and accept; every source is documented and every finding traces back
+    to evidence.
+  status: active
+  see_also:
+    - term:spec-kitty-core/mission-type
+    - term:spec-kitty-core/mission
+documentation-mission:
+  name: documentation mission
+  definition: The Mission type for creating or overhauling user-facing or contributor documentation, treating documentation
+    as code and organising it by the four Divio types (tutorial, how-to, reference, explanation). It supports writing from
+    scratch, filling gaps and updating existing docs, and ends with an acceptance step.
+  status: active
+  see_also:
+    - term:spec-kitty-core/mission-type
+    - term:spec-kitty-core/mission
+plan-mission:
+  name: plan mission
+  definition: The Mission type for a goal-oriented plan or strategy document rather than code or docs. It runs specify,
+    research, plan and review, and a review may send a draft back for another pass instead of forcing linear progress.
+  status: active
+  see_also:
+    - term:spec-kitty-core/mission-type
+    - term:spec-kitty-core/mission
+
+# --- house terms without a source table
+tool-vs-agent-naming:
+  name: tool vs agent naming decision
+  definition: 'The team''s agreed naming rule (2026-02-15): "tool" is a concrete execution product (Claude Code, Codex,
+    opencode), used for install, config and invocation concerns; "agent" is a logical collaborator identity or role, used for
+    assignment, handoff and role concerns. Historical names such as `spec-kitty agent config` and the `agents.available`
+    config key are compatibility aliases for configured tools, not licence to say "agent" for install concerns.'
+  status: active
+  see_also:
+    - term:spk-internal-glossary/tool-surface
+zeitgeist:
+  name: Zeitgeist
+  definition: The per-team presence-and-moments relay the hosted Team Kitty product runs, one container per team. Its client
+    side was removed from open-core (#6164); the code lives in the separate event-router repository.
+  status: deprecated
+  avoid:
+    - event server
+    - sync server
+  see_also:
+    - term:spk-internal-glossary/moment
+    - term:spk-internal-glossary/team-kitty
+moment:
+  name: moment
+  definition: One content-agnostic, bounded status event published to a Zeitgeist relay. Retired with the hosted surfaces.
+  status: deprecated
+  avoid:
+    - sync event
+  see_also:
+    - term:spk-internal-glossary/zeitgeist
+
+# --- foundation definitions rewritten: core's text cites its code, tests, ADRs, or retired surfaces
+effective-deny:
+  definition: 'The deny-list that actually subtracts: the activation ledger''s exclusions, matched by file stem, declared id
+    or DRG URN, minus the required floor. An exclusion of a required artifact is therefore inert, and `spec-kitty doctor`
+    reports it as stale.'
+required-floor:
+  definition: The artifacts a project cannot deactivate, each attributed to the pack that requires it. They are the must-have
+    items of every governing preset (an activation preset with at least one `must_have` item) in the project's pack closure.
+    Precedence never decides membership of the floor.
+global-selection:
+  definition: 'A selection mode in which the charter declares that an artifact should be active for every work-package prompt,
+    whatever the action or mission type, through a `selected_<kind>` list. Declaring is not activating: a declared entry is
+    added to the resolved `activated_<kind>` set, which remains the activation authority. Example: "this project always uses
+    the python-conventions styleguide".'
+selected-kind:
+  name: selected_<kind>
+  definition: The charter field family that records a global selection, one list per artifact kind (`selected_directives`,
+    `selected_tactics`, `selected_styleguides`, `selected_toolguides`, `selected_paradigms`, `selected_procedures`,
+    `selected_agent_profiles` and so on). It is the charter-authored record of a choice, added to the resolved
+    `activated_<kind>` set; it is not an activation source of its own.
+activated-kind:
+  definition: 'The per-kind activation allow state, one key per activatable artifact kind (`activated_directives`,
+    `activated_tactics`, `activated_glossaries`, `activated_skills` and so on), held in the activation ledger beside the
+    kind''s `deactivated_<kind>` exclusions. It has three states: an absent key means every available artifact of the kind;
+    an empty list means none; a non-empty list is the activated set. It is the mechanism behind charter-mediated selection.'
+tension:
+  name: in_tension_with (DRG relation)
+  definition: A symmetric DRG relation marking two co-valid artifacts that compete on the same decision; neither side is wrong
+    until an operator deactivates one or activates a reconciler. Retired from the charter contract, which carries `impacts`
+    instead; author `impacts`.
+reconciliation:
+  name: reconciles_tension (DRG relation)
+  definition: A directional DRG relation from an active reconciling artifact to one side of a declared tension pair. The pair
+    counts as resolved only when an active artifact carries this edge to both sides; it is always authored, never inferred.
+rejection:
+  name: rejects (DRG relation)
+  definition: A directional DRG relation from a good artifact to a marked anti-pattern, rejecting a named bad practice. The
+    target is not a competing equal (as in a tension) and was never a valid rule (as in a supersession).
+hard-dependency:
+  name: requires (DRG relation)
+  definition: 'A directional DRG relation marking a mandatory prerequisite: the source cannot be meaningfully resolved
+    without the target. Charter context resolution for an action follows `requires` edges transitively, with no hop limit,
+    and activating the source pulls the target in. The most heavily used relation in the built-in graph.'
+soft-recommendation:
+  name: suggests (DRG relation)
+  definition: A directional DRG relation to content that is relevant but optional. Charter context resolution follows
+    `suggests` edges only a bounded number of hops, and activation offers the target for the operator to accept or decline.
+workflow-application:
+  name: applies (DRG relation)
+  definition: A directional DRG relation from an agent profile to the procedure or tactic it executes as its operating
+    workflow. Nothing traverses it, so an authored `applies` edge names a relationship no reader follows; use `requires` when
+    the profile must reach the artifact. Distinct from `scope`, which names what an action is governed by.
+governance-scope:
+  name: scope (DRG relation)
+  definition: A directional DRG relation from a mission-step action node to the directives and tactics that govern performing
+    that action. It is the entry point of charter context resolution, which walks `scope` edges first and then expands
+    through `requires` and `suggests`.
+# Status deviations from the FR-003 map (spec decision 5): vocabulary, delegates_to and refines are canonical in core
+# but no shipped artifact emits them (core: "intended-but-dormant"), so draft; agent-profile is candidate in core but a
+# shipped artifact kind of every pack, so active; op is active per FR-001.
+glossary-vocabulary:
+  name: vocabulary (DRG relation)
+  definition: A directional DRG relation from a resolved artifact to a glossary node, meant to surface which glossary terms
+    matter once the charter context for an action is resolved. No shipped artifact emits it yet; treat it as dormant.
+  status: draft
+template-instantiation:
+  name: instantiates (DRG relation)
+  definition: A directional DRG relation from a mission-step action node to the template it produces. `scope` links an action
+    to content it must follow; `instantiates` links it to content it produces.
+supersession:
+  name: replaces (DRG relation)
+  definition: A directional DRG relation asserting that the source fully supersedes the target, which stops applying once the
+    source is active. Kept for older hand-authored fragments; current practice deactivates the superseded artifact or, in a
+    pack overlay, uses `overrides`.
+delegation:
+  name: delegates_to (DRG relation)
+  definition: A directional DRG relation for a runtime handoff, one agent profile handing work to another. Kept apart from
+    `specializes_from` so static derivation never leaks into handoff. No shipped artifact emits it; handoffs are written in
+    a profile's collaboration prose today.
+  status: draft
+lineage:
+  name: specializes_from (DRG relation)
+  definition: A directional, static DRG relation in which a profile or artifact derives from a parent, narrowing or extending
+    it, for example a language-specialist implementer profile specialising the generic implementer. Resolved when profiles
+    are composed; never a runtime handoff.
+overlay-enhancement:
+  name: enhances (DRG relation)
+  definition: A directional overlay relation from an org- or project-level pack artifact to a built-in artifact, field-merging
+    content into it while keeping the built-in's action sequence and step inputs and outputs. Never between two built-in
+    artifacts.
+overlay-override:
+  name: overrides (DRG relation)
+  definition: A directional overlay relation from an org- or project-level pack artifact that fully replaces a built-in
+    artifact's content instead of merging into it. Silently dropping steps or step inputs and outputs is refused.
+refinement:
+  name: refines (DRG relation)
+  definition: A directional DRG relation in which an artifact narrows or sharpens the applicability or meaning of a parent
+    without replacing it; a traversable relation in its own right, never a stand-in for `applies` or `specializes_from`.
+    No shipped artifact emits it yet.
+  status: draft
+organization-tier:
+  definition: The middle layer of the three-layer DRG, contributed by the org Charter Packs a project configures. Each org
+    pack ships its artifacts, an optional DRG fragment and optional activation presets; a governing preset among them sets the
+    required floor of every project whose closure holds the pack.
+catalog-miss:
+  definition: An artifact id that a charter selection names (for example `selected_directives`) but no pack in the charter
+    offering holds. `spec-kitty doctor` reports catalog misses as errors.
+mission-dossier:
+  definition: 'The local inventory and integrity check of a Mission''s artifacts. It answers three questions: which artifacts
+    exist (each indexed with a content hash), whether every required artifact is present (against the expected artifact
+    manifest), and what changed since the last recorded snapshot (`spec-kitty reconcile --mission <slug>` names each
+    differing artifact).'
+artifact-class:
+  definition: 'The role an artifact plays in the Mission lifecycle, one of `input`, `workflow`, `output`, `evidence`, `policy`
+    or `runtime` in the expected artifact manifest; an indexed artifact may also be `other`.'
+missing-detection:
+  definition: 'What artifact indexing records when a required artifact is absent or unreadable: a reason code, `not_found`,
+    `unreadable` or `invalid_utf8`.'
+pack-level:
+  definition: The level a Charter Pack occupies, declared by `pack_level` in its `pack.yaml`, one of `built-in`, `org` or
+    `project` in ascending precedence. A pack states its own level; loading refuses a pack whose declared level disagrees
+    with where it is configured.
+resolved-binding:
+  definition: 'Who or what actually ran a work package at a lifecycle transition: the resolved role, agent profile (with its
+    version), model and provider. Recorded in the status event log, latest wins, and it shifts across the lifecycle
+    (implementer, then reviewer). Contrast authored intent, which the work package''s frontmatter carries.'
+decision-kind:
+  definition: The type of choice a decision presents, for example which step to run next, how to resolve a conflict or which
+    agent takes a work package. `spec-kitty next --json` carries it as the top-level `kind` field.
+branch-integration:
+  name: branch integration
+  definition: 'The `git merge` of a Mission branch into its target branch, the second of the three "merge" senses: after lane
+    consolidation, before publishing. The merge strategy (`merge`, `squash` or `rebase`) chooses how it is done.'
+lane-consolidation:
+  definition: 'The lane step of `spec-kitty consolidate`: a local consolidation of completed lane branches into the Mission
+    branch, with no push. The first of the three "merge" senses; the command then integrates the Mission branch into its
+    target locally and publishes only when the operator passes `--push`.'
+branch-relative-provenance:
+  definition: 'The meaning of a commit SHA a Mission records (`merged_commit`, `accepted_from_commit`, `lane_head`,
+    `base_commit` and SHAs cited as evidence): a commit on the branch the Mission was built on, as it stood when the value
+    was written. After a rebase landing it may resolve only through the pull request''s head ref, and it is never repointed.
+    `pr_merge_commit` is the exception: its writer checks it is on the target branch.'
+work-package-window:
+  definition: 'The span of lane history one approved work package is accountable for: from its window-open SHA, recorded when
+    the work package is claimed or started, to its newest approval stamp. A work package with a window gap is judged from the
+    claim base to its approval stamp instead.'
+window-gap:
+  definition: 'The recorded absence of a window for a work package: "not recorded", "capture failed", "lane branch missing"
+    or "not on lane". A gap never refuses by itself; the work package is judged by its approval stamp and listed in the gap
+    report.'
+gap-report:
+  definition: The part of the `spec-kitty consolidate` output (fresh run, resume and forecast; `window_gaps` in the JSON) that
+    lists every work package judged by the fallback approval-stamp bound, with its window gap reason.
+evidence-gate:
+  definition: 'A command that turns a Mission''s local status or code into a durable verdict: preparing a review workspace,
+    `accept`, `consolidate`, and the `orchestrator-api` `accept-mission` and `consolidate-mission` forms. Each runs the origin
+    freshness check before it trusts a local branch.'
+origin-freshness-check:
+  definition: 'Refreshing the remote''s view of a branch and classifying the local branch against it: `up_to_date`, `behind`,
+    `ahead`, `diverged`, `local_missing`, `remote_missing`, `unreachable`, `no_remote`, `remote_ambiguous` or
+    `compare_failed` (`not_checked` when the check is off). Landing gates refuse a stale or unverifiable branch unless the
+    operator passes `--origin-check warn` (or sets `SPEC_KITTY_ORIGIN_CHECK=warn`); `off` contacts nothing.'
+primary-partition:
+  definition: 'The placement of a Mission''s stable planning artifacts (spec, plan, work-package outlines, `meta.json`), as
+    distinct from the COORD partition. A partition decides which surface an artifact kind is written to; it is not a git
+    branch. Missions without a coordination topology route every artifact to PRIMARY.'
+coord-partition:
+  definition: 'The placement of a Mission''s lifecycle artifacts (status events, notes, trace, issue matrix, acceptance matrix,
+    review cycles), as distinct from the PRIMARY partition. Not a branch or a directory: only `coord` and `lanes_with_coord`
+    Missions have a coordination surface; the others write everything to PRIMARY.'
+topology-surface:
+  definition: 'The physical tree a Mission artifact is read from and written to: the repository-root planning tree (PRIMARY),
+    the Mission''s coordination tree (COORD), a lane worktree, the consolidated tree or a temporary tree. The mission-topology
+    sense of "surface", distinct from a tool surface.'
+dossier-event:
+  definition: 'An event emitted by a dossier operation: artifact indexed, snapshot computed, required artifact missing, or
+    parity drift detected.'
+wpstatuschanged:
+  name: WPStatusChanged
+  definition: The event that carries a work package's move from one status lane to another (for example `planned` to
+    `claimed`). Each move is one row of the Mission's `status.events.jsonl`.
+topology:
+  definition: 'The shape a Mission is given at creation, stored as `topology` in `meta.json`: `single_branch` (no
+    coordination branch, no lanes; every work package runs in the write checkout), `lanes` (code lanes, no coordination),
+    `coord` (coordination, no lanes) or `lanes_with_coord`. Without `--topology`, create applies the size default; an explicit
+    value is settled at create and never re-decided. A Mission created before the field existed is read as `lanes`.'
+protected-target:
+  definition: A target branch that is the repository's primary branch or that the protection policy reports as protected. A
+    `single_branch` Mission on a protected target gets a Mission branch at create unless `--commit-to-target` is passed; an
+    explicit `lanes` create on a protected target is refused before any write.
+lane-work-tip:
+  definition: 'The last commit made on a lane branch, recorded when the commit happens (under `refs/spec-kitty/lane-tip/<branch>`,
+    by a post-commit hook when installed), as distinct from the lane''s creation base. A destroyed lane with unabsorbed work is
+    refused with `DESTROYED_LANE`, which names the restore command; a lane whose tip cannot be known is refused with
+    `LANE_WORK_TIP_UNKNOWN`.'
+started-work-package:
+  definition: A work package whose status history ever recorded a move into a working lane (`claimed`, `in_progress`,
+    `for_review`, `in_review`, `approved` or `done`), forced moves included. Resetting it to `planned` or canceling it does not
+    unstart it. A started work package keeps its recorded execution lane when `finalize-tasks` is re-run.
+lane-membership-frozen:
+  name: LANE_MEMBERSHIP_FROZEN
+  definition: 'The error with which `spec-kitty agent mission finalize-tasks` refuses a re-finalize that cannot keep every
+    started work package on its recorded execution lane; its reason is `started_lanes_collapsed`, `started_wp_removed`,
+    `started_wp_kind_changed` or `status_unreadable`. It is raised before any status write and writes nothing. Never answer
+    it by deleting `lanes.json`, forcing or resetting git.'
+feature:
+  definition: Retired name for a Mission (of type `software-dev`). Write Mission; "feature" in the product-capability sense and
+    the Gherkin keyword are unaffected.
+charter-mediated-selection:
+  definition: 'The pattern in which the charter is the sole authority on which artifacts apply to a Mission run: the packs
+    are the knowledge store, the charter is the selector, and the runtime asks the charter for the activated set instead of
+    reading the packs directly. The mechanism is the `activated_<kind>` state; `selected_<kind>` only records what was
+    chosen.'
+activation-registry:
+  definition: 'A charter-level list of (activation context, Charter Pack, artifact id) entries saying which artifacts activate
+    in which contexts. It lives on the charter, not on the artifact, so projects can activate one shared artifact in
+    different contexts without forking it.'
+activation-context:
+  definition: 'The key that scopes a context-scoped activation: a `mission_type` (`software-dev`, `documentation`,
+    `research`, `plan` or the wildcard `generic`) and an `action` (`specify`, `plan`, `tasks`, `implement`, `review`,
+    `accept` and the other mission and charter actions). It is matched against the current Mission''s type and the action in
+    flight when the charter context is built.'
+pack-skill:
+  definition: 'A thin, parameterised entry point a team shares through a Charter Pack instead of private per-user copies: an
+    artifact of kind `skill` (URN `skill:<id>`), declared as `<id>.skill.yaml` in a pack''s `skills/` directory or the
+    project layer. Activated with `spec-kitty charter activate skill <id>`, it is rendered as a `SKILL.md` into each configured
+    tool. It carries no charter substance of its own: it `requires` the procedures and directives that do.'
+effective-set:
+  definition: 'The artifacts of one kind that are actually in force: the kind''s allow state (`activated_<kind>` when present,
+    nothing for `[]`, every available artifact when absent) minus its effective deny. A deny never removes a required
+    artifact.'
+size-default:
+  definition: 'The topology a Mission gets when it is created without `--topology`: one topic branch and no worktree,
+    recorded as provisional `single_branch`. The first `finalize-tasks` settles it once, by size: at most two work packages
+    or at most one code lane stays `single_branch`; anything larger becomes `lanes_with_coord`, with the topic branch as its
+    coordination branch. A settled Mission, and one created with an explicit topology, is never re-decided.'
+code-lane:
+  definition: A lane that resolves to a lane worktree under `.worktrees/` and a lane branch. Only `lanes` and
+    `lanes_with_coord` Missions have code lanes; a repo-root lane never is one. A `single_branch` Mission whose `lanes.json`
+    holds a code lane fails closed until `spec-kitty migrate backfill-topology --restamp-single-branch` (or `spec-kitty
+    upgrade`) re-stamps it.
+mission-branch:
+  definition: '`kitty/mission-<slug>-<mid8>`. A `single_branch` Mission gets one, checked out in its write checkout, when it
+    targets a protected target without `--commit-to-target`; `spec-kitty consolidate` then lands it onto the target.
+    Lane-based Missions use the same name as the consolidation base of their code lanes, and on a coordination topology it is
+    also the coordination branch. A default Mission''s mission branch is its topic branch.'
+tail-cursor:
+  definition: 'A reader''s resumable position in `spec-kitty events tail`: a byte offset into the selected log of a Mission
+    plus a content invariant (a digest of the bytes at that offset) that proves later growth is a continuation and not a
+    rollback. The caller owns it; the command persists nothing.'
+  status: draft
+resume-token:
+  definition: The (offset, content invariant) pair a consumer of `spec-kitty events tail` stores across restarts and passes
+    back with `--from-offset` and `--from-invariant`. With both, a stale or rolled-back position is refused instead of
+    trusted.
+  status: draft
+log-truncated:
+  name: log_truncated
+  definition: 'The signal `spec-kitty events tail` emits when it detects a rollback of the log it follows (a size shrink, or
+    regrowth whose content no longer matches): `"type": "log_truncated"`, a `reason` (`size_shrink` or `content_mismatch`),
+    the offset where it was detected, and a resync offset and invariant at 0.'
+  status: draft
+tail-envelope:
+  definition: One JSON line that `spec-kitty events tail --json` writes to stdout, either a line of the selected log passed
+    through or a `log_truncated` signal; each pass-through line also carries the offset and invariant just past it, ready to
+    store as a resume token. Errors go to stderr only.
+  status: draft
+three-layer-drg:
+  definition: 'The Doctrine Relationship Graph composed in three layers: the built-in packs'' graph fragments, zero or more
+    org packs'' `drg/fragment.yaml` extensions, and optional project-layer annotations. Each layer is additive: the org and
+    project layers may extend or annotate the nodes below them, never remove or reclassify them.'
+project-charter:
+  definition: 'The compiled, project-specific charter under `.kittify/charter/`: the Human-in-Charge''s decisions in
+    `charter.md` and `charter.yaml`, activation choices in `activation.yaml`, interview answers in `interview/answers.yaml`,
+    and the reference manifest as the `catalog` section of `charter.yaml`.'
+owned-checkout:
+  definition: A linked git checkout that Spec Kitty has validated, for one command invocation, as owning a given Mission. The
+    operator names it with `--owned-checkout <path>`, or a command without the flag adopts it after validation; every
+    lifecycle read and write of that Mission then resolves inside it.
+target-ref:
+  definition: 'The git ref a Mission''s planning artifacts and status events are committed against, the "commit target":
+    the Mission''s `target_branch`. Distinct from the partition (which decides the surface an artifact is written to) and
+    from the repository''s primary branch.'
+  avoid:
+    - primary target
+    - primary ref
+agent-profile:
+  status: active
+procedure:
+  definition: A reusable charter subworkflow that a mission-type step delegates to, through a substep's `delegates_to`, for
+    part of a mission action. Procedures are structured playbooks, not tracked Missions and not runtime sessions.
+step-sequence:
+  definition: The order in which a mission type's steps run, the order of the `steps` list in its `<id>.mission-type.yaml`.
+mission-discovery:
+  definition: How the runtime finds the mission types it can run, the `<id>.mission-type.yaml` files of the packs in the
+    charter offering.
+command-template:
+  definition: The Markdown prompt of one mission-type step (its `prompt_path`, under the mission type's `steps/`), rendered for
+    the agent when the step runs.
+template-resolution:
+  definition: Finding the right prompt and templates for a mission action, given the active mission type and the agent that
+    runs it.
+parity-hash:
+  definition: 'A checksum over the (relative path, content hash) pairs of every present artifact in a dossier, sorted by path
+    so the scan order does not matter, written as `sha256:<64 hex>`. Any change of an artifact''s content or path changes
+    it; it answers "has anything in this dossier changed?".'
+communication-artifact:
+  definition: A durable artifact produced or consumed while a Mission runs, for example a commit, a pull request or a review
+    comment, as distinct from the planning artifacts (spec, plan, tasks) produced before execution begins.
+activated-vs-available-profile:
+  definition: 'An available profile is any agent profile in a layer of the charter offering (built-in, org pack or project
+    layer); an activated profile is one the project has turned on through `activated_agent_profiles` (absent key: every
+    available profile; `[]`: none; a list: those listed), minus its `deactivated_agent_profiles` exclusions unless a pack
+    requires it. Only activated profiles are selectable by default; the others show under `--all` or `--show-available`.'
+
+# --- WP01 review rework
+schema:
+  definition: A machine-validated contract that defines the allowed structure and fields of a charter artifact. Pack
+    validation rejects an artifact that does not match its schema.
+execution-mode-stamp:
+  definition: 'The `execution_mode` recorded on status events: `worktree` or `direct_repo`. `direct_repo` is stamped for
+    every work package that runs in a write checkout, and also for `planning_artifact` work packages of every topology,
+    because they resolve to the repo-root lane. It is not the work-product kind (`code_change` or `planning_artifact`),
+    which work-package frontmatter also calls `execution_mode`.'
+clarification-burst-policy:
+  definition: An intended rule, not shipped, for limiting clarification interruptions by prioritising the highest-impact
+    conflicts and capping the prompts per burst. Today the clarification step prompts for every unresolved conflict in
+    turn.
+  status: draft
+operator:
+  name: operator
+  definition: The human who remains responsible and accountable for the decisions made during a Mission. Agents assist and
+    propose; the operator owns the final call, so automation supports human judgement rather than replacing it. Mission
+    steps and procedures name this role `operator`, and the `human-in-charge` agent profile is the human-performed profile
+    that serves it.
+  status: active
+  avoid:
+    - human in charge
+    - human in command
+governance-resolution:
+  definition: The result of checking the project's active charter against the charter offering, confirming that the
+    referenced paradigms, directives and tools exist and are compatible with each other.
+markdown:
+  definition: A lightweight text formatting language that uses simple symbols (`#` for a heading, a pair of asterisks for
+    bold) to create readable documents. Files use the `.md` extension.
