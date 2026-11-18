@@ -188,7 +188,10 @@ def write_lock(commit: str, release_tag: str, jar_sha256: str) -> None:
             raise PinError("the lock would not read back as the pin asked for")
     except charter_lock.LockError as error:
         raise PinError(f"the lock: {error}") from error
-    lock_file.write_text(text, encoding="utf-8")
+    # The destination is the module constant charter_lock.LOCK_FILE, never a path taken from input; the text is the
+    # tracked lock with three values that matched the lock's own patterns above, and it was just checked by
+    # charter_lock.check. SonarCloud's S2083 reads the lock's content as tainted (PR #308): a false positive.
+    lock_file.write_text(text, encoding="utf-8")  # NOSONAR
 
 
 def _run(*command: str) -> None:
