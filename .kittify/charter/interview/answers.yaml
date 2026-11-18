@@ -11,8 +11,9 @@ answers:
     are no longer a core repository concern. Core (spec-kitty/spec-kitty) is the deployable,
     assembler surface; the canonical owner of the LOGIC (pack schemas, validation, resolution,
     DRG, activation) is the charter repository (spec-kitty/spec-kitty-charter); content
-    ownership is in the packs repositories. This repository moves in lockstep with charter
-    main through the commit pinned in charter.lock.yaml.
+    ownership is in the packs repositories. This repository follows the charter through the
+    commit pinned in charter.lock.yaml: a charter release or pre-release tag (service-v*) by
+    default, charter main HEAD only on demand (operator ruling, 2026-11-18).
     The repository is public, MIT-licensed, and explicitly work-in-progress: pack names,
     boundaries, and composition mechanics are expected to churn while the direction is
     shaped in the open. Issues here track pack content; the charter's issues track doctrine

@@ -55,14 +55,15 @@ to see all of them at once. Rendering that progress here is planned in
 builds on the charter commit this repository pins; moving that pin first keeps later changes small.
 
 **Goal:** "This repository aligns to the charter (spec-kitty-charter), not to spec-kitty core"
-(AGENTS.md), and packs move "in lockstep with the charter's `main`"
+(AGENTS.md), and packs follow the charter through one pin, a charter release by default
 ([vision](../architecture/vision.md#division-of-responsibility)).
 
 **Epics:** [#287](https://github.com/spec-kitty/spec-kitty-open-packs/issues/287)
 
 **Exit criteria:**
 
-- `charter.lock.yaml` pins the charter's `main` head, and every pack validates against it.
+- `charter.lock.yaml` pins a charter release or pre-release tag (`service-v*`), its commit and its
+  jar digest, and every pack validates against it; charter `main` HEAD is pinned only on demand.
 - A scheduled job proposes the next lock bump when the charter moves and the gates are green, so
   pin moves stay small.
 - The local schema-validation bridge is retired once the charter ships a validator this repository
