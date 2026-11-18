@@ -630,6 +630,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The packs are pinned to charter release `service-v0.1.0-rc.1`** (epic #287; operator ruling,
+  2026-11-18). `charter.lock.yaml` moves from `main` at `050d780` to the pre-release tag
+  `service-v0.1.0-rc.1`, its commit `ebce9083cc132c4cc7f7602f8b8681b933dac98a` and the jar digest
+  `596a7861…941714` its `.sha256` asset states. The `Charter service validation` job now downloads
+  `spec-kitty-charter-service-0.1.0-rc.1.jar` and refuses any other digest instead of building the
+  service with Gradle; the round trip still runs from the source at the tagged commit. Between the
+  two commits the charter changed release tooling, CI and identifier tests only: the packs
+  contract's `file-kinds.yaml` and schemas are unchanged, so no manifest, digest or pack content
+  changes. The pin policy changes with it, superseding the 2026-11-16 lockstep with `main`: pin a
+  charter release or pre-release tag by default, and charter `main` HEAD only on demand. The lock
+  comments, the project charter and its interview answers, the README, the vision, the roadmap and
+  the validate-a-pack guide say so.
 - **The accountable human is "the operator" in pack prose and both glossaries** (#139). "HiC",
   "Human-in-Charge" and "human-in-command" no longer name a role: the glossary term is
   `operator` (avoid: "human in charge", "human in command"), the kitty-glossary-writing
