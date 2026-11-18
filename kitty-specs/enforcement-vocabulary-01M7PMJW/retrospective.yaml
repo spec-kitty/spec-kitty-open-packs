@@ -1,0 +1,221 @@
+schema_version: 1
+mission_id: 01M7PMJW2SF3G99X1XYXC5KACQ
+mission_slug: enforcement-vocabulary-01M7PMJW
+mission_number: 3
+friendly_name: Directive enforcement vocabulary
+mission_type: software-dev
+target_branch: issue-233-enforcement-vocabulary
+created_at: '2026-11-18T06:54:19.096078+00:00'
+created_by:
+  kind: runtime
+  id: spec-kitty-generator
+  display: Spec Kitty Generator
+provenance:
+  kind: runtime_post_completion
+  invoked_at: '2026-11-18T06:54:19.096078+00:00'
+  policy_resolved_from:
+    enabled: <default>
+    timing: <default>
+    failure_policy: <default>
+    write_record: <default>
+    generate_proposals: <default>
+    apply_proposals: <default>
+    permissions.write_record: <default>
+    permissions.inspect_mission_artifacts: <default>
+    permissions.propose_glossary_changes: <default>
+    permissions.propose_drg_changes: <default>
+    permissions.propose_doctrine_changes: <default>
+    permissions.apply_low_risk_changes: <default>
+    permissions.apply_structural_changes: <default>
+    precedence: <default>
+    generator: <default>
+policy_source:
+  enabled: <default>
+  timing: <default>
+  failure_policy: <default>
+  write_record: <default>
+  generate_proposals: <default>
+  apply_proposals: <default>
+  permissions.write_record: <default>
+  permissions.inspect_mission_artifacts: <default>
+  permissions.propose_glossary_changes: <default>
+  permissions.propose_drg_changes: <default>
+  permissions.propose_doctrine_changes: <default>
+  permissions.apply_low_risk_changes: <default>
+  permissions.apply_structural_changes: <default>
+  precedence: <default>
+  generator: <default>
+findings_status: has_findings
+helped:
+- id: h-001
+  category: implementation
+  summary: WP05 completed without rejection cycles
+  evidence_refs:
+  - e-010
+not_helpful:
+- id: n-012
+  category: doc
+  summary: analysis-report.md records 4 finding(s)
+  evidence_refs:
+  - e-022
+  details: The analysis-report.md artifact for this mission records 4 finding(s) in its structured frontmatter. Review
+    them to understand documented issues and decisions.
+- id: n-004
+  category: process
+  summary: WP01 had 2 lane bounce(s) before approval
+  evidence_refs:
+  - e-014
+  details: WP WP01 moved backward across workflow lanes 2 time(s) outside the documented reviewer-feedback flow.
+- id: n-008
+  category: process
+  summary: WP01 required 2 --force override(s) during workflow
+  evidence_refs:
+  - e-018
+  details: WP WP01 required 2 operator-driven --force lane transition(s). Force overrides typically indicate the runtime
+    guard failed or the operator routed around it; investigate the underlying cause.
+- id: n-005
+  category: process
+  summary: WP02 had 1 lane bounce(s) before approval
+  evidence_refs:
+  - e-015
+  details: WP WP02 moved backward across workflow lanes 1 time(s) outside the documented reviewer-feedback flow.
+- id: n-009
+  category: process
+  summary: WP02 required 1 --force override(s) during workflow
+  evidence_refs:
+  - e-019
+  details: WP WP02 required 1 operator-driven --force lane transition(s). Force overrides typically indicate the runtime
+    guard failed or the operator routed around it; investigate the underlying cause.
+- id: n-006
+  category: process
+  summary: WP03 had 1 lane bounce(s) before approval
+  evidence_refs:
+  - e-016
+  details: WP WP03 moved backward across workflow lanes 1 time(s) outside the documented reviewer-feedback flow.
+- id: n-010
+  category: process
+  summary: WP03 required 2 --force override(s) during workflow
+  evidence_refs:
+  - e-020
+  details: WP WP03 required 2 operator-driven --force lane transition(s). Force overrides typically indicate the runtime
+    guard failed or the operator routed around it; investigate the underlying cause.
+- id: n-007
+  category: process
+  summary: WP04 had 2 lane bounce(s) before approval
+  evidence_refs:
+  - e-017
+  details: WP WP04 moved backward across workflow lanes 2 time(s) outside the documented reviewer-feedback flow.
+- id: n-011
+  category: process
+  summary: WP04 required 2 --force override(s) during workflow
+  evidence_refs:
+  - e-021
+  details: WP WP04 required 2 operator-driven --force lane transition(s). Force overrides typically indicate the runtime
+    guard failed or the operator routed around it; investigate the underlying cause.
+- id: n-001
+  category: review_loop
+  summary: WP01 required 1 rejection cycle(s) before approval
+  evidence_refs:
+  - e-011
+  details: WP WP01 was sent back to an earlier lane with documented review feedback 1 time(s).
+- id: n-002
+  category: review_loop
+  summary: WP02 required 1 rejection cycle(s) before approval
+  evidence_refs:
+  - e-012
+  details: WP WP02 was sent back to an earlier lane with documented review feedback 1 time(s).
+- id: n-003
+  category: review_loop
+  summary: WP04 required 1 rejection cycle(s) before approval
+  evidence_refs:
+  - e-013
+  details: WP WP04 was sent back to an earlier lane with documented review feedback 1 time(s).
+gaps:
+- id: g-001
+  category: doc
+  summary: data-model.md absent
+  evidence_refs:
+  - e-002
+  details: spec.md declares domain entities but data-model.md is missing. A data model document clarifies domain entity
+    relationships.
+proposals: []
+evidence_refs:
+- id: e-001
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/meta.json
+- id: e-002
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/spec.md
+- id: e-003
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/plan.md
+- id: e-004
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/tasks.md
+- id: e-005
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP01-level-vocabulary.md
+- id: e-006
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP02-guard.md
+- id: e-007
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP03-directive-sweep.md
+- id: e-008
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP04-citing-content-sweep.md
+- id: e-009
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP05-release-surface.md
+- id: e-010
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+- id: e-011
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PNZX8GEDDCDH72QBVMSCEY
+- id: e-012
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PP0H3KQ5EWWD1EQRDE92KG
+- id: e-013
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PP135W4VREBDE72V2R1RCR
+- id: e-014
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PP9QYMRFGS20K27XNQE59B..01M7PPCNYR2M4S5TRFHTH4DWSX
+- id: e-015
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PPD7ZCGGD9FENT8Q1FCXSW
+- id: e-016
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PPKZEPAAKYGT8AS3TB4P3F
+- id: e-017
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PP9VS35FTEQZ7DDE0DAA2G..01M7PPCZ80E9KMACSCNKDX7FF0
+- id: e-018
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PP9QYMRFGS20K27XNQE59B..01M7PPCNYR2M4S5TRFHTH4DWSX
+- id: e-019
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PPD7ZCGGD9FENT8Q1FCXSW
+- id: e-020
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PPCJ3RYWQ0YAP6CAWKARTC..01M7PPKZEPAAKYGT8AS3TB4P3F
+- id: e-021
+  kind: event_range
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/status.events.jsonl
+  range: 01M7PP9VS35FTEQZ7DDE0DAA2G..01M7PPCZ80E9KMACSCNKDX7FF0
+- id: e-022
+  kind: file
+  path: kitty-specs/enforcement-vocabulary-01M7PMJW/analysis-report.md
+generator_version: '1.0'
+provenance_history: []

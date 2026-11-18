@@ -1,0 +1,22 @@
+# Occurrence map for #233 (DIRECTIVE_035). The change removes or rewords self-binding prose:
+# text that claims how strictly a directive binds (its level, criticality or gate posture).
+# Per-file inventory and verdicts: research.md, R5.
+target:
+  term: self-binding prose (advisory in v1, this is advisory, binding, mandatory, enforcement `required`)
+  operation: remove
+
+categories:
+  code_symbols:         { action: do_not_change }   # no identifier changes; the guard gains a new rule only
+  import_paths:         { action: do_not_change }
+  filesystem_paths:     { action: do_not_change }   # no file renames (C-004); qa-001-traceability-mandatory keeps its name
+  serialized_keys:      { action: do_not_change }   # every `enforcement:` field and value stays (C-001, C-003)
+  cli_commands:         { action: do_not_change }
+  user_facing_strings:  { action: manual_review }   # pack prose: each occurrence classified in research.md R5
+  tests_fixtures:       { action: manual_review }   # new guard tests plant the phrases on purpose
+  logs_telemetry:       { action: do_not_change }
+
+exceptions:
+  - path: "packs/*/directives/*.directive.yaml"
+    field_path: "enforcement"
+    action: do_not_change
+    reason: "Required by the pinned charter schema; read as the pack-supplied default (ADR 2026-11-18-1)."
