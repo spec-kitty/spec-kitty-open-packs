@@ -122,6 +122,86 @@ class RuntimeFamilyLanguageTest(unittest.TestCase):
         self.assertEqual(vocab.findings_in("applies_to_languages:\n- jvm\n", "packs/java/README.md"), [])
 
 
+class SelfBindingTest(unittest.TestCase):
+    """#233: pack prose never states how strictly a directive binds; the charter does."""
+
+    REFUSED = (
+        "This directive is advisory at the transition-gate level in v1: it adds no handler.",
+        "Advisory in v1: evidence is required, but this step does not gate the transition.",
+        "This is advisory guidance, not a runtime gate.",
+        "Makes the integrity rules for parallel cloud sessions binding charter content.",
+        "- **Advisory posture**: an unexamined default is a gap.",
+        "- `CAVE_001` (Caveman Terse Output) governs this step's output prose; enforcement `required`.",
+        "Remember that the rule is advisory here.",
+        "the worktree-isolation rules that DIRECTIVE_045 makes binding",
+        "This tactic operationalizes the directive's binding rules.",
+        "A Spec Kitty styleguide/directive is advisory context an agent applies.",
+        "The missing-skill fallback and the PyPI fallback remain advisory in the procedure.",
+        "This rule is enforced as a hard validation gate: ownerless actions are refused.",
+        "    description: 'Surface the risk. Advisory: evidence is required, but this step does not gate the transition.'",
+        "A report missing one is incomplete. This is not a recommendation: all seven count.",
+        "classify each by kind: a non-negotiable rule becomes a directive.",
+        "The attribution directive is a hard gate for every minute.",
+        "applying its own resolution order is an acceptable lenient-adherence allowance here.",
+        "CLOUD_SESSION_ORCHESTRATION makes the read-only sibling, orchestrator-mediated write and shared-number rules binding.",
+    )
+
+    #: (text, line the phrase starts on): phrases a ~80-column wrap splits across two lines.
+    WRAPPED = (
+        ("scope: >\n  It adds no gate. Advisory in\n  v1: evidence is required.\n", 2),
+        ("intent: >\n  Read the evidence first. This directive is\n  advisory for teams adopting it.\n", 2),
+        ("- \"A report missing one is incomplete. This is not a\n  recommendation: all seven count.\"\n", 1),
+        ("notes:\n  # A styleguide is advisory\n  # context an agent applies.\n", 2),
+    )
+
+    ALLOWED = (
+        "npm audit reports an advisory for this version; check it before the upgrade.",
+        "Owner is mandatory on every action item.",
+        "Assign each term an enforcement tier (advisory, acknowledgment-required, hard-failure).",
+        "The file is written in the exact qa-traceability/v1 schema.",
+        'reason: "CTRF not implemented in v1"',
+        "enforcement: required",
+        "  enforcement: advisory  # the pack-supplied default",
+        "This directive applies when a dependency changes; it is a rule, not a gate.",
+        "Spring makes property binding type-safe; Angular makes two-way binding easy.",
+        "The service locator makes the service binding explicit.",
+        "advisory: GHSA-xxxx-yyyy-zzzz",
+        "Check the lockfile. Advisory: npm reports a moderate issue for this version.",
+        "The rule is required reading for every reviewer.",
+        "`/spec-kitty.analyze` must run first. This is not optional: it is the readiness gate.",
+        "This directive binds only work handled under Spec Kitty.",
+        "`lenient-adherence` means conform except where explicit_allowances permit.",
+        "The attribution check is a hard gate whenever any action exists.",
+    )
+
+    def test_refuses_every_self_binding_phrase(self) -> None:
+        for line in self.REFUSED:
+            with self.subTest(line=line):
+                found = vocab.self_binding_in(f"intro\n{line}\n")
+                self.assertEqual([number for number, _ in found], [2])
+
+    def test_refuses_a_phrase_split_by_a_line_wrap(self) -> None:
+        for text, line in self.WRAPPED:
+            with self.subTest(text=text):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(text)], [line])
+
+    def test_a_phrase_on_one_line_is_reported_once(self) -> None:
+        self.assertEqual([n for n, _ in vocab.self_binding_in("Advisory in v1: x.\nAdvisory in v1: y.\n")], [1, 2])
+
+    def test_the_enforcement_field_never_joins(self) -> None:
+        self.assertEqual(vocab.self_binding_in("intent: The rule is\nenforcement: advisory\n"), [])
+
+    def test_spares_other_senses_and_the_field(self) -> None:
+        for line in self.ALLOWED:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
+    def test_findings_name_the_glossary_term(self) -> None:
+        found = vocab.findings_in("x\nThis is advisory guidance.\n", "packs/foundation/directives/049.directive.yaml")
+        self.assertEqual([line for line, _ in found], [2])
+        self.assertIn("enforcement-level", found[0][1])
+
+
 class MainTest(unittest.TestCase):
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
@@ -154,6 +234,12 @@ class MainTest(unittest.TestCase):
         code, out = self._main()
         self.assertEqual(code, 1)
         self.assertIn("::error file=packs/qa/missions/prompt.md,line=2::", out)
+
+    def test_planted_self_binding_phrase_fails(self) -> None:
+        self._write("packs/qa/directives/x.directive.yaml", "id: X\nenforcement: required\nscope: >\n  Advisory in v1.\n")
+        code, out = self._main()
+        self.assertEqual(code, 1)
+        self.assertIn("::error file=packs/qa/directives/x.directive.yaml,line=4::", out)
 
     def test_untracked_files_are_not_scanned(self) -> None:
         (self.repo / "packs" / "qa" / "scratch.md").write_text("tactic:bug-fixing-checklist\n", encoding="utf-8")
