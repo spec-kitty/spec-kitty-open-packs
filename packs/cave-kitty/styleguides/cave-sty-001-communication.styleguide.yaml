@@ -10,8 +10,8 @@ applies_to_languages: []
 # authored fresh (not copied) under this repository's MIT licence. It does NOT
 # reproduce caveman's runtime toggle, its CLI proxy, or its input/log/JSON
 # compression tooling — those are tooling, not pack doctrine. A Spec Kitty
-# styleguide is advisory context an agent applies when it writes output, not an
-# enforced runtime switch. Activate it deliberately: its intent is the opposite of
+# styleguide is context an agent applies when it writes output, not a runtime
+# switch. Activate it deliberately: its intent is the opposite of
 # a progressive-disclosure, audience-serving communications styleguide (for
 # example the writing pack's `professional-communications`, when installed), and nothing in the
 # styleguide schema enforces mutual exclusion — both share `scope: docs`. So do

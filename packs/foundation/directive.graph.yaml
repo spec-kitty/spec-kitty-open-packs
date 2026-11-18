@@ -386,12 +386,12 @@ edges:
 - source: directive:DIRECTIVE_044
   target: tactic:canonical-source-unification
   relation: suggests
-  reason: This tactic operationalizes the directive's binding rules, including the unification-not-parity rule and the missing-command-is-a-gap
+  reason: This tactic operationalizes the directive's rules, including the unification-not-parity rule and the missing-command-is-a-gap
     rule.
 - source: directive:DIRECTIVE_044
   target: tactic:model-task-routing
   relation: suggests
-  reason: This tactic operationalizes the directive's binding rule that the catalog is the single canonical source for model/task_type
+  reason: This tactic operationalizes the directive's rule that the catalog is the single canonical source for model/task_type
     routing data; do not hand-roll a substitute mapping.
 - source: directive:DIRECTIVE_044
   target: tactic:ownership-map-leeway

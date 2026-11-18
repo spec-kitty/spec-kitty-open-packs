@@ -56,7 +56,7 @@ edges:
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-write
   relation: suggests
-  when: applying the binding frontmatter-SSOT and doc_status rules the styleguide conventions enforce
+  when: applying the frontmatter-SSOT and doc_status rules the styleguide conventions enforce
 - source: directive:DIRECTIVE_047
   target: directive:DIRECTIVE_042
   relation: suggests

@@ -24,7 +24,7 @@ scope: >
 integrity_rules:
   - "Shipping a point-fix for a symptom whose root-cause investigation was
     skipped is non-compliant, even when the point-fix makes the reported symptom
-    disappear. The mandatory output is the diagnosis, not merely a green test."
+    disappear. What the fix must produce is the diagnosis, not merely a green test."
   - "This directive licenses a LARGER structural change than a point-fix and is
     therefore in genuine tension with tactic:change-apply-smallest-viable-diff,
     DIRECTIVE_024 (Locality of Change), and DIRECTIVE_025 (Boy Scout Rule). It

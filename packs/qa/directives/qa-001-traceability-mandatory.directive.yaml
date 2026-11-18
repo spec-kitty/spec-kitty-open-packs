@@ -1,6 +1,6 @@
 id: QA_001
 schema_version: "1.0"
-title: QA Traceability Mandatory
+title: QA Requirement Traceability
 enforcement: required
 intent: >
   Every requirement a test-strategy/test-report artifact declares must trace to a test case,

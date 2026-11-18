@@ -47,7 +47,7 @@ routing-priority: 65
 
 directive-references:
   - code: QA_001
-    name: QA Traceability Mandatory
+    name: QA Requirement Traceability
     rationale: >
       Each test case and suite this profile authors carries requirement_refs
       that feed the traceability matrix QA_001 governs.

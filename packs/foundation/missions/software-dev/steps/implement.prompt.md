@@ -165,7 +165,7 @@ If this WP adds, upgrades, or removes a dependency (any ecosystem - npm/yarn/pnp
 
 - **Risk disclosure**: record what was checked and the resulting decision for every control DIRECTIVE_051 names in the WP implementation notes or commit message, so a reviewer does not have to re-derive the analysis.
 
-This is advisory in v1 - it does not add a new fail-closed gate - but skipping the checklist for a dependency change is a gap the reviewer will flag, not a neutral outcome.
+Skipping the checklist for a dependency change is a gap the reviewer will flag, not a neutral outcome.
 
 ### 5. Self-Check
 
