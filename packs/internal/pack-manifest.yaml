@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5c5dba58a6250efd87025d0958d093aed44026a9b10676f52295f518002d030b
+manifest_hash: 5d79337763e6320498a4fd0da4058ec82d68c68a509cc0cf556b0ed80b44566f
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -68,7 +68,7 @@ constituents:
 - kind: glossary
   id: spk-internal-glossary
   path: glossaries/spk-internal-glossary.glossary.yaml
-  content_hash: c9535d00bbfd53b9f7330f6b640d56fd382d7de20f8daca0e8f265cb5697f6bf
+  content_hash: 671ff893b231c0a5b579c47880eaf9612a6c6c7edb8ff909a0e9372badccff00
 - kind: procedure
   id: charter-offering-scenario-extraction
   path: procedures/charter-offering-scenario-extraction.procedure.yaml

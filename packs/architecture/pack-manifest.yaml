@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6451f635d3465187e7c6423b677b500e95f1a7e0a17c3976945dd589b04805f1
+manifest_hash: 5bd3dc376fd828d5eb7c2bc8174cb672aa5201b050779e83a21e6a06afcc1fca
 constituents:
 - kind: agent_profile
   id: architect-alphonso
@@ -36,7 +36,7 @@ constituents:
 - kind: procedure
   id: event-storming-discovery
   path: procedures/event-storming-discovery.procedure.yaml
-  content_hash: fb1dd1ce85e2173a293791cf590d32541a1a7c2dc282b614fdb156cb887f587a
+  content_hash: b6ae3b26efd065b7dc8f9e5eeb5aec0a81c08fee0ba4f4d8c531ee555cdb7407
 - kind: styleguide
   id: aggregate-design-rules
   path: styleguides/aggregate-design-rules.styleguide.yaml
@@ -80,7 +80,7 @@ constituents:
 - kind: tactic
   id: c4-zoom-in-architecture-documentation
   path: tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml
-  content_hash: 1b309f41a2383ffdeddefec79d443d757a73bbef52937d9b24ed6372ca3cac9c
+  content_hash: cf40caebe5465e989e8334fb9c9d32368dbcbc21c027fd7cbb75c79464e3e369
 - kind: tactic
   id: development-bdd
   path: tactics/architecture/development-bdd.tactic.yaml

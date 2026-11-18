@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: d7f2e2e7c87139838d2eab7e5f01e09f46b187a48c2b28b58850ab37be286953
+manifest_hash: 90a4bcf48bdd03e9fec8287bbd35e2dd15033ab91dfb08587098339ee040d73b
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -152,7 +152,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: 1a24866a03e7627e1aea7ba3834bbcd41a2273347dce4033cc4273c359b1a30d
+  content_hash: c441ac9fe4c49e374d4eaf9f03486ae801dbdb91a9e89e41187d5c06beea3720
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -296,7 +296,7 @@ constituents:
 - kind: procedure
   id: example-mapping-workshop
   path: procedures/example-mapping-workshop.procedure.yaml
-  content_hash: 6197e05eb98867b4a2592328d9db8c9b49e9b5b5778f7a75b068415451e527c7
+  content_hash: 3a2f7c07c8f751cef9cb441b117c7af5ea9ce23c23d95cba9e3b172586a599ec
 - kind: procedure
   id: failing-test-triage
   path: procedures/failing-test-triage.procedure.yaml
@@ -492,7 +492,7 @@ constituents:
 - kind: tactic
   id: glossary-curation-interview
   path: tactics/communication/glossary-curation-interview.tactic.yaml
-  content_hash: 5ee59e6aa59c4adcab09a8b2749bfe839f76bdb62b89577bdc26a911691ea12a
+  content_hash: d1d39dee36958e7b5c01dbe569e3b5f7c0aec3c62f6712cf87007b7efa37395b
 - kind: tactic
   id: traceable-decisions
   path: tactics/communication/traceable-decisions.tactic.yaml
@@ -580,7 +580,7 @@ constituents:
 - kind: tactic
   id: stopping-conditions
   path: tactics/stopping-conditions.tactic.yaml
-  content_hash: 35202741efd25c6cf3329029f7215566f3bdc2288b21e5cee9a50f3b38430e86
+  content_hash: 3c218349a1b5c95286077ce6683634032904103db857097a940bd772918a29d9
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml
