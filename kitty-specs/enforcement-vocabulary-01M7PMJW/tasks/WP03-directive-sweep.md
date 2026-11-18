@@ -31,6 +31,14 @@ owned_files:
 - packs/internal/directives/**
 - packs/qa/directives/**
 - packs/writing/directives/**
+- packs/architecture/directives/**
+- packs/cave-kitty/directives/**
+- packs/event-driven/directives/**
+- packs/spdd/directives/**
+- packs/testing/directives/**
+- packs/qa/drg/fragment.yaml
+- packs/qa/agent_profiles/**
+- docs/guides/getting-started.md
 role: curator
 tags: []
 tracker_refs:
@@ -63,7 +71,7 @@ No directive body claims its own level, criticality or gate posture, and every r
 ### T011 internal, qa and writing
 
 - cloud-session-orchestration: intent "Makes the integrity rules for parallel cloud sessions binding charter content." becomes "Sets the integrity rules for parallel cloud sessions." Scope "... remain advisory in the cloud-session-dispatch procedure." becomes "... stay with the cloud-session-dispatch procedure, outside this directive."
-- QA_001: title "QA Requirement Traceability"; the id and the file name stay.
+- QA_001: title "QA Requirement Traceability"; the id and the file name stay. Also retitle the same name in `packs/qa/drg/fragment.yaml` (node title), the `directive-references` names in qa-reporter-rhea, qa-strategist-quinn and qa-test-designer-tessa, and `docs/guides/getting-started.md` (Step 4).
 - QA_002: drop "This is not a recommendation" and the "mandatory" framing; keep the seven fields and "no partial credit".
 - ACTION_ITEM_ATTRIBUTION: "This rule is enforced as a hard validation gate: minutes containing ownerless actions are refused ..." becomes "Minutes containing ownerless actions are refused ...".
 - 042: "This directive binds the conventions" becomes "This directive carries the conventions"; keep the live checks.

@@ -31,7 +31,7 @@ owned_files:
 - packs/*/pack-manifest.yaml
 - packs/*.source.yaml
 - docs/packs/**
-- CHANGELOG.md
+- docs/changelog/CHANGELOG.md
 role: implementer
 tags: []
 tracker_refs:
@@ -49,10 +49,11 @@ The release surface reflects the change and every gate is green (FR-010, NFR-001
 
 ## Subtasks
 
-### T018 Versions (DIRECTIVE_018)
+### T018 Versions (DIRECTIVE_018; operator question Q4)
 
-- Minor bump for every pack whose tree changed (nothing is removed or renamed; no rule is tightened): expected foundation 2.0.0 -> 2.1.0, writing 2.0.0 -> 2.1.0, qa, internal and cave-kitty (whose README is in the digest), and pack-authoring. Derive the actual list from `git diff --stat origin/main -- packs/`.
-- built-in: lockstep. Its `depends_on` pins (`==2.0.0` for foundation and writing) move to `==2.1.0`, and built-in itself takes a minor bump. Check every dependant's range (`>=2.0,<3`) still admits the new versions.
+- Recommendation A (sent to the operator 2026-11-18): the built-in-level packs (foundation, writing, built-in) keep their unreleased `[Unreleased]` versions (2.0.0, 2.0.0, 4.0.0), and the change folds into them as #258 did, so no exact pin moves. The org packs whose tree changes take a bump, because the charter service answers 409 on re-registration at the same version with new content (#194): pack-authoring 1.2.0 -> 1.3.0 (additive principle), and qa 4.0.0 -> 4.0.1, internal 4.0.0 -> 4.0.1, cave-kitty 2.2.0 -> 2.2.1 (wording).
+- If the operator picks the lockstep option instead: foundation and writing go to 2.1.0 and built-in to 4.1.0, and every exact pin moves (writing, testing, refactoring, architecture and planning-analysis pin foundation; architecture pins writing; built-in pins all of them), with restamps and bumps for each.
+- Derive the changed-pack list from `git diff --stat origin/main -- packs/`.
 
 ### T019 Manifests, digests, pages
 
@@ -60,11 +61,13 @@ The release surface reflects the change and every gate is green (FR-010, NFR-001
 
 ### T020 Changelog
 
+- `CHANGELOG.md` is a symlink to `docs/changelog/CHANGELOG.md`; edit the real file, bump its frontmatter `updated:`, and use the existing emoji headings (`### 🔄 Changed`).
+
 - One `### Changed` (or the section the Unreleased block uses) entry: the levels are defined once; prose is swept; the field stays as the default (ADR); the guard rule; the version list. No upgrade action is needed by adopters; QA_001 is retitled.
 
 ### T021 Gates
 
-- `scripts/ci/validate-packs.sh` and `--cross-pack`, `scripts/ci/check-pack-digests.sh`, `check_vocabulary.py`, `gen_pack_reference.py --check`, and the four unittest suites. Record the results in the WP review.
+- `scripts/ci/validate-packs.sh` and `--cross-pack`, `scripts/ci/check-pack-digests.sh`, `check_vocabulary.py`, `gen_pack_reference.py --check`, and the five unittest suites (`tests/release`, `tests/vocabulary`, `tests/ci`, `tests/docs`, `tests/assets`). Record the results in the WP review.
 ## Branch Strategy
 
 Planning and merge branch: `issue-233-enforcement-vocabulary` (topology `single_branch`, no lane worktree). The pull request goes from `issue-233-enforcement-vocabulary` to `main`. Implement with `spec-kitty agent action implement <WP> --agent claude --mission enforcement-vocabulary-01M7PMJW`.

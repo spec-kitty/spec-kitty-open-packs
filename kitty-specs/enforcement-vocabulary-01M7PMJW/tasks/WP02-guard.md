@@ -43,14 +43,14 @@ Load the assigned profile with `/spk-charter-profile-load implementer-ivan` befo
 ### T006 Tests first (red)
 
 In `tests/vocabulary/test_check_vocabulary.py`, add a `SelfBindingTest` class:
-- Each pattern is refused by `findings_in(text, rel)`: "This directive is advisory at the transition-gate level in v1", "Advisory in v1: evidence is required", "This is advisory guidance, not a runtime gate", "Makes the integrity rules for X binding charter content", "**Advisory posture**:", "governs this step's output prose; enforcement `required`.", "the rule is advisory".
+- Each pattern is refused by `findings_in(text, rel)`: "This directive is advisory at the transition-gate level in v1", "Advisory in v1: evidence is required", "This is advisory guidance, not a runtime gate", "Makes the integrity rules for X binding charter content", "**Advisory posture**:", "governs this step's output prose; enforcement `required`.", "the rule is advisory", "rules that DIRECTIVE_045 makes binding", "the directive's binding rules", "is advisory context an agent applies", "remain advisory in the procedure", "enforced as a hard validation gate", "'Advisory: visibility and evidence are required".
 - Controls that must pass (other senses): "npm audit reports an advisory", "Owner is mandatory", "enforcement tiers (advisory, acknowledgment-required, hard-failure)", "`qa-traceability/v1`", "CTRF not implemented in v1", "enforcement: required" as a YAML key line.
 - One test runs the guard over the real tree and expects no self-binding findings. It is red until WP03 and WP04 land; the WP02 review records the red run.
 
 ### T007 The rule
 
 - Add `SELF_BINDING: tuple[tuple[re.Pattern[str], str], ...]` with case-insensitive patterns and a message per pattern, a module docstring paragraph naming #233 and the ADR, and a line-wise check in `findings_in`. Skip a line whose stripped form starts with `enforcement:` (the YAML field).
-- Patterns (phrases, never single words): `\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+v\d`; `\b(?:this|the)\s+(?:directive|rule|guidance)\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b`; `\bthis\s+is\s+advisory\b`; `\bnot\s+a\s+runtime\s+gate\b`; `\bbinding\s+charter\s+content\b`; `\badvisory\s+posture\b`; ``\benforcement\s+`(?:required|advisory|lenient-adherence)`` (prose, backticked).
+- Patterns (phrases, never single words): `\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+v\d`; `\b(?:this|the)\s+(?:directive|rule|guidance)\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b`; `\bthis\s+is\s+advisory\b`; `\bnot\s+a\s+runtime\s+gate\b`; `\bbinding\s+charter\s+content\b`; `\badvisory\s+posture\b`; ``\benforcement\s+`(?:required|advisory|lenient-adherence)`` (prose, backticked). Post-tasks review additions (tested on today's tree with zero false positives): `\bmakes?\s[^.]{0,60}\bbinding\b`, `\bdirective'?s?\s+binding\b`, `\badvisory\s+context\b`, `\bremains?\s+advisory\b`, `\bhard\s+validation\s+gate\b`, `(?:^\s*-?\s*'?|\.\s+)advisory:`.
 
 ### T008 Green check
 

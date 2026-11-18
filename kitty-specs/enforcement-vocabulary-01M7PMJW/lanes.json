@@ -15,18 +15,23 @@
         "WP05"
       ],
       "write_scope": [
-        "CHANGELOG.md",
         "docs/architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md",
         "docs/architecture/adr/index.md",
         "docs/artefacts/index.md",
+        "docs/changelog/CHANGELOG.md",
+        "docs/glossary/index.md",
         "docs/guides/author-a-charter-pack.md",
+        "docs/guides/getting-started.md",
         "docs/packs/**",
         "packs/*.source.yaml",
         "packs/*/pack-manifest.yaml",
         "packs/*/pack.yaml",
+        "packs/architecture/directives/**",
         "packs/cave-kitty/README.md",
+        "packs/cave-kitty/directives/**",
         "packs/cave-kitty/missions/cave-dev/steps/**",
         "packs/cave-kitty/styleguides/**",
+        "packs/event-driven/directives/**",
         "packs/foundation/directive.graph.yaml",
         "packs/foundation/directives/**",
         "packs/foundation/glossaries/spec-kitty-core.glossary.yaml",
@@ -37,8 +42,14 @@
         "packs/foundation/tactics/security/supply-chain-install-safety.tactic.yaml",
         "packs/internal/directives/**",
         "packs/internal/drg/fragment.yaml",
+        "packs/pack-authoring/agent_profiles/doctrine-daphne.agent.yaml",
+        "packs/pack-authoring/procedures/onboard-external-agent-to-pack.procedure.yaml",
         "packs/pack-authoring/styleguides/doctrine-instruction-voice.styleguide.yaml",
+        "packs/qa/agent_profiles/**",
         "packs/qa/directives/**",
+        "packs/qa/drg/fragment.yaml",
+        "packs/spdd/directives/**",
+        "packs/testing/directives/**",
         "packs/writing/agent_profiles/**",
         "packs/writing/directive.graph.yaml",
         "packs/writing/directives/**",
@@ -52,8 +63,8 @@
       "parallel_group": 0
     }
   ],
-  "computed_at": "2026-11-18T06:21:17.074070+00:00",
+  "computed_at": "2026-11-18T06:27:47.752431+00:00",
   "computed_from": "dependency_graph+ownership",
   "planning_artifact_wps": [],
-  "planning_commit_sha": "f51c971fe669a51fb47889a9320a01fe6cb69e13"
+  "planning_commit_sha": "490e32ae8ce9aa6eab29f40f1e6fb79264e23505"
 }

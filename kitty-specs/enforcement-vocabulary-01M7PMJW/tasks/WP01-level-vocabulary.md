@@ -32,6 +32,7 @@ owned_files:
 - docs/artefacts/index.md
 - docs/architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md
 - docs/architecture/adr/index.md
+- docs/glossary/index.md
 role: curator
 tags: []
 tracker_refs:
@@ -70,6 +71,8 @@ Load the assigned profile with `/spk-charter-profile-load curator-carla` (or `sp
 
 - `docs/guides/author-a-charter-pack.md`: under the directive example, add a short paragraph: the value is the pack-supplied default level; an adopting charter decides the level that applies; link the glossary term (docs/glossary page, if the term is rendered there; otherwise name `term:spec-kitty-core/enforcement-level`); the directive body states what the rule requires, never how strictly it binds ("advisory in v1", "this is mandatory", "binding").
 - `docs/artefacts/index.md`: the directive row reads "A rule, with a default enforcement level."; check the example near line 51 for a matching comment.
+
+- `docs/glossary/index.md` (hand-maintained): add an "Enforcement level" entry near "Governing preset", one short definition and the term id, so SC-003's link has a target. The guide links to that entry.
 
 ### T004 Styleguide principle
 

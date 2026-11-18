@@ -40,6 +40,8 @@ owned_files:
 - packs/cave-kitty/README.md
 - packs/cave-kitty/styleguides/**
 - packs/cave-kitty/missions/cave-dev/steps/**
+- packs/pack-authoring/agent_profiles/doctrine-daphne.agent.yaml
+- packs/pack-authoring/procedures/onboard-external-agent-to-pack.procedure.yaml
 role: curator
 tags: []
 tracker_refs:
@@ -66,13 +68,15 @@ Content that cites a directive states the checklist and the evidence it requires
 ### T014 plan mission type and the tactic
 
 - `plan.mission-type.yaml` supply-chain-check: drop "Advisory: ... does not gate the transition."
-- `supply-chain-install-safety.tactic.yaml` (about lines 16-17, 95-96 and 132-134): drop the posture clauses; keep "the checklist itself is not optional" only if it is phrased as the rule (prefer "Run the checklist for every dependency change"); rewrite the failure mode as "Treating the checklist as optional: skipping a control or leaving a result unrecorded is a gap, not a pass."
+- `supply-chain-install-safety.tactic.yaml` (about lines 16-17, 95-96, 118-122 (the example disposition's `v1 remains advisory per C-003` rationale) and 132-134): drop the posture clauses; keep "the checklist itself is not optional" only if it is phrased as the rule (prefer "Run the checklist for every dependency change"); rewrite the failure mode as "Treating the checklist as optional: skipping a control or leaving a result unrecorded is a gap, not a pass."
 
 ### T015 Graph reasons
 
 - foundation `directive.graph.yaml` (2: "binding rules" becomes "rules"), `tactic.graph.yaml` (1: "the ... rules that DIRECTIVE_045 makes binding" becomes "DIRECTIVE_045's ... rules"; "the enforcement context" becomes "the context"), internal `drg/fragment.yaml` (1), writing `directive.graph.yaml` (1).
 
-### T016 writing and cave-kitty prose
+### T016 writing, cave-kitty and pack-authoring prose
+
+- pack-authoring: doctrine-daphne :52 and the onboard procedure :72, "a non-negotiable rule becomes a directive" becomes "a rule (\"always\", \"never\", \"must\") becomes a directive".
 
 - cave-dev steps (8 prompts): drop "; enforcement `required`" from the CAVE_001 line.
 - cave-kitty README (2 places) and `cave-sty-001` styleguide: "is advisory context" becomes "is context an agent applies".
@@ -80,7 +84,7 @@ Content that cites a directive states the checklist and the evidence it requires
 
 ### T017 Check
 
-- `grep -rniE "advisory in v1|advisory posture|enforcement `required" packs` is empty; `python3 -m unittest tests/ci/test_software_dev_ascii.py` passes.
+- `grep -rniE 'in v1|remains? advisory|advisory:|advisory posture|enforcement `(required|advisory)' packs` shows only the Keep-list senses (QA format versions); `python3 scripts/ci/check_vocabulary.py` exits 0; `python3 -m unittest discover -s tests/ci -p 'test_software_dev_ascii.py'` passes.
 
 ## Definition of Done
 
