@@ -1,4 +1,4 @@
-# A graph shard at the pack root, where both the pinned charter and charter main (#554) read shards.
-# The pack stays unreadable through its 3.x-era directive (see expected-code).
+# A graph shard at the pack root, where every charter reads shards (the only place since charter #554).
+# A 3.x-era shape: no generated_at or schema_version, so it is refused along with the directive (expected-code).
 nodes: []
 edges: []

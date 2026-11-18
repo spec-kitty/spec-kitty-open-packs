@@ -304,7 +304,8 @@ def archive(pack: Path) -> bytes:
     """The pack as a gzip tar with ``pack.yaml`` at its root, the form ``PUT /packs/{packId}`` takes.
 
     The real tree, less ``.git`` and an invalid fixture's own ``expected-code``: what the charter does not hold, it
-    leaves out itself and reports (``file_not_held``), and what it does not model, it refuses."""
+    leaves out itself and reports (``file_not_held``), and what it does not model, it refuses (up to charter #554) or
+    leaves out with a ``file_not_held`` warning (since)."""
     buffer = io.BytesIO()
     with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
         for path in archive_members(pack):
@@ -351,6 +352,11 @@ def not_held_findings(result: dict[str, Any], pack_name: str, files: set[str], c
             continue
         if kind == "ignored":
             failures.append(detail)
+        elif kind == "unmodelled":
+            # Charter #554 on: what no rule models is warned as file_not_held and left out, no longer refused. The
+            # mirror agrees; this repository fails such a file all the same (validate-packs.sh does too).
+            failures.append(f"{detail}; unmodelled: no file-kinds.yaml rule models this file, so the charter does "
+                            "not hold it, and this repository fails it")
         else:
             failures.append(f"{detail}; this repository's mirror classifies it as {kind}, not as a file the charter "
                             "leaves out: scripts/ci/validate_pack_schemas.py has drifted from the pin")

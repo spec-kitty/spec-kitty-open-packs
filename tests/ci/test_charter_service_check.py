@@ -231,6 +231,12 @@ class NotHeld(unittest.TestCase):
         self.assertEqual([f.split(": not held")[0] for f in failures], stray)
         self.assertIn("this repository's mirror classifies it as file", failures[-1])
 
+    def test_an_unmodelled_file_not_held_since_charter_554_fails_as_unmodelled_not_as_drift(self) -> None:
+        _, failures = self.findings(["notes.txt"], ("file_not_held", "notes.txt: not held (unmodelled)"))
+        self.assertEqual(len(failures), 1)
+        self.assertIn("unmodelled: no file-kinds.yaml rule models this file", failures[0])
+        self.assertNotIn("drifted", failures[0])
+
     def test_the_file_is_the_longest_uploaded_name_the_detail_starts_with(self) -> None:
         tricky = "dir/README.md: not held (y).md"
         _, failures = self.findings([tricky, "dir/README.md"], ("file_not_held", f"{tricky}: not held (Author aid)"))
