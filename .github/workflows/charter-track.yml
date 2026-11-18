@@ -13,10 +13,12 @@ name: Charter track
 #   takes the newest service-v* release or pre-release. When it is newer than the lock's release_tag, it
 #   runs the checks with that release's jar (checked against its .sha256 asset) and commit set to the tag's
 #   commit. Only a run on main of this repository acts on the verdict:
-#     green: opens ONE pull request (branch charter/service-release) that bumps release_tag, jar_sha256 and
-#            commit with the re-derived files, or leaves the open one when it already names that release;
+#     green: opens ONE pull request (branch charter/service-release-<tag>) that bumps release_tag, jar_sha256
+#            and commit with the re-derived files; an open bump pull request of an older release is closed;
 #     red:   opens ONE issue labelled charter:release-red, or rewrites the open one, naming the release and
-#            the errors of the failing jobs.
+#            the errors of the failing jobs. A scheduled run that cannot resolve the release says so there too.
+#   While a bump pull request for the newest release is open, or after one was closed unmerged, the track does
+#   not check that release again. Once the lock reaches the release an open red issue names, the issue is closed.
 #   A lock without a release_tag (a main pin, taken on demand) is never replaced by this track.
 # - on-demand track (a dispatch with track=ref, the default, or the charter:head label on a pull request):
 #   builds the charter at charter_ref (default main; a branch, tag, pull/<n>/head or commit) from source and
@@ -26,8 +28,8 @@ name: Charter track
 # Tokens: the bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with
 # the workflow's own token starts no pull_request workflow, so the bump job then dispatches validate-packs.yml
 # on the bump branch, which posts the required check on its head commit. Setting the optional secret
-# CHARTER_BUMP_TOKEN (a GitHub App token or fine-grained PAT with contents and pull-requests write on this
-# repository) makes the pull request's own CI run instead. The repository must allow GitHub Actions to
+# CHARTER_BUMP_TOKEN (a fine-grained PAT with contents and pull-requests write on this repository; a GitHub App
+# installation token expires within an hour, so it cannot be stored) makes the pull request's own CI run instead. The repository must allow GitHub Actions to
 # create pull requests (Settings, Actions, General) when the secret is not set.
 
 on:
@@ -57,11 +59,14 @@ permissions:
   contents: read
 
 concurrency:
-  # A pull request's newer run replaces its older one; each on-demand dispatch runs on its own; release-track
-  # runs on one ref queue behind each other, so two never open the same pull request or issue.
+  # A pull request's newer run replaces its older one, but another label's event gets a group of its own, so it
+  # never cancels a charter:head run; each on-demand dispatch runs on its own; release-track runs on one ref queue
+  # behind each other, so two never open the same pull request or issue.
   group: >-
     charter-track-${{ github.event_name == 'pull_request'
-    && format('pr-{0}', github.event.pull_request.number)
+    && format('pr-{0}{1}', github.event.pull_request.number,
+    github.event.action == 'labeled' && github.event.label.name != 'charter:head'
+    && format('-label-{0}', github.run_id) || '')
     || (github.event_name == 'workflow_dispatch' && inputs.track != 'release') && format('run-{0}', github.run_id)
     || format('release-{0}', github.ref) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -78,6 +83,10 @@ jobs:
       && (github.event.action != 'labeled' || github.event.label.name == 'charter:head')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      # Looks up the bump pull request of the newest release.
+      pull-requests: read
     outputs:
       track: ${{ steps.target.outputs.track }}
       run: ${{ steps.target.outputs.run }}
@@ -113,6 +122,19 @@ jobs:
             tag="${RELEASE_TAG_INPUT:-$newest}"
             act=false
             if [[ "$newer" == true && "$tag" == "$newest" ]]; then act=true; fi
+            note=""
+            if [[ "$act" == true ]]; then
+              # This repository's own bump pull requests only: a fork can name a branch the same.
+              states="$(gh pr list --repo "$GITHUB_REPOSITORY" --head "charter/service-release-$tag" --state all --limit 20 \
+                --json number,state,isCrossRepository --jq '.[] | select(.isCrossRepository | not) | "\(.state) #\(.number)"')"
+              if grep -q '^OPEN ' <<< "$states"; then
+                act=false
+                note="Its bump pull request $(grep '^OPEN ' <<< "$states" | head -n 1 | cut -d' ' -f2) is open: not checked again."
+              elif grep -q '^CLOSED ' <<< "$states"; then
+                act=false
+                note="Its bump pull request $(grep '^CLOSED ' <<< "$states" | head -n 1 | cut -d' ' -f2) was closed unmerged: not proposed again until a newer release."
+              fi
+            fi
             if [[ "$act" == true || -n "$RELEASE_TAG_INPUT" ]]; then
               python3 scripts/ci/charter_pin.py resolve-release "$tag" > "$values"
               run=true
@@ -142,6 +164,8 @@ jobs:
               echo "The lock pins \`${current:-a main commit (no release_tag)}\`; the newest charter release is \`$newest\`."
               if [[ -z "$current" ]]; then
                 echo "A main pin is taken on demand, so the release track does not replace it."
+              elif [[ -n "$note" ]]; then
+                echo "$note"
               elif [[ "$run" == false ]]; then
                 echo "Nothing newer: nothing to check."
               fi
@@ -201,7 +225,9 @@ jobs:
             scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed)"
             echo
             if [[ "$TRACK" != release ]]; then
-              echo "On-demand track: the lock is never bumped."
+              echo "On-demand track: the lock is never bumped. The checks ran after the pin move re-derived every pack"
+              echo "manifest, digest and pack page at the target, so they judge the packs as a bump would carry them;"
+              echo "a pull request's own gate judges those files as committed."
             elif [[ "$ACT" != true ]]; then
               echo "Release track on a release that is not newer than the lock: nothing is opened."
             elif [[ "$ON_MAIN" != true ]]; then
@@ -250,14 +276,16 @@ jobs:
           # One branch per release, cut from this run's main commit; an open bump pull request for an older
           # release is closed once the new one is open, so one stays open.
           branch="charter/service-release-$RELEASE_TAG"
-          open_prs="$(gh pr list --repo "$REPO" --base main --state open --limit 100 --json number,headRefName \
-            --jq '.[] | select(.headRefName | startswith("charter/service-release-")) | "\(.number)\t\(.headRefName)"')"
+          open_prs="$(gh pr list --repo "$REPO" --base main --state open --limit 100 \
+            --json number,headRefName,isCrossRepository \
+            --jq '.[] | select((.isCrossRepository | not) and (.headRefName | startswith("charter/service-release-"))) | "\(.number)\t\(.headRefName)"')"
           if awk -F '\t' -v branch="$branch" '$2 == branch { found = 1 } END { exit !found }' <<< "$open_prs"; then
             echo "A pull request from $branch is already open; nothing to do." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           if gh api "repos/$REPO/git/ref/heads/$branch" > /dev/null 2>&1; then
-            closed="$(gh pr list --repo "$REPO" --head "$branch" --state closed --limit 1 --json number --jq '.[0].number // empty')"
+            closed="$(gh pr list --repo "$REPO" --head "$branch" --state closed --limit 20 --json number,isCrossRepository \
+              --jq '[.[] | select(.isCrossRepository | not)][0].number // empty')"
             if [[ -n "$closed" ]]; then
               echo "::notice::#$closed from $branch was closed without merging; delete the branch to have it proposed again."
               exit 0
@@ -279,6 +307,11 @@ jobs:
               variables: {input: $input[0]}}' > "$RUNNER_TEMP/request.json"
           oid="$(gh api graphql --input "$RUNNER_TEMP/request.json" --jq '.data.createCommitOnBranch.commit.oid')"
           echo "committed $oid on $branch"
+          # Before the pull request, so a failed dispatch leaves no pull request without its required check (the next
+          # run finds the branch without a pull request and cuts it again).
+          if [[ "$HAS_BUMP_TOKEN" != true ]]; then
+            gh workflow run validate-packs.yml --repo "$REPO" --ref "$branch"
+          fi
 
           red="$(gh issue list --repo "$REPO" --label charter:release-red --state open --limit 1 --json number --jq '.[0].number // empty')"
           body="$RUNNER_TEMP/pr.md"
@@ -290,7 +323,9 @@ jobs:
             echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's \`.sha256\` asset)"
             echo
             echo "Every pack manifest, digest and pack page is re-derived at the new pin, and a changelog entry is added."
-            echo "Proven green by $RUN_URL. Review the changelog entry before merging."
+            echo "Proven green by $RUN_URL against \`main\` at \`$head\`. Review the changelog entry before merging."
+            echo "If \`main\` has moved since, **Update branch** before merging: that push runs the gate on the merge"
+            echo "result, and a pack added since needs its manifest re-derived at the new pin."
             if [[ "$HAS_BUMP_TOKEN" != true ]]; then
               echo
               echo "Opened with the workflow token, so no pull_request run starts: the required check runs from a"
@@ -308,18 +343,17 @@ jobs:
             [[ -n "$number" ]] || continue
             gh pr close "$number" --repo "$REPO" --delete-branch --comment "Superseded by $url, which pins a newer charter release."
           done <<< "$open_prs"
-          if [[ "$HAS_BUMP_TOKEN" != true ]]; then
-            gh workflow run validate-packs.yml --repo "$REPO" --ref "$branch"
-          fi
 
-  # Red on a newer release, on main: one labelled issue.
+  # Red on a newer release, on main: one labelled issue. A scheduled run that cannot even resolve the release (the
+  # releases listing, the tag or its .sha256 asset) says so on the same issue, so the track never fails unseen.
   alert:
     name: Open the red-release issue
     needs: [resolve, checks]
     if: >-
-      ${{ always() && needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
+      ${{ always() && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main'
+      && (needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
       && needs.checks.result == 'failure'
-      && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+      || needs.resolve.result == 'failure' && github.event_name == 'schedule') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -335,6 +369,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESOLVED: ${{ needs.resolve.result }}
           COMMIT: ${{ needs.resolve.outputs.commit }}
           RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
           CURRENT: ${{ needs.resolve.outputs.current }}
@@ -344,21 +379,36 @@ jobs:
           gh label create "$label" --repo "$REPO" --force --color B60205 \
             --description "A newer charter service release fails the packs (charter-track.yml)"
           body="$RUNNER_TEMP/issue.md"
+          if [[ "$RESOLVED" == failure ]]; then
+            title="Charter track cannot resolve the newest charter release"
+            {
+              echo "The scheduled release track could not resolve the newest charter service release: the releases"
+              echo "listing, the tag's commit or the release's \`.sha256\` asset could not be read. Nothing was checked."
+              echo
+              echo "Run: $RUN_URL. A release whose assets are still uploading resolves on the next day's run."
+            } > "$body"
+          else
+            title="Charter release $RELEASE_TAG fails the packs"
+            {
+              echo "Charter release \`$RELEASE_TAG\` (commit \`$COMMIT\`) fails the packs of \`main\` at \`$GITHUB_SHA\`,"
+              echo "so the lock stays at \`$CURRENT\` (#253)."
+              echo
+              echo "Run: $RUN_URL (round-trip report artifact: \`charter-drift-test-report\`)."
+              echo
+              scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed; see the run)"
+              echo
+              echo "Before migrating, check that the errors are the release's and not a download or fetch that failed;"
+              echo "re-running the failed jobs of the run settles that."
+            } > "$body"
+          fi
           {
-            echo "Charter release \`$RELEASE_TAG\` (commit \`$COMMIT\`) fails the packs of \`main\` at \`$GITHUB_SHA\`,"
-            echo "so the lock stays at \`$CURRENT\` (#253)."
             echo
-            echo "Run: $RUN_URL (round-trip report artifact: \`charter-drift-test-report\`)."
-            echo
-            scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed; see the run)"
-            echo
-            echo "Every red run rewrites this description; a comment marks each newer release. A pull request that"
-            echo "migrates the packs and bumps \`charter.lock.yaml\` closes it, as does the bump pull request of a green run."
+            echo "Every red run rewrites this description; a comment marks each change of title. A pull request that"
+            echo "migrates the packs and bumps \`charter.lock.yaml\` to the release settles it: the next run closes it."
             echo
             echo "---"
             echo "_Opened by \`.github/workflows/charter-track.yml\`._"
-          } > "$body"
-          title="Charter release $RELEASE_TAG fails the packs"
+          } >> "$body"
           # A plain label filter, not --search: the search API is eventually consistent.
           issue="$(gh issue list --repo "$REPO" --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')"
           if [[ -z "$issue" ]]; then
@@ -368,5 +418,48 @@ jobs:
           old_title="$(gh issue view "$issue" --repo "$REPO" --json title --jq .title)"
           gh issue edit "$issue" --repo "$REPO" --title "$title" --body-file "$body"
           if [[ "$old_title" != "$title" ]]; then
-            gh issue comment "$issue" --repo "$REPO" --body "Now red at \`$RELEASE_TAG\`: $RUN_URL"
+            gh issue comment "$issue" --repo "$REPO" --body "Now: $title. $RUN_URL"
+          fi
+
+  # The lock reached the release an open red issue names (a migration pull request bumped it, with or without
+  # "Closes"): close the issue, on main.
+  settle:
+    name: Close a settled red-release issue
+    needs: resolve
+    if: >-
+      ${{ needs.resolve.outputs.track == 'release'
+      && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Close the charter:release-red issue the lock has passed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          CURRENT: ${{ needs.resolve.outputs.current }}
+        run: |
+          set -euo pipefail
+          found="$(gh issue list --repo "$REPO" --label charter:release-red --state open --limit 1 --json number,title \
+            --jq '.[0] | select(.) | "\(.number)\t\(.title)"')"
+          [[ -n "$found" ]] || { echo "No open charter:release-red issue."; exit 0; }
+          number="${found%%$'\t'*}"
+          if [[ "${found#*$'\t'}" == "Charter track cannot resolve the newest charter release" ]]; then
+            gh issue close "$number" --repo "$REPO" --reason completed --comment "The release track resolves again (lock: \`${CURRENT:-a main pin}\`)."
+            exit 0
+          fi
+          tag="$(sed -nE 's/^Charter release (service-v[0-9A-Za-z.+-]+) fails the packs$/\1/p' <<< "${found#*$'\t'}")"
+          if [[ -n "$tag" ]] && python3 scripts/ci/charter_pin.py at-or-past "$tag"; then
+            gh issue close "$number" --repo "$REPO" --reason completed \
+              --comment "\`charter.lock.yaml\` pins \`$CURRENT\` on \`main\`, at or past \`$tag\`: settled."
+          else
+            echo "#$number stays open: the lock (${CURRENT:-a main pin}) has not reached ${tag:-its release}."
           fi

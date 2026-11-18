@@ -74,6 +74,7 @@ jobs:
         run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0" "tree-sitter==0.25.2" "tree-sitter-java==0.23.5"
       # Called against another charter target (charter-track.yml) only: move the pin and re-derive.
       - name: Move the pin to the charter target
+        id: move
         if: ${{ inputs.charter_commit }}
         env:
           COMMIT: ${{ inputs.charter_commit }}
@@ -95,37 +96,38 @@ jobs:
       # charter.lock.yaml, not against the spec-kitty core CLI. This is the fast per-pack pre-check;
       # the Charter service validation job asks the charter service itself.
       # Every step below runs even when an earlier one failed, so one run reports all
-      # of the red; the job is red when any of them is.
+      # of the red; the job is red when any of them is. None runs once the pin move failed: they would judge a
+      # pin that is not the target.
       - name: Validate packs against the charter schemas
         run: scripts/ci/validate-packs.sh
       - name: Check every pack's recorded digest
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: scripts/ci/check-pack-digests.sh
       - name: Vocabulary guard
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         # Retired doctrine ids, the renamed `merge` command and the retired governing
         # glossary surface stay out of every pack. Core runs the same rules after a
         # pin bump (spec-kitty/spec-kitty#6553); this catches them first.
         run: python3 scripts/ci/check_vocabulary.py
       - name: Generated pack pages are up to date
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         # Two pack changes that each re-seed docs/packs/ can drift once combined; this catches it on
         # the push to main. docs-site.yml runs the same check, path-filtered.
         run: python3 scripts/docs/gen_pack_reference.py --check
       - name: Release tooling tests
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: python3 -m unittest discover -s tests/release
       - name: Vocabulary guard tests
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: python3 -m unittest discover -s tests/vocabulary
       - name: Pack validator tests
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: python3 -m unittest discover -s tests/ci
       - name: Pack page generator tests
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: python3 -m unittest discover -s tests/docs
       - name: Test-quality scanner tests
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: python3 -m unittest discover -s tests/assets
 
   # The charter service is the authority on composition and on whole-pack registration (charter
@@ -154,6 +156,7 @@ jobs:
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
       # Called against another charter target (charter-track.yml) only: the same move as the job above.
       - name: Move the pin to the charter target
+        id: move
         if: ${{ inputs.charter_commit }}
         env:
           COMMIT: ${{ inputs.charter_commit }}
@@ -190,7 +193,7 @@ jobs:
       # pack, so this is the only charter check of their manifests. The reasons are in the uploaded report.
       - name: Round-trip every pack through the charter (driftTest)
         id: drift
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         run: scripts/ci/charter_drift_test.sh "$RUNNER_TEMP/charter-service"
       - name: Upload the round-trip report
         if: ${{ always() && steps.drift.outcome != 'skipped' }}
@@ -201,7 +204,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - name: Compose, register and refuse through the charter service
-        if: ${{ !cancelled() && steps.service.outcome == 'success' }}
+        if: ${{ !cancelled() && steps.move.outcome != 'failure' && steps.service.outcome == 'success' }}
         env:
           SERVICE_JAR: ${{ steps.service.outputs.jar }}
         run: python3 scripts/ci/charter_service_check.py --jar "$SERVICE_JAR"

@@ -8,6 +8,7 @@ The PR gate, the scheduled release run and the on-demand run share this tool and
     python3 scripts/ci/charter_pin.py resolve-release TAG   # its commit and the jar digest its .sha256 asset states
     python3 scripts/ci/charter_pin.py resolve-ref REF       # a branch, tag, pull/N/head or commit of the charter
     python3 scripts/ci/charter_pin.py apply --commit C [--release-tag T --jar-sha256 S]
+    python3 scripts/ci/charter_pin.py at-or-past TAG        # exit 0 when the lock's release_tag is TAG or later
     python3 scripts/ci/charter_pin.py changelog --release-tag T --commit C --previous P --date YYYY-MM-DD
     python3 scripts/ci/charter_pin.py commit-payload --branch B --head-oid OID --headline TEXT
 
@@ -46,7 +47,7 @@ ROOT = Path(__file__).resolve().parents[2]
 REPOSITORY = "spec-kitty/spec-kitty-charter"
 GIT_URL = f"https://github.com/{REPOSITORY}.git"
 API = f"https://api.github.com/repos/{REPOSITORY}"
-VERSION = re.compile(r"service-v(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.]+))?")
+VERSION = re.compile(r"service-v(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?")
 #: A ref the on-demand run accepts: a branch or tag name, ``pull/<n>/head``, or a full commit.
 REF = re.compile(r"[0-9A-Za-z][0-9A-Za-z._/-]{0,199}")
 PULL_REF = re.compile(r"pull/\d+/head")
@@ -253,9 +254,11 @@ def changelog_entry(release_tag: str, commit: str, previous: str, date: str, pat
 # ------------------------------------------------------------------------------------------ the commit
 
 def commit_payload(branch: str, head_oid: str, headline: str, body: str) -> dict:
-    """The ``createCommitOnBranch`` input for the working tree's changes against HEAD (tracked files only)."""
+    """The ``createCommitOnBranch`` input for the working tree's changes against HEAD, new files included."""
     if not charter_lock.COMMIT.fullmatch(head_oid):
         raise PinError(f"head oid must be 40 lowercase hex characters, got {head_oid!r}")
+    # A file the re-derivation created (a new manifest, sidecar or page) is untracked: mark it intended first.
+    subprocess.run(["git", "add", "--all", "--intent-to-add"], cwd=ROOT, capture_output=True, check=True)
     done = subprocess.run(["git", "diff", "--name-status", "--no-renames", "-z", "HEAD"], cwd=ROOT,
                           capture_output=True, check=True)
     fields = done.stdout.decode("utf-8").split("\0")
@@ -293,6 +296,7 @@ def main(argv: list[str] | None = None) -> int:
     apply.add_argument("--commit", required=True)
     apply.add_argument("--release-tag", default="")
     apply.add_argument("--jar-sha256", default="")
+    sub.add_parser("at-or-past", help="exit 0 when the lock's release is TAG or later, 1 when not").add_argument("tag")
     log = sub.add_parser("changelog", help="record the bump in the changelog's Unreleased section")
     log.add_argument("--release-tag", required=True)
     log.add_argument("--commit", required=True)
@@ -321,6 +325,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "apply":
             write_lock(args.commit, args.release_tag, args.jar_sha256)
             rederive()
+        elif args.command == "at-or-past":
+            current = charter_lock.read()["release_tag"]
+            return 0 if current and precedence(current) >= precedence(args.tag) else 1
         elif args.command == "changelog":
             changelog_entry(args.release_tag, args.commit, args.previous, args.date)
         else:
