@@ -34,7 +34,8 @@
         "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)",
         "Re-review fix applied",
         "Identity hop for independent review",
-        "Re-submitted with implementer identity claude::curator-carla"
+        "Re-submitted with implementer identity claude::curator-carla",
+        "Independent review passed. Term enforcement-level matches charter Directive model (rank required>lenient-adherence>advisory; lenient-adherence requires explicit_allowances; all 10 lenient directives comply; 9 required ones with allowances consistent with 'outside its own allowances'). Distinct from preset must_have/policy.yaml. Guide, artefact row, docs glossary, styleguide (198 chars), ADR and index consistent; only one glossary term defines the values. Gates: tests/{release,vocabulary,ci,docs,assets} OK; check_vocabulary 0 findings; validate-packs (+cross-pack) clean except stale manifests (WP05)."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
