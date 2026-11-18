@@ -31,7 +31,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Term, docs, styleguide principle, ADR consistent; guard 0 findings",
-        "Changes requested"
+        "Changes requested",
+        "Review findings 5-6 addressed: semantics sourced from the pin, override hedged to #5207, policy.yaml named"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
