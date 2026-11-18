@@ -53,7 +53,7 @@ The **logic** — the pack schemas and structure, validation, resolution, the Do
 Relationship Graph (DRG) and activation — is owned by the charter repository,
 [`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter). Core is the deployable
 surface that assembles the charter and the packs into the CLI. This repository holds **content
-and packaging**, in lockstep with the charter's `main`.
+and packaging**, pinned to a charter release (`service-v*`) by default.
 
 ## The packs
 

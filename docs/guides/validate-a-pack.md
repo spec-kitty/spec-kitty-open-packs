@@ -252,14 +252,15 @@ the service job both read it, so the schemas and the service always come from th
 
 ```yaml
 commit: f4acac975522e4bf8d423d552672f9d1d78e8186   # 40 lowercase hex characters; never a branch or a tag
-release_tag:                                        # service-vX.Y.Z once the charter publishes a release; empty until then
-jar_sha256:                                         # the release jar's SHA-256; required with release_tag
+release_tag: service-v0.1.0-rc.1                   # the service-vX.Y.Z[-pre] release of `commit`; empty for a main pin
+jar_sha256: <64 lowercase hex characters>           # the release jar's SHA-256; required with release_tag
 ```
 
-Both scripts fail closed on anything but a full commit. With `release_tag` empty (no `service-v*`
-release exists yet) the job builds the service from `commit`; once a release exists, set `release_tag` and
-`jar_sha256` and the job downloads that jar and refuses any other digest. To move to newer schemas
-and a newer service, change `commit` to a full commit SHA of `spec-kitty-charter`'s `main` branch in the
+Both scripts fail closed on anything but a full commit. The pin names a charter release or pre-release
+by default (operator ruling, 2026-11-18): set `release_tag`, `jar_sha256` (from the release's `.sha256`
+asset) and `commit` (the commit the tag points at), and the job downloads that jar and refuses any other
+digest; no Gradle build of the service runs. Pin a `main` HEAD commit with `release_tag` and
+`jar_sha256` empty only on demand; the job then builds the service from `commit`. Move the pin in the
 pull request that migrates the packs to what changed.
 
 Run it locally before opening a PR:

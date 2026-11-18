@@ -69,10 +69,11 @@ the logic is the charter repository; content ownership is in the packs repositor
 | Pack schemas and structure, validation, resolution, DRG, activation | the charter ([`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)) |
 | Assembling and shipping the CLI that consumes the packs | core (`spec-kitty/spec-kitty`) |
 
-Packs move in lockstep with the charter's `main`: this repository pins a charter commit in
+Packs follow the charter through one pin: this repository pins a charter commit in
 [`charter.lock.yaml`](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/charter.lock.yaml),
 validates every pack against the schemas at that pin, and moves the pin forward as the charter
-moves. A core release is not a gate for pack work; core becomes compatible by consuming the
+moves. The pin names a charter release or pre-release tag (`service-v*`) by default, and the
+charter's `main` HEAD only on demand (operator ruling, 2026-11-18). A core release is not a gate for pack work; core becomes compatible by consuming the
 charter.
 
 The July 2026 docsite direction leaned on core work then planned for the manifest schema, the

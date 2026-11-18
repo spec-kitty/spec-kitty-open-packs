@@ -7,14 +7,19 @@
 #   - the same job runs the charter's whole-pack round trip (`:pack-validation:driftTest`) over every pack from the
 #     source at `commit` (scripts/ci/charter_drift_test.sh), whatever the pin's form.
 #
+# Pin policy (operator ruling, 2026-11-18): pin a charter release or pre-release tag by default; pin
+# charter `main` HEAD (a commit, with `release_tag` and `jar_sha256` empty) only on demand.
+#
 # commit       the spec-kitty-charter commit, 40 lowercase hex characters. Never a branch or a tag:
-#              a pin must name the same code tomorrow. Bump it deliberately, in the pull request that
+#              a pin must name the same code tomorrow. On a release pin, the commit `release_tag` points
+#              at (the round trip checks it out). Bump it deliberately, in the pull request that
 #              migrates the packs to what the new commit changed.
-# release_tag  the `service-v<version>` release of that commit, once the charter publishes one; empty
-#              until then (none exists yet). When set, the job downloads the release jar instead of
-#              building the commit, and `jar_sha256` is required.
-# jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters;
-#              empty while `release_tag` is empty. The job refuses a jar with any other digest.
+# release_tag  the `service-v<version>` release or pre-release of that commit. When set, the job
+#              downloads the release jar instead of building the commit, and `jar_sha256` is required.
+#              Empty only for a `main` pin.
+# jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters,
+#              as the release's `.sha256` asset states it; empty while `release_tag` is empty. The job
+#              refuses a jar with any other digest.
 commit: 050d780876c6e9bd4265c7ec3335abe1b95cda61
 release_tag:
 jar_sha256:

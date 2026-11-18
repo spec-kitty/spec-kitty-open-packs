@@ -20,10 +20,11 @@ schemas, validation, resolution, the DRG, activation) is the charter repository
 ([`spec-kitty/spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter)).
 Content ownership is in the packs repositories.
 
-**Lockstep with charter `main`.** This repository aligns to the charter, not to
-core: `charter.lock.yaml` pins a charter commit, every pack validates against
-the schemas at that pin, and the pin follows the charter's `main`. A core
-release is never a gate for pack work.
+**Pinned to a charter release.** This repository aligns to the charter, not to
+core: `charter.lock.yaml` pins a charter commit, and every pack validates against
+the schemas at that pin. The pin names a charter release or pre-release tag
+(`service-v*`) by default, and the charter's `main` HEAD only on demand (operator
+ruling, 2026-11-18). A core release is never a gate for pack work.
 
 ## Governing paradigm
 
