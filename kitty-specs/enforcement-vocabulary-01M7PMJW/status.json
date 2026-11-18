@@ -37,7 +37,8 @@
       "last_transition_at": "2026-11-18T06:32:41.391865+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep"
+        "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep",
+        "Sweep landed; completing T008"
       ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
