@@ -98,9 +98,9 @@ A future pull request that adds "This directive is advisory in v1" to a pack fai
 
 | ID | Title | Requirement | Category | Priority | Status |
 |----|-------|-------------|----------|----------|--------|
-| NFR-001 | Gates green | `validate-packs.sh` (including `--cross-pack`), the digest check, `check_vocabulary.py`, `gen_pack_reference.py --check` and all four unit-test suites exit 0; the charter-service and drift jobs pass in CI. | Reliability | High | Open |
+| NFR-001 | Gates green | `validate-packs.sh` (including `--cross-pack`), the digest check, `check_vocabulary.py`, `gen_pack_reference.py --check` and all five unit-test suites (`tests/release`, `tests/vocabulary`, `tests/ci`, `tests/docs`, `tests/assets`) exit 0; the charter-service and drift jobs pass in CI. | Reliability | High | Open |
 | NFR-002 | Software-dev content stays ASCII | 0 non-ASCII characters in changed software-dev mission files (`tests/ci/test_software_dev_ascii.py` passes). | Compatibility | High | Open |
-| NFR-003 | No rule substance lost | 0 integrity rules or validation criteria removed from a directive except ones whose only content was a level claim; each such removal is listed in the occurrence map. | Correctness | High | Open |
+| NFR-003 | No rule substance lost | 0 integrity rules or validation criteria removed from a directive except ones whose only content was a level claim; each such removal is listed in research.md R5 and in the PR body. | Correctness | High | Open |
 
 ### Constraints
 
