@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 72895d5b00a00addf962b849bff968209773923e896bf5cd6ac0b55e5662be0f
+manifest_hash: 5c5dba58a6250efd87025d0958d093aed44026a9b10676f52295f518002d030b
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -48,7 +48,7 @@ constituents:
 - kind: directive
   id: CLOUD_SESSION_ORCHESTRATION
   path: directives/cloud-session-orchestration.directive.yaml
-  content_hash: 01daebfdc2c1910408f83230a7cfb54b2a529eeed01231cf9023a70048072a46
+  content_hash: 424c01b633e027ef508d0b95b385a98b9c8ddb2bd33b11b8e400f1be3e39a494
 - kind: directive
   id: NO_FULL_HEAVY_SUITES_IN_MISSION
   path: directives/no-full-heavy-suites-in-mission.directive.yaml
@@ -76,7 +76,7 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: d8b47258ef610a860394914be8d458aa741d0c9110cfabe423feae1412aaf521
+  content_hash: 170e3a87343b757f0091bf337992a010b458b1a2703351a9a4cee39144f5b016
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
