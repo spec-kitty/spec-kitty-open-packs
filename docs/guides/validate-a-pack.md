@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-13'
+updated: '2026-11-18'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -262,6 +262,47 @@ asset) and `commit` (the commit the tag points at), and the job downloads that j
 digest; no Gradle build of the service runs. Pin a `main` HEAD commit with `release_tag` and
 `jar_sha256` empty only on demand; the job then builds the service from `commit`. Move the pin in the
 pull request that migrates the packs to what changed.
+
+### Following charter releases
+
+[`charter-track.yml`](../../.github/workflows/charter-track.yml) moves the pin for you, or tells you why it
+cannot (#253). It runs the required check's own jobs (it calls `validate-packs.yml` with a charter target),
+so it judges exactly what the gate judges. A called run first moves the pin and re-derives every pack
+manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`).
+
+- **Release track, daily.** It lists the charter's releases and takes the newest `service-v*` release or
+  pre-release. When that is newer than the lock's `release_tag`, it runs the checks with that release's
+  jar, checked against its `.sha256` asset, and with `commit` set to the tag's commit. Only a run on
+  `main` acts on the verdict:
+  - green: it opens one pull request, from `charter/service-release-<tag>`, that bumps the three pin
+    values and carries the re-derived files and a changelog entry. An open bump pull request for an
+    older release is closed in its favour;
+  - red: it opens one issue labelled `charter:release-red`, or rewrites the open one, naming the
+    release and the errors of the failing jobs.
+
+  A lock without a `release_tag` (a `main` pin, taken on demand) is never replaced by this track. From
+  the Actions tab, dispatch **Charter track** with `track: release` to run it now; a `release_tag` input
+  checks a given release, which is acted on only when it is the newest and newer than the lock.
+- **On demand, against unreleased charter.** Dispatch **Charter track** with `track: ref` and a
+  `charter_ref` (default `main`; a branch, a tag, `pull/<n>/head` or a commit), or label a pull request
+  `charter:head` to run its packs against charter `main`. The charter is built from source and every
+  check runs, the round trip included. The verdict is in the run's summary; this track never bumps the
+  lock and uses no secret.
+
+The bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with the
+workflow's own token starts no `pull_request` run, so the job dispatches **Validate packs** on the bump
+branch, which posts the required check on its head commit. To re-run that check, dispatch **Validate
+packs** on the branch. An operator can set the optional secret `CHARTER_BUMP_TOKEN` instead: a GitHub
+App token or fine-grained PAT with contents and pull-requests write on this repository. The pull
+request's own CI then runs. Without that secret, the repository must allow GitHub Actions to create pull
+requests (**Settings → Actions → General**).
+
+To move the pin by hand, the same tool resolves and applies a target:
+
+```bash
+python3 scripts/ci/charter_pin.py resolve-release service-v0.1.0-rc.1   # commit=, release_tag=, jar_sha256=
+python3 scripts/ci/charter_pin.py apply --commit <commit> --release-tag <tag> --jar-sha256 <digest>
+```
 
 Run it locally before opening a PR:
 

@@ -1,0 +1,372 @@
+name: Charter track
+
+# Follows the charter's service releases, and previews charter changes before they are released (#253;
+# operator ruling 2026-11-18 on #253: the pin follows releases by default, charter main runs on demand).
+# It replaces charter's open-packs-drift.yml (charter ADR-0070, amended 2026-11-13).
+#
+# Both tracks run the required check's own jobs (validate-packs.yml, called with a charter target), so the
+# PR gate, the release track and the on-demand track share every step: charter_service_jar.sh,
+# charter_drift_test.sh, charter_service_check.py and the schema pass. A called run first moves the pin and
+# re-derives the pack manifests, digests and pack pages (scripts/ci/charter_pin.py apply).
+#
+# - release track (the daily schedule, or a dispatch with track=release): lists the charter's releases and
+#   takes the newest service-v* release or pre-release. When it is newer than the lock's release_tag, it
+#   runs the checks with that release's jar (checked against its .sha256 asset) and commit set to the tag's
+#   commit. Only a run on main of this repository acts on the verdict:
+#     green: opens ONE pull request (branch charter/service-release) that bumps release_tag, jar_sha256 and
+#            commit with the re-derived files, or leaves the open one when it already names that release;
+#     red:   opens ONE issue labelled charter:release-red, or rewrites the open one, naming the release and
+#            the errors of the failing jobs.
+#   A lock without a release_tag (a main pin, taken on demand) is never replaced by this track.
+# - on-demand track (a dispatch with track=ref, the default, or the charter:head label on a pull request):
+#   builds the charter at charter_ref (default main; a branch, tag, pull/<n>/head or commit) from source and
+#   runs the same checks, driftTest included. It reports in the job summary, never bumps the lock and uses
+#   no secret.
+#
+# Tokens: the bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with
+# the workflow's own token starts no pull_request workflow, so the bump job then dispatches validate-packs.yml
+# on the bump branch, which posts the required check on its head commit. Setting the optional secret
+# CHARTER_BUMP_TOKEN (a GitHub App token or fine-grained PAT with contents and pull-requests write on this
+# repository) makes the pull request's own CI run instead. The repository must allow GitHub Actions to
+# create pull requests (Settings, Actions, General) when the secret is not set.
+
+on:
+  schedule:
+    # Daily, off the hour.
+    - cron: '41 5 * * *'
+  workflow_dispatch:
+    inputs:
+      track:
+        description: "ref: check the packs against charter_ref, built from source (never bumps). release: the scheduled release track."
+        type: choice
+        options: [ref, release]
+        default: ref
+      charter_ref:
+        description: "ref track: a charter branch, tag, pull/<n>/head or 40-hex commit"
+        type: string
+        default: main
+      release_tag:
+        description: "release track: check this service-v* tag instead of the newest; it acts only when it is the newest and newer than the lock"
+        type: string
+        default: ""
+  # The charter:head label runs the on-demand track on a pull request, against charter main.
+  pull_request:
+    types: [labeled, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  # A pull request's newer run replaces its older one; each on-demand dispatch runs on its own; release-track
+  # runs on one ref queue behind each other, so two never open the same pull request or issue.
+  group: >-
+    charter-track-${{ github.event_name == 'pull_request'
+    && format('pr-{0}', github.event.pull_request.number)
+    || (github.event_name == 'workflow_dispatch' && inputs.track != 'release') && format('run-{0}', github.run_id)
+    || format('release-{0}', github.ref) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  resolve:
+    name: Resolve the charter target
+    # On a pull request only with the charter:head label, never while it is paused, and on a label event
+    # only when that label is the one added.
+    if: >-
+      ${{ github.event_name != 'pull_request'
+      || (contains(github.event.pull_request.labels.*.name, 'charter:head')
+      && !contains(github.event.pull_request.labels.*.name, 'pr:pause-ci')
+      && (github.event.action != 'labeled' || github.event.label.name == 'charter:head')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      track: ${{ steps.target.outputs.track }}
+      run: ${{ steps.target.outputs.run }}
+      act: ${{ steps.target.outputs.act }}
+      commit: ${{ steps.target.outputs.commit }}
+      release_tag: ${{ steps.target.outputs.release_tag }}
+      jar_sha256: ${{ steps.target.outputs.jar_sha256 }}
+      current: ${{ steps.target.outputs.current }}
+      ref: ${{ steps.target.outputs.ref }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Resolve the target
+        id: target
+        env:
+          # Reads the charter's public releases; the token only lifts the anonymous rate limit.
+          GH_TOKEN: ${{ github.token }}
+          TRACK: ${{ github.event_name == 'workflow_dispatch' && inputs.track || github.event_name == 'schedule' && 'release' || 'ref' }}
+          CHARTER_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.charter_ref || 'main' }}
+          RELEASE_TAG_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || '' }}
+        run: |
+          set -euo pipefail
+          values="$RUNNER_TEMP/target.env"
+          current="$(python3 scripts/ci/charter_lock.py release_tag)"
+          if [[ "$TRACK" == release ]]; then
+            python3 scripts/ci/charter_pin.py newest-release > "$RUNNER_TEMP/newest.env"
+            newest="$(sed -n 's/^tag=//p' "$RUNNER_TEMP/newest.env")"
+            newer="$(sed -n 's/^newer=//p' "$RUNNER_TEMP/newest.env")"
+            tag="${RELEASE_TAG_INPUT:-$newest}"
+            act=false
+            if [[ "$newer" == true && "$tag" == "$newest" ]]; then act=true; fi
+            if [[ "$act" == true || -n "$RELEASE_TAG_INPUT" ]]; then
+              python3 scripts/ci/charter_pin.py resolve-release "$tag" > "$values"
+              run=true
+            else
+              run=false
+              : > "$values"
+            fi
+            ref="$tag"
+          else
+            python3 scripts/ci/charter_pin.py resolve-ref "$CHARTER_REF" > "$values"
+            run=true
+            act=false
+            ref="$CHARTER_REF"
+          fi
+          {
+            echo "track=$TRACK"
+            echo "run=$run"
+            echo "act=$act"
+            echo "current=$current"
+            echo "ref=$ref"
+            cat "$values"
+          } | tee -a "$GITHUB_OUTPUT"
+          {
+            echo "## Charter track: $TRACK"
+            echo
+            if [[ "$TRACK" == release ]]; then
+              echo "The lock pins \`${current:-a main commit (no release_tag)}\`; the newest charter release is \`$newest\`."
+              if [[ -z "$current" ]]; then
+                echo "A main pin is taken on demand, so the release track does not replace it."
+              elif [[ "$run" == false ]]; then
+                echo "Nothing newer: nothing to check."
+              fi
+              if [[ -n "$RELEASE_TAG_INPUT" ]]; then
+                echo "Checking \`$RELEASE_TAG_INPUT\` as asked (acts on it: $act)."
+              fi
+            else
+              echo "Checking charter \`$CHARTER_REF\`, built from source. The lock is never bumped by this track."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # The required check's own jobs, against the target.
+  checks:
+    name: Charter checks
+    needs: resolve
+    if: ${{ needs.resolve.outputs.run == 'true' }}
+    permissions:
+      contents: read
+      # The called gate reads a pull request's labels for the pause guard.
+      pull-requests: read
+    uses: ./.github/workflows/validate-packs.yml
+    with:
+      charter_commit: ${{ needs.resolve.outputs.commit }}
+      charter_release_tag: ${{ needs.resolve.outputs.release_tag }}
+      charter_jar_sha256: ${{ needs.resolve.outputs.jar_sha256 }}
+
+  report:
+    name: Report
+    needs: [resolve, checks]
+    if: ${{ always() && needs.resolve.outputs.run == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - name: Summarise the checks
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRACK: ${{ needs.resolve.outputs.track }}
+          ACT: ${{ needs.resolve.outputs.act }}
+          REF: ${{ needs.resolve.outputs.ref }}
+          COMMIT: ${{ needs.resolve.outputs.commit }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          RESULT: ${{ needs.checks.result }}
+          ON_MAIN: ${{ github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## Charter checks: $RESULT"
+            echo
+            echo "Charter \`$REF\` at commit \`$COMMIT\`; release jar: \`${RELEASE_TAG:-none, built from source}\`."
+            echo
+            scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed)"
+            echo
+            if [[ "$TRACK" != release ]]; then
+              echo "On-demand track: the lock is never bumped."
+            elif [[ "$ACT" != true ]]; then
+              echo "Release track on a release that is not newer than the lock: nothing is opened."
+            elif [[ "$ON_MAIN" != true ]]; then
+              echo "Release track off main: nothing is opened (it would open the $([[ "$RESULT" == success ]] && echo bump pull request || echo red-release issue))."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # Green on a newer release, on main: one bump pull request.
+  bump:
+    name: Open the bump pull request
+    needs: [resolve, checks]
+    if: >-
+      ${{ needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
+      && needs.checks.result == 'success'
+      && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+      # Dispatches validate-packs.yml on the bump branch when no CHARTER_BUMP_TOKEN is set.
+      actions: write
+      issues: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install the schema validator's dependencies
+        run: |
+          pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
+      - name: Open the bump pull request
+        env:
+          GH_TOKEN: ${{ secrets.CHARTER_BUMP_TOKEN || github.token }}
+          HAS_BUMP_TOKEN: ${{ secrets.CHARTER_BUMP_TOKEN != '' }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COMMIT: ${{ needs.resolve.outputs.commit }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          JAR_SHA256: ${{ needs.resolve.outputs.jar_sha256 }}
+          CURRENT: ${{ needs.resolve.outputs.current }}
+        run: |
+          set -euo pipefail
+          # One branch per release, cut from this run's main commit; an open bump pull request for an older
+          # release is closed once the new one is open, so one stays open.
+          branch="charter/service-release-$RELEASE_TAG"
+          open_prs="$(gh pr list --repo "$REPO" --base main --state open --limit 100 --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("charter/service-release-")) | "\(.number)\t\(.headRefName)"')"
+          if awk -F '\t' -v branch="$branch" '$2 == branch { found = 1 } END { exit !found }' <<< "$open_prs"; then
+            echo "A pull request from $branch is already open; nothing to do." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if gh api "repos/$REPO/git/ref/heads/$branch" > /dev/null 2>&1; then
+            closed="$(gh pr list --repo "$REPO" --head "$branch" --state closed --limit 1 --json number --jq '.[0].number // empty')"
+            if [[ -n "$closed" ]]; then
+              echo "::notice::#$closed from $branch was closed without merging; delete the branch to have it proposed again."
+              exit 0
+            fi
+            gh api -X DELETE "repos/$REPO/git/refs/heads/$branch"  # left by an interrupted run
+          fi
+
+          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256"
+          python3 scripts/ci/charter_pin.py changelog --release-tag "$RELEASE_TAG" --commit "$COMMIT" --previous "$CURRENT" --date "$(date -u +%F)"
+
+          # The commit is made by the API, so GitHub signs it.
+          head="$(git rev-parse HEAD)"
+          gh api -X POST "repos/$REPO/git/refs" -f ref="refs/heads/$branch" -f sha="$head" > /dev/null
+          headline="chore(charter): pin charter release $RELEASE_TAG (#253)"
+          python3 scripts/ci/charter_pin.py commit-payload --branch "$branch" --head-oid "$head" \
+            --headline "$headline" --body "Opened by charter-track.yml: $RUN_URL" > "$RUNNER_TEMP/input.json"
+          jq -n --slurpfile input "$RUNNER_TEMP/input.json" \
+            '{query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+              variables: {input: $input[0]}}' > "$RUNNER_TEMP/request.json"
+          oid="$(gh api graphql --input "$RUNNER_TEMP/request.json" --jq '.data.createCommitOnBranch.commit.oid')"
+          echo "committed $oid on $branch"
+
+          red="$(gh issue list --repo "$REPO" --label charter:release-red --state open --limit 1 --json number --jq '.[0].number // empty')"
+          body="$RUNNER_TEMP/pr.md"
+          {
+            echo "Charter published \`$RELEASE_TAG\`, and the packs pass the whole gate against it (#253)."
+            echo
+            echo "- \`release_tag\`: \`${CURRENT}\` → \`$RELEASE_TAG\`"
+            echo "- \`commit\`: \`$COMMIT\` (the tag's commit)"
+            echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's \`.sha256\` asset)"
+            echo
+            echo "Every pack manifest, digest and pack page is re-derived at the new pin, and a changelog entry is added."
+            echo "Proven green by $RUN_URL. Review the changelog entry before merging."
+            if [[ "$HAS_BUMP_TOKEN" != true ]]; then
+              echo
+              echo "Opened with the workflow token, so no pull_request run starts: the required check runs from a"
+              echo "\`validate-packs.yml\` dispatch on \`$branch\`. To re-run it, dispatch **Validate packs** on that branch."
+            fi
+            [[ -n "$red" ]] && { echo; echo "Closes #$red."; }
+            echo
+            echo "---"
+            echo "_Opened by \`.github/workflows/charter-track.yml\`._"
+          } > "$body"
+          title="chore(charter): pin charter release $RELEASE_TAG"
+          url="$(gh pr create --repo "$REPO" --base main --head "$branch" --title "$title" --body-file "$body")"
+          echo "Opened $url" | tee -a "$GITHUB_STEP_SUMMARY"
+          while IFS=$'\t' read -r number old_branch; do
+            [[ -n "$number" ]] || continue
+            gh pr close "$number" --repo "$REPO" --delete-branch --comment "Superseded by $url, which pins a newer charter release."
+          done <<< "$open_prs"
+          if [[ "$HAS_BUMP_TOKEN" != true ]]; then
+            gh workflow run validate-packs.yml --repo "$REPO" --ref "$branch"
+          fi
+
+  # Red on a newer release, on main: one labelled issue.
+  alert:
+    name: Open the red-release issue
+    needs: [resolve, checks]
+    if: >-
+      ${{ always() && needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
+      && needs.checks.result == 'failure'
+      && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - name: Open or update the charter:release-red issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COMMIT: ${{ needs.resolve.outputs.commit }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          CURRENT: ${{ needs.resolve.outputs.current }}
+        run: |
+          set -euo pipefail
+          label=charter:release-red
+          gh label create "$label" --repo "$REPO" --force --color B60205 \
+            --description "A newer charter service release fails the packs (charter-track.yml)"
+          body="$RUNNER_TEMP/issue.md"
+          {
+            echo "Charter release \`$RELEASE_TAG\` (commit \`$COMMIT\`) fails the packs of \`main\` at \`$GITHUB_SHA\`,"
+            echo "so the lock stays at \`$CURRENT\` (#253)."
+            echo
+            echo "Run: $RUN_URL (round-trip report artifact: \`charter-drift-test-report\`)."
+            echo
+            scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed; see the run)"
+            echo
+            echo "Every red run rewrites this description; a comment marks each newer release. A pull request that"
+            echo "migrates the packs and bumps \`charter.lock.yaml\` closes it, as does the bump pull request of a green run."
+            echo
+            echo "---"
+            echo "_Opened by \`.github/workflows/charter-track.yml\`._"
+          } > "$body"
+          title="Charter release $RELEASE_TAG fails the packs"
+          # A plain label filter, not --search: the search API is eventually consistent.
+          issue="$(gh issue list --repo "$REPO" --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [[ -z "$issue" ]]; then
+            gh issue create --repo "$REPO" --label "$label" --title "$title" --body-file "$body"
+            exit 0
+          fi
+          old_title="$(gh issue view "$issue" --repo "$REPO" --json title --jq .title)"
+          gh issue edit "$issue" --repo "$REPO" --title "$title" --body-file "$body"
+          if [[ "$old_title" != "$title" ]]; then
+            gh issue comment "$issue" --repo "$REPO" --body "Now red at \`$RELEASE_TAG\`: $RUN_URL"
+          fi

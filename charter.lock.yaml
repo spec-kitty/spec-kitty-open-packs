@@ -9,6 +9,8 @@
 #
 # Pin policy (operator ruling, 2026-11-18): pin a charter release or pre-release tag by default; pin
 # charter `main` HEAD (a commit, with `release_tag` and `jar_sha256` empty) only on demand.
+# .github/workflows/charter-track.yml (#253) proposes each newer release as one bump pull request, written
+# by scripts/ci/charter_pin.py apply, and runs the same checks against charter `main` on demand.
 #
 # commit       the spec-kitty-charter commit, 40 lowercase hex characters. Never a branch or a tag:
 #              a pin must name the same code tomorrow. On a release pin, the commit `release_tag` points

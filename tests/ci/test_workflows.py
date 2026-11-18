@@ -313,6 +313,143 @@ class CharterServiceJob(unittest.TestCase):
         self.assertIn("!cancelled()", steps[-1]["if"])
 
 
+TRACK = "charter-track.yml"
+TARGET = {"charter_commit": "d" * 40, "charter_release_tag": "service-v9.0.0", "charter_jar_sha256": "e" * 64}
+
+
+def schedule_event(ref: str = "refs/heads/main", run_id: int = 5001) -> dict[str, Any]:
+    return {"event_name": "schedule", "event": {"schedule": "41 5 * * *"}, "ref": ref, "run_id": run_id}
+
+
+def track_dispatch(track: str, ref: str = "refs/heads/main", run_id: int = 6001) -> dict[str, Any]:
+    inputs = {"track": track, "charter_ref": "main", "release_tag": ""}
+    return {"event_name": "workflow_dispatch", "event": {"ref": ref, "inputs": inputs}, "ref": ref,
+            "run_id": run_id, "inputs": inputs}
+
+
+def track_contexts(github: dict[str, Any], resolved: dict[str, str], checks: str = "success") -> dict[str, Any]:
+    ctx = contexts({k: v for k, v in github.items() if k != "inputs"}, {"resolve": "success", "checks": checks})
+    ctx["needs"]["resolve"]["outputs"] = resolved
+    ctx["inputs"] = github.get("inputs", {})
+    return ctx
+
+
+class CharterTrack(unittest.TestCase):
+    """charter-track.yml (#253): the release track acts only from main; the on-demand track never acts."""
+
+    RELEASE = {"track": "release", "run": "true", "act": "true"}
+
+    def setUp(self) -> None:
+        self.workflow = load(TRACK)
+        self.jobs = self.workflow["jobs"]
+
+    def runs(self, job: str, github: dict[str, Any], resolved: dict[str, str], checks: str = "success") -> bool:
+        ok = checks == "success"
+        status = {"success": ok, "failure": not ok, "cancelled": False}
+        return gh_expr.evaluate_if(self.jobs[job].get("if"), track_contexts(github, resolved, checks), status=status)
+
+    def test_a_newer_release_on_main_opens_one_pull_request_when_green_and_one_issue_when_red(self) -> None:
+        for event in (schedule_event(), track_dispatch("release")):
+            with self.subTest(event=event["event_name"]):
+                self.assertTrue(self.runs("bump", event, self.RELEASE))
+                self.assertFalse(self.runs("alert", event, self.RELEASE))
+                self.assertFalse(self.runs("bump", event, self.RELEASE, checks="failure"))
+                self.assertTrue(self.runs("alert", event, self.RELEASE, checks="failure"))
+                self.assertFalse(self.runs("alert", event, self.RELEASE, checks="cancelled"))
+                self.assertTrue(self.runs("report", event, self.RELEASE, checks="failure"))
+
+    def test_nothing_is_opened_off_main_in_a_fork_or_for_a_release_that_is_not_newer(self) -> None:
+        cases = {
+            "a dispatch on a branch": (track_dispatch("release", "refs/heads/issue-253"), self.RELEASE),
+            "a fork's schedule": ({**schedule_event(), "repository": "someone/spec-kitty-open-packs"}, self.RELEASE),
+            "an older release asked for": (track_dispatch("release"), {**self.RELEASE, "act": "false"}),
+            "the on-demand track on main": (track_dispatch("ref"), {"track": "ref", "run": "true", "act": "false"}),
+            "a labelled pull request": (pr_event(labels=("charter:head",)), {"track": "ref", "run": "true", "act": "false"}),
+        }
+        for name, (event, resolved) in cases.items():
+            for checks in ("success", "failure"):
+                with self.subTest(case=name, checks=checks):
+                    self.assertFalse(self.runs("bump", event, resolved, checks))
+                    self.assertFalse(self.runs("alert", event, resolved, checks))
+
+    def test_nothing_runs_past_resolve_when_there_is_nothing_to_check(self) -> None:
+        idle = {"track": "release", "run": "false", "act": "false"}
+        for job in ("checks", "report", "bump", "alert"):
+            with self.subTest(job=job):
+                self.assertFalse(self.runs(job, schedule_event(), idle, checks="skipped"))
+
+    def test_only_the_acting_jobs_hold_a_secret_or_a_write_permission(self) -> None:
+        self.assertEqual(self.workflow["permissions"], {"contents": "read"})
+        for job_id, job in self.jobs.items():
+            text = yaml.safe_dump(job)
+            writes = {scope for scope, level in (job.get("permissions") or {}).items() if level == "write"}
+            with self.subTest(job=job_id):
+                if job_id in ("bump", "alert"):
+                    self.assertTrue(writes)
+                else:
+                    self.assertEqual(writes, set())
+                    self.assertNotIn("secrets.", text)
+        self.assertNotIn("secrets.", yaml.safe_dump(self.jobs["alert"]))
+
+    def test_a_pull_request_runs_it_only_with_the_charter_head_label_and_never_while_paused(self) -> None:
+        expected = {
+            "a push to a labelled PR": (pr_event(labels=("charter:head",)), True),
+            "adding the label": (pr_event("labeled", labels=("charter:head",), label="charter:head"), True),
+            "another label on a labelled PR": (pr_event("labeled", labels=("charter:head", "docs"), label="docs"), False),
+            "a push to an unlabelled PR": (pr_event(), False),
+            "a paused labelled PR": (pr_event(labels=("charter:head", PAUSE_LABEL)), False),
+            "the schedule": (schedule_event(), True),
+            "a dispatch": (track_dispatch("ref"), True),
+        }
+        for name, (event, runs) in expected.items():
+            with self.subTest(event=name):
+                ctx = track_contexts(event, {})
+                self.assertEqual(gh_expr.evaluate_if(self.jobs["resolve"]["if"], ctx, strict_event=True), runs)
+
+    def test_its_checks_are_the_required_checks_own_jobs_moved_to_the_target(self) -> None:
+        checks = self.jobs["checks"]
+        self.assertEqual(checks["uses"], f"./.github/workflows/{WORKFLOW}")
+        self.assertEqual(set(checks["with"]), set(TARGET))
+        for name, value in checks["with"].items():
+            self.assertEqual(value, "${{ needs.resolve.outputs.%s }}" % name.removeprefix("charter_"))
+        gate = load(WORKFLOW)
+        self.assertEqual(set(triggers(gate)["workflow_call"]["inputs"]), set(TARGET))
+        firsts = {"validate": "validate-packs.sh", "charter-service": "charter_lock.py"}
+        for job_id, first_check in firsts.items():
+            steps = gate["jobs"][job_id]["steps"]
+            runs = [str(step.get("run", "")) for step in steps]
+            move = next(i for i, run in enumerate(runs) if "charter_pin.py apply" in run)
+            check = next(i for i, run in enumerate(runs) if first_check in run)
+            with self.subTest(job=job_id):
+                self.assertLess(move, check)
+                self.assertEqual(steps[move]["if"], "${{ inputs.charter_commit }}")
+                self.assertFalse(gh_expr.evaluate_if(steps[move]["if"], contexts(pr_event())))
+
+    def test_a_call_against_a_target_never_joins_or_cancels_a_pull_requests_own_check(self) -> None:
+        gate = load(WORKFLOW)
+        event = pr_event(labels=("charter:head",))
+        own_group, own_cancel = concurrency(gate, event)
+        ctx = contexts(event)
+        ctx["inputs"] = dict(TARGET)
+        group = str(gh_expr.render(gate["concurrency"]["group"], ctx))
+        cancel = gh_expr._truthy(gh_expr.render(gate["concurrency"]["cancel-in-progress"], ctx))
+        self.assertTrue(own_cancel)
+        self.assertNotEqual(group, own_group)
+        self.assertFalse(cancel)
+
+    def test_release_runs_queue_and_on_demand_runs_stand_alone(self) -> None:
+        def group(event: dict[str, Any]) -> tuple[str, bool]:
+            ctx = track_contexts(event, {})
+            block = self.workflow["concurrency"]
+            return (str(gh_expr.render(block["group"], ctx)),
+                    gh_expr._truthy(gh_expr.render(block["cancel-in-progress"], ctx)))
+        scheduled, dispatched = group(schedule_event()), group(track_dispatch("release"))
+        self.assertEqual(scheduled, dispatched)
+        self.assertFalse(scheduled[1])
+        self.assertNotEqual(group(track_dispatch("ref", run_id=1))[0], group(track_dispatch("ref", run_id=2))[0])
+        self.assertTrue(group(pr_event(labels=("charter:head",)))[1])
+
+
 class GateVerdict(unittest.TestCase):
     """The gate's own scripts, run under bash against each verdict of the validation job."""
 
