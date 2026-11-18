@@ -105,7 +105,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Directive sweep done; manifests are restamped in WP05",
-        "Re-submitted with the implementer identity of record (tool::profile) so independence can be checked"
+        "Re-submitted with the implementer identity of record (tool::profile) so independence can be checked",
+        "Implementer identity hop for independent review"
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": null,
