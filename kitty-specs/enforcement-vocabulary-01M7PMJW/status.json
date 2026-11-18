@@ -125,7 +125,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Citing-content sweep done; guard 0 findings; ASCII test OK",
-        "Changes requested"
+        "Changes requested",
+        "Review finding 4 and nits 7-9 addressed; guard 0 findings"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
