@@ -82,8 +82,10 @@ intent: |
 enforcement: required        # default level: required | lenient-adherence | advisory
 ```
 
-The `enforcement` value is the directive's **default** [enforcement level](../glossary/index.md): the
-adopting project's charter decides the level that applies. Write the rule in the directive's text,
+The `enforcement` value is the directive's **default** [enforcement level](../glossary/index.md); which
+level applies in a project is the adopting charter's decision
+([spec-kitty#5207](https://github.com/spec-kitty/spec-kitty/issues/5207)). A `lenient-adherence`
+directive must list at least one `explicit_allowances` entry: the deviations it permits. Write the rule in the directive's text,
 never how strictly it binds: no "advisory in v1", "this is mandatory" or "binding", in the directive or
 in a step, tactic or graph edge that cites it. The vocabulary guard refuses those phrasings
 (see [ADR 2026-11-18-1](../architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md)).

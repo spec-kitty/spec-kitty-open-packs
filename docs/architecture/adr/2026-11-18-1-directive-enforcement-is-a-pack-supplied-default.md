@@ -1,6 +1,6 @@
 ---
 title: 'ADR: A directive''s enforcement level is a pack-supplied default'
-description: Directives keep the enforcement field the pinned charter schema requires, read as a default the adopting charter overrides; directive prose never restates a level.
+description: Directives keep the enforcement field the pinned charter schema requires, read as a default for the adopting charter to override (core #5207); directive prose never restates a level.
 doc_status: draft
 updated: '2026-11-18'
 related:
@@ -56,6 +56,9 @@ other valid shape. At charter `050d780`, `contracts/packs/schemas/directive.sche
 
 - The value a directive ships is the **default level**. The adopting charter's activation
   config decides the level that applies (core #5207).
+- The meanings follow the pinned schema: the levels are ranked `required` > `lenient-adherence` >
+  `advisory`, and a `lenient-adherence` directive must list at least one `explicit_allowances`
+  entry, the deviations it permits.
 - The levels are defined once, as `term:spec-kitty-core/enforcement-level` in the foundation
   glossary context. The authoring guide and the `doctrine-instruction-voice` styleguide point
   there.

@@ -180,10 +180,11 @@ terms:
     status: active
   - id: enforcement-level
     name: enforcement level
-    definition: 'How strictly an in-force directive binds. `required` means conformance is expected, and a deviation is a
-      defect; `lenient-adherence` means conform by default, and a deviation is acceptable when it is recorded with its justification;
-      `advisory` means guidance an agent weighs, and deviating needs no record. A directive''s `enforcement` field is the pack-supplied default
-      level; the adopting project''s charter decides the level that applies. Directive prose, and content that cites a directive,
+    definition: 'How strictly an in-force directive binds, ranked `required` > `lenient-adherence` > `advisory` (the charter''s
+      directive schema). `required` means the directive applies without exception; `lenient-adherence` means it applies
+      except for the deviations its `explicit_allowances` list (the schema requires at least one); `advisory` means it is
+      guidance an agent weighs. A directive''s `enforcement` field is the pack-supplied default level; which level applies in a
+      project is the adopting charter''s decision (core spec-kitty#5207). Directive prose, and content that cites a directive,
       never restates the level. Distinct from activation presets'' `must_have` items and `policy.yaml` levels, which decide
       which artefacts are in force.'
     avoid:

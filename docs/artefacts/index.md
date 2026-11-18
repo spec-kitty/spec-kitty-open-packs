@@ -19,7 +19,7 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 
 | Kind | Directory | File name | What it governs |
 | --- | --- | --- | --- |
-| Directive | `directives/` | `<id>.directive.yaml` | A rule, with a default enforcement level that the adopting charter can override. |
+| Directive | `directives/` | `<id>.directive.yaml` | A rule, with a default enforcement level; the adopting charter decides the level that applies. |
 | Tactic | `tactics/` | `<id>.tactic.yaml` | A reusable how-to: steps and failure modes. |
 | Styleguide | `styleguides/` | `<id>.styleguide.yaml` | Conventions for writing code, docs or prose. |
 | Toolguide | `toolguides/` | `<id>.toolguide.yaml` | How to use one tool, with commands. |
