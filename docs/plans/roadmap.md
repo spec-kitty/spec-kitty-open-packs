@@ -44,12 +44,12 @@ to see all of them at once. Rendering that progress here is planned in
 
 | Horizon | Themes |
 | --- | --- |
-| Now | [Charter lockstep](#charter-lockstep), [Pack content quality](#pack-content-quality), [Doctrine from core](#doctrine-from-core) |
+| Now | [Charter pin](#charter-pin), [Pack content quality](#pack-content-quality), [Doctrine from core](#doctrine-from-core) |
 | Next | [Catalog shape and publication](#catalog-shape-and-publication) |
 | Later | [Docsite and trust](#docsite-and-trust) |
 | Done | none yet |
 
-## Charter lockstep
+## Charter pin
 
 **Horizon:** Now. The charter owns the pack schemas and their validation, so every other theme
 builds on the charter commit this repository pins; moving that pin first keeps later changes small.
@@ -68,7 +68,7 @@ builds on the charter commit this repository pins; moving that pin first keeps l
   pin moves stay small.
 - The local schema-validation bridge is retired once the charter ships a validator this repository
   can call.
-- The decisions behind the lockstep and the ownership split are recorded as ADRs.
+- The decisions behind the pin policy and the ownership split are recorded as ADRs.
 
 ## Pack content quality
 
