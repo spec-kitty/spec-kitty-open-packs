@@ -36,6 +36,9 @@
       "last_event_id": "01M7PNHH8JED8Z0YF9Z4AWKHN2",
       "last_transition_at": "2026-11-18T06:29:40.242461+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 4775,
