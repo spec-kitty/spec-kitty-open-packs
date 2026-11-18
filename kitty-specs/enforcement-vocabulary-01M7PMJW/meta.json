@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-11-18T06:12:56.299709+00:00",
+  "flattened": false,
+  "friendly_name": "Directive enforcement vocabulary",
+  "mid8": "01M7PMJW",
+  "mission_id": "01M7PMJW2SF3G99X1XYXC5KACQ",
+  "mission_number": null,
+  "mission_slug": "enforcement-vocabulary-01M7PMJW",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Directives carry an enforcement level and prose about how binding they are, and the two disagree (#233). How strictly a directive binds is a property of the adopting project's charter. This mission defines required, lenient-adherence and advisory once in the foundation glossary and the pack-authoring guidance, removes self-binding prose from directive bodies and the software-dev plan/implement/review content, and keeps the enforcement field as a pack-supplied default because the pinned charter schema requires it.",
+  "purpose_tldr": "Define the directive enforcement levels once and take enforcement and criticality prose out of every pack's content.",
+  "slug": "enforcement-vocabulary-01M7PMJW",
+  "target_branch": "issue-233-enforcement-vocabulary",
+  "topology": "single_branch",
+  "topology_source": "explicit"
+}
