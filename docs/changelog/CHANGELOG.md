@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-16'
+updated: '2026-11-18'
 ---
 # Changelog
 
@@ -605,6 +605,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **A directive states its rule, never how strictly it binds** (#233, epic #245; core
+  spec-kitty#5207). How strictly a directive binds is the adopting charter's call; the packs said
+  it twice and disagreed (DIRECTIVE_051 was `required` but called itself "advisory in v1").
+  - The levels are defined once: `term:spec-kitty-core/enforcement-level` in foundation's
+    glossary context, and an entry in the docs glossary. The meanings follow the pinned directive
+    schema (the rank `required` > `lenient-adherence` > `advisory`; a `lenient-adherence` directive
+    lists at least one `explicit_allowances` entry). The directive's `enforcement:` field is read as
+    the pack-supplied default, and the level that applies is the adopting charter's decision (core
+    spec-kitty#5207). The term is kept apart from presets' `must_have` and `policy.yaml` levels. The
+    authoring guide, the artefact reference and pack-authoring's `doctrine-instruction-voice`
+    styleguide ("State the rule, not its strictness") point to it.
+  - The field stays: at charter `050d780` the directive schema requires it. No default value
+    changes (ADR 2026-11-18-1, Proposed).
+  - Level prose is removed from directive bodies: DIRECTIVE_051 (its scope sentence and its
+    level-only fifth integrity rule; the evidence rules stay), 052, 049,
+    `RECONCILE_CHANGE_SCOPE_TENSIONS`, `CLOUD_SESSION_ORCHESTRATION`, QA_002,
+    `ACTION_ITEM_ATTRIBUTION` and 042. QA_001 is retitled "QA Requirement Traceability" (its id and
+    file name are unchanged).
+  - Level prose is also removed from the content that cites directives: the software-dev plan,
+    implement and review substeps, prompts and guidelines, and the plan mission type's
+    supply-chain substep (all drop "advisory in v1"); the `supply-chain-install-safety` tactic;
+    graph edge reasons in foundation, internal and writing; the cave-dev step prompts; and
+    wording in the cave-kitty README and styleguide, writing's minutes, glossary-writing, comms and
+    scaffold artefacts, and pack-authoring's onboarding profile and procedure.
+  - `check_vocabulary.py` gains a rule that refuses self-binding phrasings ("advisory in v1",
+    "this is advisory guidance", "binding charter content", ...) in every pack file, including a
+    phrase wrapped across two lines. A claim made with a single bare word is left to review.
+  - Versions (DIRECTIVE_018): `pack-authoring` 1.3.0 (the styleguide principle); `qa` 4.0.1,
+    `internal` 4.0.1 and `cave-kitty` 2.2.1 (wording; a registered pack re-sent at the same
+    version answers `409`). `foundation`, `writing` and `built-in` fold into their unreleased
+    2.0.0, 2.0.0 and 4.0.0, so no exact pin moves.
+  - **Upgrade:** none. A project that relied on a directive's prose for its level reads its
+    charter, or the field.
 - **The direction docs state who owns what** (operator ruling, 2026-11-16). Packs and their
   schema, structure and validation are no longer a core repository concern: core is the
   deployable, assembler surface, the charter repository owns the logic, and content is owned in

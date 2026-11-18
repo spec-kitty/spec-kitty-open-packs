@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 1d340bcf45b90efb963594976bd048aaafef4598553875e5f309ed70615fae2b
+manifest_hash: 25db458924a165fb9f68b7bc58d7e4883494dd7912214b958cd89a12dd9f74fc
 constituents:
 - kind: directive
   id: CAVE_001
@@ -12,4 +12,4 @@ constituents:
 - kind: styleguide
   id: cave-sty-001-communication
   path: styleguides/cave-sty-001-communication.styleguide.yaml
-  content_hash: 61df6c744d2bf96f64a419e6428ac1bbcc9c89fccba1df7c05cfc0bbf7ca8eb9
+  content_hash: 27a57521ee2a3360defa64a26fde8bb8c7923eeb22d754cfaf6181b0bba61a76
