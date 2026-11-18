@@ -61,7 +61,10 @@ other valid shape. At charter `050d780`, `contracts/packs/schemas/directive.sche
   there.
 - A directive's body, and any content that cites a directive (steps, prompts, tactics, graph
   edge reasons, READMEs), states what the rule requires and never how strictly it binds. The
-  vocabulary guard (`scripts/ci/check_vocabulary.py`) refuses the self-binding phrasings.
+  vocabulary guard (`scripts/ci/check_vocabulary.py`) refuses the explicit self-binding phrasings
+  ("advisory in v1", "this is advisory guidance", "binding charter content" and similar, even
+  when wrapped across lines). A claim made with a single bare word is left to review, since
+  words such as "mandatory" and "binding" have legitimate senses.
 - No default value changed in the migration.
 - This vocabulary is separate from activation presets' `must_have` items and `policy.yaml`
   levels, which decide *which* artefacts are in force (#242, #201).

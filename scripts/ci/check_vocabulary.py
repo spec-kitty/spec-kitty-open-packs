@@ -23,7 +23,10 @@ The level is the directive's ``enforcement:`` field, read as the pack-supplied d
 the adopting charter decides the level that applies
 (``docs/architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md``;
 ``term:spec-kitty-core/enforcement-level``). The rule matches phrases, never single words, so
-an npm *advisory* or a *mandatory* report field stays legal.
+an npm *advisory* or a *mandatory* report field stays legal. It closes the explicit phrasings
+that recurred (on ``main`` before #233 it hit 29 of the files the sweep changed); a claim made
+with one bare word ("the mandatory output", "binding rules" in another shape) is left to
+review, because those words have legitimate senses. A phrase wrapped across two lines counts.
 
 Stdlib only. It scans the tracked text files under ``packs/``. Run it with::
 
@@ -115,40 +118,67 @@ GLOSSARY_SUFFIX = ".glossary.yaml"
 
 #: #233: phrasings that state a directive's own level, criticality or gate posture, in a
 #: directive or in content that cites one. Phrases only; each was checked against the
-#: other senses that stay legal (npm advisories, mandatory report fields, enforcement
-#: tiers of the glossary, format versions such as ``qa-traceability/v1``).
+#: other senses that stay legal (npm advisories and an ``advisory:`` key, dependency or
+#: data *binding*, mandatory report fields, the glossary's enforcement tiers, runtime gates
+#: such as analyze, format versions such as ``qa-traceability/v1``).
 SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
         r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+v\d",
-        r"\b(?:this|the)\s+(?:directive|rule|guidance)\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b",
-        r"\bthis\s+is\s+advisory\b",
+        r"\b(?:this|the)\s+directive\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b",
+        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b",
+        r"\b(?:directive|rule)s?\s+(?:is|are)\s+(?:non-negotiable|a\s+hard\s+gate)\b",
+        r"\bnon-negotiable\s+(?:rule|directive|policy)\b",
+        r"\bthis\s+is\s+(?:advisory|not\s+a\s+recommendation)\b",
         r"\bnot\s+a\s+runtime\s+gate\b",
         r"\bbinding\s+charter\s+content\b",
         r"\badvisory\s+posture\b",
         r"\benforcement\s+`(?:required|advisory|lenient-adherence)`",
-        r"\bmakes?\s[^.]{0,60}\bbinding\b",
-        r"\bdirective'?s?\s+binding\b",
+        r"\bmakes?\b[^.]{0,160}?\brules?\s+binding\b",
+        r"\brules?\s+that\s+\S+\s+makes?\s+binding\b",
+        r"\bdirective'?s?\s+binding\s+rules?\b",
         r"\badvisory\s+context\b",
         r"\bremains?\s+advisory\b",
         r"\bhard\s+validation\s+gate\b",
-        r"(?:^\s*-?\s*'?|\.\s+)advisory:",
+        r"\blenient-adherence\s+[a-z]",
+        r"\.\s+advisory(?:\s+in\s+v\d)?:\s+[^.]*\b(?:gates?|transition)\b",
     )
 )
 _ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
+_LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
+
+
+def _phrase(line: str) -> str | None:
+    for pattern in SELF_BINDING:
+        match = pattern.search(line)
+        if match:
+            return match.group(0)
+    return None
 
 
 def self_binding_in(text: str) -> list[tuple[int, str]]:
-    """(line, phrase) for every line that states a directive's level in prose (#233)."""
+    """(line, phrase) for every line that states a directive's level in prose (#233).
+
+    Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line
+    break. Each line is also checked joined to the next; a phrase found only across the
+    join is reported on the line where it starts.
+    """
+    lines = text.splitlines()
     found: list[tuple[int, str]] = []
-    for number, line in enumerate(text.splitlines(), start=1):
+    for index, line in enumerate(lines):
         if _ENFORCEMENT_FIELD.match(line):
             continue
-        for pattern in SELF_BINDING:
-            match = pattern.search(line)
-            if match:
-                found.append((number, match.group(0).strip()))
-                break
+        phrase = _phrase(line)
+        if phrase is None and index + 1 < len(lines) and not _ENFORCEMENT_FIELD.match(lines[index + 1]):
+            head = line.rstrip()
+            joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
+            for pattern in SELF_BINDING:
+                match = pattern.search(joined)
+                if match and match.start() < len(head) < match.end():
+                    phrase = match.group(0)
+                    break
+        if phrase is not None:
+            found.append((index + 1, " ".join(phrase.split())))
     return found
 
 #: Runtime and platform families that are not language names (#202). The charter

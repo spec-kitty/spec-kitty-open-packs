@@ -138,7 +138,20 @@ class SelfBindingTest(unittest.TestCase):
         "A Spec Kitty styleguide/directive is advisory context an agent applies.",
         "The missing-skill fallback and the PyPI fallback remain advisory in the procedure.",
         "This rule is enforced as a hard validation gate: ownerless actions are refused.",
-        "    description: 'Surface the risk. Advisory: visibility and evidence are required.'",
+        "    description: 'Surface the risk. Advisory: evidence is required, but this step does not gate the transition.'",
+        "A report missing one is incomplete. This is not a recommendation: all seven count.",
+        "classify each by kind: a non-negotiable rule becomes a directive.",
+        "The attribution directive is a hard gate for every minute.",
+        "applying its own resolution order is an acceptable lenient-adherence allowance here.",
+        "CLOUD_SESSION_ORCHESTRATION makes the read-only sibling, orchestrator-mediated write and shared-number rules binding.",
+    )
+
+    #: (text, line the phrase starts on): phrases a ~80-column wrap splits across two lines.
+    WRAPPED = (
+        ("scope: >\n  It adds no gate. Advisory in\n  v1: evidence is required.\n", 2),
+        ("intent: >\n  Read the evidence first. This directive is\n  advisory for teams adopting it.\n", 2),
+        ("- \"A report missing one is incomplete. This is not a\n  recommendation: all seven count.\"\n", 1),
+        ("notes:\n  # A styleguide is advisory\n  # context an agent applies.\n", 2),
     )
 
     ALLOWED = (
@@ -150,6 +163,15 @@ class SelfBindingTest(unittest.TestCase):
         "enforcement: required",
         "  enforcement: advisory  # the pack-supplied default",
         "This directive applies when a dependency changes; it is a rule, not a gate.",
+        "Spring makes property binding type-safe; Angular makes two-way binding easy.",
+        "The service locator makes the service binding explicit.",
+        "advisory: GHSA-xxxx-yyyy-zzzz",
+        "Check the lockfile. Advisory: npm reports a moderate issue for this version.",
+        "The rule is required reading for every reviewer.",
+        "`/spec-kitty.analyze` must run first. This is not optional: it is the readiness gate.",
+        "This directive binds only work handled under Spec Kitty.",
+        "`lenient-adherence` means conform except where explicit_allowances permit.",
+        "The attribution check is a hard gate whenever any action exists.",
     )
 
     def test_refuses_every_self_binding_phrase(self) -> None:
@@ -157,6 +179,17 @@ class SelfBindingTest(unittest.TestCase):
             with self.subTest(line=line):
                 found = vocab.self_binding_in(f"intro\n{line}\n")
                 self.assertEqual([number for number, _ in found], [2])
+
+    def test_refuses_a_phrase_split_by_a_line_wrap(self) -> None:
+        for text, line in self.WRAPPED:
+            with self.subTest(text=text):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(text)], [line])
+
+    def test_a_phrase_on_one_line_is_reported_once(self) -> None:
+        self.assertEqual([n for n, _ in vocab.self_binding_in("Advisory in v1: x.\nAdvisory in v1: y.\n")], [1, 2])
+
+    def test_the_enforcement_field_never_joins(self) -> None:
+        self.assertEqual(vocab.self_binding_in("intent: The rule is\nenforcement: advisory\n"), [])
 
     def test_spares_other_senses_and_the_field(self) -> None:
         for line in self.ALLOWED:
