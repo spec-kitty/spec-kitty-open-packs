@@ -1,5 +1,6 @@
 # The codes the charter service must refuse this pack with (scripts/ci/charter_service_check.py).
 # The files hold 3.x-era shapes (a lowercase directive id and removed fields in its directive), so the pack cannot be read
-# at all. Its graph shard sits at the pack root, where every charter since #554 reads shards.
+# at all. Its graph shard sits at the pack root, where every charter reads shards (the only place since charter
+# #554); the shard is schema-invalid too (no generated_at or schema_version), at either pin.
 composition: pack_unreadable
 registration: validation_failed

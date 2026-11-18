@@ -521,14 +521,25 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertNotIn("cannot judge", output)
 
     def test_a_known_kind_the_contract_maps_nowhere_fails_closed(self) -> None:
+        # No graph rule at all, or one renamed to a glob without the kind token: the mapping is lost.
+        for extra in ("", '  - match: "*/graphs/*.yaml"\n    schema: tactic\n'):
+            with self.subTest(extra=extra), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                self.write_contract(root, extra)
+                pack = self.write_pack(root, {"drg/tactic.graph.yaml": "nodes: []\n"})
+                self.assertFalse(validator.kind_mapped(validator.contract_for(root / "contract"), "graph"))
+                code, output = self.run_validator(root, str(pack))
+                self.assertEqual(code, validator.EXIT_GATE, output)
+                self.assertIn("a `graph` file has no schema mapping", output)
+
+    def test_a_path_scoped_kind_placed_elsewhere_is_unmodelled(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            self.write_contract(root)
-            pack = self.write_pack(root, {"drg/tactic.graph.yaml": "nodes: []\n"})
-            self.assertFalse(validator.kind_mapped(validator.contract_for(root / "contract"), "graph"))
+            self.write_contract(root, '  - match: "*/missions/*/enhancements/*.step-enhancement.yaml"\n    schema: tactic\n')
+            pack = self.write_pack(root, {"foo.step-enhancement.yaml": "id: x\n"})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_GATE, output)
-            self.assertIn("a `graph` file has no schema mapping", output)
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("pack/foo.step-enhancement.yaml: unmodelled", output)
 
     def test_a_symlinked_file_or_directory_in_a_pack_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

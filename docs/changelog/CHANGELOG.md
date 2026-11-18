@@ -255,7 +255,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   report. `validate-packs.yml` takes the charter target as `workflow_call` inputs, and
   `scripts/ci/charter_pin.py` resolves and applies one. While a bump pull request is open, the track
   does not check its release again, and it closes a red issue once the lock passes that release. This
-  replaces charter's `open-packs-drift.yml`, which spec-kitty/spec-kitty-charter#604 retires.
+  replaces charter's `open-packs-drift.yml`, which spec-kitty/spec-kitty-charter#604 is to retire once this lands.
 
 - **The glossary contexts carry core's docs/context terminology, and "Op" is defined** (#221, #234;
   epic #288). Core's `docs/context/` pages (at core `01e577d`) defined about 290 terms that no
@@ -647,8 +647,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `main` reads a `<name>.graph.yaml` shard at the pack root only: a `drg/*.graph.yaml` is no longer
   modelled, and an unmodelled file is warned as `file_not_held` instead of refused.
   `validate_pack_schemas.py` now fails closed on a known kind only when the contract maps that kind
-  nowhere, so it judges a nested shard as `unmodelled` instead of stopping. It still fails every file the
-  charter does not hold. The `legacy-shapes` fixture's shard moves to the pack root, so the schema pass
+  nowhere, so it judges a nested shard as `unmodelled` instead of stopping. The same applies to any kind
+  whose rule is scoped to a path: a misplaced `foo.step-enhancement.yaml` is an `unmodelled` violation,
+  where it used to stop the gate. It still fails every file the charter does not hold, and the service
+  check names such a file as unmodelled, not as a drifted mirror. The `legacy-shapes` fixture's shard moves to the pack root, so the schema pass
   is green against both the pinned `service-v0.1.0-rc.1` and charter `main`. Every shipped pack
   already keeps its shards at the root.
 
