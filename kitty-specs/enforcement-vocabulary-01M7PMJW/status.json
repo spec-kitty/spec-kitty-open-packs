@@ -1,7 +1,7 @@
 {
-  "event_count": 20,
-  "last_event_id": "01M7PNZX8GEDDCDH72QBVMSCEY",
-  "materialized_at": "2026-11-18T06:37:31.280209+00:00",
+  "event_count": 21,
+  "last_event_id": "01M7PP0H3KQ5EWWD1EQRDE92KG",
+  "materialized_at": "2026-11-18T06:37:51.603045+00:00",
   "mission_number": "",
   "mission_slug": "enforcement-vocabulary-01M7PMJW",
   "mission_type": "software-dev",
@@ -12,10 +12,10 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 3,
+    "for_review": 2,
     "in_progress": 0,
     "in_review": 0,
-    "planned": 2
+    "planned": 3
   },
   "work_packages": {
     "WP01": {
@@ -53,15 +53,15 @@
       }
     },
     "WP02": {
-      "actor": "claude",
+      "actor": "user",
       "agent": "claude",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
+      "force_count": 1,
       "implementer_of_record": "claude",
-      "lane": "for_review",
-      "last_event_id": "01M7PNQ9F2KFVZ1NAE4EWR3089",
-      "last_transition_at": "2026-11-18T06:32:48.866553+00:00",
+      "lane": "planned",
+      "last_event_id": "01M7PP0H3KQ5EWWD1EQRDE92KG",
+      "last_transition_at": "2026-11-18T06:37:51.603045+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep",
@@ -69,6 +69,12 @@
         "Guard green on the swept tree: 728 files, 0 findings; 19 vocabulary tests OK"
       ],
       "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP02-guard/review-cycle-1.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP02-guard/review-cycle-1.md",
+        "reviewer": "reviewer-renata",
+        "verdict": "changes_requested"
+      },
       "role": "implementer",
       "shell_pid": 4775,
       "shell_pid_created_at": "1794983305.39",
