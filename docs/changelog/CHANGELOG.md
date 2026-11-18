@@ -643,6 +643,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   tickets are drafted for HiC approval only and were **not** filed.
 ### 🔄 Changed
 
+- **The schema mirror follows charter #554's root-only graph shards** (#253, epic #287). Charter
+  `main` reads a `<name>.graph.yaml` shard at the pack root only: a `drg/*.graph.yaml` is no longer
+  modelled, and an unmodelled file is warned as `file_not_held` instead of refused.
+  `validate_pack_schemas.py` now fails closed on a known kind only when the contract maps that kind
+  nowhere, so it judges a nested shard as `unmodelled` instead of stopping. It still fails every file the
+  charter does not hold. The `legacy-shapes` fixture's shard moves to the pack root, so the schema pass
+  is green against both the pinned `service-v0.1.0-rc.1` and charter `main`. Every shipped pack
+  already keeps its shards at the root.
+
 - **The packs are pinned to charter release `service-v0.1.0-rc.1`** (epic #287; operator ruling,
   2026-11-18). `charter.lock.yaml` moves from `main` at `050d780` to the pre-release tag
   `service-v0.1.0-rc.1`, its commit `ebce9083cc132c4cc7f7602f8b8681b933dac98a` and the jar digest
