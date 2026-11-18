@@ -67,7 +67,8 @@
         "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep",
         "Sweep landed; completing T008",
         "Guard green on the swept tree: 728 files, 0 findings; 19 vocabulary tests OK",
-        "Changes requested"
+        "Changes requested",
+        "Review findings 1-3, 10 addressed; 22 tests OK; one remaining tree hit is WP04's cloud-session-dispatch miss"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
