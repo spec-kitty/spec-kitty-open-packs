@@ -69,7 +69,7 @@ steps:
 
       Knowledge signal                                          -> Pack artifact kind
       ------------------------------------------------------------------------------------
-      A non-negotiable rule or policy ("always", "never", "must") -> directive
+      A rule or policy ("always", "never", "must")                -> directive
       A reusable technique or how-to with ordered steps but no
         entry/exit gate                                           -> tactic
       A multi-step workflow WITH entry_condition, exit_condition,

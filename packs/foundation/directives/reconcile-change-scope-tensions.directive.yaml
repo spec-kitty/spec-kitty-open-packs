@@ -41,7 +41,7 @@ explicit_allowances:
   - When the three source rules would each pick a different file set for a
     genuinely small change, applying this directive's own default
     resolution order (its change-scope-tension-resolution procedure) without a separate written
-    trade-off analysis is an acceptable lenient-adherence allowance in its
+    trade-off analysis is an acceptable allowance in its
     arbiter role, provided the resolution itself (what was folded in, what
     was deferred, and why) is still recorded per this directive's own
     procedure.

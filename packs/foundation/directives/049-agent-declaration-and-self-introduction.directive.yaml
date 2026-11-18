@@ -7,8 +7,7 @@ intent: >
   role/scope declaration - who it is, what it is about to do, and any hard
   constraint it operates under - so the human or the requesting agent can
   catch a mismatch (wrong agent invoked, wrong scope assumed) before work is
-  wasted rather than after. This is advisory guidance, not a runtime gate:
-  no mechanism blocks work when the declaration is absent.
+  wasted rather than after.
 enforcement: advisory
 scope: >
   Applies to specialist agent profiles that have a narrow, named role and a

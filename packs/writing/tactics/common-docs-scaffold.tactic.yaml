@@ -64,7 +64,7 @@ steps:
       marks curated-complete (initially architecture/ only) — a page missing
       from a curated-complete section's index.md fails the lint; every other
       section index is a landing page, so seeding it promptly is still
-      required by this directive but is not (yet) lint-enforced.
+      part of this directive's rule, though no lint checks it yet.
     examples:
       - "Creating the first file under integrations/ also creates integrations/index.md with doc_status: active (a directive requirement, not currently lint-checked)."
       - "Adding a page under architecture/ (curated-complete) without listing it in architecture/index.md fails docs_structural_lint's index_completeness check."

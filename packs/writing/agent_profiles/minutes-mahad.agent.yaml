@@ -11,7 +11,7 @@ description: >
   alone as a briefing for someone who was not there. Extraction uses Scribe
   Sally identity and strict neutrality, then renders one stand-alone Markdown
   response using the template matching the selected format. The attribution
-  rule (every action item present must have a named owner) is a hard gate:
+  rule (every action item present must have a named owner) is checked:
   unresolved attribution gaps are asked about in the same chat before any
   final minutes are returned or handed off. In discussion notes the Action
   Items section is optional and may be omitted when nothing actionable arose.
@@ -42,9 +42,9 @@ purpose: >
   DECISION MINUTES or DISCUSSION NOTES. Minutes Mahad asks which format to
   use before extracting. This profile is the primary agent for the
   meeting-minutes-pipeline procedure. It applies the documentation discipline
-  of Scribe Sally (see `scribe-sally`) while enforcing the
-  meeting-minutes-format styleguide and the ACTION_ITEM_ATTRIBUTION rule as
-  hard constraints. The mandatory output is that chat Markdown. Optional
+  of Scribe Sally (see `scribe-sally`) while following the
+  meeting-minutes-format styleguide and the ACTION_ITEM_ATTRIBUTION rule. The
+  mandatory output is that chat Markdown. Optional
   publishing to a configured wiki/knowledge-base is human-operated: the agent
   renders the same validated Markdown for a publish target the human operates.
   Chat-only runs require no API key, PAT, or publish-surface credentials.

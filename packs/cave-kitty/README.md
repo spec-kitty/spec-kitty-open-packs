@@ -30,8 +30,8 @@ Inspired by the [`caveman`](https://github.com/JuliusBrussee/caveman) token-savi
 set. This pack captures caveman's **communication-voice rules** as Spec Kitty doctrine,
 authored fresh under this repository's MIT licence. It does **not** reproduce caveman's runtime
 `/caveman` toggle, its CLI proxy, or its input/log/JSON compression ("rocks") — those are
-*tooling*, not doctrine. A Spec Kitty styleguide/directive is advisory context an agent applies
-when it writes; it is not an enforced runtime switch.
+*tooling*, not doctrine. A Spec Kitty styleguide/directive is context an agent applies when it
+writes; it is not a runtime switch.
 
 ## What ships
 
@@ -104,8 +104,8 @@ What this pack does **not** take:
 - caveman's **runtime mechanics** — the `/caveman` / `/ultracave` slash-command toggle, the
   `npx @caveman-ai/cli` proxy, and the v4 "rocks" (log/JSON/CSV input compression, model-effort
   routing, browser-page compression) — are **tooling, not doctrine**, and are out of scope for a
-  Charter Pack. A Spec Kitty styleguide/directive is advisory context, not a transparent runtime
-  interceptor.
+  Charter Pack. A Spec Kitty styleguide/directive is context an agent applies, not a
+  transparent runtime interceptor.
 
 ### Licence
 

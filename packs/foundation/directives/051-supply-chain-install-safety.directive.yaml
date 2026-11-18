@@ -41,11 +41,9 @@ scope: >
   ecosystem (JavaScript/TypeScript, Python, Java, and others as applicable).
   It governs the checks an implementer must perform before accepting a new or
   changed dependency and the evidence a reviewer must require before
-  approving a change that touches the dependency tree. This directive is
-  advisory at the transition-gate level in v1: it does not introduce a new
-  fail-closed transition-gate handler, and workflow wiring must not silently
-  hard-block on it. It DOES require visibility and explicit evidence —
-  silence or an unexamined default is not compliance.
+  approving a change that touches the dependency tree. It requires
+  visibility and explicit evidence: silence or an unexamined default is not
+  compliance.
 integrity_rules:
   - "None of the five threat-class controls stated in `intent` may be
     silently skipped; an unexamined default is a gap in evidence, not a
@@ -61,11 +59,6 @@ integrity_rules:
   - "This directive must remain threat-class based. Hardcoding a specific
     incident package name or version number as core doctrine truth is
     prohibited — cite the CAS/vendor incident feed consulted instead."
-  - "This directive does not introduce a new fail-closed transition-gate
-    handler in v1. Workflow wiring that consumes this directive must keep it
-    advisory at the gate level while still requiring explicit visibility and
-    evidence — omitting the check entirely is not an acceptable
-    interpretation of 'advisory'."
 validation_criteria:
   - "Every dependency addition, upgrade, or review runs the
     `supply-chain-install-safety` tactic's checklist with the commands and

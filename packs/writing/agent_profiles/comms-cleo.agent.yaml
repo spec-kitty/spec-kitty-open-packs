@@ -106,8 +106,8 @@ specialization-context:
 directive-references:
 - code: "047"
   name: Audience-Oriented Writing
-  rationale: Persona identification and audience-fit validation are mandatory
-    before drafting any artifact
+  rationale: Persona identification and audience-fit validation happen before
+    drafting any artifact
 - code: "foundation::003"
   name: Decision Documentation Requirement
   rationale: Edits and drafting decisions that change factual framing must be

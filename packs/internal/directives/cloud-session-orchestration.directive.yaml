@@ -2,7 +2,7 @@ schema_version: "1.0"
 id: CLOUD_SESSION_ORCHESTRATION
 title: Cloud-Session Orchestration (runner and orchestrator boundaries)
 intent: >
-  Makes the integrity rules for parallel cloud sessions binding charter content.
+  Sets the integrity rules for parallel cloud sessions.
   Runners keep sibling repositories read-only, route sibling writes through the
   orchestrator, replace blocked sessions instead of retrying them, and allocate
   shared numbers only when writing after checking all competing work.
@@ -11,8 +11,8 @@ scope: >
   Applies to orchestrators and runners using cloud-session-dispatch, or
   semi-auto-delivery in cloud mode, including their dispatch briefs, Mission research notes,
   hand-offs and merge preparation. Environment setup tooling, the command -v
-  and PyPI fallback, and the missing-skill fallback remain advisory in the
-  cloud-session-dispatch procedure.
+  and PyPI fallback, and the missing-skill fallback stay with the
+  cloud-session-dispatch procedure, outside this directive.
 integrity_rules:
   - Sibling repositories are cloned read-only; runners never request push access or write to them.
   - >
