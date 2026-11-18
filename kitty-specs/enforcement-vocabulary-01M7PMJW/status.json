@@ -106,7 +106,8 @@
       "notes": [
         "Directive sweep done; manifests are restamped in WP05",
         "Re-submitted with the implementer identity of record (tool::profile) so independence can be checked",
-        "Implementer identity hop for independent review"
+        "Implementer identity hop for independent review",
+        "Re-submitted as implementer claude::curator-carla"
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": null,
