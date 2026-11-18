@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 92c64aafe0b7862aa1c3e0711d100508a4ea1a890fae808f060fb8a45da27c87
+manifest_hash: 45abd143c8ef6e9b380fc530de58e8bfdb853342563050b744e4ee2228c17033
 constituents:
 - kind: agent_profile
   id: qa-defect-triager-dmitri
@@ -8,15 +8,15 @@ constituents:
 - kind: agent_profile
   id: qa-reporter-rhea
   path: agent_profiles/qa-reporter-rhea.agent.yaml
-  content_hash: 28f7977146c09e6dff1926928ae675088f79bde522f28b54e196d665f6f8aad4
+  content_hash: bffe9b49183fd39a03383b36a8833bba7f4b9ec98a11e02bed68c9f03661e1b7
 - kind: agent_profile
   id: qa-strategist-quinn
   path: agent_profiles/qa-strategist-quinn.agent.yaml
-  content_hash: 4e098be4a015b9c687b76477eb072307dc868575857221f2ddc92c553360507d
+  content_hash: 809d84d2f8b9a5221cd72c1094a21ad3043a1721725c8605b842ba59bc86bfba
 - kind: agent_profile
   id: qa-test-designer-tessa
   path: agent_profiles/qa-test-designer-tessa.agent.yaml
-  content_hash: bfb98c5dbcd65d3dbbf9bce9016c8e2edc4c225a1771ed91c254229ca0d7ca5d
+  content_hash: 4fc8499a06d2b2cbefff05a08666c009ae9c3e04f6defe1df3a188d7e658e036
 - kind: agent_profile
   id: qa-test-executor-elena
   path: agent_profiles/qa-test-executor-elena.agent.yaml
@@ -36,11 +36,11 @@ constituents:
 - kind: directive
   id: QA_001
   path: directives/qa-001-traceability-mandatory.directive.yaml
-  content_hash: a29d8da74b0e68f72d000e779e9e58ff00227c7e816d5cecc0855188fd5103af
+  content_hash: 4d983384ca61eb3cfb9b07ac6abde603de865786481a6e62771176537e9b91c4
 - kind: directive
   id: QA_002
   path: directives/qa-002-defect-report-quality.directive.yaml
-  content_hash: f01717199501ba65fa4d471d83cffad80533327655580b3eadfc5815a583b7e5
+  content_hash: 78bc4e8aeb1914896d564ab4a0ae4755b5419965ae46645d8cc1a2c935abb07f
 - kind: directive
   id: QA_003
   path: directives/qa-003-no-fake-green.directive.yaml
