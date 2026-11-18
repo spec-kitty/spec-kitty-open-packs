@@ -2,7 +2,7 @@
 title: Charter artefacts
 description: "The structure of every charter artefact kind a Charter Pack can carry: directory, file naming and key fields."
 doc_status: draft
-updated: '2026-10-31'
+updated: '2026-11-18'
 related:
 - contracts
 - guides/author-a-charter-pack
@@ -19,7 +19,7 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 
 | Kind | Directory | File name | What it governs |
 | --- | --- | --- | --- |
-| Directive | `directives/` | `<id>.directive.yaml` | A binding rule, with an enforcement level. |
+| Directive | `directives/` | `<id>.directive.yaml` | A rule, with a default enforcement level that the adopting charter can override. |
 | Tactic | `tactics/` | `<id>.tactic.yaml` | A reusable how-to: steps and failure modes. |
 | Styleguide | `styleguides/` | `<id>.styleguide.yaml` | Conventions for writing code, docs or prose. |
 | Toolguide | `toolguides/` | `<id>.toolguide.yaml` | How to use one tool, with commands. |
@@ -53,7 +53,7 @@ scope: >
   Applies when a defect class has been identified as recurring …
 ```
 
-Key fields: `id`, `title`, `intent`, `enforcement`, `scope`, `integrity_rules`,
+Key fields: `id`, `title`, `intent`, `enforcement` (the default [enforcement level](../glossary/index.md)), `scope`, `integrity_rules`,
 `validation_criteria`. A directive reaches its procedures through edges in the pack's graph
 documents, usually `requires`.
 

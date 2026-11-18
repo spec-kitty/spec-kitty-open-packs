@@ -2,7 +2,7 @@
 title: "Getting started: adopt your first pack"
 description: "Adopt your first Spec Kitty Charter Pack end to end: register it, fetch it, activate one rule through the charter, and confirm it is in force. For first-time pack users."
 doc_status: wip
-updated: '2026-10-20'
+updated: '2026-11-18'
 related:
 - guides
 - guides/use-a-charter-pack

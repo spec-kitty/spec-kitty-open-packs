@@ -9,6 +9,8 @@ principles:
     description: "Agents copy examples. An example never shows an operation the governing rules forbid without the authorization those rules require."
   - name: "Name the role, not the local value"
     description: "Write the protected default branch, the project's priority scheme or the active token, not one project's branch name, label set or credential setup."
+  - name: "State the rule, not its strictness"
+    description: "A directive's level lives in its enforcement field, a default the adopting charter overrides. Its prose, and content citing it, never says it is advisory, mandatory or binding."
 
 patterns:
   - name: Quote a deprecated surface

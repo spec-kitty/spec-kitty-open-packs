@@ -2,7 +2,7 @@
 title: Architecture Decision Records
 description: Index of architecture decision records for spec-kitty-open-packs, covering the content-from-code docsite direction and its integrity model.
 doc_status: active
-updated: '2026-11-16'
+updated: '2026-11-18'
 related:
 - architecture
 - architecture/docsite-design

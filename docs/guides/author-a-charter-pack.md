@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets, a governing preset and a policy.yaml.
 doc_status: wip
-updated: '2026-11-13'
+updated: '2026-11-18'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -79,8 +79,14 @@ title: Never commit credentials to the repository
 intent: |
   Secrets must be supplied via environment or secret manager. Pre-commit hooks
   must scan staged content for known credential shapes.
-enforcement: required        # required | lenient-adherence | advisory
+enforcement: required        # default level: required | lenient-adherence | advisory
 ```
+
+The `enforcement` value is the directive's **default** [enforcement level](../glossary/index.md): the
+adopting project's charter decides the level that applies. Write the rule in the directive's text,
+never how strictly it binds: no "advisory in v1", "this is mandatory" or "binding", in the directive or
+in a step, tactic or graph edge that cites it. The vocabulary guard refuses those phrasings
+(see [ADR 2026-11-18-1](../architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md)).
 
 Required fields per kind:
 
