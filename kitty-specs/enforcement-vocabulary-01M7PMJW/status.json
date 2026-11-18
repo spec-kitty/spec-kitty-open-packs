@@ -1,7 +1,7 @@
 {
-  "event_count": 15,
-  "last_event_id": "01M7PNQ25FFNP8CF055G1DD9WB",
-  "materialized_at": "2026-11-18T06:32:41.391865+00:00",
+  "event_count": 16,
+  "last_event_id": "01M7PNQ9F2KFVZ1NAE4EWR3089",
+  "materialized_at": "2026-11-18T06:32:48.866553+00:00",
   "mission_number": "",
   "mission_slug": "enforcement-vocabulary-01M7PMJW",
   "mission_type": "software-dev",
@@ -12,8 +12,8 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 2,
-    "in_progress": 1,
+    "for_review": 3,
+    "in_progress": 0,
     "in_review": 0,
     "planned": 2
   },
@@ -26,15 +26,15 @@
       "last_transition_at": "2026-11-18T06:21:13.211524+00:00"
     },
     "WP02": {
-      "actor": "user",
+      "actor": "claude",
       "agent": "claude",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "in_progress",
-      "last_event_id": "01M7PNQ25FFNP8CF055G1DD9WB",
-      "last_transition_at": "2026-11-18T06:32:41.391865+00:00",
+      "lane": "for_review",
+      "last_event_id": "01M7PNQ9F2KFVZ1NAE4EWR3089",
+      "last_transition_at": "2026-11-18T06:32:48.866553+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep",
