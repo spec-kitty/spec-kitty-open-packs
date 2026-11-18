@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Pack level:** `built-in`
-- **Declared version:** `2.0.0`
-- **Content checksum (sha256):** `755409334a97e52f8ce72754c3127e6a8ba8c19e0fa4b5b56786095b1addf308`
+- **Declared version:** `2.1.0`
+- **Content checksum (sha256):** `a90458d28f18e9467a390547efc5e96765c6050555495612e9bed13bd7d17d7e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -33,7 +33,7 @@ lexical and curator profiles; Common Docs and audience-oriented writing directiv
 documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
 the writing-audience assets.
 
-**Depends on:** [`foundation`](foundation.md) `==2.0.0`
+**Depends on:** [`foundation`](foundation.md) `==2.1.0`
 
 ## Artifact inventory
 

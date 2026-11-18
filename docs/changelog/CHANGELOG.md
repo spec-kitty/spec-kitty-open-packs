@@ -254,6 +254,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ADR-0078 decision 2). `--cross-pack` names each cycle in order (`a -> b -> a`) across all
   packs; the charter refuses one only within the closure it registers. A profile may have
   several parents. Open-packs has no cycle.
+- **`implementer-ivan` routes CI work** (#301; companion to core spec-kitty#7697, PR
+  spec-kitty#7707). The profile's `domain-keywords` add `ci`, `ci matrix`, `ci pipeline`,
+  `github actions`, `github workflow` and `continuous integration`, so core's dispatch router
+  sends CI and workflow requests to it. No other profile declares these keywords, and none of
+  their tokens is a router stop-word. The change is additive (DIRECTIVE_018), so the bumps are
+  minor and lockstep, and the exact pins follow: `foundation` 2.0.0 → 2.1.0, `writing`
+  2.0.0 → 2.1.0, `testing`, `refactoring`, `architecture` and `planning-analysis` 2.1.0 → 2.2.0,
+  and `built-in` 4.0.0 → 4.1.0.
 
 - **Every mission step is linked from its mission type, every delegation candidate is scoped,
   and foundation has a work-package lifecycle with the pre-review guard** (#285 items 2 to 4;
