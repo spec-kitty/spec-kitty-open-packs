@@ -170,7 +170,7 @@ styleguide when authoring definitions. Key rules:
 
 | Status | Meaning |
 |---|---|
-| **Candidate** | Proposed during curation; awaiting HiC approval |
+| **Candidate** | Proposed during curation; awaiting the operator's approval |
 | **Canonical** | Approved; enforced in code and documentation |
 | **Deprecated** | Superseded; retained with deprecation notice |
 

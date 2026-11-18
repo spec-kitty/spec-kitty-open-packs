@@ -20,6 +20,6 @@ steps:
   - title: Write trigger declarations
     description: Compose "When X happens, I will Y" statements that prime action when limits are breached.
     examples:
-      - "When three consecutive approaches fail to make the test green, escalate to the human-in-charge immediately."
+      - "When three consecutive approaches fail to make the test green, escalate to the operator immediately."
   - title: Communicate and schedule checkpoints
     description: Share stopping conditions with affected parties and schedule review checkpoints to evaluate progress against limits.
