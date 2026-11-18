@@ -3,7 +3,7 @@
 # This file is the authoring source of the canonical Spec Kitty terminology. Edit it by hand, through the
 # glossary-curation workflow: the writing pack's glossary-maintenance-workflow procedure and foundation's
 # glossary-curation-interview tactic. No generator writes it. The consumer-facing terms of core's docs/context
-# pages were added here in #221; their house-only terms live in the internal pack's glossary.
+# pages are kept here; their house-only terms live in the internal pack's glossary.
 schema_version: '1.0'
 id: spec-kitty-core
 name: Spec Kitty core
@@ -52,7 +52,7 @@ terms:
     name: branch strategy gate
     definition: The mission-create guard for PR-bound missions that requires an explicit operator or agent decision before
       planning artifacts are written on a primary branch. Interactive callers may confirm at the prompt; non-interactive callers
-      record the already-made decision with --branch-strategy already-confirmed. When the recommended feature-branch path
+      record the already-made decision with --branch-strategy already-confirmed. When the recommended topic-branch path
       is chosen, pass --start-branch so the CLI switches before scaffold writes.
     status: active
   - id: build
@@ -491,7 +491,7 @@ terms:
     status: active
   - id: project-root-checkout
     name: project root checkout
-    definition: 'DEPRECATED (mission 081): Use ''repository root checkout'' instead. The non-worktree checkout at the root
+    definition: 'DEPRECATED: Use ''repository root checkout'' instead. The non-worktree checkout at the root
       of the current repository.'
     status: deprecated
   - id: project-uuid
@@ -531,12 +531,12 @@ terms:
   - id: repository-label
     name: repository_label
     definition: Human-readable repository display name derived from git remote or directory name. Mutable, not a stable identity.
-      Was called project_slug before mission 081.
+      Formerly called project_slug.
     status: active
   - id: repository-uuid
     name: repository_uuid
-    definition: Stable local repository identity, minted once per repository. Required namespace key for body sync and dedup.
-      Was mislabeled as project_uuid before mission 081.
+    definition: Stable local repository identity, minted once per repository. Used as the namespace key that keeps one repository's
+      records apart from another's. Formerly mislabeled project_uuid.
     status: active
   - id: rule-pipeline
     name: rule pipeline
@@ -2002,9 +2002,9 @@ terms:
       - term:spec-kitty-core/event-envelope
   - id: lamport-clock
     name: Lamport Clock
-    definition: A logical counter included in event envelopes that tracks the order events happened in, without relying on
-      wall-clock time. Each new event increments the counter, ensuring events can be reliably ordered even across different
-      machines.
+    definition: A logical counter carried in an event envelope that orders events without relying on wall-clock time. Each
+      new event increments the counter, so envelopes that carry it can be ordered across machines. The work package status
+      log does not use it; its lane transitions are ordered by their recorded timestamp.
     status: active
     see_also:
       - term:spec-kitty-core/event-envelope
