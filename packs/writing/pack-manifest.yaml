@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6cd93a103847717cb27a2150bb16d3fec5b583cb91ecb943940f01ac2a49516e
+manifest_hash: 84b4597befd1b8592221b0c71db3fb66502f7ad4ca1dc525e412253c11e6eb30
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -136,7 +136,7 @@ constituents:
 - kind: procedure
   id: glossary-maintenance-workflow
   path: procedures/glossary-maintenance-workflow.procedure.yaml
-  content_hash: e3d74b1676c81b7fdf844c54139f1d66ea65147ca520ba9fe7da9ade9e4ea287
+  content_hash: 6060121389f3a87fbbbbee0195862484e5c985d38dbdfdc62be1f33b87880d90
 - kind: procedure
   id: meeting-minutes-pipeline
   path: procedures/meeting-minutes-pipeline.procedure.yaml
@@ -184,7 +184,7 @@ constituents:
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
-  content_hash: c30f762b2faaea9735511475790cdc0afec5240da102cda90dae73b378a3a055
+  content_hash: 9b6274188522daec881ba761668edbba912fe629572d992d952fa12642c66018
 - kind: tactic
   id: code-documentation-analysis
   path: tactics/analysis/code-documentation-analysis.tactic.yaml

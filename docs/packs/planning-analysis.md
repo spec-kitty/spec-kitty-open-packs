@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/planning-analysis`
 - **Pack level:** `built-in`
 - **Declared version:** `2.2.0`
-- **Content checksum (sha256):** `5aae6bcd541b30315f0759d7f977a991b5f4c83a2831357ec9ad7f4ca42dbc77`
+- **Content checksum (sha256):** `a6feffdacb46632ae8782f3b2e0fa4127fb8a77918bbfd4a63d28a6d0b128cd9`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
