@@ -12,10 +12,21 @@ change can reach a pin. Keep the rules in step with core's guards:
 * the retired governing glossary surface --
   ``tests/architectural/test_transition_guard_shrink_only.py``.
 
-One rule is this repository's own (spec-kitty/spec-kitty-open-packs#202): an
+Two rules are this repository's own. The first (spec-kitty/spec-kitty-open-packs#202): an
 ``applies_to_languages`` entry names a language, never a runtime or platform family
 such as ``jvm``. The charter matches the field as a free string with no family alias,
 so a ``jvm`` tag silently filters the artifact out of a ``languages: [java]`` project.
+
+The second (spec-kitty/spec-kitty-open-packs#233): pack prose never states how strictly a
+directive binds ("advisory in v1", "this is advisory guidance", "binding charter content").
+The level is the directive's ``enforcement:`` field, read as the pack-supplied default, and
+the adopting charter decides the level that applies
+(``docs/architecture/adr/2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md``;
+``term:spec-kitty-core/enforcement-level``). The rule matches phrases, never single words, so
+an npm *advisory* or a *mandatory* report field stays legal. It closes the explicit phrasings
+that recurred (on ``main`` before #233 it hit 29 of the files the sweep changed); a claim made
+with one bare word ("the mandatory output", "binding rules" in another shape) is left to
+review, because those words have legitimate senses. A phrase wrapped across two lines counts.
 
 Stdlib only. It scans the tracked text files under ``packs/``. Run it with::
 
@@ -105,6 +116,71 @@ RETIRED_SURFACE = re.compile(rf"""^\s*(?:-\s*)?name:\s*(["']?){_RETIRED_SURFACE_
 #: A glossary context file (charter ADR-0049); a term's surface form is its ``name``.
 GLOSSARY_SUFFIX = ".glossary.yaml"
 
+#: #233: phrasings that state a directive's own level, criticality or gate posture, in a
+#: directive or in content that cites one. Phrases only; each was checked against the
+#: other senses that stay legal (npm advisories and an ``advisory:`` key, dependency or
+#: data *binding*, mandatory report fields, the glossary's enforcement tiers, runtime gates
+#: such as analyze, format versions such as ``qa-traceability/v1``).
+SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in (
+        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+v\d",
+        r"\b(?:this|the)\s+directive\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b",
+        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b",
+        r"\b(?:directive|rule)s?\s+(?:is|are)\s+(?:non-negotiable|a\s+hard\s+gate)\b",
+        r"\bnon-negotiable\s+(?:rule|directive|policy)\b",
+        r"\bthis\s+is\s+(?:advisory|not\s+a\s+recommendation)\b",
+        r"\bnot\s+a\s+runtime\s+gate\b",
+        r"\bbinding\s+charter\s+content\b",
+        r"\badvisory\s+posture\b",
+        r"\benforcement\s+`(?:required|advisory|lenient-adherence)`",
+        r"\bmakes?\b[^.]{0,160}?\brules?\s+binding\b",
+        r"\brules?\s+that\s+\S+\s+makes?\s+binding\b",
+        r"\bdirective'?s?\s+binding\s+rules?\b",
+        r"\badvisory\s+context\b",
+        r"\bremains?\s+advisory\b",
+        r"\bhard\s+validation\s+gate\b",
+        r"\blenient-adherence\s+[a-z]",
+        r"\.\s+advisory(?:\s+in\s+v\d)?:\s+[^.]*\b(?:gates?|transition)\b",
+    )
+)
+_ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
+_LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
+
+
+def _phrase(line: str) -> str | None:
+    for pattern in SELF_BINDING:
+        match = pattern.search(line)
+        if match:
+            return match.group(0)
+    return None
+
+
+def self_binding_in(text: str) -> list[tuple[int, str]]:
+    """(line, phrase) for every line that states a directive's level in prose (#233).
+
+    Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line
+    break. Each line is also checked joined to the next; a phrase found only across the
+    join is reported on the line where it starts.
+    """
+    lines = text.splitlines()
+    found: list[tuple[int, str]] = []
+    for index, line in enumerate(lines):
+        if _ENFORCEMENT_FIELD.match(line):
+            continue
+        phrase = _phrase(line)
+        if phrase is None and index + 1 < len(lines) and not _ENFORCEMENT_FIELD.match(lines[index + 1]):
+            head = line.rstrip()
+            joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
+            for pattern in SELF_BINDING:
+                match = pattern.search(joined)
+                if match and match.start() < len(head) < match.end():
+                    phrase = match.group(0)
+                    break
+        if phrase is not None:
+            found.append((index + 1, " ".join(phrase.split())))
+    return found
+
 #: Runtime and platform families that are not language names (#202). The charter
 #: compares ``applies_to_languages`` entries as plain strings, so a family tag never
 #: matches a project's ``languages``.
@@ -187,6 +263,8 @@ def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
             found.append((number, "names the renamed `merge` command; use `spec-kitty consolidate`"))
         if rel.endswith(GLOSSARY_SUFFIX) and RETIRED_SURFACE.match(line):
             found.append((number, "declares the retired governing glossary surface"))
+    for number, phrase in self_binding_in(text):
+        found.append((number, f"states a directive's enforcement level in prose ({phrase!r}); the level is the enforcement field, a pack-supplied default the charter decides (term:spec-kitty-core/enforcement-level)"))
     if rel.endswith((".yaml", ".yml")):
         for number, family in family_languages_in(text):
             found.append((number, f"applies_to_languages names the runtime family '{family}'; name the language (for example java, kotlin)"))
