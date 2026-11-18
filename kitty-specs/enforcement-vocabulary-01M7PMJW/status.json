@@ -33,7 +33,8 @@
         "Term, docs, styleguide principle, ADR consistent; guard 0 findings",
         "Changes requested",
         "Review findings 5-6 addressed: semantics sourced from the pin, override hedged to #5207, policy.yaml named",
-        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)"
+        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)",
+        "Re-review fix applied"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
