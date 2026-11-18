@@ -40,6 +40,7 @@ context, the options considered, the chosen option, and its consequences.
 | 2026-11-11 | 1 | [Split built-in into foundation, writing and opt-in bundles](2026-11-11-1-split-built-in-into-foundation-writing-and-opt-in-bundles.md) | Accepted |
 | 2026-11-11 | 2 | [Record a tree digest for every pack](2026-11-11-2-record-a-tree-digest-for-every-pack.md) | Accepted |
 | 2026-11-16 | 1 | [The roadmap and plans live in the docs, epics stay in the tracker](2026-11-16-1-roadmap-and-plans-in-the-docs.md) | Accepted |
+| 2026-11-18 | 1 | [A directive's enforcement level is a pack-supplied default](2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md) | Proposed |
 
 The 2026-07-18 ADRs emerge from the docsite research and await HiC ratification; they document a
 recommended direction, not yet-implemented policy. **ADR 2026-07-18-1 (MkDocs Material) is
