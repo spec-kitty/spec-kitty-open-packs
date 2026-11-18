@@ -7,4 +7,4 @@ definitions, doctrine descriptions, and user-facing text.
 
 | File | Scope | Purpose |
 |------|-------|---------|
-| `kitty-glossary-writing.styleguide.yaml` | glossary | 8 principles for glossary term writing (clear over clever, no buzzword soup, HiC terminology) |
+| `kitty-glossary-writing.styleguide.yaml` | glossary | 7 principles for glossary term writing (clear over clever, no buzzword soup, candidate-first) |

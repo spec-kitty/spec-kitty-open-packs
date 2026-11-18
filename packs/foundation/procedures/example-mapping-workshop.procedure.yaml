@@ -23,7 +23,7 @@ steps:
     Select the smallest example set that still exposes the important rules, boundaries, and exceptions. Mark which examples should become executable acceptance checks first.
 - title: Confirm the source-of-truth set
   description: |
-    Review the selected examples and rules with the stakeholder or human-in-charge. Resolve wording issues and confirm the examples match the intended business behavior.
+    Review the selected examples and rules with the stakeholder or the operator. Resolve wording issues and confirm the examples match the intended business behavior.
   role: operator
   on_failure: |
     If agreement cannot be reached, record the disputed rules and open questions explicitly. Do not present the example set as settled doctrine.

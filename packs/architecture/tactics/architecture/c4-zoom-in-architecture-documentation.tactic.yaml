@@ -18,7 +18,7 @@ steps:
       showing direction. This diagram answers: "What is the system and who
       uses it?"
     examples:
-      - "Actor: Human In Charge -- decision authority and workflow owner."
+      - "Actor: Operator -- decision authority and workflow owner."
       - "External system: Tracker -- optional persistence/visibility target."
       - "Relationship: Agent Tooling -> Spec Kitty CLI Host [executes prompts and contributes output]."
   - title: Draw the Container diagram (Level 2)

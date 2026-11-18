@@ -54,7 +54,7 @@ This command owns charter discovery in chat. Do not default to
 `spec-kitty charter interview --defaults` unless the user explicitly asks for a
 fast bootstrap with canned defaults.
 
-Listen intently to what the human-in-command says next. If any form of charter
+Listen intently to what the operator says next. If any form of charter
 already exists, assume the user is probably flagging a charter addition, course
 correction, or new guidance they noticed while observing Spec Kitty or agent
 behavior. Do not restart a full interview unless the user asks for one or the

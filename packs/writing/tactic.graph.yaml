@@ -71,8 +71,7 @@ edges:
 - source: foundation::tactic:glossary-curation-interview
   target: styleguide:kitty-glossary-writing
   relation: suggests
-  when: Consult throughout all definition-writing and rewriting steps to enforce clarity, anti-pattern avoidance, and HiC
-    terminology standards.
+  when: Consult throughout all definition-writing and rewriting steps to enforce clarity and anti-pattern avoidance.
 - source: foundation::tactic:problem-decomposition
   target: tactic:stakeholder-alignment
   relation: suggests
@@ -86,7 +85,7 @@ edges:
 - source: tactic:terminology-extraction-mapping
   target: foundation::tactic:glossary-curation-interview
   relation: suggests
-  when: feeding the extracted, relationship-mapped, validated terms into the HiC-led curation rounds that promote them into
+  when: feeding the extracted, relationship-mapped, validated terms into the operator-led curation rounds that promote them into
     the living glossary
   reason: 'The extraction-mapping tactic''s OWN purpose is to build ''a comprehensive, maintainable glossary'' and its final
     step publishes the validated terms as ''the authoritative source for the project ubiquitous language'' -- the input the

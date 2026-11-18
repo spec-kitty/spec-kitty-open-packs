@@ -11,14 +11,12 @@ principles:
     description: "Functional over compositional: explain what something does, not what it is composed of."
   - name: "Human-focused"
     description: "Human-focused: write for the person encountering the term for the first time, not the person who already knows it."
-  - name: "Use Human-in-Charge (HiC) consistently"
-    description: "Use Human-in-Charge (HiC) consistently: never use 'user' when referring to the human who holds decision authority."
   - name: "One concept per definition"
     description: "One concept per definition: if a definition needs multiple paragraphs, it may be covering more than one term."
   - name: "Foundational terms must be defined"
     description: "Foundational terms must be defined: if a definition depends on terms like API, CLI, YAML, or JSON, those terms must exist in the glossary."
   - name: "All new terms enter as candidate"
-    description: "All new terms enter as candidate: the HiC promotes to canonical. Sources: glossary/README.md; docs/context/."
+    description: "All new terms enter as candidate: the operator promotes to canonical."
 
 anti_patterns:
   - name: Buzzword Soup
@@ -40,10 +38,5 @@ anti_patterns:
     description: "Using terms like API, YAML, or SHA256 without ensuring they are defined elsewhere in the glossary."
     bad_example: "YAML file that bootstraps domain entries."
     good_example: "An optional YAML file that pre-loads domain glossary terms before the runtime starts extracting new ones."
-
-  - name: Passive Authority
-    description: "Using 'the user' instead of Human-in-Charge when the human holds decision authority."
-    bad_example: "A choice presented to the user during the workflow."
-    good_example: "A choice presented to the Human-in-Charge (HiC) or their delegated agent during the workflow."
 
 quality_test: "Read the definition to someone unfamiliar with the project. If they need to ask a follow-up question to understand the core concept, revise it."

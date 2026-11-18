@@ -73,8 +73,8 @@ mode-defaults:
     use-case: >
       Invoked in autonomous mode where human interaction is not available.
       Retrospective is mandatory; mission cannot be marked done without it.
-  - mode: hic
-    description: Human-in-command retrospective with operator choice
+  - mode: operator
+    description: Operator-led retrospective with the operator's choice to run or skip
     use-case: >
       Offered to the operator at mission terminus. Operator may run or explicitly
       skip with an audit trail.

@@ -2,7 +2,7 @@ schema_version: '1.0'
 id: event-storming-discovery
 title: Event Storming Discovery
 description: |
-  Discover domain events, commands, aggregates, policies, read models, and bounded context boundaries through a structured analysis of business flows. The procedure produces a shared domain model grounded in real business behaviour rather than technical assumptions. Based on Alberto Brandolini's Event Storming technique, adapted for agent-assisted discovery with human-in-charge validation at key decision points.
+  Discover domain events, commands, aggregates, policies, read models, and bounded context boundaries through a structured analysis of business flows. The procedure produces a shared domain model grounded in real business behaviour rather than technical assumptions. Based on Alberto Brandolini's Event Storming technique, adapted for agent-assisted discovery with operator validation at key decision points.
 entry_condition: |
   A domain or subdomain needs modelling. Stakeholder access or existing documentation (user stories, process descriptions, interviews, legacy code) is available to inform event discovery. At least one domain expert or stakeholder is reachable for validation.
 exit_condition: |
@@ -34,7 +34,7 @@ steps:
     Identify clusters of aggregates that share a consistent language and change together. Propose boundaries around these clusters as bounded context candidates. Apply the language test: do the terms inside each boundary have a single, unambiguous meaning?
 - title: Review and confirm boundaries
   description: |
-    Present the proposed bounded contexts, their aggregates, and the rationale for each boundary to the human-in-charge. Confirm or adjust boundaries based on organisational, team, or deployment considerations that are not visible in the source material alone.
+    Present the proposed bounded contexts, their aggregates, and the rationale for each boundary to the operator. Confirm or adjust boundaries based on organisational, team, or deployment considerations that are not visible in the source material alone.
   role: operator
   on_failure: |
     If boundaries are contested, document the alternatives and the trade-offs. Do not force a premature boundary decision — record the ambiguity for resolution during downstream design.

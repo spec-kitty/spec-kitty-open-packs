@@ -1,7 +1,7 @@
 schema_version: "1.0"
 id: glossary-curation-interview
 name: Glossary Curation Interview
-purpose: Systematically expand a living glossary through structured HiC-led curation rounds, ensuring all new terms are clear, well-grouped, and approved before inclusion.
+purpose: Systematically expand a living glossary through structured operator-led curation rounds, ensuring all new terms are clear, well-grouped, and approved before inclusion.
 steps:
   - title: Inventory source materials
     description: >
@@ -53,7 +53,7 @@ steps:
       (3) Unambiguous definition possible — a domain expert could validate the definition.
       (4) Related to existing terms — the term connects to at least one existing glossary entry.
       (5) Non-obvious — the term adds value that a reader couldn't guess from the word alone.
-      Terms that fail multiple gates should be flagged for HiC review rather than silently dropped.
+      Terms that fail multiple gates should be flagged for the operator's review rather than silently dropped.
     examples:
       - "'Parity Hash' passes all 5: used in snapshot.py and drift_detector.py (consistent), owned by Dossier context, definable, related to Content Hash, non-obvious to newcomers."
       - "'Baseline Key' scores 0.9 confidence — used in only one module but closely tied to Parity Baseline, so it passes with a note."
@@ -69,24 +69,18 @@ steps:
     examples:
       - "Multiple definitions reference 'YAML' and 'JSON' without explanation — add these to technology-foundations.md."
 
-  - title: Conduct curation rounds with the HiC
-    description: Present each group to the Human-in-Charge for review. For each group, the HiC decides whether to accept, tweak, or drop terms. Iterate on definitions until the HiC confirms they are clear.
+  - title: Conduct curation rounds with the operator
+    description: Present each group to the operator for review. For each group, the operator decides whether to accept, tweak, or drop terms. Iterate on definitions until the operator confirms they are clear.
     examples:
-      - "Round 1: Dossier Core (7 terms) — HiC accepts 6 as-is, requests expanded definition for Mission Dossier."
-      - "Round 4: HiC requests consistent use of 'Human-in-Charge (HiC)' instead of 'user' across all definitions."
+      - "Round 1: Dossier Core (7 terms) — the operator accepts 6 as-is, requests expanded definition for Mission Dossier."
 
   - title: Rewrite definitions for clarity
     description: Apply the writing styleguide to all definitions. Replace buzzword soup with functional, human-focused language that explains what a term does, not what it is composed of. Test each definition by asking "would a newcomer understand this?"
     examples:
       - "Before: 'Deterministic SHA256 computed from sorted artifact content hashes.' After: 'Checksum computed from all artifact content hashes, sorted to guarantee the same result regardless of scan order. If any artifact changes, the parity hash changes too.'"
 
-  - title: Apply HiC terminology consistently
-    description: Replace generic references to 'user' with 'Human-in-Charge (HiC)' in all definitions where the human holds decision authority. This reinforces accountability throughout the glossary.
-    examples:
-      - "'A structured choice presented to the user' becomes 'A structured choice presented to the Human-in-Charge (HiC) or their delegated agent.'"
-
   - title: Add all terms as candidate status
-    description: New terms enter the glossary as candidates so the upstream HiC retains final promotion authority. Only the HiC can promote a term from candidate to canonical.
+    description: New terms enter the glossary as candidates so the operator retains final promotion authority. Only the operator can promote a term from candidate to canonical.
     examples:
       - "All 55 terms from the curation session entered as status: candidate."
 

@@ -98,7 +98,7 @@ catalog:
   - id: AGENT_PROFILE:human-in-charge
     kind: agent_profile
     title: Human in Charge
-    summary: Workflow sentinel indicating this work package requires direct human execution. No agent identity is injected. The HIC remains accountable for the deliverable.
+    summary: A human performs this work package. No agent identity is injected. The Human in Charge remains accountable for the deliverable.
     source_path: ''
     local_path: _LIBRARY/agent_profile-human-in-charge.md
   - id: AGENT_PROFILE:implementer-ivan
@@ -1046,7 +1046,7 @@ catalog:
   - id: TACTIC:glossary-curation-interview
     kind: tactic
     title: Glossary Curation Interview
-    summary: Systematically expand a living glossary through structured HiC-led curation rounds, ensuring all new terms are clear, well-grouped, and approved before inclusion.
+    summary: Systematically expand a living glossary through structured operator-led curation rounds, ensuring all new terms are clear, well-grouped, and approved before inclusion.
     source_path: ''
     local_path: _LIBRARY/tactic-glossary-curation-interview.md
   - id: TACTIC:input-validation-fail-fast
