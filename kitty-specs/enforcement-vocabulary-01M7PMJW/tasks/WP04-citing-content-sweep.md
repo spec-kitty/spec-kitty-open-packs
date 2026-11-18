@@ -10,9 +10,13 @@ requirement_refs:
 - SC-001
 planning_base_branch: issue-233-enforcement-vocabulary
 merge_target_branch: issue-233-enforcement-vocabulary
-branch_strategy: Planning artifacts for this mission were generated on issue-233-enforcement-vocabulary. The mission is single_branch, so this WP is implemented on issue-233-enforcement-vocabulary and lands there; the pull request goes from issue-233-enforcement-vocabulary to main.
-subtasks: [T013, T014, T015, T016, T017]
-agent: claude
+branch_strategy: Planning artifacts for this mission were generated on issue-233-enforcement-vocabulary. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into issue-233-enforcement-vocabulary unless the human explicitly redirects the landing branch.
+subtasks:
+- T013
+- T014
+- T015
+- T016
+- T017
 history:
 - at: '2026-11-18T07:00:00Z'
   actor: system
