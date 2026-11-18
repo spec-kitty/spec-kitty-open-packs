@@ -1,0 +1,216 @@
+{
+  "event_count": 63,
+  "last_event_id": "01M7PPYMRCPDN8KM5BCBR8BPF1",
+  "materialized_at": "2026-11-18T06:54:18.380208+00:00",
+  "mission_number": "3",
+  "mission_slug": "enforcement-vocabulary-01M7PMJW",
+  "mission_type": "software-dev",
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 5,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 3,
+      "lane": "done",
+      "last_event_id": "01M7PPYM32PMD4R45FCDWW7XB5",
+      "last_transition_at": "2026-11-18T06:54:17.698919+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Term, docs, styleguide principle, ADR consistent; guard 0 findings",
+        "Changes requested",
+        "Review findings 5-6 addressed: semantics sourced from the pin, override hedged to #5207, policy.yaml named",
+        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)",
+        "Re-review fix applied",
+        "Identity hop for independent review",
+        "Re-submitted with implementer identity claude::curator-carla",
+        "Independent review passed. Term enforcement-level matches charter Directive model (rank required>lenient-adherence>advisory; lenient-adherence requires explicit_allowances; all 10 lenient directives comply; 9 required ones with allowances consistent with 'outside its own allowances'). Distinct from preset must_have/policy.yaml. Guide, artefact row, docs glossary, styleguide (198 chars), ADR and index consistent; only one glossary term defines the values. Gates: tests/{release,vocabulary,ci,docs,assets} OK; check_vocabulary 0 findings; validate-packs (+cross-pack) clean except stale manifests (WP05)."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP01-level-vocabulary/review-cycle-2.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP01-level-vocabulary/review-cycle-2.md",
+        "reviewer": "session_019C2Tk4QwtKE32zTy58HRVd",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2966,
+      "shell_pid_created_at": "1794984401.58",
+      "subtasks": {
+        "T001": "done",
+        "T002": "done",
+        "T003": "done",
+        "T004": "done",
+        "T005": "done"
+      },
+      "tracker_refs": [
+        "#233"
+      ]
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 2,
+      "lane": "done",
+      "last_event_id": "01M7PPYM872ZEEX4Q3DPVJ8QRS",
+      "last_transition_at": "2026-11-18T06:54:17.863450+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "T006-T007 done and committed; T008 (guard green on the real tree) waits for the WP03/WP04 sweep",
+        "Sweep landed; completing T008",
+        "Guard green on the swept tree: 728 files, 0 findings; 19 vocabulary tests OK",
+        "Changes requested",
+        "Review findings 1-3, 10 addressed; 22 tests OK; one remaining tree hit is WP04's cloud-session-dispatch miss",
+        "Identity hop for independent review",
+        "Re-submitted with implementer identity claude::implementer-ivan",
+        "Independent review passed. SELF_BINDING covers every T007 pattern plus review additions; red on main's tree (39 findings), green on branch (0); tests cover each pattern, other-sense controls, enforcement: field skip, one-line wrap join without duplicates, and a planted-phrase CLI failure. Stdlib only. Known hypothetical false positives ('the directive is required to', 'lenient-adherence mode') not in tree; acceptable. Gates: tests/{release,vocabulary,ci,docs,assets} OK; check_vocabulary 0 findings; validate-packs (+cross-pack) clean except stale manifests (WP05)."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP02-guard/review-cycle-2.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP02-guard/review-cycle-2.md",
+        "reviewer": "session_019C2Tk4QwtKE32zTy58HRVd",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2966,
+      "shell_pid_created_at": "1794984401.58",
+      "subtasks": {
+        "T006": "done",
+        "T007": "done",
+        "T008": "done"
+      },
+      "tracker_refs": [
+        "#233"
+      ]
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 2,
+      "lane": "done",
+      "last_event_id": "01M7PPYMD4F07RD05F3Z395X9C",
+      "last_transition_at": "2026-11-18T06:54:18.020155+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Directive sweep done; manifests are restamped in WP05",
+        "Re-submitted with the implementer identity of record (tool::profile) so independence can be checked",
+        "Implementer identity hop for independent review",
+        "Re-submitted as implementer claude::curator-carla",
+        "Independent review passed. 051/052/049/reconcile/cloud-session/QA_001 (+drg node, 3 profiles, getting-started)/QA_002/ACTION_ITEM/042 match R5; no enforcement: line changed; ids and file names stable; 051 rule 5 removal is level-only (substance in rule 1). Residual keeps judged other-sense: QA_002 'Seven fields are mandatory' (report field), 053 and internal 'binds/Binds X to' (scope). Gates: tests/{release,vocabulary,ci,docs,assets} OK; check_vocabulary 0 findings; validate-packs (+cross-pack) clean except stale manifests (WP05)."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP03-directive-sweep/review-cycle-1.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP03-directive-sweep/review-cycle-1.md",
+        "reviewer": "session_019C2Tk4QwtKE32zTy58HRVd",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 4326,
+      "shell_pid_created_at": "1794984531.99",
+      "subtasks": {
+        "T009": "done",
+        "T010": "done",
+        "T011": "done",
+        "T012": "done"
+      },
+      "tracker_refs": [
+        "#233"
+      ]
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 3,
+      "lane": "done",
+      "last_event_id": "01M7PPYMJM5ZYTV99AQKN2BV1X",
+      "last_transition_at": "2026-11-18T06:54:18.196737+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Citing-content sweep done; guard 0 findings; ASCII test OK",
+        "Changes requested",
+        "Review finding 4 and nits 7-9 addressed; guard 0 findings",
+        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)",
+        "Re-review fix applied",
+        "Identity hop for independent review",
+        "Re-submitted with implementer identity claude::curator-carla",
+        "Independent review passed. T013-T016 applied with substance kept (evidence rules, gap-not-pass); T017 grep leaves only QA format versions; software-dev ASCII test OK; residual 'mandatory'/'binding' hits are other-sense or the Q3-sanctioned QA_001 slug. Non-blocking nit: minutes-mahad 'The mandatory output is that chat Markdown' (agent-output sense). Gates: tests/{release,vocabulary,ci,docs,assets} OK; check_vocabulary 0 findings; validate-packs (+cross-pack) clean except stale manifests (WP05)."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP04-citing-content-sweep/review-cycle-2.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP04-citing-content-sweep/review-cycle-2.md",
+        "reviewer": "session_019C2Tk4QwtKE32zTy58HRVd",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2966,
+      "shell_pid_created_at": "1794984401.58",
+      "subtasks": {
+        "T013": "done",
+        "T014": "done",
+        "T015": "done",
+        "T016": "done",
+        "T017": "done"
+      },
+      "tracker_refs": [
+        "#233"
+      ]
+    },
+    "WP05": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "lane": "done",
+      "last_event_id": "01M7PPYMRCPDN8KM5BCBR8BPF1",
+      "last_transition_at": "2026-11-18T06:54:18.380208+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Release surface done under version policy A; all local gates green",
+        "Independent review passed against T018-T021. Versions follow recommendation A as written in the prompt: pack-authoring 1.2.0->1.3.0, qa/internal 4.0.0->4.0.1, cave-kitty 2.2.0->2.2.1; foundation/writing/built-in fold into Unreleased 2.0.0/2.0.0/4.0.0 (no exact pin moves). The six changed packs all have derived manifests, restamped digests and regenerated pages; the changelog entry is under Changed with upgrade 'none'. Gates re-run by reviewer: validate-packs and --cross-pack 0 errors, check-pack-digests OK, check_vocabulary 0 findings, gen_pack_reference --check OK, tests/{release,vocabulary,ci,docs,assets} OK. CAVEAT: operator Q4 (version policy) is still open; if the operator picks lockstep (B), the isolated version commit must be redone and WP05 re-reviewed."
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/kitty-specs/enforcement-vocabulary-01M7PMJW/tasks/WP05-release-surface/review-cycle-1.md",
+        "reference": "review-cycle://enforcement-vocabulary-01M7PMJW/WP05-release-surface/review-cycle-1.md",
+        "reviewer": "session_019C2Tk4QwtKE32zTy58HRVd",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 5468,
+      "shell_pid_created_at": "1794984723.85",
+      "subtasks": {
+        "T018": "done",
+        "T019": "done",
+        "T020": "done",
+        "T021": "done"
+      },
+      "tracker_refs": [
+        "#233"
+      ]
+    }
+  }
+}

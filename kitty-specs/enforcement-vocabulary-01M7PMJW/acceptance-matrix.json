@@ -1,0 +1,109 @@
+{
+  "mission_slug": "enforcement-vocabulary-01M7PMJW",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "Verify FR-001 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "1 term id enforcement-level in spec-kitty-core.glossary.yaml; lenient-adherence appears in 1 glossary file only; WP01 approved (claude::reviewer-renata)",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:27.594983+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "Verify FR-002 is satisfied",
+      "proof_type": "manual_inspection",
+      "evidence": "term definition and docs/glossary entry name preset must_have and policy.yaml levels as distinct; WP01 review",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:30.525459+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "Verify FR-003 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "author-a-charter-pack.md, docs/artefacts/index.md and docs/glossary/index.md link the level; doctrine-instruction-voice principle 'State the rule, not its strictness'; WP01 review",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:33.133200+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "Verify FR-004 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "051, 052, 049 edited, 028 confirmed clean; check_vocabulary 0 findings; WP03 approved",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:35.675994+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "Verify FR-005 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "scan of title/intent/scope/rules/allowances of all 59 directives: remaining hits are Keep-list senses (research.md R5); WP03 approved",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:38.399689+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "Verify FR-006 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "0 'advisory in v1' under packs/; software-dev ASCII test OK; WP04 approved",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:41.252570+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-007",
+      "description": "Verify FR-007 is satisfied",
+      "proof_type": "manual_inspection",
+      "evidence": "graph reasons (5), cave-kitty, writing, pack-authoring, cloud-session-dispatch and adversarial-squad wording reworded; WP04 approved",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:43.965159+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-008",
+      "description": "Verify FR-008 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "59 directives keep enforcement:; 0 enforcement: lines in git diff origin/main; ADR 2026-11-18-1 (Proposed)",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:46.548647+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-009",
+      "description": "Verify FR-009 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "guard: 39 findings on main's tree, 0 on branch; 22 vocabulary tests OK incl. wrapped and other-sense controls; WP02 approved",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:49.112609+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-010",
+      "description": "Verify FR-010 is satisfied",
+      "proof_type": "automated_check",
+      "evidence": "validate-packs (cross-pack 0), digests, vocabulary, pages --check, 5 unittest suites green; versions per policy A (Q4 pending); WP05 approved",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-18T06:53:51.728190+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    }
+  ],
+  "negative_invariants": []
+}
