@@ -36,7 +36,7 @@ steps:
     If verdicts remain irreconcilable, escalate the decision to the human with the competing positions laid out; do not silently pick one.
 - title: Record and disposition every finding, then proceed regardless
   description: |
-    Capture the confirmed findings and disposition each one per the findings disposition contract (see notes). The squad's value is convergent evidence that survived independent scrutiny, not a single opinion; the squad is advisory, so work proceeds once every finding is recorded and dispositioned.
+    Capture the confirmed findings and disposition each one per the findings disposition contract (see notes). The squad's value is convergent evidence that survived independent scrutiny, not a single opinion; the squad does not gate the work, so work proceeds once every finding is recorded and dispositioned.
 anti_patterns:
 - title: Persona without profile
   content: Naming a persona without loading its agent profile — a persona label is not a lens.

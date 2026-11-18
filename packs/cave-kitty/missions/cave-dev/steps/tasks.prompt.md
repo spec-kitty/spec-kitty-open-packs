@@ -18,7 +18,7 @@ when the operator activates one.
 
 ## Directive & styleguide citation
 
-- `CAVE_001` (Caveman Terse Output) — governs this step's output prose; enforcement `required`.
+- `CAVE_001` (Caveman Terse Output) — governs this step's output prose.
 - `cave-sty-001-communication` — the voice `CAVE_001` enforces.
 
 ## Canonical artifact & template

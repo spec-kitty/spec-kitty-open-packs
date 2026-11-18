@@ -423,7 +423,7 @@ edges:
   - source: "procedure:cloud-session-dispatch"
     target: "directive:CLOUD_SESSION_ORCHESTRATION"
     relation: requires
-    reason: "Sibling access, orchestrator-mediated writes, blocked-session replacement and shared numbering are binding."
+    reason: "The directive governs sibling access, orchestrator-mediated writes, blocked-session replacement and shared numbering."
   - source: "procedure:cloud-session-dispatch"
     target: "directive:NO_FULL_HEAVY_SUITES_IN_MISSION"
     relation: requires

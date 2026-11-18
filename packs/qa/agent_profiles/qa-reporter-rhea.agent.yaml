@@ -43,7 +43,7 @@ routing-priority: 65
 
 directive-references:
   - code: QA_001
-    name: QA Traceability Mandatory
+    name: QA Requirement Traceability
     rationale: >
       This profile recomputes mapped, unmapped, and measured coverage at
       report time from enumerated requirement ids, not from a cached or

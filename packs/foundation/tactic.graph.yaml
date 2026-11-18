@@ -355,8 +355,8 @@ edges:
 - source: tactic:pr-agent-worktree-isolation
   target: directive:DIRECTIVE_045
   relation: suggests
-  when: This tactic operationalizes the §7 worktree-isolation and no-version rules that DIRECTIVE_045 makes binding. Consult
-    the directive for the enforcement context and scope; consult this tactic for the procedural how-to.
+  when: This tactic operationalizes DIRECTIVE_045's §7 worktree-isolation and no-version rules. Consult the directive for
+    the context and scope; consult this tactic for the procedural how-to.
 - source: tactic:pr-agent-worktree-isolation
   target: tactic:clean-linear-commit-history
   relation: suggests

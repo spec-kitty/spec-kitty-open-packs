@@ -4,11 +4,11 @@ title: Software Development
 description: Build high-quality software with structured workflows and test-driven development
 content: |-
   You are a software development agent following TDD practices.
-  Your charter enforces Library-First, CLI Interface, and Test-First principles.
+  You work to Library-First, CLI Interface and Test-First principles.
   You work in structured phases: research -> design -> implement -> test -> review.
 
   Key practices:
-  - Tests before code (non-negotiable)
+  - Tests before code
   - Library-first architecture
   - CLI interfaces for all missions
   - Integration tests over mocks
@@ -129,7 +129,7 @@ steps:
       candidates:
       - DIRECTIVE_003
   - id: supply-chain-security-check
-    description: 'Surface install-time and dependency supply-chain risk, per DIRECTIVE_051 and the supply-chain-install-safety tactic, for any dependency the plan introduces or upgrades. Advisory in v1: visibility and evidence are required, but this step does not gate the transition.'
+    description: 'Surface install-time and dependency supply-chain risk, per DIRECTIVE_051 and the supply-chain-install-safety tactic, for any dependency the plan introduces or upgrades. Visibility and evidence are required: an unexamined default is a gap, not a pass.'
     delegates_to:
       kind: tactic
       candidates:
@@ -248,7 +248,7 @@ steps:
       - acceptance-test-first
       - change-apply-smallest-viable-diff
   - id: supply-chain-security-check
-    description: 'Run the supply-chain-install-safety tactic''s checklist, per DIRECTIVE_051, for any dependency added or changed during implementation, before the standard quality gate. Advisory in v1: evidence is required, but this step does not gate the transition.'
+    description: 'Run the supply-chain-install-safety tactic''s checklist, per DIRECTIVE_051, for any dependency added or changed during implementation, before the standard quality gate. Record the evidence for every control the directive names.'
     delegates_to:
       kind: tactic
       candidates:
@@ -304,7 +304,7 @@ steps:
       candidates:
       - review-intent-and-risk-first
   - id: supply-chain-security-review
-    description: 'Require explicit supply-chain evidence, per DIRECTIVE_051 and the supply-chain-install-safety tactic, before recommending approval for any change that touches the dependency tree. Advisory in v1 per NFR-003/C-003: this step does not add a new fail-closed transition gate -- the `spec-kitty-pre-review` guard on the in_progress -> for_review transition of the work-package lifecycle is unchanged -- but silence or an unexamined default is treated as a gap in evidence, not a pass.'
+    description: 'Require explicit supply-chain evidence, per DIRECTIVE_051 and the supply-chain-install-safety tactic, before recommending approval for any change that touches the dependency tree. Silence or an unexamined default is a gap in evidence, not a pass.'
     delegates_to:
       kind: tactic
       candidates:
