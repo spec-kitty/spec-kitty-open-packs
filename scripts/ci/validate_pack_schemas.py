@@ -863,6 +863,15 @@ def _exact(contract: Contract, relative: str, *, folded: bool = False) -> tuple[
 ROOT_FILE = re.compile(r"\*/([^*/]+)")
 
 
+def kind_mapped(contract: Contract, token: str) -> bool:
+    """Whether a ``files`` rule of the contract maps ``<id>.<token>.yaml`` files anywhere.
+
+    A known kind no rule maps means the contract lost a mapping the mirror expects: the gate cannot judge. A file of a
+    mapped kind that its rule does not reach (charter #554: a ``*.graph.yaml`` below the pack root, where only root
+    shards are read) is merely ``unmodelled``."""
+    return any(rule.match.endswith(f".{token}.yaml") for rule in contract.files)
+
+
 def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     """The charter's classification of a path relative to the directory holding the packs.
 
@@ -993,11 +1002,14 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
             continue
         if kind != "file" or rule is None:
             tokens = path.name.rsplit(".", 2)
-            if kind == "unmodelled" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS:
+            if (kind == "unmodelled" and path.suffix == ".yaml" and len(tokens) == 3 and tokens[1] in KNOWN_KIND_TOKENS
+                    and not kind_mapped(contract, tokens[1])):
                 raise GateError(f"{relative}: a `{tokens[1]}` file has no schema mapping in file-kinds.yaml")
             if kind == "unmodelled" and not (fixture and inside in FIXTURE_FILES):
-                report.violations.append(f"{relative}: unmodelled: no file-kinds.yaml rule models this file; "
-                                         "the charter refuses it at registration")
+                # Refused at registration up to charter #554; warned as file_not_held and not held since (ruling Q1).
+                # Either way a pack must not carry it: this repository fails a file the charter leaves out (#451).
+                report.violations.append(f"{relative}: unmodelled: no file-kinds.yaml rule models this file, so the "
+                                         "charter does not hold it (refused, or not held since charter #554)")
                 continue
             if kind == "ignored" and rule is not None and not not_held_allowed(relative):
                 report.violations.append(

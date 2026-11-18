@@ -505,6 +505,31 @@ class ValidatorExitCodes(unittest.TestCase):
                 reason="kept")], retired=contract.retired, payloads=[])
             self.assertEqual(validator.classify(excluded, "pack/mission_step_contract.graph.yaml")[0], "file")
 
+    def test_a_shard_below_the_root_is_unmodelled_once_shards_are_root_only(self) -> None:
+        """Charter #554: only `<name>.graph.yaml` at the pack root is a graph shard. A `drg/<kind>.graph.yaml` is
+        unmodelled (a violation here), not a lost mapping: the gate judges it instead of failing closed."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root, '  - match: "*/*.graph.yaml"\n    schema: tactic\n')
+            pack = self.write_pack(root, {"drg/tactic.graph.yaml": "nodes: []\n", "tactic.graph.yaml": "nodes: []\n"})
+            contract = validator.contract_for(root / "contract")
+            self.assertEqual(validator.classify(contract, "pack/drg/tactic.graph.yaml")[0], "unmodelled")
+            self.assertTrue(validator.kind_mapped(contract, "graph"))
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("pack/drg/tactic.graph.yaml: unmodelled", output)
+            self.assertNotIn("cannot judge", output)
+
+    def test_a_known_kind_the_contract_maps_nowhere_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"drg/tactic.graph.yaml": "nodes: []\n"})
+            self.assertFalse(validator.kind_mapped(validator.contract_for(root / "contract"), "graph"))
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_GATE, output)
+            self.assertIn("a `graph` file has no schema mapping", output)
+
     def test_a_symlinked_file_or_directory_in_a_pack_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

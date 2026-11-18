@@ -183,7 +183,9 @@ edges:
 ```
 
 Endpoints are `<kind>:<id>`. The fragment is **additive only**, and it is the only DRG file an
-org pack may have: `drg/*.graph.yaml` shards fail validation with `drg_root_graph_missing`.
+org pack may have. A graph shard (`<name>.graph.yaml`) belongs at the pack root, the only place every
+charter reads one (charter #554). A `drg/*.graph.yaml` shard fails: as `drg_root_graph_missing` at the
+pinned release, and as `unmodelled` here once the charter stops modelling it.
 
 ## 5. Ship presets and policy (optional)
 

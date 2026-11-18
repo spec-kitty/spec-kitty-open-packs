@@ -1,0 +1,4 @@
+# A graph shard at the pack root, where both the pinned charter and charter main (#554) read shards.
+# The pack stays unreadable through its 3.x-era directive (see expected-code).
+nodes: []
+edges: []

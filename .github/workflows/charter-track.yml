@@ -25,12 +25,13 @@ name: Charter track
 #   runs the same checks, driftTest included. It reports in the job summary, never bumps the lock and uses
 #   no secret.
 #
-# Tokens: the bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with
-# the workflow's own token starts no pull_request workflow, so the bump job then dispatches validate-packs.yml
-# on the bump branch, which posts the required check on its head commit. Setting the optional secret
-# CHARTER_BUMP_TOKEN (a fine-grained PAT with contents and pull-requests write on this repository; a GitHub App
-# installation token expires within an hour, so it cannot be stored) makes the pull request's own CI run instead. The repository must allow GitHub Actions to
-# create pull requests (Settings, Actions, General) when the secret is not set.
+# Tokens (operator ruling on #308: no secret). The supported route is the workflow's own token, with the
+# repository setting "Allow GitHub Actions to create and approve pull requests" on (Settings, Actions,
+# General). The bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with
+# that token starts no pull_request workflow, so the bump job dispatches validate-packs.yml on the bump
+# branch, which posts the required check on its head commit. The secret CHARTER_BUMP_TOKEN is optional at
+# most and unset by default; if an operator ever sets one (a fine-grained PAT with contents and
+# pull-requests write), the pull request's own CI runs instead of the dispatch.
 
 on:
   schedule:
@@ -248,7 +249,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      # Dispatches validate-packs.yml on the bump branch when no CHARTER_BUMP_TOKEN is set.
+      # Dispatches validate-packs.yml on the bump branch (the supported route: no CHARTER_BUMP_TOKEN set).
       actions: write
       issues: read
     steps:

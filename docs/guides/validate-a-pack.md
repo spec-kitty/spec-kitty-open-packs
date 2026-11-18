@@ -53,7 +53,8 @@ repository allows only orientation notes (a `README.md` at any depth) to be carr
 other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place, a skill body no
 skill's `body_path` names) fails as `not_held`. A file a skill's `body_path` names is held as that
 skill's companion, whatever its name. A file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt
-artifact name) fails as `unmodelled`, as the charter refuses it at registration. Both checks run on
+artifact name) fails as `unmodelled`: the charter does not hold it (it refuses it at registration, and
+from charter #554 on it warns it as `file_not_held` and leaves it out). Both checks run on
 every pack, built-in-level ones included, which no registration sees.
 
 ## What the schemas catch
@@ -161,7 +162,8 @@ valid through the service, at a pinned charter version). The job:
    registration fails the job and prints its problem and violations. The whole tree is uploaded
    (less a fixture's `expected-code`). A registration holds only files the service models: a retired
    file (`pack.md`, `PROVENANCE.md`, `org-charter.yaml`, or a root case variant of a ruled file) is
-   refused as `retired`, any other file the service does not model is refused as `unmodelled`, and a
+   refused as `retired`, any other file the service does not model is refused as `unmodelled` (from charter
+   #554 on, it is warned as `file_not_held` instead, and the check below fails it all the same), and a
    file an exclusion or the `ignored` rule takes is left out and reported as a `file_not_held`
    diagnostic. Every diagnostic of a succeeded registration is printed as a notice. Each
    `file_not_held` file is classified with the schema validator's mirror of the pinned contract, so
@@ -295,16 +297,18 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   lock and uses no secret. Like every run against a target, it re-derives the manifests, digests and pack
   pages first, so a pull request's own gate, not this run, judges those files as committed.
 
-The bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with the
-workflow's own token starts no `pull_request` run, so the job dispatches **Validate packs** on the bump
-branch, which posts the required check on its head commit. To re-run that check, dispatch **Validate
-packs** on the branch. An operator can set the optional secret `CHARTER_BUMP_TOKEN` instead: a
-fine-grained PAT with contents and pull-requests write on this repository. A GitHub App installation
-token expires within an hour, so it cannot be stored as this secret. The pull request's own CI then runs.
-The dispatched check judges the branch as cut from `main`. If `main` moves before the merge, use
-**Update branch**: that push runs the gate on the merge result. A pack added since then needs its
-manifest re-derived at the new pin. Without that secret, the repository must allow GitHub Actions to create pull
-requests (**Settings → Actions → General**).
+The supported route needs no secret, only one repository setting: **Settings → Actions → General →
+Allow GitHub Actions to create and approve pull requests**, which an operator turns on once. The bump
+commit is made through the GitHub API, so GitHub signs it. A pull request opened with the workflow's own
+token starts no `pull_request` run, so the job dispatches **Validate packs** on the bump branch, which
+posts the required check on its head commit. To re-run that check, dispatch **Validate packs** on the
+branch. The dispatched check judges the branch as cut from `main`. If `main` moves before the merge,
+use **Update branch**: that push runs the gate on the merge result. A pack added since then needs its
+manifest re-derived at the new pin.
+
+The workflow also reads an optional secret, `CHARTER_BUMP_TOKEN`, which is unset by default. If an
+operator ever sets one, a fine-grained PAT with contents and pull-requests write on this repository,
+the bump pull request's own CI runs instead of the dispatch.
 
 To move the pin by hand, the same tool resolves and applies a target:
 
