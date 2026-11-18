@@ -130,7 +130,8 @@
         "Citing-content sweep done; guard 0 findings; ASCII test OK",
         "Changes requested",
         "Review finding 4 and nits 7-9 addressed; guard 0 findings",
-        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)"
+        "Re-review: one more fix (WP01 'without exception' contradicts 9 required directives with explicit_allowances; WP04 daphne rewrap)",
+        "Re-review fix applied"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
