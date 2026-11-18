@@ -36,7 +36,8 @@ for entry in "${failed[@]}"; do
   echo '```text'
   # A log line is "<timestamp> ##[error]<message>"; keep the message. A log that cannot be read says so.
   if log="$(gh api "repos/$repo/actions/jobs/$id/logs" 2>/dev/null)"; then
-    errors="$(grep -F '##[error]' <<< "$log" | sed -E 's/^[^ ]+ ##\[error\]//' | head -n "$max_lines" || true)"
+    # Backticks become quotes, so no log line can close the fence and render as Markdown (or mention anyone).
+    errors="$(grep -F '##[error]' <<< "$log" | sed -E 's/^[^ ]+ ##\[error\]//' | tr '`' "'" | head -n "$max_lines" || true)"
     printf '%s\n' "${errors:-(no error annotation in the log; see the run)}"
   else
     echo "(the job log could not be read; see the run)"

@@ -22,7 +22,7 @@ from pathlib import Path
 LOCK_FILE = Path(__file__).resolve().parents[2] / "charter.lock.yaml"
 KEYS = ("commit", "release_tag", "jar_sha256")
 COMMIT = re.compile(r"[0-9a-f]{40}")
-RELEASE_TAG = re.compile(r"service-v\d+\.\d+\.\d+(?:-[0-9A-Za-z.]+)?")
+RELEASE_TAG = re.compile(r"service-v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?")
 SHA256 = re.compile(r"[0-9a-f]{64}")
 
 

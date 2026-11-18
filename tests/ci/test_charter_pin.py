@@ -6,6 +6,7 @@ No test touches the network: the resolvers are tested only where they refuse inp
 from __future__ import annotations
 
 import base64
+import json
 import io
 import shutil
 import subprocess
@@ -40,6 +41,11 @@ class ReleaseOrder(unittest.TestCase):
         self.assertEqual(charter_pin.newest(tags), "service-v0.1.0-rc.2")
         self.assertIsNone(charter_pin.newest(["v1.0.0"]))
 
+    def test_hyphenated_pre_release_identifiers_are_tracked(self) -> None:
+        self.assertEqual(charter_pin.newest(["service-v1.0.0-rc-1", "service-v0.9.0"]), "service-v1.0.0-rc-1")
+        self.assertTrue(charter_lock.RELEASE_TAG.fullmatch("service-v1.0.0-rc-1"))
+        self.assertLess(charter_pin.precedence("service-v1.0.0-rc-1"), charter_pin.precedence("service-v1.0.0"))
+
     def test_a_tag_outside_the_service_line_is_refused(self) -> None:
         with self.assertRaises(charter_pin.PinError):
             charter_pin.precedence("v0.1.0")
@@ -63,6 +69,51 @@ class NewestRelease(unittest.TestCase):
     def test_a_main_pin_is_never_replaced_by_the_release_track(self) -> None:
         result = self.run_main("", ["service-v0.1.0-rc.2"])
         self.assertEqual((result["tag"], result["newer"]), ("service-v0.1.0-rc.2", "false"))
+
+
+class AtOrPast(unittest.TestCase):
+    def run_main(self, current: str, tag: str) -> int:
+        lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else ""}
+        with mock.patch.object(charter_lock, "read", return_value=lock):
+            return charter_pin.main(["at-or-past", tag])
+
+    def test_the_lock_settles_a_release_it_reached_or_passed(self) -> None:
+        self.assertEqual(self.run_main("service-v0.2.0", "service-v0.2.0"), 0)
+        self.assertEqual(self.run_main("service-v0.2.0", "service-v0.2.0-rc.1"), 0)
+        self.assertEqual(self.run_main("service-v0.2.0-rc.1", "service-v0.2.0"), 1)
+        self.assertEqual(self.run_main("", "service-v0.2.0"), 1)
+
+
+class ReleaseListing(unittest.TestCase):
+    def test_every_page_is_read_and_drafts_are_left_out(self) -> None:
+        first = [{"tag_name": f"service-v0.0.{n}", "draft": False} for n in range(99)]
+        first.append({"tag_name": "service-v9.0.0", "draft": True})
+        second = [{"tag_name": "service-v0.1.0-rc.1", "draft": False, "prerelease": True}]
+        pages = {1: first, 2: second}
+        def fake(url: str, *, api: bool) -> bytes:
+            self.assertTrue(api)
+            page = int(url.rsplit("page=", 1)[1])
+            return json.dumps(pages[page]).encode()
+        with mock.patch.object(charter_pin, "_request", side_effect=fake):
+            tags = charter_pin.release_tags()
+        self.assertNotIn("service-v9.0.0", tags)
+        self.assertEqual(charter_pin.newest(tags), "service-v0.1.0-rc.1")
+
+    def test_an_annotated_tag_peels_to_its_commit(self) -> None:
+        refs = {"refs/tags/service-v1.0.0": "1" * 40, "refs/tags/service-v1.0.0^{}": "2" * 40}
+        with mock.patch.object(charter_pin, "ls_remote", return_value=refs):
+            self.assertEqual(charter_pin.tag_commit("service-v1.0.0"), "2" * 40)
+        with mock.patch.object(charter_pin, "ls_remote", return_value={"refs/tags/service-v1.0.0": "1" * 40}):
+            self.assertEqual(charter_pin.tag_commit("service-v1.0.0"), "1" * 40)
+
+    def test_the_digest_asset_must_name_the_jar(self) -> None:
+        good = f"{DIGEST}  spec-kitty-charter-service-1.0.0.jar\n".encode()
+        with mock.patch.object(charter_pin, "_request", return_value=good):
+            self.assertEqual(charter_pin.jar_digest("service-v1.0.0"), DIGEST)
+        for text in (f"{DIGEST}  other.jar\n", "not-a-digest  spec-kitty-charter-service-1.0.0.jar\n", ""):
+            with self.subTest(text=text), mock.patch.object(charter_pin, "_request", return_value=text.encode()), \
+                 self.assertRaises(charter_pin.PinError):
+                charter_pin.jar_digest("service-v1.0.0")
 
 
 class ResolveRef(unittest.TestCase):
@@ -147,7 +198,7 @@ class Changelog(unittest.TestCase):
 
 
 class CommitPayload(unittest.TestCase):
-    def test_it_carries_every_changed_and_deleted_tracked_file(self) -> None:
+    def test_it_carries_every_changed_deleted_and_new_file(self) -> None:
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
         git = lambda *args: subprocess.run(["git", "-c", "commit.gpgsign=false", *args], cwd=tmp, check=True,  # noqa: E731
@@ -160,13 +211,15 @@ class CommitPayload(unittest.TestCase):
         head = git("rev-parse", "HEAD")
         (tmp / "keep.txt").write_text("changed\n", encoding="utf-8")
         (tmp / "gone.txt").unlink()
+        (tmp / "new.txt").write_text("derived\n", encoding="utf-8")  # a manifest the re-derivation created
         with mock.patch.object(charter_pin, "ROOT", tmp):
             payload = charter_pin.commit_payload("charter/x", head, "headline", "body")
         self.assertEqual(payload["expectedHeadOid"], head)
         self.assertEqual(payload["fileChanges"]["deletions"], [{"path": "gone.txt"}])
-        [added] = payload["fileChanges"]["additions"]
-        self.assertEqual((added["path"], base64.b64decode(added["contents"])), ("keep.txt", b"changed\n"))
-        git("checkout", "-q", ".")
+        added = {entry["path"]: base64.b64decode(entry["contents"]) for entry in payload["fileChanges"]["additions"]}
+        self.assertEqual(added, {"keep.txt": b"changed\n", "new.txt": b"derived\n"})
+        git("reset", "-q", "--hard")
+        git("clean", "-qfd")
         with mock.patch.object(charter_pin, "ROOT", tmp), self.assertRaises(charter_pin.PinError):
             charter_pin.commit_payload("charter/x", head, "headline", "body")
 

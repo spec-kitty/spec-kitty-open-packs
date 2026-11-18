@@ -278,7 +278,12 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
     values and carries the re-derived files and a changelog entry. An open bump pull request for an
     older release is closed in its favour;
   - red: it opens one issue labelled `charter:release-red`, or rewrites the open one, naming the
-    release and the errors of the failing jobs.
+    release and the errors of the failing jobs. A scheduled run that cannot resolve the release (the
+    listing, the tag or its `.sha256` asset) says so on the same issue.
+
+  While the bump pull request of the newest release is open, the track does not check that release again.
+  A bump pull request closed unmerged is not proposed again until a newer release. Once `main`'s lock
+  reaches the release an open red issue names, by any pull request, the next run closes the issue.
 
   A lock without a `release_tag` (a `main` pin, taken on demand) is never replaced by this track. From
   the Actions tab, dispatch **Charter track** with `track: release` to run it now; a `release_tag` input
@@ -287,14 +292,18 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   `charter_ref` (default `main`; a branch, a tag, `pull/<n>/head` or a commit), or label a pull request
   `charter:head` to run its packs against charter `main`. The charter is built from source and every
   check runs, the round trip included. The verdict is in the run's summary; this track never bumps the
-  lock and uses no secret.
+  lock and uses no secret. Like every run against a target, it re-derives the manifests, digests and pack
+  pages first, so a pull request's own gate, not this run, judges those files as committed.
 
 The bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with the
 workflow's own token starts no `pull_request` run, so the job dispatches **Validate packs** on the bump
 branch, which posts the required check on its head commit. To re-run that check, dispatch **Validate
-packs** on the branch. An operator can set the optional secret `CHARTER_BUMP_TOKEN` instead: a GitHub
-App token or fine-grained PAT with contents and pull-requests write on this repository. The pull
-request's own CI then runs. Without that secret, the repository must allow GitHub Actions to create pull
+packs** on the branch. An operator can set the optional secret `CHARTER_BUMP_TOKEN` instead: a
+fine-grained PAT with contents and pull-requests write on this repository. A GitHub App installation
+token expires within an hour, so it cannot be stored as this secret. The pull request's own CI then runs.
+The dispatched check judges the branch as cut from `main`. If `main` moves before the merge, use
+**Update branch**: that push runs the gate on the merge result. A pack added since then needs its
+manifest re-derived at the new pin. Without that secret, the repository must allow GitHub Actions to create pull
 requests (**Settings → Actions → General**).
 
 To move the pin by hand, the same tool resolves and applies a target:

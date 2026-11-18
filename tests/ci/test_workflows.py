@@ -343,10 +343,36 @@ class CharterTrack(unittest.TestCase):
         self.workflow = load(TRACK)
         self.jobs = self.workflow["jobs"]
 
-    def runs(self, job: str, github: dict[str, Any], resolved: dict[str, str], checks: str = "success") -> bool:
-        ok = checks == "success"
+    def runs(self, job: str, github: dict[str, Any], resolved: dict[str, str], checks: str = "success",
+             resolve: str = "success") -> bool:
+        needs = self.jobs[job].get("needs", [])
+        results = {"resolve": resolve, "checks": checks}
+        ok = all(results[need] == "success" for need in ([needs] if isinstance(needs, str) else needs))
         status = {"success": ok, "failure": not ok, "cancelled": False}
-        return gh_expr.evaluate_if(self.jobs[job].get("if"), track_contexts(github, resolved, checks), status=status)
+        ctx = track_contexts(github, resolved, checks)
+        ctx["needs"]["resolve"]["result"] = resolve
+        return gh_expr.evaluate_if(self.jobs[job].get("if"), ctx, status=status)
+
+    def test_a_scheduled_run_that_cannot_resolve_the_release_says_so_on_main_only(self) -> None:
+        self.assertTrue(self.runs("alert", schedule_event(), {}, checks="skipped", resolve="failure"))
+        for event in (track_dispatch("release"), schedule_event("refs/heads/issue-253"),
+                      {**schedule_event(), "repository": "someone/spec-kitty-open-packs"}):
+            with self.subTest(event=event["event_name"], ref=event["ref"]):
+                self.assertFalse(self.runs("alert", event, {}, checks="skipped", resolve="failure"))
+        self.assertFalse(self.runs("bump", schedule_event(), {}, checks="skipped", resolve="failure"))
+
+    def test_a_settled_red_issue_is_closed_by_release_runs_on_main_only(self) -> None:
+        idle = {"track": "release", "run": "false", "act": "false"}
+        self.assertTrue(self.runs("settle", schedule_event(), idle, checks="skipped"))
+        self.assertTrue(self.runs("settle", schedule_event(), self.RELEASE))
+        for name, event, resolved in (
+            ("off main", schedule_event("refs/heads/issue-253"), idle),
+            ("on demand", track_dispatch("ref"), {"track": "ref", "run": "true", "act": "false"}),
+            ("a pull request", pr_event(labels=("charter:head",)), {"track": "ref", "run": "true", "act": "false"}),
+        ):
+            with self.subTest(case=name):
+                self.assertFalse(self.runs("settle", event, resolved))
+        self.assertFalse(self.runs("settle", schedule_event(), idle, resolve="failure"))
 
     def test_a_newer_release_on_main_opens_one_pull_request_when_green_and_one_issue_when_red(self) -> None:
         for event in (schedule_event(), track_dispatch("release")):
@@ -384,7 +410,7 @@ class CharterTrack(unittest.TestCase):
             text = yaml.safe_dump(job)
             writes = {scope for scope, level in (job.get("permissions") or {}).items() if level == "write"}
             with self.subTest(job=job_id):
-                if job_id in ("bump", "alert"):
+                if job_id in ("bump", "alert", "settle"):
                     self.assertTrue(writes)
                 else:
                     self.assertEqual(writes, set())
@@ -424,6 +450,18 @@ class CharterTrack(unittest.TestCase):
                 self.assertLess(move, check)
                 self.assertEqual(steps[move]["if"], "${{ inputs.charter_commit }}")
                 self.assertFalse(gh_expr.evaluate_if(steps[move]["if"], contexts(pr_event())))
+                called = contexts(schedule_event())
+                called["inputs"] = dict(TARGET)
+                self.assertTrue(gh_expr.evaluate_if(steps[move]["if"], called))
+                # Once the move failed, no later check judges the unmoved pin; when it did not run, all run.
+                for outcome, expected in (("failure", False), ("skipped", True), ("success", True)):
+                    called["steps"] = {"move": {"outcome": outcome}, "service": {"outcome": "success"}}
+                    status = {"success": outcome != "failure", "failure": outcome == "failure", "cancelled": False}
+                    for later in steps[move + 1:]:
+                        if "if" not in later or "always()" in str(later["if"]):
+                            continue
+                        with self.subTest(job=job_id, step=later.get("name", later.get("uses")), move=outcome):
+                            self.assertEqual(gh_expr.evaluate_if(later["if"], called, status=status), expected)
 
     def test_a_call_against_a_target_never_joins_or_cancels_a_pull_requests_own_check(self) -> None:
         gate = load(WORKFLOW)
@@ -448,6 +486,15 @@ class CharterTrack(unittest.TestCase):
         self.assertFalse(scheduled[1])
         self.assertNotEqual(group(track_dispatch("ref", run_id=1))[0], group(track_dispatch("ref", run_id=2))[0])
         self.assertTrue(group(pr_event(labels=("charter:head",)))[1])
+
+    def test_another_label_never_cancels_a_charter_head_run(self) -> None:
+        def group(event: dict[str, Any]) -> str:
+            return str(gh_expr.render(self.workflow["concurrency"]["group"], track_contexts(event, {})))
+        running = group(pr_event(labels=("charter:head",)))
+        self.assertEqual(group(pr_event("labeled", labels=("charter:head",), label="charter:head")), running)
+        self.assertNotEqual(group(pr_event("labeled", labels=("charter:head", "docs"), label="docs", run_id=7)), running)
+        self.assertNotEqual(group(pr_event("labeled", labels=("charter:head", "docs"), label="docs", run_id=7)),
+                            group(pr_event("labeled", labels=("charter:head", "x"), label="x", run_id=8)))
 
 
 class GateVerdict(unittest.TestCase):
