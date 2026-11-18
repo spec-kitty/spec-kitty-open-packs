@@ -13,7 +13,7 @@ terms:
     name: adversarial squad
     definition: A bounded set of profile-loaded delegates, dispatched at an SDD point-cut, each casting a distinct doctrine
       lens chosen for that point-cut's question so independent perspectives converge on findings a single reviewer would miss.
-      Optional and advisory, never a gate. Owned by the built-in adversarial-squad-deployment procedure (the single owner
+      Optional, never a gate. Owned by the built-in adversarial-squad-deployment procedure (the single owner
       of when, who, and how).
     status: active
   - id: advise-mode
@@ -165,7 +165,8 @@ terms:
   - id: directive
     name: directive
     definition: A doctrine artifact encoding a specific governance rule or constraint. The primary building block of a project's
-      governance; referenced by agent profiles and action scopes.
+      governance; referenced by agent profiles and action scopes. Its `enforcement` field is a default enforcement level (see
+      enforcement level).
     status: active
   - id: doctrine-reference-graph
     name: doctrine reference graph
@@ -177,6 +178,23 @@ terms:
     definition: Abbreviation for doctrine reference graph — the directed graph of interconnected governance artifacts (directives,
       tactics, styleguides) defining a project's doctrine.
     status: active
+  - id: enforcement-level
+    name: enforcement level
+    definition: 'How strictly an in-force directive binds, ranked `required` > `lenient-adherence` > `advisory` (the charter''s
+      directive schema). `required` means a deviation outside the directive''s own `explicit_allowances` is a defect;
+      `lenient-adherence` means the same, and the schema requires such a directive to list at least one allowance (the deviations
+      it permits); `advisory` means the directive is guidance an agent weighs. A directive''s `enforcement` field is the pack-supplied default level; which level applies in a
+      project is the adopting charter''s decision (core spec-kitty#5207). Directive prose, and content that cites a directive,
+      never restates the level. Distinct from activation presets'' `must_have` items and `policy.yaml` levels, which decide
+      which artefacts are in force.'
+    avoid:
+      - criticality
+      - binding level
+    status: active
+    see_also:
+      - term:spec-kitty-core/directive
+      - term:spec-kitty-core/charter
+      - term:spec-kitty-core/activation-preset
   - id: evidence-bundle
     name: evidence bundle
     definition: The set of inputs provided to charter synthesis — code-reading signals, configured URLs, and bundled corpus
