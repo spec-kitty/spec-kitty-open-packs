@@ -49,7 +49,7 @@
       "wp": null
     },
     "#237": {
-      "evidence_ref": "tactic in WP02; analyze step 2b in WP03",
+      "evidence_ref": "tactic wp-prompt-readiness-review (lane-b de72546) + analyze step 2b and Per-WP Readiness (lane-c 4f4f0f6), all approved",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,7 +57,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Have /spec-kitty.analyze inspect every WP prompt before implementation",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#244": {
