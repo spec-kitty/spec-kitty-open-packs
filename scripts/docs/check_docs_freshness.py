@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import re
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -41,6 +42,10 @@ TIERS: tuple[tuple[str, int], ...] = (
     ("docs/architecture/adr/", 365),
     ("", 180),
 )
+
+#: A revision as this script accepts it: a commit SHA or a ref name such as HEAD or origin/main. It
+#: cannot start with "-", so git never reads it as an option.
+REVISION = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/~^]{0,199}")
 
 #: doc_status values the staleness report never flags.
 EXEMPT_STATUSES = frozenset({"durable", "superseded", "deprecated"})
@@ -96,9 +101,10 @@ def git(root: Path, *args: str) -> str:
 def resolve_commit(root: Path, rev: str) -> str:
     """The commit SHA a revision names. Refuses a value git could read as an option, so a revision
     given on the command line never reaches git as anything but a revision."""
-    if not rev or rev.startswith("-"):
+    match = REVISION.fullmatch(rev or "")
+    if match is None:
         raise ValueError(f"not a revision: {rev!r}")
-    sha = git(root, "rev-parse", "--verify", "--quiet", "--end-of-options", f"{rev}^{{commit}}").strip()
+    sha = git(root, "rev-parse", "--verify", "--quiet", "--end-of-options", f"{match.group(0)}^{{commit}}").strip()
     if len(sha) not in (40, 64) or any(c not in "0123456789abcdef" for c in sha):
         raise ValueError(f"not a commit: {rev!r}")
     return sha
