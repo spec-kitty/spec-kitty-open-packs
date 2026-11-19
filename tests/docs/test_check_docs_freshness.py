@@ -40,19 +40,19 @@ class Repo:
         self.root = root
         self.git("init", "-q", "-b", "main")
 
-    def git(self, *args: str, date: str | None = None) -> str:
+    def git(self, *args: str, date: str | None = None, committed: str | None = None) -> str:
         env = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@example.invalid",
                "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@example.invalid"}
         if date:
             env["GIT_AUTHOR_DATE"] = f"{date}T12:00:00+00:00"
             # A committer date later than the author date, as after a rebase: the gate must read the author date.
-            env["GIT_COMMITTER_DATE"] = "2030-01-01T12:00:00+00:00"
+            env["GIT_COMMITTER_DATE"] = f"{committed}T12:00:00+00:00" if committed else "2030-01-01T12:00:00+00:00"
         result = subprocess.run(["git", "-c", "commit.gpgsign=false", *args], cwd=self.root, env=env,
                                 check=True, capture_output=True, text=True)
         return result.stdout.strip()
 
     def commit(self, files: dict[str, str | None], date: str, message: str | None = None,
-               moves: dict[str, str] | None = None) -> str:
+               moves: dict[str, str] | None = None, committed: str | None = None) -> str:
         for path, text in files.items():
             target = self.root / path
             if text is None:
@@ -64,7 +64,7 @@ class Repo:
             (self.root / target).parent.mkdir(parents=True, exist_ok=True)
             self.git("mv", source, target)
         self.git("add", "-A")
-        self.git("commit", "-q", "-m", message or f"change {date}", date=date)
+        self.git("commit", "-q", "-m", message or f"change {date}", date=date, committed=committed)
         return self.git("rev-parse", "HEAD")
 
 
@@ -130,7 +130,7 @@ class ChangedPagesGate(unittest.TestCase):
         self.assertEqual(len(self.check()), 1)
 
     def test_a_date_later_than_the_commit_fails(self) -> None:
-        self.repo.commit({"docs/guides/old.md": page("2027-01-01")}, "2026-03-02")
+        self.repo.commit({"docs/guides/old.md": page("2027-01-01")}, "2026-03-02", committed="2026-03-02")
         self.assertIn("later than", self.check()[0])
 
     def test_a_hyphenated_branch_name_resolves(self) -> None:
@@ -175,6 +175,18 @@ class ChangedPagesGate(unittest.TestCase):
         problems = self.check()
         self.assertEqual(len(problems), 1)
         self.assertIn("2026-03-02", problems[0])
+
+    def test_an_amended_commit_may_carry_todays_date(self) -> None:
+        # --amend keeps the author date (2026-03-02); the committer date is the amend's (2030-01-01 here).
+        self.repo.commit({"docs/guides/old.md": page("2026-03-02")}, "2026-03-02")
+        (self.repo.root / "docs/guides/old.md").write_text(page("2026-03-09"), encoding="utf-8")
+        self.repo.git("commit", "-q", "-a", "--amend", "--no-edit", date="2026-03-02")
+        self.assertEqual(self.check(), [])
+
+    def test_the_trailer_does_not_waive_a_missing_date(self) -> None:
+        self.repo.commit({"docs/new.md": page(None)}, "2026-03-02",
+                         message="docs: add\n\nDocs-Freshness-Unchanged: docs/new.md\n")
+        self.assertIn("no valid `updated:`", self.check()[0])
 
     def test_the_changelog_is_exempt(self) -> None:
         self.repo.commit({"docs/changelog/CHANGELOG.md": page("2026-01-01")}, "2026-03-02")

@@ -126,7 +126,8 @@ def changed_pages(root: Path, base: str, head: str) -> list[str]:
     """Markdown files under docs/ added, copied, modified or renamed (with a content change) from the
     merge base of base and head. A pure rename (similarity 100%) changes no content and is not judged."""
     # -z: paths unquoted and NUL-separated, so a non-ASCII name is not hidden by core.quotepath.
-    fields = git(root, "diff", "-z", "--name-status", "--find-renames", "--diff-filter=ACMR",
+    # diff.renameLimit=0: no file-count cap, so a mass move is still seen as renames.
+    fields = git(root, "-c", "diff.renameLimit=0", "diff", "-z", "--name-status", "--find-renames", "--diff-filter=ACMR",
                  f"{base}...{head}", "--", DOCS).split("\0")
     pages, index = [], 0
     while index < len(fields) and fields[index]:
@@ -142,18 +143,24 @@ def changed_pages(root: Path, base: str, head: str) -> list[str]:
     return sorted(pages)
 
 
-def last_judged_date(root: Path, base: str, head: str, path: str) -> dt.date | None:
-    """The author date of the latest commit since the merge base that touched the page and does not
-    opt it out with a ``Docs-Freshness-Unchanged: <path>`` trailer; None when every one opts it out."""
+def last_judged_dates(root: Path, base: str, head: str, path: str) -> tuple[dt.date, dt.date] | None:
+    """For the latest commit since the merge base that touched the page and does not opt it out with a
+    ``Docs-Freshness-Unchanged: <path>`` trailer: its author date (the lower bound for ``updated:``)
+    and the later of its author and committer dates (the upper bound, since an amend or a squash
+    keeps the original author date). None when every such commit opts the page out.
+
+    A commit that only moved the page counts as touching it: an opted-out edit after a move is judged
+    against the move's date."""
     merge_base = git(root, "merge-base", base, head).strip()
-    log = git(root, "log", f"--format=%as%x1e%(trailers:key={OPT_OUT_TRAILER},valueonly,separator=%x1f)%x1d",
+    log = git(root, "log", f"--format=%as%x1e%cs%x1e%(trailers:key={OPT_OUT_TRAILER},valueonly,separator=%x1f)%x1d",
               f"{merge_base}..{head}", "--", path)
     for record in log.split("\x1d"):
         if not record.strip():
             continue
-        date, _, trailers = record.strip("\n").partition("\x1e")
+        authored, committed, trailers = record.strip("\n").split("\x1e", 2)
         if path not in {value.strip() for value in trailers.split("\x1f")}:
-            return dt.date.fromisoformat(date.strip())
+            authored_on = dt.date.fromisoformat(authored.strip())
+            return authored_on, max(authored_on, dt.date.fromisoformat(committed.strip()))
     return None
 
 
@@ -165,15 +172,18 @@ def check_changed(root: Path, base: str, head: str) -> list[str]:
         page = read_page(root, path)
         if page.generated:
             continue
-        committed = last_judged_date(root, base, head, path)
-        if committed is None:
-            continue
         if page.updated is None:
-            problems.append(f"{path}: no valid `updated:` date in the frontmatter (last commit {committed})")
-        elif page.updated < committed:
-            problems.append(f"{path}: `updated: '{page.updated}'` is older than its last commit ({committed})")
-        elif page.updated > committed + dt.timedelta(days=1):
-            problems.append(f"{path}: `updated: '{page.updated}'` is later than its last commit ({committed})")
+            # Required even when every commit opts the page out: the trailer waives the date's move, not the date.
+            problems.append(f"{path}: no valid `updated:` date in the frontmatter")
+            continue
+        dates = last_judged_dates(root, base, head, path)
+        if dates is None:
+            continue
+        authored, latest = dates
+        if page.updated < authored:
+            problems.append(f"{path}: `updated: '{page.updated}'` is older than its last commit ({authored})")
+        elif page.updated > latest + dt.timedelta(days=1):
+            problems.append(f"{path}: `updated: '{page.updated}'` is later than its last commit ({latest})")
     return problems
 
 
@@ -226,7 +236,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Cannot resolve the revisions to compare: {error}")
         return 2
     if problems:
-        print("Changed docs pages with a stale `updated:` date. Set it to the day you verified the page:")
+        print("Changed docs pages whose `updated:` date is missing or out of step with their last commit."
+              " Set it to the day you verified the page:")
         for line in problems:
             print(f"  {line}")
         return 1

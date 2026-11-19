@@ -86,6 +86,10 @@ docs: fix a typo in the authoring guide
 Docs-Freshness-Unchanged: docs/guides/author-a-charter-pack.md
 ```
 
+The trailer waives moving the date, not the date itself: a page still needs a valid `updated:`. A
+commit that moved the page counts as touching it, so after a move in the same pull request, an
+opted-out edit is judged against the move's date.
+
 ## Required checks
 
 `main` requires one check before a pull request merges
