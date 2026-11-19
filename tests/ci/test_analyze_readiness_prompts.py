@@ -83,6 +83,16 @@ class AnalyzeReadinessContentTest(unittest.TestCase):
         text = ANALYZE.read_text(encoding="utf-8")
         self.assertLess(text.index("spec-kitty --version"), text.index("finalize-tasks --validate-only --mission"))
 
+    def test_resolution_and_placement_codes_classify_as_could_not_run(self) -> None:
+        # Case 1 (could not run, HIGH) must catch these before case 2 (refusal,
+        # CRITICAL) does; the classification is first-match-wins.
+        text = ANALYZE.read_text(encoding="utf-8")
+        case1 = text.index("**1. The check could not run.**")
+        case2 = text.index("**2. Exit code non-zero")
+        for code in ("MISSION_CONTEXT_UNRESOLVED", "MISSION_AMBIGUOUS_SELECTOR", "PLANNING_BRANCH_NOT_PERSISTED"):
+            with self.subTest(code=code):
+                self.assertTrue(case1 < text.index(code, case1) < case2)
+
     def test_tactics_are_cited(self) -> None:
         cited = {
             ANALYZE: (QUALITY_TACTIC, WP_TACTIC),
