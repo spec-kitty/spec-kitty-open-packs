@@ -113,6 +113,9 @@ nodes:
 - urn: tactic:quality-gate-verification
   kind: tactic
   label: Quality Gate Verification
+- urn: tactic:requirement-quality-ears
+  kind: tactic
+  label: Requirement Quality and EARS
 - urn: tactic:requirements-validation-workflow
   kind: tactic
   label: Requirements Validation Workflow
@@ -167,6 +170,9 @@ nodes:
 - urn: tactic:work-package-completion-validation
   kind: tactic
   label: Work Package Completion Validation
+- urn: tactic:wp-prompt-readiness-review
+  kind: tactic
+  label: WP Prompt Readiness Review
 - urn: tactic:adversarial-qa-handoff
   kind: tactic
   label: Adversarial QA Handoff
@@ -372,6 +378,14 @@ edges:
   relation: suggests
   when: When validating the decomposition — confirm that the stated intent of the initiative is faithfully reflected in the
     sub-problem set, and that the highest-risk sub-problems are explicitly identified before prioritisation begins.
+- source: tactic:requirement-quality-ears
+  target: tactic:acceptance-criteria-non-vacuity
+  relation: suggests
+  when: A requirement passes the quality bar; label its acceptance criterion and confirm a no-op cannot pass it
+- source: tactic:requirement-quality-ears
+  target: tactic:requirements-validation-workflow
+  relation: suggests
+  when: The wording is sound but the claim behind the requirement needs evidence
 - source: tactic:reverse-speccing
   target: tactic:acceptance-test-first
   relation: suggests
@@ -469,6 +483,10 @@ edges:
   target: directive:DIRECTIVE_034
   relation: suggests
   when: Tests validating acceptance criteria must exist before the WP is marked complete
+- source: tactic:wp-prompt-readiness-review
+  target: tactic:requirement-quality-ears
+  relation: suggests
+  when: Judging whether a WP's requirement mapping is worded precisely enough to check
 - source: tactic:adversarial-qa-handoff
   target: tactic:quality-gate-verification
   relation: suggests
