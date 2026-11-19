@@ -51,7 +51,8 @@ class Repo:
                                 check=True, capture_output=True, text=True)
         return result.stdout.strip()
 
-    def commit(self, files: dict[str, str | None], date: str) -> str:
+    def commit(self, files: dict[str, str | None], date: str, message: str | None = None,
+               moves: dict[str, str] | None = None) -> str:
         for path, text in files.items():
             target = self.root / path
             if text is None:
@@ -59,8 +60,11 @@ class Repo:
                 continue
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(text, encoding="utf-8")
+        for source, target in (moves or {}).items():
+            (self.root / target).parent.mkdir(parents=True, exist_ok=True)
+            self.git("mv", source, target)
         self.git("add", "-A")
-        self.git("commit", "-q", "-m", f"change {date}", date=date)
+        self.git("commit", "-q", "-m", message or f"change {date}", date=date)
         return self.git("rev-parse", "HEAD")
 
 
@@ -139,6 +143,42 @@ class ChangedPagesGate(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             code = fresh.main(["--base=--all", "--repo-root", str(self.repo.root)])
         self.assertEqual(code, 2)
+
+    def test_a_pure_rename_is_not_judged(self) -> None:
+        self.repo.commit({}, "2026-03-02", moves={"docs/guides/old.md": "docs/guides/moved.md"})
+        self.assertEqual(self.check(), [])
+
+    def test_a_rename_with_a_content_change_is_judged(self) -> None:
+        self.repo.commit({}, "2026-03-02", moves={"docs/guides/old.md": "docs/guides/moved.md"})
+        self.repo.commit({"docs/guides/moved.md": page("2026-01-01") + "Edited.\n"}, "2026-03-02")
+        problems = self.check()
+        self.assertEqual(len(problems), 1)
+        self.assertIn("docs/guides/moved.md", problems[0])
+
+    def test_the_trailer_opts_its_page_out_for_that_commit(self) -> None:
+        self.repo.commit({"docs/guides/old.md": page("2026-01-01") + "Typo.\n"}, "2026-03-02",
+                         message="docs: fix a typo\n\nDocs-Freshness-Unchanged: docs/guides/old.md\n")
+        self.assertEqual(self.check(), [])
+
+    def test_the_trailer_does_not_cover_another_page(self) -> None:
+        self.repo.commit({"docs/guides/old.md": page("2026-01-01") + "Typo.\n",
+                          "docs/other.md": page("2026-01-01") + "Typo.\n"}, "2026-03-02",
+                         message="docs: fix typos\n\nDocs-Freshness-Unchanged: docs/guides/old.md\n")
+        problems = self.check()
+        self.assertEqual([p.split(":")[0] for p in problems], ["docs/other.md"])
+
+    def test_a_trailer_skips_only_its_commit(self) -> None:
+        # A real edit without the trailer, then a typo commit with it: the page is judged against the edit.
+        self.repo.commit({"docs/guides/old.md": page("2026-01-01") + "Edit.\n"}, "2026-03-02")
+        self.repo.commit({"docs/guides/old.md": page("2026-01-01") + "Edit, typo.\n"}, "2026-03-05",
+                         message="docs: typo\n\nDocs-Freshness-Unchanged: docs/guides/old.md\n")
+        problems = self.check()
+        self.assertEqual(len(problems), 1)
+        self.assertIn("2026-03-02", problems[0])
+
+    def test_the_changelog_is_exempt(self) -> None:
+        self.repo.commit({"docs/changelog/CHANGELOG.md": page("2026-01-01")}, "2026-03-02")
+        self.assertEqual(self.check(), [])
 
     def test_the_command_exits_one_on_a_stale_page(self) -> None:
         self.repo.commit({"docs/guides/old.md": page("2026-01-01") + "More.\n"}, "2026-03-02")

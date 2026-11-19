@@ -72,10 +72,19 @@ path, from the proposal issue through `pack_id` minting, the gates and review. I
 ## Documentation conventions
 
 Docs follow the Spec Kitty core convention: Markdown with YAML frontmatter
-(`title`, `description`, `doc_status`, `updated`, optional `related`; set `updated` to the day you
-last verified the page, and move it whenever you change the page), an ordered nav in `docs/_meta/sections.yaml`
+(`title`, `description`, `doc_status`, `updated`, optional `related`), an ordered nav in `docs/_meta/sections.yaml`
 (the nav source of truth, built by doc-kitty/Astro — see [ADR 2026-10-17-1](../architecture/adr/2026-10-17-1-doc-kitty-astro-as-docsite-generator.md)), and
 a canonical changelog under `docs/changelog/` symlinked from the repository root.
+
+Set `updated` to the day you last verified the page against reality, and move it whenever you change
+the page's content. For a change that needs no re-verification, such as a typo fix, add one commit
+trailer per page instead, and the freshness check skips that page for that commit:
+
+```text
+docs: fix a typo in the authoring guide
+
+Docs-Freshness-Unchanged: docs/guides/author-a-charter-pack.md
+```
 
 ## Required checks
 
@@ -106,7 +115,8 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
 - **`Docs site`** builds the docsite. It runs only when docs, site or pack files change, so it
   cannot be required. On a pull request its `Docs freshness` job fails an authored page under
   `docs/` that the pull request changes when the page's `updated:` is older than the author date of
-  its last commit (#297). Generated pages are left to the drift check. The same job lists, without
+  its last commit (#297). Generated pages are left to the drift check, and `docs/changelog/` and pure
+  renames are not judged. The same job lists, without
   failing, pages past their staleness threshold (guides 90 days and ADRs 365, from writing's
 `docs-freshness-sla` styleguide; other pages 180, this repository's choice) and pages dated in the
 future.

@@ -683,7 +683,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   workflow gains a `Docs freshness` job on pull requests. `scripts/docs/check_docs_freshness.py`
   fails an authored page under `docs/` that the pull request adds or changes when its `updated:` is
   missing, older than the author date of the last commit to it, or more than a day later. The
-  author date survives a rebase, and paths are read NUL-separated, so non-ASCII names are judged. Only changed pages are judged, so there is no baseline. Pages carrying `generated:`
+  author date survives a rebase, and paths are read NUL-separated, so non-ASCII names are judged.
+  Per the operator's ruling on #297, a pure rename (similarity 100%) and `docs/changelog/` are not
+  judged, and a commit trailer `Docs-Freshness-Unchanged: <path>` opts that page out for that
+  commit, visibly in history, so a typo fix need not move a date nobody re-verified. Only changed pages are judged, so there is no baseline. Pages carrying `generated:`
   frontmatter are left to the drift gate. An advisory step lists pages past the staleness tiers of
   writing's `docs-freshness-sla` styleguide (guides 90 days, ADRs 365) and this repository's
   choice for other pages (180), and pages dated in the future, skipping `durable`, `superseded` and
