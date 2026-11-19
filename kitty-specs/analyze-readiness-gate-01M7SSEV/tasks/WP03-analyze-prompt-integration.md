@@ -23,6 +23,10 @@ requirement_refs:
 - SC-002
 - SC-003
 - SC-004
+- FR-006
+- FR-007
+- FR-008
+- FR-009
 planning_base_branch: feat/analyze-finalize-validate-246
 merge_target_branch: feat/analyze-finalize-validate-246
 branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
