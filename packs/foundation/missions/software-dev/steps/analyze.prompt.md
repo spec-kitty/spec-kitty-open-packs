@@ -13,11 +13,13 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Goal
 
-Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) before implementation. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
+Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) before implementation, and confirm that the machine-checkable task metadata would pass `finalize-tasks` validation. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
 
 ## Operating Constraints
 
 **NON-REMEDIATING**: Do **not** modify `spec.md`, `plan.md`, `tasks.md`, WP files, source code, or any remediation target. The only permitted file mutation is persisting this command's report to `kitty-specs/<mission>/analysis-report.md` via `spec-kitty agent mission record-analysis`. Offer an optional remediation plan only after the report is persisted (user must explicitly approve before any follow-up editing commands would be invoked manually).
+
+**READ-ONLY VALIDATION**: The only `finalize-tasks` invocation this command may make is `--validate-only` (step 2a). Never run `finalize-tasks` without `--validate-only`, and never pass `--refresh-planning-commit` or `--allow-orphaned`: those are the finalization write and commit paths. A `--validate-only` run writes nothing to disk; it only previews the frontmatter bootstrap, the lane computation and the topology decision in memory. Treat everything it reports as a preview of what finalization would do, never as something that happened; a `topology_decision` in the output carries `"preview": true` for the same reason.
 
 **Charter Authority**: The project charter (`.kittify/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks - not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
 
@@ -72,6 +74,48 @@ Load only the minimal necessary context from each artifact:
 
 - Load `.kittify/charter/charter.md` for principle validation
 
+### 2a. Validate Task Finalization (read-only)
+
+After loading the artifacts and before any detection pass, run the read-only finalization check once from repo root:
+
+```bash
+spec-kitty agent mission finalize-tasks --validate-only --mission <mission-slug> --json
+```
+
+Parse the JSON it prints. Record the exit code, and keep the payload's keys and values verbatim for the report (step 6). Do not edit any artifact in response and do not re-run the check after a "fix": this command is non-remediating.
+
+**The check is fail-fast.** Each gate refuses on its first failure and the run stops there, so a refusal reports one failure class only. Never read a single refusal as the only problem: the gates after it did not run. Say so in the report's residual-risk section.
+
+**Exit code non-zero with an `error` payload: a validation refusal.** `finalize-tasks` would refuse to finalize these artifacts, so the lanes implementation runs from cannot be computed from them. Report each refusal as a **CRITICAL** finding in category `finalize-validation`, quoting `error` and naming the WPs and ids from the payload. Recognise the refusal by the keys that carry a non-empty value (the requirement-mapping refusal lists all four of its keys, empty ones included):
+
+| Payload key(s) | What it means |
+|---|---|
+| `missing_requirement_refs_wps` | WPs that map to no requirement |
+| `unknown_requirement_refs` | WP requirement refs that name no id declared in `spec.md` (per WP) |
+| `unmapped_functional_requirements` | Functional requirements no WP maps |
+| `bare_prose_requirement_ids` | Requirement ids cited in prose but not declared in a recognised shape |
+| `missing_wp_sections`, `extra_wp_sections` | WP prompt files with no matching `tasks.md` section, or `tasks.md` sections with no WP file |
+| `cycles` | Circular WP dependencies (no valid execution order) |
+| `wp_id` with `errors` | Invalid dependencies of one WP (for example a dependency on a WP that does not exist) |
+| `dependency_conflicts` | WP frontmatter `dependencies` disagree with the dependencies parsed from `tasks.md` |
+| `ownership_errors` | Ownership validation failed, for example two WPs that can run in parallel claiming overlapping `owned_files` (WPs ordered by a dependency may share files) |
+| `ownership_literal_path_errors` | Literal `owned_files` paths that match no file and are not declared in `create_intent` |
+| `ownership_contradiction_wp_ids`, `ownership_contradictions` | A `code_change` WP with an explicitly empty `owned_files` |
+| `error_code: STALE_CANCELED_DEPENDENCIES` | Executable WPs that depend on canceled WPs |
+| `risk_report` | Parallelization risk exceeds the project's blocking threshold |
+| any other `error` or `error_code` | Report it verbatim: invalid WP metadata, an unloadable `wps.yaml`, a refused re-finalization of started work, or another gate |
+
+**Exit code 0 with `"result": "validation_passed"`: the gates passed.** Still read the payload:
+
+- `"validation_stage": "tasks-outline"`: only the `wps.yaml` outline exists and no WP prompt files were generated. Implementation cannot start: **CRITICAL** (run `/spec-kitty.tasks-packages`).
+- `tasks_md_stale: true`: `tasks.md` is out of step with `wps.yaml`. **HIGH** (re-run `/spec-kitty.tasks-finalize`).
+- `would_modify` not empty: finalization would still rewrite the frontmatter of the listed WPs (each entry names the `wp_id` and the `changes`). Either finalization has not run, or the WP files changed after it ran; either way the WP files are not the finalized metadata implementation will use. **HIGH** (run `/spec-kitty.tasks-finalize`).
+- `ownership_warnings`, `requirement_extraction_warnings`, `post_integration_acceptance_warnings`: one **MEDIUM** finding per warning; they do not stop finalization.
+- `success_criteria_coverage`: success criteria no WP references are informational; fold them into the coverage summary rather than raising findings.
+- `validation.lanes_preview.collapse_report`: independent WPs collapsed into one lane are a **LOW** finding (lost parallelism), not a blocker.
+
+**The check could not run.** The command is missing or unavailable, it prints no JSON, or its `error_code` concerns resolving the mission or repository rather than the artifacts (for example `MISSION_AMBIGUOUS_SELECTOR` or `MISSION_CONTEXT_UNRESOLVED`). Do not proceed silently: add one **MEDIUM** finding in category `finalize-validation` stating that machine validation did not run and why, and add a residual-risk warning to the report that requirement mappings, dependency cycles, ownership overlaps and WP metadata were not machine-checked. Continue with the detection passes; do not re-implement the CLI's checks by hand as a substitute.
+
 ### 3. Build Semantic Models
 
 Create internal representations (do not include raw artifacts in output):
@@ -123,8 +167,8 @@ Focus on high-signal findings. Limit to 50 findings total; aggregate remainder i
 
 Use this heuristic to prioritize findings:
 
-- **CRITICAL**: Violates charter MUST, missing core spec artifact, or requirement with zero coverage that blocks baseline functionality
-- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion
+- **CRITICAL**: Violates charter MUST, missing core spec artifact, requirement with zero coverage that blocks baseline functionality, or a `finalize-tasks --validate-only` refusal (step 2a)
+- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion, or stale finalization reported by a passing validation (`tasks_md_stale`, non-empty `would_modify`)
 - **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order
 
@@ -166,6 +210,10 @@ After the closing `---`, draft the Markdown body with the following structure:
 | Requirement Key | Has Task? | Task IDs | Notes |
 |-----------------|-----------|----------|-------|
 
+**Finalize Validation:** the exit code, `result` or `error`, and each step 2a finding with the payload keys and ids it came from. If the check refused, state that later gates did not run.
+
+**Residual Risk:** (if any) what was not machine-checked and why, including a validation that could not run or stopped at its first refusal.
+
 **Charter Alignment Issues:** (if any)
 
 **Unmapped Tasks:** (if any)
@@ -178,6 +226,7 @@ After the closing `---`, draft the Markdown body with the following structure:
 - Ambiguity Count
 - Duplication Count
 - Critical Issues Count
+- Finalize Validation (passed | refused | not run)
 
 ### 7. Persist Report Artifact
 
@@ -250,6 +299,7 @@ Ask the user: "Should all of these findings be addressed before moving on to imp
 ### Analysis Guidelines
 
 - **NEVER modify source/planning files** other than the required `analysis-report.md` persistence step
+- **NEVER run a writing `finalize-tasks`**: `--validate-only` is the only permitted form
 - **NEVER hallucinate missing sections** (if absent, report them accurately)
 - **Prioritize charter violations** (these are always CRITICAL)
 - **Use examples over exhaustive rules** (cite specific instances, not generic patterns)
