@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: c7ee37c4a3d7c6f65669f366844115211394671bb46d4492515498dfc5f19762
+manifest_hash: 2434b02bf10308c49d9dec345283b5543afd409fcb5ab2ced756dfb36697dedc
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -417,6 +417,10 @@ constituents:
   id: premortem-risk-identification
   path: tactics/analysis/premortem-risk-identification.tactic.yaml
   content_hash: 4e3108cf9fad8d1fa583cde287401a91a7bfbfc72c61d6019bfc03b4685509e3
+- kind: tactic
+  id: requirement-quality-ears
+  path: tactics/analysis/requirement-quality-ears.tactic.yaml
+  content_hash: 5d1bf462a6efd0549c27c23371c3e740dea17c220e2653292ab0224f64ff36ce
 - kind: tactic
   id: requirements-validation-workflow
   path: tactics/analysis/requirements-validation-workflow.tactic.yaml

@@ -686,6 +686,7 @@ Given that mission description, do this:
     - Generate separated requirement tables: Functional (`FR-###`), Non-Functional (`NFR-###`), and Constraints (`C-###`)
     - Label every Functional Requirement row with a trailing `Delivery` value and a trailing `No-op passable?` mark (summary of tactic `acceptance-criteria-non-vacuity`: `[build]` new behaviour / `[ratchet]` pins existing behaviour / `[folded]` satisfied by another row; `yes`/`no` - `yes` means a do-nothing change would pass the row's check, so reword it or name a same-fixture positive control). Place both as trailing columns only - never inside or before the ID cell, never inline on an FR bullet/heading. Full label definitions and the non-vacuity rules live in tactic `acceptance-criteria-non-vacuity` (fetch: `spec-kitty charter context --include tactic:acceptance-criteria-non-vacuity`) - do not redefine them here.
     - Ensure each requirement entry has a status value and testable wording
+    - Write every requirement to the requirement-quality bar of tactic `requirement-quality-ears` (fetch: `spec-kitty charter context --include tactic:requirement-quality-ears`): testable, solution-free, unambiguous, consistent and complete. For behaviour, prefer the EARS shapes ("When <trigger>, the <system> shall <response>", and the state-driven, unwanted-behaviour, optional-feature and ubiquitous forms) and state a response an actor or a test can observe. EARS is a lens, not a mandatory template. `/spec-kitty.analyze` checks the same bar, so a requirement that misses it comes back as a finding.
     - Capture rules or invariants that shape acceptance scenarios, edge cases, permissions, or lifecycle boundaries
     - Define Success Criteria (measurable, technology-agnostic outcomes)
     - Identify Key Entities (if data involved)
@@ -714,6 +715,7 @@ Given that mission description, do this:
 
       - [ ] No [NEEDS CLARIFICATION] markers remain
       - [ ] Requirements are testable and unambiguous
+      - [ ] Requirements meet the requirement-quality bar (tactic `requirement-quality-ears`): testable, solution-free, unambiguous, consistent, complete
       - [ ] Requirement types are separated (Functional / Non-Functional / Constraints)
       - [ ] IDs are unique across FR-###, NFR-###, C-### and SC-### entries, and match the requirement-ID grammar (optional lowercase letter suffix; `<mission-slug>#<ID>` only for another mission's ID)
       - [ ] All requirement rows include a non-empty Status value
