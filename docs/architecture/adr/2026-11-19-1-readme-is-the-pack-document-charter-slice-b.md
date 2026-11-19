@@ -1,6 +1,6 @@
 ---
 title: 'ADR: README.md is the pack document, and org-charter.yaml is retired (charter slice B)'
-description: Each pack's root README.md is its only document; pack.md, PROVENANCE.md, org-charter.yaml and active_charter are retired, and org enforcement is a governing preset, following charter slice B.
+description: Following charter slice B, each pack's README.md is its only document; pack.md, PROVENANCE.md, org-charter.yaml and active_charter are retired.
 doc_status: active
 updated: '2026-11-19'
 related:
