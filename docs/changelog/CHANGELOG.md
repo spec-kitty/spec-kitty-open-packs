@@ -679,6 +679,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2471](https://github.com/spec-kitty/spec-kitty/issues/2471) validator,
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
+- **A docs freshness gate** (#297; the project charter's "docs freshness" gate). The `Docs site`
+  workflow gains a `Docs freshness` job on pull requests. `scripts/docs/check_docs_freshness.py`
+  fails an authored page under `docs/` that the pull request adds or changes when its `updated:` is
+  missing or older than the author date of the last commit to it. The author date survives a
+  rebase. Only changed pages are judged, so there is no baseline. Pages carrying `generated:`
+  frontmatter are left to the drift gate. An advisory step lists pages past the staleness tiers of
+  writing's `docs-freshness-sla` styleguide (guides 90 days, ADRs 365, other pages 180), skipping
+  `durable`, `superseded` and `deprecated` pages. `tests/docs` covers the checker, so it runs under
+  the required gate.
+
 ### 🔄 Changed
 
 - **The schema mirror follows charter #554's root-only graph shards** (#253, epic #287). Charter
