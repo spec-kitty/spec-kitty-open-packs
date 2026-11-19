@@ -1,7 +1,7 @@
 {
-  "event_count": 24,
-  "last_event_id": "01M7T1684NGJS2JPA3Q12TZDVH",
-  "materialized_at": "2026-11-19T13:50:56.661961+00:00",
+  "event_count": 26,
+  "last_event_id": "01M7T174QQ1DCC84GMMF58GMXJ",
+  "materialized_at": "2026-11-19T13:51:25.836089+00:00",
   "mission_number": "",
   "mission_slug": "analyze-readiness-gate-01M7SSEV",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 3
+    "planned": 2
   },
   "work_packages": {
     "WP01": {
@@ -95,11 +95,20 @@
       }
     },
     "WP03": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude::doctrine-daphne",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M7SVHZ9JEMVZQQ1B87KDYPPH",
-      "last_transition_at": "2026-11-19T12:12:29.362624+00:00"
+      "implementer_of_record": "claude::doctrine-daphne",
+      "lane": "in_progress",
+      "last_event_id": "01M7T174QQ1DCC84GMMF58GMXJ",
+      "last_transition_at": "2026-11-19T13:51:25.836089+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 9341,
+      "shell_pid_created_at": "1795096278.81"
     },
     "WP04": {
       "actor": "finalize-tasks",
