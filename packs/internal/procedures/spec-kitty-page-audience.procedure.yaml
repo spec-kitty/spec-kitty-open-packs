@@ -2,15 +2,18 @@ schema_version: '1.0'
 id: spec-kitty-page-audience
 title: Spec Kitty Page Audience Personas
 description: |
-  Declare the audience of a touched Spec Kitty docs page with the repository's own persona files.
+  Declare the audience of a touched docs page with the repository's own persona files, where its charter or docs define them.
 entry_condition: |
-  A change touches a documentation page under the Spec Kitty docs root.
+  A change touches a documentation page under the repository's docs root, and the repository's charter or docs define audience personas.
 exit_condition: |
-  Every touched page carries an `audience:` field holding one or more resolvable repo-relative `.md` paths to personas under `docs/context/audience/`.
+  Every touched page carries an `audience:` field holding one or more resolvable repo-relative `.md` paths to personas in the location the repository's charter or docs name.
 steps:
+- title: Find where the repository keeps its personas
+  description: |
+    Read the repository's charter or docs for the persona location. If the repository defines no personas, this procedure does not apply; write for the audience the charter names instead (DIRECTIVE_047).
 - title: Point `audience:` at the repository personas
   description: |
-    Set `audience:` to one repo-relative `.md` path, or a list, under `docs/context/audience/`.
+    Set `audience:` to one repo-relative `.md` path, or a list, in that location.
 - title: Require the field on touched pages only
   description: |
-    Keep `audience:` out of the structural lint's `frontmatter_required_fields`, so untouched legacy pages are not red-lined (C-012).
+    Do not make `audience:` a required field for every page in the docs lint, so untouched legacy pages are not red-lined.

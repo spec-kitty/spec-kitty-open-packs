@@ -1,10 +1,10 @@
-Goal: bring one pull request on `spec-kitty/spec-kitty` to a state the operator can merge. You rebase it, fix what blocks it, review it, update its description, changelog and docs, and hand it off with evidence. The operator is the maintainer who invoked this skill; the canonical remote is the git remote that points at `spec-kitty/spec-kitty` (find it with `git remote -v`).
+Goal: bring one pull request on the canonical repository to a state the operator can merge. You rebase it, fix what blocks it, review it, update its description, changelog and docs, and hand it off with evidence. The operator is the maintainer who invoked this skill; the canonical repository is the repository the work targets, and the canonical remote is the git remote that points at it (find it with `git remote -v`). In a fork clone, run `gh repo set-default` once so `gh` targets the canonical repository. The changelog mechanism, the PR template, the docs scripts, the make targets and the vocabulary check are the ones the repository's own charter or contributor docs (CONTRIBUTING, the PR template) define; read them before step 9.
 
 Input: the PR the user names (parameter `pr`). If none is named, ask for it.
 
 ## Step 1: Check the PR is not a draft, and ask about auto-merge
 
-Run `gh pr view <N> --repo spec-kitty/spec-kitty --json isDraft,author,statusCheckRollup` before anything else.
+Run `gh pr view <N> --json isDraft,author,statusCheckRollup` before anything else.
 
 If `isDraft` is true, STOP before you touch the branch. Your reply must start with a prominent warning: "WARNING: PR #<N> is still a DRAFT. It has not been handed off for landing." Give its author and its CI state, and ask whether to land it anyway. Do not rebase, push or comment on a draft PR without an explicit go-ahead. A draft is handed off when its author flips it to ready for review.
 
@@ -22,7 +22,7 @@ Follow the `landing-contributor-prs` procedure from its second step onward. It c
 6. Run an independent review of the integrated diff and fix every finding the deferral bar does not exempt.
 7. Tidy the commit history only when needed, and run the tree check before a force-push.
 8. Vet the tests the landing added with a reviewer who is not the implementer.
-9. Update the PR body, the changelog and the docs.
+9. Update the PR body to the repository's PR template, add the changelog entry through the repository's changelog mechanism, update the docs, and run the repository's docs and vocabulary checks.
 10. Push (SSH is the preferred transport), then post the remediation summary.
 11. File a tracked issue for every deferred item and leave the landing queue readable (the procedure's follow-up hygiene step).
 
@@ -35,4 +35,4 @@ Follow the `landing-contributor-prs` procedure from its second step onward. It c
 
 ## Hand-off
 
-Post the remediation summary on the PR. Then stop: the operator merges. Arm auto-merge only if the operator said yes when asked in step 1, only once the PR is merge-ready and complete, and as the procedure's hand-off step describes; confirm it armed without merging at once. Never merge by another route, never push to `main`, and arm nothing while the PR still needs commits. Afterwards, follow the "After the PR is merged" step: `git fetch origin`, then `spec-kitty doctor workspaces --prune` removes the landing worktree and its branch once the merge is on `origin/main`; a worktree it keeps (for example `NO_OWN_COMMITS`, when the pass made no commit of its own) is removed by hand as step 12 of `docs/development/how-to/pr-landing.md` shows. If the merge happens after this session ends, the next landing pass finds it with `spec-kitty doctor workspaces`.
+Post the remediation summary on the PR. Then stop: the operator merges. Arm auto-merge only if the operator said yes when asked in step 1, only once the PR is merge-ready and complete, and as the procedure's hand-off step describes; confirm it armed without merging at once. Never merge by another route, never push to `main`, and arm nothing while the PR still needs commits. Afterwards, follow the "After the PR is merged" step: `git fetch origin`, then `spec-kitty doctor workspaces --prune` removes the landing worktree and its branch once the merge is on `origin/main`; a worktree it keeps (for example `NO_OWN_COMMITS`, when the pass made no commit of its own) is removed by hand as the procedure's worktree-removal step says. If the merge happens after this session ends, the next landing pass finds it with `spec-kitty doctor workspaces`.

@@ -8,7 +8,7 @@ body_path: mission-from-issue.skill.md
 parameters:
   - name: issues
     required: true
-    description: One or more issue numbers on spec-kitty/spec-kitty
+    description: One or more issue numbers on the repository being worked in
   - name: guidance
     required: false
     description: Optional guidance after the issue numbers (scope limits, order, specific concerns); record it in the Mission spec

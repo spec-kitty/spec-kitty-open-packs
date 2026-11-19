@@ -27,4 +27,4 @@ Every `#NNNN` in the debrief must appear in the collector output, or in a file y
 
 ## Hand-off
 
-A debrief is handed over, never committed. Send the PDF to the operator, and keep the collector output, the synthesis and any scratch script in the gitignored `work/` directory. Never commit a PDF, and never open a pull request into `spec-kitty` or any product repository for a debrief. If the operator wants the findings kept, write the short Markdown note the procedure describes in the planning repository. Close the Op with its real outcome.
+A debrief is handed over, never committed. Send the PDF to the operator, and keep the collector output, the synthesis and any scratch script in the gitignored `work/` directory. Never commit a PDF, and never open a pull request into any product repository for a debrief. If the operator wants the findings kept, write the short Markdown note the procedure describes in the planning repository. Close the Op with its real outcome.
