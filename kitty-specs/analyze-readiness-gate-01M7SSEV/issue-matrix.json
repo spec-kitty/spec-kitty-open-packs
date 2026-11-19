@@ -37,15 +37,15 @@
       "wp": null
     },
     "#230": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "context: the WP review defers to the template as resolved (C-002); #230 owns the reconciliation",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "software-dev tasks prompts contradict the WP prompt template",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#237": {
