@@ -4,10 +4,11 @@
 - **Origin flow:** `specify`
 - **Slot key:** `specify.readiness.cannot-run-severity`
 - **Input key:** `cannot_run_severity`
-- **Status:** `open`
+- **Status:** `resolved`
 - **Created:** `2026-11-19T11:36:16.489312+00:00`
+- **Resolved:** `2026-11-19T11:37:11.447874+00:00`
 - **Opened by:** `cli`
-- **Other answer:** `false`
+- **Other answer:** `true`
 
 ## Question
 
@@ -21,7 +22,7 @@ When finalize-tasks --validate-only cannot run, should analyze record a MEDIUM f
 
 ## Final answer
 
-_(none)_
+HIGH (fail closed): verdict blocked; the finding names the CLI version that provides the check
 
 ## Rationale
 
@@ -30,3 +31,4 @@ _(none)_
 ## Change log
 
 - `2026-11-19T11:36:16.489312+00:00` - opened
+- `2026-11-19T11:37:11.447874+00:00` - resolved (final_answer="HIGH (fail closed): verdict blocked; the finding names the CLI version that provides the check")

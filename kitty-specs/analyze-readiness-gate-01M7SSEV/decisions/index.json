@@ -27,7 +27,7 @@
     {
       "created_at": "2026-11-19T11:36:16.489312Z",
       "decision_id": "01M7SSFNB9DQCMCD4PVEBP92R7",
-      "final_answer": null,
+      "final_answer": "HIGH (fail closed): verdict blocked; the finding names the CLI version that provides the check",
       "input_key": "cannot_run_severity",
       "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
       "mission_slug": "analyze-readiness-gate-01M7SSEV",
@@ -38,13 +38,13 @@
         "Other"
       ],
       "origin_flow": "specify",
-      "other_answer": false,
+      "other_answer": true,
       "question": "When finalize-tasks --validate-only cannot run, should analyze record a MEDIUM finding plus residual-risk warning, or a HIGH finding that blocks the verdict?",
       "rationale": null,
-      "resolved_at": null,
+      "resolved_at": "2026-11-19T11:37:11.447874Z",
       "resolved_by": null,
       "slot_key": "specify.readiness.cannot-run-severity",
-      "status": "open",
+      "status": "resolved",
       "step_id": null,
       "summary_json": null
     }
