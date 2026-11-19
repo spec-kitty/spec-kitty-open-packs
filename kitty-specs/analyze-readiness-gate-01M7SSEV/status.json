@@ -110,7 +110,8 @@
         "- 2026-11-19T13:53:06Z – claude::doctrine-daphne – shell_pid=9341 – At 25f70dc: T009 step 2a checks spec-kitty --version first, never runs below 3.1.0a5; could-not-run is HIGH (fail closed) naming 'spec-kitty CLI >= 3.1.0a5', the installed version and the fix, plus Residual Risk; no MEDIUM could-not-run remains. T010 fixed prefixes D/B/U/K/C/I/V/W/Q/S (carrier and table examples updated: A1 -> C1/D1) and a fixed, always-present section order. T011 step 2b cites tactic wp-prompt-readiness-review with one-line checks, blocker HIGH vs improvement MEDIUM/LOW, cites the V pairing/cycle finding instead of duplicating (R6); load step reads every tasks/WP*.md (frontmatter and headings first). T012 pass G cites requirement-quality-ears; B keeps vague adjectives/placeholders, G judges the five properties and EARS; scenario audit per story with locations; clarification questions for every HIGH/CRITICAL ambiguity; Inferred: label. T013 severity, metrics, next actions, principle. T014: 373 lines (<= 500), ASCII ok, validate-packs exit 0, vocabulary 0, tests/ci ascii+fragments pass. Walk-through of spec US1-US4: every acceptance scenario reachable.",
         "Ready for review at 25f70dc",
         "Review started at 25f70dc.",
-        "Changes requested at 25f70dc: F1 version gate after the command; F2 resolution errors classified as refusals; F3 double reporting beyond R6; F4 B/G split vs US4; F5 id order (should); F6 operator question; F7 nit."
+        "Changes requested at 25f70dc: F1 version gate after the command; F2 resolution errors classified as refusals; F3 double reporting beyond R6; F4 B/G split vs US4; F5 id order (should); F6 operator question; F7 nit.",
+        "- 2026-11-19T13:58:56Z – claude::doctrine-daphne – review-cycle-1 at bbff933: F1 version check is its own block and 'below 3.1.0a5 or not installed: stop, do not run' precedes the validate-only block. F2 result classified in order (1) could-not-run incl. MISSION_* resolution codes and the 'Could not locate project root' error -> HIGH, (2) refusal -> CRITICAL, (3) pass; the catch-all row excludes case-1 codes. F3 general one-defect rule in step 4: later steps cite the V id (zero-task requirement, WP mapped to nothing, unknown ref, cycle, missing prompt); 2b points at it. F4 B reports vague adjectives/placeholders; Q covers only the other failed properties and cites the B id. F5 numbering within prefix by step (2a, 2b, A-G), artifact, line. F6 kept CRITICAL per spec.md Edge Cases line 96 (operator decision 10 pending) and 2b cites it. F7 gate hints phrased as 'Recommendation: ...'. 380 lines, ASCII ok, validate-packs 0, tests/ci all pass (incl. prompt-fragments), vocabulary 0."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
@@ -124,12 +125,12 @@
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
-        "T009": "planned",
-        "T010": "planned",
-        "T011": "planned",
-        "T012": "planned",
-        "T013": "planned",
-        "T014": "planned"
+        "T009": "done",
+        "T010": "done",
+        "T011": "done",
+        "T012": "done",
+        "T013": "done",
+        "T014": "done"
       }
     },
     "WP04": {
