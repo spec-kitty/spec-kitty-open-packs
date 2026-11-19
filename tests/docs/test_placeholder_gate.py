@@ -106,6 +106,11 @@ class PlaceholderGate(unittest.TestCase):
         result = self.run_gate(page)
         self.assertEqual(result.returncode, 0, result.stdout)
 
+    def test_unclosed_fence_fails(self) -> None:
+        result = self.run_gate(f"Intro.\n\n{FENCE3}bash\nrun\n\nLater {{Leftover slot}}.\n")
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertIn("never closed", result.stdout)
+
     def test_raw_divio_templates_fail(self) -> None:
         templates = sorted((ROOT / "packs/writing/missions/documentation/templates/divio").glob("*-template.md"))
         self.assertEqual(len(templates), 4)

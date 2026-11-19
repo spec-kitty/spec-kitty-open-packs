@@ -80,11 +80,13 @@ Gate the content produced in `generate` against explicit quality criteria and re
                print(f"FAIL {path}:{n}: {slot}"); failed = True
            for slot in (s for span in spans for s in SLOT.findall(span)):
                print(f"REVIEW {path}:{n}: {slot}")
+       if fence:
+           print(f"FAIL {path}: a {fence} fence is never closed"); failed = True
    sys.exit(1 if failed else 0)
    EOF
    ```
 
-   A `{...}` token in prose, or a `[TODO:` marker, prints `FAIL` and the command exits `1`: the page may not publish. A `{...}` token inside code prints `REVIEW`: decide for each one whether it is a leftover slot (fix it in `generate`) or real code (record it as reviewed). The gate passes when the command exits `0` and every `REVIEW` line is resolved. Any other exit status, an error, or a run with no page fails the gate. A fence closes only on the same character, at least as long as the one that opened it, so a fence nested in a longer one does not end the outer block.
+   A `{...}` token in prose, or a `[TODO:` marker, prints `FAIL` and the command exits `1`: the page may not publish. A `{...}` token inside code prints `REVIEW`: decide for each one whether it is a leftover slot (fix it in `generate`) or real code (record it as reviewed). The gate passes when the command exits `0` and every `REVIEW` line is resolved. Any other exit status, an error, or a run with no page fails the gate. A fence closes only on the same character, at least as long as the one that opened it, so a fence nested in a longer one does not end the outer block. A fence left open at the end of a page fails, since everything after it would only be reviewed.
 
 6. **Verify completeness against `plan.md`**: every required cell is either filled or deferred-with-reason; no orphaned drafts.
 
