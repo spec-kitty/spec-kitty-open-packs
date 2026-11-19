@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 61ec4cfa28866d2624a2e776021daec45a83954d9dfc20bcc570342e0a77b0e4
+manifest_hash: 9cab1dd77d638312508823480faceb91db7d5464e384afac9cd360413ce2d779
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -46,13 +46,13 @@ constituents:
   path: assets/audiences/software_engineer.md.asset.yaml
   content_hash: 43bff173e04f682ec21b842458947f3bf0b2a43709cb876bdb7da1a9abcd8166
 - kind: asset
-  id: common-docs-structural-lint
-  path: assets/docs_structural_lint.py.asset.yaml
-  content_hash: 4e296b6339ccf94528331048fa4e73698e4eb4a30b7eb9cb149f8119d28e323c
-- kind: asset
   id: common-docs-structural-lint-config
   path: assets/docs_structural_lint.config.yaml.asset.yaml
   content_hash: d9bc0862e2b82dd910f6c35a5011c8eb054557f8be081d0bcc0003fea82ef7e2
+- kind: asset
+  id: common-docs-structural-lint
+  path: assets/docs_structural_lint.py.asset.yaml
+  content_hash: 4e296b6339ccf94528331048fa4e73698e4eb4a30b7eb9cb149f8119d28e323c
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml

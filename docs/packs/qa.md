@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/qa`
 - **Pack level:** `org`
-- **Declared version:** `4.0.1`
-- **Content checksum (sha256):** `aafbf55b58bc792e9160447195e60ac9429cebc0d3bdc36ea681d1429b3a5ed3`
+- **Declared version:** `5.0.0`
+- **Content checksum (sha256):** `4b090686963203bc96fe95252937a51e021b2e0604b35a31739b6f9e9fd12c57`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -47,7 +47,7 @@ It does two jobs:
 The pack names no test runner. Your project runs its own tests; the pack governs what they must
 cover and how honestly they report.
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<3`, [`planning-analysis`](planning-analysis.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`planning-analysis`](planning-analysis.md) `>=2.0,<4`, [`testing`](testing.md) `>=2.0,<4`
 
 ## Artifact inventory
 
