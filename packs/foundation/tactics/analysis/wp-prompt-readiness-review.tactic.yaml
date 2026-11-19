@@ -58,10 +58,17 @@ steps:
   - title: Check the boundaries
     description: >
       Each work package is cohesive and can be implemented and reviewed on its
-      own. One that bundles several unrelated concerns, or that is a bare
-      chore with no outcome a reviewer can check, is an improvement; one that
-      cannot be completed without another work package's unfinished files is
-      a blocker.
+      own once its declared dependencies are done. One that bundles several
+      unrelated concerns, or that is a bare chore with no outcome a reviewer
+      can check, is an improvement. One that relies on another work package's
+      files or outputs without declaring that work package as a dependency is
+      a blocker: lanes and claim order are computed from the declared
+      dependencies, so the undeclared one can run first or in parallel. A
+      declared, ordered dependency is not a boundary finding; the
+      dependencies step judges it.
+    examples:
+      - "WP04 edits a file WP02 creates but does not list WP02 as a dependency - blocker."
+      - "WP03 lists WP02 as a dependency and cites the tactic WP02 writes - no boundary finding; the dependencies step judges the order."
   - title: Check the requirement and value mapping
     description: >
       Each work package maps to at least one requirement and states the user

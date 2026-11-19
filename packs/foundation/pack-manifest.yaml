@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4e7d3d40814cb7be41e6c77f56856b3cd30540814acae4baccc531c9d9dc1a24
+manifest_hash: 97f5c5452aeb2074cfca1ae8eb71fb7f54d27f857dae365254e2cea583cae596
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -440,7 +440,7 @@ constituents:
 - kind: tactic
   id: wp-prompt-readiness-review
   path: tactics/analysis/wp-prompt-readiness-review.tactic.yaml
-  content_hash: 05043b143c547751a2c3a1476a2c74b8ba8a6f91c2c2581d43d8c416b5608300
+  content_hash: f953ccdfbb911331ee966f947e85f8a8ba8a9abcba32043b34db7471381c0b5a
 - kind: tactic
   id: architectural-gate-non-vacuity
   path: tactics/architectural-gate-non-vacuity.tactic.yaml
