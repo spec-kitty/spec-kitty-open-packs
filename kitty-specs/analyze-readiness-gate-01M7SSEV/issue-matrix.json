@@ -85,7 +85,7 @@
       "wp": "WP03"
     },
     "#247": {
-      "evidence_ref": "1c67ed0 (tactic, specify); analyze sections in WP03",
+      "evidence_ref": "tactic requirement-quality-ears + specify bar (lane-a 1c67ed0) + analyze pass G, Scenario Audit, Clarification Questions (lane-c 4f4f0f6), all approved",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -93,7 +93,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "analyze/specify prompts: requirement-quality, EARS and scenario-audit report sections",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP01"
     },
     "#266": {
