@@ -173,7 +173,7 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": "claude::generic-reviewer",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -186,9 +186,11 @@
         "- 2026-11-19T14:13:51Z – claude::implementer-ivan – shell_pid=21263 – At b8f6c88. T020 tests/ci/test_analyze_readiness_prompts.py: 8 tests (read-only invariant on software-dev and cave-kitty analyze, same-fixture positive control, 3.1.0a5 in both, version check precedes the validate-only command, tactic citations in analyze/cave/specify, <=500 lines, fixed id-prefix table, tactic files parse with their ids). Non-vacuity: appending 'spec-kitty agent mission finalize-tasks --mission x --json' to the real analyze prompt turns the test red; restored green. T021 lockstep minors (DIRECTIVE_018), computed by transitive exact-pin closure: foundation 2.1.0->2.2.0, writing 2.1.0->2.2.0, testing/refactoring/architecture/planning-analysis 2.2.0->2.3.0, built-in 4.1.0->4.2.0, cave-kitty 2.2.1->2.3.0 (range pin, own content); every ==pin moved. T022 manifests derived (no change), digests restamped, 8 pack pages regenerated, gen_pack_reference --check no drift. Out-of-map: tests/ci/test_pack_digest.py BUILT_IN_DIGEST -> 57f41837..., the same release step #301 took (45aa77c). T023 changelog Added entry. T024 gates: validate-packs 0, tests/ci 219 passed, vocabulary 0, pack_digest --check 0, check-pack-digests 0, pages no drift, charter service (release jar service-v0.1.0-rc.1, SHA-256 verified, ebce908 contracts) exit 0.",
         "- 2026-11-19T14:13:54Z – claude::implementer-ivan – shell_pid=21263 – T024 analyze dry run (U1/B1; SC-001..003), spec-kitty CLI 4.0.0rc9, scratch repo outside the checkout. Followed the WP03 prompt (approved bbff933) by hand. case1 unmapped FR: exit 1 'Requirement mapping validation failed', unmapped_functional_requirements [FR-002] -> 2a case 2 refusal -> V1 CRITICAL; pass E cites V1 (one-defect rule) -> verdict blocked. case2 parallel overlap: exit 1 ownership_errors 'Overlap: WP02 (src/a.py) and WP01 (src/a.py)' -> V1 CRITICAL -> blocked. case3 cycle: exit 1 cycles [[WP02,WP01,WP02]] -> V1 CRITICAL; 2b dependency order cites V1 -> blocked. case4 unknown handle: exit 1 error_code MISSION_CONTEXT_UNRESOLVED -> 2a case 1 could-not-run -> V1 HIGH naming 'spec-kitty CLI >= 3.1.0a5' (installed 4.0.0rc9) and the --mission fix -> blocked. case5 orphan WP03 prompt: exit 1 missing_wp_sections [WP03] -> V1 CRITICAL; Per-WP Readiness row WP03 cites V1, no W duplicate -> blocked. All five match the expected verdicts. Id determinism (B1): case1 carrier produced in two separate passes from unchanged artifacts: ids [V1, U1] and [V1, U1] (U1 = spec has no user stories); identical. Caveat: both passes by the same agent, so this shows the numbering rule is applicable, not that different agents agree. Dry-run finding for the orchestrator: running cases from the wrong branch gave error_code PLANNING_BRANCH_NOT_PERSISTED (meta.json not found); WP03's classification sends it to case 2 (refusal, CRITICAL) although it is a placement problem, not an artifact judgement; verdict is blocked either way.",
         "Ready for review at b8f6c88",
-        "Review started at b8f6c88."
+        "Review started at b8f6c88.",
+        "Changes requested at b8f6c88: F1 the read-only test exempts any line containing not run/do not/never (realistic bypass confirmed); F2 cave version-order check (should)."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/analyze-readiness-gate-01M7SSEV-coord/kitty-specs/analyze-readiness-gate-01M7SSEV/tasks/WP05-test-and-release/review-cycle-1.md",
         "reference": "review-cycle://analyze-readiness-gate-01M7SSEV/WP05-test-and-release/review-cycle-1.md",
@@ -196,14 +198,14 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 21263,
-      "shell_pid_created_at": "1795097299.97",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T020": "done",
-        "T021": "done",
-        "T022": "done",
-        "T023": "done",
-        "T024": "done"
+        "T020": "planned",
+        "T021": "planned",
+        "T022": "planned",
+        "T023": "planned",
+        "T024": "planned"
       }
     }
   }
