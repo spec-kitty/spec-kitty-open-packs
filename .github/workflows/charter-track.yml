@@ -34,13 +34,15 @@ name: Charter track
 #     green: closes the open charter:main-red issue.
 #   It keeps clear of the release track: its own label, its own issue, its own concurrency queue.
 #
-# Tokens (operator ruling on #308: no secret). The supported route is the workflow's own token, with the
-# repository setting "Allow GitHub Actions to create and approve pull requests" on (Settings, Actions,
-# General). The bump commit is made through the GitHub API, so GitHub signs it. A pull request opened with
-# that token starts no pull_request workflow, so the bump job dispatches validate-packs.yml on the bump
-# branch, which posts the required check on its head commit. The secret CHARTER_BUMP_TOKEN is optional at
-# most and unset by default; if an operator ever sets one (a fine-grained PAT with contents and
-# pull-requests write), the pull request's own CI runs instead of the dispatch.
+# Tokens (operator ruling on #314; the org locks "Allow GitHub Actions to create and approve pull requests").
+# Only the bump job holds a write scope or a secret:
+# - the job's own token (contents: write on that job only) pushes the bump branch and makes its commit through
+#   the GitHub API, so GitHub signs the commit;
+# - the repository secret PR_CREATION_TOKEN, a fine-grained PAT on spec-kitty-charter and spec-kitty-open-packs
+#   with Actions and Pull requests read and write and no Contents, opens the bump pull request and closes a
+#   superseded one. A pull request opened with it starts the pull_request workflows, so the required check
+#   runs on the bump pull request itself. Without the secret the bump job fails, naming it, before it pushes.
+# Every other job uses only the workflow's own token, read-only apart from the issue jobs' issues: write.
 
 on:
   schedule:
@@ -273,12 +275,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
+      # Pushes the bump branch and its commit with the job's own token. Pull requests are opened and closed
+      # with PR_CREATION_TOKEN (operator ruling on #314), so the job token only reads them.
       contents: write
-      pull-requests: write
-      # Dispatches validate-packs.yml on the bump branch (the supported route: no CHARTER_BUMP_TOKEN set).
-      actions: write
+      pull-requests: read
       issues: read
     steps:
+      - name: Require PR_CREATION_TOKEN
+        env:
+          HAS_PR_TOKEN: ${{ secrets.PR_CREATION_TOKEN != '' }}
+        run: |
+          # Before any branch is pushed, so a missing secret leaves nothing behind.
+          if [[ "$HAS_PR_TOKEN" != true ]]; then
+            echo "::error::The repository secret PR_CREATION_TOKEN is not set: the bump pull request cannot be opened. Set it to a fine-grained PAT on this repository with Pull requests: read and write (see docs/guides/validate-a-pack.md)."
+            exit 1
+          fi
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
@@ -290,8 +301,11 @@ jobs:
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
       - name: Open the bump pull request
         env:
-          GH_TOKEN: ${{ secrets.CHARTER_BUMP_TOKEN || github.token }}
-          HAS_BUMP_TOKEN: ${{ secrets.CHARTER_BUMP_TOKEN != '' }}
+          # The job's own token: reads pull requests and issues, pushes the branch and its commit.
+          GH_TOKEN: ${{ github.token }}
+          # A fine-grained PAT (Pull requests read and write, no Contents): opens and closes the pull requests,
+          # so the bump pull request's own pull_request workflows, the required check among them, run.
+          PR_TOKEN: ${{ secrets.PR_CREATION_TOKEN }}
           REPO: ${{ github.repository }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           COMMIT: ${{ needs.resolve.outputs.commit }}
@@ -323,7 +337,7 @@ jobs:
           python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256"
           python3 scripts/ci/charter_pin.py changelog --release-tag "$RELEASE_TAG" --commit "$COMMIT" --previous "$CURRENT" --date "$(date -u +%F)"
 
-          # The commit is made by the API, so GitHub signs it.
+          # The branch and commit are made through the API with the job's token, so GitHub signs the commit.
           head="$(git rev-parse HEAD)"
           gh api -X POST "repos/$REPO/git/refs" -f ref="refs/heads/$branch" -f sha="$head" > /dev/null
           headline="chore(charter): pin charter release $RELEASE_TAG (#253)"
@@ -334,11 +348,6 @@ jobs:
               variables: {input: $input[0]}}' > "$RUNNER_TEMP/request.json"
           oid="$(gh api graphql --input "$RUNNER_TEMP/request.json" --jq '.data.createCommitOnBranch.commit.oid')"
           echo "committed $oid on $branch"
-          # Before the pull request, so a failed dispatch leaves no pull request without its required check (the next
-          # run finds the branch without a pull request and cuts it again).
-          if [[ "$HAS_BUMP_TOKEN" != true ]]; then
-            gh workflow run validate-packs.yml --repo "$REPO" --ref "$branch"
-          fi
 
           red="$(gh issue list --repo "$REPO" --label charter:release-red --state open --limit 1 --json number --jq '.[0].number // empty')"
           body="$RUNNER_TEMP/pr.md"
@@ -353,22 +362,22 @@ jobs:
             echo "Proven green by $RUN_URL against \`main\` at \`$head\`. Review the changelog entry before merging."
             echo "If \`main\` has moved since, **Update branch** before merging: that push runs the gate on the merge"
             echo "result, and a pack added since needs its manifest re-derived at the new pin."
-            if [[ "$HAS_BUMP_TOKEN" != true ]]; then
-              echo
-              echo "Opened with the workflow token, so no pull_request run starts: the required check runs from a"
-              echo "\`validate-packs.yml\` dispatch on \`$branch\`. To re-run it, dispatch **Validate packs** on that branch."
-            fi
             [[ -n "$red" ]] && { echo; echo "Closes #$red."; }
             echo
             echo "---"
             echo "_Opened by \`.github/workflows/charter-track.yml\`._"
           } > "$body"
           title="chore(charter): pin charter release $RELEASE_TAG"
-          url="$(gh pr create --repo "$REPO" --base main --head "$branch" --title "$title" --body-file "$body")"
+          # Opened with PR_CREATION_TOKEN, so the pull request's own CI runs; a refusal names the token.
+          if ! url="$(GH_TOKEN="$PR_TOKEN" gh pr create --repo "$REPO" --base main --head "$branch" --title "$title" --body-file "$body")"; then
+            echo "::error::PR_CREATION_TOKEN could not open the pull request from $branch (it needs Pull requests: read and write on $REPO). The branch is pushed; the next run reopens it after deleting the branch, or open the pull request by hand."
+            exit 1
+          fi
           echo "Opened $url" | tee -a "$GITHUB_STEP_SUMMARY"
           while IFS=$'\t' read -r number old_branch; do
             [[ -n "$number" ]] || continue
-            gh pr close "$number" --repo "$REPO" --delete-branch --comment "Superseded by $url, which pins a newer charter release."
+            GH_TOKEN="$PR_TOKEN" gh pr close "$number" --repo "$REPO" --comment "Superseded by $url, which pins a newer charter release."
+            gh api -X DELETE "repos/$REPO/git/refs/heads/$old_branch" || echo "::warning::could not delete $old_branch"
           done <<< "$open_prs"
 
   # Red on a newer release, on main: one labelled issue. A scheduled run that cannot even resolve the release (the

@@ -310,18 +310,21 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   Dispatch **Charter track** with `track: main` to run it now (any `charter_ref` is ignored); off `main`,
   it reports what it would open or close and touches no issue.
 
-The supported route needs no secret, only one repository setting: **Settings → Actions → General →
-Allow GitHub Actions to create and approve pull requests**, which an operator turns on once. The bump
-commit is made through the GitHub API, so GitHub signs it. A pull request opened with the workflow's own
-token starts no `pull_request` run, so the job dispatches **Validate packs** on the bump branch, which
-posts the required check on its head commit. To re-run that check, dispatch **Validate packs** on the
-branch. The dispatched check judges the branch as cut from `main`. If `main` moves before the merge,
-use **Update branch**: that push runs the gate on the merge result. A pack added since then needs its
-manifest re-derived at the new pin.
+The bump job uses two tokens (operator ruling on #314; the organization does not let GitHub Actions
+create pull requests):
 
-The workflow also reads an optional secret, `CHARTER_BUMP_TOKEN`, which is unset by default. If an
-operator ever sets one, a fine-grained PAT with contents and pull-requests write on this repository,
-the bump pull request's own CI runs instead of the dispatch.
+- **The workflow's own token** pushes the bump branch and makes its commit through the GitHub API, so
+  GitHub signs the commit. Only the bump job is given `contents: write`.
+- **`PR_CREATION_TOKEN`**, a repository secret, opens the bump pull request and closes a superseded one.
+  It is a fine-grained PAT on `spec-kitty-charter` and `spec-kitty-open-packs` with **Actions** and
+  **Pull requests** read and write, and **no Contents** access. A pull request opened with it starts the
+  `pull_request` workflows, so the required check runs on the bump pull request itself, like any other
+  pull request. If the secret is missing, the bump job fails before it pushes anything, and its error
+  names `PR_CREATION_TOKEN`.
+
+The required check judges the bump branch as cut from `main`. If `main` moves before the merge, use
+**Update branch**: that push runs the gate on the merge result. A pack added since then needs its
+manifest re-derived at the new pin.
 
 To move the pin by hand, the same tool resolves and applies a target:
 
