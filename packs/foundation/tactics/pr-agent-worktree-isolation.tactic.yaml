@@ -15,8 +15,8 @@ steps:
       helpers, and automated analysis passes — must be invoked with
       `isolation: "worktree"` (the `Agent(isolation: "worktree")` parameter in
       the agent harness), which gives it a harness isolation worktree. That is
-      not a Spec Kitty lane worktree: never run `spec-kitty implement` or a
-      status write from it, and never read its status files as status (read
+      not a Spec Kitty lane worktree: never run `spec-kitty agent action implement`
+      or a status write from it, and never read its status files as status (read
       status with `spec-kitty agent tasks status`). A non-isolated agent operating on a PR diff executes
       in the caller's active checkout; git stages the PR diff into that checkout
       and cross-contaminates the active mission's working tree.
@@ -45,10 +45,10 @@ steps:
       - "Incorrect: 'Target v0.12.3' or 'Ship in v1.0' — version prescription that pre-empts the product owner's release decision"
   - title: Cross-reference history compression — do not restate it
     description: >
-      The rule for compressing a mission's PR branch history after it lands is
-      governed exclusively by `clean-linear-commit-history.tactic`. When
-      advising on post-landing cleanup, refer to that tactic and follow its
-      procedure. Do not re-author the history compression steps or restate its
+      The rule for compressing a mission's PR branch history before the PR is
+      presented is governed exclusively by `clean-linear-commit-history.tactic`.
+      When advising on history cleanup, refer to that tactic and follow its
+      procedure. Never rewrite a branch after its PR has merged. Do not re-author the history compression steps or restate its
       failure modes here; a second authority for the same rule creates
       split-brain doctrine.
 failure_modes:

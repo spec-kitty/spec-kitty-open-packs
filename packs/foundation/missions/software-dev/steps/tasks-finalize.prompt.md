@@ -8,9 +8,9 @@ description: Validate dependencies, finalize WP metadata, and commit all task ar
 ## Purpose
 
 Run the finalization command to parse dependencies from `tasks.md`, validate
-them, update WP frontmatter, and commit all task artifacts to the Mission's planning branch
-(the Mission topic branch when the Mission was created without `--topology`, else the
-target branch).
+them, update WP frontmatter, and commit all task artifacts to the Mission's planning branch.
+The planning branch is the Mission topic branch when the Mission was created without
+`--topology`; otherwise it is the Mission's target branch.
 
 ---
 
@@ -172,7 +172,7 @@ Provide a concise outcome summary:
 - Work package count and per-package subtask tallies
 - Parallelization highlights
 - MVP scope recommendation
-- Finalization status (dependencies parsed, X WP files updated, committed to target branch)
+- Finalization status (dependencies parsed, X WP files updated, committed to the planning branch)
 
 **Required next step - run `/spec-kitty.analyze` before `/spec-kitty.implement`.**
 `/spec-kitty.analyze` persists an `analysis-report.md` and reviews spec/plan/tasks
@@ -191,7 +191,7 @@ After completing this step:
 - All WP files have `requirement_refs` field in frontmatter
 - Dependencies are validated (no cycles, no invalid references)
 - Requirement references are validated against spec.md
-- Task artifacts are committed to the target branch
+- Task artifacts are committed to the planning branch
 
 **Next step**: run `/spec-kitty.analyze` - the required pre-implementation gate -
 then `/spec-kitty.implement`.
