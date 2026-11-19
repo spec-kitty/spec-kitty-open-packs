@@ -47,11 +47,11 @@
     {
       "criterion_id": "FR-005",
       "description": "Verify FR-005 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "proof_type": "independent review + CI test + dry run",
+      "evidence": "WP03 approved at lane-c 4f4f0f6 (claude::generic-reviewer); tests/ci/test_analyze_readiness_prompts.py at lane-e 9d665bf; WP05 dry run (5 scratch-mission cases, CLI 4.0.0rc9) in WP05 history",
+      "pass_fail": "pass",
+      "verified_by": "claude::implementer-ivan",
+      "verified_at": "2026-11-19T14:25:57.676671+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
