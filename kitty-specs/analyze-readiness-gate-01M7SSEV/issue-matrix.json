@@ -61,14 +61,14 @@
       "wp": "WP03"
     },
     "#244": {
-      "evidence_ref": "<auto-classified: no action required>",
+      "evidence_ref": "parent epic; this mission delivers its children #246, #237, #247; #213 and #214 remain open under it",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<auto-classified: context_only>",
+      "title": "Epic: /spec-kitty.analyze readiness review (prompt content)",
       "verdict": "not-applicable",
       "wp": null
     },
