@@ -254,6 +254,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   lockstep with `main`. It also records the 2026-11-16 ownership ruling: the charter owns the pack
   logic, core assembles, and pack repositories own the content. No earlier ADR is superseded.
   ADR 2026-11-11-1's existing slice F amendment now points to ADR 2026-11-19-2.
+  The vision and the roadmap's Charter pin theme, last changed on 2026-11-18 without their
+  `updated:` moving, were verified against the pin policy: the pin moves with charter releases, the
+  scheduled job bumps on a release, and both link ADR 2026-11-19-3.
 - **A contributor path for outside pack authors** (#296). The new guide
   `docs/guides/contribute-a-pack.md` covers the proposal issue, `pack_id` and `name` identity,
   the local checks and gates, review and landing, and warns that the pack contract still changes

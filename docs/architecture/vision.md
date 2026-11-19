@@ -2,7 +2,7 @@
 title: Vision — canonical publishing home for Spec Kitty Charter Packs
 description: The product vision for spec-kitty-open-packs as the curated, checksum-verifiable publishing home for Spec Kitty Charter Packs, served by a content-from-code docsite.
 doc_status: active
-updated: '2026-11-16'
+updated: '2026-11-19'
 related:
 - architecture
 - architecture/docsite-design
@@ -72,9 +72,10 @@ the logic is the charter repository; content ownership is in the packs repositor
 Packs follow the charter through one pin: this repository pins a charter commit in
 [`charter.lock.yaml`](https://github.com/spec-kitty/spec-kitty-open-packs/blob/main/charter.lock.yaml),
 validates every pack against the schemas at that pin, and moves the pin forward as the charter
-moves. The pin names a charter release or pre-release tag (`service-v*`) by default, and the
-charter's `main` HEAD only on demand (operator ruling, 2026-11-18). A core release is not a gate for pack work; core becomes compatible by consuming the
-charter.
+publishes releases. The pin names a charter release or pre-release tag (`service-v*`) by default,
+and the charter's `main` HEAD only on demand (operator ruling, 2026-11-18;
+[ADR 2026-11-19-3](adr/2026-11-19-3-pin-charter-releases-and-charter-owns-pack-logic.md)). A core
+release is not a gate for pack work; core becomes compatible by consuming the charter.
 
 The July 2026 docsite direction leaned on core work then planned for the manifest schema, the
 validator surface and verified distribution. That ownership has since moved to the charter (see
