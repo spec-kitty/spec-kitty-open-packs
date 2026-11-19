@@ -327,6 +327,12 @@ edges:
 - source: action:research/synthesis
   target: directive:DIRECTIVE_033
   relation: scope
+- source: action:software-dev/analyze
+  target: tactic:requirement-quality-ears
+  relation: scope
+- source: action:software-dev/analyze
+  target: tactic:wp-prompt-readiness-review
+  relation: scope
 - source: action:software-dev/implement
   target: directive:DIRECTIVE_001
   relation: scope
@@ -584,6 +590,9 @@ edges:
   relation: scope
 - source: action:software-dev/specify
   target: directive:DIRECTIVE_033
+  relation: scope
+- source: action:software-dev/specify
+  target: tactic:requirement-quality-ears
   relation: scope
 - source: action:software-dev/tasks
   target: directive:DIRECTIVE_003
