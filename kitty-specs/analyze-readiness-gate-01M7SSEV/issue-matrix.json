@@ -1,15 +1,15 @@
 {
   "rows": {
     "#1131": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "core half of #247 stays in spec-kitty/spec-kitty#1131 (spec C-004)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "core: deterministic checker and fixture tests for analyze report sections",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#213": {
