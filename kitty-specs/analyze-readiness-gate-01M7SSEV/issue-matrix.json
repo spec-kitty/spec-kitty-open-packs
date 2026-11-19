@@ -73,16 +73,16 @@
       "wp": null
     },
     "#246": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "draft 59e1574; completed in WP03",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Integrate finalize-tasks validation into /spec-kitty.analyze readiness checks",
+      "verdict": "in-mission",
+      "wp": "WP03"
     },
     "#247": {
       "evidence_ref": "<link or commit>",
