@@ -1,4 +1,16 @@
 {
+  "acceptance_history": [
+    {
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-19T17:17:28.644841+00:00",
+      "accepted_by": "system",
+      "accepted_from_commit": "38331511a0e8276b45a0fec20fd235c0f78c8fe9"
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-19T17:17:28.644841+00:00",
+  "accepted_by": "system",
+  "accepted_from_commit": "38331511a0e8276b45a0fec20fd235c0f78c8fe9",
   "contracts": "none",
   "contracts_rationale": "Prompt and doctrine content only: the mission defines no API, event or interface; the analysis-findings/v1 carrier it uses is unchanged.",
   "coordination_branch": "kitty/mission-analyze-readiness-gate-01M7SSEV",
