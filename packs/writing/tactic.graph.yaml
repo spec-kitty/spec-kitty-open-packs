@@ -47,11 +47,19 @@ edges:
   relation: requires
   reason: The common-docs scaffold tactic relies on the structural lint's index_completeness check to enforce section-index
     scaffolding; activating the tactic requires the shipped lint asset.
+- source: tactic:common-docs-scaffold
+  target: toolguide:common-docs-structural-lint
+  relation: suggests
+  when: checking a newly scaffolded page and section index with the structural lint
 - source: tactic:common-docs-write
   target: asset:common-docs-structural-lint
   relation: requires
   reason: The common-docs write tactic's run-the-live-gates step directs the agent to run the structural lint before handoff;
     activating the tactic requires the shipped lint asset.
+- source: tactic:common-docs-write
+  target: toolguide:common-docs-structural-lint
+  relation: suggests
+  when: running the structural lint before handoff
 - source: tactic:context-boundary-inference
   target: foundation::directive:DIRECTIVE_001
   relation: suggests

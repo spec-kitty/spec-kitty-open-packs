@@ -3,8 +3,9 @@
 Documentation, communication and terminology doctrine, and a member of the `built-in`
 distribution: the documentation mission type; the comms, scribe, minutes, synthesis, diagram,
 lexical and curator profiles; Common Docs and audience-oriented writing directives, the
-documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
-the writing-audience assets.
+documentation styleguides, the diagram and docs structural-lint toolguides, the
+glossary-stewardship tactics and templates, the docs structural lint and the writing-audience
+assets.
 
 ## Contents
 

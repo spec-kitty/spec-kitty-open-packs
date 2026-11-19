@@ -1,152 +1,99 @@
-# Implementation Plan: [DOCUMENTATION PROJECT]
+# Documentation Plan: {DOCUMENTATION_PROJECT}
 
-**Branch**: `[###-mission-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Mission specification from `kitty-specs/[mission-slug]/spec.md`
+**Mission**: `{MISSION_SLUG}` | **Date**: {YYYY-MM-DD} | **Spec**: [spec.md](spec.md) | **Gap analysis**: [gap-analysis.md](gap-analysis.md)
+**Input**: `kitty-specs/{MISSION_SLUG}/spec.md` (discover) and `kitty-specs/{MISSION_SLUG}/gap-analysis.md` (audit)
 
-**Note**: This template is filled in by the `/spec-kitty.plan` command. See the mission's step prompts for the execution workflow.
+**Note**: The mission's `design` step fills in this plan, and the `generate` step implements it. See the mission's step prompts for the workflow.
 
 ## Summary
 
-[Extract from spec: documentation goals, Divio types selected, target audience, generators needed]
+{SUMMARY: documentation goals, Divio types selected, target audience and generators needed, from spec.md and gap-analysis.md}
 
 ## Technical Context
 
-**Documentation Framework**: [Sphinx | MkDocs | Docusaurus | Jekyll | Hugo | None (starting fresh) or NEEDS CLARIFICATION]
-**Languages Detected**: [Python, JavaScript, Rust, etc. - from codebase analysis]
+**Documentation Framework**: {FRAMEWORK: Sphinx | MkDocs | Docusaurus | Jekyll | Hugo | none yet}
+**Languages Detected**: {LANGUAGES: Python, JavaScript, Rust, etc., from codebase analysis}
 **Generator Tools**:
 
 - JSDoc for JavaScript/TypeScript API reference
 - Sphinx for Python API reference (autodoc + napoleon extensions)
 - rustdoc for Rust API reference
 
-**Output Format**: [HTML | Markdown | PDF or NEEDS CLARIFICATION]
-**Hosting Platform**: [Read the Docs | GitHub Pages | GitBook | Custom or NEEDS CLARIFICATION]
+**Output Format**: {OUTPUT_FORMAT: HTML | Markdown | PDF}
+**Hosting Platform**: {HOSTING_PLATFORM: Read the Docs | GitHub Pages | GitBook | custom}
 **Build Commands**:
 
 - `sphinx-build -b html docs/ docs/_build/html/` (Python)
 - `npx jsdoc -c jsdoc.json` (JavaScript)
 - `cargo doc --no-deps` (Rust)
 
-**Theme**: [sphinx_rtd_theme | docdash | custom or NEEDS CLARIFICATION]
+**Theme**: {THEME: sphinx_rtd_theme | docdash | custom}
 **Accessibility Requirements**: WCAG 2.1 AA compliance (proper headings, alt text, contrast)
 
 ## Project Structure
 
-### Documentation (this mission)
+### Mission Artifacts
+
+Each step of the documentation mission writes one artifact:
 
 ```
-kitty-specs/[###-mission]/
-├── spec.md              # Documentation goals and user scenarios
-├── plan.md              # This file
-├── research.md          # Phase 0 output (gap analysis, framework research)
-├── data-model.md        # Phase 1 output (Divio type definitions)
-├── quickstart.md        # Phase 1 output (getting started guide)
-└── tasks.md             # Phase 2 output (/spec-kitty.tasks command)
+kitty-specs/{MISSION_SLUG}/
+├── spec.md              # discover: needs, audience, iteration mode, goals
+├── gap-analysis.md      # audit: coverage matrix, drift findings, prioritized gaps
+├── plan.md              # design: this file
+├── audit-report.md      # validate: gate results, risks and verdict
+└── release.md           # publish: publication handoff
 ```
+
+The `generate` step writes the documentation pages themselves, under `docs/`.
 
 ### Documentation Files (repository root)
+
+Pages follow the common-docs sections. Each Divio type has one home section:
+
+| Divio type | Section | Template |
+|------------|---------|----------|
+| Tutorial | `docs/guides/` | `divio/tutorial-template.md` |
+| How-to | `docs/guides/` | `divio/howto-template.md` |
+| Reference | `docs/api/` | `divio/reference-template.md` |
+| Explanation | `docs/architecture/` | `divio/explanation-template.md` |
 
 ```
 docs/
 ├── index.md                    # Landing page with navigation
-├── tutorials/
-│   ├── getting-started.md     # Step-by-step for beginners
-│   └── [additional-tutorials].md
-├── how-to/
-│   ├── authentication.md      # Problem-solving guides
-│   ├── deployment.md
-│   └── [additional-guides].md
-├── reference/
-│   ├── api/                   # Generated API documentation
-│   │   ├── python/            # Sphinx autodoc output
-│   │   ├── javascript/        # JSDoc output
-│   │   └── rust/              # cargo doc output
-│   ├── cli.md                 # CLI reference (manual)
-│   └── config.md              # Configuration reference (manual)
-├── explanation/
-│   ├── architecture.md        # Design decisions and rationale
-│   ├── concepts.md            # Core concepts explained
-│   └── [additional-explanations].md
-├── conf.py                    # Sphinx configuration (if using Sphinx)
-├── jsdoc.json                 # JSDoc configuration (if using JSDoc)
-└── Cargo.toml                 # Rust docs config (if using rustdoc)
+├── guides/
+│   ├── index.md                # Section landing page
+│   ├── getting-started.md      # Tutorial: step-by-step for beginners
+│   ├── {TASK_NAME}.md          # How-to: one task per page
+│   └── ...
+├── api/
+│   ├── index.md                # Section landing page
+│   ├── {GENERATOR_OUTPUT}/     # Generated API reference (Sphinx, JSDoc, rustdoc)
+│   ├── cli.md                  # CLI reference (manual)
+│   └── config.md               # Configuration reference (manual)
+└── architecture/
+    ├── index.md                # Lists every page in architecture/
+    ├── concepts.md             # Explanation: core concepts
+    └── ...
 ```
 
-**Divio Type Organization**:
+`architecture/` is curated-complete: its `index.md` links every page in it. Keep file
+names unique across sections. Generator configuration files (`conf.py`, `jsdoc.json`,
+`Cargo.toml`) live where the generator expects them.
 
-- **Tutorials** (`tutorials/`): Learning-oriented, hands-on lessons for beginners
-- **How-To Guides** (`how-to/`): Goal-oriented recipes for specific tasks
-- **Reference** (`reference/`): Information-oriented technical specifications
-- **Explanation** (`explanation/`): Understanding-oriented concept discussions
+## Documentation Design
 
-## Phase 0: Research
+### Divio Allocation
 
-### Objective
+| Area (from spec.md) | Tutorial | How-to | Reference | Explanation | Deferral reason |
+|---------------------|----------|--------|-----------|-------------|-----------------|
+| {AREA} | {required / deferred} | {required / deferred} | {required / deferred} | {required / deferred} | {REASON, or none} |
 
-[For gap-filling mode] Audit existing documentation, classify into Divio types, identify gaps and priorities.
-[For initial mode] Research documentation best practices, evaluate framework options, plan structure.
+### Navigation Strategy
 
-### Research Tasks
-
-1. **Documentation Audit** (gap-filling mode only)
-   - Scan existing documentation directory for markdown files
-   - Parse frontmatter to classify Divio type
-   - Build coverage matrix: which features/areas have which documentation types
-   - Identify high-priority gaps (e.g., no tutorials for key workflows)
-   - Calculate coverage percentage
-
-2. **Generator Setup Research**
-   - Verify JSDoc installed: `npx jsdoc --version`
-   - Verify Sphinx installed: `sphinx-build --version`
-   - Verify rustdoc available: `cargo doc --help`
-   - Research configuration options for each applicable generator
-   - Plan integration strategy for generated + manual docs
-
-3. **Divio Template Research**
-   - Review Write the Docs guidance for each documentation type
-   - Identify examples of effective tutorials, how-tos, reference, and explanation docs
-   - Plan section structure appropriate for each type
-   - Consider target audience knowledge level
-
-4. **Framework Selection** (if starting fresh)
-   - Evaluate static site generators (Sphinx, MkDocs, Docusaurus, Jekyll, Hugo)
-   - Consider language ecosystem (Python project → Sphinx, JavaScript → Docusaurus)
-   - Review hosting options and deployment complexity
-   - Select theme that meets accessibility requirements
-
-### Research Output
-
-See [research.md](research.md) for detailed findings on:
-
-- Gap analysis results (coverage matrix, prioritized gaps)
-- Generator configuration research
-- Divio template examples
-- Framework selection rationale
-
-## Phase 1: Design
-
-### Objective
-
-Define documentation structure, configure generators, plan content outline for each Divio type.
-
-### Documentation Structure
-
-**Directory Layout**:
-
-```
-docs/
-├── index.md                    # Landing page
-├── tutorials/                  # Learning-oriented
-├── how-to/                     # Problem-solving
-├── reference/                  # Technical specs
-└── explanation/                # Understanding
-```
-
-**Navigation Strategy**:
-
-- Landing page links to all four Divio sections
-- Each section has clear purpose statement
-- Cross-links between types (tutorials → reference, how-tos → explanation)
+- Landing page links to the guides, api and architecture sections
+- Each section index has a clear purpose statement
+- Cross-links between types (tutorials → reference, how-tos → explanation), declared in each page's `related:` list
 - Search functionality (if framework supports it)
 
 ### Generator Configurations
@@ -155,7 +102,7 @@ docs/
 
 ```python
 # docs/conf.py
-project = '[PROJECT NAME]'
+project = '{PROJECT_NAME}'
 extensions = [
     'sphinx.ext.autodoc',      # Generate docs from docstrings
     'sphinx.ext.napoleon',     # Support Google/NumPy docstring styles
@@ -176,7 +123,7 @@ html_static_path = ['_static']
     "excludePattern": "(node_modules/|test/)"
   },
   "opts": {
-    "destination": "docs/api/api/javascript",
+    "destination": "docs/api/javascript",
     "template": "node_modules/docdash",
     "recurse": true
   },
@@ -195,43 +142,46 @@ rustdoc-args = ["--document-private-items"]
 
 ### Content Outline
 
-**Tutorials** (WP02 in tasks):
+**Tutorials** (`docs/guides/`):
 
 - Getting Started (installation, first use, basic concepts)
-- [Additional tutorials based on key user journeys]
+- {ADDITIONAL_TUTORIALS: based on key user journeys}
 
-**How-To Guides** (WP03 in tasks):
+**How-To Guides** (`docs/guides/`):
 
-- How to [solve specific problem 1]
-- How to [solve specific problem 2]
-- [Additional guides based on common tasks]
+- How to {TASK_1}
+- How to {TASK_2}
+- {ADDITIONAL_GUIDES: based on common tasks}
 
-**Reference** (WP04 in tasks):
+**Reference** (`docs/api/`):
 
 - API Reference (generated from code)
 - CLI Reference (manual)
 - Configuration Reference (manual)
 
-**Explanation** (WP05 in tasks):
+**Explanation** (`docs/architecture/`):
 
 - Architecture Overview (design decisions, system structure)
 - Core Concepts (domain concepts explained)
-- [Additional explanations as needed]
+- {ADDITIONAL_EXPLANATIONS: as needed}
 
-### Work Breakdown Preview
+### Design Decisions
 
-Detailed work packages will be generated in Phase 2 (tasks.md). High-level packages:
+Record each major choice (generator, hierarchy shape, cross-link strategy) as an
+ADR-shaped decision: context, options, choice, consequences.
 
-1. **WP01: Documentation Structure Setup** - Create directories, configure generators, set up build
-2. **WP02: Tutorial Documentation** - Write learning-oriented tutorials
-3. **WP03: How-To Guide Documentation** - Write problem-solving guides
-4. **WP04: Reference Documentation** - Generate API docs, write manual reference
-5. **WP05: Explanation Documentation** - Write understanding-oriented explanations
-6. **WP06: Quality Validation & Publishing** - Validate accessibility, build, deploy
+| Decision | Options considered | Choice | Consequences |
+|----------|--------------------|--------|--------------|
+| {DECISION} | {OPTIONS} | {CHOICE} | {CONSEQUENCES} |
 
-## Phase 2: Implementation
+## Mission Flow
 
-**Note**: Phase 2 (work package generation) is handled by the `/spec-kitty.tasks` command.
+The rest of the mission implements and checks this plan:
+
+1. **generate** — writes each required page from its Divio template into its section, and runs the selected generators.
+2. **validate** — runs the structural lint with `--extended` and the styleguide checks, and writes `audit-report.md` with a verdict.
+3. **publish** — publishes what `audit-report.md` cleared, and writes `release.md`.
+4. **accept** — accepts the publication handoff as the mission baseline.
 
 ## Success Criteria Validation
 

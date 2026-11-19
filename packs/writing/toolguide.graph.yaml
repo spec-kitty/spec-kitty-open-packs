@@ -2,6 +2,9 @@ schema_version: '1.0'
 generated_at: STATIC
 generated_by: drg-migration-v1
 nodes:
+- urn: toolguide:common-docs-structural-lint
+  kind: toolguide
+  label: Common Docs Structural Lint
 - urn: toolguide:contextive
   kind: toolguide
   label: Contextive
@@ -12,6 +15,17 @@ nodes:
   kind: toolguide
   label: PlantUML Diagramming
 edges:
+- source: toolguide:common-docs-structural-lint
+  target: asset:common-docs-structural-lint
+  relation: suggests
+  when: resolving and running the shipped structural lint script
+  reason: The toolguide explains how to resolve the lint script by its asset id, which flags it takes and what its exit codes
+    mean.
+- source: toolguide:common-docs-structural-lint
+  target: asset:common-docs-structural-lint-config
+  relation: suggests
+  when: passing the default policy file to the lint with --styleguide
+  reason: The toolguide resolves the lint's default structural_lint_config file by its asset id and passes it with --styleguide.
 - source: toolguide:contextive
   target: foundation::tactic:glossary-curation-interview
   relation: suggests

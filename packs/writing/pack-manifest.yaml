@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 84b4597befd1b8592221b0c71db3fb66502f7ad4ca1dc525e412253c11e6eb30
+manifest_hash: 61ec4cfa28866d2624a2e776021daec45a83954d9dfc20bcc570342e0a77b0e4
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -49,10 +49,14 @@ constituents:
   id: common-docs-structural-lint
   path: assets/docs_structural_lint.py.asset.yaml
   content_hash: 4e296b6339ccf94528331048fa4e73698e4eb4a30b7eb9cb149f8119d28e323c
+- kind: asset
+  id: common-docs-structural-lint-config
+  path: assets/docs_structural_lint.config.yaml.asset.yaml
+  content_hash: d9bc0862e2b82dd910f6c35a5011c8eb054557f8be081d0bcc0003fea82ef7e2
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
-  content_hash: d71d8b5fc99185db950117dd34ff07cc9d8988af60bfff9e1a0aa59212b22a2f
+  content_hash: 77daf71835e56dae22db082a8e860d7588753417fff3c316fc372a20e1457593
 - kind: directive
   id: DIRECTIVE_047
   path: directives/047-audience-oriented-writing.directive.yaml
@@ -68,27 +72,27 @@ constituents:
 - kind: mission_type
   id: documentation
   path: missions/documentation/documentation.mission-type.yaml
-  content_hash: 57a2fb262baf7e45c03133b947c81d069f44bb6ad6a7f06800d4fa929663fb5f
+  content_hash: 244218d682d69fdc8affa3cfbc123d4b8c470ad757d720f8cae32e9c8b3433e1
 - kind: template
   id: documentation/divio/explanation-template.md
   path: missions/documentation/templates/divio/explanation-template.md
-  content_hash: 3877064de46c446f13827f18816d631b78e6d1b15255e1e22afb811f9bc00774
+  content_hash: a60e5b6969b6afc1dbddb69a1d9e4ce4bb09b58a37cca944858e35139064da1f
 - kind: template
   id: documentation/divio/howto-template.md
   path: missions/documentation/templates/divio/howto-template.md
-  content_hash: 6d4202e52307ed59d9d5b7d720dc5f276d336658dafad5bd95e41e4b7d2bb453
+  content_hash: 750db91c194a1a8ce61c85705243b726941d8037fe4e39743a610c2a81d36610
 - kind: template
   id: documentation/divio/reference-template.md
   path: missions/documentation/templates/divio/reference-template.md
-  content_hash: 4248dbc772b59e72b8c395ba74f37bd042a212269a7b53652c96ed2313ea0064
+  content_hash: 4db48b1a9273f29d1017eb662846962f5eb944b45d73dd1e4131d058f7c6263e
 - kind: template
   id: documentation/divio/tutorial-template.md
   path: missions/documentation/templates/divio/tutorial-template.md
-  content_hash: d6d6471062a68c34689eb6b9f1872afde1164ded39aea5d9e54586d4120211b9
+  content_hash: dcf205450ead6c8351b6ff7eedd53fd75e129e9a68f288c66ab9ccbabc7d0acd
 - kind: template
   id: documentation/documentation-plan-template.md
   path: missions/documentation/templates/documentation-plan-template.md
-  content_hash: 76a1d4a90b62a7b5438f0ba8d1cd74b51e75a2aa9ee57330528b68bd63a9f7f6
+  content_hash: aed80cdbebdef6dce546a208cab156780ddde931697a3562809a06b35498e534
 - kind: template
   id: documentation/documentation-spec-template.md
   path: missions/documentation/templates/documentation-spec-template.md
@@ -105,14 +109,6 @@ constituents:
   id: documentation/release-template.md
   path: missions/documentation/templates/release-template.md
   content_hash: 7fc4dc87867768b093c7712884c920721fd61c61d710a57042750ea8617852aa
-- kind: template
-  id: documentation/task-prompt-template.md
-  path: missions/documentation/templates/task-prompt-template.md
-  content_hash: 11b3089d7abb36afd54949b597363e73e9bb139b3da07566fb5cec90956ec728
-- kind: template
-  id: documentation/tasks-template.md
-  path: missions/documentation/templates/tasks-template.md
-  content_hash: 1d99a1ab33e7c9f12a65c86c732b73ed1a6bab2730689d1b70b1d61af67d22f3
 - kind: procedure
   id: action-item-attribution-gate
   path: procedures/action-item-attribution-gate.procedure.yaml
@@ -148,7 +144,7 @@ constituents:
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: ed3a12dad951a0a41efd4b7eafee6becce3b1df4b3daf3914a58cd6b51a04c54
+  content_hash: 8e2f27b8bb4a2a5dc80a7cecd8dab7ef9d82fd4915d6e21af7e4e92024d6e94d
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
@@ -160,7 +156,7 @@ constituents:
 - kind: styleguide
   id: docs-freshness-sla
   path: styleguides/docs-freshness-sla.styleguide.yaml
-  content_hash: 0dabdc0cb977cb82d0ee29e8a11f2a1e6f6821f007c529ab897a9d28ed8fccb1
+  content_hash: 312d10fb073d874ac15ce7b69b90610a095cdf9f745cd7196f216bb1aff036a8
 - kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
@@ -176,7 +172,7 @@ constituents:
 - kind: styleguide
   id: publication-authority
   path: styleguides/publication-authority.styleguide.yaml
-  content_hash: 6410434ffc7fc5c7077f3d58a9a2db4fcf2d53a81c02d17109986e6a1d64af57
+  content_hash: 0c331e51e59836c790df86bde213ed818a45917df825d6ec0a693ebd6cd33197
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
@@ -200,15 +196,15 @@ constituents:
 - kind: tactic
   id: common-docs-find
   path: tactics/common-docs-find.tactic.yaml
-  content_hash: eebcfd0acfac8e7a83e98fcb7dbc426568801701fced6f3e4d56e2c7cebd9c3e
+  content_hash: 9ac89df404b78dcf3996460eb398d6991b7a188a4dc08160701a9131afead0dc
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
-  content_hash: ebcc9c4e1d6da8f4f0cbdc20b45f54c0593a2a47f1352b08af34a00dca06b844
+  content_hash: 1d6f56c5464854f9cd1370f9a3f2e4bcf8142a36c60802fe5887782ff52eb3ae
 - kind: tactic
   id: common-docs-write
   path: tactics/common-docs-write.tactic.yaml
-  content_hash: 486441ce3a0aeac4b0ceb9eeeeeeadfb91b061c996a0a28f4751b1364bd9dcb1
+  content_hash: 5ef15c21797f759e867e7ea36d7f5b57b5d733cff246604d9c2640c16d9f449e
 - kind: tactic
   id: documentation-curation-audit
   path: tactics/communication/documentation-curation-audit.tactic.yaml
@@ -229,6 +225,10 @@ constituents:
   id: writing/meeting-minutes.md
   path: templates/writing/meeting-minutes.md
   content_hash: 2478adfd6fb03126d57a999de9887330052d45e601b028ef34f03cbe7ae51a02
+- kind: toolguide
+  id: common-docs-structural-lint
+  path: toolguides/common-docs-structural-lint.toolguide.yaml
+  content_hash: 94b28aa3e0f2f10729e5f8b5f6c0c9ac311379195774ed5d4f43185b12d485ac
 - kind: toolguide
   id: contextive
   path: toolguides/contextive.toolguide.yaml

@@ -40,19 +40,19 @@ Produce an evidence-based gap analysis that another author could read, reproduce
 
 1. **Treat the audit as evidence-based, not impressionistic.** Every claimed gap must be traceable to either a missing artifact, a missing Divio type, or a documented mismatch between the docs and the code surface they describe.
 
-2. **Build a coverage matrix** keyed by `(area, Divio type)`. Areas come from the discover `spec.md`; Divio types are `tutorial`, `how-to`, `reference`, `explanation`. Empty cells are gaps; populated-but-stale cells are debt.
+2. **Build a coverage matrix** keyed by `(area, Divio type)`. Areas come from the discover `spec.md`; Divio types are `tutorial`, `how-to`, `reference`, `explanation`. Empty cells are gaps; populated-but-stale cells are debt. Decide staleness by an objective signal: the `updated:` date against its freshness tier, a referenced symbol that no longer exists, or an obsolete screenshot.
 
 3. **Classify each existing document by its Divio type** using frontmatter when present and content heuristics when not. Record the classification confidence (`high` / `low-confidence`) so reviewers know which entries to spot-check. Where automated detection is uncertain, mark the cell `low-confidence` rather than silently guessing — the `validate` step will revisit it.
 
-4. **Cross-reference the documentation against the actual source-of-truth surface** (modules, endpoints, CLI commands, configuration keys). Drift between docs and code is itself a finding, not a footnote.
+4. **Cross-reference the documentation against the actual source-of-truth surface** (modules, endpoints, CLI commands, configuration keys). Drift between docs and code is itself a finding, not a footnote. For reference content, every documented entity must exist in code; for tutorial content, every described step must succeed when followed verbatim.
 
 5. **Inventory every file under the documentation root.** Ungoverned content (a file nobody classified) is a finding, not a free pass.
 
-6. **Prioritize gaps by user impact**, tied to the audience recorded in `spec.md`: blocks-onboarding > blocks-task > blocks-discoverability > nice-to-have. A missing tutorial for a core feature outranks a missing explanation for an edge case, even when the tutorial is harder to write.
+6. **Prioritize gaps by user impact**, tied to the audience and task recorded in `spec.md`, so a downstream author understands why each gap matters: blocks-onboarding > blocks-task > blocks-discoverability > nice-to-have. A missing tutorial for a core feature outranks a missing explanation for an edge case, even when the tutorial is harder to write.
 
 7. **Surface drift findings at high priority.** Wrong information is worse than missing information — a stale reference page that contradicts current behavior outranks an empty cell.
 
-8. **Make the analysis reproducible.** Capture the classification rule for every Divio-type assignment so a reviewer can challenge it: "frontmatter declares `type: how-to` and content matches the task-oriented heuristic" is a finding; "I think this is a how-to" is not.
+8. **Make the analysis reproducible.** Capture the classification rule for every Divio-type assignment so a reviewer can challenge it: "frontmatter declares `type: how-to` and content matches the task-oriented heuristic" is a finding; "I think this is a how-to" is not. Avoid one-off heuristics a later author cannot re-apply: rerunning the audit on the same inputs must reach the same matrix.
 
 ## Success Criteria
 

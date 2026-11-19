@@ -11,8 +11,8 @@ principles:
     description: "Staleness thresholds are explicit and tiered by page volatility. A page is flagged stale when its `updated` date is older than the threshold for its tier."
   - name: "Reset freshness on behaviour change"
     description: "Behaviour change resets the clock regardless of the SLA. The freshness SLA is a backstop for silent drift, not a licence to defer."
-  - name: "Regenerate pages and gate their lockfiles"
-    description: "Generated pages are freshened by regeneration, and their lockfile is freshness-gated."
+  - name: "Regenerate generated pages and check them for drift"
+    description: "Generated pages are freshened by regeneration, and any generated rollup the project keeps is checked for drift."
   - name: "Triage stale pages"
     description: "A stale page is triaged, not silently left live. When a page trips its threshold it enters a review: verify it against current behaviour and bump `updated`, or distil-and-retire it if the behaviour is gone."
   - name: "Review cadence is scheduled, not incidental"
@@ -74,12 +74,12 @@ patterns:
       documentation-update rule; a behaviour-changing change bumps the affected pages' `updated` date under
       that same rule. The SLA catches the pages nobody touched; it never replaces same-change updates.
 
-  - name: "Regenerate pages and gate their lockfiles"
+  - name: "Regenerate generated pages and check them for drift"
     description: >-
-      Generated pages are freshened by regeneration, and their lockfile is freshness-gated. Auto-generated
-      reference (rustdoc / JSDoc / Sphinx autodoc) and generated rollups (the page-inventory lockfile) are
-      regenerated from source and a gate reds when the committed artifact drifts from what regeneration would
-      produce. A generated page is never hand-patched to look fresh; it is regenerated.
+      Generated pages are freshened by regeneration, and any generated rollup the project keeps is checked for drift. Auto-generated
+      reference (rustdoc / JSDoc / Sphinx autodoc) and any generated rollup the project keeps are
+      regenerated from source, and a check fails when the committed artifact drifts from what regeneration
+      would produce. A generated page is never hand-patched to look fresh; it is regenerated.
 
   - name: "Triage stale pages"
     description: >-
@@ -136,7 +136,7 @@ anti_patterns:
 
 tooling:
   freshness-date-present: "documentation mission validate action (asserts every page carries an `updated: YYYY-MM-DD` and flags pages past their tier threshold as stale)."
-  generated-page-lockfile-gate: "page-inventory lockfile freshness gate (regenerates the rollup FROM frontmatter and reds on drift; see common-docs.styleguide.yaml `frontmatter-ssot-lockfile`)."
+  generated-page-drift-check: "the project's own regeneration check for generated reference and for any generated rollup the project keeps (it regenerates the artifact and fails on drift). Where the project has no such check, review reruns the generator and compares; see the common-docs styleguide's `frontmatter-ssot` row."
   stale-page-triage: "the documentation-gap-prioritization procedure (triage flagged-stale pages by reader impact and fill or retire in priority order)."
 
 quality_test: >

@@ -67,6 +67,9 @@ edges:
   target: foundation::tactic:usage-examples-sync
   relation: scope
 - source: mission_type:documentation
+  target: toolguide:common-docs-structural-lint
+  relation: scope
+- source: mission_type:documentation
   target: toolguide:mermaid-diagramming
   relation: scope
 - source: mission_type:documentation
