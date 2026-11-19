@@ -3,6 +3,12 @@ project:
   slug: spec-kitty-open-packs
   node_id: 6ad7860a01ff
   build_id: dd528a4a-a565-571f-bf0e-da64e2fc5927
+  # Operator decision, 2026-11-19 (mission analyze-readiness-gate, #246): this repository's
+  # software-dev missions change pack content, so their workspace is packs/; there is no src/.
+  # Without the remap, `spec-kitty agent mission accept` refuses every mission here with
+  # "expects workspace path: src/ (not found)".
+  path_conventions:
+    workspace: packs/
 vcs:
   type: git
 agents:
