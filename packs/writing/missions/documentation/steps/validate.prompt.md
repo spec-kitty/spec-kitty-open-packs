@@ -67,7 +67,7 @@ Gate the content produced in `generate` against explicit quality criteria and re
        for n, line in enumerate(open(path, encoding="utf-8"), 1):
            m = FENCE.match(line.rstrip("\n"))
            if m and fence is None and not (m.group(1)[0] == "`" and "`" in m.group(2)):
-               fence = m.group(1)
+               fence, opened = m.group(1), n
                continue
            if m and fence and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence) and not m.group(2).strip():
                fence = None
@@ -81,7 +81,7 @@ Gate the content produced in `generate` against explicit quality criteria and re
            for slot in (s for span in spans for s in SLOT.findall(span)):
                print(f"REVIEW {path}:{n}: {slot}")
        if fence:
-           print(f"FAIL {path}: a {fence} fence is never closed"); failed = True
+           print(f"FAIL {path}:{opened}: the {fence} fence opened here is never closed"); failed = True
    sys.exit(1 if failed else 0)
    EOF
    ```
