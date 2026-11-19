@@ -1,6 +1,6 @@
 ---
 title: 'ADR: Step contracts fold into steps, steps are linked, delegations are scoped (charter slice F)'
-description: Following charter slice F (ADR-0077), step contracts become the substeps of their steps, every step is linked from its mission type, and every delegation candidate has a scope edge.
+description: Following charter slice F (ADR-0077), step contracts fold into steps, every step is linked from its mission type, and delegations are scoped.
 doc_status: active
 updated: '2026-11-19'
 related:

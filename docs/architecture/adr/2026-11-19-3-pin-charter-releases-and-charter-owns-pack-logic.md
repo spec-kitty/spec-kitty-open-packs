@@ -1,6 +1,6 @@
 ---
 title: 'ADR: The packs pin a charter release, and the charter owns the pack logic'
-description: charter.lock.yaml pins a charter service release by default and charter main only on demand, superseding the 2026-11-16 lockstep with main; the charter owns pack logic, core assembles, pack repositories own content.
+description: The packs pin a charter release by default and charter main only on demand, superseding the 2026-11-16 lockstep; the charter owns the pack logic.
 doc_status: active
 updated: '2026-11-19'
 related:
