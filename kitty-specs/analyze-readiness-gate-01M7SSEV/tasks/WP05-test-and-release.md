@@ -14,6 +14,9 @@ requirement_refs:
 planning_base_branch: feat/analyze-finalize-validate-246
 merge_target_branch: feat/analyze-finalize-validate-246
 branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-analyze-readiness-gate-01M7SSEV
+base_commit: 6da3518312f1b31882dab9adfde740242a36da2f
+created_at: '2026-11-19T14:08:27.039473+00:00'
 subtasks:
 - T020
 - T021
