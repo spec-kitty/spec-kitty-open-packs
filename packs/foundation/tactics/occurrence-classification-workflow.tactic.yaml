@@ -13,9 +13,11 @@ steps:
 
   - title: Enumerate occurrence categories
     description: >
-      List every semantic context where the target appears. Start with standard
-      categories: code symbols, import paths, filesystem paths, serialized keys,
-      CLI commands, user-facing strings, tests/fixtures, logs/telemetry.
+      List every semantic context where the target appears. The map must
+      classify all eight standard categories, even when the action is
+      do_not_change: code_symbols, import_paths, filesystem_paths,
+      serialized_keys, cli_commands, user_facing_strings, tests_fixtures and
+      logs_telemetry. Add project-specific categories after them if needed.
     examples:
       - "code_symbols, import_paths, filesystem_paths, serialized_keys, cli_commands, user_facing_strings, tests_fixtures, logs_telemetry"
 
@@ -29,8 +31,9 @@ steps:
   - title: Document exceptions
     description: >
       List specific files or patterns that override category-level rules.
+      Each exception needs a path and an action; give a reason too.
     examples:
-      - "exceptions: [{file: CHANGELOG.md, action: do_not_change, reason: historical record}]"
+      - "exceptions: [{path: CHANGELOG.md, action: do_not_change, reason: historical record}]"
 
   - title: Write and validate the occurrence map
     description: >

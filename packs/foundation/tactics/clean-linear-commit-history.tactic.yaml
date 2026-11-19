@@ -34,7 +34,7 @@ steps:
     examples:
       - "Phase 1 (B1): planning and administrative churn → one snapshot."
       - "Phase 2 (B2): the implementation work → one snapshot."
-      - "Phase 3 (B3): post-landing fixes → one snapshot."
+      - "Phase 3 (B3): review fixes -> one snapshot."
       - "git log --oneline FORK..HEAD  # read the log, then mark B1, B2, B3"
   - title: Build the snapshot chain with plumbing, never by replay
     description: >
@@ -47,7 +47,7 @@ steps:
     examples:
       - "S1=$(git commit-tree B1^{tree} -p $FORK -m 'phase 1: planning and admin')"
       - "S2=$(git commit-tree B2^{tree} -p $S1 -m 'phase 2: implementation')"
-      - "S3=$(git commit-tree B3^{tree} -p $S2 -m 'phase 3: post-landing fixes')"
+      - "S3=$(git commit-tree B3^{tree} -p $S2 -m 'phase 3: review fixes')"
       - "git branch -f my-branch-clean $S3  # point a branch at the new tip"
   - title: Verify tree identity against the original tip
     description: >
@@ -103,7 +103,8 @@ notes: >
   meaningful slice boundary rather than a bookkeeping commit.
 
   Context note: this tactic is workflow-agnostic and applies to any git
-  repository. In Spec Kitty it is the recommended post-merge step for a landed
-  mission whose integration branch accumulated administrative commits — bunch
-  the administrative churn into one snapshot and slice the code changes by
-  phase, then rebase the short chain onto the upstream base.
+  repository. In Spec Kitty it is the recommended step before the PR for a
+  mission branch is presented, when that branch accumulated administrative
+  commits: bunch the administrative churn into one snapshot, slice the code
+  changes by phase, then rebase the short chain onto the upstream base. Never
+  rewrite a branch after its PR has merged: that history is shared.
