@@ -3,7 +3,7 @@
     {
       "created_at": "2026-11-19T11:36:13.943571Z",
       "decision_id": "01M7SSFJVQ5KSDH5SADRB69M1H",
-      "final_answer": null,
+      "final_answer": "Confirm as listed, with the FR-004 version gate (CLI >= 3.1.0a5; missing/no JSON/older -> HIGH)",
       "input_key": "requirement_set_confirmed",
       "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
       "mission_slug": "analyze-readiness-gate-01M7SSEV",
@@ -14,13 +14,13 @@
         "Other"
       ],
       "origin_flow": "specify",
-      "other_answer": false,
+      "other_answer": true,
       "question": "Confirm the extracted requirement set (FR-001..FR-017, NFR-001..NFR-004, C-001..C-006) for #246/#237/#247 plus cave-kitty?",
       "rationale": null,
-      "resolved_at": null,
+      "resolved_at": "2026-11-19T12:00:42.353617Z",
       "resolved_by": null,
       "slot_key": "specify.scope.requirement-set",
-      "status": "open",
+      "status": "resolved",
       "step_id": null,
       "summary_json": null
     },
