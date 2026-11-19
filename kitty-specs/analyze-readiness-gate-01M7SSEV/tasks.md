@@ -3,7 +3,7 @@
 **Mission**: `analyze-readiness-gate-01M7SSEV` | **Spec**: [spec.md](spec.md) | **Plan**: [plan.md](plan.md)
 **Planning base / merge target**: `feat/analyze-finalize-validate-246` (PR #319)
 
-Five work packages in one dependency chain. The chain is real for WP03 to WP05 (the analyze prompt cites the two tactics' final wording; the DRG wiring and cave-kitty cite the final prompt; the release step restamps everything). WP02 follows WP01 because the WP review tactic points at `requirement-quality-ears` for judging a WP's requirement mapping. One implementer works the chain, so the Mission stays on one lane.
+Five work packages in one dependency chain. The chain is real for WP03 to WP05 (the analyze prompt cites the two tactics' final wording; the DRG wiring and cave-kitty cite the final prompt; the release step restamps everything). WP02 follows WP01 because the WP review tactic points at `requirement-quality-ears` for judging a WP's requirement mapping. Finalize settled the Mission as `lanes_with_coord` with five lanes (lane-a..lane-e), one per WP; the dependency chain means they run in order.
 
 ## Subtask Index
 
@@ -32,7 +32,7 @@ Five work packages in one dependency chain. The chain is real for WP03 to WP05 (
 | T021 | Lockstep version bumps (DIRECTIVE_018) | WP05 | |
 | T022 | Manifests, digests, pack pages | WP05 | |
 | T023 | Changelog entry | WP05 | |
-| T024 | Full gate run and PR body update | WP05 | |
+| T024 | Full gate run, analyze dry run with id-determinism check, PR body update | WP05 | |
 
 ## Phase 1 - Doctrine
 
@@ -112,7 +112,7 @@ T020 CI test pinning the prompt invariants (WP05)
 T021 Lockstep version bumps (DIRECTIVE_018) (WP05)
 T022 Manifests, digests, pack pages (WP05)
 T023 Changelog entry (WP05)
-T024 Full gate run and PR body update (WP05)
+T024 Full gate run, analyze dry run with id-determinism check, PR body update (WP05)
 
 **Risks**: concurrent PRs collide on the changelog and digests; restamp on every rebase.
 
