@@ -6,7 +6,10 @@ The project charter lists "docs freshness" among its fail-closed gates. This scr
 ``--base <rev>`` (the gate): every authored page under ``docs/`` that the change adds, modifies or
 renames between ``<rev>`` and ``--head`` must carry an ``updated:`` date no older than the author
 date of the last commit that touched it. It exits 1 on a stale or missing date. Only changed pages
-are judged, so no baseline is needed and existing pages cannot flood it.
+are judged, so no baseline is needed and existing pages cannot flood it. Three exemptions (operator
+ruling on #297): a pure rename (similarity 100%), a commit whose message carries the trailer
+``Docs-Freshness-Unchanged: <path>`` for that page (the gate then judges the page against its
+previous commit in the change, or skips it), and ``docs/changelog/``.
 
 ``--report`` (advisory): lists authored pages whose ``updated:`` is older than the threshold for
 their tier: guides 90 days and ADRs 365 days, from the illustrative tiers of writing's
@@ -47,6 +50,14 @@ TIERS: tuple[tuple[str, int], ...] = (
 #: A revision as this script accepts it: a commit SHA or a ref name such as HEAD or origin/main. It
 #: cannot start with "-", so git never reads it as an option.
 REVISION = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/~^-]{0,199}")
+
+#: Paths the gate does not judge: the changelog's entries carry their own dates, and nearly every pull
+#: request edits it (operator ruling on #297).
+EXEMPT_PREFIXES = ("docs/changelog/",)
+
+#: The commit trailer that opts one page out of the gate for that commit (operator ruling on #297).
+#: Its value is the page's path, one trailer per page: `Docs-Freshness-Unchanged: docs/guides/x.md`.
+OPT_OUT_TRAILER = "Docs-Freshness-Unchanged"
 
 #: doc_status values the staleness report never flags.
 EXEMPT_STATUSES = frozenset({"durable", "superseded", "deprecated"})
@@ -112,14 +123,38 @@ def resolve_commit(root: Path, rev: str) -> str:
 
 
 def changed_pages(root: Path, base: str, head: str) -> list[str]:
-    """Markdown files under docs/ added, copied, modified or renamed from the merge base of base and head."""
+    """Markdown files under docs/ added, copied, modified or renamed (with a content change) from the
+    merge base of base and head. A pure rename (similarity 100%) changes no content and is not judged."""
     # -z: paths unquoted and NUL-separated, so a non-ASCII name is not hidden by core.quotepath.
-    out = git(root, "diff", "-z", "--name-only", "--diff-filter=ACMR", "--no-renames", f"{base}...{head}", "--", DOCS)
-    return sorted(p for p in out.split("\0") if p.endswith(".md"))
+    fields = git(root, "diff", "-z", "--name-status", "--find-renames", "--diff-filter=ACMR",
+                 f"{base}...{head}", "--", DOCS).split("\0")
+    pages, index = [], 0
+    while index < len(fields) and fields[index]:
+        status = fields[index]
+        if status[0] in "RC":
+            path, index = fields[index + 2], index + 3
+            if status == "R100":
+                continue
+        else:
+            path, index = fields[index + 1], index + 2
+        if path.endswith(".md") and not path.startswith(EXEMPT_PREFIXES):
+            pages.append(path)
+    return sorted(pages)
 
 
-def last_author_date(root: Path, head: str, path: str) -> dt.date:
-    return dt.date.fromisoformat(git(root, "log", "-1", "--format=%as", head, "--", path).strip())
+def last_judged_date(root: Path, base: str, head: str, path: str) -> dt.date | None:
+    """The author date of the latest commit since the merge base that touched the page and does not
+    opt it out with a ``Docs-Freshness-Unchanged: <path>`` trailer; None when every one opts it out."""
+    merge_base = git(root, "merge-base", base, head).strip()
+    log = git(root, "log", f"--format=%as%x1e%(trailers:key={OPT_OUT_TRAILER},valueonly,separator=%x1f)%x1d",
+              f"{merge_base}..{head}", "--", path)
+    for record in log.split("\x1d"):
+        if not record.strip():
+            continue
+        date, _, trailers = record.strip("\n").partition("\x1e")
+        if path not in {value.strip() for value in trailers.split("\x1f")}:
+            return dt.date.fromisoformat(date.strip())
+    return None
 
 
 def check_changed(root: Path, base: str, head: str) -> list[str]:
@@ -130,7 +165,9 @@ def check_changed(root: Path, base: str, head: str) -> list[str]:
         page = read_page(root, path)
         if page.generated:
             continue
-        committed = last_author_date(root, head, path)
+        committed = last_judged_date(root, base, head, path)
+        if committed is None:
+            continue
         if page.updated is None:
             problems.append(f"{path}: no valid `updated:` date in the frontmatter (last commit {committed})")
         elif page.updated < committed:
