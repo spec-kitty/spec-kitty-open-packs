@@ -20,7 +20,7 @@
   "work_packages": {
     "WP01": {
       "actor": "claude",
-      "agent": "claude::doctrine-daphne",
+      "agent": "claude::generic-reviewer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -34,7 +34,8 @@
         "- 2026-11-19T12:18:26Z – claude – shell_pid=4911 – T002 deviation: the quality bar is a bullet inside the numbered spec-generation step (next to the acceptance-criteria-non-vacuity bullet) instead of a '### Requirement quality bar' heading, because a heading would break that numbered list. Out-of-map edit: packs/foundation/pack-manifest.yaml derived with validate_pack_schemas.py --derive-manifest, because validate-packs.sh refuses a held tactic missing from the manifest (manifest_membership); WP05 re-derives it after all content lands. T004: validate-packs.sh exit 0 (CHARTER_CONTRACT_DIR at pin ebce908), ASCII test pass, vocabulary 0 findings. Digest gate stale until WP05 by design.",
         "Ready for review: tactic requirement-quality-ears, specify bullet + checklist line, manifest derived",
         "Identity correction only (orchestrator decision 9, operator-authorised scheme from #583): no content change; the original claim recorded the implementer as bare 'claude' without the charter profile.",
-        "Resubmitted unchanged at 1c67ed0 after the identity correction."
+        "Resubmitted unchanged at 1c67ed0 after the identity correction.",
+        "Independent review (session_019C2Tk5NruMoumnqkuwALns) at 1c67ed0: approved. FR-011..016 covered once each; EARS as a lens; no severities/ids/layout in the tactic; no overlap with requirements-validation-workflow; both deviations accepted. Gates: ASCII, vocabulary, YAML and manifest hashes pass; foundation digest drift expected until WP05; validate-packs not reproduced locally (charter contract 404) - CI to confirm."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
