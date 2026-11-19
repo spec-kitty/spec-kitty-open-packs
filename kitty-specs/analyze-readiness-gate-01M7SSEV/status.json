@@ -1,7 +1,7 @@
 {
-  "event_count": 37,
-  "last_event_id": "01M7T22APXRVGMQTFVWB0N686J",
-  "materialized_at": "2026-11-19T14:06:16.797745+00:00",
+  "event_count": 38,
+  "last_event_id": "01M7T24YA16PX5E9V67KENJB4G",
+  "materialized_at": "2026-11-19T14:07:42.401955+00:00",
   "mission_number": "",
   "mission_slug": "analyze-readiness-gate-01M7SSEV",
   "mission_type": "software-dev",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 1
   },
   "work_packages": {
@@ -143,16 +143,16 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude::doctrine-daphne",
-      "lane": "for_review",
-      "last_event_id": "01M7T22APXRVGMQTFVWB0N686J",
-      "last_transition_at": "2026-11-19T14:06:16.797745+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M7T24YA16PX5E9V67KENJB4G",
+      "last_transition_at": "2026-11-19T14:07:42.401955+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-19T14:06:03Z – claude::doctrine-daphne – shell_pid=16501 – At 0bd72da: T015 tactic.graph.yaml nodes requirement-quality-ears and wp-prompt-readiness-review in alphabetical position; suggests edges wp-prompt-readiness-review -> requirement-quality-ears, requirement-quality-ears -> acceptance-criteria-non-vacuity and -> requirements-validation-workflow (the last also covers the reviewer's optional WP01 cross-reference, as a DRG edge instead of prose), each with when. T016 action.graph.yaml: software-dev/analyze -> both tactics (new analyze group before implement), software-dev/specify -> requirement-quality-ears. T017 cave-kitty analyze: opening names WP prompts, validation and requirement quality; new 'Readiness checks (inherited, named here)' with the 3.1.0a5 gate, validate-only only, CRITICAL/HIGH, both foundation tactics with fetch commands, Inferred:; voice bullet for cliff-edge findings. T018 fragment: action:cave-dev/analyze -> foundation::tactic:{wp-prompt-readiness-review,requirement-quality-ears}, action:cave-dev/specify -> foundation::tactic:requirement-quality-ears; accepted. T019: validate-packs exit 0 (cross-pack 0 violations); charter service check against release jar service-v0.1.0-rc.1 (SHA-256 verified) + ebce908 contracts exit 0 (cave-kitty and foundation compose; cave-kitty registers); graph-edge-identity and prompt-fragment tests pass; vocabulary 0; manifests unchanged.",
         "Ready for review at 0bd72da"
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
+      "role": "reviewer",
       "shell_pid": 16501,
       "shell_pid_created_at": "1795096831.93",
       "subtasks": {
