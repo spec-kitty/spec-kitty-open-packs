@@ -23,8 +23,8 @@ recorded 2026-11-19
 [#451](https://github.com/spec-kitty/spec-kitty-charter/issues/451),
 [#431](https://github.com/spec-kitty/spec-kitty-charter/issues/431) and
 [PR #501](https://github.com/spec-kitty/spec-kitty-charter/pull/501); mission
-`charter-slice-b-migration-01M78K20`; epic
-[#287](https://github.com/spec-kitty/spec-kitty-open-packs/issues/287)
+`charter-slice-b-migration-01M78K20`. Pin moves were later tracked under epic
+[#287](https://github.com/spec-kitty/spec-kitty-open-packs/issues/287).
 
 **Supersedes:** no ADR. [ADR 2026-11-04-1](2026-11-04-1-strict-pack-composition-and-the-end-of-cli-compatibility.md)
 still holds: this decision changes which documents a pack holds, not its descriptor or its
@@ -105,7 +105,7 @@ What changed, in all 19 packs:
 
 ### Confirmation
 
-At the PR head, `charter_service_check.py` against a `17ce3f9` jar accepted every pack (20
+At `d27834b`, the head the PR's validation ran on, `charter_service_check.py` against a `17ce3f9` jar accepted every pack (20
 composed, 13 registered and read back) and refused each of the 3 invalid fixtures with its
 expected codes, and a census found no `pack.md`, `PROVENANCE.md`, `org-charter.yaml` or
 `active_charter` outside the deliberately invalid fixture. High confidence: the proof is the
