@@ -4,9 +4,10 @@
 
 This step maps 1:1 to the built-in software-dev `analyze` action and inherits its full contract:
 a cross-artifact consistency and quality check that runs after `tasks` and before `implement` —
-it confirms `spec.md`, `plan.md` and `tasks.md` are mutually coherent (every requirement traces
-to a work package, every WP traces back, no orphaned or contradictory decision) and that the
-mission is ready to implement. It is an analysis-currency gate, not a document this step authors.
+it confirms `spec.md`, `plan.md`, `tasks.md` and every WP prompt (`tasks/WP*.md`) are mutually
+coherent (every requirement traces to a work package, every WP traces back, no orphaned or
+contradictory decision), that the task metadata passes the read-only finalize validation, that
+the requirements are good enough to build from, and that the mission is ready to implement. It is an analysis-currency gate, not a document this step authors.
 cave-dev overrides one thing only: the agent's OUTPUT prose — the analysis report — which it
 compresses to the caveman voice. The consistency rubric and the readiness gate are unchanged from
 software-dev.
@@ -16,6 +17,25 @@ software-dev.
 > `cave-dev`-typed mission (the gate is core runtime behavior; no pack file declares it). Run
 > `/spec-kitty.analyze` explicitly at this step; do not rely on the `next` loop to block
 > `implement` on a stale analysis.
+
+## Readiness checks (inherited, named here)
+
+The software-dev `analyze` step owns the full procedure, the severities, the finding ids and the
+report sections; follow it. In short, so nothing is skipped under cave-dev:
+
+- **Finalize validation, read-only.** Run `spec-kitty --version` first. Below 3.1.0a5, or no CLI:
+  do not run the check; record a HIGH `finalize-validation` finding naming `spec-kitty CLI >= 3.1.0a5`.
+  Otherwise run `spec-kitty agent mission finalize-tasks --validate-only --mission <slug> --json`
+  and nothing else: never the plain form, never `--refresh-planning-commit`, never `--allow-orphaned`.
+  A refusal is CRITICAL. Could not run is HIGH (fail closed).
+- **Every WP prompt.** Review each `tasks/WP*.md` with `foundation` tactic
+  `wp-prompt-readiness-review` (`spec-kitty charter context --include tactic:wp-prompt-readiness-review`);
+  Per-WP Readiness row per WP, blockers apart from improvements.
+- **Requirement quality.** Judge requirements and audit scenarios with `foundation` tactic
+  `requirement-quality-ears` (`spec-kitty charter context --include tactic:requirement-quality-ears`):
+  five properties, EARS as a lens, scenario audit per user story with locations, clarification
+  questions with concrete choices.
+- **Judgement findings start with `Inferred:`.** No proof claimed.
 
 ## Requested role
 
@@ -50,3 +70,6 @@ when the operator activates one.
   it blocks, and what must change before `implement` can start.
 - Name every unresolved `[NEEDS CLARIFICATION]` and every orphaned requirement plainly; do not
   smooth them over to save tokens.
+- **A refusal, a could-not-run, a WP blocker → full sentences.** Each is a cliff edge: say what
+  failed, what it blocks, and what fixes it. Commands, finding ids, `error_code` values, CLI
+  versions and severities are payload — exact.
