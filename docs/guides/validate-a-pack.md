@@ -296,7 +296,7 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   check runs, the round trip included. The verdict is in the run's summary; this track never bumps the
   lock and uses no secret. Like every run against a target, it re-derives the manifests, digests and pack
   pages first, so a pull request's own gate, not this run, judges those files as committed.
-- **Nightly, against charter `main`** (#311). At 02:23 UTC every night, an hour apart from the release
+- **Nightly, against charter `main`** (#311). At 02:23 UTC every night, at a different hour from the release
   track's 05:41, the track checks the packs against charter `main`, built from source, with the same
   checks as the on-demand track, the round trip included. It reports only: it never bumps the lock and it
   is not a required check. Only a run on `main` acts on the verdict:

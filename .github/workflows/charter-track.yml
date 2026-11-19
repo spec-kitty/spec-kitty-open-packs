@@ -4,8 +4,8 @@ name: Charter track
 # operator ruling 2026-11-18 on #253: the pin follows releases by default, charter main runs on demand).
 # It replaces charter's open-packs-drift.yml (charter ADR-0070, amended 2026-11-13).
 #
-# Both tracks run the required check's own jobs (validate-packs.yml, called with a charter target), so the
-# PR gate, the release track and the on-demand track share every step: charter_service_jar.sh,
+# Every track runs the required check's own jobs (validate-packs.yml, called with a charter target), so the
+# PR gate, the release track, the on-demand track and the nightly main track share every step: charter_service_jar.sh,
 # charter_drift_test.sh, charter_service_check.py and the schema pass. A called run first moves the pin and
 # re-derives the pack manifests, digests and pack pages (scripts/ci/charter_pin.py apply).
 #
@@ -542,9 +542,9 @@ jobs:
           if [[ "$RESOLVED" == failure ]]; then
             title="Charter track cannot resolve charter main"
             {
-              echo "The nightly main track could not resolve charter \`main\` to a commit. Nothing was checked."
+              echo "The main track could not resolve charter \`main\` to a commit. Nothing was checked."
               echo
-              echo "Run: $RUN_URL. The next night's run tries again."
+              echo "Run: $RUN_URL. The next nightly run, or a dispatch with \`track: main\`, tries again."
             } > "$body"
           else
             title="Charter main fails the packs"
