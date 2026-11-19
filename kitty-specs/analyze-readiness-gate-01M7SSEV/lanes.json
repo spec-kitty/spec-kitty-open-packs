@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "mission_slug": "analyze-readiness-gate-01M7SSEV",
+  "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
+  "mission_branch": "kitty/mission-analyze-readiness-gate-01M7SSEV",
+  "target_branch": "feat/analyze-finalize-validate-246",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "packs/foundation/missions/software-dev/steps/specify.prompt.md",
+        "packs/foundation/tactics/analysis/requirement-quality-ears.tactic.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "app-shell",
+        "artifact-rendering",
+        "dashboard"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "packs/foundation/tactics/analysis/wp-prompt-readiness-review.tactic.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "app-shell",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-a"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        "packs/foundation/missions/software-dev/steps/analyze.prompt.md"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "app-shell",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-b"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        "packs/cave-kitty/drg/fragment.yaml",
+        "packs/cave-kitty/missions/cave-dev/steps/analyze.prompt.md",
+        "packs/foundation/action.graph.yaml",
+        "packs/foundation/tactic.graph.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-c"
+      ],
+      "parallel_group": 3
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP05"
+      ],
+      "write_scope": [
+        "docs/changelog/CHANGELOG.md",
+        "docs/packs/*.md",
+        "packs/*.source.yaml",
+        "packs/*/pack-manifest.yaml",
+        "packs/*/pack.yaml",
+        "tests/ci/test_analyze_readiness_prompts.py"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [
+        "lane-d"
+      ],
+      "parallel_group": 4
+    }
+  ],
+  "computed_at": "2026-11-19T12:12:33.239821+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "59e1574819931ca2e312d1d665da8a58d00b2394"
+}
