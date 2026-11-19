@@ -254,9 +254,10 @@ terms:
     status: active
   - id: lane-worktree
     name: lane worktree
-    definition: 'A Spec Kitty checkout of a lane branch under `.worktrees/`, provided by `spec-kitty implement` (or `spec-kitty
-      agent action implement`). WP deliverables are written and committed there. Any status files it shows are never a status
-      surface: nothing writes them there and no reader reads them. Never create, reuse or delete one by hand.'
+    definition: 'A Spec Kitty checkout of a lane branch under `.worktrees/`, allocated when an agent runs `spec-kitty agent
+      action implement` (the internal `spec-kitty implement` allocator does the work). WP deliverables are written and
+      committed there. Any status files it shows are never a status surface: nothing writes them there and no reader reads
+      them. Never create, reuse or delete one by hand.'
     status: active
   - id: coordination-worktree
     name: coordination worktree
@@ -272,7 +273,7 @@ terms:
   - id: harness-isolation-worktree
     name: harness isolation worktree
     definition: 'A checkout that an agent harness creates for an agent (for example `Agent(isolation: "worktree")`). Spec
-      Kitty neither creates nor tracks it. It is not a lane worktree and never a status surface; do not run `spec-kitty implement`
+      Kitty neither creates nor tracks it. It is not a lane worktree and never a status surface; do not run `spec-kitty agent action implement`
       or status writes from it.'
     status: active
   - id: write-branch
@@ -663,7 +664,7 @@ terms:
   - id: workspace
     name: workspace
     definition: The checkout a work package is implemented in. For lane topologies it is the WP's lane worktree; for `single_branch`
-      it is the write checkout. Resolve it with `spec-kitty implement`; never construct the path.
+      it is the write checkout. Resolve it with `spec-kitty agent action implement`, which prints it; never construct the path.
     status: active
   - id: wp
     name: wp

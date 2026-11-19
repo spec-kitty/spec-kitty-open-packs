@@ -15,4 +15,4 @@ pack_drg: drg/fragment.yaml
 # foundation holds them since #73 split built-in.
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: ">=2.0,<3"
+    range: ">=2.0,<4"

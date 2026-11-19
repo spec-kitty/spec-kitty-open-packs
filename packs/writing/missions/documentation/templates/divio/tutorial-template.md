@@ -1,9 +1,11 @@
 ---
+title: "Tutorial: {TUTORIAL_TITLE}"
+description: "{DESCRIPTION: 50-180 characters on what the page lets the reader do}"
 type: tutorial
-divio_category: learning-oriented
-target_audience: beginners
-purpose: hands-on-lesson
-outcome: learner-can-do-something
+doc_status: draft
+updated: "{YYYY-MM-DD}"
+audience: "{AUDIENCE}"
+related: []
 ---
 
 # Tutorial: {TUTORIAL_TITLE}
@@ -100,9 +102,9 @@ Congratulations! You've completed {the task}. You now have:
 
 Now that you've learned {the basics}, you can:
 
-- **Learn More**: See [Explanation: {Topic}](../explanation/{link}) to understand why this works
-- **Solve Problems**: Check [How-To: {Task}](../how-to/{link}) for specific scenarios
-- **Reference**: Refer to [{API/CLI}](../reference/{link}) for all options
+- **Learn More**: See [Explanation: {Topic}](../architecture/{link}) to understand why this works
+- **Solve Problems**: Check [How-To: {Task}]({link}) for specific scenarios
+- **Reference**: Refer to [{API/CLI}](../api/{link}) for all options
 
 ## Troubleshooting
 

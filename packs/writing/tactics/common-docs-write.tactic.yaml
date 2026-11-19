@@ -3,8 +3,8 @@ name: Common Docs Write
 id: common-docs-write
 purpose: >
   How to author the body and frontmatter of a Common Doc to the styleguide so the
-  page passes its live gates: write the SEO description inside the 50-180 character
-  band, express cross-references as the related: resolvable-path form, match the
+  page passes the structural lint and review: write the description inside the
+  50-180 character band, express cross-references as the related: resolvable-path form, match the
   Divio type to the owning section, and follow the kebab-case naming convention.
   Use this once the page exists (scaffolded) and you are writing its content.
 steps:
@@ -18,49 +18,52 @@ steps:
     examples:
       - "guides/open-the-dashboard.md is a task-oriented how-to; the why lives in an architecture/ explanation it links to."
       - "api/ pages are reference and are often generated; do not hand-write narrative explanation into them."
-  - title: Write the SEO description inside the band
+  - title: Write the description inside the band
     description: >
       Author the frontmatter description as a single string of 50-180 characters
-      inclusive — the SEO post-processing step rejects descriptions outside that
-      band. Make it a real summary of the page, not a placeholder; the
-      page-inventory lockfile freshness gate counts the characters.
+      inclusive. Search results and link previews show it, as does an SEO step if
+      the project has one. Make it a real summary of the page, not a
+      placeholder. Count the characters yourself: review checks the band, and
+      the structural lint does not.
     examples:
       - "A 120-character description that states what the page lets the reader do, within the 50-180 band."
       - "Rejected: a 30-character stub like 'Dashboard docs' that falls below the 50-character floor."
   - title: "Express cross-references as related: resolvable paths"
     description: >
       Link to other docs through the related: frontmatter list of repo-relative
-      .md paths, each of which must resolve to an existing file — the related:
-      path validator checks every entry. Do not reintroduce the dead citation_refs
+      .md paths, each of which must resolve to an existing file. Review checks
+      every entry, and so does the project's own related: validator if it has
+      one. Do not reintroduce the dead citation_refs
       sidecar field and do not bury cross-references only in prose where no gate
       can see them.
     examples:
       - "related: [ ../architecture/charter-activation.md, ../adr/3.x/2026-05-16-1-doctrine-layer-merge-semantics.md ] — both paths resolve."
-      - "Rejected: related: [ ../architecture/does-not-exist.md ] — the validator fails the dangling reference."
+      - "Rejected: related: [ ../architecture/does-not-exist.md ] — the reference dangles, and review fails it."
   - title: Keep naming and lifecycle keys conventional
     description: >
       Use lowercase kebab-case file and directory names (ADR filenames keep their
       dated prefix), carry the project's lifecycle key (doc_status by default) with a value its docs
       styleguide defines, and refresh updated: YYYY-MM-DD
-      whenever the body changes. Apply the styleguide rather than improvising; each
-      of these rules maps to a named live check in its rule-to-check table.
+      whenever the body changes. Apply the styleguide rather than improvising; its
+      rule-to-check table maps each of these rules to a lint check or to review.
     examples:
       - "Renaming Open_Dashboard.md to open-dashboard.md to satisfy kebab-case naming."
       - "Flipping doc_status: draft -> active and bumping updated: when the page is finalised."
-  - title: Run the live gates before handoff
+  - title: Run the checks before handoff
     description: >
-      Verify compliance against the live gates rather than asserting it in
-      prose: the DRG freshness gate (spec-kitty charter pack regenerate-graph
-      --check) so the doctrine graph stays in sync, then the documentation
-      gates — the related: path validator, the page-inventory lockfile
-      freshness gate, and the common-docs-structural-lint doctrine asset.
-      Treat any red gate as a blocker, not a note for a later pass.
+      Verify compliance by running checks, not by asserting it in prose. Run
+      the common-docs-structural-lint asset over the docs root; the
+      common-docs-structural-lint toolguide says how to resolve it and its
+      policy file. Then review what the lint does not check: the description
+      band, kebab-case names and every related: entry. If the project has its
+      own related: validator or page-inventory check, run it too. Treat a
+      failing check as a blocker, not a note for a later pass.
     examples:
-      - "spec-kitty charter pack regenerate-graph --check returns exit 0 (DRG fresh) before handoff."
-      - "docs_structural_lint is green: index completeness for curated-complete sections, no shared non-nav content basename across sections, and DIRECTIVE_042 resolves to a loaded directive."
+      - "python3 \"$(spec-kitty charter pack asset path common-docs-structural-lint)\" --styleguide \"$(spec-kitty charter pack asset path common-docs-structural-lint-config)\" docs exits 0 before handoff."
+      - "The lint reports [frontmatter_contract] for a page with no updated: field; add it and rerun."
 failure_modes:
-  - "The description is shorter than 50 or longer than 180 characters and the lockfile freshness gate rejects it."
+  - "The description is shorter than 50 or longer than 180 characters and review rejects it."
   - "A cross-reference is written in prose or as citation_refs instead of a resolvable related: path, so no gate can verify it."
-  - "A related: entry points at a path that does not resolve and the validator fails."
+  - "A related: entry points at a path that does not resolve, and review fails it."
   - "A how-to and a design rationale are merged into one file, breaking the one-concern-per-file and Divio-type conventions."
-  - "Compliance is asserted in prose without running the related-path validator, the lockfile freshness gate, or docs_structural_lint."
+  - "Compliance is asserted in prose without running the structural lint or reviewing what it does not check."

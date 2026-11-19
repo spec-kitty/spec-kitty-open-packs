@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/go`
 - **Pack level:** `org`
-- **Declared version:** `1.1.0`
-- **Content checksum (sha256):** `d19634a245eaefdb61dbb021446af493b1b4698c7d3f1786d96a1cdc07cbe207`
+- **Declared version:** `1.1.1`
+- **Content checksum (sha256):** `dcc202d286ba8e726cc7e44555e1178fe0a042911df8d008305584d7b6f4b5a7`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,7 +40,7 @@ An opt-in org stack pack with general-purpose Go doctrine for teams that build i
 | `go-gwen` | agent profile | A Go implementer that requires `go-conventions` and self-reviews with `go-review-checks`. |
 | `go` | preset | Puts the three above in force. |
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`testing`](testing.md) `>=2.0,<4`
 
 ## Artifact inventory
 

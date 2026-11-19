@@ -16,8 +16,7 @@ purpose: >
 
 specialization:
   primary-focus: >
-    Authoring the test-report (the review.md-equivalent artifact for this QA
-    lifecycle): recomputing coverage figures from enumerated evidence ids,
+    Authoring the test report at the `review` step: recomputing coverage figures from enumerated evidence ids,
     recomputing the go/no-go verdict from that same enumerated evidence, and
     disclosing any exit-criteria amendment as an attributed decision alongside
     the verdict it affects.

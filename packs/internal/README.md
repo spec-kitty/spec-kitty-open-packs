@@ -56,16 +56,16 @@ packs/internal/
 │   ├── targeted-mission-test-run.procedure.yaml     # targeted local validation for mission work (NO_FULL_HEAVY_SUITES_IN_MISSION)
 │   ├── operator-signal-emission.procedure.yaml      # emit each decision through an operator-visible sink (OPERATOR_SIGNAL_CONTRACT)
 │   ├── spec-kitty-red-main-triage.procedure.yaml    # trace and classify reds on main (SPEC_KITTY_RED_MAIN_POLICY)
-│   ├── spec-kitty-page-audience.procedure.yaml      # audience personas under docs/context/audience/ (refines declare-page-audience)
-│   ├── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, adr/<era>/ (refines common-docs-page-authoring)
+│   ├── spec-kitty-page-audience.procedure.yaml      # audience personas where the repository's charter puts them (refines declare-page-audience)
+│   ├── spec-kitty-common-docs-layout.procedure.yaml # doc_status keys, related:, ADRs where the charter puts them (refines common-docs-page-authoring)
 │   ├── mission-tracer-files.procedure.yaml          # per-mission tracer files (moved from built-in by #73)
 │   └── mission-wrap-up-sequence.procedure.yaml      # end-of-mission wrap-up; owns the shared delivery rules (moved from built-in by #73)
 ├── styleguides/
 │   ├── executive-debrief.styleguide.yaml            # house style for executive debriefs (refines report-writing)
 │   ├── report-writing.styleguide.yaml               # audience-first, anti-AI-prose, Spec Kitty voice
-│   ├── spec-kitty-docs-lint-config.styleguide.yaml  # this repo's docs structural-lint config (refines common-docs)
-│   ├── spec-kitty-package-tiers.styleguide.yaml     # this repo's package-to-tier map (refines tiered-standards)
-│   ├── spec-kitty-tracker-labels.styleguide.yaml    # this repo's label scheme (refines planning-and-tracking)
+│   ├── spec-kitty-docs-lint-config.styleguide.yaml  # spec-kitty core's docs structural-lint config (refines common-docs)
+│   ├── spec-kitty-package-tiers.styleguide.yaml     # spec-kitty core's package-to-tier map (refines tiered-standards)
+│   ├── spec-kitty-tracker-labels.styleguide.yaml    # spec-kitty core's label scheme (refines planning-and-tracking)
 │   └── tiered-standards.styleguide.yaml             # per-tier quality standards (moved from built-in by #73)
 ├── tactics/
 │   ├── branded-deliverable.tactic.yaml              # when and how to produce a branded document
@@ -74,7 +74,7 @@ packs/internal/
 ├── toolguides/
 │   ├── branded-document-generation.toolguide.yaml   # the branded-PDF pipeline manifest
 │   ├── branded-document-generation.guide.md         # its how-to guide
-│   ├── terminology-guard.toolguide.yaml             # this repo's legacy-terminology test (moved from built-in)
+│   ├── terminology-guard.toolguide.yaml             # the repository's vocabulary check (moved from built-in)
 │   ├── terminology-guard.guide.md                   # its how-to guide
 │   ├── test-quality-triage.toolguide.yaml           # how to run the test-quality scanner
 │   └── test-quality-triage.guide.md                 # its how-to guide (flag codes, outputs, false positives)
@@ -111,7 +111,7 @@ The `test-suite-quality-assessment` procedure `requires` the
 asset, and it `suggests` the built-in test doctrine it applies
 (`test-desiderata-and-boundaries`, `testing-principles`, `DIRECTIVE_041`,
 `development-assist-test-cleanup`, `adversarial-squad-deployment`). Kick off a
-Python run with `make test-quality-scan`. The same asset supports JUnit 4 and 5
+Python run by calling the asset through `spec-kitty charter pack asset path test-quality-scan`, or through the repository's own make target for it. The same asset supports JUnit 4 and 5
 tests under `src/test/java`: run `uv run <resolved-asset-path> --paths
 src/test/java` so uv installs its exact PEP 723 tree-sitter pins. Plain
 `python` remains sufficient for Python-only scans and needs the two optional
@@ -160,6 +160,13 @@ leaves the rules to the procedure it requires. A `requires` edge in
 `kitty-semi-auto`: the `kitty-` prefix is core's rendering, and the charter model has no skill
 namespace. In the charter service, the `base` preset's must-have items put all five in force for
 every project whose closure holds this pack.
+
+The must-have flows are repo-neutral. They name "the repository's" changelog mechanism, PR
+template, docs scripts, make targets and vocabulary check, and resolve each from that
+repository's own charter or contributor docs (CONTRIBUTING, the PR template). They hard-code no
+repository, path or template. spec-kitty core carries its core-specific details (its repository,
+changelog fragments, PR template and scripts) as a project-tier override in its own repository.
+This pack ships no core-only preset.
 
 > **Core gap (until core aligns with the charter).** Core took the `kitty` prefix from
 > `skill_namespace` in `org-charter.yaml`, which the charter retired (#242, charter #431). Core

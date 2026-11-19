@@ -3,11 +3,9 @@
 ## Overview
 
 `qa_carrier_lint.py` validates a `qa-traceability/v1` carrier (`qa-traceability.yaml`) and
-computes `qa-coverage.json`, this pack's own machine-readable coverage record. This guide
-documents the script's invocation contract only: how to resolve it, its flag surface, its exit
-codes, and the shape of the record it writes. It does not restate the carrier schema itself
-(`qa-traceability.yaml`'s own `requirements[]`/`cases[]`/`defects[]` shape) — that lives in this
-mission's own `data-model.md`, Section A.
+computes `qa-coverage.json`, this pack's machine-readable coverage record. This guide covers how
+to resolve the script, its flags, its exit codes, the carrier schema it checks and the record it
+writes.
 
 ## Setup
 
@@ -25,17 +23,10 @@ Two different ids are in play here and they are not interchangeable:
   Never pass this toolguide's own id (`qa-carrier-lint`) to `asset path` — it will not resolve,
   because it is not an asset id.
 
-**Anchor asymmetry, so a copied path does not silently break.** The sidecar's own manifest
-`path:` value is `qa_carrier_lint.py`, with no `assets/` prefix. Org-tier asset blobs (this
-pack's own tier) anchor *at* the pack's `assets/` directory, while only *built-in* blobs anchor
-one level above their own `assets/` directory and therefore carry a leading `assets/` (or
-equivalent) segment in their own `path:` value (`doctrine/assets/repository.py::_anchor_for`, its
-own documented "Anchor asymmetry (A-2)"). Copying a built-in sidecar's `path:` shape verbatim
-into an org-tier sidecar — i.e. prefixing it with `assets/` — resolves to a location one level too
-deep and does not exist. `spec-kitty charter pack asset path qa-traceability-lint` is the resolution
-path a caller should use regardless of this detail; the detail is documented here only so a reader
-who inspects the sidecar manifest directly does not misread its unprefixed `path:` value as a
-mistake.
+**The sidecar path has no `assets/` prefix.** The sidecar's `path:` value is
+`qa_carrier_lint.py`, relative to the pack's `assets/` directory. That is correct for a pack
+asset; do not add an `assets/` prefix. Resolve the script with `asset path` and you never need
+this detail.
 
 ## Usage
 
@@ -49,7 +40,7 @@ qa_carrier_lint.py --self-test
 | `--carrier PATH` | Path to `qa-traceability.yaml`, the carrier to validate. Required unless `--self-test` is passed. |
 | `--mission-dir PATH` | The mission-dir root that evidence paths (JUnit-XML files, `*.session.yaml` files) resolve under, and the directory `qa-coverage.json` is written into. Required unless `--self-test` is passed. |
 | `--json` | Additionally echo the identical `qa-coverage.json` structure to stdout. `qa-coverage.json` is written to `<mission-dir>/qa-coverage.json` unconditionally on every run regardless of this flag — `--json` only adds the stdout echo, it does not gate whether the file itself is written. |
-| `--self-test` | Runs the script's own own built-in fixture/assertion pairs (the tool derives and prints the count itself, so this guide does not restate it) (`data-model.md` Section D) and exits `0` only if every pair passes. Makes `--carrier`/`--mission-dir` optional — when `--self-test` is passed neither is read. |
+| `--self-test` | Runs the script's built-in fixture/assertion pairs (the tool prints the count) and exits `0` only if every pair passes. Makes `--carrier`/`--mission-dir` optional — when `--self-test` is passed neither is read. |
 
 Invoking the script with neither `--self-test` nor both of `--carrier`/`--mission-dir` is itself
 an error: it prints a usage message to stderr and exits `2`.
@@ -62,14 +53,61 @@ an error: it prints a usage message to stderr and exits `2`.
 | `1` | `measured`, `verdict: blocked` | The carrier is well-formed and every reference resolves, but at least one requirement's covering evidence did not resolve to a passing outcome, or `requirements_uncovered` is non-empty. This is a measured **negative**, not an error. |
 | `2` | `not_measured` (carrier absent) **or** `error` (carrier present but malformed) | The two `2`-exit states are distinguished by `qa-coverage.json`'s own `status` field, never conflated. `not_measured` means no carrier file was found at `--carrier`'s path. `error` means a carrier file was found but is invalid: a schema-version mismatch, an unrecognised top-level/entry/evidence key (a closed-schema violation), non-zero `results_missing`, or a non-empty `bridge_violations` / `duplicate_case_ids` / `dangling_case_refs` / `evidence_unparseable` list. Any one of these conditions alone forces `error`; more than one may fire on the same run. |
 
-(`data-model.md`, Section B, the exit-code-to-`status` table.)
+## The `qa-traceability/v1` carrier
+
+`qa-traceability.yaml` sits at the mission-dir root. `qa-result-ingest` writes it; you may also
+write cases by hand (for example session-backed exploratory cases), and the ingester keeps them.
+The schema is closed: an unknown key at any level is an `error`.
+
+```yaml
+schema: qa-traceability/v1          # exact string; another qa-traceability/* version is an error
+mission: <mission-slug>
+generated_at: "2026-11-19T10:00:00+00:00"
+requirements:
+  - id: FR-001                      # required
+    case_ids: [TC-001, TC-002]      # required; may be [] only with a non-empty rationale
+    rationale: "Why no case covers this."   # optional otherwise
+cases:
+  - id: TC-001                      # all four keys required
+    wp: WP01                        # exactly WP plus two digits; the bridge check reads tasks/WP01*.md
+    type: automated                 # free text; the ingester writes automated
+    evidence:                       # exactly one of junit, session, ctrf
+      junit:
+        file: evidence/results/unit.xml     # relative, inside --mission-dir
+        testcase: "ClassName::test_name"    # JUnit classname::name
+  - id: TC-002
+    wp: WP02
+    type: exploratory
+    evidence:
+      session:
+        file: evidence/sessions/login.session.yaml   # relative, inside --mission-dir
+defects:
+  - id: D-001                       # required
+    description: "Login fails after password reset."   # required
+    severity: high                  # required
+    case_id: TC-002                 # optional
+```
+
+All six top-level keys are required. `requirements`, `cases` and `defects` are lists (an empty
+list is allowed). `evidence.ctrf` is reserved: it takes no keys and is always scored
+`not_measured`.
+
+A session evidence file is a YAML mapping with all of `charter`, `timebox_minutes`, `overrun`,
+`areas`, `bugs_found`, `bug_ids`, `status` and `debrief`. `status` is `completed` or `aborted`.
+`overrun` must be a real boolean; a string or number is an `error`.
+
+Cross-checks:
+
+- A case id may appear only once in `cases` (`duplicate_case_ids`).
+- Every id in a requirement's `case_ids` must exist in `cases` (`dangling_case_refs`).
+- **Bridge check:** for every case covering a requirement, the work package named in `wp` must
+  list that requirement id in its frontmatter `requirement_refs`. A WP file that is not on disk
+  yet is reported in `bridge_not_measured`, which is not an error.
 
 ## `qa-coverage.json` — the computed-output record
 
 Written unconditionally to `<mission-dir>/qa-coverage.json` on every run; `--json` only
-additionally echoes the identical structure to stdout. The full field-by-field table, including
-every type and every cross-field interaction, lives in `data-model.md` Section B — this section
-summarizes the top-level shape at a level a reader can act on without re-deriving it.
+additionally echoes the identical structure to stdout. Its fields:
 
 - **Identity and outcome**: `schema` (`"qa-coverage/v1"`), `status`
   (`measured`/`not_measured`/`error`), `verdict` (`ready`/`blocked`, populated only when
@@ -93,7 +131,7 @@ summarizes the top-level shape at a level a reader can act on without re-derivin
 - **Bookkeeping**: `defects_total`, `reasons` (an id-keyed map carrying every
   `requirements_uncovered` rationale plus every `results_missing` resolution-failure detail, plus
   the top-level `reason` duplicated under `_carrier` when `status != measured`).
-- **Bridge check (FR-011)**: `bridge_violations` (a list of `{requirement_id, case_id, wp_file}`
+- **Bridge check**: `bridge_violations` (a list of `{requirement_id, case_id, wp_file}`
   objects — a requirement whose covering `tasks/WP*.md` file(s) do not list that requirement id;
   forces `status: error`), `bridge_not_measured` (a list of `{requirement_id, case_id, wp_file,
   reason}` objects for a covering WP file that does not exist on disk yet — a normal authoring
@@ -107,16 +145,10 @@ summarizes the top-level shape at a level a reader can act on without re-derivin
 folded into `passed`. A session-typed case (`*.session.yaml` evidence) counts as `passed` only
 when `status: completed` **and** `overrun: false`; `status: completed` with `overrun: true` counts
 in its own dedicated `overrun` bucket, never `passed` or `failed`; `status: aborted` counts as
-`failed`. Full mechanism and the count-reconciliation identities live in `data-model.md` Section B.
+`failed`.
 
 ## Known limitations
 
-No runtime hook compels running this validator or blocks on its verdict today:
-`GateBinding.handler_kind: "asset"` remains inert pending upstream issue #2599 (open), and
-although spec-kitty gained a live per-type artifact-presence gate on 2026-08-21
-(`gather_artifact_presence`, closing #3597), it is wired only for the four built-in mission
-families' own step vocabularies, ignores the `blocking` field of a step's expected output (in
-`qa.mission-type.yaml`) entirely, and has no entry for a custom type such as this pack's own
-`qa`, so `accept` still enforces nothing from those expected outputs. This validator's
-output is mechanically checkable — a real exit code, a real `qa-coverage.json` on disk — but it is
-agent-invoked, never machine-enforced, until both of those conditions close.
+Nothing in the runtime runs this validator or acts on its verdict. Run it yourself and treat its
+verdict as binding. What the runtime enforces for the `qa` steps is stated, with its date, in
+the pack README under "Known limitations".

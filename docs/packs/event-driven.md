@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/event-driven`
 - **Pack level:** `org`
-- **Declared version:** `4.0.0`
-- **Content checksum (sha256):** `179ece956ce61694019e28496839a71031455f5e5cda89422da463a5208f193a`
+- **Declared version:** `4.0.1`
+- **Content checksum (sha256):** `60dbfd0642fe41376ea6cc1fdeb84bb9aacf3567de2e2e5766e2106ca6f39f7e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -42,7 +42,7 @@ domain core --decides--> EventBridge port --> canonical writer --> ledger --> su
 The pack names no framework, broker or storage. A JSONL file with one writer qualifies as a
 ledger as much as an event store does.
 
-**Depends on:** [`architecture`](architecture.md) `>=2.0,<3`
+**Depends on:** [`architecture`](architecture.md) `>=2.0,<4`
 
 ## Artifact inventory
 

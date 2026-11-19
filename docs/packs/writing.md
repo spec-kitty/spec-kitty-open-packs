@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Pack level:** `built-in`
-- **Declared version:** `2.2.0`
-- **Content checksum (sha256):** `0f04efef508d9aa48211ab8f7ac3daf03fa4056fb0634347625f3065f2e3be33`
+- **Declared version:** `3.1.0`
+- **Content checksum (sha256):** `9dc672227f8e763ce795d4647acdad2a9e2d60bdb9926773ab26aab749c0a306`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -30,10 +30,11 @@ generated:
 Documentation, communication and terminology doctrine, and a member of the `built-in`
 distribution: the documentation mission type; the comms, scribe, minutes, synthesis, diagram,
 lexical and curator profiles; Common Docs and audience-oriented writing directives, the
-documentation styleguides, diagram toolguides, the glossary-stewardship tactics and templates, and
-the writing-audience assets.
+documentation styleguides, the diagram and docs structural-lint toolguides, the
+glossary-stewardship tactics and templates, the docs structural lint and the writing-audience
+assets.
 
-**Depends on:** [`foundation`](foundation.md) `==2.2.0`
+**Depends on:** [`foundation`](foundation.md) `==3.1.0`
 
 ## Artifact inventory
 
@@ -42,13 +43,13 @@ the writing-audience assets.
 | `directives` | 4 |
 | `tactics` | 9 |
 | `styleguides` | 11 |
-| `toolguides` | 6 |
+| `toolguides` | 8 |
 | `procedures` | 8 |
 | `agent_profiles` | 7 |
-| `assets` | 13 |
-| `missions` | 31 |
+| `assets` | 14 |
+| `missions` | 29 |
 | `templates` | 2 |
-| **Total files** | **104** |
+| **Total files** | **105** |
 
 ### Full listing
 
@@ -95,8 +96,10 @@ the writing-audience assets.
 </details>
 
 <details>
-<summary><code>toolguides</code> (6)</summary>
+<summary><code>toolguides</code> (8)</summary>
 
+- `common-docs-structural-lint.guide.md`
+- `common-docs-structural-lint.toolguide.yaml`
 - `contextive.guide.md`
 - `contextive.toolguide.yaml`
 - `mermaid-diagramming.guide.md`
@@ -134,7 +137,7 @@ the writing-audience assets.
 </details>
 
 <details>
-<summary><code>assets</code> (13)</summary>
+<summary><code>assets</code> (14)</summary>
 
 - `README.md`
 - `audiences/README.md`
@@ -147,13 +150,14 @@ the writing-audience assets.
 - `audiences/software_engineer.md`
 - `audiences/software_engineer.md.asset.yaml`
 - `docs_structural_lint.config.yaml`
+- `docs_structural_lint.config.yaml.asset.yaml`
 - `docs_structural_lint.py`
 - `docs_structural_lint.py.asset.yaml`
 
 </details>
 
 <details>
-<summary><code>missions</code> (31)</summary>
+<summary><code>missions</code> (29)</summary>
 
 - `documentation/README.md`
 - `documentation/documentation.mission-type.yaml`
@@ -184,8 +188,6 @@ the writing-audience assets.
 - `documentation/templates/generators/jsdoc.json.template`
 - `documentation/templates/generators/sphinx-conf.py.template`
 - `documentation/templates/release-template.md`
-- `documentation/templates/task-prompt-template.md`
-- `documentation/templates/tasks-template.md`
 
 </details>
 

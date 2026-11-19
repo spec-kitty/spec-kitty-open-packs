@@ -2,12 +2,13 @@
 title: Guides
 description: Usage and authoring how-to guides for Spec Kitty open Charter Packs — consuming a pack, composing packs, and authoring, validating, and publishing your own.
 doc_status: wip
-updated: '2026-11-05'
+updated: '2026-11-19'
 related:
 - packs/catalog-proposal
 - guides/getting-started
 - guides/author-a-charter-pack
 - guides/use-a-charter-pack
+- guides/contribute-a-pack
 ---
 # Guides
 
@@ -40,6 +41,8 @@ For maintainers who want to *produce* and distribute packs.
   understand this repository's CI gate.
 - [Publish a pack](publish-a-pack.md) — git, HTTPS bundle, or API distribution; versioning
   and trust considerations.
+- [Contribute a pack](contribute-a-pack.md) — for authors outside the maintainer team:
+  propose a pack or a change, mint its identity, pass the gates, and get it reviewed.
 
 ## Canonical upstream reference
 

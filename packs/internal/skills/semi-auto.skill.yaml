@@ -8,7 +8,7 @@ body_path: semi-auto.skill.md
 parameters:
   - name: issues
     required: true
-    description: One or more issue numbers, or a coherent issue-set, on spec-kitty/spec-kitty
+    description: One or more issue numbers, or a coherent issue-set, on the repository being worked in
   - name: mode
     required: false
     description: "`local` (run the whole delivery in this session) or `cloud` (dispatch it to a fresh cloud runner). Default: if this session can create cloud sessions and the operator did not say, ask; otherwise run local"

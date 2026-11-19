@@ -8,11 +8,11 @@ principles:
   - name: "Single root, 13 sections"
     description: "Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog."
   - name: "Frontmatter is the per-page source of truth"
-    description: "Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. The page-inventory rollup is regenerated FROM frontmatter as a freshness-gated lockfile; it is never a parallel hand-maintained store."
+    description: "Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. If the project keeps a page inventory or another rollup, it is generated FROM frontmatter; it is never a parallel hand-maintained store."
   - name: "Lifecycle state has one frontmatter key"
     description: "Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines."
-  - name: "SEO description is bounded"
-    description: "SEO description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive) consumed by the SEO post-processing step; descriptions outside that band are rejected."
+  - name: "Description is bounded"
+    description: "Description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive). Search results and link previews show it, as does an SEO step if the project has one. A description outside that band fails review."
   - name: "Cross-references use related"
     description: "Cross-references use related: resolvable paths. Cross-references are a related: frontmatter list of repo-relative .md paths that each resolve to an existing file. The dead citation_refs sidecar field is not reintroduced."
   - name: "Audience is named in an audience"
@@ -132,36 +132,31 @@ anti_patterns:
       # 565-row page-inventory.yaml hand-maintained as SSOT;
       # frontmatter generated from it.
     good_example: |
-      # Frontmatter is SSOT; page-inventory.yaml is regenerated from it
-      # and a freshness gate asserts the committed rollup is in sync.
+      # Frontmatter is SSOT. If the project keeps page-inventory.yaml,
+      # it is generated from frontmatter and checked for drift.
 
-# Rule -> check mapping table. Every documentation rule names the ONE live
-# check that enforces it. Zero rows carry check = none — that is what makes this
-# styleguide a checkable artifact rather than narrative.
+# Rule -> check mapping table. Every documentation rule maps either to a check
+# of the structural lint shipped with this pack (named by its check id) or to
+# review. The common-docs-structural-lint toolguide says how to run the lint.
 tooling:
-  structure-single-root-section: "the common-docs-structural-lint doctrine asset (the structural lint shipped with this pack) — the durable successor to the retired ratchet. Its shadow_tree_basename check asserts no shared non-nav content basename across section subtrees; its self-test also asserts DIRECTIVE_042 resolves to a loaded directive. The single-root / all-sections-present structure itself remains subject to periodic bulk curation and review, not a per-PR mechanical count."
-  adr-era-layout: "the common-docs-structural-lint doctrine asset (the structural lint shipped with this pack) — its point_in_time_placement check allowlists adr/** (era-dated ADRs) so ADRs resolve under adr/<era>/ without churn; the living architecture/ being unversioned is maintained by periodic bulk curation and review."
-  naming-kebab-case: "Maintained by periodic bulk curation and review (the retired per-PR docs ratchet asserted this mechanically; the common-docs-structural-lint doctrine asset does not currently assert kebab-case naming)."
-  curation-delete-stale: "Maintained by periodic bulk curation and review; the common-docs-structural-lint doctrine asset's shadow_tree_basename and point_in_time_placement checks catch two concrete drift classes (duplicated non-nav basenames and misplaced dated/point-in-time files) but curation itself remains a review-time practice, per DIRECTIVE_037's same-change discipline."
-  frontmatter-lifecycle-key: "The page-inventory lockfile freshness gate reads frontmatter REPORT-ONLY (it regenerates the rollup FROM frontmatter and reds on drift). It does not yet assert the project's lifecycle values or reject a bare status key."
-  frontmatter-ssot-lockfile: "The page-inventory lockfile freshness gate (asserts the rollup is regenerated FROM frontmatter and the committed lockfile is in sync)."
-  frontmatter-seo-description: "The page-inventory lockfile freshness gate (asserts every description is 50-180 characters)."
-  related-resolvable-paths: "The related: path validator (asserts every related: entry resolves to an existing repo-relative .md path)."
+  structure-single-root-section: "The common-docs-structural-lint asset. shadow_tree_basename flags a content file name shared across section subtrees. With --extended, sanctioned_section_membership flags a page outside the sanctioned sections and one_index_per_dir flags a directory with two competing index pages. That every section has its index.md is review."
+  adr-era-layout: "The common-docs-structural-lint asset. point_in_time_placement allowlists adr/**, and frontmatter_contract leaves adr/** out of scope, so dated ADRs pass. The era subdirectories and the unversioned architecture/ are review."
+  naming-kebab-case: "Review. The structural lint does not check file names."
+  curation-delete-stale: "Review, under DIRECTIVE_037's same-change discipline. The common-docs-structural-lint asset catches two drift classes: shadow_tree_basename (a duplicated content file name) and point_in_time_placement (a dated or point-in-time file outside its allowlisted home)."
+  frontmatter-lifecycle-key: "The common-docs-structural-lint asset. frontmatter_contract flags an in-scope page that lacks a field in frontmatter_required_fields (doc_status and updated by default). The lifecycle values, the updated date format and a bare status key are review."
+  frontmatter-ssot: "Review: no second hand-maintained store of per-page metadata exists. If the project keeps a generated page inventory, its own freshness check confirms the inventory matches frontmatter."
+  frontmatter-seo-description: "Review: the description is 50-180 characters. The structural lint does not count it."
+  related-resolvable-paths: "Review: every related: entry resolves. If the project has its own related: validator, run it too."
   audience-resolvable: "Where the project keeps a persona source and an audience: path resolver, the resolver asserts every audience: value on a touched page resolves to it. Otherwise this is checked at review. Scoped to touched pages only."
 
 quality_test: >
-  A documentation change satisfies this styleguide when: the
-  common-docs-structural-lint doctrine asset (the structural lint shipped with
-  this pack) is green — index completeness for
-  curated-complete sections (initially architecture/ only), point-in-time file
-  placement under plans/** honoring the adr/**, plans/research/**, and
-  plans/investigations/** allowlist, no shared non-nav content basename across
-  section subtrees, and required frontmatter on in-scope pages; the
-  page-inventory lockfile freshness gate is green — the rollup regenerates
-  FROM frontmatter with no drift, and every description is within 50-180
-  characters (the lifecycle values and the bare-status rejection are read
-  REPORT-ONLY); and the related: path validator resolves every
-  cross-reference.
+  A documentation change satisfies this styleguide when the
+  common-docs-structural-lint asset exits 0 over the docs root (the
+  documentation mission's validate step runs it with --extended), and review confirms what the lint does not check: every section has
+  its index.md, names are kebab-case, each description is 50-180 characters,
+  the lifecycle values are the project's own, and every related: entry
+  resolves. If the project has its own page-inventory or related: check,
+  that check is green too.
 
 # The machine-parseable structural_lint_config:
 # policy block that used to live here has moved to the lint asset's own data

@@ -7,6 +7,7 @@ related:
 - architecture/adr/2026-11-01-1-merge-queue-readiness-and-pr-pause-ci
 - guides/author-a-charter-pack
 - guides/validate-a-pack
+- guides/contribute-a-pack
 ---
 # Contributing to Spec Kitty Open Packs
 
@@ -38,6 +39,9 @@ using them properly, is the consumer's decision. Neither this repository nor cha
 responsible for it. A pin bump in a consumer, core included, is that consumer's choice.
 
 ## Proposing a pack
+
+Authors outside the maintainer team: [Contribute a pack](contribute-a-pack.md) walks the whole
+path, from the proposal issue through `pack_id` minting, the gates and review. In short:
 
 1. Check the [pack catalog proposal](../packs/catalog-proposal.md) and the
    [issue tracker](https://github.com/spec-kitty/spec-kitty-open-packs/issues) — the pack you
@@ -72,6 +76,20 @@ Docs follow the Spec Kitty core convention: Markdown with YAML frontmatter
 (the nav source of truth, built by doc-kitty/Astro — see [ADR 2026-10-17-1](../architecture/adr/2026-10-17-1-doc-kitty-astro-as-docsite-generator.md)), and
 a canonical changelog under `docs/changelog/` symlinked from the repository root.
 
+Set `updated` to the day you last verified the page against reality, and move it whenever you change
+the page's content. For a change that needs no re-verification, such as a typo fix, add one commit
+trailer per page instead, and the freshness check skips that page for that commit:
+
+```text
+docs: fix a typo in the authoring guide
+
+Docs-Freshness-Unchanged: docs/guides/author-a-charter-pack.md
+```
+
+The trailer waives moving the date, not the date itself: a page still needs a valid `updated:`. A
+commit that moved the page counts as touching it, so after a move in the same pull request, an
+opted-out edit is judged against the move's date.
+
 ## Required checks
 
 `main` requires one check before a pull request merges
@@ -99,7 +117,13 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
   once it passes (#311). It is not a required check; see
   [Validate a pack](validate-a-pack.md#following-charter-releases).
 - **`Docs site`** builds the docsite. It runs only when docs, site or pack files change, so it
-  cannot be required.
+  cannot be required. On a pull request its `Docs freshness` job fails an authored page under
+  `docs/` that the pull request changes when the page's `updated:` is older than the author date of
+  its last commit (#297). Generated pages are left to the drift check, and `docs/changelog/` and pure
+  renames are not judged. The same job lists, without
+  failing, pages past their staleness threshold (guides 90 days and ADRs 365, from writing's
+`docs-freshness-sla` styleguide; other pages 180, this repository's choice) and pages dated in the
+future.
 
 After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
 `packs/<name>.source.yaml`; the gate fails while the recorded digest is stale. Rebasing over another

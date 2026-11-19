@@ -32,9 +32,7 @@ validation_criteria:
   - "Verdict: PASS only if D≠∅ and all six of U, duplicate_declared_id, malformed_ids,
     not_measured, reported_not_declared, contradictory are empty. Report each always, even
     empty, plus |D|,|M|,|U|."
-  - "FR-008: no upstream mechanism computes NFR-/C- coverage (functional-id-only).
-    Every declared NFR-/C- id carries `measured: yes|no`; absence
-    reads `no`, never covered."
-  - "FR-008 reuse: run Steps 1-10 over the NFR-/C- set, M=measured:yes, U=measured:no,
-    not_measured=undeclared. Verdict needs U empty — an honest `measured: no` is FAIL, not a
-    disclosed PASS."
+  - "NFR- and C- ids get the same check. Nothing upstream computes their coverage, so each
+    declared NFR-/C- id carries `measured: yes|no`, and a missing value reads `no`. Treat
+    `measured: yes` as mapped and `measured: no` as unmapped. The verdict needs no unmapped id:
+    an honest `measured: no` is a FAIL, not a disclosed PASS."

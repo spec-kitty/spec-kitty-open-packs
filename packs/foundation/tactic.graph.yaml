@@ -366,7 +366,7 @@ edges:
 - source: tactic:pr-agent-worktree-isolation
   target: tactic:clean-linear-commit-history
   relation: suggests
-  when: 'Sibling discipline with a `refines`-type scope boundary: history compression after landing is governed by clean-linear-commit-history;
+  when: 'Sibling discipline with a `refines`-type scope boundary: history compression before the PR is presented is governed by clean-linear-commit-history;
     worktree isolation and version-prescription restraint are governed here. Refer to that tactic for compress-history steps;
     refer to this tactic for PR-agent discipline.'
 - source: tactic:problem-decomposition

@@ -21,7 +21,7 @@ exact and restoring full sentences at a cliff edge.
 > `implement`/`review`, and the analysis-currency gate ahead of `implement`, are keyed to the
 > built-in `software-dev` family in the CLI and do **not** fire for a `cave-dev`-typed mission —
 > its `implement`/`review` steps advance as generic single-shot DAG steps. The lane/worktree
-> execution path (`spec-kitty implement WP##`) is unaffected. For a WP-iterating, guarded run in
+> execution path (`spec-kitty agent action implement <WPID> --agent <name> --mission <handle>`) is unaffected. For a WP-iterating, guarded run in
 > the caveman voice, use the voice-activation path (`--mission-type software-dev` + activate the voice).
 
 ## What it is — and isn't

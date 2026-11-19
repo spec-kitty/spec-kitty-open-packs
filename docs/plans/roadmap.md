@@ -2,7 +2,7 @@
 title: Roadmap
 description: "The themes open-packs is pursuing, the horizon each sits in, what done looks like, and the tracker epics that deliver each theme."
 doc_status: active
-updated: '2026-11-16'
+updated: '2026-11-19'
 related:
 - plans
 - architecture/vision
@@ -64,11 +64,12 @@ builds on the charter commit this repository pins; moving that pin first keeps l
 
 - `charter.lock.yaml` pins a charter release or pre-release tag (`service-v*`), its commit and its
   jar digest, and every pack validates against it; charter `main` HEAD is pinned only on demand.
-- A scheduled job proposes the next lock bump when the charter moves and the gates are green, so
-  pin moves stay small.
+- A scheduled job proposes the next lock bump when the charter publishes a release and the gates
+  are green, so pin moves stay small; charter `main` is checked nightly and never bumps the lock.
 - The local schema-validation bridge is retired once the charter ships a validator this repository
   can call.
-- The decisions behind the pin policy and the ownership split are recorded as ADRs.
+- The decisions behind the pin policy and the ownership split are recorded as ADRs
+  ([ADR 2026-11-19-3](../architecture/adr/2026-11-19-3-pin-charter-releases-and-charter-owns-pack-logic.md)).
 
 ## Pack content quality
 

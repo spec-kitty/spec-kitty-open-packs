@@ -65,12 +65,12 @@ class RetiredIdTest(unittest.TestCase):
         )
 
     def test_provenance_strips_only_its_phrase(self) -> None:
-        rel, stem, phrase = next(row for row in vocab.PROVENANCE_PHRASES if row[0] == "packs/qa/README.md")
+        rel, stem, phrase = vocab.PROVENANCE_PHRASES[0]
         self.assertEqual(vocab.retired_ids_in(f"| {phrase} in 4.0.0rc5. |\n", rel), [])
         self.assertEqual(vocab.retired_ids_in(f"| {phrase}. |\n- tactic: {stem}\n", rel), [stem])
         # The finding points at the real mention, not at the provenance line before it.
         self.assertEqual([line for line, _ in vocab.findings_in(f"| {phrase}. |\n- tactic: {stem}\n", rel)], [2])
-        self.assertEqual(vocab.retired_ids_in(phrase, "packs/qa/other.md"), [stem])
+        self.assertEqual(vocab.retired_ids_in(phrase, rel.rsplit("/", 1)[0] + "/other.md"), [stem])
 
     def test_stale_provenance_is_reported(self) -> None:
         texts = {rel: phrase for rel, _stem, phrase in vocab.PROVENANCE_PHRASES}
@@ -242,7 +242,9 @@ class MainTest(unittest.TestCase):
         self.assertIn("::error file=packs/qa/directives/x.directive.yaml,line=4::", out)
 
     def test_untracked_files_are_not_scanned(self) -> None:
-        (self.repo / "packs" / "qa" / "scratch.md").write_text("tactic:bug-fixing-checklist\n", encoding="utf-8")
+        scratch = self.repo / "packs" / "qa" / "scratch.md"
+        scratch.parent.mkdir(parents=True, exist_ok=True)
+        scratch.write_text("tactic:bug-fixing-checklist\n", encoding="utf-8")
         self.assertEqual(self._main()[0], 0)
 
     def test_empty_packs_refuses_instead_of_passing(self) -> None:

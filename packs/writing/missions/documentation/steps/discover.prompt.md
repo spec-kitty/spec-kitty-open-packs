@@ -71,7 +71,7 @@ Produce a documentation specification that frames the documentation needs, names
 
 8. **Record uncertainty as an explicit assumption**, not buried narrative prose. Assumptions are addressable later; narrative is not.
 
-9. **Write success criteria** that are measurable (e.g., "every public function in module `foo` has a reference entry"), technology-agnostic at the outcome level (describe the user-visible outcome, not the generator invocation), and user-focused (passing means a target reader can accomplish the named task, not that a build succeeded).
+9. **Write success criteria** that are measurable (e.g., "every public function in module `foo` has a reference entry", or "the tutorial walks an unfamiliar user from install to first request in under fifteen minutes"), technology-agnostic at the outcome level (describe the user-visible outcome, not the generator invocation), and user-focused (passing means a target reader can accomplish the named task, not that a build succeeded).
 
 ## Success Criteria
 

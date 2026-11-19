@@ -47,8 +47,8 @@ edges:
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-find
   relation: suggests
-  when: applying the frontmatter-SSOT and generated-lockfile rules that make the DRG and page-inventory the authorities to
-    search
+  when: finding the page that owns a topic through charter context, the project's docs tree and page frontmatter before
+    writing a new one
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-scaffold
   relation: suggests
@@ -57,6 +57,12 @@ edges:
   target: tactic:common-docs-write
   relation: suggests
   when: applying the frontmatter-SSOT and doc_status rules the styleguide conventions enforce
+- source: directive:DIRECTIVE_042
+  target: toolguide:common-docs-structural-lint
+  relation: suggests
+  when: running the structural lint that DIRECTIVE_042 names as its mechanical gate
+  reason: The toolguide tells the agent how to resolve the lint script and its policy file, which flags to pass and how to
+    read the exit code.
 - source: directive:DIRECTIVE_047
   target: directive:DIRECTIVE_042
   relation: suggests

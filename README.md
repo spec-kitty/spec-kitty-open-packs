@@ -132,7 +132,8 @@ track **charter behaviour**.
 ## Contributing
 
 Pack proposals, corrections and authoring feedback are welcome — see
-[CONTRIBUTING](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Packs can ship
+[CONTRIBUTING](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). To propose or
+change a pack, follow [Contribute a pack](docs/guides/contribute-a-pack.md). Packs can ship
 executable assets, so read the [security position](SECURITY.md) before proposing one.
 
 ## License

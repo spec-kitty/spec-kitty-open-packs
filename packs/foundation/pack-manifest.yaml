@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 97f5c5452aeb2074cfca1ae8eb71fb7f54d27f857dae365254e2cea583cae596
+manifest_hash: 4bbff0ac559fbe21651608a542130c0433334f1f48017c2fa01f229e4380b190
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -152,7 +152,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: 62a9f6febf85834e9d08a253fb9ada166cc92faa9baa6273c216aa1072d942f1
+  content_hash: ca43b9c29f51bf0354fc8a8a5d81959a63515fee4a04b2b27f452c69b2178a13
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -212,7 +212,7 @@ constituents:
 - kind: mission_type
   id: software-dev
   path: missions/software-dev/software-dev.mission-type.yaml
-  content_hash: 9f49c0e36e9411519e70210eb88b14a9e820eced601a8c26affa87d9d7be8722
+  content_hash: c3dadcbd1cba3003027465a9b7b980edf8cce5d7ab57215a617df1a0b180cbde
 - kind: template
   id: software-dev/plan-template.md
   path: missions/software-dev/templates/plan-template.md
@@ -484,7 +484,7 @@ constituents:
 - kind: tactic
   id: clean-linear-commit-history
   path: tactics/clean-linear-commit-history.tactic.yaml
-  content_hash: cc556298ac23399d9b6023ea5cd6a951598c840ba68575619c1d0917ba5ed6c9
+  content_hash: 7683eeebd684895abc3215bfb2b8f3ae63a71baefc2941bf842367ee8575397f
 - kind: tactic
   id: code-review-incremental
   path: tactics/code-review-incremental.tactic.yaml
@@ -552,7 +552,7 @@ constituents:
 - kind: tactic
   id: occurrence-classification-workflow
   path: tactics/occurrence-classification-workflow.tactic.yaml
-  content_hash: 5ec95f1b3b522517c867b21349d113461f3698308740cb13f8e6a682b71cde0b
+  content_hash: 894cc86c53675be7212db77affef8c9c945febd55c40fa79b3e8c38e1492038d
 - kind: tactic
   id: op-or-mission-selection
   path: tactics/op-or-mission-selection.tactic.yaml
@@ -564,7 +564,7 @@ constituents:
 - kind: tactic
   id: pr-agent-worktree-isolation
   path: tactics/pr-agent-worktree-isolation.tactic.yaml
-  content_hash: 15fb914d926e3d791199aface9bb4103e5304176715109c2b020f5c7fa47297d
+  content_hash: 9a6cf8e8f865ec5a61403a1b0dadf6a0ac592c541813132309fd59611ee7b79f
 - kind: tactic
   id: review-intent-and-risk-first
   path: tactics/review-intent-and-risk-first.tactic.yaml
@@ -644,7 +644,7 @@ constituents:
 - kind: toolguide
   id: execution-lanes
   path: toolguides/execution-lanes.toolguide.yaml
-  content_hash: 9732e16dcd12c422c432bfc86d3a54b4e90ff725404083356102873391aa2749
+  content_hash: b7d70d66bd5c4f68be51fe81a4443812bd382a78fee62583ac6dd504ad745f6f
 - kind: toolguide
   id: git-agent-commit-signing
   path: toolguides/git-agent-commit-signing.toolguide.yaml

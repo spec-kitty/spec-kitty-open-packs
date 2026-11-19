@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5d79337763e6320498a4fd0da4058ec82d68c68a509cc0cf556b0ed80b44566f
+manifest_hash: 0b4ff49c43b1eb0ad1682ee91a4f0224d8466b9cfcad5f8bc5c04f7908b697da
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -52,7 +52,7 @@ constituents:
 - kind: directive
   id: NO_FULL_HEAVY_SUITES_IN_MISSION
   path: directives/no-full-heavy-suites-in-mission.directive.yaml
-  content_hash: fddd28642156b836877eb914b2230d9e61686a7562f4567637d5f8b936b01113
+  content_hash: 8994d606ced1f6f857dd42c95e512ce13c5ffdea56cab5d162570a9e546d7a09
 - kind: directive
   id: OPERATOR_SIGNAL_CONTRACT
   path: directives/operator-signal-contract.directive.yaml
@@ -60,7 +60,7 @@ constituents:
 - kind: directive
   id: SPEC_KITTY_DOCS_CONVENTIONS
   path: directives/spec-kitty-docs-conventions.directive.yaml
-  content_hash: 9dbe08144aaa3480cb5ad7bb1735e653b8ebccc5ac59f06c5809e6f00e349ecc
+  content_hash: 465496272e111f05d0e2ccfdb60b490a0e75b6b4ec4e1238f847ffd907aa13f5
 - kind: directive
   id: SPEC_KITTY_RED_MAIN_POLICY
   path: directives/spec-kitty-red-main-policy.directive.yaml
@@ -68,7 +68,7 @@ constituents:
 - kind: glossary
   id: spk-internal-glossary
   path: glossaries/spk-internal-glossary.glossary.yaml
-  content_hash: 671ff893b231c0a5b579c47880eaf9612a6c6c7edb8ff909a0e9372badccff00
+  content_hash: dd5fbedd37421bfe9da2324741c9a4001bc5d8aa0e5d377701ffbc83f6642443
 - kind: procedure
   id: charter-offering-scenario-extraction
   path: procedures/charter-offering-scenario-extraction.procedure.yaml
@@ -76,23 +76,23 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: 170e3a87343b757f0091bf337992a010b458b1a2703351a9a4cee39144f5b016
+  content_hash: 1be5ccacd2ee37a0206fa06c66910685c818ee37fad479192273de2481166212
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
-  content_hash: d36c2d1c7adc9eb62e682e2aecb390c47b36206cbc14718908a701dc3d1ca80a
+  content_hash: 895cd4ea9e9b43267f2c9820d41241dbae0d33f55b962cf49070811a45b4fb36
 - kind: procedure
   id: issue-to-mission-delivery
   path: procedures/issue-to-mission-delivery.procedure.yaml
-  content_hash: b9916b82d16bfc2d6ac920d9f83d2248029d049aba480db450fb957d581faa5e
+  content_hash: 240a5c608e014979725a64d340fe0aa895b07685d767a2496d655bd9f3f3e7de
 - kind: procedure
   id: issue-triage-pass
   path: procedures/issue-triage-pass.procedure.yaml
-  content_hash: f09956a5ee2ecf3d3cab1d7321e9573be5462b3777e8e1312153c7ab56d172ba
+  content_hash: 5b0dbacedd9133725e9c745b887f4efa5ccf379d661fdb210224078224cf0ef2
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: 494d6bf25874a0e11b6dc1e7d995c819e543a64dfccc95d68772e80c87257236
+  content_hash: 17d35b415223591dc2054b97a82cf4e0faf948a15c8f919c98aafd8082bbcd04
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
@@ -104,7 +104,7 @@ constituents:
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: 61b6dcf9ec55b44073d09b20f144e2b883847c45664928b03495453bbd7edbe4
+  content_hash: 36440504eb39b9cfdac277b8ec7c8504f2136b92c87ebfc67669afde87c8297f
 - kind: procedure
   id: operator-signal-emission
   path: procedures/operator-signal-emission.procedure.yaml
@@ -116,7 +116,7 @@ constituents:
 - kind: procedure
   id: semi-auto-delivery
   path: procedures/semi-auto-delivery.procedure.yaml
-  content_hash: 60b11496277a15a01c89cc9e2f194ff0dab3b72be9350503577573c59106843f
+  content_hash: a293283b7bdc46153e9711033826fe16c6b25a6a501dc1d22dd855b4a791c1b2
 - kind: procedure
   id: spec-kitty-arch-gate-adjudication
   path: procedures/spec-kitty-arch-gate-adjudication.procedure.yaml
@@ -124,11 +124,11 @@ constituents:
 - kind: procedure
   id: spec-kitty-common-docs-layout
   path: procedures/spec-kitty-common-docs-layout.procedure.yaml
-  content_hash: b1e1ebf62db12cb9c0761b380e670b17ab04d26deac33e0aa5bad1be24515e3a
+  content_hash: fa777328b3ef760c932d425a26e20cbdb11e5f92dab18181ddf8ba811f5c073e
 - kind: procedure
   id: spec-kitty-page-audience
   path: procedures/spec-kitty-page-audience.procedure.yaml
-  content_hash: c29887f9c039efcb71e4c63e70acb081f0117bf59fdeacb742b7337bbcbbe8aa
+  content_hash: 74c84deffd673c3d5610eafb24ae995af9229855a74960c41066e4d95e5f4448
 - kind: procedure
   id: spec-kitty-red-main-triage
   path: procedures/spec-kitty-red-main-triage.procedure.yaml
@@ -136,11 +136,11 @@ constituents:
 - kind: procedure
   id: targeted-mission-test-run
   path: procedures/targeted-mission-test-run.procedure.yaml
-  content_hash: ea47748d2857101101142dcab293e265e53306ad821f6c65f44ffd9610827b93
+  content_hash: 36ce12355735d03357087b50f471df97d1963ff999ed597806a80bb59e2cae7d
 - kind: procedure
   id: test-suite-quality-assessment
   path: procedures/test-suite-quality-assessment.procedure.yaml
-  content_hash: fed55caf23473eb8743181fbe3e2f8349545e8fee6e36fcb2d05574b10fe2b9f
+  content_hash: ea66b24a35f47eaf6f1c0e6c079ab0e4e3e7c7e20f66fd7d2e403825fd31bf76
 - kind: procedure
   id: tracker-organisation-workflow
   path: procedures/tracker-organisation-workflow.procedure.yaml
@@ -148,23 +148,23 @@ constituents:
 - kind: skill
   id: issue-triage
   path: skills/issue-triage.skill.yaml
-  content_hash: b91637de033bd1b469f7a8b27f5a2a599500a9a0434841ebc2b2fbb46635298f
+  content_hash: 4778296e039dd729e25a271a8855bb021829f9002079b257fb48f8cd4324019d
 - kind: skill
   id: land-pr
   path: skills/land-pr.skill.yaml
-  content_hash: 4c6879efa4f71f112ceae61827f47c2279f09cf7374e5fc1c4b269d34cd0d2d1
+  content_hash: 8993cb6affdbd3383287576a754c70b8a3240613e1cb5f758d6196a1777a25fe
 - kind: skill
   id: mission-from-issue
   path: skills/mission-from-issue.skill.yaml
-  content_hash: ce00ebe3bd5cc2f84e9dd6acb7687401c6274d1dfbad851ec2a0e1d2a33653ab
+  content_hash: a78c992b73d493f2aaa796c01d7beb2882e95fed56b9f7738ee8fe1a7a80ae4b
 - kind: skill
   id: report-debrief
   path: skills/report-debrief.skill.yaml
-  content_hash: 60272d65a0db46098f783db1c99e389b2fea2984d5864d3ec9b2a129af5ed7c5
+  content_hash: 7e584dca17cec7625a63fc0999f38788d7b1fcd7de962fe99f4f8bd49eb80d07
 - kind: skill
   id: semi-auto
   path: skills/semi-auto.skill.yaml
-  content_hash: 84b4c82a90a9b2214c656a5946a9aeb1cbca70eb175560636742ebd53da38db3
+  content_hash: 8d99cc14310c4f4e32ac5a6834e19341c9502f4ed4279fb46be610d603d79589
 - kind: styleguide
   id: executive-debrief
   path: styleguides/executive-debrief.styleguide.yaml
@@ -216,12 +216,12 @@ constituents:
 - kind: toolguide
   id: terminology-guard
   path: toolguides/terminology-guard.toolguide.yaml
-  content_hash: ff067a3e8726e81c640781399e0c7e5823369e786e15c8452fcf58da5343a55d
+  content_hash: 560dde743434b9c9be697a31081d1355a5be92f97414aa859d9c0fe0d9b67cab
 - kind: toolguide
   id: test-quality-triage
   path: toolguides/test-quality-triage.toolguide.yaml
-  content_hash: 8a1275f751b52f1ca7024773e078a5850e2c97d10665ebc85a362bb436b96f7b
+  content_hash: e018b0fbb687827b61d30271d6aaf2d9f68ab61f17cb281ea6f5b1604e51b727
 presets:
 - id: base
   path: presets/base.yaml
-  content_hash: 6b9b0237febd42fc0a00a7f9f35a54e82641e7e82707eba2ac6a3a7e025fe0a1
+  content_hash: 0d2ed58d2d3fa1dc3547a6f524498bd10d6f16c040732e7366a616939754f55e

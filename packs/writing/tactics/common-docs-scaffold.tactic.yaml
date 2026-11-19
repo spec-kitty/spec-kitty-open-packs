@@ -36,10 +36,11 @@ steps:
       Open the file with in-file YAML frontmatter as the per-page source of
       truth: title; the project's lifecycle key (doc_status by default) with one of
       the values its docs styleguide defines; updated: YYYY-MM-DD; a description of
-      50-180 characters for SEO; and a related: list of resolvable repo-relative
+      50-180 characters; and a related: list of resolvable repo-relative
       .md paths (empty list if there are none yet). A freshly scaffolded page
       normally starts at doc_status: draft. Do not create a sidecar metadata
-      store; the page-inventory rollup is regenerated from this frontmatter.
+      store; if the project keeps a page inventory, it is generated from this
+      frontmatter.
     examples:
       - "doc_status: draft with updated: 2026-06-27, a 110-character description, and related: [] for a brand-new page."
       - "A non-ADR page: doc_status: draft, flipped to doc_status: active once finalised."
@@ -59,12 +60,14 @@ steps:
       If the chosen section did not exist before, create its index.md so
       every section (per the styleguide's own list) carries its own index, and seed
       that index.md with the same frontmatter schema. The
-      common-docs-structural-lint doctrine asset's index_completeness check
-      enforces this mechanically only for sections the styleguide config
-      marks curated-complete (initially architecture/ only) — a page missing
+      common-docs-structural-lint asset's index_completeness check enforces
+      this mechanically only for sections the lint's policy file marks
+      curated-complete (initially architecture/ only) — a page missing
       from a curated-complete section's index.md fails the lint; every other
       section index is a landing page, so seeding it promptly is still
-      part of this directive's rule, though no lint checks it yet.
+      part of this directive's rule, though no lint checks it yet. Run the
+      lint as the common-docs-structural-lint toolguide describes; with
+      --extended it also flags a page outside the sanctioned sections.
     examples:
       - "Creating the first file under integrations/ also creates integrations/index.md with doc_status: active (a directive requirement, not currently lint-checked)."
       - "Adding a page under architecture/ (curated-complete) without listing it in architecture/index.md fails docs_structural_lint's index_completeness check."
@@ -73,4 +76,4 @@ failure_modes:
   - "The concern is scattered across two sections instead of being owned by exactly one."
   - "Frontmatter is seeded with a bare status key, colliding with the work-package lane status model."
   - "A new curated-complete section (architecture/) gains a page missing from its index.md, failing docs_structural_lint's index_completeness check; for every other section a missing index.md is a review-time gap, not yet caught mechanically."
-  - "The description is seeded outside the 50-180 character band and fails the lockfile freshness gate."
+  - "The description is seeded outside the 50-180 character band and fails review."
