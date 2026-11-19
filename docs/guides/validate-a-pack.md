@@ -319,8 +319,12 @@ create pull requests):
   It is a fine-grained PAT on `spec-kitty-charter` and `spec-kitty-open-packs` with **Actions** and
   **Pull requests** read and write, and **no Contents** access. A pull request opened with it starts the
   `pull_request` workflows, so the required check runs on the bump pull request itself, like any other
-  pull request. If the secret is missing, the bump job fails before it pushes anything, and its error
-  names `PR_CREATION_TOKEN`.
+  pull request. Only the step that opens and closes pull requests holds it, and that step runs nothing
+  but `gh`. This workflow uses only its Pull requests scope. If the secret is missing, the bump job fails
+  before it pushes anything, and its error names `PR_CREATION_TOKEN`.
+
+A superseded bump pull request that cannot be closed, or whose branch cannot be deleted, fails the bump
+job with an error naming it. Close or delete it by hand: no later run looks at a closed pull request again.
 
 The required check judges the bump branch as cut from `main`. If `main` moves before the merge, use
 **Update branch**: that push runs the gate on the merge result. A pack added since then needs its

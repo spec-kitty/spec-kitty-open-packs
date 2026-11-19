@@ -35,13 +35,15 @@ name: Charter track
 #   It keeps clear of the release track: its own label, its own issue, its own concurrency queue.
 #
 # Tokens (operator ruling on #314; the org locks "Allow GitHub Actions to create and approve pull requests").
-# Only the bump job holds a write scope or a secret:
+# Only the bump job holds contents: write or a secret:
 # - the job's own token (contents: write on that job only) pushes the bump branch and makes its commit through
 #   the GitHub API, so GitHub signs the commit;
 # - the repository secret PR_CREATION_TOKEN, a fine-grained PAT on spec-kitty-charter and spec-kitty-open-packs
 #   with Actions and Pull requests read and write and no Contents, opens the bump pull request and closes a
 #   superseded one. A pull request opened with it starts the pull_request workflows, so the required check
-#   runs on the bump pull request itself. Without the secret the bump job fails, naming it, before it pushes.
+#   runs on the bump pull request itself. Only the step that opens and closes pull requests holds it, and that
+#   step runs nothing but gh. This workflow uses its Pull requests scope; its Actions scope is the operator's
+#   choice for other uses. Without the secret the bump job fails, naming it, before it pushes.
 # Every other job uses only the workflow's own token, read-only apart from the issue jobs' issues: write.
 
 on:
@@ -287,7 +289,7 @@ jobs:
         run: |
           # Before any branch is pushed, so a missing secret leaves nothing behind.
           if [[ "$HAS_PR_TOKEN" != true ]]; then
-            echo "::error::The repository secret PR_CREATION_TOKEN is not set: the bump pull request cannot be opened. Set it to a fine-grained PAT on this repository with Pull requests: read and write (see docs/guides/validate-a-pack.md)."
+            echo "::error::The repository secret PR_CREATION_TOKEN is not set: the bump pull request cannot be opened. Set it to the fine-grained PAT described in docs/guides/validate-a-pack.md (Pull requests read and write on this repository; no Contents)."
             exit 1
           fi
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -299,13 +301,12 @@ jobs:
       - name: Install the schema validator's dependencies
         run: |
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
-      - name: Open the bump pull request
+      - name: Push the bump branch
+        id: prepare
         env:
-          # The job's own token: reads pull requests and issues, pushes the branch and its commit.
+          # The job's own token only: reads pull requests and issues, pushes the branch and its commit. The PAT is
+          # kept out of this step, which runs the pin tooling and its third-party dependencies.
           GH_TOKEN: ${{ github.token }}
-          # A fine-grained PAT (Pull requests read and write, no Contents): opens and closes the pull requests,
-          # so the bump pull request's own pull_request workflows, the required check among them, run.
-          PR_TOKEN: ${{ secrets.PR_CREATION_TOKEN }}
           REPO: ${{ github.repository }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           COMMIT: ${{ needs.resolve.outputs.commit }}
@@ -317,10 +318,11 @@ jobs:
           # One branch per release, cut from this run's main commit; an open bump pull request for an older
           # release is closed once the new one is open, so one stays open.
           branch="charter/service-release-$RELEASE_TAG"
-          open_prs="$(gh pr list --repo "$REPO" --base main --state open --limit 100 \
+          gh pr list --repo "$REPO" --base main --state open --limit 100 \
             --json number,headRefName,isCrossRepository \
-            --jq '.[] | select((.isCrossRepository | not) and (.headRefName | startswith("charter/service-release-"))) | "\(.number)\t\(.headRefName)"')"
-          if awk -F '\t' -v branch="$branch" '$2 == branch { found = 1 } END { exit !found }' <<< "$open_prs"; then
+            --jq '.[] | select((.isCrossRepository | not) and (.headRefName | startswith("charter/service-release-"))) | "\(.number)\t\(.headRefName)"' \
+            > "$RUNNER_TEMP/open-prs.tsv"
+          if awk -F '\t' -v branch="$branch" '$2 == branch { found = 1 } END { exit !found }' "$RUNNER_TEMP/open-prs.tsv"; then
             echo "A pull request from $branch is already open; nothing to do." | tee -a "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
@@ -350,7 +352,6 @@ jobs:
           echo "committed $oid on $branch"
 
           red="$(gh issue list --repo "$REPO" --label charter:release-red --state open --limit 1 --json number --jq '.[0].number // empty')"
-          body="$RUNNER_TEMP/pr.md"
           {
             echo "Charter published \`$RELEASE_TAG\`, and the packs pass the whole gate against it (#253)."
             echo
@@ -366,19 +367,47 @@ jobs:
             echo
             echo "---"
             echo "_Opened by \`.github/workflows/charter-track.yml\`._"
-          } > "$body"
+          } > "$RUNNER_TEMP/pr.md"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      # The only step that holds PR_CREATION_TOKEN, and it runs nothing but gh.
+      - name: Open the bump pull request
+        if: ${{ steps.prepare.outputs.branch != '' }}
+        env:
+          # The job's own token: deletes the superseded branches (contents: write).
+          GH_TOKEN: ${{ github.token }}
+          # A fine-grained PAT (Pull requests read and write, no Contents): opens and closes the pull requests,
+          # so the bump pull request's own pull_request workflows, the required check among them, run.
+          PR_TOKEN: ${{ secrets.PR_CREATION_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.prepare.outputs.branch }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+        run: |
+          set -euo pipefail
           title="chore(charter): pin charter release $RELEASE_TAG"
-          # Opened with PR_CREATION_TOKEN, so the pull request's own CI runs; a refusal names the token.
-          if ! url="$(GH_TOKEN="$PR_TOKEN" gh pr create --repo "$REPO" --base main --head "$branch" --title "$title" --body-file "$body")"; then
-            echo "::error::PR_CREATION_TOKEN could not open the pull request from $branch (it needs Pull requests: read and write on $REPO). The branch is pushed; the next run reopens it after deleting the branch, or open the pull request by hand."
+          if ! url="$(GH_TOKEN="$PR_TOKEN" gh pr create --repo "$REPO" --base main --head "$BRANCH" --title "$title" --body-file "$RUNNER_TEMP/pr.md")"; then
+            echo "::error::PR_CREATION_TOKEN could not open the pull request from $BRANCH: check that the PAT has Pull requests read and write on $REPO, has not expired and is approved by the organization. The branch is pushed; the next run deletes and recuts it, or open the pull request by hand."
             exit 1
           fi
           echo "Opened $url" | tee -a "$GITHUB_STEP_SUMMARY"
+          # Each superseded pull request is closed (the PAT), then its branch is deleted (the job token). A failure
+          # does not stop the others, but it fails the job: no later run looks at a closed pull request again.
+          failed=0
           while IFS=$'\t' read -r number old_branch; do
             [[ -n "$number" ]] || continue
-            GH_TOKEN="$PR_TOKEN" gh pr close "$number" --repo "$REPO" --comment "Superseded by $url, which pins a newer charter release."
-            gh api -X DELETE "repos/$REPO/git/refs/heads/$old_branch" || echo "::warning::could not delete $old_branch"
-          done <<< "$open_prs"
+            if ! GH_TOKEN="$PR_TOKEN" gh api -X PATCH "repos/$REPO/pulls/$number" -f state=closed > /dev/null; then
+              echo "::error::PR_CREATION_TOKEN could not close #$number, superseded by $url; close it by hand."
+              failed=1
+              continue
+            fi
+            GH_TOKEN="$PR_TOKEN" gh pr comment "$number" --repo "$REPO" --body "Superseded by $url, which pins a newer charter release." \
+              || echo "::warning::closed #$number but could not comment on it"
+            if ! gh api -X DELETE "repos/$REPO/git/refs/heads/$old_branch"; then
+              echo "::error::could not delete $old_branch of the superseded #$number; delete it by hand."
+              failed=1
+            fi
+          done < "$RUNNER_TEMP/open-prs.tsv"
+          exit "$failed"
 
   # Red on a newer release, on main: one labelled issue. A scheduled run that cannot even resolve the release (the
   # releases listing, the tag or its .sha256 asset) says so on the same issue, so the track never fails unseen.
