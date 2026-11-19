@@ -1,0 +1,81 @@
+schema_version: "1.0"
+id: requirement-quality-ears
+name: Requirement Quality and EARS
+purpose: >
+  Hold every requirement to one quality bar, both when it is written (specify)
+  and when it is checked before implementation (analyze). A requirement that is
+  untestable, prescribes a solution, reads two ways, contradicts another or
+  leaves out its trigger or response lets the plan, the tasks and the review
+  each pick a different meaning. The checks are judgement: a finding they
+  produce is labelled inferred and never claimed as proof.
+steps:
+  - title: Check the five quality properties
+    description: |
+      Read each functional and non-functional requirement and test it against five properties:
+      - Testable: a reviewer can name the observation that passes or fails it.
+      - Solution-free: it states the need, not the mechanism. It names no framework, library, schema or code structure unless the requirement is itself about that interface.
+      - Unambiguous: it has one reading. No vague adjective (fast, robust, intuitive, scalable, secure, user-friendly) stands without a measure, and no placeholder (TODO, TBD, ???) is left.
+      - Consistent: it contradicts no other requirement, the plan or the charter, and it uses the canonical term for each concept.
+      - Complete: the actor, the trigger or condition, the response and, where it matters, a measurable threshold are all present.
+      Name the property that fails and quote the words that fail it.
+    examples:
+      - "'The page loads fast' fails testable and unambiguous. Propose: 'The dashboard shows its first view within 2 s for 95% of loads.'"
+      - "'Store sessions in Redis' fails solution-free. Propose: 'A signed-in user stays signed in across a restart of one application node.'"
+  - title: Read behavioural requirements against the EARS patterns
+    description: |
+      The Easy Approach to Requirements Syntax (EARS) names five shapes for a behavioural requirement:
+      - Ubiquitous: "The <system> shall <response>."
+      - Event-driven: "When <trigger>, the <system> shall <response>."
+      - State-driven: "While <state>, the <system> shall <response>."
+      - Unwanted behaviour: "If <condition>, then the <system> shall <response>."
+      - Optional feature: "Where <feature is included>, the <system> shall <response>."
+      Use EARS as a lens, not as a template to enforce. A requirement written in another clear, testable form is not a finding. A requirement that fits no pattern because its trigger, its state or its response is missing is a finding: name the missing part. When writing requirements, prefer these shapes for behaviour.
+    examples:
+      - "'Users can reset passwords' has no trigger or response. Propose: 'When a user requests a password reset, the system shall email a single-use link that expires after 30 minutes.'"
+      - "'If the payment provider times out, then the system shall keep the order pending and show the user a retry option.' fits the unwanted-behaviour pattern; no finding."
+  - title: Check for observable behaviour
+    description: >
+      The response must be something an actor or a test can observe: an
+      output, a state change, a message, a refusal with its reason. An internal
+      intention ("handles errors gracefully", "is well structured") is not
+      observable; ask what the actor sees when it happens.
+    examples:
+      - "'The importer handles bad rows gracefully' becomes 'If a row fails validation, then the importer shall skip it, keep importing, and list the row number and reason in the import summary.'"
+  - title: Audit the scenarios of each user story
+    description: |
+      For each user story, list its scenarios in five kinds:
+      - Accepted: the spec says the action succeeds.
+      - Rejected: the spec says the action is refused.
+      - Missing edge: a plausible input or state the spec does not cover (empty, duplicate, concurrent, expired, unauthorised, at a limit).
+      - Surprising accepted: the spec as written lets through something a reader would expect refused.
+      - Surprising rejected: the spec as written refuses something a reader would expect accepted.
+      Every row cites where it comes from: spec.md, plan.md or tasks.md, with a line or a heading. A story with no rejected scenario gets at least one missing-edge row. A spec with no user stories gets that fact reported; do not invent stories.
+    examples:
+      - "Story 2 (export): accepted - export of 10 rows (spec.md, User Story 2, scenario 1); missing edge - export of 0 rows, not covered (spec.md, User Story 2); surprising accepted - export by a read-only user is allowed by FR-004 as written (spec.md, Functional Requirements)."
+  - title: Ask clarification questions with concrete choices
+    description: >
+      A finding that needs a human decision becomes one question with two to
+      four concrete answer choices, each with its implication, and a
+      recommended choice with the reason. A finding whose fix is not a
+      judgement call gets a concrete remediation instead: the reworded
+      requirement, ready to paste. Never ask an open question without choices.
+    examples:
+      - "Question: How long does a password-reset link stay valid? Choices: (A) 15 minutes - safest, users on slow email may miss it; (B) 30 minutes - common default; (C) 24 hours - convenient, larger window for a leaked link. Recommended: B, matching the session policy in plan.md."
+  - title: Label inferred findings
+    description: >
+      A finding reached by reading and judgement, not by a command or a
+      mechanical match, starts with "Inferred:". Never describe an inferred
+      finding as proven, verified or formally checked; this tactic gives no
+      formal proof. A finding a command produced (a validator refusal, a
+      failing test) quotes that command's output instead.
+    examples:
+      - "Inferred: FR-007 and FR-009 can both apply to an expired session and prescribe different responses."
+failure_modes:
+  - "Enforcing EARS wording as a template, so clear requirements in another form are rewritten for style."
+  - "Restating a vague adjective with another vague adjective ('fast' becomes 'responsive')."
+  - "Inventing user stories or scenarios the spec does not contain."
+  - "Presenting a judgement as proof, or omitting the Inferred label."
+notes: >
+  This tactic defines what to check and how to phrase a finding. The step that
+  cites it (specify or analyze) decides severities, finding ids and report
+  layout.
