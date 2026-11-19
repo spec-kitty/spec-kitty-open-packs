@@ -1,0 +1,11 @@
+id: common-docs-structural-lint
+schema_version: '1.0'
+tool: docs_structural_lint
+title: Common Docs Structural Lint
+guide_path: common-docs-structural-lint.guide.md
+summary: |
+  How to resolve and run docs_structural_lint.py, the structural lint the writing pack ships as the common-docs-structural-lint asset. Resolve the script with `spec-kitty charter pack asset path common-docs-structural-lint` and its default policy file with `spec-kitty charter pack asset path common-docs-structural-lint-config`. Run it with `--styleguide PATH` (or the SPEC_KITTY_STYLEGUIDE environment variable) and the docs root. `--extended` adds the section-membership and one-index-per-directory checks. Exit 0 means no violations, 1 means at least one violation, 2 means the policy file could not be loaded.
+commands:
+- spec-kitty charter pack asset path common-docs-structural-lint
+- spec-kitty charter pack asset path common-docs-structural-lint-config
+- python3 docs_structural_lint.py --styleguide PATH [--extended] [--json] [DOCS_ROOT]

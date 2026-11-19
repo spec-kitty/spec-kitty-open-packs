@@ -15,7 +15,7 @@ purpose: >
 
 specialization:
   primary-focus: >
-    The test-design step (the tasks.md-equivalent stage of the QA lifecycle):
+    The test-design step of the QA lifecycle (`tasks`):
     turning a frozen test strategy and its risk register into concrete,
     traceable suite manifests, individual test cases in Given/When/Then form,
     and scoped, timeboxed exploratory-testing charters — never execution

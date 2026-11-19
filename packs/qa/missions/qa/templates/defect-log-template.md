@@ -1,15 +1,3 @@
-<!--
-  Canonical source: missions/qa/templates/defect-log-template.md (this pack).
-  Interim consumption path: copy this file by hand to
-  .kittify/overrides/templates/defect-log-template.md in a consuming project. No installer
-  exists yet for this step (documented, not automated - see this pack's plan.md
-  Complexity Tracking for the mission that owns building one).
-  Removal condition: once the resolver-convergence mission's Step 0 lands (both
-  resolver forks gain a mission-scoped override tier) and its later step adds an
-  org-pack tier to both resolution chains, this file moves to the location that tier
-  resolves directly and the interim per-project copy step above is no longer needed.
--->
-
 # Defect Log Template
 
 This template produces a project's `defect-log.md`. It matches the intent of this pack's

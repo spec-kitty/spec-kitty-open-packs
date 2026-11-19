@@ -1,9 +1,11 @@
 ---
+title: "Explanation: {CONCEPT_OR_TOPIC}"
+description: "{DESCRIPTION: 50-180 characters on what the page lets the reader do}"
 type: explanation
-divio_category: understanding-oriented
-target_audience: curious-users
-purpose: conceptual-clarification
-outcome: user-understands-why-and-how
+doc_status: draft
+updated: "{YYYY-MM-DD}"
+audience: "{AUDIENCE}"
+related: []
 ---
 
 # Explanation: {CONCEPT_OR_TOPIC}
@@ -157,9 +159,9 @@ This explanation covers:
 
 ## Further Reading
 
-- **Tutorial**: Learn by doing with [Tutorial: {Topic}](../tutorials/{link})
-- **How-To**: Apply this in practice with [How-To: {Task}](../how-to/{link})
-- **Reference**: Technical details in [{Reference}](../reference/{link})
+- **Tutorial**: Learn by doing with [Tutorial: {Topic}](../guides/{link})
+- **How-To**: Apply this in practice with [How-To: {Task}](../guides/{link})
+- **Reference**: Technical details in [{Reference}](../api/{link})
 - **External**: [Article/Book about {Topic}]({external-link})
 
 ---

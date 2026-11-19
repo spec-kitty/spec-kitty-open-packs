@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 45abd143c8ef6e9b380fc530de58e8bfdb853342563050b744e4ee2228c17033
+manifest_hash: d1f2f7f86e46c47a260ee76daca5407a89498ed342b757862a141be000d7c7ef
 constituents:
 - kind: agent_profile
   id: qa-defect-triager-dmitri
@@ -8,19 +8,19 @@ constituents:
 - kind: agent_profile
   id: qa-reporter-rhea
   path: agent_profiles/qa-reporter-rhea.agent.yaml
-  content_hash: bffe9b49183fd39a03383b36a8833bba7f4b9ec98a11e02bed68c9f03661e1b7
+  content_hash: 7327df40cff7c6a978e2d2fbf84bf12bb924d26cc9203beecc1b80658bb858df
 - kind: agent_profile
   id: qa-strategist-quinn
   path: agent_profiles/qa-strategist-quinn.agent.yaml
-  content_hash: 809d84d2f8b9a5221cd72c1094a21ad3043a1721725c8605b842ba59bc86bfba
+  content_hash: 13cf5dc13a9c75b367e0c2c9f56942620d9f09a9baf401b77d2b3a7b38fc6f53
 - kind: agent_profile
   id: qa-test-designer-tessa
   path: agent_profiles/qa-test-designer-tessa.agent.yaml
-  content_hash: 4fc8499a06d2b2cbefff05a08666c009ae9c3e04f6defe1df3a188d7e658e036
+  content_hash: 37cb54385d9bd0a2557ac021b9e80f6984d0d451e3e543893f52f4b82270b112
 - kind: agent_profile
   id: qa-test-executor-elena
   path: agent_profiles/qa-test-executor-elena.agent.yaml
-  content_hash: 33a8f5727a0aa479bae5cfa66bfa9b83246be2cf582c463fd67deede54b92ba9
+  content_hash: 7d9e8bfb208c85fa50ccd2d85dd9a0d25701d569eb0203de2d6d3c9e8cf91359
 - kind: asset
   id: qa-traceability-lint
   path: assets/qa_carrier_lint.py.asset.yaml
@@ -36,7 +36,7 @@ constituents:
 - kind: directive
   id: QA_001
   path: directives/qa-001-traceability-mandatory.directive.yaml
-  content_hash: 4d983384ca61eb3cfb9b07ac6abde603de865786481a6e62771176537e9b91c4
+  content_hash: d665f9915cf1db82b37955c38b363ba7a8e5128c1b15dc8b2c0b8f96d54e7d1e
 - kind: directive
   id: QA_002
   path: directives/qa-002-defect-report-quality.directive.yaml
@@ -74,17 +74,13 @@ constituents:
   path: missions/qa/qa.mission-type.yaml
   content_hash: aa4ef6040d6459355b05e84b0e45c9fd62f02bc39ac2db027bdd8fa3f8bd9405
 - kind: template
-  id: qa/EVIDENCE.md
-  path: missions/qa/templates/EVIDENCE.md
-  content_hash: f213180752506dfadf3eb107e6cfdd991856105976709321fdda06ec4c0678b2
-- kind: template
   id: qa/defect-log-template.md
   path: missions/qa/templates/defect-log-template.md
-  content_hash: b359a446950bf035d66d842db324cffa7a3daafcfdc1667be15833b87d119af3
+  content_hash: 8fdc6a77f3ab46da729f5a26a8fcd3b5305c71c483ecfc94678dcde83f26964d
 - kind: template
   id: qa/exploratory-charter-template.md
   path: missions/qa/templates/exploratory-charter-template.md
-  content_hash: adfee887945798b49aaf24aeebe9814a59e2c0b8eaedb6edab71afbc291c4e80
+  content_hash: 7fd1f094356059bbc33753d4dfc6550831b44bf2fd066c1100d2a8415725f236
 - kind: template
   id: qa/promise-page-template.md
   path: missions/qa/templates/promise-page-template.md
@@ -96,31 +92,31 @@ constituents:
 - kind: template
   id: qa/test-case-template.md
   path: missions/qa/templates/test-case-template.md
-  content_hash: e4564418fc3740749747d2fadb017b29a2309a918dccc7f0dda541e94afd49b9
+  content_hash: 515d7b75eaf88e139ebf8b8ddf8cfc16390f3f086ffa2a040e389a873e98e33f
 - kind: template
   id: qa/test-plan-template.md
   path: missions/qa/templates/test-plan-template.md
-  content_hash: e64d8d099c7a09afbfd11d4ff709a635ca3d283a46739e7b9ca97881b0622092
+  content_hash: 926cfa8293db71d2ecc076dfa5eaa560df7c1d40ef9b6ce02877883c3db95bd4
 - kind: template
   id: qa/test-report-template.md
   path: missions/qa/templates/test-report-template.md
-  content_hash: f5bca1c2628aee36fa8d38f9db7b174e33e2d076d67abbddd683a93be643f72c
+  content_hash: cd8c4feceaa712f1642c20155e4ec8337ad116687b0274d9c89882e2480bdced
 - kind: template
   id: qa/test-strategy-template.md
   path: missions/qa/templates/test-strategy-template.md
-  content_hash: 92752378e74fcbc02570de23b68defeb55cce679c37474a82efc0d81527033b0
+  content_hash: c607a990969dc7055b7be236d6ee8a695bdccd1d06c5c5e6256cb50568978e4f
 - kind: template
   id: qa/test-suite-template.md
   path: missions/qa/templates/test-suite-template.md
-  content_hash: 4547a54a3d6c4d173b28195f9a4d337e355c0a8aff61c377392df8a8d6a699d5
+  content_hash: f9974c2b40b3b86cf9cb4e17cdd02d4624e1c3744dfc3a29fe4fdab982c98626
 - kind: procedure
   id: qa-coverage-gap-analysis
   path: procedures/qa-coverage-gap-analysis.procedure.yaml
-  content_hash: 193038b1bc734153402b85d1829ba9a4a375fde4357107a64ee6b6465f280780
+  content_hash: 68f009760a49c78bed727f032085a80559a8e73be759f4095b45c6c807ee3338
 - kind: procedure
   id: qa-defect-triage-ritual
   path: procedures/qa-defect-triage-ritual.procedure.yaml
-  content_hash: 0fc4adb60b30a63d79eb0605699233e2e3125acff3eaf7f26cfa9ccd83ac2590
+  content_hash: c088807ef0f4b566c90cd747e71d1ee02c30440832ae5735fe0e10f8ed2f671c
 - kind: procedure
   id: qa-description-to-acceptance-ci
   path: procedures/qa-description-to-acceptance-ci.procedure.yaml
@@ -128,11 +124,11 @@ constituents:
 - kind: procedure
   id: qa-go-no-go-readiness-review
   path: procedures/qa-go-no-go-readiness-review.procedure.yaml
-  content_hash: ff9eeed0f7da964d959a466062c46a445a0433c6c78943f3c3f93a636121d506
+  content_hash: 9436d964b6795d560450c80d6a979f391e11d18f7af387634fafa4befd034859
 - kind: procedure
   id: qa-test-plan-review-workshop
   path: procedures/qa-test-plan-review-workshop.procedure.yaml
-  content_hash: a931a04efa28984aafae3add8b87fbc908947f913cac16d9af125013cf946c8b
+  content_hash: 6d5d95a21725ff5a8b7216e842ea9b546a3bb0cfa01d215d93381a43f24e4ca8
 - kind: styleguide
   id: qa-promise-page
   path: styleguides/qa-promise-page.styleguide.yaml
@@ -172,7 +168,7 @@ constituents:
 - kind: toolguide
   id: qa-carrier-lint
   path: toolguides/qa-carrier-lint.toolguide.yaml
-  content_hash: f5dbbcad30ff9f507a7449741ce10fa645b76a488c873b89237fef152bd7b48b
+  content_hash: 86d74b888e6a77d2513a95d417a467f7faf8e3bd8c71b4839a6447ed8870b387
 - kind: toolguide
   id: qa-promise-trace-lint
   path: toolguides/qa-promise-trace-lint.toolguide.yaml
@@ -180,7 +176,7 @@ constituents:
 - kind: toolguide
   id: qa-result-ingest
   path: toolguides/qa-result-ingest.toolguide.yaml
-  content_hash: 5b6b718b903d33c704449c09483db559a92ede19ab90c78f02a3b12fe0640ed7
+  content_hash: dd96910fdfc6480678cfb22cf2018d7cb6c93e77f06a05c1f86f5376e407fff5
 - kind: toolguide
   id: sonar
   path: toolguides/sonar.toolguide.yaml

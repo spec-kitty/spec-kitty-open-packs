@@ -506,11 +506,12 @@ edges:
   - source: "skill:semi-auto"
     target: "procedure:mission-wrap-up-sequence"
     relation: requires
-  # Triage pass: binds the label scheme and the backlog workflow rather than
-  # restating them.
+  # Triage pass: binds the backlog workflow rather than restating it. The label
+  # scheme is the repository's own (its tracker guide); the core repository's
+  # scheme is only suggested, so the pass stays repo-neutral.
   - source: "procedure:issue-triage-pass"
     target: "styleguide:spec-kitty-tracker-labels"
-    relation: requires
+    relation: suggests
   - source: "procedure:issue-triage-pass"
     target: "procedure:tracker-organisation-workflow"
     relation: suggests
@@ -617,7 +618,7 @@ edges:
     relation: requires
   - source: "skill:issue-triage"
     target: "styleguide:spec-kitty-tracker-labels"
-    relation: requires
+    relation: suggests
   - source: "skill:issue-triage"
     target: "planning-analysis::agent_profile:planner-priti"
     relation: suggests

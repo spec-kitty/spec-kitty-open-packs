@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/rust`
 - **Pack level:** `org`
-- **Declared version:** `1.1.0`
-- **Content checksum (sha256):** `e6ef82944be7e758f58c80a8bc3260f7d1930e6fa4626bea370eeaecb5acf8f7`
+- **Declared version:** `1.1.1`
+- **Content checksum (sha256):** `2887067843c46d848dc730aadbe13600bdda5279b3ae034d74c2eabbf97b94bc`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,7 +40,7 @@ Kitty.
 | `rust-ruben` | agent profile | A Rust implementer that requires `rust-conventions` and self-reviews with `rust-review-checks`. |
 | `rust` | preset | Puts the three above in force. |
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<3`, [`testing`](testing.md) `>=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`testing`](testing.md) `>=2.0,<4`
 
 ## Artifact inventory
 

@@ -97,8 +97,8 @@ token budget; whenever a fetch command appears, the accompanying
 
 ## Execution Steps
 
-> **Analysis-report gate (software-dev).** `spec-kitty implement` (and
-> `spec-kitty agent action implement`) refuses to claim a work package until a
+> **Analysis-report gate (software-dev).** `spec-kitty agent action implement`
+> refuses to claim a work package until a
 > current analysis report exists - it fails with `analysis_report_required`
 > otherwise. Run `/spec-kitty.analyze` and record the report first; if the
 > spec, plan, tasks or charter changed after the recorded `analysis-report.md`
@@ -117,11 +117,12 @@ Then execute the returned `check_prerequisites` command and capture
 `mission_dir`. All paths must be absolute.
 
 The output of `spec-kitty agent action implement ...` is the authoritative work
-package prompt and execution context. Do **not** separately call
-`spec-kitty charter context` or rummage through unrelated files looking for a
-"newer" prompt unless the command output tells you to. The
-**Governance Payload Contract** section above documents what the prompt is
-guaranteed to carry.
+package prompt and execution context. The `bootstrap` substep already loaded
+charter context for the implement action; do **not** load it again for the
+same action. Targeted `spec-kitty charter context --include ...` fetches stay
+allowed. Do not rummage through unrelated files looking for a "newer" prompt
+unless the command output tells you to. The **Governance Payload Contract**
+section above documents what the prompt is guaranteed to carry.
 
 ### 2. Load Work Package Prompt
 
@@ -206,8 +207,9 @@ classification artifact is required before implementation can begin.
 **What to check**:
 1. Read `meta.json` in the mission directory - look for `"change_mode": "bulk_edit"`
 2. If present, verify `occurrence_map.yaml` exists in the same directory
-3. The occurrence map classifies the target term by semantic category with
-   per-category actions: `rename`, `manual_review`, `do_not_change`, `rename_if_user_visible`
+3. The occurrence map names the `target` (term, replacement, operation) and gives
+   each category an action: `rename`, `manual_review`, `do_not_change` or
+   `rename_if_user_visible`
 
 **During implementation**:
 - Consult the occurrence map before modifying any file
@@ -218,8 +220,12 @@ classification artifact is required before implementation can begin.
 
 **If the gate blocks you**:
 The system will refuse to start implementation if the occurrence map is missing or
-incomplete. Create `occurrence_map.yaml` following the schema with `target`, `categories`
-(3+ with actions), and optionally `exceptions`. Re-run the implement command.
+incomplete. Create `occurrence_map.yaml` with `target`, `categories` and optionally
+`exceptions`. `categories` must classify all eight standard categories:
+`code_symbols`, `import_paths`, `filesystem_paths`, `serialized_keys`,
+`cli_commands`, `user_facing_strings`, `tests_fixtures` and `logs_telemetry`.
+The `occurrence-classification-workflow` tactic and the `spk-practice-bulk-edit`
+skill walk through it. Re-run the implement command.
 
 **If an inference warning fires**:
 The system may warn that spec content looks like a bulk edit even without `change_mode` set.
@@ -242,31 +248,15 @@ Before performing bulk renames or term replacements:
    grep -rn "target_term" src/ tests/ docs/ --include="*.py" --include="*.md" --include="*.yaml" --include="*.json"
    ```
 
-2. **Classify** each occurrence into one of these categories:
+2. **Classify** each occurrence by the category it falls in, using the
+   categories and actions in `occurrence_map.yaml`. When the mission has no
+   map yet, write one with the `occurrence-classification-workflow` tactic
+   (load it with `spec-kitty charter context --include tactic:occurrence-classification-workflow`)
+   or the `spk-practice-bulk-edit` skill. Put per-file overrides in the map's
+   `exceptions` list, each with a `path`, an `action` and a `reason`.
 
-   | Category | Example Pattern | Typical Action |
-   |----------|----------------|----------------|
-   | `import_path` | `from module.old_name import` | RENAME |
-   | `class_name` | `class OldName:` | RENAME |
-   | `function_name` | `def old_name():` | RENAME |
-   | `variable` | `old_name = ...` | RENAME |
-   | `dict_key` | `"old_name": value` | RENAME |
-   | `file_path` | `src/old_name/` | RENAME (with filesystem move) |
-   | `config_value` | `setting: old_name` | RENAME |
-   | `log_message` | `log("Processing old_name")` | UPDATE (human-readable) |
-   | `comment` | `# old_name does X` | UPDATE |
-   | `documentation` | `The old_name module...` | UPDATE |
-   | `test_fixture` | `test_old_name_works` | RENAME |
-   | `external_ref` | URL or external API name | PRESERVE |
-
-3. **Produce a classification report** as a markdown table in the WP
-   implementation notes. Example:
-
-   | File | Line | Occurrence | Category | Action |
-   |------|------|-----------|----------|--------|
-   | `src/foo.py` | 12 | `from old_name import` | `import_path` | RENAME |
-   | `docs/api.md` | 45 | `The old_name module` | `documentation` | UPDATE |
-   | `src/config.yaml` | 8 | `endpoint: https://api.old_name.com` | `external_ref` | PRESERVE |
+3. **Record per-file decisions** for `manual_review` categories in the WP
+   implementation notes, using the same category names and actions as the map.
 
 4. **Get classification confirmed** before proceeding with edits.
 

@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-11-19T11:30:53.080711+00:00",
+  "flattened": false,
+  "friendly_name": "Content audit P2: prompts, docs family, documentation and qa missions, internal flows",
+  "mid8": "01M7SS5R",
+  "mission_id": "01M7SS5RSSMD2T82KY8QXR7S3Y",
+  "mission_number": null,
+  "mission_slug": "content-audit-p2-prompts-01M7SS5R",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "This mission advances Content audit P2: prompts, docs family, documentation and qa missions, internal flows on fix/content-audit-p2-266-270 so stakeholders can track the work from mission creation onward.",
+  "purpose_tldr": "Fix the P2 content-audit findings #266-#270 so pack guidance is consistent, consumer-neutral and true to the rc9 CLI.",
+  "slug": "content-audit-p2-prompts-01M7SS5R",
+  "target_branch": "fix/content-audit-p2-266-270",
+  "topology": "single_branch",
+  "topology_source": "explicit"
+}

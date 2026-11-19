@@ -3,7 +3,7 @@ description: Generate documentation content against the locked design — Divio-
 ---
 # /spec-kitty.generate - Generate Documentation Content
 
-**Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `docs/reference/api/`). Never refer to a folder by name alone.
+**Path reference rule:** When you mention directories or files, provide either the absolute path or a path relative to the project root (for example, `docs/api/`). Never refer to a folder by name alone.
 
 **In repos with multiple missions, always pass `--mission <handle>` to every spec-kitty command.** The `<handle>` can be the mission's `mission_id` (ULID), `mid8` (first 8 chars of the ULID), or `mission_slug`.
 
@@ -17,7 +17,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Location Pre-flight Check
 
-**BEFORE PROCEEDING:** Verify you are working in the checkout `spec-kitty implement` printed (a lane worktree, or the write checkout for `single_branch`, usually the repository root checkout).
+**BEFORE PROCEEDING:** Verify you are working in the mission's working checkout. Unless the mission set up another, that is the repository root checkout, on the mission branch.
 
 ```bash
 pwd
@@ -26,7 +26,16 @@ git branch --show-current
 
 ## What This Step Produces
 
-- Documentation content pages under the target documentation directory (per `plan.md`'s navigation hierarchy), organized by Divio type: `tutorials/`, `how-to/`, `reference/`, `explanation/`.
+- Documentation content pages under `docs/`, in the common-docs section each Divio type maps to (per `plan.md`'s navigation hierarchy):
+
+  | Divio type | Section | Template |
+  |------------|---------|----------|
+  | Tutorial | `docs/guides/` | `template:documentation/divio/tutorial-template.md` |
+  | How-to | `docs/guides/` | `template:documentation/divio/howto-template.md` |
+  | Reference | `docs/api/` | `template:documentation/divio/reference-template.md` |
+  | Explanation | `docs/architecture/` | `template:documentation/divio/explanation-template.md` |
+
+  Load a template with `spec-kitty charter context --include template:documentation/divio/<name>`. Do not create `tutorials/`, `how-to/`, `reference/` or `explanation/` directories: the common-docs standard does not sanction them, and the structural lint fails them.
 - Generator output for reference content: Sphinx `autodoc`/`napoleon` for Python, JSDoc for JavaScript/TypeScript, rustdoc for Rust — whichever the `design` step selected.
 
 ## Goal
@@ -43,22 +52,31 @@ Produce the documentation content itself — Divio-typed pages written against t
 
 4. **Leave deferred Divio cells deferred.** Where `plan.md` deferred a cell, filling it here silently expands scope and breaks the discover→design→generate trace. If you believe a deferred cell must be filled now, that's a re-scoping decision — escalate, don't just write it.
 
-5. **Populate templates completely.** Replace every bracketed stub marker (e.g. `[NEEDS CONTENT: ...]`) with real content. A published page carrying an unresolved stub marker is a quality-gate failure caught after the fact — do not leave one for `validate` to catch first.
+5. **Start each page from its Divio template and fill every slot.** A slot is a `{...}` token the template carries, such as `{TUTORIAL_TITLE}`, `{YYYY-MM-DD}` or `{link}`. Replace each slot with real content. If you cannot fill a slot yet, replace it with `[TODO: <what is missing>]`, so the gap is named and searchable. Never leave a `{...}` slot in a page. A page flagged for publication carries no `[TODO:` marker either — `validate` fails it.
 
-6. **Link as designed.** Cross-links from reference into how-to, how-to into tutorial, explanation into the rest follow `plan.md`'s link graph. Do not invent ad-hoc links the navigation does not anticipate.
+6. **Fill the common-docs frontmatter on every page.** Keep `type:` as the template sets it: it is the page's Divio type. Set `doc_status: draft` (or the project's own starting value), `updated:` to today's date as `YYYY-MM-DD`, a `description` of 50-180 characters, and `audience` and `related` in the shape the common-docs styleguide gives. Name each file in lowercase kebab-case, and keep file names unique across sections.
 
-7. **Make tutorials and how-tos verbatim runnable.** Every command, every code block, every URL is something a reader will actually type. If it does not work in your environment, it will not work in the reader's — test it before you write it down.
+7. **Keep `docs/architecture/index.md` complete.** `architecture/` is curated-complete: link every explanation page you add from its `index.md`, or the structural lint's `index_completeness` check fails. Give every new section an `index.md`.
 
-8. **Mark unstable-API examples with their stability status** so readers can self-protect, and declare the living-documentation cadence and owner for pages expected to evolve with the code.
+8. **Link as designed.** Cross-links from reference into how-to, how-to into tutorial, explanation into the rest follow `plan.md`'s link graph. Do not invent ad-hoc links the navigation does not anticipate.
 
-9. **Commit content in small, reviewable increments.** A single commit covering an entire section is hard to review and harder to revert.
+9. **Make tutorials and how-tos verbatim runnable.** Every command, every code block, every URL is something a reader will actually type. If it does not work in your environment, it will not work in the reader's — test it before you write it down.
+
+10. **Mark unstable-API examples with their stability status** so readers can self-protect, and declare the living-documentation cadence and owner for pages expected to evolve with the code.
+
+11. **Keep reference aligned with its surface.** Reference content must match the code, schema or configuration it describes. If the surface changes during this step, update both, or stop and record the drift for `validate`. Reference output that cannot be regenerated is technical debt.
+
+12. **Run the structural lint before handoff.** The `common-docs-structural-lint` toolguide says how to resolve and run it. Run it with `--extended` over `docs/` and fix what it reports. `validate` runs it again.
+
+13. **Commit content in small, reviewable increments.** A single commit covering an entire section is hard to review and harder to revert.
 
 ## Success Criteria
 
 - Every required Divio cell from `plan.md` is filled or explicitly deferred with a recorded reason.
 - Generator output is reproducible: the recorded command and configuration produce the same result in a clean environment.
 - Reference content is aligned with the source of truth at the moment of generation.
-- No bracketed stub markers remain in any page flagged for publication.
+- No `{...}` template slot remains in any page, and no `[TODO:` marker remains in any page flagged for publication.
+- Every page sits in the section its Divio type maps to, carries the common-docs frontmatter, and passes the structural lint with `--extended`.
 
 ## Handoff
 

@@ -25,6 +25,14 @@ validation, or the pack schemas, it probably belongs there instead.
 - [ ] IDs are namespaced (or intentional built-in overrides are called out)
 - [ ] No pack ships executable gate assets, OR the executable surface is declared and the [security position](../SECURITY.md) was reviewed
 
+## New pack (if applicable)
+
+See [Contribute a pack](../docs/guides/contribute-a-pack.md).
+
+- [ ] Agreed in a Pack proposal issue: #
+- [ ] `pack_id` is a newly minted ULID, not copied from another pack, and `name` is not used by another pack
+- [ ] `README.md` preamble holds only the description; the `docs/packs/` page is regenerated (`python3 scripts/docs/gen_pack_reference.py`), not hand-edited
+
 ## Tickets / Contracts
 
 | Ticket | Relationship |

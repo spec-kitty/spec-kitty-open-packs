@@ -271,7 +271,7 @@ The recorded `analysis-report.md` is current only while the planning inputs it
 was computed against are unchanged. Editing the spec, plan, tasks or the
 charter after the report is recorded makes it **stale**. A stale (or missing)
 report is refused downstream: `spec-kitty next` re-issues the analyze step, and
-`spec-kitty implement` refuses to claim a work package with
+`spec-kitty agent action implement` refuses to claim a work package with
 `analysis_report_required`. Re-run `/spec-kitty.analyze` and record a fresh
 report whenever any of those inputs change.
 

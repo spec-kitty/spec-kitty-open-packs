@@ -102,10 +102,12 @@ Then execute the returned `check_prerequisites` command and capture
 `mission_dir`. All paths must be absolute.
 
 The output of `spec-kitty agent action review ...` is the authoritative work
-package prompt and review context. Do **not** separately call
-`spec-kitty charter context` or go hunting for alternate prompt files unless
-the command output tells you to. The **Governance Payload Contract** section
-above documents what the prompt is guaranteed to carry.
+package prompt and review context. The `bootstrap` substep already loaded
+charter context for the review action; do **not** load it again for the same
+action. Targeted `spec-kitty charter context --include ...` fetches stay
+allowed. Do not go hunting for alternate prompt files unless the command
+output tells you to. The **Governance Payload Contract** section above
+documents what the prompt is guaranteed to carry.
 
 ### 2. Load Work Package Prompt
 

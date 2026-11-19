@@ -22,27 +22,18 @@ languages where a Java analogue exists.
 
 ## Usage
 
-From a Python repository root:
-
-```bash
-make test-quality-scan
-```
-
-This scans all of `tests/` into `work/test-quality/<today>/`, which is
-gitignored. Pass extra flags through `SCAN_ARGS`:
-
-```bash
-make test-quality-scan SCAN_ARGS="--paths tests/status tests/consolidation"
-make test-quality-scan SCAN_ARGS="--since $(git rev-list -1 --before='48 hours ago' origin/main)"
-```
-
-Or call the asset directly through the charter pack asset resolver, which is
-the same file:
+From a Python repository root, call the asset through the charter pack asset
+resolver. It scans `tests/` (or the `--paths` you pass) into the `--out`
+folder; keep that folder gitignored, for example under `work/`:
 
 ```bash
 python "$(spec-kitty charter pack asset path test-quality-scan)" \
     --out work/test-quality/$(date +%F) [--paths tests/<domain>] [--since <rev>] [--top 25] [--no-git]
 ```
+
+A repository may wrap the same call in a make target of its own; its docs
+name it. Window mode keeps a run to recent changes, for example
+`--since $(git rev-list -1 --before='48 hours ago' origin/main)`.
 
 For Java, use `uv run` so the PEP 723 dependencies resolve automatically:
 

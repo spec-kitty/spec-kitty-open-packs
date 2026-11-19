@@ -5,6 +5,9 @@ nodes:
 - urn: asset:common-docs-structural-lint
   kind: asset
   label: Common Docs structural lint (ratchet successor); default policy data at assets/docs_structural_lint.config.yaml
+- urn: asset:common-docs-structural-lint-config
+  kind: asset
+  label: Common Docs structural lint default policy (the structural_lint_config block docs_structural_lint.py loads with --styleguide)
 - urn: asset:writing-audience-automation-agent
   kind: asset
   label: 'Writing-audience persona: Automation Agent'

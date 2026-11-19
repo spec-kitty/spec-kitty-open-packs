@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/spdd`
 - **Pack level:** `org`
-- **Declared version:** `3.1.0`
-- **Content checksum (sha256):** `c55e2aedb6726b7f545fc16e562d0ed36e4a8e61dae8b9640f1ded306c603f54`
+- **Declared version:** `3.1.1`
+- **Content checksum (sha256):** `d5c4cc539b807c108a7a15977b26dd101055a08439b9e035d00a25dc4e7cf94b`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ fill/review tactics and writing styleguide, and prompt enhancements for the
 `software-dev` specify, plan, tasks, implement and review steps. Activating its `spdd`
 preset selects the doctrine and all five step enhancements together.
 
-**Depends on:** [`architecture`](architecture.md) `>=2.0,<3`, [`foundation`](foundation.md) `>=2.0,<3`
+**Depends on:** [`architecture`](architecture.md) `>=2.0,<4`, [`foundation`](foundation.md) `>=2.0,<4`
 
 ## Artifact inventory
 

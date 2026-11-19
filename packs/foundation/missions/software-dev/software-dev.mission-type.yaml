@@ -1,18 +1,18 @@
 schema_version: '1.0'
 id: software-dev
 title: Software Development
-description: Build high-quality software with structured workflows and test-driven development
+description: Build software through a structured, charter-governed workflow from specification to acceptance
 content: |-
-  You are a software development agent following TDD practices.
-  You work to Library-First, CLI Interface and Test-First principles.
-  You work in structured phases: research -> design -> implement -> test -> review.
+  You are a software development agent.
+  Follow the project's charter: it sets the principles, practices and quality
+  gates for this mission. Load the charter context each step names; do not
+  assume principles the charter does not state.
 
-  Key practices:
-  - Tests before code
-  - Library-first architecture
-  - CLI interfaces for all missions
-  - Integration tests over mocks
-  - Real dependencies over mocks in testing
+  The mission runs these steps in order:
+  discovery -> specify -> plan -> tasks -> analyze -> implement -> review -> accept.
+
+  On-demand steps run when needed: charter, tasks-outline, tasks-packages,
+  tasks-finalize and retrospect.
 requires_substantive_spec: true
 path_conventions:
   workspace: src/
@@ -224,7 +224,7 @@ steps:
       kind: toolguide
       candidates:
       - execution-lanes
-    guidance: 'The execution-lanes toolguide describes the only supported git worktree mechanism. Spec Kitty chooses the topology at `finalize-tasks` by Mission size: small Missions run `single_branch` in the write checkout, and lane topologies use the lane worktrees `spec-kitty implement` provides. Do not create or reuse a lane worktree by hand.'
+    guidance: 'The execution-lanes toolguide describes the only supported git worktree mechanism. Spec Kitty chooses the topology at `finalize-tasks` by Mission size: small Missions run `single_branch` in the write checkout, and lane topologies use the lane worktrees that `spec-kitty agent action implement` allocates. Do not create or reuse a lane worktree by hand.'
   - id: branching-paradigm
     description: Apply trunk-based development when selected by the project charter
     delegates_to:

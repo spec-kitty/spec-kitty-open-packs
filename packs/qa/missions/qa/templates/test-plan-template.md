@@ -1,15 +1,3 @@
-<!--
-  Canonical source: missions/qa/templates/test-plan-template.md (this pack).
-  Interim consumption path: copy this file by hand to
-  .kittify/overrides/templates/test-plan-template.md in a consuming project. No installer
-  exists yet for this step (documented, not automated - see this pack's plan.md
-  Complexity Tracking for the mission that owns building one).
-  Removal condition: once the resolver-convergence mission's Step 0 lands (both
-  resolver forks gain a mission-scoped override tier) and its later step adds an
-  org-pack tier to both resolution chains, this file moves to the location that tier
-  resolves directly and the interim per-project copy step above is no longer needed.
--->
-
 # Test Plan Template
 
 Adopted from the ISO/IEC/IEEE 29119-3 test-plan section structure, for section structure only.

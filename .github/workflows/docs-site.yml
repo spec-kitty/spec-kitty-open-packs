@@ -3,9 +3,9 @@ name: Docs site
 # Builds the doc-kitty / Astro docsite from docs/, enforces the generated-content
 # drift gate, and publishes to GitHub Pages from main.
 #
-# On pull requests: the `build` and `drift-gate` jobs run so they protect the
-# mission PR; the `deploy` job is skipped. On pushes to main: all three run and
-# the site is published.
+# On pull requests: the `build`, `drift-gate` and `freshness` jobs run so they
+# protect the mission PR; the `deploy` job is skipped. On pushes to main:
+# `build`, `drift-gate` and `deploy` run and the site is published.
 #
 # ONE-TIME SETUP (repo admin, cannot be done from this workflow):
 #   Settings -> Pages -> "Build and deployment" -> Source: "GitHub Actions".
@@ -123,6 +123,39 @@ jobs:
         # --check exits non-zero on any drift (equivalent to re-running the
         # generator and `git diff --exit-code docs/packs/`).
         run: python3 scripts/docs/gen_pack_reference.py --check
+
+  freshness:
+    # The docs freshness gate the project charter lists (#297). On a pull request, every authored page
+    # under docs/ it changes must carry an `updated:` no older than the author date of its last commit;
+    # generated pages are left to the drift gate. Only changed pages are judged, so there is no
+    # baseline. A second, advisory step lists pages past their staleness threshold.
+    name: Docs freshness
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          # The pull request's own head, not the merge commit, and full history for the merge base.
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          # The checker runs the pull request's own code; it needs no token in .git/config.
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install the checker dependency
+        # A wheel only: no package setup script runs.
+        run: |
+          pip install --only-binary :all: "pyyaml==6.0.3"
+      - name: Changed pages carry a current updated date
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python3 scripts/docs/check_docs_freshness.py --base "$BASE_SHA"
+      - name: Report pages past their staleness threshold (advisory)
+        run: python3 scripts/docs/check_docs_freshness.py --report
 
   deploy:
     # Publish only from main; PR runs stop after build + drift-gate.

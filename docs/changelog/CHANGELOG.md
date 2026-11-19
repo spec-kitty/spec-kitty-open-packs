@@ -244,6 +244,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Three ADRs record decisions that lived only in pull requests and issues** (#295, epic #287).
+  ADR 2026-11-19-1 records charter slice B (#241, #242, PR #248): `README.md` is the pack
+  document, and `pack.md`, `PROVENANCE.md`, `org-charter.yaml` and `active_charter` are retired.
+  ADR 2026-11-19-2 records charter slice F (#285, PRs #289 and #293; charter ADR-0077): step
+  contracts fold into steps, steps are linked from mission types, and delegations are scoped.
+  ADR 2026-11-19-3 records the pin policy (operator ruling, 2026-11-18): `charter.lock.yaml` pins a
+  charter release by default and charter `main` only on demand, superseding the 2026-11-16
+  lockstep with `main`. It also records the 2026-11-16 ownership ruling: the charter owns the pack
+  logic, core assembles, and pack repositories own the content. No earlier ADR is superseded.
+  ADR 2026-11-11-1's existing slice F amendment now points to ADR 2026-11-19-2.
+  The vision and the roadmap's Charter pin theme, last changed on 2026-11-18 without their
+  `updated:` moving, were verified against the pin policy: the pin moves with charter releases, the
+  scheduled job bumps on a release, and both link ADR 2026-11-19-3.
+- **A contributor path for outside pack authors** (#296). The new guide
+  `docs/guides/contribute-a-pack.md` covers the proposal issue, `pack_id` and `name` identity,
+  the local checks and gates, review and landing, and warns that the pack contract still changes
+  often. `README.md`, the contributing guide and the guides index link it. The Pack proposal issue
+  template asks for the `name` qualifier and the canonical home, and the pull request template
+  gains a "New pack" checklist.
+
 - **The packs are checked against charter `main` every night** (#311). `charter-track.yml` gains a
   nightly main track: at 02:23 UTC, apart from the release track's 05:41, it runs the on-demand
   track's checks, the round trip included, against charter `main` built from source. It reports only:
@@ -659,8 +679,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   [#2471](https://github.com/spec-kitty/spec-kitty/issues/2471) validator,
   [#2539](https://github.com/spec-kitty/spec-kitty/issues/2539) trust). Candidate new **core**
   tickets are drafted for HiC approval only and were **not** filed.
+- **A docs freshness gate** (#297; the project charter's "docs freshness" gate). The `Docs site`
+  workflow gains a `Docs freshness` job on pull requests. `scripts/docs/check_docs_freshness.py`
+  fails an authored page under `docs/` that the pull request adds or changes when its `updated:` is
+  missing, older than the author date of the last commit to it, or more than a day later. The
+  author date survives a rebase, and paths are read NUL-separated, so non-ASCII names are judged.
+  Per the operator's ruling on #297, a pure rename (similarity 100%) and `docs/changelog/` are not
+  judged, and a commit trailer `Docs-Freshness-Unchanged: <path>` opts that page out for that
+  commit, visibly in history, so a typo fix need not move a date nobody re-verified. Only changed pages are judged, so there is no baseline. Pages carrying `generated:`
+  frontmatter are left to the drift gate. An advisory step lists pages past the staleness tiers of
+  writing's `docs-freshness-sla` styleguide (guides 90 days, ADRs 365) and this repository's
+  choice for other pages (180), and pages dated in the future, skipping `durable`, `superseded` and
+  `deprecated` pages. `tests/docs` covers the checker, so it runs under
+  the required gate.
+
 ### 🔄 Changed
 
+- **Missions here use `packs/` as their workspace** (found by the mission for #246).
+  `.kittify/config.yaml` maps `project.path_conventions.workspace` to `packs/`. Software-dev
+  missions change pack content and there is no `src/`, so without the remap `spec-kitty agent
+  mission accept` refused every one of them with "expects workspace path: src/ (not found)". The
+  remap is project-wide: it applies to every mission type that declares `workspace`. Research
+  missions now look for `packs/` instead of `research/` (accept then checks
+  `<deliverables>/packs/`, so a research mission here will likely need its own fix); documentation
+  missions check `packs/` instead of `docs/` for their workspace, while their `documentation: docs/`
+  key still checks `docs/`; plan missions check `packs/` instead of `docs/`, which is harmless. This
+  is an operator trade-off until the CLI offers per-mission-type overrides (spec-kitty/spec-kitty#7748).
+  Repository tooling only; no pack changes.
 - **The schema mirror follows charter #554's root-only graph shards** (#253, epic #287). Charter
   `main` reads a `<name>.graph.yaml` shard at the pack root only: a `drg/*.graph.yaml` is no longer
   modelled, and an unmodelled file is warned as `file_not_held` instead of refused.
@@ -979,6 +1024,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pack, and the multi-pack `--include` gap (spec-kitty#5779) is called out.
 
 ### 🐛 Fixed
+
+- **Pack guidance gives one instruction per step, names only what the consumer has, and matches
+  `spec-kitty-cli 4.0.0rc9`** (#266, #267, #268, #269, #270, #277, epic #263).
+  - **software-dev** (foundation): the mission persona names no charter principles and lists the
+    real steps. implement and review load charter context once, through the bootstrap substep. The
+    occurrence map uses the rc9 schema vocabulary. History is cleaned before the PR is presented,
+    never after merge. tasks-finalize says "planning branch". Agent-facing text names
+    `spec-kitty agent action implement`, since rc9 labels `spec-kitty implement` internal.
+  - **common-docs** (writing): no consumer gate requires `regenerate-graph`, a page-inventory
+    lockfile, a `related:` validator or an SEO step; each check-table row maps to the shipped lint
+    or to review. A new `common-docs-structural-lint` toolguide, plus a config asset sidecar, says
+    how to resolve and run `docs_structural_lint.py`.
+  - **documentation mission** (writing): Divio pages go to common-docs sections (`guides/`,
+    `api/`, `architecture/`) with common-docs frontmatter, and pass the lint with `--extended`.
+    The plan template and expected outputs describe the documentation flow; the two software-dev
+    template copies are gone and `release.md` is bound to its template. validate runs the lint,
+    the Divio `type:`, freshness and placeholder checks. Templates keep `{...}` slots; generate
+    fills each slot or writes `[TODO: ...]`. Guidelines hold only the quality gates.
+  - **qa mission**: no hand-install narrative, `EVIDENCE.md` or authoring-mission ids. review takes
+    `--since` from the status event log, accept names `qa-coverage.json`, the `qa-traceability/v1`
+    schema is inlined, and one dated note says what `blocking` enforces on rc9. Every step
+    prompt has steps and success criteria.
+  - **internal** `base`: the must-have landing, issue, semi-auto, triage, cloud-dispatch and
+    wrap-up flows name the repository's own changelog mechanism, PR template, docs scripts, make
+    targets and vocabulary check, from its charter or docs. No core-only preset; core keeps its
+    specifics as a project-tier override.
+  - **Versions** (DIRECTIVE_018, operator ruling at landing): `qa` 5.0.0 and `writing` 3.0.0 are
+    major, because each removes artifacts (`EVIDENCE.md`; the documentation mission's
+    `task-prompt-template.md` and `tasks-template.md`). `foundation` and the core bundles
+    (`testing`, `refactoring`, `architecture`, `planning-analysis`) move to 3.0.0 in lockstep,
+    `built-in` to 5.0.0, and every exact pin to `==3.0.0`. `internal` goes to 4.1.0 and `cave-kitty`
+    to 2.2.2. Org packs' `>=2.0,<3` ranges on the lockstep packs widen to `>=2.0,<4`, with a patch
+    bump each: `drupal`, `event-driven`, `go`, `java`, `javascript`, `pack-authoring`, `python`,
+    `rust` and `spdd`.
+  - **Upgrade:** a project that pins `foundation`, `writing` or a core bundle with `<3` widens the
+    range. A project that used the removed documentation templates or qa's `EVIDENCE.md` keeps a
+    project-tier copy.
 
 - **Consumer packs no longer point agents at this repository's tree, internal-only artifacts or
   paths a consumer does not have** (#258, #259, #265, epic #263).

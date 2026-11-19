@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/pack-authoring`
 - **Pack level:** `org`
-- **Declared version:** `1.3.0`
-- **Content checksum (sha256):** `703920322f0de8c0b09ad3a4ae5098dfee8ff307681c85b91468e809fe60cb3a`
+- **Declared version:** `1.3.1`
+- **Content checksum (sha256):** `360713dad5742141b44e2771dc5bb4d9775a08c4a673891823b8ed950fb4d64c`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external agents into a pack, deployable skill authoring, the voice doctrine instructions are written in, and the migration-to-charter procedure.
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<3`, [`writing`](writing.md) `>=2.0,<3`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`writing`](writing.md) `>=2.0,<4`
 
 ## Artifact inventory
 

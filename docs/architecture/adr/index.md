@@ -2,7 +2,7 @@
 title: Architecture Decision Records
 description: Index of architecture decision records for spec-kitty-open-packs, covering the content-from-code docsite direction and its integrity model.
 doc_status: active
-updated: '2026-11-18'
+updated: '2026-11-19'
 related:
 - architecture
 - architecture/docsite-design
@@ -41,8 +41,15 @@ context, the options considered, the chosen option, and its consequences.
 | 2026-11-11 | 2 | [Record a tree digest for every pack](2026-11-11-2-record-a-tree-digest-for-every-pack.md) | Accepted |
 | 2026-11-16 | 1 | [The roadmap and plans live in the docs, epics stay in the tracker](2026-11-16-1-roadmap-and-plans-in-the-docs.md) | Accepted |
 | 2026-11-18 | 1 | [A directive's enforcement level is a pack-supplied default](2026-11-18-1-directive-enforcement-is-a-pack-supplied-default.md) | Accepted |
+| 2026-11-19 | 1 | [README.md is the pack document, and org-charter.yaml is retired (charter slice B)](2026-11-19-1-readme-is-the-pack-document-charter-slice-b.md) | Accepted |
+| 2026-11-19 | 2 | [Step contracts fold into steps, steps are linked, delegations are scoped (charter slice F)](2026-11-19-2-step-contracts-fold-into-steps-charter-slice-f.md) | Accepted |
+| 2026-11-19 | 3 | [The packs pin a charter release, and the charter owns the pack logic](2026-11-19-3-pin-charter-releases-and-charter-owns-pack-logic.md) | Accepted |
 
 The 2026-07-18 ADRs emerge from the docsite research and await HiC ratification; they document a
 recommended direction, not yet-implemented policy. **ADR 2026-07-18-1 (MkDocs Material) is
 Superseded** by [ADR 2026-10-17-1](2026-10-17-1-doc-kitty-astro-as-docsite-generator.md), which
 adopts doc-kitty (Astro) as the shared product-line docs toolchain.
+
+The 2026-11-19 ADRs record decisions taken earlier (2026-11-12 to 2026-11-18) that had lived only
+in pull requests, issues and the changelog ([#295](https://github.com/spec-kitty/spec-kitty-open-packs/issues/295)).
+Each gives its decision date in its **Date** field.

@@ -1,9 +1,11 @@
 ---
+title: "How-To: {TASK_TO_ACCOMPLISH}"
+description: "{DESCRIPTION: 50-180 characters on what the page lets the reader do}"
 type: how-to
-divio_category: goal-oriented
-target_audience: experienced-users
-purpose: problem-solving-guide
-outcome: user-solves-specific-problem
+doc_status: draft
+updated: "{YYYY-MM-DD}"
+audience: "{AUDIENCE}"
+related: []
 ---
 
 # How-To: {TASK_TO_ACCOMPLISH}
@@ -135,9 +137,9 @@ You should see:
 
 ## Related Resources
 
-- **Tutorial**: New to this? Start with [Tutorial: {Topic}](../tutorials/{link})
-- **Reference**: See [{API/CLI Reference}](../reference/{link}) for all options
-- **Explanation**: Understand why this works in [Explanation: {Topic}](../explanation/{link})
+- **Tutorial**: New to this? Start with [Tutorial: {Topic}]({link})
+- **Reference**: See [{API/CLI Reference}](../api/{link}) for all options
+- **Explanation**: Understand why this works in [Explanation: {Topic}](../architecture/{link})
 
 ---
 

@@ -12,7 +12,7 @@ purpose: >
 
 specialization:
   primary-focus: >
-    The strategy step of the QA lifecycle (the spec.md-equivalent stage):
+    The test-strategy step of the QA lifecycle (`specify`, writing `spec.md`):
     enumerating and registering FR/NFR/C requirements for traceability,
     defining and freezing the exit criteria a later execution step must not
     silently amend, and building and maintaining the risk register that

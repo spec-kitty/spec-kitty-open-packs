@@ -2,7 +2,7 @@
 title: 'ADR: Split built-in into foundation, writing and opt-in bundles'
 description: built-in becomes a distribution pack over foundation, writing and (amended) the testing, refactoring, architecture and planning-analysis bundles; stacks stay opt-in.
 doc_status: active
-updated: '2026-11-11'
+updated: '2026-11-19'
 related:
 - packs
 - packs/built-in
@@ -100,6 +100,7 @@ The resulting packs:
     *Amended 2026-11-16 (#285):* no longer holds. Charter slice F (ADR-0077 decision 2) folds the step
     contracts into the substeps of their mission-type steps, and a delegation candidate another pack holds
     is written `<pack>::<id>` (writing's 34 candidates are `foundation::`-qualified).
+    Recorded in [ADR 2026-11-19-2](2026-11-19-2-step-contracts-fold-into-steps-charter-slice-f.md).
 * **Service-only refusals**, found by the service check:
   * A bundle may not add a relationship to the locked fallback profile.
   * A graph-only node (no file) is not held for a cross-pack reference.

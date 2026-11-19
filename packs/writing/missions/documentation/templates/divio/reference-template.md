@@ -1,9 +1,11 @@
 ---
+title: "Reference: {API/CLI/CONFIG_NAME}"
+description: "{DESCRIPTION: 50-180 characters on what the page lets the reader do}"
 type: reference
-divio_category: information-oriented
-target_audience: all-users
-purpose: technical-description
-outcome: user-knows-what-exists
+doc_status: draft
+updated: "{YYYY-MM-DD}"
+audience: "{AUDIENCE}"
+related: []
 ---
 
 # Reference: {API/CLI/CONFIG_NAME}
@@ -90,7 +92,7 @@ outcome: user-knows-what-exists
 ### See Also
 
 - [{Related API/command}](#{anchor})
-- [{Related concept}](../explanation/{link})
+- [{Related concept}](../architecture/{link})
 
 ---
 

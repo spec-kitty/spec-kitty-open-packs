@@ -2,9 +2,10 @@
 
 ## Role in the QA lifecycle
 
-This step is the `review.md`-equivalent stage: reviewing execution results for genuine,
-no-fake-green outcomes and producing the test report. In spirit, the last step before a release
-decision — but the actual release decision is made at `accept`.
+This step checks that the execution results are genuine, computes coverage from the evidence,
+triages defects and writes the test report. Its outputs are `test-report.md`, scaffolded from
+`test-report-template.md`, and the traceability carrier `qa-traceability.yaml`. The release
+decision itself is made at `accept`.
 
 ## Requested role
 
@@ -12,33 +13,40 @@ This step asks for the `qa-reporter` role. The pack's `qa` preset activates `qa-
 
 ## Directive citation
 
-- `QA_003` (no-fake-green) — no-fake-green is this step's defining constraint; the test report
-  must reflect genuine outcomes.
+- `QA_003` (no-fake-green): the report shows genuine outcomes, with numbers taken only from the
+  computed evidence.
 
-## Canonical artifact & template
+## What to do
 
-- Canonical artifact: `test-report.md`.
-- Template file: `test-report-template.md`.
+1. Load the step's governance: `spec-kitty charter context --action review --mission-type qa --json`.
+2. Find the execution start time (`--since`, below).
+3. Build the carrier with `qa-result-ingest` (below).
+4. Score it with `qa-traceability-lint` (below). This writes `qa-coverage.json`.
+5. Triage the defects in `defect-log.md` with the `qa-defect-triage-ritual` procedure.
+6. Fill `test-report.md`. Take every number in the coverage and pass/fail tables from
+   `qa-coverage.json`. Fill the residual-risk statement and the go/no-go recommendation.
+7. Commit `qa-traceability.yaml`, `qa-coverage.json` and `test-report.md`.
 
-## Evidence Ingestion
+### Find the execution start time
 
-Before running the traceability carrier's validator (below), resolve and run this mission's
-carrier producer, so the carrier the validator scores is one this mission's own machinery just
-built from the current run's evidence, not a stale or hand-typed file:
+`--since` is the moment test execution started. Results older than it are stale. Take it from
+the mission's status event log, never from a guess:
 
-1. Resolve the script's on-disk path: `spec-kitty charter pack asset path qa-result-ingest`.
-2. Run it against this mission's own inputs. `--results` is a repeatable append flag —
-   `--results PATH [--results PATH ...]`, one occurrence per result file, matching
-   `assets/qa_result_ingest.py`'s own documented invocation shape (module docstring) — **never** a
-   bare shell glob handed to a single `--results` occurrence: that only happens to run when the
-   glob expands to exactly one file, and breaks with `unrecognized arguments` the moment a second
-   result file exists. For two result files `a.xml` and `b.xml`: `--results evidence/results/a.xml
-   --results evidence/results/b.xml --strategy spec.md --tasks-dir tasks/ --since <timestamp>
-   --mission-dir . --json` (the full invocation is `python <resolved-path> --results
-   evidence/results/a.xml --results evidence/results/b.xml --strategy spec.md --tasks-dir tasks/
-   --since <timestamp> --mission-dir . --json`). To build this from however many files
-   `evidence/results/*.xml` actually expands to, without typing each path by hand, turn the glob
-   into repeated flags first (bash):
+1. List the work packages and their lanes:
+   `spec-kitty agent tasks status --mission <handle> --json`. Note the test-execution work
+   packages in `work_packages[]`.
+2. The status JSON carries lanes, not timestamps. Read the timestamps from the event log,
+   `kitty-specs/<mission>/status.events.jsonl`. Each lane change is one JSON line with `wp_id`,
+   `from_lane`, `to_lane` and `at`.
+3. Take the earliest `at` among those work packages' events with `to_lane` `in_progress`. For
+   example: `jq -r 'select(.to_lane == "in_progress") | .at' status.events.jsonl | sort | head -1`.
+   Narrow it to the execution work packages if other packages ran earlier.
+
+### Build the carrier
+
+1. Resolve the script: `spec-kitty charter pack asset path qa-result-ingest`.
+2. Pass each result file with its own `--results` flag. Never hand a shell glob to a single
+   `--results`: it breaks as soon as there are two files. In bash:
 
    ```
    shopt -s nullglob          # without this, an empty results/ passes the literal '*.xml'
@@ -48,84 +56,37 @@ built from the current run's evidence, not a stale or hand-typed file:
        --since <timestamp> --mission-dir . --json
    ```
 
-   `--results` is required only when at least one `tasks/WP*.md` case declares a non-empty
-   `automation_ref` anywhere in this mission; a legitimately exploratory/manual-only mission has
-   none and omits `--results` entirely.
-3. Source `<timestamp>` from this mission's own runtime state, never a fixed or guessed value: it
-   is the wall-clock time `implement`'s own "Evidence Commit Discipline" step began. Concretely,
-   read it off this mission's own event log — the `history:` entries every `tasks/WP*.md`
-   frontmatter accumulates (`at:`/`actor:`/`action:`, appended by `spec-kitty agent tasks
-   move-task`/`add-history`) — and take the earliest `at:` timestamp among this mission's
-   test-execution work package(s) moving `--to doing`. That transition is this mission's own
-   record of when evidence-producing execution started; use it verbatim as `--since`'s boundary.
-4. The ingester's exit code communicates status, mirroring the validator's own three-state
-   contract below: exit `0` (`ingested` — the carrier was produced or refreshed from real,
-   current-run evidence, no guard fired), exit `1` (`blocked` — a specific, named guard fired on
-   well-formed, interpretable input, e.g. zero parsed testcases or stale results, and the carrier
-   was deliberately not written or refreshed), or exit `2` (`error` — input this tool cannot use
-   at all, either syntactically unparseable/absent or well-formed but semantically
-   un-interpretable, e.g. the unsupported `status=`-attribute JUnit-XML dialect below).
+   `--results` is needed only when at least one case declares an `automation_ref`. A mission
+   with only manual and exploratory cases leaves it out.
+3. Read the exit code. `0` (`ingested`): the carrier was written from current-run evidence.
+   `1` (`blocked`): a named guard fired, for example zero test cases or stale results, and the
+   carrier was not written. `2` (`error`): the input is unusable, for example a missing `spec.md`
+   or an unsupported JUnit dialect. Fix the cause and run it again; do not hand-edit the carrier.
 
-**Disclosed non-support (FR-003)**. This ingester does **not** support TAP, TRX (MSTest/VSTest's
-own native XML schema), Cucumber JSON, Robot Framework's native XML, or CTRF in v1 — named
-explicitly here, never left as a vague "other formats" catch-all. Within JUnit-XML itself, only
-the outcome-as-child-element dialect (`<failure>`/`<error>`/`<skipped/>`) is supported; the
-outcome-as-`status`-attribute dialect some emitters use (e.g. `<testcase status="failed">` with no
-`<failure>` child) is explicitly unsupported and is detected and refused, never silently mis-read
-as passing.
+The ingester reads JUnit-XML only, in the dialect that marks outcomes with `<failure>`, `<error>`
+and `<skipped/>` child elements. It refuses the `status="..."` attribute dialect, and it does not
+read TAP, TRX, Cucumber JSON, Robot Framework XML or CTRF. See the `qa-result-ingest` toolguide.
 
-**Known limitation (FR-015)**. No runtime hook compels running this ingester or blocks on a
-`blocked`/`error` exit today: `GateBinding.handler_kind: "asset"` remains inert pending upstream
-issue #2599 (open), and the `blocking` flag on a step's expected output (`qa.mission-type.yaml`)
-is likewise not enforced by `accept` — the same gap this file's own "Evidence & Coverage
-Computation" section already discloses (FR-016) for the validator side of this carrier applies
-here too, on the producer side.
-Running this ingester today is mechanically checkable (a real exit code, a real
-`qa-traceability.yaml` on disk) but agent-invoked, never machine-enforced — nothing upstream
-blocks `review` or `accept` on it.
+### Score the carrier
 
-This disclosed-non-support and known-limitation text is mirrored from `assets/qa_result_ingest.py`'s
-own module docstring — the primary, authoritative home for this prose — and must be reconciled
-against that docstring's final, as-shipped wording at review time, not left to drift from it.
+1. Resolve the script: `spec-kitty charter pack asset path qa-traceability-lint`.
+2. Run `python <resolved-path> --carrier qa-traceability.yaml --mission-dir . --json`.
+3. Read the exit code. `0`: measured, verdict `ready`. `1`: measured, verdict `blocked`. `2`:
+   no carrier (`not_measured`) or a malformed one (`error`).
+4. The lint writes `qa-coverage.json` on every run. Take the requirement table from
+   `requirements_covered`, `requirements_uncovered` and `requirements_blocked`, and the case
+   counts from `passed`, `failed`, `skipped` and `overrun`. Never count by hand from the carrier
+   or the raw evidence.
 
-In practice, for this step: run the ingester before the validator below, and treat its exit code
-as informing whether a genuine, current-run carrier exists at all for the validator to score —
-this is agent-invoked discipline, not a mechanically enforced gate.
+## Success criteria
 
-## Evidence & Coverage Computation
+- `qa-traceability.yaml` was built by the ingester from this run's evidence.
+- `qa-coverage.json` exists, and every number in `test-report.md` matches it.
+- Every defect has an agreed severity and priority.
+- The go/no-go recommendation names the exit criteria it rests on.
 
-Before drafting `test-report.md`'s Coverage/Pass-Fail tables, resolve and run the traceability
-carrier's validator:
+## Hand-off
 
-1. Resolve the script's on-disk path: `spec-kitty charter pack asset path qa-traceability-lint`.
-2. Run it against this mission's own carrier: `--carrier qa-traceability.yaml --mission-dir . --json`
-   (the full invocation is `python <resolved-path> --carrier qa-traceability.yaml --mission-dir . --json`).
-   It exits `0` when `status: measured, verdict: ready`, `1` when `status: measured,
-   verdict: blocked`, or `2` when `status: not_measured` (no carrier) or `status: error` (carrier
-   present but malformed).
-3. The validator writes `qa-coverage.json` unconditionally. Source the Coverage/Pass-Fail tables'
-   numbers only from that file's own fields — `requirements_covered` / `requirements_uncovered` /
-   `requirements_blocked` for the requirement-level table, `passed` / `failed` / `skipped` /
-   `overrun` for the case-level counts — never by hand-counting or re-deriving them from the
-   carrier or the raw JUnit-XML/session evidence directly.
-4. This is required by `QA_003` (no-fake-green): the test report's numbers must be sourced by name
-   only from this project's machine-readable evidence carrier.
-
-**Known limitation (`pack-structured-carriers-01M0ME39` FR-016)**. The sentence below is the
-disclosure that sibling mission's own FR-016 mandates verbatim for the validator named in it; it
-is reproduced here word for word rather than restated, because that requirement says verbatim.
-(PMG-03 disambiguation: this citation is deliberately NOT this mission's — `feat-result-ingestion-
-01M0YTZP`'s — own, unrelated FR-016, the JUnit-XML `status=`-attribute dialect guard; the two
-numbers collide only because they belong to two different missions' Requirement Registers.)
-
-> No runtime hook compels running this validator or blocks on its verdict today:
-> `GateBinding.handler_kind: "asset"` remains inert pending upstream issue #2599 (open), and
-> although spec-kitty gained a live per-type artifact-presence gate on 2026-08-21
-> (`gather_artifact_presence`, closing #3597), it is wired only for the four built-in mission
-> families' own step vocabularies, ignores the `blocking` flag on a step's expected output entirely,
-> and has no entry for a custom type such as this pack's own `qa`, so `accept` still enforces
-> nothing from those declarations.
-
-In practice, for this step: following the steps above is agent-invoked discipline, not a
-mechanically enforced gate. Run the validator anyway, and treat its verdict as binding on your own
-report — nothing upstream will do it for you.
+`accept` re-checks the coverage against the frozen exit criteria and records the go/no-go
+decision. Run the ingester and the lint yourself: what the runtime enforces for this step is
+stated in the pack README, under "Known limitations".
