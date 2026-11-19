@@ -97,15 +97,15 @@
       "wp": "WP01"
     },
     "#266": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "ordering context only; no file overlap (operator ruling 1)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "software-dev prompts contradict each other",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#319": {
