@@ -1,0 +1,78 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-19T11:36:13.943571Z",
+      "decision_id": "01M7SSFJVQ5KSDH5SADRB69M1H",
+      "final_answer": "Confirm as listed, with the FR-004 version gate (CLI >= 3.1.0a5; missing/no JSON/older -> HIGH)",
+      "input_key": "requirement_set_confirmed",
+      "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
+      "mission_slug": "analyze-readiness-gate-01M7SSEV",
+      "opened_by": "cli",
+      "options": [
+        "Confirm as listed",
+        "Confirm with corrections",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": true,
+      "question": "Confirm the extracted requirement set (FR-001..FR-017, NFR-001..NFR-004, C-001..C-006) for #246/#237/#247 plus cave-kitty?",
+      "rationale": null,
+      "resolved_at": "2026-11-19T12:00:42.353617Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.requirement-set",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-19T11:36:16.489312Z",
+      "decision_id": "01M7SSFNB9DQCMCD4PVEBP92R7",
+      "final_answer": "HIGH (fail closed): verdict blocked; the finding names the CLI version that provides the check",
+      "input_key": "cannot_run_severity",
+      "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
+      "mission_slug": "analyze-readiness-gate-01M7SSEV",
+      "opened_by": "cli",
+      "options": [
+        "MEDIUM plus residual-risk warning",
+        "HIGH (fail closed)",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": true,
+      "question": "When finalize-tasks --validate-only cannot run, should analyze record a MEDIUM finding plus residual-risk warning, or a HIGH finding that blocks the verdict?",
+      "rationale": null,
+      "resolved_at": "2026-11-19T11:37:11.447874Z",
+      "resolved_by": null,
+      "slot_key": "specify.readiness.cannot-run-severity",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-19T12:02:40.515112Z",
+      "decision_id": "01M7SV0083VK137H0ZRRHHAC58",
+      "final_answer": "New tactic(s) cited from the prompts: requirement-quality-ears (specify, analyze) and wp-prompt-readiness-review (analyze)",
+      "input_key": "check_placement",
+      "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
+      "mission_slug": "analyze-readiness-gate-01M7SSEV",
+      "opened_by": "cli",
+      "options": [
+        "New tactic(s) cited from the prompts",
+        "Inline in the prompts",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "Where do the #237/#247 checks live: inline in the analyze/specify prompts, or in new foundation tactic(s) scoped to the specify and analyze actions and cited from the prompts?",
+      "rationale": null,
+      "resolved_at": "2026-11-19T12:03:41.836402Z",
+      "resolved_by": null,
+      "slot_key": "plan.architecture.check-placement",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
+  "version": 1
+}
