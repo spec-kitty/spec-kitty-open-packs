@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
-- **Declared version:** `2.1.0`
-- **Content checksum (sha256):** `d0af1f1d37879c07e3febc2b2ef923fc1d9979606faf748180532a64b00d35f7`
+- **Declared version:** `2.2.0`
+- **Content checksum (sha256):** `f94f04d5430ff96995b3518cf7ad856881a664e040bd55b0caf2d87c73990e36`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,7 +40,7 @@ glossary.
 | Kind | Count |
 | --- | --- |
 | `directives` | 32 |
-| `tactics` | 58 |
+| `tactics` | 60 |
 | `styleguides` | 1 |
 | `toolguides` | 12 |
 | `paradigms` | 1 |
@@ -50,7 +50,7 @@ glossary.
 | `guards` | 1 |
 | `lifecycles` | 1 |
 | `missions` | 60 |
-| **Total files** | **228** |
+| **Total files** | **230** |
 
 ### Full listing
 
@@ -93,17 +93,19 @@ glossary.
 </details>
 
 <details>
-<summary><code>tactics</code> (58)</summary>
+<summary><code>tactics</code> (60)</summary>
 
 - `adversarial-qa-handoff.tactic.yaml`
 - `analysis/bounded-context-identification.tactic.yaml`
 - `analysis/dialectic-research.tactic.yaml`
 - `analysis/forensic-repository-audit.tactic.yaml`
 - `analysis/premortem-risk-identification.tactic.yaml`
+- `analysis/requirement-quality-ears.tactic.yaml`
 - `analysis/requirements-validation-workflow.tactic.yaml`
 - `analysis/reverse-speccing.tactic.yaml`
 - `analysis/safe-to-fail-experiment.tactic.yaml`
 - `analysis/split-brain-authority-detection.tactic.yaml`
+- `analysis/wp-prompt-readiness-review.tactic.yaml`
 - `architectural-gate-non-vacuity.tactic.yaml`
 - `architecture/deepening-opportunity-assessment.tactic.yaml`
 - `architecture/dependency-hygiene.tactic.yaml`
