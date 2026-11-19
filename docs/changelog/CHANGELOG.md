@@ -1014,6 +1014,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **Pack guidance gives one instruction per step, names only what the consumer has, and matches
+  `spec-kitty-cli 4.0.0rc9`** (#266, #267, #268, #269, #270, #277, epic #263).
+  - **software-dev** (foundation): the mission persona names no charter principles and lists the
+    real steps. implement and review load charter context once, through the bootstrap substep. The
+    occurrence map uses the rc9 schema vocabulary. History is cleaned before the PR is presented,
+    never after merge. tasks-finalize says "planning branch". Agent-facing text names
+    `spec-kitty agent action implement`, since rc9 labels `spec-kitty implement` internal.
+  - **common-docs** (writing): no consumer gate requires `regenerate-graph`, a page-inventory
+    lockfile, a `related:` validator or an SEO step; each check-table row maps to the shipped lint
+    or to review. A new `common-docs-structural-lint` toolguide, plus a config asset sidecar, says
+    how to resolve and run `docs_structural_lint.py`.
+  - **documentation mission** (writing): Divio pages go to common-docs sections (`guides/`,
+    `api/`, `architecture/`) with common-docs frontmatter, and pass the lint with `--extended`.
+    The plan template and expected outputs describe the documentation flow; the two software-dev
+    template copies are gone and `release.md` is bound to its template. validate runs the lint,
+    the Divio `type:`, freshness and placeholder checks. Templates keep `{...}` slots; generate
+    fills each slot or writes `[TODO: ...]`. Guidelines hold only the quality gates.
+  - **qa mission**: no hand-install narrative, `EVIDENCE.md` or authoring-mission ids. review takes
+    `--since` from the status event log, accept names `qa-coverage.json`, the `qa-traceability/v1`
+    schema is inlined, and one dated note says what `blocking` enforces on rc9. Every step
+    prompt has steps and success criteria.
+  - **internal** `base`: the must-have landing, issue, semi-auto, triage, cloud-dispatch and
+    wrap-up flows name the repository's own changelog mechanism, PR template, docs scripts, make
+    targets and vocabulary check, from its charter or docs. No core-only preset; core keeps its
+    specifics as a project-tier override.
+
 - **Consumer packs no longer point agents at this repository's tree, internal-only artifacts or
   paths a consumer does not have** (#258, #259, #265, epic #263).
   - `packs/built-in/...` paths in writing and planning-analysis styleguides, the lint config and
