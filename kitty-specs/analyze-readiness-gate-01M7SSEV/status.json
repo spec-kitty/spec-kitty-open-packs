@@ -97,7 +97,7 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude::doctrine-daphne",
+      "agent": "claude::generic-reviewer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -117,7 +117,8 @@
         "Approved at bbff933 (independent review, session_019C2Tk5NruMoumnqkuwALns). Cycle-1 fixes verified: F1 version gate is its own block with a stop before the validate-only command; F2 ordered classification, could-not-run first (US2.2 -> HIGH); F3 one-defect-one-finding rule covers 2b and passes A-G; F4 B/Q split yields B + Q(testable) for US4 with no double report; F5 deterministic numbering defined; F7 Recommendation wording. F6 tasks-outline CRITICAL is backed by spec.md Edge Cases; data-model omission is with the orchestrator (decision 10). Gates: 380 lines, ASCII, vocabulary 0; implementer reports validate-packs 0 and tests/ci 211 passed; the reviewer could not reproduce the charter-dependent gates (404).",
         "Reopened per orchestrator decision 11(a): extend 2a case 1 (could not run) to branch-contract / placement error_codes found by the WP05 dry run (PLANNING_BRANCH_NOT_PERSISTED). (Re-recorded after reconciling a crossed coordination push.)",
         "- 2026-11-19T14:19:00Z – claude::doctrine-daphne – Decision 11(a) at lane-c 4f4f0f6: 2a case 1 (could not run, HIGH) now also covers refusals about where the check runs - PLANNING_BRANCH_NOT_PERSISTED, PR_BOUND_PLANNING_BRANCH_REQUIRED, PR_BOUND_RECOVERY_FOREIGN_META_DELTA, CHECKOUT_WRITE_OWNERSHIP_REFUSED (mission_finalize_branch_contract.py, CLI 4.0.0rc9) - plus the fix 'run from the Mission's planning checkout'. Test assertion lands in WP05. 380 lines, ASCII ok, validate-packs 0, vocabulary 0.",
-        "Resubmitted at 4f4f0f6 (decision 11 one-line fix)"
+        "Resubmitted at 4f4f0f6 (decision 11 one-line fix)",
+        "Re-review of decision-11 delta at 4f4f0f6."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
