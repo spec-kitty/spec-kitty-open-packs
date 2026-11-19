@@ -80,20 +80,27 @@ Load only the minimal necessary context from each artifact:
 
 ### 2a. Validate Task Finalization (read-only)
 
-After loading the artifacts and before any detection pass, check the CLI version, then run the read-only finalization check once from repo root:
+After loading the artifacts and before any detection pass, check the CLI version first:
 
 ```bash
-spec-kitty --version   # the check needs spec-kitty CLI >= 3.1.0a5
-spec-kitty agent mission finalize-tasks --validate-only --mission <mission-slug> --json
+spec-kitty --version
 ```
 
-`--validate-only` exists from 3.0.0 but writes nothing only from 3.1.0a5. Below 3.1.0a5, do **not** run it: record the could-not-run finding below instead.
+`--validate-only` exists from 3.0.0 but writes nothing only from 3.1.0a5. **If the version is below 3.1.0a5, or `spec-kitty` is not installed, stop here: do not run the check.** Record the could-not-run finding below and go on to step 2b. Otherwise run the read-only finalization check once from repo root:
+
+```bash
+spec-kitty agent mission finalize-tasks --validate-only --mission <mission-slug> --json
+```
 
 Parse the JSON it prints. Record the exit code, and keep the payload's keys and values verbatim for the report (step 6). Do not edit any artifact in response and do not re-run the check after a "fix": this command is non-remediating.
 
 **The check is fail-fast.** Each gate refuses on its first failure and the run stops there, so a refusal reports one failure class only. Never read a single refusal as the only problem: the gates after it did not run. Say so in the report's residual-risk section.
 
-**Exit code non-zero with an `error` payload: a validation refusal.** `finalize-tasks` would refuse to finalize these artifacts, so the lanes implementation runs from cannot be computed from them. Report each refusal as a **CRITICAL** finding in category `finalize-validation`, quoting `error` and naming the WPs and ids from the payload. Recognise the refusal by the keys that carry a non-empty value (the requirement-mapping refusal lists all four of its keys, empty ones included):
+Classify the result in this order; the first case that matches wins.
+
+**1. The check could not run.** The CLI is older than 3.1.0a5 or missing, the command prints no JSON, or it fails to resolve the mission or the repository rather than judging the artifacts (an `error_code` such as `MISSION_AMBIGUOUS_SELECTOR`, `MISSION_CONTEXT_UNRESOLVED` or another `MISSION_*` resolution code, or the `error` "Could not locate project root"). This fails closed: add one **HIGH** finding in category `finalize-validation` that names `spec-kitty CLI >= 3.1.0a5`, the installed version (or "not installed") and how to get the check running (upgrade the CLI; pass an unambiguous `--mission` handle), and add a Residual Risk entry saying requirement mappings, dependency cycles, ownership overlaps and WP metadata were not machine-checked. Continue with step 2b; do not re-implement the CLI's checks by hand as a substitute.
+
+**2. Exit code non-zero with an `error` payload: a validation refusal.** `finalize-tasks` would refuse to finalize these artifacts, so the lanes implementation runs from cannot be computed from them. Report each refusal as a **CRITICAL** finding in category `finalize-validation`, quoting `error` and naming the WPs and ids from the payload. Recognise the refusal by the keys that carry a non-empty value (the requirement-mapping refusal lists all four of its keys, empty ones included):
 
 | Payload key(s) | What it means |
 |---|---|
@@ -110,18 +117,16 @@ Parse the JSON it prints. Record the exit code, and keep the payload's keys and 
 | `ownership_contradiction_wp_ids`, `ownership_contradictions` | A `code_change` WP with an explicitly empty `owned_files` |
 | `error_code: STALE_CANCELED_DEPENDENCIES` | Executable WPs that depend on canceled WPs |
 | `risk_report` | Parallelization risk exceeds the project's blocking threshold |
-| any other `error` or `error_code` | Report it verbatim: invalid WP metadata, an unloadable `wps.yaml`, a refused re-finalization of started work, or another gate |
+| any other `error` or `error_code` (not a case-1 resolution code) | Report it verbatim: invalid WP metadata, an unloadable `wps.yaml`, a refused re-finalization of started work, or another gate |
 
-**Exit code 0 with `"result": "validation_passed"`: the gates passed.** Still read the payload:
+**3. Exit code 0 with `"result": "validation_passed"`: the gates passed.** Still read the payload:
 
-- `"validation_stage": "tasks-outline"`: only the `wps.yaml` outline exists and no WP prompt files were generated. Implementation cannot start: **CRITICAL** (run `/spec-kitty.tasks-packages`).
-- `tasks_md_stale: true`: `tasks.md` is out of step with `wps.yaml`. **HIGH** (re-run `/spec-kitty.tasks-finalize`).
-- `would_modify` not empty: finalization would still rewrite the frontmatter of the listed WPs (each entry names the `wp_id` and the `changes`). Either finalization has not run, or the WP files changed after it ran; either way the WP files are not the finalized metadata implementation will use. **HIGH** (run `/spec-kitty.tasks-finalize`).
+- `"validation_stage": "tasks-outline"`: only the `wps.yaml` outline exists and no WP prompt files were generated. Implementation cannot start: **CRITICAL**; Recommendation: run `/spec-kitty.tasks-packages`. Step 2b cites this finding for the missing prompts.
+- `tasks_md_stale: true`: `tasks.md` is out of step with `wps.yaml`. **HIGH**; Recommendation: re-run `/spec-kitty.tasks-finalize`.
+- `would_modify` not empty: finalization would still rewrite the frontmatter of the listed WPs (each entry names the `wp_id` and the `changes`). Either finalization has not run, or the WP files changed after it ran; either way the WP files are not the finalized metadata implementation will use. **HIGH**; Recommendation: run `/spec-kitty.tasks-finalize`.
 - `ownership_warnings`, `requirement_extraction_warnings`, `post_integration_acceptance_warnings`: one **MEDIUM** finding per warning; they do not stop finalization.
 - `success_criteria_coverage`: success criteria no WP references are informational; fold them into the coverage summary rather than raising findings.
 - `validation.lanes_preview.collapse_report`: independent WPs collapsed into one lane are a **LOW** finding (lost parallelism), not a blocker.
-
-**The check could not run.** The CLI is older than 3.1.0a5, the command is missing or unavailable, it prints no JSON, or its `error_code` concerns resolving the mission or repository rather than the artifacts (for example `MISSION_AMBIGUOUS_SELECTOR` or `MISSION_CONTEXT_UNRESOLVED`). This fails closed: add one **HIGH** finding in category `finalize-validation` that names `spec-kitty CLI >= 3.1.0a5`, the installed version (or "not installed") and how to get the check running (upgrade the CLI; pass an unambiguous `--mission` handle), and add a Residual Risk entry saying requirement mappings, dependency cycles, ownership overlaps and WP metadata were not machine-checked. Continue with the detection passes; do not re-implement the CLI's checks by hand as a substitute.
 
 ### 2b. Review Every WP Prompt
 
@@ -133,7 +138,7 @@ Apply tactic `wp-prompt-readiness-review` (fetch: `spec-kitty charter context --
 - size: target 200-500 lines; warn above 700 lines or more than 10 subtasks;
 - dependency order, cohesive boundaries (an undeclared dependency on another WP's files is a blocker), and the mapping to requirements and user value.
 
-Category `wp-readiness`. A blocker is **HIGH** (missing or orphaned WP prompt; a template field or section implementation depends on is missing or a placeholder; a WP mapped to no requirement; an undeclared dependency). A quality improvement is **MEDIUM** or **LOW** (profile load not first, size, overbroad scope, vague mapping wording). If step 2a already refused the pairing (`missing_wp_sections`, `extra_wp_sections`) or a cycle, cite that `V` finding in the Per-WP Readiness row instead of raising a second finding for the same defect.
+Category `wp-readiness`. A blocker is **HIGH** (missing or orphaned WP prompt; a template field or section implementation depends on is missing or a placeholder; a WP mapped to no requirement; an undeclared dependency). A quality improvement is **MEDIUM** or **LOW** (profile load not first, size, overbroad scope, vague mapping wording). Where a `V` finding already covers a defect (pairing, `tasks-outline`, a cycle, a WP mapped to no requirement), cite its id in the Per-WP Readiness row instead of raising a `W` finding (see the one-defect rule in step 4).
 
 ### 3. Build Semantic Models
 
@@ -147,6 +152,8 @@ Create internal representations (do not include raw artifacts in output):
 ### 4. Detection Passes (Token-Efficient Analysis)
 
 Focus on high-signal findings. Limit to 50 findings total; aggregate remainder in overflow summary.
+
+**One defect, one finding.** When a step 2a `V` finding already covers a defect, steps 2b and passes A-G cite that `V` id (in the table's Notes or the Per-WP Readiness row) instead of raising their own finding. For example: a requirement with zero tasks (`unmapped_functional_requirements`), a WP mapped to no requirement (`missing_requirement_refs_wps`), an unknown requirement ref, a cycle, or a missing WP prompt.
 
 #### A. Duplication Detection
 
@@ -184,7 +191,7 @@ Focus on high-signal findings. Limit to 50 findings total; aggregate remainder i
 
 #### G. Requirement Quality and Scenario Audit
 
-Apply tactic `requirement-quality-ears` (fetch: `spec-kitty charter context --include tactic:requirement-quality-ears`). Pass B keeps vague adjectives and placeholders; pass G judges the rest. In one line each:
+Apply tactic `requirement-quality-ears` (fetch: `spec-kitty charter context --include tactic:requirement-quality-ears`). Pass B reports vague adjectives and placeholders; a `Q` finding covers only the properties B did not report, and cites the B id when both apply to one requirement. In one line each:
 
 - each requirement is testable, solution-free, unambiguous, consistent and complete (category `requirement-quality`);
 - behavioural requirements read against the EARS patterns as a lens, not a template, and state a response an actor or a test can observe (category `requirement-quality`);
@@ -233,7 +240,7 @@ After the closing `---`, draft the Markdown body with the following structure:
 |----|----------|----------|-------------|---------|----------------|
 | D1 | Duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
 
-One row per finding. Finding ids use one fixed prefix per category, numbered in order of appearance, so a rerun on unchanged artifacts yields the same ids:
+One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, charter), then by line, so a rerun on unchanged artifacts yields the same ids:
 
 | Prefix | Category | Prefix | Category |
 |---|---|---|---|
