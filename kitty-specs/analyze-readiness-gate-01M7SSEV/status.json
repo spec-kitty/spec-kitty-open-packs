@@ -1,7 +1,7 @@
 {
-  "event_count": 42,
-  "last_event_id": "01M7T2GNDZEQMSPTSHJ8R95DDR",
-  "materialized_at": "2026-11-19T14:14:06.527893+00:00",
+  "event_count": 43,
+  "last_event_id": "01M7T2KS3M6K1SE1VDX2ZZ59K0",
+  "materialized_at": "2026-11-19T14:15:48.596948+00:00",
   "mission_number": "",
   "mission_slug": "analyze-readiness-gate-01M7SSEV",
   "mission_type": "software-dev",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 0
   },
   "work_packages": {
@@ -178,9 +178,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude::implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M7T2GNDZEQMSPTSHJ8R95DDR",
-      "last_transition_at": "2026-11-19T14:14:06.527893+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M7T2KS3M6K1SE1VDX2ZZ59K0",
+      "last_transition_at": "2026-11-19T14:15:48.596948+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-19T14:13:51Z – claude::implementer-ivan – shell_pid=21263 – At b8f6c88. T020 tests/ci/test_analyze_readiness_prompts.py: 8 tests (read-only invariant on software-dev and cave-kitty analyze, same-fixture positive control, 3.1.0a5 in both, version check precedes the validate-only command, tactic citations in analyze/cave/specify, <=500 lines, fixed id-prefix table, tactic files parse with their ids). Non-vacuity: appending 'spec-kitty agent mission finalize-tasks --mission x --json' to the real analyze prompt turns the test red; restored green. T021 lockstep minors (DIRECTIVE_018), computed by transitive exact-pin closure: foundation 2.1.0->2.2.0, writing 2.1.0->2.2.0, testing/refactoring/architecture/planning-analysis 2.2.0->2.3.0, built-in 4.1.0->4.2.0, cave-kitty 2.2.1->2.3.0 (range pin, own content); every ==pin moved. T022 manifests derived (no change), digests restamped, 8 pack pages regenerated, gen_pack_reference --check no drift. Out-of-map: tests/ci/test_pack_digest.py BUILT_IN_DIGEST -> 57f41837..., the same release step #301 took (45aa77c). T023 changelog Added entry. T024 gates: validate-packs 0, tests/ci 219 passed, vocabulary 0, pack_digest --check 0, check-pack-digests 0, pages no drift, charter service (release jar service-v0.1.0-rc.1, SHA-256 verified, ebce908 contracts) exit 0.",
@@ -188,7 +188,7 @@
         "Ready for review at b8f6c88"
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
+      "role": "reviewer",
       "shell_pid": 21263,
       "shell_pid_created_at": "1795097299.97",
       "subtasks": {
