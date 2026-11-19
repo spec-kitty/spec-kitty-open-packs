@@ -1039,6 +1039,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     wrap-up flows name the repository's own changelog mechanism, PR template, docs scripts, make
     targets and vocabulary check, from its charter or docs. No core-only preset; core keeps its
     specifics as a project-tier override.
+  - **Versions** (DIRECTIVE_018, operator ruling at landing): `qa` 5.0.0 and `writing` 3.0.0 are
+    major, because each removes artifacts (`EVIDENCE.md`; the documentation mission's
+    `task-prompt-template.md` and `tasks-template.md`). `foundation` and the core bundles
+    (`testing`, `refactoring`, `architecture`, `planning-analysis`) move to 3.0.0 in lockstep,
+    `built-in` to 5.0.0, and every exact pin to `==3.0.0`. `internal` goes to 4.1.0 and `cave-kitty`
+    to 2.2.2. Org packs' `>=2.0,<3` ranges on the lockstep packs widen to `>=2.0,<4`, with a patch
+    bump each: `drupal`, `event-driven`, `go`, `java`, `javascript`, `pack-authoring`, `python`,
+    `rust` and `spdd`.
+  - **Upgrade:** a project that pins `foundation`, `writing` or a core bundle with `<3` widens the
+    range. A project that used the removed documentation templates or qa's `EVIDENCE.md` keeps a
+    project-tier copy.
 
 - **Consumer packs no longer point agents at this repository's tree, internal-only artifacts or
   paths a consumer does not have** (#258, #259, #265, epic #263).
