@@ -43,8 +43,8 @@ validation are no longer a concern of the core repository. That ruling still sta
 
 **Which charter the pin follows.** The same day, the operator ruled that the packs track charter
 `main` in lockstep. The pin moved to charter `main` `050d780` under that ruling (PR #293). On
-2026-11-18 the charter published its first service pre-release, `service-v0.1.0-rc.1`, and the
-operator replaced lockstep with a release pin.
+2026-11-18 the operator replaced lockstep with a release pin, naming the charter's first service
+pre-release, `service-v0.1.0-rc.1`, as the first pin.
 
 ## Decision Drivers
 
@@ -74,8 +74,11 @@ on-demand and nightly runs against `main` keep the early warning.
 | Repository | Owns |
 | --- | --- |
 | [`spec-kitty-charter`](https://github.com/spec-kitty/spec-kitty-charter) | The pack logic: schemas, structure, validation, resolution, the DRG, activation. |
-| [`spec-kitty`](https://github.com/spec-kitty/spec-kitty) (core) | The deployable assembler. A core release is never a gate for pack work. |
+| [`spec-kitty`](https://github.com/spec-kitty/spec-kitty) (core) | The deployable assembler. |
 | Pack repositories, this one included | The content. |
+
+This builds on the earlier operator ruling of 2026-11-06: packs align with the charter contracts,
+and a core release is never a gate for pack work.
 
 ### Pin policy (operator ruling, 2026-11-18)
 
@@ -92,7 +95,8 @@ on-demand and nightly runs against `main` keep the early warning.
     the packs against unreleased charter, `main` by default, and only reports;
   * nightly, it checks charter `main`, and keeps one `charter:main-red` issue open while that
     fails.
-  * The `main` runs never bump the lock, and none of these runs is a required check.
+  * The `main` runs never bump the lock. `Charter track` is not a required check (the
+    contributing guide, "What runs where").
 
 The first release pin, `service-v0.1.0-rc.1` at commit
 `ebce9083cc132c4cc7f7602f8b8681b933dac98a`, landed in PR #306.

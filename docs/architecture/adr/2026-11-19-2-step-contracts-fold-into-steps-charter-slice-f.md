@@ -50,7 +50,7 @@ could not move past slice F until they followed.
 * The packs validate against the charter at the pin, and the new pin refuses every step-contract
   file and every unlinked step or unscoped candidate.
 * The old pin refused `substeps`, so the fold and the pin move had to land together.
-* The changes that were valid at both pins could land first and shrink the pin-move PR.
+* #285 lists items 2 to 4 as additive and valid at the old pin, so they "may land first".
 
 ## Considered Options
 
@@ -60,8 +60,8 @@ could not move past slice F until they followed.
 
 ## Decision Outcome
 
-**Chosen option:** "Follow slice F in two steps", because the additive items are valid at the old
-pin, and landing them first made the pin move smaller to review.
+**Chosen option:** "Follow slice F in two steps", the order #285 sets: the additive items are valid
+at the old pin and may land first, and the fold must land with the pin move.
 
 1. **Additive, before the pin move** (#285 items 2 to 4, PR #289):
    * 26 `mission_type:<t> -requires-> action:<t>/<s>` edges, so each mission type links every step
@@ -113,7 +113,7 @@ every pull request since. High confidence.
 
 **Pros:**
 
-* Each pull request is smaller, and the first is reviewable against the unchanged pin.
+* The first pull request is valid against the unchanged pin.
 
 **Cons:**
 
