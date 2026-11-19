@@ -695,6 +695,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **Software-dev missions here use `packs/` as their workspace** (found by the mission for #246).
+  `.kittify/config.yaml` maps `project.path_conventions.workspace` to `packs/`. This repository's
+  software-dev missions change pack content and there is no `src/`, so without the remap
+  `spec-kitty agent mission accept` refused every one of them with "expects workspace path: src/
+  (not found)". Repository tooling only; no pack changes.
 - **The schema mirror follows charter #554's root-only graph shards** (#253, epic #287). Charter
   `main` reads a `<name>.graph.yaml` shard at the pack root only: a `drg/*.graph.yaml` is no longer
   modelled, and an unmodelled file is warned as `file_not_held` instead of refused.
