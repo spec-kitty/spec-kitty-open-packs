@@ -13,7 +13,7 @@ name: quality-assurance
 pack_level: org
 pack_drg: drg/fragment.yaml
 # Its DRG fragment and profiles reference foundation's and the testing and planning-analysis
-# bundles' tactics, styleguides and procedures (#73 split built-in into these packs).
+# bundles' tactics, styleguides and procedures.
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
     range: ">=2.0,<3"

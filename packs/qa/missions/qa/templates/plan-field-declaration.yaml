@@ -1,12 +1,8 @@
 # Pack-provided plan-substantive-content declaration for the `qa` mission type.
 #
-# Consumed by spec-kitty core's plan-substantive gate (see
-# `specify_cli.missions._substantive._resolve_declaration` /
-# `_pack_provided_declaration`, upstream #3830 FIX-1). Core no longer ships a
-# hardcoded field table for third-party mission types; each pack now declares
-# the shape of its OWN plan template here, resolved through the identical
-# `resolve_template` seam that resolves `test-plan-template.md` itself
-# (same `missions/qa/templates/` directory, same tier-precedence chain).
+# Spec Kitty's plan gate reads this file to decide whether `plan.md` holds
+# real content rather than the unfilled `test-plan-template.md`. It sits next
+# to that template and resolves the same way.
 #
 # Combination rule (unchanged core semantics): `primary` must be substantive,
 # PLUS at least one of `peers` must also be substantive, for `plan.md` to

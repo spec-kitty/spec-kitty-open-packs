@@ -2,8 +2,8 @@
 
 ## Role in the QA lifecycle
 
-This step is the `implement.md`-equivalent stage: it executes the designed test suite and
-records defects found during execution.
+This step runs the designed tests and records what happened. Its output is `defect-log.md`,
+scaffolded from `defect-log-template.md`, plus the raw evidence under `evidence/`.
 
 ## Requested role
 
@@ -11,31 +11,39 @@ This step asks for the `test-executor` role. The pack's `qa` preset activates `q
 
 ## Directive citations
 
-- `QA_002` (defect-report-quality) — defect report quality applies during execution.
-- `QA_006` (exploratory-charters-timeboxed) — exploratory-charter execution also happens during
-  this step.
+- `QA_002` (defect-report-quality): every defect is reproducible from its report.
+- `QA_006` (exploratory-charters-timeboxed): exploratory sessions keep to their timebox, and
+  overruns are recorded.
 
-## Canonical artifact & template
+## What to do
 
-- Canonical artifact: `defect-log.md`.
-- Template file: `defect-log-template.md`.
+1. Load the step's governance: `spec-kitty charter context --action implement --mission-type qa --json`.
+2. Move each work package to in progress before you run its tests
+   (`spec-kitty agent tasks move-task <WP> --to doing --mission <handle>`). `review` reads the
+   start of execution from that status change.
+3. Run the automated suites. Write JUnit-XML results to `evidence/results/*.xml`. Use the
+   `qa-regression-suite-selection`, `qa-test-data-minimization` and `qa-flaky-test-quarantine`
+   tactics as they apply.
+4. Run each exploratory charter. Write one `evidence/sessions/<name>.session.yaml` per session
+   with `charter`, `timebox_minutes`, `overrun` (a boolean), `areas`, `bugs_found`, `bug_ids`,
+   `status` (`completed` or `aborted`) and `debrief`.
+5. Log each defect in `defect-log.md`: reproduction steps, expected and actual result,
+   environment, severity, priority and attached evidence.
+6. Commit every evidence file before the step completes (see below).
 
-## Evidence Commit Discipline
+## Evidence commit discipline
 
 Commit every `evidence/results/*.xml` and `evidence/sessions/*.session.yaml` file this step
-produces before the step completes. Do not leave any of them uncommitted.
+produces. Any uncommitted evidence file blocks `accept`. That holds for new, untracked files as
+much as for modified tracked ones. Uncommitted evidence does not just risk loss at merge: it makes
+`accept` fail until the file is committed.
 
-This matters because any uncommitted evidence file blocks `accept` — untracked and
-tracked-and-modified alike, with no asymmetry between the two. The gate is
-`acceptance/__init__.py::_accept_dirty_gate`, fed by a bare `git status --porcelain`
-(`task_utils/support.py::git_status_lines` — no `-uno`, no status-code filter). Its only
-exclusions are accept-owned writes, self-bookkeeping churn, and coordination residue, and none of
-those three is keyed on status code, so an **untracked** (`??`) evidence file is excluded by none
-of them and blocks exactly like a **tracked-and-modified** (` M`) one. (A `??`-skipping filter
-does exist — `accept.py`'s `_dirty_paths_with_prefix` — but it feeds a separate,
-`kitty-specs/<mission>/`-scoped cleanup step and never inspects `evidence/` paths; it has no
-bearing on whether `accept` blocks.)
+## Success criteria
 
-Committing every evidence file before the step completes is the only path that keeps the mission
-acceptable: uncommitted evidence does not merely risk being lost at merge, it makes `accept` fail
-outright until the file is committed.
+- Every planned case ran, or its skip is recorded with a reason.
+- Every failure is either logged as a defect or explained as a test problem.
+- Every evidence file is committed.
+
+## Hand-off
+
+`review` ingests the evidence, computes coverage and writes the test report.

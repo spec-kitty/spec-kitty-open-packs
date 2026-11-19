@@ -1,19 +1,10 @@
-<!--
-  Canonical source: missions/qa/templates/exploratory-charter-template.md (this pack).
-  Interim consumption path: copy this file by hand to
-  .kittify/overrides/templates/exploratory-charter-template.md in a consuming project. No
-  installer exists yet for this step (documented, not automated - see this pack's plan.md
-  Complexity Tracking for the mission that owns building one).
-  Removal condition: once the resolver-convergence mission's Step 0 lands (both
-  resolver forks gain a mission-scoped override tier) and its later step adds an
-  org-pack tier to both resolution chains, this file moves to the location that tier
-  resolves directly and the interim per-project copy step above is no longer needed.
--->
-
 # Exploratory Charter Template
 
 This template produces the session sheet behind an exploratory testing session inside a project's
 `tasks/WP*.md` — an SBTM-shaped charter, timebox, notes, bugs, and debrief.
+
+No step scaffolds this template. Open it from the pack root that
+`spec-kitty charter pack path qa` prints: `missions/qa/templates/exploratory-charter-template.md`.
 
 The six sections below are a floor, not a ceiling: they are the minimum this template must
 declare. An author may add further sections beyond this list, provided each addition carries its
@@ -26,8 +17,8 @@ listed here is non-compliant regardless of what else is added.
 this field.*
 
 `requirement_refs:` is populated by `spec-kitty agent tasks map-requirements`; this template does
-not redefine or re-implement that command. A later carrier-authoring mission's own bridge
-invariant checks this same field.
+not redefine or re-implement that command. The bridge check in `qa-carrier-lint` (this pack)
+reads this same field.
 
 ```yaml
 ---

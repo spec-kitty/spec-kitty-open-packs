@@ -1,31 +1,16 @@
-<!--
-  Canonical source: missions/qa/templates/test-case-template.md (this pack).
-  Interim consumption path: copy this file by hand to
-  .kittify/overrides/templates/test-case-template.md in a consuming project. No installer
-  exists yet for this step (documented, not automated - see this pack's plan.md
-  Complexity Tracking for the mission that owns building one).
-  Removal condition: once the resolver-convergence mission's Step 0 lands (both
-  resolver forks gain a mission-scoped override tier) and its later step adds an
-  org-pack tier to both resolution chains, this file moves to the location that tier
-  resolves directly and the interim per-project copy step above is no longer needed.
--->
-
 # Test Case Template
 
 This template produces a single test case **inside the body of** a project's `tasks/WP*.md`:
 a fenced YAML block plus one Gherkin-notation scenario.
 
-> **This block is NOT the work-package file's own frontmatter.** A `tasks/WP*.md` file has
-> exactly one frontmatter section, at the top of the file, and it belongs to the work package —
-> not to a test case. Its schema is `WPMetadata` (`specify_cli/status/wp_metadata.py`), which
-> **requires `work_package_id`** and is declared `extra="forbid"`, so the test-case keys below
-> (`id`, `type`, `preconditions`) are rejected there.
->
-> Putting these keys in the WP file's frontmatter **fails silently**. `read_wp_frontmatter`
-> raises, and `specify_cli/status/bootstrap.py` catches it, emits only a
-> `logger.warning("Skipping %s: malformed frontmatter")`, records the file as
-> `skipped_malformed`, and continues with a successful exit code. The work package is dropped
-> from the mission with no error surfaced to the operator.
+No step scaffolds this template. Open it from the pack root that
+`spec-kitty charter pack path qa` prints: `missions/qa/templates/test-case-template.md`.
+
+> **This block is not the work package's frontmatter.** A `tasks/WP*.md` file has one
+> frontmatter section, at the top, and it belongs to the work package. Spec Kitty rejects
+> unknown keys there, so the test-case keys below (`id`, `type`, `preconditions`) do not belong
+> in it. A work package with these keys in its frontmatter is skipped with only a warning, and
+> drops out of the mission without an error.
 >
 > Write test-case blocks in the WP **body**, below the frontmatter, as fenced ```yaml blocks.
 
@@ -45,8 +30,8 @@ when correlating a case's declared `automation_ref` to the requirement(s) it cov
 automated implementation resolves to (e.g.
 `"TestCarrierSchema::test_schema_rejects_unknown_key"`). **Its condition is its own presence — not
 the `type:` field.** A non-empty `automation_ref` declares that this case has real, automated
-JUnit evidence to correlate for the current run; the result-ingestion tooling (a later mission's
-asset) resolves it against ingested JUnit-XML and, on success, writes this case's carrier entry as
+JUnit evidence to correlate for the current run; `qa-result-ingest` (shipped in this pack)
+resolves it against ingested JUnit-XML and, on success, writes this case's carrier entry as
 `type: automated` with `evidence.junit` populated. An absent or empty `automation_ref` means this
 case has no automated evidence to correlate for this run; no JUnit correlation is attempted for
 it, and its carrier-side classification (`exploratory`/`manual`, `evidence.session`) follows the
@@ -68,7 +53,7 @@ Write your own cases as ```yaml blocks, like the `TC-001` block above.
 
 ```text
 id: TC-014
-requirement_refs: [FR-007]
+requirement_refs: [FR-001]
 priority: P1
 type: functional
 preconditions: []
@@ -84,7 +69,7 @@ JUnit-XML results.
 
 ```text
 id: TC-015
-requirement_refs: [FR-006]
+requirement_refs: [FR-002]
 priority: P2
 type: exploratory
 preconditions: []
@@ -94,11 +79,9 @@ This case carries no `automation_ref` key, so the ingester attempts no JUnit cor
 its evidence, if any, is a session-evidence pointer this case's frontmatter already carries by the
 pre-existing mechanism — untouched by this field.
 
-**Backward compatibility.** `automation_ref` is a purely additive frontmatter field. Every case
-authored against today's template before this change — carrying no `automation_ref` key at all —
-is read identically to the "absent" example above: no schema-validation failure, no retroactive
-edit required, no correlation attempted. The pre-existing `type:` field and its vocabulary
-(including the shipped `type: functional` example above) are untouched by this edit.
+**Optional field.** A case with no `automation_ref` key is read like the exploratory example
+above: no validation failure and no JUnit correlation. The `type:` field and its vocabulary are
+independent of it.
 
 ## 1. Scenario
 

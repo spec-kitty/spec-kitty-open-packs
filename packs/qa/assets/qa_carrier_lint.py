@@ -5,17 +5,15 @@ Loads/validates ``qa-traceability.yaml`` against the closed
 starting ``qa-traceability/`` claims the carrier; a version mismatch is a
 loud ERROR, never a silent skip), computes three-state coverage
 (``measured``/``not_measured``/``error``) by resolving ``requirements[].
-case_ids`` against ``cases[]`` and each case's evidence, reimplements
-``specify_cli/review/baseline.py:168-207``'s JUnit-XML classification
-verbatim (its private classification helper, lines 181-205: failure/error
+case_ids`` against ``cases[]`` and each case's evidence, classifies
+JUnit-XML outcomes the way Spec Kitty's review baseline does (failure/error
 before skipped, before passed), resolves ``*.session.yaml`` evidence, scores the
 reserved ``evidence.ctrf`` key ``not_measured`` (never a silent pass), and
 enforces the bridge invariant against ``tasks/WP*.md`` frontmatter — parsed
 by this module itself, never by importing ``requirement_mapping.py``.
 
-Portability (NFR-001): stdlib + ``ruamel.yaml`` only, nothing from the
-``spec-kitty``/``specify_cli``/``doctrine``/``charter`` source tree, mirroring
-``docs_structural_lint.py:33-38``'s own contract.
+Portability: stdlib + ``ruamel.yaml`` only, nothing from the
+``spec-kitty``/``specify_cli``/``doctrine``/``charter`` source tree.
 
 Invocation::
 
@@ -28,16 +26,9 @@ every run; ``--json`` only *additionally* echoes it to stdout — a deliberate
 divergence from ``docs_structural_lint.py``'s exclusive-``--json`` precedent
 (this module persists its output to disk, that one does not).
 
-**Known limitation (FR-016)**: no runtime hook compels running this
-validator or blocks on its verdict today: ``GateBinding.handler_kind:
-"asset"`` remains inert pending upstream issue #2599 (open), and although
-spec-kitty gained a live per-type artifact-presence gate on 2026-08-21
-(``gather_artifact_presence``, closing #3597), it is wired only for the four built-in mission
-families' own step vocabularies, ignores the ``blocking`` field of a step's expected output (in
-``qa.mission-type.yaml``) entirely, and has no entry for a custom type such as this pack's own
-``qa``, so ``accept`` still enforces nothing from those expected outputs. Mechanically checkable
-(exit code, ``qa-coverage.json``) but agent-invoked, never machine-enforced,
-until both of those conditions close.
+Known limitation: nothing in the runtime runs this validator or acts on its verdict. Its result
+is mechanically checkable (exit code, ``qa-coverage.json``) but agent-invoked. The pack README's
+"Known limitations" section gives the dated runtime status.
 """
 
 from __future__ import annotations
@@ -128,7 +119,7 @@ def _resolve_contained(mission_dir: Path, rel: str) -> tuple[Path | None, str | 
 
 def _validate_wp_id(mission_dir: Path, wp: object) -> tuple[bool, str | None]:
     """A-11: `cases[].wp` is a second carrier-supplied string that reaches the
-    filesystem (via `_read_wp_frontmatter`'s glob, T005/FR-011) -- exactly the class
+    filesystem (via `_read_wp_frontmatter`'s glob, in the bridge check) -- exactly the class
     A-8 already guards for `evidence.*.file`, just a field nobody had named yet. Two
     steps, in order, neither skippable:
 
@@ -192,7 +183,7 @@ def validate(doc: object, mission_dir: Path) -> dict:
         detail = _check_entry(c, CASE_ALLOWED, CASE_ALLOWED)
         if detail:
             return _err("schema_violation", f"cases[] entry invalid: {detail}")
-        # A-11: `wp` is carrier-supplied and reaches the filesystem (T005/FR-011's
+        # A-11: `wp` is carrier-supplied and reaches the filesystem (in the
         # bridge check, via `_read_wp_frontmatter`'s glob) exactly like `evidence.*.
         # file` does -- format-validate it against the documented WP-id shape and
         # route it through the SAME containment helper A-8 mandates (`_resolve_
@@ -414,7 +405,7 @@ def _read_wp_frontmatter(mission_dir: Path, wp_id: str) -> tuple[str, set | None
 def check_bridge(
     requirements: list, cases_by_id: dict, dangling_requirement_ids: set, mission_dir: Path,
 ) -> tuple[list, list]:
-    """T005 — FR-011: every requirement's covering-WP set must list its own FR id. A missing
+    """Bridge check: every requirement's covering-WP set must list the requirement's own id. A missing
     WP file is `bridge_not_measured` (benign); a WP file that exists but is unparseable, or
     omits the FR id, is `bridge_violations` (a hard ERROR); `case_ids == []` is vacuous."""
     violations: list = []
@@ -949,7 +940,7 @@ def _sweep_unvalidated_wp_access() -> list[str]:
     textually precedes it), and depends on `_CARRIER_TAINTED_NAMES` being kept
     up to date by hand -- a full static guarantee would need a real taint-
     tracking engine, which is out of reach for a single stdlib-only file under
-    NFR-001. What it DOES prove, mechanically, every `--self-test` run: the
+    the portability rule. What it DOES prove, mechanically, every `--self-test` run: the
     concrete A-11 defect shape (a carrier-tainted name reaching a filesystem
     call with zero validating call anywhere in the same function) cannot recur
     silently in this module without the sweep failing first."""
@@ -1102,7 +1093,7 @@ def self_test() -> int:
     ok("Pair1.3", "reason names v2 and v1",
        "v2" in (rec["reason"] or "") and "v1" in (rec["reason"] or ""))
 
-    # Pair 2 — bridge invariant (SC-002), reusing this mission's own FR-011.
+    # Pair 2 — bridge invariant.
     bridge_carrier = _carrier([_req("FR-011", ["TC-009"])], [_case("TC-009", "WP99", "automated",
         {"junit": {"file": "evidence/results/b.xml", "testcase": "C::n"}})])
     xml_file = {"evidence/results/b.xml": _junit_xml([_tc("n")])}
@@ -1128,7 +1119,7 @@ def self_test() -> int:
        and "WP99.md" in (nm.get("wp_file") or "") and "WP99.md" in (nm.get("reason") or ""))
     ok("Pair2.3", "not forced to error", exit_code_for(rec) != 2)
 
-    # Pair 3 — JUnit-XML classification parity (SC-003, NFR-002): the fifth
+    # Pair 3 — JUnit-XML classification parity : the fifth
     # testcase carries both <failure> and <skipped> and must classify failed.
     junit_cases = [_case(f"TC-30{i}", "WP01", "automated",
         {"junit": {"file": "evidence/results/j.xml", "testcase": f"C::t{i}"}}) for i in range(1, 6)]

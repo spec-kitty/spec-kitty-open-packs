@@ -12,8 +12,7 @@ purpose: >
 
 specialization:
   primary-focus: >
-    Executing the suite/case/exploratory-session step (the implement.md
-    equivalent of the QA lifecycle) — starting timeboxed runs, tracking
+    Executing suites, cases and exploratory sessions at the `implement` step — starting timeboxed runs, tracking
     pass/fail/flaky outcomes honestly against the frozen exit criteria, and
     closing out exploratory sessions with a recorded debrief.
 

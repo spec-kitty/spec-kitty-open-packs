@@ -2,7 +2,7 @@ schema_version: '1.0'
 id: qa-coverage-gap-analysis
 title: QA Coverage Gap Analysis
 description: |
-  Identify gaps between what the test basis requires and what the current test suite actually covers — a test-coverage gap analysis, per this pack's `test coverage` glossary term (`qa-glossary`). The name-only collision with documentation-gap-prioritization was checked and rejected as a false friend: documentation-gap-prioritization addresses documentation gaps, an unrelated domain that happens to share the "gap analysis" shape but not the subject matter this procedure covers.
+  Identify gaps between what the test basis requires and what the current test suite actually covers — a test-coverage gap analysis, per this pack's `test coverage` glossary term (`qa-glossary`).
 entry_condition: |
   A test basis and a current test suite both exist and can be compared.
 exit_condition: |
