@@ -109,14 +109,14 @@
       "wp": null
     },
     "#319": {
-      "evidence_ref": "<auto-classified: no action required>",
+      "evidence_ref": "the pull request this mission lands in",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<auto-classified: pr_or_commit_ref>",
+      "title": "PR #319",
       "verdict": "not-applicable",
       "wp": null
     }
