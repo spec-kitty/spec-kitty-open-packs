@@ -85,16 +85,16 @@
       "wp": "WP03"
     },
     "#247": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "1c67ed0 (tactic, specify); analyze sections in WP03",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "analyze/specify prompts: requirement-quality, EARS and scenario-audit report sections",
+      "verdict": "in-mission",
+      "wp": "WP01"
     },
     "#266": {
       "evidence_ref": "<link or commit>",
