@@ -121,6 +121,13 @@ class ChangedPagesGate(unittest.TestCase):
         self.repo.git("checkout", "-q", "topic")
         self.assertEqual(fresh.check_changed(self.repo.root, main_tip, "HEAD"), [])
 
+    def test_a_revision_git_could_read_as_an_option_is_refused(self) -> None:
+        with self.assertRaises(ValueError):
+            fresh.check_changed(self.repo.root, "--output=/tmp/x", "HEAD")
+        with redirect_stdout(io.StringIO()):
+            code = fresh.main(["--base=--all", "--repo-root", str(self.repo.root)])
+        self.assertEqual(code, 2)
+
     def test_the_command_exits_one_on_a_stale_page(self) -> None:
         self.repo.commit({"docs/guides/old.md": page("2026-01-01") + "More.\n"}, "2026-03-02")
         with redirect_stdout(io.StringIO()):

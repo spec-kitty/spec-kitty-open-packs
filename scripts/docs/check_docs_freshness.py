@@ -93,6 +93,17 @@ def git(root: Path, *args: str) -> str:
     return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True).stdout
 
 
+def resolve_commit(root: Path, rev: str) -> str:
+    """The commit SHA a revision names. Refuses a value git could read as an option, so a revision
+    given on the command line never reaches git as anything but a revision."""
+    if not rev or rev.startswith("-"):
+        raise ValueError(f"not a revision: {rev!r}")
+    sha = git(root, "rev-parse", "--verify", "--quiet", "--end-of-options", f"{rev}^{{commit}}").strip()
+    if len(sha) not in (40, 64) or any(c not in "0123456789abcdef" for c in sha):
+        raise ValueError(f"not a commit: {rev!r}")
+    return sha
+
+
 def changed_pages(root: Path, base: str, head: str) -> list[str]:
     """Markdown files under docs/ added, copied, modified or renamed from the merge base of base and head."""
     out = git(root, "diff", "--name-only", "--diff-filter=ACMR", "--no-renames", f"{base}...{head}", "--", DOCS)
@@ -105,6 +116,7 @@ def last_author_date(root: Path, head: str, path: str) -> dt.date:
 
 def check_changed(root: Path, base: str, head: str) -> list[str]:
     """One message per changed authored page whose updated: is missing or older than its last commit."""
+    base, head = resolve_commit(root, base), resolve_commit(root, head)
     problems = []
     for path in changed_pages(root, base, head):
         page = read_page(root, path)
@@ -159,7 +171,11 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  {line}")
         return 0
 
-    problems = check_changed(root, args.base, args.head)
+    try:
+        problems = check_changed(root, args.base, args.head)
+    except (ValueError, subprocess.CalledProcessError) as error:
+        print(f"Cannot resolve the revisions to compare: {error}")
+        return 2
     if problems:
         print("Changed docs pages with a stale `updated:` date. Set it to the day you verified the page:")
         for line in problems:
