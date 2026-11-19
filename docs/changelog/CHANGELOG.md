@@ -244,6 +244,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`/spec-kitty.analyze` checks implementation readiness** (#246, #237, #247; epic #244). The
+  software-dev `analyze` step now does three more things before it gives a verdict:
+  - It runs `spec-kitty agent mission finalize-tasks --validate-only` and reports what it finds.
+    A refusal (unmapped or unknown requirements, `tasks.md` and WP files that don't pair, dependency
+    cycles, overlapping ownership between parallel WPs, invalid WP metadata) is CRITICAL. Stale
+    finalization is HIGH. The step never runs a writing `finalize-tasks`.
+  - It reviews every `tasks/WP*.md` prompt against the WP prompt template the Mission resolves, and
+    reports per WP what blocks implementation and what would only improve it.
+  - It judges the requirements: testable, solution-free, unambiguous, consistent and complete. It
+    reads behavioural requirements against the EARS patterns, audits the scenarios of each user story,
+    and writes clarification questions with concrete answer choices. Findings reached by judgement
+    are labelled `Inferred:`.
+
+  The report has a fixed section order and fixed finding-id prefixes, so a rerun on unchanged
+  artifacts gives the same ids. Two new `foundation` tactics hold the checklists:
+  `requirement-quality-ears`, which the specify step also cites when requirements are written, and
+  `wp-prompt-readiness-review`. cave-kitty's `cave-dev` analyze step names the same checks. The
+  change is additive (DIRECTIVE_018), so the bumps are minor and lockstep, and the exact pins follow:
+  `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`
+  3.0.0 → 3.1.0, `built-in` 5.0.0 → 5.1.0, and `cave-kitty` 2.2.2 → 2.3.0.
+  **What to do:** nothing in your packs. An agent running analyze needs spec-kitty CLI >= 3.1.0a5,
+  where `--validate-only` writes nothing. On an older CLI, or with no CLI, analyze does not run the
+  check: it records a HIGH finding, and the verdict is blocked.
 - **Three ADRs record decisions that lived only in pull requests and issues** (#295, epic #287).
   ADR 2026-11-19-1 records charter slice B (#241, #242, PR #248): `README.md` is the pack
   document, and `pack.md`, `PROVENANCE.md`, `org-charter.yaml` and `active_charter` are retired.
