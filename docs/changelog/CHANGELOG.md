@@ -244,6 +244,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Three ADRs record decisions that lived only in pull requests and issues** (#295, epic #287).
+  ADR 2026-11-19-1 records charter slice B (#241, #242, PR #248): `README.md` is the pack
+  document, and `pack.md`, `PROVENANCE.md`, `org-charter.yaml` and `active_charter` are retired.
+  ADR 2026-11-19-2 records charter slice F (#285, PRs #289 and #293; charter ADR-0077): step
+  contracts fold into steps, steps are linked from mission types, and delegations are scoped.
+  ADR 2026-11-19-3 records the pin policy (operator ruling, 2026-11-18): `charter.lock.yaml` pins a
+  charter release by default and charter `main` only on demand, superseding the 2026-11-16
+  lockstep with `main`. It also records the 2026-11-16 ownership ruling: the charter owns the pack
+  logic, core assembles, and pack repositories own the content. No earlier ADR is superseded.
+  ADR 2026-11-11-1's existing slice F amendment now points to ADR 2026-11-19-2.
+- **A contributor path for outside pack authors** (#296). The new guide
+  `docs/guides/contribute-a-pack.md` covers the proposal issue, `pack_id` and `name` identity,
+  the local checks and gates, review and landing, and warns that the pack contract still changes
+  often. `README.md`, the contributing guide and the guides index link it. The Pack proposal issue
+  template asks for the `name` qualifier and the canonical home, and the pull request template
+  gains a "New pack" checklist.
+
 - **The packs are checked against charter `main` every night** (#311). `charter-track.yml` gains a
   nightly main track: at 02:23 UTC, apart from the release track's 05:41, it runs the on-demand
   track's checks, the round trip included, against charter `main` built from source. It reports only:

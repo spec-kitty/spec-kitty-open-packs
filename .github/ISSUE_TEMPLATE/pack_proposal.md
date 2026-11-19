@@ -8,7 +8,9 @@ assignees: []
 
 <!--
 Before filing: check docs/packs/catalog-proposal.md and existing issues — the pack may
-already be proposed or in progress.
+already be proposed or in progress. The contributor path is docs/guides/contribute-a-pack.md.
+Agree the scope here before authoring: the pack contract still changes often (epic #287).
+To change a pack that already exists, use the "Enhancement / idea" template instead.
 -->
 
 ## Pack
@@ -16,6 +18,8 @@ already be proposed or in progress.
 - **Proposed name:** `<pack-name>`
 - **Purpose (one line):**
 - **Intended consumer:** who adopts this and why
+- **Proposed `name` qualifier:** what other packs write as `<name>::<id>` (may differ from the directory)
+- **Canonical home:** this repository, or another repository that will own the content
 
 ## Contents
 

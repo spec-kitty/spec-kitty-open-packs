@@ -7,6 +7,7 @@ related:
 - architecture/adr/2026-11-01-1-merge-queue-readiness-and-pr-pause-ci
 - guides/author-a-charter-pack
 - guides/validate-a-pack
+- guides/contribute-a-pack
 ---
 # Contributing to Spec Kitty Open Packs
 
@@ -38,6 +39,9 @@ using them properly, is the consumer's decision. Neither this repository nor cha
 responsible for it. A pin bump in a consumer, core included, is that consumer's choice.
 
 ## Proposing a pack
+
+Authors outside the maintainer team: [Contribute a pack](contribute-a-pack.md) walks the whole
+path, from the proposal issue through `pack_id` minting, the gates and review. In short:
 
 1. Check the [pack catalog proposal](../packs/catalog-proposal.md) and the
    [issue tracker](https://github.com/spec-kitty/spec-kitty-open-packs/issues) — the pack you
