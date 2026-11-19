@@ -1,7 +1,7 @@
 {
-  "event_count": 29,
-  "last_event_id": "01M7T1GKXGQQ42PF1ZE9PA81H8",
-  "materialized_at": "2026-11-19T13:56:36.400713+00:00",
+  "event_count": 31,
+  "last_event_id": "01M7T1HRBJ57B7WGSS3J7DFJXX",
+  "materialized_at": "2026-11-19T13:57:13.597482+00:00",
   "mission_number": "",
   "mission_slug": "analyze-readiness-gate-01M7SSEV",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 3
+    "planned": 2
   },
   "work_packages": {
     "WP01": {
@@ -102,9 +102,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude::doctrine-daphne",
-      "lane": "planned",
-      "last_event_id": "01M7T1GKXGQQ42PF1ZE9PA81H8",
-      "last_transition_at": "2026-11-19T13:56:36.400713+00:00",
+      "lane": "in_progress",
+      "last_event_id": "01M7T1HRBJ57B7WGSS3J7DFJXX",
+      "last_transition_at": "2026-11-19T13:57:13.597482+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-19T13:53:06Z – claude::doctrine-daphne – shell_pid=9341 – At 25f70dc: T009 step 2a checks spec-kitty --version first, never runs below 3.1.0a5; could-not-run is HIGH (fail closed) naming 'spec-kitty CLI >= 3.1.0a5', the installed version and the fix, plus Residual Risk; no MEDIUM could-not-run remains. T010 fixed prefixes D/B/U/K/C/I/V/W/Q/S (carrier and table examples updated: A1 -> C1/D1) and a fixed, always-present section order. T011 step 2b cites tactic wp-prompt-readiness-review with one-line checks, blocker HIGH vs improvement MEDIUM/LOW, cites the V pairing/cycle finding instead of duplicating (R6); load step reads every tasks/WP*.md (frontmatter and headings first). T012 pass G cites requirement-quality-ears; B keeps vague adjectives/placeholders, G judges the five properties and EARS; scenario audit per story with locations; clarification questions for every HIGH/CRITICAL ambiguity; Inferred: label. T013 severity, metrics, next actions, principle. T014: 373 lines (<= 500), ASCII ok, validate-packs exit 0, vocabulary 0, tests/ci ascii+fragments pass. Walk-through of spec US1-US4: every acceptance scenario reachable.",
@@ -120,7 +120,7 @@
         "reviewer": "claude::generic-reviewer",
         "verdict": "changes_requested"
       },
-      "role": "reviewer",
+      "role": "implementer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
