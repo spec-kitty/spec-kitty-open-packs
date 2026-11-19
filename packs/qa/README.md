@@ -101,8 +101,9 @@ against a real product. The first intended run is the Spec Kitty CLI itself.
 
 ## Known limitations
 
-Checked on 2026-11-19 against spec-kitty-cli 4.0.0rc9, by reading its source and running it. The
-pack follows the charter; these are gaps in that CLI release, not in the pack.
+Checked on 2026-11-19 against spec-kitty-cli 4.0.0rc9: the first item by reading its source, the
+others by running it. The pack follows the charter; these are gaps in that CLI release, not in
+the pack.
 
 - **`blocking` outputs hold nothing yet.** `qa.mission-type.yaml` marks step outputs `blocking`:
   `spec.md`, `plan.md`, `tasks.md`, `test-report.md` and `qa-traceability.yaml` at `review`, and

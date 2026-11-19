@@ -46,24 +46,37 @@ Gate the content produced in `generate` against explicit quality criteria and re
      --extended docs
    ```
 
-   Pass `--styleguide` the project's own policy file instead if it keeps one. The gate passes on exit `0`. Exit `1` lists each violation with its check id; fix it in `generate` and rerun. Exit `2` means the policy file did not load, so nothing was checked. Record the command, the page count and the output. A count of `0` pages means the wrong docs root.
+   The lint needs Python 3 with the `ruamel.yaml` package; without it the script stops with an import error, which is not a lint result, so install the package and rerun. If your installed Spec Kitty does not know the `common-docs-structural-lint-config` asset id, the toolguide gives the fallback paths. Pass `--styleguide` the project's own policy file instead if it keeps one. The gate passes on exit `0`. Exit `1` lists each violation with its check id; fix it in `generate` and rerun. Exit `2` means the policy file did not load, so nothing was checked. Record the command, the page count and the output. A count of `0` pages means the wrong docs root.
 
 3. **Verify the Divio type declaration** (divio-type-discipline styleguide). Every page produced in `generate` declares exactly one `type:` in its frontmatter: `tutorial`, `how-to`, `reference` or `explanation`. The page sits in the section its type maps to (tutorials and how-tos in `docs/guides/`, reference in `docs/api/`, explanation in `docs/architecture/`), and its content keeps to that type. A page tagged `tutorial` that reads like reference fails the type contract regardless of how good the content is. A tutorial must not branch on reader choices.
 
 4. **Verify freshness** (docs-freshness-sla styleguide). Every page carries `updated: YYYY-MM-DD`, set to the date its content was last checked against the product. Compare each date with the staleness threshold of the page's tier, as the project sets the tiers (the styleguide's illustrative defaults: tutorial and how-to 90 days, hand-written reference 180 days, explanation 365 days, generated reference re-freshened on every build). Flag every page past its threshold as stale.
 
-5. **Verify that no placeholder is left.** A page is unresolved if it carries a `[TODO:` marker or any `{...}` slot of the Divio template it was built from. Check each page produced in `generate` against its own template, so braces in a code sample are not mistaken for slots:
+5. **Verify that no placeholder is left.** A page is unresolved if it carries a `[TODO:` marker or a `{...}` template slot. Every Divio template slot is a `{...}` token, so check the pages themselves; this needs no template lookup and cannot pass because a lookup failed. Run it over every page produced in `generate`:
 
    ```bash
-   slots() {  # the {...} slots of one Divio template
-     spec-kitty charter context --include "template:documentation/divio/$1" --json \
-       | python3 -c 'import json,re,sys; print("\n".join(sorted(set(re.findall(r"\{[^{}\n]+\}", json.load(sys.stdin)["context"])))))'
-   }
-   grep -n '\[TODO:' docs/guides/getting-started.md
-   grep -nF -f <(slots tutorial-template.md) docs/guides/getting-started.md
+   python3 - docs/guides/getting-started.md docs/api/status.md <<'EOF'
+   import re, sys
+   failed = False
+   for path in sys.argv[1:]:
+       fence = False
+       for n, line in enumerate(open(path, encoding="utf-8"), 1):
+           if line.lstrip().startswith(("```", "~~~")):
+               fence = not fence
+               continue
+           if "[TODO:" in line:
+               print(f"FAIL {path}:{n}: [TODO: marker"); failed = True
+           code = "".join(re.findall(r"`[^`]*`", line))
+           prose = re.sub(r"`[^`]*`", "", line)
+           for slot in re.findall(r"\{[^{}\n]+\}", prose if not fence else ""):
+               print(f"FAIL {path}:{n}: {slot}"); failed = True
+           for slot in re.findall(r"\{[^{}\n]+\}", line if fence else code):
+               print(f"REVIEW {path}:{n}: {slot}")
+   sys.exit(1 if failed else 0)
+   EOF
    ```
 
-   Both greps print nothing for a page that may publish. A hit fails the gate.
+   A `{...}` token in prose, or a `[TODO:` marker, prints `FAIL` and the command exits `1`: the page may not publish. A `{...}` token inside code prints `REVIEW`: decide for each one whether it is a leftover slot (fix it in `generate`) or real code (record it as reviewed). The gate passes when the command exits `0` and every `REVIEW` line is resolved. Any other exit status, or an error, fails the gate.
 
 6. **Verify completeness against `plan.md`**: every required cell is either filled or deferred-with-reason; no orphaned drafts.
 
