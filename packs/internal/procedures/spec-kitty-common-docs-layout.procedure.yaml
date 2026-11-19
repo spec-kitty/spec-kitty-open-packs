@@ -2,11 +2,11 @@ schema_version: '1.0'
 id: spec-kitty-common-docs-layout
 title: Spec Kitty Common Docs Layout
 description: |
-  Apply the Spec Kitty repositories' own Common Docs layout and frontmatter keys.
+  Apply the repository's own Common Docs layout and frontmatter keys, as its charter or docs define them.
 entry_condition: |
-  A documentation page or ADR is being created, moved, or updated in a Spec Kitty repository.
+  A documentation page or ADR is being created, moved, or updated in a repository whose closure holds this pack.
 exit_condition: |
-  The page uses the sanctioned lifecycle keys, ADRs sit under `adr/<era>/`, and architecture design sits in the single unversioned `architecture/` location.
+  The page uses the sanctioned lifecycle keys, ADRs sit where the repository's charter puts them, and living architecture design sits in the one location the repository's docs name.
 steps:
 - title: Use the sanctioned lifecycle keys
   description: |
@@ -17,6 +17,6 @@ steps:
 - title: Express cross-references as `related:`
   description: |
     List resolvable repo-relative `.md` paths under `related:`; never use the dead `citation_refs` field.
-- title: File ADRs by era
+- title: File ADRs where the charter puts them
   description: |
-    File ADRs under `adr/<era>/` with YAML frontmatter, and keep living architectural design in one unversioned `architecture/` location.
+    Read the repository's charter for the ADR location and layout: one flat folder, or one folder per era. File each ADR there with YAML frontmatter, and name it the way the existing ADRs are named. Keep living architectural design in the one unversioned location the repository's docs name.

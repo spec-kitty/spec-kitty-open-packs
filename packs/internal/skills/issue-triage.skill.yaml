@@ -1,7 +1,7 @@
 schema_version: "1.0"
 id: issue-triage
 title: Triage GitHub issues
-description: Use to triage a batch of open GitHub issues on spec-kitty/spec-kitty (default, those opened in the last 7 days). Sets type, priority, domain, parent and milestone, and reports stale, duplicate or clustered issues for an operator decision.
+description: Use to triage a batch of open GitHub issues on the repository being worked in (default, those opened in the last 7 days). Sets type, priority, domain, parent and milestone, and reports stale, duplicate or clustered issues for an operator decision.
 triggers: ["triage issues", "triage the tracker", "triage new issues"]
 form: prompt
 body_path: issue-triage.skill.md

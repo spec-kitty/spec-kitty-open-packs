@@ -11,7 +11,7 @@ parameters:
     description: "What the debrief covers: a time window (for example 'since Friday 08:00', read in the requester's local time and converted to UTC) or a milestone, label or query"
   - name: repos
     required: false
-    description: "Repositories to cover. Default: spec-kitty/spec-kitty; add spec-kitty/spec-kitty-planning only when the request covers it"
+    description: "Repositories to cover. Default: the repository being worked in; add others (for example a planning repository) only when the request covers them"
   - name: readers
     required: false
     description: "Who the debrief is for (for example CTO, CEO, Head of QA, maintainers). Ask if the request does not say"
