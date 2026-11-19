@@ -108,6 +108,18 @@
       "verdict": "not-applicable",
       "wp": null
     },
+    "#301": {
+      "evidence_ref": "cited as precedent for the release footprint (commit 45aa77c)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "feat(foundation): route CI work to implementer-ivan",
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#319": {
       "evidence_ref": "the pull request this mission lands in",
       "fr": null,
