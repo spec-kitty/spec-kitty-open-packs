@@ -157,11 +157,11 @@
     {
       "criterion_id": "FR-016",
       "description": "Verify FR-016 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "proof_type": "independent review",
+      "evidence": "specify.prompt.md quality-bar bullet and checklist line, WP01 approved at lane-a 1c67ed0",
+      "pass_fail": "pass",
+      "verified_by": "claude::implementer-ivan",
+      "verified_at": "2026-11-19T14:26:50.469295+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
