@@ -49,16 +49,16 @@
       "wp": null
     },
     "#237": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "tactic in WP02; analyze step 2b in WP03",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Have /spec-kitty.analyze inspect every WP prompt before implementation",
+      "verdict": "in-mission",
+      "wp": "WP03"
     },
     "#244": {
       "evidence_ref": "<auto-classified: no action required>",
