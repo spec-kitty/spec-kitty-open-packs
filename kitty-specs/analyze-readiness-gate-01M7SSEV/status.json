@@ -57,7 +57,7 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude::doctrine-daphne",
+      "agent": "claude::generic-reviewer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -72,7 +72,8 @@
         "Review started.",
         "Changes requested at d627cab: F1 boundary blocker misfires on declared dependencies; see review feedback.",
         "- 2026-11-19T13:49:33Z – claude::doctrine-daphne – review-cycle-1 F1 fixed at de72546: 'Check the boundaries' now blocks only on reliance on another WP's files or outputs WITHOUT declaring it as a dependency (lanes and claim order come from declared dependencies); declared, ordered dependencies are left to the dependencies step. Added the reviewer's example (WP04 edits a file WP02 creates, undeclared - blocker) and a no-finding counter-example. Gates: validate-packs exit 0, vocabulary 0, ASCII ok.",
-        "Resubmitted at de72546 (review-cycle-1 F1 fixed)"
+        "Resubmitted at de72546 (review-cycle-1 F1 fixed)",
+        "Re-review of F1 delta at de72546."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
