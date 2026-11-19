@@ -70,7 +70,8 @@
         "- 2026-11-19T13:45:37Z – claude::doctrine-daphne – shell_pid=2267 – T006: grep for literal template keys (work_package_id, owned_files, authoritative_surface, planning/merge branches, branch_strategy, execution_mode, agent_profile, create_intent, shell_pid, task_type, subtasks:, requirement_refs) finds none -> deferral-ok. T007 trace (#237): WP in tasks.md has a prompt / every prompt referenced -> 'Pair the task list...'; frontmatter + body sections (#237's key and section lists) -> 'Resolve the WP prompt template, then compare' (C-002: no list kept); profile load first -> 'Check that the agent profile loads first'; 200-500 target, warn >700 lines or >10 subtasks -> 'Check the prompt size'; dependencies/ordering -> 'Check dependencies and order'; cohesive, independently implementable, not overbroad -> 'Check the boundaries'; maps to requirements and user value -> 'Check the requirement and value mapping'; per-WP section, blockers vs improvements, read-only -> 'Report per work package' + purpose. T008: validate-packs exit 0 (ebce908 contracts), vocabulary 0, ASCII pass. Out-of-map: foundation pack-manifest.yaml re-derived (same reason as WP01).",
         "Ready for review at d627cab",
         "Review started.",
-        "Changes requested at d627cab: F1 boundary blocker misfires on declared dependencies; see review feedback."
+        "Changes requested at d627cab: F1 boundary blocker misfires on declared dependencies; see review feedback.",
+        "- 2026-11-19T13:49:33Z – claude::doctrine-daphne – review-cycle-1 F1 fixed at de72546: 'Check the boundaries' now blocks only on reliance on another WP's files or outputs WITHOUT declaring it as a dependency (lanes and claim order come from declared dependencies); declared, ordered dependencies are left to the dependencies step. Added the reviewer's example (WP04 edits a file WP02 creates, undeclared - blocker) and a no-finding counter-example. Gates: validate-packs exit 0, vocabulary 0, ASCII ok."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
@@ -84,10 +85,10 @@
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
-        "T005": "planned",
-        "T006": "planned",
-        "T007": "planned",
-        "T008": "planned"
+        "T005": "done",
+        "T006": "done",
+        "T007": "done",
+        "T008": "done"
       }
     },
     "WP03": {
