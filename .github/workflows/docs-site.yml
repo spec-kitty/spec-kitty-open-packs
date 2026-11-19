@@ -147,7 +147,8 @@ jobs:
           python-version: "3.12"
       - name: Install the checker dependency
         # A wheel only: no package setup script runs.
-        run: pip install --only-binary :all: "pyyaml==6.0.3"
+        run: |
+          pip install --only-binary :all: "pyyaml==6.0.3"
       - name: Changed pages carry a current updated date
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
