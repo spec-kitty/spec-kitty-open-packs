@@ -3,10 +3,14 @@ project:
   slug: spec-kitty-open-packs
   node_id: 6ad7860a01ff
   build_id: dd528a4a-a565-571f-bf0e-da64e2fc5927
-  # Operator decision, 2026-11-19 (mission analyze-readiness-gate, #246): this repository's
-  # software-dev missions change pack content, so their workspace is packs/; there is no src/.
-  # Without the remap, `spec-kitty agent mission accept` refuses every mission here with
-  # "expects workspace path: src/ (not found)".
+  # Operator decision, 2026-11-19 (mission analyze-readiness-gate, #246): software-dev missions
+  # here change pack content and there is no src/, so `spec-kitty agent mission accept` refused
+  # every one of them with "expects workspace path: src/ (not found)". The remap is project-wide:
+  # it applies to every mission type that declares `workspace`, not only software-dev. It also
+  # moves research (research/ -> packs/; accept then looks for <deliverables>/packs/, so a research
+  # mission here will likely need its own fix), documentation (docs/ -> packs/; its documentation:
+  # docs/ key still checks docs/) and plan (docs/ -> packs/, harmless). Operator trade-off: the CLI
+  # has no per-mission-type override yet (core follow-up spec-kitty/spec-kitty#7748).
   path_conventions:
     workspace: packs/
 vcs:
