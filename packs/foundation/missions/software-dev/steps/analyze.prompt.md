@@ -23,7 +23,7 @@ Identify inconsistencies, duplications, ambiguities, and underspecified items ac
 
 **Charter Authority**: The project charter (`.kittify/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks - not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
 
-**Issue-Matrix Approval Heads-Up (non-gating, #3469)**: if any artifact cites a GitHub
+**Issue-Matrix Approval Heads-Up (non-gating)**: if any artifact cites a GitHub
 issue number (`#NNNN`), a bare/unmarked reference will later require an issue-matrix row
 before its owning work package can be approved. A context-only citation (e.g.
 `Follow-up:`, `see #`, `parent`, `epic`) or a PR/commit reference (`PR #NNNN`, a
