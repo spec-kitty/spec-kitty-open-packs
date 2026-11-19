@@ -77,11 +77,11 @@
     {
       "criterion_id": "FR-008",
       "description": "Verify FR-008 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "proof_type": "independent review",
+      "evidence": "tactic wp-prompt-readiness-review, WP02 approved at lane-b de72546; analyze step 2b and Per-WP Readiness, WP03 approved at 4f4f0f6; case5 orphan dry run in WP05 history",
+      "pass_fail": "pass",
+      "verified_by": "claude::implementer-ivan",
+      "verified_at": "2026-11-19T14:26:11.766453+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
