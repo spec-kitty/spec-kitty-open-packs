@@ -57,26 +57,34 @@ Gate the content produced in `generate` against explicit quality criteria and re
    ```bash
    python3 - docs/guides/getting-started.md docs/api/status.md <<'EOF'
    import re, sys
+   if len(sys.argv) < 2:
+       sys.exit("placeholder check: no page given; pass every page generate produced")
+   SLOT = re.compile(r"\{[^{}\n]+\}")
+   FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
    failed = False
    for path in sys.argv[1:]:
-       fence = False
+       fence = None  # the opening fence run while inside a fenced block
        for n, line in enumerate(open(path, encoding="utf-8"), 1):
-           if line.lstrip().startswith(("```", "~~~")):
-               fence = not fence
+           m = FENCE.match(line.rstrip("\n"))
+           if m and fence is None and not (m.group(1)[0] == "`" and "`" in m.group(2)):
+               fence = m.group(1)
+               continue
+           if m and fence and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence) and not m.group(2).strip():
+               fence = None
                continue
            if "[TODO:" in line:
                print(f"FAIL {path}:{n}: [TODO: marker"); failed = True
-           code = "".join(re.findall(r"`[^`]*`", line))
-           prose = re.sub(r"`[^`]*`", "", line)
-           for slot in re.findall(r"\{[^{}\n]+\}", prose if not fence else ""):
+           spans = [line] if fence else re.findall(r"`[^`]*`", line)
+           prose = "" if fence else re.sub(r"`[^`]*`", "", line)
+           for slot in SLOT.findall(prose):
                print(f"FAIL {path}:{n}: {slot}"); failed = True
-           for slot in re.findall(r"\{[^{}\n]+\}", line if fence else code):
+           for slot in (s for span in spans for s in SLOT.findall(span)):
                print(f"REVIEW {path}:{n}: {slot}")
    sys.exit(1 if failed else 0)
    EOF
    ```
 
-   A `{...}` token in prose, or a `[TODO:` marker, prints `FAIL` and the command exits `1`: the page may not publish. A `{...}` token inside code prints `REVIEW`: decide for each one whether it is a leftover slot (fix it in `generate`) or real code (record it as reviewed). The gate passes when the command exits `0` and every `REVIEW` line is resolved. Any other exit status, or an error, fails the gate.
+   A `{...}` token in prose, or a `[TODO:` marker, prints `FAIL` and the command exits `1`: the page may not publish. A `{...}` token inside code prints `REVIEW`: decide for each one whether it is a leftover slot (fix it in `generate`) or real code (record it as reviewed). The gate passes when the command exits `0` and every `REVIEW` line is resolved. Any other exit status, an error, or a run with no page fails the gate. A fence closes only on the same character, at least as long as the one that opened it, so a fence nested in a longer one does not end the outer block.
 
 6. **Verify completeness against `plan.md`**: every required cell is either filled or deferred-with-reason; no orphaned drafts.
 
