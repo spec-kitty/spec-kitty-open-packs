@@ -1,7 +1,7 @@
 {
-  "event_count": 14,
-  "last_event_id": "01M7T0TA6TJCE4Z1STZXQ505JC",
-  "materialized_at": "2026-11-19T13:44:25.453100+00:00",
+  "event_count": 21,
+  "last_event_id": "01M7T129PRWS1GC0VEP46DKDWX",
+  "materialized_at": "2026-11-19T13:48:47.064139+00:00",
   "mission_number": "",
   "mission_slug": "analyze-readiness-gate-01M7SSEV",
   "mission_type": "software-dev",
@@ -23,11 +23,11 @@
       "agent": "claude::generic-reviewer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 1,
+      "force_count": 2,
       "implementer_of_record": "claude",
       "lane": "approved",
-      "last_event_id": "01M7T0RHD1W8H84G9TYS5QWX89",
-      "last_transition_at": "2026-11-19T13:43:27.393712+00:00",
+      "last_event_id": "01M7T0V4YXRMY0VTN1BYJZ582K",
+      "last_transition_at": "2026-11-19T13:44:52.957995+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-19T12:18:23Z – claude – shell_pid=4911 – T003 trace (#247): quality checks (testable, solution-free, unambiguous, consistent, complete) -> step 'Check the five quality properties'; EARS-pattern checks -> 'Read behavioural requirements against the EARS patterns' (lens, not template); observable behaviour -> 'Check for observable behaviour'; scenario audit tables (accepted, rejected, missing edge, surprising accepted, surprising rejected; location on every row) -> 'Audit the scenarios of each user story'; clarification questions with concrete choices / remediation -> 'Ask clarification questions with concrete choices'; inferred labelling, no formal proof -> 'Label inferred findings' + failure_modes. FR-016 -> specify.prompt.md requirement bullet + checklist line.",
@@ -35,12 +35,14 @@
         "Ready for review: tactic requirement-quality-ears, specify bullet + checklist line, manifest derived",
         "Identity correction only (orchestrator decision 9, operator-authorised scheme from #583): no content change; the original claim recorded the implementer as bare 'claude' without the charter profile.",
         "Resubmitted unchanged at 1c67ed0 after the identity correction.",
-        "Independent review (session_019C2Tk5NruMoumnqkuwALns) at 1c67ed0: approved. FR-011..016 covered once each; EARS as a lens; no severities/ids/layout in the tactic; no overlap with requirements-validation-workflow; both deviations accepted. Gates: ASCII, vocabulary, YAML and manifest hashes pass; foundation digest drift expected until WP05; validate-packs not reproduced locally (charter contract 404) - CI to confirm."
+        "Independent review (session_019C2Tk5NruMoumnqkuwALns) at 1c67ed0: approved. FR-011..016 covered once each; EARS as a lens; no severities/ids/layout in the tactic; no overlap with requirements-validation-workflow; both deviations accepted. Gates: ASCII, vocabulary, YAML and manifest hashes pass; foundation digest drift expected until WP05; validate-packs not reproduced locally (charter contract 404) - CI to confirm.",
+        "Reopen only to re-stamp the approval with lane head 1c67ed0; no content change.",
+        "Re-approval from lane-a worktree to stamp lane head 1c67ed0. Independent review (session_019C2Tk5NruMoumnqkuwALns): approved, verdict unchanged."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
-        "reference": "review-cycle://analyze-readiness-gate-01M7SSEV/WP01-requirement-quality-tactic/review-cycle-1.md",
-        "reviewer": "claude::generic-reviewer",
+        "reference": "auto-approval:WP01:20261119",
+        "reviewer": "Claude",
         "verdict": "approved"
       },
       "role": "reviewer",
@@ -55,19 +57,38 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude::doctrine-daphne",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
+      "force_count": 1,
       "implementer_of_record": "claude::doctrine-daphne",
       "lane": "in_progress",
-      "last_event_id": "01M7T0TA6TJCE4Z1STZXQ505JC",
-      "last_transition_at": "2026-11-19T13:44:25.453100+00:00",
+      "last_event_id": "01M7T129PRWS1GC0VEP46DKDWX",
+      "last_transition_at": "2026-11-19T13:48:47.064139+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "- 2026-11-19T13:45:37Z – claude::doctrine-daphne – shell_pid=2267 – T006: grep for literal template keys (work_package_id, owned_files, authoritative_surface, planning/merge branches, branch_strategy, execution_mode, agent_profile, create_intent, shell_pid, task_type, subtasks:, requirement_refs) finds none -> deferral-ok. T007 trace (#237): WP in tasks.md has a prompt / every prompt referenced -> 'Pair the task list...'; frontmatter + body sections (#237's key and section lists) -> 'Resolve the WP prompt template, then compare' (C-002: no list kept); profile load first -> 'Check that the agent profile loads first'; 200-500 target, warn >700 lines or >10 subtasks -> 'Check the prompt size'; dependencies/ordering -> 'Check dependencies and order'; cohesive, independently implementable, not overbroad -> 'Check the boundaries'; maps to requirements and user value -> 'Check the requirement and value mapping'; per-WP section, blockers vs improvements, read-only -> 'Report per work package' + purpose. T008: validate-packs exit 0 (ebce908 contracts), vocabulary 0, ASCII pass. Out-of-map: foundation pack-manifest.yaml re-derived (same reason as WP01).",
+        "Ready for review at d627cab",
+        "Review started.",
+        "Changes requested at d627cab: F1 boundary blocker misfires on declared dependencies; see review feedback."
+      ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/analyze-readiness-gate-01M7SSEV-coord/kitty-specs/analyze-readiness-gate-01M7SSEV/tasks/WP02-wp-prompt-readiness-tactic/review-cycle-1.md",
+        "reference": "review-cycle://analyze-readiness-gate-01M7SSEV/WP02-wp-prompt-readiness-tactic/review-cycle-1.md",
+        "reviewer": "claude::generic-reviewer",
+        "verdict": "changes_requested"
+      },
       "role": "implementer",
-      "shell_pid": 2267,
-      "shell_pid_created_at": "1795095858.64"
+      "shell_pid": null,
+      "shell_pid_created_at": null,
+      "subtasks": {
+        "T005": "planned",
+        "T006": "planned",
+        "T007": "planned",
+        "T008": "planned"
+      }
     },
     "WP03": {
       "actor": "finalize-tasks",
