@@ -29,7 +29,8 @@
 | Source | Severity |
 |---|---|
 | validation refusal | critical |
-| validation could not run (old CLI, missing, no JSON, resolution error) | high |
+| passing run with `validation_stage: tasks-outline` (outline only, no WP prompts; spec.md Edge Cases) | critical |
+| validation could not run (old CLI, missing, no JSON, mission/repository resolution or branch-contract/placement error) | high |
 | passing run: `tasks_md_stale`, non-empty `would_modify` | high |
 | passing run: warnings | medium |
 | passing run: collapsed lane | low |

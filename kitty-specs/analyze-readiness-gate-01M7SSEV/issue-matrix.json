@@ -49,7 +49,7 @@
       "wp": null
     },
     "#237": {
-      "evidence_ref": "tactic in WP02; analyze step 2b in WP03",
+      "evidence_ref": "tactic wp-prompt-readiness-review (lane-b de72546) + analyze step 2b and Per-WP Readiness (lane-c 4f4f0f6), all approved",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,7 +57,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Have /spec-kitty.analyze inspect every WP prompt before implementation",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#244": {
@@ -73,7 +73,7 @@
       "wp": null
     },
     "#246": {
-      "evidence_ref": "draft 59e1574; completed in WP03",
+      "evidence_ref": "analyze step 2a: version-gated finalize-tasks --validate-only, refusal CRITICAL, could-not-run HIGH (lane-c 4f4f0f6, approved); test tests/ci/test_analyze_readiness_prompts.py (lane-e 9d665bf)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -81,11 +81,11 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Integrate finalize-tasks validation into /spec-kitty.analyze readiness checks",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#247": {
-      "evidence_ref": "1c67ed0 (tactic, specify); analyze sections in WP03",
+      "evidence_ref": "tactic requirement-quality-ears + specify bar (lane-a 1c67ed0) + analyze pass G, Scenario Audit, Clarification Questions (lane-c 4f4f0f6), all approved",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -93,7 +93,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "analyze/specify prompts: requirement-quality, EARS and scenario-audit report sections",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP01"
     },
     "#266": {
