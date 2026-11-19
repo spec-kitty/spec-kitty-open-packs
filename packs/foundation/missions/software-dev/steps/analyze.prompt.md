@@ -13,11 +13,13 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Goal
 
-Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) before implementation. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
+Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) and every WP prompt (`tasks/WP*.md`) before implementation; confirm that the machine-checkable task metadata would pass `finalize-tasks` validation; and judge whether the requirements are good enough to build from. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
 
 ## Operating Constraints
 
 **NON-REMEDIATING**: Do **not** modify `spec.md`, `plan.md`, `tasks.md`, WP files, source code, or any remediation target. The only permitted file mutation is persisting this command's report to `kitty-specs/<mission>/analysis-report.md` via `spec-kitty agent mission record-analysis`. Offer an optional remediation plan only after the report is persisted (user must explicitly approve before any follow-up editing commands would be invoked manually).
+
+**READ-ONLY VALIDATION**: The only `finalize-tasks` invocation this command may make is `--validate-only` (step 2a). Never run `finalize-tasks` without `--validate-only`, and never pass `--refresh-planning-commit` or `--allow-orphaned`: those are the finalization write and commit paths. A `--validate-only` run writes nothing to disk; it only previews the frontmatter bootstrap, the lane computation and the topology decision in memory. Treat everything it reports as a preview of what finalization would do, never as something that happened; a `topology_decision` in the output carries `"preview": true` for the same reason.
 
 **Charter Authority**: The project charter (`.kittify/charter/charter.md`) is **non-negotiable** within this analysis scope. Charter conflicts are automatically CRITICAL and require adjustment of the spec, plan, or tasks - not dilution, reinterpretation, or silent ignoring of the principle. If a principle itself needs to change, that must occur in a separate, explicit charter update outside `/analyze`.
 
@@ -68,9 +70,75 @@ Load only the minimal necessary context from each artifact:
 - Parallel markers [P]
 - Referenced file paths
 
+**From every `tasks/WP*.md` (the prompts implementation agents execute; `tasks.md` alone is not enough):**
+
+- Frontmatter first, then the body's section headings; read a body section only when a step 2b check needs it
+
 **From charter:**
 
 - Load `.kittify/charter/charter.md` for principle validation
+
+### 2a. Validate Task Finalization (read-only)
+
+After loading the artifacts and before any detection pass, check the CLI version first:
+
+```bash
+spec-kitty --version
+```
+
+`--validate-only` exists from 3.0.0 but writes nothing only from 3.1.0a5. **If the version is below 3.1.0a5, or `spec-kitty` is not installed, stop here: do not run the check.** Record the could-not-run finding below and go on to step 2b. Otherwise run the read-only finalization check once from repo root:
+
+```bash
+spec-kitty agent mission finalize-tasks --validate-only --mission <mission-slug> --json
+```
+
+Parse the JSON it prints. Record the exit code, and keep the payload's keys and values verbatim for the report (step 6). Do not edit any artifact in response and do not re-run the check after a "fix": this command is non-remediating.
+
+**The check is fail-fast.** Each gate refuses on its first failure and the run stops there, so a refusal reports one failure class only. Never read a single refusal as the only problem: the gates after it did not run. Say so in the report's residual-risk section.
+
+Classify the result in this order; the first case that matches wins.
+
+**1. The check could not run.** The CLI is older than 3.1.0a5 or missing, the command prints no JSON, or it fails to resolve the mission or the repository rather than judging the artifacts (an `error_code` such as `MISSION_AMBIGUOUS_SELECTOR`, `MISSION_CONTEXT_UNRESOLVED` or another `MISSION_*` resolution code, or the `error` "Could not locate project root"), or it refuses because of where it runs rather than what the artifacts say (a branch-contract or checkout `error_code` such as `PLANNING_BRANCH_NOT_PERSISTED`, `PR_BOUND_PLANNING_BRANCH_REQUIRED`, `PR_BOUND_RECOVERY_FOREIGN_META_DELTA` or `CHECKOUT_WRITE_OWNERSHIP_REFUSED`). This fails closed: add one **HIGH** finding in category `finalize-validation` that names `spec-kitty CLI >= 3.1.0a5`, the installed version (or "not installed") and how to get the check running (upgrade the CLI; pass an unambiguous `--mission` handle; run from the Mission's planning checkout), and add a Residual Risk entry saying requirement mappings, dependency cycles, ownership overlaps and WP metadata were not machine-checked. Continue with step 2b; do not re-implement the CLI's checks by hand as a substitute.
+
+**2. Exit code non-zero with an `error` payload: a validation refusal.** `finalize-tasks` would refuse to finalize these artifacts, so the lanes implementation runs from cannot be computed from them. Report each refusal as a **CRITICAL** finding in category `finalize-validation`, quoting `error` and naming the WPs and ids from the payload. Recognise the refusal by the keys that carry a non-empty value (the requirement-mapping refusal lists all four of its keys, empty ones included):
+
+| Payload key(s) | What it means |
+|---|---|
+| `missing_requirement_refs_wps` | WPs that map to no requirement |
+| `unknown_requirement_refs` | WP requirement refs that name no id declared in `spec.md` (per WP) |
+| `unmapped_functional_requirements` | Functional requirements no WP maps |
+| `bare_prose_requirement_ids` | Requirement ids cited in prose but not declared in a recognised shape |
+| `missing_wp_sections`, `extra_wp_sections` | WP prompt files with no matching `tasks.md` section, or `tasks.md` sections with no WP file |
+| `cycles` | Circular WP dependencies (no valid execution order) |
+| `wp_id` with `errors` | Invalid dependencies of one WP (for example a dependency on a WP that does not exist) |
+| `dependency_conflicts` | WP frontmatter `dependencies` disagree with the dependencies parsed from `tasks.md` |
+| `ownership_errors` | Ownership validation failed, for example two WPs that can run in parallel claiming overlapping `owned_files` (WPs ordered by a dependency may share files) |
+| `ownership_literal_path_errors` | Literal `owned_files` paths that match no file and are not declared in `create_intent` |
+| `ownership_contradiction_wp_ids`, `ownership_contradictions` | A `code_change` WP with an explicitly empty `owned_files` |
+| `error_code: STALE_CANCELED_DEPENDENCIES` | Executable WPs that depend on canceled WPs |
+| `risk_report` | Parallelization risk exceeds the project's blocking threshold |
+| any other `error` or `error_code` (not a case-1 resolution code) | Report it verbatim: invalid WP metadata, an unloadable `wps.yaml`, a refused re-finalization of started work, or another gate |
+
+**3. Exit code 0 with `"result": "validation_passed"`: the gates passed.** Still read the payload:
+
+- `"validation_stage": "tasks-outline"`: only the `wps.yaml` outline exists and no WP prompt files were generated. Implementation cannot start: **CRITICAL**; Recommendation: run `/spec-kitty.tasks-packages`. Step 2b cites this finding for the missing prompts.
+- `tasks_md_stale: true`: `tasks.md` is out of step with `wps.yaml`. **HIGH**; Recommendation: re-run `/spec-kitty.tasks-finalize`.
+- `would_modify` not empty: finalization would still rewrite the frontmatter of the listed WPs (each entry names the `wp_id` and the `changes`). Either finalization has not run, or the WP files changed after it ran; either way the WP files are not the finalized metadata implementation will use. **HIGH**; Recommendation: run `/spec-kitty.tasks-finalize`.
+- `ownership_warnings`, `requirement_extraction_warnings`, `post_integration_acceptance_warnings`: one **MEDIUM** finding per warning; they do not stop finalization.
+- `success_criteria_coverage`: success criteria no WP references are informational; fold them into the coverage summary rather than raising findings.
+- `validation.lanes_preview.collapse_report`: independent WPs collapsed into one lane are a **LOW** finding (lost parallelism), not a blocker.
+
+### 2b. Review Every WP Prompt
+
+Apply tactic `wp-prompt-readiness-review` (fetch: `spec-kitty charter context --include tactic:wp-prompt-readiness-review`) to every `tasks/WP*.md`. Read-only: never edit a WP prompt. In one line each, it checks:
+
+- pairing both ways between `tasks.md` and the WP prompt files;
+- each prompt against the WP prompt template **as resolved for this Mission**, naming gaps as the template names them (never from a list kept here);
+- the agent-profile load as the first body section;
+- size: target 200-500 lines; warn above 700 lines or more than 10 subtasks;
+- dependency order, cohesive boundaries (an undeclared dependency on another WP's files is a blocker), and the mapping to requirements and user value.
+
+Category `wp-readiness`. A blocker is **HIGH** (missing or orphaned WP prompt; a template field or section implementation depends on is missing or a placeholder; a WP mapped to no requirement; an undeclared dependency). A quality improvement is **MEDIUM** or **LOW** (profile load not first, size, overbroad scope, vague mapping wording). Where a `V` finding already covers a defect (pairing, `tasks-outline`, a cycle, a WP mapped to no requirement), cite its id in the Per-WP Readiness row instead of raising a `W` finding (see the one-defect rule in step 4).
 
 ### 3. Build Semantic Models
 
@@ -84,6 +152,8 @@ Create internal representations (do not include raw artifacts in output):
 ### 4. Detection Passes (Token-Efficient Analysis)
 
 Focus on high-signal findings. Limit to 50 findings total; aggregate remainder in overflow summary.
+
+**One defect, one finding.** When a step 2a `V` finding already covers a defect, steps 2b and passes A-G cite that `V` id (in the table's Notes or the Per-WP Readiness row) instead of raising their own finding. For example: a requirement with zero tasks (`unmapped_functional_requirements`), a WP mapped to no requirement (`missing_requirement_refs_wps`), an unknown requirement ref, a cycle, or a missing WP prompt.
 
 #### A. Duplication Detection
 
@@ -119,14 +189,25 @@ Focus on high-signal findings. Limit to 50 findings total; aggregate remainder i
 - Task ordering contradictions (e.g., integration tasks before foundational setup tasks without dependency note)
 - Conflicting requirements (e.g., one requires Next.js while other specifies Vue)
 
+#### G. Requirement Quality and Scenario Audit
+
+Apply tactic `requirement-quality-ears` (fetch: `spec-kitty charter context --include tactic:requirement-quality-ears`). Pass B reports vague adjectives and placeholders; a `Q` finding covers only the properties B did not report, and cites the B id when both apply to one requirement. In one line each:
+
+- each requirement is testable, solution-free, unambiguous, consistent and complete (category `requirement-quality`);
+- behavioural requirements read against the EARS patterns as a lens, not a template, and state a response an actor or a test can observe (category `requirement-quality`);
+- each user story gets a scenario audit in five kinds - accepted, rejected, missing edge, surprising accepted, surprising rejected - each row citing a `spec.md`, `plan.md` or `tasks.md` location (category `scenario`); a spec with no user stories gets "None." and no invented stories;
+- every HIGH or CRITICAL ambiguity or requirement-quality finding gets a clarification question with two to four concrete choices and a recommendation, or a concrete remediation (the reworded requirement) in its Recommendation cell;
+- a finding reached by judgement starts with `Inferred:` and never claims proof.
+
 ### 5. Severity Assignment
 
 Use this heuristic to prioritize findings:
 
-- **CRITICAL**: Violates charter MUST, missing core spec artifact, or requirement with zero coverage that blocks baseline functionality
-- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion
-- **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case
-- **LOW**: Style/wording improvements, minor redundancy not affecting execution order
+- **CRITICAL**: Violates charter MUST, missing core spec artifact, requirement with zero coverage that blocks baseline functionality, or a `finalize-tasks --validate-only` refusal (step 2a)
+- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion, or stale finalization reported by a passing validation (`tasks_md_stale`, non-empty `would_modify`)
+- **HIGH** also: a finalize validation that could not run (fail closed), a WP-prompt blocker (step 2b), an untestable or ambiguous requirement that changes what gets built, a scenario gap on a security or data-loss path
+- **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case, a finalize-validation warning, a WP-prompt quality improvement, other requirement-quality or scenario findings
+- **LOW**: Style/wording improvements, minor redundancy not affecting execution order, EARS wording suggestions, a collapsed lane
 
 ### 6. Produce Compact Analysis Report
 
@@ -136,7 +217,7 @@ The report MUST begin with a structured **`analysis-findings/v1`** YAML frontmat
 ---
 schema: analysis-findings/v1
 findings:
-  - id: A1            # stable finding id (same id used in the body table)
+  - id: C1            # stable finding id (same id used in the body table)
     severity: high    # one of: low | medium | high | critical (closed vocabulary; no other values)
     category: coverage
     summary: "One-line description of the finding."
@@ -157,18 +238,48 @@ After the closing `---`, draft the Markdown body with the following structure:
 
 | ID | Category | Severity | Location(s) | Summary | Recommendation |
 |----|----------|----------|-------------|---------|----------------|
-| A1 | Duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
+| D1 | Duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
 
-(Add one row per finding; generate stable IDs prefixed by category initial.)
+One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, charter), then by line, so a rerun on unchanged artifacts yields the same ids:
+
+| Prefix | Category | Prefix | Category |
+|---|---|---|---|
+| D | duplication | V | finalize-validation |
+| B | ambiguity | W | wp-readiness |
+| U | underspecification | Q | requirement-quality |
+| K | charter | S | scenario |
+| C | coverage | I | inconsistency |
+
+Then these sections, always in this order and always present (write "None." when a section has nothing to report):
+
+**Finalize Validation:** the CLI version, the exit code, `result` or `error`, and each `V` finding with the payload keys and ids it came from. If the check refused, state that later gates did not run.
+
+**Per-WP Readiness:**
+
+| WP | Prompt file | In tasks.md | Blockers | Improvements |
+|----|-------------|-------------|----------|--------------|
+
+(finding ids in the last two columns; one row per WP named in `tasks.md` or present as a prompt file)
+
+**Requirement Quality:** the `Q` findings, grouped by requirement.
+
+**Scenario Audit:** one table per user story:
+
+| Kind | Scenario | Location |
+|------|----------|----------|
+
+**Clarification Questions:** one entry per HIGH or CRITICAL ambiguity or requirement-quality finding without a concrete remediation: the finding id, the question, two to four choices with their implications, and the recommended choice.
 
 **Coverage Summary Table:**
 
 | Requirement Key | Has Task? | Task IDs | Notes |
 |-----------------|-----------|----------|-------|
 
-**Charter Alignment Issues:** (if any)
+**Residual Risk:** what was not machine-checked and why, including a validation that could not run or stopped at its first refusal.
 
-**Unmapped Tasks:** (if any)
+**Charter Alignment Issues:**
+
+**Unmapped Tasks:**
 
 **Metrics:**
 
@@ -178,6 +289,11 @@ After the closing `---`, draft the Markdown body with the following structure:
 - Ambiguity Count
 - Duplication Count
 - Critical Issues Count
+- Finalize Validation (passed | refused | not run)
+- WP prompts reviewed, and WP blockers
+- Requirement-quality findings
+- Scenarios audited
+- Inferred findings
 
 ### 7. Persist Report Artifact
 
@@ -231,6 +347,8 @@ report whenever any of those inputs change.
 At end of report, output a concise Next Actions block:
 
 - If CRITICAL issues exist: Recommend resolving before `/implement`
+- A finalize-validation refusal or stale finalization: name `/spec-kitty.tasks-finalize` (after fixing the artifacts it names); a validation that could not run: name the CLI upgrade or the `--mission` handle fix
+- A WP-prompt blocker: name the WP and what it lacks
 - If only LOW/MEDIUM: User may proceed, but provide improvement suggestions
 - Provide explicit command suggestions: e.g., "Run /spec-kitty.specify with refinement", "Run /plan to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'"
 
@@ -250,7 +368,9 @@ Ask the user: "Should all of these findings be addressed before moving on to imp
 ### Analysis Guidelines
 
 - **NEVER modify source/planning files** other than the required `analysis-report.md` persistence step
+- **NEVER run a writing `finalize-tasks`**: `--validate-only` is the only permitted form
 - **NEVER hallucinate missing sections** (if absent, report them accurately)
+- **Label judgement-based findings `Inferred:`**; never claim formal proof
 - **Prioritize charter violations** (these are always CRITICAL)
 - **Use examples over exhaustive rules** (cite specific instances, not generic patterns)
 - **Report zero issues gracefully** (emit success report with coverage statistics)
