@@ -26,23 +26,46 @@ QUALITY_TACTIC = "requirement-quality-ears"
 WP_TACTIC = "wp-prompt-readiness-review"
 MAX_ANALYZE_LINES = 500
 
-_COMMAND = re.compile(r"spec-kitty\s+agent\s+mission\s+finalize-tasks\b")
-_PROHIBITION = re.compile(r"\bnever\b|\bdo not\b|\bnot run\b", re.IGNORECASE)
+# A finalize command: the full CLI form, or `run` followed by a bare `finalize-tasks`.
+_COMMAND = re.compile(r"spec-kitty\s+agent\s+mission\s+finalize-tasks\b|\brun\s+`?finalize-tasks\b", re.IGNORECASE)
+# A prohibition directly attached to the command: "never run `...", "do not run ...".
+_GOVERNED_COMMAND = re.compile(r"\b(?:never|not)\s+(?:(?:run|pass|use|invoke)\s+)?`?$", re.IGNORECASE)
+_WRITING_FLAGS = ("--refresh-planning-commit", "--allow-orphaned")
+# A prohibition directly governing a flag, allowing a list: "never pass `--a` or `--b`".
+_GOVERNED_FLAG = re.compile(
+    r"\b(?:never|not)\s+(?:(?:pass|run|use|invoke|with)\s+)?(?:`--[\w-]+`\s*(?:,|or|and)\s+(?:never\s+)?)*`?$",
+    re.IGNORECASE,
+)
+
+
+def _command_span(line: str, end: int) -> str:
+    """The rest of the command after the match: up to the closing backtick, or the line end."""
+    close = line.find("`", end)
+    return line[end:] if close == -1 else line[end:close]
 
 
 def writing_finalize_lines(text: str) -> list[str]:
-    """Lines that instruct a `finalize-tasks` command without `--validate-only`.
+    """Lines that instruct a writing `finalize-tasks` run.
 
-    A line counts when it spells the command, lacks `--validate-only`, and is
-    not a prohibition. Lines naming the writing-only flags count unless they
-    are a prohibition.
+    A command counts unless its own span carries `--validate-only` or a
+    prohibition is directly attached to it. A writing-only flag counts unless
+    a prohibition directly governs it. A prohibition word elsewhere on the
+    line ("if the check could not run, run ...") exempts nothing.
     """
     hits = []
     for line in text.splitlines():
-        prohibited = bool(_PROHIBITION.search(line))
-        if _COMMAND.search(line) and "--validate-only" not in line and not prohibited:
-            hits.append(line)
-        elif ("--refresh-planning-commit" in line or "--allow-orphaned" in line) and not prohibited:
+        flagged = False
+        for match in _COMMAND.finditer(line):
+            if "--validate-only" in _command_span(line, match.end()):
+                continue
+            if _GOVERNED_COMMAND.search(line[: match.start()]):
+                continue
+            flagged = True
+        for flag in _WRITING_FLAGS:
+            for match in re.finditer(re.escape(flag), line):
+                if not _GOVERNED_FLAG.search(line[: match.start()]):
+                    flagged = True
+        if flagged:
             hits.append(line)
     return hits
 
@@ -54,23 +77,27 @@ class AnalyzeReadOnlyTest(unittest.TestCase):
                 self.assertEqual(writing_finalize_lines(path.read_text(encoding="utf-8")), [])
 
     def test_positive_control_sees_a_writing_command(self) -> None:
-        # Same classifier, same kind of text: a writing form must be caught,
-        # and the validate-only and prohibited forms must not.
-        fixture = "\n".join(
-            [
-                "spec-kitty agent mission finalize-tasks --mission x --json",
-                "spec-kitty agent mission finalize-tasks --validate-only --mission x --json",
-                "Never pass `--refresh-planning-commit`.",
-                "Then run with --refresh-planning-commit to update the pin.",
-            ]
-        )
-        self.assertEqual(
-            writing_finalize_lines(fixture),
-            [
-                "spec-kitty agent mission finalize-tasks --mission x --json",
-                "Then run with --refresh-planning-commit to update the pin.",
-            ],
-        )
+        # Same classifier, same kind of text: every writing form must be caught,
+        # including ones a stray prohibition word elsewhere on the line used to hide.
+        must_catch = [
+            "spec-kitty agent mission finalize-tasks --mission x --json",
+            "If the check could not run, run `spec-kitty agent mission finalize-tasks --mission <slug>` to finalize.",
+            "Do not forget: spec-kitty agent mission finalize-tasks --mission x --json",
+            "Next, run `finalize-tasks` without flags to finalize.",
+            "Then run with --refresh-planning-commit to update the pin.",
+        ]
+        self.assertEqual(writing_finalize_lines("\n".join(must_catch)), must_catch)
+
+    def test_real_prohibitions_and_validate_only_forms_pass(self) -> None:
+        must_pass = [
+            "spec-kitty agent mission finalize-tasks --validate-only --mission <mission-slug> --json",
+            "Otherwise run `spec-kitty agent mission finalize-tasks --validate-only --mission <slug> --json`",
+            "Never run `finalize-tasks` without `--validate-only`, and never pass `--refresh-planning-commit` or `--allow-orphaned`: those are the write paths.",
+            "and nothing else: never the plain form, never `--refresh-planning-commit`, never `--allow-orphaned`.",
+            "**If the version is below 3.1.0a5, or `spec-kitty` is not installed, stop here: do not run the check.**",
+            "- **NEVER run a writing `finalize-tasks`**: `--validate-only` is the only permitted form",
+        ]
+        self.assertEqual(writing_finalize_lines("\n".join(must_pass)), [])
 
 
 class AnalyzeReadinessContentTest(unittest.TestCase):
@@ -80,8 +107,10 @@ class AnalyzeReadinessContentTest(unittest.TestCase):
                 self.assertIn(VERSION_GATE, path.read_text(encoding="utf-8"))
 
     def test_version_check_precedes_the_validation_command(self) -> None:
-        text = ANALYZE.read_text(encoding="utf-8")
-        self.assertLess(text.index("spec-kitty --version"), text.index("finalize-tasks --validate-only --mission"))
+        for path in (ANALYZE, CAVE_ANALYZE):
+            with self.subTest(path=path.relative_to(ROOT)):
+                text = path.read_text(encoding="utf-8")
+                self.assertLess(text.index("spec-kitty --version"), text.index("finalize-tasks --validate-only --mission"))
 
     def test_resolution_and_placement_codes_classify_as_could_not_run(self) -> None:
         # Case 1 (could not run, HIGH) must catch these before case 2 (refusal,
