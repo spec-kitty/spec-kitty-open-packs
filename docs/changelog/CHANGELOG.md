@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-18'
+updated: '2026-11-19'
 ---
 # Changelog
 
@@ -243,6 +243,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (see Changed).
 
 ### ✨ Added
+
+- **The packs are checked against charter `main` every night** (#311). `charter-track.yml` gains a
+  nightly main track: at 02:23 UTC, apart from the release track's 05:41, it runs the on-demand
+  track's checks, the round trip included, against charter `main` built from source. It reports only:
+  it never bumps the lock and is not a required check. From `main`, a red run opens or rewrites one
+  `charter:main-red` issue naming the charter commit and the failing jobs' errors, and a green run
+  closes it; the release track's `charter:release-red` issue is untouched. A dispatch with
+  `track: main` runs it on demand. This restores charter ADR-0070's "nightly, non-blocking
+  open-packs run against charter `main`", which charter's retired `open-packs-drift.yml` used to run.
 
 - **The charter pin follows charter releases on its own** (#253, epic #287). A daily
   `charter-track.yml` lists the charter's releases and checks the newest `service-v*` release or
