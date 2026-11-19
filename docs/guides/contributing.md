@@ -72,7 +72,8 @@ path, from the proposal issue through `pack_id` minting, the gates and review. I
 ## Documentation conventions
 
 Docs follow the Spec Kitty core convention: Markdown with YAML frontmatter
-(`title`, `description`, `doc_status`, `updated`, optional `related`), an ordered nav in `docs/_meta/sections.yaml`
+(`title`, `description`, `doc_status`, `updated`, optional `related`; set `updated` to the day you
+last verified the page, and move it whenever you change the page), an ordered nav in `docs/_meta/sections.yaml`
 (the nav source of truth, built by doc-kitty/Astro — see [ADR 2026-10-17-1](../architecture/adr/2026-10-17-1-doc-kitty-astro-as-docsite-generator.md)), and
 a canonical changelog under `docs/changelog/` symlinked from the repository root.
 
@@ -103,7 +104,10 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
   once it passes (#311). It is not a required check; see
   [Validate a pack](validate-a-pack.md#following-charter-releases).
 - **`Docs site`** builds the docsite. It runs only when docs, site or pack files change, so it
-  cannot be required.
+  cannot be required. On a pull request its `Docs freshness` job fails an authored page under
+  `docs/` that the pull request changes when the page's `updated:` is older than the author date of
+  its last commit (#297). Generated pages are left to the drift check. The same job lists, without
+  failing, pages past their staleness threshold: guides 90 days, ADRs 365, other pages 180.
 
 After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
 `packs/<name>.source.yaml`; the gate fails while the recorded digest is stale. Rebasing over another
