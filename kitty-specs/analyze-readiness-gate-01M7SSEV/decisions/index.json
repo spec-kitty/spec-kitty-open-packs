@@ -47,6 +47,30 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-19T12:02:40.515112Z",
+      "decision_id": "01M7SV0083VK137H0ZRRHHAC58",
+      "final_answer": null,
+      "input_key": "check_placement",
+      "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
+      "mission_slug": "analyze-readiness-gate-01M7SSEV",
+      "opened_by": "cli",
+      "options": [
+        "New tactic(s) cited from the prompts",
+        "Inline in the prompts",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "Where do the #237/#247 checks live: inline in the analyze/specify prompts, or in new foundation tactic(s) scoped to the specify and analyze actions and cited from the prompts?",
+      "rationale": null,
+      "resolved_at": null,
+      "resolved_by": null,
+      "slot_key": "plan.architecture.check-placement",
+      "status": "open",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M7SSEV2129TGWG9E154RXSWC",
