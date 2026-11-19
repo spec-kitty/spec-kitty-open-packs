@@ -190,7 +190,8 @@
         "- 2026-11-19T14:13:54Z – claude::implementer-ivan – shell_pid=21263 – T024 analyze dry run (U1/B1; SC-001..003), spec-kitty CLI 4.0.0rc9, scratch repo outside the checkout. Followed the WP03 prompt (approved bbff933) by hand. case1 unmapped FR: exit 1 'Requirement mapping validation failed', unmapped_functional_requirements [FR-002] -> 2a case 2 refusal -> V1 CRITICAL; pass E cites V1 (one-defect rule) -> verdict blocked. case2 parallel overlap: exit 1 ownership_errors 'Overlap: WP02 (src/a.py) and WP01 (src/a.py)' -> V1 CRITICAL -> blocked. case3 cycle: exit 1 cycles [[WP02,WP01,WP02]] -> V1 CRITICAL; 2b dependency order cites V1 -> blocked. case4 unknown handle: exit 1 error_code MISSION_CONTEXT_UNRESOLVED -> 2a case 1 could-not-run -> V1 HIGH naming 'spec-kitty CLI >= 3.1.0a5' (installed 4.0.0rc9) and the --mission fix -> blocked. case5 orphan WP03 prompt: exit 1 missing_wp_sections [WP03] -> V1 CRITICAL; Per-WP Readiness row WP03 cites V1, no W duplicate -> blocked. All five match the expected verdicts. Id determinism (B1): case1 carrier produced in two separate passes from unchanged artifacts: ids [V1, U1] and [V1, U1] (U1 = spec has no user stories); identical. Caveat: both passes by the same agent, so this shows the numbering rule is applicable, not that different agents agree. Dry-run finding for the orchestrator: running cases from the wrong branch gave error_code PLANNING_BRANCH_NOT_PERSISTED (meta.json not found); WP03's classification sends it to case 2 (refusal, CRITICAL) although it is a placement problem, not an artifact judgement; verdict is blocked either way.",
         "Ready for review at b8f6c88",
         "Review started at b8f6c88.",
-        "Changes requested at b8f6c88: F1 the read-only test exempts any line containing not run/do not/never (realistic bypass confirmed); F2 cave version-order check (should)."
+        "Changes requested at b8f6c88: F1 the read-only test exempts any line containing not run/do not/never (realistic bypass confirmed); F2 cave version-order check (should).",
+        "- 2026-11-19T14:21:22Z – claude::implementer-ivan – review-cycle-1 at lane-e 9d665bf (on top of a0ab40f, which carries decision 11's test and the foundation restamp after merging lane-c 4f4f0f6). F1: writing_finalize_lines exempts a command only when --validate-only is in its own command span or a prohibition is directly attached (never/not [run|pass|use|invoke]); a bare 'run finalize-tasks' counts as a command; a writing-only flag is exempt only when a prohibition directly governs it (lists allowed: 'never pass --a or --b', 'never --a, never --b'). Must-catch: the reviewer's three lines plus the original two; must-pass: six real prohibition and validate-only lines from both prompts. Mutation: appending the reviewer's could-not-run fallback line to the software-dev and to the cave-kitty prompt each turns the test red. F2: version-before-command check now covers cave-kitty too. Decision 11: test_resolution_and_placement_codes_classify_as_could_not_run (non-vacuity shown). Gates: validate-packs 0, tests/ci 221 passed, digests 0, pages no drift."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
@@ -204,11 +205,11 @@
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
-        "T020": "planned",
-        "T021": "planned",
-        "T022": "planned",
-        "T023": "planned",
-        "T024": "planned"
+        "T020": "done",
+        "T021": "done",
+        "T022": "done",
+        "T023": "done",
+        "T024": "done"
       }
     }
   }
