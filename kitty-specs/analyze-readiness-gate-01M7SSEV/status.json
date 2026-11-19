@@ -35,7 +35,8 @@
         "Ready for review: tactic requirement-quality-ears, specify bullet + checklist line, manifest derived",
         "Identity correction only (orchestrator decision 9, operator-authorised scheme from #583): no content change; the original claim recorded the implementer as bare 'claude' without the charter profile.",
         "Resubmitted unchanged at 1c67ed0 after the identity correction.",
-        "Independent review (session_019C2Tk5NruMoumnqkuwALns) at 1c67ed0: approved. FR-011..016 covered once each; EARS as a lens; no severities/ids/layout in the tactic; no overlap with requirements-validation-workflow; both deviations accepted. Gates: ASCII, vocabulary, YAML and manifest hashes pass; foundation digest drift expected until WP05; validate-packs not reproduced locally (charter contract 404) - CI to confirm."
+        "Independent review (session_019C2Tk5NruMoumnqkuwALns) at 1c67ed0: approved. FR-011..016 covered once each; EARS as a lens; no severities/ids/layout in the tactic; no overlap with requirements-validation-workflow; both deviations accepted. Gates: ASCII, vocabulary, YAML and manifest hashes pass; foundation digest drift expected until WP05; validate-packs not reproduced locally (charter contract 404) - CI to confirm.",
+        "Reopen only to re-stamp the approval with lane head 1c67ed0; no content change."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
