@@ -513,24 +513,84 @@ class CharterTrackBumpTokens(unittest.TestCase):
     def setUp(self) -> None:
         self.job = load(TRACK)["jobs"]["bump"]
         self.steps = self.job["steps"]
+        self.prepare = next(step for step in self.steps if step.get("id") == "prepare")
         self.open = next(step for step in self.steps if step.get("name") == "Open the bump pull request")
 
     def test_only_contents_is_written_with_the_job_token(self) -> None:
         self.assertEqual(self.job["permissions"], {"contents": "write", "pull-requests": "read", "issues": "read"})
-        self.assertEqual(self.open["env"]["GH_TOKEN"], "${{ github.token }}")
-        self.assertEqual(self.open["env"]["PR_TOKEN"], "${{ secrets.PR_CREATION_TOKEN }}")
+        for step in (self.prepare, self.open):
+            self.assertEqual(step["env"]["GH_TOKEN"], "${{ github.token }}")
         text = yaml.safe_dump(self.job)
         self.assertNotIn("CHARTER_BUMP_TOKEN", text)
         self.assertEqual(set(re.findall(r"secrets\.(\w+)", text)), {"PR_CREATION_TOKEN"})
 
-    def test_the_pull_request_is_opened_and_closed_with_the_pat_and_no_dispatch_stands_in(self) -> None:
-        script = self.open["run"]
-        self.assertIn('GH_TOKEN="$PR_TOKEN" gh pr create', script)
-        self.assertIn('GH_TOKEN="$PR_TOKEN" gh pr close', script)
-        self.assertEqual(script.count("gh pr create"), 1)
-        self.assertEqual(script.count("gh pr close"), 1)
-        self.assertNotIn("gh workflow run", script)
+    def test_the_pat_lives_only_in_the_step_that_runs_nothing_but_gh(self) -> None:
+        holders = [step.get("name") for step in self.steps if "PR_CREATION_TOKEN" in yaml.safe_dump(step.get("env", {}))]
+        self.assertEqual(holders, ["Require PR_CREATION_TOKEN", "Open the bump pull request"])
+        self.assertEqual(self.open["env"]["PR_TOKEN"], "${{ secrets.PR_CREATION_TOKEN }}")
+        self.assertNotIn("PR_TOKEN", yaml.safe_dump(self.prepare))
+        self.assertGreater(self.steps.index(self.open), self.steps.index(self.prepare))
+        # Every command it runs is gh, echo or shell control flow: no pin tooling or third-party package sees the PAT.
+        self.assertNotIn("python3", self.open["run"])
+        self.assertIsNone(re.search(r"\bpip3? ", self.open["run"]))
+        self.assertNotIn("uses", self.open)
+
+    def test_the_pat_opens_and_closes_and_the_job_token_pushes_and_deletes(self) -> None:
+        pat_lines = [line.strip() for line in self.open["run"].splitlines() if "$PR_TOKEN" in line]
+        self.assertEqual(len(pat_lines), 3)
+        self.assertTrue(any("gh pr create" in line for line in pat_lines))
+        self.assertTrue(any('gh api -X PATCH "repos/$REPO/pulls/$number" -f state=closed' in line for line in pat_lines))
+        self.assertTrue(any("gh pr comment" in line for line in pat_lines))
+        self.assertNotIn("--delete-branch", self.open["run"])  # it needs Contents, which the PAT does not hold
+        self.assertIn('if ! gh api -X DELETE "repos/$REPO/git/refs/heads/$old_branch"', self.open["run"])
+        prepare = self.prepare["run"]
+        self.assertNotIn("PR_TOKEN", prepare)
+        self.assertIn('gh api -X POST "repos/$REPO/git/refs"', prepare)
+        self.assertIn("createCommitOnBranch", prepare)
+        self.assertNotIn("gh workflow run", prepare + self.open["run"])
         self.assertNotIn("actions", self.job["permissions"])
+        self.assertEqual(self.open["if"], "${{ steps.prepare.outputs.branch != '' }}")
+
+    def test_a_superseded_pull_request_that_cannot_be_closed_or_cleaned_fails_the_job(self) -> None:
+        def run(fail: str) -> tuple[int, list[str]]:
+            with tempfile.TemporaryDirectory() as tmp:
+                work = Path(tmp)
+                (work / "bin").mkdir()
+                gh = work / "bin" / "gh"
+                gh.write_text(
+                    "#!/usr/bin/env bash\n"
+                    'echo "${GH_TOKEN}:$*" >> "$GH_LOG"\n'
+                    'case "$*" in *"$FAIL"*) [[ -n "$FAIL" ]] && exit 1 ;; esac\n'
+                    '[[ "$1 $2" == "pr create" ]] && echo https://example.invalid/pull/9\n'
+                    "exit 0\n", encoding="utf-8")
+                gh.chmod(0o755)
+                (work / "open-prs.tsv").write_text("5\tcharter/service-release-service-v1.0.0\n"
+                                                   "6\tcharter/service-release-service-v1.1.0\n", encoding="utf-8")
+                (work / "pr.md").write_text("body\n", encoding="utf-8")
+                log = work / "gh.log"
+                log.touch()
+                env = {**os.environ, "PATH": f"{work / 'bin'}:{os.environ['PATH']}", "GH_LOG": str(log), "FAIL": fail,
+                       "GH_TOKEN": "job", "PR_TOKEN": "pat", "REPO": "spec-kitty/spec-kitty-open-packs",
+                       "BRANCH": "charter/service-release-service-v2.0.0", "RELEASE_TAG": "service-v2.0.0",
+                       "RUNNER_TEMP": tmp, "GITHUB_STEP_SUMMARY": str(work / "summary.md")}
+                done = subprocess.run(["bash", "-c", self.open["run"]], env=env, capture_output=True, text=True)
+                return done.returncode, log.read_text(encoding="utf-8").splitlines()
+        code, calls = run("")
+        self.assertEqual(code, 0)
+        self.assertTrue(calls[0].startswith("pat:pr create"))
+        self.assertIn("pat:api -X PATCH repos/spec-kitty/spec-kitty-open-packs/pulls/5 -f state=closed", calls)
+        self.assertIn("job:api -X DELETE repos/spec-kitty/spec-kitty-open-packs/git/refs/heads/charter/service-release-service-v1.0.0", calls)
+        self.assertIn("job:api -X DELETE repos/spec-kitty/spec-kitty-open-packs/git/refs/heads/charter/service-release-service-v1.1.0", calls)
+        for fail in ("pulls/5", "refs/heads/charter/service-release-service-v1.0.0"):
+            with self.subTest(failing=fail):
+                code, calls = run(fail)
+                self.assertEqual(code, 1)
+                self.assertTrue(any("pulls/6" in call for call in calls))  # the others are still handled
+        code, _ = run("pr comment")
+        self.assertEqual(code, 0)  # a missing comment is only a warning
+        code, calls = run("pr create")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(calls), 1)
 
     def test_a_missing_secret_fails_loudly_before_anything_is_pushed(self) -> None:
         guard = self.steps[0]
