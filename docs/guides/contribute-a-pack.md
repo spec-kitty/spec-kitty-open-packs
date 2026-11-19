@@ -72,8 +72,8 @@ Commit what the last three change. The pack pages under `docs/packs/` are genera
 them by hand. [Validate a pack](validate-a-pack.md) explains each check and its output.
 
 When you change an existing pack, bump its `pack_version`. A removed or renamed artifact raises
-the major version (DIRECTIVE_018). In this repository's changelog, an added artifact raises the
-minor and a wording fix the patch. Some
+the major version (DIRECTIVE_018). For other changes, follow the precedents in the
+[changelog](../changelog/CHANGELOG.md); the reviewer confirms the bump. Some
 packs are pinned exactly by others (the `built-in` members), so a bump there moves those pins as
 well; the reviewer will tell you if your change does.
 
