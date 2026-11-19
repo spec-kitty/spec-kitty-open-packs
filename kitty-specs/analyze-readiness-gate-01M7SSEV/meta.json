@@ -31,6 +31,7 @@
   "purpose_context": "Issues #246, #237 and #247 (epic #244): the analyze step prompt can declare a mission ready while machine-checkable task metadata is broken, WP prompt files are missing or underspecified, or requirements are untestable. This mission edits the software-dev analyze and specify prompts and cave-kitty's analyze copy so the readiness verdict reflects them.",
   "purpose_tldr": "Make /spec-kitty.analyze catch broken task metadata, weak WP prompts and low-quality requirements before implementation starts.",
   "slug": "analyze-readiness-gate-01M7SSEV",
+  "status_phase": "1",
   "target_branch": "feat/analyze-finalize-validate-246",
   "topology": "lanes_with_coord",
   "topology_decision": {
