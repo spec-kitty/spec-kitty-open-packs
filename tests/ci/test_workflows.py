@@ -317,8 +317,16 @@ TRACK = "charter-track.yml"
 TARGET = {"charter_commit": "d" * 40, "charter_release_tag": "service-v9.0.0", "charter_jar_sha256": "e" * 64}
 
 
-def schedule_event(ref: str = "refs/heads/main", run_id: int = 5001) -> dict[str, Any]:
-    return {"event_name": "schedule", "event": {"schedule": "41 5 * * *"}, "ref": ref, "run_id": run_id}
+RELEASE_CRON = "41 5 * * *"
+NIGHTLY_CRON = "23 2 * * *"  # the nightly main track (#311)
+
+
+def schedule_event(ref: str = "refs/heads/main", run_id: int = 5001, cron: str = RELEASE_CRON) -> dict[str, Any]:
+    return {"event_name": "schedule", "event": {"schedule": cron}, "ref": ref, "run_id": run_id}
+
+
+def nightly_event(ref: str = "refs/heads/main", run_id: int = 5002) -> dict[str, Any]:
+    return schedule_event(ref, run_id, NIGHTLY_CRON)
 
 
 def track_dispatch(track: str, ref: str = "refs/heads/main", run_id: int = 6001) -> dict[str, Any]:
@@ -410,12 +418,13 @@ class CharterTrack(unittest.TestCase):
             text = yaml.safe_dump(job)
             writes = {scope for scope, level in (job.get("permissions") or {}).items() if level == "write"}
             with self.subTest(job=job_id):
-                if job_id in ("bump", "alert", "settle"):
+                if job_id in ("bump", "alert", "settle", "main-red"):
                     self.assertTrue(writes)
                 else:
                     self.assertEqual(writes, set())
                     self.assertNotIn("secrets.", text)
         self.assertNotIn("secrets.", yaml.safe_dump(self.jobs["alert"]))
+        self.assertNotIn("secrets.", yaml.safe_dump(self.jobs["main-red"]))
 
     def test_a_pull_request_runs_it_only_with_the_charter_head_label_and_never_while_paused(self) -> None:
         expected = {
@@ -495,6 +504,151 @@ class CharterTrack(unittest.TestCase):
         self.assertNotEqual(group(pr_event("labeled", labels=("charter:head", "docs"), label="docs", run_id=7)), running)
         self.assertNotEqual(group(pr_event("labeled", labels=("charter:head", "docs"), label="docs", run_id=7)),
                             group(pr_event("labeled", labels=("charter:head", "x"), label="x", run_id=8)))
+
+
+class CharterTrackNightlyMain(unittest.TestCase):
+    """charter-track.yml's nightly main track (#311): charter main every night, report only, one charter:main-red issue."""
+
+    MAIN = {"track": "main", "run": "true", "act": "false"}
+
+    def setUp(self) -> None:
+        self.workflow = load(TRACK)
+        self.jobs = self.workflow["jobs"]
+        self.runs = CharterTrack.runs.__get__(self)
+
+    def resolve_env(self, event: dict[str, Any], name: str) -> str:
+        step = next(step for step in self.jobs["resolve"]["steps"] if step.get("id") == "target")
+        return str(gh_expr.render(step["env"][name], track_contexts(event, {}))).strip()
+
+    def test_both_schedules_run_at_different_hours_and_the_jobs_name_the_nightly_one(self) -> None:
+        crons = [entry["cron"] for entry in triggers(self.workflow)["schedule"]]
+        self.assertEqual(crons, [RELEASE_CRON, NIGHTLY_CRON])
+        self.assertNotEqual(RELEASE_CRON.split()[1], NIGHTLY_CRON.split()[1])
+        text = (WORKFLOWS / TRACK).read_text(encoding="utf-8")
+        named = set(gh_expr_crons(text))
+        self.assertEqual(named, {NIGHTLY_CRON})  # no expression names a cron the schedule does not list
+        self.assertIn("main", triggers(self.workflow)["workflow_dispatch"]["inputs"]["track"]["options"])
+
+    def test_the_nightly_schedule_checks_charter_main_and_the_release_schedule_the_release_track(self) -> None:
+        self.assertEqual(self.resolve_env(nightly_event(), "TRACK"), "main")
+        self.assertEqual(self.resolve_env(nightly_event(), "CHARTER_REF"), "main")
+        self.assertEqual(self.resolve_env(schedule_event(), "TRACK"), "release")
+        dispatch = track_dispatch("main")
+        dispatch["inputs"] = {**dispatch["inputs"], "charter_ref": "feature"}
+        self.assertEqual(self.resolve_env(dispatch, "TRACK"), "main")
+        self.assertEqual(self.resolve_env(dispatch, "CHARTER_REF"), "main")
+        ref = track_dispatch("ref")
+        ref["inputs"] = {**ref["inputs"], "charter_ref": "feature"}
+        self.assertEqual(self.resolve_env(ref, "CHARTER_REF"), "feature")
+
+    def test_it_runs_the_shared_checks_and_never_bumps_or_touches_the_release_issue(self) -> None:
+        for event in (nightly_event(), track_dispatch("main")):
+            for checks in ("success", "failure"):
+                with self.subTest(event=event["event_name"], checks=checks):
+                    self.assertTrue(self.runs("checks", event, self.MAIN))
+                    self.assertTrue(self.runs("report", event, self.MAIN, checks))
+                    for job in ("bump", "alert", "settle"):
+                        self.assertFalse(self.runs(job, event, self.MAIN, checks), job)
+
+    def test_on_main_a_red_run_keeps_one_issue_and_a_green_run_closes_it(self) -> None:
+        for event in (nightly_event(), track_dispatch("main")):
+            with self.subTest(event=event["event_name"]):
+                self.assertTrue(self.runs("main-red", event, self.MAIN, checks="failure"))
+                self.assertTrue(self.runs("main-red", event, self.MAIN, checks="success"))
+                self.assertFalse(self.runs("main-red", event, self.MAIN, checks="cancelled"))
+
+    def upkeep(self, open_issue: str, resolved: str, result: str, old_title: str = "") -> list[str]:
+        """Run the main-red step under bash with a stub gh; return the gh calls it made."""
+        script = self.jobs["main-red"]["steps"][-1]["run"]
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            (work / "bin").mkdir()
+            (work / "scripts" / "ci").mkdir(parents=True)
+            report = work / "scripts" / "ci" / "charter_track_report.sh"
+            report.write_text("#!/usr/bin/env bash\necho '| Job | Conclusion |'\n", encoding="utf-8")
+            report.chmod(0o755)
+            gh = work / "bin" / "gh"
+            gh.write_text(
+                "#!/usr/bin/env bash\n"
+                'echo "$*" >> "$GH_LOG"\n'
+                'case "$1 $2" in\n'
+                '  "issue list") printf %s "$OPEN_ISSUE" ;;\n'
+                '  "issue view") printf %s "$OLD_TITLE" ;;\n'
+                "esac\n", encoding="utf-8")
+            gh.chmod(0o755)
+            log = work / "gh.log"
+            log.touch()
+            env = {**os.environ, "PATH": f"{work / 'bin'}:{os.environ['PATH']}", "GH_LOG": str(log),
+                   "OPEN_ISSUE": open_issue, "OLD_TITLE": old_title, "REPO": "spec-kitty/spec-kitty-open-packs",
+                   "RUN_URL": "https://example.invalid/run/1", "RESOLVED": resolved, "RESULT": result,
+                   "COMMIT": "d" * 40, "CURRENT": "service-v1.0.0", "GITHUB_SHA": "c" * 40,
+                   "GITHUB_RUN_ID": "1", "RUNNER_TEMP": tmp}
+            subprocess.run(["bash", "-c", script], cwd=work, env=env, check=True, capture_output=True)
+            return log.read_text(encoding="utf-8").splitlines()
+
+    def test_the_upkeep_keeps_exactly_one_charter_main_red_issue(self) -> None:
+        def verbs(calls: list[str]) -> list[str]:
+            return [" ".join(call.split()[:2]) for call in calls]
+        # Red with none open: label it and open one.
+        calls = self.upkeep("", "success", "failure")
+        self.assertEqual(verbs(calls), ["issue list", "label create", "issue create"])
+        self.assertIn("--label charter:main-red", calls[0])
+        self.assertIn("--label charter:main-red", calls[2])
+        self.assertIn("--title Charter main fails the packs", calls[2])
+        # Red with one open: rewrite it, no second issue; a comment only when the title changes.
+        calls = self.upkeep("12", "success", "failure", old_title="Charter main fails the packs")
+        self.assertEqual(verbs(calls), ["issue list", "label create", "issue view", "issue edit"])
+        calls = self.upkeep("12", "failure", "skipped", old_title="Charter main fails the packs")
+        self.assertEqual(verbs(calls), ["issue list", "label create", "issue view", "issue edit", "issue comment"])
+        self.assertIn("--title Charter track cannot resolve charter main", calls[3])
+        # Green: close the open one, or do nothing.
+        calls = self.upkeep("12", "success", "success")
+        self.assertEqual(verbs(calls), ["issue list", "issue close"])
+        self.assertTrue(calls[1].startswith("issue close 12 "))
+        self.assertEqual(verbs(self.upkeep("", "success", "success")), ["issue list"])
+        for calls in (self.upkeep("", "success", "failure"), self.upkeep("12", "success", "success")):
+            self.assertFalse(any("release-red" in call.split("--body")[0] for call in calls))
+
+    def test_nothing_is_opened_or_closed_off_main_in_a_fork_or_by_another_track(self) -> None:
+        cases = {
+            "a dispatch on a branch": (track_dispatch("main", "refs/heads/issue-311"), self.MAIN),
+            "a fork's nightly": ({**nightly_event(), "repository": "someone/spec-kitty-open-packs"}, self.MAIN),
+            "the release track": (schedule_event(), CharterTrack.RELEASE),
+            "the on-demand track": (track_dispatch("ref"), {"track": "ref", "run": "true", "act": "false"}),
+            "a labelled pull request": (pr_event(labels=("charter:head",)), {"track": "ref", "run": "true", "act": "false"}),
+        }
+        for name, (event, resolved) in cases.items():
+            for checks in ("success", "failure"):
+                with self.subTest(case=name, checks=checks):
+                    self.assertFalse(self.runs("main-red", event, resolved, checks))
+
+    def test_a_nightly_run_that_cannot_resolve_charter_main_says_so_on_its_own_issue(self) -> None:
+        for event in (nightly_event(), track_dispatch("main")):
+            with self.subTest(event=event["event_name"]):
+                self.assertTrue(self.runs("main-red", event, {}, checks="skipped", resolve="failure"))
+                self.assertFalse(self.runs("alert", event, {}, checks="skipped", resolve="failure"))
+        self.assertTrue(self.runs("alert", schedule_event(), {}, checks="skipped", resolve="failure"))
+        for event in (schedule_event(), track_dispatch("ref"), track_dispatch("release")):
+            with self.subTest(event=event["event_name"], track=event.get("inputs", {}).get("track")):
+                self.assertFalse(self.runs("main-red", event, {}, checks="skipped", resolve="failure"))
+
+    def test_nightly_runs_queue_on_their_own_and_never_with_the_release_track(self) -> None:
+        def group(event: dict[str, Any]) -> tuple[str, bool]:
+            ctx = track_contexts(event, {})
+            block = self.workflow["concurrency"]
+            return (str(gh_expr.render(block["group"], ctx)),
+                    gh_expr._truthy(gh_expr.render(block["cancel-in-progress"], ctx)))
+        nightly, dispatched = group(nightly_event()), group(track_dispatch("main"))
+        self.assertEqual(nightly, dispatched)
+        self.assertFalse(nightly[1])
+        self.assertNotEqual(nightly[0], group(schedule_event())[0])
+        self.assertNotEqual(nightly[0], group(track_dispatch("ref"))[0])
+
+
+def gh_expr_crons(text: str) -> list[str]:
+    """Every cron string a workflow expression compares github.event.schedule with."""
+    import re
+    return re.findall(r"github\.event\.schedule [!=]= '([^']+)'", text)
 
 
 class GateVerdict(unittest.TestCase):

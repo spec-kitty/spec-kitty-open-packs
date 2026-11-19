@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-18'
+updated: '2026-11-19'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -296,6 +296,19 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   check runs, the round trip included. The verdict is in the run's summary; this track never bumps the
   lock and uses no secret. Like every run against a target, it re-derives the manifests, digests and pack
   pages first, so a pull request's own gate, not this run, judges those files as committed.
+- **Nightly, against charter `main`** (#311). At 02:23 UTC every night, an hour apart from the release
+  track's 05:41, the track checks the packs against charter `main`, built from source, with the same
+  checks as the on-demand track, the round trip included. It reports only: it never bumps the lock and it
+  is not a required check. Only a run on `main` acts on the verdict:
+  - red: it opens one issue labelled `charter:main-red`, or rewrites the open one, naming the charter
+    commit and the errors of the failing jobs. A run that cannot resolve charter `main` says so on the
+    same issue;
+  - green: it closes the open `charter:main-red` issue.
+
+  It keeps clear of the release track: its own label, its own issue and its own run queue. A red night
+  blocks nothing; it warns that an unreleased charter change will fail the packs once it is released.
+  Dispatch **Charter track** with `track: main` to run it now (any `charter_ref` is ignored); off `main`,
+  it reports what it would open or close and touches no issue.
 
 The supported route needs no secret, only one repository setting: **Settings → Actions → General →
 Allow GitHub Actions to create and approve pull requests**, which an operator turns on once. The bump

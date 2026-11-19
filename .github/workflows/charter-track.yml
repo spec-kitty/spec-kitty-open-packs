@@ -24,6 +24,15 @@ name: Charter track
 #   builds the charter at charter_ref (default main; a branch, tag, pull/<n>/head or commit) from source and
 #   runs the same checks, driftTest included. It reports in the job summary, never bumps the lock and uses
 #   no secret.
+# - nightly main track (the nightly schedule, or a dispatch with track=main): the on-demand track against
+#   charter main, unattended (#311; operator ruling 2026-11-19 on #311). It replaces the nightly charter-main
+#   check of charter's open-packs-drift.yml (charter ADR-0070: "a nightly, non-blocking open-packs run against
+#   charter main"). It reports only: it never bumps the lock, and it is not a required check. Only a run on
+#   main of this repository acts on the verdict:
+#     red:   opens ONE issue labelled charter:main-red, or rewrites the open one, naming the charter commit and
+#            the errors of the failing jobs. A run that cannot resolve charter main says so on the same issue;
+#     green: closes the open charter:main-red issue.
+#   It keeps clear of the release track: its own label, its own issue, its own concurrency queue.
 #
 # Tokens (operator ruling on #308: no secret). The supported route is the workflow's own token, with the
 # repository setting "Allow GitHub Actions to create and approve pull requests" on (Settings, Actions,
@@ -35,14 +44,17 @@ name: Charter track
 
 on:
   schedule:
-    # Daily, off the hour.
+    # Release track: daily, off the hour.
     - cron: '41 5 * * *'
+    # Nightly main track (#311): a different hour from the release track. The jobs below tell the two apart by
+    # this exact string (github.event.schedule); tests/ci/test_workflows.py keeps them in step.
+    - cron: '23 2 * * *'
   workflow_dispatch:
     inputs:
       track:
-        description: "ref: check the packs against charter_ref, built from source (never bumps). release: the scheduled release track."
+        description: "ref: check the packs against charter_ref, built from source (never bumps). release: the scheduled release track. main: the nightly main track (charter main; report only)."
         type: choice
-        options: [ref, release]
+        options: [ref, release, main]
         default: ref
       charter_ref:
         description: "ref track: a charter branch, tag, pull/<n>/head or 40-hex commit"
@@ -62,13 +74,16 @@ permissions:
 concurrency:
   # A pull request's newer run replaces its older one, but another label's event gets a group of its own, so it
   # never cancels a charter:head run; each on-demand dispatch runs on its own; release-track runs on one ref queue
-  # behind each other, so two never open the same pull request or issue.
+  # behind each other, so two never open the same pull request or issue; so do nightly main-track runs, on a
+  # queue of their own, so they never hold up a release run.
   group: >-
     charter-track-${{ github.event_name == 'pull_request'
     && format('pr-{0}{1}', github.event.pull_request.number,
     github.event.action == 'labeled' && github.event.label.name != 'charter:head'
     && format('-label-{0}', github.run_id) || '')
-    || (github.event_name == 'workflow_dispatch' && inputs.track != 'release') && format('run-{0}', github.run_id)
+    || (github.event_name == 'workflow_dispatch' && inputs.track == 'ref') && format('run-{0}', github.run_id)
+    || (github.event_name == 'workflow_dispatch' && inputs.track == 'main'
+    || github.event_name == 'schedule' && github.event.schedule == '23 2 * * *') && format('main-{0}', github.ref)
     || format('release-{0}', github.ref) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
@@ -109,8 +124,12 @@ jobs:
         env:
           # Reads the charter's public releases; the token only lifts the anonymous rate limit.
           GH_TOKEN: ${{ github.token }}
-          TRACK: ${{ github.event_name == 'workflow_dispatch' && inputs.track || github.event_name == 'schedule' && 'release' || 'ref' }}
-          CHARTER_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.charter_ref || 'main' }}
+          TRACK: >-
+            ${{ github.event_name == 'workflow_dispatch' && inputs.track
+            || github.event_name == 'schedule' && (github.event.schedule == '23 2 * * *' && 'main' || 'release')
+            || 'ref' }}
+          # The main track always checks charter main, whatever charter_ref a dispatch carries.
+          CHARTER_REF: ${{ github.event_name == 'workflow_dispatch' && inputs.track != 'main' && inputs.charter_ref || 'main' }}
           RELEASE_TAG_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.release_tag || '' }}
         run: |
           set -euo pipefail
@@ -173,6 +192,9 @@ jobs:
               if [[ -n "$RELEASE_TAG_INPUT" ]]; then
                 echo "Checking \`$RELEASE_TAG_INPUT\` as asked (acts on it: $act)."
               fi
+            elif [[ "$TRACK" == main ]]; then
+              echo "Nightly main track: checking charter \`main\`, built from source. Report only: the lock is never bumped,"
+              echo "and from \`main\` a red run opens or rewrites the one \`charter:main-red\` issue, a green run closes it."
             else
               echo "Checking charter \`$CHARTER_REF\`, built from source. The lock is never bumped by this track."
             fi
@@ -225,8 +247,12 @@ jobs:
             echo
             scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed)"
             echo
+            if [[ "$TRACK" == main && "$ON_MAIN" != true ]]; then
+              echo "Nightly main track off main: no issue is opened or closed (it would $([[ "$RESULT" == success ]] && echo close the open charter:main-red issue || echo open or rewrite the charter:main-red issue))."
+              echo
+            fi
             if [[ "$TRACK" != release ]]; then
-              echo "On-demand track: the lock is never bumped. The checks ran after the pin move re-derived every pack"
+              echo "$([[ "$TRACK" == main ]] && echo "Nightly main track" || echo "On-demand track"): the lock is never bumped. The checks ran after the pin move re-derived every pack"
               echo "manifest, digest and pack page at the target, so they judge the packs as a bump would carry them;"
               echo "a pull request's own gate judges those files as committed."
             elif [[ "$ACT" != true ]]; then
@@ -354,7 +380,7 @@ jobs:
       ${{ always() && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main'
       && (needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
       && needs.checks.result == 'failure'
-      || needs.resolve.result == 'failure' && github.event_name == 'schedule') }}
+      || needs.resolve.result == 'failure' && github.event_name == 'schedule' && github.event.schedule != '23 2 * * *') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -463,4 +489,93 @@ jobs:
               --comment "\`charter.lock.yaml\` pins \`$CURRENT\` on \`main\`, at or past \`$tag\`: settled."
           else
             echo "#$number stays open: the lock (${CURRENT:-a main pin}) has not reached ${tag:-its release}."
+          fi
+
+  # The nightly main track, on main: one charter:main-red issue while charter main fails the packs, closed by the
+  # next green run (#311). Report only; kept apart from charter:release-red. A nightly run that cannot resolve
+  # charter main (a scheduled run, or a dispatch with track=main) says so on the same issue.
+  main-red:
+    name: Keep the charter:main-red issue
+    needs: [resolve, checks]
+    if: >-
+      ${{ always() && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main'
+      && (needs.resolve.outputs.track == 'main' && (needs.checks.result == 'failure' || needs.checks.result == 'success')
+      || needs.resolve.result == 'failure'
+      && (github.event_name == 'schedule' && github.event.schedule == '23 2 * * *'
+      || github.event_name == 'workflow_dispatch' && inputs.track == 'main')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - name: Open, update or close the charter:main-red issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RESOLVED: ${{ needs.resolve.result }}
+          RESULT: ${{ needs.checks.result }}
+          COMMIT: ${{ needs.resolve.outputs.commit }}
+          CURRENT: ${{ needs.resolve.outputs.current }}
+        run: |
+          set -euo pipefail
+          label=charter:main-red
+          # A plain label filter, not --search: the search API is eventually consistent.
+          issue="$(gh issue list --repo "$REPO" --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [[ "$RESOLVED" == success && "$RESULT" == success ]]; then
+            if [[ -n "$issue" ]]; then
+              gh issue close "$issue" --repo "$REPO" --reason completed \
+                --comment "Charter \`main\` at \`$COMMIT\` passes the packs of \`main\` at \`$GITHUB_SHA\` again: $RUN_URL"
+            else
+              echo "Charter main is green; no open $label issue."
+            fi
+            exit 0
+          fi
+          gh label create "$label" --repo "$REPO" --force --color D93F0B \
+            --description "Charter main fails the packs: nightly, report only (charter-track.yml)"
+          body="$RUNNER_TEMP/issue.md"
+          if [[ "$RESOLVED" == failure ]]; then
+            title="Charter track cannot resolve charter main"
+            {
+              echo "The nightly main track could not resolve charter \`main\` to a commit. Nothing was checked."
+              echo
+              echo "Run: $RUN_URL. The next night's run tries again."
+            } > "$body"
+          else
+            title="Charter main fails the packs"
+            {
+              echo "Charter \`main\` at \`$COMMIT\`, built from source, fails the packs of \`main\` at \`$GITHUB_SHA\`."
+              echo "This is unreleased charter: the lock stays at \`${CURRENT:-a main pin}\` and nothing is blocked (#311)."
+              echo "Migrate the packs before charter releases the change, or raise it on the charter pull request that made it."
+              echo
+              echo "Run: $RUN_URL (round-trip report artifact: \`charter-drift-test-report\`)."
+              echo
+              scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed; see the run)"
+              echo
+              echo "Before migrating, check that the errors are charter's and not a fetch or build that failed;"
+              echo "re-running the failed jobs of the run settles that."
+            } > "$body"
+          fi
+          {
+            echo
+            echo "Every red nightly run rewrites this description; a comment marks each change of title. The next green"
+            echo "run closes it. Report only: this issue blocks nothing, and the release track keeps its own"
+            echo "\`charter:release-red\` issue."
+            echo
+            echo "---"
+            echo "_Opened by \`.github/workflows/charter-track.yml\`._"
+          } >> "$body"
+          if [[ -z "$issue" ]]; then
+            gh issue create --repo "$REPO" --label "$label" --title "$title" --body-file "$body"
+            exit 0
+          fi
+          old_title="$(gh issue view "$issue" --repo "$REPO" --json title --jq .title)"
+          gh issue edit "$issue" --repo "$REPO" --title "$title" --body-file "$body"
+          if [[ "$old_title" != "$title" ]]; then
+            gh issue comment "$issue" --repo "$REPO" --body "Now: $title. $RUN_URL"
           fi
