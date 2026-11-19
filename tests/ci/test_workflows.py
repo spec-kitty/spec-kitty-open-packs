@@ -9,6 +9,7 @@ and the pause label need, not how the YAML spells it.
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -506,6 +507,48 @@ class CharterTrack(unittest.TestCase):
                             group(pr_event("labeled", labels=("charter:head", "x"), label="x", run_id=8)))
 
 
+class CharterTrackBumpTokens(unittest.TestCase):
+    """The bump job's token split (operator ruling on #314): the job token pushes, PR_CREATION_TOKEN opens the PR."""
+
+    def setUp(self) -> None:
+        self.job = load(TRACK)["jobs"]["bump"]
+        self.steps = self.job["steps"]
+        self.open = next(step for step in self.steps if step.get("name") == "Open the bump pull request")
+
+    def test_only_contents_is_written_with_the_job_token(self) -> None:
+        self.assertEqual(self.job["permissions"], {"contents": "write", "pull-requests": "read", "issues": "read"})
+        self.assertEqual(self.open["env"]["GH_TOKEN"], "${{ github.token }}")
+        self.assertEqual(self.open["env"]["PR_TOKEN"], "${{ secrets.PR_CREATION_TOKEN }}")
+        text = yaml.safe_dump(self.job)
+        self.assertNotIn("CHARTER_BUMP_TOKEN", text)
+        self.assertEqual(set(re.findall(r"secrets\.(\w+)", text)), {"PR_CREATION_TOKEN"})
+
+    def test_the_pull_request_is_opened_and_closed_with_the_pat_and_no_dispatch_stands_in(self) -> None:
+        script = self.open["run"]
+        self.assertIn('GH_TOKEN="$PR_TOKEN" gh pr create', script)
+        self.assertIn('GH_TOKEN="$PR_TOKEN" gh pr close', script)
+        self.assertEqual(script.count("gh pr create"), 1)
+        self.assertEqual(script.count("gh pr close"), 1)
+        self.assertNotIn("gh workflow run", script)
+        self.assertNotIn("actions", self.job["permissions"])
+
+    def test_a_missing_secret_fails_loudly_before_anything_is_pushed(self) -> None:
+        guard = self.steps[0]
+        self.assertEqual(guard["name"], "Require PR_CREATION_TOKEN")
+        self.assertEqual(guard["env"]["HAS_PR_TOKEN"], "${{ secrets.PR_CREATION_TOKEN != '' }}")
+        for has, code in (("false", 1), ("true", 0)):
+            with self.subTest(secret_set=has):
+                done = subprocess.run(["bash", "-c", guard["run"]], env={**os.environ, "HAS_PR_TOKEN": has},
+                                      capture_output=True, text=True)
+                self.assertEqual(done.returncode, code)
+                if code:
+                    self.assertIn("::error::The repository secret PR_CREATION_TOKEN is not set", done.stdout)
+        ctx = contexts(schedule_event())
+        for secret, expected in (("", "false"), ("github_pat_x", "true")):
+            ctx["secrets"] = {"PR_CREATION_TOKEN": secret}
+            self.assertEqual(str(gh_expr.render(guard["env"]["HAS_PR_TOKEN"], ctx)).lower(), expected)
+
+
 class CharterTrackNightlyMain(unittest.TestCase):
     """charter-track.yml's nightly main track (#311): charter main every night, report only, one charter:main-red issue."""
 
@@ -647,7 +690,6 @@ class CharterTrackNightlyMain(unittest.TestCase):
 
 def gh_expr_crons(text: str) -> list[str]:
     """Every cron string a workflow expression compares github.event.schedule with."""
-    import re
     return re.findall(r"github\.event\.schedule [!=]= '([^']+)'", text)
 
 

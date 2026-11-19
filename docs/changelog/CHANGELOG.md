@@ -253,6 +253,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `track: main` runs it on demand. This restores charter ADR-0070's "nightly, non-blocking
   open-packs run against charter `main`", which charter's retired `open-packs-drift.yml` used to run.
 
+- **The bump pull request is opened with `PR_CREATION_TOKEN`** (#314, operator ruling). The
+  organization does not let GitHub Actions create pull requests, so the release track's bump job no
+  longer depends on that setting. The job's own token, with `contents: write` on that job only, pushes
+  the bump branch and its signed commit. The repository secret `PR_CREATION_TOKEN`, a fine-grained PAT
+  with Actions and Pull requests read and write and no Contents access, opens the pull request and
+  closes a superseded one. Opened that way, the bump pull request runs its own required check, so the
+  `validate-packs.yml` dispatch that stood in for it is gone, and so is the optional
+  `CHARTER_BUMP_TOKEN`. Without the secret, the bump job fails before it pushes anything, naming it.
+
 - **The charter pin follows charter releases on its own** (#253, epic #287). A daily
   `charter-track.yml` lists the charter's releases and checks the newest `service-v*` release or
   pre-release that is newer than `charter.lock.yaml`. It runs the required check's own jobs with that
