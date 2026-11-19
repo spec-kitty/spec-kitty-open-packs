@@ -1,52 +1,42 @@
 """qa_result_ingest — the pack-shipped `qa-traceability/v1` carrier producer.
 
-This is the *producer* — it reads `spec.md`'s Requirement Register, every `tasks/WP*.md`'s
-frontmatter (including the `automation_ref` field), and JUnit-XML result file(s), and writes
+This is the *producer*. It reads `spec.md`'s Requirement Register, the test cases in every
+`tasks/WP*.md` (including the `automation_ref` field), and JUnit-XML result file(s), and writes
 (or refreshes) `qa-traceability.yaml` at the mission-dir root, in the exact `qa-traceability/v1`
-schema `assets/qa_carrier_lint.py` already validates — so the carrier's producer and its
-validator agree on one schema by construction, never two independently-maintained ones.
+schema `assets/qa_carrier_lint.py` validates — so the producer and the validator agree on one
+schema.
 
-Three-exit-code contract (Decision 1, `spec.md`): exit ``0`` (``ingested``) — the carrier was
-produced or refreshed from real, current-run evidence, no guard fired. Exit ``1`` (``blocked``)
-— a specific, named guard fired on well-formed, interpretable input (e.g. zero parsed testcases,
-stale results, an unresolvable `automation_ref`) and the carrier was deliberately not written or
-refreshed. Exit ``2`` (``error``) — input this tool cannot use at all, either (a) syntactically
-unparseable or entirely absent, or (b) well-formed but semantically un-interpretable (e.g. the
-`status=`-attribute JUnit dialect, or two WPs colliding on one `automation_ref`). See
-`_exit_code_taxonomy` below for the shared mechanism every guard in this file must use.
+Three-exit-code contract: exit ``0`` (``ingested``) — the carrier was produced or refreshed from
+real, current-run evidence, no guard fired. Exit ``1`` (``blocked``) — a specific, named guard
+fired on well-formed, interpretable input (e.g. zero parsed testcases, stale results, an
+unresolvable `automation_ref`) and the carrier was deliberately not written or refreshed. Exit
+``2`` (``error``) — input this tool cannot use at all, either (a) syntactically unparseable or
+entirely absent, or (b) well-formed but semantically un-interpretable (e.g. the
+`status=`-attribute JUnit dialect, or two WPs colliding on one `automation_ref`). See the
+exit-code taxonomy below for the shared mechanism every guard in this file must use.
 
-FR-003 — disclosed non-support (every excluded format named plainly, never a vague "other
-formats" catch-all): this ingester does **not** support TAP, TRX (MSTest/VSTest's own native XML
-schema — a different schema despite also being XML), Cucumber JSON, Robot Framework's native
-XML, or CTRF. Within JUnit-XML itself, only the outcome-as-child-element dialect
-(`<failure>`/`<error>`/`<skipped/>`) is supported — the same shape `classify_junit`
-(`assets/qa_carrier_lint.py:291-315`) already classifies. The outcome-as-`status`-attribute
-dialect some emitters use (e.g. `<testcase status="failed">` with no child element) is explicitly
-named as unsupported: it is detected and refused (`enumerate_testcases`, FR-016, exit 2), never
-silently mis-read as passing.
+Disclosed non-support (every excluded format named plainly): this ingester does **not** support
+TAP, TRX (MSTest/VSTest's own native XML schema — a different schema despite also being XML),
+Cucumber JSON, Robot Framework's native XML, or CTRF. Within JUnit-XML itself, only the
+outcome-as-child-element dialect (`<failure>`/`<error>`/`<skipped/>`) is supported — the same
+shape `classify_junit` in `assets/qa_carrier_lint.py` classifies. The outcome-as-`status`-attribute
+dialect some emitters use (e.g. `<testcase status="failed">` with no child element) is detected
+and refused (`enumerate_testcases`, exit 2), never silently mis-read as passing.
 
-FR-015 — known-limitation disclosure (mechanically checkable, agent-invoked, never machine-
-enforced): no runtime hook compels running this ingester or blocks on a `blocked`/`error` exit
-today. The same `#2599` (`GateBinding.handler_kind: "asset"` inert) gap `assets/qa_carrier_lint.py`
-already discloses for itself applies here too, and the `blocking` field of the `review` step's
-expected `qa-traceability.yaml` output (in `qa.mission-type.yaml`) does not mechanically enforce
-this either — this mission's own deliverable is mechanically checkable (exit code,
-`qa-traceability.yaml`) but agent-invoked, never machine-enforced, as of this mission's own scope.
+Known limitation: nothing in the runtime runs this ingester or acts on a `blocked`/`error` exit.
+Its result is mechanically checkable (exit code, `qa-traceability.yaml`) but agent-invoked. The
+pack README's "Known limitations" section gives the dated runtime status.
 
-NFR-008 — bytecode hygiene (operational contract on the caller, not something this module can
-enforce on itself once already running): every invocation of this asset — `--self-test` included
-— MUST run with `PYTHONDONTWRITEBYTECODE=1` set (equivalently, `python3 -B`), so the interpreter
-never writes `assets/__pycache__/*.pyc`, which would otherwise break gate 6 (flat-directory scan)
-and gate 12 (machine-local-path leak scan — a compiled `.pyc` embeds this machine's own absolute
-path). `--self-test`'s own NFR-007 subprocess proof sets this explicitly in every subprocess
-environment it spawns, never relying on inheriting it from the parent shell.
+Bytecode hygiene (a contract on the caller): run this asset — `--self-test` included — with
+`PYTHONDONTWRITEBYTECODE=1` set (equivalently, `python3 -B`), so the interpreter never writes
+`assets/__pycache__/*.pyc` next to the pack's assets (a compiled `.pyc` also embeds this
+machine's absolute path). `--self-test`'s separate-process determinism proof sets this
+explicitly in every subprocess environment it spawns.
 
-Portability (NFR-001): stdlib + ``ruamel.yaml`` only, nothing from the
-``spec-kitty``/``specify_cli``/``doctrine``/``charter`` source tree, mirroring
-``assets/qa_carrier_lint.py``'s own contract (itself mirroring ``docs_structural_lint.py:33-38``).
-``ruamel.yaml`` is not importable from a bare system ``python3`` — it lives only inside
-spec-kitty's own installed interpreter's site-packages. Every invocation this asset documents
-assumes spec-kitty's own interpreter, never a bare ``python3`` off ``PATH``.
+Portability: stdlib + ``ruamel.yaml`` only, nothing from the ``spec-kitty``/``specify_cli``/
+``doctrine``/``charter`` source tree, like ``assets/qa_carrier_lint.py``. ``ruamel.yaml`` is not
+importable from a bare system ``python3`` — it ships with spec-kitty's own interpreter. Every
+invocation this asset documents assumes that interpreter.
 
 Invocation::
 
@@ -54,31 +44,23 @@ Invocation::
         --tasks-dir tasks/ --since TIMESTAMP --mission-dir PATH [--json]
     python qa_result_ingest.py --self-test
 
-WP01 (Seam A) laid the scaffold, the shared exit-code taxonomy, and three readers (Requirement
-Register, WP frontmatter, JUnit enumeration). WP02 (Seam B) added the five correlation and
-exclusion guards that sit between those readers and the writer: the zero-parsed-testcases guard
-(FR-005), the git-aware staleness guard (FR-006), the `automation_ref` correlation core and its
-unresolvable-ref (FR-017) and duplicate-ref (FR-018) guards, and the no-silent-exclusion logic in
-both directions (FR-007). WP03 (Seam C, this WP) finishes the file: the `qa-traceability.yaml`
-writer (FR-010), `--self-test` (FR-008, proving every WP01/WP02 guard both fires and does not
-fire), and this disclosure text (FR-003/FR-015).
+Layout: the shared exit-code taxonomy and three readers (Requirement Register, WP cases, JUnit
+enumeration) come first; then the correlation and exclusion guards (zero parsed testcases,
+git-aware staleness, `automation_ref` correlation with its unresolvable-ref and duplicate-ref
+guards, and no-silent-exclusion in both directions); then the `qa-traceability.yaml` writer,
+`--self-test` and `main()`.
 
-A note on phrasing (Decision 2): this docstring and this module's other prose use "JUnit-XML"
-(title case) throughout, never the bare lowercase literal — matching
-`pack-structured-carriers-01M0ME39`'s own established neutral-phrasing precedent for the
-validator side of this same carrier. The one exception is the schema's own literal field key
-`evidence.junit`, quoted verbatim (backticked, lowercase) wherever the carrier's real shape is
-being described, since neutralising a direct field-name quotation would misdescribe the schema.
+Phrasing: this module's prose writes "JUnit-XML" (title case), like the validator. The one
+exception is the schema's literal field key `evidence.junit`, quoted verbatim wherever the
+carrier's real shape is described.
 
-A note on WP-frontmatter shape (carried forward from WP02's review): this module accepts two
-documented frontmatter shapes for `tasks/WP*.md` (see `_iter_wp_case_frontmatter` below) — flat
-(top-level `id` + `requirement_refs`) and nested (a top-level `cases:` list) — plus
-`missions/qa/templates/test-case-template.md`'s shipped shape: fenced ```yaml case blocks in the
-WP body, below the WPMetadata frontmatter. The body-fence shape is the only one a real mission
-WP can carry (WPMetadata rejects case keys in the frontmatter); the two frontmatter shapes are
-still read for files written before the body-fence reader existed. The nested shape's only known
-citation is a carrier-output worked example, not any WP-frontmatter file, so it is supported
-defensively, not attested.
+WP case shapes: this module reads `missions/qa/templates/test-case-template.md`'s shape —
+fenced ```yaml case blocks in the WP body, below the work package's frontmatter — plus two
+frontmatter shapes for `tasks/WP*.md` (see `_iter_wp_case_frontmatter` below): flat (top-level
+`id` + `requirement_refs`) and nested (a top-level `cases:` list). The body-fence shape is the
+only one a real mission WP can carry (Spec Kitty rejects case keys in the frontmatter); the two
+frontmatter shapes are still read for older files. The nested shape is supported defensively,
+not attested.
 """
 
 from __future__ import annotations
@@ -112,7 +94,7 @@ except ImportError:
     sys.exit(2)
 
 
-# --- Exit-code taxonomy (T002) -----------------------------------------------------------------
+# --- Exit-code taxonomy -----------------------------------------------------------------
 #
 # The ONE shared exit-code vocabulary (Decision 1). Every guard in this file — in this WP and in
 # WP02/WP03 — raises one of the two exceptions below and lets `main()`'s single `try`/`except`
@@ -132,8 +114,8 @@ except ImportError:
 class BlockedError(Exception):
     """Exit 1 (`blocked`) — a named guard fired on well-formed, interpretable input.
 
-    Not raised anywhere in this WP (Seam A) — every exit-1 guard (FR-005 zero-testcases, FR-006
-    staleness, FR-017 unresolvable `automation_ref`) belongs to WP02 (Seam B). Declared here so
+    Raised only by the later guards (zero testcases, staleness, unresolvable `automation_ref`).
+    Declared here so
     the shared taxonomy exists in full before any guard needs it.
     """
 
@@ -141,8 +123,8 @@ class BlockedError(Exception):
 class IngestError(Exception):
     """Exit 2 (`error`) — input this tool cannot use at all (Decision 1, clauses (a)/(b)).
 
-    Raised by this WP's own guards: T005's FR-016 dialect guard (clause (b)) and T006's FR-019
-    missing-`spec.md` guard and FR-001 missing-`--results` guard (both clause (a)).
+    Raised by the `status=`-dialect guard (clause (b)), and by the missing-`spec.md` and
+    missing-`--results` guards (both clause (a)).
     """
 
 
@@ -157,7 +139,7 @@ def _exit_code_taxonomy(exc: BlockedError | IngestError) -> NoReturn:
     sys.exit(2)
 
 
-# --- CLI argument surface (T001) -----------------------------------------------------------------
+# --- CLI argument surface -----------------------------------------------------------------
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -173,7 +155,7 @@ def build_parser() -> argparse.ArgumentParser:
              "tasks/WP*.md case declares a non-empty automation_ref anywhere in the mission.",
     )
     parser.add_argument(
-        # Not argparse `required=True`: `--self-test` (T014) legitimately omits every one of
+        # Not argparse `required=True`: `--self-test` legitimately omits every one of
         # these four. main() enforces "required unless --self-test" manually, mirroring
         # qa_carrier_lint.py's own build_parser()/main() split for the identical reason.
         "--strategy", type=Path,
@@ -199,8 +181,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--self-test", action="store_true",
-        help=f"Run the {_derive_self_test_pair_count()} built-in fixture/assertion pairs "
-             "(FR-008); exit 0 only if all pass. Ignores every other argument.",
+        help=f"Run the {_derive_self_test_pair_count()} built-in fixture/assertion pairs; "
+             "exit 0 only if all pass. Ignores every other argument.",
     )
     return parser
 
@@ -209,7 +191,7 @@ def _yaml() -> YAML:
     return YAML(typ="safe")
 
 
-# --- Requirement Register parser (T003, FR-009) --------------------------------------------------
+# --- Requirement Register parser --------------------------------------------------
 
 # This pack's own regex intersection: uppercase, exactly three digits, FR-/NFR-/C- prefixed.
 REQUIREMENT_ID_RE = r"(?:FR|NFR|C)-\d{3}"
@@ -227,11 +209,11 @@ def parse_requirement_register(spec_md_path: Path) -> list[str]:
     (`| FR-001 | ... |`) and the bullet-form (`- **FR-001**: ...`).
 
     Does not raise or exit on zero matches — a `spec.md` that exists and parses to zero rows is a
-    legitimate (if unusual) `requirements: []` result (FR-009's own row in `spec.md`); only an
+    legitimate (if unusual) `requirements: []` result; only an
     absent `spec.md` is an error, and that is T006's guard, checked by the caller before this
     function is ever invoked, never by this function itself.
 
-    Returns an ordered list (never a `set()`) — FR-010's determinism requirement (finished in
+    Returns an ordered list (never a `set()`) — the writer's determinism requirement (finished in
     WP03) depends on every enumerable list in this file being ordered from the start. Duplicate
     ids (the same id declared twice) are collapsed, first occurrence wins, order preserved.
     """
@@ -259,11 +241,11 @@ def read_wp_automation_refs(tasks_dir: Path) -> list[tuple[str, str, str]]:
     Returns `(wp_id, case_id, automation_ref)` tuples as an ordered list, preserving
     file-then-case iteration order (sorted by filename, then by each case's position in its own
     frontmatter list). This reader's output feeds WP02's correlation logic and its
-    duplicate-detection guard (FR-018) — it only reads and returns the raw declarations; it does
+    duplicate-detection guard — it only reads and returns the raw declarations; it does
     not resolve or deduplicate anything itself.
 
     Frontmatter shape read here: **both** of the two legitimate shapes this pack's own templates
-    README ties to `tasks/WP*.md`, resolved the same way FR-009's Requirement Register parser
+    README ties to `tasks/WP*.md`, resolved the same way the Requirement Register parser
     resolves its own two documented shapes (table-row and bullet-form, `parse_requirement_register`
     above) — accept both rather than picking a winner, because neither `spec.md` nor `plan.md`
     names a wrapper key anywhere; the choice was never specified, so both readings are equally
@@ -272,7 +254,7 @@ def read_wp_automation_refs(tasks_dir: Path) -> list[tuple[str, str, str]]:
     - **Nested** — a top-level `id:` (the WP id, e.g. `WP01`) and a top-level `cases:` list, each
       entry a mapping that may carry its own `id` (the case id, e.g. `TC-001`) and
       `automation_ref`. Several cases share one WP file this way (the sibling mission's carrier
-      worked example, `pack-structured-carriers-01M0ME39/data-model.md`, shows two cases sharing
+      worked example, the carrier schema, shows two cases sharing
       one `wp: WP02`).
     - **Flat** — `missions/qa/templates/test-case-template.md`'s actual, shipped shape (WP04):
       one case's fields (`id`, `requirement_refs`, `priority`, `type`, `preconditions`, and
@@ -312,7 +294,7 @@ def read_wp_automation_refs(tasks_dir: Path) -> list[tuple[str, str, str]]:
     return results
 
 
-# --- JUnit-XML testcase enumeration (T005, FR-002) + unsupported-dialect guard (FR-016) ----------
+# --- JUnit-XML testcase enumeration + unsupported-dialect guard ----------
 
 
 def enumerate_testcases(xml_path: Path) -> tuple[list[ET.Element], int]:
@@ -324,12 +306,12 @@ def enumerate_testcases(xml_path: Path) -> tuple[list[ET.Element], int]:
 
     Returns `(testcases, asserted_count)` — `asserted_count` is
     `len(list(tree.getroot().iter("testcase")))`, computed independently and returned alongside
-    the list (never silently computed and discarded), per FR-002's own count-assertion
+    the list (never silently computed and discarded), per the testcase-count rule's count-assertion
     requirement: `assert len(testcases) == asserted_count` always holds by construction here,
     but keeping both makes the count visible to a caller (WP03's self-test) as a fact this
     function proves, not a coincidence of implementation.
 
-    Applies the FR-016 unsupported-dialect guard in the same enumeration pass: for each
+    Applies the unsupported `status=`-dialect guard in the same enumeration pass: for each
     enumerated `<testcase>`, checks for a `status="..."` attribute carrying an outcome value
     (e.g. `status="failed"`, `status="skipped"`) with no corresponding `<failure>`/`<error>`/
     `<skipped/>` child element. If any such testcase is found, raises `IngestError` (grounded in
@@ -376,19 +358,19 @@ def testcase_key(tc: ET.Element) -> str:
     return f"{tc.get('classname', '')}::{tc.get('name', '')}"
 
 
-# --- Zero-parsed-testcases guard (T007, FR-005) ---------------------------------------------------
+# --- Zero-parsed-testcases guard ---------------------------------------------------
 
 
 def check_zero_testcases(xml_path: Path, testcases: list[ET.Element]) -> None:
-    """FR-005: treat a present, well-formed JUnit-XML file containing zero `<testcase>` elements
+    """The zero-testcases guard: treat a present, well-formed JUnit-XML file containing zero `<testcase>` elements
     as a named, exit-1 `BlockedError` condition (Decision 1) — distinguished from a file
     containing N testcases, zero of them failed, which is a legitimate `ingested` result. This
     guard fires only on zero *testcases*, never on zero *failures*: a fixture with N passing
     testcases must never trip it.
 
-    Distinct from FR-016 (WP01's dialect guard, exit 2, already applied inside
-    `enumerate_testcases` before this function is ever reached): FR-016 fires on a specific
-    unsupported outcome shape; FR-005 fires on an empty result set regardless of dialect. Callers
+    Distinct from the `status=`-dialect guard (exit 2, already applied inside
+    `enumerate_testcases` before this function is ever reached): the `status=`-dialect guard fires on a specific
+    unsupported outcome shape; the zero-testcases guard fires on an empty result set regardless of dialect. Callers
     must call `enumerate_testcases` first and pass its result here — this function does not parse
     XML itself.
     """
@@ -396,14 +378,14 @@ def check_zero_testcases(xml_path: Path, testcases: list[ET.Element]) -> None:
         raise BlockedError(f"zero testcases found in {xml_path}")
 
 
-# --- Staleness guard with git-aware fallback (T008, FR-006) ---------------------------------------
+# --- Staleness guard with git-aware fallback ---------------------------------------
 
 
 def _tier1_testsuite_timestamp(root: ET.Element) -> str | None:
     """Tier 1's raw source: the `timestamp="..."` attribute on the root `<testsuite>` element
     itself, or the first `<testsuite>` descendant carrying one when the root is a `<testsuites>`
     wrapper. `.iter()` includes the root itself when it matches, so this tolerates both root
-    shapes exactly the way `enumerate_testcases` (T005) already does — no special-casing of
+    shapes exactly the way `enumerate_testcases` already does — no special-casing of
     root tag needed. Returns `None` (not raised) when no `<testsuite>` in the tree carries a
     `timestamp` attribute at all — tier 1 is simply absent, not malformed."""
     for suite in root.iter("testsuite"):
@@ -427,7 +409,7 @@ def _parse_iso8601(value: str) -> datetime:
 
 
 def resolve_result_timestamp(path: Path) -> tuple[datetime, str]:
-    """FR-006's three-tier staleness resolution, tried in order:
+    """The staleness guard's three-tier timestamp resolution, tried in order:
 
     **Tier 1** — the `<testsuite timestamp="...">` attribute (root `<testsuite>`, or the first
     `<testsuite>` descendant of a `<testsuites>` wrapper), if present and parseable as ISO-8601.
@@ -443,7 +425,7 @@ def resolve_result_timestamp(path: Path) -> tuple[datetime, str]:
     **Tier 3** — if tier 2 is unavailable (git binary absent, file untracked, or the command
     returns a non-zero exit or empty stdout), the file's own filesystem mtime, as a last resort.
 
-    **Disclosed residual gap (FR-006)**: tier 3 is still defeatable by the same staleness
+    **Disclosed residual gap**: tier 3 is still defeatable by the same staleness
     mechanism this guard exists to catch — a stale file that is untracked, or sits in a
     git-unavailable environment, has an mtime a fresh checkout or a deliberate `touch` resets to
     "now." Tiers 1 and 2 close the gap for the expected case (a committed evidence file, per
@@ -453,7 +435,7 @@ def resolve_result_timestamp(path: Path) -> tuple[datetime, str]:
     Returns `(resolved_timestamp, tier_name)` — `tier_name` names which tier actually produced
     the value, so a firing guard can disclose it (never silently "some timestamp, from somewhere").
 
-    **Malformed-but-present disclosure (carried forward from WP02's review, finding 3)**: FR-006
+    **Malformed-but-present disclosure**: the staleness guard
     defines no distinct guard for a tier-1/tier-2 timestamp that is *malformed* rather than
     *absent* (e.g. `timestamp="not-a-date"`) — falling through to the next tier, rather than
     raising, remains the right behaviour, since a syntax defect in one attribute of an otherwise
@@ -513,7 +495,7 @@ def resolve_result_timestamp(path: Path) -> tuple[datetime, str]:
 
 
 def parse_since_boundary(value: str) -> datetime:
-    """Parse the caller-supplied `--since` boundary once, at the top of `main()`, per FR-006.
+    """Parse the caller-supplied `--since` boundary once, at the top of `main()`, per the staleness guard.
     Raises `IngestError` (clause (a) — this is not well-formed input the tool can act on) rather
     than letting a malformed value crash with an unhandled traceback, consistent with this file's
     and `qa_carrier_lint.py`'s shared discipline of never letting an I/O or parse defect surface
@@ -527,7 +509,7 @@ def parse_since_boundary(value: str) -> datetime:
 
 
 def check_staleness(path: Path, since: datetime) -> None:
-    """FR-006: resolve `path`'s timestamp via the three-tier fallback and raise `BlockedError`
+    """The staleness guard: resolve `path`'s timestamp via the three-tier fallback and raise `BlockedError`
     (exit 1) if it predates `since`, naming the file, the `--since` boundary, and which of the
     three tiers produced the timestamp that failed — never silently ingested as if it were
     current-run evidence."""
@@ -539,7 +521,7 @@ def check_staleness(path: Path, since: datetime) -> None:
         )
 
 
-# --- automation_ref correlation core (T009) --------------------------------------------------------
+# --- automation_ref correlation core --------------------------------------------------------
 
 
 def build_testcase_index(testcases: list[ET.Element]) -> dict[str, ET.Element]:
@@ -574,8 +556,8 @@ class CorrelationResult:
     unresolved: list[tuple[str, str, str]]
     """`(wp_id, case_id, automation_ref)` for every declared tuple whose `automation_ref` matched
     no enumerated testcase, in declared order. May include entries that are also duplicate-group
-    members — T010's FR-017 guard is responsible for excluding duplicate members before treating
-    this list as FR-017 candidates (FR-018 is checked first and independently)."""
+    members — the unresolvable-`automation_ref` guard is responsible for excluding duplicate members before treating
+    this list as its candidates (the duplicate-`automation_ref` guard is checked first and independently)."""
 
     duplicate_groups: dict[str, list[tuple[str, str]]]
     """`automation_ref -> ordered list of (wp_id, case_id)` for every `automation_ref` value
@@ -587,7 +569,7 @@ class CorrelationResult:
     """`classname::name` keys claimed (matched) by at least one declared `automation_ref`, in the
     order each was first claimed — never a `set()` in this field's own type, even though a `set`
     is used internally to avoid double-appending. Feeds T011's `unmapped_testcases` computation
-    directly (FR-007(b))."""
+    directly."""
 
 
 def correlate_automation_refs(
@@ -607,11 +589,11 @@ def correlate_automation_refs(
        `matched` and, on first claim, `claimed_keys`; no match appends to `unresolved`.
 
     This subtask is pure plumbing — it does not itself raise or exit; T010 consumes this result to
-    decide what fires, and in what order (FR-018 before FR-017). Returns an ordered structure
+    decide what fires, and in what order (the duplicate-`automation_ref` guard before the unresolvable-`automation_ref` guard). Returns an ordered structure
     throughout: `matched` and `duplicate_groups` are `dict`s built by iterating `declared` in its
     own order, `unresolved` and `claimed_keys` are `list`s in declared/first-claimed order — never
     a `set()` anywhere in the returned shape, preserving the determinism precondition WP03's
-    FR-010 proof depends on.
+    the writer's determinism proof depends on.
     """
     by_ref: dict[str, list[tuple[str, str]]] = {}
     for wp_id, case_id, ref in declared:
@@ -641,19 +623,18 @@ def correlate_automation_refs(
     )
 
 
-# --- Unresolvable automation_ref (FR-017) + duplicate automation_ref (FR-018) guards (T010) ------
+# --- Unresolvable automation_ref + duplicate automation_ref guards ------
 #
-# Ordering matters (spec.md Decision 1(b) Second Amendment, and the FR-018 row's own text: "checked
-# ahead of / independently from FR-017 resolution"): FR-018 (a cross-file/cross-case collision,
+# Ordering matters: the duplicate-`automation_ref` guard (a cross-file/cross-case collision,
 # exit 2 -- the *combined* input carries no way to decide which declaration is authoritative) is
-# checked BEFORE FR-017 (a single, non-colliding ref that simply matches nothing, exit 1). Getting
+# checked BEFORE the unresolvable-`automation_ref` guard (a single, non-colliding ref that simply matches nothing, exit 1). Getting
 # this backwards would let a genuine collision surface as two separate "unresolved automation_ref"
 # failures instead of one named duplicate-detection error -- main() must call
 # check_duplicate_automation_refs() before check_unresolved_automation_ref().
 
 
 def check_duplicate_automation_refs(correlation: CorrelationResult) -> None:
-    """FR-018 (named, exit-2 `error`): when `correlation.duplicate_groups` is non-empty, two or
+    """The duplicate-`automation_ref` guard (named, exit-2 `error`): when `correlation.duplicate_groups` is non-empty, two or
     more distinct WP cases declare the identical `automation_ref` value -- each individual WP file
     is well-formed, but the *combined* input carries no way to decide which declaration is
     authoritative (Decision 1(b), Second Amendment). Raises `IngestError`, naming **every**
@@ -670,12 +651,12 @@ def check_duplicate_automation_refs(correlation: CorrelationResult) -> None:
 
 
 def check_unresolved_automation_ref(correlation: CorrelationResult) -> None:
-    """FR-017 (named, exit-1 `blocked`): for the first declared `automation_ref` that matched no
-    enumerated testcase AND is not part of a duplicate group (duplicate refs are FR-018's concern
+    """The unresolvable-`automation_ref` guard (named, exit-1 `blocked`): for the first declared `automation_ref` that matched no
+    enumerated testcase AND is not part of a duplicate group (duplicate refs are the duplicate-`automation_ref` guard's concern
     exclusively -- see the module comment above on ordering), raises `BlockedError` naming the WP,
     the case id, and the unresolved `automation_ref` string. Never silently dropped from the
     carrier, and never silently treated as `not_measured` the way an *absent* evidence file is
-    (FR-006/FR-007's boundary) -- that is a different condition entirely, outside this guard's
+    (the staleness and no-silent-exclusion boundary) -- that is a different condition entirely, outside this guard's
     scope. Callers must call `check_duplicate_automation_refs` first so a duplicate never reaches
     this function's resolution check at all."""
     duplicate_refs = set(correlation.duplicate_groups)
@@ -688,7 +669,7 @@ def check_unresolved_automation_ref(correlation: CorrelationResult) -> None:
         )
 
 
-# --- No-silent-exclusion, both directions (T011, FR-007) -------------------------------------------
+# --- No-silent-exclusion, both directions -------------------------------------------
 
 
 # PMI-01 (pre-merge adversarial squad, severity 5): every real WP file this pack ships is named
@@ -715,7 +696,7 @@ def _wp_id_from_stem(wp_path: Path) -> str:
     Raises `IngestError` (clause (b), "uninterpretable:") naming the file when the stem carries no
     such prefix at all. Two silent options were both rejected: emitting the bare stem anyway would
     just move PMI-01's defect one layer deeper (the validator still rejects it); silently DROPPING
-    the case instead would reintroduce a different named defect -- FR-007's no-silent-exclusion
+    the case instead would reintroduce a different named defect -- the no-silent-exclusion
     guarantee -- by discarding a real declared `automation_ref` this reader must never drop. Loud
     and exit-2, naming the offending path, is the only option that violates neither.
     """
@@ -733,7 +714,7 @@ def _iter_wp_case_frontmatter(tasks_dir: Path) -> Iterator[tuple[str, dict]]:
     """THE single shared file/shape traversal for `tasks/WP*.md` (WP03 factoring, carried forward
     from WP02's review): glob, frontmatter split, YAML parse, and nested-vs-flat shape detection,
     in one place. Yields `(wp_id, case_dict)` for every parseable case block, regardless of which
-    fields the case dict itself carries -- see `read_wp_automation_refs` (T004) above for the full
+    fields the case dict itself carries -- see `read_wp_automation_refs` above for the full
     nested/flat shape contract this traversal implements (kept there, not duplicated here).
 
     Both of this module's WP-frontmatter readers route through this one generator:
@@ -743,7 +724,7 @@ def _iter_wp_case_frontmatter(tasks_dir: Path) -> Iterator[tuple[str, dict]]:
     disagree, but a future shape-detection fix landing in one copy and not the other would have
     made their `(wp_id, case_id)` keys diverge silently, breaking the key alignment
     `read_wp_case_requirement_refs` depends on to line up with `correlate_automation_refs`'s
-    (T009) matched-case keys. One traversal now; both callers factor identically over it by
+ matched-case keys. One traversal now; both callers factor identically over it by
     construction, not by two authors' discipline staying in sync by hand.
     """
     if not tasks_dir.is_dir():
@@ -845,7 +826,7 @@ def read_wp_case_requirement_refs(tasks_dir: Path) -> dict[tuple[str, str], list
     (present, empty) rather than omitted -- a lookup *miss* (a case this reader never saw a
     frontmatter block for at all) is thereby distinguishable from a case that declares zero
     requirements, though `associate_requirements_with_cases` below treats both the same way
-    (`.get(..., [])`) since T011's own FR-007(a) scope does not require telling them apart.
+    (`.get(..., [])`) since the requirement-side no-silent-exclusion scope does not require telling them apart.
     """
     result: dict[tuple[str, str], list[str]] = {}
     for wp_id, case in _iter_wp_case_frontmatter(tasks_dir):
@@ -862,7 +843,7 @@ def associate_requirements_with_cases(
     correlation: CorrelationResult,
     case_requirement_refs: dict[tuple[str, str], list[str]],
 ) -> list[tuple[str, list[str], str | None]]:
-    """FR-007(a): for every requirement id from WP01's T003 parser output (`parse_requirement_
+    """The no-silent-exclusion rule (requirement side): for every requirement id from the Requirement Register parser's output (`parse_requirement_
     register`), in that same order, find every `(wp_id, case_id)` whose `automation_ref` resolved
     (present in `correlation.matched`) AND whose own declared `requirement_refs`
     (`case_requirement_refs`) names this requirement id. If none do, the row still appears with
@@ -871,7 +852,7 @@ def associate_requirements_with_cases(
     Returns an ordered list of `(requirement_id, case_ids, rationale_or_none)` tuples, one per
     Requirement Register row, in T003's own order; each row's `case_ids` iterates
     `correlation.matched` in its own (declared) insertion order -- never a `set()` anywhere in this
-    function's construction, preserving FR-010's determinism precondition.
+    function's construction, preserving the writer's determinism precondition.
     """
     rows: list[tuple[str, list[str], str | None]] = []
     for req_id in requirement_ids:
@@ -892,7 +873,7 @@ def associate_requirements_with_cases(
 def compute_unmapped_testcases(
     testcases: list[ET.Element], correlation: CorrelationResult,
 ) -> list[str]:
-    """FR-007(b): every enumerated JUnit testcase (`classname::name`) not claimed by any declared
+    """The no-silent-exclusion rule (testcase side): every enumerated JUnit testcase (`classname::name`) not claimed by any declared
     `automation_ref`, in enumeration order -- an ordered `list` in the return type, even though a
     `set` is used internally for the O(1) membership check, so no enumerable list this function
     produces is ever a bare `set()`. Always present in the tool's own output, even when empty
@@ -912,11 +893,11 @@ def compute_unmapped_testcases(
     return unmapped
 
 
-# --- Absence guards (T006): FR-019 missing-spec.md, FR-001 missing-results -----------------------
+# --- Absence guards: missing spec.md, missing --results -----------------------
 
 
 def check_spec_md_present(strategy_path: Path) -> None:
-    """FR-019: before invoking `parse_requirement_register`, check that `--strategy`'s spec.md
+    """The missing-`spec.md` guard: before invoking `parse_requirement_register`, check that `--strategy`'s spec.md
     actually exists on disk. Raises `IngestError` (Decision 1(a), Second Amendment) naming the
     missing path if it does not. Must fire before the Requirement Register parser is ever called
     — a missing file is not the same condition as a present file parsing to zero rows (the
@@ -928,7 +909,7 @@ def check_spec_md_present(strategy_path: Path) -> None:
 def check_results_supplied_when_declared(
     automation_refs: list[tuple[str, str, str]], results: list[Path],
 ) -> None:
-    """FR-001's own guard: after the WP-frontmatter reader has run, if at least one WP case
+    """The missing-`--results` guard: after the WP-frontmatter reader has run, if at least one WP case
     declares a non-empty `automation_ref` anywhere in the mission and `--results` was supplied
     with zero paths, raise `IngestError` (Decision 1(a), Second Amendment) — declared automated
     evidence with nothing supplied to correlate against is absence, not a guard on data this tool
@@ -938,7 +919,7 @@ def check_results_supplied_when_declared(
     guard does not fire, and the ingester proceeds with zero JUnit correlation attempted (the
     "legitimately exploratory/manual-only QA mission" path, `spec.md` Edge Cases).
 
-    Explicitly does NOT implement FR-005's guard (a *supplied* file that parses to zero
+    Explicitly does NOT implement the zero-testcases guard (a *supplied* file that parses to zero
     testcases) — that is WP02's job, a different condition (exit 1, not exit 2; data supplied
     but insufficient, not data absent)."""
     if automation_refs and not results:
@@ -950,7 +931,7 @@ def check_results_supplied_when_declared(
         )
 
 
-# --- Self-test suite (T014-T016, FR-008/NFR-002/NFR-007) -------------------------------------------
+# --- Self-test suite -------------------------------------------
 #
 # Mirrors qa_carrier_lint.py --self-test's own practice throughout: `PairN` (optionally
 # `PairN.M`) string-literal constants name each fixture/assertion pair, `_derive_self_test_pair_
@@ -962,14 +943,14 @@ def check_results_supplied_when_declared(
 # exercised on the actual guard function itself (never a reimplementation of the guard's logic) --
 # a fixture that trips it, and an otherwise-identical fixture that does not, so this suite proves
 # each guard both fires and does not fire (this programme's own repeated defect: "an assertion
-# that only ever passes"). FR-001's missing---results case and FR-019's missing-spec.md case are
+# that only ever passes"). The missing-`--results` case and the missing-`spec.md` case are
 # NOT here (per this WP's own tasks file, T014 step 3) -- both concern whether a required input
 # was supplied at all, before any fixture content is read, and are proven instead by dedicated
-# Success Criteria (SC-013, SC-018) run as real subprocess invocations of the finished CLI,
+# Success Criteria run as real subprocess invocations of the finished CLI,
 # recorded separately as this WP's own evidence (see the WP report, T037).
 #
-# T015 extended self_test() with FR-006 tiers 2/3 + the NFR-007 separate-process determinism
-# proof. T016 (this commit) extends it further with the NFR-002 traversal-parity proof, plus a
+# T015 extended self_test() with staleness tiers 2/3 + the separate-process determinism
+# proof. T016 (this commit) extends it further with the traversal-parity proof, plus a
 # demonstration (not a `PairN`, see below) of WP02 review finding 3's malformed-timestamp warning.
 
 _PAIR_ID_RE = re.compile(r"^Pair(\d+)(?:\.\d+)?$")
@@ -1000,13 +981,13 @@ def _derive_self_test_pair_count() -> int:
 
 
 def _independent_testcase_traversal(xml_path: Path) -> set[tuple[str, str]]:
-    """NFR-002: a second, independently-written traversal of the same documented idiom
+    """The traversal-parity check: a second, independently-written traversal of the same documented idiom
     (`tree.getroot().iter("testcase")`, `assets/qa_carrier_lint.py:307`) -- deliberately NOT a call
-    into `enumerate_testcases` (T005); this function re-parses the fixture and re-walks the tree
+    into `enumerate_testcases`; this function re-parses the fixture and re-walks the tree
     itself, so Pair11 below compares two separately-written implementations of one idiom, never
     one function checked against itself.
 
-    **Scoped honestly (spec.md's own NFR-002 row, R1 adversarial squad finding EXEC-02)**:
+    **Scoped honestly**:
     `qa_carrier_lint.py` exposes no standalone, importable function that enumerates the full
     `(classname, name)` set -- `classify_junit(xml_path, testcase_ref, tree_cache)` classifies one
     already-known ref via its own internal loop and returns only that ref's state, never the full
@@ -1022,7 +1003,7 @@ def _independent_testcase_traversal(xml_path: Path) -> set[tuple[str, str]]:
 
 
 def self_test() -> int:
-    """FR-008: run every fixture/assertion pair below and exit 0 only if all pass."""
+    """The self-test: run every fixture/assertion pair below and exit 0 only if all pass."""
     failures: list[str] = []
 
     def ok(pair: str, desc: str, cond: bool) -> None:
@@ -1053,7 +1034,7 @@ def self_test() -> int:
     with tempfile.TemporaryDirectory(prefix="qa_result_ingest_selftest_") as root_str:
         root = Path(root_str)
 
-        # --- Pair1 -- FR-002: enumeration count assertion (proves a <skipped/>-tagged testcase
+        # --- Pair1 -- enumeration count assertion (proves a <skipped/>-tagged testcase
         # is not silently dropped by a naive traversal). ---------------------------------------
         p1 = root / "pair1.xml"
         p1.write_text(
@@ -1078,7 +1059,7 @@ def self_test() -> int:
             any(tc.get("name") == "t_skip" for tc in testcases1),
         )
 
-        # --- Pair2 -- FR-005: zero-parsed-testcases guard. --------------------------------------
+        # --- Pair2 -- zero-parsed-testcases guard. --------------------------------------
         p2_empty = root / "pair2_empty.xml"
         p2_empty.write_text('<testsuite name="s" tests="0"/>')
         testcases2_empty, _ = enumerate_testcases(p2_empty)
@@ -1101,7 +1082,7 @@ def self_test() -> int:
             check_zero_testcases, p2_nfail, testcases2_nfail,
         )
 
-        # --- Pair3 -- FR-006, tier 1 only (tiers 2/3 are Pair9, T015's construction). -----------
+        # --- Pair3 -- tier 1 only (tiers 2/3 are Pair9, T015's construction). -----------
         since = parse_since_boundary("2026-01-01T00:00:00Z")
         p3_fresh = root / "pair3_fresh.xml"
         p3_fresh.write_text(
@@ -1127,7 +1108,7 @@ def self_test() -> int:
             str(p3_stale) in msg and "tier 1" in msg and since.isoformat() in msg,
         )
 
-        # --- Pair4 -- FR-007, both directions (SC-004's own four sub-cases). --------------------
+        # --- Pair4 -- both directions (SC-004's own four sub-cases). --------------------
         tc_a = ET.Element("testcase", {"classname": "c", "name": "claimed"})
         tc_b = ET.Element("testcase", {"classname": "c", "name": "unclaimed"})
         corr_covered = CorrelationResult(
@@ -1162,7 +1143,7 @@ def self_test() -> int:
             unmapped_uncovered == ["c::unclaimed"],
         )
 
-        # --- Pair5 -- FR-009: dual-shape Requirement Register parser. ---------------------------
+        # --- Pair5 -- dual-shape Requirement Register parser. ---------------------------
         p5_table = root / "pair5_table.md"
         p5_table.write_text(
             "# spec\n\n## Requirements\n\n"
@@ -1183,7 +1164,7 @@ def self_test() -> int:
             reqs_table == reqs_bullet == ["FR-910", "FR-911"],
         )
 
-        # --- Pair6 -- FR-016: unsupported status=-attribute JUnit-XML dialect. ------------------
+        # --- Pair6 -- unsupported status=-attribute JUnit-XML dialect. ------------------
         p6_bad = root / "pair6_bad.xml"
         p6_bad.write_text(
             '<testsuite name="s"><testcase classname="c" name="t" status="failed"/></testsuite>'
@@ -1207,7 +1188,7 @@ def self_test() -> int:
             enumerate_testcases, p6_good,
         )
 
-        # --- Pair7 -- FR-017: unresolvable automation_ref. --------------------------------------
+        # --- Pair7 -- unresolvable automation_ref. --------------------------------------
         corr7_unresolved = correlate_automation_refs([("WP01", "TC-001", "c::missing")], {})
 
         def _check7_unresolved() -> None:
@@ -1233,7 +1214,7 @@ def self_test() -> int:
 
         does_not_fire("Pair7.2", "a matching automation_ref ingests cleanly", _check7_resolved)
 
-        # --- Pair8 -- FR-018: duplicate automation_ref (checked before FR-017, T010's ordering). -
+        # --- Pair8 -- duplicate automation_ref (checked before the unresolvable-`automation_ref` guard, T010's ordering). -
         corr8_dup = correlate_automation_refs(
             [("WP01", "TC-001", "c::dup"), ("WP02", "TC-002", "c::dup")], {},
         )
@@ -1254,7 +1235,7 @@ def self_test() -> int:
             check_duplicate_automation_refs, corr8_nodup,
         )
 
-        # --- Pair9 -- FR-006, tiers 2 and 3, built inside an isolated sandbox (never this
+        # --- Pair9 -- tiers 2 and 3, built inside an isolated sandbox (never this
         # checkout's own git history), per spec.md's own EXEC-04-derived construction method. ----
         try:
             tier2_dir = root / "pair9_tier2"
@@ -1308,7 +1289,7 @@ def self_test() -> int:
             tier_name3 == "tier 3 (filesystem mtime)" and resolved_dt3 == expected_mtime,
         )
 
-        # --- Pair10 -- NFR-007: separate-process determinism proof. -----------------------------
+        # --- Pair10 -- separate-process determinism proof. -----------------------------
         try:
             det_root = root / "pair10"
             det_root.mkdir()
@@ -1342,7 +1323,7 @@ def self_test() -> int:
             # at the same depth, so the two runs' `mission:` field (mission_dir.resolve().name)
             # and `evidence.junit.file` (relpath depth from mission_dir to the shared results.xml)
             # are structurally identical -- a real content difference here (not merely a path
-            # difference this fixture introduced) is what NFR-007 is proving.
+            # difference this fixture introduced) is what the determinism check is proving.
             mission_a = det_root / "run_a" / "mission"
             mission_b = det_root / "run_b" / "mission"
             script = str(Path(__file__).resolve())
@@ -1352,9 +1333,9 @@ def self_test() -> int:
             ]
 
             def _run_subprocess(mission_dir: Path) -> subprocess.CompletedProcess:
-                # NFR-007: PYTHONHASHSEED=random set explicitly per subprocess, never inherited
+                # The determinism check: PYTHONHASHSEED=random set explicitly per subprocess, never inherited
                 # from this parent process -- the exact process-separation fix
-                # scripts/pack_ci.py's own --mode determinism-check uses. NFR-008:
+                # scripts/pack_ci.py's own --mode determinism-check uses. The bytecode-hygiene rule:
                 # PYTHONDONTWRITEBYTECODE=1 explicitly, never relying on inheritance either.
                 env = {
                     **os.environ, "PYTHONHASHSEED": "random", "PYTHONDONTWRITEBYTECODE": "1",
@@ -1384,7 +1365,7 @@ def self_test() -> int:
         except OSError as exc:
             failures.append(f"Pair10 - subprocess setup failed: {exc}")
 
-        # --- Pair11 -- NFR-002: JUnit traversal parity (scoped honestly, see
+        # --- Pair11 -- JUnit traversal parity (scoped honestly, see
         # _independent_testcase_traversal's own docstring). --------------------------------------
         p11 = root / "pair11.xml"
         p11.write_text(
@@ -1616,11 +1597,11 @@ def self_test() -> int:
             _p13_write_first_run,
         )
 
-        # --- Pair14 -- PMG-01 (pre-merge adversarial squad, severity 4): FR-007(b)'s non-`--json`
+        # --- Pair14 -- pre-merge review finding: the no-silent-exclusion rule (testcase side)'s non-`--json`
         # disclosure channel -- unmapped_testcases named in qa-traceability.yaml's own header
         # comment when --json is not supplied (always present, even when empty, mirroring the
         # `--json` record's own "never omitted" contract), and ABSENT when --json IS supplied
-        # (that run's stdout record is FR-007(b)'s channel instead). ----------------------------
+        # (that run's stdout record is the testcase-side disclosure channel instead). ----------------------------
         p14_mission_text = root / "pair14_header" / "mission_text"
         p14_mission_text.mkdir(parents=True)
         p14_out_text = write_carrier(
@@ -1645,7 +1626,7 @@ def self_test() -> int:
         )
         ok(
             "Pair14",
-            "--json mode writes no header comment (that run's --json stdout record is FR-007(b)'s "
+            "--json mode writes no header comment (that run's --json stdout record is the unmapped-testcase "
             "channel instead)",
             not p14_out_json.read_text().lstrip().startswith("#"),
         )
@@ -1749,7 +1730,7 @@ def self_test() -> int:
         )
 
         # --- WP02 review finding 3: malformed-but-present timestamp disclosure demo. Not a
-        # `PairN` -- not one of FR-008's own eight named guards, and no FR in this WP mandates a
+        # `PairN` -- not one of the self-test's eight named guards, and nothing mandates a
         # distinct guard for a malformed-but-present timestamp -- so deliberately excluded from
         # the derived pair count, but still exercised every self-test run, so this warning's own
         # presence is proven, not merely claimed by a code comment. --------------------------
@@ -1782,11 +1763,11 @@ def self_test() -> int:
     return 0
 
 
-# --- qa-traceability.yaml writer (T012, FR-010) ---------------------------------------------------
+# --- qa-traceability.yaml writer ---------------------------------------------------
 
-# The qa-traceability/v1 schema itself is unchanged and owned by pack-structured-carriers-01M0ME39
+# The qa-traceability/v1 schema itself is unchanged and owned by `qa_carrier_lint.py`
 # (assets/qa_carrier_lint.py:60-73's own TOP_KEYS/REQ_*/CASE_ALLOWED constants are the single
-# source of truth). This module never imports that sibling asset (NFR-001 keeps every pack asset
+# source of truth). This module never imports that sibling asset (the portability rule keeps every pack asset
 # import-independent of every other) -- SCHEMA_V1 below is a literal re-statement of the same
 # string, not a re-derivation, and this writer must never add, rename, or reshape a field beyond
 # what those constants already allow.
@@ -1797,7 +1778,7 @@ def build_testcase_source_index(
     testcase_sources: list[tuple[Path, ET.Element]],
 ) -> dict[str, Path]:
     """WP03: `classname::name` -> the first `--results` file it was enumerated from, in the
-    identical first-occurrence-wins order `build_testcase_index` (T009) already uses for the same
+    identical first-occurrence-wins order `build_testcase_index` already uses for the same
     keys -- so `evidence.junit.file` always names the same file the matching `enumerated` entry
     that `build_testcase_index` produced actually came from. `build_testcase_index` itself only
     returns `classname::name -> element` (no file), which is all T009/T010's correlation guards
@@ -1847,7 +1828,7 @@ def _is_producer_case(case: dict) -> bool:
 def _load_existing_carrier(carrier_path: Path) -> dict | None:
     """PMC-01 fix: load a pre-existing `qa-traceability.yaml` (if any) before this run's write, so
     `write_carrier` can preserve any FOREIGN case it already holds instead of overwriting the file
-    wholesale -- the operator's ruling, and FR-010's own "write (or **refresh**)" wording (never
+    wholesale -- the operator's ruling, and the writer's "write (or **refresh**)" contract (never
     "write (or replace)").
 
     Three outcomes, kept distinct (never conflated -- conflating "missing" and "malformed" is
@@ -1942,7 +1923,7 @@ def write_carrier(
     json_mode: bool,
 ) -> Path:
     """T012: assemble the `qa-traceability/v1` document from WP02's T011 requirement-association
-    output (`requirement_rows`, already carrying FR-007(a)'s rationale for every uncorrelated row)
+    output (`requirement_rows`, already carrying the no-silent-exclusion rule (requirement side)'s rationale for every uncorrelated row)
     and T009's correlation map (`matched_cases`, `(wp_id, case_id) -> automation_ref`), and write
     it via `ruamel.yaml`'s `YAML(typ="safe")` -- the identical construction pattern
     `qa_carrier_lint.py` already uses for reading this same schema. Written (or refreshed in
@@ -1964,7 +1945,7 @@ def write_carrier(
     stale `evidence.junit.file`/`testcase` pointer from a prior run is exactly what "refresh" (not
     "preserve") means here.
 
-    **Ordered iteration and serialization throughout (FR-010/NFR-007)** -- no bare `set()` for any
+    **Ordered iteration and serialization throughout** -- no bare `set()` for any
     enumerable list here. `requirements[]` is sorted by requirement id, `cases[]` by `(case id, wp
     id)`, and each requirement's own `case_ids` is sorted too. The inputs handed to this function
     are already deterministically ordered (T009/T011 build `matched`/`_requirement_rows` from
@@ -1977,12 +1958,12 @@ def write_carrier(
     prior carrier's own foreign-case content and order now feeds this run's output too.
 
     `generated_at` is deliberately the caller's own `--since` boundary (parsed once in `main()`),
-    never wall-clock `datetime.now()` -- FR-010's own idempotency claim ("two runs against
+    never wall-clock `datetime.now()` -- the writer's idempotency claim ("two runs against
     byte-identical inputs produce byte-identical output") is impossible to honour with a
     wall-clock timestamp, since two runs at different real times would then never agree. Using
     `--since` keeps `generated_at` a pure function of the declared inputs (same `--since` ==
     same `generated_at`), and is a reasonable proxy for "when this evidence run started" in its
-    own right (FR-011 wires `--since` to `implement`'s own test-execution start time).
+    own right (`--since` is `implement`'s test-execution start time).
 
     Every `cases[]` entry this writer itself PRODUCES is `type: "automated"` (the only case-
     authoring path this module implements is JUnit-XML correlation) -- a `"manual"`/`session`-
@@ -1990,14 +1971,14 @@ def write_carrier(
     writer, never regenerated, renamed, or reshaped; it is the writer's job to carry it forward
     unchanged, not to touch it.
 
-    **PMG-01 fix -- FR-007(b)'s non-`--json` path**: `unmapped_testcases` (always present, even
-    when empty -- the same FR-007(b) contract `main()`'s `--json` record already honours) is
-    threaded in here so this writer can be the one place BOTH of FR-007(b)'s two disclosure
+    **Non-`--json` path of the testcase-side no-silent-exclusion rule**: `unmapped_testcases` (always present, even
+    when empty -- the same testcase-side no-silent-exclusion contract `main()`'s `--json` record already honours) is
+    threaded in here so this writer can be the one place BOTH of the testcase-side rule's two disclosure
     channels are produced. When `json_mode` is false (`--json` was not supplied, so nothing on
     stdout otherwise names the unclaimed testcases beyond a bare count), a `#`-comment header
     naming every unmapped testcase is written immediately above the YAML document itself -- the
-    "instead" FR-007(b)'s own wording names. When `json_mode` is true, no header comment is
-    written (the `--json` stdout record is FR-007(b)'s channel for that run), so the file stays
+    "instead" the testcase-side rule names. When `json_mode` is true, no header comment is
+    written (the `--json` stdout record is the testcase-side disclosure channel for that run), so the file stays
     the plain, comment-free document a `--json` consumer parsing it back with `_yaml().load()`
     (never expected to skip a header) can read either way -- ruamel's `YAML(typ="safe")` loader
     ignores `#`-comment lines regardless, so this choice is a legibility/on-disk-noise preference
@@ -2054,11 +2035,11 @@ def write_carrier(
     yaml.default_flow_style = False
     with out_path.open("w") as fh:
         if not json_mode:
-            # PMG-01: FR-007(b)'s non-`--json` disclosure channel -- always present, even when
+            # The testcase-side no-silent-exclusion disclosure channel for non-`--json` runs -- always present, even when
             # `unmapped_testcases` is empty, mirroring the `--json` record's own "never omitted"
             # contract for this same field.
             fh.write(
-                f"# qa_result_ingest FR-007(b): {len(unmapped_testcases)} unmapped testcase(s) "
+                f"# qa_result_ingest: {len(unmapped_testcases)} unmapped testcase(s) "
                 "(enumerated but claimed by no declared automation_ref):\n"
             )
             if unmapped_testcases:
@@ -2074,22 +2055,22 @@ def write_carrier(
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Parses args, dispatches `--self-test` (T014) before anything else -- mirroring
+    """Parses args, dispatches `--self-test` before anything else -- mirroring
     `qa_carrier_lint.py`'s own dispatch-early rationale verbatim: a mutation that breaks a guard
     inside `self_test()`'s own fixtures must surface as a real assertion-failure signal for a
     developer running `--self-test`, never be silently reclassified by the production-path
-    OSError backstop below. Otherwise runs every guard through WP01's (T006) and WP02's
-    (T007-T010) shared exit-code taxonomy, builds T011's two no-silent-exclusion data structures,
-    and (T012) writes `qa-traceability.yaml` -- called only when every guard passed; a firing
+    OSError backstop below. Otherwise runs every guard through WP01's and WP02's
+ shared exit-code taxonomy, builds T011's two no-silent-exclusion data structures,
+    and writes `qa-traceability.yaml` -- called only when every guard passed; a firing
     guard skips the write entirely (Decision 1: "the carrier was deliberately not written or
     refreshed").
 
-    Guard order (deliberate, matches Decision 1 and the FR-017/FR-018 precedence spec.md states):
-    `--since` parsed once at the top (FR-006) -> FR-019 spec.md presence -> FR-009 Requirement
-    Register parse -> WP-frontmatter automation_ref read -> FR-001 missing-`--results`-when-
-    declared -> per `--results` file: FR-016 dialect (inside `enumerate_testcases`) -> FR-005
-    zero-testcases -> FR-006 staleness -> FR-018 duplicate automation_ref (checked first) ->
-    FR-017 unresolvable automation_ref (checked second, excluding duplicate members) -> T012's
+    Guard order (deliberate, duplicate-ref before unresolvable-ref):
+    `--since` parsed once at the top -> spec.md presence -> Requirement
+    Register parse -> WP-frontmatter automation_ref read -> missing-`--results`-when-
+    declared -> per `--results` file: `status=` dialect (inside `enumerate_testcases`) ->
+    zero-testcases -> staleness -> duplicate automation_ref (checked first) ->
+    unresolvable automation_ref (checked second, excluding duplicate members) -> T012's
     writer.
     """
     args = build_parser().parse_args(argv)
@@ -2127,8 +2108,8 @@ def main(argv: list[str] | None = None) -> int:
 
         enumerated = build_testcase_index(all_testcases)
         correlation = correlate_automation_refs(automation_refs, enumerated)
-        check_duplicate_automation_refs(correlation)  # FR-018 first (see T010's module comment)
-        check_unresolved_automation_ref(correlation)  # FR-017 second
+        check_duplicate_automation_refs(correlation)  # The duplicate-`automation_ref` guard first (see T010's module comment)
+        check_unresolved_automation_ref(correlation)  # The unresolvable-`automation_ref` guard second
 
         case_requirement_refs = read_wp_case_requirement_refs(args.tasks_dir)
         requirement_rows = associate_requirements_with_cases(
@@ -2157,7 +2138,7 @@ def main(argv: list[str] | None = None) -> int:
         "carrier_path": str(carrier_path),
         "requirements_total": len(requirement_rows),
         "cases_total": len(correlation.matched),
-        # FR-007(b): always present, never omitted or null, even when empty. PMI-02 fix: NOT
+        # The no-silent-exclusion rule (testcase side): always present, never omitted or null, even when empty. PMI-02 fix: NOT
         # `sorted(...)` -- `compute_unmapped_testcases`'s own docstring documents its return
         # value as "in enumeration order" (the order each unclaimed testcase was first seen
         # across `--results`), and this is the one place that value reaches an actual consumer

@@ -92,12 +92,6 @@ PROVENANCE_PHRASES: tuple[tuple[str, str, str], ...] = (
         "bug-fixing-checklist",
         "the retired bug-fixing-checklist tactic",
     ),
-    # Not in core, which never scans packs/qa: keep this row when syncing with core.
-    (
-        "packs/qa/README.md",  # its Provenance section (#241)
-        "behavior-driven-development",
-        "Its old reference, `behavior-driven-development`, was retired",
-    ),
 )
 
 #: The lane-consolidation command was renamed to ``consolidate``; the old name only

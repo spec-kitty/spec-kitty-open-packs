@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/qa`
 - **Pack level:** `org`
 - **Declared version:** `4.0.1`
-- **Content checksum (sha256):** `6e0cc1dbe391283c83ed3caee3a0cecb0179cbafa10a3791b54c5e73c19878f7`
+- **Content checksum (sha256):** `4df0c5889cc8d8f7522f97fed96769bcbafcf683860e5aea5adaebc1867f3aa8`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -62,9 +62,9 @@ cover and how honestly they report.
 | `assets` | 6 |
 | `glossaries` | 1 |
 | `drg` | 1 |
-| `missions` | 20 |
+| `missions` | 19 |
 | `presets` | 1 |
-| **Total files** | **67** |
+| **Total files** | **66** |
 
 ### Full listing
 
@@ -166,7 +166,7 @@ cover and how honestly they report.
 </details>
 
 <details>
-<summary><code>missions</code> (20)</summary>
+<summary><code>missions</code> (19)</summary>
 
 - `qa/qa.mission-type.yaml`
 - `qa/steps/accept.prompt.md`
@@ -176,7 +176,6 @@ cover and how honestly they report.
 - `qa/steps/review.prompt.md`
 - `qa/steps/specify.prompt.md`
 - `qa/steps/tasks.prompt.md`
-- `qa/templates/EVIDENCE.md`
 - `qa/templates/README.md`
 - `qa/templates/defect-log-template.md`
 - `qa/templates/exploratory-charter-template.md`

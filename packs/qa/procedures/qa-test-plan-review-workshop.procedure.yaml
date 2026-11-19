@@ -2,7 +2,7 @@ schema_version: '1.0'
 id: qa-test-plan-review-workshop
 title: QA Test Plan Review Workshop
 description: |
-  A peer-review (per this pack's `review` glossary term, `qa-glossary`) workshop over an already-drafted test plan (per this pack's `test plan` glossary term, `qa-glossary`) or test strategy document, held before test execution begins. Cited alongside example-mapping-workshop for format continuity as a related workshop-shaped procedure — example-mapping-workshop turns a behavior request into examples and rules pre-design; this workshop instead reviews a document that already exists.
+  A peer-review (per this pack's `review` glossary term, `qa-glossary`) workshop over an already-drafted test plan (per this pack's `test plan` glossary term, `qa-glossary`) or test strategy document, held before test execution begins. It reviews a document that already exists.
 entry_condition: |
   A drafted test plan or test strategy document exists and is ready for peer review before test execution begins.
 exit_condition: |
