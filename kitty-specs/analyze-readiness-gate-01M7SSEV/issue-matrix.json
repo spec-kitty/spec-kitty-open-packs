@@ -73,7 +73,7 @@
       "wp": null
     },
     "#246": {
-      "evidence_ref": "draft 59e1574; completed in WP03",
+      "evidence_ref": "analyze step 2a: version-gated finalize-tasks --validate-only, refusal CRITICAL, could-not-run HIGH (lane-c 4f4f0f6, approved); test tests/ci/test_analyze_readiness_prompts.py (lane-e 9d665bf)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -81,7 +81,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Integrate finalize-tasks validation into /spec-kitty.analyze readiness checks",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#247": {
