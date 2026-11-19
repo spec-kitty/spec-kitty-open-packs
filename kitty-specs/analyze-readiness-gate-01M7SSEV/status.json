@@ -1,7 +1,7 @@
 {
-  "event_count": 4,
-  "last_event_id": "01M7SVJ0TAMN9VHT1YC9PKP43N",
-  "materialized_at": "2026-11-19T12:12:30.923039+00:00",
+  "event_count": 5,
+  "last_event_id": "01M7SVJ2D17QGXKD8WXH2EB3JN",
+  "materialized_at": "2026-11-19T12:12:32.545566+00:00",
   "mission_number": "",
   "mission_slug": "analyze-readiness-gate-01M7SSEV",
   "mission_type": "software-dev",
@@ -15,7 +15,7 @@
     "for_review": 0,
     "in_progress": 0,
     "in_review": 0,
-    "planned": 4
+    "planned": 5
   },
   "work_packages": {
     "WP01": {
@@ -45,6 +45,13 @@
       "lane": "planned",
       "last_event_id": "01M7SVJ0TAMN9VHT1YC9PKP43N",
       "last_transition_at": "2026-11-19T12:12:30.923039+00:00"
+    },
+    "WP05": {
+      "actor": "finalize-tasks",
+      "force_count": 0,
+      "lane": "planned",
+      "last_event_id": "01M7SVJ2D17QGXKD8WXH2EB3JN",
+      "last_transition_at": "2026-11-19T12:12:32.545566+00:00"
     }
   }
 }
