@@ -110,6 +110,7 @@ class PlaceholderGate(unittest.TestCase):
         result = self.run_gate(f"Intro.\n\n{FENCE3}bash\nrun\n\nLater {{Leftover slot}}.\n")
         self.assertEqual(result.returncode, 1, result.stdout)
         self.assertIn("never closed", result.stdout)
+        self.assertIn("page0.md:3:", result.stdout)  # names the line the fence opened on
 
     def test_raw_divio_templates_fail(self) -> None:
         templates = sorted((ROOT / "packs/writing/missions/documentation/templates/divio").glob("*-template.md"))
