@@ -1,12 +1,16 @@
 ---
 work_package_id: WP05
 title: Prompt invariant test, versions, derived outputs, changelog
-dependencies: [WP04]
+dependencies:
+- WP04
 requirement_refs:
 - NFR-004
 - C-001
 - C-003
 - C-006
+planning_base_branch: feat/analyze-finalize-validate-246
+merge_target_branch: feat/analyze-finalize-validate-246
+branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
 subtasks:
 - T020
 - T021
@@ -14,9 +18,6 @@ subtasks:
 - T023
 - T024
 phase: Phase 4 - Release
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-19T12:07:01Z'
   actor: system
@@ -35,7 +36,9 @@ owned_files:
 - docs/packs/*.md
 - docs/changelog/CHANGELOG.md
 role: implementer
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP05 - Prompt invariant test, versions, derived outputs, changelog

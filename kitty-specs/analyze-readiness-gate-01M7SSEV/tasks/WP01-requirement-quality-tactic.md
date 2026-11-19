@@ -11,15 +11,15 @@ requirement_refs:
 - FR-016
 - NFR-001
 - C-004
+planning_base_branch: feat/analyze-finalize-validate-246
+merge_target_branch: feat/analyze-finalize-validate-246
+branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
 subtasks:
 - T001
 - T002
 - T003
 - T004
 phase: Phase 1 - Doctrine
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-19T12:07:01Z'
   actor: system
@@ -34,7 +34,9 @@ owned_files:
 - packs/foundation/tactics/analysis/requirement-quality-ears.tactic.yaml
 - packs/foundation/missions/software-dev/steps/specify.prompt.md
 role: curator
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP01 - Requirement-quality tactic and the specify quality bar

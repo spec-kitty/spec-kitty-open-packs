@@ -1,11 +1,15 @@
 ---
 work_package_id: WP04
 title: DRG wiring and cave-kitty parity
-dependencies: [WP03]
+dependencies:
+- WP03
 requirement_refs:
 - FR-017
 - C-003
 - SC-005
+planning_base_branch: feat/analyze-finalize-validate-246
+merge_target_branch: feat/analyze-finalize-validate-246
+branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
 subtasks:
 - T015
 - T016
@@ -13,9 +17,6 @@ subtasks:
 - T018
 - T019
 phase: Phase 3 - Wiring and parity
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-19T12:07:01Z'
   actor: system
@@ -31,7 +32,9 @@ owned_files:
 - packs/cave-kitty/missions/cave-dev/steps/analyze.prompt.md
 - packs/cave-kitty/drg/fragment.yaml
 role: curator
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP04 - DRG wiring and cave-kitty parity

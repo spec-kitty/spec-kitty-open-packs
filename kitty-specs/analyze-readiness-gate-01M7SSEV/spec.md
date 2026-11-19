@@ -68,9 +68,9 @@ An agent runs analyze on a Mission where `tasks.md` names WP03 but no `WP03-*.md
 
 ### User Story 4 - The report judges requirement quality (Priority: P2)
 
-An agent runs analyze on a spec whose FR-003 says "the system should be fast" and whose user story 2 has no rejected scenario.
+An agent runs analyze on a spec whose third functional requirement says "the system should be fast" and whose user story 2 has no rejected scenario.
 
-**Independent Test**: the report carries a requirement-quality finding on FR-003 (not testable, not measurable), an EARS observation, a scenario-audit table for story 2 with a "missing edge" row, and a clarification question with concrete answer choices for the HIGH ambiguity.
+**Independent Test**: the report carries a requirement-quality finding on that requirement (not testable, not measurable), an EARS observation, a scenario-audit table for story 2 with a "missing edge" row, and a clarification question with concrete answer choices for the HIGH ambiguity.
 
 **Acceptance Scenarios**:
 

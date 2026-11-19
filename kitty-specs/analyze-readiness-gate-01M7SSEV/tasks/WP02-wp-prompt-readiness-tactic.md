@@ -1,7 +1,8 @@
 ---
 work_package_id: WP02
 title: WP prompt readiness tactic
-dependencies: [WP01]
+dependencies:
+- WP01
 requirement_refs:
 - FR-006
 - FR-007
@@ -9,15 +10,15 @@ requirement_refs:
 - FR-009
 - FR-010
 - C-002
+planning_base_branch: feat/analyze-finalize-validate-246
+merge_target_branch: feat/analyze-finalize-validate-246
+branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
 subtasks:
 - T005
 - T006
 - T007
 - T008
 phase: Phase 1 - Doctrine
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-19T12:07:01Z'
   actor: system
@@ -31,7 +32,9 @@ model: ''
 owned_files:
 - packs/foundation/tactics/analysis/wp-prompt-readiness-review.tactic.yaml
 role: curator
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP02 - WP prompt readiness tactic

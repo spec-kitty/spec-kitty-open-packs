@@ -1,7 +1,8 @@
 ---
 work_package_id: WP03
 title: 'Analyze prompt: validation gate, per-WP readiness, requirement quality'
-dependencies: [WP02]
+dependencies:
+- WP02
 requirement_refs:
 - FR-001
 - FR-002
@@ -22,6 +23,9 @@ requirement_refs:
 - SC-002
 - SC-003
 - SC-004
+planning_base_branch: feat/analyze-finalize-validate-246
+merge_target_branch: feat/analyze-finalize-validate-246
+branch_strategy: Planning artifacts for this mission were generated on feat/analyze-finalize-validate-246. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/analyze-finalize-validate-246 unless the human explicitly redirects the landing branch.
 subtasks:
 - T009
 - T010
@@ -30,9 +34,6 @@ subtasks:
 - T013
 - T014
 phase: Phase 2 - Step prompt
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-19T12:07:01Z'
   actor: system
@@ -45,7 +46,9 @@ model: ''
 owned_files:
 - packs/foundation/missions/software-dev/steps/analyze.prompt.md
 role: curator
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP03 - Analyze prompt: validation gate, per-WP readiness, requirement quality
