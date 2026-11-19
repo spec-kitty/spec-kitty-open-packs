@@ -180,6 +180,9 @@ edges:
   target: tactic:documentation-curation-audit
   relation: scope
 - source: action:documentation/validate
+  target: toolguide:common-docs-structural-lint
+  relation: scope
+- source: action:documentation/validate
   target: foundation::tactic:premortem-risk-identification
   relation: scope
 - source: action:documentation/validate

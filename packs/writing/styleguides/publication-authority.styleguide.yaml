@@ -28,7 +28,7 @@ patterns:
     good_example: |
       # One commit / one mission:
       src/.../transitions.py      # add the --force override
-      docs/reference/status.md    # document --force in the same change
+      docs/api/status.md          # document --force in the same change
     bad_example: |
       # Behaviour merged now; docs "to be updated later" in a follow-up
       # ticket that is never picked up — published docs now lie.
@@ -114,7 +114,7 @@ anti_patterns:
       The retention window "30 days" is stated verbatim in the tutorial, the
       how-to, and two reference pages; a policy change updates only one.
     good_example: |
-      The retention window is stated once in docs/reference/retention.md; the
+      The retention window is stated once in docs/api/retention.md; the
       tutorial and how-to link to it. One change updates every reader.
 
 tooling:

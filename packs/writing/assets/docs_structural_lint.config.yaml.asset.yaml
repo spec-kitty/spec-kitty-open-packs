@@ -1,0 +1,4 @@
+id: common-docs-structural-lint-config
+mime: application/yaml
+path: docs_structural_lint.config.yaml
+title: Common Docs structural lint default policy (the structural_lint_config block docs_structural_lint.py loads with --styleguide)
