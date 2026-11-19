@@ -1,0 +1,93 @@
+schema_version: "1.0"
+id: wp-prompt-readiness-review
+name: WP Prompt Readiness Review
+purpose: >
+  Review every work-package prompt before implementation starts. The WP
+  prompts, not the task list, are what implementation agents execute: a
+  missing, orphaned, underspecified or badly scoped prompt reaches the
+  implementer as-is. The review is read-only; it reports, per work package,
+  what blocks implementation and what would improve it, and never edits a
+  prompt.
+steps:
+  - title: Pair the task list with the WP prompt files
+    description: >
+      Every work package the task list names has exactly one prompt file in
+      the Mission's tasks directory, and every prompt file there is named in
+      the task list. A work package with no prompt file, and a prompt file no
+      work package names, both block implementation. If the finalize
+      validation already refused the pairing, cite that result instead of
+      reporting the same files again.
+    examples:
+      - "The task list names WP03 but no WP03 prompt file exists - blocker."
+      - "A WP06 prompt file exists but the task list has no WP06 section - blocker (orphaned)."
+  - title: Resolve the WP prompt template, then compare each prompt to it
+    description: >
+      Read the WP prompt template as the Mission's template resolver returns
+      it; do not assume a path, and do not rely on a remembered copy, because
+      template copies drift. Compare each prompt's frontmatter and body
+      sections to the resolved template. A field or section implementation
+      depends on - the work package's identity, its dependencies, its
+      ownership and execution mode, its role or profile, its objective, its
+      guidance, its definition of done or success criteria, its review
+      guidance - that is missing or left as a template placeholder blocks
+      implementation. Any other gap is an improvement. Name each gap the way
+      the resolved template names it; this tactic keeps no list of its own.
+    examples:
+      - "WP03 lacks the resolved template's review-guidance section - blocker."
+      - "WP02 still carries the template's placeholder objective text - blocker."
+  - title: Check that the agent profile loads first
+    description: >
+      The first body section tells the implementing agent to load its
+      assigned agent profile, before the objective and the context. A prompt
+      where that section is missing or comes later is an improvement: the
+      agent may start work without the profile's guidance.
+  - title: Check the prompt size
+    description: >
+      Target 200 to 500 lines. Above 700 lines, or with more than 10
+      subtasks, recommend a split: an agent loses detail in a prompt that
+      long. Under about 150 lines with fewer than 3 subtasks, suggest merging
+      it with a neighbouring work package. Both are improvements.
+  - title: Check dependencies and order
+    description: >
+      Dependencies make delivery sense: foundations come before the work that
+      builds on them, no work package depends on later-phase work, and work
+      packages are not chained without a reason. A dependency cycle is a
+      finalize validation refusal; cite it rather than reporting it twice.
+    examples:
+      - "WP02 (API) depends on WP04 (UI polish) - improvement: reverse or drop the dependency."
+  - title: Check the boundaries
+    description: >
+      Each work package is cohesive and can be implemented and reviewed on its
+      own once its declared dependencies are done. One that bundles several
+      unrelated concerns, or that is a bare chore with no outcome a reviewer
+      can check, is an improvement. One that relies on another work package's
+      files or outputs without declaring that work package as a dependency is
+      a blocker: lanes and claim order are computed from the declared
+      dependencies, so the undeclared one can run first or in parallel. A
+      declared, ordered dependency is not a boundary finding; the
+      dependencies step judges it.
+    examples:
+      - "WP04 edits a file WP02 creates but does not list WP02 as a dependency - blocker."
+      - "WP03 lists WP02 as a dependency and cites the tactic WP02 writes - no boundary finding; the dependencies step judges the order."
+  - title: Check the requirement and value mapping
+    description: >
+      Each work package maps to at least one requirement and states the user
+      value it delivers. A work package mapped to no requirement blocks
+      implementation. A mapping whose wording is too vague to check, or a
+      purely technical work package with no requirement trace, is an
+      improvement; judge vague wording with tactic requirement-quality-ears.
+  - title: Report per work package
+    description: >
+      Give one row per work package: its prompt file, whether the task list
+      names it, its blockers and its improvements. Keep the two apart; a
+      reader must see at a glance whether implementation can start. Change
+      no file.
+failure_modes:
+  - "Checking prompts against a remembered or bundled template copy instead of the one the Mission resolves."
+  - "Reporting the same missing file twice, once as a validation refusal and again here."
+  - "Treating size or style as a blocker."
+  - "Editing a WP prompt to fix what the review found."
+notes: >
+  The step that cites this tactic decides severities, finding ids and the
+  report layout. Requirement wording is judged with tactic
+  requirement-quality-ears.
