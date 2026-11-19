@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 2434b02bf10308c49d9dec345283b5543afd409fcb5ab2ced756dfb36697dedc
+manifest_hash: 4e7d3d40814cb7be41e6c77f56856b3cd30540814acae4baccc531c9d9dc1a24
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -437,6 +437,10 @@ constituents:
   id: split-brain-authority-detection
   path: tactics/analysis/split-brain-authority-detection.tactic.yaml
   content_hash: ec12a7f9fc9b53c4fe8f1e429dbfda489eb98e423ddd21bcd919fbf2812e6a98
+- kind: tactic
+  id: wp-prompt-readiness-review
+  path: tactics/analysis/wp-prompt-readiness-review.tactic.yaml
+  content_hash: 05043b143c547751a2c3a1476a2c74b8ba8a6f91c2c2581d43d8c416b5608300
 - kind: tactic
   id: architectural-gate-non-vacuity
   path: tactics/architectural-gate-non-vacuity.tactic.yaml
