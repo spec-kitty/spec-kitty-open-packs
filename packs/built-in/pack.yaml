@@ -9,7 +9,7 @@
 # Descriptor 1.0 switches on ADR-0066's empty-prompt-slot validation.
 schema_version: "1.0"
 pack_id: 01ARWG13C000000000000000FG
-pack_version: 5.0.0
+pack_version: 5.1.0
 parent_pack: null
 name: built-in
 # Declared Charter Pack tier (kernel.pack_tiers authority).
@@ -21,14 +21,14 @@ pack_level: built-in
 fallback_profile: generic-agent
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: "==3.0.0"
+    range: "==3.1.0"
   - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
-    range: "==3.0.0"
+    range: "==3.1.0"
   - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
-    range: "==3.0.0"
+    range: "==3.1.0"
   - pack_id: 01M75PCTD0V3AFZA9EAXDJ894D  # refactoring
-    range: "==3.0.0"
+    range: "==3.1.0"
   - pack_id: 01M75PCTDT75M19ZMXHRES4CSJ  # architecture
-    range: "==3.0.0"
+    range: "==3.1.0"
   - pack_id: 01M75PCTEKGDXQW59TGSFQQ9QT  # planning-analysis
-    range: "==3.0.0"
+    range: "==3.1.0"
