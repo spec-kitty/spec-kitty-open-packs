@@ -25,15 +25,15 @@
       "wp": null
     },
     "#214": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "sibling under #244, out of scope (spec C-005)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Product-coherence checks (analyze)",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#230": {
