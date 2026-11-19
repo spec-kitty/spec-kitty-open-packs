@@ -74,3 +74,12 @@ edges:
   - source: mission_type:cave-dev
     target: action:cave-dev/accept
     relation: requires
+  - source: action:cave-dev/analyze
+    target: foundation::tactic:wp-prompt-readiness-review
+    relation: scope
+  - source: action:cave-dev/analyze
+    target: foundation::tactic:requirement-quality-ears
+    relation: scope
+  - source: action:cave-dev/specify
+    target: foundation::tactic:requirement-quality-ears
+    relation: scope
