@@ -4,9 +4,8 @@ name: Docs site
 # drift gate, and publishes to GitHub Pages from main.
 #
 # On pull requests: the `build`, `drift-gate` and `freshness` jobs run so they
-# protect the mission PR; the `deploy` job is skipped. On pushes to main: `build`,
-# `drift-gate` and `deploy` run and
-# the site is published.
+# protect the mission PR; the `deploy` job is skipped. On pushes to main:
+# `build`, `drift-gate` and `deploy` run and the site is published.
 #
 # ONE-TIME SETUP (repo admin, cannot be done from this workflow):
 #   Settings -> Pages -> "Build and deployment" -> Source: "GitHub Actions".
@@ -28,7 +27,6 @@ on:
       - 'site/**'
       - 'scripts/docs/**'
       - 'scripts/ci/validate_pack_schemas.py'
-      - 'tests/docs/**'
       # docs/packs/*.md is generated from packs/**: a pack-only change must still
       # run the drift gate, and republish on main.
       - 'packs/**'

@@ -9,9 +9,10 @@ date of the last commit that touched it. It exits 1 on a stale or missing date. 
 are judged, so no baseline is needed and existing pages cannot flood it.
 
 ``--report`` (advisory): lists authored pages whose ``updated:`` is older than the threshold for
-their tier, following writing's ``docs-freshness-sla`` styleguide (guides 90 days, ADRs 365 days,
-anything else 180 days). Pages with ``doc_status`` ``durable``, ``superseded`` or ``deprecated`` are
-exempt. It always exits 0.
+their tier: guides 90 days and ADRs 365 days, from the illustrative tiers of writing's
+``docs-freshness-sla`` styleguide, and 180 days for any other page, this repository's choice. Pages with
+``doc_status`` ``durable`` (exempt in the styleguide), ``superseded`` or ``deprecated`` (this
+repository's choice: such a page is already triaged) are skipped. It always exits 0.
 
 An authored page is a Markdown file under ``docs/`` whose frontmatter has no ``generated:`` key.
 ``scripts/docs/gen_pack_reference.py`` marks every page it writes with that key, and the
@@ -45,7 +46,7 @@ TIERS: tuple[tuple[str, int], ...] = (
 
 #: A revision as this script accepts it: a commit SHA or a ref name such as HEAD or origin/main. It
 #: cannot start with "-", so git never reads it as an option.
-REVISION = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/~^]{0,199}")
+REVISION = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/~^-]{0,199}")
 
 #: doc_status values the staleness report never flags.
 EXEMPT_STATUSES = frozenset({"durable", "superseded", "deprecated"})
@@ -112,8 +113,9 @@ def resolve_commit(root: Path, rev: str) -> str:
 
 def changed_pages(root: Path, base: str, head: str) -> list[str]:
     """Markdown files under docs/ added, copied, modified or renamed from the merge base of base and head."""
-    out = git(root, "diff", "--name-only", "--diff-filter=ACMR", "--no-renames", f"{base}...{head}", "--", DOCS)
-    return sorted(p for p in out.splitlines() if p.endswith(".md"))
+    # -z: paths unquoted and NUL-separated, so a non-ASCII name is not hidden by core.quotepath.
+    out = git(root, "diff", "-z", "--name-only", "--diff-filter=ACMR", "--no-renames", f"{base}...{head}", "--", DOCS)
+    return sorted(p for p in out.split("\0") if p.endswith(".md"))
 
 
 def last_author_date(root: Path, head: str, path: str) -> dt.date:
@@ -133,6 +135,8 @@ def check_changed(root: Path, base: str, head: str) -> list[str]:
             problems.append(f"{path}: no valid `updated:` date in the frontmatter (last commit {committed})")
         elif page.updated < committed:
             problems.append(f"{path}: `updated: '{page.updated}'` is older than its last commit ({committed})")
+        elif page.updated > committed + dt.timedelta(days=1):
+            problems.append(f"{path}: `updated: '{page.updated}'` is later than its last commit ({committed})")
     return problems
 
 
@@ -153,6 +157,8 @@ def stale_pages(root: Path, today: dt.date) -> list[str]:
         limit = threshold(path)
         if page.updated is None:
             found.append((dt.date.min, f"{path}: no valid `updated:` date"))
+        elif page.updated > today:
+            found.append((dt.date.min, f"{path}: updated {page.updated} is in the future"))
         elif (today - page.updated).days > limit:
             found.append((page.updated, f"{path}: updated {page.updated}, {(today - page.updated).days} days ago (threshold {limit})"))
     return [line for _, line in sorted(found)]
