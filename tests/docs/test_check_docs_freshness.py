@@ -121,6 +121,18 @@ class ChangedPagesGate(unittest.TestCase):
         self.repo.git("checkout", "-q", "topic")
         self.assertEqual(fresh.check_changed(self.repo.root, main_tip, "HEAD"), [])
 
+    def test_a_non_ascii_page_name_is_judged(self) -> None:
+        self.repo.commit({"docs/café.md": page("2026-01-01")}, "2026-03-02")
+        self.assertEqual(len(self.check()), 1)
+
+    def test_a_date_later_than_the_commit_fails(self) -> None:
+        self.repo.commit({"docs/guides/old.md": page("2027-01-01")}, "2026-03-02")
+        self.assertIn("later than", self.check()[0])
+
+    def test_a_hyphenated_branch_name_resolves(self) -> None:
+        self.repo.git("branch", "feat-x", self.base)
+        self.assertEqual(fresh.check_changed(self.repo.root, "feat-x", "HEAD"), [])
+
     def test_a_revision_git_could_read_as_an_option_is_refused(self) -> None:
         with self.assertRaises(ValueError):
             fresh.check_changed(self.repo.root, "--output=/tmp/x", "HEAD")
@@ -153,6 +165,11 @@ class StalenessReport(unittest.TestCase):
     def test_it_lists_pages_past_their_tier_oldest_first(self) -> None:
         lines = fresh.stale_pages(self.repo.root, dt.date(2026, 4, 11))
         self.assertEqual([line.split(":")[0] for line in lines], ["docs/reference.md", "docs/guides/guide.md"])
+
+    def test_it_lists_a_future_date(self) -> None:
+        self.repo.commit({"docs/future.md": page("2027-01-01")}, "2026-01-02")
+        lines = fresh.stale_pages(self.repo.root, dt.date(2026, 1, 3))
+        self.assertTrue(any("docs/future.md" in line and "future" in line for line in lines))
 
     def test_it_never_fails(self) -> None:
         with redirect_stdout(io.StringIO()):

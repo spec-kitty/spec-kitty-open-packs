@@ -107,7 +107,9 @@ There is no merge queue: in core it duplicated CI runs rather than avoiding reru
   cannot be required. On a pull request its `Docs freshness` job fails an authored page under
   `docs/` that the pull request changes when the page's `updated:` is older than the author date of
   its last commit (#297). Generated pages are left to the drift check. The same job lists, without
-  failing, pages past their staleness threshold: guides 90 days, ADRs 365, other pages 180.
+  failing, pages past their staleness threshold (guides 90 days and ADRs 365, from writing's
+`docs-freshness-sla` styleguide; other pages 180, this repository's choice) and pages dated in the
+future.
 
 After editing a pack, run `python3 scripts/ci/pack_digest.py --update` and commit the changed
 `packs/<name>.source.yaml`; the gate fails while the recorded digest is stale. Rebasing over another
