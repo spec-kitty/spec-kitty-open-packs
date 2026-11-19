@@ -1,0 +1,137 @@
+{
+  "rows": {
+    "#1131": {
+      "evidence_ref": "core half of #247 stays in spec-kitty/spec-kitty#1131 (spec C-004)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "core: deterministic checker and fixture tests for analyze report sections",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#213": {
+      "evidence_ref": "sibling under #244, out of scope (spec C-005)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Read the full planning corpus and user intent (analyze)",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#214": {
+      "evidence_ref": "sibling under #244, out of scope (spec C-005)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Product-coherence checks (analyze)",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#230": {
+      "evidence_ref": "context: the WP review defers to the template as resolved (C-002); #230 owns the reconciliation",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "software-dev tasks prompts contradict the WP prompt template",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#237": {
+      "evidence_ref": "tactic wp-prompt-readiness-review (lane-b de72546) + analyze step 2b and Per-WP Readiness (lane-c 4f4f0f6), all approved",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Have /spec-kitty.analyze inspect every WP prompt before implementation",
+      "verdict": "fixed",
+      "wp": "WP03"
+    },
+    "#244": {
+      "evidence_ref": "parent epic; this mission delivers its children #246, #237, #247; #213 and #214 remain open under it",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Epic: /spec-kitty.analyze readiness review (prompt content)",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#246": {
+      "evidence_ref": "analyze step 2a: version-gated finalize-tasks --validate-only, refusal CRITICAL, could-not-run HIGH (lane-c 4f4f0f6, approved); test tests/ci/test_analyze_readiness_prompts.py (lane-e 9d665bf)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Integrate finalize-tasks validation into /spec-kitty.analyze readiness checks",
+      "verdict": "fixed",
+      "wp": "WP03"
+    },
+    "#247": {
+      "evidence_ref": "tactic requirement-quality-ears + specify bar (lane-a 1c67ed0) + analyze pass G, Scenario Audit, Clarification Questions (lane-c 4f4f0f6), all approved",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "analyze/specify prompts: requirement-quality, EARS and scenario-audit report sections",
+      "verdict": "fixed",
+      "wp": "WP01"
+    },
+    "#266": {
+      "evidence_ref": "ordering context only; no file overlap (operator ruling 1)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "software-dev prompts contradict each other",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#301": {
+      "evidence_ref": "cited as precedent for the release footprint (commit 45aa77c)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "feat(foundation): route CI work to implementer-ivan",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#319": {
+      "evidence_ref": "the pull request this mission lands in",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "PR #319",
+      "verdict": "not-applicable",
+      "wp": null
+    }
+  },
+  "schema_version": 1
+}
