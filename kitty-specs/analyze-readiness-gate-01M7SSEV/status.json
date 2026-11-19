@@ -147,10 +147,20 @@
       "last_event_id": "01M7T1R0QEHDZA67S20VA99R0F",
       "last_transition_at": "2026-11-19T14:00:38.792873+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "- 2026-11-19T14:06:03Z – claude::doctrine-daphne – shell_pid=16501 – At 0bd72da: T015 tactic.graph.yaml nodes requirement-quality-ears and wp-prompt-readiness-review in alphabetical position; suggests edges wp-prompt-readiness-review -> requirement-quality-ears, requirement-quality-ears -> acceptance-criteria-non-vacuity and -> requirements-validation-workflow (the last also covers the reviewer's optional WP01 cross-reference, as a DRG edge instead of prose), each with when. T016 action.graph.yaml: software-dev/analyze -> both tactics (new analyze group before implement), software-dev/specify -> requirement-quality-ears. T017 cave-kitty analyze: opening names WP prompts, validation and requirement quality; new 'Readiness checks (inherited, named here)' with the 3.1.0a5 gate, validate-only only, CRITICAL/HIGH, both foundation tactics with fetch commands, Inferred:; voice bullet for cliff-edge findings. T018 fragment: action:cave-dev/analyze -> foundation::tactic:{wp-prompt-readiness-review,requirement-quality-ears}, action:cave-dev/specify -> foundation::tactic:requirement-quality-ears; accepted. T019: validate-packs exit 0 (cross-pack 0 violations); charter service check against release jar service-v0.1.0-rc.1 (SHA-256 verified) + ebce908 contracts exit 0 (cave-kitty and foundation compose; cave-kitty registers); graph-edge-identity and prompt-fragment tests pass; vocabulary 0; manifests unchanged."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 16501,
-      "shell_pid_created_at": "1795096831.93"
+      "shell_pid_created_at": "1795096831.93",
+      "subtasks": {
+        "T015": "done",
+        "T016": "done",
+        "T017": "done",
+        "T018": "done",
+        "T019": "done"
+      }
     },
     "WP05": {
       "actor": "finalize-tasks",
