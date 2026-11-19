@@ -1,4 +1,6 @@
 {
+  "contracts": "none",
+  "contracts_rationale": "Prompt and doctrine content only: the mission defines no API, event or interface; the analysis-findings/v1 carrier it uses is unchanged.",
   "create_return_branch": "feat/analyze-finalize-validate-246",
   "created_at": "2026-11-19T11:35:50.386765+00:00",
   "flattened": false,
