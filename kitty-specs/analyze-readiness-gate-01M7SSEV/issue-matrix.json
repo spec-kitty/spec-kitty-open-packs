@@ -13,15 +13,15 @@
       "wp": null
     },
     "#213": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "sibling under #244, out of scope (spec C-005)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Read the full planning corpus and user intent (analyze)",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#214": {
