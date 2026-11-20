@@ -19,8 +19,10 @@ trap 'rm -f "$err"' EXIT
 # A job log carries ANSI colour codes, and the gh on GitHub's runners refuses to print a response with terminal
 # escape sequences unless told to (#323): every log read failed with "the response contains terminal escape
 # sequences". An older gh has no such flag and prints them anyway; either way the codes are stripped below.
+# The help text is read whole first: grep -q in a pipe could exit early and, under pipefail, read as no flag.
 log_flags=()
-if gh api --help 2>/dev/null | grep -q -- '--allow-escape-sequences'; then
+api_help="$(gh api --help 2>/dev/null || true)"
+if grep -q -- '--allow-escape-sequences' <<< "$api_help"; then
   log_flags=(--allow-escape-sequences)
 fi
 
@@ -48,7 +50,8 @@ for entry in "${failed[@]}"; do
   if log="$(gh api "${log_flags[@]}" "repos/$repo/actions/jobs/$id/logs" 2>"$err")"; then
     # Escape sequences and other control characters go, so none reaches the issue. Backticks become quotes, so no
     # log line can close the fence and render as Markdown (or mention anyone).
-    errors="$(sed -E $'s/\x1b\\[[0-9;?]*[A-Za-z]//g' <<< "$log" | tr -d '\000-\010\013-\037\177' \
+    # OSC sequences (ESC ] ... BEL or ESC \\) go with their payload, CSI sequences (ESC [ ... letter) with theirs.
+    errors="$(sed -E -e $'s/\x1b\\][^\x07\x1b]*(\x07|\x1b\\\\)//g' -e $'s/\x1b\\[[0-9;?]*[A-Za-z]//g' <<< "$log" | tr -d '\000-\010\013-\037\177' \
       | grep -F '##[error]' | sed -E 's/^[^ ]+ ##\[error\]//' | tr '`' "'" | head -n "$max_lines" || true)"
     printf '%s\n' "${errors:-(no error annotation in the log; see the run)}"
   else

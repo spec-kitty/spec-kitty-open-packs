@@ -755,7 +755,9 @@ class CharterTrackReport(unittest.TestCase):
     # A job log as the API serves it: ANSI colour codes around the step echo and inside an error annotation.
     LOG = ("2026-11-20T02:28:06.1Z \x1b[36;1mpython3 scripts/validate.py\x1b[0m\n"
            "2026-11-20T02:28:06.2Z ##[error]foundation/directive.graph.yaml: \x1b[31m'in_tension_with'\x1b[0m is `bad`\n"
-           "2026-11-20T02:28:06.3Z ##[error]Process completed with exit code 1.\n")
+           # An OSC hyperlink, closed once by BEL and once by ESC \: the payload goes, the text stays.
+           "2026-11-20T02:28:06.3Z ##[error]see \x1b]8;;https://osc.invalid/a\x07the run\x1b]8;;\x1b\\ for more\n"
+           "2026-11-20T02:28:06.4Z ##[error]Process completed with exit code 1.\n")
     JOBS = ("11\tfailure\tCharter checks / Charter Pack validation\n"
             "12\tsuccess\tCharter checks / Charter service validation\n"
             "13\tfailure\tReport\n")
@@ -804,7 +806,10 @@ class CharterTrackReport(unittest.TestCase):
                 self.assertIn("foundation/directive.graph.yaml: 'in_tension_with' is 'bad'", out)
                 self.assertIn("Process completed with exit code 1.", out)
                 self.assertNotIn("could not be read", out)
+                self.assertIn("see the run for more", out)
+                self.assertNotIn("osc.invalid", out)  # an OSC sequence goes with its payload
                 self.assertNotIn("\x1b", out)  # no escape sequence reaches the issue
+                self.assertNotIn("\x07", out)
                 self.assertEqual(out.count("```"), 2)  # one fence, opened and closed
 
     def test_a_log_that_cannot_be_read_says_why(self) -> None:
