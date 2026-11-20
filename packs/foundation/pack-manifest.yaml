@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5a927f20122307c6fd64ea24f0b73717111e2615611a30b6a0bd2a59b919aa40
+manifest_hash: 12f0507cf4e15b15c4f12136637ecc8ed2f4dcc8a8bc21cbc6d5f29a521ac2be
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -80,7 +80,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_036
   path: directives/036-black-box-integration-testing.directive.yaml
-  content_hash: 1a1a5bdb78a9f104b86c7c4234400074da8cd5eeb41cc248f825916001f5ba6a
+  content_hash: 3f569121dedd8e94e0bdbec61274f8f114ecbf79716288166d1e1e5ae946202d
 - kind: directive
   id: DIRECTIVE_037
   path: directives/037-living-documentation-sync.directive.yaml
@@ -140,7 +140,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_054
   path: directives/054-mock-only-at-the-responsibility-boundary.directive.yaml
-  content_hash: 97fb74cd23938bf7c56eba8cc3451b80ca9afa5d7f805d7ddf89bb7a1ee7e163
+  content_hash: 77d507de7141f8aadfe707931a7b31f94e1e1f81d72c2678020d228b99c85b4e
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
