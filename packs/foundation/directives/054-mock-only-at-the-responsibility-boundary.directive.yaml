@@ -14,12 +14,16 @@ scope: >
   that use test doubles: mocks, stubs, fakes, spies and monkeypatches. The
   boundary is drawn by responsibility for the behavior under test, not by
   layer, module or class; the tactic test-boundaries-by-responsibility says how
-  to draw it.
+  to draw it. The rules bind the tests a change adds or modifies. An existing
+  test that does not conform is remediated when a change touches it, or
+  recorded as a tracked follow-up; it does not make unrelated work
+  non-conforming.
 integrity_rules:
   - "The allow-list is exhaustive. A test may substitute only: another domain or
     bounded context (a domain-contract seam); the filesystem; a database; the
     network and external APIs or services; the clock; randomness; git and other
-    processes or subprocesses; sending a hook or notification (an outbound
+    processes or subprocesses the system under test does not own (a subprocess
+    that runs the system's own code is owned logic); sending a hook or notification (an outbound
     message whose delivery is outside the system under test); and schema-only
     validation of a data-transfer object by a library the system does not own,
     carrying no rule of the behavior under test (a validation rule the behavior

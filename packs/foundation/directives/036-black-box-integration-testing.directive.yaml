@@ -24,9 +24,11 @@ integrity_rules:
   system under test to invoke business logic directly.
 - Black-box integration tests must not patch, monkeypatch, or otherwise replace 
   inside-boundary collaborators of the system under test (DIRECTIVE_054).
-- Substitution of outside-boundary dependencies is permitted only on an
-  allow-listed seam of DIRECTIVE_054, and only when the substitute preserves
-  the observable contract the system under test relies on.
+- In a test a change adds or modifies, substitution of outside-boundary
+  dependencies is permitted only on an allow-listed seam of DIRECTIVE_054, and
+  only when the substitute preserves the observable contract the system under
+  test relies on. An existing test that substitutes another seam is remediated
+  when a change touches it, or recorded as a tracked follow-up.
 - Assertions must target externally observable state, not private attributes or 
   internal call sequences of inside-boundary components.
 - The responsibility boundary used by the test must be stated (in test name, 
