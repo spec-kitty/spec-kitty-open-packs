@@ -256,8 +256,13 @@ edges:
   target: procedure:test-first-cycle
   relation: requires
   when: implementing new or changed behavior
-  reason: Picks the test-first tactic that fits the scope, writes the failing test before production code, and keeps red-green-refactor
-    cycles short.
+  reason: Picks the test-first tactic that fits the scope, writes the failing test before production code for behavior with a lasting regression
+    risk (configuration and glue cite run or gate evidence), and keeps red-green-refactor cycles short.
+- source: directive:DIRECTIVE_034
+  target: tactic:acceptance-criteria-non-vacuity
+  relation: suggests
+  when: labelling each acceptance criterion and confirming a no-op cannot pass it
+  reason: Test-first development suggests the non-vacuity tactic for criteria that carry run or gate evidence instead of a red-first test.
 - source: directive:DIRECTIVE_035
   target: procedure:bulk-edit-occurrence-mapping
   relation: requires
@@ -514,11 +519,26 @@ edges:
   reason: Names the behaviour, draws the boundary, removes the owned doubles, seeds state through the production path and
     proves the test goes red when the behaviour breaks.
 - source: directive:DIRECTIVE_054
+  target: tactic:black-box-integration-testing
+  relation: suggests
+  when: a test needs real collaborators the system under test owns, seeded through the production path
+  reason: Black-box integration tests exercise owned code for real, which is what the boundary rule asks for instead of doubles.
+- source: directive:DIRECTIVE_054
   target: tactic:function-over-form-testing
   relation: suggests
 - source: directive:DIRECTIVE_054
   target: tactic:test-boundaries-by-responsibility
   relation: suggests
+- source: directive:DIRECTIVE_054
+  target: tactic:test-scaffolding-as-design-smell
+  relation: suggests
+  when: a test needs many doubles or patches to get started
+  reason: Heavy scaffolding is a design smell; the tactic reads it as a signal about the code rather than a reason to add more doubles.
+- source: directive:DIRECTIVE_054
+  target: tactic:testing-select-appropriate-level
+  relation: suggests
+  when: choosing the test level at which owned collaborators run for real
+  reason: Selecting the right test level decides where the responsibility boundary sits and which substitutes remain.
 - source: directive:DISCIPLINED_REFACTORING
   target: procedure:disciplined-refactoring-cycle
   relation: requires

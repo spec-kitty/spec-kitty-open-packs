@@ -121,6 +121,11 @@ edges:
   target: directive:DIRECTIVE_032
   relation: requires
 - source: agent_profile:reviewer-renata
+  target: directive:DIRECTIVE_034
+  relation: requires
+  when: when assessing whether a test-first claim or its stated exemption holds for the change under review
+  reason: The reviewer profile should reach the test-first directive when assessing a cited red-first, run or gate evidence and the configuration carve-out.
+- source: agent_profile:reviewer-renata
   target: directive:DIRECTIVE_041
   relation: requires
   when: when assessing whether the tests under review are a clear scaffold rather than friction
