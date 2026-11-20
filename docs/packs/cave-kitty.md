@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/cave-kitty`
 - **Pack level:** `org`
-- **Declared version:** `2.3.0`
-- **Content checksum (sha256):** `4789ebd0472368ca91ba6d331a163f5483af072d58684f7917df224027fac143`
+- **Declared version:** `2.4.0`
+- **Content checksum (sha256):** `d3207144d8e4df2057d1b2285635d7b02f37d15fbf8d4f99ddb023556db9eeb2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -31,7 +31,7 @@ An open Spec Kitty Charter Pack that makes an agent answer in a **compressed, to
 "caveman" voice** — outcome-first, filler cut — while keeping every payload and every negation
 exact and restoring full sentences at a cliff edge.
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`
+**Depends on:** [`foundation`](foundation.md) `>=3.3,<4`
 
 ## Artifact inventory
 
