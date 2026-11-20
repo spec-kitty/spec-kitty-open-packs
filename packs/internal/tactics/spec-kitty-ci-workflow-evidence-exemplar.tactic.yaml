@@ -3,7 +3,7 @@ id: spec-kitty-ci-workflow-evidence-exemplar
 name: Spec Kitty CI Workflow Evidence Exemplar
 purpose: >
   Shows, on a Spec Kitty CI change, which proposed pins are change detectors
-  to drop and which tests guard lasting behaviour, applying the carve-out of
+  to drop and which tests guard lasting behavior, applying the carve-out of
   DIRECTIVE_034 and the `[evidenced-by-run]` label of
   `acceptance-criteria-non-vacuity`.
 steps:
@@ -22,7 +22,7 @@ steps:
       - a pin on the upload step's `if:` expressions.
 
       Keep these, because each guards lasting regression risk:
-      - the router gate's behaviour tests, driving its main entry point with
+      - the router gate's behavior tests, driving its main entry point with
         real inputs;
       - the path-to-job routing cases;
       - the invariant "no automated trigger, no secrets, read-only
@@ -55,7 +55,7 @@ steps:
       `[evidenced-by-run]`.
 failure_modes:
   - "Per-file policy pin: the permission and secret invariant restated in each workflow's own test, so a new workflow escapes it until someone remembers to add the pin."
-  - "Shape pin passed off as behaviour: a test of the job's name, runner or timeout presented as a regression guard, when it only fails on an intentional edit."
+  - "Shape pin passed off as behavior: a test of the job's name, runner or timeout presented as a regression guard, when it only fails on an intentional edit."
   - "Evidence by assertion: a requirement labelled `[evidenced-by-run]` with no recorded run behind it."
 notes: >
   The general rule lives in foundation DIRECTIVE_034 and the

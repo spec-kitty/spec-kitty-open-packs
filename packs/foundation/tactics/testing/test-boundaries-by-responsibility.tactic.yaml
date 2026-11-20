@@ -13,8 +13,8 @@ steps:
       - "Inside: UserRegistrationService, EmailValidator. Outside: UserRepository, EmailDeliveryService."
   - title: Classify dependencies
     description: >
-      Inside boundary (do NOT mock): business logic, domain models, value objects, validation rules specific to the feature.
-      Outside boundary (may be substituted): the allow-listed seams of DIRECTIVE_054. Substitution is permitted, never required. A module line is not a responsibility line; another bounded context is the allow-listed case.
+      Inside boundary (do NOT mock): business logic, domain models, value objects, validation rules specific to the feature (a validation rule the behavior depends on runs for real).
+      Outside boundary (may be substituted): the allow-listed seams of DIRECTIVE_054. Substitution is permitted, never required. A module line is not a responsibility line; another bounded context (its own model, reached only through a published contract) is the allow-listed case, and so is schema-only validation of a data-transfer object by a library the system does not own.
   - title: Write the test scope statement
     description: Formulate a sentence stating what the test validates, what it exercises for real, and what it stubs.
     examples:

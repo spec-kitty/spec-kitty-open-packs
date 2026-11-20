@@ -156,7 +156,7 @@ If any are not approved or done, stop and report which dependencies are blocking
 
 Work through each subtask in order:
 1. Read the subtask guidance from the WP prompt
-2. Write tests first when the subtask changes behaviour with a lasting regression
+2. Write tests first when the subtask changes behavior with a lasting regression
    risk (product logic, gate or classifier scripts, invariants, security or
    permission policy). For configuration and glue work, record the real run or
    the existing gate as `[evidenced-by-run]` evidence instead (DIRECTIVE_034)

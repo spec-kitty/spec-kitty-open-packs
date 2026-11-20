@@ -23,7 +23,7 @@ integrity_rules:
 - Black-box integration tests must not import inside-boundary modules of the 
   system under test to invoke business logic directly.
 - Black-box integration tests must not patch, monkeypatch, or otherwise replace 
-  inside-boundary collaborators of the system under test.
+  inside-boundary collaborators of the system under test (DIRECTIVE_054).
 - Substitution of outside-boundary dependencies is permitted only on an
   allow-listed seam of DIRECTIVE_054, and only when the substitute preserves
   the observable contract the system under test relies on.

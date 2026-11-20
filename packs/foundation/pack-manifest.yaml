@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: aa105b11abbae38b431ba050f1e86f2f33b0771d0146989bb9db6acccca11b56
+manifest_hash: c6570c380c1740cddc07e9f99b85f753da753ea636a668ba1df97fd67df308ec
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -80,7 +80,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_036
   path: directives/036-black-box-integration-testing.directive.yaml
-  content_hash: c48deee6dccf6671783def597886068f5c7ea247de9c18e2f780724e637b6ca9
+  content_hash: 1a1a5bdb78a9f104b86c7c4234400074da8cd5eeb41cc248f825916001f5ba6a
 - kind: directive
   id: DIRECTIVE_037
   path: directives/037-living-documentation-sync.directive.yaml
@@ -140,7 +140,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_054
   path: directives/054-mock-only-at-the-responsibility-boundary.directive.yaml
-  content_hash: 03cdb925e32e6d77a9590a31ffa0a938d14da0763cfa50cede6df9d836ae3ab4
+  content_hash: 97fb74cd23938bf7c56eba8cc3451b80ca9afa5d7f805d7ddf89bb7a1ee7e163
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
@@ -156,7 +156,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: 6edde0813a5c62e7aada6c9f88fe1049a354167379a769ef8b8932811dd9a192
+  content_hash: a9f75c6ed71dd49d6bd1a3821b53b246761a2c6f66a6108df4a3f36b963864fa
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -396,7 +396,7 @@ constituents:
 - kind: procedure
   id: unfake-an-over-mocked-test
   path: procedures/unfake-an-over-mocked-test.procedure.yaml
-  content_hash: e0affe2bade6c5f9d683afdb35636004c000554392be3a7e983bb512d527096f
+  content_hash: 983de030c2457a311b0f33c3fc454995472052ad183954d4ddb48a119c28df06
 - kind: procedure
   id: version-freshness-check
   path: procedures/version-freshness-check.procedure.yaml
@@ -632,7 +632,7 @@ constituents:
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: c8a0c7dbb1418d5a6cc2824113a2856bf628acb75493d4edb9deafb295bd52a1
+  content_hash: 5b0760477d1c69b3594e1164ea314c9c3879da08733b552caca38b86c8b88d49
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml
@@ -644,7 +644,7 @@ constituents:
 - kind: tactic
   id: testing-select-appropriate-level
   path: tactics/testing/testing-select-appropriate-level.tactic.yaml
-  content_hash: b18a174b2280217af0908d83243db43cbcda940b85634de0c7a70b624daae481
+  content_hash: ed1f5d997b5e0ed08ba2d8aae99014133e33f525334693678a888a2da521ab31
 - kind: tactic
   id: work-package-completion-validation
   path: tactics/work-package-completion-validation.tactic.yaml

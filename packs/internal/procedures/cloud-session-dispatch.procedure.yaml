@@ -36,7 +36,7 @@ steps:
     - test-quality: the test-suite-quality-assessment procedure. Retire a test
       only after re-proving its named covering guard with a planted break. Add
       seam units before trimming end-to-end tests.
-    - feature: ATDD-first for behaviour with a lasting regression risk; real-run or gate evidence for configuration and glue (DIRECTIVE_034), with the canonical mission templates and the ADRs
+    - feature: ATDD-first for behavior with a lasting regression risk; real-run or gate evidence for configuration and glue (DIRECTIVE_034), with the canonical mission templates and the ADRs
       named in the issue.
     - docs: the docs mission patterns and the terminology canon.
 - title: Write the dispatch prompt, with every field filled in

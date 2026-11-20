@@ -510,14 +510,19 @@ edges:
   target: tactic:op-or-mission-selection
   relation: requires
 - source: directive:DIRECTIVE_054
+  target: directive:DIRECTIVE_031
+  relation: suggests
+  when: deciding whether a collaborator is another bounded context that a test may substitute
+  reason: DIRECTIVE_031 defines the bounded context whose published contract is the one domain seam the allow-list opens.
+- source: directive:DIRECTIVE_054
   target: directive:DIRECTIVE_041
   relation: requires
 - source: directive:DIRECTIVE_054
   target: procedure:unfake-an-over-mocked-test
   relation: requires
   when: a test substitutes a collaborator the system under test owns
-  reason: Names the behaviour, draws the boundary, removes the owned doubles, seeds state through the production path and
-    proves the test goes red when the behaviour breaks.
+  reason: Names the behavior, draws the boundary, removes the owned doubles, seeds state through the production path and
+    proves the test goes red when the behavior breaks.
 - source: directive:DIRECTIVE_054
   target: tactic:black-box-integration-testing
   relation: suggests
@@ -528,7 +533,7 @@ edges:
   relation: suggests
 - source: directive:DIRECTIVE_054
   target: tactic:test-boundaries-by-responsibility
-  relation: suggests
+  relation: requires
 - source: directive:DIRECTIVE_054
   target: tactic:test-scaffolding-as-design-smell
   relation: suggests
