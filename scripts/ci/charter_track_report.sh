@@ -44,6 +44,7 @@ for entry in "${failed[@]}"; do
   else
     echo "(the job log could not be read; see the run)"
     tr '`' "'" < "$err" | head -n 5
+    sed "s/^/job $id log: /" "$err" >&2
   fi
   echo '```'
 done
