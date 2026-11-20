@@ -101,6 +101,9 @@ nodes:
 - urn: tactic:ownership-map-leeway
   kind: tactic
   label: Ownership Map Leeway
+- urn: tactic:planning-corpus-consistency
+  kind: tactic
+  label: Planning Corpus Consistency
 - urn: tactic:pr-agent-worktree-isolation
   kind: tactic
   label: PR Agent Worktree Isolation and No-Version Prescription
@@ -110,6 +113,9 @@ nodes:
 - urn: tactic:problem-decomposition
   kind: tactic
   label: Problem Decomposition
+- urn: tactic:product-coherence-review
+  kind: tactic
+  label: Product Coherence Review
 - urn: tactic:quality-gate-verification
   kind: tactic
   label: Quality Gate Verification
@@ -362,6 +368,10 @@ edges:
   relation: suggests
   when: Consult alongside this tactic when delegating work to a subagent — model routing decides *which* model runs the delegated
     work; the autonomous operation protocol decides *how* that agent should behave once dispatched.
+- source: tactic:planning-corpus-consistency
+  target: tactic:product-coherence-review
+  relation: suggests
+  when: The corpus is consistent; judge whether the plan still serves the creation intent
 - source: tactic:pr-agent-worktree-isolation
   target: directive:DIRECTIVE_045
   relation: suggests
@@ -382,6 +392,10 @@ edges:
   relation: suggests
   when: When validating the decomposition — confirm that the stated intent of the initiative is faithfully reflected in the
     sub-problem set, and that the highest-risk sub-problems are explicitly identified before prioritisation begins.
+- source: tactic:product-coherence-review
+  target: tactic:acceptance-criteria-non-vacuity
+  relation: suggests
+  when: A finding turns on whether a work package's acceptance criterion can be met by doing nothing
 - source: tactic:requirement-quality-ears
   target: tactic:acceptance-criteria-non-vacuity
   relation: suggests

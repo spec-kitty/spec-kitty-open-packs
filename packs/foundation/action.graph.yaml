@@ -328,6 +328,12 @@ edges:
   target: directive:DIRECTIVE_033
   relation: scope
 - source: action:software-dev/analyze
+  target: tactic:planning-corpus-consistency
+  relation: scope
+- source: action:software-dev/analyze
+  target: tactic:product-coherence-review
+  relation: scope
+- source: action:software-dev/analyze
   target: tactic:requirement-quality-ears
   relation: scope
 - source: action:software-dev/analyze
