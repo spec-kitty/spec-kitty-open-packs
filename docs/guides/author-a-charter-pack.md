@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets, a governing preset and a policy.yaml.
 doc_status: wip
-updated: '2026-11-18'
+updated: '2026-11-20'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -184,9 +184,8 @@ edges:
 
 Endpoints are `<kind>:<id>`. The fragment is **additive only**. A pack of any level may also carry graph
 shards (`<name>.graph.yaml`). Keep them at the pack root, the one place every charter reads them. The
-pinned release still reads a shard below the root (`drg/<kind>.graph.yaml`) as a graph shard. From
-charter #554 on, the charter no longer models a nested shard, and this repository fails it as
-`unmodelled`.
+charter no longer models a shard below the root (`drg/<kind>.graph.yaml`) or a `charter.yaml`: each
+is warned as `file_not_held`, not held and not judged, and the whole-pack round trip still names it.
 
 ## 5. Ship presets and policy (optional)
 

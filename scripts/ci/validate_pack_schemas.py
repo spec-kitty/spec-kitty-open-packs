@@ -18,8 +18,7 @@ It fails closed. Exit status:
      ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
      ``--derive-manifest PACK`` writes the manifest the charter derives (membership and hashes); with
      ``--derived-manifests`` every validated pack must carry exactly that membership (#255);
-* 1  a schema violation, a retired-layout file, a file no rule models (``unmodelled``: the charter refuses it at
-     registration up to charter #554, and warns it as ``file_not_held`` and leaves it out since) or a file only the ``ignored`` rule takes outside ``NOT_HELD_ALLOWANCES``
+* 1  a schema violation, a retired-layout file or a file only the ``ignored`` rule takes outside ``NOT_HELD_ALLOWANCES``
      (``not_held``) in a pack, an ``--expect-invalid``
      pack that came out clean, or a ``--regenerate-manifest`` pack whose manifest lists a missing file
      (that manifest is left as it was, like the charter's refused write);
@@ -67,7 +66,7 @@ KNOWN_KIND_TOKENS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
         "agent", "asset", "glossary", "skill", "mission-type",
-        "step-enhancement", "graph",
+        "step-enhancement", "graph", "routing-catalog",
     }
 )  # fmt: skip
 
@@ -451,7 +450,8 @@ CONSTITUENT_KIND_BY_SCHEMA = {
     "agent-profile": "agent_profile", "asset": "asset", "directive": "directive",
     "glossary": "glossary", "guard": "guard", "lifecycle": "lifecycle",
     "mission-type": "mission_type", "paradigm": "paradigm",
-    "procedure": "procedure", "skill": "skill", "step-enhancement": "step_enhancement",
+    "procedure": "procedure", "routing-catalog": "routing_catalog", "skill": "skill",
+    "step-enhancement": "step_enhancement",
     "styleguide": "styleguide", "tactic": "tactic", "toolguide": "toolguide",
 }  # fmt: skip
 DERIVE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --derive-manifest"
@@ -868,10 +868,10 @@ def kind_mapped(contract: Contract, token: str) -> bool:
 
     A known kind no rule maps means the contract lost a mapping the mirror expects: the gate cannot judge. A file of a
     mapped kind that its rule does not reach (charter #554: a ``*.graph.yaml`` below the pack root, where only root
-    shards are read; a ``step-enhancement`` outside ``missions/*/enhancements/``) is merely ``unmodelled``.
+    shards are read; a ``step-enhancement`` outside ``missions/*/enhancements/``) is merely ``unmodelled`` (a warning).
 
     Any ``files`` rule ending in ``.<token>.yaml`` counts, however narrow: a contract that kept only a narrow one
-    reports the files it no longer reaches as ``unmodelled`` instead of "cannot judge". Either way the gate is red."""
+    reports the files it no longer reaches as ``unmodelled`` warnings instead of "cannot judge"."""
     return any(rule.match.endswith(f".{token}.yaml") for rule in contract.files)
 
 
@@ -883,7 +883,7 @@ def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     refused as ``retired`` under that rule (FR-022); then the first ``ignored`` rule, matched case-insensitively,
     unless a ``files``, ``retired`` or ``payloads`` rule takes the path in another letter case (``a.guide.MD``).
     What is left is ``unmodelled``: the charter refuses it at registration (up to charter #554) or leaves it out
-    with a ``file_not_held`` warning (since); this repository fails it either way."""
+    with a ``file_not_held`` warning (since); this repository warns it the same way (#309)."""
     kind, rule = _exact(contract, relative)
     if kind != "unmodelled":
         return kind, rule
@@ -1010,10 +1010,10 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
                     and not kind_mapped(contract, tokens[1])):
                 raise GateError(f"{relative}: a `{tokens[1]}` file has no schema mapping in file-kinds.yaml")
             if kind == "unmodelled" and not (fixture and inside in FIXTURE_FILES):
-                # Refused at registration up to charter #554; warned as file_not_held and not held since (ruling Q1).
-                # Either way a pack must not carry it: this repository fails a file the charter leaves out (#451).
-                report.violations.append(f"{relative}: unmodelled: no file-kinds.yaml rule models this file, so the "
-                                         "charter does not hold it (refused, or not held since charter #554)")
+                # Charter #554 ruling Q1: warned as file_not_held, not held and not judged further (#309). The
+                # charter's whole-pack round trip (OpenPacksDriftTest) still names it, so the pack set stays free.
+                report.warnings.append(f"{relative}: file_not_held: not held (no pack file kind models this file)")
+                report.skipped += 1
                 continue
             if kind == "ignored" and rule is not None and not not_held_allowed(relative):
                 report.violations.append(
@@ -1137,7 +1137,7 @@ ARTIFACT_SCHEMAS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
         "agent-profile", "asset", "glossary", "skill",
-        "step-enhancement",
+        "step-enhancement", "routing-catalog",
     }
 )  # fmt: skip
 

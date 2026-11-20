@@ -13,7 +13,7 @@
 #      validates against the schema the contract maps it to, and every asset sidecar names, by a
 #      path relative to assets/, a payload the pack holds. A file is classified as the charter does
 #      (a root case variant of a ruled file is retired; Markdown nothing models falls to `ignored`):
-#      a file no rule models fails as `unmodelled`, and an ignored file other than a README.md note
+#      a file no rule models is warned as `file_not_held` (#309), and an ignored file other than a README.md note
 #      fails as `not_held` (a skill body its skill's body_path names is held as its companion), in
 #      built-in-level packs too, which no registration sees.
 #   2. Non-vacuity: every pack under tests/fixtures/invalid/ must FAIL validation, so a

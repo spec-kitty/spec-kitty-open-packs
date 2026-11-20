@@ -167,22 +167,22 @@ edges:
   relation: requires
 - source: procedure:failing-test-triage
   target: procedure:read-intent-before-high-risk-operation
-  relation: in_tension_with
+  relation: tension
   reason: Failing-test triage deletes a patchwork test on its verdict alone, while the intent check treats deleting a test
     as a high-risk operation that needs explicitly confirmed intent.
 - source: procedure:keep-change-local
   target: procedure:tech-debt-point-cut-triage
-  relation: in_tension_with
+  relation: tension
   reason: Change locality keeps opportunistic cleanup out of functional work, while point-cut triage folds debt matching the
     mission's domain into its scope.
 - source: procedure:keep-change-local
   target: procedure:tidy-first-campsite-clean
-  relation: in_tension_with
+  relation: tension
   reason: Change locality confines edits to files serving the stated goal and requires a rationale for any wider reach, while
     the tidy-first campsite clean deliberately opens its own surfaces for preparatory cleanup before the functional change.
 - source: procedure:keep-change-local
   target: procedure:touched-area-cleanup
-  relation: in_tension_with
+  relation: tension
   reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures
     and minor clutter in every touched file the default.
 - source: procedure:adversarial-squad-deployment

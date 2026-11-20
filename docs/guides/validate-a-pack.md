@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-19'
+updated: '2026-11-20'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -30,8 +30,7 @@ The script fetches the schemas from the charter commit it pins (`commit` in
 Exit codes:
 
 - `0` — every pack passes.
-- `1` — at least one schema violation, a file in a retired layout, a file no rule models
-  (`unmodelled`), or Markdown the charter would not hold outside the allowlist (`not_held`). Each is
+- `1` — at least one schema violation, a file in a retired layout, or Markdown the charter would not hold outside the allowlist (`not_held`). Each is
   printed with the file, and a schema violation with the schema and the location inside the file.
   Fix and re-run.
 - `2` — the validator cannot judge and fails closed: a schema that does not load, a file of a
@@ -53,8 +52,9 @@ repository allows only orientation notes (a `README.md` at any depth) to be carr
 other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place, a skill body no
 skill's `body_path` names) fails as `not_held`. A file a skill's `body_path` names is held as that
 skill's companion, whatever its name. A file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt
-artifact name) fails as `unmodelled`: the charter does not hold it (it refuses it at registration, and
-from charter #554 on it warns it as `file_not_held` and leaves it out). Both checks run on
+artifact name, a shard below the pack root, a `charter.yaml`) is warned as `file_not_held` and not
+held, as the charter does (charter #554, ruling Q1); the whole-pack round trip still names it, so the
+packs here stay free of such files. Both checks run on
 every pack, built-in-level ones included, which no registration sees.
 
 ## What the schemas catch
@@ -66,7 +66,7 @@ every pack, built-in-level ones included, which no registration sees.
 | A DRG fragment with a provenance header, or an edge endpoint that is a bare id rather than `<kind>:<id>` | Violation |
 | A preset in the old shape (`name`, bare id strings, `mission_type_activations`) | Violation |
 | A file in a retired layout (for example `mission.yaml` beside a mission type), or a root case variant of a ruled file (`Readme.md`) | Violation |
-| A file no rule models (`notes.txt`, `x.tactic.yml`) | Violation (`unmodelled`) |
+| A file no rule models (`notes.txt`, `x.tactic.yml`, `drg/tactic.graph.yaml`) | Warning (`file_not_held`), not held |
 | Markdown only the `ignored` rule takes, other than a `README.md` (an orphan skill body included) | Violation (`not_held`) |
 
 The schemas check each file on its own. Composition and registration, which look at packs
@@ -162,12 +162,11 @@ valid through the service, at a pinned charter version). The job:
    registration fails the job and prints its problem and violations. The whole tree is uploaded
    (less a fixture's `expected-code`). A registration holds only files the service models: a retired
    file (`pack.md`, `PROVENANCE.md`, `org-charter.yaml`, or a root case variant of a ruled file) is
-   refused as `retired`, any other file the service does not model is refused as `unmodelled` (from charter
-   #554 on, it is warned as `file_not_held` instead, and the check below fails it all the same), and a
-   file an exclusion or the `ignored` rule takes is left out and reported as a `file_not_held`
+   refused as `retired`, any other file the service does not model is warned as `file_not_held` and
+   left out (charter #554, ruling Q1), and a file an exclusion or the `ignored` rule takes is left out and reported as a `file_not_held`
    diagnostic. Every diagnostic of a succeeded registration is printed as a notice. Each
    `file_not_held` file is classified with the schema validator's mirror of the pinned contract, so
-   both gates apply one policy: a file an exclusion names passes, an `ignored` one passes only if it
+   both gates apply one policy: a file an exclusion names or no rule models passes, an `ignored` one passes only if it
    is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
    mirror has drifted from the pin);
 4. **round-trips every pack** (#252, #284; charter ADR-0070 decision 4, amended 2026-11-13, and ADR-0075

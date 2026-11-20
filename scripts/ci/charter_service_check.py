@@ -348,15 +348,11 @@ def not_held_findings(result: dict[str, Any], pack_name: str, files: set[str], c
         file = max(named, key=len)
         relative = f"{pack_name}/{file}"
         kind, _ = validator.classify(contract, relative)
-        if kind == "excluded" or (kind == "ignored" and validator.not_held_allowed(relative)):
+        # Charter #554 ruling Q1: what no rule models is warned as file_not_held and left out; so here (#309).
+        if kind in ("excluded", "unmodelled") or (kind == "ignored" and validator.not_held_allowed(relative)):
             continue
         if kind == "ignored":
             failures.append(detail)
-        elif kind == "unmodelled":
-            # Charter #554 on: what no rule models is warned as file_not_held and left out, no longer refused. The
-            # mirror agrees; this repository fails such a file all the same (validate-packs.sh does too).
-            failures.append(f"{detail}; unmodelled: no file-kinds.yaml rule models this file, so the charter does "
-                            "not hold it, and this repository fails it")
         else:
             failures.append(f"{detail}; this repository's mirror classifies it as {kind}, not as a file the charter "
                             "leaves out: scripts/ci/validate_pack_schemas.py has drifted from the pin")
