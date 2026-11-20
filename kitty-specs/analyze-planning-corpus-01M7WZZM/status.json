@@ -1,0 +1,101 @@
+{
+  "event_count": 39,
+  "last_event_id": "01M7X32CEAKGBNAH6WNZNRF70A",
+  "materialized_at": "2026-11-20T18:21:30.442142+00:00",
+  "mission_number": "",
+  "mission_slug": "analyze-planning-corpus-01M7WZZM",
+  "mission_type": "",
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 5,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X3282YNDGD4J9QQFV27RE9",
+      "last_transition_at": "2026-11-20T18:21:25.982674+00:00",
+      "review_result": {
+        "reference": "review-cycle://analyze-planning-corpus-01M7WZZM/WP01-analysis-tactics/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2043801,
+      "shell_pid_created_at": "1795196734.71"
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude:sonnet:doctrine-daphne",
+      "force_count": 0,
+      "implementer_of_record": "claude:sonnet:doctrine-daphne",
+      "lane": "done",
+      "last_event_id": "01M7X3295VECHM1AE45M83DWPX",
+      "last_transition_at": "2026-11-20T18:21:27.099144+00:00",
+      "review_result": {
+        "reference": "review-cycle://analyze-planning-corpus-01M7WZZM/WP02-analyze-prompt/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2062992,
+      "shell_pid_created_at": "1795197185.05"
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude:sonnet:doctrine-daphne",
+      "force_count": 0,
+      "implementer_of_record": "claude:sonnet:doctrine-daphne",
+      "lane": "done",
+      "last_event_id": "01M7X32A8TJEG47CZYQ30XN52J",
+      "last_transition_at": "2026-11-20T18:21:28.218955+00:00",
+      "review_result": {
+        "reference": "review-cycle://analyze-planning-corpus-01M7WZZM/WP03-cave-dev-parity/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2062992,
+      "shell_pid_created_at": "1795197185.05"
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude:sonnet:python-pedro",
+      "force_count": 1,
+      "implementer_of_record": "claude:sonnet:python-pedro",
+      "lane": "done",
+      "last_event_id": "01M7X32BB6GS3AWH9EV211WX5Z",
+      "last_transition_at": "2026-11-20T18:21:29.318762+00:00",
+      "review_result": {
+        "reference": "review-cycle://analyze-planning-corpus-01M7WZZM/WP04-analyze-tests/review-cycle-2.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2084461,
+      "shell_pid_created_at": "1795197504.12"
+    },
+    "WP05": {
+      "actor": "merge",
+      "agent": "claude:sonnet:implementer-ivan",
+      "force_count": 0,
+      "implementer_of_record": "claude:sonnet:implementer-ivan",
+      "lane": "done",
+      "last_event_id": "01M7X32CEAKGBNAH6WNZNRF70A",
+      "last_transition_at": "2026-11-20T18:21:30.442142+00:00",
+      "review_result": {
+        "reference": "review-cycle://analyze-planning-corpus-01M7WZZM/WP05-versions-and-changelog/review-cycle-1.md",
+        "reviewer": "claude:opus:reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 2119999,
+      "shell_pid_created_at": "1795198097.79"
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "mission_slug": "analyze-planning-corpus-01M7WZZM",
+  "mission_id": "01M7WZZMH9CY1FZSTP7M2HWASJ",
+  "mission_branch": "kitty/mission-analyze-planning-corpus-01M7WZZM",
+  "target_branch": "t3/analyze-planning-corpus-coherence",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "packs/foundation/action.graph.yaml",
+        "packs/foundation/tactic.graph.yaml",
+        "packs/foundation/tactics/analysis/planning-corpus-consistency.tactic.yaml",
+        "packs/foundation/tactics/analysis/product-coherence-review.tactic.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "app-shell",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "packs/foundation/missions/software-dev/steps/analyze.prompt.md"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-a"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        "packs/cave-kitty/drg/fragment.yaml",
+        "packs/cave-kitty/missions/cave-dev/steps/analyze.prompt.md"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-a"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        "tests/ci/test_analyze_readiness_prompts.py"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-b",
+        "lane-c"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP05"
+      ],
+      "write_scope": [
+        "docs/changelog/CHANGELOG.md",
+        "docs/packs/*.md",
+        "packs/architecture.source.yaml",
+        "packs/architecture/pack.yaml",
+        "packs/built-in.source.yaml",
+        "packs/built-in/pack.yaml",
+        "packs/cave-kitty.source.yaml",
+        "packs/cave-kitty/pack-manifest.yaml",
+        "packs/cave-kitty/pack.yaml",
+        "packs/foundation.source.yaml",
+        "packs/foundation/pack-manifest.yaml",
+        "packs/foundation/pack.yaml",
+        "packs/planning-analysis.source.yaml",
+        "packs/planning-analysis/pack.yaml",
+        "packs/refactoring.source.yaml",
+        "packs/refactoring/pack.yaml",
+        "packs/testing.source.yaml",
+        "packs/testing/pack.yaml",
+        "packs/writing.source.yaml",
+        "packs/writing/pack.yaml",
+        "tests/ci/test_pack_digest.py"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [
+        "lane-b",
+        "lane-c",
+        "lane-d"
+      ],
+      "parallel_group": 3
+    }
+  ],
+  "computed_at": "2026-11-20T17:44:40.489353+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "3bedeefb611fb7c21a7a664ed1b783997ebc2aa9"
+}

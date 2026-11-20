@@ -1,0 +1,78 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-20T17:27:55.542247Z",
+      "decision_id": "01M7X008WPE69RHV2JSR234EQB",
+      "final_answer": "Advisory: capped at MEDIUM, never block; a mandatory Recommendation line (revise spec | revise plan | revise tasks | proceed) is still emitted. Planning-artifact contradictions (#213) keep normal severity. (Operator ruling 2026-11-20.)",
+      "input_key": "coherence_severity",
+      "mission_id": "01M7WZZMH9CY1FZSTP7M2HWASJ",
+      "mission_slug": "analyze-planning-corpus-01M7WZZM",
+      "opened_by": "cli",
+      "options": [
+        "Advisory: capped at MEDIUM, never block",
+        "Normal severity rules (can block)",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "How do product-coherence findings affect severity and the readiness verdict?",
+      "rationale": null,
+      "resolved_at": "2026-11-20T17:27:56.805425Z",
+      "resolved_by": null,
+      "slot_key": "specify.coherence.severity",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-20T17:27:58.074769Z",
+      "decision_id": "01M7X00BBTFW4S3C1V62SZ9YNT",
+      "final_answer": "Fold in: the Step-0 review squad found helpful changes (scenario rows that become S findings, Inferred: placement, test pins); close #247 via this PR. (Operator ruling.)",
+      "input_key": "issue247_fold",
+      "mission_id": "01M7WZZMH9CY1FZSTP7M2HWASJ",
+      "mission_slug": "analyze-planning-corpus-01M7WZZM",
+      "opened_by": "cli",
+      "options": [
+        "Fold helpful #247 changes in; close #247 via the PR",
+        "Close #247 now with evidence",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Does the #247 follow-up fold into this mission?",
+      "rationale": null,
+      "resolved_at": "2026-11-20T17:27:59.370369Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.issue247",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-20T17:28:00.669955Z",
+      "decision_id": "01M7X00DWXNK88D71G5TTP7D9H",
+      "final_answer": "One prompt-only, read-only mission covering #213 + #214 (+ #247 folds). (Operator ruling.)",
+      "input_key": "mission_shape",
+      "mission_id": "01M7WZZMH9CY1FZSTP7M2HWASJ",
+      "mission_slug": "analyze-planning-corpus-01M7WZZM",
+      "opened_by": "cli",
+      "options": [
+        "One prompt-only read-only mission covering both",
+        "Two missions",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "One mission or separate missions for #213 and #214?",
+      "rationale": null,
+      "resolved_at": "2026-11-20T17:28:01.960205Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.mission_shape",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M7WZZMH9CY1FZSTP7M2HWASJ",
+  "version": 1
+}
