@@ -304,7 +304,7 @@ Rows in this order: accepted, rejected, missing edge, surprising accepted, surpr
 
 **Intent & Planning-Artifact Consistency:** the inventory entries read (and `meta.json` fields absent), then the `X` findings grouped by artifact. With no planning artifacts beyond spec, plan and tasks, say so.
 
-**Product Coherence:** the creation intent in one line, the `M` findings, then exactly one line: `Recommendation: revise spec | revise plan | revise tasks | proceed` - choose one. Weigh every finding in the report: never `proceed` while the verdict is `blocked`. Owners: spec.md and meta.json -> spec; plan.md, research, data-model, contracts, quickstart and decisions -> plan; tasks.md, WP prompts, `V` and `W` findings -> tasks. Verdict `blocked`: revise the owner of the first HIGH or CRITICAL finding in table order (a `V` finding the CLI could not run -> revise tasks). Verdict `ready`: proceed, unless an `M` finding or a MEDIUM finding exists; then revise the owner of the first such finding in table order.
+**Product Coherence:** the creation intent in one line, the `M` findings, then exactly one line: `Recommendation: revise spec | revise plan | revise tasks | proceed` - choose one. Weigh every finding in the report: never `proceed` while the verdict is `blocked`. Owners by category first: `C`, `V` and `W` -> tasks; `M` -> the owner of its first cited location; others by first cited location: spec.md and meta.json -> spec; plan.md and every other planning artifact (research, data-model, contracts, quickstart, checklists, decisions, occurrence_map.yaml) -> plan; tasks.md and WP prompts -> tasks; a charter (`K`) finding -> the owner of the other artifact it cites, else plan. Verdict `blocked`: revise the owner of the first HIGH or CRITICAL finding in table order. Verdict `ready`: proceed, unless an `M` finding of MEDIUM severity exists; then revise the owner of the first such finding in table order (a LOW `M` finding or an ordinary MEDIUM finding of another category does not force a revise).
 
 **Clarification Questions:** one entry per HIGH or CRITICAL ambiguity or requirement-quality finding without a concrete remediation: the finding id, the question, two to four choices with their implications, and the recommended choice.
 
@@ -389,7 +389,7 @@ report whenever any of those inputs change. Editing any other planning artifact 
 At end of report, output a concise Next Actions block:
 
 - If CRITICAL issues exist: Recommend resolving before `/implement`
-- A finalize-validation refusal or stale finalization: name `/spec-kitty.tasks-finalize` (after fixing the artifacts it names); a validation that could not run: name the CLI upgrade or the `--mission` handle fix
+- A finalize-validation refusal or stale finalization: name `/spec-kitty.tasks-finalize` (after fixing the artifacts it names); a validation that could not run: name the CLI upgrade or the `--mission` handle fix; when the first blocking finding is a could-not-run `V`, name that CLI fix first
 - A WP-prompt blocker: name the WP and what it lacks
 - Repeat the Product Coherence recommendation line and name the artifact to revise, chosen by the owner rule above
 - If only LOW/MEDIUM: the verdict is ready; follow the Product Coherence recommendation (proceed, or the artifact it names to revise)
