@@ -262,6 +262,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **`/spec-kitty.analyze` reviews the whole planning corpus and product coherence** (#213, #214,
+  #247; epic #244). Before, the software-dev `analyze` step read only the spec, the plan, the tasks
+  and the WP prompts. Now it also does the following.
+  - It reads every artifact the `check-prerequisites` inventory lists (the feature directory itself
+    excluded), the `meta.json` creation intent and `occurrence_map.yaml`, headings first. Pass H
+    (`X` findings, tactic `planning-corpus-consistency`) reports decisions in `plan.md` that no task
+    implements, gaps between the data model, the contracts and the quickstart, and work no artifact
+    grounds. These findings keep their normal severity.
+  - Pass J (`M` findings, tactic `product-coherence-review`) judges intent drift, the MVP slice, the
+    vertical slice, overbuild, lost scenarios, sequencing and grouping. Its findings are capped at
+    MEDIUM, so they never block the verdict. The step ends in one `Recommendation:` line (`revise
+    spec`, `revise plan`, `revise tasks` or `proceed`); the line names the owner of the most severe
+    finding.
+  - The #247 review folds: only scenario rows with a missing edge or a surprising outcome become
+    `S` findings (Finding column, fixed order). `Inferred:` placement is stated, and a rule that
+    was duplicated and untestable is folded into one. Tests pin the #247 content.
+
+  cave-kitty's `cave-dev` analyze step names the same checks. The analyze step still changes nothing
+  but `analysis-report.md`, and the only `finalize-tasks` form it names is `--validate-only`.
+  The change is additive (DIRECTIVE_018).
+  **Versions:** `foundation`, `writing`, `testing`, `refactoring`, `architecture` and
+  `planning-analysis` 3.2.0 → 3.3.0 with the exact pins following, `built-in` 5.2.0 → 5.3.0 and
+  `cave-kitty` 2.3.0 → 2.4.0. The `foundation` range in `cave-kitty` tightened from `>=2.0,<4` to
+  `>=3.3,<4`, because its fragment now scopes tactics that exist only from foundation 3.3.0.
+  **What to do:** nothing in your packs. A consumer that pins `cave-kitty` 2.4.0 needs `foundation`
+  3.3.0 or later.
 - **Tests may mock only at the responsibility boundary** (#216). A new `foundation` `DIRECTIVE_054`
   holds the allow-list of seams a test may substitute; collaborators the code owns run for real. The
   new `unfake-an-over-mocked-test` procedure turns an over-mocked test into one that does. Both load
