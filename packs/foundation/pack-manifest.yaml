@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 75d85d71089a45a129635ffd7347be18320b345934f6884847b7450eb98f3753
+manifest_hash: 588dbea55a5decc47ee70f6585237640146cc31c1b4675b1e5294509f8f58085
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -72,7 +72,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 31692ad881a4924186dc06ee1e067017d1bf1cec1e571a42ab9f5ec824de0ecf
+  content_hash: 747d0919b8f4d48df6324cd60d97cef0f7a45156d6042aa1eef98def5170b926
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -604,7 +604,7 @@ constituents:
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml
-  content_hash: 9df694243b2ed1d7318e5aef1295a792d0ab84fce105462027f7a72e1ba0d6e8
+  content_hash: 1ea97dd5d415e29172001dc7e53c1bcb6ed6d7381fecc442bb545e1558dd9db0
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
