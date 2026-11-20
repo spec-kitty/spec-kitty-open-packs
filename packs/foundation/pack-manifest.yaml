@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 588dbea55a5decc47ee70f6585237640146cc31c1b4675b1e5294509f8f58085
+manifest_hash: 33f524906dd3b5261a7945c9ddd040940d4b4c31738fadb7bd174ce908f55d80
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -140,7 +140,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_054
   path: directives/054-mock-only-at-the-responsibility-boundary.directive.yaml
-  content_hash: 29306f3ddedab639e2b3022bb32874666a16e5e4792c216d14ed7477a56072cf
+  content_hash: 5af9f5bb67ad57a6c568a1ff3f26577e1adc6929c425ca400ec2484077607830
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml

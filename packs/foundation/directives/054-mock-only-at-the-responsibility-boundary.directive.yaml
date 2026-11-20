@@ -22,7 +22,7 @@ scope: >
 integrity_rules:
   - "The allow-list is exhaustive. A test may substitute only: another domain or
     bounded context (a domain-contract seam); the filesystem; a database; the
-    network and external APIs or services; the clock; randomness; git and other
+    network to external APIs or services the system does not own; the clock; randomness; git and other
     processes or subprocesses the system under test does not own (a subprocess
     that runs the system's own code is owned logic); sending a hook or notification (an outbound
     message whose delivery is outside the system under test); and schema-only
@@ -30,6 +30,7 @@ integrity_rules:
     carrying no rule of the behavior under test (a validation rule the behavior
     depends on runs for real). Everything else inside the boundary runs for
     real."
+  - "A seam is allow-listed by what sits behind it, not by the transport: code the system under test owns, reached over the network or run as a subprocess, runs for real; another bounded context is reached through its published contract (DIRECTIVE_031)."
   - "Another domain or bounded context (DIRECTIVE_031) has its own model and is
     reached only through a published contract: an API, a port interface or a
     message schema. A sibling module, package or class that shares the model is
