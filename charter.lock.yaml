@@ -4,11 +4,12 @@
 #   - scripts/ci/validate_pack_schemas.py fetches the pack schemas (contracts/packs/) at `commit`;
 #   - the "Charter service validation" job builds, or downloads, the charter service for the same
 #     `commit` and asks it to compose and register every pack (scripts/ci/charter_service_check.py).
-#   - the same job runs the charter's whole-pack round trip (`:pack-validation:driftTest`) over every pack from the
-#     source at `commit` (scripts/ci/charter_drift_test.sh), whatever the pin's form.
+#   - the same job gates every pack on the charter's whole-pack check, pack-check (each pack, the closure and the
+#     round trip; #252): the release's pack-check jar on a release pin, built from `commit` on a main pin
+#     (scripts/ci/charter_pack_check_jar.sh, scripts/ci/charter_pack_check.py).
 #
 # Pin policy (operator ruling, 2026-11-18): pin a charter release or pre-release tag by default; pin
-# charter `main` HEAD (a commit, with `release_tag` and `jar_sha256` empty) only on demand.
+# charter `main` HEAD (a commit, with `release_tag` and both digests empty) only on demand.
 # .github/workflows/charter-track.yml (#253) proposes each newer release as one bump pull request, written
 # by scripts/ci/charter_pin.py apply, and runs the same checks against charter `main` on demand.
 #
@@ -22,6 +23,11 @@
 # jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters,
 #              as the release's `.sha256` asset states it; empty while `release_tag` is empty. The job
 #              refuses a jar with any other digest.
+# pack_check_sha256
+#              the SHA-256 of the same release's `pack-check-<version>.jar` (#252), as its `.sha256` asset
+#              states it; set with `release_tag`, empty while it is. The job refuses a jar with any other
+#              digest. Releases before `service-v0.1.0-rc.3` ship no pack-check, so cannot be pinned.
 commit: 33f3ad46e9e33e895d4cd3a077d928d91b4f025f
 release_tag: ""
 jar_sha256: ""
+pack_check_sha256: ""

@@ -5,9 +5,9 @@ The PR gate, the scheduled release run and the on-demand run share this tool and
 (``.github/workflows/validate-packs.yml``); only the target differs::
 
     python3 scripts/ci/charter_pin.py newest-release        # the newest service-v* release or pre-release
-    python3 scripts/ci/charter_pin.py resolve-release TAG   # its commit and the jar digest its .sha256 asset states
+    python3 scripts/ci/charter_pin.py resolve-release TAG   # its commit and the digests its two .sha256 assets state
     python3 scripts/ci/charter_pin.py resolve-ref REF       # a branch, tag, pull/N/head or commit of the charter
-    python3 scripts/ci/charter_pin.py apply --commit C [--release-tag T --jar-sha256 S]
+    python3 scripts/ci/charter_pin.py apply --commit C [--release-tag T --jar-sha256 S --pack-check-sha256 P]
     python3 scripts/ci/charter_pin.py at-or-past TAG        # exit 0 when the lock's release_tag is TAG or later
     python3 scripts/ci/charter_pin.py changelog --release-tag T --commit C --previous P --date YYYY-MM-DD
     python3 scripts/ci/charter_pin.py commit-payload --branch B --head-oid OID --headline TEXT
@@ -18,7 +18,7 @@ pre-releases, which count here. It prints ``newer=true`` only when the newest ta
 version precedence, than the lock's ``release_tag``; a lock without one (a charter ``main`` pin, taken on
 demand) is left alone, ``newer=false``, so the scheduled run never replaces a deliberate main pin.
 
-``apply`` writes the three pin values into the lock (comments kept), then re-derives what the pin decides
+``apply`` writes the four pin values into the lock (comments kept), then re-derives what the pin decides
 here: every pack's ``pack-manifest.yaml`` (the derived membership and hashes, against the target's contract),
 every ``packs/<name>.source.yaml`` digest and the generated pack pages. The checks then judge the tree a bump
 pull request would carry. ``commit-payload`` prints the ``createCommitOnBranch`` input for the working tree's
@@ -130,9 +130,15 @@ def tag_commit(tag: str) -> str:
     return commit
 
 
-def jar_digest(tag: str) -> str:
+#: The two jars of a ``service-v<version>`` release the lock pins, each beside a ``<jar>.sha256`` asset.
+SERVICE_JAR = "spec-kitty-charter-service-{version}.jar"
+PACK_CHECK_JAR = "pack-check-{version}.jar"  # the pack-check CLI (#252), on every release from service-v0.1.0-rc.3
+
+
+def jar_digest(tag: str, jar: str = SERVICE_JAR) -> str:
+    """The SHA-256 a release's ``<jar>.sha256`` asset states for ``jar`` (a template taking ``{version}``)."""
     version = tag.removeprefix("service-v")
-    asset = f"spec-kitty-charter-service-{version}.jar.sha256"
+    asset = f"{jar.format(version=version)}.sha256"
     text = _request(f"https://github.com/{REPOSITORY}/releases/download/{tag}/{asset}", api=False).decode("utf-8")
     fields = text.split()
     if not fields or not charter_lock.SHA256.fullmatch(fields[0]):
@@ -162,8 +168,8 @@ def resolve_ref(ref: str) -> str:
 
 # ------------------------------------------------------------------------------------------------ apply
 
-def write_lock(commit: str, release_tag: str, jar_sha256: str) -> None:
-    """Set the three pin values in ``charter.lock.yaml``, comments kept. The new text is checked with the lock's own
+def write_lock(commit: str, release_tag: str, jar_sha256: str, pack_check_sha256: str = "") -> None:
+    """Set the four pin values in ``charter.lock.yaml``, comments kept. The new text is checked with the lock's own
     rules before it is written, so a refused pin leaves the lock as it was."""
     if not charter_lock.COMMIT.fullmatch(commit):
         raise PinError(f"commit must be 40 lowercase hex characters, got {commit!r}")
@@ -171,12 +177,15 @@ def write_lock(commit: str, release_tag: str, jar_sha256: str) -> None:
         raise PinError(f"release_tag must be empty or service-vX.Y.Z[-pre], got {release_tag!r}")
     if jar_sha256 and not charter_lock.SHA256.fullmatch(jar_sha256):
         raise PinError(f"jar_sha256 must be empty or 64 lowercase hex characters, got {jar_sha256!r}")
-    values = {"commit": commit, "release_tag": release_tag, "jar_sha256": jar_sha256}
+    if pack_check_sha256 and not charter_lock.SHA256.fullmatch(pack_check_sha256):
+        raise PinError(f"pack_check_sha256 must be empty or 64 lowercase hex characters, got {pack_check_sha256!r}")
+    values = {"commit": commit, "release_tag": release_tag, "jar_sha256": jar_sha256,
+              "pack_check_sha256": pack_check_sha256}
     lock_file = charter_lock.LOCK_FILE
     lines = lock_file.read_text(encoding="utf-8").splitlines(keepends=True)
     seen: set[str] = set()
     for index, line in enumerate(lines):
-        match = re.match(r"(commit|release_tag|jar_sha256):", line)
+        match = re.match(r"(commit|release_tag|jar_sha256|pack_check_sha256):", line)
         if match:
             key = match.group(1)
             seen.add(key)
@@ -190,7 +199,7 @@ def write_lock(commit: str, release_tag: str, jar_sha256: str) -> None:
     except charter_lock.LockError as error:
         raise PinError(f"the lock: {error}") from error
     # The destination is the module constant charter_lock.LOCK_FILE, never a path taken from input; the text is the
-    # tracked lock with three values that matched the lock's own patterns above, and it was just checked by
+    # tracked lock with four values that matched the lock's own patterns above, and it was just checked by
     # charter_lock.check. SonarCloud's S2083 reads the lock's content as tainted (PR #308): a false positive.
     lock_file.write_text(text, encoding="utf-8")  # NOSONAR
 
@@ -234,7 +243,7 @@ def changelog_entry(release_tag: str, commit: str, previous: str, date: str, pat
     entry = [
         f"- **The packs are pinned to charter release `{release_tag}`** (#253, opened by `charter-track.yml`).",
         f"  `charter.lock.yaml` moves from `{previous or 'a main pin'}` to `{release_tag}`, its commit",
-        f"  `{commit}` and the jar digest its `.sha256` asset states. Every pack manifest, digest and pack",
+        f"  `{commit}` and the digests its service and pack-check `.sha256` assets state. Every pack manifest, digest and pack",
         "  page is re-derived at the new pin; the scheduled run proved the whole gate green on that tree.",
     ]
     heading = next((i for i in range(start + 1, end) if lines[i] == CHANGED), None)
@@ -296,6 +305,7 @@ def main(argv: list[str] | None = None) -> int:
     apply.add_argument("--commit", required=True)
     apply.add_argument("--release-tag", default="")
     apply.add_argument("--jar-sha256", default="")
+    apply.add_argument("--pack-check-sha256", default="")
     sub.add_parser("at-or-past", help="exit 0 when the lock's release is TAG or later, 1 when not").add_argument("tag")
     log = sub.add_parser("changelog", help="record the bump in the changelog's Unreleased section")
     log.add_argument("--release-tag", required=True)
@@ -319,11 +329,12 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "resolve-release":
             if not VERSION.fullmatch(args.tag):
                 raise PinError(f"{args.tag!r} is not a service-v* tag")
-            _emit(commit=tag_commit(args.tag), release_tag=args.tag, jar_sha256=jar_digest(args.tag))
+            _emit(commit=tag_commit(args.tag), release_tag=args.tag, jar_sha256=jar_digest(args.tag),
+                  pack_check_sha256=jar_digest(args.tag, PACK_CHECK_JAR))
         elif args.command == "resolve-ref":
-            _emit(commit=resolve_ref(args.ref), release_tag="", jar_sha256="")
+            _emit(commit=resolve_ref(args.ref), release_tag="", jar_sha256="", pack_check_sha256="")
         elif args.command == "apply":
-            write_lock(args.commit, args.release_tag, args.jar_sha256)
+            write_lock(args.commit, args.release_tag, args.jar_sha256, args.pack_check_sha256)
             rederive()
         elif args.command == "at-or-past":
             current = charter_lock.read()["release_tag"]
