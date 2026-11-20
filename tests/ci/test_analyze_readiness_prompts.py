@@ -1,14 +1,23 @@
-"""Pin the analyze step's readiness invariants (#246, #237, #247).
+"""Pin the analyze step's readiness invariants (#246, #237, #247, #213, #214).
 
 The analyze step must stay read-only: the only `finalize-tasks` form it may
 instruct is `--validate-only`, behind a CLI version gate. A prompt edit could
 silently reintroduce a writing finalize command, so this test guards it, with
 a positive control proving the check can see one.
+
+The planning-corpus (#213) and product-coherence (#214) passes are pinned too:
+inputs, tactics, graph wiring, finding-id prefixes, section order, the MEDIUM
+cap and the recommendation line. New tests are tagged in their docstrings:
+"red-first" (new contract, fails on the pre-change prompts), "ratchet"
+(pins content that already existed, so it passes by design and stops a silent
+deletion) or "control" (a positive control on synthetic text: it proves a
+check can see what it guards, so it passes on any prompt version). Every absence check has a positive control on synthetic text.
 """
 
 from __future__ import annotations
 
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -25,6 +34,22 @@ VERSION_GATE = "3.1.0a5"
 QUALITY_TACTIC = "requirement-quality-ears"
 WP_TACTIC = "wp-prompt-readiness-review"
 MAX_ANALYZE_LINES = 500
+MAX_CAVE_ANALYZE_LINES = 90
+CORPUS_TACTIC = "planning-corpus-consistency"
+COHERENCE_TACTIC = "product-coherence-review"
+RECOMMENDATION = "Recommendation: revise spec | revise plan | revise tasks | proceed"
+ACTION_GRAPH = ROOT / "packs" / "foundation" / "action.graph.yaml"
+CAVE_FRAGMENT = ROOT / "packs" / "cave-kitty" / "drg" / "fragment.yaml"
+OLD_PREFIXES = {
+    "D": "duplication", "B": "ambiguity", "U": "underspecification", "K": "charter", "C": "coverage",
+    "I": "inconsistency", "V": "finalize-validation", "W": "wp-readiness", "Q": "requirement-quality", "S": "scenario",
+}
+SECTION_LEADS = (
+    "**Finalize Validation:**", "**Per-WP Readiness:**", "**Requirement Quality:**", "**Scenario Audit:**",
+    "**Intent & Planning-Artifact Consistency:**", "**Product Coherence:**", "**Clarification Questions:**",
+    "**Coverage Summary Table:**", "**Residual Risk:**",
+)
+_PREFIX_ROW = re.compile(r"^\|\s*([A-Z])\s*\|\s*([\w-]+)\s*\|\s*([A-Z])\s*\|\s*([\w-]+)\s*\|\s*$")
 
 # A finalize command: the full CLI form, or `run` followed by a bare `finalize-tasks`.
 _COMMAND = re.compile(r"spec-kitty\s+agent\s+mission\s+finalize-tasks\b|\brun\s+`?finalize-tasks\b", re.IGNORECASE)
@@ -160,6 +185,271 @@ class AnalyzeReadinessContentTest(unittest.TestCase):
             with self.subTest(tactic=tactic_id):
                 data = yaml.safe_load((TACTICS / f"{tactic_id}.tactic.yaml").read_text(encoding="utf-8"))
                 self.assertEqual(data["id"], tactic_id)
+
+
+def read(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def section(text: str, start: str, end: str) -> str:
+    """Text from the `start` marker up to (excluding) the next `end` marker."""
+    begin = text.index(start)
+    return text[begin : text.index(end, begin + len(start))]
+
+
+def prefix_pairs(text: str) -> list[tuple[str, str]]:
+    """Every (prefix, category) pair from the two-column-pair finding-id table."""
+    pairs = []
+    for line in text.splitlines():
+        match = _PREFIX_ROW.match(line)
+        if match:
+            pairs += [(match[1], match[2]), (match[3], match[4])]
+    return pairs
+
+
+def coherence_capped(severity_text: str) -> bool:
+    """True when every product-coherence line is MEDIUM/LOW and none sits under HIGH or CRITICAL."""
+    lines = [ln for ln in severity_text.splitlines() if "product-coherence" in ln.lower()]
+    if not lines:
+        return False
+    for line in lines:
+        if re.match(r"\s*-\s*\*\*(?:HIGH|CRITICAL)\*\*", line):
+            return False
+    return any("never higher" in ln for ln in lines) and all("MEDIUM" in ln for ln in lines)
+
+
+def graph_edges(path: Path) -> set[tuple[str, str, str]]:
+    return {(e["source"], e["target"], e["relation"]) for e in yaml.safe_load(read(path))["edges"]}
+
+
+def load_tactic(tactic_id: str) -> dict:
+    return yaml.safe_load(read(TACTICS / f"{tactic_id}.tactic.yaml"))
+
+
+class PlanningCorpusContractTest(unittest.TestCase):
+    def test_corpus_inputs_are_named(self) -> None:
+        """red-first: the analyze prompt names the corpus inputs, headings first."""
+        text = read(ANALYZE)
+        for name in ("artifact_files", "artifact_dirs", "feature_dir", "meta.json", "purpose_tldr",
+                     "purpose_context", "source_description", "occurrence_map.yaml"):
+            with self.subTest(name=name):
+                self.assertIn(name, text)
+        self.assertIn("headings first", text.lower())
+
+    def test_both_tactics_cited_in_both_prompts(self) -> None:
+        """red-first: both prompts cite both new tactics in the fetch form."""
+        for path in (ANALYZE, CAVE_ANALYZE):
+            for tactic_id in (CORPUS_TACTIC, COHERENCE_TACTIC):
+                with self.subTest(path=path.relative_to(ROOT), tactic=tactic_id):
+                    self.assertIn(f"--include tactic:{tactic_id}", read(path))
+
+    def test_tactic_files_parse_with_id_and_steps(self) -> None:
+        """red-first: both new tactic files exist, parse, carry id == stem and steps."""
+        for tactic_id in (CORPUS_TACTIC, COHERENCE_TACTIC):
+            with self.subTest(tactic=tactic_id):
+                data = load_tactic(tactic_id)
+                self.assertEqual(data["id"], tactic_id)
+                self.assertTrue(data["steps"])
+
+    def test_tactic_content_names_its_concepts(self) -> None:
+        """red-first: the tactics carry the concepts the prompts delegate to them."""
+        expected = {
+            CORPUS_TACTIC: ("feature_dir", "meta.json", "occurrence_map.yaml", "research", "decision",
+                            "data model", "contracts", "quickstart", "ungrounded"),
+            COHERENCE_TACTIC: ("MVP", "vertical slice", "scaffolding", "overbuild", "sequencing", "Inferred:",
+                               "revise spec", "revise plan", "revise tasks", "proceed"),
+        }
+        for tactic_id, words in expected.items():
+            text = read(TACTICS / f"{tactic_id}.tactic.yaml").lower()
+            for word in words:
+                with self.subTest(tactic=tactic_id, word=word):
+                    self.assertIn(word.lower(), text)
+
+    def test_graph_wires_both_tactics_to_analyze(self) -> None:
+        """red-first: scope edges from each analyze action to both tactics, parsed from YAML."""
+        cases = ((ACTION_GRAPH, "action:software-dev/analyze", "tactic:"),
+                 (CAVE_FRAGMENT, "action:cave-dev/analyze", "foundation::tactic:"))
+        for path, source, target_prefix in cases:
+            edges = graph_edges(path)
+            for tactic_id in (CORPUS_TACTIC, COHERENCE_TACTIC):
+                with self.subTest(path=path.name, tactic=tactic_id):
+                    self.assertIn((source, f"{target_prefix}{tactic_id}", "scope"), edges)
+
+    def test_graph_parser_positive_control(self) -> None:
+        """control: graph_edges detects edges present in a synthetic graph and not absent ones."""
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "graph.yaml"
+            path.write_text(
+                "edges:\n  - source: action:x/analyze\n    target: tactic:t1\n    relation: scope\n",
+                encoding="utf-8",
+            )
+            edges = graph_edges(path)
+        self.assertIn(("action:x/analyze", "tactic:t1", "scope"), edges)
+        self.assertNotIn(("action:x/analyze", "tactic:t2", "scope"), edges)
+
+    def test_prefix_table_has_twelve_distinct_prefixes(self) -> None:
+        """red-first: X and M join the ten existing prefixes; table parsed, not substring-matched."""
+        pairs = prefix_pairs(read(ANALYZE))
+        table = dict(pairs)
+        self.assertEqual(len(pairs), 12)
+        self.assertEqual(len(table), 12)
+        self.assertEqual(table["X"], "planning-artifact")
+        self.assertEqual(table["M"], "product-coherence")
+        for prefix, category in OLD_PREFIXES.items():
+            with self.subTest(prefix=prefix):
+                self.assertEqual(table[prefix], category)
+
+    def test_prefix_parser_positive_control(self) -> None:
+        """control: the parser extracts both columns, and skips the header and separator rows."""
+        synthetic = "| Prefix | Category | Prefix | Category |\n|---|---|---|---|\n| A | alpha | B | beta |\n"
+        self.assertEqual(prefix_pairs(synthetic), [("A", "alpha"), ("B", "beta")])
+
+    def test_pass_labels_skip_i(self) -> None:
+        """red-first: passes H and J exist as headings, and there is no pass I heading."""
+        text = read(ANALYZE)
+        self.assertRegex(text, r"(?m)^#### H\. Intent & Planning-Artifact Consistency$")
+        self.assertRegex(text, r"(?m)^#### J\. Product Coherence$")
+        self.assertIsNone(re.search(r"(?m)^#### I\.", text))
+
+    def test_pass_label_check_positive_control(self) -> None:
+        """control: the pass-I heading regex does see an `#### I.` heading when one is present."""
+        self.assertIsNotNone(re.search(r"(?m)^#### I\.", "#### H. x\n#### I. Oops\n#### J. y\n"))
+
+    def test_report_sections_in_order(self) -> None:
+        """red-first: the report section leads appear in the fixed order, strictly increasing."""
+        text = read(ANALYZE)
+        indices = [text.index(lead) for lead in SECTION_LEADS]
+        self.assertEqual(indices, sorted(set(indices)))
+
+    def test_id_ordering_and_one_defect_rule(self) -> None:
+        """red-first: ids are ordered through H, J and the earliest step owns a defect."""
+        text = read(ANALYZE)
+        self.assertIn("passes A-G, H, J", text)
+        self.assertIn("The earliest step that detects a defect owns it", text)
+        self.assertIn("**One defect, one finding.**", text)
+
+
+class SeverityAndRecommendationTest(unittest.TestCase):
+    def severity_block(self) -> str:
+        return section(read(ANALYZE), "### 5. Severity Assignment", "### 6.")
+
+    def test_recommendation_literal_in_both_prompts(self) -> None:
+        """red-first: the whole recommendation line, never the bare word, is in both prompts."""
+        for path in (ANALYZE, CAVE_ANALYZE):
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertIn(RECOMMENDATION, read(path))
+
+    def test_coherence_is_capped_at_medium(self) -> None:
+        """red-first: severity section caps product-coherence findings at MEDIUM or LOW."""
+        self.assertTrue(coherence_capped(self.severity_block()))
+
+    def test_cap_helper_positive_control(self) -> None:
+        """control: a block that is otherwise valid but lists product-coherence under HIGH or CRITICAL is rejected."""
+        for tier in ("HIGH", "CRITICAL"):
+            with self.subTest(tier=tier):
+                # Carries MEDIUM and "never higher" on the product-coherence line, so only the tier check can fail it.
+                bad = f"- **{tier}**: product-coherence finding, MEDIUM or LOW elsewhere, never higher\n"
+                self.assertFalse(coherence_capped(bad))
+        good = "- **Product-coherence findings** are MEDIUM or LOW, never higher\n"
+        self.assertTrue(coherence_capped(good))
+        self.assertFalse(coherence_capped("- **MEDIUM**: terminology drift\n"))
+
+    def test_planning_artifact_keeps_normal_severity(self) -> None:
+        """red-first: a planning-artifact contradiction is HIGH, so X findings are not capped like M."""
+        high = [ln for ln in self.severity_block().splitlines() if re.match(r"\s*-\s*\*\*HIGH\*\*", ln)]
+        self.assertTrue(any("planning-artifact" in ln for ln in high))
+        self.assertFalse(any("product-coherence" in ln.lower() for ln in high))
+
+    def test_normal_severity_check_positive_control(self) -> None:
+        """control: the HIGH-line filter finds a planning-artifact line when one is present, and not otherwise."""
+        sample = "- **HIGH** also: a planning-artifact contradiction\n- **MEDIUM**: planning-artifact drift\n"
+        high = [ln for ln in sample.splitlines() if re.match(r"\s*-\s*\*\*HIGH\*\*", ln)]
+        self.assertEqual(len(high), 1)
+        self.assertTrue(any("planning-artifact" in ln for ln in high))
+
+    def test_verdict_rule_unchanged(self) -> None:
+        """ratchet: any high or critical finding still means blocked."""
+        self.assertRegex(read(ANALYZE), r"any `high` or `critical` finding\s*->\s*`blocked`")
+
+    def test_inferred_carrier_and_v_exemption(self) -> None:
+        """red-first: Inferred: sits in the carrier summary and the table Summary cell; V never carries it."""
+        line = next(ln for ln in read(ANALYZE).splitlines() if "starts with `Inferred:`" in ln)
+        self.assertIn("carrier `summary`", line)
+        self.assertIn("table Summary cell", line)
+        self.assertRegex(line, r"`V` finding .*never carries the label")
+
+
+class ReportFormatAndParityTest(unittest.TestCase):
+    """New report-format contract (red-first): table layout, FR-018 nits and cave-dev parity."""
+
+    def test_scenario_audit_table_and_ascii_marker(self) -> None:
+        """red-first: Finding column, ASCII `-` marker, and only the gap rows become S findings."""
+        self.assertRegex(read(ANALYZE), r"Only missing-edge, surprising-accepted and surprising-rejected\b.*`S` findings")
+        rule = section(read(ANALYZE), "**Scenario Audit:**", "**Clarification Questions:**")
+        self.assertIn("| Kind | Scenario | Location | Finding |", rule)
+        self.assertIn("Finding is the `S` id, or `-` for accepted and rejected rows", rule)
+
+    def test_example_row_uses_lowercase_category(self) -> None:
+        """red-first: the example table row uses the lowercase category `duplication` (FR-018)."""
+        rows = [ln for ln in read(ANALYZE).splitlines() if ln.startswith("| D1 |")]
+        self.assertEqual(len(rows), 1)
+        self.assertIn("| duplication |", rows[0])
+
+    def test_high_line_drops_old_acceptance_criterion_wording(self) -> None:
+        """red-first: the step-5 HIGH line no longer says "untestable acceptance criterion" (FR-018)."""
+        block = section(read(ANALYZE), "### 5. Severity Assignment", "### 6.")
+        self.assertNotIn("untestable acceptance criterion", block)
+        self.assertIn("untestable or ambiguous requirement", block)  # control: the block is the right one
+
+    def test_cave_prompt_parity(self) -> None:
+        """red-first: the cave-dev prompt names X, M, both tactics, the recommendation and feature_dir."""
+        text = read(CAVE_ANALYZE)
+        for needle in ("`X`", "`M`", CORPUS_TACTIC, COHERENCE_TACTIC, RECOMMENDATION, "feature_dir"):
+            with self.subTest(needle=needle):
+                self.assertIn(needle, text)
+
+
+class ExistingContentRatchetTest(unittest.TestCase):
+    """The #247 content the Step-0 squad found deletable without a failing test."""
+
+    def test_section_headings_present(self) -> None:
+        """ratchet: Requirement Quality, Scenario Audit and Clarification Questions sections stay."""
+        text = read(ANALYZE)
+        for lead in ("**Requirement Quality:**", "**Scenario Audit:**", "**Clarification Questions:**"):
+            with self.subTest(lead=lead):
+                self.assertIn(lead, text)
+
+    def test_scenario_audit_kinds_in_order(self) -> None:
+        """ratchet: the five scenario kinds stay, in order."""
+        text = read(ANALYZE)
+        bullet = next(ln for ln in text.splitlines() if "scenario audit in five kinds" in ln)
+        kinds = ["accepted", "rejected", "missing edge", "surprising accepted", "surprising rejected"]
+        positions = [bullet.index(k) for k in kinds]
+        self.assertEqual(positions, sorted(positions))
+
+    def test_clarification_choices_rule(self) -> None:
+        """ratchet: two to four choices, or a concrete remediation, for HIGH/CRITICAL findings."""
+        text = read(ANALYZE)
+        self.assertIn("two to four concrete choices", text)
+        self.assertIn("or a concrete remediation", text)
+        self.assertRegex(text, r"every HIGH or CRITICAL ambiguity or requirement-quality finding")
+
+    def test_inferred_label_in_both_prompts(self) -> None:
+        """ratchet: the Inferred: label stays in the software-dev and cave-dev analyze prompts."""
+        for path in (ANALYZE, CAVE_ANALYZE):
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertIn("Inferred:", read(path))
+
+    def test_five_quality_properties_in_tactic(self) -> None:
+        """ratchet: the five requirement-quality properties stay in the tactic, as list items."""
+        text = read(TACTICS / f"{QUALITY_TACTIC}.tactic.yaml")
+        for prop in ("Testable", "Solution-free", "Unambiguous", "Consistent", "Complete"):
+            with self.subTest(prop=prop):
+                self.assertRegex(text, rf"(?m)^\s*-\s*{prop}:")
+
+    def test_cave_prompt_within_line_budget(self) -> None:
+        """ratchet: the cave-dev analyze prompt stays at or under its size guard."""
+        self.assertLessEqual(len(read(CAVE_ANALYZE).splitlines()), MAX_CAVE_ANALYZE_LINES)
 
 
 if __name__ == "__main__":
