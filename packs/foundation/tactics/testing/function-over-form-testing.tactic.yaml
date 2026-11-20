@@ -54,6 +54,6 @@ steps:
       Assert on what the system produces, emits, or returns — not how it achieved that result.
 
 failure_modes:
-  - "Over-mocking — mocking every collaborator turns integration tests into scripted interaction replays that pass even when the real integration is broken; mock only at true system boundaries."
+  - "Over-mocking — mocking every collaborator turns integration tests into scripted interaction replays that pass even when the real integration is broken; substitute only at allow-listed seams, and never to pin a call contract on owned logic (DIRECTIVE_054)."
   - "Testing private methods — private methods are implementation details; if one needs direct testing, it is a signal to extract it to a collaborator with its own public interface."
   - "Testing toString or equals in isolation — format and identity methods should be tested through the integrations that depend on them, not in standalone tests."

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 2cde505b004b28dab31c3b648f68e6cd4b72ebc9431f03df9f54db6234971e8c
+manifest_hash: 2b702f67aad61cb06a2fa65001e995ce9b332880ae2ab7d87dde4c8f4d074c6c
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -612,7 +612,7 @@ constituents:
 - kind: tactic
   id: black-box-integration-testing
   path: tactics/testing/black-box-integration-testing.tactic.yaml
-  content_hash: 345706087a6120f0ee0a7c571360ae08fc92050d7273e8839a70f3ca9d37d946
+  content_hash: 649043de98a82de069efa5f7a198b616a81d483ea4f7fb1d3c403af642d4458d
 - kind: tactic
   id: delete-the-assertion-not-the-test
   path: tactics/testing/delete-the-assertion-not-the-test.tactic.yaml
@@ -620,7 +620,7 @@ constituents:
 - kind: tactic
   id: function-over-form-testing
   path: tactics/testing/function-over-form-testing.tactic.yaml
-  content_hash: 9cafd1d606ebb2c3bb9213d586d456ca09da4fb58e191344908d4213e7f67eca
+  content_hash: 21230caed1d161e313be1bcb6a9c07fbce8583e0381177f86b8e3f3a256588d4
 - kind: tactic
   id: quality-gate-verification
   path: tactics/testing/quality-gate-verification.tactic.yaml
@@ -632,7 +632,7 @@ constituents:
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: a4568d6884b7f8571d8e786d95e40292a56f7fdc86819f37966733ddffa814f1
+  content_hash: 062eb46a513984df145b370a70c894760f4236c639039d830d60afdf5583c2fe
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml
@@ -640,11 +640,11 @@ constituents:
 - kind: tactic
   id: test-scaffolding-as-design-smell
   path: tactics/testing/test-scaffolding-as-design-smell.tactic.yaml
-  content_hash: 53b40624c36e51df5dde023d3155e2136665699ae2aeae1e9ae97fe4da0eb026
+  content_hash: 259d44903a04134ec37af070f1869875caa87db33f77755b77777ac7a28af146
 - kind: tactic
   id: testing-select-appropriate-level
   path: tactics/testing/testing-select-appropriate-level.tactic.yaml
-  content_hash: eac985133a31f9764a53a0802f96e4d8a0e3c86d1840f4275faceeb96c8f61fa
+  content_hash: b18a174b2280217af0908d83243db43cbcda940b85634de0c7a70b624daae481
 - kind: tactic
   id: work-package-completion-validation
   path: tactics/work-package-completion-validation.tactic.yaml

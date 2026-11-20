@@ -20,7 +20,7 @@ principles:
   - name: "Desiderata are trade-offs"
     description: "Desiderata are trade-offs: choose which properties a given test optimizes; do not pretend one test maximizes all twelve at once."
   - name: "Isolated from test order"
-    description: "Isolated: a test returns the same result regardless of the order tests run in — no shared mutable state, no order dependence."
+    description: "Isolated: a test returns the same result regardless of the order tests run in — no shared mutable state, no order dependence. It does not mean isolating the unit from its collaborators with mocks."
   - name: "Composable variability"
     description: "Composable: dimensions of variability can be tested separately and combined, so coverage grows without combinatorial test counts."
   - name: "Deterministic results"
@@ -46,12 +46,12 @@ principles:
   # — Clear Test Boundaries (Define Test Boundaries):
   - name: "Boundary by responsibility, not by layer"
     description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
-  - name: "Stub infrastructure at the boundary"
-    description: "Stub infrastructure at the boundary: external services, data access, and IO (filesystem, database, clock, network, randomness, git) live OUTSIDE the boundary and are replaced by test doubles or pure inputs."
+  - name: "Infrastructure sits outside the boundary"
+    description: "Infrastructure sits outside the boundary: external services, data access and IO (filesystem, database, clock, network, randomness, git) sit OUTSIDE it and may be replaced by doubles or pure inputs; DIRECTIVE_054 owns the allow-list."
   - name: "Assert observable outcomes, not mechanisms"
     description: "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
   - name: "Heavy scaffolding signals a wrong boundary"
-    description: "If a unit test needs heavy infrastructure scaffolding to run, the boundary is wrong: extract a pure seam that takes domain inputs so the behavior is testable without IO."
+    description: "Heavy setup or a double of owned logic means the boundary is wrong: extract a pure seam that takes domain inputs. Real IO itself is allowed (DIRECTIVE_054); it is not the smell."
   # — Detect as far left as possible: every desideratum a machine can check is
   #   checked before a human (or a slow suite) has to notice it.
   - name: "Shift detection left"
@@ -91,9 +91,8 @@ patterns:
   - name: Draw the boundary by functional responsibility
     description: >
       Pick the behavior to validate, identify the components responsible for it,
-      and place the test boundary around exactly those. Replace infrastructure
-      (IO, data access, external services) with simple inputs or doubles at the
-      boundary. This keeps tests Fast, Isolated, Writable, and
+      and place the test boundary around exactly those. Infrastructure (IO, data access, external services) may be replaced with
+      simple inputs or doubles at the allow-listed seams of DIRECTIVE_054. This keeps tests Fast, Isolated, Writable, and
       Structure-insensitive (Define Test Boundaries; Beck's desiderata).
     bad_example: |
       # The unit reaches the filesystem + git directly, so the "unit" test must
@@ -175,8 +174,8 @@ anti_patterns:
   - name: Over-mocking to compensate for a missing boundary
     description: >
       Patching five infrastructure functions to test one behavior means the test
-      is fighting the absence of a seam. Mock only at true system boundaries; if
-      you must mock more, extract the boundary instead. Heavy mocking also makes
+      is fighting the absence of a seam. Substitute only at the allow-listed seams of
+      DIRECTIVE_054; if you find yourself doubling owned logic, extract the boundary instead. Heavy mocking also makes
       tests pass when the real integration is broken (loss of Predictive).
     bad_example: |
       with patch("a.locate_project_root"), patch("a.safe_commit"), \
@@ -242,7 +241,8 @@ anti_patterns:
           assert resolve(coord_mission).branch == coord_branch(coord_mission)
 
 quality_test: >
-  Can the behavior under test be validated with plain in-memory inputs and at
-  most one mock at a true system boundary? If the test needs real files, a git
-  repo, or several patched infrastructure functions, the boundary is in the
-  wrong place — extract a pure seam before adding the test.
+  Can the behavior under test be validated with plain in-memory inputs or real
+  files and a real git repo in a temp dir, with doubles only at allow-listed seams
+  (DIRECTIVE_054)? If the test needs several patched infrastructure functions or
+  a double of logic the unit owns, the boundary is in the wrong place — extract a
+  pure seam before adding the test.

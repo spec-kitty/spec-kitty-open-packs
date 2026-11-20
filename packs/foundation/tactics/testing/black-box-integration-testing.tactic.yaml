@@ -56,8 +56,8 @@ steps:
   - title: Substitute dependencies outside the responsibility boundary
     description: >
       Components outside the responsibility boundary — other services,
-      third-party systems, filesystem, network, clock, external APIs —
-      may be substituted with stubs, fakes, or in-memory equivalents,
+      third-party systems, filesystem, network, clock, external APIs
+      (DIRECTIVE_054 owns the list) — may be substituted with stubs, fakes, or in-memory equivalents,
       provided the substitute preserves the observable contract the
       system under test relies on. The goal is to isolate the behavior
       under test, not to reproduce the full production topology.
@@ -74,7 +74,7 @@ failure_modes:
   - "Importing inside-boundary modules of the system under test to call business logic directly — this is unit-style coverage dressed up as integration coverage, not black-box coverage of the slice."
   - "Patching or monkeypatching inside-boundary collaborators, which couples the test to the implementation it is supposed to treat as opaque."
   - "Excessive substitution — stubbing components that are actually part of the responsibility boundary, so the test exercises mostly test doubles rather than real behavior."
-  - "Insufficient substitution — refusing to stub obviously outside-boundary systems (third-party APIs, clock, network) and accepting slow, flaky tests as the cost of 'realism'."
+  - "Slow or nondeterministic real dependency left in — a real third-party API, clock or network call that makes the test slow or flaky, when an allow-listed seam of DIRECTIVE_054 could be substituted (substitution is permitted, never required)."
   - "Asserting on private attributes or internal call sequences rather than on outputs observable through the external interface."
   - "Deriving inputs from reading the implementation rather than from the specification, which blinds the test to missing functionality and spec drift."
   - "Omitting the invalid-input case, so specified failure or refusal behavior goes unverified."
