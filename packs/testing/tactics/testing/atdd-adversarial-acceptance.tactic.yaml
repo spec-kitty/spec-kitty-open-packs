@@ -18,7 +18,7 @@ steps:
     description: >
       For each scenario, decide the contract outcome:
       prevent (block it), reject (explicit error), degrade (continue safely with warning), or tolerate (allowed, document why).
-      Select candidates for adversarial tests using: high business risk, likely to occur, expensive to detect late, creates silent corruption.
+      Select candidates for adversarial tests using: high business risk, likely to occur, expensive to detect late, creates silent corruption. A candidate must also carry a lasting regression risk: apply the long-term-value question (tactic acceptance-criteria-non-vacuity) before converting it.
   - title: Convert to acceptance scenarios
     description: >
       Write each selected scenario as Given/When/Then.
@@ -38,4 +38,5 @@ failure_modes:
   - "Converting every edge case into ATDD: suite becomes brittle and slow."
   - "Writing adversarial tests in adversarial language instead of contract language."
   - "Creating tests that require internal implementation detail to pass."
+  - "Pinning configuration shape as an acceptance test: a change detector, not an adversarial boundary."
   - "Mixing exploration (analysis) and enforcement (tests) without triage."

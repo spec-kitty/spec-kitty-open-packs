@@ -91,8 +91,10 @@
   3) Keep Status populated for every row
   4) Non-functional requirements must include measurable thresholds
   5) Delivery label + no-op mark on every FR row and success criterion (summary of
-     tactic `acceptance-criteria-non-vacuity`): `[build]`/`[ratchet]`/`[folded]`
-     delivery, `yes`/`no` no-op passable.
+     tactic `acceptance-criteria-non-vacuity`): `[build]`/`[ratchet]`/`[folded]`/`[evidenced-by-run]`
+     delivery (the last takes no test; a real run or existing gate is the
+     evidence, named in the row), `yes`/`no` no-op passable (`n-a` for
+     `[evidenced-by-run]`).
   6) The label set and the three non-vacuity rules (same-fixture positive control,
      half-by-half proof for compound fixes, production-path non-vacuity) are defined
      once, in tactic `acceptance-criteria-non-vacuity` -- fetch it with
@@ -113,9 +115,9 @@
 
 | ID | Title | User Story | Priority | Status | Delivery | No-op passable? |
 |----|-------|------------|----------|--------|----------|-----------------|
-| FR-001 | [Short title] | As a [role], I want [goal] so that [benefit]. | High | Open | [build/ratchet/folded] | [yes/no] |
-| FR-002 | [Short title] | As a [role], I want [goal] so that [benefit]. | Medium | Open | [build/ratchet/folded] | [yes/no] |
-| FR-003 | [Short title] | As a [role], I want [goal] so that [benefit]. | Low | Open | [build/ratchet/folded] | [yes/no] |
+| FR-001 | [Short title] | As a [role], I want [goal] so that [benefit]. | High | Open | [build/ratchet/folded/evidenced-by-run] | [yes/no/n-a] |
+| FR-002 | [Short title] | As a [role], I want [goal] so that [benefit]. | Medium | Open | [build/ratchet/folded/evidenced-by-run] | [yes/no/n-a] |
+| FR-003 | [Short title] | As a [role], I want [goal] so that [benefit]. | Low | Open | [build/ratchet/folded/evidenced-by-run] | [yes/no/n-a] |
 
 ### Non-Functional Requirements
 
@@ -152,9 +154,9 @@
 ### Measurable Outcomes
 
 <!-- ACTION REQUIRED: append a delivery label + no-op mark to every success criterion,
-     same as the FR table above -- "- [build/ratchet/folded] | no-op passable: [yes/no]". -->
+     same as the FR table above -- "- [build/ratchet/folded/evidenced-by-run] | no-op passable: [yes/no/n-a]". -->
 
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"] - [build/ratchet/folded] | no-op passable: [yes/no]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"] - [build/ratchet/folded] | no-op passable: [yes/no]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"] - [build/ratchet/folded] | no-op passable: [yes/no]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"] - [build/ratchet/folded] | no-op passable: [yes/no]
+- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"] - [build/ratchet/folded/evidenced-by-run] | no-op passable: [yes/no/n-a]
+- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"] - [build/ratchet/folded/evidenced-by-run] | no-op passable: [yes/no/n-a]
+- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"] - [build/ratchet/folded/evidenced-by-run] | no-op passable: [yes/no/n-a]
+- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"] - [build/ratchet/folded/evidenced-by-run] | no-op passable: [yes/no/n-a]

@@ -127,15 +127,21 @@ directive-references:
   - code: "032"
     name: Conceptual Alignment
     rationale: Terminology in code and docs must align with the project glossary — language drift signals architectural drift
+  - code: "034"
+    name: Test-First Development
+    rationale: Require red-first for behavior with a lasting regression risk; accept `[evidenced-by-run]` evidence (a named real run or existing gate) for configuration and glue work
   - code: "041"
     name: Tests as Scaffold, Not Friction
-    rationale: Reject tests that pass for the wrong reason or false-red on correct changes; require observable-contract assertions, no defect-masking xfails, and content-anchored ratchet keys
+    rationale: Reject tests that pass for the wrong reason or false-red on correct changes; require observable-contract assertions, no defect-masking xfails (a strict expected failure on a reproduction whose fix is planned in a sibling work package is not a mask), and content-anchored ratchet keys; flag pure configuration-restatement tests as waste, not ATDD compliance
   - code: "051"
     name: Supply-Chain Install Safety
     rationale: >-
       Dependency-touching reviews must verify a result for every threat-class
       control DIRECTIVE_051 names before approval — an unexamined default is
       a gap, not a pass
+  - code: "054"
+    name: Mock Only at the Responsibility Boundary
+    rationale: Reject doubles of code the system under test owns; accept only allow-listed seams
 
 tactic-references:
   - id: code-review-incremental
@@ -151,7 +157,7 @@ tactic-references:
       the specification. Tests that fail reconstruction are documentation gaps.
   - id: test-scaffolding-as-design-smell
     rationale: >
-      Treat heavy test setup or many infrastructure mocks in a diff as a design
+      Treat heavy test setup or many doubles, or any double of owned logic (DIRECTIVE_054), in a diff as a design
       smell to flag, not accept — request a pure boundary/seam instead of more doubles.
   - id: delete-the-assertion-not-the-test
     rationale: >

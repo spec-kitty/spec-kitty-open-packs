@@ -2,18 +2,18 @@ schema_version: '1.0'
 id: test-first-cycle
 title: Test-First Cycle
 description: |
-  Drive every production change from a failing test.
+  Drive each production change that carries a lasting regression risk from a failing test; record real-run or gate evidence for configuration and glue work (DIRECTIVE_034).
 entry_condition: |
-  New behavior or a behavior change is about to be implemented in production code.
+  New behavior or a behavior change with a lasting regression risk is about to be implemented in production code.
 exit_condition: |
-  Every production change was preceded by a failing test that captured the intended behavior, and the work moved in short red-green-refactor cycles.
+  Every production change with a lasting regression risk was preceded by a failing test that captured the intended behavior (configuration and glue work cites its real-run or gate evidence), and the work moved in short red-green-refactor cycles.
 steps:
 - title: Select the test-first tactic for the scope
   description: |
-    Before the first production edit, pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, the testing pack's zombies-tdd (when installed) for incremental case discovery.
+    Before the first production edit, decide whether the change carries a lasting regression risk; if not, record the real-run or gate evidence and skip the test. Otherwise pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, the testing pack's zombies-tdd (when installed) for incremental case discovery.
 - title: Write a failing test first
   description: |
-    Write a test that captures the intended behavior and fails before any production code is written.
+    For a change with a lasting regression risk, write a test that captures the intended behavior and fails before any production code is written.
 - title: Keep red-green-refactor cycles short
   description: |
     Keep each cycle to minutes, not hours.
