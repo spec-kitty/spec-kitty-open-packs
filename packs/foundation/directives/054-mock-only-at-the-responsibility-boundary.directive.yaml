@@ -15,9 +15,10 @@ scope: >
   boundary is drawn by responsibility for the behavior under test, not by
   layer, module or class; the tactic test-boundaries-by-responsibility says how
   to draw it. The rules bind the tests a change adds or modifies. An existing
-  test that does not conform is remediated when a change touches it, or
-  recorded as a tracked follow-up; it does not make unrelated work
-  non-conforming.
+  test that does not conform, and that a change touches without modifying its
+  doubles, is remediated or recorded as a tracked follow-up; it does not make
+  unrelated work non-conforming. A test whose doubles a change modifies must
+  conform.
 integrity_rules:
   - "The allow-list is exhaustive. A test may substitute only: another domain or
     bounded context (a domain-contract seam); the filesystem; a database; the
