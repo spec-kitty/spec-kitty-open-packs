@@ -237,7 +237,7 @@ Use this heuristic to prioritize findings:
 - **HIGH** also: a finalize validation that could not run (fail closed), a WP-prompt blocker (step 2b), an untestable or ambiguous requirement that changes what gets built, a scenario gap on a security or data-loss path, a planning-artifact contradiction or ungrounded behaviour that changes what gets built (pass H)
 - **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case, a finalize-validation warning, a WP-prompt quality improvement, other requirement-quality or scenario findings, a planning-artifact decision, element or scenario no task reflects
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order, EARS wording suggestions, a collapsed lane
-- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher, so they never block the verdict: MEDIUM for intent drift, a lost scenario or an unclear MVP; LOW otherwise; their weight goes into the recommendation (step 6).
+- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher, so they never block the verdict: MEDIUM for intent drift, a lost scenario or a named MVP that delivers no user value; LOW otherwise, including a missing MVP note ("MVP unclear"); their weight goes into the recommendation (step 6).
 
 ### 6. Produce Compact Analysis Report
 

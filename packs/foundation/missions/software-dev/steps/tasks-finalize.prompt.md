@@ -171,7 +171,7 @@ Provide a concise outcome summary:
 - Path to `tasks.md`
 - Work package count and per-package subtask tallies
 - Parallelization highlights
-- MVP scope recommendation (recorded in tasks.md's MVP Scope note, which analyze reads)
+- MVP scope recommendation (reported here only: finalization generates `tasks.md`, so this step writes no MVP Scope note; analyze reports a missing note as LOW)
 - Finalization status (dependencies parsed, X WP files updated, committed to the planning branch)
 
 **Required next step - run `/spec-kitty.analyze` before `/spec-kitty.implement`.**
