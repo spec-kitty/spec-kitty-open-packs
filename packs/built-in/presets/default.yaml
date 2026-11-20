@@ -5,7 +5,8 @@
 # key is absent is unrestricted, so every built-in artifact is effective after
 # `spec-kitty charter activate --preset default`, and new built-in artifacts
 # are effective without editing this file. It activates the built-in mission
-# types.
+# types and the foundation pack's default routing catalog (charter ADR-0080:
+# a bare entry, never must_have).
 schema_version: "1.0"
 id: default
 description: Every built-in artifact is effective; activates the built-in mission types.
@@ -14,3 +15,5 @@ activated_mission_types:
   - id: documentation
   - id: research
   - id: plan
+activated_routing_catalogs:
+  - id: default

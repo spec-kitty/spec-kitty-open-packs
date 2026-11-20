@@ -132,7 +132,7 @@ edges:
     compatibility across the repository.
 - source: directive:DIRECTIVE_024
   target: directive:DIRECTIVE_025
-  relation: in_tension_with
+  relation: tension
   reason: Locality of Change bounds new work to the minimum scope the goal requires; Boy Scout Rule endorses opportunistic
     improvement of touched areas, which can justify expanding a change beyond that boundary. Both remain valid, co-activatable
     rules -- the tension is resolved per-change by keeping adjacent campsite cleaning inside the touched area while deferring
@@ -169,7 +169,7 @@ edges:
     and inside the change file set.
 - source: directive:DIRECTIVE_025
   target: tactic:change-apply-smallest-viable-diff
-  relation: in_tension_with
+  relation: tension
   reason: The Boy Scout Rule encourages leaving touched code better than found, which can justify changes beyond the smallest
     viable diff the tactic prescribes. Both remain valid, co-activatable rules -- apply smallest-viable-diff discipline for
     goal delivery, and fold in only the touched-area fixes Boy Scout Rule requires, deferring broader opportunistic improvement

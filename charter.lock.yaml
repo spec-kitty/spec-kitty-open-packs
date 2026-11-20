@@ -22,6 +22,6 @@
 # jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters,
 #              as the release's `.sha256` asset states it; empty while `release_tag` is empty. The job
 #              refuses a jar with any other digest.
-commit: ebce9083cc132c4cc7f7602f8b8681b933dac98a
-release_tag: service-v0.1.0-rc.1
-jar_sha256: 596a7861b8efbf2756492b6462c6baa3f8a682eee14190e1cdf047edaa941714
+commit: 33f3ad46e9e33e895d4cd3a077d928d91b4f025f
+release_tag: ""
+jar_sha256: ""

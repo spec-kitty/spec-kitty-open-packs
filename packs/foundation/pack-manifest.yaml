@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4bbff0ac559fbe21651608a542130c0433334f1f48017c2fa01f229e4380b190
+manifest_hash: 70b0f5a96a0138916dc495a38cc00a881b9ad5f2e0a7daccc134aff9e15baef6
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -393,6 +393,10 @@ constituents:
   id: version-freshness-check
   path: procedures/version-freshness-check.procedure.yaml
   content_hash: 3ac708d602e972cfd413312cf6a1c74e16ea1a5d7ce584649ee7a04739f7c928
+- kind: routing_catalog
+  id: default
+  path: routing_catalogs/default.routing-catalog.yaml
+  content_hash: 6882396cfdd4550cdf8e25c98b95b7d6bb908acdc593063d5947e956cb51e06c
 - kind: styleguide
   id: boring-code-review
   path: styleguides/boring-code-review.styleguide.yaml

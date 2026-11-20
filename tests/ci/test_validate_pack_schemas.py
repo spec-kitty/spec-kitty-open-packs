@@ -369,20 +369,21 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertIn("pack/README.md: not readable as markdown: line 1: frontmatter is not valid YAML: ", output)
             self.assertIn("found duplicate key 'name'", output)
 
-    def test_a_file_no_rule_takes_is_unmodelled_as_the_charter_refuses_it(self) -> None:
+    def test_a_file_no_rule_takes_is_a_file_not_held_warning_as_the_charter_answers_it(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
             # Not Markdown, or Markdown a files rule takes in another letter case (the fallback never sweeps those
-            # up): the charter refuses each as `unmodelled` at registration, and built-in packs are never
-            # registered, so this gate is the only one that sees them there.
+            # up): from charter #554 (ruling Q1) the charter warns each as `file_not_held` and leaves it out (#309).
             stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml",
                      "presets/sub/x.yaml", "notes.txt", "data/table.json", "tactics/.gitkeep", "tactics/z.Tactic.yaml"]
             pack = self.write_pack(root, {name: "id: x\n" for name in stray})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertEqual(code, validator.EXIT_OK, output)
             for name in stray:
-                self.assertIn(f"pack/{name}: unmodelled: no file-kinds.yaml rule models this file", output)
+                self.assertEqual(output.count(f"::warning file={pack}::pack/{name}: file_not_held: not held "
+                                              "(no pack file kind models this file)"), 1, name)
+            self.assertNotIn("unmodelled", output)
             self.assertNotIn("unclassified", output)
 
     def test_markdown_only_the_ignored_rule_takes_is_not_held_and_fails_outside_the_allowlist(self) -> None:
@@ -428,8 +429,8 @@ class ValidatorExitCodes(unittest.TestCase):
             self.write_contract(root)
             pack = self.write_pack(root, {"expected-code": "composition: a\nregistration: b\n"})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("pack/expected-code: unmodelled", output)
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertIn("pack/expected-code: file_not_held", output)
             fixture = root / "fixtures" / "invalid" / "x"
             fixture.parent.mkdir(parents=True)
             pack.rename(fixture)
@@ -507,7 +508,7 @@ class ValidatorExitCodes(unittest.TestCase):
 
     def test_a_shard_below_the_root_is_unmodelled_once_shards_are_root_only(self) -> None:
         """Charter #554: only `<name>.graph.yaml` at the pack root is a graph shard. A `drg/<kind>.graph.yaml` is
-        unmodelled (a violation here), not a lost mapping: the gate judges it instead of failing closed."""
+        unmodelled (a file_not_held warning, #309), not a lost mapping: the gate judges it instead of failing closed."""
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root, '  - match: "*/*.graph.yaml"\n    schema: tactic\n')
@@ -516,8 +517,8 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(validator.classify(contract, "pack/drg/tactic.graph.yaml")[0], "unmodelled")
             self.assertTrue(validator.kind_mapped(contract, "graph"))
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID, output)
-            self.assertIn("pack/drg/tactic.graph.yaml: unmodelled", output)
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertIn("pack/drg/tactic.graph.yaml: file_not_held", output)
             self.assertNotIn("cannot judge", output)
 
     def test_a_known_kind_the_contract_maps_nowhere_fails_closed(self) -> None:
@@ -538,8 +539,8 @@ class ValidatorExitCodes(unittest.TestCase):
             self.write_contract(root, '  - match: "*/missions/*/enhancements/*.step-enhancement.yaml"\n    schema: tactic\n')
             pack = self.write_pack(root, {"foo.step-enhancement.yaml": "id: x\n"})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID, output)
-            self.assertIn("pack/foo.step-enhancement.yaml: unmodelled", output)
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertIn("pack/foo.step-enhancement.yaml: file_not_held", output)
 
     def test_a_symlinked_file_or_directory_in_a_pack_fails(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
 - **Declared version:** `3.1.0`
-- **Content checksum (sha256):** `c7b14b8e0c2c9c6980d8f6194d7efa228a556f93fd5db0c6aa8acc49ecf0d122`
+- **Content checksum (sha256):** `afa97c56f6eba82786b9c10f6175e3b34b5b8e14768a4b4a29a139531f8f8078`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -50,7 +50,8 @@ glossary.
 | `guards` | 1 |
 | `lifecycles` | 1 |
 | `missions` | 60 |
-| **Total files** | **230** |
+| `routing_catalogs` | 1 |
+| **Total files** | **231** |
 
 ### Full listing
 
@@ -332,5 +333,12 @@ glossary.
 - `software-dev/templates/spec-template.md`
 - `software-dev/templates/task-prompt-template.md`
 - `software-dev/templates/tasks-template.md`
+
+</details>
+
+<details>
+<summary><code>routing_catalogs</code> (1)</summary>
+
+- `default.routing-catalog.yaml`
 
 </details>

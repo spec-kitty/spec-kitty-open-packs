@@ -184,9 +184,8 @@ edges:
 
 Endpoints are `<kind>:<id>`. The fragment is **additive only**. A pack of any level may also carry graph
 shards (`<name>.graph.yaml`). Keep them at the pack root, the one place every charter reads them. The
-pinned release still reads a shard below the root (`drg/<kind>.graph.yaml`) as a graph shard. From
-charter #554 on, the charter no longer models a nested shard, and this repository fails it as
-`unmodelled`.
+charter no longer models a shard below the root (`drg/<kind>.graph.yaml`) or a `charter.yaml`: each
+is warned as `file_not_held`, not held and not judged, and the whole-pack round trip still names it.
 
 ## 5. Ship presets and policy (optional)
 

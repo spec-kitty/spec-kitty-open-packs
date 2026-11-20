@@ -21,6 +21,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 💥 Breaking
 
+- **The packs follow charter `main` at `33f3ad4`** (epic #287; #316, #309, #313). `charter.lock.yaml`
+  moves from the `service-v0.1.0-rc.1` release to `33f3ad46e9e33e895d4cd3a077d928d91b4f025f`, charter
+  `main` HEAD on 2026-11-20, pinned on demand because no service release carries charter #602, #554 and
+  #600 yet. The round trip, the service registration and the schema gate are green at this pin.
+  - **Tensions use charter's `tension` spelling** (#316; charter #602, ADR-0045). The six
+    `in_tension_with` edges in the foundation pack are now `relation: tension`, each with the
+    pack-owned, lexicographically smaller side as `source`. **Upgrade:** rename
+    `in_tension_with` to `tension` in your graph shards and fragments.
+  - **A file no rule models is a `file_not_held` warning, not a violation** (#309; charter #554,
+    ruling Q1). `validate_pack_schemas.py` and `charter_service_check.py` warn it as the charter
+    does: it is not held and not judged further. This includes a shard below the pack root
+    (`drg/<kind>.graph.yaml`) and a `charter.yaml`. The charter's whole-pack round trip still names
+    such files, so the packs here stay free of them.
+  - **Foundation ships the default routing catalog** (#313; charter #600, ADR-0080).
+    `foundation/routing_catalogs/default.routing-catalog.yaml` carries the model-to-task routing
+    catalog in the charter's shape, and the built-in `default` preset selects it with a bare
+    `activated_routing_catalogs: - id: default`. The schema mirror knows the `routing-catalog`
+    kind.
 - **The packs follow charter `main` at `050d780`** (epic #287). `charter.lock.yaml` moves from
   `eacbc3c` to `050d780876c6e9bd4265c7ec3335abe1b95cda61`, charter `main` HEAD on 2026-11-16. It
   holds glossary contexts (#106), slice F's kind taxonomy (#537, ADR-0077), the round trip in
