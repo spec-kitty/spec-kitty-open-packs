@@ -592,5 +592,29 @@ def self_severity() -> str:
     return section(read(ANALYZE), "### 5. Severity Assignment", "### 6.")
 
 
+STALENESS_SENTENCE = ("Editing any other planning artifact the report judged (research, data-model, contracts, quickstart, "
+                      "decisions, occurrence_map.yaml, meta.json or a WP prompt) also invalidates its findings")
+
+
+class UntrackedStalenessTest(unittest.TestCase):
+    def test_analyze_names_untracked_planning_edits(self) -> None:
+        """red-first: 7a says editing an untracked judged artifact invalidates the findings and asks for a re-run."""
+        block = squash(section(read(ANALYZE), "### 7a.", "### 8."))
+        self.assertIn(STALENESS_SENTENCE, block)
+        self.assertIn("even though the staleness check does not track it: re-run /spec-kitty.analyze.", block)
+
+    def test_tasks_prompts_mirror_the_sentence(self) -> None:
+        """red-first: tasks and tasks-finalize state the same rule where they state the staleness rule."""
+        for name in ("tasks.prompt.md", "tasks-finalize.prompt.md"):
+            with self.subTest(name=name):
+                self.assertIn(STALENESS_SENTENCE, squash(read(SOFTWARE_DEV / name)))
+
+    def test_sentence_check_positive_control(self) -> None:
+        """control: the section extractor and the pinned sentence match synthetic text and miss a text without it."""
+        sample = "### 7a. x\n" + STALENESS_SENTENCE + "\n### 8. y"
+        self.assertIn(STALENESS_SENTENCE, squash(section(sample, "### 7a.", "### 8.")))
+        self.assertNotIn(STALENESS_SENTENCE, squash(section("### 7a. x\nEditing the spec.\n### 8.", "### 7a.", "### 8.")))
+
+
 if __name__ == "__main__":
     unittest.main()

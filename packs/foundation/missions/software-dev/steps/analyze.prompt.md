@@ -382,7 +382,7 @@ charter after the report is recorded makes it **stale**. A stale (or missing)
 report is refused downstream: `spec-kitty next` re-issues the analyze step, and
 `spec-kitty agent action implement` refuses to claim a work package with
 `analysis_report_required`. Re-run `/spec-kitty.analyze` and record a fresh
-report whenever any of those inputs change.
+report whenever any of those inputs change. Editing any other planning artifact the report judged (research, data-model, contracts, quickstart, decisions, occurrence_map.yaml, meta.json or a WP prompt) also invalidates its findings even though the staleness check does not track it: re-run /spec-kitty.analyze.
 
 ### 8. Provide Next Actions
 

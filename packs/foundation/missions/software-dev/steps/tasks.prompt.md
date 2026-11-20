@@ -393,7 +393,7 @@ After reporting, ask the user directly:
 tasks and charter are unchanged. Editing any of the spec, plan, tasks or charter
 after `/spec-kitty.analyze` makes the report stale, and `/spec-kitty.implement`
 refuses again until you re-run `/spec-kitty.analyze`. Run analyze last, after the
-planning artifacts have settled.
+planning artifacts have settled. Editing any other planning artifact the report judged (research, data-model, contracts, quickstart, decisions, occurrence_map.yaml, meta.json or a WP prompt) also invalidates its findings: re-run it.
 
 - If the user says **yes**: first ensure `/spec-kitty.analyze` has been run for this mission (run it now if `analysis-report.md` is missing - implementation cannot claim a WP without it), then invoke the `spec-kitty-implement-review` skill with the mission slug. The user may also specify which agents to use for implementation and review (e.g., "yes, use sonnet for implementing and opus for reviewing").
 - If the user says **no** or wants to do it manually: end here and let them run `/spec-kitty.implement` at their own pace - reminding them that `/spec-kitty.analyze` is a required prerequisite the implement gate enforces.
