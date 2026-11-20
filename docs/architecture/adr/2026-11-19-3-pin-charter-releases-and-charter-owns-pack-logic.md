@@ -2,7 +2,7 @@
 title: 'ADR: The packs pin a charter release, and the charter owns the pack logic'
 description: The packs pin a charter release by default and charter main only on demand, superseding the 2026-11-16 lockstep; the charter owns the pack logic.
 doc_status: active
-updated: '2026-11-19'
+updated: '2026-11-20'
 related:
 - guides/validate-a-pack
 - plans/roadmap
@@ -158,3 +158,27 @@ lands.
 **Cons:**
 
 * Nobody hears about a charter change until someone bumps the pin by hand.
+
+## Amendment 2026-11-20: the round trip runs from the release's pack-check
+
+The pin policy above says the round trip runs from the charter source at the tagged commit. That part
+is amended (#252, #308). The original text above is kept as written; this section supersedes it for
+the round trip.
+
+**Decision.**
+* The gate runs the charter's whole-pack check, pack-check, from the jar the pinned release ships.
+  That check covers each pack, the closure and the round trip.
+* The lock carries the jar's digest as `pack_check_sha256`, beside `jar_sha256`, and the job refuses
+  any other digest.
+* A charter `main` pin builds the jar from `commit`.
+* A release that ships no pack-check (anything before `service-v0.1.0-rc.3`) cannot be pinned.
+
+**Why.**
+* A release pin no longer builds anything.
+* The check that gates the packs is the same released artifact the charter ships to every pack author.
+
+**Operator ruling R32.**
+* pack-check must fail on malformed contents. Exit 2 is a failure of the gate, never an
+  infrastructure skip (rc.3 crashes on a malformed `pack_version`: spec-kitty-charter#624).
+* Where pack-check is weaker than this repository's own rules, those rules stay. The guide lists them:
+  [What pack-check covers and what stays here](../../guides/validate-a-pack.md#what-pack-check-covers-and-what-stays-here).

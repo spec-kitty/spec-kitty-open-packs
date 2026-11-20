@@ -169,19 +169,31 @@ valid through the service, at a pinned charter version). The job:
    both gates apply one policy: a file an exclusion names or no rule models passes, an `ignored` one passes only if it
    is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
    mirror has drifted from the pin);
-4. **round-trips every pack** (#252, #284; charter ADR-0070 decision 4, amended 2026-11-13, and ADR-0075
-   decision 8, amended 2026-11-15): from the
-   charter source at the pin, it runs `./gradlew --max-workers=1 :pack-validation:driftTest
-   -PopenPacksDir=<this checkout>` ([`charter_drift_test.sh`](../../scripts/ci/charter_drift_test.sh)).
-   Every pack with a `pack.yaml`, built-in-level ones included, is loaded through the charter's store,
-   written back and compared by meaning. A load violation, an unmodelled file, a load warning, a file
-   that does not round-trip, or a manifest whose lists differ from the derived ones fails the job.
-   On a release pin, `commit` must be the commit `release_tag` was built from. The report is
-   uploaded as the `charter-drift-test-report` artifact. No registration sees a built-in-level pack,
-   so this is the only check of their manifests that the charter itself makes;
+4. **gates every pack on the charter's pack-check** (#252; charter ADR-0075 decision 9, ADR-0070 decision 4
+   as amended 2026-11-13). pack-check is the charter's own whole-pack check. It checks each pack, the closure
+   of the set, and, with `--round-trip`, loads each pack through the charter's store, writes it back and
+   compares it by meaning.
+   - **The jar.** On a release pin, the job checks that the tag points at the lock's `commit`, downloads
+     `pack-check-<version>.jar` from the pinned release, and refuses any digest but `pack_check_sha256`
+     ([`charter_pack_check_jar.sh`](../../scripts/ci/charter_pack_check_jar.sh)). On a main pin it builds the
+     jar from `commit`.
+   - **The run.** [`charter_pack_check.py`](../../scripts/ci/charter_pack_check.py) runs it over every pack
+     and valid fixture together, built-in-level ones included.
+   - **What fails the job:**
+     - any exit but 0, **exit 2 included**: rc.3 crashes with exit 2, and no report, on a malformed
+       `pack_version` (spec-kitty-charter#624). That is a failure, never a skip;
+     - a problem in the report: a violation, an unmodelled file, a file that does not round-trip, or a
+       manifest whose lists differ from the derived ones;
+     - a warning other than `file_not_held`, or a warning line it cannot read;
+     - a check that did not run;
+     - a pack left out of the verdict.
+   - **The report** is uploaded as the `charter-pack-check-report` artifact. No registration sees a
+     built-in-level pack, so this is the only check of their manifests that the charter itself makes.
+   - **It replaced** the charter's `driftTest`, which the job used to build from the pinned source: the same
+     round trip under the same rule.
 5. **proves it is not vacuous**: every pack under `tests/fixtures/invalid/` must be refused with the code
-   its `expected-code` file names, once when composed and once when registered. A fixture the service
-   accepts, or refuses with another code, fails the job.
+   its `expected-code` file names, once when composed and once when registered, and by pack-check (checked
+   alone, less its `expected-code`). A fixture accepted, or refused with another code, fails the job.
 
 The `expected-code` file of a fixture holds `key: value` lines:
 
@@ -189,10 +201,17 @@ The `expected-code` file of a fixture holds `key: value` lines:
 composition: pack_unreadable      # the code of the refusal of GET /offering
 registration: validation_failed   # the code of the refused registration's problem
 precheck: accepted                # optional: the schema pre-check cannot see this refusal
+pack-check: retired               # a code pack-check's report must carry (in a problem or a violation),
+                                  # or `failed`: the spec-kitty-charter#624 crash (exit 2, no report,
+                                  # an internal error naming pack_version), and nothing else
 ```
 
 `legacy-shapes` holds 3.x-era files and is refused as unreadable and invalid;
 `unknown-dependency` is well formed and refused only for composing with a pack nobody configured.
+`malformed-pack-version` is the valid example pack with a `pack_version` that is not a version. The schema
+pass accepts it, the service refuses it (`pack_version_invalid`), and pack-check rc.3 crashes on it
+(`pack-check: failed`). Once spec-kitty-charter#624 lands, that line no longer matches, and it must name the
+code pack-check then reports.
 
 Run it locally, with the jar of the pin (Java 25 on the `PATH` or in `JAVA_HOME`):
 
@@ -201,15 +220,32 @@ jar="$(scripts/ci/charter_service_jar.sh /tmp/charter-service)"
 python3 scripts/ci/charter_service_check.py --jar "$jar"
 ```
 
-and the round trip, at the pin (Java 25; it fetches the pinned charter source into the directory):
+and pack-check, at the pin (Java 25):
 
 ```bash
-scripts/ci/charter_drift_test.sh /tmp/charter-service
+jar="$(scripts/ci/charter_pack_check_jar.sh /tmp/charter-service)"
+python3 scripts/ci/charter_pack_check.py --jar "$jar"
 ```
 
 `charter_service_check.py` takes any service jar, so a jar you built from a charter branch tells you
 whether a pending charter change would break these packs. It exits `0` when everything passed, `1` when a
 check failed and `2` when it could not run.
+
+### What pack-check covers and what stays here
+
+pack-check rc.3 was tried against scratch packs with each fault below, run as the gate runs it (with
+`--round-trip`). It exits 0 on every one of them, so the schema pass keeps judging them. Retire a rule here
+only once the pinned pack-check refuses its case:
+
+| Fault | pack-check rc.3 | Judged here by |
+| --- | --- | --- |
+| An ignored file other than a `README.md` note (a misplaced guide, prompt or note) | `file_not_held` warning only | the stray-file rule (`NOT_HELD_ALLOWANCES`, #249), on `classify` |
+| A preset `must_have` item no pack of the preset pack's closure holds | accepted | `--cross-pack` (`requiredNotHeld`, the required floor) |
+| A preset id no pack declares | accepted | `--cross-pack` |
+
+pack-check *does* refuse an unmodelled file (a stray `.txt`), and a stale `content_hash` or `manifest_hash`
+in `pack-manifest.yaml`, both as `round_trip_red`. The schema pass keeps its own stale-hash check anyway: it
+is the fast pre-check, and it names the command that restamps the manifest.
 
 ### What the service owns and what stays here
 
@@ -252,16 +288,22 @@ The service accepts these, at composition and at registration, so `--cross-pack`
 the service job both read it, so the schemas and the service always come from the same charter:
 
 ```yaml
-commit: ebce9083cc132c4cc7f7602f8b8681b933dac98a   # 40 lowercase hex characters; never a branch or a tag
-release_tag: service-v0.1.0-rc.1                   # the service-vX.Y.Z[-pre] release of `commit`; empty for a main pin
-jar_sha256: 596a7861b8efbf2756492b6462c6baa3f8a682eee14190e1cdf047edaa941714  # the release jar's SHA-256; required with release_tag
+commit: cb9b15426d17c402b06204185a17ebfbc65f22ff   # 40 lowercase hex characters; never a branch or a tag
+release_tag: service-v0.1.0-rc.3                   # the service-vX.Y.Z[-pre] release of `commit`; empty for a main pin
+jar_sha256: 763536af1c56cc29d3e08720461546ac63f9ddab4989c6db89c3b7b7e2aaf42c          # the service jar's SHA-256; required with release_tag
+pack_check_sha256: adde1dfff5d02efbb3a02fafde8222951d0e1f0fafccde29d7fb39be3ea9ccbe   # the pack-check jar's SHA-256; required with release_tag
 ```
 
 Both scripts fail closed on anything but a full commit. The pin names a charter release or pre-release
-by default (operator ruling, 2026-11-18): set `release_tag`, `jar_sha256` (from the release's `.sha256`
-asset) and `commit` (the commit the tag points at), and the job downloads that jar and refuses any other
-digest; no Gradle build of the service runs. Pin a `main` HEAD commit with `release_tag` and
-`jar_sha256` empty only on demand; the job then builds the service from `commit`. Move the pin in the
+by default (operator ruling, 2026-11-18). Set:
+- `release_tag`;
+- `jar_sha256` and `pack_check_sha256`, from the release's two `.sha256` assets;
+- `commit`, the commit the tag points at.
+
+The job then downloads both jars and refuses any other digest. No Gradle build runs. Pin a `main` HEAD
+commit, with the three release keys empty, only on demand: the job then builds the service and pack-check
+from `commit`. The easiest way to move the pin is `scripts/ci/charter_pin.py apply`, which also re-derives
+everything the pin decides. Move the pin in the
 pull request that migrates the packs to what changed.
 
 ### Following charter releases
@@ -273,14 +315,16 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
 
 - **Release track, daily.** It lists the charter's releases and takes the newest `service-v*` release or
   pre-release. When that is newer than the lock's `release_tag`, it runs the checks with that release's
-  jar, checked against its `.sha256` asset, and with `commit` set to the tag's commit. Only a run on
+  service and pack-check jars, each checked against its `.sha256` asset, and with `commit` set to the tag's
+  commit. Only a run on
   `main` acts on the verdict:
-  - green: it opens one pull request, from `charter/service-release-<tag>`, that bumps the three pin
+  - green: it opens one pull request, from `charter/service-release-<tag>`, that bumps the four pin
     values and carries the re-derived files and a changelog entry. An open bump pull request for an
     older release is closed in its favour;
   - red: it opens one issue labelled `charter:release-red`, or rewrites the open one, naming the
     release and the errors of the failing jobs. A scheduled run that cannot resolve the release (the
-    listing, the tag or its `.sha256` asset) says so on the same issue.
+    listing, the tag or one of its two `.sha256` assets) says so on the same issue. A release without a
+    pack-check asset cannot resolve: the gate needs both jars.
 
   While the bump pull request of the newest release is open, the track does not check that release again.
   A bump pull request closed unmerged is not proposed again until a newer release. Once `main`'s lock
@@ -292,12 +336,12 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
 - **On demand, against unreleased charter.** Dispatch **Charter track** with `track: ref` and a
   `charter_ref` (default `main`; a branch, a tag, `pull/<n>/head` or a commit), or label a pull request
   `charter:head` to run its packs against charter `main`. The charter is built from source and every
-  check runs, the round trip included. The verdict is in the run's summary; this track never bumps the
+  check runs, pack-check (built from the same source) included. The verdict is in the run's summary; this track never bumps the
   lock and uses no secret. Like every run against a target, it re-derives the manifests, digests and pack
   pages first, so a pull request's own gate, not this run, judges those files as committed.
 - **Nightly, against charter `main`** (#311). At 02:23 UTC every night, at a different hour from the release
   track's 05:41, the track checks the packs against charter `main`, built from source, with the same
-  checks as the on-demand track, the round trip included. It reports only: it never bumps the lock and it
+  checks as the on-demand track, pack-check included. It reports only: it never bumps the lock and it
   is not a required check. Only a run on `main` acts on the verdict:
   - red: it opens one issue labelled `charter:main-red`, or rewrites the open one, naming the charter
     commit and the errors of the failing jobs. A run that cannot resolve charter `main` says so on the
