@@ -334,10 +334,12 @@ class SeverityAndRecommendationTest(unittest.TestCase):
         return section(read(ANALYZE), "### 5. Severity Assignment", "### 6.")
 
     def test_recommendation_literal_in_both_prompts(self) -> None:
-        """red-first: the whole recommendation line, never the bare word, is in both prompts."""
+        """red-first: the whole recommendation line, never the bare word, is in both prompts, once."""
         for path in (ANALYZE, CAVE_ANALYZE):
             with self.subTest(path=path.relative_to(ROOT)):
                 self.assertIn(RECOMMENDATION, read(path))
+                # exactly one `Recommendation: <choice>` line: step findings say "Recommended action:"
+                self.assertEqual(len(re.findall(r"Recommendation: (?!`)", read(path))), 1)
 
     def test_coherence_is_capped_at_medium(self) -> None:
         """red-first: severity section caps product-coherence findings at MEDIUM or LOW."""
