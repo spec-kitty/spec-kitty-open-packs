@@ -261,6 +261,7 @@ Carrier rules (binding - a violation makes `record-analysis` fail on the write p
 - The verdict is derived from structure: **any `high` or `critical` finding -> `blocked`; otherwise -> `ready`.** Do not rely on prose wording.
 - If you include `verdict_hint`, it MUST match the computed verdict, or recording fails loudly.
 - A report with **no** findings emits `findings: []` -> verdict `ready`.
+- `summary` is a double-quoted YAML string (escape an inner `\"`); an unquoted `Inferred:` prefix breaks the carrier.
 
 After the closing `---`, draft the Markdown body with the following structure:
 
