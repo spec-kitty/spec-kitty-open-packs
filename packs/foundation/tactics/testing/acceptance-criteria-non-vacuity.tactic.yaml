@@ -18,8 +18,8 @@ steps:
       against regression), [folded] (satisfied by another item -- name
       the satisfying item so folding cannot hide a gap), or
       [evidenced-by-run] (no test is written; a real run or an existing gate
-      is the evidence -- name it, and where the record lives: for a workflow,
-      the mission's `workflow-evidence.md`; for a gate, the gate's name).
+      is the evidence -- name it, and where the record lives: a run ID or URL,
+      or the gate's name).
       Use [evidenced-by-run] only for work without lasting regression risk
       (DIRECTIVE_034).
     examples:
@@ -89,7 +89,9 @@ notes: >
   paired with a named positive control that proves the check is non-vacuous
   despite being no-op passable by design (for example, a [ratchet] row
   guarded by a companion assertion on the same fixture). An
-  [evidenced-by-run] row is marked `n-a` with the evidence named.
+  [evidenced-by-run] row is marked `n-a` with the evidence named, and the
+  named run or gate must exercise the change (it would not exist, or would
+  fail, without it).
 
   Long-term-value question -- would this test still catch a real regression
   in six months, or would it only fail when someone changes the

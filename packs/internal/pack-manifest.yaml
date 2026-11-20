@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 8447100d34761433744748233d1f591ab32f498dabe1b3013c1ffa382abb12dd
+manifest_hash: 97d65f89e3524862ba51d3386887f6c4e85d7440faa82140f6cdeaf0bdbbbacd
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -200,7 +200,7 @@ constituents:
 - kind: tactic
   id: spec-kitty-ci-workflow-evidence-exemplar
   path: tactics/spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml
-  content_hash: fbf229049e5fa63115a0e7af2af2ef26326c4a08c00f97ff0fd221e7b769c1f7
+  content_hash: 42e76371f4d8da031a1134d5d15e7bfbce0ecbd676f3926fc4920ed07ff2d40e
 - kind: tactic
   id: spec-kitty-gate-non-vacuity-exemplar
   path: tactics/spec-kitty-gate-non-vacuity-exemplar.tactic.yaml

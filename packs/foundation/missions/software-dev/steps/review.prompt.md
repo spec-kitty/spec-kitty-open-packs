@@ -210,11 +210,14 @@ item blocks approval.
    (load with `spec-kitty charter context --include directive:DIRECTIVE_054`).
    A call-count or call-argument assertion on an owned collaborator is a FAIL
    (the two narrow system cases of DIRECTIVE_054 excepted).
-10. **Change detector**: no test only restates configuration or structure (it
-    would fail only when someone changes the configuration on purpose). Such a
-    test is a FAIL: it is waste, not ATDD compliance; the evidence for configuration
-    and glue work is a real run or an existing gate (DIRECTIVE_034; the
-    long-term-value question in tactic `acceptance-criteria-non-vacuity`).
+10. **Change detector**: no new or changed test in this WP only restates
+    configuration or structure (it would fail only when someone changes the
+    configuration on purpose). Such a test is a FAIL: it is waste, not ATDD
+    compliance; the evidence for configuration and glue work is a real run or an
+    existing gate (DIRECTIVE_034; the long-term-value question in tactic
+    `acceptance-criteria-non-vacuity`). Configuration that encodes security or
+    permission policy is exempt; it takes red-first or a repository-wide policy
+    check (DIRECTIVE_034).
 
 ### 4b. Criterion Non-Vacuity Check
 
@@ -234,7 +237,9 @@ for each:
 4. **Evidence exists**: for each id in this WP's `requirement_refs` whose
    spec.md row is labelled `[evidenced-by-run]`, the row names a run or gate,
    and the record exists (the run ID or URL in `workflow-evidence.md`, or the
-   named gate in CI), and the row is configuration or glue work. An
+   named gate in CI) and that run or gate exercises the changed configuration
+   (it would not exist, or would fail, without the change), and the row is
+   configuration or glue work. An
    `[evidenced-by-run]` row whose FR adds product logic, a gate or classifier
    script, an invariant, or security or permission policy is a FAIL
    (DIRECTIVE_034).

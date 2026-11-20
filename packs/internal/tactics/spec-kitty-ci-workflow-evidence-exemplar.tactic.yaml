@@ -50,7 +50,9 @@ steps:
       Label the requirement for the job's shape `[evidenced-by-run]` and name
       the run. Label the routing and gate requirements `[build]` or
       `[ratchet]` as they apply, each with its test. Label the policy
-      requirement with the repository-wide check that carries it.
+      requirement with the repository-wide check that carries it: `[build]` (a
+      new check) or `[folded]` (naming the existing check), never
+      `[evidenced-by-run]`.
 failure_modes:
   - "Per-file policy pin: the permission and secret invariant restated in each workflow's own test, so a new workflow escapes it until someone remembers to add the pin."
   - "Shape pin passed off as behaviour: a test of the job's name, runner or timeout presented as a regression guard, when it only fails on an intentional edit."
