@@ -91,8 +91,9 @@ notes: >
   despite being no-op passable by design (for example, a [ratchet] row
   guarded by a companion assertion on the same fixture). An
   [evidenced-by-run] row is marked `n-a` with the evidence named, and the
-  named run or gate must exercise the change (it would not exist, or would
-  fail, without it).
+  named run or gate must run the changed configuration itself and would fail,
+  or not run the changed part at all, without the change (DIRECTIVE_034 owns
+  the rule).
 
   Long-term-value question -- would this test still catch a real regression
   in six months, or would it only fail when someone changes the

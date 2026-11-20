@@ -240,8 +240,10 @@ for each:
    spec.md row is labelled `[evidenced-by-run]`, the row names a run or gate,
    and the record exists (the WP's evidence or `workflow-evidence.md` holds the
    run ID or URL; for a gate, the gate's name and the ID or URL of its run on
-   this change) and that run or gate exercises the changed configuration
-   (it would not exist, or would fail, without the change), and the row is
+   this change) and that run or gate runs the changed configuration itself
+   (visible in the run's log) and would fail, or not run the changed part at all,
+   without the change; a run of other jobs on the same change does not count
+   (DIRECTIVE_034 owns the rule), and the row is
    configuration or glue work. An `[evidenced-by-run]` row whose FR adds
    product logic, a script that gates or classifies, an invariant, or security
    or permission policy is a FAIL (the lasting-regression-risk classes are
