@@ -95,10 +95,10 @@ patterns:
       simple inputs or doubles at the allow-listed seams of DIRECTIVE_054. This keeps tests Fast, Isolated, Writable, and
       Structure-insensitive (Define Test Boundaries; Beck's desiderata).
     bad_example: |
-      # The unit reaches the filesystem + git directly, so the "unit" test must
-      # build a real mission on disk and mock every infrastructure seam.
+      # The unit reaches the filesystem + git directly, so the "unit" test needs
+      # many patches to run: a smell about the patches, not about real files.
       def test_overlap_rejected(tmp_path):
-          _write_mission_dir(tmp_path)                  # real files
+          _write_mission_dir(tmp_path)
           with patch("...locate_project_root"), \
                patch("...safe_commit"), patch("...run_command"), \
                patch("...bootstrap_canonical_state"):    # infra scaffolding

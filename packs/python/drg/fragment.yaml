@@ -102,8 +102,8 @@ edges:
 - source: agent_profile:python-pedro
   target: foundation::tactic:test-scaffolding-as-design-smell
   relation: requires
-  reason: Write code whose behavior is testable without infrastructure. If a unit test would need real files, git, or several
-    mocks to run, invert the dependency and extract a pure seam before adding the test, rather than expanding the mock setup.
+  reason: Write code whose behavior is testable without infrastructure. If a unit test would need many patches or a double of
+    logic it owns, invert the dependency and extract a pure seam before adding the test, rather than expanding the mock setup.
 - source: agent_profile:python-pedro
   target: styleguide:python-conventions
   relation: requires

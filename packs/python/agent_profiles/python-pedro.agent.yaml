@@ -176,8 +176,9 @@ tactic-references:
   - id: foundation::test-scaffolding-as-design-smell
     rationale: >
       Write code whose behavior is testable without infrastructure. If a unit test
-      would need real files, git, or several mocks to run, invert the dependency and
+      would need many patches or a double of logic it owns, invert the dependency and
       extract a pure seam before adding the test, rather than expanding the mock setup.
+      Real files and a real git repository in a temp dir stay allowed (DIRECTIVE_054).
   - id: foundation::delete-the-assertion-not-the-test
     rationale: >
       When a touched test is friction (green for the wrong reason or false-red on a
