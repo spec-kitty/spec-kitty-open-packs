@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 49c70764def5aa7dd5566616e1d933b658ecb006067bc4e18143c95a38fc1766
+manifest_hash: 73af8d5364123c09d0331f7143020b470ca1e49b7f5f50aad0cd43fb0d0f7df1
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -352,7 +352,7 @@ constituents:
 - kind: procedure
   id: red-first-bug-reproduction
   path: procedures/red-first-bug-reproduction.procedure.yaml
-  content_hash: 5689db5a9c905eac57ba03ffc59512983d75884804bd4696883527fc50f9dcce
+  content_hash: d140bcc8f285e5d2b91ac7468bd9082e5a70f96f2e2a64f0e7d3a1673b805df5
 - kind: procedure
   id: red-main-handling
   path: procedures/red-main-handling.procedure.yaml
