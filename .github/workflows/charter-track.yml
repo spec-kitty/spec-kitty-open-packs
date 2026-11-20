@@ -6,15 +6,15 @@ name: Charter track
 #
 # Every track runs the required check's own jobs (validate-packs.yml, called with a charter target), so the
 # PR gate, the release track, the on-demand track and the nightly main track share every step: charter_service_jar.sh,
-# charter_drift_test.sh, charter_service_check.py and the schema pass. A called run first moves the pin and
+# charter_pack_check_jar.sh with charter_pack_check.py (#252), charter_service_check.py and the schema pass. A called run first moves the pin and
 # re-derives the pack manifests, digests and pack pages (scripts/ci/charter_pin.py apply).
 #
 # - release track (the daily schedule, or a dispatch with track=release): lists the charter's releases and
 #   takes the newest service-v* release or pre-release. When it is newer than the lock's release_tag, it
-#   runs the checks with that release's jar (checked against its .sha256 asset) and commit set to the tag's
-#   commit. Only a run on main of this repository acts on the verdict:
-#     green: opens ONE pull request (branch charter/service-release-<tag>) that bumps release_tag, jar_sha256
-#            and commit with the re-derived files; an open bump pull request of an older release is closed;
+#   runs the checks with that release's service and pack-check jars (each checked against its .sha256 asset) and
+#   commit set to the tag's commit. Only a run on main of this repository acts on the verdict:
+#     green: opens ONE pull request (branch charter/service-release-<tag>) that bumps release_tag, jar_sha256,
+#            pack_check_sha256 and commit with the re-derived files; an open bump pull request of an older release is closed;
 #     red:   opens ONE issue labelled charter:release-red, or rewrites the open one, naming the release and
 #            the errors of the failing jobs. A scheduled run that cannot resolve the release says so there too.
 #   While a bump pull request for the newest release is open, or after one was closed unmerged, the track does
@@ -22,7 +22,7 @@ name: Charter track
 #   A lock without a release_tag (a main pin, taken on demand) is never replaced by this track.
 # - on-demand track (a dispatch with track=ref, the default, or the charter:head label on a pull request):
 #   builds the charter at charter_ref (default main; a branch, tag, pull/<n>/head or commit) from source and
-#   runs the same checks, driftTest included. It reports in the job summary, never bumps the lock and uses
+#   runs the same checks, pack-check (built from the same source) included. It reports in the job summary, never bumps the lock and uses
 #   no secret.
 # - nightly main track (the nightly schedule, or a dispatch with track=main): the on-demand track against
 #   charter main, unattended (#311; operator ruling 2026-11-19 on #311). It replaces the nightly charter-main
@@ -114,6 +114,7 @@ jobs:
       commit: ${{ steps.target.outputs.commit }}
       release_tag: ${{ steps.target.outputs.release_tag }}
       jar_sha256: ${{ steps.target.outputs.jar_sha256 }}
+      pack_check_sha256: ${{ steps.target.outputs.pack_check_sha256 }}
       current: ${{ steps.target.outputs.current }}
       ref: ${{ steps.target.outputs.ref }}
     steps:
@@ -218,6 +219,7 @@ jobs:
       charter_commit: ${{ needs.resolve.outputs.commit }}
       charter_release_tag: ${{ needs.resolve.outputs.release_tag }}
       charter_jar_sha256: ${{ needs.resolve.outputs.jar_sha256 }}
+      charter_pack_check_sha256: ${{ needs.resolve.outputs.pack_check_sha256 }}
 
   report:
     name: Report
@@ -312,6 +314,7 @@ jobs:
           COMMIT: ${{ needs.resolve.outputs.commit }}
           RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
           JAR_SHA256: ${{ needs.resolve.outputs.jar_sha256 }}
+          PACK_CHECK_SHA256: ${{ needs.resolve.outputs.pack_check_sha256 }}
           CURRENT: ${{ needs.resolve.outputs.current }}
         run: |
           set -euo pipefail
@@ -336,7 +339,7 @@ jobs:
             gh api -X DELETE "repos/$REPO/git/refs/heads/$branch"  # left by an interrupted run
           fi
 
-          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256"
+          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-check-sha256 "$PACK_CHECK_SHA256"
           python3 scripts/ci/charter_pin.py changelog --release-tag "$RELEASE_TAG" --commit "$COMMIT" --previous "$CURRENT" --date "$(date -u +%F)"
 
           # The branch and commit are made through the API with the job's token, so GitHub signs the commit.
@@ -357,7 +360,8 @@ jobs:
             echo
             echo "- \`release_tag\`: \`${CURRENT}\` → \`$RELEASE_TAG\`"
             echo "- \`commit\`: \`$COMMIT\` (the tag's commit)"
-            echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's \`.sha256\` asset)"
+            echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's service \`.sha256\` asset)"
+            echo "- \`pack_check_sha256\`: \`$PACK_CHECK_SHA256\` (the release's pack-check \`.sha256\` asset)"
             echo
             echo "Every pack manifest, digest and pack page is re-derived at the new pin, and a changelog entry is added."
             echo "Proven green by $RUN_URL against \`main\` at \`$head\`. Review the changelog entry before merging."
@@ -448,7 +452,7 @@ jobs:
             title="Charter track cannot resolve the newest charter release"
             {
               echo "The scheduled release track could not resolve the newest charter service release: the releases"
-              echo "listing, the tag's commit or the release's \`.sha256\` asset could not be read. Nothing was checked."
+              echo "listing, the tag's commit or one of the release's two \`.sha256\` assets could not be read. Nothing was checked."
               echo
               echo "Run: $RUN_URL. A release whose assets are still uploading resolves on the next day's run."
             } > "$body"
@@ -458,7 +462,7 @@ jobs:
               echo "Charter release \`$RELEASE_TAG\` (commit \`$COMMIT\`) fails the packs of \`main\` at \`$GITHUB_SHA\`,"
               echo "so the lock stays at \`$CURRENT\` (#253)."
               echo
-              echo "Run: $RUN_URL (round-trip report artifact: \`charter-drift-test-report\`)."
+              echo "Run: $RUN_URL (pack-check report artifact: \`charter-pack-check-report\`)."
               echo
               scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed; see the run)"
               echo
@@ -591,7 +595,7 @@ jobs:
               echo "This is unreleased charter: the lock stays at \`${CURRENT:-a main pin}\` and nothing is blocked (#311)."
               echo "Migrate the packs before charter releases the change, or raise it on the charter pull request that made it."
               echo
-              echo "Run: $RUN_URL (round-trip report artifact: \`charter-drift-test-report\`)."
+              echo "Run: $RUN_URL (pack-check report artifact: \`charter-pack-check-report\`)."
               echo
               scripts/ci/charter_track_report.sh "$GITHUB_RUN_ID" || echo "(the run's jobs could not be listed; see the run)"
               echo
