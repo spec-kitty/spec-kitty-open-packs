@@ -158,6 +158,21 @@ edges:
   when: when assessing whether the tests under review actually constrain behaviour
   reason: 'The reviewer profile should reach the mutation hub when assessing test quality under review. Composition-only in
     the profile channel, authored per the #3063 family-D operator attestation.'
+- source: styleguide:test-desiderata-and-boundaries
+  target: foundation::directive:DIRECTIVE_054
+  relation: suggests
+  when: drawing a test's boundary and deciding which collaborators may be substituted
+  reason: The mock-boundary directive carries the allow-list of substitutes that the boundary drawn here leaves.
+- source: styleguide:testing-principles
+  target: foundation::directive:DIRECTIVE_054
+  relation: suggests
+  when: judging whether a test is isolated and truthful about the code it owns
+  reason: The mock-boundary directive says where doubles may sit without making the test untruthful.
+- source: procedure:test-first-bug-fixing
+  target: foundation::procedure:red-first-bug-reproduction
+  relation: suggests
+  when: reproducing the defect through the existing entry point before the fix
+  reason: The foundation reproduction procedure is the red-first step this procedure builds on.
 - source: foundation::directive:DIRECTIVE_030
   target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests

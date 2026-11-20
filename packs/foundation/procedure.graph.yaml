@@ -188,12 +188,22 @@ edges:
   relation: tension
   reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures
     and minor clutter in every touched file the default.
+- source: procedure:red-first-bug-reproduction
+  target: tactic:delete-the-assertion-not-the-test
+  relation: suggests
+  when: the reproduction test replaces a friction test whose assertion is wrong
+  reason: Replace the wrong assertion with a contract-pinned red-first one while keeping the test's setup and edge cases.
 - source: procedure:unfake-an-over-mocked-test
   target: procedure:observable-contract-test-authoring
   relation: suggests
 - source: procedure:unfake-an-over-mocked-test
   target: tactic:test-boundaries-by-responsibility
   relation: requires
+- source: procedure:unfake-an-over-mocked-test
+  target: tactic:test-scaffolding-as-design-smell
+  relation: suggests
+  when: the over-mocked test's scaffolding points at a design problem in the code under test
+  reason: Heavy scaffolding is read as a design smell, so the unfake pass can fix the code shape instead of adding doubles.
 - source: procedure:adversarial-squad-deployment
   target: tactic:code-review-incremental
   relation: requires
