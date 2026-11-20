@@ -271,7 +271,7 @@ After the closing `---`, draft the Markdown body with the following structure:
 |----|----------|----------|-------------|---------|----------------|
 | D1 | duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
 
-One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G, H, J), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, other planning artifacts in inventory order, then occurrence_map.yaml, then decision files by name, meta.json, charter; a finding citing several artifacts sorts by its first cited location), then by line, so a rerun on unchanged artifacts yields the same ids. Locations use `file:Lnn` (or `file:Lnn-mm`); use a heading only when no stable line exists:
+One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G, H, J), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, other planning artifacts in inventory order, then occurrence_map.yaml, then decision files by name, meta.json, charter; a finding citing several artifacts sorts by its first cited location), then by line, so a rerun on unchanged artifacts yields the same ids. Table rows are sorted by step (2a, 2b, then passes A-G, H, J), then by id number; when rows overflow the 50-row cap, every HIGH and CRITICAL row stays in the table. Locations use `file:Lnn` (or `file:Lnn-mm`); use a heading only when no stable line exists:
 
 | Prefix | Category | Prefix | Category |
 |---|---|---|---|
