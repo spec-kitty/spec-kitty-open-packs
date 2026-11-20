@@ -1,0 +1,267 @@
+{
+  "event_count": 49,
+  "last_event_id": "01M7X2Q9A52CMMGGE531MG2XCV",
+  "materialized_at": "2026-11-20T18:15:26.789861+00:00",
+  "mission_number": "4",
+  "mission_slug": "test-doctrine-01M7X00D",
+  "mission_type": "software-dev",
+  "schema_version": 2,
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 7,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q8RK7HA3QTW0VFD85G4P",
+      "last_transition_at": "2026-11-20T18:15:26.227626+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Gates exit 0: validate-packs.sh, pytest (328 passed), check_vocabulary (0 findings), gen_pack_reference --check, check-pack-digests.sh. grep DIRECTIVE_054 in foundation graphs: node + 10 edges. charter context --include directive:DIRECTIVE_054 not resolvable: installed CLI reads packs from its own install, not this repo.",
+        "Independent review APPROVE; nits folded in 4b7ebf7; gates green"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP01-mock-boundary-directive/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2053521,
+      "shell_pid_created_at": "1795197030.58",
+      "subtasks": {
+        "T001": "done",
+        "T002": "done",
+        "T003": "done",
+        "T004": "done",
+        "T005": "done",
+        "T006": "done"
+      },
+      "tracker_refs": [
+        "#216"
+      ]
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q8VVTQQ9BQQEF5125KB3",
+      "last_transition_at": "2026-11-20T18:15:26.331089+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Gates exit 0: validate-packs.sh, pytest tests (328 passed), check_vocabulary.py, gen_pack_reference.py --check, check-pack-digests.sh. grep -rn -i 'DO mock\\|services outside the current module' packs: no matches. qa edge qa-test-designer-tessa suggests foundation::directive:DIRECTIVE_054 added. All 5 foundation tactics and both styleguides changed; Isolated entry extended, no duplicate.",
+        "Independent review: 5 required fixes (contradicting neighbour sentences) folded by orchestrator; gates green"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP02-seam-surfaces-agree/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2074845,
+      "shell_pid_created_at": "1795197334.38",
+      "subtasks": {
+        "T007": "done",
+        "T008": "done",
+        "T009": "done",
+        "T010": "done"
+      },
+      "tracker_refs": [
+        "#216"
+      ]
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q8YS9GM7F9A5NKP0PCFY",
+      "last_transition_at": "2026-11-20T18:15:26.425431+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Evidence: validate-packs.sh, pytest tests (328 passed), check_vocabulary.py, gen_pack_reference.py --check, check-pack-digests.sh all exit 0; grep 'every production change|Each new behavior has' packs/foundation empty; 041 diff = two edits only.",
+        "Independent review APPROVE; nits 1-3 folded; gates green"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP03-red-first-carve-out/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2089065,
+      "shell_pid_created_at": "1795197625.13",
+      "subtasks": {
+        "T011": "done",
+        "T012": "done",
+        "T013": "done",
+        "T014": "done",
+        "T015": "done",
+        "T016": "done",
+        "T017": "done"
+      },
+      "tracker_refs": [
+        "#209"
+      ]
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q91MS1AHX6M7JWAEZ4ZM",
+      "last_transition_at": "2026-11-20T18:15:26.516831+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Evidence: grep for 'Write tests first (TDD)|Follow TDD practices' in implement.prompt.md returns nothing; software-dev files ASCII (tests/ci/test_software_dev_ascii.py, test_prompt_fragments.py pass in full pytest: 328 passed); validate-packs.sh, check_vocabulary.py, gen_pack_reference.py --check, check-pack-digests.sh, pytest tests all exit 0. Foundation manifest/digest/page restamped (gate companions); built-in digest and BUILT_IN_DIGEST needed no change.",
+        "Independent review: required fixes folded by orchestrator; gates green"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP04-software-dev-mission-surfaces/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2106553,
+      "shell_pid_created_at": "1795197916.15",
+      "subtasks": {
+        "T018": "done",
+        "T019": "done",
+        "T020": "done",
+        "T021": "done"
+      },
+      "tracker_refs": [
+        "#209",
+        "#216"
+      ]
+    },
+    "WP05": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q94FAHS5KV6V1K7T4366",
+      "last_transition_at": "2026-11-20T18:15:26.607503+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Gates exit 0: validate-packs.sh, pytest tests (328 passed), check_vocabulary.py, gen_pack_reference.py --check, check-pack-digests.sh. foundation/testing manifests, digests, pages restamped. grep 'failure text': owner red-first-bug-reproduction, pointer in testing test-first-bug-fixing.",
+        "Independent review: required fixes folded by orchestrator; gates green"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP05-red-for-the-right-reason/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2113177,
+      "shell_pid_created_at": "1795198013.6",
+      "subtasks": {
+        "T022": "done",
+        "T023": "done",
+        "T024": "done"
+      },
+      "tracker_refs": [
+        "#151",
+        "#216"
+      ]
+    },
+    "WP06": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q97D33XBM35ZCJ5VTRRY",
+      "last_transition_at": "2026-11-20T18:15:26.701365+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Evidence: validate-packs.sh 0; pytest tests 328 passed; check_vocabulary 0; gen_pack_reference --check 0; check-pack-digests.sh 0. New tactic wired with refines edge to acceptance-criteria-non-vacuity; three internal surfaces point to DIRECTIVE_034 carve-out.",
+        "Independent review APPROVE; nits and the semi-auto-delivery xfail follow-up folded; gates green"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP06-internal-house-specifics/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2120297,
+      "shell_pid_created_at": "1795198100.12",
+      "subtasks": {
+        "T025": "done",
+        "T026": "done",
+        "T027": "done"
+      },
+      "tracker_refs": [
+        "#209"
+      ]
+    },
+    "WP07": {
+      "actor": "merge",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7X2Q9A52CMMGGE531MG2XCV",
+      "last_transition_at": "2026-11-20T18:15:26.789861+00:00",
+      "model": "__resolved_model_absent__",
+      "notes": [
+        "Versions: foundation lockstep (foundation, writing, testing, refactoring, architecture, planning-analysis) 3.2.0 with ==3.2.0 pins; built-in 5.2.0; qa 5.1.0 (foundation range >=3.2,<4); internal 4.2.0. Manifests derived, digests restamped, BUILT_IN_DIGEST updated, pages regenerated, changelog added. Gates exit 0: validate-packs.sh, pytest tests (328 passed), check_vocabulary.py, gen_pack_reference.py --check, check-pack-digests.sh, check_docs_freshness.py --base origin/main. Charter jar check and drift test run by orchestrator on pre-version tree, green; not rerun here.",
+        "Orchestrator review of glue WP: versions per R4, restamps, changelog; gates green; charter service check green on pre-version tree"
+      ],
+      "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-01M7X00D/WP07-release-surface/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 2131459,
+      "shell_pid_created_at": "1795198322.23",
+      "subtasks": {
+        "T028": "done",
+        "T029": "done",
+        "T030": "done",
+        "T031": "done"
+      },
+      "tracker_refs": [
+        "#216",
+        "#209",
+        "#151"
+      ]
+    }
+  }
+}
