@@ -1,0 +1,149 @@
+{
+  "rows": {
+    "#1131": {
+      "evidence_ref": "Core half of #247 (checkers, fixture tests); cited for context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "core: deep spec analysis (checker + fixtures)",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#147": {
+      "evidence_ref": "Boundary: not pre-empted (C-004); cited for context",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Doctrine: vertical-skeleton-first tactic",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#213": {
+      "evidence_ref": "Planning-corpus inputs and pass H (tactic planning-corpus-consistency, WP01; analyze prompt, WP02)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Expand /spec-kitty.analyze to review full planning corpus and user intent",
+      "verdict": "in-mission",
+      "wp": "WP02"
+    },
+    "#214": {
+      "evidence_ref": "Product-coherence pass J with the recommendation line (tactic product-coherence-review, WP01; analyze prompt, WP02)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Add product-coherence checks to /spec-kitty.analyze",
+      "verdict": "in-mission",
+      "wp": "WP02"
+    },
+    "#215": {
+      "evidence_ref": "Boundary: not pre-empted (C-004); cited for context",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "Doctrine: import product-to-execution patterns",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#237": {
+      "evidence_ref": "Already shipped (WP-prompt readiness); cited for context",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "analyze: inspect every WP prompt",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#246": {
+      "evidence_ref": "Already shipped (finalize-tasks --validate-only); cited for context",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "analyze: finalize-tasks --validate-only",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#247": {
+      "evidence_ref": "Step-0 squad folds: S-finding rows, Inferred: placement, untestable rule (WP02); #247 content pins (WP04)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "analyze/specify prompts: requirement-quality, EARS and scenario-audit report sections",
+      "verdict": "in-mission",
+      "wp": "WP02"
+    },
+    "#300": {
+      "evidence_ref": "Cited in research R-10 as the versioning precedent batch; no work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#302": {
+      "evidence_ref": "Cited in research R-10 as the versioning precedent batch; no work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#303": {
+      "evidence_ref": "Cited in research R-10 as the versioning precedent batch; no work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#849": {
+      "evidence_ref": "Parent epic in core; cited for context",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": "spec.md",
+      "title": "core epic: analyze readiness",
+      "verdict": "not-applicable",
+      "wp": null
+    }
+  },
+  "schema_version": 1
+}

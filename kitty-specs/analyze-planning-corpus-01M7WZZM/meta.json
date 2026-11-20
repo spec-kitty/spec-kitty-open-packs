@@ -1,0 +1,52 @@
+{
+  "accept_commit": "37143e9c22d805c83df210680d6b1aa95ccee227",
+  "acceptance_history": [
+    {
+      "accept_commit": "37143e9c22d805c83df210680d6b1aa95ccee227",
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-20T18:20:31.346512+00:00",
+      "accepted_by": "claude:opus:orchestrator",
+      "accepted_from_commit": "0d624ebbf67f3acf89af6a10adb09f2ca0549e9e"
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-20T18:20:31.346512+00:00",
+  "accepted_by": "claude:opus:orchestrator",
+  "accepted_from_commit": "0d624ebbf67f3acf89af6a10adb09f2ca0549e9e",
+  "baseline_merge_commit": "3bedeefb611fb7c21a7a664ed1b783997ebc2aa9",
+  "contracts": "none",
+  "contracts_rationale": "Prompt-only doctrine change: the Mission adds no API, CLI or payload interface. The inputs (check-prerequisites inventory, meta.json) and the analysis-findings/v1 carrier are existing core interfaces, used unchanged.",
+  "coordination_branch": "kitty/mission-analyze-planning-corpus-01M7WZZM",
+  "create_return_branch": "t3/analyze-planning-corpus-coherence",
+  "created_at": "2026-11-20T17:27:38.210014+00:00",
+  "flattened": false,
+  "friendly_name": "Analyze: full planning corpus and product coherence",
+  "merged_at": "2026-11-20T18:21:31.396993+00:00",
+  "merged_commit": "df42099dc0bba42ca73b092a7cc14270e92b7642",
+  "mid8": "01M7WZZM",
+  "mission_base_sha": "3bedeefb611fb7c21a7a664ed1b783997ebc2aa9",
+  "mission_branch": "kitty/mission-analyze-planning-corpus-01M7WZZM",
+  "mission_id": "01M7WZZMH9CY1FZSTP7M2HWASJ",
+  "mission_number": 4,
+  "mission_slug": "analyze-planning-corpus-01M7WZZM",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Today /spec-kitty.analyze checks only spec, plan, tasks and WP prompts for mechanical consistency. Research decisions, data models, contracts, quickstart scenarios and the original intent recorded at mission creation can contradict the tasks unnoticed, and an internally consistent plan can still be overbuilt, missing its smallest valuable slice or drifting from what the user asked for. This mission extends the analyze step prompt (and its cave-kitty copy) with a planning-artifact consistency pass and an advisory product-coherence pass, staying prompt-only and read-only.",
+  "purpose_tldr": "Make the analyze readiness gate review the whole planning corpus and whether the plan still serves the user's goal.",
+  "slug": "analyze-planning-corpus-01M7WZZM",
+  "source_description": "Issues #213 (analyze: full planning corpus and user intent) and #214 (analyze: product-coherence checks), plus the #247 follow-up folds; operator ruling 2026-11-20: product-coherence findings are advisory (capped at MEDIUM, never block) with a mandatory revise spec | revise plan | revise tasks | proceed recommendation.",
+  "status_phase": "1",
+  "target_branch": "t3/analyze-planning-corpus-coherence",
+  "topology": "lanes_with_coord",
+  "topology_decision": {
+    "code_lane_count": 5,
+    "from": "single_branch",
+    "rule": "lanes_with_coord",
+    "target_protected": false,
+    "to": "lanes_with_coord",
+    "wp_count": 5
+  },
+  "topology_settled": true,
+  "topology_source": "default",
+  "vcs": "git"
+}

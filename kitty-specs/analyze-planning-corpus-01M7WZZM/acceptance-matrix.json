@@ -1,0 +1,189 @@
+{
+  "mission_slug": "analyze-planning-corpus-01M7WZZM",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "Verify FR-001 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_corpus_inputs_are_named",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:18:22.573550+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "Verify FR-002 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_corpus_inputs_are_named (meta.json, purpose_tldr, purpose_context, source_description)",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:18:28.965703+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "Verify FR-003 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_tactic_content_names_its_concepts; ::test_both_tactics_cited_in_both_prompts",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:18:35.936647+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "Verify FR-004 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_tactic_content_names_its_concepts (ungrounded); analyze.prompt.md pass H",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:18:43.082267+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "Verify FR-005 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_planning_artifact_keeps_normal_severity (+ positive control)",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:18:49.866049+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "Verify FR-006 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_tactic_content_names_its_concepts (MVP, vertical slice, overbuild, sequencing)",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:18:56.922195+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-007",
+      "description": "Verify FR-007 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_coherence_is_capped_at_medium; ::test_cap_helper_positive_control",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:03.932138+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-008",
+      "description": "Verify FR-008 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_recommendation_literal_in_both_prompts",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:10.358958+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-009",
+      "description": "Verify FR-009 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_report_sections_in_order",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:17.636189+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-010",
+      "description": "Verify FR-010 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_prefix_table_has_twelve_distinct_prefixes; ::test_pass_labels_skip_i; ::test_id_ordering_and_one_defect_rule",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:24.609072+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-011",
+      "description": "Verify FR-011 is satisfied",
+      "proof_type": "manual_review",
+      "evidence": "analyze.prompt.md Metrics lists Planning artifacts reviewed, Planning-artifact findings, Product-coherence findings, Coherence recommendation (grep verified)",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:31.058357+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-012",
+      "description": "Verify FR-012 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_inferred_carrier_and_v_exemption; ::test_inferred_label_in_both_prompts",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:38.091188+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-013",
+      "description": "Verify FR-013 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_scenario_audit_table_and_ascii_marker; ::test_scenario_audit_kinds_in_order",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:44.844924+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-014",
+      "description": "Verify FR-014 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_tactic_files_parse_with_id_and_steps; ::test_graph_wires_both_tactics_to_analyze; validate-packs.sh green",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:51.896496+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-015",
+      "description": "Verify FR-015 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_cave_prompt_parity; ::test_cave_prompt_within_line_budget",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:19:59.244555+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-016",
+      "description": "Verify FR-016 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py (39 tests; 17 red-first fail on 3bedeef, verified by two reviewers)",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:20:06.533993+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-017",
+      "description": "Verify FR-017 is satisfied",
+      "proof_type": "manual_review",
+      "evidence": "docs/changelog/CHANGELOG.md [Unreleased] Added entry citing #213, #214, #247 (commit f92b41c)",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:20:13.539023+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-018",
+      "description": "Verify FR-018 is satisfied",
+      "proof_type": "automated_test",
+      "evidence": "tests/ci/test_analyze_readiness_prompts.py::test_example_row_uses_lowercase_category; ::test_high_line_drops_old_acceptance_criterion_wording",
+      "pass_fail": "pass",
+      "verified_by": "claude:opus:orchestrator",
+      "verified_at": "2026-11-20T18:20:20.236274+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    }
+  ],
+  "negative_invariants": []
+}
