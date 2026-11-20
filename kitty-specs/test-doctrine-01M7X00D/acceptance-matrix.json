@@ -1,0 +1,139 @@
+{
+  "mission_slug": "test-doctrine-01M7X00D",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "Verify FR-001 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "review-cycle-1 + gates",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:55.966828+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "Verify FR-002 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:35.234600+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "Verify FR-003 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:36.729189+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "Verify FR-004 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:38.205602+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "Verify FR-005 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:39.702828+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "Verify FR-006 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:41.221556+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-007",
+      "description": "Verify FR-007 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:42.680692+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-008",
+      "description": "Verify FR-008 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:44.108722+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-009",
+      "description": "Verify FR-009 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:45.590473+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-010",
+      "description": "Verify FR-010 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:47.054934+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-011",
+      "description": "Verify FR-011 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:48.542537+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-012",
+      "description": "Verify FR-012 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:49.987200+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-013",
+      "description": "Verify FR-013 is satisfied",
+      "proof_type": "review_and_gates",
+      "evidence": "WP review cycles (kitty-specs/test-doctrine-01M7X00D/tasks/*/review-cycle-1.md) + gates green at HEAD",
+      "pass_fail": "pass",
+      "verified_by": "claude-runner",
+      "verified_at": "2026-11-20T18:14:51.406277+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    }
+  ],
+  "negative_invariants": []
+}

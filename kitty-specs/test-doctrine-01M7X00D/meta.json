@@ -1,0 +1,37 @@
+{
+  "accept_commit": "2e3ffeabb457596fd98eaddc3920b7b0fabbbbfe",
+  "acceptance_history": [
+    {
+      "accept_commit": "2e3ffeabb457596fd98eaddc3920b7b0fabbbbfe",
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-20T18:15:03.697555+00:00",
+      "accepted_by": "stijn",
+      "accepted_from_commit": "dda775c45af94c35c8974b0e366180da361606c6"
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-20T18:15:03.697555+00:00",
+  "accepted_by": "stijn",
+  "accepted_from_commit": "dda775c45af94c35c8974b0e366180da361606c6",
+  "baseline_merge_commit": "d44d53f22dabad1cbf1ae013ddee88c076c1f270",
+  "contracts": "none",
+  "contracts_rationale": "No API or interface is defined: the mission edits doctrine pack content and graph files validated against the charter contract the charter repository owns.",
+  "created_at": "2026-11-20T17:28:00.176430+00:00",
+  "flattened": false,
+  "friendly_name": "Test doctrine: mock boundary and red-first value",
+  "merged_at": "2026-11-20T18:15:26.180984+00:00",
+  "merged_commit": "d44d53f22dabad1cbf1ae013ddee88c076c1f270",
+  "mid8": "01M7X00D",
+  "mission_id": "01M7X00DD0YH82KP7A1KX73RRV",
+  "mission_number": 4,
+  "mission_slug": "test-doctrine-01M7X00D",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Two test-quality failures keep recurring in consumer missions: tests that mock code the system under test owns (a stub once manufactured a state the real code could never reach and triggered a false data-loss alarm), and pro-forma red-first tests that only restate configuration and later fail only when someone changes it on purpose. This mission adds a foundation directive that mocks may only sit at the responsibility border, with an explicit allow-list, and scopes the red-first rule to behaviour with lasting regression risk, letting a real run or an existing gate be the evidence for config and glue work. The sibling testing tactics, the review guidance and the doctrine graph are reconciled so no surface contradicts the new rules.",
+  "purpose_tldr": "Give reviewers and agents a citable rule for where tests may mock, and limit red-first tests to work with a lasting regression risk.",
+  "slug": "test-doctrine-01M7X00D",
+  "status_phase": "1",
+  "target_branch": "t3/test-doctrine-mock-boundary",
+  "topology": "single_branch",
+  "topology_source": "explicit"
+}
