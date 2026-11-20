@@ -267,22 +267,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   new `unfake-an-over-mocked-test` procedure turns an over-mocked test into one that does. Both load
   at the implement and review actions and for the implementer, reviewer, generic and qa test-designer
   profiles. Before, the seam lists in the testing tactics and styleguides differed; now they agree
-  with the directive. The remaining #216 items (paradigm, assets, checklist de-duplication, curator
+  with the directive. The remaining #216 items (the tests-as-scaffold paradigm and the DIRECTIVE_041
+  mindset split, the anti-pattern nodes and reference assets, checklist de-duplication, the curator
   profile) stay open.
 - **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
   logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
   and glue work, a recorded real run or an existing gate is the evidence, labelled
   `[evidenced-by-run]`, and delivery asks the long-term-value question. Review flags tests that only
   restate configuration as waste and checks that the cited evidence exists. `DIRECTIVE_041` lets a
-  change detector retire once its evidence is recorded. Before, the doctrine asked for a failing test ahead of every production change.
+  change detector retire once its evidence is recorded. Before, the doctrine asked for a failing
+  test ahead of every production change.
 - **A red that proves the right thing** (#151). `red-first-bug-reproduction` records the failure text,
   inverts a test that pins the defect, and splits a reproduction from its fix with a strict expected
   failure. Before, a red could pass for the wrong reason.
-- **`internal` carries a CI-workflow worked example** for the evidence rule above. The change is
-  additive (DIRECTIVE_018), so the bumps are minor and lockstep: `foundation`, `writing`, `testing`,
-  `refactoring`, `architecture` and `planning-analysis` 3.1.0 → 3.2.0, `built-in` 5.1.0 → 5.2.0,
-  `qa` 5.0.0 → 5.1.0 (its `foundation` range narrows to `>=3.2,<4`, since it cites `DIRECTIVE_054`),
-  and `internal` 4.1.0 → 4.2.0. **What to do:** nothing in your packs.
+- **Review now fails doubles of owned logic and new change-detector tests** (#216, #209). The
+  software-dev review step fails a test double on code the system under test owns, and fails a new or
+  changed test that only restates configuration. It also checks that the cited run or gate exists and
+  exercises the changed configuration. Configuration that encodes security or permission policy is
+  exempt from the change-detector check; it takes red-first or a repository-wide policy check.
+- **The spec template and the specify prompt carry the evidence labels** (#209). Requirement rows gain
+  the `[evidenced-by-run]` delivery label and the `n-a` no-op mark, defined in the
+  `acceptance-criteria-non-vacuity` tactic.
+- **`DIRECTIVE_036` defers to `DIRECTIVE_054` for where substitutes sit** (#216). Before, the two
+  directives could read as giving different answers on which seams a test may substitute.
+- **Two new glossary terms** (#216, #209): "responsibility boundary" and "change-detector test".
+- **`internal` carries a CI-workflow worked example** for the evidence rule above. Its `foundation`
+  range narrows to `>=3.2,<4`, since its content cites the 3.2 rules.
+- **Versions** (#216, #209, #151). The new rules apply to new or changed tests; existing tests stay
+  conforming, so the change is additive (DIRECTIVE_018). The bumps are minor and lockstep:
+  `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`
+  3.1.0 → 3.2.0, `built-in` 5.1.0 → 5.2.0, `qa` 5.0.0 → 5.1.0 (its `foundation` range narrows to
+  `>=3.2,<4`, since it cites `DIRECTIVE_054`), and `internal` 4.1.0 → 4.2.0 (its `foundation` range
+  narrows to `>=3.2,<4`). `python` and `drupal` take a patch bump, 2.1.1 → 2.1.2, for the reworded
+  test-boundary guidance. **What to do:** nothing in your packs.
 
 - **`/spec-kitty.analyze` checks implementation readiness** (#246, #237, #247; epic #244). The
   software-dev `analyze` step now does three more things before it gives a verdict:
