@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 3d95026690a95269439f574f49e09c27299cfcef9034be2ec2c805d4deeb10f3
+manifest_hash: a215236e5402f4eb31766d2cfe1c08563cc41bcd91540586a2807a0e33d0196a
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -384,7 +384,7 @@ constituents:
 - kind: procedure
   id: test-first-cycle
   path: procedures/test-first-cycle.procedure.yaml
-  content_hash: 9140cc75d098a0b66bbc82922d12c2dfb62894ebc13b829b3b3ffc001a3e3a2d
+  content_hash: 92ff505e3db007516b1d4790ab480ba1eecbf6ac5b4d98dfdfefffc77929a379
 - kind: procedure
   id: tidy-first-campsite-clean
   path: procedures/tidy-first-campsite-clean.procedure.yaml
