@@ -748,6 +748,73 @@ class CharterTrackNightlyMain(unittest.TestCase):
         self.assertNotEqual(nightly[0], group(track_dispatch("ref"))[0])
 
 
+class CharterTrackReport(unittest.TestCase):
+    """scripts/ci/charter_track_report.sh reads each failed job's log, as the runner's gh allows (#323)."""
+
+    REPORT = ROOT / "scripts" / "ci" / "charter_track_report.sh"
+    # A job log as the API serves it: ANSI colour codes around the step echo and inside an error annotation.
+    LOG = ("2026-11-20T02:28:06.1Z \x1b[36;1mpython3 scripts/validate.py\x1b[0m\n"
+           "2026-11-20T02:28:06.2Z ##[error]foundation/directive.graph.yaml: \x1b[31m'in_tension_with'\x1b[0m is `bad`\n"
+           "2026-11-20T02:28:06.3Z ##[error]Process completed with exit code 1.\n")
+    JOBS = ("11\tfailure\tCharter checks / Charter Pack validation\n"
+            "12\tsuccess\tCharter checks / Charter service validation\n"
+            "13\tfailure\tReport\n")
+
+    def report(self, gh_mode: str) -> subprocess.CompletedProcess[str]:
+        """Run the report against a stub gh. gh_mode: "strict" refuses escape sequences unless
+        --allow-escape-sequences is passed (the runner's gh); "old" has no such flag and prints them;
+        "denied" fails every log read."""
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            (work / "bin").mkdir()
+            (work / "log.txt").write_text(self.LOG, encoding="utf-8")
+            (work / "jobs.tsv").write_text(self.JOBS, encoding="utf-8")
+            gh = work / "bin" / "gh"
+            gh.write_text(
+                "#!/usr/bin/env bash\n"
+                'if [[ "$*" == "api --help" ]]; then\n'
+                '  [[ "$GH_MODE" == old ]] && echo "  --jq string" || echo "  --allow-escape-sequences   Output escape sequences"\n'
+                "  exit 0\n"
+                "fi\n"
+                'case "$*" in\n'
+                '  *"/runs/"*"/jobs"*) cat "$WORK/jobs.tsv" ;;\n'
+                '  *"/logs")\n'
+                '    if [[ "$GH_MODE" == denied ]]; then echo "gh: Resource not accessible by integration (HTTP 403)" >&2; exit 1; fi\n'
+                '    if [[ "$GH_MODE" == strict && "$*" != *--allow-escape-sequences* ]]; then\n'
+                '      echo "the response contains terminal escape sequences; pass --allow-escape-sequences to output it anyway" >&2\n'
+                "      exit 1\n"
+                "    fi\n"
+                '    if [[ "$GH_MODE" == old && "$*" == *--allow-escape-sequences* ]]; then echo "unknown flag: --allow-escape-sequences" >&2; exit 1; fi\n'
+                '    printf "%b" "$(cat "$WORK/log.txt")" ;;\n'
+                "  *) echo \"unexpected: $*\" >&2; exit 1 ;;\n"
+                "esac\n", encoding="utf-8")
+            gh.chmod(0o755)
+            env = {**os.environ, "PATH": f"{work / 'bin'}:{os.environ['PATH']}", "WORK": str(work), "GH_MODE": gh_mode,
+                   "GITHUB_REPOSITORY": "spec-kitty/spec-kitty-open-packs"}
+            return subprocess.run(["bash", str(self.REPORT), "1"], env=env, capture_output=True, text=True, check=True)
+
+    def test_the_errors_of_a_failed_job_are_quoted_whichever_gh_reads_the_log(self) -> None:
+        for mode in ("strict", "old"):
+            with self.subTest(gh=mode):
+                out = self.report(mode).stdout
+                self.assertIn("| Charter Pack validation | failure |", out)
+                self.assertIn("| Charter service validation | success |", out)
+                self.assertNotIn("Report", out)  # only the called gate's jobs
+                self.assertIn("#### Charter Pack validation: errors", out)
+                self.assertIn("foundation/directive.graph.yaml: 'in_tension_with' is 'bad'", out)
+                self.assertIn("Process completed with exit code 1.", out)
+                self.assertNotIn("could not be read", out)
+                self.assertNotIn("\x1b", out)  # no escape sequence reaches the issue
+                self.assertEqual(out.count("```"), 2)  # one fence, opened and closed
+
+    def test_a_log_that_cannot_be_read_says_why(self) -> None:
+        done = self.report("denied")
+        self.assertIn("(the job log could not be read; see the run)", done.stdout)
+        self.assertIn("Resource not accessible by integration (HTTP 403)", done.stdout)
+        self.assertIn("job 11 log: gh: Resource not accessible by integration (HTTP 403)", done.stderr)
+        self.assertEqual(done.stdout.count("```"), 2)
+
+
 def gh_expr_crons(text: str) -> list[str]:
     """Every cron string a workflow expression compares github.event.schedule with."""
     return re.findall(r"github\.event\.schedule [!=]= '([^']+)'", text)
