@@ -10,7 +10,7 @@ exit_condition: |
 steps:
 - title: Select the test-first tactic for the scope
   description: |
-    Before the first production edit, decide whether the change carries a lasting regression risk; if not, record the real-run or gate evidence and skip the test. Otherwise pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, the testing pack's zombies-tdd (when installed) for incremental case discovery.
+    Before the first production edit, decide whether the change carries a lasting regression risk (an unrelated future edit could break it unnoticed). Product logic; scripts that gate or classify (CI gates, linters, classifiers); invariants; and security or permission policy always do. When unsure, treat the change as carrying a lasting regression risk. If it does not, record the real-run or gate evidence (it must exercise the change) and do not write a test that restates configuration. Otherwise pick the tactic: acceptance-test-first for user-facing behavior boundaries, tdd-red-green-refactor for unit-level iteration, the testing pack's zombies-tdd (when installed) for incremental case discovery.
 - title: Write a failing test first
   description: |
     For a change with a lasting regression risk, write a test that captures the intended behavior and fails before any production code is written.

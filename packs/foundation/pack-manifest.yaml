@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 0b79cf4c4f367f35764b9acac783d33dce590d8f5c4e7e7d4fb385fff01470c6
+manifest_hash: aa105b11abbae38b431ba050f1e86f2f33b0771d0146989bb9db6acccca11b56
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -72,7 +72,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 985f3b9f06ec74b17bd9ada98897982311befe48af9a345acb9a6fea95d595ab
+  content_hash: 61de8f3a014a47fe065513dbd1b4f782ce7134cd9612cdb8a9655a1653571894
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -384,7 +384,7 @@ constituents:
 - kind: procedure
   id: test-first-cycle
   path: procedures/test-first-cycle.procedure.yaml
-  content_hash: f3172bcd4633793f2762ac1f663daeae5c1b10f4a988c045bfb57b6c44353d06
+  content_hash: 9140cc75d098a0b66bbc82922d12c2dfb62894ebc13b829b3b3ffc001a3e3a2d
 - kind: procedure
   id: tidy-first-campsite-clean
   path: procedures/tidy-first-campsite-clean.procedure.yaml
@@ -604,7 +604,7 @@ constituents:
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml
-  content_hash: 100afb62b4b3b63a7bda3d664df5ddc2c9e8d93b03aa02dc88620e617b9cf8c6
+  content_hash: 9df694243b2ed1d7318e5aef1295a792d0ab84fce105462027f7a72e1ba0d6e8
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
