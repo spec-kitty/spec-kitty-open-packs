@@ -5,9 +5,9 @@
 This step maps 1:1 to the built-in software-dev `analyze` action and inherits its full contract:
 a cross-artifact consistency and quality check that runs after `tasks` and before `implement` —
 it confirms `spec.md`, `plan.md`, `tasks.md`, every WP prompt (`tasks/WP*.md`) and the other
-planning artifacts are mutually coherent, and that the plan still serves the Mission's
-creation intent (every requirement traces to a work package, every WP traces back, no orphaned
-or contradictory decision), that the task metadata passes the read-only finalize validation, that
+planning artifacts are mutually coherent (every requirement traces to a work package, every WP
+traces back, no orphaned or contradictory decision), and that the plan still serves the Mission's
+creation intent, that the task metadata passes the read-only finalize validation, that
 the requirements are good enough to build from, and that the mission is ready to implement. It is an analysis-currency gate, not a document this step authors.
 cave-dev overrides one thing only: the agent's OUTPUT prose — the analysis report — which it
 compresses to the caveman voice. The consistency rubric and the readiness gate are unchanged from
