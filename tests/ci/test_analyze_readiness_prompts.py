@@ -547,10 +547,10 @@ class DeterminismTest(unittest.TestCase):
 
 
 MVP_SOURCE = 'the MVP slice named in tasks.md (an MVP Scope note or any heading containing MVP; none: "MVP unclear")'
-SEVERITY_SPLIT = "MEDIUM for intent drift, a lost scenario or an unclear MVP; LOW otherwise"
+SEVERITY_SPLIT = "MEDIUM for intent drift, a lost scenario or a named MVP that delivers no user value; LOW otherwise"
 SETUP_NOT_SCAFFOLDING = "setup or foundation WPs the MVP slice directly needs are not scaffolding"
 TASKS_MVP_NOTE = "MVP scope recommendation, recorded in tasks.md's MVP Scope note (analyze reads it)"
-FINALIZE_MVP_NOTE = "MVP scope recommendation (recorded in tasks.md's MVP Scope note, which analyze reads)"
+FINALIZE_MVP_NOTE = "this step writes no MVP Scope note; analyze reports a missing note as LOW"
 
 
 class MvpAndScaffoldingTest(unittest.TestCase):
@@ -561,7 +561,7 @@ class MvpAndScaffoldingTest(unittest.TestCase):
         self.assertIn("never define MVP here", text)
 
     def test_m_severity_split(self) -> None:
-        """red-first: M findings are MEDIUM for drift, a lost scenario or an unclear MVP and LOW otherwise, still capped."""
+        """red-first: M findings are MEDIUM for drift, a lost scenario or a valueless named MVP and LOW otherwise, still capped."""
         block = self_severity()
         self.assertIn(SEVERITY_SPLIT, block)
         self.assertTrue(coherence_capped(block))
@@ -575,11 +575,13 @@ class MvpAndScaffoldingTest(unittest.TestCase):
         mvp_step = next(s["description"] for s in steps if s["title"] == "Read the smallest valuable slice")
         self.assertIn("any heading containing MVP", squash(mvp_step))
 
-    def test_tasks_steps_record_the_mvp_scope_note(self) -> None:
-        """red-first: the tasks and tasks-finalize prompts record the MVP in a note analyze reads."""
+    def test_mvp_note_follows_who_writes_tasks_md(self) -> None:
+        """red-first: the single-command tasks step writes the MVP Scope note; the split flow's finalize generates
+        tasks.md, writes no note and says so, so a missing note stays a LOW finding that cannot force a revise."""
         self.assertIn(TASKS_MVP_NOTE, read(SOFTWARE_DEV / "tasks.prompt.md"))
-        self.assertIn(FINALIZE_MVP_NOTE, read(SOFTWARE_DEV / "tasks-finalize.prompt.md"))
         self.assertNotIn("usually Work Package 1", read(SOFTWARE_DEV / "tasks.prompt.md"))
+        self.assertIn(FINALIZE_MVP_NOTE, read(SOFTWARE_DEV / "tasks-finalize.prompt.md"))
+        self.assertIn('LOW otherwise, including a missing MVP note ("MVP unclear")', self_severity())
 
     def test_split_check_positive_control(self) -> None:
         """control: the capped check still sees a cap that carries the severity split, and rejects a HIGH line."""
