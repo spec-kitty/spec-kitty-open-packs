@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 87c511b36ea1b6e86c77238905f09c8357b7eeae69fd499f5a1d871acef08a87
+manifest_hash: faa63cb535eccfc9945e1dfe476c6b51e53faeee572f274805d1aa8194a4b898
 constituents:
 - kind: agent_profile
   id: python-pedro
   path: agent_profiles/python-pedro.agent.yaml
-  content_hash: 8ba5ad387112648faac1417a73b3d417c45ca7250d6afda3321c1dca076e19d8
+  content_hash: 05f7a8825f44957c0bd3f8f09c251eba1fc4a1a56a17317f55e9eca284df9b0f
 - kind: styleguide
   id: python-conventions
   path: styleguides/python-conventions.styleguide.yaml

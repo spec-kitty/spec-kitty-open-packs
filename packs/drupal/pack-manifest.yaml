@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 4be19fe7d7ea9c1152bb8433a1c24a5903a20f982cfcb0b05f6d87e823fb7467
+manifest_hash: e7095d73993add553db5de1aaf3fde44ab8bb7a8755234239c6152cc802e41e0
 constituents:
 - kind: agent_profile
   id: drupal-dries
   path: agent_profiles/drupal-dries.agent.yaml
-  content_hash: 13cbb34a1a7b702dbde61ac4d35739e5ef09c2a6f762fdcadcce56dd750d014d
+  content_hash: f8877ff7f2f9395f89403d75f9cc476462fa1995215d025e3dd003796366e179
 - kind: styleguide
   id: drupal-conventions
   path: styleguides/drupal-conventions.styleguide.yaml
