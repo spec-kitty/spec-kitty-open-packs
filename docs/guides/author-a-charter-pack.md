@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets, a governing preset and a policy.yaml.
 doc_status: wip
-updated: '2026-11-18'
+updated: '2026-11-20'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack

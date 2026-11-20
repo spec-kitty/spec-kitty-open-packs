@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-19'
+updated: '2026-11-20'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
