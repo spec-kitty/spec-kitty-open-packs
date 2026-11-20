@@ -640,5 +640,13 @@ class NonRemediatingListTest(unittest.TestCase):
         self.assertEqual(non_remediating_gaps("no such line"), list(NON_REMEDIATING_TARGETS))
 
 
+class CoherenceNotesTest(unittest.TestCase):
+    def test_tactic_cites_a_vertical_slice_tactic_rather_than_restating(self) -> None:
+        """red-first: the coherence tactic's notes say a vertical-slice tactic, when one exists, is cited."""
+        notes = squash(load_tactic(COHERENCE_TACTIC)["notes"])
+        self.assertIn("A vertical-slice decomposition tactic, when one exists, is cited rather than restated.", notes)
+        self.assertNotIn("cited rather than restated", squash("A plain note."))
+
+
 if __name__ == "__main__":
     unittest.main()

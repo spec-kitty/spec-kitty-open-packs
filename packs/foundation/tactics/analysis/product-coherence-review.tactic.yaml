@@ -97,3 +97,5 @@ failure_modes:
 notes: >
   This tactic defines what to look at and how to phrase a finding. The step
   that cites it (analyze) decides severities, finding ids and report layout.
+  A vertical-slice decomposition tactic, when one exists, is cited rather than
+  restated.
