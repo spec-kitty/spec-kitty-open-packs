@@ -14,6 +14,8 @@ run_id="$1"
 repo="${GITHUB_REPOSITORY:?GITHUB_REPOSITORY is not set}"
 prefix="Charter checks / "
 max_lines=40
+err="$(mktemp)"
+trap 'rm -f "$err"' EXIT
 
 jobs="$(gh api --paginate "repos/$repo/actions/runs/$run_id/jobs?per_page=100" \
   --jq '.jobs[] | select(.status == "completed") | [.id, .conclusion, .name] | @tsv')"
@@ -35,12 +37,13 @@ for entry in "${failed[@]}"; do
   echo
   echo '```text'
   # A log line is "<timestamp> ##[error]<message>"; keep the message. A log that cannot be read says so.
-  if log="$(gh api "repos/$repo/actions/jobs/$id/logs" 2>/dev/null)"; then
+  if log="$(gh api "repos/$repo/actions/jobs/$id/logs" 2>"$err")"; then
     # Backticks become quotes, so no log line can close the fence and render as Markdown (or mention anyone).
     errors="$(grep -F '##[error]' <<< "$log" | sed -E 's/^[^ ]+ ##\[error\]//' | tr '`' "'" | head -n "$max_lines" || true)"
     printf '%s\n' "${errors:-(no error annotation in the log; see the run)}"
   else
     echo "(the job log could not be read; see the run)"
+    tr '`' "'" < "$err" | head -n 5
   fi
   echo '```'
 done
