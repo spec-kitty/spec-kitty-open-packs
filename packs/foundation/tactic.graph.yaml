@@ -192,6 +192,10 @@ edges:
   target: tactic:tdd-red-green-refactor
   relation: suggests
   when: After the acceptance test fails for the right reason, drive implementation detail with Red-Green-Refactor cycles.
+- source: tactic:acceptance-test-first
+  target: procedure:red-first-bug-reproduction
+  relation: suggests
+  when: Recording the failure text of a red-first acceptance test, or inverting a test that pins a defect.
 - source: tactic:adr-drafting-workflow
   target: tactic:premortem-risk-identification
   relation: suggests
