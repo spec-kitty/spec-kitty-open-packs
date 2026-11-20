@@ -128,9 +128,9 @@ Classify the result in this order; the first case that matches wins.
 
 **3. Exit code 0 with `"result": "validation_passed"`: the gates passed.** Still read the payload:
 
-- `"validation_stage": "tasks-outline"`: only the `wps.yaml` outline exists and no WP prompt files were generated. Implementation cannot start: **CRITICAL**; Recommendation: run `/spec-kitty.tasks-packages`. Step 2b cites this finding for the missing prompts.
-- `tasks_md_stale: true`: `tasks.md` is out of step with `wps.yaml`. **HIGH**; Recommendation: re-run `/spec-kitty.tasks-finalize`.
-- `would_modify` not empty: finalization would still rewrite the frontmatter of the listed WPs (each entry names the `wp_id` and the `changes`). Either finalization has not run, or the WP files changed after it ran; either way the WP files are not the finalized metadata implementation will use. **HIGH**; Recommendation: run `/spec-kitty.tasks-finalize`.
+- `"validation_stage": "tasks-outline"`: only the `wps.yaml` outline exists and no WP prompt files were generated. Implementation cannot start: **CRITICAL**; Recommended action: run `/spec-kitty.tasks-packages`. Step 2b cites this finding for the missing prompts.
+- `tasks_md_stale: true`: `tasks.md` is out of step with `wps.yaml`. **HIGH**; Recommended action: re-run `/spec-kitty.tasks-finalize`.
+- `would_modify` not empty: finalization would still rewrite the frontmatter of the listed WPs (each entry names the `wp_id` and the `changes`). Either finalization has not run, or the WP files changed after it ran; either way the WP files are not the finalized metadata implementation will use. **HIGH**; Recommended action: run `/spec-kitty.tasks-finalize`.
 - `ownership_warnings`, `requirement_extraction_warnings`, `post_integration_acceptance_warnings`: one **MEDIUM** finding per warning; they do not stop finalization.
 - `success_criteria_coverage`: success criteria no WP references are informational; fold them into the coverage summary rather than raising findings.
 - `validation.lanes_preview.collapse_report`: independent WPs collapsed into one lane are a **LOW** finding (lost parallelism), not a blocker.
@@ -391,7 +391,7 @@ At end of report, output a concise Next Actions block:
 - If CRITICAL issues exist: Recommend resolving before `/implement`
 - A finalize-validation refusal or stale finalization: name `/spec-kitty.tasks-finalize` (after fixing the artifacts it names); a validation that could not run: name the CLI upgrade or the `--mission` handle fix; when the first blocking finding is a could-not-run `V`, name that CLI fix first
 - A WP-prompt blocker: name the WP and what it lacks
-- Repeat the Product Coherence recommendation line and name the artifact to revise, chosen by the owner rule above
+- Restate the Product Coherence choice; do not repeat the `Recommendation:` line. Name the artifact to revise, chosen by the owner rule above
 - If only LOW/MEDIUM: the verdict is ready; follow the Product Coherence recommendation (proceed, or the artifact it names to revise)
 - Provide explicit command suggestions: e.g., "Run /spec-kitty.specify with refinement", "Run /plan to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'"
 
