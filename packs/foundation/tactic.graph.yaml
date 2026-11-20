@@ -396,6 +396,10 @@ edges:
   target: tactic:acceptance-criteria-non-vacuity
   relation: suggests
   when: A finding turns on whether a work package's acceptance criterion can be met by doing nothing
+- source: tactic:product-coherence-review
+  target: tactic:avoid-gold-plating
+  relation: suggests
+  when: Judging whether work beyond the stated need is premature
 - source: tactic:requirement-quality-ears
   target: tactic:acceptance-criteria-non-vacuity
   relation: suggests

@@ -41,7 +41,7 @@ steps:
   - title: Look for overbuild
     description: >
       Work beyond the stated need: extra configurability, admin surfaces,
-      generality nobody asked for. If the work is mapped to nothing, the coverage
+      generality nobody asked for (see tactic `avoid-gold-plating`). If the work is mapped to nothing, the coverage
       pass owns it; if it is mapped but no source asks for it, the
       planning-corpus-consistency pass owns it as ungrounded behaviour: cite
       that finding instead of raising a second one.
