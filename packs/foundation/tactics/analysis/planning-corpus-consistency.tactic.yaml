@@ -67,15 +67,16 @@ steps:
       - "Inferred: checklists/security.md requires an audit-log entry per login; no task mentions an audit log."
   - title: Find ungrounded behaviour
     description: >
-      A task or work package that builds behaviour with no trace at all to a
-      requirement, a plan decision, a planning artifact or the creation intent
-      is a finding. A work package mapped to no requirement is already reported
-      by the finalize validation or the coverage pass: cite that finding, do not
-      raise a second one. Behaviour that does trace to a source but goes beyond
-      what the intent needs is overbuild, which the product-coherence-review
-      tactic judges, not this one.
+      A task or work package mapped to a requirement, where neither that
+      requirement, the plan, a planning artifact nor the creation intent asks
+      for the behaviour it builds, is a finding. A task or work package mapped
+      to no requirement is already reported by the finalize validation or the
+      coverage pass: cite that finding, do not raise a second one. Behaviour
+      that does trace to a source but goes beyond what the intent needs is
+      overbuild, which the product-coherence-review tactic judges, not this
+      one.
     examples:
-      - "Inferred: Subtask T019 adds a CSV export; no requirement, plan decision, planning artifact or recorded intent mentions export."
+      - "Inferred: Subtask T019 is mapped to FR-003 (export a monthly report) but also adds a CSV import; no requirement, plan decision, planning artifact or recorded intent asks for an import (tasks/WP02, Subtask T019)."
   - title: Phrase each finding
     description: >
       Name the artifact location (file:Lnn, or a heading when no stable line
