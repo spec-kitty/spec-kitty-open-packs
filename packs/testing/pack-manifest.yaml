@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 05f30c318ddb6d2f52c0ab52cdd3722a1bd8b5c4aba73fb45aee2591a5bff1a5
+manifest_hash: 3644fbac6d282ce67749f224c3054a9b1a65236060ab26f9985804a303e3ac2a
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -52,7 +52,7 @@ constituents:
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: 9287c5694501dc3e43266e246bde560ff3060d7cc1dce9f12fb51d5d0419647d
+  content_hash: 511a9eb67245f2b8c6d96f58bfa6c0294f9fc10dccff367c4ad2b26cbed00f3d
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
