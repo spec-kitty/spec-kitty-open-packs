@@ -4,3 +4,4 @@
 # #554); the shard is schema-invalid too (no generated_at or schema_version), at either pin.
 composition: pack_unreadable
 registration: validation_failed
+pack-check: artifact_schema_error  # pack-check refuses the 3.x-era directive's shape

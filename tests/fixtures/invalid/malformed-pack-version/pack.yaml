@@ -1,0 +1,8 @@
+# Pack descriptor of the invalid fixture. Every file is well formed except pack_version, which is not a
+# semantic version: the schema asks only for a non-empty string, so the per-pack pass accepts it (see expected-code).
+pack_id: 01M7X7GJFMBADPACKVERS1000Z
+pack_version: not-a-version
+parent_pack: null
+name: malformed-pack-version
+pack_level: org
+pack_drg: drg/fragment.yaml
