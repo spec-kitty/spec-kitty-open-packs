@@ -47,7 +47,7 @@ principles:
   - name: "Boundary by responsibility, not by layer"
     description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
   - name: "Infrastructure sits outside the boundary"
-    description: "Infrastructure sits outside the boundary: external services, data access and IO (filesystem, database, clock, network, randomness, git) sit OUTSIDE it and may be replaced by doubles or pure inputs; DIRECTIVE_054 owns the allow-list."
+    description: "Infrastructure sits outside the boundary: external services, a database and IO (filesystem, database, clock, network, randomness, git) sit OUTSIDE it and may be replaced by doubles or pure inputs; DIRECTIVE_054 owns the allow-list."
   - name: "Assert observable outcomes, not mechanisms"
     description: "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
   - name: "Heavy scaffolding signals a wrong boundary"
@@ -91,28 +91,28 @@ patterns:
   - name: Draw the boundary by functional responsibility
     description: >
       Pick the behavior to validate, identify the components responsible for it,
-      and place the test boundary around exactly those. Infrastructure (IO, data access, external services) may be replaced with
+      and place the test boundary around exactly those. Infrastructure (IO, a database, external services) may be replaced with
       simple inputs or doubles at the allow-listed seams of DIRECTIVE_054. This keeps tests Fast, Isolated, Writable, and
       Structure-insensitive (Define Test Boundaries; Beck's desiderata).
     bad_example: |
       # The unit reaches the filesystem + git directly, so the "unit" test needs
       # many patches to run: a smell about the patches, not about real files.
       def test_overlap_rejected(tmp_path):
-          _write_mission_dir(tmp_path)
-          with patch("...locate_project_root"), \
-               patch("...safe_commit"), patch("...run_command"), \
-               patch("...bootstrap_canonical_state"):    # infra scaffolding
-              finalize_tasks(feature="m", validate_only=True)
+          _write_order_dir(tmp_path)
+          with patch("...find_config_root"), \
+               patch("...save_order"), patch("...run_command"), \
+               patch("...load_initial_state"):    # infra scaffolding
+              schedule_deliveries(order="o-1", validate_only=True)
           # assertion buried behind subprocess/JSON parsing
     good_example: |
       # A pure seam takes domain inputs; the behavior is validated with plain
       # stubs — no files, no git, no command mocking. The IO stays outside.
       def test_overlap_rejected():
-          manifests = build_wp_manifests({
-              "WP01": wp(owned=["src/foo/**"]),
-              "WP02": wp(owned=["src/foo/**"]),   # overlapping, narrow
+          plan = build_delivery_plan({
+              "D1": slot(window=("09:00", "11:00")),
+              "D2": slot(window=("10:00", "12:00")),   # overlapping, narrow
           })
-          assert not validate_ownership(manifests).passed
+          assert not validate_slots(plan).passed
 
   - name: Resolve desiderata tension by design, not by accepting brittleness
     description: >
@@ -159,17 +159,17 @@ anti_patterns:
       through, which the test then drives with simple inputs.
     bad_example: |
       # Direct, scattered filesystem access — every caller re-reads/re-writes
-      # mission state, and every test must reconstruct that state on disk.
-      feature_dir = main_repo_root / "kitty-specs" / mission_slug
-      events = (feature_dir / "status.events.jsonl").read_text()
+      # order state, and every test must reconstruct that state on disk.
+      order_dir = data_root / "orders" / order_id
+      events = (order_dir / "status.events.jsonl").read_text()
       ...
-      (feature_dir / "status.events.jsonl").write_text(updated)   # another surface
+      (order_dir / "status.events.jsonl").write_text(updated)   # another surface
     good_example: |
       # One owning boundary mediates the state; logic and tests depend on it,
       # not on the filesystem. The IO lives in one place behind the seam.
-      status = MissionStatus.load(repo_root, mission_slug)   # owns read+write
-      status.transition(wp_id="WP01", to_lane="in_progress")
-      # tests drive MissionStatus / build_wp_manifests with stub inputs — no files
+      status = OrderStatus.load(data_root, order_id)   # owns read+write
+      status.transition(line_id="L1", to_state="picking")
+      # tests drive OrderStatus / plan_shipments with stub inputs — no files
 
   - name: Over-mocking to compensate for a missing boundary
     description: >
@@ -178,9 +178,9 @@ anti_patterns:
       DIRECTIVE_054; if you find yourself doubling owned logic, extract the boundary instead. Heavy mocking also makes
       tests pass when the real integration is broken (loss of Predictive).
     bad_example: |
-      with patch("a.locate_project_root"), patch("a.safe_commit"), \
-           patch("a.run_command"), patch("a.bootstrap_canonical_state"), \
-           patch("a.validate_ownership"):
+      with patch("a.find_config_root"), patch("a.save_order"), \
+           patch("a.run_command"), patch("a.load_initial_state"), \
+           patch("a.check_permissions"):
           run_command_under_test()   # nothing real is exercised
     good_example: |
       # Extract the decision into a pure function; mock nothing.
@@ -198,15 +198,15 @@ anti_patterns:
       cheap to extend, or retire it and name the test that already covers its
       contract.
     bad_example: |
-      # Commit message: "stub the new verification gate in the merge fixtures"
-      stack.enter_context(patch("pkg.executor._verify_new_gate", return_value=None))
-      # ... 25 other executor internals patched ...
-      assert commit_mock.call_args.kwargs["files"] == expected_files  # the spy on the git write is fine (DIRECTIVE_054); the patched executor internals above are the smell
+      # Commit message: "stub the new verification gate in the release fixtures"
+      stack.enter_context(patch("pkg.releaser._verify_new_gate", return_value=None))
+      # ... 25 other releaser internals patched ...
+      assert git_write_spy.call_args.kwargs["files"] == expected_files  # a spy on the git write itself is fine (DIRECTIVE_054); the patched releaser internals above are the smell
     good_example: |
       # Drive the real command against a real temp repo; the new gate runs too.
-      result = run_cli(repo, "consolidate", "--mission", slug)
+      result = run_cli(repo, "release", "--version", "1.2.0")
       assert result.exit_code == 0
-      assert read_committed_meta(repo, "main", slug)["mission_number"] == 1
+      assert read_committed_file(repo, "main", "VERSION") == "1.2.0\n"
 
   - name: Self-constructed oracle (an "injection proof" that never injects)
     description: >
