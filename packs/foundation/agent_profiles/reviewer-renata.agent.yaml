@@ -132,7 +132,7 @@ directive-references:
     rationale: Require red-first for behavior with a lasting regression risk; accept `[evidenced-by-run]` evidence (a named real run or existing gate) for configuration and glue work
   - code: "041"
     name: Tests as Scaffold, Not Friction
-    rationale: Reject tests that pass for the wrong reason or false-red on correct changes; require observable-contract assertions, no defect-masking xfails (a strict expected failure on a reproduction whose fix is planned in a sibling work package is not a mask), and content-anchored ratchet keys; flag pure configuration-restatement tests as waste, not ATDD compliance
+    rationale: Reject tests that pass for the wrong reason or false-red on correct changes; require observable-contract assertions, no defect-masking xfails (the strict expected failure of procedure red-first-bug-reproduction is not a mask), and content-anchored ratchet keys; flag pure configuration-restatement tests as waste, not ATDD compliance
   - code: "051"
     name: Supply-Chain Install Safety
     rationale: >-

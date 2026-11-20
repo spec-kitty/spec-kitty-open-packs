@@ -20,6 +20,6 @@ integrity_rules:
   - A valid, current test that goes red is never silenced, retried-to-green, or deleted to pass CI — its red is a real product finding to fix or file.
 validation_criteria:
   - New tests assert observable contracts and are shown to fail when those contracts are violated (anti-vacuity).
-  - No new xfail or skip masks a known defect (a strict expected failure on a bug reproduction whose fix is planned in a named sibling work package is not a mask; procedure `red-first-bug-reproduction`), and no new file.py:NNN-keyed ratchet entries are introduced.
+  - No new xfail or skip masks a known defect (the strict expected failure of procedure `red-first-bug-reproduction` is not a mask), and no new file.py:NNN-keyed ratchet entries are introduced.
   - Touched test fixtures resolve through the production creation seam rather than a parallel hand-roll.
   - A remediated failing test carries an explicit verdict (stale-intent remediated / stub deleted / valid → product fixed), justified by code-path coupling rather than git-blame archaeology.

@@ -210,14 +210,15 @@ item blocks approval.
    (load with `spec-kitty charter context --include directive:DIRECTIVE_054`).
    A call-count or call-argument assertion on an owned collaborator is a FAIL
    (a spy on an allow-listed seam may assert what crossed that seam, DIRECTIVE_054).
-10. **Change detector**: no new or changed test in this WP only restates
-    configuration or structure (it would fail only when someone changes the
-    configuration on purpose). Such a test is a FAIL: it is waste, not ATDD
-    compliance; the evidence for configuration and glue work is a real run or an
-    existing gate (DIRECTIVE_034; the long-term-value question in tactic
-    `acceptance-criteria-non-vacuity`). Configuration that encodes security or
-    permission policy is exempt; it takes red-first or a repository-wide policy
-    check (DIRECTIVE_034).
+10. **Change detector**: no new test in this WP only restates configuration or
+    structure (it would fail only when someone changes the configuration on
+    purpose). Such a new test is a FAIL: it is waste, not ATDD compliance. A
+    touched pre-existing test of that kind may be retired per DIRECTIVE_041
+    once its evidence is recorded. The evidence for configuration and glue work
+    is a real run or an existing gate (DIRECTIVE_034; the long-term-value
+    question in tactic `acceptance-criteria-non-vacuity`). Configuration that
+    encodes security or permission policy is exempt; it takes red-first or a
+    repository-wide policy check (DIRECTIVE_034).
 
 ### 4b. Criterion Non-Vacuity Check
 
@@ -240,10 +241,10 @@ for each:
    run ID or URL; for a gate, the gate's name and the ID or URL of its run on
    this change) and that run or gate exercises the changed configuration
    (it would not exist, or would fail, without the change), and the row is
-   configuration or glue work. An
-   `[evidenced-by-run]` row whose FR adds product logic, a gate or classifier
-   script, an invariant, or security or permission policy is a FAIL
-   (DIRECTIVE_034).
+   configuration or glue work. An `[evidenced-by-run]` row whose FR adds
+   product logic, a script that gates or classifies, an invariant, or security
+   or permission policy is a FAIL (the lasting-regression-risk classes are
+   owned by DIRECTIVE_034).
 
 Additionally: every FR row in this WP's `requirement_refs` marked *no-op
 passable? yes* names a control that exists in the diff.
