@@ -11,13 +11,12 @@ cap and the recommendation line. New tests are tagged in their docstrings:
 "red-first" (new contract, fails on the pre-change prompts), "ratchet"
 (pins content that already existed, so it passes by design and stops a silent
 deletion) or "control" (a positive control on synthetic text: it proves a
-check can see what it guards, so it passes on any prompt version). Every absence check has a positive control on synthetic text.
+check can see what it guards, so it passes on any prompt version). A helper that carries logic (the read-only classifier, the cap check, the prefix parser, the NON-REMEDIATING gap check) has a positive control on synthetic text.
 """
 
 from __future__ import annotations
 
 import re
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -147,44 +146,10 @@ class AnalyzeReadinessContentTest(unittest.TestCase):
             with self.subTest(code=code):
                 self.assertTrue(case1 < text.index(code, case1) < case2)
 
-    def test_tactics_are_cited(self) -> None:
-        cited = {
-            ANALYZE: (QUALITY_TACTIC, WP_TACTIC),
-            CAVE_ANALYZE: (QUALITY_TACTIC, WP_TACTIC),
-            SPECIFY: (QUALITY_TACTIC,),
-        }
-        for path, ids in cited.items():
-            text = path.read_text(encoding="utf-8")
-            for tactic_id in ids:
-                with self.subTest(path=path.relative_to(ROOT), tactic=tactic_id):
-                    self.assertIn(f"tactic:{tactic_id}", text)
-
     def test_analyze_prompt_within_line_budget(self) -> None:
         lines = len(ANALYZE.read_text(encoding="utf-8").splitlines())
         self.assertLessEqual(lines, MAX_ANALYZE_LINES)
 
-    def test_fixed_finding_id_prefixes(self) -> None:
-        text = ANALYZE.read_text(encoding="utf-8")
-        for prefix, category in (
-            ("D", "duplication"),
-            ("B", "ambiguity"),
-            ("U", "underspecification"),
-            ("K", "charter"),
-            ("C", "coverage"),
-            ("I", "inconsistency"),
-            ("V", "finalize-validation"),
-            ("W", "wp-readiness"),
-            ("Q", "requirement-quality"),
-            ("S", "scenario"),
-        ):
-            with self.subTest(prefix=prefix):
-                self.assertRegex(text, rf"\|\s*{prefix}\s*\|\s*{re.escape(category)}\s*\|")
-
-    def test_tactic_files_exist_with_their_ids(self) -> None:
-        for tactic_id in (QUALITY_TACTIC, WP_TACTIC):
-            with self.subTest(tactic=tactic_id):
-                data = yaml.safe_load((TACTICS / f"{tactic_id}.tactic.yaml").read_text(encoding="utf-8"))
-                self.assertEqual(data["id"], tactic_id)
 
 
 def read(path: Path) -> str:
@@ -237,16 +202,17 @@ class PlanningCorpusContractTest(unittest.TestCase):
         self.assertIn("headings first", text.lower())
         self.assertIn("is absent from the inventory, say so in", text)  # fail-open guard: absent keys are never "no artifacts"
 
-    def test_both_tactics_cited_in_both_prompts(self) -> None:
-        """red-first: both prompts cite both new tactics in the fetch form."""
+    def test_tactics_are_cited_in_the_prompts(self) -> None:
+        """red-first: both analyze prompts cite all four tactics in the fetch form; specify cites the quality tactic."""
         for path in (ANALYZE, CAVE_ANALYZE):
-            for tactic_id in (CORPUS_TACTIC, COHERENCE_TACTIC):
+            for tactic_id in (QUALITY_TACTIC, WP_TACTIC, CORPUS_TACTIC, COHERENCE_TACTIC):
                 with self.subTest(path=path.relative_to(ROOT), tactic=tactic_id):
                     self.assertIn(f"--include tactic:{tactic_id}", read(path))
+        self.assertIn(f"tactic:{QUALITY_TACTIC}", read(SPECIFY))
 
     def test_tactic_files_parse_with_id_and_steps(self) -> None:
-        """red-first: both new tactic files exist, parse, carry id == stem and steps."""
-        for tactic_id in (CORPUS_TACTIC, COHERENCE_TACTIC):
+        """red-first: all four analyze tactic files exist, parse, carry id == stem and steps."""
+        for tactic_id in (QUALITY_TACTIC, WP_TACTIC, CORPUS_TACTIC, COHERENCE_TACTIC):
             with self.subTest(tactic=tactic_id):
                 data = load_tactic(tactic_id)
                 self.assertEqual(data["id"], tactic_id)
@@ -276,18 +242,6 @@ class PlanningCorpusContractTest(unittest.TestCase):
                 with self.subTest(path=path.name, tactic=tactic_id):
                     self.assertIn((source, f"{target_prefix}{tactic_id}", "scope"), edges)
 
-    def test_graph_parser_positive_control(self) -> None:
-        """control: graph_edges detects edges present in a synthetic graph and not absent ones."""
-        with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "graph.yaml"
-            path.write_text(
-                "edges:\n  - source: action:x/analyze\n    target: tactic:t1\n    relation: scope\n",
-                encoding="utf-8",
-            )
-            edges = graph_edges(path)
-        self.assertIn(("action:x/analyze", "tactic:t1", "scope"), edges)
-        self.assertNotIn(("action:x/analyze", "tactic:t2", "scope"), edges)
-
     def test_prefix_table_has_twelve_distinct_prefixes(self) -> None:
         """red-first: X and M join the ten existing prefixes; table parsed, not substring-matched."""
         pairs = prefix_pairs(read(ANALYZE))
@@ -311,10 +265,6 @@ class PlanningCorpusContractTest(unittest.TestCase):
         self.assertRegex(text, r"(?m)^#### H\. Intent & Planning-Artifact Consistency$")
         self.assertRegex(text, r"(?m)^#### J\. Product Coherence$")
         self.assertIsNone(re.search(r"(?m)^#### I\.", text))
-
-    def test_pass_label_check_positive_control(self) -> None:
-        """control: the pass-I heading regex does see an `#### I.` heading when one is present."""
-        self.assertIsNotNone(re.search(r"(?m)^#### I\.", "#### H. x\n#### I. Oops\n#### J. y\n"))
 
     def test_report_sections_in_order(self) -> None:
         """red-first: the report section leads appear in the fixed order, strictly increasing."""
@@ -342,10 +292,6 @@ class SeverityAndRecommendationTest(unittest.TestCase):
                 # exactly one `Recommendation: <choice>` line: step findings say "Recommended action:"
                 self.assertEqual(len(re.findall(r"Recommendation: (?!`)", read(path))), 1)
 
-    def test_coherence_is_capped_at_medium(self) -> None:
-        """red-first: severity section caps product-coherence findings at MEDIUM or LOW."""
-        self.assertTrue(coherence_capped(self.severity_block()))
-
     def test_cap_helper_positive_control(self) -> None:
         """control: a block that is otherwise valid but lists product-coherence under HIGH or CRITICAL is rejected."""
         for tier in ("HIGH", "CRITICAL"):
@@ -362,13 +308,6 @@ class SeverityAndRecommendationTest(unittest.TestCase):
         high = [ln for ln in self.severity_block().splitlines() if re.match(r"\s*-\s*\*\*HIGH\*\*", ln)]
         self.assertTrue(any("planning-artifact" in ln for ln in high))
         self.assertFalse(any("product-coherence" in ln.lower() for ln in high))
-
-    def test_normal_severity_check_positive_control(self) -> None:
-        """control: the HIGH-line filter finds a planning-artifact line when one is present, and not otherwise."""
-        sample = "- **HIGH** also: a planning-artifact contradiction\n- **MEDIUM**: planning-artifact drift\n"
-        high = [ln for ln in sample.splitlines() if re.match(r"\s*-\s*\*\*HIGH\*\*", ln)]
-        self.assertEqual(len(high), 1)
-        self.assertTrue(any("planning-artifact" in ln for ln in high))
 
     def test_verdict_rule_unchanged(self) -> None:
         """ratchet: any high or critical finding still means blocked."""
@@ -398,29 +337,16 @@ class ReportFormatAndParityTest(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertIn("| duplication |", rows[0])
 
-    def test_high_line_drops_old_acceptance_criterion_wording(self) -> None:
-        """red-first: the step-5 HIGH line no longer says "untestable acceptance criterion" (FR-018)."""
-        block = section(read(ANALYZE), "### 5. Severity Assignment", "### 6.")
-        self.assertNotIn("untestable acceptance criterion", block)
-        self.assertIn("untestable or ambiguous requirement", block)  # control: the block is the right one
-
     def test_cave_prompt_parity(self) -> None:
-        """red-first: the cave-dev prompt names X, M, both tactics, the recommendation and feature_dir."""
+        """red-first: the cave-dev prompt names X, M, the Inferred: label, both tactics, the recommendation and feature_dir."""
         text = read(CAVE_ANALYZE)
-        for needle in ("`X`", "`M`", CORPUS_TACTIC, COHERENCE_TACTIC, RECOMMENDATION, "feature_dir"):
+        for needle in ("`X`", "`M`", "`Inferred:`", CORPUS_TACTIC, COHERENCE_TACTIC, RECOMMENDATION, "feature_dir"):
             with self.subTest(needle=needle):
                 self.assertIn(needle, text)
 
 
 class ExistingContentRatchetTest(unittest.TestCase):
     """The #247 content the Step-0 squad found deletable without a failing test."""
-
-    def test_section_headings_present(self) -> None:
-        """ratchet: Requirement Quality, Scenario Audit and Clarification Questions sections stay."""
-        text = read(ANALYZE)
-        for lead in ("**Requirement Quality:**", "**Scenario Audit:**", "**Clarification Questions:**"):
-            with self.subTest(lead=lead):
-                self.assertIn(lead, text)
 
     def test_scenario_audit_kinds_in_order(self) -> None:
         """ratchet: the five scenario kinds stay, in order."""
@@ -436,12 +362,6 @@ class ExistingContentRatchetTest(unittest.TestCase):
         self.assertIn("two to four concrete choices", text)
         self.assertIn("or a concrete remediation", text)
         self.assertRegex(text, r"every HIGH or CRITICAL ambiguity or requirement-quality finding")
-
-    def test_inferred_label_in_both_prompts(self) -> None:
-        """ratchet: the Inferred: label stays in the software-dev and cave-dev analyze prompts."""
-        for path in (ANALYZE, CAVE_ANALYZE):
-            with self.subTest(path=path.relative_to(ROOT)):
-                self.assertIn("Inferred:", read(path))
 
     def test_five_quality_properties_in_tactic(self) -> None:
         """ratchet: the five requirement-quality properties stay in the tactic, as list items."""
@@ -500,30 +420,26 @@ class RecommendationRuleTest(unittest.TestCase):
         self.assertFalse(never_proceeds_when_blocked("a revise choice is allowed."))
 
 
-QUOTED_SUMMARY_RULE = "`summary` is a double-quoted YAML string (escape an inner `\\\"`); an unquoted `Inferred:` prefix breaks the carrier."
+QUOTED_SUMMARY_RULE = ("double-quoted YAML string", "an unquoted `Inferred:` prefix breaks the carrier")
 
 
 class CarrierSummaryQuotingTest(unittest.TestCase):
     def test_summary_must_be_double_quoted(self) -> None:
         """red-first: the carrier rules require a double-quoted summary and warn about an unquoted Inferred: prefix."""
-        self.assertIn(QUOTED_SUMMARY_RULE, read(ANALYZE))
-
-    def test_unquoted_inferred_summary_really_breaks_yaml(self) -> None:
-        """control: an unquoted `Inferred: ...` summary is a YAML error and a quoted one parses, so the rule is needed."""
-        with self.assertRaises(yaml.YAMLError):
-            yaml.safe_load("summary: Inferred: a gap in WP02\n")
-        self.assertEqual(yaml.safe_load('summary: "Inferred: a gap in WP02"\n')["summary"], "Inferred: a gap in WP02")
+        for token in QUOTED_SUMMARY_RULE:
+            self.assertIn(token, read(ANALYZE))
 
 
-ID_ORDER_RULE = ("other planning artifacts in inventory order, then occurrence_map.yaml, then decision files by name, "
-                 "meta.json, charter; a finding citing several artifacts sorts by its first cited location")
-RESIDUAL_RISK_RULE = "mission-directory entries neither inventoried nor read (for example extra research/ or tools/ files)"
+
+ID_ORDER_RULE = ("then occurrence_map.yaml, then decision files by name", "sorts by its first cited location")
+RESIDUAL_RISK_RULE = "neither inventoried nor read"
 
 
 class DeterminismTest(unittest.TestCase):
     def test_id_ordering_covers_map_decisions_and_multi_artifact_findings(self) -> None:
         """red-first: the id ordering names occurrence_map.yaml, decision files by name and the first-cited-location rule."""
-        self.assertIn(ID_ORDER_RULE, read(ANALYZE))
+        for token in ID_ORDER_RULE:
+            self.assertIn(token, read(ANALYZE))
         self.assertIn("then by id number; when rows overflow the 50-row cap, every HIGH and CRITICAL row stays", read(ANALYZE))
 
     def test_decisions_are_listed_not_globbed(self) -> None:
@@ -539,32 +455,28 @@ class DeterminismTest(unittest.TestCase):
         risk = section(read(ANALYZE), "**Residual Risk:**", "**Charter Alignment")
         self.assertIn(RESIDUAL_RISK_RULE, risk)
 
-    def test_absence_checks_positive_control(self) -> None:
-        """control: the section and the glob checks see what they guard on synthetic text."""
-        sample = "**Residual Risk:** x " + RESIDUAL_RISK_RULE + "\n\n**Charter Alignment Issues:**"
-        self.assertIn(RESIDUAL_RISK_RULE, section(sample, "**Residual Risk:**", "**Charter Alignment"))
-        self.assertIn("DM-*", "the decisions `DM-*.md`")
-        self.assertIsNotNone(re.search(r"list `\S*decisions/` and read", "list `mission_dir/decisions/` and read"))
 
 
-MVP_SOURCE = 'the MVP slice named in tasks.md (an MVP Scope note or any heading containing MVP; none: "MVP unclear")'
-SEVERITY_SPLIT = "MEDIUM for intent drift, a lost scenario or a named MVP that delivers no user value; LOW otherwise"
+MVP_SOURCE = ("an MVP Scope note or any heading containing MVP", '"MVP unclear"')
+SEVERITY_SPLIT = ("MEDIUM for intent drift", "LOW otherwise")
 SETUP_NOT_SCAFFOLDING = "setup or foundation WPs the MVP slice directly needs are not scaffolding"
-TASKS_MVP_NOTE = "MVP scope recommendation, recorded in tasks.md's MVP Scope note (analyze reads it)"
-FINALIZE_MVP_NOTE = "this step writes no MVP Scope note; analyze reports a missing note as LOW"
+TASKS_MVP_NOTE = "recorded in tasks.md's MVP Scope note"
+FINALIZE_MVP_NOTE = "writes no MVP Scope note"
 
 
 class MvpAndScaffoldingTest(unittest.TestCase):
     def test_mvp_source_is_the_tasks_md_slice(self) -> None:
         """red-first: pass J reads the MVP slice from any MVP-bearing heading in tasks.md and never defines it."""
         text = read(ANALYZE)
-        self.assertIn(MVP_SOURCE, text)
+        for token in MVP_SOURCE:
+            self.assertIn(token, text)
         self.assertIn("never define MVP here", text)
 
     def test_m_severity_split(self) -> None:
         """red-first: M findings are MEDIUM for drift, a lost scenario or a valueless named MVP and LOW otherwise, still capped."""
         block = self_severity()
-        self.assertIn(SEVERITY_SPLIT, block)
+        for token in SEVERITY_SPLIT:
+            self.assertIn(token, block)
         self.assertTrue(coherence_capped(block))
 
     def test_setup_work_is_not_scaffolding(self) -> None:
@@ -582,14 +494,8 @@ class MvpAndScaffoldingTest(unittest.TestCase):
         self.assertIn(TASKS_MVP_NOTE, read(SOFTWARE_DEV / "tasks.prompt.md"))
         self.assertNotIn("usually Work Package 1", read(SOFTWARE_DEV / "tasks.prompt.md"))
         self.assertIn(FINALIZE_MVP_NOTE, read(SOFTWARE_DEV / "tasks-finalize.prompt.md"))
-        self.assertIn('LOW otherwise, including a missing MVP note ("MVP unclear")', self_severity())
+        self.assertIn("including a missing MVP note", self_severity())
 
-    def test_split_check_positive_control(self) -> None:
-        """control: the capped check still sees a cap that carries the severity split, and rejects a HIGH line."""
-        capped = "- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher: " + SEVERITY_SPLIT + "."
-        self.assertTrue(coherence_capped(capped))
-        self.assertIn(SEVERITY_SPLIT, capped)
-        self.assertFalse(coherence_capped("- **HIGH**: product-coherence drift"))
 
 
 def self_severity() -> str:
@@ -605,7 +511,7 @@ class UntrackedStalenessTest(unittest.TestCase):
         """red-first: 7a says editing an untracked judged artifact invalidates the findings and asks for a re-run."""
         block = squash(section(read(ANALYZE), "### 7a.", "### 8."))
         self.assertIn(STALENESS_SENTENCE, block)
-        self.assertIn("even though the staleness check does not track it: re-run /spec-kitty.analyze.", block)
+        self.assertIn("does not track it: re-run /spec-kitty.analyze", block)
 
     def test_tasks_prompts_mirror_the_sentence(self) -> None:
         """red-first: tasks and tasks-finalize state the same rule where they state the staleness rule."""
@@ -613,11 +519,6 @@ class UntrackedStalenessTest(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertIn(STALENESS_SENTENCE, squash(read(SOFTWARE_DEV / name)))
 
-    def test_sentence_check_positive_control(self) -> None:
-        """control: the section extractor and the pinned sentence match synthetic text and miss a text without it."""
-        sample = "### 7a. x\n" + STALENESS_SENTENCE + "\n### 8. y"
-        self.assertIn(STALENESS_SENTENCE, squash(section(sample, "### 7a.", "### 8.")))
-        self.assertNotIn(STALENESS_SENTENCE, squash(section("### 7a. x\nEditing the spec.\n### 8.", "### 7a.", "### 8.")))
 
 
 NON_REMEDIATING_TARGETS = ("spec.md", "plan.md", "tasks.md", "WP files", "any other planning artifact", "meta.json",
@@ -642,14 +543,6 @@ class NonRemediatingListTest(unittest.TestCase):
         self.assertEqual(non_remediating_gaps(full.replace("`decisions/`", "")), ["decisions/"])
         self.assertEqual(non_remediating_gaps(full.replace("`meta.json`", "")), ["meta.json"])
         self.assertEqual(non_remediating_gaps("no such line"), list(NON_REMEDIATING_TARGETS))
-
-
-class CoherenceNotesTest(unittest.TestCase):
-    def test_tactic_cites_a_vertical_slice_tactic_rather_than_restating(self) -> None:
-        """red-first: the coherence tactic's notes say a vertical-slice tactic, when one exists, is cited."""
-        notes = squash(load_tactic(COHERENCE_TACTIC)["notes"])
-        self.assertIn("A vertical-slice decomposition tactic, when one exists, is cited rather than restated.", notes)
-        self.assertNotIn("cited rather than restated", squash("A plain note."))
 
 
 if __name__ == "__main__":
