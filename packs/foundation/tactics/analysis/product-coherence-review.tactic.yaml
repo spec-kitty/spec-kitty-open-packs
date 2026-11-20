@@ -73,15 +73,10 @@ steps:
       "revise tasks": the breakdown, slicing or order is the problem.
       "proceed": none of these. Weigh every finding of the report, not only
       this tactic's. Never choose "proceed" while the report's verdict is
-      blocked. Owners: spec.md and meta.json -> spec; plan.md, research,
-      data-model, contracts, quickstart and decisions -> plan; tasks.md, WP
-      prompts, V and W findings -> tasks. Blocked: revise the owner of the
-      first HIGH or CRITICAL finding in table order (a V finding the CLI could
-      not run -> revise tasks). Ready: proceed, unless an M finding or a
-      MEDIUM finding exists; then revise the owner of the first such finding
-      in table order.
+      blocked. The citing step defines which artifact owns a finding and how
+      the recommendation is chosen from its findings.
     examples:
-      - "Recommendation: revise tasks. Slice User Story 1 end to end first (tasks.md, WP01-WP05)."
+      - "Recommendation: revise tasks\nSlice User Story 1 end to end first (tasks.md, WP01-WP05)."
   - title: Label every finding
     description: >
       Every finding starts with "Inferred:". Never claim proof; this review

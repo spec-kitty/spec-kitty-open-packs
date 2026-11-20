@@ -484,9 +484,11 @@ class RecommendationRuleTest(unittest.TestCase):
         self.assertTrue(never_proceeds_when_blocked(read(ANALYZE)))
         self.assertTrue(never_proceeds_when_blocked(self.tactic_recommend_text()))
 
-    def test_tactic_agrees_with_the_prompt(self) -> None:
-        """red-first: the tactic still carries the blocked-verdict owner rule (restated until the tactic defers to the prompt)."""
-        self.assertIn("first HIGH or CRITICAL finding in table order", squash(self.tactic_recommend_text()))
+    def test_tactic_leaves_the_owner_rule_to_the_prompt(self) -> None:
+        """red-first: the recommendation rule has one owner; the tactic restates neither owners nor table order."""
+        tactic = squash(self.tactic_recommend_text())
+        self.assertNotIn("table order", tactic)
+        self.assertNotIn("Owners:", tactic)
 
     def test_never_proceed_check_positive_control(self) -> None:
         """control: the checker sees the rule when present and its absence."""

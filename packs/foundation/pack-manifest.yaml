@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 13bc541c18f4b60ec626bad3b5379e724df282c0492b91cc95e6b7d1c7f11899
+manifest_hash: ab88ab3d6787e42de33296312650e5e77438f93895f6ff3a3ef08c01521e8afb
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -436,7 +436,7 @@ constituents:
 - kind: tactic
   id: product-coherence-review
   path: tactics/analysis/product-coherence-review.tactic.yaml
-  content_hash: bd33a5e0a5f73181967957c50dfeecb90ca83b65d380fe039e8c1341f13d0598
+  content_hash: b36b7cf8bc3b421e1aa3c8966f70a4e32428deab35ba3857ea267339a6dfcadd
 - kind: tactic
   id: requirement-quality-ears
   path: tactics/analysis/requirement-quality-ears.tactic.yaml
