@@ -201,7 +201,7 @@ anti_patterns:
       # Commit message: "stub the new verification gate in the merge fixtures"
       stack.enter_context(patch("pkg.executor._verify_new_gate", return_value=None))
       # ... 25 other executor internals patched ...
-      assert commit_mock.call_args.kwargs["files"] == expected_files
+      assert commit_mock.call_args.kwargs["files"] == expected_files  # the spy on the git write is fine (DIRECTIVE_054); the patched executor internals above are the smell
     good_example: |
       # Drive the real command against a real temp repo; the new gate runs too.
       result = run_cli(repo, "consolidate", "--mission", slug)

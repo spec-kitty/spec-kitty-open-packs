@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/drupal`
 - **Pack level:** `org`
-- **Declared version:** `2.1.2`
-- **Content checksum (sha256):** `551e157f61397bc983e806f6de707e36806e63e17c5b2297ade06752a0c2ec33`
+- **Declared version:** `2.2.0`
+- **Content checksum (sha256):** `909d06a4ccf4e594c69fd0e2def61c27de740bf57c0bd00e0a902f964b2a001e`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The Drupal stack: the Drupal Dries profile, Drupal conventions, security and performance guidance, and review checks.
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`testing`](testing.md) `>=2.0,<4`
+**Depends on:** [`foundation`](foundation.md) `>=3.2,<4`, [`testing`](testing.md) `>=2.0,<4`
 
 ## Artifact inventory
 

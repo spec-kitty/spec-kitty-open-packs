@@ -171,6 +171,9 @@ directive-references:
       toolguide's exact commands — never a silently-skipped default. License
       and CVE audit is a separate dependency-hygiene concern, applied
       alongside it.
+  - code: "foundation::054"
+    name: Mock Only at the Responsibility Boundary
+    rationale: Substitute only allow-listed seams; run code the system under test owns for real, including real files and a real git repository in a temp dir
 
 tactic-references:
   - id: foundation::test-scaffolding-as-design-smell
