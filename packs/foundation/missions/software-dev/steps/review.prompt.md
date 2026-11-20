@@ -208,7 +208,8 @@ item blocks approval.
 9. **Mock boundary**: no test double in this WP's tests sits on code the system
    under test owns; every double is on an allow-listed seam of DIRECTIVE_054
    (load with `spec-kitty charter context --include directive:DIRECTIVE_054`).
-   A call-count or call-argument assertion on an owned collaborator is a FAIL.
+   A call-count or call-argument assertion on an owned collaborator is a FAIL
+   (the two narrow system cases of DIRECTIVE_054 excepted).
 10. **Change detector**: no test only restates configuration or structure (it
     would fail only when someone changes the configuration on purpose). Such a
     test is a FAIL: it is waste, not ATDD compliance; the evidence for configuration

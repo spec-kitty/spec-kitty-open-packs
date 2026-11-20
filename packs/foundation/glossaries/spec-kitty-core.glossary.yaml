@@ -110,7 +110,7 @@ terms:
     aliases:
       - responsibility border
     definition: The edge of what the system under test owns for the behaviour under test, drawn by responsibility rather
-      than by layer, module or deployment. Collaborators inside it run for real; only dependencies outside it that are on the
+      than by layer, module or class. Collaborators inside it run for real; only dependencies outside it that are on the
       mock-boundary directive's allow-list may be substituted.
     status: active
   - id: change-detector-test

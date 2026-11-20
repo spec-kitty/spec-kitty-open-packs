@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 73af8d5364123c09d0331f7143020b470ca1e49b7f5f50aad0cd43fb0d0f7df1
+manifest_hash: 6d0b0166227f363ab2ea43973b2c3a3d0c98a126e8b288d98c03ef72200d1c2c
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -140,7 +140,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_054
   path: directives/054-mock-only-at-the-responsibility-boundary.directive.yaml
-  content_hash: 742e5f25f645454cd7dcde5890b4b4a94ba5ed56466ddb0c39049841cbc3688e
+  content_hash: 03cdb925e32e6d77a9590a31ffa0a938d14da0763cfa50cede6df9d836ae3ab4
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
@@ -156,7 +156,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: b497081271aa8466c9a0728688d159b63fe6c9e9f82a6c08c3e32af12592c2c8
+  content_hash: 6edde0813a5c62e7aada6c9f88fe1049a354167379a769ef8b8932811dd9a192
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
