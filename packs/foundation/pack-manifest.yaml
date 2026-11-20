@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6d0b0166227f363ab2ea43973b2c3a3d0c98a126e8b288d98c03ef72200d1c2c
+manifest_hash: 0b79cf4c4f367f35764b9acac783d33dce590d8f5c4e7e7d4fb385fff01470c6
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -72,7 +72,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: ded726685e8b92e7240f58a936bcd732c6ba301afbcf63db5b1876fa7ce298b2
+  content_hash: 985f3b9f06ec74b17bd9ada98897982311befe48af9a345acb9a6fea95d595ab
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -604,7 +604,7 @@ constituents:
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml
-  content_hash: 623b1a9deea1638d47c4b27befd89c39b025d734869ae63a023f4c37c424fc1e
+  content_hash: 100afb62b4b3b63a7bda3d664df5ddc2c9e8d93b03aa02dc88620e617b9cf8c6
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
@@ -632,7 +632,7 @@ constituents:
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: 062eb46a513984df145b370a70c894760f4236c639039d830d60afdf5583c2fe
+  content_hash: c8a0c7dbb1418d5a6cc2824113a2856bf628acb75493d4edb9deafb295bd52a1
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml

@@ -20,7 +20,7 @@ steps:
     examples:
       - "This test validates user registration by exercising UserRegistrationService and EmailValidator while stubbing UserRepository and EmailDeliveryService."
   - title: Create the focused test
-    description: Instantiate inside-boundary components with real implementations. Stub outside-boundary components. Assert on behavior of inside-boundary components, not on stub interactions.
+    description: Instantiate inside-boundary components with real implementations. Substitute outside-boundary components only where needed, at allow-listed seams. Assert on behavior of inside-boundary components, not on stub interactions.
   - title: Verify boundary correctness
     description: >
       Ask two questions:
