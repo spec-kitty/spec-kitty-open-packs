@@ -172,8 +172,8 @@ edges:
 - source: agent_profile:reviewer-renata
   target: tactic:test-scaffolding-as-design-smell
   relation: requires
-  reason: Treat heavy test setup or many infrastructure mocks in a diff as a design smell to flag, not accept — request a
-    pure boundary/seam instead of more doubles.
+  reason: Treat heavy test setup or many doubles, or any double of owned logic (DIRECTIVE_054), in a diff as a design smell to
+    flag, not accept — request a pure boundary/seam instead of more doubles.
 - source: agent_profile:reviewer-renata
   target: procedure:adversarial-squad-deployment
   relation: requires

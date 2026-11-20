@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 33f524906dd3b5261a7945c9ddd040940d4b4c31738fadb7bd174ce908f55d80
+manifest_hash: 3d95026690a95269439f574f49e09c27299cfcef9034be2ec2c805d4deeb10f3
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -632,7 +632,7 @@ constituents:
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: 5b0760477d1c69b3594e1164ea314c9c3879da08733b552caca38b86c8b88d49
+  content_hash: b0fe3138ede6fd2ed4035c7c19adfd25eb5d59504bd723610866bb35f09a47e3
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml
