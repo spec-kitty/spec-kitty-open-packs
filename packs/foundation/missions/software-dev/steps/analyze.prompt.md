@@ -13,11 +13,11 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Goal
 
-Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) and every WP prompt (`tasks/WP*.md`) before implementation; confirm that the machine-checkable task metadata would pass `finalize-tasks` validation; and judge whether the requirements are good enough to build from. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
+Identify inconsistencies, duplications, ambiguities, and underspecified items across the planning corpus before implementation: `spec.md`, `plan.md`, `tasks.md`, every WP prompt (`tasks/WP*.md`), the other planning artifacts and the creation intent (step 1); confirm that the machine-checkable task metadata would pass `finalize-tasks` validation; judge whether the requirements are good enough to build from; and judge whether the plan still serves the intent the Mission was created for. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
 
 ## Operating Constraints
 
-**NON-REMEDIATING**: Do **not** modify `spec.md`, `plan.md`, `tasks.md`, WP files, source code, or any remediation target. The only permitted file mutation is persisting this command's report to `kitty-specs/<mission>/analysis-report.md` via `spec-kitty agent mission record-analysis`. Offer an optional remediation plan only after the report is persisted (user must explicitly approve before any follow-up editing commands would be invoked manually).
+**NON-REMEDIATING**: Do **not** modify `spec.md`, `plan.md`, `tasks.md`, WP files, any other planning artifact, `meta.json`, `occurrence_map.yaml`, `decisions/`, source code, or any remediation target. The only permitted file mutation is persisting this command's report to `kitty-specs/<mission>/analysis-report.md` via `spec-kitty agent mission record-analysis`. Offer an optional remediation plan only after the report is persisted (user must explicitly approve before any follow-up editing commands would be invoked manually).
 
 **READ-ONLY VALIDATION**: The only `finalize-tasks` invocation this command may make is `--validate-only` (step 2a). Never run `finalize-tasks` without `--validate-only`, and never pass `--refresh-planning-commit` or `--allow-orphaned`: those are the finalization write and commit paths. A `--validate-only` run writes nothing to disk; it only previews the frontmatter bootstrap, the lane computation and the topology decision in memory. Treat everything it reports as a preview of what finalization would do, never as something that happened; a `topology_decision` in the output carries `"preview": true` for the same reason.
 
@@ -35,13 +35,16 @@ informational only - it does not gate `/spec-kitty.analyze`.
 
 ### 1. Initialize Analysis Context
 
-Run `spec-kitty agent mission check-prerequisites --json --include-tasks --mission <mission-slug>` once from repo root and parse JSON for mission_dir, available_docs, target_branch, and base_branch. Derive absolute paths:
+Run `spec-kitty agent mission check-prerequisites --json --include-tasks --mission <mission-slug>` once from repo root and parse JSON for mission_dir, `artifact_files`, `artifact_dirs`, target_branch, and base_branch (`artifact_files` and `artifact_dirs` map keys to paths; read them in step 2). Derive absolute paths:
 
 - SPEC = mission_dir/spec.md
 - PLAN = mission_dir/plan.md
 - TASKS = mission_dir/tasks.md
 
-Abort with an error message if any required file is missing (instruct the user to run missing prerequisite command).
+Abort with an error message if SPEC, PLAN or TASKS is missing (instruct the user to run missing prerequisite command).
+
+- META = mission_dir/meta.json: the creation intent is `purpose_tldr`, `purpose_context` and `source_description`; note which are absent. It is not in the inventory. `meta.json` missing: say so in the report and compare against what exists; never abort for it.
+- PLANNING ARTIFACTS = every `artifact_files` and `artifact_dirs` entry whose path is not already loaded above or in step 2 (spec, plan, tasks, the WP prompts), except `feature_dir`, which is the mission directory itself; plus `mission_dir/occurrence_map.yaml` when it exists (bulk-edit Missions) and the recorded decisions `mission_dir/decisions/DM-*.md` when present (neither is inventoried). A directory whose files are already loaded (the WP prompt directory) counts as loaded. Use no glob and no fixed list of key names.
 
 ### 2. Load Artifacts (Progressive Disclosure)
 
@@ -73,6 +76,10 @@ Load only the minimal necessary context from each artifact:
 **From every `tasks/WP*.md` (the prompts implementation agents execute; `tasks.md` alone is not enough):**
 
 - Frontmatter first, then the body's section headings; read a body section only when a step 2b check needs it
+
+**From meta.json:** the three creation-intent fields.
+
+**From every planning artifact:** headings first (for a directory, its file list and then each file's headings); read a body section only when a pass H or J check needs it. Record which inventory entries were read.
 
 **From charter:**
 
@@ -153,7 +160,7 @@ Create internal representations (do not include raw artifacts in output):
 
 Focus on high-signal findings. Limit to 50 findings total; aggregate remainder in overflow summary.
 
-**One defect, one finding.** When a step 2a `V` finding already covers a defect, steps 2b and passes A-G cite that `V` id (in the table's Notes or the Per-WP Readiness row) instead of raising their own finding. For example: a requirement with zero tasks (`unmapped_functional_requirements`), a WP mapped to no requirement (`missing_requirement_refs_wps`), an unknown requirement ref, a cycle, or a missing WP prompt.
+**One defect, one finding.** The earliest step that detects a defect owns it - 2a, 2b, then passes A-G, H, J - and later steps cite its id (in the table's Notes, the Per-WP Readiness row or the section text) instead of raising their own. For example: a requirement with zero tasks (`unmapped_functional_requirements`), a WP mapped to no requirement (`missing_requirement_refs_wps`), an unknown requirement ref, a cycle, or a missing WP prompt.
 
 #### A. Duplication Detection
 
@@ -195,19 +202,42 @@ Apply tactic `requirement-quality-ears` (fetch: `spec-kitty charter context --in
 
 - each requirement is testable, solution-free, unambiguous, consistent and complete (category `requirement-quality`);
 - behavioural requirements read against the EARS patterns as a lens, not a template, and state a response an actor or a test can observe (category `requirement-quality`);
-- each user story gets a scenario audit in five kinds - accepted, rejected, missing edge, surprising accepted, surprising rejected - each row citing a `spec.md`, `plan.md` or `tasks.md` location (category `scenario`); a spec with no user stories gets "None." and no invented stories;
+- each user story gets a scenario audit in five kinds - accepted, rejected, missing edge, surprising accepted, surprising rejected - each row citing a `spec.md`, `plan.md` or `tasks.md` location (category `scenario`); a spec with no user stories gets "None." and no invented stories. Only missing-edge, surprising-accepted and surprising-rejected rows become `S` findings; accepted and rejected rows are context;
 - every HIGH or CRITICAL ambiguity or requirement-quality finding gets a clarification question with two to four concrete choices and a recommendation, or a concrete remediation (the reworded requirement) in its Recommendation cell;
-- a finding reached by judgement starts with `Inferred:` and never claims proof.
+- a finding reached by judgement starts with `Inferred:` in both its carrier `summary` and its table Summary cell, and never claims proof. This applies to every judgement finding of step 2b and passes A-H and J; a `V` finding quotes the command output and never carries the label.
+
+#### H. Intent & Planning-Artifact Consistency
+
+Apply tactic `planning-corpus-consistency` (fetch: `spec-kitty charter context --include tactic:planning-corpus-consistency`) to the planning artifacts and creation intent loaded in step 2. Category `planning-artifact`. In one line each:
+
+- each research, plan or recorded (`decisions/`) decision, and each deferred-decision marker, is implemented by a task or WP, explicitly deferred, or flagged; one implemented the other way is a contradiction;
+- data-model entities, invariants and state transitions, contract operations and quickstart scenarios agree with the spec and are built or covered by a task or WP;
+- `occurrence_map.yaml` (when present): every category's action is reflected in the WPs that own those files;
+- any other planning artifact: content it states that no task or WP reflects;
+- ungrounded behaviour: a task or WP that builds something no requirement, plan decision, planning artifact or creation-intent field asks for. A WP mapped to no requirement is a `V`, `W` or `C` defect: cite it.
+
+Evidence for an `X` finding sits in a planning artifact, a `plan.md` or recorded decision, or `meta.json`: a `plan.md` decision no task implements is an `X` finding. Other differences among spec, plan and tasks stay with pass F.
+
+#### J. Product Coherence
+
+Apply tactic `product-coherence-review` (fetch: `spec-kitty charter context --include tactic:product-coherence-review`). Category `product-coherence`. Every finding starts with `Inferred:` and is MEDIUM or LOW; it never blocks the verdict. Review against the creation intent:
+
+- intent drift; the MVP slice, read from the MVP Scope note in `tasks.md` or a WP heading marked MVP (neither: "MVP unclear") - never define MVP here;
+- whether the first WPs deliver a vertical slice or only scaffolding; overbuild beyond the stated need (work with no trace at all is an `X` finding: cite it);
+- user journeys, actors, triggers, outcomes or failure cases lost between spec, plan and tasks; sequencing that delays all value or leaves a risky unknown last; WPs grouped by technical layer rather than user value.
+
+End with exactly one recommendation: revise spec, revise plan, revise tasks, or proceed (step 6).
 
 ### 5. Severity Assignment
 
 Use this heuristic to prioritize findings:
 
 - **CRITICAL**: Violates charter MUST, missing core spec artifact, requirement with zero coverage that blocks baseline functionality, or a `finalize-tasks --validate-only` refusal (step 2a)
-- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, untestable acceptance criterion, or stale finalization reported by a passing validation (`tasks_md_stale`, non-empty `would_modify`)
-- **HIGH** also: a finalize validation that could not run (fail closed), a WP-prompt blocker (step 2b), an untestable or ambiguous requirement that changes what gets built, a scenario gap on a security or data-loss path
-- **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case, a finalize-validation warning, a WP-prompt quality improvement, other requirement-quality or scenario findings
+- **HIGH**: Duplicate or conflicting requirement, ambiguous security/performance attribute, or stale finalization reported by a passing validation (`tasks_md_stale`, non-empty `would_modify`)
+- **HIGH** also: a finalize validation that could not run (fail closed), a WP-prompt blocker (step 2b), an untestable or ambiguous requirement that changes what gets built, a scenario gap on a security or data-loss path, a planning-artifact contradiction or ungrounded behaviour that changes what gets built (pass H)
+- **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case, a finalize-validation warning, a WP-prompt quality improvement, other requirement-quality or scenario findings, a planning-artifact decision, element or scenario no task reflects
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order, EARS wording suggestions, a collapsed lane
+- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher, so they never block the verdict; their weight goes into the recommendation (step 6).
 
 ### 6. Produce Compact Analysis Report
 
@@ -238,9 +268,9 @@ After the closing `---`, draft the Markdown body with the following structure:
 
 | ID | Category | Severity | Location(s) | Summary | Recommendation |
 |----|----------|----------|-------------|---------|----------------|
-| D1 | Duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
+| D1 | duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
 
-One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, charter), then by line, so a rerun on unchanged artifacts yields the same ids:
+One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G, H, J), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, other planning artifacts in inventory order, meta.json, charter), then by line, so a rerun on unchanged artifacts yields the same ids. Locations use `file:Lnn` (or `file:Lnn-mm`); use a heading only when no stable line exists:
 
 | Prefix | Category | Prefix | Category |
 |---|---|---|---|
@@ -249,6 +279,7 @@ One row per finding. Finding ids use one fixed prefix per category, numbered wit
 | U | underspecification | Q | requirement-quality |
 | K | charter | S | scenario |
 | C | coverage | I | inconsistency |
+| X | planning-artifact | M | product-coherence |
 
 Then these sections, always in this order and always present (write "None." when a section has nothing to report):
 
@@ -265,8 +296,14 @@ Then these sections, always in this order and always present (write "None." when
 
 **Scenario Audit:** one table per user story:
 
-| Kind | Scenario | Location |
-|------|----------|----------|
+| Kind | Scenario | Location | Finding |
+|------|----------|----------|---------|
+
+Rows in this order: accepted, rejected, missing edge, surprising accepted, surprising rejected. Finding is the `S` id, or `-` for accepted and rejected rows.
+
+**Intent & Planning-Artifact Consistency:** the inventory entries read (and `meta.json` fields absent), then the `X` findings grouped by artifact. With no planning artifacts beyond spec, plan and tasks, say so.
+
+**Product Coherence:** the creation intent in one line, the `M` findings, then exactly one line: `Recommendation: revise spec | revise plan | revise tasks | proceed` - choose one. Weigh every finding in the report: never `proceed` while the verdict is `blocked`; a `revise` choice is allowed while it is `ready`. Choose the artifact that owns the most severe finding; when that finding concerns the environment (a `V` finding the CLI could not run), choose `revise tasks`.
 
 **Clarification Questions:** one entry per HIGH or CRITICAL ambiguity or requirement-quality finding without a concrete remediation: the finding id, the question, two to four choices with their implications, and the recommended choice.
 
@@ -294,6 +331,10 @@ Then these sections, always in this order and always present (write "None." when
 - Requirement-quality findings
 - Scenarios audited
 - Inferred findings
+- Planning artifacts reviewed
+- Planning-artifact findings
+- Product-coherence findings
+- Coherence recommendation
 
 ### 7. Persist Report Artifact
 
@@ -349,7 +390,8 @@ At end of report, output a concise Next Actions block:
 - If CRITICAL issues exist: Recommend resolving before `/implement`
 - A finalize-validation refusal or stale finalization: name `/spec-kitty.tasks-finalize` (after fixing the artifacts it names); a validation that could not run: name the CLI upgrade or the `--mission` handle fix
 - A WP-prompt blocker: name the WP and what it lacks
-- If only LOW/MEDIUM: User may proceed, but provide improvement suggestions
+- Repeat the Product Coherence recommendation line and name the artifact to revise
+- If only LOW/MEDIUM: the verdict is ready; follow the Product Coherence recommendation (proceed, or the artifact it names to revise)
 - Provide explicit command suggestions: e.g., "Run /spec-kitty.specify with refinement", "Run /plan to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'"
 
 ### 9. Offer Remediation
@@ -362,6 +404,7 @@ Ask the user: "Should all of these findings be addressed before moving on to imp
 
 - **Minimal high-signal tokens**: Focus on actionable findings, not exhaustive documentation
 - **Progressive disclosure**: Load artifacts incrementally; don't dump all content into analysis
+- Planning artifacts load headings-first; read a body section only when a check needs it
 - **Token-efficient output**: Limit findings table to 50 rows; summarize overflow
 - **Deterministic results**: Rerunning without changes should produce consistent IDs and counts
 
