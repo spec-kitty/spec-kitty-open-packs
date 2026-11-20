@@ -270,22 +270,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   with the directive. The remaining #216 items (the tests-as-scaffold paradigm and the DIRECTIVE_041
   mindset split, the anti-pattern nodes and reference assets, checklist de-duplication, the curator
   profile) stay open.
-- **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
-  logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
-  and glue work, a recorded real run or an existing gate is the evidence, labelled
-  `[evidenced-by-run]`, and delivery asks the long-term-value question. The evidence must exist and
-  exercise the change. Red-first work with no failing-first test does not conform, whatever evidence
-  it names, and a doubtful change counts as carrying lasting regression risk. A justified skip still
-  exists: skipping red-first for behavior with that risk needs an explicit justification in the
-  commit or PR, and the carve-out for configuration and glue work is not a skip. Security or permission configuration
-  that takes a policy check instead of a test needs a recorded red: the check must fail on a
-  configuration that violates the policy. Review flags new tests that only restate configuration as
-  waste and checks that the cited evidence exists.
-  `DIRECTIVE_041` lets a change detector retire once its evidence is recorded. Before, the doctrine
-  asked for a failing test ahead of every production change.
 - **A red that proves the right thing** (#151). `red-first-bug-reproduction` records the failure text,
   inverts a test that pins the defect, and splits a reproduction from its fix with a strict expected
-  failure. Before, a red could pass for the wrong reason.
+  failure. Before, a red could pass for the wrong reason. `acceptance-test-first` now has each new acceptance test run on the base with its failure text recorded, so an anchor that is red for a missing symbol or an unstaged version bump is caught.
 - **Review now fails doubles of owned logic and new change-detector tests** (#216, #209). The
   software-dev review step fails a test double on code the system under test owns, and fails a new
   test that only restates configuration; a touched existing one may be retired once its evidence is
@@ -294,13 +281,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **The spec template and the specify prompt carry the evidence labels** (#209). Requirement rows gain
   the `[evidenced-by-run]` delivery label and the `n-a` no-op mark, defined in the
   `acceptance-criteria-non-vacuity` tactic.
-- **`DIRECTIVE_036` defers to `DIRECTIVE_054` for where substitutes sit** (#216). Before, the two
-  directives could read as giving different answers on which seams a test may substitute.
 - **Two new glossary terms** (#216, #209): "responsibility boundary" and "change-detector test".
 - **`internal` carries two worked examples**: a CI workflow for the evidence rule above, and the core
   release-step incident for the mock-boundary rule, which no longer ships in `foundation`. Its `foundation`
   range narrows to `>=3.2,<4`, since its content cites the 3.2 rules.
-- **Versions** (#216, #209, #151). `DIRECTIVE_054` and the narrowed `DIRECTIVE_036` rule say so
+- **Packs that use the new rules need `foundation` 3.2** (#216, #209, #151). `DIRECTIVE_054` and the narrowed `DIRECTIVE_036` rule say so
   themselves: they bind the tests a change adds or modifies. An existing test that does not conform is
   fixed when a change touches it, or recorded as a follow-up, so existing tests stay conforming and the
   change is additive (DIRECTIVE_018). The bumps are minor and lockstep:
@@ -312,7 +297,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   cites the carve-out. Narrowing the lower bound within the same major (`qa`, `internal`, `python`,
   `drupal`) is a minor, not a major: the 3.1 combination is superseded, not broken, because the new
   content only adds rules. A `depends_on` that moved to a new major, as in the earlier major-version
-  entries, breaks the old combination and is a major. **What to do:** nothing in your packs.
+  entries, breaks the old combination and is a major. **What to do:** a consumer that pins `foundation` 3.1 must move to 3.2 to take `qa` 5.1, `internal` 4.2, `python` 2.2 or `drupal` 2.2.
 
 - **`/spec-kitty.analyze` checks implementation readiness** (#246, #237, #247; epic #244). The
   software-dev `analyze` step now does three more things before it gives a verdict:
@@ -788,6 +773,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
+  logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
+  and glue work, a recorded real run or an existing gate is the evidence, labelled
+  `[evidenced-by-run]`, and delivery asks the long-term-value question. The evidence must exist and
+  run the changed configuration itself (the new or edited job, step or setting executes in it, visible
+  in the run's log); a run of other jobs on the same change does not count. Red-first work with no failing-first test does not conform, whatever evidence
+  it names, and a doubtful change counts as carrying lasting regression risk. A justified skip still
+  exists: skipping red-first for behavior with that risk needs an explicit justification in the
+  commit or PR, and the carve-out for configuration and glue work is not a skip. Security or permission configuration
+  that takes a policy check instead of a test needs a recorded red: the check must fail on a
+  configuration that violates the policy. Review flags new tests that only restate configuration as
+  waste and checks that the cited evidence exists.
+  `DIRECTIVE_041` lets a change detector retire once its evidence is recorded. Before, the doctrine
+  asked for a failing test ahead of every production change.
+- **`DIRECTIVE_036` defers to `DIRECTIVE_054` for where substitutes sit** (#216). Before, the two
+  directives could read as giving different answers on which seams a test may substitute. `DIRECTIVE_054` also judges a seam by what sits behind it, not by the transport: a test cannot stub an HTTP call to a sibling service of its own bounded context.
 - **Missions here use `packs/` as their workspace** (found by the mission for #246).
   `.kittify/config.yaml` maps `project.path_conventions.workspace` to `packs/`. Software-dev
   missions change pack content and there is no `src/`, so without the remap `spec-kitty agent
