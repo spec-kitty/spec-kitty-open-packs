@@ -6,11 +6,12 @@ Standard library only, so a CI step reads the pin without installing anything::
     python3 scripts/ci/charter_lock.py commit        # the 40-hex commit
     python3 scripts/ci/charter_lock.py release_tag   # service-vX.Y.Z, or empty
     python3 scripts/ci/charter_lock.py jar_sha256    # 64-hex digest, or empty
+    python3 scripts/ci/charter_lock.py pack_check_sha256  # 64-hex digest of the release's pack-check jar, or empty
 
 The file is read fail-closed (exit 2, a message on stderr): ``commit`` must be 40 lowercase hex
 characters, never a branch or a tag; ``release_tag`` is empty or ``service-vX.Y.Z[-pre]``;
-``jar_sha256`` is empty or 64 lowercase hex characters; a release tag needs its digest and a digest its
-release tag; no other key is allowed.
+``jar_sha256`` and ``pack_check_sha256`` are empty or 64 lowercase hex characters; a release tag needs both
+digests and a digest its release tag; no other key is allowed.
 """
 
 from __future__ import annotations
@@ -20,7 +21,7 @@ import sys
 from pathlib import Path
 
 LOCK_FILE = Path(__file__).resolve().parents[2] / "charter.lock.yaml"
-KEYS = ("commit", "release_tag", "jar_sha256")
+KEYS = ("commit", "release_tag", "jar_sha256", "pack_check_sha256")
 COMMIT = re.compile(r"[0-9a-f]{40}")
 RELEASE_TAG = re.compile(r"service-v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?")
 SHA256 = re.compile(r"[0-9a-f]{64}")
@@ -47,7 +48,7 @@ def parse(text: str) -> dict[str, str]:
 
 
 def read(path: Path | None = None) -> dict[str, str]:
-    """The checked pin: all three keys present as strings (empty when unset)."""
+    """The checked pin: every key present as a string (empty when unset)."""
     path = path or LOCK_FILE
     try:
         text = path.read_text(encoding="utf-8")
@@ -57,18 +58,21 @@ def read(path: Path | None = None) -> dict[str, str]:
 
 
 def check(lock: dict[str, str]) -> dict[str, str]:
-    """The checked pin of parsed ``key: value`` pairs: all three keys present as strings (empty when unset)."""
+    """The checked pin of parsed ``key: value`` pairs: every key present as a string (empty when unset)."""
     commit = lock.get("commit", "")
     if not COMMIT.fullmatch(commit):
         raise LockError(f"commit must be 40 lowercase hex characters (never a branch or a tag), got {commit!r}")
     tag, digest = lock.get("release_tag", ""), lock.get("jar_sha256", "")
+    pack_check = lock.get("pack_check_sha256", "")
     if tag and not RELEASE_TAG.fullmatch(tag):
         raise LockError(f"release_tag must be empty or service-vX.Y.Z[-pre], got {tag!r}")
-    if digest and not SHA256.fullmatch(digest):
-        raise LockError(f"jar_sha256 must be empty or 64 lowercase hex characters, got {digest!r}")
-    if bool(tag) != bool(digest):
-        raise LockError("release_tag and jar_sha256 are set together or not at all: a release jar is verified by its digest")
-    return {"commit": commit, "release_tag": tag, "jar_sha256": digest}
+    for key, value in (("jar_sha256", digest), ("pack_check_sha256", pack_check)):
+        if value and not SHA256.fullmatch(value):
+            raise LockError(f"{key} must be empty or 64 lowercase hex characters, got {value!r}")
+    if not bool(tag) == bool(digest) == bool(pack_check):
+        raise LockError("release_tag, jar_sha256 and pack_check_sha256 are set together or not at all: each release jar "
+                        "(the service and pack-check) is verified by its digest")
+    return {"commit": commit, "release_tag": tag, "jar_sha256": digest, "pack_check_sha256": pack_check}
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -25,6 +25,7 @@ import charter_pin  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 COMMIT = "a" * 40
 DIGEST = "b" * 64
+PACK_DIGEST = "c" * 64
 
 
 class ReleaseOrder(unittest.TestCase):
@@ -53,7 +54,8 @@ class ReleaseOrder(unittest.TestCase):
 
 class NewestRelease(unittest.TestCase):
     def run_main(self, current: str, tags: list[str]) -> dict[str, str]:
-        lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else ""}
+        lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else "",
+                "pack_check_sha256": DIGEST if current else ""}
         out = io.StringIO()
         with mock.patch.object(charter_lock, "read", return_value=lock), \
              mock.patch.object(charter_pin, "release_tags", return_value=tags), redirect_stdout(out):
@@ -73,7 +75,8 @@ class NewestRelease(unittest.TestCase):
 
 class AtOrPast(unittest.TestCase):
     def run_main(self, current: str, tag: str) -> int:
-        lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else ""}
+        lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else "",
+                "pack_check_sha256": DIGEST if current else ""}
         with mock.patch.object(charter_lock, "read", return_value=lock):
             return charter_pin.main(["at-or-past", tag])
 
@@ -115,6 +118,42 @@ class ReleaseListing(unittest.TestCase):
                  self.assertRaises(charter_pin.PinError):
                 charter_pin.jar_digest("service-v1.0.0")
 
+    def test_the_pack_check_digest_comes_from_its_own_asset_and_must_name_its_jar(self) -> None:
+        # #252: the gate's pack-check jar is pinned by the digest the release's pack-check-<version>.jar.sha256 states.
+        urls = []
+        def fake(url: str, *, api: bool) -> bytes:
+            urls.append(url)
+            return f"{PACK_DIGEST}  pack-check-1.0.0.jar\n".encode()
+        with mock.patch.object(charter_pin, "_request", side_effect=fake):
+            self.assertEqual(charter_pin.jar_digest("service-v1.0.0", charter_pin.PACK_CHECK_JAR), PACK_DIGEST)
+        self.assertEqual(urls, ["https://github.com/spec-kitty/spec-kitty-charter/releases/download/service-v1.0.0/"
+                                "pack-check-1.0.0.jar.sha256"])
+        with mock.patch.object(charter_pin, "_request",
+                               return_value=f"{PACK_DIGEST}  spec-kitty-charter-service-1.0.0.jar\n".encode()), \
+             self.assertRaises(charter_pin.PinError):
+            charter_pin.jar_digest("service-v1.0.0", charter_pin.PACK_CHECK_JAR)
+
+    def test_resolve_release_emits_both_digests_and_a_release_without_pack_check_cannot_resolve(self) -> None:
+        def fake(url: str, *, api: bool) -> bytes:
+            if url.endswith("/pack-check-1.0.0.jar.sha256"):
+                return f"{PACK_DIGEST}  pack-check-1.0.0.jar\n".encode()
+            return f"{DIGEST}  spec-kitty-charter-service-1.0.0.jar\n".encode()
+        out = io.StringIO()
+        with mock.patch.object(charter_pin, "_request", side_effect=fake), \
+             mock.patch.object(charter_pin, "tag_commit", return_value=COMMIT), redirect_stdout(out):
+            self.assertEqual(charter_pin.main(["resolve-release", "service-v1.0.0"]), 0)
+        values = dict(line.split("=", 1) for line in out.getvalue().splitlines())
+        self.assertEqual(values, {"commit": COMMIT, "release_tag": "service-v1.0.0", "jar_sha256": DIGEST,
+                                  "pack_check_sha256": PACK_DIGEST})
+        def missing(url: str, *, api: bool) -> bytes:
+            if "pack-check" in url:
+                raise charter_pin.PinError("404")
+            return fake(url, api=api)
+        with mock.patch.object(charter_pin, "_request", side_effect=missing), \
+             mock.patch.object(charter_pin, "tag_commit", return_value=COMMIT), redirect_stdout(io.StringIO()), \
+             redirect_stderr(io.StringIO()):
+            self.assertEqual(charter_pin.main(["resolve-release", "service-v1.0.0"]), 2)
+
 
 class ResolveRef(unittest.TestCase):
     def test_a_full_commit_is_taken_as_is_without_a_call(self) -> None:
@@ -148,20 +187,25 @@ class WriteLock(unittest.TestCase):
 
     def test_a_release_pin_and_a_main_pin_read_back_and_keep_the_comments(self) -> None:
         comments = [line for line in self.lock.read_text(encoding="utf-8").splitlines() if line.startswith("#")]
-        charter_pin.write_lock(COMMIT, "service-v9.0.0-rc.1", DIGEST)
+        charter_pin.write_lock(COMMIT, "service-v9.0.0-rc.1", DIGEST, PACK_DIGEST)
         self.assertEqual(charter_lock.read(self.lock),
-                         {"commit": COMMIT, "release_tag": "service-v9.0.0-rc.1", "jar_sha256": DIGEST})
-        charter_pin.write_lock(COMMIT, "", "")
-        self.assertEqual(charter_lock.read(self.lock), {"commit": COMMIT, "release_tag": "", "jar_sha256": ""})
+                         {"commit": COMMIT, "release_tag": "service-v9.0.0-rc.1", "jar_sha256": DIGEST,
+                          "pack_check_sha256": PACK_DIGEST})
+        charter_pin.write_lock(COMMIT, "", "", "")
+        self.assertEqual(charter_lock.read(self.lock),
+                         {"commit": COMMIT, "release_tag": "", "jar_sha256": "", "pack_check_sha256": ""})
         kept = [line for line in self.lock.read_text(encoding="utf-8").splitlines() if line.startswith("#")]
         self.assertEqual(kept, comments)
 
     def test_a_malformed_pin_is_refused_and_the_file_is_left_alone(self) -> None:
         before = self.lock.read_text(encoding="utf-8")
-        for commit, tag, digest in (("main", "", ""), (COMMIT, "v1.0.0", DIGEST), (COMMIT, "service-v1.0.0", ""),
-                                    (COMMIT, "service-v1.0.0", "x" * 64)):
-            with self.subTest(commit=commit, tag=tag, digest=digest), self.assertRaises(charter_pin.PinError):
-                charter_pin.write_lock(commit, tag, digest)
+        for commit, tag, digest, pack_check in (
+                ("main", "", "", ""), (COMMIT, "v1.0.0", DIGEST, PACK_DIGEST), (COMMIT, "service-v1.0.0", "", ""),
+                (COMMIT, "service-v1.0.0", "x" * 64, PACK_DIGEST), (COMMIT, "service-v1.0.0", DIGEST, ""),
+                (COMMIT, "service-v1.0.0", DIGEST, "x" * 64), (COMMIT, "", "", PACK_DIGEST)):
+            with self.subTest(commit=commit, tag=tag, digest=digest, pack_check=pack_check), \
+                 self.assertRaises(charter_pin.PinError):
+                charter_pin.write_lock(commit, tag, digest, pack_check)
         self.assertEqual(self.lock.read_text(encoding="utf-8"), before)
 
 
