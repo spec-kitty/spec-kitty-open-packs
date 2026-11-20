@@ -275,13 +275,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     vertical slice, overbuild, lost scenarios, sequencing and grouping. Its findings are capped at
     MEDIUM, so they never block the verdict. The step ends in one `Recommendation:` line (`revise
     spec`, `revise plan`, `revise tasks` or `proceed`); a fixed owner rule picks the artifact to revise.
-  - The #247 review folds: only scenario rows with a missing edge or a surprising outcome become
-    `S` findings (Finding column, fixed order). `Inferred:` placement is stated, and a rule that
-    was duplicated and untestable is folded into one. Tests pin the #247 content.
-  - The review folds: the recommendation follows a deterministic owner rule (the owner of the first
-    HIGH or CRITICAL finding in table order when blocked; when ready, proceed unless an `M` or a
-    MEDIUM finding exists). Setup work packages the MVP slice needs are not scaffolding. The tasks
-    steps record the MVP in tasks.md's MVP Scope note, which analyze reads. Editing a planning
+  - **Findings stay deterministic and single-owner.** Scenario rows that are only context
+    (accepted, rejected) no longer become findings; the `Inferred:` label sits in the carrier
+    summary and the table cell. Table rows sort by step then id number, and an overflow past 50 rows
+    keeps every HIGH and CRITICAL row. A task mapped to nothing stays pass E's `C` finding. A missing
+    inventory is reported, never read as "no planning artifacts".
+  - **The recommendation follows a fixed owner rule.** Coverage, validation and WP findings go to
+    tasks, other findings to the artifact they cite, and every planning artifact other than the spec
+    and `meta.json` goes to plan. A ready mission says `proceed` unless a MEDIUM `M` finding exists.
+    The report carries exactly one `Recommendation:` line.
+  - **The MVP is read, not forced.** `/spec-kitty.tasks` records it in tasks.md's MVP Scope note;
+    the split tasks flow generates tasks.md, so a missing note is a LOW finding that cannot force a
+    revise. Setup work packages the MVP slice needs are not scaffolding. Editing a planning
     artifact the staleness check does not track still means re-running analyze.
 
   cave-kitty's `cave-dev` analyze step names the same checks. The analyze step still changes nothing
