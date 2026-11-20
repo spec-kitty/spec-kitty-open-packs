@@ -136,6 +136,10 @@ nodes:
     kind: tactics
     title: "Spec Kitty Gate Non-Vacuity Exemplar Audit"
     body_path: tactics/spec-kitty-gate-non-vacuity-exemplar.tactic.yaml
+  - id: spec-kitty-ci-workflow-evidence-exemplar
+    kind: tactics
+    title: "Spec Kitty CI Workflow Evidence Exemplar"
+    body_path: tactics/spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml
   - id: spec-kitty-ratchet-cost
     kind: tactics
     title: "Spec Kitty Ratchet Cost (allowlist ratchets are priced debt)"
@@ -350,6 +354,9 @@ edges:
     relation: refines
   - source: "tactic:spec-kitty-gate-non-vacuity-exemplar"
     target: "foundation::tactic:architectural-gate-non-vacuity"
+    relation: refines
+  - source: "tactic:spec-kitty-ci-workflow-evidence-exemplar"
+    target: "foundation::tactic:acceptance-criteria-non-vacuity"
     relation: refines
   - source: "tactic:spec-kitty-ratchet-cost"
     target: "foundation::tactic:frozen-baseline-shrink-only-ratchet"

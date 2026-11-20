@@ -10,7 +10,7 @@ Follow the `issue-to-mission-delivery` procedure. It carries the rules and the c
 2. Ground the issues: confirm each still reproduces on current main and was not superseded, and set the Mission boundary.
 3. Claim every issue (comment, assign the operator, add the repository's claim labels if it has them) and verify it before any planning artifact exists.
 4. Specify, plan and tasks through the canonical commands; fill the issue matrix; keep the tracer files.
-5. Survey the existing code, then implement red-first with `spec-kitty next --agent <name> --mission <slug>`.
+5. Survey the existing code, then implement red-first where the change carries a lasting regression risk (record real-run or gate evidence for configuration and glue work) with `spec-kitty next --agent <name> --mission <slug>`.
 6. Run the `mission-wrap-up-sequence` procedure end to end: accept, issue verdicts, aggregate review, consolidate, compact, rebase, changelog and docs, pre-PR review and folds, PR body, then its closeout step. Add the repository's human-owned label to the PR when the closeout opens it, if it has one.
 7. Add the repository's ready label to the PR after the closeout's flip, if it has one.
 
