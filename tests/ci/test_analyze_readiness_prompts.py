@@ -514,5 +514,36 @@ class CarrierSummaryQuotingTest(unittest.TestCase):
         self.assertEqual(yaml.safe_load('summary: "Inferred: a gap in WP02"\n')["summary"], "Inferred: a gap in WP02")
 
 
+ID_ORDER_RULE = ("other planning artifacts in inventory order, then occurrence_map.yaml, then decision files by name, "
+                 "meta.json, charter; a finding citing several artifacts sorts by its first cited location")
+RESIDUAL_RISK_RULE = "mission-directory entries neither inventoried nor read (for example extra research/ or tools/ files)"
+
+
+class DeterminismTest(unittest.TestCase):
+    def test_id_ordering_covers_map_decisions_and_multi_artifact_findings(self) -> None:
+        """red-first: the id ordering names occurrence_map.yaml, decision files by name and the first-cited-location rule."""
+        self.assertIn(ID_ORDER_RULE, read(ANALYZE))
+
+    def test_decisions_are_listed_not_globbed(self) -> None:
+        """red-first: the prompt and the corpus tactic list the decisions directory and skip index.json; no DM-*.md glob."""
+        corpus = squash(read(TACTICS / f"{CORPUS_TACTIC}.tactic.yaml"))
+        for text in (read(ANALYZE), corpus):
+            with self.subTest(text=text[:20]):
+                self.assertRegex(squash(text), r"list `\S*decisions/` and read the decision records it holds \(not `index.json`\)")
+                self.assertNotIn("DM-*", text)
+
+    def test_residual_risk_names_unread_directory_entries(self) -> None:
+        """red-first: Residual Risk reports mission-directory entries that were neither inventoried nor read."""
+        risk = section(read(ANALYZE), "**Residual Risk:**", "**Charter Alignment")
+        self.assertIn(RESIDUAL_RISK_RULE, risk)
+
+    def test_absence_checks_positive_control(self) -> None:
+        """control: the section and the glob checks see what they guard on synthetic text."""
+        sample = "**Residual Risk:** x " + RESIDUAL_RISK_RULE + "\n\n**Charter Alignment Issues:**"
+        self.assertIn(RESIDUAL_RISK_RULE, section(sample, "**Residual Risk:**", "**Charter Alignment"))
+        self.assertIn("DM-*", "the decisions `DM-*.md`")
+        self.assertIsNotNone(re.search(r"list `\S*decisions/` and read", "list `mission_dir/decisions/` and read"))
+
+
 if __name__ == "__main__":
     unittest.main()

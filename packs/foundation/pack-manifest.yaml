@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 0235b6bfe119e58c691f4db7147dabfcaef00766bd2a679ad201763c153bbead
+manifest_hash: b85c395aafd55ab917e6078c3664a1cc9d001a1d89971467f2aa03b283126bf2
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -428,7 +428,7 @@ constituents:
 - kind: tactic
   id: planning-corpus-consistency
   path: tactics/analysis/planning-corpus-consistency.tactic.yaml
-  content_hash: cf8788faa3bce6cb2968b87ca104fb7282e24f6e48d1237e06b9a83bf42447f9
+  content_hash: 79be527716b0ca641778c8f3bffdccdf999ac6fdbfd5d6c42eaa988e4178caa2
 - kind: tactic
   id: premortem-risk-identification
   path: tactics/analysis/premortem-risk-identification.tactic.yaml

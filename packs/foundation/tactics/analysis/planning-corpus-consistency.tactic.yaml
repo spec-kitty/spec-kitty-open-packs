@@ -15,7 +15,7 @@ steps:
       The inputs are:
       - Every `artifact_files` and `artifact_dirs` entry that `check-prerequisites` prints and whose path has not already been loaded, except `feature_dir` (the mission directory itself, not an artifact).
       - `<mission_dir>/meta.json` for `purpose_tldr`, `purpose_context` and `source_description`. It is not in the inventory. State which fields were absent; `source_description` usually is. A missing meta.json is stated, never fatal.
-      - `<mission_dir>/occurrence_map.yaml` when present, and the recorded decisions under `<mission_dir>/decisions/` (`DM-*.md`) when present. Neither is inventoried; both are canonical fixed paths.
+      - `<mission_dir>/occurrence_map.yaml` when present, and, when present, the recorded decisions: list `<mission_dir>/decisions/` and read the decision records it holds (not `index.json`). Neither is inventoried; both are canonical fixed paths.
       A directory whose files are already loaded (the work package prompt directory, `tasks_dir`) counts as loaded. Use no glob and no hard-coded key list. Load headings first (for a directory: its file list, then each file's headings); read a body section only when a check below needs it.
     examples:
       - "Inventory lists research.md, data-model.md and contracts/. Load their headings; meta.json has purpose_tldr only, so report purpose_context and source_description as absent; occurrence_map.yaml does not exist, so skip it."
