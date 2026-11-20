@@ -277,8 +277,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   exercise the change. Red-first work with no failing-first test does not conform, whatever evidence
   it names, and a doubtful change counts as carrying lasting regression risk. A justified skip still
   exists: skipping red-first for behavior with that risk needs an explicit justification in the
-  commit or PR, and the carve-out for configuration and glue work is not a skip. Review flags new
-  tests that only restate configuration as waste and checks that the cited evidence exists.
+  commit or PR, and the carve-out for configuration and glue work is not a skip. Security or permission configuration
+  that takes a policy check instead of a test needs a recorded red: the check must fail on a
+  configuration that violates the policy. Review flags new tests that only restate configuration as
+  waste and checks that the cited evidence exists.
   `DIRECTIVE_041` lets a change detector retire once its evidence is recorded. Before, the doctrine
   asked for a failing test ahead of every production change.
 - **A red that proves the right thing** (#151). `red-first-bug-reproduction` records the failure text,
@@ -298,8 +300,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`internal` carries two worked examples**: a CI workflow for the evidence rule above, and the core
   release-step incident for the mock-boundary rule, which no longer ships in `foundation`. Its `foundation`
   range narrows to `>=3.2,<4`, since its content cites the 3.2 rules.
-- **Versions** (#216, #209, #151). The new rules apply to new or changed tests; existing tests stay
-  conforming, so the change is additive (DIRECTIVE_018). The bumps are minor and lockstep:
+- **Versions** (#216, #209, #151). `DIRECTIVE_054` and the narrowed `DIRECTIVE_036` rule say so
+  themselves: they bind the tests a change adds or modifies. An existing test that does not conform is
+  fixed when a change touches it, or recorded as a follow-up, so existing tests stay conforming and the
+  change is additive (DIRECTIVE_018). The bumps are minor and lockstep:
   `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`
   3.1.0 → 3.2.0, `built-in` 5.1.0 → 5.2.0, `qa` 5.0.0 → 5.1.0 (its `foundation` range narrows to
   `>=3.2,<4`, since it cites `DIRECTIVE_054`), and `internal` 4.1.0 → 4.2.0 (its `foundation` range
