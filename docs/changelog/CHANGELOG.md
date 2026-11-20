@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-19'
+updated: '2026-11-20'
 ---
 # Changelog
 
@@ -1048,6 +1048,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🐛 Fixed
 
+- **The charter-track issues quote the failing jobs' errors again** (#323). The runner's `gh`
+  refuses to print a response containing terminal escape sequences, and every job log carries
+  ANSI colour codes, so each `charter:main-red` and `charter:release-red` issue said "(the job log
+  could not be read; see the run)". `scripts/ci/charter_track_report.sh` passes
+  `--allow-escape-sequences` when the installed `gh` knows it and strips escape sequences and
+  control characters before quoting. A log that still cannot be read is quoted with `gh`'s own
+  error, which the job log also shows.
 - **Pack guidance gives one instruction per step, names only what the consumer has, and matches
   `spec-kitty-cli 4.0.0rc9`** (#266, #267, #268, #269, #270, #277, epic #263).
   - **software-dev** (foundation): the mission persona names no charter principles and lists the
