@@ -105,6 +105,21 @@ terms:
 
       term) and regression tests (too broad).'
     status: active
+  - id: responsibility-boundary
+    name: responsibility boundary
+    aliases:
+      - responsibility border
+    definition: The edge of what the system under test owns for the behaviour under test, drawn by responsibility rather
+      than by layer, module or deployment. Collaborators inside it run for real; only dependencies outside it that are on the
+      mock-boundary directive's allow-list may be substituted.
+    status: active
+  - id: change-detector-test
+    name: change-detector test
+    definition: A test that restates configuration or structure. It goes red only because the thing does not exist yet and
+      afterwards fails only when someone changes it on purpose, so it guards no lasting behaviour. Where a real run or an
+      existing gate is the evidence, it is not written, as the test-first directive sets out. Not a characterization test,
+      which pins existing behaviour so a refactor can be checked against it.
+    status: active
   - id: charter-lint
     name: charter lint
     definition: Graph-native decay detection that validates the internal consistency and freshness of doctrine artifacts in

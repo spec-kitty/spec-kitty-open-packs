@@ -113,6 +113,9 @@ nodes:
 - urn: procedure:touched-area-cleanup
   kind: procedure
   label: Touched-Area Cleanup
+- urn: procedure:unfake-an-over-mocked-test
+  kind: procedure
+  label: Unfake an Over-Mocked Test
 - urn: procedure:version-freshness-check
   kind: procedure
   label: Version Freshness Check
@@ -185,6 +188,12 @@ edges:
   relation: tension
   reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures
     and minor clutter in every touched file the default.
+- source: procedure:unfake-an-over-mocked-test
+  target: procedure:observable-contract-test-authoring
+  relation: suggests
+- source: procedure:unfake-an-over-mocked-test
+  target: tactic:test-boundaries-by-responsibility
+  relation: requires
 - source: procedure:adversarial-squad-deployment
   target: tactic:code-review-incremental
   relation: requires

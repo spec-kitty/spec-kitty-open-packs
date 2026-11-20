@@ -1,0 +1,62 @@
+schema_version: "1.0"
+id: DIRECTIVE_054
+title: Mock Only at the Responsibility Boundary
+intent: >
+  A test substitutes a collaborator only where control leaves the system under
+  test: at its responsibility boundary, or border. Everything the system under
+  test owns for the behaviour under test runs for real, and assertions target
+  observable outcomes. A double of owned logic couples the test to an
+  implementation shape, and it can manufacture a state the real code path never
+  reaches, so the test raises false alarms or gives false confidence.
+enforcement: required
+scope: >
+  Applies to all automated tests at every level (unit, integration, acceptance)
+  that use test doubles: mocks, stubs, fakes, spies and monkeypatches. The
+  boundary is drawn by responsibility for the behaviour under test, not by
+  layer, module or class; the tactic test-boundaries-by-responsibility says how
+  to draw it.
+integrity_rules:
+  - "The allow-list is exhaustive. A test may substitute only: another domain or
+    bounded context (a domain-contract seam); the filesystem; a database; the
+    network and external APIs or services; the clock; randomness; git and other
+    processes or subprocesses; and narrow system cases, such as plain DTO
+    validation or sending a hook or notification. Everything else inside the
+    boundary runs for real."
+  - "The allow-list permits a substitute; it never requires one. Running a real
+    collaborator from the list (a temporary directory, an in-memory database, a
+    real git repository in a temp dir) is always allowed."
+  - "A test must not mock, stub, patch or spy on code the system under test owns
+    in order to pin a call contract (which helper was called, how often, with
+    which arguments). This anti-pattern is called pinning a call contract on
+    owned logic."
+  - "A substitute at the boundary preserves the observable contract of the real
+    dependency, including the states it can and cannot produce. A substitute
+    shaped only for the one scenario the author imagined moves the anti-pattern
+    one step out."
+  - "When a test seems to need a double of owned logic, the boundary is drawn
+    wrong: widen the slice to include the collaborator, or extract a pure seam
+    that takes domain inputs. Do not add the double."
+  - "Assertions target observable outcomes (returned values, persisted state,
+    written files, emitted events or messages), not the call graph of owned
+    collaborators. A spy on an allow-listed seam may assert what crossed the
+    boundary, for example the set of paths handed to a git write, because that
+    is an outcome at the boundary."
+  - "Worked example of the anti-pattern: a regression test for a
+    merge step stubbed the step that marks finished work packages as done, to
+    assert it was called once with the expected ids. With that step stubbed, the
+    mission under test recorded no status events at all, a state the real merge
+    never produces. A later step correctly skipped the missing event log, the
+    test failed on the missing file, and the failure was investigated as data
+    loss. The remedy was to run the real done-marking step on work packages
+    seeded through the real status pipeline, substitute only the network calls,
+    the git preflight and the git write (spied for the set of paths it was
+    handed), and assert on the persisted event log. No production change was
+    needed."
+validation_criteria:
+  - "Every test double in a new or changed test sits on an allow-listed seam,
+    and the test (name, docstring or an adjacent comment) makes it possible to
+    tell which collaborators run for real and which are substituted."
+  - "No new or changed test asserts on the call count, call order or call
+    arguments of a collaborator the system under test owns."
+  - "An over-mocked test found during the change is remediated with
+    unfake-an-over-mocked-test or recorded as a tracked follow-up."
