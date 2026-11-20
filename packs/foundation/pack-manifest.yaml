@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 2b702f67aad61cb06a2fa65001e995ce9b332880ae2ab7d87dde4c8f4d074c6c
+manifest_hash: 49c70764def5aa7dd5566616e1d933b658ecb006067bc4e18143c95a38fc1766
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -20,7 +20,7 @@ constituents:
 - kind: agent_profile
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
-  content_hash: 0bee3de90c36de4c75a997f0db0840f7af1a2a730adb9163b2d31875f0653bba
+  content_hash: d9b73aeefd2e4f1de614868600a0337901c8027ace41ad4ab8d112149c2ee317
 - kind: directive
   id: DIRECTIVE_001
   path: directives/001-architectural-integrity-standard.directive.yaml
@@ -72,7 +72,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: f3f90b4d6bad2392aee8615e369daa9b1e4c8f4cca8f82a79bc0da9366c9aa81
+  content_hash: ded726685e8b92e7240f58a936bcd732c6ba301afbcf63db5b1876fa7ce298b2
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -88,7 +88,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_039
   path: directives/039-lynn-cole-engineering-culture.directive.yaml
-  content_hash: a1953f97b60049d9db5566432559bd356c0cdb6e63f9fdde507dd390afd28783
+  content_hash: 0381503c07e2828a89c64b889b9ce73f1ae30b2d6e47486bde110cdf1c15ab04
 - kind: directive
   id: DIRECTIVE_040
   path: directives/040-recurring-bug-structural-intervention.directive.yaml
@@ -96,7 +96,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 5ac7200586bc66127ff08be7330ba62a7903cd46c9d699a02b0f852167a78cf4
+  content_hash: 4e0edb64cad0c3b2ab7afc78ce71f805e584adfee8df030523f4b9c03f978be9
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -224,7 +224,7 @@ constituents:
 - kind: template
   id: software-dev/spec-template.md
   path: missions/software-dev/templates/spec-template.md
-  content_hash: c697bf8379a923876b170c573ea94339a61d4a9cb1936c5af2b612dbf5d6e0f5
+  content_hash: a65342c8c1d3946b7b41f106d3e848c7259669538958821dfb247761b5870c0d
 - kind: template
   id: software-dev/task-prompt-template.md
   path: missions/software-dev/templates/task-prompt-template.md
@@ -332,7 +332,7 @@ constituents:
 - kind: procedure
   id: observable-contract-test-authoring
   path: procedures/observable-contract-test-authoring.procedure.yaml
-  content_hash: bd87a98ae7d7b0d1fdebe9ea7285cb45c3c46ac4bdec33a0dcd64e8bec2cb21a
+  content_hash: 6195987645503a8c7b06cb1cfd1fb847616ed9df1bfe1568eab192e46204e96e
 - kind: procedure
   id: op-or-mission-lifecycle
   path: procedures/op-or-mission-lifecycle.procedure.yaml
@@ -384,7 +384,7 @@ constituents:
 - kind: procedure
   id: test-first-cycle
   path: procedures/test-first-cycle.procedure.yaml
-  content_hash: fb6570b4cb503856ed9611593b1f8e73c165fccad3efd08062588f644d9c8961
+  content_hash: f3172bcd4633793f2762ac1f663daeae5c1b10f4a988c045bfb57b6c44353d06
 - kind: procedure
   id: tidy-first-campsite-clean
   path: procedures/tidy-first-campsite-clean.procedure.yaml
@@ -604,11 +604,11 @@ constituents:
 - kind: tactic
   id: acceptance-criteria-non-vacuity
   path: tactics/testing/acceptance-criteria-non-vacuity.tactic.yaml
-  content_hash: ec7e1f077613cb0f8f76511123e08009f380ad178692342e3752bafcadb98cc7
+  content_hash: 623b1a9deea1638d47c4b27befd89c39b025d734869ae63a023f4c37c424fc1e
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
-  content_hash: 69875cc2c26557db16062e52d1afa27c8a95fe5f8c0f3402ad1a6ebb9fa9228c
+  content_hash: 888cb3d1a2bc82ea35429e4a0054890f946122ecda349d578a08e29f95b9526e
 - kind: tactic
   id: black-box-integration-testing
   path: tactics/testing/black-box-integration-testing.tactic.yaml
@@ -628,7 +628,7 @@ constituents:
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
-  content_hash: 07fabaacce3451dd5378dcab896b8a3c5205e47e94ca8dd7795416f8095744a0
+  content_hash: a7ed72b52cd7465ec4dfceccb09880f4d1a74fb973e3509fd006212aade2e38a
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml

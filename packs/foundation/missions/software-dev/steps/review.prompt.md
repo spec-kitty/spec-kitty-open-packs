@@ -190,7 +190,8 @@ item blocks approval.
    assertion that references the behavior it names, not just a comment or
    frontmatter entry. `SC-###` refs are tracked, not gated, and a
    `<mission-slug>#<ID>` ref cites another mission, so neither needs a test
-   here.
+   here. An FR labelled `[evidenced-by-run]` is covered by the run or gate it
+   names and passes 4b item 4; it needs no test (DIRECTIVE_034).
 5. **Frozen surface**: no commit in this WP modifies a file the spec,
    contract, or WP prompt marks as frozen or untouchable. For each frozen file,
    `git log --oneline <base>..HEAD -- <frozen-file>` must be empty.
@@ -204,11 +205,21 @@ item blocks approval.
 8. **Production fragility**: any new `raise` in a production code path has a
    documented fail-loud rationale. A bare `raise` in a request handler, worker,
    or CLI path that can fire on a transient race is a fragility risk.
+9. **Mock boundary**: no test double in this WP's tests sits on code the system
+   under test owns; every double is on an allow-listed seam of DIRECTIVE_054
+   (load with `spec-kitty charter context --include directive:DIRECTIVE_054`).
+   A call-count or call-argument assertion on an owned collaborator is a FAIL.
+10. **Change detector**: no test only restates configuration or structure (it
+    would fail only when someone changes the configuration on purpose). Such a
+    test is a FAIL: it is waste, not ATDD compliance; the evidence for configuration
+    and glue work is a real run or an existing gate (DIRECTIVE_034; the
+    long-term-value question in tactic `acceptance-criteria-non-vacuity`).
 
 ### 4b. Criterion Non-Vacuity Check
 
 Load `spec-kitty charter context --include tactic:acceptance-criteria-non-vacuity`
-and apply its three rules. State PASS / FAIL / N/A for each:
+and apply its three rules plus the evidence check below. State PASS / FAIL / N/A
+for each:
 
 1. **Same-fixture positive control**: every refusal/absence assertion in this
    WP's tests is paired with a companion assertion, on the same fixture, that
@@ -219,6 +230,13 @@ and apply its three rules. State PASS / FAIL / N/A for each:
 3. **Production-path non-vacuity**: non-vacuity tests call the production
    entry point (the CLI command, the public function actually invoked), not
    only a helper.
+4. **Evidence exists**: for each id in this WP's `requirement_refs` whose
+   spec.md row is labelled `[evidenced-by-run]`, the row names a run or gate,
+   and the record exists (the run ID or URL in `workflow-evidence.md`, or the
+   named gate in CI), and the row is configuration or glue work. An
+   `[evidenced-by-run]` row whose FR adds product logic, a gate or classifier
+   script, an invariant, or security or permission policy is a FAIL
+   (DIRECTIVE_034).
 
 Additionally: every FR row in this WP's `requirement_refs` marked *no-op
 passable? yes* names a control that exists in the diff.

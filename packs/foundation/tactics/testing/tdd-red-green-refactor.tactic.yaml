@@ -22,7 +22,7 @@ steps:
   - title: Maintain fast feedback
     description: Keep cycle time in minutes with local automation and fail fast in CI.
     examples:
-      - "Run watch mode locally and block merge when new code has no corresponding tests."
+      - "Run watch mode locally and block merge when new logic has no corresponding tests."
   - title: Handle constraints explicitly
     description: When strict TDD cannot be applied, add safety nets and document impediments for remediation.
     examples:

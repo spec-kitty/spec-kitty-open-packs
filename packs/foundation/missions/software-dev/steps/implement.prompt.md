@@ -11,8 +11,8 @@ description: Execute a work package implementation
 ## Purpose
 
 Execute the implementation of a work package according to its prompt file.
-Follow TDD practices, respect file ownership boundaries, and apply safety
-guardrails for bulk operations.
+Follow test-first practice where it earns lasting value (DIRECTIVE_034), respect
+file ownership boundaries, and apply safety guardrails for bulk operations.
 
 ---
 
@@ -156,9 +156,16 @@ If any are not approved or done, stop and report which dependencies are blocking
 
 Work through each subtask in order:
 1. Read the subtask guidance from the WP prompt
-2. Write tests first (TDD) when the subtask involves code changes
-3. Implement the code to pass the tests
-4. Verify tests pass before moving to the next subtask
+2. Write tests first when the subtask changes behaviour with a lasting regression
+   risk (product logic, gate or classifier scripts, invariants, security or
+   permission policy). For configuration and glue work, record the real run or
+   the existing gate as `[evidenced-by-run]` evidence instead (DIRECTIVE_034)
+3. Implement the code to pass the tests, or to produce the recorded evidence
+4. Verify tests pass, or that the evidence is recorded, before moving to the
+   next subtask
+
+In tests, substitute only allow-listed seams; run code the system under test
+owns for real (DIRECTIVE_054).
 
 ### 4a. Supply-Chain Security Check (dependency changes)
 
@@ -337,6 +344,10 @@ draft PR:
    `kitty-specs/<mission>/workflow-evidence.md`.
 4. Only after the orchestrator confirms the recorded evidence does the WP move
    to `for_review`.
+
+The recorded run in `workflow-evidence.md` is the `[evidenced-by-run]` evidence
+for the workflow's shape; do not add tests that restate the workflow YAML. Logic
+the workflow calls (scripts, routers, gates) still gets red-first tests.
 
 The reviewer will then use `/spk-charter-profile-load` with the reviewer profile and apply
 its self-review gates automatically.

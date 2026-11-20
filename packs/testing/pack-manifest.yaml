@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: b538ec43b73a8d7c988a9dda756c268e0d9b1e03e2ab7eafc200ca1b8eb9d342
+manifest_hash: 3372092cd61e875cdfbadaf08bf1828b67f3f37a3eb58425f87c57ff38b85009
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -60,7 +60,7 @@ constituents:
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
-  content_hash: 73e2c75b023edcb9f27232905c74a2bd816802fc5acfeb4fd628d437a36fe25b
+  content_hash: c78308cd9ebd2bc37e418ab3cd22acec294eed34346dee889448919d77856604
 - kind: tactic
   id: bdd-scenario-formulation
   path: tactics/testing/bdd-scenario-formulation.tactic.yaml

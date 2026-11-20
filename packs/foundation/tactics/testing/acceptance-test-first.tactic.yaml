@@ -1,7 +1,7 @@
 schema_version: "1.0"
 id: acceptance-test-first
 name: Acceptance Test Driven Development (ATDD)
-purpose: Anchor implementation work in externally observable behavior before internal coding begins.
+purpose: Anchor implementation work in externally observable behavior before internal coding begins, for behavior with a lasting regression risk (DIRECTIVE_034).
 steps:
   - title: Define acceptance behavior first
     description: Capture the intended user-visible outcome as an executable acceptance test before implementation starts.
@@ -24,6 +24,6 @@ steps:
     examples:
       - "Use failing acceptance test as the outer guard while adding unit-level TDD increments."
   - title: Document manual fallbacks
-    description: When automation is not feasible, record the fallback procedure and rationale for review.
+    description: When automation is not feasible, record the fallback procedure and rationale for review. Where a real run or existing gate is the evidence (configuration and glue work), record it under `[evidenced-by-run]` instead of writing an acceptance test (tactic `acceptance-criteria-non-vacuity`).
     examples:
       - "Capture hardware-vendor limitation and manual verification checklist in the task log."

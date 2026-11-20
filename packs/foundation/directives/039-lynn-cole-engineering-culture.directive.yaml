@@ -12,7 +12,7 @@ scope: >
   when the project owner wants generated code to stay small, predictable,
   maintainable, and easy for adversarial QA to inspect.
 integrity_rules:
-  - Remember the three rules of TDD, and hold them sacred.
+  - Remember the three rules of TDD, and hold them sacred; DIRECTIVE_034 sets their scope (TDD for behavior with a lasting regression risk, real-run or gate evidence for configuration and glue).
   - Architecture should be modular, minimalist, and easy to reason about.
   - Functions should be focused and easy to reason about, with cyclomatic complexity kept under control. Avoid both sprawling functions and unnecessary fragmentation. The goal is clear, predictable units of behavior.
   - Strong typing is a requirement on all projects.
