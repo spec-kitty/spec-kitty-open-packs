@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 8b2797b04f1bcc0b5371c604c566c6df4a9a2dba1a95c89f021b0bfc69c967ab
+manifest_hash: 34115f73f0c1533bb9960410d5b58b94e39d9cd77dbcb69192a111f16c0fdb56
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -205,6 +205,10 @@ constituents:
   id: spec-kitty-gate-non-vacuity-exemplar
   path: tactics/spec-kitty-gate-non-vacuity-exemplar.tactic.yaml
   content_hash: 3431cbd59dbea4f3632bea3b7827f7944fc341a1b5d33435dae78b26f19dd033
+- kind: tactic
+  id: spec-kitty-mock-boundary-exemplar
+  path: tactics/spec-kitty-mock-boundary-exemplar.tactic.yaml
+  content_hash: f70bd0441256ceeb4f37989421b3cb530368ab3d5850b2330af0dc9c956b19ef
 - kind: tactic
   id: spec-kitty-ratchet-cost
   path: tactics/spec-kitty-ratchet-cost.tactic.yaml

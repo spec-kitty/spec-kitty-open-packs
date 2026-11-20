@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/internal`
 - **Pack level:** `org`
 - **Declared version:** `4.2.0`
-- **Content checksum (sha256):** `e670a9d066dad0a2646a15cfb7946717044842e8e5e7be039db537b36e53557f`
+- **Content checksum (sha256):** `31c19928ee541c882947d4e7c1189143fecea1f9d6005552c6ceacc645d76ab3`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,7 +40,7 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 | Kind | Count |
 | --- | --- |
 | `directives` | 5 |
-| `tactics` | 5 |
+| `tactics` | 6 |
 | `styleguides` | 7 |
 | `toolguides` | 6 |
 | `procedures` | 19 |
@@ -49,7 +49,7 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **80** |
+| **Total files** | **81** |
 
 ### Full listing
 
@@ -65,11 +65,12 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 </details>
 
 <details>
-<summary><code>tactics</code> (5)</summary>
+<summary><code>tactics</code> (6)</summary>
 
 - `branded-deliverable.tactic.yaml`
 - `spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml`
 - `spec-kitty-gate-non-vacuity-exemplar.tactic.yaml`
+- `spec-kitty-mock-boundary-exemplar.tactic.yaml`
 - `spec-kitty-ratchet-cost.tactic.yaml`
 - `tracker-backlog-iterative-deepening.tactic.yaml`
 

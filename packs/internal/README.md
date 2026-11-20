@@ -71,6 +71,7 @@ packs/internal/
 │   ├── branded-deliverable.tactic.yaml              # when and how to produce a branded document
 │   ├── spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml  # CI workflow worked example (refines acceptance-criteria-non-vacuity)
 │   ├── spec-kitty-gate-non-vacuity-exemplar.tactic.yaml  # exemplar audit (refines architectural-gate-non-vacuity)
+│   ├── spec-kitty-mock-boundary-exemplar.tactic.yaml  # release-step over-mock worked example (refines DIRECTIVE_054)
 │   └── spec-kitty-ratchet-cost.tactic.yaml          # ratchets cost CI money on every run (refines frozen-baseline-shrink-only-ratchet)
 ├── toolguides/
 │   ├── branded-document-generation.toolguide.yaml   # the branded-PDF pipeline manifest

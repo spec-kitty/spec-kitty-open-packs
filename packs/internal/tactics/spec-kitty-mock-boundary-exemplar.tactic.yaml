@@ -1,0 +1,33 @@
+schema_version: "1.0"
+id: spec-kitty-mock-boundary-exemplar
+name: Spec Kitty Mock Boundary Exemplar
+purpose: >
+  Shows, on a Spec Kitty release-step regression test, how a double of owned
+  logic manufactured a state the real code path never reaches, and how running
+  the real step on state seeded through the real pipeline fixed the test,
+  applying DIRECTIVE_054 and the procedure `unfake-an-over-mocked-test`.
+steps:
+  - title: Spot the double of owned logic
+    description: |
+      Worked example: a regression test for the release step stubbed the step
+      that marks finished items as done, to assert it was called once with the
+      expected ids. With that step stubbed, the run under test recorded no
+      status events at all, a state the real release step never produces. A
+      later step correctly skipped the missing event log, the test failed on
+      the missing file, and the failure was investigated as data loss.
+  - title: Run the real step on state seeded through the real pipeline
+    description: |
+      The remedy was to run the real done-marking step on items seeded through
+      the real status pipeline, and to substitute only the network calls, the
+      version-control preflight and the version-control write. Spy on the
+      version-control write for the set of paths it was handed, because that
+      is an outcome at an allow-listed seam. Assert on the persisted event
+      log. No production change was needed.
+failure_modes:
+  - "Call-contract pin on owned logic: asserting that the done-marking step was called once with given ids, which pins the call graph instead of the persisted outcome."
+  - "Manufactured state: a stub that leaves the event log empty, so a later step meets a state the real release step never produces and the failure reads as data loss."
+  - "Misread failure: investigating a test failure as a product defect when the test, not the product, created the impossible state."
+notes: >
+  The general rule lives in foundation DIRECTIVE_054 and the procedure
+  `unfake-an-over-mocked-test`; this tactic is the Spec Kitty house example
+  only.

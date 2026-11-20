@@ -23,7 +23,7 @@ steps:
       owns, is a signal, not a norm. Real fixtures on disk are allowed
       (DIRECTIVE_054).
     examples:
-      - "A single command test mocks locate_project_root, safe_commit, run_command, bootstrap, and the validator, then writes a real mission directory to tmp_path."
+      - "A single command test mocks find_project_root, commit_changes, run_command, bootstrap, and the validator, then writes a real project directory to tmp_path."
   - title: Locate the coupling
     description: >
       Find the exact production lines where the behavior under test reaches
