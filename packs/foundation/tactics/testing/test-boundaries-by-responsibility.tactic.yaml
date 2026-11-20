@@ -8,9 +8,9 @@ steps:
     examples:
       - "User registration validates email format and creates account record."
   - title: Map responsibility boundaries
-    description: List all components involved in delivering the functionality. For each, ask whether it directly implements logic for this feature. Mark components as inside-boundary (real) or outside-boundary (may be substituted).
+    description: List all components involved in delivering the functionality. For each, ask whether it directly implements logic for this feature. Mark components as inside-boundary (real) or outside-boundary. Only an outside component on a DIRECTIVE_054 allow-listed seam may be substituted; owned components outside this feature's logic still run for real.
     examples:
-      - "Inside: UserRegistrationService, EmailValidator. Outside: UserRepository, EmailDeliveryService."
+      - "Inside: UserRegistrationService, EmailValidator. Outside, on allow-listed seams: the database behind UserRepository, the email gateway behind EmailDeliveryService."
   - title: Classify dependencies
     description: >
       Inside boundary (do NOT mock): business logic, domain models, value objects, validation rules specific to the feature (a validation rule the behavior depends on runs for real).
