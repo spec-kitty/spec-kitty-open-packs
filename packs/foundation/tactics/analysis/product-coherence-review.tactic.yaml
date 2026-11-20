@@ -1,0 +1,91 @@
+schema_version: "1.0"
+id: product-coherence-review
+name: Product Coherence Review
+purpose: >
+  A plan can be internally consistent and still wrong: overbuilt, missing its
+  smallest valuable slice, all scaffolding up front, or drifted from the intent
+  the Mission was created for. This tactic reviews the plan as a whole against
+  that intent. Every finding is a judgement, labelled inferred, and the review
+  ends in one recommendation.
+steps:
+  - title: Restate the creation intent
+    description: >
+      Take the intent from meta.json (purpose_tldr, purpose_context and
+      source_description; say which were absent) plus the spec's intent
+      summary. Never invent intent the Mission did not record.
+    examples:
+      - "Intent: 'Let support agents refund an order in one step' (meta.json purpose_tldr; spec.md Intent Summary adds 'without a supervisor'). purpose_context and source_description are absent."
+  - title: Check intent drift
+    description: >
+      Does the planned work, taken together, still deliver that intent? Name
+      what was added, dropped or reshaped between the intent and the plan.
+    examples:
+      - "Inferred: the intent is a one-step refund; the plan adds a refund approval workflow (plan.md, Approach) that the intent never mentions."
+  - title: Read the smallest valuable slice
+    description: >
+      Read the MVP slice the task breakdown names (the MVP Scope note in
+      tasks.md or a work package heading marked MVP). Do not define MVP
+      yourself. No such note is an "MVP unclear" finding. A named MVP that
+      delivers no user value before the full Mission completes is a finding.
+    examples:
+      - "Inferred: MVP unclear; tasks.md names no MVP slice and no work package heading is marked MVP."
+  - title: Compare vertical slices with scaffolding
+    description: >
+      Do the first work packages produce something a user or a test can
+      observe end to end, or only layers (models, config, plumbing) that
+      deliver nothing until later work packages land?
+    examples:
+      - "Inferred: WP01-WP04 build the schema, repository, service and API layers; the first user-visible result is WP05 (tasks.md, WP05)."
+  - title: Look for overbuild
+    description: >
+      Work beyond the stated need: extra configurability, admin surfaces,
+      generality nobody asked for. If the work traces to no source at all, the
+      planning-corpus-consistency pass owns it as ungrounded behaviour: cite
+      that finding instead of raising a second one.
+    examples:
+      - "Inferred: WP03 adds a pluggable storage backend; the spec needs one database (spec.md, Assumptions)."
+  - title: Look for lost scenarios
+    description: >
+      A user journey, actor, trigger, success outcome or failure case present
+      in the spec or the intent that disappears between spec, plan and tasks.
+    examples:
+      - "Inferred: spec.md User Story 2 (refund of a partly shipped order) has no counterpart in plan.md or tasks.md."
+  - title: Check sequencing risk
+    description: >
+      Dependency chains that delay all value to the end, a risky unknown
+      scheduled last, or a long serial chain where independent work packages
+      could deliver earlier.
+    examples:
+      - "Inferred: the payment-provider integration, the largest unknown, is WP08 of 8 and nothing before it can be exercised."
+  - title: Check grouping by user value
+    description: >
+      Work packages are grouped around a user story or a coherent subsystem,
+      not around arbitrary technical layers such as "all models" or "all
+      tests".
+    examples:
+      - "Inferred: WP02 is 'all tests' for WP01 and WP03; fold each test into the work package that delivers the behaviour (tasks.md, WP02)."
+  - title: Recommend one outcome
+    description: >
+      Choose exactly one. "revise spec": the intent or requirements are wrong
+      or missing. "revise plan": the approach does not serve the intent.
+      "revise tasks": the breakdown, slicing or order is the problem.
+      "proceed": none of these. Weigh every finding of the report, not only
+      this tactic's. Never choose "proceed" when the report's verdict is
+      blocked; a "revise" choice is allowed while the verdict is ready.
+    examples:
+      - "Recommendation: revise tasks. Slice User Story 1 end to end first (tasks.md, WP01-WP05)."
+  - title: Label every finding
+    description: >
+      Every finding starts with "Inferred:". Never claim proof; this review
+      is judgement.
+    examples:
+      - "Inferred: WP01-WP04 build the schema, repository, service and API layers; the first user-visible result is WP05 (tasks.md, WP05). Recommend revise tasks: slice US1 end to end first."
+failure_modes:
+  - "Redefining MVP instead of reading what the task breakdown names."
+  - "Presenting a judgement as proof, or omitting the Inferred label."
+  - "Duplicating an ungrounded-behaviour finding as overbuild."
+  - "Recommending 'proceed' over a blocked verdict."
+  - "Inventing intent the Mission never recorded."
+notes: >
+  This tactic defines what to look at and how to phrase a finding. The step
+  that cites it (analyze) decides severities, finding ids and report layout.

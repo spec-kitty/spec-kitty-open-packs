@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
 - **Declared version:** `3.2.0`
-- **Content checksum (sha256):** `64a3aaf5034307a3d518ac182290029486a2ad282ac96acfba1ce3bcafad6414`
+- **Content checksum (sha256):** `74da4b921521510e4b7fb54a0dca8dbc89f7b41c09b1d73924abfa51f94fe3f2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,7 +40,7 @@ glossary.
 | Kind | Count |
 | --- | --- |
 | `directives` | 33 |
-| `tactics` | 60 |
+| `tactics` | 62 |
 | `styleguides` | 1 |
 | `toolguides` | 12 |
 | `paradigms` | 1 |
@@ -51,7 +51,7 @@ glossary.
 | `lifecycles` | 1 |
 | `missions` | 60 |
 | `routing_catalogs` | 1 |
-| **Total files** | **233** |
+| **Total files** | **235** |
 
 ### Full listing
 
@@ -95,13 +95,15 @@ glossary.
 </details>
 
 <details>
-<summary><code>tactics</code> (60)</summary>
+<summary><code>tactics</code> (62)</summary>
 
 - `adversarial-qa-handoff.tactic.yaml`
 - `analysis/bounded-context-identification.tactic.yaml`
 - `analysis/dialectic-research.tactic.yaml`
 - `analysis/forensic-repository-audit.tactic.yaml`
+- `analysis/planning-corpus-consistency.tactic.yaml`
 - `analysis/premortem-risk-identification.tactic.yaml`
+- `analysis/product-coherence-review.tactic.yaml`
 - `analysis/requirement-quality-ears.tactic.yaml`
 - `analysis/requirements-validation-workflow.tactic.yaml`
 - `analysis/reverse-speccing.tactic.yaml`
