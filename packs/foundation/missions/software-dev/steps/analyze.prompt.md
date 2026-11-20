@@ -44,7 +44,7 @@ Run `spec-kitty agent mission check-prerequisites --json --include-tasks --missi
 Abort with an error message if SPEC, PLAN or TASKS is missing (instruct the user to run missing prerequisite command).
 
 - META = mission_dir/meta.json: the creation intent is `purpose_tldr`, `purpose_context` and `source_description`; note which are absent. It is not in the inventory. `meta.json` missing: say so in the report and compare against what exists; never abort for it.
-- PLANNING ARTIFACTS = every `artifact_files` and `artifact_dirs` entry whose path is not already loaded above or in step 2 (spec, plan, tasks, the WP prompts), except `feature_dir`, which is the mission directory itself; plus `mission_dir/occurrence_map.yaml` when it exists (bulk-edit Missions) and the recorded decisions `mission_dir/decisions/DM-*.md` when present (neither is inventoried). A directory whose files are already loaded (the WP prompt directory) counts as loaded. Use no glob and no fixed list of key names.
+- PLANNING ARTIFACTS = every `artifact_files` and `artifact_dirs` entry whose path is not already loaded above or in step 2 (spec, plan, tasks, the WP prompts), except `feature_dir`, which is the mission directory itself; plus `mission_dir/occurrence_map.yaml` when it exists (bulk-edit Missions) and, when present, the recorded decisions: list `mission_dir/decisions/` and read the decision records it holds (not `index.json`); neither is inventoried. A directory whose files are already loaded (the WP prompt directory) counts as loaded. Use no glob and no fixed list of key names.
 
 ### 2. Load Artifacts (Progressive Disclosure)
 
@@ -271,7 +271,7 @@ After the closing `---`, draft the Markdown body with the following structure:
 |----|----------|----------|-------------|---------|----------------|
 | D1 | duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
 
-One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G, H, J), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, other planning artifacts in inventory order, meta.json, charter), then by line, so a rerun on unchanged artifacts yields the same ids. Locations use `file:Lnn` (or `file:Lnn-mm`); use a heading only when no stable line exists:
+One row per finding. Finding ids use one fixed prefix per category, numbered within each prefix by step (2a, 2b, then passes A-G, H, J), then by artifact (spec.md, plan.md, tasks.md, WP prompts in id order, other planning artifacts in inventory order, then occurrence_map.yaml, then decision files by name, meta.json, charter; a finding citing several artifacts sorts by its first cited location), then by line, so a rerun on unchanged artifacts yields the same ids. Locations use `file:Lnn` (or `file:Lnn-mm`); use a heading only when no stable line exists:
 
 | Prefix | Category | Prefix | Category |
 |---|---|---|---|
@@ -313,7 +313,7 @@ Rows in this order: accepted, rejected, missing edge, surprising accepted, surpr
 | Requirement Key | Has Task? | Task IDs | Notes |
 |-----------------|-----------|----------|-------|
 
-**Residual Risk:** what was not machine-checked and why, including a validation that could not run or stopped at its first refusal.
+**Residual Risk:** what was not machine-checked and why, including a validation that could not run or stopped at its first refusal, and mission-directory entries neither inventoried nor read (for example extra research/ or tools/ files).
 
 **Charter Alignment Issues:**
 
