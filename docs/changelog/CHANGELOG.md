@@ -273,17 +273,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
   logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
   and glue work, a recorded real run or an existing gate is the evidence, labelled
-  `[evidenced-by-run]`, and delivery asks the long-term-value question. Review flags tests that only
-  restate configuration as waste and checks that the cited evidence exists. `DIRECTIVE_041` lets a
-  change detector retire once its evidence is recorded. Before, the doctrine asked for a failing
-  test ahead of every production change.
+  `[evidenced-by-run]`, and delivery asks the long-term-value question. The evidence must exist and
+  exercise the change. Red-first work with no failing-first test does not conform, whatever evidence
+  it names, and a doubtful change counts as carrying lasting regression risk. A justified skip still
+  exists: skipping red-first for behavior with that risk needs an explicit justification in the
+  commit or PR, and the carve-out for configuration and glue work is not a skip. Review flags new
+  tests that only restate configuration as waste and checks that the cited evidence exists.
+  `DIRECTIVE_041` lets a change detector retire once its evidence is recorded. Before, the doctrine
+  asked for a failing test ahead of every production change.
 - **A red that proves the right thing** (#151). `red-first-bug-reproduction` records the failure text,
   inverts a test that pins the defect, and splits a reproduction from its fix with a strict expected
   failure. Before, a red could pass for the wrong reason.
 - **Review now fails doubles of owned logic and new change-detector tests** (#216, #209). The
-  software-dev review step fails a test double on code the system under test owns, and fails a new or
-  changed test that only restates configuration. It also checks that the cited run or gate exists and
-  exercises the changed configuration. Configuration that encodes security or permission policy is
+  software-dev review step fails a test double on code the system under test owns, and fails a new
+  test that only restates configuration; a touched existing one may be retired once its evidence is
+  recorded. It also checks that the cited run or gate exists and exercises the changed configuration. Configuration that encodes security or permission policy is
   exempt from the change-detector check; it takes red-first or a repository-wide policy check.
 - **The spec template and the specify prompt carry the evidence labels** (#209). Requirement rows gain
   the `[evidenced-by-run]` delivery label and the `n-a` no-op mark, defined in the
@@ -291,15 +295,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`DIRECTIVE_036` defers to `DIRECTIVE_054` for where substitutes sit** (#216). Before, the two
   directives could read as giving different answers on which seams a test may substitute.
 - **Two new glossary terms** (#216, #209): "responsibility boundary" and "change-detector test".
-- **`internal` carries a CI-workflow worked example** for the evidence rule above. Its `foundation`
+- **`internal` carries two worked examples**: a CI workflow for the evidence rule above, and the core
+  release-step incident for the mock-boundary rule, which no longer ships in `foundation`. Its `foundation`
   range narrows to `>=3.2,<4`, since its content cites the 3.2 rules.
 - **Versions** (#216, #209, #151). The new rules apply to new or changed tests; existing tests stay
   conforming, so the change is additive (DIRECTIVE_018). The bumps are minor and lockstep:
   `foundation`, `writing`, `testing`, `refactoring`, `architecture` and `planning-analysis`
   3.1.0 → 3.2.0, `built-in` 5.1.0 → 5.2.0, `qa` 5.0.0 → 5.1.0 (its `foundation` range narrows to
   `>=3.2,<4`, since it cites `DIRECTIVE_054`), and `internal` 4.1.0 → 4.2.0 (its `foundation` range
-  narrows to `>=3.2,<4`). `python` and `drupal` take a patch bump, 2.1.1 → 2.1.2, for the reworded
-  test-boundary guidance. **What to do:** nothing in your packs.
+  narrows to `>=3.2,<4`). `python` and `drupal` take a minor bump, 2.1.1 → 2.2.0: their `foundation`
+  range also narrows to `>=3.2,<4`, since `python-pedro` cites `DIRECTIVE_054` and `drupal-dries`
+  cites the carve-out. Narrowing the lower bound within the same major (`qa`, `internal`, `python`,
+  `drupal`) is a minor, not a major: the 3.1 combination is superseded, not broken, because the new
+  content only adds rules. A `depends_on` that moved to a new major, as in the earlier major-version
+  entries, breaks the old combination and is a major. **What to do:** nothing in your packs.
 
 - **`/spec-kitty.analyze` checks implementation readiness** (#246, #237, #247; epic #244). The
   software-dev `analyze` step now does three more things before it gives a verdict:
