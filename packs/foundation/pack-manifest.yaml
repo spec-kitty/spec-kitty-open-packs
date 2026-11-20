@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: a215236e5402f4eb31766d2cfe1c08563cc41bcd91540586a2807a0e33d0196a
+manifest_hash: 8632a4b803baedb3b4b7ef4fa0eca8311d9a68c3a1f22c9c0fae20ffe6d180a9
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -608,7 +608,7 @@ constituents:
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
-  content_hash: 888cb3d1a2bc82ea35429e4a0054890f946122ecda349d578a08e29f95b9526e
+  content_hash: 91771190dd84979c98f2f14a75f19ea2b775fcaef21234748d4d43e32066c035
 - kind: tactic
   id: black-box-integration-testing
   path: tactics/testing/black-box-integration-testing.tactic.yaml

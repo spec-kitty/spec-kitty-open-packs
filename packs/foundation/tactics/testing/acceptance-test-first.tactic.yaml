@@ -20,7 +20,7 @@ steps:
     examples:
       - "One end-to-end scenario per capability plus focused unit tests for decision logic."
   - title: Handoff to code-level TDD
-    description: After acceptance tests fail for the right reason, continue with Red-Green-Refactor cycles for implementation detail.
+    description: "After acceptance tests fail for the right reason, continue with Red-Green-Refactor cycles for implementation detail. Run each new acceptance test on the base and record its failure text: it must fail on its assertion for the intended reason, not on a missing symbol, a collection error or a schema or version check tripped by a bump the change has not staged yet (DIRECTIVE_034 owns the red shape; procedure `red-first-bug-reproduction` holds the recording rule and the inversion of a test that pins a defect)."
     examples:
       - "Use failing acceptance test as the outer guard while adding unit-level TDD increments."
   - title: Document manual fallbacks
