@@ -214,7 +214,7 @@ Apply tactic `planning-corpus-consistency` (fetch: `spec-kitty charter context -
 - data-model entities, invariants and state transitions, contract operations and quickstart scenarios agree with the spec and are built or covered by a task or WP;
 - `occurrence_map.yaml` (when present): every category's action is reflected in the WPs that own those files;
 - any other planning artifact: content it states that no task or WP reflects;
-- ungrounded behaviour: a task or WP that builds something no requirement, plan decision, planning artifact or creation-intent field asks for. A WP mapped to no requirement is a `V`, `W` or `C` defect: cite it.
+- ungrounded behaviour: a task or WP mapped to a requirement whose behaviour that requirement, the plan, the planning artifacts and the creation intent do not ask for; a task mapped to nothing is pass E's `C` finding: cite it.
 
 Evidence for an `X` finding sits in a planning artifact, a `plan.md` or recorded decision, or `meta.json`: a `plan.md` decision no task implements is an `X` finding. Other differences among spec, plan and tasks stay with pass F.
 
@@ -223,7 +223,7 @@ Evidence for an `X` finding sits in a planning artifact, a `plan.md` or recorded
 Apply tactic `product-coherence-review` (fetch: `spec-kitty charter context --include tactic:product-coherence-review`). Category `product-coherence`. Every finding starts with `Inferred:` and is MEDIUM or LOW; it never blocks the verdict. Review against the creation intent:
 
 - intent drift; the MVP slice named in tasks.md (an MVP Scope note or any heading containing MVP; none: "MVP unclear") - never define MVP here;
-- whether the first WPs deliver a vertical slice or only scaffolding (setup or foundation WPs the MVP slice directly needs are not scaffolding; flag only layers beyond what the first story consumes); overbuild beyond the stated need (work with no trace at all is an `X` finding: cite it);
+- whether the first WPs deliver a vertical slice or only scaffolding (setup or foundation WPs the MVP slice directly needs are not scaffolding; flag only layers beyond what the first story consumes); overbuild beyond the stated need (work mapped to nothing is pass E's `C` finding and mapped-but-ungrounded work is an `X` finding: cite it);
 - user journeys, actors, triggers, outcomes or failure cases lost between spec, plan and tasks; sequencing that delays all value or leaves a risky unknown last; WPs grouped by technical layer rather than user value.
 
 End with exactly one recommendation: revise spec, revise plan, revise tasks, or proceed (step 6).
