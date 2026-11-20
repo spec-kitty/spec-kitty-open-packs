@@ -523,6 +523,7 @@ class DeterminismTest(unittest.TestCase):
     def test_id_ordering_covers_map_decisions_and_multi_artifact_findings(self) -> None:
         """red-first: the id ordering names occurrence_map.yaml, decision files by name and the first-cited-location rule."""
         self.assertIn(ID_ORDER_RULE, read(ANALYZE))
+        self.assertIn("then by id number; when rows overflow the 50-row cap, every HIGH and CRITICAL row stays", read(ANALYZE))
 
     def test_decisions_are_listed_not_globbed(self) -> None:
         """red-first: the prompt and the corpus tactic list the decisions directory and skip index.json; no DM-*.md glob."""
