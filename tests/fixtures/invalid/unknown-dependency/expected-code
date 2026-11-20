@@ -4,3 +4,4 @@
 composition: pack_dependency_unknown
 registration: pack_dependency_unknown
 precheck: accepted
+pack-check: pack_dependency_unknown  # the closure check: the dependency is in no checked pack

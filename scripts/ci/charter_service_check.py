@@ -39,6 +39,7 @@ Three phases, every one of which runs even when an earlier one failed:
     composition: pack_unreadable     # the code of the refusal of GET /offering
     registration: validation_failed  # the code of the refused registration's problem
     precheck: accepted               # optional; ``accepted`` = the per-pack schema pass cannot see it
+    pack-check: retired              # what pack-check must refuse it with (scripts/ci/charter_pack_check.py)
 
 The service driver is standard library only; the ``file_not_held`` policy imports
 ``validate_pack_schemas`` (``pyyaml``, ``jsonschema``) and its pinned contract. Needs Java 25 for the jar (``JAVA_HOME`` is honoured). Exit 0 when every phase
@@ -75,7 +76,8 @@ REGISTRATION_TIMEOUT_SECONDS = 120  # the service's own deadline for one registr
 MAX_ARCHIVE_BYTES = 32 * 1024 * 1024  # the service refuses a larger upload (413)
 KEY_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*")
 PACK_ID_PATTERN = re.compile(r"[0-9A-Za-z]+")
-EXPECTED_CODE_KEYS = {"composition", "registration", "precheck"}
+#: ``pack-check`` is read by scripts/ci/charter_pack_check.py (#252); it is accepted here so one file holds every gate's code.
+EXPECTED_CODE_KEYS = {"composition", "registration", "precheck", "pack-check"}
 CODE_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
 FILE_NOT_HELD = "file_not_held"
 
@@ -138,10 +140,12 @@ def parse_expected_code(fixture: Path) -> dict[str, str]:
             continue
         key, separator, value = (part.strip() for part in line.partition(":"))
         if not separator or key not in EXPECTED_CODE_KEYS or not value:
-            raise CannotRun(f"{path}:{number}: expected 'composition|registration|precheck: <value>', got {raw!r}")
+            raise CannotRun(f"{path}:{number}: expected 'composition|registration|precheck|pack-check: <value>', got {raw!r}")
         if key == "precheck":
             if value != "accepted":
                 raise CannotRun(f"{path}:{number}: precheck is only ever 'accepted' (omit it otherwise), not {value!r}")
+        elif key == "pack-check":
+            pass  # charter_pack_check.py validates it
         elif not CODE_PATTERN.match(value):
             raise CannotRun(f"{path}:{number}: {value!r} is not a refusal code (lower-case words joined by underscores)")
         expected[key] = value

@@ -5,3 +5,4 @@
 # (retired layout: differs only in letter case), so there is no precheck line.
 composition: pack_unreadable
 registration: validation_failed
+pack-check: retired                # pack-check refuses Readme.md by name, as the service does
