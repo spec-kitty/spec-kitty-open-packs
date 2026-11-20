@@ -452,5 +452,52 @@ class ExistingContentRatchetTest(unittest.TestCase):
         self.assertLessEqual(len(read(CAVE_ANALYZE).splitlines()), MAX_CAVE_ANALYZE_LINES)
 
 
+OWNER_MAPPING = ("Owners: spec.md and meta.json -> spec; plan.md, research, data-model, contracts, quickstart "
+                 "and decisions -> plan; tasks.md, WP prompts, `V` and `W` findings -> tasks.")
+
+
+def squash(text: str) -> str:
+    """Whitespace-collapsed text, so a folded YAML scalar compares with a prompt line."""
+    return " ".join(text.split())
+
+
+def never_proceeds_when_blocked(text: str) -> bool:
+    return bool(re.search(r"(?i)never\s+(?:choose\s+)?`?\"?proceed\"?`?\s+(?:while|when|over)\b[^.]*blocked", squash(text)))
+
+
+class RecommendationRuleTest(unittest.TestCase):
+    def tactic_recommend_text(self) -> str:
+        steps = load_tactic(COHERENCE_TACTIC)["steps"]
+        return next(s["description"] for s in steps if s["title"] == "Recommend one outcome")
+
+    def test_prompt_states_the_deterministic_owner_rule(self) -> None:
+        """red-first: the prompt maps owners and orders the choice by the first finding in table order."""
+        text = squash(read(ANALYZE))
+        self.assertIn(OWNER_MAPPING, text)
+        self.assertIn("revise the owner of the first HIGH or CRITICAL finding in table order", text)
+        self.assertIn("then revise the owner of the first such finding in table order", text)
+        self.assertNotIn("owns the most severe finding", text)
+
+    def test_never_proceed_while_blocked(self) -> None:
+        """red-first: the prompt and the tactic both forbid proceed over a blocked verdict."""
+        self.assertTrue(never_proceeds_when_blocked(read(ANALYZE)))
+        self.assertTrue(never_proceeds_when_blocked(self.tactic_recommend_text()))
+
+    def test_tactic_agrees_with_the_prompt(self) -> None:
+        """red-first: the tactic carries the same owner mapping and the same blocked/ready rule."""
+        tactic = squash(self.tactic_recommend_text())
+        self.assertIn(OWNER_MAPPING.replace("`", ""), tactic)
+        for phrase in ("first HIGH or CRITICAL finding in table order", "a V finding the CLI could not run -> revise tasks",
+                       "unless an M finding or a MEDIUM finding exists", "first such finding in table order"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, tactic)
+
+    def test_never_proceed_check_positive_control(self) -> None:
+        """control: the checker sees the rule when present and its absence."""
+        self.assertTrue(never_proceeds_when_blocked("never `proceed` while the verdict is `blocked`."))
+        self.assertFalse(never_proceeds_when_blocked("proceed while the verdict is blocked."))
+        self.assertFalse(never_proceeds_when_blocked("a revise choice is allowed."))
+
+
 if __name__ == "__main__":
     unittest.main()
