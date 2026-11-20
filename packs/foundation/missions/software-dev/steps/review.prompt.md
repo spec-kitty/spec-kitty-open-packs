@@ -218,7 +218,8 @@ item blocks approval.
     is a real run or an existing gate (DIRECTIVE_034; the long-term-value
     question in tactic `acceptance-criteria-non-vacuity`). Configuration that
     encodes security or permission policy is exempt; it takes red-first or a
-    repository-wide policy check (DIRECTIVE_034).
+    repository-wide policy check with a recorded red (DIRECTIVE_034; item 5 of
+    4b below).
 
 ### 4b. Criterion Non-Vacuity Check
 
@@ -245,6 +246,13 @@ for each:
    product logic, a script that gates or classifies, an invariant, or security
    or permission policy is a FAIL (the lasting-regression-risk classes are
    owned by DIRECTIVE_034).
+5. **Policy check covers the change**: for each security or permission
+   configuration row in this WP's `requirement_refs` that takes a policy check
+   instead of a failing-first test (labelled `[build]` for a new check or
+   `[folded]` naming an existing one), the check is named and a recorded red
+   shows it failing on a variant of the changed configuration that violates the
+   policy. A named check with no recorded red, or one that would stay green on
+   that variant, is a FAIL (DIRECTIVE_034).
 
 Additionally: every FR row in this WP's `requirement_refs` marked *no-op
 passable? yes* names a control that exists in the diff.
