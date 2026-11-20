@@ -261,7 +261,7 @@ Prompts do not rediscover mission context. Commands do.
    - **Average prompt size** (estimate lines per WP)
    - **Validation**: Flag if any WP has >10 subtasks or >700 estimated lines, or is missing the `## Do This First` section
    - Parallelization highlights
-   - MVP scope recommendation (usually Work Package 1)
+   - MVP scope recommendation, recorded in tasks.md's MVP Scope note (analyze reads it)
    - Prompt generation stats (files written, directory structure, any skipped items with rationale)
    - Finalization status (dependencies parsed, X WP files updated, committed to target branch)
    - Next required step: `/spec-kitty.analyze` - the readiness gate that must run before `/spec-kitty.implement`

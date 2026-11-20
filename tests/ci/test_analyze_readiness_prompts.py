@@ -545,5 +545,52 @@ class DeterminismTest(unittest.TestCase):
         self.assertIsNotNone(re.search(r"list `\S*decisions/` and read", "list `mission_dir/decisions/` and read"))
 
 
+MVP_SOURCE = 'the MVP slice named in tasks.md (an MVP Scope note or any heading containing MVP; none: "MVP unclear")'
+SEVERITY_SPLIT = "MEDIUM for intent drift, a lost scenario or an unclear MVP; LOW otherwise"
+SETUP_NOT_SCAFFOLDING = "setup or foundation WPs the MVP slice directly needs are not scaffolding"
+TASKS_MVP_NOTE = "MVP scope recommendation, recorded in tasks.md's MVP Scope note (analyze reads it)"
+FINALIZE_MVP_NOTE = "MVP scope recommendation (recorded in tasks.md's MVP Scope note, which analyze reads)"
+
+
+class MvpAndScaffoldingTest(unittest.TestCase):
+    def test_mvp_source_is_the_tasks_md_slice(self) -> None:
+        """red-first: pass J reads the MVP slice from any MVP-bearing heading in tasks.md and never defines it."""
+        text = read(ANALYZE)
+        self.assertIn(MVP_SOURCE, text)
+        self.assertIn("never define MVP here", text)
+
+    def test_m_severity_split(self) -> None:
+        """red-first: M findings are MEDIUM for drift, a lost scenario or an unclear MVP and LOW otherwise, still capped."""
+        block = self_severity()
+        self.assertIn(SEVERITY_SPLIT, block)
+        self.assertTrue(coherence_capped(block))
+
+    def test_setup_work_is_not_scaffolding(self) -> None:
+        """red-first: prompt and tactic exempt the setup the MVP needs from the scaffolding finding."""
+        self.assertIn(SETUP_NOT_SCAFFOLDING, read(ANALYZE))
+        steps = load_tactic(COHERENCE_TACTIC)["steps"]
+        slice_step = next(s["description"] for s in steps if s["title"] == "Compare vertical slices with scaffolding")
+        self.assertIn("Setup or foundation work packages the MVP slice directly needs are not scaffolding", squash(slice_step))
+        mvp_step = next(s["description"] for s in steps if s["title"] == "Read the smallest valuable slice")
+        self.assertIn("any heading containing MVP", squash(mvp_step))
+
+    def test_tasks_steps_record_the_mvp_scope_note(self) -> None:
+        """red-first: the tasks and tasks-finalize prompts record the MVP in a note analyze reads."""
+        self.assertIn(TASKS_MVP_NOTE, read(SOFTWARE_DEV / "tasks.prompt.md"))
+        self.assertIn(FINALIZE_MVP_NOTE, read(SOFTWARE_DEV / "tasks-finalize.prompt.md"))
+        self.assertNotIn("usually Work Package 1", read(SOFTWARE_DEV / "tasks.prompt.md"))
+
+    def test_split_check_positive_control(self) -> None:
+        """control: the capped check still sees a cap that carries the severity split, and rejects a HIGH line."""
+        capped = "- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher: " + SEVERITY_SPLIT + "."
+        self.assertTrue(coherence_capped(capped))
+        self.assertIn(SEVERITY_SPLIT, capped)
+        self.assertFalse(coherence_capped("- **HIGH**: product-coherence drift"))
+
+
+def self_severity() -> str:
+    return section(read(ANALYZE), "### 5. Severity Assignment", "### 6.")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -24,7 +24,7 @@ steps:
   - title: Read the smallest valuable slice
     description: >
       Read the MVP slice the task breakdown names (the MVP Scope note in
-      tasks.md or a work package heading marked MVP). Do not define MVP
+      tasks.md or any heading containing MVP). Do not define MVP
       yourself. No such note is an "MVP unclear" finding. A named MVP that
       delivers no user value before the full Mission completes is a finding.
     examples:
@@ -33,7 +33,9 @@ steps:
     description: >
       Do the first work packages produce something a user or a test can
       observe end to end, or only layers (models, config, plumbing) that
-      deliver nothing until later work packages land?
+      deliver nothing until later work packages land? Setup or foundation work
+      packages the MVP slice directly needs are not scaffolding; flag only
+      layers beyond what the first story consumes.
     examples:
       - "Inferred: WP01-WP04 build the schema, repository, service and API layers; the first user-visible result is WP05 (tasks.md, WP05)."
   - title: Look for overbuild
