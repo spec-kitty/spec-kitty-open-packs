@@ -47,7 +47,7 @@ principles:
   - name: "Boundary by responsibility, not by layer"
     description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
   - name: "Infrastructure sits outside the boundary"
-    description: "Infrastructure sits outside the boundary: external services, a database and IO (filesystem, database, clock, network, randomness, git) sit OUTSIDE it and may be replaced by doubles or pure inputs; DIRECTIVE_054 owns the allow-list."
+    description: "Infrastructure sits outside the boundary: external services and IO (filesystem, database, clock, network, randomness, git) sit OUTSIDE it and may be replaced by doubles or pure inputs; DIRECTIVE_054 owns the allow-list."
   - name: "Assert observable outcomes, not mechanisms"
     description: "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
   - name: "Heavy scaffolding signals a wrong boundary"
@@ -123,7 +123,7 @@ patterns:
     good_example: |
       # Behavioral AND structure-insensitive: assert the outcome that crosses the
       # boundary, regardless of which internal helper produced it.
-      assert resolve_action_context(repo, "m", "WP01").target_branch == expected
+      assert resolve_shipping(order, "o-1").carrier == expected
   - name: "Shift detection left"
     description: >
       Shift detection left: catch each violation at the earliest, cheapest point
@@ -215,13 +215,13 @@ anti_patterns:
       whatever the product does, so it is not Behavioral. A non-vacuity proof
       invokes the real check on the planted input and asserts the check fails.
     bad_example: |
-      main_lane = reduce(read_events(main_log))
-      worktree_lane = reduce(read_events(worktree_log))   # data the test wrote
-      assert main_lane != worktree_lane                    # never runs the gate
+      primary_state = reduce(read_events(primary_log))
+      replica_state = reduce(read_events(replica_log))     # data the test wrote
+      assert primary_state != replica_state                # never runs the gate
     good_example: |
-      plant_divergence(worktree_log)
-      with pytest.raises(AssertionError, match="CWD parity"):
-          assert_cwd_parity(repo, worktree)                # the real check goes red
+      plant_divergence(replica_log)
+      with pytest.raises(AssertionError, match="replica parity"):
+          assert_replica_parity(primary, replica)          # the real check goes red
 
   - name: Development-assist scaffolding left in the suite
     description: >
@@ -237,8 +237,8 @@ anti_patterns:
       def test_wp03_before_after_parity():
           assert new_resolver(x) == old_resolver(x)   # old_resolver now delegates to new
     good_example: |
-      def test_resolver_routes_coord_topology_to_the_coordination_branch():
-          assert resolve(coord_mission).branch == coord_branch(coord_mission)
+      def test_router_sends_express_orders_to_the_priority_queue():
+          assert route(express_order).queue == priority_queue(express_order)
 
 quality_test: >
   Can the behavior under test be validated with plain in-memory inputs or real
