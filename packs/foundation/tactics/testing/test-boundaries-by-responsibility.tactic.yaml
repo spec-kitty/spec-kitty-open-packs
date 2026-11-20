@@ -8,13 +8,13 @@ steps:
     examples:
       - "User registration validates email format and creates account record."
   - title: Map responsibility boundaries
-    description: List all components involved in delivering the functionality. For each, ask whether it directly implements logic for this feature. Mark components as inside-boundary (real) or outside-boundary (stubbed).
+    description: List all components involved in delivering the functionality. For each, ask whether it directly implements logic for this feature. Mark components as inside-boundary (real) or outside-boundary (may be substituted).
     examples:
       - "Inside: UserRegistrationService, EmailValidator. Outside: UserRepository, EmailDeliveryService."
   - title: Classify dependencies
     description: >
       Inside boundary (do NOT mock): business logic, domain models, value objects, validation rules specific to the feature.
-      Outside boundary (DO mock/stub): database access, external APIs, filesystem, network, time providers, services outside the current module.
+      Outside boundary (may be substituted): the allow-listed seams of DIRECTIVE_054. Substitution is permitted, never required. A module line is not a responsibility line; another bounded context is the allow-listed case.
   - title: Write the test scope statement
     description: Formulate a sentence stating what the test validates, what it exercises for real, and what it stubs.
     examples:
@@ -25,9 +25,10 @@ steps:
     description: >
       Ask two questions:
       (1) If I refactor inside-boundary components without changing functionality, should this test still pass? (Yes.)
-      (2) If outside-boundary implementations change, should this test be affected? (No, they are stubbed.)
+      (2) If outside-boundary implementations change, should this test be affected? (No; they sit outside the boundary.)
 failure_modes:
   - "Excessive mocking: stubbing components that are part of the functional slice, testing doubles instead of real logic."
-  - "Insufficient isolation: not stubbing external dependencies, causing slow and fragile tests."
+  - "Slow or flaky real dependencies: a real external dependency that makes the test slow or nondeterministic; substitute it at an allow-listed seam (substitution is permitted, never required)."
+  - "Pinning a call contract on owned logic: a double of a collaborator inside the boundary, asserted on its calls; it can manufacture states the real path never reaches (DIRECTIVE_054)."
   - "Structural bias: defining boundaries by layer (always mock service layer) instead of by responsibility."
   - "Over-assertion: verifying internal implementation details instead of functional outcomes."

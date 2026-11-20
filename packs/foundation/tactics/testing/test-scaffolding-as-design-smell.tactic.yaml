@@ -3,20 +3,25 @@ id: test-scaffolding-as-design-smell
 name: Test Setup Scaffolding as a Design Smell
 purpose: >
   Read the cost and shape of test setup as a signal about production design.
-  When a unit test needs real infrastructure (files, git, database, network,
-  clock) or many mocks/patches to run, that scaffolding is evidence of a missing
-  boundary in the code under test — the unit reaches infrastructure directly
-  instead of depending on a pure seam. The remedy is to extract the behavior
-  under test as a function of domain inputs, then test it directly. The mock
-  scaffolding is the symptom; the missing boundary is the disease.
+  When a unit test needs heavy scaffolding (many mocks or patches, elaborate
+  setup), that scaffolding is evidence of a missing boundary in the code under
+  test: the unit reaches infrastructure directly instead of depending on a pure
+  seam. A double of logic the unit owns is evidence of a misdrawn test
+  boundary (DIRECTIVE_054). A real dependency (files, git,
+  a database in a temporary location) is not the smell in itself; it is a
+  problem only when it makes the test slow or flaky, and then the remedy is a
+  pure seam or a substitute at an allow-listed seam of DIRECTIVE_054. The remedy
+  for the scaffolding is to extract the behavior under test as a function of
+  domain inputs, then test it directly. The mock scaffolding is the symptom; the
+  missing boundary is the disease.
 steps:
   - title: Notice the scaffolding
     description: >
       Before accepting an expensive test, quantify the setup: how many
       infrastructure functions are mocked/patched, and how much real on-disk or
-      external state must be constructed. A unit test that patches several
-      infrastructure seams or writes real fixtures to disk is a signal, not a
-      norm.
+      external state must be constructed. A unit test that patches several infrastructure seams, or doubles logic it
+      owns, is a signal, not a norm. Real fixtures on disk are allowed
+      (DIRECTIVE_054).
     examples:
       - "A single command test mocks locate_project_root, safe_commit, run_command, bootstrap, and the validator, then writes a real mission directory to tmp_path."
   - title: Locate the coupling
@@ -47,8 +52,8 @@ steps:
   - title: Verify the desiderata recovered
     description: >
       Confirm the new tests are Fast, Isolated, Specific, and
-      Structure-insensitive, and that the heavy mock scaffolding is gone. If a test
-      still needs broad infrastructure, the boundary is still in the wrong place.
+      Structure-insensitive, and that the heavy mock scaffolding is gone. If a test still needs many patches or a double of owned logic, the boundary
+      is still in the wrong place.
 failure_modes:
   - "Symptom-fighting: adding more mocks/patches to make the expensive test pass instead of extracting the missing boundary."
   - "Over-extraction: creating a seam that carries no behavior, trading a real test for an indirection."

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 8e0d84e428ce62497d712971fd9300090ba981ecaeff7c89eff151ba22ad62df
+manifest_hash: b538ec43b73a8d7c988a9dda756c268e0d9b1e03e2ab7eafc200ca1b8eb9d342
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -52,11 +52,11 @@ constituents:
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: cfbc72c9451bfcabf9c1dd126a3940ec79e22e4082303478dd2ef39db2eaa08a
+  content_hash: 12097af96e55ed91ac5eee1c2f049fb800615ff586cd4deb89a04958430e9bfb
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: 876aea27aa3b876081b9403369ba257027a177bbb987b8f4dbafa98db2e9ce2a
+  content_hash: ab5a97894b092571232b2036760070d8d441c1901829f881b4252209a42eec07
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml

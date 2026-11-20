@@ -10,14 +10,14 @@ notes: >
   Test Pyramid Reference Model:
 
   Unit (base, many tests) — <10ms per test, low maintenance, immediate
-  feedback, high isolation (single function/class, externals stubbed).
+  feedback, high isolation (single function/class; substitute only allow-listed seams, DIRECTIVE_054).
   Proves individual components work correctly in isolation. Highest ROI:
   cheapest to write, fastest to run, easiest to maintain. A failing unit
   test pinpoints the exact broken component.
 
   Integration (middle, some tests) — 10ms-1s per test, moderate maintenance,
   fast feedback (seconds to low minutes), moderate isolation (real component
-  interactions, external systems stubbed). Proves components collaborate
+  interactions; substitute only allow-listed seams, DIRECTIVE_054). Proves components collaborate
   correctly across boundaries. Moderate ROI: more expensive to set up but
   catches interaction bugs that unit tests miss.
 

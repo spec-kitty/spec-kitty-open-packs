@@ -330,6 +330,11 @@ edges:
   when: running SonarQube static analysis and gating on NEW-code coverage, code smells, security hotspots and duplication
   reason: The quality gate suggests the Sonar toolguide as the static-analysis gate that carries the size/complexity/duplication
     metrics that do not belong in a per-file test gate; the `when` is the new toolguide's own scope. Delivered at implement/review.
+- source: agent_profile:qa-test-designer-tessa
+  target: foundation::directive:DIRECTIVE_054
+  relation: suggests
+  when: designing tests and choosing which collaborators to substitute
+  reason: The test designer picks the seams a test substitutes, and DIRECTIVE_054 owns the allow-list of those seams.
 - source: action:qa/accept
   target: directive:QA_003
   relation: scope
