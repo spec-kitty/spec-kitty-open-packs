@@ -1,0 +1,34 @@
+schema_version: '1.0'
+id: unfake-an-over-mocked-test
+title: Unfake an Over-Mocked Test
+description: |
+  Turn a test that substitutes logic the system under test owns into one that runs that logic for real and guards the behaviour.
+entry_condition: |
+  A test substitutes a collaborator the system under test owns, found in review, in a failing-test triage, or while touching the test.
+exit_condition: |
+  Every remaining double sits on an allow-listed seam of DIRECTIVE_054, owned collaborators run for real on realistic seeded state, assertions target observable outcomes, and the test fails when the behaviour regresses.
+steps:
+- title: Name the behaviour under test
+  description: |
+    State the behaviour in one sentence. Name the behaviour, not the class under test.
+- title: Draw the responsibility boundary
+  description: |
+    Draw the boundary around every collaborator that co-delivers that behaviour, including collaborators in another layer (tactic test-boundaries-by-responsibility).
+- title: Classify each double
+  description: |
+    Keep a double only if it sits on a DIRECTIVE_054 allow-listed seam. Mark every other double for removal.
+- title: Run the real collaborators
+  description: |
+    Remove the owned doubles and run the real collaborators. Seed state through the production path (the real creation or status pipeline), not hand-built records, so only reachable states exist.
+- title: Move assertions from calls to outcomes
+  description: |
+    Follow observable-contract-test-authoring to assert on returned values, persisted state and emitted output instead of call verification.
+- title: Check the remaining substitutes
+  description: |
+    Check that each remaining boundary double keeps the real dependency's contract, including the states it can and cannot produce.
+- title: Prove the test is not vacuous
+  description: |
+    Break the behaviour, or revert the fix, and watch the test go red, then restore it. Record the failure text.
+- title: Budget the cost honestly
+  description: |
+    A wider slice is slower to set up. If the slice needs heavy scaffolding, extract a pure seam instead, as the test-scaffolding-as-design-smell tactic describes.

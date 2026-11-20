@@ -89,6 +89,9 @@ nodes:
 - urn: directive:DIRECTIVE_053
   kind: directive
   label: Choose Op or Mission Before Starting
+- urn: directive:DIRECTIVE_054
+  kind: directive
+  label: Mock Only at the Responsibility Boundary
 - urn: directive:DISCIPLINED_REFACTORING
   kind: directive
   label: Disciplined Refactoring
@@ -273,6 +276,9 @@ edges:
   target: directive:DIRECTIVE_034
   relation: requires
 - source: directive:DIRECTIVE_036
+  target: directive:DIRECTIVE_054
+  relation: requires
+- source: directive:DIRECTIVE_036
   target: procedure:black-box-integration-test-design
   relation: requires
   when: writing an integration test
@@ -306,7 +312,7 @@ edges:
   target: procedure:test-first-cycle
   relation: requires
   when: implementing new or changed behavior
-  reason: Starts every production change from a failing test and moves in short red-green-refactor cycles, the test-first
+  reason: Starts each production change that carries a lasting regression risk from a failing test (DIRECTIVE_034) and moves in short red-green-refactor cycles, the test-first
     half of the culture.
 - source: directive:DIRECTIVE_039
   target: styleguide:boring-code-review
@@ -498,6 +504,21 @@ edges:
 - source: directive:DIRECTIVE_053
   target: tactic:op-or-mission-selection
   relation: requires
+- source: directive:DIRECTIVE_054
+  target: directive:DIRECTIVE_041
+  relation: requires
+- source: directive:DIRECTIVE_054
+  target: procedure:unfake-an-over-mocked-test
+  relation: requires
+  when: a test substitutes a collaborator the system under test owns
+  reason: Names the behaviour, draws the boundary, removes the owned doubles, seeds state through the production path and
+    proves the test goes red when the behaviour breaks.
+- source: directive:DIRECTIVE_054
+  target: tactic:function-over-form-testing
+  relation: suggests
+- source: directive:DIRECTIVE_054
+  target: tactic:test-boundaries-by-responsibility
+  relation: suggests
 - source: directive:DISCIPLINED_REFACTORING
   target: procedure:disciplined-refactoring-cycle
   relation: requires

@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
 - **Declared version:** `3.1.0`
-- **Content checksum (sha256):** `afa97c56f6eba82786b9c10f6175e3b34b5b8e14768a4b4a29a139531f8f8078`
+- **Content checksum (sha256):** `e617689015e2e5bc04142617134d35d5f8360dbd252e8fa084ec73366ccdb2e5`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,24 +39,24 @@ glossary.
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 32 |
+| `directives` | 33 |
 | `tactics` | 60 |
 | `styleguides` | 1 |
 | `toolguides` | 12 |
 | `paradigms` | 1 |
-| `procedures` | 40 |
+| `procedures` | 41 |
 | `agent_profiles` | 6 |
 | `glossaries` | 1 |
 | `guards` | 1 |
 | `lifecycles` | 1 |
 | `missions` | 60 |
 | `routing_catalogs` | 1 |
-| **Total files** | **231** |
+| **Total files** | **233** |
 
 ### Full listing
 
 <details>
-<summary><code>directives</code> (32)</summary>
+<summary><code>directives</code> (33)</summary>
 
 - `001-architectural-integrity-standard.directive.yaml`
 - `003-decision-documentation-requirement.directive.yaml`
@@ -87,6 +87,7 @@ glossary.
 - `051-supply-chain-install-safety.directive.yaml`
 - `052-prefer-durable-fixes.directive.yaml`
 - `053-choose-op-or-mission-before-starting.directive.yaml`
+- `054-mock-only-at-the-responsibility-boundary.directive.yaml`
 - `disciplined-refactoring.directive.yaml`
 - `reconcile-change-scope-tensions.directive.yaml`
 - `red-main-release-discipline.directive.yaml`
@@ -192,7 +193,7 @@ glossary.
 </details>
 
 <details>
-<summary><code>procedures</code> (40)</summary>
+<summary><code>procedures</code> (41)</summary>
 
 - `adversarial-squad-deployment.procedure.yaml`
 - `agent-commit-signing.procedure.yaml`
@@ -233,6 +234,7 @@ glossary.
 - `test-first-cycle.procedure.yaml`
 - `tidy-first-campsite-clean.procedure.yaml`
 - `touched-area-cleanup.procedure.yaml`
+- `unfake-an-over-mocked-test.procedure.yaml`
 - `version-freshness-check.procedure.yaml`
 
 </details>

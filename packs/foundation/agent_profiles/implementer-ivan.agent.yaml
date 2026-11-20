@@ -135,6 +135,9 @@ directive-references:
       Every dependency addition or upgrade is evaluated against the
       threat-class controls DIRECTIVE_051 names — never a silently-applied
       default
+  - code: "054"
+    name: Mock Only at the Responsibility Boundary
+    rationale: Substitute only allow-listed seams; run owned collaborators for real
 
 tactic-references:
   - id: dependency-hygiene

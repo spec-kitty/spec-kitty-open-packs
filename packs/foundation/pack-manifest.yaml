@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 70b0f5a96a0138916dc495a38cc00a881b9ad5f2e0a7daccc134aff9e15baef6
+manifest_hash: 2cde505b004b28dab31c3b648f68e6cd4b72ebc9431f03df9f54db6234971e8c
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -16,7 +16,7 @@ constituents:
 - kind: agent_profile
   id: implementer-ivan
   path: agent_profiles/implementer-ivan.agent.yaml
-  content_hash: 71338b9b211a76eaf82f74e4a8bd7b24388c034782eefa252b1d23b0cbe7c8eb
+  content_hash: c9bbe0b381f057e8facff45bcd1ac93719124642e5e783d55d8672c437530d93
 - kind: agent_profile
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
@@ -80,7 +80,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_036
   path: directives/036-black-box-integration-testing.directive.yaml
-  content_hash: bf40d15a924af3d09407e9abe66a90dd437b8cfdafe8f36c3c04884e05168923
+  content_hash: c48deee6dccf6671783def597886068f5c7ea247de9c18e2f780724e637b6ca9
 - kind: directive
   id: DIRECTIVE_037
   path: directives/037-living-documentation-sync.directive.yaml
@@ -138,6 +138,10 @@ constituents:
   path: directives/053-choose-op-or-mission-before-starting.directive.yaml
   content_hash: b81c722c6c4ad3bdd05677efc0b3e7b32b3120b55b629cb85d54d36bbe5b3b2c
 - kind: directive
+  id: DIRECTIVE_054
+  path: directives/054-mock-only-at-the-responsibility-boundary.directive.yaml
+  content_hash: 742e5f25f645454cd7dcde5890b4b4a94ba5ed56466ddb0c39049841cbc3688e
+- kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
   content_hash: 852475bc5841b96089381d86f30a98e016d763643f7b180199e29ac683238389
@@ -152,7 +156,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: ca43b9c29f51bf0354fc8a8a5d81959a63515fee4a04b2b27f452c69b2178a13
+  content_hash: b497081271aa8466c9a0728688d159b63fe6c9e9f82a6c08c3e32af12592c2c8
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -389,6 +393,10 @@ constituents:
   id: touched-area-cleanup
   path: procedures/touched-area-cleanup.procedure.yaml
   content_hash: 89445808c556a26dd3fbb9b669936fb9453d57bf741576c7fd363ca8c87291b5
+- kind: procedure
+  id: unfake-an-over-mocked-test
+  path: procedures/unfake-an-over-mocked-test.procedure.yaml
+  content_hash: e0affe2bade6c5f9d683afdb35636004c000554392be3a7e983bb512d527096f
 - kind: procedure
   id: version-freshness-check
   path: procedures/version-freshness-check.procedure.yaml

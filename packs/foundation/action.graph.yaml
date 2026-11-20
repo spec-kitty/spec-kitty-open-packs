@@ -370,6 +370,9 @@ edges:
   target: directive:DIRECTIVE_051
   relation: scope
 - source: action:software-dev/implement
+  target: directive:DIRECTIVE_054
+  relation: scope
+- source: action:software-dev/implement
   target: toolguide:execution-lanes
   relation: scope
 - source: action:software-dev/implement
@@ -530,6 +533,9 @@ edges:
   relation: scope
 - source: action:software-dev/review
   target: directive:DIRECTIVE_051
+  relation: scope
+- source: action:software-dev/review
+  target: directive:DIRECTIVE_054
   relation: scope
 - source: action:software-dev/review
   target: toolguide:execution-lanes

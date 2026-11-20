@@ -17,16 +17,16 @@ scope: >
   test. The system under test may be a deployed service, a compose stack,
   or an in-process composition of a module and its collaborators; the
   responsibility boundary — not the deployment topology — determines
-  what is inside the system under test for a given test. Unit-level
-  tests and full end-to-end tests are governed by their own directives.
+  what is inside the system under test for a given test. Where substitutes
+  may sit, at every test level, is set by DIRECTIVE_054.
 integrity_rules:
 - Black-box integration tests must not import inside-boundary modules of the 
   system under test to invoke business logic directly.
 - Black-box integration tests must not patch, monkeypatch, or otherwise replace 
   inside-boundary collaborators of the system under test.
-- Substitution of outside-boundary dependencies — other services, third-party 
-  systems, filesystem, network, clock — is permitted when the substitute 
-  preserves the observable contract the system under test relies on.
+- Substitution of outside-boundary dependencies is permitted only on an
+  allow-listed seam of DIRECTIVE_054, and only when the substitute preserves
+  the observable contract the system under test relies on.
 - Assertions must target externally observable state, not private attributes or 
   internal call sequences of inside-boundary components.
 - The responsibility boundary used by the test must be stated (in test name, 
