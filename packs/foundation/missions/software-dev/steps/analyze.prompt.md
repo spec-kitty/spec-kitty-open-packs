@@ -222,8 +222,8 @@ Evidence for an `X` finding sits in a planning artifact, a `plan.md` or recorded
 
 Apply tactic `product-coherence-review` (fetch: `spec-kitty charter context --include tactic:product-coherence-review`). Category `product-coherence`. Every finding starts with `Inferred:` and is MEDIUM or LOW; it never blocks the verdict. Review against the creation intent:
 
-- intent drift; the MVP slice, read from the MVP Scope note in `tasks.md` or a WP heading marked MVP (neither: "MVP unclear") - never define MVP here;
-- whether the first WPs deliver a vertical slice or only scaffolding; overbuild beyond the stated need (work with no trace at all is an `X` finding: cite it);
+- intent drift; the MVP slice named in tasks.md (an MVP Scope note or any heading containing MVP; none: "MVP unclear") - never define MVP here;
+- whether the first WPs deliver a vertical slice or only scaffolding (setup or foundation WPs the MVP slice directly needs are not scaffolding; flag only layers beyond what the first story consumes); overbuild beyond the stated need (work with no trace at all is an `X` finding: cite it);
 - user journeys, actors, triggers, outcomes or failure cases lost between spec, plan and tasks; sequencing that delays all value or leaves a risky unknown last; WPs grouped by technical layer rather than user value.
 
 End with exactly one recommendation: revise spec, revise plan, revise tasks, or proceed (step 6).
@@ -237,7 +237,7 @@ Use this heuristic to prioritize findings:
 - **HIGH** also: a finalize validation that could not run (fail closed), a WP-prompt blocker (step 2b), an untestable or ambiguous requirement that changes what gets built, a scenario gap on a security or data-loss path, a planning-artifact contradiction or ungrounded behaviour that changes what gets built (pass H)
 - **MEDIUM**: Terminology drift, missing non-functional task coverage, underspecified edge case, a finalize-validation warning, a WP-prompt quality improvement, other requirement-quality or scenario findings, a planning-artifact decision, element or scenario no task reflects
 - **LOW**: Style/wording improvements, minor redundancy not affecting execution order, EARS wording suggestions, a collapsed lane
-- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher, so they never block the verdict; their weight goes into the recommendation (step 6).
+- **Product-coherence findings** (pass J) are MEDIUM or LOW, never higher, so they never block the verdict: MEDIUM for intent drift, a lost scenario or an unclear MVP; LOW otherwise; their weight goes into the recommendation (step 6).
 
 ### 6. Produce Compact Analysis Report
 
