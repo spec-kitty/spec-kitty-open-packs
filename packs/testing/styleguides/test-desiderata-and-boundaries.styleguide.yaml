@@ -47,7 +47,7 @@ principles:
   - name: "Boundary by responsibility, not by layer"
     description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
   - name: "Infrastructure sits outside the boundary"
-    description: "Infrastructure sits outside the boundary: external services and IO (filesystem, database, clock, network, randomness, git) sit OUTSIDE it and may be replaced by doubles or pure inputs; DIRECTIVE_054 owns the allow-list."
+    description: "Infrastructure sits outside the boundary: DIRECTIVE_054's allow-listed seams (filesystem, database, network to external services, clock, randomness, git and other external processes) may be replaced by doubles or pure inputs; 054 owns the list."
   - name: "Assert observable outcomes, not mechanisms"
     description: "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
   - name: "Heavy scaffolding signals a wrong boundary"
