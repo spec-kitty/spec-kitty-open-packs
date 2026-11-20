@@ -15,8 +15,9 @@
 #
 # commit       the spec-kitty-charter commit, 40 lowercase hex characters. Never a branch or a tag:
 #              a pin must name the same code tomorrow. On a release pin, the commit `release_tag` points
-#              at (the round trip checks it out). Bump it deliberately, in the pull request that
-#              migrates the packs to what the new commit changed.
+#              at: the schema pass reads its schemas there, and the job refuses a tag that points
+#              elsewhere. Bump it deliberately, in the pull request that migrates the packs to what the
+#              new commit changed.
 # release_tag  the `service-v<version>` release or pre-release of that commit. When set, the job
 #              downloads the release jar instead of building the commit, and `jar_sha256` is required.
 #              Empty only for a `main` pin.
@@ -27,7 +28,7 @@
 #              the SHA-256 of the same release's `pack-check-<version>.jar` (#252), as its `.sha256` asset
 #              states it; set with `release_tag`, empty while it is. The job refuses a jar with any other
 #              digest. Releases before `service-v0.1.0-rc.3` ship no pack-check, so cannot be pinned.
-commit: 33f3ad46e9e33e895d4cd3a077d928d91b4f025f
-release_tag: ""
-jar_sha256: ""
-pack_check_sha256: ""
+commit: cb9b15426d17c402b06204185a17ebfbc65f22ff
+release_tag: service-v0.1.0-rc.3
+jar_sha256: 763536af1c56cc29d3e08720461546ac63f9ddab4989c6db89c3b7b7e2aaf42c
+pack_check_sha256: adde1dfff5d02efbb3a02fafde8222951d0e1f0fafccde29d7fb39be3ea9ccbe
