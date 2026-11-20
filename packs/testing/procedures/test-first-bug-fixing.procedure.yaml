@@ -6,7 +6,7 @@ description: |
 entry_condition: |
   A bug has been reported or discovered with clear reproduction steps or observable incorrect behavior. The defect can be expressed as a difference between expected and actual behavior in an automated test.
 exit_condition: |
-  A failing test existed that reproduced the bug, production code was changed to make it pass, all other tests still pass, and the test and fix are committed together — unless a failing reproduction test for this defect already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE, in which case the fix commit is the one that turns it green.
+  A failing test existed that reproduced the bug, production code was changed to make it pass, all other tests still pass, and the test and fix are committed together — unless a failing reproduction test for this defect already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE, in which case the fix commit is the one that turns it green, or the reproduction landed first as a strict expected failure in a mission that splits it from the fix across work packages (procedure `red-first-bug-reproduction`).
 steps:
 - title: Tidy first, if the surfaces the fix will touch need it
   description: |
@@ -22,7 +22,7 @@ steps:
     Create a test that exercises the buggy code path with the triggering input and asserts the CORRECT expected behavior. The test must fail. If it passes immediately, the test does not reproduce the bug — revise. If you cannot write such a test, the defect is not yet understood well enough to fix — no exceptions, even under time pressure.
 - title: Verify the test fails for the right reason
   description: |
-    Temporarily change the assertion to expect the WRONG (current buggy) behavior. If the test now passes, the reproduction is correct. Revert the assertion back to expect the correct behavior.
+    Temporarily change the assertion to expect the WRONG (current buggy) behavior. If the test now passes, the reproduction is correct. Revert the assertion back to expect the correct behavior. Record the failure text; procedure `red-first-bug-reproduction` (foundation) holds the full rules (red shape, characterization inversion, cross-work-package split).
 - title: Fix the production code
   description: |
     Make the change proportional to the diagnosed cause needed to make the failing test pass. Resist the urge to refactor beyond the fix's own code — that comes next, as its own step. Document the root cause in a comment if it would not be obvious to a future reader.
@@ -34,7 +34,7 @@ steps:
     Verify all existing tests still pass. If something else breaks, the fix has unintended side effects — reconsider the approach.
 - title: Commit test and fix together
   description: |
-    Stage the test file and the production fix in a single commit — the test documents the bug, the fix resolves it, and they are inseparable. The one carve-out: when a failing reproduction test for this exact defect already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE (an honest red signal for a known, accepted defect), the fix lands as its own commit that turns that pre-existing red test green.
+    Stage the test file and the production fix in a single commit — the test documents the bug, the fix resolves it, and they are inseparable. Two carve-outs. First, when a failing reproduction test for this exact defect already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE (an honest red signal for a known, accepted defect), the fix lands as its own commit that turns that pre-existing red test green. Second, in a mission that splits the reproduction and the fix across work packages, the reproduction lands first as a strict expected failure (procedure `red-first-bug-reproduction`).
 - title: Document the fix
   description: |
     In the commit message or PR description: state the root cause, the fix applied, any edge cases the new test does not yet cover, and a link to the bug report or ticket.
