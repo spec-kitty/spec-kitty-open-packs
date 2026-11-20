@@ -181,7 +181,7 @@ consistency; `/spec-kitty.implement` refuses to claim a work package
 is the readiness gate implement enforces. The report is current only while the
 spec, plan, tasks and charter are unchanged: editing any of them after analyze
 makes the report stale, and implement refuses again until you re-run
-`/spec-kitty.analyze`.
+`/spec-kitty.analyze`. Editing any other planning artifact the report judged (research, data-model, contracts, quickstart, decisions, occurrence_map.yaml, meta.json or a WP prompt) also invalidates its findings: re-run it.
 
 ## Output
 
