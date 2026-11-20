@@ -809,6 +809,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **Every pack is gated on the charter's pack-check, from the pinned release** (#252, #308; epic #287).
+  The lock moves from a bare charter commit (`33f3ad4`, the commit of `service-v0.1.0-rc.2`) to the release
+  pin `service-v0.1.0-rc.3`, commit `cb9b154`. It is the first release that ships `pack-check-<version>.jar`.
+  `charter.lock.yaml` gains `pack_check_sha256`, set with `release_tag` and `jar_sha256`. The manifests,
+  digests and pack pages re-derive byte-identical at rc.3.
+  - **What runs.** `Charter service validation` downloads the release's pack-check jar and refuses any digest
+    but the pinned one (`charter_pack_check_jar.sh`; on a main pin it builds the jar from `commit`). It then
+    runs `--round-trip` over every pack and valid fixture (`charter_pack_check.py`). The report is the
+    `charter-pack-check-report` artifact.
+  - **What fails it.** Any exit but 0 fails the gate, and that includes **exit 2**. The jar script also checks
+    that the release tag points at the lock's `commit`. rc.3 crashes with exit 2,
+    and no report, on a malformed `pack_version` (spec-kitty-charter#624). That is a failure of the gate, never
+    an infrastructure skip. Also failing: a warning other than `file_not_held` (or one the gate cannot read),
+    a check that was skipped, a pack left out of the verdict, and a directory under `packs/` without a `pack.yaml`.
+  - **Non-vacuity.** Every invalid fixture must be refused as a new `pack-check:` line in its `expected-code`
+    says. New fixture `malformed-pack-version`: the schema pass accepts it, the service refuses it
+    (`pack_version_invalid`), and pack-check is expected to crash (`pack-check: failed`, which matches only
+    that crash: exit 2, no report, an internal error naming `pack_version`). Once #624 lands,
+    that line stops matching and must name the real code.
+  - **Retired:** the charter's `driftTest`, built from the pinned source with Gradle (`charter_drift_test.sh`).
+    pack-check runs the same production round trip under the same rule, and the gate keeps driftTest's
+    strictness on load warnings. A release pin no longer builds anything, so Gradle is set up only for a main pin.
+  - **Kept, because pack-check rc.3 is weaker here.** Each case was measured with `--round-trip`, as the gate
+    runs it, and pack-check exits 0 on all three:
+    - The schema pass's stray-file rule (#249): an ignored file other than a `README.md` note. pack-check only
+      warns `file_not_held`.
+    - `requiredNotHeld` and the required floor: a preset `must_have` item no pack of the closure holds.
+    - The preset id check: an id no pack declares.
+
+    Its port of `PackFileKind.classify` stays too: the manifest derivation and the stray-file rule use it. The
+    stale-manifest-hash check stays as the fast pre-check, although pack-check refuses that case
+    (`round_trip_red`).
+  - **The release track carries both digests.** `charter-track.yml` resolves and bumps `pack_check_sha256` too.
+    A release without a pack-check asset cannot resolve.
+
 - **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
   logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
   and glue work, a recorded real run or an existing gate is the evidence, labelled
