@@ -236,8 +236,9 @@ for each:
    only a helper.
 4. **Evidence exists**: for each id in this WP's `requirement_refs` whose
    spec.md row is labelled `[evidenced-by-run]`, the row names a run or gate,
-   and the record exists (the run ID or URL in `workflow-evidence.md`, or the
-   named gate in CI) and that run or gate exercises the changed configuration
+   and the record exists (the WP's evidence or `workflow-evidence.md` holds the
+   run ID or URL; for a gate, the gate's name and the ID or URL of its run on
+   this change) and that run or gate exercises the changed configuration
    (it would not exist, or would fail, without the change), and the row is
    configuration or glue work. An
    `[evidenced-by-run]` row whose FR adds product logic, a gate or classifier

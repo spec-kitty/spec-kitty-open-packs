@@ -8,8 +8,8 @@ purpose: >
   could not have seen the thing it asserts is missing proves nothing about
   the production path. This tactic is the single canonical definition of the
   four delivery labels, the no-op-passable mark, the three rules that keep
-  acceptance criteria and their tests non-vacuous, and the added question
-  of whether red means broken (a question, not a fourth rule).
+  acceptance criteria and their tests non-vacuous, and a fourth rule, the
+  change-detector check: do not write a test whose red does not mean broken.
 steps:
   - title: Label every criterion
     description: >
@@ -18,8 +18,8 @@ steps:
       against regression), [folded] (satisfied by another item -- name
       the satisfying item so folding cannot hide a gap), or
       [evidenced-by-run] (no test is written; a real run or an existing gate
-      is the evidence -- name it, and where the record lives: a run ID or URL,
-      or the gate's name).
+      is the evidence -- name it, and where the record lives: a run ID or URL;
+      for a gate, the gate's name and the ID or URL of its run on this change).
       Use [evidenced-by-run] only for work without lasting regression risk
       (DIRECTIVE_034).
     examples:
@@ -32,7 +32,7 @@ steps:
       non-vacuous.
     examples:
       - "A [ratchet] row marked no-op passable: yes must name the control it is paired with, e.g. 'yes -- paired with the mis-placed-label row on the same fixture'."
-  - title: Ask whether red means broken
+  - title: Apply the change-detector check (does red mean broken?)
     description: >
       Next to "could this test fail?" (no-op passable), ask "when it fails,
       does that mean something is broken?" and the long-term-value question:
@@ -81,7 +81,8 @@ notes: >
   [ratchet]: existing behavior pinned against regression (no new behavior).
   [folded]: satisfied by another item; name that item so folding cannot hide
   a gap. [evidenced-by-run]: no test is written; a real run or an existing
-  gate is the evidence, named in the row (only for work without lasting
+  gate is the evidence, named in the row: a run ID or URL, or a gate's name
+  plus the ID or URL of its run on this change (only for work without lasting
   regression risk, DIRECTIVE_034).
 
   No-op passable? -- yes/no per criterion. `yes` means a do-nothing change
