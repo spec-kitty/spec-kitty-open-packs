@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 97d65f89e3524862ba51d3386887f6c4e85d7440faa82140f6cdeaf0bdbbbacd
+manifest_hash: 8b2797b04f1bcc0b5371c604c566c6df4a9a2dba1a95c89f021b0bfc69c967ab
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -76,7 +76,7 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: 882f9bfda6a67f0f79da6fb8c77ee9d516abde745eefbf965c4ca189918a3e91
+  content_hash: 60d34a5c1d985166aa2bd0bf659b89a0a5485e986e80dec29325b32f6f79e9c2
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
@@ -92,7 +92,7 @@ constituents:
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: af5d749572b5e0b105a544d99db66088c6c7ba172fc64b5e2f2fd9e34c6ba7ad
+  content_hash: 5836410f2db6abc5c7ba8484ce29050c334806051412304c47ec41a62519da31
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
@@ -116,7 +116,7 @@ constituents:
 - kind: procedure
   id: semi-auto-delivery
   path: procedures/semi-auto-delivery.procedure.yaml
-  content_hash: 45938708eadd68eed7b03609976a5634be6ec9a6b89a192350cd2632966f50ff
+  content_hash: bcd0dede99d4fda6f2487978ee17883b27c9728bcedd8cfd75dca4507cb090ae
 - kind: procedure
   id: spec-kitty-arch-gate-adjudication
   path: procedures/spec-kitty-arch-gate-adjudication.procedure.yaml
@@ -200,7 +200,7 @@ constituents:
 - kind: tactic
   id: spec-kitty-ci-workflow-evidence-exemplar
   path: tactics/spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml
-  content_hash: 42e76371f4d8da031a1134d5d15e7bfbce0ecbd676f3926fc4920ed07ff2d40e
+  content_hash: 04f99aaf66099ee8d3a79ab99c74a8cdd11caa28d4876ecc3d669b7dd116cbbe
 - kind: tactic
   id: spec-kitty-gate-non-vacuity-exemplar
   path: tactics/spec-kitty-gate-non-vacuity-exemplar.tactic.yaml

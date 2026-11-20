@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/drupal`
 - **Pack level:** `org`
 - **Declared version:** `2.1.2`
-- **Content checksum (sha256):** `35f65ee76369bbef85f232248e5ea1758d5fa4f073884b55035f017bb3cea4ff`
+- **Content checksum (sha256):** `551e157f61397bc983e806f6de707e36806e63e17c5b2297ade06752a0c2ec33`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

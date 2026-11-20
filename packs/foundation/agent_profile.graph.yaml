@@ -91,7 +91,7 @@ edges:
   relation: requires
 - source: agent_profile:implementer-ivan
   target: directive:DIRECTIVE_054
-  relation: suggests
+  relation: requires
   when: when keeping the doubles in the tests they write on the responsibility boundary
   reason: An implementer-role profile should reach the mock-boundary directive when writing tests that use doubles.
 - source: agent_profile:implementer-ivan

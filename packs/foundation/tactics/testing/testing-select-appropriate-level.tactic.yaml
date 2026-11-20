@@ -10,7 +10,7 @@ notes: >
   Test Pyramid Reference Model:
 
   Unit (base, many tests) — <10ms per test, low maintenance, immediate
-  feedback, high isolation (single function/class; substitute only allow-listed seams, DIRECTIVE_054).
+  feedback, high isolation (one behavior; substitute only allow-listed seams, DIRECTIVE_054).
   Proves individual components work correctly in isolation. Highest ROI:
   cheapest to write, fastest to run, easiest to maintain. A failing unit
   test pinpoints the exact broken component.

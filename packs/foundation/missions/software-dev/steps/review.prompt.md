@@ -209,7 +209,7 @@ item blocks approval.
    under test owns; every double is on an allow-listed seam of DIRECTIVE_054
    (load with `spec-kitty charter context --include directive:DIRECTIVE_054`).
    A call-count or call-argument assertion on an owned collaborator is a FAIL
-   (the two narrow system cases of DIRECTIVE_054 excepted).
+   (a spy on an allow-listed seam may assert what crossed that seam, DIRECTIVE_054).
 10. **Change detector**: no new or changed test in this WP only restates
     configuration or structure (it would fail only when someone changes the
     configuration on purpose). Such a test is a FAIL: it is waste, not ATDD
