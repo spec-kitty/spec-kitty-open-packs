@@ -80,6 +80,12 @@ edges:
   - source: action:cave-dev/analyze
     target: foundation::tactic:requirement-quality-ears
     relation: scope
+  - source: action:cave-dev/analyze
+    target: foundation::tactic:planning-corpus-consistency
+    relation: scope
+  - source: action:cave-dev/analyze
+    target: foundation::tactic:product-coherence-review
+    relation: scope
   - source: action:cave-dev/specify
     target: foundation::tactic:requirement-quality-ears
     relation: scope

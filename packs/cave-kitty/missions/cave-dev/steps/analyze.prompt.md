@@ -4,9 +4,10 @@
 
 This step maps 1:1 to the built-in software-dev `analyze` action and inherits its full contract:
 a cross-artifact consistency and quality check that runs after `tasks` and before `implement` —
-it confirms `spec.md`, `plan.md`, `tasks.md` and every WP prompt (`tasks/WP*.md`) are mutually
-coherent (every requirement traces to a work package, every WP traces back, no orphaned or
-contradictory decision), that the task metadata passes the read-only finalize validation, that
+it confirms `spec.md`, `plan.md`, `tasks.md`, every WP prompt (`tasks/WP*.md`) and the other
+planning artifacts are mutually coherent, and that the plan still serves the Mission's
+creation intent (every requirement traces to a work package, every WP traces back, no orphaned
+or contradictory decision), that the task metadata passes the read-only finalize validation, that
 the requirements are good enough to build from, and that the mission is ready to implement. It is an analysis-currency gate, not a document this step authors.
 cave-dev overrides one thing only: the agent's OUTPUT prose — the analysis report — which it
 compresses to the caveman voice. The consistency rubric and the readiness gate are unchanged from
@@ -35,6 +36,15 @@ report sections; follow it. In short, so nothing is skipped under cave-dev:
   `requirement-quality-ears` (`spec-kitty charter context --include tactic:requirement-quality-ears`):
   five properties, EARS as a lens, scenario audit per user story with locations, clarification
   questions with concrete choices.
+- **Planning corpus.** Read every `artifact_files` / `artifact_dirs` entry not already loaded
+  (never `feature_dir` as an artifact), plus `meta.json` creation intent, `occurrence_map.yaml` and
+  recorded decisions (`decisions/`) when present, headings first, with `foundation` tactic
+  `planning-corpus-consistency` (`spec-kitty charter context --include tactic:planning-corpus-consistency`).
+  Contradictions and ungrounded work are `X` findings at normal severity.
+- **Product coherence.** Judge the plan against the creation intent with `foundation` tactic
+  `product-coherence-review` (`spec-kitty charter context --include tactic:product-coherence-review`).
+  `M` findings are MEDIUM or LOW and never block. End with exactly one
+  `Recommendation: revise spec | revise plan | revise tasks | proceed` line.
 - **Judgement findings start with `Inferred:`.** No proof claimed.
 
 ## Requested role
@@ -73,3 +83,4 @@ when the operator activates one.
 - **A refusal, a could-not-run, a WP blocker → full sentences.** Each is a cliff edge: say what
   failed, what it blocks, and what fixes it. Commands, finding ids, `error_code` values, CLI
   versions and severities are payload — exact.
+- The `Recommendation:` line is payload — exact wording, one choice.
