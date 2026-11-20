@@ -157,9 +157,14 @@ If any are not approved or done, stop and report which dependencies are blocking
 Work through each subtask in order:
 1. Read the subtask guidance from the WP prompt
 2. Write tests first when the subtask changes behavior with a lasting regression
-   risk (product logic, gate or classifier scripts, invariants, security or
-   permission policy). For configuration and glue work, record the real run or
-   the existing gate as `[evidenced-by-run]` evidence instead (DIRECTIVE_034)
+   risk (DIRECTIVE_034 owns the list: product logic; scripts that gate or
+   classify; invariants; security or permission policy). If the WP's
+   requirement row is labelled `[evidenced-by-run]`, record the named run or
+   gate in the WP's evidence: a run ID or URL; for a gate, its name plus the ID
+   or URL of its run on this change. CI workflow runs go in
+   `workflow-evidence.md`. If you judge a row labelled otherwise to be
+   configuration or glue work, raise it with the orchestrator; do not relabel
+   it and do not skip the test
 3. Implement the code to pass the tests, or to produce the recorded evidence
 4. Verify tests pass, or that the evidence is recorded, before moving to the
    next subtask

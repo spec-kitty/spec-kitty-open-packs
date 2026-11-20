@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 482d67b1574d2873eb5e4faa51ad4989226055c725a95c6585f42b525ff4f0fa
+manifest_hash: 5a927f20122307c6fd64ea24f0b73717111e2615611a30b6a0bd2a59b919aa40
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -20,7 +20,7 @@ constituents:
 - kind: agent_profile
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
-  content_hash: d9b73aeefd2e4f1de614868600a0337901c8027ace41ad4ab8d112149c2ee317
+  content_hash: e68219460097260a616cfb294ca00bb2548c89fd1fe9e4307a42a961a0b109f3
 - kind: directive
   id: DIRECTIVE_001
   path: directives/001-architectural-integrity-standard.directive.yaml
@@ -96,7 +96,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 4e0edb64cad0c3b2ab7afc78ce71f805e584adfee8df030523f4b9c03f978be9
+  content_hash: 6a1bf9eef3d11f5f116523c6dc1f15185f8b24361c4aa8607ea2123ee97461cb
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -332,7 +332,7 @@ constituents:
 - kind: procedure
   id: observable-contract-test-authoring
   path: procedures/observable-contract-test-authoring.procedure.yaml
-  content_hash: 6195987645503a8c7b06cb1cfd1fb847616ed9df1bfe1568eab192e46204e96e
+  content_hash: a2e2f2236b911d65534ce4c4ab1b0a004a253e1692e980d55b989ddecb8d5c5d
 - kind: procedure
   id: op-or-mission-lifecycle
   path: procedures/op-or-mission-lifecycle.procedure.yaml
