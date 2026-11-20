@@ -20,6 +20,8 @@ steps:
 - title: Run the real collaborators
   description: |
     Remove the owned doubles and run the real collaborators. Seed state through the production path (the real creation or status pipeline), not hand-built records, so only reachable states exist.
+
+    Worked example: an order-fulfilment test stubbed the step that records a shipment, to assert it was called once with the expected order ids. With the stub in place the run stored no shipment, a state production never reaches; a later step then failed on the missing record, and the failure looked like data loss. Run the real recording step on orders created through the real order pipeline, substitute only the carrier's network call, and assert on the stored shipments.
 - title: Move assertions from calls to outcomes
   description: |
     Follow observable-contract-test-authoring to assert on returned values, persisted state and emitted output instead of call verification.

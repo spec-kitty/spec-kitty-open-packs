@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: c6570c380c1740cddc07e9f99b85f753da753ea636a668ba1df97fd67df308ec
+manifest_hash: 482d67b1574d2873eb5e4faa51ad4989226055c725a95c6585f42b525ff4f0fa
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -396,7 +396,7 @@ constituents:
 - kind: procedure
   id: unfake-an-over-mocked-test
   path: procedures/unfake-an-over-mocked-test.procedure.yaml
-  content_hash: 983de030c2457a311b0f33c3fc454995472052ad183954d4ddb48a119c28df06
+  content_hash: 04651ffd8ad91852aed1de7c3662e65fea3cd3d7b9b407829dd81af39a27ec91
 - kind: procedure
   id: version-freshness-check
   path: procedures/version-freshness-check.procedure.yaml
@@ -640,7 +640,7 @@ constituents:
 - kind: tactic
   id: test-scaffolding-as-design-smell
   path: tactics/testing/test-scaffolding-as-design-smell.tactic.yaml
-  content_hash: 259d44903a04134ec37af070f1869875caa87db33f77755b77777ac7a28af146
+  content_hash: dabb10e9b4050ebc79437ce600e7a4e63a430b49fed44e5013bf26ba48e3a979
 - kind: tactic
   id: testing-select-appropriate-level
   path: tactics/testing/testing-select-appropriate-level.tactic.yaml

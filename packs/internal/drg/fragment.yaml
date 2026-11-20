@@ -140,6 +140,10 @@ nodes:
     kind: tactics
     title: "Spec Kitty CI Workflow Evidence Exemplar"
     body_path: tactics/spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml
+  - id: spec-kitty-mock-boundary-exemplar
+    kind: tactics
+    title: "Spec Kitty Mock Boundary Exemplar"
+    body_path: tactics/spec-kitty-mock-boundary-exemplar.tactic.yaml
   - id: spec-kitty-ratchet-cost
     kind: tactics
     title: "Spec Kitty Ratchet Cost (allowlist ratchets are priced debt)"
@@ -357,6 +361,9 @@ edges:
     relation: refines
   - source: "tactic:spec-kitty-ci-workflow-evidence-exemplar"
     target: "foundation::tactic:acceptance-criteria-non-vacuity"
+    relation: refines
+  - source: "tactic:spec-kitty-mock-boundary-exemplar"
+    target: "foundation::directive:DIRECTIVE_054"
     relation: refines
   - source: "tactic:spec-kitty-ratchet-cost"
     target: "foundation::tactic:frozen-baseline-shrink-only-ratchet"
