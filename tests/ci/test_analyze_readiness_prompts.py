@@ -411,7 +411,8 @@ class RecommendationRuleTest(unittest.TestCase):
         """red-first: the recommendation rule has one owner; the tactic restates neither owners nor table order."""
         tactic = squash(self.tactic_recommend_text())
         self.assertNotIn("table order", tactic)
-        self.assertNotIn("Owners:", tactic)
+        self.assertNotIn("Owners", tactic)
+        self.assertNotIn("-> tasks", tactic)
 
     def test_never_proceed_check_positive_control(self) -> None:
         """control: the checker sees the rule when present and its absence."""
@@ -457,8 +458,8 @@ class DeterminismTest(unittest.TestCase):
 
 
 
-MVP_SOURCE = ("an MVP Scope note or any heading containing MVP", '"MVP unclear"')
-SEVERITY_SPLIT = ("MEDIUM for intent drift", "LOW otherwise")
+MVP_SOURCE = ("an MVP Scope note or any heading containing MVP", 'none: "MVP unclear"')
+SEVERITY_SPLIT = ("MEDIUM for intent drift", "a named MVP that delivers no user value", "LOW otherwise")
 SETUP_NOT_SCAFFOLDING = "setup or foundation WPs the MVP slice directly needs are not scaffolding"
 TASKS_MVP_NOTE = "recorded in tasks.md's MVP Scope note"
 FINALIZE_MVP_NOTE = "writes no MVP Scope note"
