@@ -616,5 +616,29 @@ class UntrackedStalenessTest(unittest.TestCase):
         self.assertNotIn(STALENESS_SENTENCE, squash(section("### 7a. x\nEditing the spec.\n### 8.", "### 7a.", "### 8.")))
 
 
+NON_REMEDIATING_TARGETS = ("spec.md", "plan.md", "tasks.md", "WP files", "any other planning artifact", "meta.json",
+                           "occurrence_map.yaml", "decisions/")
+
+
+def non_remediating_gaps(text: str) -> list[str]:
+    """Targets missing from the NON-REMEDIATING line (all of them when the line is absent)."""
+    line = next((ln for ln in text.splitlines() if ln.startswith("**NON-REMEDIATING**")), "")
+    return [target for target in NON_REMEDIATING_TARGETS if f"`{target}`" not in line and target not in line]
+
+
+class NonRemediatingListTest(unittest.TestCase):
+    def test_list_covers_every_planning_input(self) -> None:
+        """ratchet: the NON-REMEDIATING line names meta.json, occurrence_map.yaml and decisions/ beside the core artifacts."""
+        self.assertEqual(non_remediating_gaps(read(ANALYZE)), [])
+
+    def test_gap_check_positive_control(self) -> None:
+        """control: the check reports a dropped target and a missing line on synthetic text."""
+        full = "**NON-REMEDIATING**: Do not modify " + ", ".join(f"`{x}`" for x in NON_REMEDIATING_TARGETS)
+        self.assertEqual(non_remediating_gaps(full), [])
+        self.assertEqual(non_remediating_gaps(full.replace("`decisions/`", "")), ["decisions/"])
+        self.assertEqual(non_remediating_gaps(full.replace("`meta.json`", "")), ["meta.json"])
+        self.assertEqual(non_remediating_gaps("no such line"), list(NON_REMEDIATING_TARGETS))
+
+
 if __name__ == "__main__":
     unittest.main()
