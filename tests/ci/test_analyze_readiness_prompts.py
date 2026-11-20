@@ -499,5 +499,20 @@ class RecommendationRuleTest(unittest.TestCase):
         self.assertFalse(never_proceeds_when_blocked("a revise choice is allowed."))
 
 
+QUOTED_SUMMARY_RULE = "`summary` is a double-quoted YAML string (escape an inner `\\\"`); an unquoted `Inferred:` prefix breaks the carrier."
+
+
+class CarrierSummaryQuotingTest(unittest.TestCase):
+    def test_summary_must_be_double_quoted(self) -> None:
+        """red-first: the carrier rules require a double-quoted summary and warn about an unquoted Inferred: prefix."""
+        self.assertIn(QUOTED_SUMMARY_RULE, read(ANALYZE))
+
+    def test_unquoted_inferred_summary_really_breaks_yaml(self) -> None:
+        """control: an unquoted `Inferred: ...` summary is a YAML error and a quoted one parses, so the rule is needed."""
+        with self.assertRaises(yaml.YAMLError):
+            yaml.safe_load("summary: Inferred: a gap in WP02\n")
+        self.assertEqual(yaml.safe_load('summary: "Inferred: a gap in WP02"\n')["summary"], "Inferred: a gap in WP02")
+
+
 if __name__ == "__main__":
     unittest.main()
