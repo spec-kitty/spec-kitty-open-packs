@@ -262,6 +262,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Tests may mock only at the responsibility boundary** (#216). A new `foundation` `DIRECTIVE_054`
+  holds the allow-list of seams a test may substitute; collaborators the code owns run for real. The
+  new `unfake-an-over-mocked-test` procedure turns an over-mocked test into one that does. Both load
+  at the implement and review actions and for the implementer, reviewer, generic and qa test-designer
+  profiles. Before, the seam lists in the testing tactics and styleguides differed; now they agree
+  with the directive. The remaining #216 items (paradigm, assets, checklist de-duplication, curator
+  profile) stay open.
+- **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
+  logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
+  and glue work, a recorded real run or an existing gate is the evidence, labelled
+  `[evidenced-by-run]`, and delivery asks the long-term-value question. Review flags tests that only
+  restate configuration as waste and checks that the cited evidence exists. `DIRECTIVE_041` lets a
+  change detector retire once its evidence is recorded. Before, the doctrine asked for a failing test ahead of every production change.
+- **A red that proves the right thing** (#151). `red-first-bug-reproduction` records the failure text,
+  inverts a test that pins the defect, and splits a reproduction from its fix with a strict expected
+  failure. Before, a red could pass for the wrong reason.
+- **`internal` carries a CI-workflow worked example** for the evidence rule above. The change is
+  additive (DIRECTIVE_018), so the bumps are minor and lockstep: `foundation`, `writing`, `testing`,
+  `refactoring`, `architecture` and `planning-analysis` 3.1.0 → 3.2.0, `built-in` 5.1.0 → 5.2.0,
+  `qa` 5.0.0 → 5.1.0 (its `foundation` range narrows to `>=3.2,<4`, since it cites `DIRECTIVE_054`),
+  and `internal` 4.1.0 → 4.2.0. **What to do:** nothing in your packs.
+
 - **`/spec-kitty.analyze` checks implementation readiness** (#246, #237, #247; epic #244). The
   software-dev `analyze` step now does three more things before it gives a verdict:
   - It runs `spec-kitty agent mission finalize-tasks --validate-only` and reports what it finds.
