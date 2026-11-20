@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 12f0507cf4e15b15c4f12136637ecc8ed2f4dcc8a8bc21cbc6d5f29a521ac2be
+manifest_hash: 0a333673ee320c6208e14b925e9b1bfa13493e4856a4a5a68c004ccf6657823d
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -72,7 +72,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 61de8f3a014a47fe065513dbd1b4f782ce7134cd9612cdb8a9655a1653571894
+  content_hash: 31692ad881a4924186dc06ee1e067017d1bf1cec1e571a42ab9f5ec824de0ecf
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
