@@ -235,6 +235,7 @@ class PlanningCorpusContractTest(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertIn(name, text)
         self.assertIn("headings first", text.lower())
+        self.assertIn("is absent from the inventory, say so in", text)  # fail-open guard: absent keys are never "no artifacts"
 
     def test_both_tactics_cited_in_both_prompts(self) -> None:
         """red-first: both prompts cite both new tactics in the fetch form."""
