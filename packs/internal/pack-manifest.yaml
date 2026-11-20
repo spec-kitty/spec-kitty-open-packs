@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 0b4ff49c43b1eb0ad1682ee91a4f0224d8466b9cfcad5f8bc5c04f7908b697da
+manifest_hash: 8447100d34761433744748233d1f591ab32f498dabe1b3013c1ffa382abb12dd
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -76,7 +76,7 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: 1be5ccacd2ee37a0206fa06c66910685c818ee37fad479192273de2481166212
+  content_hash: 882f9bfda6a67f0f79da6fb8c77ee9d516abde745eefbf965c4ca189918a3e91
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
@@ -92,7 +92,7 @@ constituents:
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: 17d35b415223591dc2054b97a82cf4e0faf948a15c8f919c98aafd8082bbcd04
+  content_hash: af5d749572b5e0b105a544d99db66088c6c7ba172fc64b5e2f2fd9e34c6ba7ad
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
@@ -116,7 +116,7 @@ constituents:
 - kind: procedure
   id: semi-auto-delivery
   path: procedures/semi-auto-delivery.procedure.yaml
-  content_hash: a293283b7bdc46153e9711033826fe16c6b25a6a501dc1d22dd855b4a791c1b2
+  content_hash: 45938708eadd68eed7b03609976a5634be6ec9a6b89a192350cd2632966f50ff
 - kind: procedure
   id: spec-kitty-arch-gate-adjudication
   path: procedures/spec-kitty-arch-gate-adjudication.procedure.yaml
@@ -197,6 +197,10 @@ constituents:
   id: branded-deliverable
   path: tactics/branded-deliverable.tactic.yaml
   content_hash: 20463dbbc3dd8d3dff3d558ace0586de0528277edbe4fe224324b18b6813c09a
+- kind: tactic
+  id: spec-kitty-ci-workflow-evidence-exemplar
+  path: tactics/spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml
+  content_hash: fbf229049e5fa63115a0e7af2af2ef26326c4a08c00f97ff0fd221e7b769c1f7
 - kind: tactic
   id: spec-kitty-gate-non-vacuity-exemplar
   path: tactics/spec-kitty-gate-non-vacuity-exemplar.tactic.yaml

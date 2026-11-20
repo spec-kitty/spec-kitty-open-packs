@@ -69,6 +69,7 @@ packs/internal/
 │   └── tiered-standards.styleguide.yaml             # per-tier quality standards (moved from built-in by #73)
 ├── tactics/
 │   ├── branded-deliverable.tactic.yaml              # when and how to produce a branded document
+│   ├── spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml  # CI workflow worked example (refines acceptance-criteria-non-vacuity)
 │   ├── spec-kitty-gate-non-vacuity-exemplar.tactic.yaml  # exemplar audit (refines architectural-gate-non-vacuity)
 │   └── spec-kitty-ratchet-cost.tactic.yaml          # ratchets cost CI money on every run (refines frozen-baseline-shrink-only-ratchet)
 ├── toolguides/
