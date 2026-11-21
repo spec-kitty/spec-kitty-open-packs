@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 68ef15674a8f2db8406c461037f6cbf4941da3ea4309bdf213a078e2ffb209da
+manifest_hash: 4ec425c04793200925e8d6ce79801c3adce1fd6c6dca0ad540b3a14c955fabeb
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -96,7 +96,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 6a1bf9eef3d11f5f116523c6dc1f15185f8b24361c4aa8607ea2123ee97461cb
+  content_hash: e1dace028335405e26483cf8c0cc6c9318aed48f4fec09c567c554d6e11f41ea
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -132,7 +132,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_052
   path: directives/052-prefer-durable-fixes.directive.yaml
-  content_hash: 439b03d01d3736a5e494971f0765e2eec1b9bf55d1b81d1a7748ae8f802a954c
+  content_hash: 2973dd1e430ca14eaceafbd9a0cedb3700d70a40d4a719fee7ee4a56dfe9ac37
 - kind: directive
   id: DIRECTIVE_053
   path: directives/053-choose-op-or-mission-before-starting.directive.yaml
@@ -156,23 +156,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: cb43d7d7a7e58a1ab53960d4551e300564a18a489071830b08865053e32abb27
-- kind: guard
-  id: dependency-ready
-  path: guards/dependency-ready.guard.yaml
-  content_hash: 9693f2a7c12f6427a0e11ade29a8611976781b9e067c0e01cbaf116c37912ea2
-- kind: guard
-  id: implementation-ready
-  path: guards/implementation-ready.guard.yaml
-  content_hash: 22798edc7747e61663e3db11400dc044201b53b9e353a9c099575b5355480055
-- kind: guard
-  id: review-approved
-  path: guards/review-approved.guard.yaml
-  content_hash: f426893fff49977bbc43a84ef7cf51d8b3cc2572e30254364cfd4526294d58e6
-- kind: guard
-  id: review-ref
-  path: guards/review-ref.guard.yaml
-  content_hash: c52767f636253c0026f3380a2383aa2429fbcb2939b51a3ea4afb4a3c68cf276
+  content_hash: a9f75c6ed71dd49d6bd1a3821b53b246761a2c6f66a6108df4a3f36b963864fa
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -180,7 +164,7 @@ constituents:
 - kind: lifecycle
   id: work-package
   path: lifecycles/work-package.lifecycle.yaml
-  content_hash: 53ef6a5d9a5061127395ed8fdcdd2fa13575fcfb4acbbc62082ab2f0bf03ab48
+  content_hash: d04a43cad867d715f5f200dda24d74295f6ee707787432fb7380c7e6e17148ad
 - kind: mission_type
   id: plan
   path: missions/plan/plan.mission-type.yaml
@@ -250,13 +234,17 @@ constituents:
   path: missions/software-dev/templates/tasks-template.md
   content_hash: c0bf1031a8fdf07b51d34d8d3bef22d4a00984ca2490ce3500a409010d2bc8a8
 - kind: paradigm
+  id: tests-as-scaffold-not-friction
+  path: paradigms/tests-as-scaffold-not-friction.paradigm.yaml
+  content_hash: 1cae9427569a88d9b0a1d5cc62578fa874a91859bb3f55fb8ac882325123b943
+- kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
   content_hash: c9ad1d928625885241b5a1af87c516662c2995ff3197286030d3bf802083ca61
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: 91121ff8253fb97d8038f1451772c5d441df422c74cea58a9fca2c7f30f5da18
+  content_hash: 88b03b8d4fc46dcb0ecce3e9a9758bfb979e4a235044ddd18be84c9b928df689
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
@@ -312,7 +300,7 @@ constituents:
 - kind: procedure
   id: durable-fix-investigation
   path: procedures/durable-fix-investigation.procedure.yaml
-  content_hash: aec8350d0cf44a1ea0a59bcd8df8f00cbbd1b7509f98f0a35c6169f08506c23d
+  content_hash: 76d44de7ce8e25de2e5463aea6cfc4bbe1c7c4ee5b4b124619167c4299bd4caf
 - kind: procedure
   id: example-mapping-workshop
   path: procedures/example-mapping-workshop.procedure.yaml
@@ -528,7 +516,7 @@ constituents:
 - kind: tactic
   id: adr-drafting-workflow
   path: tactics/communication/adr-drafting-workflow.tactic.yaml
-  content_hash: c940d8b688207023a620145bafac07c33867ca5f928b0414bdce5ddd07fd005f
+  content_hash: 0a7ebb2483356b6cd06ca713fb34055c669ab0c6b073ed369c412839dd6ca9e6
 - kind: tactic
   id: decision-marker-capture
   path: tactics/communication/decision-marker-capture.tactic.yaml

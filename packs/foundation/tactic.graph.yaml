@@ -336,6 +336,10 @@ edges:
   when: Use the audit findings as input to a premortem on the planned remediation path; high-firefighting projects warrant
     a premortem before any large refactor is scheduled.
 - source: tactic:function-over-form-testing
+  target: anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+- source: tactic:function-over-form-testing
   target: directive:DIRECTIVE_034
   relation: suggests
   when: Function-over-form tests are written test-first, expressing the behavioral requirement before implementation
@@ -457,6 +461,18 @@ edges:
   relation: suggests
   when: Supply-chain install safety is a specialization of Fail-Safe Defaults (deny by default) applied to dependency install-time
     hook scripts
+- source: tactic:tdd-red-green-refactor
+  target: anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+- source: tactic:tdd-red-green-refactor
+  target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
+  relation: rejects
+  reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
+- source: tactic:test-boundaries-by-responsibility
+  target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
+  relation: rejects
+  reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
 - source: tactic:test-boundaries-by-responsibility
   target: tactic:acceptance-test-first
   relation: suggests
