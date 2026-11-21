@@ -49,7 +49,7 @@
       "wp": "WP01"
     },
     "#273": {
-      "evidence_ref": "partial: DIRECTIVE_034 comment and testing-principles only; issue stays open",
+      "evidence_ref": "DIRECTIVE_034 and testing-principles parts done; Follow-up: #273 stays open for its other files",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,7 +57,7 @@
       "scope": null,
       "source_file": null,
       "title": "Strip version stamps, core issue numbers and provenance narrative from consumer pack bodies",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP02"
     },
     "#274": {
