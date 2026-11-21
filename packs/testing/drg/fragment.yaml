@@ -515,7 +515,7 @@ edges:
 - source: foundation::tactic:function-over-form-testing
   target: styleguide:testing-principles
   relation: suggests
-  when: Function-over-form aligns with the Truthful, Specific, and Minimal test desiderata
+  when: Function-over-form aligns with the Truthful, Specific, and Minimal testing principles
 - source: foundation::tactic:function-over-form-testing
   target: tactic:bdd-scenario-formulation
   relation: suggests

@@ -122,9 +122,9 @@ terms:
     status: active
   - id: tracer-bullet
     name: tracer bullet
-    definition: A thin path through the real system, end to end, that is kept and grown rather than thrown away. At test scale
-      it is one test through the public interface for one behaviour; at mission scale it is the spine's first composed path.
-      Not a prototype or a spike.
+    definition: A thin path through the real code that is kept and grown rather than thrown away. At test scale each red-green
+      slice extends it by one behaviour through the agreed test surface; at mission scale it is the spine's first composed
+      path, end to end through the real entry point. Not a prototype or a spike.
     status: active
   - id: horizontal-slicing
     name: horizontal slicing

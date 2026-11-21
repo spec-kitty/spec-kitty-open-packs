@@ -464,11 +464,11 @@ edges:
 - source: tactic:tdd-red-green-refactor
   target: anti_pattern:assert-on-mock-interactions
   relation: rejects
-  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+  reason: A test that asserts calls on doubles breaks on the first green-mode refactor while the behavior holds, so it cannot serve as the loop's safety net.
 - source: tactic:tdd-red-green-refactor
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects
-  reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
+  reason: A red-green slice drives owned code through the test surface; a double of owned logic makes the test pass for code that was never run.
 - source: tactic:tdd-red-green-refactor
   target: procedure:disciplined-refactoring-cycle
   relation: suggests

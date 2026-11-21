@@ -30,8 +30,8 @@ steps:
     description: >
       Write the test as if you were unaware of the internal structure: extracting a helper class or splitting a
       service must not change the suite. A well-scoped unit test needs few substitutes; needing a double of owned
-      logic to make it pass means the boundary is drawn wrong, so widen the slice or extract a pure seam. Boundaries
-      drawn for today's design can fossilize: when the architecture moves, re-check them before trusting old doubles.
+      logic to make it pass means the boundary is drawn wrong, so widen the slice or extract a pure seam. Re-audit
+      boundaries when the architecture moves (paradigm tests-as-scaffold-not-friction).
       The asset exemplar-slicing-user-registration walks one case end to end.
 failure_modes:
   - "Excessive mocking: stubbing components that are part of the functional slice, testing doubles instead of real logic."

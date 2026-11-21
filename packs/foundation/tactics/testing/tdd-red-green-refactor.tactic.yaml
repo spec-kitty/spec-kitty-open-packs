@@ -3,8 +3,8 @@ id: tdd-red-green-refactor
 name: Test Driven Development (TDD)
 purpose: >
   Drive production code in short red-green loops, one behavior at a time, so
-  every line exists because a test asked for it and each test is a tracer bullet
-  through the public interface. Work in vertical slices: one behavior, one
+  every line exists because a test asked for it and each slice extends the
+  tracer bullet through the test surface. Work in vertical slices: one behavior, one
   failing test, the least code that passes it, then the next slice. Refactoring
   is not a step of the loop; once a cycle is green, the implementer may switch
   to green mode and restructure, as the disciplined-refactoring-cycle procedure
@@ -35,7 +35,7 @@ steps:
   - title: Next slice
     description: >
       Repeat with the next behavior. Each test responds to what the previous
-      cycle taught you, so the suite grows as a chain of tracer bullets rather
+      cycle taught you, so each slice extends the tracer bullet rather
       than as a batch written up front.
     examples:
       - "After the credit-limit refusal, the next slice is the refusal message the customer sees, not a prepared list of ten further tests."
@@ -45,7 +45,7 @@ steps:
       the code would read better restructured, switch to green mode and follow
       the disciplined-refactoring-cycle procedure.
     examples:
-      - "Duplicated branch logic after the third slice: switch to green mode, extract it in one move, run the suite, then write the next failing test."
+      - "Duplicated branch logic after the third slice: commit the green, switch to green mode, extract it in one move, run the suite, commit the refactor on its own, then write the next failing test."
   - title: Maintain fast feedback
     description: Keep cycle time in minutes with local automation and fail fast in CI.
     examples:

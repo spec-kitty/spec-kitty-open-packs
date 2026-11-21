@@ -412,7 +412,7 @@ edges:
   - source: "procedure:test-suite-quality-assessment"
     target: "testing::styleguide:test-desiderata-and-boundaries"
     relation: suggests
-    reason: "The twelve desiderata, the shift-left detector map and the harness anti-patterns the review applies."
+    reason: "How to trade off the desiderata, the shift-left detector map and the harness anti-patterns the review applies."
   - source: "procedure:test-suite-quality-assessment"
     target: "testing::styleguide:testing-principles"
     relation: suggests

@@ -19,7 +19,7 @@ test <behaviour, in domain words>:
     <returned value, persisted state, emitted event or raised error>
 ```
 
-When the action's effect is an error, Act and Assert may fuse into one expect-raises block. When the default state already is the precondition, the assumption check may come first.
+The quadruple-a-test-format styleguide covers the variations (Act fused with Assert, an assumption check that comes first).
 
 ## Review checklist
 

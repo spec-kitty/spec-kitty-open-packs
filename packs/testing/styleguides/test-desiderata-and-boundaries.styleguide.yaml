@@ -218,12 +218,10 @@ anti_patterns:
       assert checkout(cart).total == Decimal("90")
   - name: Forgetting that a stub is a second copy of the contract
     description: >
-      A stub that answers "when called with X, return Y" restates the
-      collaborator's contract by hand (connascence of algorithm), and nothing
-      but discipline keeps the two copies in step. When the real collaborator
-      changes, the stub keeps the old behavior and the test stays green for a
-      world that no longer exists. Keep stubs at allow-listed seams and make
-      them honor the real dependency's contract.
+      A stub restates its collaborator's contract by hand, so when the real
+      dependency changes the test stays green for a world that no longer exists
+      (the foundation paradigm tests-as-scaffold-not-friction explains why). Keep
+      stubs at allow-listed seams and make them honor the real contract.
     bad_example: |
       stub_rates.get_rate.return_value = Decimal("1.1")   # the real service now raises on stale rates
       assert convert(100, "EUR", "USD", rates=stub_rates) == Decimal("110")   # stays green anyway

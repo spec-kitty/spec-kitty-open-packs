@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 1f18f858cc558d656efd185e04a1e29ee1912e636053ba5202f42c75142d9afe
+manifest_hash: a2e37013741579fa1df0543754631e1b5f6d75c1abd2cc96f56075389c1f03e1
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -164,7 +164,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: 23dddc893ec183f7743c257f92212a8c7ed676148097ebba74c3e862deda03f9
+  content_hash: ccded21d6f265a1391e68ac1bb544a7e2e9f9114e4e7a965c16ed18653a9fe1a
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -648,11 +648,11 @@ constituents:
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
-  content_hash: 48a98977f97351a4f69b08b49839e538e8bd592b524d9ca4506d4ba956120046
+  content_hash: b40df078e69469978f5bbdef78140656830017ba7fc9a5842569897dad99642f
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: af602daad7657f60398c26d0904589a68dd61c60b78c418351ca26cc6c6a2326
+  content_hash: 6ef92fb8cf640946d264328e1d525ad9d60162c088189fa92403c5f5993da1fb
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml

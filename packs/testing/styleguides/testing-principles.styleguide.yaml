@@ -8,7 +8,7 @@ principles:
   - name: "Fast, Isolated, Specific"
     description: "Fast, Isolated and Specific are three of Beck's twelve desiderata; the testing pack's test-desiderata-checklist asset defines them once."
   - name: "Repeatable results"
-    description: "Repeatable: a test produces the same result every time it runs, on any machine, in any order."
+    description: "Repeatable: a test gives the same result on any machine; order independence and determinism are the desiderata checklist's Isolated and Deterministic."
   - name: "Self-validating tests"
     description: "Self-validating: a test either passes or fails — no human inspection of logs required."
   - name: "Timely tests"

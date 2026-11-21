@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6cfba6132503cceb02b3fea9b2e6c8e4d864ea2b8fa424c1435a191f8bc732e6
+manifest_hash: 588b3eb12cf78d3a2cbbb39dc982fdefe779113fbb6864ce654b55fdb74e0f69
 constituents:
 - kind: agent_profile
   id: designer-dagmar
@@ -28,7 +28,7 @@ constituents:
 - kind: styleguide
   id: typescript-conventions
   path: styleguides/typescript-conventions.styleguide.yaml
-  content_hash: 27b01340b558f07567a6e1d4edbbca214929a19b1732d0726fc6140991161d79
+  content_hash: ad4a117274c4ea7b5fbcef6e9c5d99fd3ab41ae6266cb019ff0f26c9df1086f2
 - kind: tactic
   id: atomic-design-review-checklist
   path: tactics/architecture/atomic-design-review-checklist.tactic.yaml
