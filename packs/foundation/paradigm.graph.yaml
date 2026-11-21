@@ -2,10 +2,25 @@ schema_version: '1.0'
 generated_at: STATIC
 generated_by: drg-migration-v1
 nodes:
+- urn: paradigm:tests-as-scaffold-not-friction
+  kind: paradigm
+  label: Tests as Scaffold, Not Friction
 - urn: paradigm:trunk-based
   kind: paradigm
   label: Trunk-Based Development
 edges:
+- source: paradigm:tests-as-scaffold-not-friction
+  target: anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+- source: paradigm:tests-as-scaffold-not-friction
+  target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
+  relation: rejects
+  reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
+- source: paradigm:tests-as-scaffold-not-friction
+  target: asset:exemplar-slicing-user-registration
+  relation: suggests
+  when: illustrating how a responsibility boundary replaces a test per layer
 - source: paradigm:trunk-based
   target: directive:DIRECTIVE_029
   relation: requires

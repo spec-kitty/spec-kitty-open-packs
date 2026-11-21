@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5753f89c525b983117405a480874d24b6a80709ffa5d98a00e9171782c4cc2c5
+manifest_hash: fa4c05ead808c4e82a94ecd6282ef2544a1b45f2683c0b6bf800f140ea7745c9
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -21,6 +21,14 @@ constituents:
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
   content_hash: e68219460097260a616cfb294ca00bb2548c89fd1fe9e4307a42a961a0b109f3
+- kind: asset
+  id: exemplar-slicing-user-registration
+  path: assets/exemplar-slicing-user-registration.md.asset.yaml
+  content_hash: 12ec339c19a3575f8988dc02644343c171b133c261b7160cd601c4a46e87320b
+- kind: asset
+  id: exemplar-unfake-an-over-mocked-test
+  path: assets/exemplar-unfake-an-over-mocked-test.md.asset.yaml
+  content_hash: a459e4f1947408333d3900ff020e081983a31605010ec5f02394ebe756ca2321
 - kind: directive
   id: DIRECTIVE_001
   path: directives/001-architectural-integrity-standard.directive.yaml
@@ -72,7 +80,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 747d0919b8f4d48df6324cd60d97cef0f7a45156d6042aa1eef98def5170b926
+  content_hash: 7674e191e6a4b86ac72cd67fe604f737c693fb812f965268e47adec75fd5a4b5
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -96,7 +104,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 6a1bf9eef3d11f5f116523c6dc1f15185f8b24361c4aa8607ea2123ee97461cb
+  content_hash: e1dace028335405e26483cf8c0cc6c9318aed48f4fec09c567c554d6e11f41ea
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -233,6 +241,10 @@ constituents:
   id: software-dev/tasks-template.md
   path: missions/software-dev/templates/tasks-template.md
   content_hash: c0bf1031a8fdf07b51d34d8d3bef22d4a00984ca2490ce3500a409010d2bc8a8
+- kind: paradigm
+  id: tests-as-scaffold-not-friction
+  path: paradigms/tests-as-scaffold-not-friction.paradigm.yaml
+  content_hash: 1cae9427569a88d9b0a1d5cc62578fa874a91859bb3f55fb8ac882325123b943
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
@@ -640,7 +652,7 @@ constituents:
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: b0fe3138ede6fd2ed4035c7c19adfd25eb5d59504bd723610866bb35f09a47e3
+  content_hash: af602daad7657f60398c26d0904589a68dd61c60b78c418351ca26cc6c6a2326
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml

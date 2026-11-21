@@ -267,3 +267,7 @@ edges:
   target: toolguide:javascript-supply-chain
   relation: suggests
   when: Use for the exact ecosystem commands and file names behind this checklist's steps in a JavaScript/TypeScript project
+- source: styleguide:typescript-conventions
+  target: testing::asset:quad-a-test-structure
+  relation: requires
+  when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
