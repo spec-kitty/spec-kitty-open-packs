@@ -13,7 +13,7 @@ steps:
     Read the repository's charter or docs for the persona location. If the repository defines no personas, this procedure does not apply; write for the audience the charter names instead (DIRECTIVE_047).
 - title: Point `audience:` at the repository personas
   description: |
-    Set `audience:` to a list of entries with `profile` (the persona page's name in that location) and `guidance_text`. The repository builds its docs with doc-kitty, which resolves each profile under `context/audience/`; a repo-relative `.md` path is the retired form.
+    Set `audience:` to a list of entries with `profile` (the persona page's name in that location) and `guidance_text`. Where the repository builds its docs with doc-kitty, doc-kitty resolves each profile under `context/audience/` in the docs root; otherwise use the location the charter names. A repo-relative `.md` path is the retired form.
 - title: Require the field on touched pages only
   description: |
     Do not make `audience:` a required field for every page in the docs lint, so untouched legacy pages are not red-lined.

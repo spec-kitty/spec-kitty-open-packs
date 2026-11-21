@@ -41,10 +41,11 @@ patterns:
       before push. A SHA written during the work is therefore expected to
       dangle. A rewritten commit can still exist as an unreachable object, so
       a lookup that reports "commit" proves nothing about whether the history
-      still contains it. A SHA is acceptable only when it is genuinely
-      necessary and is marked as ephemeral or pre-rewrite, with a description
-      of the change beside it, so a reader knows not to trust it after a
-      rebase. This is the change-level partner of "Anchor code citations to
+      still contains it. A SHA is acceptable only when no PR, issue, ADR id or
+      tag exists for the change yet (a local or unpushed commit, or a note
+      about an orphaned object), and then it is marked as ephemeral or
+      pre-rewrite, with a description of the change beside it, so a reader
+      knows not to trust it after a rebase. This is the change-level partner of "Anchor code citations to
       content".
   - name: "Anchor code citations to content"
     description: >
@@ -81,4 +82,4 @@ anti_patterns:
   - name: Drifting line citation
     description: "Citing code by line numbers alone, or quoting a count with no way to reproduce it. The lines move with the next edit and the count cannot be checked."
     bad_example: "The retry loop at billing/retry.py:120-140 handles 14 call sites."
-    good_example: "billing/retry.py::RetryPolicy.next_delay handles the retry loop; 14 call sites (git grep -c \"next_delay(\" on 2026-11-21)."
+    good_example: "billing/retry.py::RetryPolicy.next_delay handles the retry loop; 14 call sites (git grep -n \"next_delay(\" -- . \":!billing/retry.py\" | wc -l, on 2026-11-21)."

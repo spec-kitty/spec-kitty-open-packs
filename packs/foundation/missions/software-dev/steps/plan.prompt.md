@@ -367,7 +367,7 @@ Apply this section whenever the plan adds, upgrades, or removes a dependency, in
 
 - Use absolute paths
 - ERROR on gate failures or unresolved clarifications
-- Cite earlier changes by PR or issue number, ADR id, release tag or a description of the change, not a bare commit SHA: the lifecycle rewrites history at close-out, so a SHA written now will not resolve later. Cite code by `path::qualname` or a path plus a quoted anchor, not a line range, and put the command that produced a cited count next to it. The rule lives in the writing pack's `research-citation-discipline` styleguide.
+- History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide says.
 
 ---
 

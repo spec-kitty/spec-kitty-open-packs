@@ -16,7 +16,7 @@ steps:
     Treat the page's own frontmatter as the sole source of truth for its lifecycle state (for example draft, active, deprecated, superseded). Generate any page inventory from it; never hand-maintain a parallel list.
 - title: Use the project's sanctioned frontmatter keys
   description: |
-    Use only the lifecycle and cross-reference keys the project's docs styleguide sanctions. Express cross-references as resolvable repo-relative paths, not prose.
+    Use only the lifecycle and cross-reference keys the project's docs styleguide sanctions. Express cross-references as `related:` page slugs and links outside the docs tree under `external_references:`, as the common-docs styleguide shows, not as prose.
 - title: Keep decision records together
   description: |
     File ADRs in one decision-record location with frontmatter, preserving decision history; keep living architectural design in one unversioned location.

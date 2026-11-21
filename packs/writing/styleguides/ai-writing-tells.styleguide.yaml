@@ -8,7 +8,7 @@ principles:
   - name: "Cut the tells of machine writing"
     description: "Read your own prose for the tells of machine writing and cut them before you publish. The patterns below are the recurring ones; run them as a checklist, not as advice you apply when convenient."
   - name: "One list for every kind of page"
-    description: "One list for every kind of page: documentation, reports, release notes and messages all use these patterns. A styleguide for one kind of writing points here and adds only what is specific to it."
+    description: "One list for every kind of page: documentation, reports, release notes and messages all use these patterns. A styleguide for one kind of writing points here and adds only what is specific to it, such as a required separator."
   - name: "A reader who spots the tells discounts the content"
     description: "A reader who spots the tells discounts the content. Sound analysis written in generated-sounding prose is read as less trustworthy, so cutting the tells protects the substance, not only the style."
 
@@ -16,9 +16,11 @@ patterns:
   - name: Ration the em-dash
     description: >
       The sentence-joining em-dash is the strongest tell of machine prose.
-      Allow a handful across a page and no more; everywhere else use a period,
-      a comma, or a colon. If a sentence leans on two em-dashes to hold its
-      clauses together, it is two sentences.
+      Allow at most two per page, none in headings or bullets; everywhere else
+      use a period, a comma, or a colon. If a sentence leans on two em-dashes
+      to hold its clauses together, it is two sentences. A dash that another
+      styleguide requires as a structural separator (for example in a meeting
+      title or an action-item line) is not a sentence-joining dash.
     bad_example: |
       The cache — which is shared across workers — expires after an hour — unless a write refreshes it.
     good_example: |
@@ -34,11 +36,13 @@ patterns:
       This refactor moves invoice rounding into the billing module.
   - name: Cut empty intensifiers and throat-clearing
     description: >
-      Delete "notably", "significantly", "importantly", "it's worth noting
-      that", "it's important to understand" and their kin. They add emphasis
-      that a real figure or fact earns on its own. Hedging and filler words
-      ("simply", "just", "in order to") are the plain-language styleguide's
-      rule; this pattern covers emphasis words.
+      Delete emphasis words such as "notably", "significantly" and
+      "importantly", and the throat-clearing openers machine prose overuses,
+      such as "it's worth noting that" and "it's important to understand".
+      They add emphasis that a real figure or fact earns on its own. The
+      plain-language styleguide owns hedging, filler and meta-narration in
+      general ("simply", "just", "it should be noted that"); this pattern
+      adds only these emphasis words and openers.
     bad_example: |
       Notably, it's worth noting that the import now finishes significantly faster.
     good_example: |
@@ -77,11 +81,14 @@ patterns:
       This release handles 1,200 requests per second, up from 800.
   - name: Label gathered versus synthesized figures
     description: >
-      Mark, for each figure, whether the author measured it directly or reused
-      it from an upstream source, such as a research note or a vendor
-      benchmark. A consistent label lets a reviewer spot-check the figures that
-      carry the argument and lets a later reader trust the ones that were not
-      spot-checked.
+      Mark each measured or reported result (a speed, a count, a rate, an
+      outcome) as measured directly by the author or reused from an upstream
+      source, such as a research note or a vendor benchmark. Specified values
+      (a default timeout, a port, a length limit) need no label. A consistent
+      label lets a reviewer spot-check the figures that carry the argument and
+      lets a later reader trust the ones that were not spot-checked. Where
+      every figure must also carry its source, the research-citation-discipline
+      styleguide applies.
     bad_example: |
       Builds are 30 percent faster and the cache hit rate is 85 percent.
     good_example: |
@@ -104,6 +111,6 @@ anti_patterns:
 quality_test: >
   A page satisfies this styleguide when a read-through against the patterns
   finds no buzzword from the list, no "not just X but Y" construction, no
-  empty intensifier, no unearned praise, at most a handful of sentence-joining
-  em-dashes, lists sized to their content, and every figure labelled as
-  measured or reused.
+  empty intensifier, no unearned praise, at most two sentence-joining
+  em-dashes, lists sized to their content, and every measured or reported
+  result labelled as measured or reused.

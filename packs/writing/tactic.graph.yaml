@@ -119,3 +119,7 @@ edges:
   target: asset:writing-audience-software-engineer
   relation: suggests
   when: The reader is a software or platform engineer; see assets/audiences/README.md.
+- source: foundation::tactic:adr-drafting-workflow
+  target: styleguide:research-citation-discipline
+  relation: suggests
+  when: citing related changes and code in an ADR by stable identifier and content anchor, as the tactic's cross-link step asks

@@ -4,7 +4,9 @@ description: "{DESCRIPTION: 50-180 characters on what the page lets the reader d
 type: how-to
 doc_status: draft
 updated: "{YYYY-MM-DD}"
-audience: "{AUDIENCE}"
+audience:
+  - profile: "{AUDIENCE_PROFILE}"
+    guidance_text: "{AUDIENCE_GUIDANCE: what this reader gets from the page}"
 related: []
 ---
 
