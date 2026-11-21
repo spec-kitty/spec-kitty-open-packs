@@ -2,12 +2,9 @@ schema_version: "1.0"
 id: DIRECTIVE_041
 title: Tests as Scaffold, Not Friction
 intent: >
-  Tests must protect change, not obstruct it. A test earns its place by failing
-  exactly when the contract is violated and passing otherwise. Tests that pass for
-  the wrong reason (mocked-out behavior, tautological or wiring-only assertions) or
-  fail on correct, behavior-neutral changes (implementation-coupled assertions,
-  line-pinned ratchets) are friction: they hide regressions and pressure engineers
-  to revert good changes.
+  The rules a test must meet to stay scaffold for change rather than friction.
+  The reasons behind them (why a test exists, false confidence and false
+  friction) live in the paradigm tests-as-scaffold-not-friction.
 enforcement: required
 scope: >
   Applies to all test code — new tests, and existing tests touched by a change to
