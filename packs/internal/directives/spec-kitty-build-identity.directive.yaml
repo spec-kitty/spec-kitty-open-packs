@@ -1,0 +1,55 @@
+schema_version: "1.0"
+id: SPEC_KITTY_BUILD_IDENTITY
+title: Spec Kitty Build Identity (Spec Kitty products)
+intent: >
+  Binds the foundation DIRECTIVE_055 build identity contract to the products
+  Spec Kitty ships. DIRECTIVE_055 carries the QA / Supportability Build
+  Identity contract v1.0 proposed in spec-kitty/spec-kitty#2771; this
+  directive names spec-kitty-analyzer's build object as the reference shape
+  every other product copies, fixes the CLI's surfaces, and names the Spec
+  Kitty identifiers the build object must not be confused with.
+enforcement: required
+scope: >
+  Applies to every product the Spec Kitty team ships (six at contract v1.0,
+  among them the spec-kitty CLI, spec-kitty-analyzer and spec-kitty-saas), and
+  to any product added later, wherever DIRECTIVE_055 applies. The per-product
+  conformance status of the contract (its section 8) is a snapshot, not
+  doctrine, and stays in the products' own trackers. Two open team questions
+  of the contract (section 7) are not decided here: the service endpoint's
+  authentication mechanism (the contract recommends an unauthenticated
+  liveness `/health` beside an authenticated build identity endpoint), and
+  how spec-kitty-saas moves `/health` to the structured surface (the
+  contract recommends an additive move that keeps the old flat keys as
+  deprecated aliases for a window).
+integrity_rules:
+  - >
+    spec-kitty-analyzer's build object, with its commit field renamed to
+    build.commit_sha (spec-kitty/spec-kitty-analyzer#23), is the reference
+    shape. Every other product copies its field names and nesting instead of
+    designing its own, so the products expose one shape rather than one each.
+    Until that rename lands, no product copies the old build.commit name.
+  - >
+    The contract's example human line for the spec-kitty CLI is
+    `spec-kitty-cli version 3.2.6 build a1b2c3d`. The CLI exposes the build
+    object as the `build` key of `spec-kitty --version --json`. It
+    stamps the build object with a hatchling build hook, falls back to live
+    git in a source checkout, and guards tagged releases (tracked in
+    spec-kitty/spec-kitty#2771).
+  - >
+    spec-kitty-saas is a deployed service: its structured surface is an HTTP
+    endpoint, and its guard is a deploy-time integrity check in its deploy
+    pipeline (related: spec-kitty/spec-kitty-saas#382).
+  - >
+    The build object is not the SaaS `Build` sync aggregate, not the sync
+    event envelope's `build_id` UUID, and not the CLI's per-project
+    `build_id`. None of them is reused or reported as build identity, and
+    build identity is never stored in any of them.
+validation_criteria:
+  - >
+    The DIRECTIVE_055 validation criteria hold for each Spec Kitty product, and
+    each product's build object uses the reference field names, commit_sha
+    included, with no product-specific variant.
+  - >
+    `spec-kitty --version` prints a human line that begins with the product
+    name and version and appends the build segment, and
+    `spec-kitty --version --json` carries the build object under `build`.

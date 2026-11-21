@@ -19,6 +19,10 @@ nodes:
     kind: directives
     title: "Spec Kitty Red-Main Policy (repository specifics)"
     body_path: directives/spec-kitty-red-main-policy.directive.yaml
+  - id: SPEC_KITTY_BUILD_IDENTITY
+    kind: directives
+    title: "Spec Kitty Build Identity (Spec Kitty products)"
+    body_path: directives/spec-kitty-build-identity.directive.yaml
   - id: targeted-mission-test-run
     kind: procedures
     title: "Targeted Mission Test Run"
@@ -717,6 +721,11 @@ edges:
     relation: requires
     when: "when a check is red on main"
     reason: "Traces every red on main to a P0 issue with a nightly-only reproduction and classifies reds with the landing-pass rules."
+  - source: "directive:SPEC_KITTY_BUILD_IDENTITY"
+    target: "foundation::directive:DIRECTIVE_055"
+    relation: refines
+    when: "when a Spec Kitty product stamps, reports or guards its build identity, or reads a peer's"
+    reason: "Names the analyzer's build object as the reference shape, the CLI's human line and JSON surface, and the SaaS sync aggregate and the two build_id identifiers the build object must not be confused with."
   - source: "directive:SPEC_KITTY_DOCS_CONVENTIONS"
     target: "writing::directive:DIRECTIVE_042"
     relation: refines
