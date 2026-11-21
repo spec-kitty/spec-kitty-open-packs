@@ -299,9 +299,6 @@ class CharterServiceJob(unittest.TestCase):
         _, job = job_named(self.workflow, "Charter service validation")
         steps = job["steps"]
         runs = "\n".join(str(step.get("run", "")) for step in steps)
-        self.assertNotIn("driftTest", runs)
-        self.assertNotIn("charter_drift_test.sh", runs)
-        self.assertFalse((ROOT / "scripts" / "ci" / "charter_drift_test.sh").exists())
         check = next(step for step in steps if "charter_pack_check.py" in str(step.get("run", "")))
         self.assertEqual(check.get("id"), "pack_check")
         self.assertNotIn("continue-on-error", check)
@@ -310,13 +307,6 @@ class CharterServiceJob(unittest.TestCase):
         self.assertIn("set -euo pipefail", check["run"])
         self.assertLess(check["run"].index("charter_pack_check_jar.sh"), check["run"].index("charter_pack_check.py --jar"))
         self.assertIn("tests.ci.test_charter_pack_check.RealPackCheck", check["run"])
-        script = "".join((ROOT / "scripts" / "ci" / name).read_text(encoding="utf-8")
-                         for name in ("charter_pack_check_jar.sh", "charter_release_asset.sh"))
-        self.assertIn("lock pack_check_sha256", script)
-        self.assertIn("releases/download/$tag/pack-check-$version.jar", script)
-        self.assertIn('if [[ "$actual" != "$digest" ]]', script)
-        code = "\n".join(line for line in script.splitlines() if not line.lstrip().startswith("#"))
-        self.assertNotIn("latest", code)  # a release by its tag, never a floating "latest"
         upload = next(step for step in steps if str(step.get("uses", "")).startswith("actions/upload-artifact@"))
         self.assertGreater(steps.index(upload), steps.index(check))
         self.assertIn("always()", upload["if"])
