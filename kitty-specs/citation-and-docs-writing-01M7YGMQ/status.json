@@ -1,7 +1,7 @@
 {
-  "event_count": 27,
-  "last_event_id": "01M7YHQ04R7P1WWAFAJ58K7BWE",
-  "materialized_at": "2026-11-21T07:56:40.373361+00:00",
+  "event_count": 28,
+  "last_event_id": "01M7YHQQXDS50ESFC7DFWN60NX",
+  "materialized_at": "2026-11-21T07:57:04.813330+00:00",
   "mission_number": "",
   "mission_slug": "citation-and-docs-writing-01M7YGMQ",
   "mission_type": "software-dev",
@@ -12,8 +12,8 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 0,
-    "in_progress": 1,
+    "for_review": 1,
+    "in_progress": 0,
     "in_review": 0,
     "planned": 1
   },
@@ -88,9 +88,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude::implementer",
-      "lane": "in_progress",
-      "last_event_id": "01M7YHQ04R7P1WWAFAJ58K7BWE",
-      "last_transition_at": "2026-11-21T07:56:40.373361+00:00",
+      "lane": "for_review",
+      "last_event_id": "01M7YHQQXDS50ESFC7DFWN60NX",
+      "last_transition_at": "2026-11-21T07:57:04.813330+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: ai-writing-tells styleguide, report-writing pointer and refines edge, writing graph wiring; out-of-map: executive-debrief pointer wording and internal README line (both follow the move); edge-identity and vocabulary pass"
