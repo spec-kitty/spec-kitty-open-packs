@@ -1,0 +1,50 @@
+{
+  "accept_commit": "9a490337f4197e2408427800c7b3facf801d0bf1",
+  "acceptance_history": [
+    {
+      "accept_commit": "9a490337f4197e2408427800c7b3facf801d0bf1",
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-21T08:38:54.243972+00:00",
+      "accepted_by": "system",
+      "accepted_from_commit": "e691ef34becc9e700087f2061e54d797af8bc185"
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-21T08:38:54.243972+00:00",
+  "accepted_by": "system",
+  "accepted_from_commit": "e691ef34becc9e700087f2061e54d797af8bc185",
+  "baseline_merge_commit": "de19cb515f486dcd0263664c06b8f45e98b3dcbf",
+  "contracts": "none",
+  "contracts_rationale": "No API or interface is defined: the mission edits doctrine pack content and graph files validated against the charter contract the charter repository owns.",
+  "create_return_branch": "t3/test-doctrine-2",
+  "created_at": "2026-11-21T07:45:45.937924+00:00",
+  "flattened": true,
+  "friendly_name": "Test doctrine 2: tests-as-scaffold paradigm, tracer bullets and measurement discipline",
+  "merged_at": "2026-11-21T08:45:51.553658+00:00",
+  "merged_commit": "04b9f11dc41dd802bdae067314b3bd6d8a080769",
+  "mid8": "01M7YH30",
+  "mission_base_sha": "b4263783440444b944c9cb294ebb53c8bb3fc21a",
+  "mission_branch": "kitty/mission-test-doctrine-2-01M7YH30",
+  "mission_id": "01M7YH303GM7171YZQZK7NZZ96",
+  "mission_number": 5,
+  "mission_slug": "test-doctrine-2-01M7YH30",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "The first test-doctrine mission shipped the mock-boundary rule. This one finishes that work: the tests-as-scaffold mindset moves out of a binding directive into its own paradigm, the two mocking anti-patterns become named graph nodes, duplicated checklists and long worked examples move into shared reference assets, and the curator profile learns the canonical layout. It also sharpens test-first guidance with vertical tracer-bullet slicing (one behaviour, one failing test, one minimal change), ships a vertical-skeleton-first planning tactic for missions whose work crosses owners, separates refactoring from the red-green loop as a green-mode technique, and adds a measurement discipline so agents sharing a machine do not read killed or contended test runs as results.",
+  "purpose_tldr": "Give the test doctrine its missing mindset, reference examples and checklists, and teach vertical tracer-bullet slicing and honest test measurement.",
+  "slug": "test-doctrine-2-01M7YH30",
+  "status_phase": "1",
+  "target_branch": "t3/test-doctrine-2",
+  "topology_decision": {
+    "code_lane_count": 5,
+    "from": "single_branch",
+    "rule": "lanes_with_coord",
+    "target_protected": false,
+    "to": "lanes_with_coord",
+    "wp_count": 5
+  },
+  "topology_settled": true,
+  "topology_source": "default",
+  "vcs": "git",
+  "vcs_locked_at": "2026-11-21T08:02:46.941004+00:00"
+}
