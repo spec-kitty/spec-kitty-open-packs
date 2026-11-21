@@ -37,6 +37,9 @@ edges:
   target: procedure:documentation-gap-prioritization
   relation: scope
 - source: mission_type:documentation
+  target: styleguide:ai-writing-tells
+  relation: scope
+- source: mission_type:documentation
   target: styleguide:common-docs
   relation: scope
 - source: mission_type:documentation

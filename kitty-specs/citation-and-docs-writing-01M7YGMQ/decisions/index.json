@@ -1,0 +1,102 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-21T07:38:14.994317Z",
+      "decision_id": "01M7YGN8JJPZJF556YXZZ1K930",
+      "final_answer": "A principle in writing research-citation-discipline, stated once and cross-referenced with #150's content-anchored citation rule; not a new directive (operator default accepted 2026-11-21, verified by the dispatcher; source core #2897).",
+      "input_key": "stable_identifier_home",
+      "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+      "mission_slug": "citation-and-docs-writing-01M7YGMQ",
+      "opened_by": "cli",
+      "options": [
+        "A principle in writing research-citation-discipline, stated once and cross-referenced with #150",
+        "A new directive",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Where does #219's stable-identifier rule live?",
+      "rationale": null,
+      "resolved_at": "2026-11-21T07:38:17.275818Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.stable-identifier-home",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-21T07:38:19.425064Z",
+      "decision_id": "01M7YGNCX1KTVG8W4N5NZ5PCCN",
+      "final_answer": "A shared styleguide in the writing pack; internal report-writing references it instead of restating the rules (operator default accepted 2026-11-21; tier ruling on #238, 2026-11-12).",
+      "input_key": "ai_tells_home",
+      "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+      "mission_slug": "citation-and-docs-writing-01M7YGMQ",
+      "opened_by": "cli",
+      "options": [
+        "A shared styleguide in writing that internal report-writing references",
+        "Make report-writing apply to docs",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Where do #238's anti-AI-prose rules live?",
+      "rationale": null,
+      "resolved_at": "2026-11-21T07:38:21.463875Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.ai-tells-home",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-21T07:38:23.414106Z",
+      "decision_id": "01M7YGNGSP2NJ6R9PE8N9FH5CW",
+      "final_answer": "doc-kitty's shape is the consumer default: audience as a list of {profile, guidance_text}, related as page slugs, other links under external_references; the path form is mentioned only as legacy (operator ruling on #240, 2026-11-12; default accepted 2026-11-21).",
+      "input_key": "frontmatter_default",
+      "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+      "mission_slug": "citation-and-docs-writing-01M7YGMQ",
+      "opened_by": "cli",
+      "options": [
+        "doc-kitty shape as the consumer default, path form named as legacy only",
+        "Both shapes side by side",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Which frontmatter shape does common-docs teach consumers?",
+      "rationale": null,
+      "resolved_at": "2026-11-21T07:38:25.688396Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.frontmatter-default",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-21T07:38:27.962610Z",
+      "decision_id": "01M7YGNN7TBDA23V39C4R06P06",
+      "final_answer": "Skip #210 in this mission. The dispatcher allowed it only with #207's owner's agreement, and #207's ordering puts its prompt children after #266; no agreement is on record, so #210 stays with #207 and the PR says so.",
+      "input_key": "measure_dont_estimate",
+      "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+      "mission_slug": "citation-and-docs-writing-01M7YGMQ",
+      "opened_by": "cli",
+      "options": [
+        "Only if #207 owner agrees; otherwise skip and say so",
+        "Fold it in",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "Fold #210 (measure, don't estimate in plan.prompt.md) into this mission?",
+      "rationale": null,
+      "resolved_at": "2026-11-21T07:38:29.850520Z",
+      "resolved_by": null,
+      "slot_key": "specify.scope.measure-dont-estimate",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+  "version": 1
+}

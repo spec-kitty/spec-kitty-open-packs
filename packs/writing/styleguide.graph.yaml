@@ -2,6 +2,9 @@ schema_version: '1.0'
 generated_at: STATIC
 generated_by: drg-migration-v1
 nodes:
+- urn: styleguide:ai-writing-tells
+  kind: styleguide
+  label: AI Writing Tells Styleguide
 - urn: styleguide:common-docs
   kind: styleguide
   label: Common Docs Styleguide
@@ -33,6 +36,10 @@ nodes:
   kind: styleguide
   label: Research Citation Discipline Styleguide
 edges:
+- source: styleguide:ai-writing-tells
+  target: styleguide:plain-language
+  relation: suggests
+  when: cutting hedging and filler words, which plain-language owns, alongside the AI-writing tells
 - source: styleguide:common-docs
   target: asset:common-docs-structural-lint
   relation: requires
@@ -51,7 +58,7 @@ edges:
 - source: styleguide:common-docs
   target: tactic:common-docs-write
   relation: suggests
-  when: 'applying the frontmatter schema, the 50-180 description band, related: paths, Divio type, and naming'
+  when: 'applying the frontmatter schema, the 50-180 description band, related: page slugs, Divio type, and naming'
 - source: styleguide:divio-type-discipline
   target: styleguide:common-docs
   relation: suggests

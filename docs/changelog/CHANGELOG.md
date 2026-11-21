@@ -262,6 +262,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Durable artifacts cite changes and code in forms that survive a rebase** (#219, #150). The
+  writing pack's `research-citation-discipline` styleguide gains two principles, each stated once:
+  cite a change by PR or issue number, ADR id, release tag or a description of the change, never a
+  bare commit SHA (rebases and squashes rewrite SHAs; a SHA is allowed only when necessary and
+  marked ephemeral); and cite code by `path::qualname` or a quoted anchor rather than a line range,
+  with the command that produced any count. The specify and plan step prompts of the software-dev,
+  plan and qa missions and the `adr-drafting-workflow` tactic carry a one-line reminder, and the
+  software-dev and plan missions' specify and plan actions now load the styleguide. Durable-fix
+  investigations (DIRECTIVE_052 and the `durable-fix-investigation` procedure) now ask for the
+  defect site by content anchor instead of `file:line` (#339).
+- **Squads check claims first-hand before a ruling** (#150, #176). The `adversarial-squad-deployment`
+  procedure has a new step: reproduce a blocker against the current head before calling it
+  resolved, and check that a named acceptance test exists and runs before a ruling relies on it.
+  Delegates validate by reading code and running existing tests; they do not prototype the change,
+  and they cite findings by a quoted anchor or `path::qualname`, not a line number.
+  The gate example no longer names a core exception class. In `internal`, an overturned operator
+  ruling is posted on the governing issue with the measurement that overturned it.
+- **One shared list of AI-writing tells** (#238). The new writing styleguide `ai-writing-tells`
+  holds the em-dash, "not just X but Y", intensifier, buzzword, rule-of-three, puffery and
+  figure-labelling rules with neutral examples. The documentation mission, its generate and
+  validate actions and `comms-cleo` reach it. The internal `report-writing` styleguide now points
+  to it instead of keeping its own copy.
 - **`/spec-kitty.analyze` reviews the whole planning corpus and product coherence** (#213, #214,
   #247; epic #244). Before, the software-dev `analyze` step read only the spec, the plan, the tasks
   and the WP prompts. Now it also does the following.
@@ -330,10 +352,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Less core residue in two consumer files** (part of #273 and #274). `DIRECTIVE_034` loses its
   provenance comment, and `testing-principles` its core PR, commit and symbol references.
 - **Versions**: the lockstep set (`foundation`, `writing`, `testing`, `refactoring`, `architecture`,
-  `planning-analysis`) moves to 3.4.0 and `built-in` to 5.4.0; `python` and `java` to 2.3.0,
-  `javascript` to 2.2.0, `pack-authoring` to 1.4.0 and `internal` to 4.3.0.
+  `planning-analysis`) moves to 3.5.0 and `built-in` to 5.5.0; `python` and `java` to 2.3.0,
+  `javascript` to 2.2.0, `pack-authoring` to 1.4.0 and `internal` to 4.4.0.
   **What to do:** nothing in your packs. `python`, `java`, `javascript` and `internal` now require
-  `testing` 3.4 or later (`>=3.4,<4`), because they point to its new Quad-A asset and measurement
+  `testing` 3.5 or later (`>=3.5,<4`), because they point to its new Quad-A asset and measurement
   tactic.
 - **Tests may mock only at the responsibility boundary** (#216). A new `foundation` `DIRECTIVE_054`
   holds the allow-list of seams a test may substitute; collaborators the code owns run for real. The
@@ -844,6 +866,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **Common Docs teaches doc-kitty frontmatter** (#240, #274). The `common-docs` styleguide,
+  DIRECTIVE_042, the `common-docs-write` and `common-docs-scaffold` tactics, the
+  `common-docs-page-authoring` and `declare-page-audience` procedures, the documentation mission's
+  Divio templates and the internal docs procedures now recommend `related:` as page slugs (or `ref` and `note`),
+  links outside the docs tree under `external_references:`, and `audience:` as a list of `profile`
+  and `guidance_text` entries. Repo-relative `.md` paths are named only as the legacy form. ADR era
+  folders are optional, and the examples no longer use Spec Kitty's own pages, ADR eras or counts.
+- **Versions** (DIRECTIVE_018, minor): the foundation lockstep set 3.4.0, built-in 5.4.0, internal
+  4.3.0 (its writing range is now `>=3.4,<4`), qa 5.2.0.
 - **Every pack is gated on the charter's pack-check, from the pinned release** (#252, #308; epic #287).
   The lock moves from a bare charter commit (`33f3ad4`, the commit of `service-v0.1.0-rc.2`) to the release
   pin `service-v0.1.0-rc.3`, commit `cb9b154`. It is the first release that ships `pack-check-<version>.jar`.

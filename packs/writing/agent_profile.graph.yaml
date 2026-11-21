@@ -40,6 +40,10 @@ edges:
     Selects one of the built-in persona library's four personas (or an org-extension addition) instead of inventing an audience
     ad hoc. Not the same pattern as the architecture stakeholder-alignment tactic — this is about who is reading the prose,
     not who has a stake in a design decision.
+- source: agent_profile:comms-cleo
+  target: styleguide:ai-writing-tells
+  relation: suggests
+  reason: The shared AI-writing tells are part of the style-guide checklist Cleo runs before a draft is done.
 - source: agent_profile:curator-carla
   target: foundation::directive:DIRECTIVE_018
   relation: requires
