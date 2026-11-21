@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 635a954c18da0044132935471f7a658fa83e4e97e19db639303cfbbf5ba01aad
+manifest_hash: 4fb064611d1b17f6eb2a2141f7faf3fa9ed68dca674e09d2cbe64c79dd990b9c
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -149,6 +149,10 @@ constituents:
   id: DIRECTIVE_054
   path: directives/054-mock-only-at-the-responsibility-boundary.directive.yaml
   content_hash: 5af9f5bb67ad57a6c568a1ff3f26577e1adc6929c425ca400ec2484077607830
+- kind: directive
+  id: DIRECTIVE_055
+  path: directives/055-build-identity-contract.directive.yaml
+  content_hash: c04c9ce1f1abe58353b1d7651df7d254cbc2609a20278c13dcd1795be0b674b6
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
@@ -521,6 +525,10 @@ constituents:
   id: avoid-gold-plating
   path: tactics/avoid-gold-plating.tactic.yaml
   content_hash: c30b4f298dd9f06220631c0dd93e0434482ebdcd283111aea3bcc45de3645739
+- kind: tactic
+  id: build-identity-stamp-verify-guard
+  path: tactics/build-identity-stamp-verify-guard.tactic.yaml
+  content_hash: d58a28a0f683448f6ac0204642df293e0a6624c2ad8bcdb36580a7fcab9e567f
 - kind: tactic
   id: canonical-source-unification
   path: tactics/canonical-source-unification.tactic.yaml

@@ -92,6 +92,9 @@ nodes:
 - urn: directive:DIRECTIVE_054
   kind: directive
   label: Mock Only at the Responsibility Boundary
+- urn: directive:DIRECTIVE_055
+  kind: directive
+  label: Build Identity Contract
 - urn: directive:DISCIPLINED_REFACTORING
   kind: directive
   label: Disciplined Refactoring
@@ -566,6 +569,12 @@ edges:
   relation: suggests
   when: choosing the test level at which owned collaborators run for real
   reason: Selecting the right test level decides where the responsibility boundary sits and which substitutes remain.
+- source: directive:DIRECTIVE_055
+  target: tactic:build-identity-stamp-verify-guard
+  relation: requires
+  when: wiring or changing how a product stamps, reports or guards its build identity
+  reason: Stamps the build object with a live-git fallback, verifies it on a real tag or deploy, and only then adds the
+    fail-loud guard, per form factor.
 - source: directive:DISCIPLINED_REFACTORING
   target: procedure:disciplined-refactoring-cycle
   relation: requires

@@ -23,6 +23,9 @@ nodes:
 - urn: tactic:bounded-context-identification
   kind: tactic
   label: Bounded Context Identification
+- urn: tactic:build-identity-stamp-verify-guard
+  kind: tactic
+  label: 'Build Identity: Stamp, Verify, Guard'
 - urn: tactic:canonical-source-unification
   kind: tactic
   label: Canonical Source Unification
