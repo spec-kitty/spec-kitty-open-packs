@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/internal`
 - **Pack level:** `org`
 - **Declared version:** `4.3.0`
-- **Content checksum (sha256):** `97a4053c28331ffff62ae13a5d8b458c32d3d518aa3e831e0e6a06aaafd43497`
+- **Content checksum (sha256):** `4e3a8b27d200b60b9f0cf5235042f3541312c3225596a7a6d6d0f2591bc7dc78`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,7 +39,7 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 5 |
+| `directives` | 6 |
 | `tactics` | 6 |
 | `styleguides` | 7 |
 | `toolguides` | 6 |
@@ -49,16 +49,17 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **81** |
+| **Total files** | **82** |
 
 ### Full listing
 
 <details>
-<summary><code>directives</code> (5)</summary>
+<summary><code>directives</code> (6)</summary>
 
 - `cloud-session-orchestration.directive.yaml`
 - `no-full-heavy-suites-in-mission.directive.yaml`
 - `operator-signal-contract.directive.yaml`
+- `spec-kitty-build-identity.directive.yaml`
 - `spec-kitty-docs-conventions.directive.yaml`
 - `spec-kitty-red-main-policy.directive.yaml`
 
