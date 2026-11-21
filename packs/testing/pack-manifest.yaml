@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 9bc9db1bb32408629bd99852f8d9a4c05aa1ccbb5444d2e5cf33b43717894f25
+manifest_hash: 2d79f343b251118a9e8f2dfad893727b64ba66d246556e2886a599a50f190890
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -44,7 +44,7 @@ constituents:
 - kind: procedure
   id: test-first-bug-fixing
   path: procedures/test-first-bug-fixing.procedure.yaml
-  content_hash: f6f8f41a427a0261201143b795d7b7a72ae2d22e6dc4036a88671eb638ffcc1a
+  content_hash: bfee99e52b37ee884c9e4504722586dbb2a7b06595b08f7653b774353bb38bbf
 - kind: styleguide
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
