@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: review-ref
+title: The move cites its review feedback
+description: The move carries a review reference, the pointer to the feedback that sends the work package back. It guards the rewinds out of review, in_review and approved to in_progress, and the reset from approved to planned (charter ADR-0054 decision 6).
+interface: guard/1
+implemented_by: builtin:review-ref

@@ -1,7 +1,7 @@
 schema_version: '1.0'
 id: work-package
 title: Work package
-description: The lanes a work package moves through, as core's status model names them. The move to review runs the pre-review checks.
+description: The lanes a work package moves through, as core's status model names them. A guarded move names the built-in checks core's status model runs on it.
 initial: planned
 states:
 - id: planned
@@ -32,14 +32,20 @@ transitions:
 - from: planned
   to: claimed
   event: claim
-- from:
-  - claimed
-  - blocked
+  guard:
+  - ref: dependency-ready
+- from: claimed
+  to: in_progress
+  event: start
+  guard:
+  - ref: dependency-ready
+- from: blocked
   to: in_progress
   event: start
 - from: in_progress
   to: for_review
   guard:
+  - ref: implementation-ready
   - ref: spec-kitty-pre-review
 - from: for_review
   to: in_review
@@ -49,22 +55,33 @@ transitions:
   - in_review
   to: approved
   event: approve
+  guard:
+  - ref: review-approved
 - from:
   - in_review
   - approved
   to: done
   event: complete
+  guard:
+  - ref: review-approved
 - from:
   - in_review
   - approved
   to: in_progress
   event: changes_requested
-- from:
-  - in_progress
-  - in_review
-  - approved
+  guard:
+  - ref: review-ref
+- from: in_progress
   to: planned
   event: reset
+- from: in_review
+  to: planned
+  event: reset
+- from: approved
+  to: planned
+  event: reset
+  guard:
+  - ref: review-ref
 - from:
   - planned
   - claimed

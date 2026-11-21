@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5753f89c525b983117405a480874d24b6a80709ffa5d98a00e9171782c4cc2c5
+manifest_hash: 68538634f4e6c55e7615d03c0705cc2fc6e3ff44855c602a16df7dec97b73333
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -158,13 +158,29 @@ constituents:
   path: glossaries/spec-kitty-core.glossary.yaml
   content_hash: a9f75c6ed71dd49d6bd1a3821b53b246761a2c6f66a6108df4a3f36b963864fa
 - kind: guard
+  id: dependency-ready
+  path: guards/dependency-ready.guard.yaml
+  content_hash: 60ffad18fbc629bcc583147cf7ad218e60e462ad71b22b4709d8eaf7e10a6dd5
+- kind: guard
+  id: implementation-ready
+  path: guards/implementation-ready.guard.yaml
+  content_hash: 22798edc7747e61663e3db11400dc044201b53b9e353a9c099575b5355480055
+- kind: guard
+  id: review-approved
+  path: guards/review-approved.guard.yaml
+  content_hash: 185a56806af18c0cc8230f43dcf39ca9363b084ff4bc62b4d74e470bb44f659f
+- kind: guard
+  id: review-ref
+  path: guards/review-ref.guard.yaml
+  content_hash: 77ff954e61624f12beeb032bfb6aef2a42fa3817809b4d68e93d46e2b775e701
+- kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
   content_hash: 6dc409d4e6c1627dc336f5e62c2e66181fd3811438c4352643c01221dff848b8
 - kind: lifecycle
   id: work-package
   path: lifecycles/work-package.lifecycle.yaml
-  content_hash: d04a43cad867d715f5f200dda24d74295f6ee707787432fb7380c7e6e17148ad
+  content_hash: 02a08a632b0e67f683e99b761b6213858b57c0df63fe00f96d3b640daa5b6bbc
 - kind: mission_type
   id: plan
   path: missions/plan/plan.mission-type.yaml
