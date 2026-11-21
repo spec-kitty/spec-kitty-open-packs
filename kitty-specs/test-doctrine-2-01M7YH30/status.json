@@ -97,7 +97,8 @@
       "last_transition_at": "2026-11-21T08:24:46.928424+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review"
+        "Ready for review",
+        "Review cycle 1 rejected: DISCIPLINED_REFACTORING scope sentence; four-hour heuristic in the step; mission evidence out of the examples; 'seam' in vsf; nits"
       ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
