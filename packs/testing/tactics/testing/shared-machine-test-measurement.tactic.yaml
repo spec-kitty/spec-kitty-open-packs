@@ -20,21 +20,21 @@ steps:
       cores" on a shared machine.
   - title: Count only a finished run with a captured exit status
     description: >
-      A run is a measurement only if it finished and its own exit status was
-      captured. A run that was killed, timed out, ran out of memory or disk, or
-      whose exit status was lost through a pipe is no measurement (foundation
-      glossary): report it as no measurement, never as a pass or a fail, and re-run it when the machine
-      is quiet. When piping test output, capture the test command's status, not
+      A run is a measurement only if it finished on a quiet enough machine and
+      its own exit status was captured. Anything else (the foundation glossary's
+      no measurement: killed, timed out, out of memory or disk, exit status lost,
+      or passing and failing on the same code) is reported as no measurement,
+      with its reason, never as a pass or a fail; re-run it when the machine is
+      quiet. When piping test output, capture the test command's status, not
       the status of the last command in the pipe (for example with the shell's
       pipefail option or its pipe-status array).
     examples:
-      - "`pytest ... | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Run with `set -o pipefail`, or read the test command's entry in the pipe-status array."
+      - "`<test command> | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Run with `set -o pipefail`, or read the test command's entry in the pipe-status array."
   - title: Put test temporary and cache space where there is quota
     description: >
       Point test temporary directories and caches at storage with enough free
-      space and quota for the suites that run there. A disk-full or quota error
-      during a run is an environment failure, recorded as such, not a test
-      result.
+      space and quota for the suites that run there. A run that hits a full disk
+      or a quota limit is no measurement, not a test failure.
   - title: Attribute a red against the mission's base commit
     description: >
       Before claiming that a work package caused, or did not cause, a red,
@@ -46,7 +46,7 @@ steps:
   - title: Record what was measured
     description: >
       Report each result with the exact command, the worker count, and its
-      outcome category: passed, failed, errored, timed out, or no measurement.
+      outcome: passed, failed, errored, or no measurement with its reason.
 failure_modes:
   - "Fan-out: several agents each start a heavy suite on one machine, and the resulting timeouts and port collisions are read as product failures."
   - "Lost status: a piped or killed run is reported as green, or as red, when no result was measured."

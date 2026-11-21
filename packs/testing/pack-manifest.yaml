@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 25025d52998d17cbf0a54a0e6bbecbbfef9f66f6e0754404ad8023d0f33485d8
+manifest_hash: e4956b8a5f1701e8667c26bfc1528f62165d648814b1ecff1af9d20266869038
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -88,7 +88,7 @@ constituents:
 - kind: tactic
   id: shared-machine-test-measurement
   path: tactics/testing/shared-machine-test-measurement.tactic.yaml
-  content_hash: 59a532822a0a4a9a6abb575c3914931764462a99baea228c21e466808362262b
+  content_hash: 15054b07a1ffc89e15b2d66303948e7a88c917983c1d916b7ffeffa7257a09a6
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml
