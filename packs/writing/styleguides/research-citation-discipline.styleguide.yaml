@@ -45,8 +45,8 @@ patterns:
       tag exists for the change yet (a local or unpushed commit, or a note
       about an orphaned object), and then it is marked as ephemeral or
       pre-rewrite, with a description of the change beside it, so a reader
-      knows not to trust it after a rebase. This is the change-level partner of "Anchor code citations to
-      content".
+      knows not to trust it after a rebase. This is the change-level partner
+      of "Anchor code citations to content".
   - name: "Anchor code citations to content"
     description: >
       Cite a code location by something that survives edits: path::qualname
