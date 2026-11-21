@@ -1,0 +1,17 @@
+{
+  "rows": {
+    "#219": {
+      "evidence_ref": "FR-001, FR-003, FR-004",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: durable artifacts cite changes by stable identifier",
+      "verdict": "in-mission",
+      "wp": null
+    }
+  },
+  "schema_version": 1
+}
