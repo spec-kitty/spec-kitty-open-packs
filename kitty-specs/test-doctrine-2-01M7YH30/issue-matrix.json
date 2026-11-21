@@ -1,0 +1,17 @@
+{
+  "rows": {
+    "#216": {
+      "evidence_ref": "residue: paradigm, 041 split, anti-patterns (WP01); assets, dedup, slicing, curator (WP02)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: test slicing/scoping + mocking-boundary antipatterns",
+      "verdict": "in-mission",
+      "wp": "WP01"
+    }
+  },
+  "schema_version": 1
+}
