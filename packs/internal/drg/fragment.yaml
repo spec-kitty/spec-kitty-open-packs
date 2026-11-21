@@ -58,7 +58,7 @@ nodes:
     body_path: tactics/branded-deliverable.tactic.yaml
   - id: report-writing
     kind: styleguides
-    title: "Report Writing (audience-first, anti-AI-prose, Spec Kitty voice)"
+    title: "Report Writing (audience-first, Spec Kitty voice; AI-writing tells from writing)"
     body_path: styleguides/report-writing.styleguide.yaml
   - id: project-evolution-postmortem
     kind: procedures
@@ -319,6 +319,11 @@ edges:
     relation: suggests
   - source: "styleguide:executive-debrief"
     target: "styleguide:report-writing"
+    relation: refines
+  # report-writing refines the shared writing styleguide for reports: the
+  # AI-writing tells live there, and report-writing adds report rules and voice.
+  - source: "styleguide:report-writing"
+    target: "writing::styleguide:ai-writing-tells"
     relation: refines
   - source: "tactic:branded-deliverable"
     target: "toolguide:branded-document-generation"

@@ -126,6 +126,9 @@ edges:
   target: foundation::tactic:requirements-validation-workflow
   relation: scope
 - source: action:documentation/generate
+  target: styleguide:ai-writing-tells
+  relation: scope
+- source: action:documentation/generate
   target: foundation::directive:DIRECTIVE_029
   relation: scope
 - source: action:documentation/generate
@@ -189,6 +192,9 @@ edges:
   target: foundation::tactic:requirements-validation-workflow
   relation: scope
 - source: action:documentation/validate
+  target: styleguide:ai-writing-tells
+  relation: scope
+- source: action:documentation/validate
   target: foundation::directive:DIRECTIVE_029
   relation: scope
 - source: action:documentation/validate
@@ -199,4 +205,10 @@ edges:
   relation: scope
 - source: foundation::action:software-dev/retrospect
   target: styleguide:kitty-glossary-writing
+  relation: scope
+- source: foundation::action:software-dev/specify
+  target: styleguide:research-citation-discipline
+  relation: scope
+- source: foundation::action:software-dev/plan
+  target: styleguide:research-citation-discipline
   relation: scope
