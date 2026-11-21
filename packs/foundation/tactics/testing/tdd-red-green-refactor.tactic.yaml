@@ -35,8 +35,8 @@ steps:
   - title: Next slice
     description: >
       Repeat with the next behavior. Each test responds to what the previous
-      cycle taught you, so each slice extends the tracer bullet rather
-      than as a batch written up front.
+      cycle taught you, so each slice extends the tracer bullet instead of
+      joining a batch of tests written up front.
     examples:
       - "After the credit-limit refusal, the next slice is the refusal message the customer sees, not a prepared list of ten further tests."
   - title: Hand off to green mode

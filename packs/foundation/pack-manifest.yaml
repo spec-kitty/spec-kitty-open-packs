@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: a2e37013741579fa1df0543754631e1b5f6d75c1abd2cc96f56075389c1f03e1
+manifest_hash: 621ef2213dfd14f95a4f45c310040e0658264bafbfc4a8c01bed92dcba2e34f5
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -648,7 +648,7 @@ constituents:
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
-  content_hash: b40df078e69469978f5bbdef78140656830017ba7fc9a5842569897dad99642f
+  content_hash: 22b634c47ca4d5ada2c37cceae070c361924739daa4bad19074832319f0ab6a3
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
