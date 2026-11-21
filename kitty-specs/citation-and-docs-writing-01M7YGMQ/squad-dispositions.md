@@ -9,7 +9,7 @@ Squad (adversarial-squad-deployment, pre-merge point-cut): reviewer-renata, arch
 | 3 | reviewer | MAJOR | specify/plan reminder restates both rules in three sentences | accepted | one-sentence reminder in both prompts, naming the styleguide |
 | 4 | architect, curator | MAJOR | figure labelling has two homes; "every figure" fails reference pages | changed | ai-writing-tells "Label gathered versus synthesized figures" scoped to measured or reported results; report-writing "Attribute every number" keeps sourcing and points to it; pointer sentence narrowed |
 | 5 | reviewer | MINOR | squad procedure requires `file:line` findings | accepted | "[SEVERITY] file:anchor ..." in the structured-output step |
-| 5a | reviewer | MINOR | `durable-fix-investigation` and DIRECTIVE_052 use `file:line` too | deferred_with_rationale | outside this mission's surfaces; reported in the PR body as a follow-up for #150's family |
+| 5a | reviewer | MINOR | `durable-fix-investigation` and DIRECTIVE_052 use `file:line` too | deferred_with_rationale | outside this mission's surfaces; tracked in #339 |
 | 6 | architect, curator | MINOR | `styleguide.graph.yaml` edge text says "related: paths" | accepted | edge `when:` now "related: page slugs" |
 | 7 | architect | MINOR | intensifier pattern overlaps plain-language meta-narration | changed | pattern names plain-language as owner of hedging, filler and meta-narration and adds only emphasis words and openers |
 | 8 | architect | MINOR | the ADR tactic and squad procedure name the citation styleguide, but the graph does not deliver it there | accepted | writing `tactic.graph.yaml` and `procedure.graph.yaml` `suggests` edges from the two foundation nodes (precedent: refactoring's foundation::tactic sources) |
@@ -25,3 +25,13 @@ Squad (adversarial-squad-deployment, pre-merge point-cut): reviewer-renata, arch
 | 18 | reviewer | NIT | tactic omits `{type, id}` | accepted | "or type and id" |
 | 19 | reviewer | NIT | internal page-audience asserts doc-kitty unconditionally | accepted | "Where the repository builds its docs with doc-kitty ...; otherwise use the location the charter names" |
 | 20 | reviewer | NIT | plan.md cites the earlier charter pin | deferred_with_rationale | plan.md records the pin at authoring time; main moved the pin to release `service-v0.1.0-rc.3` afterwards, and the PR validates against that |
+
+## PR-level review (reviewer-renata, approved)
+
+| # | Severity | Finding | Disposition | Evidence |
+|---|----------|---------|-------------|----------|
+| R1 | MINOR | the #219 reminder covers only software-dev prompts | accepted | the plan mission's and qa's specify and plan prompts carry the same sentence; qa 5.2.0 |
+| R2 | MINOR | deferred finding 5a needs a tracking issue | accepted | #339 |
+| R3 | MINOR | foundation pointers to writing drop "(when installed)" | accepted | all foundation pointers carry the qualifier |
+| R4 | NIT | "retired" vs "legacy" | accepted | internal page-audience says "legacy form" |
+| R5 | NIT | rule 4 sits only in cloud-session-dispatch | deferred_with_rationale | the issue asks for "a step in an existing internal procedure"; the reviewer rated it acceptable |

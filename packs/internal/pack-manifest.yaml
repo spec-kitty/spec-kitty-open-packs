@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 95d39c322744548363907d22c601b6676ef92cbb47d0d66429bebfb09a2535ad
+manifest_hash: a47ae24c715b7d04df4c199c34b0f621208b75b52a56bcf37f8ff407ae75bd03
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -128,7 +128,7 @@ constituents:
 - kind: procedure
   id: spec-kitty-page-audience
   path: procedures/spec-kitty-page-audience.procedure.yaml
-  content_hash: 1ce3766b2021084862385104137e7a86e29231e8c57bce550de0e45e44152f1b
+  content_hash: 2207e38ea4a69b40d75e1d12053bf221b1249080da8ad18c1c139fa3bf19c5ed
 - kind: procedure
   id: spec-kitty-red-main-triage
   path: procedures/spec-kitty-red-main-triage.procedure.yaml
