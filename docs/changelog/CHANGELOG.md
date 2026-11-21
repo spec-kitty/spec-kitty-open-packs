@@ -968,7 +968,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Kept, because pack-check rc.3 is weaker here.** Each case was measured with `--round-trip`, as the gate
     runs it, and pack-check exits 0 on all three:
     - The schema pass's stray-file rule (#249): an ignored file other than a `README.md` note. pack-check only
-      warns `file_not_held`.
+      warns `file_not_held`. (Since relaxed: under R34 the schema pass warns too; see the entry above.)
     - `requiredNotHeld` and the required floor: a preset `must_have` item no pack of the closure holds.
     - The preset id check: an id no pack declares.
 
