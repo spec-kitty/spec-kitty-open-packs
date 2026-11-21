@@ -809,6 +809,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep notes and
+  logs in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
+  - **Schema pass.** An ignored file other than a `README.md` note (a `notes.md`, an orphan skill body) is now
+    warned as `file_not_held` instead of failing as `not_held`. `README.md` notes are still carried silently.
+  - **Service check.** Every file a registration leaves out is a notice. Only a file the mirror takes for held
+    content still fails, because that means the mirror has drifted from the pin.
+  - **Misspelled companions are annotated** (operator ruling R38). The schema pass is a linter here, never a gate:
+    - An artifact whose `*_path` names a missing file is annotated *Missing companion*, which also catches a stem
+      typo that still matches a rule.
+    - A stray file that looks like a misnamed companion is annotated with the companion it was probably meant to be.
+      Two signals: a near-named file beside a missing `*_path` target, and a suffix close to a companion suffix
+      (for example `implement.promt.md` or `x.gudie.md`). A suffix of five letters or fewer allows one inserted,
+      dropped or swapped letter, so ordinary words such as `still.md` are not flagged.
+    - A reference that cannot be resolved (an overlong name, a NUL byte) is skipped, never a crash.
+    - pack-check still fails such a pack, because the named companion is missing.
+  - **Still red: an unmodelled stray file** (`notes.txt`, a log). The pinned pack-check's round trip refuses it as
+    `round_trip_red`, and #331 records the decision this needs.
+  - **Unchanged.** `requiredNotHeld` and the required floor stay until spec-kitty-charter#629 (#330). The
+    stale-manifest-hash check stays as the fast pre-check, although pack-check catches the case
+    (spec-kitty-charter#630).
+
 - **Every pack is gated on the charter's pack-check, from the pinned release** (#252, #308; epic #287).
   The lock moves from a bare charter commit (`33f3ad4`, the commit of `service-v0.1.0-rc.2`) to the release
   pin `service-v0.1.0-rc.3`, commit `cb9b154`. It is the first release that ships `pack-check-<version>.jar`.
@@ -835,7 +856,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Kept, because pack-check rc.3 is weaker here.** Each case was measured with `--round-trip`, as the gate
     runs it, and pack-check exits 0 on all three:
     - The schema pass's stray-file rule (#249): an ignored file other than a `README.md` note. pack-check only
-      warns `file_not_held`.
+      warns `file_not_held`. (Since relaxed: under R34 the schema pass warns too; see the entry above.)
     - `requiredNotHeld` and the required floor: a preset `must_have` item no pack of the closure holds.
     - The preset id check: an id no pack declares.
 

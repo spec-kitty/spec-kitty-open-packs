@@ -25,10 +25,9 @@ Three phases, every one of which runs even when an earlier one failed:
    with ``PUT /api/v1/packs/{packId}`` and its registration polled until it ends. A ``refused``
    registration fails the run, printing its problem and violations. A succeeded registration's
    diagnostics are printed as notices. Each ``file_not_held`` file is classified with the schema
-   validator's mirror of the pinned contract: an ``exclusions`` file passes, an ``ignored`` one passes
-   only under ``validate_pack_schemas.NOT_HELD_ALLOWANCES`` (the one policy both gates apply), and
-   any other fails the run, since the charter leaves it out without refusing it (#451) and a
-   misplaced guide, prompt or skill body would otherwise pass unserved. The composed offering of the resulting root must also
+   validator's mirror of the pinned contract: a file the mirror also leaves out (excluded, ignored or
+   unmodelled) stays a notice, since operator ruling R34 (#331) lets authors keep notes and logs in a
+   pack; only a file the mirror takes for held content fails the run, because the mirror has drifted. The composed offering of the resulting root must also
    answer 200.
 3. **Non-vacuity.** Every pack under ``tests/fixtures/invalid/`` names, in its ``expected-code`` file,
    the code the service must refuse it with, once composed and once registered. A fixture the service
@@ -330,7 +329,9 @@ def not_held_findings(result: dict[str, Any], pack_name: str, files: set[str], c
 
     Every diagnostic is a notice. A ``file_not_held`` detail (``<file>: not held (<reason>)``) is matched to the
     longest uploaded file (``files``, pack-relative) it starts with, and that file is classified with the validator's
-    mirror of ``contract``: excluded passes, ignored passes under ``NOT_HELD_ALLOWANCES``, and anything else fails.
+    mirror of ``contract``: a file the mirror also leaves out (excluded, ignored or unmodelled) is a notice, never a
+    failure (operator ruling R34, #331: a stray file warns). Only a file the mirror classifies as held content fails:
+    the mirror has drifted from the pin.
     A diagnostic that is not a ``{code, detail}`` object, or that names no uploaded file, fails: the check fails
     closed rather than guess."""
     validator = _validator()
@@ -352,14 +353,11 @@ def not_held_findings(result: dict[str, Any], pack_name: str, files: set[str], c
         file = max(named, key=len)
         relative = f"{pack_name}/{file}"
         kind, _ = validator.classify(contract, relative)
-        # Charter #554 ruling Q1: what no rule models is warned as file_not_held and left out; so here (#309).
-        if kind in ("excluded", "unmodelled") or (kind == "ignored" and validator.not_held_allowed(relative)):
+        # Charter #554 ruling Q1 and operator ruling R34 (#331): a file the charter leaves out is a notice here too.
+        if kind in ("excluded", "unmodelled", "ignored"):
             continue
-        if kind == "ignored":
-            failures.append(detail)
-        else:
-            failures.append(f"{detail}; this repository's mirror classifies it as {kind}, not as a file the charter "
-                            "leaves out: scripts/ci/validate_pack_schemas.py has drifted from the pin")
+        failures.append(f"{detail}; this repository's mirror classifies it as {kind}, not as a file the charter "
+                        "leaves out: scripts/ci/validate_pack_schemas.py has drifted from the pin")
     return notices, failures
 
 

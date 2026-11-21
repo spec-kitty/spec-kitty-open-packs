@@ -75,6 +75,15 @@ class JudgeTheSet(unittest.TestCase):
     def test_exit_0_without_a_parseable_report_fails(self) -> None:
         self.assertTrue(self.judge(0, None))
 
+    def test_the_cause_of_a_skipped_check_comes_first(self) -> None:
+        # Review of #332: on a pack that cannot be read (a missing companion), the generic "refused" and "did not run
+        # CLOSURE" lines buried the cause, which only the skipped check's reason names. It now leads.
+        reason = "CLOSURE needs the composition facts; cave-kitty cannot be read: steps/implement.prompt.md: missing"
+        document = report(["a", "b"], checks=["PACK", "ROUND_TRIP"], skipped=[{"check": "CLOSURE", "reason": reason}],
+                          problems=[problem("validation_failed")])
+        failures = self.judge(1, document)
+        self.assertIn("steps/implement.prompt.md: missing", failures[0])
+
     def test_a_skipped_or_missing_check_fails(self) -> None:
         self.assertTrue(self.judge(0, report(["a", "b"], checks=["PACK", "ROUND_TRIP"])))
         skipped = [{"check": "CLOSURE", "reason": "no facts"}]
@@ -85,8 +94,8 @@ class JudgeTheSet(unittest.TestCase):
         self.assertTrue(self.judge(0, report(["a", "b", "c"])))
 
     def test_a_warning_other_than_file_not_held_fails(self) -> None:
-        # driftTest, which this replaces, failed on every load warning; file_not_held stays a notice here because the
-        # schema pass owns the stray-file rule (#249).
+        # driftTest, which this replaces, failed on every load warning; file_not_held stays a notice here because a
+        # stray file warns, never fails (operator ruling R34, #331).
         stderr = "warning: b: prompt_slot_not_empty missions/x/prompt.md: legacy text in a slot\n"
         failures = self.judge(0, report(["a", "b"]), stderr)
         self.assertTrue(any("prompt_slot_not_empty" in line for line in failures))

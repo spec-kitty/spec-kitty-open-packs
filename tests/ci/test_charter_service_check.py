@@ -223,19 +223,23 @@ class NotHeld(unittest.TestCase):
     def findings(self, files: list[str], *diagnostics: object) -> tuple[list[str], list[str]]:
         return check.not_held_findings(self.result(*diagnostics), "p", set(files), self.CONTRACT)
 
-    def test_excluded_files_and_readme_notes_are_notices_and_any_other_not_held_file_fails(self) -> None:
-        allowed = ["agent_profiles/README.md", "missions/m/templates/README.md",
-                   "missions/m/templates/plan-field-declaration.yaml", "assets/.gitkeep"]
-        stray = ["docs/notes.md", "skills/orphan.skill.md", "directives/.draft.md", "pack.yaml"]
+    def test_every_file_the_charter_leaves_out_is_a_notice_and_only_a_drifted_mirror_fails(self) -> None:
+        # Operator ruling R34 (#331): a stray file the charter leaves out (file_not_held) is a notice, never a
+        # failure, so authors may keep notes. Only a reported file the mirror takes for held content fails: that is
+        # the mirror drifting from the pin, not a stray file.
+        left_out = ["agent_profiles/README.md", "missions/m/templates/README.md",
+                    "missions/m/templates/plan-field-declaration.yaml", "assets/.gitkeep",
+                    "docs/notes.md", "skills/orphan.skill.md", "directives/.draft.md", "logs/run.log"]
         notices, failures = self.findings(
-            [*allowed, *stray, "missions/m/steps/s.md"],
-            *[("file_not_held", f"{f}: not held (a reason: with a colon)") for f in [*allowed, *stray]],
+            [*left_out, "pack.yaml", "missions/m/steps/s.md"],
+            *[("file_not_held", f"{f}: not held (a reason: with a colon)") for f in [*left_out, "pack.yaml"]],
             ("prompt_slot_not_empty", "missions/m/steps/s.md: legacy text in slot a:b"),
         )
-        self.assertEqual(len(notices), len(allowed) + len(stray) + 1)
+        self.assertEqual(len(notices), len(left_out) + 2)
         self.assertIn("prompt_slot_not_empty: missions/m/steps/s.md: legacy text in slot a:b", notices)
-        self.assertEqual([f.split(": not held")[0] for f in failures], stray)
-        self.assertIn("this repository's mirror classifies it as file", failures[-1])
+        self.assertEqual(len(failures), 1)
+        self.assertTrue(failures[0].startswith("pack.yaml: not held"))
+        self.assertIn("this repository's mirror classifies it as file", failures[0])
 
     def test_an_unmodelled_file_not_held_since_charter_554_is_a_notice_not_a_failure(self) -> None:
         notices, failures = self.findings(
@@ -244,9 +248,11 @@ class NotHeld(unittest.TestCase):
         self.assertEqual(notices, ["notes.txt: not held (no pack file kind models this file)"])
 
     def test_the_file_is_the_longest_uploaded_name_the_detail_starts_with(self) -> None:
-        tricky = "dir/README.md: not held (y).md"
-        _, failures = self.findings([tricky, "dir/README.md"], ("file_not_held", f"{tricky}: not held (Author aid)"))
-        self.assertEqual(len(failures), 1)
+        # "README.md" alone is held content (a drifted mirror would fail); the longer name is a note the charter
+        # leaves out. Picking the longest name gives a notice, picking the shorter one would fail.
+        tricky = "README.md: not held (y).md"
+        _, failures = self.findings([tricky, "README.md"], ("file_not_held", f"{tricky}: not held (Author aid)"))
+        self.assertEqual(failures, [])
 
     def test_an_unreadable_diagnostic_fails_closed_and_none_is_quiet(self) -> None:
         self.assertEqual(self.findings([]), ([], []))

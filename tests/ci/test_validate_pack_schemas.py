@@ -386,23 +386,144 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertNotIn("unmodelled", output)
             self.assertNotIn("unclassified", output)
 
-    def test_markdown_only_the_ignored_rule_takes_is_not_held_and_fails_outside_the_allowlist(self) -> None:
+    def test_markdown_only_the_ignored_rule_takes_is_warned_not_held_outside_the_allowlist(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            # The charter leaves these out without refusing them and reports file_not_held; this repository
-            # allows only README.md orientation notes (charter_service_check.py applies the same NOT_HELD_ALLOWANCES).
-            # An orphan skill body is not held: only the body a skill's body_path names is its companion.
+            # The charter leaves these out without refusing them and reports file_not_held. Operator ruling R34 (#331):
+            # a stray file in a pack warns, it does not fail, so authors may keep notes. README.md orientation notes
+            # stay silent (NOT_HELD_ALLOWANCES); any other is warned. An orphan skill body is not held: only the body a
+            # skill's body_path names is its companion.
             stray = ["docs/notes.md", "x.promt.md", "tactics/GUIDE.MD", "tactics/t.guide.md", "skills/orphan.skill.md",
                      "directives/.draft.md"]
-            allowed = ["README.md", "tactics/README.md", "docs/deep/README.md"]
+            # No root README.md: it is the pack document (held, not a note), and without a pack.yaml it would make the
+            # validator ask for the descriptor.
+            allowed = ["tactics/README.md", "docs/deep/README.md"]
             pack = self.write_pack(root, {name: "# t\n" for name in [*stray, *allowed]})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertEqual(code, validator.EXIT_OK, output)
             for name in stray:
-                self.assertIn(f"pack/{name}: not_held: the charter leaves this file out (**/*.md: Author aid, not pack content.)", output)
+                self.assertIn(f"::warning file={pack}::pack/{name}: file_not_held: not held (**/*.md: Author aid, "
+                              "not pack content.)", output)
+            self.assertNotIn("::error", output)
             for name in allowed:
                 self.assertNotIn(f"pack/{name}:", output)
+
+    def test_r34_a_stray_note_or_log_in_a_pack_passes_with_a_warning(self) -> None:
+        # Operator ruling R34 (#331): authors may keep logs and notes in a pack; the schema pass warns, never fails.
+        # notes.md and directives/scratch.md exercise the R34 change (they failed as not_held before). notes.txt and
+        # the log were already warnings here; pack-check's round trip still reds those two in CI (#331 is open).
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            stray = ["notes.txt", "notes.md", "logs/run.log", "directives/scratch.md"]
+            pack = self.write_pack(root, {name: "kept by the author\n" for name in stray})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            for name in stray:
+                self.assertIn(f"::warning file={pack}::pack/{name}: file_not_held", output)
+
+    def test_r38_a_misspelled_companion_suffix_is_annotated_with_the_name_it_should_have(self) -> None:
+        # Operator ruling R38: a lightweight, linter-style name check. A stray file whose suffix is close to a companion
+        # suffix the contract models (.guide.md here; .skill.md for skill bodies) gets a PR annotation naming the
+        # companion it was probably meant to be. It is never a failure (R34: a stray file warns).
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"toolguides/g.gudie.md": "# g\n", "toolguides/h.guide.MD": "# h\n",
+                                          "skills/x.skil.md": "# x\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("::error", output)
+            for stray, meant in (("toolguides/g.gudie.md", "toolguides/g.guide.md"),
+                                 ("toolguides/h.guide.MD", "toolguides/h.guide.md"),
+                                 ("skills/x.skil.md", "skills/x.skill.md")):
+                with self.subTest(stray=stray):
+                    self.assertIn(f"::warning file={pack}/{stray},title=Possible misspelled companion::", output)
+                    line = next(l for l in output.splitlines() if l.startswith(f"::warning file={pack}/{stray},"))
+                    self.assertIn(f"did you mean {meant}?", line)
+
+    def test_r38_a_stray_file_beside_a_missing_companion_reference_is_annotated(self) -> None:
+        # A skill whose body_path names a file that is not there, with a near-named stray file beside it: the
+        # annotation names both, so the author can fix whichever is misspelled.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"skills/r.skill.yaml": "id: r\nbody_path: report-debreif.skill.md\n",
+                                          "skills/report-debrief.skill.md": "# r\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            line = next(l for l in output.splitlines()
+                        if l.startswith(f"::warning file={pack}/skills/report-debrief.skill.md,title=Possible misspelled companion::"))
+            self.assertIn("did you mean skills/report-debreif.skill.md?", line)
+            self.assertIn("skills/r.skill.yaml names it as body_path", line)
+
+    def test_r38_ordinary_notes_and_logs_are_not_taken_for_misspelled_companions(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"notes.md": "n\n", "docs/plan.md": "p\n", "logs/run.log": "l\n",
+                                          "notes.txt": "n\n", "toolguides/README.md": "# r\n",
+                                          "toolguides/g.guide.md": "# g\n", "skills/s.skill.yaml": "id: s\nbody_path: s.skill.md\n",
+                                          "skills/s.skill.md": "# s\n", "my.notes.md": "n\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("Possible misspelled companion", output)
+
+    def test_r38_an_unresolvable_companion_reference_is_never_fatal(self) -> None:
+        # Review of #332 (MAJOR): a 300-character body_path made target.exists() raise ENAMETOOLONG and crashed the
+        # schema pass. A reference that cannot be resolved is not judged by the lint; the run goes on and exits 0.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"skills/long.skill.yaml": f"id: long\nbody_path: {'a' * 300}.skill.md\n",
+                                          "skills/nul.skill.yaml": 'id: nul\nbody_path: "x\\0y.skill.md"\n'})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("Traceback", output)
+
+    def test_r38_a_missing_companion_reference_is_annotated_on_the_artifact(self) -> None:
+        # Review of #332 (MINOR): a stem typo that still matches a files rule (implemnet.prompt.md) is held content,
+        # so no stray-file signal fires. The artifact whose *_path names a missing file is annotated instead.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            # toolguides/implement.guide.md is held content (the guide rule takes it), so it is no stray-file signal; the
+            # artifact naming the misspelt stem is what gets annotated.
+            pack = self.write_pack(root, {"skills/r.skill.yaml": "id: r\nbody_path: r.skill.md\n",
+                                          "toolguides/g.skill.yaml": "id: g\nbody_path: implemnet.guide.md\n",
+                                          "toolguides/implement.guide.md": "# g\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            for artifact, meant in (("skills/r.skill.yaml", "skills/r.skill.md"),
+                                    ("toolguides/g.skill.yaml", "toolguides/implemnet.guide.md")):
+                with self.subTest(artifact=artifact):
+                    line = next(l for l in output.splitlines()
+                                if l.startswith(f"::warning file={pack}/{artifact},title=Missing companion::"))
+                    self.assertIn(f"names {meant} as body_path", line)
+            self.assertNotIn("Possible misspelled companion", output)
+
+    def test_r38_short_tokens_allow_one_edit_and_no_substitution(self) -> None:
+        # Review of #332 (MINOR): two edits on a 5-6 letter token flagged English words. Short tokens now take one
+        # edit at most, and a five-letter-or-shorter token no plain substitution (still is not skill).
+        tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
+        for word in ("slide", "suite", "grid", "still", "drill", "skin", "promote", "guilds", "spill"):
+            with self.subTest(word=word):
+                self.assertIsNone(validator.suffix_suggestion(f"x.{word}.md", tokens))
+        for name, meant in (("x.skil.md", "x.skill.md"), ("x.gudie.md", "x.guide.md"), ("x.promt.md", "x.prompt.md"),
+                            ("x.skilll.md", "x.skill.md")):
+            with self.subTest(name=name):
+                self.assertEqual(validator.suffix_suggestion(name, tokens), meant)
+
+    def test_r38_suffix_suggestion_and_edit_distance(self) -> None:
+        tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
+        self.assertEqual(validator.suffix_suggestion("implement.promt.md", tokens), "implement.prompt.md")
+        self.assertEqual(validator.suffix_suggestion("a.guidelnes.md", tokens), "a.guidelines.md")
+        self.assertEqual(validator.suffix_suggestion("f.prompt-fragmnet.md", tokens), "f.prompt-fragment.md")
+        self.assertEqual(validator.suffix_suggestion("s.SKILL.md", tokens), "s.skill.md")
+        for name in ("implement.prompt.md", "notes.md", "my.notes.md", "a.txt", "x.prompts.yaml", "README.md"):
+            with self.subTest(name=name):
+                self.assertIsNone(validator.suffix_suggestion(name, tokens))
 
     def test_a_skill_body_its_skill_names_is_held_as_a_companion_whatever_its_name(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -420,8 +541,8 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_OK, output)
             (pack / "skills" / "u.skill.yaml").write_text("id: u\n", encoding="utf-8")  # no longer claimed
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("pack/skills/notes.md: not_held", output)
+            self.assertEqual(code, validator.EXIT_OK, output)  # R34: no longer claimed, so warned, not failed
+            self.assertIn("pack/skills/notes.md: file_not_held", output)
 
     def test_expected_code_is_exempt_only_in_an_invalid_fixture(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1126,3 +1247,20 @@ class ClassifierConformance(unittest.TestCase):
                 self.assertEqual(self.EXPECT[kind], case["expect"])
                 if "rule" in case:
                     self.assertEqual(rule.match if rule else None, case["rule"])
+
+
+class CompanionLintOnTheShippedPacks(unittest.TestCase):
+    """R38's lint raises nothing over this repository's own packs at the pin: no false positive, no missing companion."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.contract = validator.contract_for(None)
+
+    def test_no_shipped_pack_or_valid_fixture_has_a_lint_finding(self) -> None:
+        root = Path(__file__).resolve().parents[2]
+        packs = sorted(p for base in (root / "packs", root / "tests" / "fixtures" / "valid") for p in base.iterdir()
+                       if p.is_dir() and (p / "pack.yaml").is_file())
+        self.assertTrue(packs)
+        for pack in packs:
+            with self.subTest(pack=pack.name):
+                self.assertEqual(validator.validate_pack(pack, self.contract).suspects, [])
