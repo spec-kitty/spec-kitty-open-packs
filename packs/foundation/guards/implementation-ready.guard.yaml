@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: implementation-ready
+title: The implementation is ready for review
+description: The work package's subtasks are complete and implementation evidence is present. It guards the move from in_progress to for_review, beside the pre-review checks (charter ADR-0054 decision 6).
+interface: guard/1
+implemented_by: builtin:implementation-ready
