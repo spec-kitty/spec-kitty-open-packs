@@ -367,7 +367,7 @@ Apply this section whenever the plan adds, upgrades, or removes a dependency, in
 
 - Use absolute paths
 - ERROR on gate failures or unresolved clarifications
-- History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide says.
+- History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide (when installed) says.
 
 ---
 
