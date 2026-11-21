@@ -1,0 +1,21 @@
+{
+  "create_return_branch": "feat/citation-and-docs-writing",
+  "created_at": "2026-11-21T07:37:57.717859+00:00",
+  "flattened": false,
+  "friendly_name": "Citation and docs writing doctrine",
+  "mid8": "01M7YGMQ",
+  "mission_base_sha": "b4263783440444b944c9cb294ebb53c8bb3fc21a",
+  "mission_branch": "kitty/mission-citation-and-docs-writing-01M7YGMQ",
+  "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+  "mission_number": null,
+  "mission_slug": "citation-and-docs-writing-01M7YGMQ",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Durable artifacts keep citing bare commit SHAs and line ranges that the mission lifecycle's own rebases and compaction leave dangling, squad briefs declare blockers resolved without reproducing them, the anti-AI-prose rules reach only internal reports, and the common-docs styleguide still teaches the path-string audience and related shapes that doc-kitty rejects. This mission states the stable-identifier and content-anchored citation rules once in the writing pack's citation styleguide, adds reproduce-before-resolved and reachability-before-ruling steps to the squad procedure, ships a shared AI-writing-tells styleguide that internal report writing references, and rewrites the common-docs guidance around doc-kitty's frontmatter with neutral examples.",
+  "purpose_tldr": "Give writers one citable rule for citations that survive history rewrites, one shared list of AI-prose tells, and doc-kitty frontmatter as the docs default.",
+  "slug": "citation-and-docs-writing-01M7YGMQ",
+  "target_branch": "feat/citation-and-docs-writing",
+  "topology": "single_branch",
+  "topology_settled": false,
+  "topology_source": "default"
+}
