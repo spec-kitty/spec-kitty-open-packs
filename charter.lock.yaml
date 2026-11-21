@@ -19,8 +19,8 @@
 #              elsewhere. Bump it deliberately, in the pull request that migrates the packs to what the
 #              new commit changed.
 # release_tag  the `service-v<version>` release or pre-release of that commit. When set, the job
-#              downloads the release jar instead of building the commit, and `jar_sha256` is required.
-#              Empty only for a `main` pin.
+#              downloads both release jars instead of building the commit, and both digests
+#              (`jar_sha256`, `pack_check_sha256`) are required. Empty only for a `main` pin.
 # jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters,
 #              as the release's `.sha256` asset states it; empty while `release_tag` is empty. The job
 #              refuses a jar with any other digest.

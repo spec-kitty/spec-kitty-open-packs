@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-21'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -185,6 +185,8 @@ valid through the service, at a pinned charter version). The job:
      - a problem in the report: a violation, an unmodelled file, a file that does not round-trip, or a
        manifest whose lists differ from the derived ones;
      - a warning other than `file_not_held`, or a warning line it cannot read;
+     - a report with a key besides `checks`, `packs`, `problems` and `skipped`: the gate cannot judge what it
+       does not read, so a changed report format fails instead of passing;
      - a check that did not run;
      - a pack left out of the verdict.
    - **The report** is uploaded as the `charter-pack-check-report` artifact. No registration sees a
@@ -210,8 +212,8 @@ pack-check: retired               # a code pack-check's report must carry (in a 
 `unknown-dependency` is well formed and refused only for composing with a pack nobody configured.
 `malformed-pack-version` is the valid example pack with a `pack_version` that is not a version. The schema
 pass accepts it, the service refuses it (`pack_version_invalid`), and pack-check rc.3 crashes on it
-(`pack-check: failed`). Once spec-kitty-charter#624 lands, that line no longer matches, and it must name the
-code pack-check then reports.
+(`pack-check: failed`). Once spec-kitty-charter#624 lands, that line no longer matches. Change only that line:
+name the code pack-check then reports. Nothing else needs an edit.
 
 Run it locally, with the jar of the pin (Java 25 on the `PATH` or in `JAVA_HOME`):
 

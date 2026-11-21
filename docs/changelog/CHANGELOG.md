@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-21'
 ---
 # Changelog
 
@@ -822,12 +822,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     that the release tag points at the lock's `commit`. rc.3 crashes with exit 2,
     and no report, on a malformed `pack_version` (spec-kitty-charter#624). That is a failure of the gate, never
     an infrastructure skip. Also failing: a warning other than `file_not_held` (or one the gate cannot read),
-    a check that was skipped, a pack left out of the verdict, and a directory under `packs/` without a `pack.yaml`.
+    a report with a key the gate does not read, a check that was skipped, a pack left out of the verdict, and a directory under `packs/` without a `pack.yaml`.
   - **Non-vacuity.** Every invalid fixture must be refused as a new `pack-check:` line in its `expected-code`
     says. New fixture `malformed-pack-version`: the schema pass accepts it, the service refuses it
     (`pack_version_invalid`), and pack-check is expected to crash (`pack-check: failed`, which matches only
     that crash: exit 2, no report, an internal error naming `pack_version`). Once #624 lands,
-    that line stops matching and must name the real code.
+    that line stops matching; change only that line to name the real code.
   - **Retired:** the charter's `driftTest`, built from the pinned source with Gradle (`charter_drift_test.sh`).
     pack-check runs the same production round trip under the same rule, and the gate keeps driftTest's
     strictness on load warnings. A release pin no longer builds anything, so Gradle is set up only for a main pin.
