@@ -212,3 +212,9 @@ edges:
 - source: foundation::action:software-dev/plan
   target: styleguide:research-citation-discipline
   relation: scope
+- source: foundation::action:plan/specify
+  target: styleguide:research-citation-discipline
+  relation: scope
+- source: foundation::action:plan/plan
+  target: styleguide:research-citation-discipline
+  relation: scope
