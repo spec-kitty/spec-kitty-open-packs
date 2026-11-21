@@ -36,7 +36,7 @@ steps:
     If verdicts remain irreconcilable, escalate the decision to the human with the competing positions laid out; do not silently pick one.
 - title: Check claims first-hand before a ruling
   description: |
-    Before a brief, synthesis or ruling calls a blocker resolved, reproduce the blocker against the current head and record how (the command and its result); a blocker that no longer reproduces is resolved, one that was only argued away is not. Before a ruling relies on a named acceptance test, check that the test exists and runs, and record that. Cite the code and changes involved as the writing pack's research-citation-discipline styleguide (when installed) describes, so the check can be repeated after the branch is rewritten.
+    Before a brief, synthesis or ruling calls a blocker resolved, reproduce the blocker against the current head and record how (the command and its result, or the quoted text that shows it); a blocker that no longer reproduces is resolved, one that was only argued away is not. Before a ruling relies on a named acceptance test, check that the test exists and runs, and record that. Cite the code and changes involved as the writing pack's research-citation-discipline styleguide (when installed) describes, so the check can be repeated after the branch is rewritten.
 - title: Record and disposition every finding, then proceed regardless
   description: |
     Capture the confirmed findings and disposition each one per the findings disposition contract (see notes). The squad's value is convergent evidence that survived independent scrutiny, not a single opinion; the squad does not gate the work, so work proceeds once every finding is recorded and dispositioned.

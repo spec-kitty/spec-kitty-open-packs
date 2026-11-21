@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 921d9543de6a84c2d3f33d55c4be14a7c25fd843e8530913d31f8f605f62f8e9
+manifest_hash: ac62ab22f787d429214b5b95513bfb61ec0d1767fc43fbc7fc63720b15e453b6
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -240,7 +240,7 @@ constituents:
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: 43b88647c37b8b6925b498164c10bae91eaed5943230d3a9c163b250e8db97f9
+  content_hash: 91121ff8253fb97d8038f1451772c5d441df422c74cea58a9fca2c7f30f5da18
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
