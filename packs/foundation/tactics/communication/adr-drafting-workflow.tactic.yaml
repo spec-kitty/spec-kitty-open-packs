@@ -32,6 +32,7 @@ steps:
     examples:
       - "P99 latency < 200 ms after migration; validated via load-test suite."
   - title: Cross-link and commit
-    description: Add the ADR to the README index, link related ADRs, and reference from affected code or docs.
+    description: Add the ADR to the README index, link related ADRs, and reference from affected code or docs. Cite related changes by PR or issue number, ADR id or release tag, not by commit SHA, because rebases and squashes rewrite SHAs (the writing pack's research-citation-discipline styleguide).
     examples:
       - "Update docs/architecture/adrs/README.md index table; add inline comment in affected module."
+      - "Context cites \"introduced in PR #412 (the Order to Purchase rename)\", not a bare commit hash."
