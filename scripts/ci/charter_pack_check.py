@@ -9,8 +9,9 @@ with ``--round-trip``, the production round trip by meaning (ROUND_TRIP). This s
 
 1. **The set.** Every pack under ``packs/`` and ``tests/fixtures/valid/`` (each directory with a ``pack.yaml``) is
    checked together, ``--pack <dir>`` each, with ``--round-trip``. It passes only when pack-check exits 0 with a
-   report that ran all three checks (none skipped), names exactly those packs and holds no problem, and printed no
-   warning other than ``file_not_held``.
+   report that ran all three checks (none skipped), names exactly those packs and holds no problem, holds no
+   top-level key but ``checks``, ``packs``, ``problems`` and ``skipped``, and printed no warning other than
+   ``file_not_held``.
    - **Any other exit code fails.** pack-check exits 2 on a usage or I/O failure, and rc.3 also exits 2, with a stack
      trace and no report, on a malformed ``pack_version`` (spec-kitty-charter#624). Until #624 lands, exit 2 is a
      failure of the gate, never an infrastructure skip (operator ruling R32).
@@ -52,6 +53,8 @@ EXIT_OK, EXIT_FAILED, EXIT_CANNOT_RUN = 0, 1, 2
 ROOT = Path(__file__).resolve().parents[2]
 CHECKS = ("PACK", "CLOSURE", "ROUND_TRIP")
 FILE_NOT_HELD = "file_not_held"
+#: The top-level keys of rc.3's report. Any other key is something this gate does not read (a warnings array, say).
+REPORT_KEYS = ("checks", "packs", "problems", "skipped")
 #: pack-check exit 2 on a malformed pack_version, with no report: https://github.com/spec-kitty/spec-kitty-charter/issues/624
 CRASH_ISSUE = "spec-kitty-charter#624"
 #: The ``pack-check:`` value that expects the charter#624 crash. No charter refusal code is named ``failed``.
@@ -148,6 +151,9 @@ def judge_set(result: Result, names: list[str]) -> list[str]:
     if document is None:
         return failures or ["pack-check wrote no report on standard output; the gate fails closed",
                             *(f"  {line}" for line in _tail(result.stderr))]
+    for key in sorted(set(document) - set(REPORT_KEYS)):
+        failures.append(f"pack-check's report holds a key this gate cannot read, so cannot judge: '{key}' "
+                        f"(known: {', '.join(REPORT_KEYS)}); a changed format must not pass silently")
     if result.exit_code == 1 or document.get("problems"):
         failures.append(f"pack-check refused the packs (exit {result.exit_code}):")
         failures += [f"  {line}" for line in problem_lines(document)] or ["  (no problem in the report)"]

@@ -96,6 +96,10 @@ class JudgeTheSet(unittest.TestCase):
         for line in ("WARNING: b: prompt_slot_not_empty x", "warning[b]: prompt_slot_not_empty x", "warning: no code"):
             with self.subTest(line=line):
                 self.assertTrue(self.judge(0, report(["a", "b"]), line + "\n"))
+        # The same, if a later pin moved warnings into the JSON report.
+        with self.subTest(report_key="warnings"):
+            failures = self.judge(0, {**report(["a", "b"]), "warnings": [{"code": "prompt_slot_not_empty"}]})
+            self.assertTrue(any("'warnings'" in line for line in failures))
 
     def test_file_not_held_warnings_are_returned_as_notices(self) -> None:
         stderr = "warning: a: file_not_held x/README.md: x/README.md: not held (notes)\n"
