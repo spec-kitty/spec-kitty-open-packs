@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: b6595c02b02a2c767bfd42e9881f74e3c43eeff35f7cfeae634e61ce9f8a39ee
+manifest_hash: 9bae393a770e658949422a6c27bb228b396a7c73d718887c393f200d3d2f636c
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -76,19 +76,19 @@ constituents:
 - kind: template
   id: documentation/divio/explanation-template.md
   path: missions/documentation/templates/divio/explanation-template.md
-  content_hash: a60e5b6969b6afc1dbddb69a1d9e4ce4bb09b58a37cca944858e35139064da1f
+  content_hash: 76f8a8aa79e88ee71ff5ff0a81675e7e41acb725c2a3cbc66b2c892d3990c96d
 - kind: template
   id: documentation/divio/howto-template.md
   path: missions/documentation/templates/divio/howto-template.md
-  content_hash: 750db91c194a1a8ce61c85705243b726941d8037fe4e39743a610c2a81d36610
+  content_hash: b2ee44d906fdce493d87f5ada5df92305c1fdfeac07e77523d31b418e5a22bbd
 - kind: template
   id: documentation/divio/reference-template.md
   path: missions/documentation/templates/divio/reference-template.md
-  content_hash: 4db48b1a9273f29d1017eb662846962f5eb944b45d73dd1e4131d058f7c6263e
+  content_hash: 32a6f2263882f6387701ff719924ecc13cd2cb7dea1538d8ff767b468a64c7c5
 - kind: template
   id: documentation/divio/tutorial-template.md
   path: missions/documentation/templates/divio/tutorial-template.md
-  content_hash: dcf205450ead6c8351b6ff7eedd53fd75e129e9a68f288c66ab9ccbabc7d0acd
+  content_hash: d447e78f3b422b25307c516b58ecdb83b92ef86076be9716def78d54a83e7707
 - kind: template
   id: documentation/documentation-plan-template.md
   path: missions/documentation/templates/documentation-plan-template.md
@@ -120,11 +120,11 @@ constituents:
 - kind: procedure
   id: common-docs-page-authoring
   path: procedures/common-docs-page-authoring.procedure.yaml
-  content_hash: 86aadd66148ff4f1c0a4ab3cad611b10df1d5ff0e749dd1c02efdf5a76cba123
+  content_hash: 07f6443ca447024288677614e34fec5695db6a43ec4adc35071133462c647982
 - kind: procedure
   id: declare-page-audience
   path: procedures/declare-page-audience.procedure.yaml
-  content_hash: 81734e079a3dfe125c931b5295a749f6d31bee595e9062cb005b723eb3058c43
+  content_hash: e2a90952f1a6cd2c05fbab9c4880cdeff1dccc9fdad595fd8c2a36cd60ce26d2
 - kind: procedure
   id: documentation-gap-prioritization
   path: procedures/documentation-gap-prioritization.procedure.yaml
@@ -144,11 +144,11 @@ constituents:
 - kind: styleguide
   id: ai-writing-tells
   path: styleguides/ai-writing-tells.styleguide.yaml
-  content_hash: ceb1f041ba09dbac39703313bdb6ed158512d27b997985ad7c3edbd9c41a2a2a
+  content_hash: 32ad50fa49129857a3272da9e6cc0c18ad9f50a7feacce09ee436fbcef865510
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: e70921e0ce0d0df0cd7de05c25a74a7e6e3a08c164f2a516c7d2260356e4a89b
+  content_hash: bd4c0e407353979b96c9589b6590c023fbe6dae560e2367ba376f812c2268a7e
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
@@ -180,7 +180,7 @@ constituents:
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
-  content_hash: 47e9a778fadf71794456b57f2b34edc56918eced6b4270c973a47fd19f054e69
+  content_hash: 702362dccabe6b81fb71984b399cc1c6aac17bfade9de74036b30465b223186f
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
@@ -208,7 +208,7 @@ constituents:
 - kind: tactic
   id: common-docs-write
   path: tactics/common-docs-write.tactic.yaml
-  content_hash: 56318db5d8a06931ef972f3f9183596b36dd36ea25d685009f46e82905992f54
+  content_hash: a98027e0c1df7a204bc639e06bb37c69c4c1c08bb26cd074ccad96ffedc57f59
 - kind: tactic
   id: documentation-curation-audit
   path: tactics/communication/documentation-curation-audit.tactic.yaml

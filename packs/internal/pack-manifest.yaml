@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 46749525a571139a3a26a44733af458bae4b574bd83602dc5ef698dec350019e
+manifest_hash: 95d39c322744548363907d22c601b6676ef92cbb47d0d66429bebfb09a2535ad
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -128,7 +128,7 @@ constituents:
 - kind: procedure
   id: spec-kitty-page-audience
   path: procedures/spec-kitty-page-audience.procedure.yaml
-  content_hash: b8a05114977ca095e0670b99ef1cc9a06d8b25bf3148fb0da7ec281d86218437
+  content_hash: 1ce3766b2021084862385104137e7a86e29231e8c57bce550de0e45e44152f1b
 - kind: procedure
   id: spec-kitty-red-main-triage
   path: procedures/spec-kitty-red-main-triage.procedure.yaml
@@ -176,7 +176,7 @@ constituents:
 - kind: styleguide
   id: report-writing
   path: styleguides/report-writing.styleguide.yaml
-  content_hash: 05b1aecf3bff0e87d6b4924c741c475ceccfc317596f5f3065a15cba0c93baf2
+  content_hash: 1997b2e1ca726f8616245100682a5793003c9d5ab1932886179d71518df96a21
 - kind: styleguide
   id: spec-kitty-docs-lint-config
   path: styleguides/spec-kitty-docs-lint-config.styleguide.yaml

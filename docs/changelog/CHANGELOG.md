@@ -273,7 +273,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Squads check claims first-hand before a ruling** (#150, #176). The `adversarial-squad-deployment`
   procedure has a new step: reproduce a blocker against the current head before calling it
   resolved, and check that a named acceptance test exists and runs before a ruling relies on it.
-  Delegates validate by reading code and running existing tests; they do not prototype the change.
+  Delegates validate by reading code and running existing tests; they do not prototype the change,
+  and they cite findings by a quoted anchor or `path::qualname`, not a line number.
   The gate example no longer names a core exception class. In `internal`, an overturned operator
   ruling is posted on the governing issue with the measurement that overturned it.
 - **One shared list of AI-writing tells** (#238). The new writing styleguide `ai-writing-tells`
@@ -829,8 +830,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔄 Changed
 
 - **Common Docs teaches doc-kitty frontmatter** (#240, #274). The `common-docs` styleguide,
-  DIRECTIVE_042, the `common-docs-write` and `common-docs-scaffold` tactics and the
-  `declare-page-audience` procedure now recommend `related:` as page slugs (or `ref` and `note`),
+  DIRECTIVE_042, the `common-docs-write` and `common-docs-scaffold` tactics, the
+  `common-docs-page-authoring` and `declare-page-audience` procedures, the documentation mission's
+  Divio templates and the internal docs procedures now recommend `related:` as page slugs (or `ref` and `note`),
   links outside the docs tree under `external_references:`, and `audience:` as a list of `profile`
   and `guidance_text` entries. Repo-relative `.md` paths are named only as the legacy form. ADR era
   folders are optional, and the examples no longer use Spec Kitty's own pages, ADR eras or counts.
