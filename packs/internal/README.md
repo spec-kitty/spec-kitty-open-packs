@@ -62,7 +62,7 @@ packs/internal/
 │   └── mission-wrap-up-sequence.procedure.yaml      # end-of-mission wrap-up; owns the shared delivery rules (moved from built-in by #73)
 ├── styleguides/
 │   ├── executive-debrief.styleguide.yaml            # house style for executive debriefs (refines report-writing)
-│   ├── report-writing.styleguide.yaml               # audience-first, anti-AI-prose, Spec Kitty voice
+│   ├── report-writing.styleguide.yaml               # audience-first, Spec Kitty voice (tells: writing ai-writing-tells)
 │   ├── spec-kitty-docs-lint-config.styleguide.yaml  # spec-kitty core's docs structural-lint config (refines common-docs)
 │   ├── spec-kitty-package-tiers.styleguide.yaml     # spec-kitty core's package-to-tier map (refines tiered-standards)
 │   ├── spec-kitty-tracker-labels.styleguide.yaml    # spec-kitty core's label scheme (refines planning-and-tracking)

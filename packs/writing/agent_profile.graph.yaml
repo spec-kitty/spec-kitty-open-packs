@@ -36,6 +36,9 @@ edges:
 - source: agent_profile:comms-cleo
   target: tactic:writing-audience-catalog
   relation: requires
+- source: agent_profile:comms-cleo
+  target: styleguide:ai-writing-tells
+  relation: suggests
   reason: Provides the ready-to-use catalog of writing-audience personas needed to satisfy the Audience-Oriented Writing directive.
     Selects one of the built-in persona library's four personas (or an org-extension addition) instead of inventing an audience
     ad hoc. Not the same pattern as the architecture stakeholder-alignment tactic — this is about who is reading the prose,
