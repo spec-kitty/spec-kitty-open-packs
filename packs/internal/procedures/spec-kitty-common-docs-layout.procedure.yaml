@@ -16,7 +16,7 @@ steps:
     Do not use a bare `status` key on a page, because it collides with the work package lane status. In ADRs it carries the MADR decision status (Proposed / Accepted / Deprecated / Superseded).
 - title: Express cross-references as `related:`
   description: |
-    List resolvable repo-relative `.md` paths under `related:`; never use the dead `citation_refs` field.
+    List the page slugs of related pages under `related:` (the path under the docs root without `.md`; doc-kitty fails the build on a slug that does not resolve) and links outside the docs tree under `external_references:`; never use the dead `citation_refs` field.
 - title: File ADRs where the charter puts them
   description: |
     Read the repository's charter for the ADR location and layout: one flat folder, or one folder per era. File each ADR there with YAML frontmatter, and name it the way the existing ADRs are named. Keep living architectural design in the one unversioned location the repository's docs name.

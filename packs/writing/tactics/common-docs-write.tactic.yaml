@@ -4,7 +4,7 @@ id: common-docs-write
 purpose: >
   How to author the body and frontmatter of a Common Doc to the styleguide so the
   page passes the structural lint and review: write the description inside the
-  50-180 character band, express cross-references as the related: resolvable-path form, match the
+  50-180 character band, express cross-references as related: page slugs, match the
   Divio type to the owning section, and follow the kebab-case naming convention.
   Use this once the page exists (scaffolded) and you are writing its content.
 steps:
@@ -28,17 +28,21 @@ steps:
     examples:
       - "A 120-character description that states what the page lets the reader do, within the 50-180 band."
       - "Rejected: a 30-character stub like 'Dashboard docs' that falls below the 50-character floor."
-  - title: "Express cross-references as related: resolvable paths"
+  - title: "Express cross-references as related: page slugs"
     description: >
-      Link to other docs through the related: frontmatter list of repo-relative
-      .md paths, each of which must resolve to an existing file. Review checks
-      every entry, and so does the project's own related: validator if it has
-      one. Do not reintroduce the dead citation_refs
-      sidecar field and do not bury cross-references only in prose where no gate
-      can see them.
+      Link to other pages in the docs tree through the related: frontmatter
+      list of page slugs (the path under the docs root without .md), each of
+      which must resolve to an existing page; an entry may carry a note as
+      ref and note. Put links outside the docs tree under
+      external_references: (url, title, optional note). A docsite build that
+      reads this shape fails on a slug that does not resolve; otherwise review
+      checks every entry, and so does the project's own related: validator if
+      it has one. Do not reintroduce the dead citation_refs sidecar field and
+      do not bury cross-references only in prose where no gate can see them.
     examples:
-      - "related: [ ../architecture/charter-activation.md, ../adr/3.x/2026-05-16-1-doctrine-layer-merge-semantics.md ] — both paths resolve."
-      - "Rejected: related: [ ../architecture/does-not-exist.md ] — the reference dangles, and review fails it."
+      - "related: [ architecture/payment-retries, adr/2026-05-16-1-retry-backoff-policy ]: both slugs resolve to pages."
+      - "Rejected: related: [ architecture/does-not-exist ]: the slug dangles, and the build or review fails it."
+      - "Rejected for a new page: related: [ ../architecture/payment-retries.md ], the legacy path form."
   - title: Keep naming and lifecycle keys conventional
     description: >
       Use lowercase kebab-case file and directory names (ADR filenames keep their
@@ -55,7 +59,8 @@ steps:
       the common-docs-structural-lint asset over the docs root; the
       common-docs-structural-lint toolguide says how to resolve it and its
       policy file. Then review what the lint does not check: the description
-      band, kebab-case names and every related: entry. If the project has its
+      band, kebab-case names, every related: slug and the audience: entries.
+      If the project has its
       own related: validator or page-inventory check, run it too. Treat a
       failing check as a blocker, not a note for a later pass.
     examples:
@@ -63,7 +68,7 @@ steps:
       - "The lint reports [frontmatter_contract] for a page with no updated: field; add it and rerun."
 failure_modes:
   - "The description is shorter than 50 or longer than 180 characters and review rejects it."
-  - "A cross-reference is written in prose or as citation_refs instead of a resolvable related: path, so no gate can verify it."
-  - "A related: entry points at a path that does not resolve, and review fails it."
+  - "A cross-reference is written in prose or as citation_refs instead of a related: page slug, so no gate can verify it."
+  - "A related: slug does not resolve to a page, and the build or review fails it."
   - "A how-to and a design rationale are merged into one file, breaking the one-concern-per-file and Divio-type conventions."
   - "Compliance is asserted in prose without running the structural lint or reviewing what it does not check."

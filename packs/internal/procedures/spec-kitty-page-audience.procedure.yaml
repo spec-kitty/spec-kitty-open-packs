@@ -6,14 +6,14 @@ description: |
 entry_condition: |
   A change touches a documentation page under the repository's docs root, and the repository's charter or docs define audience personas.
 exit_condition: |
-  Every touched page carries an `audience:` field holding one or more resolvable repo-relative `.md` paths to personas in the location the repository's charter or docs name.
+  Every touched page carries `audience:` entries, each with a `profile` naming a persona page in the location the repository's charter or docs name and a `guidance_text` saying what that reader gets from the page.
 steps:
 - title: Find where the repository keeps its personas
   description: |
     Read the repository's charter or docs for the persona location. If the repository defines no personas, this procedure does not apply; write for the audience the charter names instead (DIRECTIVE_047).
 - title: Point `audience:` at the repository personas
   description: |
-    Set `audience:` to one repo-relative `.md` path, or a list, in that location.
+    Set `audience:` to a list of entries with `profile` (the persona page's name in that location) and `guidance_text`. The repository builds its docs with doc-kitty, which resolves each profile under `context/audience/`; a repo-relative `.md` path is the retired form.
 - title: Require the field on touched pages only
   description: |
     Do not make `audience:` a required field for every page in the docs lint, so untouched legacy pages are not red-lined.
