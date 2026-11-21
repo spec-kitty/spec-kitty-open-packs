@@ -96,6 +96,18 @@
       "verdict": "in-mission",
       "wp": null
     },
+    "#266": {
+      "evidence_ref": "ordering context for #207; context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "context",
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#274": {
       "evidence_ref": "FR-013; partial: the other packs stay open on #274",
       "fr": null,
