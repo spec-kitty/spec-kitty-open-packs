@@ -225,12 +225,12 @@ anti_patterns:
       world that no longer exists. Keep stubs at allow-listed seams and make
       them honor the real dependency's contract.
     bad_example: |
-      stub_rates.get_rate.return_value = 1.1     # the real service now raises on stale rates
-      assert convert(100, "EUR", "USD") == 110   # stays green after the contract changed
+      stub_rates.get_rate.return_value = Decimal("1.1")   # the real service now raises on stale rates
+      assert convert(100, "EUR", "USD", rates=stub_rates) == Decimal("110")   # stays green anyway
     good_example: |
       # A fake at the network seam that keeps the real contract, failure branch included.
-      rates = FakeRateService(rates={"EUR/USD": 1.1}, stale={"EUR/GBP"})
-      assert convert(100, "EUR", "USD", rates=rates) == 110
+      rates = FakeRateService(rates={"EUR/USD": Decimal("1.1")}, stale={"EUR/GBP"})
+      assert convert(100, "EUR", "USD", rates=rates) == Decimal("110")
       with pytest.raises(StaleRateError):
           convert(100, "EUR", "GBP", rates=rates)
   - name: Development-assist scaffolding left in the suite

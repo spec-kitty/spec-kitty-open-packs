@@ -6,7 +6,7 @@ Kent Beck's twelve test desiderata (https://testdesiderata.com/), one line each,
 - [ ] **Composable**: dimensions of variability can be tested separately and combined, so coverage grows without combinatorial test counts.
 - [ ] **Deterministic**: if nothing changes, the result does not change; no reliance on clocks, randomness, network or ambient filesystem state.
 - [ ] **Fast**: the test runs quickly enough to run after every small change.
-- [ ] **Writable**: the test is cheap to write relative to the code it covers; expensive setup is a signal that the boundary is wrong.
+- [ ] **Writable**: the test is cheap to write relative to the code it covers. (This pack's gloss: expensive setup is a signal that the boundary is wrong.)
 - [ ] **Readable**: the test communicates its motivation and scenario to a future reader without spelunking the production code.
 - [ ] **Behavioral**: the test is sensitive to changes in the behavior of the code under test.
 - [ ] **Structure-insensitive**: the test does not change its result when internal structure is refactored without a behavior change.
