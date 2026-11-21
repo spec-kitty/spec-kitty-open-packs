@@ -45,7 +45,7 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude",
+      "agent": "claude::implementer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -54,6 +54,9 @@
       "last_event_id": "01M7YH9XPVX5THXTNP9RZ6H8KC",
       "last_transition_at": "2026-11-21T07:49:31.995588+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: first-hand check step, no-prototyping sentence, neutral gate example, overturned-ruling rule; vocabulary clean"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 11609,
