@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-21'
 ---
 # Changelog
 
@@ -808,6 +808,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the required gate.
 
 ### 🔄 Changed
+
+- **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep notes and
+  logs in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
+  - **Schema pass.** An ignored file other than a `README.md` note (a `notes.md`, an orphan skill body) is now
+    warned as `file_not_held` instead of failing as `not_held`. `README.md` notes are still carried silently.
+  - **Service check.** Every file a registration leaves out is a notice. Only a file the mirror takes for held
+    content still fails, because that means the mirror has drifted from the pin.
+  - **Still red: an unmodelled stray file** (`notes.txt`, a log). The pinned pack-check's round trip refuses it as
+    `round_trip_red`, and #331 records the decision this needs.
+  - **Unchanged.** `requiredNotHeld` and the required floor stay until spec-kitty-charter#629 (#330). The
+    stale-manifest-hash check stays as the fast pre-check, although pack-check catches the case
+    (spec-kitty-charter#630).
 
 - **Every pack is gated on the charter's pack-check, from the pinned release** (#252, #308; epic #287).
   The lock moves from a bare charter commit (`33f3ad4`, the commit of `service-v0.1.0-rc.2`) to the release

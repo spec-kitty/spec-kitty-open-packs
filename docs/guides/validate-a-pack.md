@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-21'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -30,7 +30,7 @@ The script fetches the schemas from the charter commit it pins (`commit` in
 Exit codes:
 
 - `0` — every pack passes.
-- `1` — at least one schema violation, a file in a retired layout, or Markdown the charter would not hold outside the allowlist (`not_held`). Each is
+- `1` — at least one schema violation or a file in a retired layout. Each is
   printed with the file, and a schema violation with the schema and the location inside the file.
   Fix and re-run.
 - `2` — the validator cannot judge and fails closed: a schema that does not load, a file of a
@@ -47,15 +47,18 @@ The validator classifies a file as the charter at the pin does (`file-kinds.yaml
 `exclusions`, `retired` and `payloads` rules first; then a root file that differs only in letter case
 from a ruled root file (`Readme.md`, `PROVENANCE.MD`, `Pack.yaml`), refused as `retired` under the rule it
 shadows; last the `ignored` rule, which takes Markdown nothing else models, in any letter case. The charter
-leaves an ignored file out without refusing it, and a registration reports it as `file_not_held`. This
-repository allows only orientation notes (a `README.md` at any depth) to be carried that way: any
-other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place, a skill body no
-skill's `body_path` names) fails as `not_held`. A file a skill's `body_path` names is held as that
-skill's companion, whatever its name. A file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt
-artifact name, a shard below the pack root, a `charter.yaml`) is warned as `file_not_held` and not
-held, as the charter does (charter #554, ruling Q1); the whole-pack round trip still names it, so the
-packs here stay free of such files. Both checks run on
-every pack, built-in-level ones included, which no registration sees.
+leaves an ignored file out without refusing it, and a registration reports it as `file_not_held`.
+Operator ruling R34 (#331) lets authors keep notes and logs in a pack, so a stray file never fails here:
+- orientation notes (a `README.md` at any depth) are carried silently;
+- any other ignored file (a stray `docs/notes.md`, a guide or prompt in the wrong place, a skill body no
+  skill's `body_path` names) is warned as `file_not_held`;
+- a file no rule takes at all (a `.txt` or `.json` beside the artifacts, a misspelt artifact name, a shard
+  below the pack root, a `charter.yaml`) is warned as `file_not_held` too, as the charter does (charter #554,
+  ruling Q1).
+
+A file a skill's `body_path` names is held as that skill's companion, whatever its name. Note that the
+pack-check gate is stricter on the last group: its round trip reds an unmodelled file (#331 tracks that). The
+checks run on every pack, built-in-level ones included, which no registration sees.
 
 ## What the schemas catch
 
@@ -67,7 +70,7 @@ every pack, built-in-level ones included, which no registration sees.
 | A preset in the old shape (`name`, bare id strings, `mission_type_activations`) | Violation |
 | A file in a retired layout (for example `mission.yaml` beside a mission type), or a root case variant of a ruled file (`Readme.md`) | Violation |
 | A file no rule models (`notes.txt`, `x.tactic.yml`, `drg/tactic.graph.yaml`) | Warning (`file_not_held`), not held |
-| Markdown only the `ignored` rule takes, other than a `README.md` (an orphan skill body included) | Violation (`not_held`) |
+| Markdown only the `ignored` rule takes, other than a `README.md` (an orphan skill body included) | Warning (`file_not_held`), not held (R34, #331) |
 
 The schemas check each file on its own. Composition and registration, which look at packs
 together, are the charter service's to judge: see [The charter service job](#the-charter-service-job).
@@ -165,10 +168,9 @@ valid through the service, at a pinned charter version). The job:
    refused as `retired`, any other file the service does not model is warned as `file_not_held` and
    left out (charter #554, ruling Q1), and a file an exclusion or the `ignored` rule takes is left out and reported as a `file_not_held`
    diagnostic. Every diagnostic of a succeeded registration is printed as a notice. Each
-   `file_not_held` file is classified with the schema validator's mirror of the pinned contract, so
-   both gates apply one policy: a file an exclusion names or no rule models passes, an `ignored` one passes only if it
-   is a `README.md`, and any other fails the job (one the mirror classifies otherwise means the
-   mirror has drifted from the pin);
+   `file_not_held` file is classified with the schema validator's mirror of the pinned contract: a file the
+   mirror also leaves out (excluded, ignored or unmodelled) stays a notice, as R34 (#331) asks; a file the
+   mirror classifies as held content fails the job, because the mirror has drifted from the pin;
 4. **gates every pack on the charter's pack-check** (#252; charter ADR-0075 decision 9, ADR-0070 decision 4
    as amended 2026-11-13). pack-check is the charter's own whole-pack check. It checks each pack, the closure
    of the set, and, with `--round-trip`, loads each pack through the charter's store, writes it back and
@@ -235,17 +237,21 @@ check failed and `2` when it could not run.
 
 pack-check rc.3 was tried against scratch packs with each fault below, run as the gate runs it (with
 `--round-trip`). It exits 0 on every one of them, so the schema pass keeps judging them. Retire a rule here
-only once the pinned pack-check refuses its case:
+only once the pinned pack-check refuses its case (#330):
 
 | Fault | pack-check rc.3 | Judged here by |
 | --- | --- | --- |
-| An ignored file other than a `README.md` note (a misplaced guide, prompt or note) | `file_not_held` warning only | the stray-file rule (`NOT_HELD_ALLOWANCES`, #249), on `classify` |
-| A preset `must_have` item no pack of the preset pack's closure holds | accepted | `--cross-pack` (`requiredNotHeld`, the required floor) |
+| A preset `must_have` item no pack of the preset pack's closure holds | accepted | `--cross-pack` (`requiredNotHeld`, the required floor), until spec-kitty-charter#629 |
 | A preset id no pack declares | accepted | `--cross-pack` |
 
-pack-check *does* refuse an unmodelled file (a stray `.txt`), and a stale `content_hash` or `manifest_hash`
-in `pack-manifest.yaml`, both as `round_trip_red`. The schema pass keeps its own stale-hash check anyway: it
-is the fast pre-check, and it names the command that restamps the manifest.
+**Stray files (R34, #331).** A stray ignored file (a note such as `notes.md`) is a `file_not_held` warning in
+pack-check and, since R34, a warning here too: nothing fails it. An unmodelled stray file (`notes.txt`, a log)
+is also only a warning in the schema pass and the service check, but pack-check's round trip still refuses it
+as `round_trip_red`, so it fails the gate until #331's decision lands.
+
+pack-check also refuses a stale `content_hash` or `manifest_hash` in `pack-manifest.yaml` (`round_trip_red`;
+spec-kitty-charter#630). The schema pass keeps its own stale-hash check anyway: it is the fast pre-check, and
+it names the command that restamps the manifest.
 
 ### What the service owns and what stays here
 
