@@ -262,6 +262,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Products report their build identity in one shape** (#217; spec-kitty/spec-kitty#2771). The
+  foundation pack adds `DIRECTIVE_055` (Build Identity Contract). Every product a team ships
+  exposes a `build` object with `version`, `commit_sha` and `build_date` on a structured surface,
+  plus a copyable human line such as `acme-cli version 1.4.0 build a1b2c3d`. Each form factor has
+  its surfaces: `--version` and `--version --json` for a command-line tool, a build identity
+  endpoint for a service, importable attributes for a library. A build reports honest sentinels by
+  install kind (`0.0.0-dev`, `unknown`) instead of a real-looking value, a release never ships a
+  sentinel `commit_sha`, peers gate compatibility on `version`, never on `commit_sha`, and a
+  collector reads every product into one envelope with nested `components`. The new tactic
+  `build-identity-stamp-verify-guard` wires it per form factor: stamp the build with a live-git
+  fallback, verify on a real tag or deploy, and only then add the fail-loud guard. `implementer-ivan`
+  suggests the directive when a change touches a product's version or build output. The internal
+  pack adds `SPEC_KITTY_BUILD_IDENTITY`, which binds the contract to Spec Kitty's own products:
+  spec-kitty-analyzer's build object is the reference shape, the CLI serves the object under
+  `build` in `spec-kitty --version --json`, and the SaaS `Build` sync aggregate, the sync event
+  envelope's `build_id` and the CLI's per-project `build_id` stay apart from build identity. The
+  change is additive (DIRECTIVE_018).
+  **Versions:** `foundation`, `writing`, `testing`, `refactoring`, `architecture` and
+  `planning-analysis` 3.6.0 → 3.7.0 with the exact pins following, `built-in` 5.6.0 → 5.7.0 and
+  `internal` 4.4.0 → 4.5.0. The `foundation` range in `internal` tightened from `>=3.2,<4` to
+  `>=3.7,<4`, because its fragment now refines `DIRECTIVE_055`, which exists only from foundation
+  3.7.0.
+  **What to do:** nothing in your packs. A consumer that pins `internal` 4.5.0 needs `foundation`
+  3.7.0 or later.
 - **Durable artifacts cite changes and code in forms that survive a rebase** (#219, #150). The
   writing pack's `research-citation-discipline` styleguide gains two principles, each stated once:
   cite a change by PR or issue number, ADR id, release tag or a description of the change, never a
