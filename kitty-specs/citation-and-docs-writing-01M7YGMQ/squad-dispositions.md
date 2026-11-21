@@ -35,3 +35,8 @@ Squad (adversarial-squad-deployment, pre-merge point-cut): reviewer-renata, arch
 | R3 | MINOR | foundation pointers to writing drop "(when installed)" | accepted | all foundation pointers carry the qualifier |
 | R4 | NIT | "retired" vs "legacy" | accepted | internal page-audience says "legacy form" |
 | R5 | NIT | rule 4 sits only in cloud-session-dispatch | deferred_with_rationale | the issue asks for "a step in an existing internal procedure"; the reviewer rated it acceptable |
+| L1 | MINOR | plan-mission prompts name research-citation-discipline but no scope edge delivers it | accepted | writing scope edges from `action:plan/specify` and `action:plan/plan` (landing) |
+| L2 | MINOR | qa prompts name research-citation-discipline but no edge delivers it | deferred_with_rationale | qa does not depend on writing; an edge would add a new pack dependency for one reminder, and the prompt names the styleguide in prose, which a writing-installed consumer can resolve |
+| L3 | NIT | broken line wrap in "Cite changes by a stable identifier" | accepted | re-wrapped (landing) |
+| L4 | NIT | first-hand check asks for a command even for prose findings | accepted | "the command and its result, or the quoted text that shows it" (landing) |
+| L5 | MINOR | #339: DIRECTIVE_052 and durable-fix-investigation still ask for file:line | accepted | both ask for a content anchor (landing; closes #339) |
