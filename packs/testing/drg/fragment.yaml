@@ -107,6 +107,10 @@ nodes:
   kind: assets
   title: "Quad-A test structure: skeleton and review checklist"
   body_path: assets/quad-a-test-structure.md.asset.yaml
+- id: shared-machine-test-measurement
+  kind: tactics
+  title: Shared-Machine Test Measurement
+  body_path: tactics/testing/shared-machine-test-measurement.tactic.yaml
 edges:
 - source: foundation::action:software-dev/implement
   target: procedure:disciplined-defect-diagnosis
@@ -582,3 +586,16 @@ edges:
   target: styleguide:test-desiderata-and-boundaries
   relation: requires
   when: 'applying the tests-as-scaffold mindset to a concrete test: the desiderata and boundaries it rests on'
+# Measurement discipline for shared machines.
+- source: tactic:no-parallel-duplicate-test-runs
+  target: tactic:shared-machine-test-measurement
+  relation: suggests
+  when: several agents, not one, run tests on the same machine
+- source: foundation::action:software-dev/implement
+  target: tactic:shared-machine-test-measurement
+  relation: scope
+  when: running tests on a machine other agents share
+- source: foundation::action:software-dev/review
+  target: tactic:shared-machine-test-measurement
+  relation: scope
+  when: judging whether a reported test result is a measurement and which change a red belongs to

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 34115f73f0c1533bb9960410d5b58b94e39d9cd77dbcb69192a111f16c0fdb56
+manifest_hash: 9c5bb08596ff73cfd14c8c5e8f84e63fee9d8756b8ae3929ba23ccb2955cceee
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -136,7 +136,7 @@ constituents:
 - kind: procedure
   id: targeted-mission-test-run
   path: procedures/targeted-mission-test-run.procedure.yaml
-  content_hash: 36ce12355735d03357087b50f471df97d1963ff999ed597806a80bb59e2cae7d
+  content_hash: 89ddd2003396472e66636e8b7b5e176e9725179aed6dad184ad7ab684608a584
 - kind: procedure
   id: test-suite-quality-assessment
   path: procedures/test-suite-quality-assessment.procedure.yaml

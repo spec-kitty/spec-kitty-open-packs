@@ -801,3 +801,7 @@ edges:
     target: asset:writing-audience-agentic-framework-core-team
     relation: suggests
     when: The reader is a maintainer of the agentic framework core.
+  - source: procedure:targeted-mission-test-run
+    target: testing::tactic:shared-machine-test-measurement
+    relation: suggests
+    when: Several agents run tests on one machine, or a red needs attributing to a change.
