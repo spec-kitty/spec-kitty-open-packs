@@ -118,7 +118,7 @@ A consumer agent writes a new docs page following the common-docs guidance. It w
 | NFR-002 | Software-dev content stays ASCII | 0 non-ASCII characters in software-dev mission files (`tests/ci/test_software_dev_ascii.py` passes). | Compatibility | High | Open |
 | NFR-003 | One home per rule | Each new rule (stable identifier, content anchor, reproduce-before-resolved, reachability-before-ruling, no prototyping, overturned-ruling record, each AI-prose tell) is defined in exactly 1 artefact; other surfaces state it in at most one sentence and name the owner. | Maintainability | High | Open |
 | NFR-004 | No path-form recommendation | `grep` over `packs/writing` and `packs/internal` for `repo-relative .md path` and `audience: ../` returns 0 recommended uses (legacy mentions labelled as legacy only). | Correctness | High | Open |
-| NFR-005 | No Spec Kitty examples in the touched consumer surfaces | `grep -rn "adr/4.x\|adr/3.x\|Charter Activation\|StatusGateError\|6 of 565" packs --include=*.yaml` hits only `packs/internal`. | Portability | High | Open |
+| NFR-005 | No Spec Kitty examples in the touched consumer surfaces | `grep -rn "adr/4.x\|adr/3.x\|adr/1.x\|Charter Activation\|StatusGateError\|6 of 565" packs/writing packs/foundation/procedures/adversarial-squad-deployment.procedure.yaml` returns 0 lines (the other #274 surfaces are out of scope, C-006). | Portability | High | Open |
 
 ### Constraints
 
