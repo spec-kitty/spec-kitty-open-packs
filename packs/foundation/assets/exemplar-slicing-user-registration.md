@@ -1,6 +1,6 @@
 # Worked example: slicing a test by functional responsibility (user registration)
 
-This example shows how to draw a test boundary around the behaviour under test instead of around a class or a layer. It follows the case study of Clear Test Boundaries (Stijn Dejongh, https://patterns.sddevelopment.be/practices/define_test_boundaries/). The case is an analogy that supports the argument; it is not proof that every over-mocked test fails this way.
+This example shows how to draw a test boundary around the behaviour under test instead of around a class or a layer. It follows the case study of Clear Test Boundaries (Stijn Dejongh, https://patterns.sddevelopment.be/practices/define_test_boundaries/). The code below is an illustrative reconstruction, not the source's own code, and the case is an analogy that supports the argument; it is not proof that every over-mocked test fails this way. Two heuristics at the end come from The Testing Pyramid (https://patterns.sddevelopment.be/concepts/testing_pyramid/).
 
 ## The behaviour
 
@@ -40,8 +40,7 @@ The boundary now encloses everything that co-delivers the behaviour. The busines
 class UserRegistrationTest {
     InMemoryUserDatabase database = new InMemoryUserDatabase();   // substitute at the persistence seam
     UserRegistrationApi api = new UserRegistrationApi(
-        new UserBusinessService(database, new EmailValidationService()),
-        new AlwaysSolvedCaptcha());                                  // see the note on the Captcha below
+        new UserBusinessService(database, new EmailValidationService()));
 
     @Test void validEmailCreatesAccount() {
         RegistrationResponse response = api.register(new RegistrationRequest("ada@example.org", "s3cret!"));
@@ -61,7 +60,7 @@ class UserRegistrationTest {
 
 The in-memory database keeps the real dependency's contract: it can hold a user, refuse a duplicate and report absence, so no state appears that the real store could not produce.
 
-Note on the Captcha: whether the Captcha is substituted depends on what sits behind it. A third-party Captcha service reached over the network is another system, so a substitute is allowed. A Captcha rule the system owns runs for real.
+Note on the Captcha step the product added: whether a test substitutes it depends on what sits behind it. A third-party Captcha service reached over the network is another system, so a substitute is allowed there; a Captcha rule the system owns runs for real. The example above predates the Captcha step.
 
 ## Boundary statement
 
