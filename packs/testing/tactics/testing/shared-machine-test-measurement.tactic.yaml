@@ -20,8 +20,8 @@ steps:
       cores" on a shared machine.
   - title: Count only a finished run with a captured exit status
     description: >
-      A run is a measurement only if it finished on a quiet enough machine and
-      its own exit status was captured. Anything else (the foundation glossary's
+      A run is a measurement only if it finished and its own exit status was
+      captured. Anything else (the foundation glossary's
       no measurement: killed, timed out, out of memory or disk, exit status lost,
       or passing and failing on the same code) is reported as no measurement,
       with its reason, never as a pass or a fail; re-run it when the machine is
