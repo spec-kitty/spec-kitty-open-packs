@@ -343,6 +343,11 @@ edges:
   target: directive:DIRECTIVE_034
   relation: requires
 - source: directive:DIRECTIVE_041
+  target: paradigm:tests-as-scaffold-not-friction
+  relation: refines
+  when: an agent needs the reasons behind the rules for tests as scaffold
+  reason: DIRECTIVE_041 turns the tests-as-scaffold mindset into rules a test must meet; the paradigm holds the why.
+- source: directive:DIRECTIVE_041
   target: procedure:failing-test-triage
   relation: requires
   when: a test fails or is identified as friction
@@ -510,6 +515,14 @@ edges:
   target: tactic:op-or-mission-selection
   relation: requires
 - source: directive:DIRECTIVE_054
+  target: anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+- source: directive:DIRECTIVE_054
+  target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
+  relation: rejects
+  reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
+- source: directive:DIRECTIVE_054
   target: directive:DIRECTIVE_031
   relation: suggests
   when: deciding whether a collaborator is another bounded context that a test may substitute
@@ -517,6 +530,11 @@ edges:
 - source: directive:DIRECTIVE_054
   target: directive:DIRECTIVE_041
   relation: requires
+- source: directive:DIRECTIVE_054
+  target: paradigm:tests-as-scaffold-not-friction
+  relation: refines
+  when: an agent needs the reasons behind boundary-only substitution
+  reason: DIRECTIVE_054 sharpens one consequence of the mindset (owned doubles give false confidence) into the mock allow-list.
 - source: directive:DIRECTIVE_054
   target: procedure:unfake-an-over-mocked-test
   relation: requires
