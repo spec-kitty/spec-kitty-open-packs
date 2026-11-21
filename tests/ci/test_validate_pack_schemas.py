@@ -396,6 +396,8 @@ class ValidatorExitCodes(unittest.TestCase):
             # skill's body_path names is its companion.
             stray = ["docs/notes.md", "x.promt.md", "tactics/GUIDE.MD", "tactics/t.guide.md", "skills/orphan.skill.md",
                      "directives/.draft.md"]
+            # No root README.md: it is the pack document (held, not a note), and without a pack.yaml it would make the
+            # validator ask for the descriptor.
             allowed = ["tactics/README.md", "docs/deep/README.md"]
             pack = self.write_pack(root, {name: "# t\n" for name in [*stray, *allowed]})
             code, output = self.run_validator(root, str(pack))
@@ -409,6 +411,8 @@ class ValidatorExitCodes(unittest.TestCase):
 
     def test_r34_a_stray_note_or_log_in_a_pack_passes_with_a_warning(self) -> None:
         # Operator ruling R34 (#331): authors may keep logs and notes in a pack; the schema pass warns, never fails.
+        # notes.md and directives/scratch.md exercise the R34 change (they failed as not_held before). notes.txt and
+        # the log were already warnings here; pack-check's round trip still reds those two in CI (#331 is open).
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
