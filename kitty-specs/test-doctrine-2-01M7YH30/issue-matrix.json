@@ -59,6 +59,18 @@
       "title": "Strip version stamps, core issue numbers and provenance narrative from consumer pack bodies",
       "verdict": "in-mission",
       "wp": "WP02"
+    },
+    "#274": {
+      "evidence_ref": "partial: testing-principles only; issue stays open",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Replace Spec Kitty core examples in consumer artifacts with neutral ones",
+      "verdict": "in-mission",
+      "wp": "WP02"
     }
   },
   "schema_version": 1
