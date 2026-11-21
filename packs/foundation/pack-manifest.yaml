@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5753f89c525b983117405a480874d24b6a80709ffa5d98a00e9171782c4cc2c5
+manifest_hash: 4ec425c04793200925e8d6ce79801c3adce1fd6c6dca0ad540b3a14c955fabeb
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -96,7 +96,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 6a1bf9eef3d11f5f116523c6dc1f15185f8b24361c4aa8607ea2123ee97461cb
+  content_hash: e1dace028335405e26483cf8c0cc6c9318aed48f4fec09c567c554d6e11f41ea
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -233,6 +233,10 @@ constituents:
   id: software-dev/tasks-template.md
   path: missions/software-dev/templates/tasks-template.md
   content_hash: c0bf1031a8fdf07b51d34d8d3bef22d4a00984ca2490ce3500a409010d2bc8a8
+- kind: paradigm
+  id: tests-as-scaffold-not-friction
+  path: paradigms/tests-as-scaffold-not-friction.paradigm.yaml
+  content_hash: 1cae9427569a88d9b0a1d5cc62578fa874a91859bb3f55fb8ac882325123b943
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
