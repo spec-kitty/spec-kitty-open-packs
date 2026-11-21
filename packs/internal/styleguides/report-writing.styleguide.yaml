@@ -17,8 +17,8 @@ principles:
     description: "Prefer concrete nouns and verbs to abstraction. A named subsystem and a counted commit carry a report; adjectives about how the cycle felt do not."
   - name: "Keep the Spec Kitty voice"
     description: "Keep the Spec Kitty voice: composed, direct, and concrete. No exclamation marks. The canonical product term is Mission; never write feature for a Mission."
-  - name: "Cut the tells of machine writing"
-    description: "Read your own prose for the tells of machine writing and cut them. The patterns below are the recurring ones; treat the list as a checklist you run before circulating, not as advice you apply when convenient."
+  - name: "Run the shared AI-writing tells list"
+    description: "Run the writing pack's ai-writing-tells styleguide as a checklist before circulating a report. It owns the em-dash, buzzword, intensifier, puffery and figure-labelling rules; this styleguide adds only report rules and the Spec Kitty voice."
 
 patterns:
   - name: Progressive-disclosure structure
@@ -29,47 +29,6 @@ patterns:
       write-up last: cycle narrative, the metric tables, the community
       analysis, went-well and went-wrong, and forward recommendations. A reader
       chooses their own depth by how far they read.
-  - name: Ration the em-dash
-    description: >
-      The sentence-joining em-dash is the strongest tell of machine prose.
-      Allow a handful across a whole report and no more; everywhere else use a
-      period, a comma, or a colon. If a sentence leans on two em-dashes to hold
-      its clauses together, it is two sentences.
-  - name: Say the thing plainly, not "not just X but Y"
-    description: >
-      The "not just X, but Y" and "it's not about X, it's about Y" constructions
-      manufacture false contrast to sound profound. State what is true directly.
-      Replace "this is not just a refactor, it's a rethink" with "this refactor
-      changes the module boundary."
-  - name: Cut empty intensifiers and throat-clearing
-    description: >
-      Delete "notably", "significantly", "importantly", "it's worth noting
-      that", "it's important to understand", and their kin. They add emphasis a
-      real figure earns on its own. "Coverage rose to 74 percent" needs no
-      "notably" in front of it.
-  - name: Drop the LLM buzzwords
-    description: >
-      Avoid "leverage" as a verb, "robust", "seamless", "delve", "underscore",
-      "tapestry", "realm", "landscape", and "testament to". Use the plain word:
-      "use", not "leverage"; "the report shows", not "the report underscores".
-  - name: Break the rule of three and the uniform bullet opener
-    description: >
-      Machine prose reaches for three-item triads and for lists where every
-      bullet opens with the same part of speech. Vary list length to what the
-      content actually holds — two items, or five — and let bullets begin
-      differently. A page of identically-shaped sentences reads as generated.
-  - name: No puffery
-    description: >
-      Cut self-congratulation and vague praise: "a strong quarter", "impressive
-      progress", "significant strides". Let the counted movement carry the
-      judgement. If velocity rose, show the per-week figure and let the reader
-      conclude it is strong.
-  - name: Label gathered versus synthesized figures
-    description: >
-      Mark, for each figure, whether the report measured it directly or reused
-      it from an upstream source such as a research-squad output. A consistent
-      label lets a reviewer spot-check the load-bearing numbers and lets a
-      later reader trust the ones that are not spot-checked.
   # Principles whose description was condensed to fit the 255-character cap
   # (ADR-0067) carry their full original text as a pattern of the same name.
   - name: Write least-technical-first
@@ -120,16 +79,3 @@ anti_patterns:
     good_example: >
       "320 commits and 41 merged PRs per week (git log over the 3.2.5..3.2.6
       range, measured for this report)." The reader can reproduce it.
-  - name: Em-dash sprawl and buzzword fog
-    description: >
-      A report where clauses are strung on em-dashes and sentences reach for
-      "leverage", "robust", and "seamless" reads as generated regardless of how
-      sound the underlying analysis is, and a skeptical reader discounts the
-      whole thing.
-    bad_example: >
-      "We leveraged a robust, seamless pipeline — one that — across the cycle —
-      underscored our velocity." Three em-dashes and four buzzwords in one
-      sentence.
-    good_example: >
-      "The release pipeline ran unattended for every tag this cycle. It caught
-      the version-sync gap before publish." Two plain sentences.
