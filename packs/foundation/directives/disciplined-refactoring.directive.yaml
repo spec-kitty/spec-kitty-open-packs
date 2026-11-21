@@ -20,8 +20,9 @@ scope: >
   Applies whenever code is being restructured without an intended change in
   observable behaviour — tidying a surface before a functional change, paying
   down a code smell, decomposing an over-long class or method, or untangling
-  convoluted logic. It does not apply to greenfield authoring of new behaviour,
-  nor does it license changing behaviour under cover of a refactor: a refactor
+  convoluted logic. It does not govern authoring new behaviour; restructuring
+  code just written, once the suite is green, is in scope (green mode). Nor
+  does it license changing behaviour under cover of a refactor: a refactor
   and a behaviour change are separate steps with separate commits.
 integrity_rules:
   - "Behaviour is preserved across every refactoring step: the existing tests

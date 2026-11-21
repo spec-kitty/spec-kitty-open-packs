@@ -257,7 +257,7 @@ edges:
   relation: requires
   when: implementing new or changed behavior
   reason: Picks the test-first tactic that fits the scope, writes the failing test before production code for behavior with a lasting regression
-    risk (configuration and glue cite run or gate evidence), and keeps red-green-refactor cycles short.
+    risk (configuration and glue cite run or gate evidence), and keeps red-green cycles short, restructuring in green mode.
 - source: directive:DIRECTIVE_034
   target: tactic:acceptance-criteria-non-vacuity
   relation: suggests
@@ -317,7 +317,7 @@ edges:
   target: procedure:test-first-cycle
   relation: requires
   when: implementing new or changed behavior
-  reason: Starts each production change that carries a lasting regression risk from a failing test (DIRECTIVE_034) and moves in short red-green-refactor cycles, the test-first
+  reason: Starts each production change that carries a lasting regression risk from a failing test (DIRECTIVE_034) and moves in short red-green cycles, the test-first
     half of the culture.
 - source: directive:DIRECTIVE_039
   target: styleguide:boring-code-review
