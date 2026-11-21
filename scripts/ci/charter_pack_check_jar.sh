@@ -39,13 +39,18 @@ if [[ -n "$tag" ]]; then
   jar="$work/pack-check-$version.jar"
   url="https://github.com/$repository/releases/download/$tag/pack-check-$version.jar"
   echo "downloading $url" >&2
-  curl --proto "=https" --proto-redir "=https" --fail --silent --show-error --location --retry 3 --output "$jar" "$url"
-  actual="$(sha256sum "$jar" | cut -d' ' -f1)"
+  part="$jar.part"  # an unverified download never carries the jar's name, and never outlives a failure
+  trap 'rm -f -- "$part"' EXIT
+  if ! curl --proto "=https" --proto-redir "=https" --fail --silent --show-error --location --retry 3 --output "$part" "$url"; then
+    echo "::error::could not download $url; removed the partial download" >&2
+    exit 1
+  fi
+  actual="$(sha256sum "$part" | cut -d' ' -f1)"
   if [[ "$actual" != "$digest" ]]; then
-    rm -f -- "$jar"  # an unverified download never stays where a later step could pick it up
     echo "::error::$jar had SHA-256 $actual, not the pack_check_sha256 $digest of charter.lock.yaml; deleted it, refusing to run it" >&2
     exit 1
   fi
+  mv -f -- "$part" "$jar"
   echo "verified SHA-256 $digest" >&2
   printf '%s\n' "$jar"
   exit 0
