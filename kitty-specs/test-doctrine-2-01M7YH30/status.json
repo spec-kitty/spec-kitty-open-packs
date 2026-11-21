@@ -161,6 +161,9 @@
       "last_event_id": "01M7YKVGE2Z3GCWEYPTQ61X3V9",
       "last_transition_at": "2026-11-21T08:34:05.378130+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review; out-of-map: tests/ci/test_pack_digest.py built-in digest constant, lane-c/lane-d merge conflict resolved additively"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 23916,
