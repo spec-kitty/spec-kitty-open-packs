@@ -1,0 +1,101 @@
+{
+  "rows": {
+    "#147": {
+      "evidence_ref": "tactic vertical-skeleton-first shipped; Follow-up: #147 stays open for the deferred prove-composition directive",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: vertical-skeleton-first tactic",
+      "verdict": "deferred-with-followup",
+      "wp": "WP03"
+    },
+    "#152": {
+      "evidence_ref": "shared-machine-test-measurement tactic + internal pointer",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Tactic: measurement discipline for multi-agent missions",
+      "verdict": "fixed",
+      "wp": "WP04"
+    },
+    "#154": {
+      "evidence_ref": "tdd-red-green-refactor tracer-bullet slicing re-grounded at mattpocock/skills abeeaf9; refactoring is green mode",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: sharpen test-first guidance with Matt Pocock TDD tracer-bullet rules",
+      "verdict": "fixed",
+      "wp": "WP03"
+    },
+    "#216": {
+      "evidence_ref": "WP01 paradigm, 041 split, anti-pattern nodes; WP02 assets, dedup, slicing, curator; WP05 release",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: test slicing/scoping + mocking-boundary antipatterns",
+      "verdict": "fixed",
+      "wp": "WP01"
+    },
+    "#273": {
+      "evidence_ref": "DIRECTIVE_034 and testing-principles parts done; Follow-up: #273 stays open for its other files",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Strip version stamps, core issue numbers and provenance narrative from consumer pack bodies",
+      "verdict": "deferred-with-followup",
+      "wp": "WP02"
+    },
+    "#274": {
+      "evidence_ref": "testing-principles part done; Follow-up: #274 stays open for its other files",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Replace Spec Kitty core examples in consumer artifacts with neutral ones",
+      "verdict": "deferred-with-followup",
+      "wp": "WP02"
+    },
+    "#288": {
+      "evidence_ref": "context-only: parent epic",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Epic: new doctrine content moved from core",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#2934": {
+      "evidence_ref": "context-only: core incident behind the proposal's exemplar; neutralised, no work owed here",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "core incident cited for context (spec-kitty/spec-kitty#2934)",
+      "verdict": "not-applicable",
+      "wp": null
+    }
+  },
+  "schema_version": 1
+}

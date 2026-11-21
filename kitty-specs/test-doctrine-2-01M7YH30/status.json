@@ -1,0 +1,101 @@
+{
+  "event_count": 47,
+  "last_event_id": "01M7YMGYC9TC72P415481W4WYF",
+  "materialized_at": "2026-11-21T08:45:47.785111+00:00",
+  "mission_number": "",
+  "mission_slug": "test-doctrine-2-01M7YH30",
+  "mission_type": "",
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 5,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 1,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7YMGP1VPHVDRNWJG8641FNM",
+      "last_transition_at": "2026-11-21T08:45:39.259878+00:00",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP01-paradigm-and-041-split/review-cycle-1.md",
+        "reviewer": "reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 8390,
+      "shell_pid_created_at": "1795248160.97"
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M7YMGR5A6S1765FH7H2ZST91",
+      "last_transition_at": "2026-11-21T08:45:41.418278+00:00",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP02-assets-dedup-slicing-curator/review-cycle-1.md",
+        "reviewer": "reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 22178,
+      "shell_pid_created_at": "1795248657.18"
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude::implementer",
+      "force_count": 1,
+      "implementer_of_record": "claude::implementer",
+      "lane": "done",
+      "last_event_id": "01M7YMGTCEE1MVSGSVNW52JKG0",
+      "last_transition_at": "2026-11-21T08:45:43.694692+00:00",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP03-tracer-bullets-green-mode-spine/review-cycle-1.md",
+        "reviewer": "reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 30800,
+      "shell_pid_created_at": "1795249135.7"
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude::implementer",
+      "force_count": 2,
+      "implementer_of_record": "claude::implementer",
+      "lane": "done",
+      "last_event_id": "01M7YMGWEF6XVGN9Y41J98F46H",
+      "last_transition_at": "2026-11-21T08:45:45.807478+00:00",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP04-measurement-discipline/review-cycle-1.md",
+        "reviewer": "reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 23450,
+      "shell_pid_created_at": "1795250625.29"
+    },
+    "WP05": {
+      "actor": "merge",
+      "agent": "claude::implementer",
+      "force_count": 0,
+      "implementer_of_record": "claude::implementer",
+      "lane": "done",
+      "last_event_id": "01M7YMGYC9TC72P415481W4WYF",
+      "last_transition_at": "2026-11-21T08:45:47.785111+00:00",
+      "review_result": {
+        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP05-release-surface/review-cycle-1.md",
+        "reviewer": "reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 23916,
+      "shell_pid_created_at": "1795249836.43"
+    }
+  }
+}
