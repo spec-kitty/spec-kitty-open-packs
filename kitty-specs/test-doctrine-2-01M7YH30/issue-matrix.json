@@ -25,7 +25,7 @@
       "wp": "WP04"
     },
     "#154": {
-      "evidence_ref": "tracer-bullet TDD and green mode, re-grounded at mattpocock/skills abeeaf9",
+      "evidence_ref": "tdd-red-green-refactor tracer-bullet slicing re-grounded at mattpocock/skills abeeaf9; refactoring is green mode",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -33,7 +33,7 @@
       "scope": null,
       "source_file": null,
       "title": "Doctrine: sharpen test-first guidance with Matt Pocock TDD tracer-bullet rules",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#216": {
