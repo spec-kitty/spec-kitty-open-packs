@@ -7,11 +7,11 @@
     {
       "criterion_id": "FR-001",
       "description": "Verify FR-001 is satisfied",
-      "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "proof_type": "review",
+      "evidence": "WP01 approved by independent reviewer; validate-packs, pytest (349 passed), vocabulary, pack-reference and digest gates green on lane-e",
+      "pass_fail": "pass",
+      "verified_by": "reviewer-renata",
+      "verified_at": "2026-11-21T08:37:31.862226+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
