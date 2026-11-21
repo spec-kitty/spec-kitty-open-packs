@@ -1,7 +1,7 @@
 {
-  "event_count": 12,
-  "last_event_id": "01M7YJGTM2H7XY3M8HAKW5F6M2",
-  "materialized_at": "2026-11-21T08:10:46.786277+00:00",
+  "event_count": 14,
+  "last_event_id": "01M7YJHCHJAWHSM2SX0G4EA5MD",
+  "materialized_at": "2026-11-21T08:11:04.991969+00:00",
   "mission_number": "",
   "mission_slug": "test-doctrine-2-01M7YH30",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 4
+    "planned": 3
   },
   "work_packages": {
     "WP01": {
@@ -53,11 +53,20 @@
       }
     },
     "WP02": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M7YHZJ8WW42ACYHFKWDYPAV2",
-      "last_transition_at": "2026-11-21T08:01:21.180526+00:00"
+      "implementer_of_record": "claude",
+      "lane": "in_progress",
+      "last_event_id": "01M7YJHCHJAWHSM2SX0G4EA5MD",
+      "last_transition_at": "2026-11-21T08:11:04.991969+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 22178,
+      "shell_pid_created_at": "1795248657.18"
     },
     "WP03": {
       "actor": "finalize-tasks",
