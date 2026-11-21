@@ -101,11 +101,14 @@ In `packs/testing/assets/`, nodes declared in `packs/testing/drg/fragment.yaml` 
 - `quad-a-test-structure.md`: language-neutral four-phase skeleton (Arrange, Assumption check, Act, Assert, labelled) and a short review checklist (one action per test, the assumption check fails on a wrong fixture, the assert targets an observable outcome, two Act phases mean two tests).
 - Edges: `styleguide:test-desiderata-and-boundaries --requires--> asset:test-desiderata-checklist`; `styleguide:testing-principles --requires--> asset:test-desiderata-checklist`; `styleguide:quadruple-a-test-format --requires--> asset:quad-a-test-structure`; `foundation::paradigm:tests-as-scaffold-not-friction --suggests--> asset:test-desiderata-checklist`.
 
+- Paradigm proposal edges: `foundation::paradigm:tests-as-scaffold-not-friction --requires--> styleguide:test-desiderata-and-boundaries` (testing fragment; check the pair is new). Architecture fragment (recorded out-of-map edit): `foundation::paradigm:tests-as-scaffold-not-friction --suggests--> tactic:connascence-analysis` (when: diagnosing which coupling a test carries).
+
 ### T008 — Dedup the restatements
 
 - `test-desiderata-and-boundaries`: replace the twelve per-property principles (Isolated ... Inspiring) with one principle pointing to the checklist asset; keep "Desiderata are trade-offs", the boundary principles and the rest. Patterns that name properties stay readable.
+- `testing-principles`: its Fast, Isolated and Specific principles overlap the desiderata; replace the three with one principle pointing to the checklist asset; keep the rest (Repeatable, Self-validating, Timely and the others are distinct).
 - `quadruple-a-test-format`: keep principles and language examples; add a pointer that the skeleton and checklist live in the asset.
-- `python-conventions`, `java-conventions`, `typescript-conventions`: the Quad-A principle becomes one pointer line ("Quad-A, as the testing pack's quad-a-test-structure asset and quadruple-a-test-format styleguide define"); the Quad-A pattern keeps only its language-specific example. Each pack's fragment gains `styleguide:<x>-conventions --requires--> testing::asset:quad-a-test-structure` with `when`. Each pack already depends on testing (check the range covers the WP05 version).
+- `python-conventions`, `java-conventions`, `typescript-conventions`: the Quad-A principle becomes one pointer line ("Quad-A, as the testing pack's quad-a-test-structure asset and quadruple-a-test-format styleguide define"); the Quad-A pattern keeps only its language-specific example; python's "Test Without Assumption Check" anti-pattern stays (a language example, not the definition). One-line mentions of the phases in `bdd-scenario-formulation` and internal `feature-and-scenario-authoring` are not definitions and stay. Each pack's fragment gains `styleguide:<x>-conventions --requires--> testing::asset:quad-a-test-structure` with `when`. Each pack already depends on testing (check the range covers the WP05 version).
 
 ### T009 — Slicing content
 
@@ -114,7 +117,7 @@ In `packs/testing/assets/`, nodes declared in `packs/testing/drg/fragment.yaml` 
 
 ### T010 — Curator profile
 
-`doctrine-daphne`: add once (secondary-awareness or avoidance-boundary): assets live under the pack's `assets/` (a category subdirectory allowed) with a `<file>.asset.yaml` sidecar and an asset node; anti-patterns are nodes, `rejects` targets, emitting no edges; worked examples are referenced from the good artefacts, never emitted from anti-pattern nodes. The inbound-edge rule already exists; do not duplicate it.
+`doctrine-daphne`: add once (secondary-awareness or avoidance-boundary): assets live under the pack's `assets/` (a category subdirectory allowed) with a `<file>.asset.yaml` sidecar and an asset node; anti-patterns are nodes, `rejects` targets, emitting no edges; worked examples are referenced from the good artefacts, never emitted from anti-pattern nodes. The inbound-edge rule already exists; do not duplicate it. State that an anti-pattern is reached by name through inbound `rejects` edges and never loaded as context (the cascade does not cross `rejects`).
 
 ### T011 — Fold-ins (#273, #274; files limited to these two)
 
@@ -128,4 +131,5 @@ In `packs/testing/assets/`, nodes declared in `packs/testing/drg/fragment.yaml` 
 
 ## Risks and reviewer guidance
 
+- Existing core references in touched files that this WP does not own (`doctrine-daphne` naming `spec-kitty charter` commands, which is the profile's subject; the typescript comment citing an open-packs issue) are out of scope; the review checks only that none are added.
 - Reviewer: grep for the twelve property names across packs to confirm one full list; check every asset sidecar `path` resolves; confirm no core references were added.

@@ -1,7 +1,8 @@
 ---
 work_package_id: WP04
 title: Measurement discipline for shared machines
-dependencies: []
+dependencies:
+- WP02
 requirement_refs:
 - FR-015
 - SC-006
@@ -50,13 +51,13 @@ Planning branch and merge target: `t3/test-doctrine-2`; lanes from `lanes.json`.
 
 `packs/testing/tactics/testing/shared-machine-test-measurement.tactic.yaml`, generic (no ports, quotas, make targets, repository paths):
 1. Cap heavy suites per machine: before starting a heavy suite (integration, end-to-end, a whole-repository run), check how many are already running on the machine; above the cap the team sets (default: one heavy suite per machine), wait or serialise; bound worker counts explicitly.
-2. A run is a measurement only if it finished and its exit status was captured: a killed, timed-out or out-of-memory run, or one whose status a pipe swallowed (capture the test command's own status, e.g. `set -o pipefail` or the shell's pipe-status array), is no measurement; never report it as pass or fail; re-run when the machine is quiet.
+2. A run is a measurement only if it finished and its exit status was captured: a killed, timed-out or out-of-memory run, or one whose status a pipe swallowed (capture the test command's own status, e.g. `set -o pipefail` or the shell's pipe-status array), is no measurement (the foundation glossary term, WP03); never report it as pass or fail; re-run when the machine is quiet.
 3. Put test temp and cache directories on storage with enough quota; a disk-full or quota error during a run is an environment failure, not a test result.
 4. Attribute a red against the mission's recorded base commit: re-run the same test there before claiming the work package caused it (red on base: pre-existing, record it); never diff against your own first commit.
 5. Record the command, the worker count and the outcome category with the result.
 `failure_modes` mirror these. `notes`: complements no-parallel-duplicate-test-runs (one run per suite) and the no-fake-green reporting rule of the qa pack where it is active.
 
-Fragment: node (`kind: tactics`, `body_path`); `tactic:no-parallel-duplicate-test-runs --suggests--> tactic:shared-machine-test-measurement`; `foundation::action:software-dev/implement --scope-->` and `.../review --scope-->` the tactic (check how sibling testing tactics are scoped; follow that). `when` on each.
+Fragment: node (`kind: tactics`, `body_path`); `tactic:no-parallel-duplicate-test-runs --suggests--> tactic:shared-machine-test-measurement`; `foundation::action:software-dev/implement --scope-->` and `.../review --scope-->` the tactic (no testing tactic is action-scoped today; scope this one directly, which SC-006 needs). `when` on each.
 
 ### T018 — Internal pointer
 

@@ -6,6 +6,12 @@
 - **Rationale**: the proposal is the operator-endorsed design; its directive and remediation procedure already shipped as DIRECTIVE_054 and `unfake-an-over-mocked-test`.
 - **Alternatives considered**: a fresh design (rejected: duplicates settled curation work).
 
+## R1b — Reachability of the paradigm and the new edge kinds
+
+- **Finding**: the charter cascade crosses exactly `Rc = {requires, suggests, refines, scope, instantiates, enhances}` (charter `docs/architecture/composition-and-activation-rules.md`, W19), so `DIRECTIVE_041 --refines--> paradigm` and `DIRECTIVE_054 --refines--> paradigm` pull the paradigm whenever either directive is in force; 054 is scoped to the software-dev implement and review actions. `rejects` is not crossed: anti-pattern nodes are named targets, not context.
+- **Endpoint check**: charter ADR-0077 decision 5 allows `refines` G -> G and `rejects` G -> anti_pattern, where G covers directive, tactic, styleguide, toolguide, paradigm and procedure; so directive/procedure/tactic/paradigm `rejects` edges and directive -> paradigm `refines` edges are valid. A `refines` edge already exists in foundation (`tactic.graph.yaml`, five-paradigm-parallel-debugging).
+- **Proposal edges**: `paradigm --requires--> test-desiderata-and-boundaries` (testing fragment) and `--suggests--> connascence-analysis` (architecture fragment) are authored; `--suggests--> testing-principles` is dropped because the desiderata styleguide already reaches it.
+
 ## R2 — Pack tier of each new artefact
 
 - **Decision**: paradigm, anti-pattern nodes and exemplar assets in foundation; checklist assets in testing; `vertical-skeleton-first` in planning-analysis; measurement tactic in testing; house specifics in internal.
@@ -48,3 +54,11 @@
 
 - **Decision**: minor. Foundation lockstep set (foundation, writing, testing, refactoring, architecture, planning-analysis) and built-in to their next minor; python, java, javascript, pack-authoring and internal to their next minor.
 - **Rationale**: DIRECTIVE_018; 041 keeps every rule; the rest adds guidance.
+
+## R10 — Post-tasks squad (doctrine coherence), dispositions
+
+1 refines reachability: resolved by R1b (charter W19). 2 endpoints: verified (ADR-0077 d5); risk note corrected. 3 "seam" ambiguity: TDD tactic says "test surface (public interface)"; "seam" stays DIRECTIVE_054's term. 4 "side channel": narrowed to bypassing a public read interface the system offers. 5 restatement in the TDD tactic: replaced by `rejects` edges to both anti-patterns and one pointer; the "never on red" clause dropped. 6 green mode: the glossary defines it; the procedure owns the practice. 7 upstream review-stage placement: recorded as not adopted. 8 refactoring follow-ups: listed in C-007; edge `when` and tactic `purpose` rewording added. 9 US4 test amended. 10 testing-principles Fast/Isolated/Specific: cut to a pointer to the checklist. 11 "no measurement": a glossary term both tactics use. 12 proposal edges: authored or recorded in R1b. 13 anti-pattern reachability: inbound `rejects` counts for NFR-005 (named target, never loaded as context). 14 shared files: WP03 and WP04 depend on WP02. 15 `kind: anti_pattern` on nodes.
+
+## R11 — Post-tasks squad (brownfield), dispositions
+
+1 lane collisions: WP03 and WP04 depend on WP02. 2 WP01 DoD counts 9 rejects edges. 3 refines precedent: corrected. 4 "binding rules": avoided in 041's intent. 5 measurement tactic scoped directly (no testing tactic is scoped today). 6 testing-principles overlap: cut to a pointer (WP02). 7 other Quad-A mentions: language examples and one-line phase mentions stay; recorded in WP02. 8 edge prose putting refactoring in the cycle: reworded in WP03; profile narratives stay. 9 DISCIPLINED_REFACTORING scope: amended so code just written is in scope once green (WP03). 10 tasks-outline layer-sliced example: reworked to vertical slices (WP03). 11 glossary is unsorted: terms placed beside related ones. 12 existing core references in touched files: out of scope, recorded. 13 255-character principle limit named in WP01.

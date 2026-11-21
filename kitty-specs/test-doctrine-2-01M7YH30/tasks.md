@@ -18,7 +18,7 @@
 | T009 | Slicing content in `test-boundaries-by-responsibility` and two traps in the desiderata styleguide | WP02 | |
 | T010 | Curator profile (`doctrine-daphne`) canonical structure | WP02 | [P] |
 | T011 | Fold-ins: DIRECTIVE_034 comment, testing-principles core residue | WP02 | [P] |
-| T012 | Foundation glossary terms: tracer bullet, horizontal slicing, spine, green mode | WP03 | |
+| T012 | Foundation glossary terms: tracer bullet, horizontal slicing, spine, green mode, no measurement | WP03 | |
 | T013 | `tdd-red-green-refactor`: vertical slices, anti-patterns, seams, green-mode hand-off, attribution | WP03 | |
 | T014 | Green mode owned by `disciplined-refactoring-cycle`; pointers in test-first-cycle, acceptance-test-first, test-first-bug-fixing; refactoring-catalog links | WP03 | |
 | T015 | `vertical-skeleton-first` tactic in planning-analysis + fragment wiring | WP03 | |
@@ -73,7 +73,7 @@ T014 Green mode (WP03)
 T015 vertical-skeleton-first (WP03)
 T016 Plan/tasks pointer (WP03)
 
-- **Dependencies**: Depends on WP01 (operator order; shares foundation shards).
+- **Dependencies**: Depends on WP01 and WP02 (operator order; shares foundation shards and the testing fragment).
 - **Risks**: ASCII in software-dev files; wording must agree with DISCIPLINED_REFACTORING.
 
 ## Phase 3 — Parallel
@@ -86,7 +86,7 @@ T016 Plan/tasks pointer (WP03)
 T017 Measurement tactic (WP04)
 T018 Internal pointer (WP04)
 
-- **Dependencies**: none (may run in parallel).
+- **Dependencies**: Depends on WP02 (shares the testing fragment); independent of WP01 and WP03 otherwise.
 - **Risks**: overlap with `no-parallel-duplicate-test-runs` and QA_003.
 
 ## Phase 4 — Release
