@@ -816,10 +816,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Service check.** Every file a registration leaves out is a notice. Only a file the mirror takes for held
     content still fails, because that means the mirror has drifted from the pin.
   - **Misspelled companions are annotated** (operator ruling R38). The schema pass is a linter here, never a gate:
-    - It marks a stray file that looks like a misnamed companion with a PR annotation, naming the companion it
-      was probably meant to be.
-    - Two signals: a near-named file beside a `*_path` reference that is missing, and a suffix within two edits
-      of a companion suffix (for example `implement.promt.md` or `x.gudie.md`).
+    - An artifact whose `*_path` names a missing file is annotated *Missing companion*, which also catches a stem
+      typo that still matches a rule.
+    - A stray file that looks like a misnamed companion is annotated with the companion it was probably meant to be.
+      Two signals: a near-named file beside a missing `*_path` target, and a suffix close to a companion suffix
+      (for example `implement.promt.md` or `x.gudie.md`). A suffix of five letters or fewer allows one inserted,
+      dropped or swapped letter, so ordinary words such as `still.md` are not flagged.
+    - A reference that cannot be resolved (an overlong name, a NUL byte) is skipped, never a crash.
     - pack-check still fails such a pack, because the named companion is missing.
   - **Still red: an unmodelled stray file** (`notes.txt`, a log). The pinned pack-check's round trip refuses it as
     `round_trip_red`, and #331 records the decision this needs.
