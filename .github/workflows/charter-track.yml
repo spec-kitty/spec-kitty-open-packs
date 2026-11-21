@@ -363,6 +363,9 @@ jobs:
             echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's service \`.sha256\` asset)"
             echo "- \`pack_check_sha256\`: \`$PACK_CHECK_SHA256\` (the release's pack-check \`.sha256\` asset)"
             echo
+            echo "**Check the two digests yourself before merging.** They were copied from the release's own \`.sha256\` assets,"
+            echo "so nothing independent stands behind them: compare both with the release page and its assets."
+            echo
             echo "Every pack manifest, digest and pack page is re-derived at the new pin, and a changelog entry is added."
             echo "Proven green by $RUN_URL against \`main\` at \`$head\`. Review the changelog entry before merging."
             echo "If \`main\` has moved since, **Update branch** before merging: that push runs the gate on the merge"
