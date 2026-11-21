@@ -47,6 +47,18 @@
       "title": "common-docs styleguide still teaches pre-doc-kitty audience/related shapes",
       "verdict": "in-mission",
       "wp": null
+    },
+    "#274": {
+      "evidence_ref": "FR-013; partial: the other packs stay open on #274",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Replace Spec Kitty core examples in consumer artifacts (common-docs and squad slice)",
+      "verdict": "in-mission",
+      "wp": null
     }
   },
   "schema_version": 1
