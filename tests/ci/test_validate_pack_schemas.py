@@ -470,6 +470,51 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_OK, output)
             self.assertNotIn("Possible misspelled companion", output)
 
+    def test_r38_an_unresolvable_companion_reference_is_never_fatal(self) -> None:
+        # Review of #332 (MAJOR): a 300-character body_path made target.exists() raise ENAMETOOLONG and crashed the
+        # schema pass. A reference that cannot be resolved is not judged by the lint; the run goes on and exits 0.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"skills/long.skill.yaml": f"id: long\nbody_path: {'a' * 300}.skill.md\n",
+                                          "skills/nul.skill.yaml": 'id: nul\nbody_path: "x\\0y.skill.md"\n'})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("Traceback", output)
+
+    def test_r38_a_missing_companion_reference_is_annotated_on_the_artifact(self) -> None:
+        # Review of #332 (MINOR): a stem typo that still matches a files rule (implemnet.prompt.md) is held content,
+        # so no stray-file signal fires. The artifact whose *_path names a missing file is annotated instead.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            # toolguides/implement.guide.md is held content (the guide rule takes it), so it is no stray-file signal; the
+            # artifact naming the misspelt stem is what gets annotated.
+            pack = self.write_pack(root, {"skills/r.skill.yaml": "id: r\nbody_path: r.skill.md\n",
+                                          "toolguides/g.skill.yaml": "id: g\nbody_path: implemnet.guide.md\n",
+                                          "toolguides/implement.guide.md": "# g\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            for artifact, meant in (("skills/r.skill.yaml", "skills/r.skill.md"),
+                                    ("toolguides/g.skill.yaml", "toolguides/implemnet.guide.md")):
+                with self.subTest(artifact=artifact):
+                    line = next(l for l in output.splitlines()
+                                if l.startswith(f"::warning file={pack}/{artifact},title=Missing companion::"))
+                    self.assertIn(f"names {meant} as body_path", line)
+            self.assertNotIn("Possible misspelled companion", output)
+
+    def test_r38_short_tokens_allow_one_edit_and_no_substitution(self) -> None:
+        # Review of #332 (MINOR): two edits on a 5-6 letter token flagged English words. Short tokens now take one
+        # edit at most, and a five-letter-or-shorter token no plain substitution (still is not skill).
+        tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
+        for word in ("slide", "suite", "grid", "still", "drill", "skin", "promote", "guilds", "spill"):
+            with self.subTest(word=word):
+                self.assertIsNone(validator.suffix_suggestion(f"x.{word}.md", tokens))
+        for name, meant in (("x.skil.md", "x.skill.md"), ("x.gudie.md", "x.guide.md"), ("x.promt.md", "x.prompt.md"),
+                            ("x.skilll.md", "x.skill.md")):
+            with self.subTest(name=name):
+                self.assertEqual(validator.suffix_suggestion(name, tokens), meant)
+
     def test_r38_suffix_suggestion_and_edit_distance(self) -> None:
         tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
         self.assertEqual(validator.suffix_suggestion("implement.promt.md", tokens), "implement.prompt.md")
@@ -1202,3 +1247,20 @@ class ClassifierConformance(unittest.TestCase):
                 self.assertEqual(self.EXPECT[kind], case["expect"])
                 if "rule" in case:
                     self.assertEqual(rule.match if rule else None, case["rule"])
+
+
+class CompanionLintOnTheShippedPacks(unittest.TestCase):
+    """R38's lint raises nothing over this repository's own packs at the pin: no false positive, no missing companion."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.contract = validator.contract_for(None)
+
+    def test_no_shipped_pack_or_valid_fixture_has_a_lint_finding(self) -> None:
+        root = Path(__file__).resolve().parents[2]
+        packs = sorted(p for base in (root / "packs", root / "tests" / "fixtures" / "valid") for p in base.iterdir()
+                       if p.is_dir() and (p / "pack.yaml").is_file())
+        self.assertTrue(packs)
+        for pack in packs:
+            with self.subTest(pack=pack.name):
+                self.assertEqual(validator.validate_pack(pack, self.contract).suspects, [])
