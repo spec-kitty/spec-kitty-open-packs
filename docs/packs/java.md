@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/java`
 - **Pack level:** `org`
-- **Declared version:** `2.2.1`
-- **Content checksum (sha256):** `e15ebbf733a23649e049af461931d06fed8a6ce5e7be5a41713c9fc07a1254ef`
+- **Declared version:** `2.3.0`
+- **Content checksum (sha256):** `6c1ce81b770d4b68f6d2d6ae3bba0605629c76ee7f37a0dd8eb67434b75613aa`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

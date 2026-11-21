@@ -7,7 +7,7 @@
 # pack_id is the canonical identity, minted once by a tool and never edited.
 schema_version: "1.0"
 pack_id: 01M75HSYR9S9KPA372PHGT0EX3
-pack_version: 3.3.0
+pack_version: 3.4.0
 parent_pack: null
 name: foundation
 # Built-in level, so the built-in distribution pack may depend on it (ADR-0048 decision 7)
