@@ -270,14 +270,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `implementation-ready` beside the pre-review checks on `in_progress -> for_review`;
   - `review-approved` on every move to `approved` and to `done`;
   - `review-ref` on `in_review -> in_progress`, `approved -> in_progress` and the reset from
-    `approved`.
+    `approved`. On `in_review -> in_progress` core requires the reference when it writes the move,
+    taking it from the review result, rather than in its lane check.
 
   The `start` and `reset` transitions are split into one entry per source lane, so a guard sits
   only on the moves core checks; `blocked -> in_progress`, `in_progress -> planned` and
   `in_review -> planned` stay unguarded. `transition-context-complete` is not declared. No
   built-in guard checks the structured review result core requires on every move out of
-  `in_review` on its own, so those moves name none. Versioned additively by operator ruling: the
-  foundation lockstep 3.4.0 and built-in 5.4.0. **Upgrade:** a client that honours the
+  `in_review` on its own, so those moves name none. Versioned additively: the foundation lockstep
+  3.4.0 and built-in 5.4.0. DIRECTIVE_018 asks for a major bump when a rule tightens so that
+  conforming work stops conforming; the operator ruled this change minor on 2026-11-21, because
+  the guards state checks core already runs on these moves. **Upgrade:** a client that honours the
   lifecycle now refuses a claim or start with unmet dependencies, a move to review without
   complete subtasks and implementation evidence, a move to `approved` or `done` without reviewer
   approval, and a rewind out of review without a review reference.
