@@ -83,6 +83,18 @@
       "title": "Epic: new doctrine content moved from core",
       "verdict": "not-applicable",
       "wp": null
+    },
+    "#2934": {
+      "evidence_ref": "context-only: core incident behind the proposal's exemplar; neutralised, no work owed here",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "core incident cited for context (spec-kitty/spec-kitty#2934)",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
