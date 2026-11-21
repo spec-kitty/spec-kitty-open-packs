@@ -1,5 +1,17 @@
 {
   "rows": {
+    "#147": {
+      "evidence_ref": "tactic only; directive half stays deferred (C-004)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: vertical-skeleton-first tactic",
+      "verdict": "in-mission",
+      "wp": "WP03"
+    },
     "#154": {
       "evidence_ref": "tracer-bullet TDD and green mode, re-grounded at mattpocock/skills abeeaf9",
       "fr": null,
