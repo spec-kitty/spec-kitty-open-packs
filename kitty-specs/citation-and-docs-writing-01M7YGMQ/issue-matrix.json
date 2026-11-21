@@ -12,6 +12,18 @@
       "verdict": "in-mission",
       "wp": null
     },
+    "#176": {
+      "evidence_ref": "FR-006; partial: the step-prompt edits stay with #207",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Planning prompts: forbid prototyping (squad procedure slice)",
+      "verdict": "in-mission",
+      "wp": null
+    },
     "#219": {
       "evidence_ref": "FR-001, FR-003, FR-004",
       "fr": null,
