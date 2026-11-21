@@ -66,7 +66,9 @@ never a failure. Two signals:
   `.guidelines.md`, `.prompt-fragment.md`, or `.skill.md` for skill bodies): `go-review-checks.gudie.md`,
   `x.skill.MD`.
 
-pack-check still refuses the pack, because the companion its artifact names is missing.
+A misnamed companion does not slip through: pack-check still refuses the pack, because the companion its
+artifact names is missing (`<ref>: missing`, e.g. `steps/implement.prompt.md: missing`). Only a stray file that
+nothing names is left as a warning.
 
 A file a skill's `body_path` names is held as that skill's companion, whatever its name. Note that the
 pack-check gate is stricter on the last group: its round trip reds an unmodelled file (#331 tracks that). The
