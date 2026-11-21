@@ -35,6 +35,18 @@
       "title": "Writing guidance: docs-scoped avoid-common-AI-writing-mistakes styleguide",
       "verdict": "in-mission",
       "wp": null
+    },
+    "#240": {
+      "evidence_ref": "FR-011, FR-012",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "common-docs styleguide still teaches pre-doc-kitty audience/related shapes",
+      "verdict": "in-mission",
+      "wp": null
     }
   },
   "schema_version": 1
