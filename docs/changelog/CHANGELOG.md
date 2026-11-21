@@ -842,7 +842,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     stale-manifest-hash check stays as the fast pre-check, although pack-check refuses that case
     (`round_trip_red`).
   - **The release track carries both digests.** `charter-track.yml` resolves and bumps `pack_check_sha256` too.
-    A release without a pack-check asset cannot resolve.
+    A release without a pack-check asset cannot resolve. The bump pull request tells its reviewer to
+    confirm both digests against the release page, because they come from the release's own assets.
 
 - **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
   logic, gate and classifier scripts, invariants, and security or permission policy. For configuration

@@ -302,7 +302,9 @@ by default (operator ruling, 2026-11-18). Set:
 - `jar_sha256` and `pack_check_sha256`, from the release's two `.sha256` assets;
 - `commit`, the commit the tag points at.
 
-The job then downloads both jars and refuses any other digest. No Gradle build runs. Pin a `main` HEAD
+The job then downloads both jars and refuses any other digest. A bump takes those digests from the release's
+own `.sha256` assets, so a tampered release would carry matching ones: the reviewer of a bump pull request is
+the only independent check, and confirms both digests against the release page. No Gradle build runs. Pin a `main` HEAD
 commit, with the three release keys empty, only on demand: the job then builds the service and pack-check
 from `commit`. The easiest way to move the pin is `scripts/ci/charter_pin.py apply`, which also re-derives
 everything the pin decides. Move the pin in the
