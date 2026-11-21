@@ -160,8 +160,8 @@
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
-        "T017": "planned",
-        "T018": "planned"
+        "T017": "done",
+        "T018": "done"
       },
       "tracker_refs": [
         "#152"
