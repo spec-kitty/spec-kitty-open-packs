@@ -1,4 +1,6 @@
 {
+  "contracts": "none",
+  "contracts_rationale": "No API or interface is defined: the mission edits doctrine pack content and graph files validated against the charter contract the charter repository owns.",
   "create_return_branch": "t3/test-doctrine-2",
   "created_at": "2026-11-21T07:45:45.937924+00:00",
   "flattened": false,
