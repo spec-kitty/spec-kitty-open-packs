@@ -83,7 +83,7 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude::reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -96,6 +96,7 @@
         "Ready for review: ai-writing-tells styleguide, report-writing pointer and refines edge, writing graph wiring; out-of-map: executive-debrief pointer wording and internal README line (both follow the move); edge-identity and vocabulary pass"
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/citation-and-docs-writing-01M7YGMQ-coord/kitty-specs/citation-and-docs-writing-01M7YGMQ/tasks/WP03-ai-writing-tells/review-cycle-1.md",
         "reference": "review-cycle://citation-and-docs-writing-01M7YGMQ/WP03-ai-writing-tells/review-cycle-1.md",
@@ -103,13 +104,13 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 27681,
-      "shell_pid_created_at": "1795247638.14",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T008": "done",
-        "T009": "done",
-        "T010": "done",
-        "T011": "done"
+        "T008": "planned",
+        "T009": "planned",
+        "T010": "planned",
+        "T011": "planned"
       }
     },
     "WP04": {
