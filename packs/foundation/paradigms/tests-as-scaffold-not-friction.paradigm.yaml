@@ -1,0 +1,32 @@
+schema_version: "1.0"
+id: tests-as-scaffold-not-friction
+name: Tests as Scaffold, Not Friction
+summary: >
+  Tests exist to protect change, not to obstruct it. A test earns its place by
+  failing exactly when the contract it guards is violated and passing
+  otherwise. Two kinds of test break that promise. A test that passes for the
+  wrong reason (mocked-out behavior, a tautological or wiring-only assertion)
+  gives false confidence: it hides regressions. A test that fails on a
+  correct, behavior-neutral change (an implementation-coupled assertion, a
+  line-pinned ratchet) creates false friction: it pressures engineers to
+  revert good changes. Both are scaffolding that has turned into an obstacle.
+  The binding rules that follow from this view are DIRECTIVE_041 (tests as
+  scaffold) and DIRECTIVE_054 (substitute only at the responsibility
+  boundary); this paradigm holds the reasons.
+principles:
+  - name: Protect change
+    description: A test is scaffolding for the next change. It stays green while behavior holds, whatever the structure, and goes red when behavior breaks.
+  - name: False confidence and false friction
+    description: A test that passes when the code is broken hides regressions; a test that fails when the code is fine pushes people to revert good work. Both are defects in the test.
+  - name: The desiderata are the value system
+    description: Beck's test desiderata name what a good test optimizes; they trade off against each other, so a test chooses deliberately. The testing pack keeps the checklist.
+  - name: A double is a second copy of a contract
+    description: A stub that answers "when called with X, return Y" restates the collaborator's contract by hand, kept in step only by discipline. Asserting its calls adds coupling to names, order and call shape.
+  - name: Boundary-only substitution is a policy choice
+    description: Substituting only at the responsibility boundary is stronger than its sources demand (the desiderata never mention mocks). It is chosen because owned doubles manufacture states the real code never reaches.
+  - name: Connascence is a lens, not a proof
+    description: Naming the coupling a test carries helps diagnose brittleness; it does not by itself prove a test wrong, and it does not replace judgement about design.
+  - name: Real code moves risk to runtime
+    description: Running owned logic for real trades refactor-loud coupling for runtime coupling. Contract tests at the real boundaries stay, because shared assumptions there still need checking.
+  - name: Boundaries are re-audited
+    description: A boundary drawn for today's design can fossilize. When the architecture moves, re-check where the responsibility boundary lies before trusting old doubles.
