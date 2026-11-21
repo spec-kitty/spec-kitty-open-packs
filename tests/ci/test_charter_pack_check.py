@@ -322,17 +322,21 @@ class JarScript(unittest.TestCase):
                                        "url=\"$1\"; shift; done\necho \"$url\" > \"$URL_LOG\"\n"
                                        "printf %s \"$SERVED\" > \"$out\"\n"
                                        "[ -z \"$CURL_EXIT\" ] || exit \"$CURL_EXIT\"\n")
-        (self.bin / "git").write_text("#!/bin/sh\nprintf '%s\\trefs/tags/service-v1.0.0\\n' \"$TAGGED\"\n")
+        # An annotated tag lists its tag object, then its commit as `refs/tags/<tag>^{}`; a lightweight tag only its commit.
+        (self.bin / "git").write_text(
+            "#!/bin/sh\nt=refs/tags/service-v1.0.0\n"
+            "if [ -n \"$TAG_OBJECT\" ]; then printf '%s\\t%s\\n%s\\t%s^{}\\n' \"$TAG_OBJECT\" $t \"$TAGGED\" $t\n"
+            "else printf '%s\\t%s\\n' \"$TAGGED\" $t; fi\n")
         for tool in ("curl", "git"):
             (self.bin / tool).chmod(0o755)
 
     def run_script(self, script: str, key: str, *, digest: str, tagged: str, served: bytes,
-                   curl_exit: int = 0) -> subprocess.CompletedProcess:
+                   curl_exit: int = 0, tag_object: str = "") -> subprocess.CompletedProcess:
         digests = {"pack_check_sha256": "a" * 64, "jar_sha256": "a" * 64, key: digest}
         (self.repo / "charter.lock.yaml").write_text(
             f"commit: {self.COMMIT}\nrelease_tag: service-v1.0.0\njar_sha256: {digests['jar_sha256']}\n"
             f"pack_check_sha256: {digests['pack_check_sha256']}\n")
-        env = dict(os.environ, PATH=f"{self.bin}{os.pathsep}{os.environ['PATH']}", TAGGED=tagged,
+        env = dict(os.environ, PATH=f"{self.bin}{os.pathsep}{os.environ['PATH']}", TAGGED=tagged, TAG_OBJECT=tag_object,
                    SERVED=served.decode(), URL_LOG=str(self.tmp / "url"), CURL_EXIT=str(curl_exit or ""))
         return subprocess.run(["bash", str(self.repo / "scripts" / "ci" / script), str(self.tmp / "work")],
                               capture_output=True, text=True, env=env, check=False)
@@ -365,13 +369,24 @@ class JarScript(unittest.TestCase):
                 self.assertEqual(list((self.tmp / "work").iterdir()), [])  # neither the jar nor a partial file
 
     def test_a_tag_that_points_elsewhere_than_the_lock_commit_is_refused(self) -> None:
+        other = "d" * 40
+        # (what the tag's commit is, the annotated tag object's own sha or "" for a lightweight tag, accepted)
+        cases = {"lightweight tag elsewhere": (other, "", False),
+                 "annotated tag whose commit is the lock's": (self.COMMIT, other, True),
+                 "annotated tag whose object is the lock's sha but whose commit is elsewhere": (other, self.COMMIT, False)}
         for script, key, jar in self.SCRIPTS:
-            with self.subTest(script=script):
-                done = self.run_script(script, key, digest=self.digest, tagged="d" * 40, served=self.jar_bytes)
-                self.assertNotEqual(done.returncode, 0)
-                self.assertEqual(done.stdout, "")
-                self.assertIn("names two charters", done.stderr)
-                self.assertEqual(list((self.tmp / "work").iterdir()), [])  # refused before any download
+            for name, (tagged, tag_object, accepted) in cases.items():
+                with self.subTest(script=script, tag=name):
+                    done = self.run_script(script, key, digest=self.digest, tagged=tagged, tag_object=tag_object,
+                                           served=self.jar_bytes)
+                    if accepted:
+                        self.assertEqual(done.returncode, 0, done.stderr)
+                        shutil.rmtree(self.tmp / "work")  # the next case starts with an empty work dir
+                        continue
+                    self.assertNotEqual(done.returncode, 0)
+                    self.assertEqual(done.stdout, "")
+                    self.assertIn("names two charters", done.stderr)
+                    self.assertFalse((self.tmp / "work").exists() and list((self.tmp / "work").iterdir()))  # no download
 
 
 @unittest.skipUnless(os.environ.get("PACK_CHECK_JAR"), "PACK_CHECK_JAR names no pack-check jar")
