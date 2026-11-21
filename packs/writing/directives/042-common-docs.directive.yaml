@@ -25,12 +25,17 @@ integrity_rules:
     which the structural lint shipped with this pack reads by default. ADR
     frontmatter is exempt — it uses `status` for the MADR decision status
     (Proposed / Accepted / Deprecated / Superseded).
-  - Every `related:` entry must resolve to an existing repo-relative `.md` path.
-  - Where the project keeps a persona source, every `audience:` entry on a
-    touched page must resolve to it, and a dangling reference is a violation on
-    that page. Where it keeps none, the persona is named in plain words and the
-    gap is recorded. `audience:` is required on touched pages only, so untouched
-    legacy pages are never failed for lacking it.
+  - Every `related:` entry is the slug of a page in the docs tree (its path
+    under the docs root without `.md`, or an object with `ref` and an optional
+    `note`) and must resolve to that page. Links outside the docs tree go under
+    `external_references:`. Repo-relative `.md` paths in `related:` are the
+    legacy form.
+  - Every touched page declares its readers as `audience:` entries, each with
+    a `profile` and a `guidance_text`. Where the project defines persona pages,
+    each `profile` names one of them, and a profile that names none is a
+    violation on that page. Where it defines none, the profile names the reader
+    in plain words and the gap is recorded. `audience:` is required on touched
+    pages only, so untouched legacy pages are never failed for lacking it.
 validation_criteria:
   - The common-docs-structural-lint asset (the structural lint shipped with
     this pack) is the mechanical gate. The common-docs-structural-lint
@@ -48,8 +53,10 @@ validation_criteria:
   - Every page's lifecycle state uses the project's one lifecycle key and its
     defined values; ADR frontmatter retains `status` for the MADR decision status
     by design.
-  - Review confirms every `related:` entry resolves, or the project's own
-    `related:` validator does, if the project has one.
-  - Where the project keeps a persona source, a check or review confirms every
-    audience reference on a touched page resolves to it; otherwise the plain-word
-    persona and the recorded gap are present.
+  - Every `related:` slug resolves. A docsite build that reads the slug shape
+    (doc-kitty fails on a miss) or the project's own `related:` validator
+    confirms it, or review does where neither exists.
+  - Every touched page carries `audience:` entries with a `profile` and a
+    `guidance_text`; where the project defines persona pages, a check or review
+    confirms each profile names one; otherwise the plain-word profile and the
+    recorded gap are present.
