@@ -14,35 +14,12 @@ applies_to_languages: []
 # a real seam rather than mocked ad hoc.
 
 principles:
-  # — Kent Beck's twelve test desiderata: properties to OPTIMIZE via deliberate
-  #   trade-offs, not to maximize all at once. Conflicts are often a design smell
-  #   resolvable by better boundaries/composability, not an inherent limit.
+  # — Kent Beck's twelve test desiderata: properties to optimize through deliberate
+  #   trade-offs. The checklist asset lists them; this styleguide keeps how to use them.
   - name: "Desiderata are trade-offs"
     description: "Desiderata are trade-offs: choose which properties a given test optimizes; do not pretend one test maximizes all twelve at once."
-  - name: "Isolated from test order"
-    description: "Isolated: a test returns the same result regardless of the order tests run in — no shared mutable state, no order dependence. It does not mean isolating the unit from its collaborators with mocks."
-  - name: "Composable variability"
-    description: "Composable: dimensions of variability can be tested separately and combined, so coverage grows without combinatorial test counts."
-  - name: "Deterministic results"
-    description: "Deterministic: if nothing changes, the result does not change — no reliance on clocks, randomness, network, or ambient filesystem state."
-  - name: "Fast feedback"
-    description: "Fast: a test runs quickly enough to run after every small change without friction."
-  - name: "Writable tests"
-    description: "Writable: a test is cheap to write relative to the code it covers; expensive setup is a signal the boundary is wrong."
-  - name: "Readable tests"
-    description: "Readable: a test communicates the motivation and scenario to a future reader without spelunking the production code."
-  - name: "Behavioral sensitivity"
-    description: "Behavioral: a test is sensitive to changes in the behavior of the code under test."
-  - name: "Structure-insensitive"
-    description: "Structure-insensitive: a test does not change its result when internal structure is refactored without behavior change."
-  - name: "Automated execution"
-    description: "Automated: a test runs without human intervention."
-  - name: "Specific failures"
-    description: "Specific: when a test fails, the cause is obvious from the failure alone."
-  - name: "Predictive of production"
-    description: "Predictive: when all tests pass, the code is fit for production."
-  - name: "Inspiring confidence"
-    description: "Inspiring: passing the suite inspires confidence to ship."
+  - name: "The twelve desiderata"
+    description: "The twelve properties (Isolated, Composable, Deterministic, Fast, Writable, Readable, Behavioral, Structure-insensitive, Automated, Specific, Predictive, Inspiring) are defined once, in the testing pack's test-desiderata-checklist asset."
   # — Clear Test Boundaries (Define Test Boundaries):
   - name: "Boundary by responsibility, not by layer"
     description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
@@ -223,6 +200,39 @@ anti_patterns:
       with pytest.raises(AssertionError, match="replica parity"):
           assert_replica_parity(primary, replica)          # the real check goes red
 
+  - name: Gold plating as a licence to double owned logic
+    description: >
+      "Avoid gold plating" (build only what is needed now) is sometimes read as
+      permission to substitute owned logic because running it for real costs
+      setup. It is not. The rare cheap substitutes the allow-list permits
+      (DIRECTIVE_054: schema-only validation by a library, an outbound
+      notification) are boundary seams; logic the behavior depends on runs for
+      real. If the real slice is too heavy, extract a pure seam instead.
+    bad_example: |
+      # "Running the discount rules for real is overkill here."
+      with patch("shop.pricing.apply_discount_rules", return_value=Decimal("90")):
+          assert checkout(cart).total == Decimal("90")    # tests the stub, not pricing
+    good_example: |
+      # The discount rules are owned logic: run them; seed a cart that triggers one.
+      cart = cart_with(items=[book(price="100")], coupon="TEN_OFF")
+      assert checkout(cart).total == Decimal("90")
+  - name: Forgetting that a stub is a second copy of the contract
+    description: >
+      A stub that answers "when called with X, return Y" restates the
+      collaborator's contract by hand (connascence of algorithm), and nothing
+      but discipline keeps the two copies in step. When the real collaborator
+      changes, the stub keeps the old behavior and the test stays green for a
+      world that no longer exists. Keep stubs at allow-listed seams and make
+      them honor the real dependency's contract.
+    bad_example: |
+      stub_rates.get_rate.return_value = 1.1     # the real service now raises on stale rates
+      assert convert(100, "EUR", "USD") == 110   # stays green after the contract changed
+    good_example: |
+      # A fake at the network seam that keeps the real contract, failure branch included.
+      rates = FakeRateService(rates={"EUR/USD": 1.1}, stale={"EUR/GBP"})
+      assert convert(100, "EUR", "USD", rates=rates) == 110
+      with pytest.raises(StaleRateError):
+          convert(100, "EUR", "GBP", rates=rates)
   - name: Development-assist scaffolding left in the suite
     description: >
       Characterization oracles, before/after parity checks, per-WP shape or

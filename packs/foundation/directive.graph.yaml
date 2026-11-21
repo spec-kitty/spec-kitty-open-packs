@@ -523,6 +523,10 @@ edges:
   relation: rejects
   reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
 - source: directive:DIRECTIVE_054
+  target: asset:exemplar-unfake-an-over-mocked-test
+  relation: suggests
+  when: showing how a test that doubles owned logic is brought back to the boundary
+- source: directive:DIRECTIVE_054
   target: directive:DIRECTIVE_031
   relation: suggests
   when: deciding whether a collaborator is another bounded context that a test may substitute

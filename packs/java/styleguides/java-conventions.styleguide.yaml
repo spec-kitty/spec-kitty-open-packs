@@ -23,7 +23,7 @@ principles:
   - name: "Specific exception types"
     description: "Specific exception types: catch and declare the most specific exception type applicable. Never catch Exception or Throwable unless at a top-level boundary."
   - name: "Quad-A test structure"
-    description: "Quad-A test structure: every test method follows Arrange, Assumption-check (assertThat preconditions), Act, Assert."
+    description: "Quad-A test structure: test methods follow the testing pack's quad-a-test-structure asset; in Java the assumption check is an assertThat on the precondition."
   - name: "Test Data Builder pattern"
     description: "Test Data Builder pattern: use static factory methods or builder classes to create test objects. Never scatter new SomeEntity(...) constructor calls across test methods."
   - name: "AssertJ for assertions"
@@ -141,7 +141,7 @@ patterns:
       }
 
   - name: Quad-A Test Structure
-    description: "Tests follow Arrange, Assumption-check, Act, Assert. The assumption check verifies that setup produced the intended precondition."
+    description: "The phases are defined in the testing pack's quad-a-test-structure asset; this is the JUnit and AssertJ shape of them."
     bad_example: |
       @Test
       void shouldRejectInvalidEmail() {
