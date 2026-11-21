@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-21'
 ---
 # Changelog
 
@@ -261,6 +261,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (see Changed).
 
 ### ✨ Added
+
+- **The work-package lifecycle names the checks core runs on each move** (#291; epic #287, charter
+  ADR-0054). Before, only `in_progress -> for_review` named a guard (`spec-kitty-pre-review`).
+  Foundation now ships four more built-in guards and declares them where core's status model
+  already checks them:
+  - `dependency-ready` on the claim (`planned -> claimed`) and the start from `claimed`;
+  - `implementation-ready` beside the pre-review checks on `in_progress -> for_review`;
+  - `review-approved` on every move to `approved` and to `done`;
+  - `review-ref` on the rewinds `in_review` and `approved -> in_progress`, and on the reset from
+    `approved`.
+
+  The `start` and `reset` transitions are split into one entry per source lane, so a guard sits
+  only on the moves core checks; `blocked -> in_progress`, `in_progress -> planned` and
+  `in_review -> planned` stay unguarded. `transition-context-complete` is not declared. A client
+  that honours the lifecycle refuses no move that core accepts. Versioned additively: the
+  foundation lockstep 3.4.0 and built-in 5.4.0.
 
 - **`/spec-kitty.analyze` reviews the whole planning corpus and product coherence** (#213, #214,
   #247; epic #244). Before, the software-dev `analyze` step read only the spec, the plan, the tasks
