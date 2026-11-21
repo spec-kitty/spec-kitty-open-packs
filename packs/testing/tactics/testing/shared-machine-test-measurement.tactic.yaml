@@ -56,6 +56,6 @@ applies_to_languages: []
 notes: >
   Complements no-parallel-duplicate-test-runs, which allows one run per suite;
   this tactic covers the whole machine and the honesty of what a run proves.
-  Where the qa pack is active, its no-fake-green reporting rule governs how
+  Where a project has a reporting rule against fake green results, it governs how
   outcomes are reported. Machine-specific limits (port ranges, disk quotas, make
   targets) belong in a project's own pack or contributor docs.

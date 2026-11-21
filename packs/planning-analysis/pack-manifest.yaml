@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 8c38d03186f8ef4ebd3c48f1720c72aabf8cbeb9ecd69ecb5f134bab401ccf32
+manifest_hash: b76ae90934933150e03f1a105692d6c28e899a5f2c614ae4af7e0080869c8f9a
 constituents:
 - kind: agent_profile
   id: planner-priti
@@ -48,4 +48,4 @@ constituents:
 - kind: tactic
   id: vertical-skeleton-first
   path: tactics/analysis/vertical-skeleton-first.tactic.yaml
-  content_hash: a580aeac203e846941a89304e50c02fb094f3b19c53d0f419ffc9e07b56ea405
+  content_hash: 374115ec02588ad2fe33185e9908a438ad9d9ca46d440cfbf32f2824c1daa188

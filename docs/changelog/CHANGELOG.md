@@ -353,7 +353,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   change; false confidence and false friction; the desiderata; a double as a second copy of a
   contract). `DIRECTIVE_041` keeps every rule; it and `DIRECTIVE_054` refine the paradigm.
   Two anti-pattern nodes, "mock owned logic to pin a call contract" and "assert on mock
-  interactions", are rejected by the paradigm, 054, the unfake procedure and the testing tactics, so
+  interactions", are rejected by the paradigm, 054, the unfake procedure and three `foundation` testing tactics, so
   review can name them. Four reference assets ship: a functional-slicing worked example and a full
   unfake worked example in `foundation`, and the desiderata checklist and the Quad-A skeleton and
   checklist in `testing`. The desiderata and the Quad-A definition each live in one place now; the
@@ -379,8 +379,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   measurement.
 - **Less core residue in two consumer files** (part of #273 and #274). `DIRECTIVE_034` loses its
   provenance comment, and `testing-principles` its core PR, commit and symbol references.
-- **Versions**: the `foundation` lockstep set moves to 3.4.0 and `built-in` to 5.4.0; `python` and
-  `java` to 2.3.0, `javascript` to 2.2.0, `pack-authoring` to 1.4.0 and `internal` to 4.3.0.
+- **Versions**: the lockstep set (`foundation`, `writing`, `testing`, `refactoring`, `architecture`,
+  `planning-analysis`) moves to 3.4.0 and `built-in` to 5.4.0; `python` and `java` to 2.3.0,
+  `javascript` to 2.2.0, `pack-authoring` to 1.4.0 and `internal` to 4.3.0.
+  **What to do:** nothing in your packs. `python`, `java`, `javascript` and `internal` now require
+  `testing` 3.4 or later (`>=3.4,<4`), because they point to its new Quad-A asset and measurement
+  tactic.
 - **Tests may mock only at the responsibility boundary** (#216). A new `foundation` `DIRECTIVE_054`
   holds the allow-list of seams a test may substitute; collaborators the code owns run for real. The
   new `unfake-an-over-mocked-test` procedure turns an over-mocked test into one that does. Both load

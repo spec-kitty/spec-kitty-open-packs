@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 13a19d6b7e2c576b28e6d6bc239a6bd64821a05b739373f6a3f122ea6c055666
+manifest_hash: 21c02e26419473233f414fa70a4af74aa7397364b747c92b3819f5363f0bde5c
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -60,11 +60,11 @@ constituents:
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: 9fa5a100d2494d7544f8a4c705ee616dd07adebe48aad8cf45b0e6eaa70e2176
+  content_hash: cb35b11ebcd0a831a2d51a819859ea1ececbeb2bf7fb379727413f1bf7736317
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: 8a7d68d325fc8d7cca502f6f134bd85fa284e1b762e8d671617e8bbab924b058
+  content_hash: 73aa2b0206c6b3fd6d0aa3ceced41f69d229cda6839eeb76713d17c617e8c229
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
@@ -88,7 +88,7 @@ constituents:
 - kind: tactic
   id: shared-machine-test-measurement
   path: tactics/testing/shared-machine-test-measurement.tactic.yaml
-  content_hash: d7631d5b4261b4653a6e3a334e83926b0ca6decc6f38109c1193e6699c9db429
+  content_hash: 473c76f909512b782dcbb38d138feedfa03d4a79d555c3eb2febcd8f9eaec8ee
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml
