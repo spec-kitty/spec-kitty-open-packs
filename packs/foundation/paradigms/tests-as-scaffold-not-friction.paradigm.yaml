@@ -10,7 +10,7 @@ summary: >
   correct, behavior-neutral change (an implementation-coupled assertion, a
   line-pinned ratchet) creates false friction: it pressures engineers to
   revert good changes. Both are scaffolding that has turned into an obstacle.
-  The binding rules that follow from this view are DIRECTIVE_041 (tests as
+  The rules that follow from this view are DIRECTIVE_041 (tests as
   scaffold) and DIRECTIVE_054 (substitute only at the responsibility
   boundary); this paradigm holds the reasons.
 principles:
@@ -19,9 +19,11 @@ principles:
   - name: False confidence and false friction
     description: A test that passes when the code is broken hides regressions; a test that fails when the code is fine pushes people to revert good work. Both are defects in the test.
   - name: The desiderata are the value system
-    description: Beck's test desiderata name what a good test optimizes; they trade off against each other, so a test chooses deliberately. The testing pack keeps the checklist.
+    description: Beck's test desiderata name what a good test optimizes; they trade off against each other, so a test chooses deliberately. The testing pack keeps the twelve desiderata as a checklist.
   - name: A double is a second copy of a contract
-    description: A stub that answers "when called with X, return Y" restates the collaborator's contract by hand, kept in step only by discipline. Asserting its calls adds coupling to names, order and call shape.
+    description: A stub that answers "when called with X, return Y" restates the collaborator's contract by hand (connascence of algorithm), kept in step only by discipline.
+  - name: Asserting calls adds coupling
+    description: Asserting which owned collaborator was called, how often and with which arguments adds connascence of name, position and execution across the boundary; asserting the outcome leaves only connascence of meaning at the public boundary.
   - name: Boundary-only substitution is a policy choice
     description: Substituting only at the responsibility boundary is stronger than its sources demand (the desiderata never mention mocks). It is chosen because owned doubles manufacture states the real code never reaches.
   - name: Connascence is a lens, not a proof

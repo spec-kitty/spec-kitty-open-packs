@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 902858323db7768bd0b2673877018331ae3b553714eb8e00a5cfa74ed8057fe7
+manifest_hash: 4ec425c04793200925e8d6ce79801c3adce1fd6c6dca0ad540b3a14c955fabeb
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -236,7 +236,7 @@ constituents:
 - kind: paradigm
   id: tests-as-scaffold-not-friction
   path: paradigms/tests-as-scaffold-not-friction.paradigm.yaml
-  content_hash: c4120ffa1c18de30701da7be57a34ac2a671ca28ca2f33a4e3650e9f73f71959
+  content_hash: 1cae9427569a88d9b0a1d5cc62578fa874a91859bb3f55fb8ac882325123b943
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
