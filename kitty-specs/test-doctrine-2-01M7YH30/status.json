@@ -133,7 +133,7 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": null,
+      "agent": "claude::implementer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -146,7 +146,8 @@
         "Ready for review",
         "Review cycle 1 rejected: outcome categories contradict no measurement; flaky case; disk-full term; neutral example; internal pointer wording",
         "Cycle 2: findings 1-6 fixed (b12e295)",
-        "Approved by reviewer-renata subagent, cycle 2 (b12e295); optional nit folded"
+        "Approved by reviewer-renata subagent, cycle 2 (b12e295); optional nit folded",
+        "Refresh: lane-d merged lane-c; packs tree equals reviewed resolution b2b5dbd"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
