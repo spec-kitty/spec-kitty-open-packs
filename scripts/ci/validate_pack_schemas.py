@@ -1598,7 +1598,7 @@ def main(argv: list[str] | None = None) -> int:
             for line in report.violations:
                 print(f"::error file={pack}::{line}")
             print(f"{'ok' if report.ok else 'FAIL'}: {pack} ({report.checked} files checked, "
-                  f"{report.skipped} excluded or payload, {len(report.violations)} violations)")
+                  f"{report.skipped} not judged: excluded, payload or not held, {len(report.violations)} violations)")
             status = status or (EXIT_OK if report.ok else EXIT_INVALID)
         if args.cross_pack:
             found = cross_pack_violations(args.packs, contract)
