@@ -393,6 +393,8 @@ class JarScript(unittest.TestCase):
 class RealPackCheck(unittest.TestCase):
     """Against the real jar of the pin (the Charter service validation job sets PACK_CHECK_JAR)."""
 
+    FIXTURE = ROOT / "tests" / "fixtures" / "invalid" / "malformed-pack-version"
+
     def test_a_malformed_pack_version_among_the_packs_fails_the_gate(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
@@ -403,9 +405,14 @@ class RealPackCheck(unittest.TestCase):
             shutil.copytree(ROOT / "tests" / "fixtures" / "invalid", repo / "tests" / "fixtures" / "invalid")
             done = subprocess.run([sys.executable, str(SCRIPT), "--jar", os.environ["PACK_CHECK_JAR"],
                                    "--root", str(repo)], capture_output=True, text=True, check=False)
-        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
-        self.assertIn("spec-kitty-charter#624", done.stdout)
+        output = done.stdout + done.stderr
+        self.assertEqual(done.returncode, 1, output)
+        # Holds before and after charter#624: the set fails on the malformed version, and the invalid fixture is
+        # refused as its expected-code says. Only the fixture's 'pack-check:' line changes when #624 is fixed.
         self.assertNotIn("::error::pack-check: invalid fixture", done.stdout)
+        self.assertIn("ok: pack-check refuses invalid fixture malformed-pack-version as expected", done.stdout)
+        if gate.expected_pack_check(self.FIXTURE) == gate.FAILED:
+            self.assertIn(gate.CRASH_ISSUE, done.stdout)  # still the crash, so the gate must name it
 
 
 if __name__ == "__main__":
