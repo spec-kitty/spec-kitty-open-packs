@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
-- **Declared version:** `3.4.0`
-- **Content checksum (sha256):** `c9f302c775b569731bb104900942644aecfacb4bf4cbd1891f2c72bee3798190`
+- **Declared version:** `3.5.0`
+- **Content checksum (sha256):** `0d100c1fbd9676cb2c59395e37418f30b0d4490ca24799df5ec0266fd35e6aa6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,8 +39,8 @@ glossary.
 
 | Kind | Count |
 | --- | --- |
-| `directives` | 33 |
-| `tactics` | 62 |
+| `directives` | 34 |
+| `tactics` | 63 |
 | `styleguides` | 1 |
 | `toolguides` | 12 |
 | `paradigms` | 1 |
@@ -51,12 +51,12 @@ glossary.
 | `lifecycles` | 1 |
 | `missions` | 60 |
 | `routing_catalogs` | 1 |
-| **Total files** | **235** |
+| **Total files** | **237** |
 
 ### Full listing
 
 <details>
-<summary><code>directives</code> (33)</summary>
+<summary><code>directives</code> (34)</summary>
 
 - `001-architectural-integrity-standard.directive.yaml`
 - `003-decision-documentation-requirement.directive.yaml`
@@ -88,6 +88,7 @@ glossary.
 - `052-prefer-durable-fixes.directive.yaml`
 - `053-choose-op-or-mission-before-starting.directive.yaml`
 - `054-mock-only-at-the-responsibility-boundary.directive.yaml`
+- `055-build-identity-contract.directive.yaml`
 - `disciplined-refactoring.directive.yaml`
 - `reconcile-change-scope-tensions.directive.yaml`
 - `red-main-release-discipline.directive.yaml`
@@ -95,7 +96,7 @@ glossary.
 </details>
 
 <details>
-<summary><code>tactics</code> (62)</summary>
+<summary><code>tactics</code> (63)</summary>
 
 - `adversarial-qa-handoff.tactic.yaml`
 - `analysis/bounded-context-identification.tactic.yaml`
@@ -118,6 +119,7 @@ glossary.
 - `architecture/problem-decomposition.tactic.yaml`
 - `autonomous-operation-protocol.tactic.yaml`
 - `avoid-gold-plating.tactic.yaml`
+- `build-identity-stamp-verify-guard.tactic.yaml`
 - `canonical-source-unification.tactic.yaml`
 - `change-apply-smallest-viable-diff.tactic.yaml`
 - `clean-linear-commit-history.tactic.yaml`

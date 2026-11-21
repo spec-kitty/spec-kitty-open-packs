@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: a47ae24c715b7d04df4c199c34b0f621208b75b52a56bcf37f8ff407ae75bd03
+manifest_hash: 40d4268308629d9218c731ee65744d89c18460daf1a69e686d4069a4f41695d8
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -57,6 +57,10 @@ constituents:
   id: OPERATOR_SIGNAL_CONTRACT
   path: directives/operator-signal-contract.directive.yaml
   content_hash: 5c0402990c3f71c20598b9a4e2ca8af10ead9e504c00f7f1057c63176cbe972f
+- kind: directive
+  id: SPEC_KITTY_BUILD_IDENTITY
+  path: directives/spec-kitty-build-identity.directive.yaml
+  content_hash: dcce3797be484d79782968dd02867c3cb2b82e525077dc43894cf50019fd703a
 - kind: directive
   id: SPEC_KITTY_DOCS_CONVENTIONS
   path: directives/spec-kitty-docs-conventions.directive.yaml
