@@ -423,6 +423,63 @@ class ValidatorExitCodes(unittest.TestCase):
             for name in stray:
                 self.assertIn(f"::warning file={pack}::pack/{name}: file_not_held", output)
 
+    def test_r38_a_misspelled_companion_suffix_is_annotated_with_the_name_it_should_have(self) -> None:
+        # Operator ruling R38: a lightweight, linter-style name check. A stray file whose suffix is close to a companion
+        # suffix the contract models (.guide.md here; .skill.md for skill bodies) gets a PR annotation naming the
+        # companion it was probably meant to be. It is never a failure (R34: a stray file warns).
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"toolguides/g.gudie.md": "# g\n", "toolguides/h.guide.MD": "# h\n",
+                                          "skills/x.skil.md": "# x\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("::error", output)
+            for stray, meant in (("toolguides/g.gudie.md", "toolguides/g.guide.md"),
+                                 ("toolguides/h.guide.MD", "toolguides/h.guide.md"),
+                                 ("skills/x.skil.md", "skills/x.skill.md")):
+                with self.subTest(stray=stray):
+                    self.assertIn(f"::warning file={pack}/{stray},title=Possible misspelled companion::", output)
+                    line = next(l for l in output.splitlines() if l.startswith(f"::warning file={pack}/{stray},"))
+                    self.assertIn(f"did you mean {meant}?", line)
+
+    def test_r38_a_stray_file_beside_a_missing_companion_reference_is_annotated(self) -> None:
+        # A skill whose body_path names a file that is not there, with a near-named stray file beside it: the
+        # annotation names both, so the author can fix whichever is misspelled.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"skills/r.skill.yaml": "id: r\nbody_path: report-debreif.skill.md\n",
+                                          "skills/report-debrief.skill.md": "# r\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            line = next(l for l in output.splitlines()
+                        if l.startswith(f"::warning file={pack}/skills/report-debrief.skill.md,title=Possible misspelled companion::"))
+            self.assertIn("did you mean skills/report-debreif.skill.md?", line)
+            self.assertIn("skills/r.skill.yaml names it as body_path", line)
+
+    def test_r38_ordinary_notes_and_logs_are_not_taken_for_misspelled_companions(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, {"notes.md": "n\n", "docs/plan.md": "p\n", "logs/run.log": "l\n",
+                                          "notes.txt": "n\n", "toolguides/README.md": "# r\n",
+                                          "toolguides/g.guide.md": "# g\n", "skills/s.skill.yaml": "id: s\nbody_path: s.skill.md\n",
+                                          "skills/s.skill.md": "# s\n", "my.notes.md": "n\n"})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("Possible misspelled companion", output)
+
+    def test_r38_suffix_suggestion_and_edit_distance(self) -> None:
+        tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
+        self.assertEqual(validator.suffix_suggestion("implement.promt.md", tokens), "implement.prompt.md")
+        self.assertEqual(validator.suffix_suggestion("a.guidelnes.md", tokens), "a.guidelines.md")
+        self.assertEqual(validator.suffix_suggestion("f.prompt-fragmnet.md", tokens), "f.prompt-fragment.md")
+        self.assertEqual(validator.suffix_suggestion("s.SKILL.md", tokens), "s.skill.md")
+        for name in ("implement.prompt.md", "notes.md", "my.notes.md", "a.txt", "x.prompts.yaml", "README.md"):
+            with self.subTest(name=name):
+                self.assertIsNone(validator.suffix_suggestion(name, tokens))
+
     def test_a_skill_body_its_skill_names_is_held_as_a_companion_whatever_its_name(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
