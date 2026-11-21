@@ -30,7 +30,8 @@
       "last_transition_at": "2026-11-21T07:52:51.961059+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: two principles in research-citation-discipline, reminders in specify/plan prompts and adr-drafting-workflow; ASCII test passes; schema gate runs in CI (charter contract unreachable locally)"
+        "Ready for review: two principles in research-citation-discipline, reminders in specify/plan prompts and adr-drafting-workflow; ASCII test passes; schema gate runs in CI (charter contract unreachable locally)",
+        "Review passed: FR-001/FR-002 stated once in research-citation-discipline (principles 218/219 chars, each naming the other; full rules in same-named patterns; neutral bad/good anti-patterns), FR-003 reminders in specify/plan prompts and adr-drafting-workflow point to it in prose only (C-005), ASCII test, graph-edge test and vocabulary pass. Anti-pattern checklist: dead code N/A, synthetic fixture N/A, silent return N/A, FR coverage N/A (content pack, gates evidenced-by-run), frozen surface PASS, locked decision PASS, shared-file ownership PASS, fragility N/A. Nits: (1) 'Cite the specific locus' principle still says 'exact section, line, table' - consider pointing it at 'Anchor code citations to content' to avoid a reader reading it as licensing bare line refs; (2) plan.prompt.md reminder adds the count-command clause the specify reminder omits - harmless asymmetry; (3) the annotated-ephemeral good example is folded into the Bare SHA good_example rather than its own example."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
