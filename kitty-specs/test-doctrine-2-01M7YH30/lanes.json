@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "mission_slug": "test-doctrine-2-01M7YH30",
+  "mission_id": "01M7YH303GM7171YZQZK7NZZ96",
+  "mission_branch": "kitty/mission-test-doctrine-2-01M7YH30",
+  "target_branch": "t3/test-doctrine-2",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "packs/foundation/anti_pattern.graph.yaml",
+        "packs/foundation/directive.graph.yaml",
+        "packs/foundation/directives/041-tests-as-scaffold-not-friction.directive.yaml",
+        "packs/foundation/paradigm.graph.yaml",
+        "packs/foundation/paradigms/tests-as-scaffold-not-friction.paradigm.yaml",
+        "packs/foundation/procedure.graph.yaml",
+        "packs/foundation/tactic.graph.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "packs/foundation/asset.graph.yaml",
+        "packs/foundation/assets/**",
+        "packs/foundation/directives/034-test-first-development.directive.yaml",
+        "packs/foundation/tactics/testing/test-boundaries-by-responsibility.tactic.yaml",
+        "packs/java/drg/fragment.yaml",
+        "packs/java/styleguides/java-conventions.styleguide.yaml",
+        "packs/javascript/drg/fragment.yaml",
+        "packs/javascript/styleguides/typescript-conventions.styleguide.yaml",
+        "packs/pack-authoring/agent_profiles/doctrine-daphne.agent.yaml",
+        "packs/python/drg/fragment.yaml",
+        "packs/python/styleguides/python-conventions.styleguide.yaml",
+        "packs/testing/assets/**",
+        "packs/testing/drg/fragment.yaml",
+        "packs/testing/styleguides/quadruple-a-test-format.styleguide.yaml",
+        "packs/testing/styleguides/test-desiderata-and-boundaries.styleguide.yaml",
+        "packs/testing/styleguides/testing-principles.styleguide.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-a"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        "packs/foundation/directives/disciplined-refactoring.directive.yaml",
+        "packs/foundation/glossaries/spec-kitty-core.glossary.yaml",
+        "packs/foundation/missions/software-dev/steps/plan.guidelines.md",
+        "packs/foundation/missions/software-dev/steps/tasks-outline.prompt.md",
+        "packs/foundation/missions/software-dev/steps/tasks.guidelines.md",
+        "packs/foundation/procedures/disciplined-refactoring-cycle.procedure.yaml",
+        "packs/foundation/procedures/test-first-cycle.procedure.yaml",
+        "packs/foundation/tactics/testing/acceptance-test-first.tactic.yaml",
+        "packs/foundation/tactics/testing/tdd-red-green-refactor.tactic.yaml",
+        "packs/planning-analysis/drg/fragment.yaml",
+        "packs/planning-analysis/tactics/analysis/vertical-skeleton-first.tactic.yaml",
+        "packs/refactoring/drg/fragment.yaml",
+        "packs/testing/procedures/test-first-bug-fixing.procedure.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        "packs/internal/drg/fragment.yaml",
+        "packs/internal/procedures/targeted-mission-test-run.procedure.yaml",
+        "packs/testing/tactics/testing/shared-machine-test-measurement.tactic.yaml"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [
+        "lane-b"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP05"
+      ],
+      "write_scope": [
+        "docs/changelog/CHANGELOG.md",
+        "docs/packs/*.md",
+        "packs/*.source.yaml",
+        "packs/*/pack-manifest.yaml",
+        "packs/architecture/pack.yaml",
+        "packs/built-in/pack.yaml",
+        "packs/foundation/pack.yaml",
+        "packs/internal/pack.yaml",
+        "packs/java/pack.yaml",
+        "packs/javascript/pack.yaml",
+        "packs/pack-authoring/pack.yaml",
+        "packs/planning-analysis/pack.yaml",
+        "packs/python/pack.yaml",
+        "packs/refactoring/pack.yaml",
+        "packs/testing/pack.yaml",
+        "packs/writing/pack.yaml"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b",
+        "lane-c",
+        "lane-d"
+      ],
+      "parallel_group": 3
+    }
+  ],
+  "computed_at": "2026-11-21T08:01:26.597517+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "b4263783440444b944c9cb294ebb53c8bb3fc21a"
+}
