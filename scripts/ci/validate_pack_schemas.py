@@ -32,6 +32,7 @@ pinned charter commit (``charter.lock.yaml``) unless ``--contract DIR`` (a direc
 from __future__ import annotations
 
 import argparse
+import difflib
 import functools
 import hashlib
 import json
@@ -824,6 +825,8 @@ class PackReport:
     skipped: int = 0
     violations: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    #: (pack-relative path, message) of stray files that look like a misspelled companion (R38): annotations only.
+    suspects: list[tuple[str, str]] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -910,6 +913,109 @@ NOT_HELD_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md",))
 FIXTURE_FILES = frozenset({"expected-code"})
 
 
+#: Skill bodies are companions by ``body_path``, not by a ``files`` rule, but conventionally end in ``.skill.md``.
+BODY_COMPANION_TOKENS = frozenset({"skill"})
+COMPANION_RULE = re.compile(r"\*\.([a-z][a-z0-9-]*)\.md$")
+#: How close a misnamed suffix, or a stray file's name, must be to count as a probable misspelling (R38).
+MAX_SUFFIX_DISTANCE = 2
+MIN_NAME_SIMILARITY = 0.8
+
+
+def companion_tokens(contract: Contract) -> set[str]:
+    """The ``<token>`` of every companion suffix ``*.<token>.md`` the contract's ``files`` rules model, plus ``skill``."""
+    return {m.group(1) for rule in contract.files if (m := COMPANION_RULE.search(rule.match))} | BODY_COMPANION_TOKENS
+
+
+def _distance(a: str, b: str) -> int:
+    """The optimal-string-alignment edit distance: insertions, deletions, substitutions, adjacent transpositions."""
+    rows = [list(range(len(b) + 1))]
+    for i, ca in enumerate(a, start=1):
+        row = [i]
+        for j, cb in enumerate(b, start=1):
+            cost = 0 if ca == cb else 1
+            value = min(rows[-1][j] + 1, row[j - 1] + 1, rows[-1][j - 1] + cost)
+            if i > 1 and j > 1 and ca == b[j - 2] and a[i - 2] == cb:
+                value = min(value, rows[-2][j - 2] + 1)
+            row.append(value)
+        rows.append(row)
+    return rows[-1][-1]
+
+
+def suffix_suggestion(name: str, tokens: set[str]) -> str | None:
+    """The companion name ``name`` was probably meant to have, or None.
+
+    ``<stem>.<token>.<ext>`` is a suspect when ``<ext>`` is ``md`` in any letter case and ``<token>`` is within
+    ``MAX_SUFFIX_DISTANCE`` edits (case-insensitively) of a companion token, without already being exactly that
+    token with a lowercase ``md``. A name with fewer than three dotted parts is never a suspect."""
+    parts = name.split(".")
+    if len(parts) < 3 or parts[-1].lower() != "md" or not parts[0]:
+        return None
+    token = parts[-2]
+    best = min(sorted(tokens), key=lambda t: _distance(token.lower(), t))
+    distance = _distance(token.lower(), best)
+    if distance > MAX_SUFFIX_DISTANCE or distance * 2 >= len(best):
+        return None
+    if token == best and parts[-1] == "md":
+        return None
+    return ".".join([*parts[:-2], best, "md"])
+
+
+def missing_references(pack_dir: Path, contract: Contract) -> dict[str, tuple[str, str]]:
+    """Every companion a held YAML artifact names in a ``*_path`` key (relative to the artifact) that the pack lacks,
+    as ``{pack-relative path: (artifact, key)}``. A path that leaves the pack is not a companion and is skipped."""
+    root = pack_dir.resolve()
+    missing: dict[str, tuple[str, str]] = {}
+
+    def walk(node: Any, artifact: Path, relative: str) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if isinstance(key, str) and key.endswith("_path") and isinstance(value, str) and value:
+                    target = (artifact.parent / value).resolve()
+                    if target.is_relative_to(root) and not target.exists():
+                        missing.setdefault(target.relative_to(root).as_posix(), (relative, key))
+                else:
+                    walk(value, artifact, relative)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item, artifact, relative)
+
+    for path in sorted(pack_dir.rglob("*.yaml")):
+        if path.is_symlink() or not path.is_file():
+            continue
+        relative = path.relative_to(pack_dir).as_posix()
+        kind, rule = classify(contract, f"{pack_dir.name}/{relative}")
+        if kind == "file" and rule is not None and rule.schema:
+            walk(_load_or_none(path), path, relative)
+    return missing
+
+
+def misspelled_companions(pack_dir: Path, contract: Contract, stray: list[str]) -> list[tuple[str, str]]:
+    """The stray files (pack-relative) that look like a misspelled companion, each with a message (R38).
+
+    First, a stray file beside a companion an artifact names but the pack lacks, with a similar name; then a stray
+    file whose suffix is close to a companion suffix. Annotations only: R34 keeps every stray file a warning."""
+    missing = missing_references(pack_dir, contract)
+    tokens = companion_tokens(contract)
+    found = []
+    for inside in stray:
+        parent, _, name = inside.rpartition("/")
+        near = [(difflib.SequenceMatcher(None, name.lower(), m.rpartition("/")[2].lower()).ratio(), m)
+                for m in missing if m.rpartition("/")[0] == parent]
+        near = [(ratio, m) for ratio, m in near if ratio >= MIN_NAME_SIMILARITY]
+        if near:
+            _, meant = max(near)
+            artifact, key = missing[meant]
+            found.append((inside, f"{inside} is not held; did you mean {meant}? {artifact} names it as {key}, and no "
+                                  f"such file exists: rename the file or fix {key}."))
+            continue
+        suggestion = suffix_suggestion(name, tokens)
+        if suggestion:
+            meant = f"{parent}/{suggestion}" if parent else suggestion
+            found.append((inside, f"{inside} is not held; did you mean {meant}? Its suffix is close to a companion "
+                                  "the charter models; a misnamed companion is not served."))
+    return found
+
+
 def is_invalid_fixture(pack_dir: Path) -> bool:
     """Whether ``pack_dir`` is an invalid fixture (``…/fixtures/invalid/<name>``), whose ``expected-code`` is its own."""
     parent = pack_dir.resolve().parent
@@ -983,6 +1089,7 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
     constituent_files: set[str] = set()
     claimed = companion_claims(pack_dir, contract)
     fixture = is_invalid_fixture(pack_dir)
+    stray: list[str] = []
     for path in sorted(pack_dir.rglob("*")):
         inside = path.relative_to(pack_dir).as_posix()
         relative = f"{pack_dir.name}/{inside}"
@@ -1011,11 +1118,13 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
                 # Charter #554 ruling Q1: warned as file_not_held, not held and not judged further (#309). The
                 # charter's whole-pack round trip (OpenPacksDriftTest) still names it, so the pack set stays free.
                 report.warnings.append(f"{relative}: file_not_held: not held (no pack file kind models this file)")
+                stray.append(inside)
                 report.skipped += 1
                 continue
             if kind == "ignored" and rule is not None and not not_held_allowed(relative):
                 # Operator ruling R34 (#331): a stray file in a pack warns, it does not fail; authors may keep notes.
                 report.warnings.append(f"{relative}: file_not_held: not held ({rule.match}: {rule.reason})")
+                stray.append(inside)
                 report.skipped += 1
                 continue
             report.skipped += 1
@@ -1097,6 +1206,7 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
             ]
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
+    report.suspects = misspelled_companions(pack_dir, contract, stray)
     return report
 
 
@@ -1595,6 +1705,8 @@ def main(argv: list[str] | None = None) -> int:
             report = validate_pack(pack, contract, derived_manifests=args.derived_manifests)
             for line in report.warnings:
                 print(f"::warning file={pack}::{line}")
+            for inside, message in report.suspects:  # R38: a PR annotation on the file itself, never a failure
+                print(f"::warning file={pack / inside},title=Possible misspelled companion::{message}")
             for line in report.violations:
                 print(f"::error file={pack}::{line}")
             print(f"{'ok' if report.ok else 'FAIL'}: {pack} ({report.checked} files checked, "
