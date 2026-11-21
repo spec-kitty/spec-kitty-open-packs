@@ -303,6 +303,7 @@ class JarScript(unittest.TestCase):
     # script, the lock key holding its jar's digest, the jar it prints
     SCRIPTS = (("charter_pack_check_jar.sh", "pack_check_sha256", "pack-check-1.0.0.jar"),
                ("charter_service_jar.sh", "jar_sha256", "spec-kitty-charter-service-1.0.0.jar"))
+    RELEASE = "https://github.com/spec-kitty/spec-kitty-charter/releases/download/service-v1.0.0/"
 
     def setUp(self) -> None:
         self.tmp = Path(tempfile.mkdtemp())
@@ -318,7 +319,8 @@ class JarScript(unittest.TestCase):
         self.bin.mkdir()
         # curl writes the served bytes to --output (and may then fail); git ls-remote answers the tag's refs.
         (self.bin / "curl").write_text("#!/bin/sh\nwhile [ $# -gt 0 ]; do [ \"$1\" = --output ] && out=\"$2\"; "
-                                       "shift; done\nprintf %s \"$SERVED\" > \"$out\"\n"
+                                       "url=\"$1\"; shift; done\necho \"$url\" > \"$URL_LOG\"\n"
+                                       "printf %s \"$SERVED\" > \"$out\"\n"
                                        "[ -z \"$CURL_EXIT\" ] || exit \"$CURL_EXIT\"\n")
         (self.bin / "git").write_text("#!/bin/sh\nprintf '%s\\trefs/tags/service-v1.0.0\\n' \"$TAGGED\"\n")
         for tool in ("curl", "git"):
@@ -331,7 +333,7 @@ class JarScript(unittest.TestCase):
             f"commit: {self.COMMIT}\nrelease_tag: service-v1.0.0\njar_sha256: {digests['jar_sha256']}\n"
             f"pack_check_sha256: {digests['pack_check_sha256']}\n")
         env = dict(os.environ, PATH=f"{self.bin}{os.pathsep}{os.environ['PATH']}", TAGGED=tagged,
-                   SERVED=served.decode(), CURL_EXIT=str(curl_exit or ""))
+                   SERVED=served.decode(), URL_LOG=str(self.tmp / "url"), CURL_EXIT=str(curl_exit or ""))
         return subprocess.run(["bash", str(self.repo / "scripts" / "ci" / script), str(self.tmp / "work")],
                               capture_output=True, text=True, env=env, check=False)
 
@@ -341,6 +343,8 @@ class JarScript(unittest.TestCase):
                 done = self.run_script(script, key, digest=self.digest, tagged=self.COMMIT, served=self.jar_bytes)
                 self.assertEqual(done.returncode, 0, done.stderr)
                 self.assertEqual(done.stdout.splitlines(), [str(self.tmp / "work" / jar)])
+                # The release of the pinned tag, by name: never a floating "latest".
+                self.assertEqual((self.tmp / "url").read_text().strip(), self.RELEASE + jar)
 
     def test_a_jar_with_another_digest_is_refused_and_no_path_is_printed(self) -> None:
         for script, key, jar in self.SCRIPTS:
