@@ -94,7 +94,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: ai-writing-tells styleguide, report-writing pointer and refines edge, writing graph wiring; out-of-map: executive-debrief pointer wording and internal README line (both follow the move); edge-identity and vocabulary pass",
-        "Review feedback 1 fixed: reason block restored under the comms-cleo requires edge; new edge has its own reason; other graph insertions re-checked"
+        "Review feedback 1 fixed: reason block restored under the comms-cleo requires edge; new edge has its own reason; other graph insertions re-checked",
+        "Review passed (cycle 2): review-feedback-1 resolved. In packs/writing/agent_profile.graph.yaml the reason block is back under comms-cleo -> tactic:writing-audience-catalog (requires), word for word as on the base, and the new comms-cleo -> styleguide:ai-writing-tells (suggests) edge has its own reason. The fix commit c7bba4c touches only that file. The cycle-1 checks still hold: the seven tells live only in ai-writing-tells, report-writing points to it, the FR-004 and FR-010 edges are present and unique, and the edits outside the owned files (internal README, executive-debrief) are needed follow-ups to FR-009. Graph-edge, ASCII and vocabulary gates pass; YAML parses."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
