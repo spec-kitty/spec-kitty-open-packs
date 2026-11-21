@@ -56,6 +56,18 @@ Operator ruling R34 (#331) lets authors keep notes and logs in a pack, so a stra
   below the pack root, a `charter.yaml`) is warned as `file_not_held` too, as the charter does (charter #554,
   ruling Q1).
 
+**Misspelled companions (R38).** A stray file that looks like a misnamed companion gets a PR annotation on
+the file, titled *Possible misspelled companion*, naming the companion it was probably meant to be. It is
+never a failure. Two signals:
+- the file sits beside a companion that an artifact names in a `*_path` key (`prompt_path`, `guide_path`,
+  `body_path`) but the pack lacks, and the names are similar: `implement.promt.md` beside a missing
+  `implement.prompt.md`;
+- its suffix is within two edits of a companion suffix the contract models (`.guide.md`, `.prompt.md`,
+  `.guidelines.md`, `.prompt-fragment.md`, or `.skill.md` for skill bodies): `go-review-checks.gudie.md`,
+  `x.skill.MD`.
+
+pack-check still refuses the pack, because the companion its artifact names is missing.
+
 A file a skill's `body_path` names is held as that skill's companion, whatever its name. Note that the
 pack-check gate is stricter on the last group: its round trip reds an unmodelled file (#331 tracks that). The
 checks run on every pack, built-in-level ones included, which no registration sees.
