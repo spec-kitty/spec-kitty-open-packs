@@ -13,6 +13,9 @@ requirement_refs:
 planning_base_branch: feat/citation-and-docs-writing
 merge_target_branch: feat/citation-and-docs-writing
 branch_strategy: Planning artifacts for this mission were generated on feat/citation-and-docs-writing. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/citation-and-docs-writing unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-citation-and-docs-writing-01M7YGMQ
+base_commit: 9cad478c43f6104519ee60871e10a996a875e0af
+created_at: '2026-11-21T07:49:44.796935+00:00'
 subtasks:
 - T008
 - T009
@@ -27,7 +30,7 @@ authoritative_surface: packs/
 create_intent:
 - packs/writing/styleguides/ai-writing-tells.styleguide.yaml
 execution_mode: code_change
-model: ""
+model: ''
 owned_files:
 - packs/writing/styleguides/ai-writing-tells.styleguide.yaml
 - packs/internal/styleguides/report-writing.styleguide.yaml
