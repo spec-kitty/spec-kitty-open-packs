@@ -95,6 +95,12 @@ edges:
   when: when keeping the doubles in the tests they write on the responsibility boundary
   reason: An implementer-role profile should reach the mock-boundary directive when writing tests that use doubles.
 - source: agent_profile:implementer-ivan
+  target: directive:DIRECTIVE_055
+  relation: suggests
+  when: when changing how a product reports its version or build, or how it reads a peer's
+  reason: An implementer-role profile should reach the build identity contract when touching a product's version or build
+    surfaces.
+- source: agent_profile:implementer-ivan
   target: directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
