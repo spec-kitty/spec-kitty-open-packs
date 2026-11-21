@@ -1,7 +1,7 @@
 {
   "rows": {
     "#147": {
-      "evidence_ref": "tactic only; directive half stays deferred (C-004)",
+      "evidence_ref": "tactic vertical-skeleton-first shipped; Follow-up: #147 stays open for the deferred prove-composition directive",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -9,7 +9,7 @@
       "scope": null,
       "source_file": null,
       "title": "Doctrine: vertical-skeleton-first tactic",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP03"
     },
     "#152": {
