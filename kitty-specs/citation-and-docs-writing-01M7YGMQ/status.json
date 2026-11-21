@@ -158,6 +158,9 @@
       "last_event_id": "01M7YHXEMNBCBHCZKAR8WWDJFW",
       "last_transition_at": "2026-11-21T08:00:11.925704+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: lockstep 3.4.0, built-in 5.4.0, internal 4.3.0 (writing >=3.4,<4); manifests restamped offline (content hashes + new constituent; no membership change otherwise), digests + built-in constant, pages regenerated, changelog; review nits from WP01/WP02 folded; gates: pytest 338 pass (11 contract-fetch errors, CI-only), vocabulary 0, gen --check no drift, digests ok, freshness ok, NFR-004/005 greps clean"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 8038,
