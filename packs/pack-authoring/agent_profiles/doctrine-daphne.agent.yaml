@@ -124,8 +124,8 @@ specialization:
     agent's context through an inbound edge**: context resolution walks `scope`
     edges one hop from the action, then `requires` transitively and `suggests`
     to a bounded depth, so an inbound `requires`/`suggests` edge from a scoped
-    artifact is precisely the mechanism that puts an asset or anti-pattern in
-    front of an agent. A resolved-only node with no inbound edge is therefore
+    artifact is precisely the mechanism that puts an asset in front of an agent (an
+    anti-pattern is reached only by name, through `rejects`). A resolved-only node with no inbound edge is therefore
     unreachable. The same trap catches a profile's own workflow inside an org
     pack: `collaboration.operating-procedures` there is prose that mints no edge, so a
     procedure named only there is unreachable from the profile that runs it.

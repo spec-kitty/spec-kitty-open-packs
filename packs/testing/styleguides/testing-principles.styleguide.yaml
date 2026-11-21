@@ -22,7 +22,7 @@ principles:
   - name: "Documenting the system"
     description: "Documenting: reading the test suite gives a new contributor a clear model of how the system behaves — this is the refactor-stable, documents-the-system sense; see test-desiderata-and-boundaries for the desiderata that trade off confidence-to-ship."
   - name: "Pyramid shape and mocks have owners"
-    description: "Pyramid shape and mock boundaries have one owner each: layer shape lives in named testing tactics; the seam list lives in DIRECTIVE_054 (foundation); test-desiderata-and-boundaries owns the desiderata. Apply those instead of a local copy."
+    description: "Pyramid shape and mock boundaries have one owner each: layer shape lives in named testing tactics; the seam list lives in DIRECTIVE_054 (foundation); the test-desiderata-checklist asset defines the desiderata. Apply those."
   - name: "Exemplary tests"
     description: "Exemplary: tests are the best usage examples of the production code they exercise."
   - name: "Minimal tests"
@@ -134,7 +134,8 @@ patterns:
       test-pyramid-progression tactic; the seam list (where a test may substitute a
       collaborator) lives in DIRECTIVE_054 (foundation), with the
       test-boundaries-by-responsibility tactic saying how to draw the boundary;
-      test-desiderata-and-boundaries owns the desiderata, and names over-mocking
+      the test-desiderata-checklist asset defines the desiderata and
+      test-desiderata-and-boundaries owns trading them off, and names over-mocking
       as the symptom of a missing seam.
       Apply those instead of a local copy.
   - name: "Invariants over shape"

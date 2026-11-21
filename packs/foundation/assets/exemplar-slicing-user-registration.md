@@ -77,4 +77,5 @@ Note on the Captcha: whether the Captcha is substituted depends on what sits beh
 - Identify the functionality under test, not the class under test.
 - A well-scoped unit test needs few substitutes. Needing a double of owned logic means the boundary is drawn wrong: widen the slice or extract a pure seam.
 - Write tests as if you were unaware of the internal structure: extracting a helper class should not change the suite.
+- Boundaries drawn for today's design can fossilize: when the architecture moves, re-check them before trusting old substitutes.
 - The cost is real: a wider slice takes more setup and the team must learn to draw boundaries. The payoff is a suite that survives refactoring.
