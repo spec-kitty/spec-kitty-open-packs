@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 9cab1dd77d638312508823480faceb91db7d5464e384afac9cd360413ce2d779
+manifest_hash: b6595c02b02a2c767bfd42e9881f74e3c43eeff35f7cfeae634e61ce9f8a39ee
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -56,7 +56,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
-  content_hash: 77daf71835e56dae22db082a8e860d7588753417fff3c316fc372a20e1457593
+  content_hash: a8743d936f2723425ff1a92c68c328203b71b59b147ac853c4e5862058f76391
 - kind: directive
   id: DIRECTIVE_047
   path: directives/047-audience-oriented-writing.directive.yaml
@@ -124,7 +124,7 @@ constituents:
 - kind: procedure
   id: declare-page-audience
   path: procedures/declare-page-audience.procedure.yaml
-  content_hash: 50f5cea8f85cdcd2751a0ac5fab8ecd6ceaafd23b9c1ea4955e82fb26a7576d4
+  content_hash: 81734e079a3dfe125c931b5295a749f6d31bee595e9062cb005b723eb3058c43
 - kind: procedure
   id: documentation-gap-prioritization
   path: procedures/documentation-gap-prioritization.procedure.yaml
@@ -142,9 +142,13 @@ constituents:
   path: procedures/minutes-self-sufficiency-check.procedure.yaml
   content_hash: e6768c60607df685a54d1568dfd563821ed824dc5bdb07e03a3b64731b6627d0
 - kind: styleguide
+  id: ai-writing-tells
+  path: styleguides/ai-writing-tells.styleguide.yaml
+  content_hash: ceb1f041ba09dbac39703313bdb6ed158512d27b997985ad7c3edbd9c41a2a2a
+- kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: 8e2f27b8bb4a2a5dc80a7cecd8dab7ef9d82fd4915d6e21af7e4e92024d6e94d
+  content_hash: e70921e0ce0d0df0cd7de05c25a74a7e6e3a08c164f2a516c7d2260356e4a89b
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
@@ -176,7 +180,7 @@ constituents:
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
-  content_hash: 8f2468da67c98ee6d1cfcd2e3a9e1c5bc14b5081e710cae85ebadf13440a0ab2
+  content_hash: 47e9a778fadf71794456b57f2b34edc56918eced6b4270c973a47fd19f054e69
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
@@ -200,11 +204,11 @@ constituents:
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
-  content_hash: 1d6f56c5464854f9cd1370f9a3f2e4bcf8142a36c60802fe5887782ff52eb3ae
+  content_hash: 814852acd387b00b82ed8de9530bb19d78de8cca8ecb369e1c5c8be1fdc4b726
 - kind: tactic
   id: common-docs-write
   path: tactics/common-docs-write.tactic.yaml
-  content_hash: 5ef15c21797f759e867e7ea36d7f5b57b5d733cff246604d9c2640c16d9f449e
+  content_hash: 56318db5d8a06931ef972f3f9183596b36dd36ea25d685009f46e82905992f54
 - kind: tactic
   id: documentation-curation-audit
   path: tactics/communication/documentation-curation-audit.tactic.yaml

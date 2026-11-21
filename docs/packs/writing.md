@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Pack level:** `built-in`
-- **Declared version:** `3.3.0`
-- **Content checksum (sha256):** `7bb10fd742914b91073f05322e08508441877cd0ad101bd534c53c93fc481e8c`
+- **Declared version:** `3.4.0`
+- **Content checksum (sha256):** `62407f9691699dffb937303d3e930bdf08efdc03488947edff7bf29e210826f0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ documentation styleguides, the diagram and docs structural-lint toolguides, the
 glossary-stewardship tactics and templates, the docs structural lint and the writing-audience
 assets.
 
-**Depends on:** [`foundation`](foundation.md) `==3.3.0`
+**Depends on:** [`foundation`](foundation.md) `==3.4.0`
 
 ## Artifact inventory
 
@@ -42,14 +42,14 @@ assets.
 | --- | --- |
 | `directives` | 4 |
 | `tactics` | 9 |
-| `styleguides` | 11 |
+| `styleguides` | 12 |
 | `toolguides` | 8 |
 | `procedures` | 8 |
 | `agent_profiles` | 7 |
 | `assets` | 14 |
 | `missions` | 29 |
 | `templates` | 2 |
-| **Total files** | **105** |
+| **Total files** | **106** |
 
 ### Full listing
 
@@ -79,8 +79,9 @@ assets.
 </details>
 
 <details>
-<summary><code>styleguides</code> (11)</summary>
+<summary><code>styleguides</code> (12)</summary>
 
+- `ai-writing-tells.styleguide.yaml`
 - `common-docs.styleguide.yaml`
 - `divio-type-discipline.styleguide.yaml`
 - `docs-accessibility.styleguide.yaml`
