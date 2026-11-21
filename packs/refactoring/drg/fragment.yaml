@@ -467,3 +467,7 @@ edges:
   target: foundation::tactic:split-brain-authority-detection
   relation: suggests
   when: Multiple writers or authorities disagree about the same state or rule
+- source: foundation::procedure:disciplined-refactoring-cycle
+  target: procedure:refactoring
+  relation: suggests
+  when: the named smell selects a move from the refactoring catalog

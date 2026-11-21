@@ -197,7 +197,7 @@ edges:
 - source: tactic:acceptance-test-first
   target: tactic:tdd-red-green-refactor
   relation: suggests
-  when: After the acceptance test fails for the right reason, drive implementation detail with Red-Green-Refactor cycles.
+  when: After the acceptance test fails for the right reason, drive implementation detail with red-green cycles, one behavior per cycle.
 - source: tactic:acceptance-test-first
   target: procedure:red-first-bug-reproduction
   relation: suggests
@@ -469,6 +469,10 @@ edges:
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects
   reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
+- source: tactic:tdd-red-green-refactor
+  target: procedure:disciplined-refactoring-cycle
+  relation: suggests
+  when: 'a cycle is green and the code would read better restructured: switch to green mode'
 - source: tactic:test-boundaries-by-responsibility
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects

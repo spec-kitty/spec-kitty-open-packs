@@ -193,6 +193,10 @@ edges:
   relation: suggests
   when: the reproduction test replaces a friction test whose assertion is wrong
   reason: Replace the wrong assertion with a contract-pinned red-first one while keeping the test's setup and edge cases.
+- source: procedure:test-first-cycle
+  target: procedure:disciplined-refactoring-cycle
+  relation: suggests
+  when: restructuring code between red-green cycles, in green mode
 - source: procedure:unfake-an-over-mocked-test
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects

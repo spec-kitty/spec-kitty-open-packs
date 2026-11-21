@@ -135,11 +135,11 @@ work_packages:
     prompt_file: "tasks/WP01-foundation-setup.md"
 
   - id: WP02
-    title: "API Layer"
+    title: "Checkout, end to end"
     dependencies:
       - WP01
     owned_files:
-      - "src/myapp/api/**"
+      - "src/myapp/checkout/**"
     requirement_refs:
       - FR-003
     plan_concern_refs:
@@ -148,14 +148,14 @@ work_packages:
     subtasks:
       - T004
       - T005
-    prompt_file: "tasks/WP02-api-layer.md"
+    prompt_file: "tasks/WP02-checkout-end-to-end.md"
 
   - id: WP03
-    title: "Frontend Integration"
+    title: "Refunds, end to end"
     dependencies:
       - WP02
     owned_files:
-      - "src/myapp/frontend/**"
+      - "src/myapp/refunds/**"
     requirement_refs:
       - FR-004
       - NFR-001
@@ -165,7 +165,7 @@ work_packages:
       - T006
       - T007
       - T008
-    prompt_file: "tasks/WP03-frontend-integration.md"
+    prompt_file: "tasks/WP03-refunds-end-to-end.md"
 ```
 
 **Field semantics**:

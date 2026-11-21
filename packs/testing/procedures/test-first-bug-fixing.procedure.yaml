@@ -26,9 +26,9 @@ steps:
 - title: Fix the production code
   description: |
     Make the change proportional to the diagnosed cause needed to make the failing test pass. Resist the urge to refactor beyond the fix's own code — that comes next, as its own step. Document the root cause in a comment if it would not be obvious to a future reader.
-- title: Refactor after green, scoped to the fix
+- title: Tidy the fix in green mode, scoped to the fix
   description: |
-    With the reproduction test passing, refactor only the surfaces the fix itself touched — extract a helper, rename, or simplify the now-correct logic. Do not widen the refactor beyond the fix's own code; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025), not to this step. All tests must stay green throughout.
+    With the reproduction test passing, the fix's own code may be restructured in green mode (procedure disciplined-refactoring-cycle in foundation). Keep it to the surfaces the fix touched; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025).
 - title: Run the full test suite
   description: |
     Verify all existing tests still pass. If something else breaks, the fix has unintended side effects — reconsider the approach.
@@ -48,6 +48,6 @@ anti_patterns:
 - title: Test Passes Immediately
   content: The reproduction test passes on first run. The test does not capture the bug — revise setup or assertions.
 - title: Refactoring Beyond the Fix
-  content: Widening the post-green refactor past the fix's own code introduces unrelated risk into a bug-fix commit; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
+  content: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug-fix commit; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
 notes: |
   External reference: "Example of test-first bug-fixing (Stijn Dejongh, 2022)" https://www.linkedin.com/pulse/example-test-first-bug-fixing-javascript-stijn-dejongh/ Folds in the retired bug-fixing-checklist tactic (single-owner consolidation): state expected vs actual in one sentence before touching code; if the reproduction test cannot be written, the defect is not understood; document the root cause and the fix; a post-fix test is a confirmation test, not a regression test.
