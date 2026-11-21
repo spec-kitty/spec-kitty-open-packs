@@ -62,7 +62,8 @@
       "last_transition_at": "2026-11-21T07:53:49.169410+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: first-hand check step, no-prototyping sentence, neutral gate example, overturned-ruling rule; vocabulary clean"
+        "Ready for review: first-hand check step, no-prototyping sentence, neutral gate example, overturned-ruling rule; vocabulary clean",
+        "Review passed: adversarial-squad-deployment gains step 'Check claims first-hand before a ruling' (reproduce-before-resolved and reachability-before-ruling, recording command and result; citation by pointer to research-citation-discipline in prose only, C-005), the no-prototyping sentence in the dispatch step, anti-patterns 'Resolved on paper' and 'Ruling on an unreachable test', and the notes invariant; each rule stated once (FR-005, FR-006, SC-002, NFR-003). StatusGateError replaced by a neutral example and the touched em-dash removed (FR-013 squad part; the common-docs part of FR-013 is WP04's). cloud-session-dispatch carries the overturned-ruling rule once (FR-007). Graph-edge test, ASCII test, vocabulary pass; YAML parses. Anti-pattern checklist: code items N/A (content pack), frozen surface PASS, locked decision PASS (squad still never gates), shared-file ownership PASS. Nits: (1) 'Synthesize, and get a second opinion' step still has an untouched em-dash ('do not average — adjudicate'), out of scope; (2) the two new anti-patterns have no bad/good example, unlike the gate anti-pattern - acceptable per the WP's 'one line each'."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
