@@ -1,20 +1,20 @@
 {
-  "event_count": 19,
-  "last_event_id": "01M7YHGHWKNWA6MEB2ZXXAJKPX",
-  "materialized_at": "2026-11-21T07:53:09.267358+00:00",
+  "event_count": 20,
+  "last_event_id": "01M7YHHRVH6DZP3AB2EH0JJ6M4",
+  "materialized_at": "2026-11-21T07:53:49.169410+00:00",
   "mission_number": "",
   "mission_slug": "citation-and-docs-writing-01M7YGMQ",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 1,
+    "approved": 2,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
     "done": 0,
     "for_review": 1,
     "in_progress": 1,
-    "in_review": 1,
+    "in_review": 0,
     "planned": 1
   },
   "work_packages": {
@@ -57,14 +57,20 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "in_review",
-      "last_event_id": "01M7YHGHWKNWA6MEB2ZXXAJKPX",
-      "last_transition_at": "2026-11-21T07:53:09.267358+00:00",
+      "lane": "approved",
+      "last_event_id": "01M7YHHRVH6DZP3AB2EH0JJ6M4",
+      "last_transition_at": "2026-11-21T07:53:49.169410+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: first-hand check step, no-prototyping sentence, neutral gate example, overturned-ruling rule; vocabulary clean"
       ],
       "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/citation-and-docs-writing-01M7YGMQ-coord/kitty-specs/citation-and-docs-writing-01M7YGMQ/tasks/WP02-first-hand-checks/review-cycle-1.md",
+        "reference": "review-cycle://citation-and-docs-writing-01M7YGMQ/WP02-first-hand-checks/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
       "role": "reviewer",
       "shell_pid": 23975,
       "shell_pid_created_at": "1795247585.22",
