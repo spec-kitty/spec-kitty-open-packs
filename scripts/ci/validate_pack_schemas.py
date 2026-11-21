@@ -825,8 +825,9 @@ class PackReport:
     skipped: int = 0
     violations: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
-    #: (pack-relative path, message) of stray files that look like a misspelled companion (R38): annotations only.
-    suspects: list[tuple[str, str]] = field(default_factory=list)
+    #: (pack-relative path, title, message) of R38 lint findings: a stray file that looks like a misspelled companion,
+    #: or an artifact naming a companion the pack lacks. Annotations only, never a failure.
+    suspects: list[tuple[str, str, str]] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -918,6 +919,9 @@ BODY_COMPANION_TOKENS = frozenset({"skill"})
 COMPANION_RULE = re.compile(r"\*\.([a-z][a-z0-9-]*)\.md$")
 #: How close a misnamed suffix, or a stray file's name, must be to count as a probable misspelling (R38).
 MAX_SUFFIX_DISTANCE = 2
+#: A companion token this long takes MAX_SUFFIX_DISTANCE edits; a shorter one one edit; SHORT_TOKEN or shorter no substitution.
+LONG_TOKEN = 10
+SHORT_TOKEN = 5
 MIN_NAME_SIMILARITY = 0.8
 
 
@@ -951,9 +955,15 @@ def suffix_suggestion(name: str, tokens: set[str]) -> str | None:
     if len(parts) < 3 or parts[-1].lower() != "md" or not parts[0]:
         return None
     token = parts[-2]
-    best = min(sorted(tokens), key=lambda t: _distance(token.lower(), t))
-    distance = _distance(token.lower(), best)
-    if distance > MAX_SUFFIX_DISTANCE or distance * 2 >= len(best):
+    lowered = token.lower()
+    best = min(sorted(tokens), key=lambda t: _distance(lowered, t))
+    distance = _distance(lowered, best)
+    # Short tokens are close to ordinary words (slide, suite, still): one edit at most, and for five letters or fewer
+    # no plain substitution (a same-length change that is not a transposition). Longer tokens allow two edits.
+    allowed = MAX_SUFFIX_DISTANCE if len(best) >= LONG_TOKEN else 1
+    if distance > allowed:
+        return None
+    if distance and len(best) <= SHORT_TOKEN and len(lowered) == len(best) and sorted(lowered) != sorted(best):
         return None
     if token == best and parts[-1] == "md":
         return None
@@ -961,7 +971,8 @@ def suffix_suggestion(name: str, tokens: set[str]) -> str | None:
 
 
 def missing_references(pack_dir: Path, contract: Contract) -> dict[str, tuple[str, str]]:
-    """Every companion a held YAML artifact names in a ``*_path`` key (relative to the artifact) that the pack lacks,
+    """Every companion a held YAML artifact names in a ``*_path`` key (relative to the artifact, or to the pack root as
+    a DRG fragment node's ``body_path`` is) that the pack lacks,
     as ``{pack-relative path: (artifact, key)}``. A path that leaves the pack is not a companion and is skipped."""
     root = pack_dir.resolve()
     missing: dict[str, tuple[str, str]] = {}
@@ -970,9 +981,14 @@ def missing_references(pack_dir: Path, contract: Contract) -> dict[str, tuple[st
         if isinstance(node, dict):
             for key, value in node.items():
                 if isinstance(key, str) and key.endswith("_path") and isinstance(value, str) and value:
-                    target = (artifact.parent / value).resolve()
-                    if target.is_relative_to(root) and not target.exists():
-                        missing.setdefault(target.relative_to(root).as_posix(), (relative, key))
+                    try:  # an overlong name, a NUL byte or a symlink loop: not judged by this lint, never fatal
+                        # Relative to the artifact (a skill's body_path, a step's prompt_path), or to the pack root
+                        # (a DRG fragment node's body_path): missing only when neither holds it.
+                        target = (artifact.parent / value).resolve()
+                        if target.is_relative_to(root) and not target.exists() and not (root / value).exists():
+                            missing.setdefault(target.relative_to(root).as_posix(), (relative, key))
+                    except (OSError, ValueError, RuntimeError):
+                        continue
                 else:
                     walk(value, artifact, relative)
         elif isinstance(node, list):
@@ -989,14 +1005,22 @@ def missing_references(pack_dir: Path, contract: Contract) -> dict[str, tuple[st
     return missing
 
 
-def misspelled_companions(pack_dir: Path, contract: Contract, stray: list[str]) -> list[tuple[str, str]]:
-    """The stray files (pack-relative) that look like a misspelled companion, each with a message (R38).
+MISSPELLED = "Possible misspelled companion"
+MISSING = "Missing companion"
 
-    First, a stray file beside a companion an artifact names but the pack lacks, with a similar name; then a stray
-    file whose suffix is close to a companion suffix. Annotations only: R34 keeps every stray file a warning."""
+
+def misspelled_companions(pack_dir: Path, contract: Contract, stray: list[str]) -> list[tuple[str, str, str]]:
+    """The R38 lint findings of one pack, as (pack-relative path, title, message).
+
+    Every artifact that names a companion the pack lacks is annotated, which also covers a stem typo that still
+    matches a ``files`` rule (``implemnet.prompt.md``). A stray file beside such a missing companion, with a similar
+    name, is annotated as its probable misspelling; else a stray file whose suffix is close to a companion suffix.
+    Annotations only: R34 keeps every stray file a warning, and pack-check refuses a missing companion."""
     missing = missing_references(pack_dir, contract)
     tokens = companion_tokens(contract)
-    found = []
+    found = [(artifact, MISSING, f"{artifact} names {meant} as {key}, and no such file exists; pack-check refuses the "
+                                 "pack with '<ref>: missing'.")
+             for meant, (artifact, key) in sorted(missing.items())]
     for inside in stray:
         parent, _, name = inside.rpartition("/")
         near = [(difflib.SequenceMatcher(None, name.lower(), m.rpartition("/")[2].lower()).ratio(), m)
@@ -1005,14 +1029,14 @@ def misspelled_companions(pack_dir: Path, contract: Contract, stray: list[str]) 
         if near:
             _, meant = max(near)
             artifact, key = missing[meant]
-            found.append((inside, f"{inside} is not held; did you mean {meant}? {artifact} names it as {key}, and no "
-                                  f"such file exists: rename the file or fix {key}."))
+            found.append((inside, MISSPELLED, f"{inside} is not held; did you mean {meant}? {artifact} names it as "
+                                              f"{key}, and no such file exists: rename the file or fix {key}."))
             continue
         suggestion = suffix_suggestion(name, tokens)
         if suggestion:
             meant = f"{parent}/{suggestion}" if parent else suggestion
-            found.append((inside, f"{inside} is not held; did you mean {meant}? Its suffix is close to a companion "
-                                  "the charter models; a misnamed companion is not served."))
+            found.append((inside, MISSPELLED, f"{inside} is not held; did you mean {meant}? Its suffix is close to a "
+                                              "companion the charter models; a misnamed companion is not served."))
     return found
 
 
@@ -1045,7 +1069,10 @@ def companion_claims(pack_dir: Path, contract: Contract) -> set[str]:
         body = document.get("body_path") if isinstance(document, dict) else None
         if not isinstance(body, str):
             continue
-        target = (path.parent / body).resolve()
+        try:  # a NUL byte, an overlong name or a symlink loop claims nothing (the schema pass judges the skill)
+            target = (path.parent / body).resolve()
+        except (OSError, ValueError, RuntimeError):
+            continue
         if target.is_relative_to(root):
             claims.add(target.relative_to(root).as_posix())
     return claims
@@ -1705,8 +1732,8 @@ def main(argv: list[str] | None = None) -> int:
             report = validate_pack(pack, contract, derived_manifests=args.derived_manifests)
             for line in report.warnings:
                 print(f"::warning file={pack}::{line}")
-            for inside, message in report.suspects:  # R38: a PR annotation on the file itself, never a failure
-                print(f"::warning file={pack / inside},title=Possible misspelled companion::{message}")
+            for inside, title, message in report.suspects:  # R38: a PR annotation on the file itself, never a failure
+                print(f"::warning file={pack / inside},title={title}::{message}")
             for line in report.violations:
                 print(f"::error file={pack}::{line}")
             print(f"{'ok' if report.ok else 'FAIL'}: {pack} ({report.checked} files checked, "
