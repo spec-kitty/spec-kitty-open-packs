@@ -23,6 +23,18 @@
       "title": "Doctrine: durable artifacts cite changes by stable identifier",
       "verdict": "in-mission",
       "wp": null
+    },
+    "#238": {
+      "evidence_ref": "FR-008, FR-009, FR-010",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Writing guidance: docs-scoped avoid-common-AI-writing-mistakes styleguide",
+      "verdict": "in-mission",
+      "wp": null
     }
   },
   "schema_version": 1
