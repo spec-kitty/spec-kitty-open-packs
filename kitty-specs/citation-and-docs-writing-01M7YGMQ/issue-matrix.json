@@ -1,0 +1,161 @@
+{
+  "rows": {
+    "#142": {
+      "evidence_ref": "Parent epic of #238/#240, context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Codify the documentation standard as doctrine",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#150": {
+      "evidence_ref": "FR-002, FR-005, FR-007",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: verify claims before rulings and briefs",
+      "verdict": "in-mission",
+      "wp": null
+    },
+    "#176": {
+      "evidence_ref": "FR-006; partial: the step-prompt edits stay with #207",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Planning prompts: forbid prototyping (squad procedure slice)",
+      "verdict": "in-mission",
+      "wp": null
+    },
+    "#207": {
+      "evidence_ref": "Epic, context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Epic: mission-type prompt and template hygiene",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#210": {
+      "evidence_ref": "Not folded: needs #207 owner agreement; Follow-up: #207",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "plan prompt: measure, don't estimate",
+      "verdict": "deferred-with-followup",
+      "wp": null
+    },
+    "#219": {
+      "evidence_ref": "FR-001, FR-003, FR-004",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: durable artifacts cite changes by stable identifier",
+      "verdict": "in-mission",
+      "wp": null
+    },
+    "#238": {
+      "evidence_ref": "FR-008, FR-009, FR-010",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Writing guidance: docs-scoped avoid-common-AI-writing-mistakes styleguide",
+      "verdict": "in-mission",
+      "wp": null
+    },
+    "#240": {
+      "evidence_ref": "FR-011, FR-012",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "common-docs styleguide still teaches pre-doc-kitty audience/related shapes",
+      "verdict": "in-mission",
+      "wp": null
+    },
+    "#266": {
+      "evidence_ref": "ordering context for #207; context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "context",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#274": {
+      "evidence_ref": "FR-013; partial: the other packs stay open on #274",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Replace Spec Kitty core examples in consumer artifacts (common-docs and squad slice)",
+      "verdict": "in-mission",
+      "wp": null
+    },
+    "#288": {
+      "evidence_ref": "Parent epic, context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Epic: new doctrine content moved from core",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#2897": {
+      "evidence_ref": "core issue (spec-kitty/spec-kitty#2897), core half of #219; context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "context",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#5095": {
+      "evidence_ref": "core issue (spec-kitty/spec-kitty#5095), core CLI half of #150; context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "context",
+      "verdict": "not-applicable",
+      "wp": null
+    }
+  },
+  "schema_version": 1
+}
