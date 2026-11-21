@@ -16,8 +16,8 @@ with ``--round-trip``, the production round trip by meaning (ROUND_TRIP). This s
      trace and no report, on a malformed ``pack_version`` (spec-kitty-charter#624). Until #624 lands, exit 2 is a
      failure of the gate, never an infrastructure skip (operator ruling R32).
    - **A warning other than ``file_not_held`` fails**, as it did in charter's driftTest, which this replaces.
-     ``file_not_held`` is printed as a notice: pack-check only warns on a stray file, and the schema pass owns the
-     stray-file rule (``validate_pack_schemas.NOT_HELD_ALLOWANCES``, #249), which is stricter.
+     ``file_not_held`` is printed as a notice: a stray file warns, never fails (operator ruling R34, #331). pack-check's
+     round trip still refuses an unmodelled stray file as ``round_trip_red``, which #331 tracks.
 2. **Non-vacuity.** Every pack under ``tests/fixtures/invalid/`` is checked alone, from a copy without its own
    ``expected-code`` (pack-check models no such file, so it would be red for that file alone). Its ``expected-code``
    names what pack-check must say in a ``pack-check:`` line: a code that must appear in a problem or one of its
@@ -26,10 +26,10 @@ with ``--round-trip``, the production round trip by meaning (ROUND_TRIP). This s
    A fixture that passes, or is refused another way, fails the gate.
 
 What pack-check does NOT check, and so stays in this repository's schema pass (``validate_pack_schemas.py``), as
-measured against rc.3 with ``--round-trip``: an ignored file other than a ``README.md`` note (only a ``file_not_held``
-warning), a preset ``must_have`` item no pack of the preset pack's closure holds (``requiredNotHeld``), and a preset id
-no pack declares. All three pass pack-check with exit 0. (A stale manifest hash is refused under ``--round-trip``, as
-``round_trip_red``; the schema pass keeps its own check as the fast pre-check that names the fix.)
+measured against rc.3 with ``--round-trip``: a preset ``must_have`` item no pack of the preset pack's closure holds
+(``requiredNotHeld``, until spec-kitty-charter#629) and a preset id no pack declares. Both pass pack-check with exit 0
+(#330). (A stale manifest hash is refused under ``--round-trip``, as ``round_trip_red``, spec-kitty-charter#630; the
+schema pass keeps its own check as the fast pre-check that names the fix.)
 
 Standard library only. Needs Java 25 (``JAVA_HOME`` is honoured, or ``--java``). Exit 0 when the gate passed, 1 when it
 failed, 2 when it could not run (no jar, no java, no pack, no invalid fixture).
