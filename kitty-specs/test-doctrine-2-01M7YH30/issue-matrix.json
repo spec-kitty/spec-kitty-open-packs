@@ -1,5 +1,17 @@
 {
   "rows": {
+    "#154": {
+      "evidence_ref": "tracer-bullet TDD and green mode, re-grounded at mattpocock/skills abeeaf9",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: sharpen test-first guidance with Matt Pocock TDD tracer-bullet rules",
+      "verdict": "in-mission",
+      "wp": "WP03"
+    },
     "#216": {
       "evidence_ref": "residue: paradigm, 041 split, anti-patterns (WP01); assets, dedup, slicing, curator (WP02)",
       "fr": null,
