@@ -133,7 +133,7 @@
     },
     "WP04": {
       "actor": "user",
-      "agent": "reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -149,6 +149,7 @@
         "Approved by reviewer-renata subagent, cycle 2 (b12e295); optional nit folded"
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/test-doctrine-2-01M7YH30-coord/kitty-specs/test-doctrine-2-01M7YH30/tasks/WP04-measurement-discipline/review-cycle-2.md",
         "reference": "review-cycle://test-doctrine-2-01M7YH30/WP04-measurement-discipline/review-cycle-2.md",
@@ -156,11 +157,11 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 3730,
-      "shell_pid_created_at": "1795249353.64",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T017": "done",
-        "T018": "done"
+        "T017": "planned",
+        "T018": "planned"
       },
       "tracker_refs": [
         "#152"
