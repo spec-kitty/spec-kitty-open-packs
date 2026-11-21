@@ -262,6 +262,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **The work-package lifecycle names the checks core runs on each move** (#291; epic #287, charter
+  ADR-0054). Before, only `in_progress -> for_review` named a guard (`spec-kitty-pre-review`).
+  Foundation now ships four more built-in guards and declares them where core's status model
+  already checks them:
+  - `dependency-ready` on the claim (`planned -> claimed`) and the start from `claimed`;
+  - `implementation-ready` beside the pre-review checks on `in_progress -> for_review`;
+  - `review-approved` on every move to `approved` and to `done`;
+  - `review-ref` on `in_review -> in_progress`, `approved -> in_progress` and the reset from
+    `approved`.
+
+  The `start` and `reset` transitions are split into one entry per source lane, so a guard sits
+  only on the moves core checks; `blocked -> in_progress`, `in_progress -> planned` and
+  `in_review -> planned` stay unguarded. `transition-context-complete` is not declared. No
+  built-in guard checks the structured review result core requires on every move out of
+  `in_review` on its own, so those moves name none. Versioned additively by operator ruling: the
+  foundation lockstep 3.4.0 and built-in 5.4.0. **Upgrade:** a client that honours the
+  lifecycle now refuses a claim or start with unmet dependencies, a move to review without
+  complete subtasks and implementation evidence, a move to `approved` or `done` without reviewer
+  approval, and a rewind out of review without a review reference.
+
 - **`/spec-kitty.analyze` reviews the whole planning corpus and product coherence** (#213, #214,
   #247; epic #244). Before, the software-dev `analyze` step read only the spec, the plan, the tasks
   and the WP prompts. Now it also does the following.
