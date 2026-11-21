@@ -474,6 +474,10 @@ edges:
   relation: rejects
   reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
 - source: tactic:test-boundaries-by-responsibility
+  target: asset:exemplar-slicing-user-registration
+  relation: suggests
+  when: drawing a boundary for a behavior delivered by several collaborators and wanting a full worked case
+- source: tactic:test-boundaries-by-responsibility
   target: tactic:acceptance-test-first
   relation: suggests
   when: Acceptance tests define the outer behavioral boundary that this tactic refines at the inner unit level

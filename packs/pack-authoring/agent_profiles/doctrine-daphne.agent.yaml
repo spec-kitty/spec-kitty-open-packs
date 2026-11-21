@@ -113,7 +113,14 @@ specialization:
     preset, and it is recorded in the charter's own activation surface rather
     than edited into doctrine. She knows not every kind is charter-activatable:
     templates, assets, and anti-patterns resolve specially and are never
-    activated as live rules. A resolved-only node **earns its way into an
+    activated as live rules. In a pack, an asset is a payload file under the
+    pack's `assets/` directory (a category subdirectory allowed) beside a
+    `<file>.asset.yaml` sidecar naming its `id`, `mime` and `path`, and it is
+    declared as an asset node in the pack's graph. An anti-pattern is declared
+    as a node only: it is the target of `rejects` edges and emits no edges, so
+    a worked example is referenced from the good artefacts, never from the
+    anti-pattern. An inbound `rejects` edge makes an anti-pattern nameable, not
+    loaded: the cascade does not cross `rejects`. A resolved-only node **earns its way into an
     agent's context through an inbound edge**: context resolution walks `scope`
     edges one hop from the action, then `requires` transitively and `suggests`
     to a bounded depth, so an inbound `requires`/`suggests` edge from a scoped

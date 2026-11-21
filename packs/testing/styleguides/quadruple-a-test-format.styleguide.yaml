@@ -7,7 +7,8 @@ applies_to_languages: []
 principles:
   - name: "A test has four phases"
     description: "A test has four phases: Arrange, Assumption checks, Act, Assert. Naming
-      them turns a test into the canonical skeleton for pinning ONE behaviour."
+      them turns a test into the canonical skeleton for pinning ONE behaviour. The
+      skeleton and a review checklist live in the quad-a-test-structure asset."
   - name: "Arrange phase"
     description: "Arrange: set up the system in the desired state to commence the test —
       construct the objects, load the fixtures, and put collaborators into the
