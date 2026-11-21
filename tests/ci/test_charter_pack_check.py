@@ -399,10 +399,10 @@ class RealPackCheck(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
             shutil.copytree(ROOT / "tests" / "fixtures" / "valid" / "example-pack", repo / "packs" / "example-pack")
-            shutil.copytree(ROOT / "tests" / "fixtures" / "invalid" / "malformed-pack-version",
-                            repo / "packs" / "malformed-pack-version", ignore=shutil.ignore_patterns("expected-code"))
-            # The real invalid fixtures, so the only red is the set's.
-            shutil.copytree(ROOT / "tests" / "fixtures" / "invalid", repo / "tests" / "fixtures" / "invalid")
+            shutil.copytree(self.FIXTURE, repo / "packs" / "malformed-pack-version",
+                            ignore=shutil.ignore_patterns("expected-code"))
+            # This one invalid fixture is enough for the non-vacuity step; the gate step already runs the others.
+            shutil.copytree(self.FIXTURE, repo / "tests" / "fixtures" / "invalid" / "malformed-pack-version")
             done = subprocess.run([sys.executable, str(SCRIPT), "--jar", os.environ["PACK_CHECK_JAR"],
                                    "--root", str(repo)], capture_output=True, text=True, check=False)
         output = done.stdout + done.stderr
