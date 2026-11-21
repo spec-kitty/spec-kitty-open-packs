@@ -20,7 +20,7 @@
   "work_packages": {
     "WP01": {
       "actor": "reviewer-renata",
-      "agent": "claude",
+      "agent": "reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -32,7 +32,8 @@
       "notes": [
         "Ready for review",
         "Review cycle 1 rejected: restore connascence framing in the double principle (FR-001); drop 'binding' from the paradigm summary; name the twelve desiderata",
-        "Cycle 2: findings 1-3 fixed (855a42c)"
+        "Cycle 2: findings 1-3 fixed (855a42c)",
+        "Approved by reviewer-renata subagent, cycle 2 (855a42c): gates green, findings fixed"
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
