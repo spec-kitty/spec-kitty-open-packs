@@ -386,23 +386,38 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertNotIn("unmodelled", output)
             self.assertNotIn("unclassified", output)
 
-    def test_markdown_only_the_ignored_rule_takes_is_not_held_and_fails_outside_the_allowlist(self) -> None:
+    def test_markdown_only_the_ignored_rule_takes_is_warned_not_held_outside_the_allowlist(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            # The charter leaves these out without refusing them and reports file_not_held; this repository
-            # allows only README.md orientation notes (charter_service_check.py applies the same NOT_HELD_ALLOWANCES).
-            # An orphan skill body is not held: only the body a skill's body_path names is its companion.
+            # The charter leaves these out without refusing them and reports file_not_held. Operator ruling R34 (#331):
+            # a stray file in a pack warns, it does not fail, so authors may keep notes. README.md orientation notes
+            # stay silent (NOT_HELD_ALLOWANCES); any other is warned. An orphan skill body is not held: only the body a
+            # skill's body_path names is its companion.
             stray = ["docs/notes.md", "x.promt.md", "tactics/GUIDE.MD", "tactics/t.guide.md", "skills/orphan.skill.md",
                      "directives/.draft.md"]
-            allowed = ["README.md", "tactics/README.md", "docs/deep/README.md"]
+            allowed = ["tactics/README.md", "docs/deep/README.md"]
             pack = self.write_pack(root, {name: "# t\n" for name in [*stray, *allowed]})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
+            self.assertEqual(code, validator.EXIT_OK, output)
             for name in stray:
-                self.assertIn(f"pack/{name}: not_held: the charter leaves this file out (**/*.md: Author aid, not pack content.)", output)
+                self.assertIn(f"::warning file={pack}::pack/{name}: file_not_held: not held (**/*.md: Author aid, "
+                              "not pack content.)", output)
+            self.assertNotIn("::error", output)
             for name in allowed:
                 self.assertNotIn(f"pack/{name}:", output)
+
+    def test_r34_a_stray_note_or_log_in_a_pack_passes_with_a_warning(self) -> None:
+        # Operator ruling R34 (#331): authors may keep logs and notes in a pack; the schema pass warns, never fails.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            stray = ["notes.txt", "notes.md", "logs/run.log", "directives/scratch.md"]
+            pack = self.write_pack(root, {name: "kept by the author\n" for name in stray})
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            for name in stray:
+                self.assertIn(f"::warning file={pack}::pack/{name}: file_not_held", output)
 
     def test_a_skill_body_its_skill_names_is_held_as_a_companion_whatever_its_name(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -420,8 +435,8 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_OK, output)
             (pack / "skills" / "u.skill.yaml").write_text("id: u\n", encoding="utf-8")  # no longer claimed
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("pack/skills/notes.md: not_held", output)
+            self.assertEqual(code, validator.EXIT_OK, output)  # R34: no longer claimed, so warned, not failed
+            self.assertIn("pack/skills/notes.md: file_not_held", output)
 
     def test_expected_code_is_exempt_only_in_an_invalid_fixture(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
