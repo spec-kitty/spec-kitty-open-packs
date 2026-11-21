@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "mission_slug": "citation-and-docs-writing-01M7YGMQ",
+  "mission_id": "01M7YGMQ1JGV7BJ0CNBBM9J0AX",
+  "mission_branch": "kitty/mission-citation-and-docs-writing-01M7YGMQ",
+  "target_branch": "feat/citation-and-docs-writing",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "packs/foundation/missions/software-dev/steps/plan.prompt.md",
+        "packs/foundation/missions/software-dev/steps/specify.prompt.md",
+        "packs/foundation/tactics/communication/adr-drafting-workflow.tactic.yaml",
+        "packs/writing/styleguides/research-citation-discipline.styleguide.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "packs/foundation/procedures/adversarial-squad-deployment.procedure.yaml",
+        "packs/internal/procedures/cloud-session-dispatch.procedure.yaml"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        "packs/internal/drg/fragment.yaml",
+        "packs/internal/styleguides/report-writing.styleguide.yaml",
+        "packs/writing/action.graph.yaml",
+        "packs/writing/agent_profile.graph.yaml",
+        "packs/writing/mission_type.graph.yaml",
+        "packs/writing/styleguide.graph.yaml",
+        "packs/writing/styleguides/ai-writing-tells.styleguide.yaml"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        "packs/internal/procedures/spec-kitty-page-audience.procedure.yaml",
+        "packs/writing/directives/042-common-docs.directive.yaml",
+        "packs/writing/procedures/declare-page-audience.procedure.yaml",
+        "packs/writing/styleguides/common-docs.styleguide.yaml",
+        "packs/writing/tactics/common-docs-find.tactic.yaml",
+        "packs/writing/tactics/common-docs-scaffold.tactic.yaml",
+        "packs/writing/tactics/common-docs-write.tactic.yaml"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "app-shell",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP05"
+      ],
+      "write_scope": [
+        "docs/changelog/CHANGELOG.md",
+        "docs/packs/architecture.md",
+        "docs/packs/built-in.md",
+        "docs/packs/catalog-proposal.md",
+        "docs/packs/cave-kitty.md",
+        "docs/packs/drupal.md",
+        "docs/packs/event-driven.md",
+        "docs/packs/foundation.md",
+        "docs/packs/go.md",
+        "docs/packs/index.md",
+        "docs/packs/internal.md",
+        "docs/packs/java.md",
+        "docs/packs/javascript.md",
+        "docs/packs/pack-authoring.md",
+        "docs/packs/planning-analysis.md",
+        "docs/packs/python.md",
+        "docs/packs/qa.md",
+        "docs/packs/refactoring.md",
+        "docs/packs/rust.md",
+        "docs/packs/spdd.md",
+        "docs/packs/testing.md",
+        "docs/packs/writing.md",
+        "packs/architecture.source.yaml",
+        "packs/architecture/pack-manifest.yaml",
+        "packs/architecture/pack.yaml",
+        "packs/built-in.source.yaml",
+        "packs/built-in/pack-manifest.yaml",
+        "packs/built-in/pack.yaml",
+        "packs/cave-kitty.source.yaml",
+        "packs/cave-kitty/pack-manifest.yaml",
+        "packs/cave-kitty/pack.yaml",
+        "packs/drupal.source.yaml",
+        "packs/drupal/pack-manifest.yaml",
+        "packs/event-driven.source.yaml",
+        "packs/event-driven/pack-manifest.yaml",
+        "packs/foundation.source.yaml",
+        "packs/foundation/pack-manifest.yaml",
+        "packs/foundation/pack.yaml",
+        "packs/go.source.yaml",
+        "packs/go/pack-manifest.yaml",
+        "packs/internal.source.yaml",
+        "packs/internal/pack-manifest.yaml",
+        "packs/internal/pack.yaml",
+        "packs/java.source.yaml",
+        "packs/java/pack-manifest.yaml",
+        "packs/javascript.source.yaml",
+        "packs/javascript/pack-manifest.yaml",
+        "packs/pack-authoring.source.yaml",
+        "packs/pack-authoring/pack-manifest.yaml",
+        "packs/planning-analysis.source.yaml",
+        "packs/planning-analysis/pack-manifest.yaml",
+        "packs/planning-analysis/pack.yaml",
+        "packs/python.source.yaml",
+        "packs/python/pack-manifest.yaml",
+        "packs/qa.source.yaml",
+        "packs/qa/pack-manifest.yaml",
+        "packs/refactoring.source.yaml",
+        "packs/refactoring/pack-manifest.yaml",
+        "packs/refactoring/pack.yaml",
+        "packs/rust.source.yaml",
+        "packs/rust/pack-manifest.yaml",
+        "packs/spdd.source.yaml",
+        "packs/spdd/pack-manifest.yaml",
+        "packs/testing.source.yaml",
+        "packs/testing/pack-manifest.yaml",
+        "packs/testing/pack.yaml",
+        "packs/writing.source.yaml",
+        "packs/writing/pack-manifest.yaml",
+        "packs/writing/pack.yaml",
+        "tests/ci/test_pack_digest.py"
+      ],
+      "predicted_surfaces": [],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b",
+        "lane-c",
+        "lane-d"
+      ],
+      "parallel_group": 1
+    }
+  ],
+  "computed_at": "2026-11-21T07:44:45.846883+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "b4263783440444b944c9cb294ebb53c8bb3fc21a"
+}
