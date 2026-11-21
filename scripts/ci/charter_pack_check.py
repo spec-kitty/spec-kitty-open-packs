@@ -151,6 +151,10 @@ def judge_set(result: Result, names: list[str]) -> list[str]:
     if document is None:
         return failures or ["pack-check wrote no report on standard output; the gate fails closed",
                             *(f"  {line}" for line in _tail(result.stderr))]
+    # A skipped check's reason names the cause (a pack that cannot be read, e.g. a missing companion): it leads.
+    for skipped in document.get("skipped") or []:
+        failures.append(f"pack-check skipped {skipped.get('check') if isinstance(skipped, dict) else skipped}: "
+                        f"{skipped.get('reason') if isinstance(skipped, dict) else ''}".rstrip(": "))
     for key in sorted(set(document) - set(REPORT_KEYS)):
         failures.append(f"pack-check's report holds a key this gate cannot read, so cannot judge: '{key}' "
                         f"(known: {', '.join(REPORT_KEYS)}); a changed format must not pass silently")
@@ -161,9 +165,6 @@ def judge_set(result: Result, names: list[str]) -> list[str]:
     for check in CHECKS:
         if check not in ran:
             failures.append(f"pack-check did not run {check}; a verdict without it proves nothing")
-    for skipped in document.get("skipped") or []:
-        failures.append(f"pack-check skipped {skipped.get('check') if isinstance(skipped, dict) else skipped}: "
-                        f"{skipped.get('reason') if isinstance(skipped, dict) else ''}".rstrip(": "))
     reported = sorted(str(pack.get("name")) for pack in document.get("packs") or [] if isinstance(pack, dict))
     if reported != sorted(names):
         missing, extra = sorted(set(names) - set(reported)), sorted(set(reported) - set(names))
