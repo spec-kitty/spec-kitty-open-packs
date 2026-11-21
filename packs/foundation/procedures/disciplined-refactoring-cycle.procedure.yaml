@@ -2,9 +2,9 @@ schema_version: '1.0'
 id: disciplined-refactoring-cycle
 title: Disciplined Refactoring Cycle
 description: |
-  Restructure code safely, without changing its behavior.
+  Restructure code safely, without changing its behavior. This is the practice of green mode (glossary): it applies whenever the suite is green, after a red-green cycle of test-driven development or as a refactor of its own.
 entry_condition: |
-  Code is about to be restructured without intending to change its behavior.
+  The suite is green and code is about to be restructured without intending to change its behavior, inside a test-driven cycle or on its own.
 exit_condition: |
   Each move addressed a named smell, started from a green, covered baseline, was a single named transformation with tests green afterwards, and no behavior change was mixed in.
 steps:
