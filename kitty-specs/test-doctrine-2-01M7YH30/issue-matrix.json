@@ -61,7 +61,7 @@
       "wp": "WP02"
     },
     "#274": {
-      "evidence_ref": "partial: testing-principles only; issue stays open",
+      "evidence_ref": "testing-principles part done; Follow-up: #274 stays open for its other files",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -69,7 +69,7 @@
       "scope": null,
       "source_file": null,
       "title": "Replace Spec Kitty core examples in consumer artifacts with neutral ones",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP02"
     },
     "#288": {
