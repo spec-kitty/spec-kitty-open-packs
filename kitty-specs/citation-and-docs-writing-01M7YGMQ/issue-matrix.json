@@ -119,6 +119,18 @@
       "title": "Epic: new doctrine content moved from core",
       "verdict": "not-applicable",
       "wp": null
+    },
+    "#2897": {
+      "evidence_ref": "core issue (spec-kitty/spec-kitty#2897), core half of #219; context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "context",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
