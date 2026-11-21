@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 9bae393a770e658949422a6c27bb228b396a7c73d718887c393f200d3d2f636c
+manifest_hash: 546525265eb05476be42bd05d9cc1f1709aabe590c56d7fd9f2d1af39a7093dc
 constituents:
 - kind: agent_profile
   id: comms-cleo
@@ -180,7 +180,7 @@ constituents:
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
-  content_hash: 702362dccabe6b81fb71984b399cc1c6aac17bfade9de74036b30465b223186f
+  content_hash: 0e2a045e01ef97712522d266cabc943b6c6e9257b66f5ea81c572823a55d19d0
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
