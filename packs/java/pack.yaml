@@ -6,7 +6,7 @@
 #
 # pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M75PCTK534T6D38GECDYXYG0
-pack_version: 2.2.1
+pack_version: 2.3.0
 parent_pack: null
 name: java
 pack_level: org
@@ -17,4 +17,4 @@ depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
     range: ">=2.0,<4"
   - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
-    range: ">=2.0,<4"
+    range: ">=3.5,<4"

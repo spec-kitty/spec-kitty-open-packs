@@ -1,10 +1,18 @@
 schema_version: '1.0'
-manifest_hash: 40a17e7f82b0be592ab2018177d871ab7fd05f24c233ac52b7096aa3e84c1001
+manifest_hash: 21c02e26419473233f414fa70a4af74aa7397364b747c92b3819f5363f0bde5c
 constituents:
 - kind: agent_profile
   id: debugger-debbie
   path: agent_profiles/debugger-debbie.agent.yaml
   content_hash: 136320cda231e1efd60b28f4357d2d03fd5b73dcc47583762954016c33334f1b
+- kind: asset
+  id: quad-a-test-structure
+  path: assets/quad-a-test-structure.md.asset.yaml
+  content_hash: 94963d41ff810fe20670fc0ebb9eb2a3afc7c250d973c11f5a0329dc805f0b2d
+- kind: asset
+  id: test-desiderata-checklist
+  path: assets/test-desiderata-checklist.md.asset.yaml
+  content_hash: a4d1bad2c1f687256a19e440c744528238491833eb1c3c9955d470e5096fc8d8
 - kind: directive
   id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   path: directives/use-mutation-testing-to-validate-test-quality.directive.yaml
@@ -36,7 +44,7 @@ constituents:
 - kind: procedure
   id: test-first-bug-fixing
   path: procedures/test-first-bug-fixing.procedure.yaml
-  content_hash: f6f8f41a427a0261201143b795d7b7a72ae2d22e6dc4036a88671eb638ffcc1a
+  content_hash: bfee99e52b37ee884c9e4504722586dbb2a7b06595b08f7653b774353bb38bbf
 - kind: styleguide
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
@@ -48,15 +56,15 @@ constituents:
 - kind: styleguide
   id: quadruple-a-test-format
   path: styleguides/quadruple-a-test-format.styleguide.yaml
-  content_hash: cee9207eee799af779a2f46f205e4a384694d4447f60b0adef82472bdce2648d
+  content_hash: 5e5a5e0c2e9423ea63f6027462eb54b202399aa377e91729b460e8d466038d32
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: 1e42dfa6ce9a3e6449489af74257a4af127b0f45c5c8643c98e0f3539b69da35
+  content_hash: cb35b11ebcd0a831a2d51a819859ea1ececbeb2bf7fb379727413f1bf7736317
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: ab5a97894b092571232b2036760070d8d441c1901829f881b4252209a42eec07
+  content_hash: 73aa2b0206c6b3fd6d0aa3ceced41f69d229cda6839eeb76713d17c617e8c229
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
@@ -77,6 +85,10 @@ constituents:
   id: no-parallel-duplicate-test-runs
   path: tactics/testing/no-parallel-duplicate-test-runs.tactic.yaml
   content_hash: 6c3dd67e04db5c9265260b2f0229c37544c506c3162d2d5527094f661b84e2a2
+- kind: tactic
+  id: shared-machine-test-measurement
+  path: tactics/testing/shared-machine-test-measurement.tactic.yaml
+  content_hash: 473c76f909512b782dcbb38d138feedfa03d4a79d555c3eb2febcd8f9eaec8ee
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml

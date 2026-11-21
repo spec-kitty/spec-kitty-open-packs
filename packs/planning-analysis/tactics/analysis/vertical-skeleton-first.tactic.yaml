@@ -1,0 +1,110 @@
+schema_version: "1.0"
+id: vertical-skeleton-first
+name: Vertical Skeleton First
+purpose: >
+  Prove the cross-owner composition with one thin, executable end-to-end path
+  (the spine's tracer bullet) before scaling out the work packages that supply
+  it, so that components that pass alone cannot defer their integration risk to
+  a late, expensive merge. Decomposing a mission by owner isolates the work, but
+  the coupling lives in the cross-owner state transitions; the skeleton
+  exercises those transitions first, while they are still cheap to change. This
+  is vertical slicing at mission scale: one thin path through every owner, not
+  one finished owner component at a time (horizontal slicing).
+steps:
+  - title: Identify the spine before sizing any owner work package
+    description: >
+      Name the single cross-owner flow whose composed success would retire the
+      most integration risk: the path where one owner's legitimate write becomes
+      the next owner's observed input (a configuration handoff, a shared
+      directory or artefact, the order of effects, a refusal that must happen
+      before any partial change). If the mission has no such flow because its
+      work packages are genuinely independent, this tactic does not apply: say
+      so in the plan and move on.
+    examples:
+      - "An order-import pipeline: receive file, validate, reserve stock, invoice, notify. Each owner's output is the next owner's input, so that path is the spine."
+      - "A new CLI command: registration, routing through the real entry point, configuration read, effect applied; not the per-command unit behavior."
+      - "Counterexample: a fix that preserves comments when one component rewrites a file has no cross-owner spine; the defect lives in one component. Cutting a skeleton there is theatre; model the defect class instead."
+  - title: Define the shared transition matrix as the spine's contract
+    description: >
+      Before any owner writes component code, agree the states the composed path
+      must survive: configuration absent or present, a parent directory absent or
+      present, an empty or full selection, tampered or changed input, a repeat
+      run that changes nothing. Keep one shared matrix, owned jointly by the
+      integration owner and the suppliers, not one approximation per owner
+      discovered in sequence. Pair every "applies cleanly" example with a
+      "refuses before any partial change" counterexample.
+    examples:
+      - "A write to shared paths before refusing changed input, and two owners each creating the same parent directory, are one contract gap: one matrix row each ('input changed', 'parent absent or present')."
+      - "Counterexample: letting each owner define its own transition and reconciling later produces effects that are valid one by one and not executable together."
+  - title: Land the thinnest executable composed path
+    description: >
+      Implement the spine with the smallest real implementation that runs end to
+      end through the actual entry point and the actual downstream owners. Thin
+      refers to scope, not fidelity: a shortcut that bypasses the real route
+      proves nothing about composition.
+    examples:
+      - "One bundle, one command, through the real entry point, asserting on the composed result, green."
+      - "Counterexample: a set of diagnostic checks that call each owner directly, bypassing the entry point, is not a green skeleton, however many of them pass."
+  - title: Hold the second wave until the spine runs green
+    description: >
+      The composed path is the precondition this tactic sets for parallel scale-out. Owners may continue
+      interface definitions and local scaffolding, but the second wave of
+      supplier work packages does not start until the skeleton runs the shared
+      matrix green. The checkable order is: first composed run green, then
+      second-wave work.
+    examples:
+      - "Heuristic: about four hours of work without an executable composed path is a signal to stop adding parallel owner work and revisit the sequencing. It is a signal, not a gate."
+  - title: Hang owner work packages off the running spine
+    description: >
+      Each supplier work package now implements against a contract that already
+      runs, so its local green says something about composition. Test cross-owner
+      transitions against the spine, not against doubles of neighbouring owners.
+    examples:
+      - "An owner whose configuration read is invalidated by another owner's provisioning write finds out against the live spine within minutes, not in the last work package."
+  - title: Treat a repeated cross-owner symptom as one defect class
+    description: >
+      Two failures with the same cross-owner transition shape are one defect
+      class, closed by one bounded repair rather than one fix per symptom; the
+      recurring-bug and defect-class directives (DIRECTIVE_040, DIRECTIVE_043)
+      govern how.
+  - title: Treat a change to a consumed transition as a spine event, with bounded cost
+    description: >
+      A work package discovery that changes a transition another owner consumes
+      (a state, an order of effects, a refusal condition, the shape of a shared
+      artefact) is a spine event, not a local detail. A discovery that stays
+      inside one owner's boundary is local and does not touch the spine. A spine
+      event is bounded five ways. (1) Pause scope: pause only the work packages
+      that consume the amended matrix row; each work package declares the rows it
+      consumes. (2) Re-run budget: one spine re-run per event, within the smoke
+      budget recorded in the plan; a smoke that outgrows its budget is no longer
+      a skeleton. (3) Escalation cap: a second amendment of the same row, or more
+      than about three spine events, stops re-running and goes back to planning
+      or example mapping, or to DIRECTIVE_040. (4) Flaky smoke: a composed smoke
+      that passes and fails on the same code is no measurement (glossary), not a
+      blocking red; fix the flakiness before trusting either result. (5) Classification:
+      the integration owner classifies an event, not the work package that found
+      it.
+    examples:
+      - "A supplier finds that applying a bundle must create a shared parent directory that other owners also create: a new shared-artefact transition. Amend the 'parent absent or present' row, pause the two work packages that consume it, re-run the spine once, then let them implement against the corrected, running contract."
+      - "Counterexample: renaming a private helper no other owner consumes is not a spine event; re-running the composed smoke for it would be theatre."
+failure_modes:
+  - "Deferring composition to a late work package: owners pass alone, fail together, and the riskiest integration surfaces after most of the budget is spent."
+  - "Cutting a thin slice through an undefined cross-owner contract: the skeleton encodes the wrong contract early and everything after inherits it. Matrix first, then the slice."
+  - "Accepting bypassed-path diagnostics as a green skeleton; a composed path that avoids the real entry point proves nothing about composition."
+  - "Opening one repair per cross-owner symptom instead of closing the defect class once."
+  - "Applying the skeleton to a single-component defect with no cross-owner spine, where defect-class modelling is the cheaper response."
+  - "Unbounded spine events: pausing the whole wave, re-running without a budget, or letting the discovering work package classify its own event."
+applies_to_languages: []
+notes: >
+  Derived from one observed mission whose dominant cost was late composition
+  and per-symptom serial repair: several integration failures there were one
+  cross-owner contract gap surfacing in different places. The evidence is a
+  single mission, so the four-hour threshold seen there is offered as a
+  heuristic. The guidance is a
+  set of examples and counterexamples plus one checkable order (first composed
+  run green before second-wave work), because agents infer a spine from
+  representative cases better than from a selection algorithm. A directive that
+  requires this order is deferred until the plan template records the spine and
+  the transition matrix as fields, so compliance can be checked rather than
+  self-reported. The skeleton is the smallest change that proves composition,
+  not the smallest change that advances one owner.

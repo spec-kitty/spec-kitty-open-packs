@@ -1,0 +1,61 @@
+schema_version: "1.0"
+id: shared-machine-test-measurement
+name: Shared-Machine Test Measurement
+purpose: >
+  Keep test results trustworthy when several agents run tests on one machine.
+  A shared machine is a poor measuring instrument: concurrent heavy suites
+  collide on ports and leaked processes, slow each other down until runs time
+  out, and fill small temporary disks; a killed or piped run is then easily
+  misread as a pass or a fail, and a red is blamed on, or excused from, the
+  wrong change. This tactic says when a run counts as a measurement and how to
+  attribute a red.
+steps:
+  - title: Cap heavy suites per machine
+    description: >
+      Before starting a heavy suite (an integration or end-to-end suite, or a run
+      of the whole repository), check how many heavy suites are already running
+      on the machine, from any agent. Above the cap the team has set (one per
+      machine when none is set), wait or serialise instead of starting another.
+      Bound worker counts explicitly; never let a runner pick "as many workers as
+      cores" on a shared machine.
+  - title: Count only a finished run with a captured exit status
+    description: >
+      A run is a measurement only if it finished and its own exit status was
+      captured. Anything else (what the foundation
+      glossary calls no measurement: killed, timed out, out of memory or disk, exit status lost,
+      or passing and failing on the same code) is reported as no measurement,
+      with its reason, never as a pass or a fail; re-run it when the machine is
+      quiet. When piping test output, capture the test command's status, not
+      the status of the last command in the pipe (for example with the shell's
+      pipefail option or its pipe-status array).
+    examples:
+      - "`<test command> | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Run with `set -o pipefail`, or read the test command's entry in the pipe-status array."
+  - title: Put test temporary and cache space where there is quota
+    description: >
+      Point test temporary directories and caches at storage with enough free
+      space and quota for the suites that run there. A run that hits a full disk
+      or a quota limit is no measurement, not a test failure.
+  - title: Attribute a red against the mission's base commit
+    description: >
+      Before claiming that a work package caused, or did not cause, a red,
+      re-run the same test on the mission's recorded base commit. Red on the base
+      too: the failure is pre-existing; record it and do not count it against the
+      work package. Green on the base: the work package's changes are the
+      suspect. Never compare against your own first commit, which already
+      contains your changes, or against a moving branch head.
+  - title: Record what was measured
+    description: >
+      Report each result with the exact command, the worker count, and its
+      outcome: passed, failed, errored, or no measurement with its reason.
+failure_modes:
+  - "Fan-out: several agents each start a heavy suite on one machine, and the resulting timeouts and port collisions are read as product failures."
+  - "Lost status: a piped or killed run is reported as green, or as red, when no result was measured."
+  - "Quota exhaustion: test temporary space fills a small disk and takes tools offline mid-run; the errors are filed as test failures."
+  - "Wrong baseline: a red is attributed by diffing against the agent's own first commit instead of re-running on the mission base."
+applies_to_languages: []
+notes: >
+  Complements no-parallel-duplicate-test-runs, which allows one run per suite;
+  this tactic covers the whole machine and the honesty of what a run proves.
+  Where a project has a reporting rule against fake green results, it governs how
+  outcomes are reported. Machine-specific limits (port ranges, disk quotas, make
+  targets) belong in a project's own pack or contributor docs.

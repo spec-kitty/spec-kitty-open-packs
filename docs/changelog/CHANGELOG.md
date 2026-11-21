@@ -320,14 +320,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `>=3.3,<4`, because its fragment now scopes tactics that exist only from foundation 3.3.0.
   **What to do:** nothing in your packs. A consumer that pins `cave-kitty` 2.4.0 needs `foundation`
   3.3.0 or later.
+- **Tests as scaffold, with named smells and reference examples** (#216). A new `foundation`
+  paradigm, `tests-as-scaffold-not-friction`, holds the why behind `DIRECTIVE_041` (tests protect
+  change; false confidence and false friction; the desiderata; a double as a second copy of a
+  contract). `DIRECTIVE_041` keeps every rule; it and `DIRECTIVE_054` refine the paradigm.
+  Two anti-pattern nodes, "mock owned logic to pin a call contract" and "assert on mock
+  interactions", are rejected by the paradigm, 054, the unfake procedure and three `foundation` testing tactics, so
+  review can name them. Four reference assets ship: a functional-slicing worked example and a full
+  unfake worked example in `foundation`, and the desiderata checklist and the Quad-A skeleton and
+  checklist in `testing`. The desiderata and the Quad-A definition each live in one place now; the
+  styleguides, including the python, java and typescript conventions, point to the assets.
+  `test-boundaries-by-responsibility` gains the slicing heuristics, and `doctrine-daphne` records the
+  asset and anti-pattern layout.
+- **Test-first works in tracer bullets, and refactoring is green mode** (#154). `tdd-red-green-refactor`
+  agrees the test surface first, then one behavior, one failing test and the least code per cycle;
+  it names horizontal slicing and tautological expected values. Refactoring is no longer a step of
+  the loop: whenever the suite is green, `disciplined-refactoring-cycle` applies (green mode), and the
+  test-first and bug-fixing surfaces point to it. Adapted from mattpocock/skills at `abeeaf9`.
+- **Vertical skeleton first, for missions that cross owners** (#147). A new `planning-analysis`
+  tactic, `vertical-skeleton-first`, has the plan name the cross-owner spine and land its first
+  composed path before second-wave work, with a bounded rule for changes to a consumed transition.
+  It loads at the software-dev plan and tasks steps; the plan and tasks guidance ask for the spine,
+  and the tasks-outline example is sliced vertically. The directive that would require this order is
+  deferred.
+- **Honest test measurement on shared machines** (#152). A new `testing` tactic,
+  `shared-machine-test-measurement`, caps heavy suites per machine, reports a killed, timed-out or
+  piped run as no measurement, and attributes a red by re-running it on the mission's base commit.
+  It loads at the software-dev implement and review steps.
+- **Five new glossary terms**: tracer bullet, horizontal slicing, spine, green mode and no
+  measurement.
+- **Less core residue in two consumer files** (part of #273 and #274). `DIRECTIVE_034` loses its
+  provenance comment, and `testing-principles` its core PR, commit and symbol references.
+- **Versions**: the lockstep set (`foundation`, `writing`, `testing`, `refactoring`, `architecture`,
+  `planning-analysis`) moves to 3.5.0 and `built-in` to 5.5.0; `python` and `java` to 2.3.0,
+  `javascript` to 2.2.0, `pack-authoring` to 1.4.0 and `internal` to 4.4.0.
+  **What to do:** nothing in your packs. `python`, `java`, `javascript` and `internal` now require
+  `testing` 3.5 or later (`>=3.5,<4`), because they point to its new Quad-A asset and measurement
+  tactic.
 - **Tests may mock only at the responsibility boundary** (#216). A new `foundation` `DIRECTIVE_054`
   holds the allow-list of seams a test may substitute; collaborators the code owns run for real. The
   new `unfake-an-over-mocked-test` procedure turns an over-mocked test into one that does. Both load
   at the implement and review actions and for the implementer, reviewer, generic and qa test-designer
   profiles. Before, the seam lists in the testing tactics and styleguides differed; now they agree
-  with the directive. The remaining #216 items (the tests-as-scaffold paradigm and the DIRECTIVE_041
-  mindset split, the anti-pattern nodes and reference assets, checklist de-duplication, the curator
-  profile) stay open.
+  with the directive.
 - **A red that proves the right thing** (#151). `red-first-bug-reproduction` records the failure text,
   inverts a test that pins the defect, and splits a reproduction from its fix with a strict expected
   failure. Before, a red could pass for the wrong reason. `acceptance-test-first` now has each new acceptance test run on the base with its failure text recorded, so an anchor that is red for a missing symbol or an unstaged version bump is caught.

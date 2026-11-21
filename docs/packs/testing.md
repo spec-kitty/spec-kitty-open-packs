@@ -21,29 +21,30 @@ generated:
 
 - **Pack directory:** `packs/testing`
 - **Pack level:** `built-in`
-- **Declared version:** `3.4.0`
-- **Content checksum (sha256):** `2998d890e23981403ec55a70a36668af65f4dd1f250f3087747bda14c95bb5a2`
+- **Declared version:** `3.5.0`
+- **Content checksum (sha256):** `65d93a8e450c6f4f237963e39cba3468828b9f05481962d98fdf4d5f5635bad2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
-**Depends on:** [`foundation`](foundation.md) `==3.4.0`
+**Depends on:** [`foundation`](foundation.md) `==3.5.0`
 
 ## Artifact inventory
 
 | Kind | Count |
 | --- | --- |
 | `directives` | 1 |
-| `tactics` | 9 |
+| `tactics` | 10 |
 | `styleguides` | 5 |
 | `toolguides` | 2 |
 | `paradigms` | 2 |
 | `procedures` | 5 |
 | `agent_profiles` | 1 |
+| `assets` | 4 |
 | `drg` | 1 |
-| **Total files** | **29** |
+| **Total files** | **34** |
 
 ### Full listing
 
@@ -55,13 +56,14 @@ Test design and test-first practice beyond the foundation basics: BDD and specif
 </details>
 
 <details>
-<summary><code>tactics</code> (9)</summary>
+<summary><code>tactics</code> (10)</summary>
 
 - `testing/atdd-adversarial-acceptance.tactic.yaml`
 - `testing/bdd-scenario-formulation.tactic.yaml`
 - `testing/formalized-constraint-testing.tactic.yaml`
 - `testing/mutation-testing-workflow.tactic.yaml`
 - `testing/no-parallel-duplicate-test-runs.tactic.yaml`
+- `testing/shared-machine-test-measurement.tactic.yaml`
 - `testing/test-minimisation.tactic.yaml`
 - `testing/test-pyramid-progression.tactic.yaml`
 - `testing/test-to-system-reconstruction.tactic.yaml`
@@ -111,6 +113,16 @@ Test design and test-first practice beyond the foundation basics: BDD and specif
 <summary><code>agent_profiles</code> (1)</summary>
 
 - `debugger-debbie.agent.yaml`
+
+</details>
+
+<details>
+<summary><code>assets</code> (4)</summary>
+
+- `quad-a-test-structure.md`
+- `quad-a-test-structure.md.asset.yaml`
+- `test-desiderata-checklist.md`
+- `test-desiderata-checklist.md.asset.yaml`
 
 </details>
 

@@ -21,34 +21,35 @@ generated:
 
 - **Pack directory:** `packs/planning-analysis`
 - **Pack level:** `built-in`
-- **Declared version:** `3.4.0`
-- **Content checksum (sha256):** `f2e427c991d45079ba920f39c82ef29be41fe2e30f31e6c0c4d0a2fb8f482c9d`
+- **Declared version:** `3.5.0`
+- **Content checksum (sha256):** `e28df8f975e2ed84f30a67589bd823947c1bb88ddbf48f4336ab0f20a523cd03`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-**Depends on:** [`architecture`](architecture.md) `==3.4.0`, [`foundation`](foundation.md) `==3.4.0`
+**Depends on:** [`architecture`](architecture.md) `==3.5.0`, [`foundation`](foundation.md) `==3.5.0`
 
 ## Artifact inventory
 
 | Kind | Count |
 | --- | --- |
-| `tactics` | 1 |
+| `tactics` | 2 |
 | `styleguides` | 1 |
 | `paradigms` | 1 |
 | `procedures` | 5 |
 | `agent_profiles` | 3 |
 | `drg` | 1 |
-| **Total files** | **15** |
+| **Total files** | **16** |
 
 ### Full listing
 
 <details>
-<summary><code>tactics</code> (1)</summary>
+<summary><code>tactics</code> (2)</summary>
 
 - `analysis/analysis-extract-before-interpret.tactic.yaml`
+- `analysis/vertical-skeleton-first.tactic.yaml`
 
 </details>
 

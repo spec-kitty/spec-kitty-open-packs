@@ -16,7 +16,7 @@ applies_to_languages:
 # House rules (no source above, common practice in RxJS codebases): no subscribe inside a
 # subscribe, an owner for every subscription, exposing a Subject only as an Observable, and
 # catching errors inside the flattening operator. Quad-A tests follow the testing pack's
-# quadruple-a-test-format styleguide.
+# quad-a-test-structure asset.
 # Shape follows the primer approach of penguin-pragmatic-patterns (language philosophy, naming,
 # tooling, testing, idioms), fitted to the styleguide schema: one rule per principle, idioms as
 # patterns, failure modes as anti_patterns. Ruling on spec-kitty-open-packs#131.
@@ -49,7 +49,7 @@ principles:
   - name: "RxJS operator discipline"
     description: "RxJS: choose the flattening operator by its concurrency meaning (`switchMap` drops the previous inner stream, `concatMap` queues, `mergeMap` runs in parallel, `exhaustMap` ignores new values while busy)."
   - name: "Quad-A test structure"
-    description: "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert. Type-level expectations belong to the type-check gate, not to runtime asserts."
+    description: "Quad-A test structure: tests follow the testing pack's quad-a-test-structure asset. Type-level expectations belong to the type-check gate, not to runtime asserts."
 
 patterns:
   - name: Narrow Unknown Input

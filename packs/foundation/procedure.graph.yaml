@@ -193,6 +193,24 @@ edges:
   relation: suggests
   when: the reproduction test replaces a friction test whose assertion is wrong
   reason: Replace the wrong assertion with a contract-pinned red-first one while keeping the test's setup and edge cases.
+- source: procedure:test-first-cycle
+  target: procedure:disciplined-refactoring-cycle
+  relation: suggests
+  when: restructuring code between red-green cycles, in green mode
+  reason: Refactoring is not a step of the test-first cycle; the disciplined refactoring cycle owns green mode.
+- source: procedure:test-first-cycle
+  target: tactic:tdd-red-green-refactor
+  relation: suggests
+  when: working one behavior per cycle in vertical slices
+  reason: The TDD tactic owns vertical slicing through the test surface; the cycle points to it.
+- source: procedure:unfake-an-over-mocked-test
+  target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
+  relation: rejects
+  reason: The procedure removes doubles of owned logic and runs the real collaborators on seeded state.
+- source: procedure:unfake-an-over-mocked-test
+  target: asset:exemplar-unfake-an-over-mocked-test
+  relation: suggests
+  when: walking the procedure on a real test and wanting a complete before and after
 - source: procedure:unfake-an-over-mocked-test
   target: procedure:observable-contract-test-authoring
   relation: suggests

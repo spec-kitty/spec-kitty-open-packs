@@ -62,6 +62,10 @@ nodes:
 - id: risk-identification-assessment-template
   kind: templates
   title: risk-identification-assessment-template
+- id: vertical-skeleton-first
+  kind: tactics
+  title: Vertical Skeleton First
+  body_path: tactics/analysis/vertical-skeleton-first.tactic.yaml
 edges:
 - source: writing::action:documentation/retrospect
   target: agent_profile:retrospective-facilitator
@@ -306,3 +310,32 @@ edges:
     to code-documentation-analysis' -- recovering terminology from an existing system, which is exactly the 'terminology aliases
     ... inferred from the code' durable artefact brownfield-onboarding's own summary names. INBOUND to the brownfield paradigm
     from an action-unreachable source, so composition-only under today's traversal.
+# Vertical skeleton first: the mission-scale tracer bullet for cross-owner missions.
+- source: foundation::action:software-dev/plan
+  target: tactic:vertical-skeleton-first
+  relation: scope
+  when: planning a mission whose work packages cross owners
+- source: foundation::action:software-dev/tasks
+  target: tactic:vertical-skeleton-first
+  relation: scope
+  when: slicing work packages for a mission with a cross-owner spine
+- source: foundation::tactic:product-coherence-review
+  target: tactic:vertical-skeleton-first
+  relation: suggests
+  when: judging whether the first work packages deliver a vertical slice or only layers
+- source: tactic:vertical-skeleton-first
+  target: foundation::procedure:example-mapping-workshop
+  relation: suggests
+  when: gathering the transition matrix as paired examples and counterexamples
+- source: tactic:vertical-skeleton-first
+  target: foundation::directive:DIRECTIVE_040
+  relation: suggests
+  when: a cross-owner symptom recurs or the spine-event cap is reached
+- source: tactic:vertical-skeleton-first
+  target: foundation::directive:DIRECTIVE_043
+  relation: suggests
+  when: closing a repeated cross-owner defect class by construction
+- source: tactic:vertical-skeleton-first
+  target: foundation::directive:DIRECTIVE_036
+  relation: suggests
+  when: the composed smoke exercises the system through its external interfaces

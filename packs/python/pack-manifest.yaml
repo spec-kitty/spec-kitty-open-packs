@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: faa63cb535eccfc9945e1dfe476c6b51e53faeee572f274805d1aa8194a4b898
+manifest_hash: 670d8db8d2b3268d0e4fc6e866c392357c6da27b2bce876b02fea653c6440e44
 constituents:
 - kind: agent_profile
   id: python-pedro
@@ -8,7 +8,7 @@ constituents:
 - kind: styleguide
   id: python-conventions
   path: styleguides/python-conventions.styleguide.yaml
-  content_hash: 97712c40f99b4ed9cb8e36917f7f83172d2d4e2e31546a7cda2bed19dd196e48
+  content_hash: 92ddd2a5ea72350ff27128ada1bfa92283df0d3459d6ee671be07a14bd9195b7
 - kind: toolguide
   id: python-mutation-tools
   path: toolguides/python-mutation-tools.toolguide.yaml

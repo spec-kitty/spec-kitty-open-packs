@@ -120,6 +120,35 @@ terms:
       existing gate is the evidence, it is not written, as the test-first directive sets out. Not a characterization test,
       which pins existing behavior so a refactor can be checked against it.
     status: active
+  - id: tracer-bullet
+    name: tracer bullet
+    definition: A thin path through the real code that is kept and grown rather than thrown away. At test scale each red-green
+      slice extends it by one behaviour through the agreed test surface; at mission scale it is the spine's first composed
+      path, end to end through the real entry point. Not a prototype or a spike.
+    status: active
+  - id: horizontal-slicing
+    name: horizontal slicing
+    definition: Building one layer or one kind of artefact across all behaviours before the next, such as all tests and then
+      all code, or all models and then all services. The opposite of vertical slices, which carry one behaviour through
+      every layer before the next.
+    status: active
+  - id: spine
+    name: spine
+    definition: The cross-owner flow of a mission whose composed success retires the most integration risk, together with
+      the shared matrix of transitions it must survive. Its first composed path is the mission's tracer bullet (see the
+      vertical-skeleton-first tactic).
+    status: active
+  - id: green-mode
+    name: green mode
+    definition: The state in which refactoring is allowed. The test suite is green and the change keeps behaviour. It can
+      be entered after any green, inside or outside a red-green cycle, and left for red only by writing the next failing
+      test. The disciplined-refactoring-cycle procedure owns the practice.
+    status: active
+  - id: no-measurement
+    name: no measurement
+    definition: The outcome of a test run that cannot be trusted, because it was killed, timed out, ran out of memory or
+      disk, lost its exit status, or passes and fails on the same code. It is reported as neither a pass nor a fail.
+    status: active
   - id: charter-lint
     name: charter lint
     definition: Graph-native decay detection that validates the internal consistency and freshness of doctrine artifacts in

@@ -417,7 +417,7 @@ edges:
   - source: "procedure:test-suite-quality-assessment"
     target: "testing::styleguide:test-desiderata-and-boundaries"
     relation: suggests
-    reason: "The twelve desiderata, the shift-left detector map and the harness anti-patterns the review applies."
+    reason: "How to trade off the desiderata, the shift-left detector map and the harness anti-patterns the review applies."
   - source: "procedure:test-suite-quality-assessment"
     target: "testing::styleguide:testing-principles"
     relation: suggests
@@ -806,3 +806,7 @@ edges:
     target: asset:writing-audience-agentic-framework-core-team
     relation: suggests
     when: The reader is a maintainer of the agentic framework core.
+  - source: procedure:targeted-mission-test-run
+    target: testing::tactic:shared-machine-test-measurement
+    relation: suggests
+    when: Several agents run tests on one machine, or a red needs attributing to a change.
