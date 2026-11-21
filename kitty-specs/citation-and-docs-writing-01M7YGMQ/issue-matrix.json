@@ -1,5 +1,17 @@
 {
   "rows": {
+    "#150": {
+      "evidence_ref": "FR-002, FR-005, FR-007",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Doctrine: verify claims before rulings and briefs",
+      "verdict": "in-mission",
+      "wp": null
+    },
     "#219": {
       "evidence_ref": "FR-001, FR-003, FR-004",
       "fr": null,
