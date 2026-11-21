@@ -5,7 +5,8 @@
 #   scripts/ci/charter_service_jar.sh <work-dir>
 #
 # - `release_tag` set: download spec-kitty-charter-service-<version>.jar from that service-v* release
-#   of spec-kitty/spec-kitty-charter and refuse it unless its SHA-256 is `jar_sha256`.
+#   of spec-kitty/spec-kitty-charter and refuse it unless its SHA-256 is `jar_sha256`. The tag must point at the lock's
+#   `commit` (charter_release_asset.sh).
 # - `release_tag` empty (no release exists yet): fetch the pinned `commit` and build the jar with
 #   `./gradlew :deployable:bootJar`. Needs Java 25 on the PATH or in JAVA_HOME, and network access to
 #   github.com and the Gradle dependency repositories.
@@ -15,6 +16,8 @@ set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repository="spec-kitty/spec-kitty-charter"
+# shellcheck source=charter_release_asset.sh
+source "$here/charter_release_asset.sh"
 
 (( $# == 1 )) || { echo "usage: $0 <work-dir>" >&2; exit 2; }
 work="$1"
@@ -26,17 +29,11 @@ tag="$(lock release_tag)"
 digest="$(lock jar_sha256)"
 
 if [[ -n "$tag" ]]; then
+  require_tag_at_commit "$repository" "$tag" "$commit"
   version="${tag#service-v}"
   jar="$work/spec-kitty-charter-service-$version.jar"
   url="https://github.com/$repository/releases/download/$tag/spec-kitty-charter-service-$version.jar"
-  echo "downloading $url" >&2
-  curl --proto "=https" --proto-redir "=https" --fail --silent --show-error --location --retry 3 --output "$jar" "$url"
-  actual="$(sha256sum "$jar" | cut -d' ' -f1)"
-  if [[ "$actual" != "$digest" ]]; then
-    echo "::error::$jar has SHA-256 $actual, not the jar_sha256 $digest of charter.lock.yaml; refusing to run it" >&2
-    exit 1
-  fi
-  echo "verified SHA-256 $digest" >&2
+  download_verified "$url" "$jar" "$digest" jar_sha256
   printf '%s\n' "$jar"
   exit 0
 fi

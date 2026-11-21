@@ -17,6 +17,8 @@ set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repository="spec-kitty/spec-kitty-charter"
+# shellcheck source=charter_release_asset.sh
+source "$here/charter_release_asset.sh"
 
 (( $# == 1 )) || { echo "usage: $0 <work-dir>" >&2; exit 2; }
 work="$1"
@@ -28,30 +30,11 @@ tag="$(lock release_tag)"
 digest="$(lock pack_check_sha256)"
 
 if [[ -n "$tag" ]]; then
-  refs="$(git ls-remote "https://github.com/$repository.git" "refs/tags/$tag" "refs/tags/$tag^{}")"
-  tagged="$(awk -v peeled="refs/tags/$tag^{}" '$2 == peeled { print $1 }' <<< "$refs")"  # an annotated tag's commit
-  [[ -n "$tagged" ]] || tagged="$(awk -v ref="refs/tags/$tag" '$2 == ref { print $1 }' <<< "$refs")"
-  if [[ "$tagged" != "$commit" ]]; then
-    echo "::error::$repository tag $tag points at ${tagged:-nothing}, not at the commit $commit of charter.lock.yaml; refusing a pin that names two charters" >&2
-    exit 1
-  fi
+  require_tag_at_commit "$repository" "$tag" "$commit"
   version="${tag#service-v}"
   jar="$work/pack-check-$version.jar"
   url="https://github.com/$repository/releases/download/$tag/pack-check-$version.jar"
-  echo "downloading $url" >&2
-  part="$jar.part"  # an unverified download never carries the jar's name, and never outlives a failure
-  trap 'rm -f -- "$part"' EXIT
-  if ! curl --proto "=https" --proto-redir "=https" --fail --silent --show-error --location --retry 3 --output "$part" "$url"; then
-    echo "::error::could not download $url; removed the partial download" >&2
-    exit 1
-  fi
-  actual="$(sha256sum "$part" | cut -d' ' -f1)"
-  if [[ "$actual" != "$digest" ]]; then
-    echo "::error::$jar had SHA-256 $actual, not the pack_check_sha256 $digest of charter.lock.yaml; deleted it, refusing to run it" >&2
-    exit 1
-  fi
-  mv -f -- "$part" "$jar"
-  echo "verified SHA-256 $digest" >&2
+  download_verified "$url" "$jar" "$digest" pack_check_sha256
   printf '%s\n' "$jar"
   exit 0
 fi

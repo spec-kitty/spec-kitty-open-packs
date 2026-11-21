@@ -297,23 +297,26 @@ class EndToEnd(unittest.TestCase):
 
 
 class JarScript(unittest.TestCase):
-    """charter_pack_check_jar.sh on a release pin, with stand-in git and curl: what it runs is what the lock pins."""
+    """The two jar scripts on a release pin, with stand-in git and curl: what they run is what the lock pins."""
 
     COMMIT = "c" * 40
+    # script, the lock key holding its jar's digest, the jar it prints
+    SCRIPTS = (("charter_pack_check_jar.sh", "pack_check_sha256", "pack-check-1.0.0.jar"),
+               ("charter_service_jar.sh", "jar_sha256", "spec-kitty-charter-service-1.0.0.jar"))
 
     def setUp(self) -> None:
         self.tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, self.tmp)
         self.repo = self.tmp / "repo"
         (self.repo / "scripts" / "ci").mkdir(parents=True)
-        for name in ("charter_pack_check_jar.sh", "charter_lock.py"):
+        for name in ("charter_pack_check_jar.sh", "charter_service_jar.sh", "charter_release_asset.sh", "charter_lock.py"):
             shutil.copy2(ROOT / "scripts" / "ci" / name, self.repo / "scripts" / "ci" / name)
-        self.jar_bytes = b"the pack-check jar"
+        self.jar_bytes = b"the pinned jar"
         import hashlib
         self.digest = hashlib.sha256(self.jar_bytes).hexdigest()
         self.bin = self.tmp / "bin"
         self.bin.mkdir()
-        # curl writes the served bytes to --output; git ls-remote answers the tag's refs.
+        # curl writes the served bytes to --output (and may then fail); git ls-remote answers the tag's refs.
         (self.bin / "curl").write_text("#!/bin/sh\nwhile [ $# -gt 0 ]; do [ \"$1\" = --output ] && out=\"$2\"; "
                                        "shift; done\nprintf %s \"$SERVED\" > \"$out\"\n"
                                        "[ -z \"$CURL_EXIT\" ] || exit \"$CURL_EXIT\"\n")
@@ -321,37 +324,50 @@ class JarScript(unittest.TestCase):
         for tool in ("curl", "git"):
             (self.bin / tool).chmod(0o755)
 
-    def run_script(self, *, pack_check: str, tagged: str, served: bytes, curl_exit: int = 0) -> subprocess.CompletedProcess:
+    def run_script(self, script: str, key: str, *, digest: str, tagged: str, served: bytes,
+                   curl_exit: int = 0) -> subprocess.CompletedProcess:
+        digests = {"pack_check_sha256": "a" * 64, "jar_sha256": "a" * 64, key: digest}
         (self.repo / "charter.lock.yaml").write_text(
-            f"commit: {self.COMMIT}\nrelease_tag: service-v1.0.0\njar_sha256: {'a' * 64}\npack_check_sha256: {pack_check}\n")
+            f"commit: {self.COMMIT}\nrelease_tag: service-v1.0.0\njar_sha256: {digests['jar_sha256']}\n"
+            f"pack_check_sha256: {digests['pack_check_sha256']}\n")
         env = dict(os.environ, PATH=f"{self.bin}{os.pathsep}{os.environ['PATH']}", TAGGED=tagged,
                    SERVED=served.decode(), CURL_EXIT=str(curl_exit or ""))
-        return subprocess.run(["bash", str(self.repo / "scripts" / "ci" / "charter_pack_check_jar.sh"),
-                               str(self.tmp / "work")], capture_output=True, text=True, env=env, check=False)
+        return subprocess.run(["bash", str(self.repo / "scripts" / "ci" / script), str(self.tmp / "work")],
+                              capture_output=True, text=True, env=env, check=False)
 
     def test_the_pinned_jar_is_printed(self) -> None:
-        done = self.run_script(pack_check=self.digest, tagged=self.COMMIT, served=self.jar_bytes)
-        self.assertEqual(done.returncode, 0, done.stderr)
-        self.assertEqual(done.stdout.splitlines(), [str(self.tmp / "work" / "pack-check-1.0.0.jar")])
+        for script, key, jar in self.SCRIPTS:
+            with self.subTest(script=script):
+                done = self.run_script(script, key, digest=self.digest, tagged=self.COMMIT, served=self.jar_bytes)
+                self.assertEqual(done.returncode, 0, done.stderr)
+                self.assertEqual(done.stdout.splitlines(), [str(self.tmp / "work" / jar)])
 
     def test_a_jar_with_another_digest_is_refused_and_no_path_is_printed(self) -> None:
-        done = self.run_script(pack_check=self.digest, tagged=self.COMMIT, served=b"some other jar")
-        self.assertNotEqual(done.returncode, 0)
-        self.assertEqual(done.stdout, "")
-        self.assertIn("refusing to run it", done.stderr)
-        self.assertFalse((self.tmp / "work" / "pack-check-1.0.0.jar").exists())  # the unverified download is gone
+        for script, key, jar in self.SCRIPTS:
+            with self.subTest(script=script):
+                done = self.run_script(script, key, digest=self.digest, tagged=self.COMMIT, served=b"some other jar")
+                self.assertNotEqual(done.returncode, 0)
+                self.assertEqual(done.stdout, "")
+                self.assertIn("refusing to run it", done.stderr)
+                self.assertEqual(list((self.tmp / "work").iterdir()), [])  # the unverified download is gone
 
     def test_a_failed_download_leaves_nothing_in_the_work_dir(self) -> None:
-        done = self.run_script(pack_check=self.digest, tagged=self.COMMIT, served=b"half a jar", curl_exit=22)
-        self.assertNotEqual(done.returncode, 0)
-        self.assertEqual(done.stdout, "")
-        self.assertEqual(list((self.tmp / "work").iterdir()), [])  # neither the jar nor a partial file
+        for script, key, jar in self.SCRIPTS:
+            with self.subTest(script=script):
+                done = self.run_script(script, key, digest=self.digest, tagged=self.COMMIT, served=b"half a jar",
+                                       curl_exit=22)
+                self.assertNotEqual(done.returncode, 0)
+                self.assertEqual(done.stdout, "")
+                self.assertEqual(list((self.tmp / "work").iterdir()), [])  # neither the jar nor a partial file
 
     def test_a_tag_that_points_elsewhere_than_the_lock_commit_is_refused(self) -> None:
-        done = self.run_script(pack_check=self.digest, tagged="d" * 40, served=self.jar_bytes)
-        self.assertNotEqual(done.returncode, 0)
-        self.assertEqual(done.stdout, "")
-        self.assertIn("names two charters", done.stderr)
+        for script, key, jar in self.SCRIPTS:
+            with self.subTest(script=script):
+                done = self.run_script(script, key, digest=self.digest, tagged="d" * 40, served=self.jar_bytes)
+                self.assertNotEqual(done.returncode, 0)
+                self.assertEqual(done.stdout, "")
+                self.assertIn("names two charters", done.stderr)
+                self.assertEqual(list((self.tmp / "work").iterdir()), [])  # refused before any download
 
 
 @unittest.skipUnless(os.environ.get("PACK_CHECK_JAR"), "PACK_CHECK_JAR names no pack-check jar")
