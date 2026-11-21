@@ -87,7 +87,7 @@
     },
     "WP03": {
       "actor": "reviewer-renata",
-      "agent": "claude::implementer",
+      "agent": "reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -99,7 +99,8 @@
       "notes": [
         "Ready for review",
         "Review cycle 1 rejected: DISCIPLINED_REFACTORING scope sentence; four-hour heuristic in the step; mission evidence out of the examples; 'seam' in vsf; nits",
-        "Cycle 2: findings 1-7 fixed"
+        "Cycle 2: findings 1-7 fixed",
+        "Approved by reviewer-renata subagent, cycle 2 (83286af)"
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
