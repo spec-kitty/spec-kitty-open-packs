@@ -921,6 +921,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep notes and
+  logs in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
+  - **Schema pass.** An ignored file other than a `README.md` note (a `notes.md`, an orphan skill body) is now
+    warned as `file_not_held` instead of failing as `not_held`. `README.md` notes are still carried silently.
+  - **Service check.** Every file a registration leaves out is a notice. Only a file the mirror takes for held
+    content still fails, because that means the mirror has drifted from the pin.
+  - **Still red: an unmodelled stray file** (`notes.txt`, a log). The pinned pack-check's round trip refuses it as
+    `round_trip_red`, and #331 records the decision this needs.
+  - **Unchanged.** `requiredNotHeld` and the required floor stay until spec-kitty-charter#629 (#330). The
+    stale-manifest-hash check stays as the fast pre-check, although pack-check catches the case
+    (spec-kitty-charter#630).
+
 - **Common Docs teaches doc-kitty frontmatter** (#240, #274). The `common-docs` styleguide,
   DIRECTIVE_042, the `common-docs-write` and `common-docs-scaffold` tactics, the
   `common-docs-page-authoring` and `declare-page-audience` procedures, the documentation mission's
