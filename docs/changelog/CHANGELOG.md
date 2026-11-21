@@ -818,8 +818,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     but the pinned one (`charter_pack_check_jar.sh`; on a main pin it builds the jar from `commit`). It then
     runs `--round-trip` over every pack and valid fixture (`charter_pack_check.py`). The report is the
     `charter-pack-check-report` artifact.
-  - **What fails it.** Any exit but 0 fails the gate, and that includes **exit 2**. The jar script also checks
-    that the release tag points at the lock's `commit`. rc.3 crashes with exit 2,
+  - **What fails it.** Any exit but 0 fails the gate, and that includes **exit 2**. Both jar scripts, the
+    service jar's and pack-check's, check that the release tag points at the lock's `commit`, and a failed,
+    partial or mismatched download leaves no jar behind. rc.3 crashes with exit 2,
     and no report, on a malformed `pack_version` (spec-kitty-charter#624). That is a failure of the gate, never
     an infrastructure skip. Also failing: a warning other than `file_not_held` (or one the gate cannot read),
     a report with a key the gate does not read, a check that was skipped, a pack left out of the verdict, and a directory under `packs/` without a `pack.yaml`.

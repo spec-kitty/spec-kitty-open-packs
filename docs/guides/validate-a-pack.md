@@ -176,7 +176,10 @@ valid through the service, at a pinned charter version). The job:
    - **The jar.** On a release pin, the job checks that the tag points at the lock's `commit`, downloads
      `pack-check-<version>.jar` from the pinned release, and refuses any digest but `pack_check_sha256`
      ([`charter_pack_check_jar.sh`](../../scripts/ci/charter_pack_check_jar.sh)). On a main pin it builds the
-     jar from `commit`.
+     jar from `commit`. Both release jars, this one and the service jar, pass the same two checks
+     ([`charter_release_asset.sh`](../../scripts/ci/charter_release_asset.sh)): the tag must point at `commit`, and
+     the download goes to `<jar>.part`, which takes the jar's name only once its digest matches. A failed, partial
+     or mismatched download leaves nothing behind.
    - **The run.** [`charter_pack_check.py`](../../scripts/ci/charter_pack_check.py) runs it over every pack
      and valid fixture together, built-in-level ones included.
    - **What fails the job:**
