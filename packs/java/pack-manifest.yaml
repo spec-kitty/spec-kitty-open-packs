@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 23552b369fbbe05a7b9212a86b6560da6b92ea47ab1d9e6804e3a6604639f842
+manifest_hash: 7576932a3857f8f95e4929f24d47e7be5b8f8341869f90341f4b71fe48cf4b4f
 constituents:
 - kind: agent_profile
   id: java-jenny
@@ -8,7 +8,7 @@ constituents:
 - kind: styleguide
   id: java-conventions
   path: styleguides/java-conventions.styleguide.yaml
-  content_hash: 136969d71d3d89a2fce4d610ad681c1f21a2bc3838d1bcdcdf42dd2b349903ce
+  content_hash: 6576b4e1052f7a010028e2bb4c9450b63c27f1c803c6fc902d7645f896204ed9
 - kind: toolguide
   id: java-supply-chain
   path: toolguides/java-supply-chain.toolguide.yaml

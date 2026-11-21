@@ -5,10 +5,8 @@ scope: testing
 applies_to_languages: []
 
 principles:
-  - name: "Fast feedback"
-    description: "Fast: tests execute quickly enough that running them after every small change is not a burden."
-  - name: "Isolated from test order"
-    description: "Isolated: each test sets up its own preconditions and does not depend on test order or shared mutable state."
+  - name: "Fast, Isolated, Specific"
+    description: "Fast, Isolated and Specific are three of Beck's twelve desiderata; the testing pack's test-desiderata-checklist asset defines them once."
   - name: "Repeatable results"
     description: "Repeatable: a test produces the same result every time it runs, on any machine, in any order."
   - name: "Self-validating tests"
@@ -24,11 +22,9 @@ principles:
   - name: "Documenting the system"
     description: "Documenting: reading the test suite gives a new contributor a clear model of how the system behaves — this is the refactor-stable, documents-the-system sense; see test-desiderata-and-boundaries for the desiderata that trade off confidence-to-ship."
   - name: "Pyramid shape and mocks have owners"
-    description: "Pyramid shape and mock boundaries have one owner each: layer shape lives in named testing tactics; the seam list lives in DIRECTIVE_054 (foundation); test-desiderata-and-boundaries owns the desiderata. Apply those instead of a local copy."
+    description: "Pyramid shape and mock boundaries have one owner each: layer shape lives in named testing tactics; the seam list lives in DIRECTIVE_054 (foundation); the test-desiderata-checklist asset defines the desiderata. Apply those."
   - name: "Exemplary tests"
     description: "Exemplary: tests are the best usage examples of the production code they exercise."
-  - name: "Specific failures"
-    description: "Specific: a failing test clearly identifies which behavior is broken, not just that something is wrong."
   - name: "Minimal tests"
     description: "Minimal: each test contains only the code necessary to validate one behavior increment."
   - name: "Invariants over shape"
@@ -76,8 +72,8 @@ patterns:
       # Refreshed only by running the one-time derivation tool — never hand-edited.
       _ALLOWED_SITES = frozenset({
           GateAllowlistKey(
-              enclosing_qualname="resolve_planning_read_dir",
-              token_line="return primary_feature_dir_for_mission(root, slug)",
+              enclosing_qualname="resolve_invoice_dir",
+              token_line="return primary_invoice_dir_for_account(root, account_id)",
           ),
       })
       # Staleness guard: every frozen key must still exist in the live scan.
@@ -138,7 +134,8 @@ patterns:
       test-pyramid-progression tactic; the seam list (where a test may substitute a
       collaborator) lives in DIRECTIVE_054 (foundation), with the
       test-boundaries-by-responsibility tactic saying how to draw the boundary;
-      test-desiderata-and-boundaries owns the desiderata, and names over-mocking
+      the test-desiderata-checklist asset defines the desiderata and
+      test-desiderata-and-boundaries owns trading them off, and names over-mocking
       as the symptom of a missing seam.
       Apply those instead of a local copy.
   - name: "Invariants over shape"
@@ -232,11 +229,10 @@ anti_patterns:
       Pinning a test to the literal text of production code — function names, class names,
       module paths, docstring wording — couples the test to implementation shape, not behavior.
       Every cleanup or rename forces a re-pin, teaching contributors that tests are friction to
-      work around. PR #2308 retired exactly this pattern: a literal-symbol scan (commit
-      50abe2fdc) that had been re-pinned twice on shape-only changes was deleted with
-      surviving-coverage proof from integration paths; a LOC ceiling (commit 052d465e9) that
-      counted lines in a single file was retired in favour of Sonar, which tracks the metric
-      project-wide without gating on one file's momentary line count.
+      work around. A literal-symbol scan that has been re-pinned twice on shape-only changes
+      is retired with proof that integration paths still cover the behavior; a line-count
+      ceiling on a single file is replaced by a project-wide metric that does not gate on one
+      file's momentary size.
     bad_example: |
       # Asserts a specific class name appears verbatim in the source file.
       # Must be re-pinned every time the class is renamed or the file is reorganised —

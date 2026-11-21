@@ -1,0 +1,11 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: asset:exemplar-slicing-user-registration
+  kind: asset
+  label: 'Worked example: slicing a test by functional responsibility (user registration)'
+- urn: asset:exemplar-unfake-an-over-mocked-test
+  kind: asset
+  label: 'Worked example: unfaking an over-mocked test (order fulfilment)'
+edges: []

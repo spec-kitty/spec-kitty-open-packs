@@ -17,6 +17,10 @@ edges:
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects
   reason: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation shape and can manufacture a state the real code never reaches.
+- source: paradigm:tests-as-scaffold-not-friction
+  target: asset:exemplar-slicing-user-registration
+  relation: suggests
+  when: illustrating how a responsibility boundary replaces a test per layer
 - source: paradigm:trunk-based
   target: directive:DIRECTIVE_029
   relation: requires

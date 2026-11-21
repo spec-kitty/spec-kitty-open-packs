@@ -99,6 +99,14 @@ nodes:
   kind: toolguides
   title: The Gherkin Scenario Language
   body_path: toolguides/gherkin.toolguide.yaml
+- id: test-desiderata-checklist
+  kind: assets
+  title: "Test desiderata checklist (after Kent Beck)"
+  body_path: assets/test-desiderata-checklist.md.asset.yaml
+- id: quad-a-test-structure
+  kind: assets
+  title: "Quad-A test structure: skeleton and review checklist"
+  body_path: assets/quad-a-test-structure.md.asset.yaml
 edges:
 - source: foundation::action:software-dev/implement
   target: procedure:disciplined-defect-diagnosis
@@ -553,3 +561,24 @@ edges:
   target: tactic:test-minimisation
   relation: suggests
   when: Redundant test removal is only safe after the completion validation confirms coverage is intact
+# Reference assets of the tests-as-scaffold series: checklists the styleguides require; the foundation paradigm pulls in its styleguide.
+- source: styleguide:test-desiderata-and-boundaries
+  target: asset:test-desiderata-checklist
+  relation: requires
+  when: assessing a test against the twelve desiderata
+- source: styleguide:testing-principles
+  target: asset:test-desiderata-checklist
+  relation: requires
+  when: checking a test for the Fast, Isolated and Specific properties, which the desiderata checklist defines
+- source: styleguide:quadruple-a-test-format
+  target: asset:quad-a-test-structure
+  relation: requires
+  when: writing or reviewing a test in the Quad-A shape
+- source: foundation::paradigm:tests-as-scaffold-not-friction
+  target: asset:test-desiderata-checklist
+  relation: suggests
+  when: turning the tests-as-scaffold value system into a review checklist
+- source: foundation::paradigm:tests-as-scaffold-not-friction
+  target: styleguide:test-desiderata-and-boundaries
+  relation: requires
+  when: 'applying the tests-as-scaffold mindset to a concrete test: the desiderata and boundaries it rests on'

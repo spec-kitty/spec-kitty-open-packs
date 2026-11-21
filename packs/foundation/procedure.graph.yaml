@@ -198,6 +198,10 @@ edges:
   relation: rejects
   reason: The procedure removes doubles of owned logic and moves assertions from calls to outcomes.
 - source: procedure:unfake-an-over-mocked-test
+  target: asset:exemplar-unfake-an-over-mocked-test
+  relation: suggests
+  when: walking the procedure on a real test and wanting a complete before and after
+- source: procedure:unfake-an-over-mocked-test
   target: procedure:observable-contract-test-authoring
   relation: suggests
 - source: procedure:unfake-an-over-mocked-test
