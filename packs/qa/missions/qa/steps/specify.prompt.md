@@ -29,6 +29,7 @@ This step asks for the `qa-strategist` role. The pack's `qa` preset activates `q
 3. Use ids of the form `FR-NNN`, `NFR-NNN` or `C-NNN`: uppercase, exactly three digits. The
    result-ingest tool reads only that shape, so other ids drop out of coverage.
 4. Give each requirement a risk level from the risk register.
+5. History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide (when installed) says.
 
 ## Success criteria
 

@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 33ad196e38fe35bc482daf3ff86b724bcbd23b3da6333fcacc72d04b87c473b5
+manifest_hash: 42844281864ac5e7e036317bda09dec6a868845ef2c0d19acbd0d946c78f7e51
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -132,7 +132,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_052
   path: directives/052-prefer-durable-fixes.directive.yaml
-  content_hash: 2973dd1e430ca14eaceafbd9a0cedb3700d70a40d4a719fee7ee4a56dfe9ac37
+  content_hash: 439b03d01d3736a5e494971f0765e2eec1b9bf55d1b81d1a7748ae8f802a954c
 - kind: directive
   id: DIRECTIVE_053
   path: directives/053-choose-op-or-mission-before-starting.directive.yaml
@@ -256,7 +256,7 @@ constituents:
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: 88b03b8d4fc46dcb0ecce3e9a9758bfb979e4a235044ddd18be84c9b928df689
+  content_hash: 91121ff8253fb97d8038f1451772c5d441df422c74cea58a9fca2c7f30f5da18
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
@@ -312,7 +312,7 @@ constituents:
 - kind: procedure
   id: durable-fix-investigation
   path: procedures/durable-fix-investigation.procedure.yaml
-  content_hash: 76d44de7ce8e25de2e5463aea6cfc4bbe1c7c4ee5b4b124619167c4299bd4caf
+  content_hash: aec8350d0cf44a1ea0a59bcd8df8f00cbbd1b7509f98f0a35c6169f08506c23d
 - kind: procedure
   id: example-mapping-workshop
   path: procedures/example-mapping-workshop.procedure.yaml
@@ -528,7 +528,7 @@ constituents:
 - kind: tactic
   id: adr-drafting-workflow
   path: tactics/communication/adr-drafting-workflow.tactic.yaml
-  content_hash: 0a7ebb2483356b6cd06ca713fb34055c669ab0c6b073ed369c412839dd6ca9e6
+  content_hash: c940d8b688207023a620145bafac07c33867ca5f928b0414bdce5ddd07fd005f
 - kind: tactic
   id: decision-marker-capture
   path: tactics/communication/decision-marker-capture.tactic.yaml

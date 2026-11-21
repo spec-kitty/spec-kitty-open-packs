@@ -73,6 +73,8 @@ structure and a set of decisions, not a build.
    for example, spinning off one software-dev mission per Must sub-problem,
    or routing a specific decision back to a stakeholder for final sign-off.
 
+History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide (when installed) says.
+
 ## Visual Communication (recommended)
 
 Apply the visual doctrine when decomposition, dependencies, sequencing,
