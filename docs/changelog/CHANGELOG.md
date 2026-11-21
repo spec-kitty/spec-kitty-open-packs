@@ -927,6 +927,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     warned as `file_not_held` instead of failing as `not_held`. `README.md` notes are still carried silently.
   - **Service check.** Every file a registration leaves out is a notice. Only a file the mirror takes for held
     content still fails, because that means the mirror has drifted from the pin.
+  - **Misspelled companions are annotated** (operator ruling R38). The schema pass is a linter here, never a gate:
+    - It marks a stray file that looks like a misnamed companion with a PR annotation, naming the companion it
+      was probably meant to be.
+    - Two signals: a near-named file beside a `*_path` reference that is missing, and a suffix within two edits
+      of a companion suffix (for example `implement.promt.md` or `x.gudie.md`).
+    - pack-check still fails such a pack, because the named companion is missing.
   - **Still red: an unmodelled stray file** (`notes.txt`, a log). The pinned pack-check's round trip refuses it as
     `round_trip_red`, and #331 records the decision this needs.
   - **Unchanged.** `requiredNotHeld` and the required floor stay until spec-kitty-charter#629 (#330). The
