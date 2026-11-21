@@ -1,7 +1,7 @@
 {
   "rows": {
     "#147": {
-      "evidence_ref": "tactic only; directive half stays deferred (C-004)",
+      "evidence_ref": "tactic vertical-skeleton-first shipped; Follow-up: #147 stays open for the deferred prove-composition directive",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -9,11 +9,11 @@
       "scope": null,
       "source_file": null,
       "title": "Doctrine: vertical-skeleton-first tactic",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP03"
     },
     "#152": {
-      "evidence_ref": "new testing tactic + internal pointer",
+      "evidence_ref": "shared-machine-test-measurement tactic + internal pointer",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -21,11 +21,11 @@
       "scope": null,
       "source_file": null,
       "title": "Tactic: measurement discipline for multi-agent missions",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP04"
     },
     "#154": {
-      "evidence_ref": "tracer-bullet TDD and green mode, re-grounded at mattpocock/skills abeeaf9",
+      "evidence_ref": "tdd-red-green-refactor tracer-bullet slicing re-grounded at mattpocock/skills abeeaf9; refactoring is green mode",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -33,11 +33,11 @@
       "scope": null,
       "source_file": null,
       "title": "Doctrine: sharpen test-first guidance with Matt Pocock TDD tracer-bullet rules",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP03"
     },
     "#216": {
-      "evidence_ref": "residue: paradigm, 041 split, anti-patterns (WP01); assets, dedup, slicing, curator (WP02)",
+      "evidence_ref": "WP01 paradigm, 041 split, anti-pattern nodes; WP02 assets, dedup, slicing, curator; WP05 release",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -45,11 +45,11 @@
       "scope": null,
       "source_file": null,
       "title": "Doctrine: test slicing/scoping + mocking-boundary antipatterns",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP01"
     },
     "#273": {
-      "evidence_ref": "partial: DIRECTIVE_034 comment and testing-principles only; issue stays open",
+      "evidence_ref": "DIRECTIVE_034 and testing-principles parts done; Follow-up: #273 stays open for its other files",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,11 +57,11 @@
       "scope": null,
       "source_file": null,
       "title": "Strip version stamps, core issue numbers and provenance narrative from consumer pack bodies",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP02"
     },
     "#274": {
-      "evidence_ref": "partial: testing-principles only; issue stays open",
+      "evidence_ref": "testing-principles part done; Follow-up: #274 stays open for its other files",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -69,7 +69,7 @@
       "scope": null,
       "source_file": null,
       "title": "Replace Spec Kitty core examples in consumer artifacts with neutral ones",
-      "verdict": "in-mission",
+      "verdict": "deferred-with-followup",
       "wp": "WP02"
     },
     "#288": {
