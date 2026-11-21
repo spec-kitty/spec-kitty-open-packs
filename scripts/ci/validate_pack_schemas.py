@@ -18,8 +18,7 @@ It fails closed. Exit status:
      ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
      ``--derive-manifest PACK`` writes the manifest the charter derives (membership and hashes); with
      ``--derived-manifests`` every validated pack must carry exactly that membership (#255);
-* 1  a schema violation, a retired-layout file or a file only the ``ignored`` rule takes outside ``NOT_HELD_ALLOWANCES``
-     (``not_held``) in a pack, an ``--expect-invalid``
+* 1  a schema violation or a retired-layout file in a pack, an ``--expect-invalid``
      pack that came out clean, or a ``--regenerate-manifest`` pack whose manifest lists a missing file
      (that manifest is left as it was, like the charter's refused write);
 * 2  the gate cannot judge: unloadable contract or schema, a file of a known kind with no
@@ -901,12 +900,11 @@ def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
 
 #: The one policy for files the charter leaves out of a pack without refusing them (``file_not_held``, #451).
 #: A file an ``exclusions`` rule names is left out by the contract's own decision, and passes. A file only the
-#: ``ignored`` fallback takes passes only when it matches one of these globs: orientation notes, a ``README.md`` at
-#: any depth (the root one is the pack document and is held). Any other is a misplaced guide, prompt, skill body or
-#: note, which nothing serves, and fails as ``not_held``. A skill body its skill's ``body_path`` names is held as a
-#: companion (``companion_claims``), so it never reaches the fallback. ``scripts/ci/charter_service_check.py``
-#: applies this same tuple, through ``classify``, to what a registration reports. Globs match like the contract's,
-#: case-sensitively.
+#: ``ignored`` fallback takes passes silently when it matches one of these globs: orientation notes, a ``README.md`` at
+#: any depth (the root one is the pack document and is held). Any other (a note, a misplaced guide, prompt or skill
+#: body, which nothing serves) is warned as ``file_not_held``: operator ruling R34 (#331) lets authors keep notes and
+#: logs in a pack, so a stray file never fails. A skill body its skill's ``body_path`` names is held as a companion
+#: (``companion_claims``), so it never reaches the fallback. Globs match like the contract's, case-sensitively.
 NOT_HELD_ALLOWANCES = tuple(glob_to_regex(glob) for glob in ("**/README.md",))
 #: A fixture's own file, never pack content (``tests/fixtures/invalid/*/expected-code``).
 FIXTURE_FILES = frozenset({"expected-code"})
@@ -1016,10 +1014,9 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
                 report.skipped += 1
                 continue
             if kind == "ignored" and rule is not None and not not_held_allowed(relative):
-                report.violations.append(
-                    f"{relative}: not_held: the charter leaves this file out ({rule.match}: {rule.reason}); "
-                    "only README.md notes may be carried unheld"
-                )
+                # Operator ruling R34 (#331): a stray file in a pack warns, it does not fail; authors may keep notes.
+                report.warnings.append(f"{relative}: file_not_held: not held ({rule.match}: {rule.reason})")
+                report.skipped += 1
                 continue
             report.skipped += 1
             continue
