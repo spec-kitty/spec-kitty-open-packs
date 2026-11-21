@@ -34,7 +34,7 @@ steps:
       discovered in sequence. Pair every "applies cleanly" example with a
       "refuses before any partial change" counterexample.
     examples:
-      - "Five integration failures (a dispatcher wrote shared paths before rejecting changed input; provisioning invalidated a configuration another owner had read; two owners created the same parent) were one contract gap surfacing in five places: one matrix row each, had the matrix existed."
+      - "A write to shared paths before refusing changed input, and two owners each creating the same parent directory, are one contract gap: one matrix row each ('input changed', 'parent absent or present')."
       - "Counterexample: letting each owner define its own transition and reconciling later produces effects that are valid one by one and not executable together."
   - title: Land the thinnest executable composed path
     description: >
@@ -53,7 +53,7 @@ steps:
       matrix green. The checkable order is: first composed run green, then
       second-wave work.
     examples:
-      - "Heuristic: several hours of work without an executable composed path is a signal to stop adding parallel owner work and revisit the sequencing. It is a signal, not a gate."
+      - "Heuristic: about four hours of work without an executable composed path is a signal to stop adding parallel owner work and revisit the sequencing. It is a signal, not a gate."
   - title: Hang owner work packages off the running spine
     description: >
       Each supplier work package now implements against a contract that already
@@ -92,13 +92,16 @@ failure_modes:
   - "Cutting a thin slice through an undefined cross-owner contract: the skeleton encodes the wrong contract early and everything after inherits it. Matrix first, then the slice."
   - "Accepting bypassed-path diagnostics as a green skeleton; a composed path that avoids the real entry point proves nothing about composition."
   - "Opening one repair per cross-owner symptom instead of closing the defect class once."
-  - "Applying the skeleton to a single-component defect with no cross-owner seam, where defect-class modelling is the cheaper response."
+  - "Applying the skeleton to a single-component defect with no cross-owner spine, where defect-class modelling is the cheaper response."
   - "Unbounded spine events: pausing the whole wave, re-running without a budget, or letting the discovering work package classify its own event."
 applies_to_languages: []
 notes: >
   Distilled from the retrospective of one long upstream mission (13 work
   packages, about 34 hours) whose dominant cost was late composition and
-  per-symptom serial repair; the evidence is a single mission, so the
+  per-symptom serial repair: five integration failures there (an entry point
+  wrote shared paths before rejecting changed input; provisioning invalidated a
+  configuration another owner had read; two owners created the same parent)
+  were one contract gap surfacing in five places. The evidence is a single mission, so the
   four-hour threshold seen there is offered as a heuristic. The guidance is a
   set of examples and counterexamples plus one checkable order (first composed
   run green before second-wave work), because agents infer a spine from

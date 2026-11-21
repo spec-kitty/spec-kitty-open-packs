@@ -473,6 +473,7 @@ edges:
   target: procedure:disciplined-refactoring-cycle
   relation: suggests
   when: 'a cycle is green and the code would read better restructured: switch to green mode'
+  reason: The TDD loop is red then green; restructuring happens in green mode under the disciplined refactoring cycle.
 - source: tactic:test-boundaries-by-responsibility
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects

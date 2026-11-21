@@ -25,7 +25,7 @@ steps:
     Temporarily change the assertion to expect the WRONG (current buggy) behavior. If the test now passes, the reproduction is correct. Revert the assertion back to expect the correct behavior. Record the failure text; procedure `red-first-bug-reproduction` (foundation) holds the full rules (red shape, characterization inversion, cross-work-package split).
 - title: Fix the production code
   description: |
-    Make the change proportional to the diagnosed cause needed to make the failing test pass. Resist the urge to refactor beyond the fix's own code — that comes next, as its own step. Document the root cause in a comment if it would not be obvious to a future reader.
+    Make the change proportional to the diagnosed cause needed to make the failing test pass. Resist the urge to refactor beyond the fix's own code — that belongs to green mode, in the next step, scoped to the fix. Document the root cause in a comment if it would not be obvious to a future reader.
 - title: Tidy the fix in green mode, scoped to the fix
   description: |
     With the reproduction test passing, the fix's own code may be restructured in green mode (procedure disciplined-refactoring-cycle in foundation). Keep it to the surfaces the fix touched; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025).

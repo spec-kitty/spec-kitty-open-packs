@@ -197,6 +197,7 @@ edges:
   target: procedure:disciplined-refactoring-cycle
   relation: suggests
   when: restructuring code between red-green cycles, in green mode
+  reason: Refactoring is not a step of the test-first cycle; the disciplined refactoring cycle owns green mode.
 - source: procedure:unfake-an-over-mocked-test
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects

@@ -43,8 +43,7 @@ steps:
     description: >
       Refactoring is not part of the red-green loop. When the suite is green and
       the code would read better restructured, switch to green mode and follow
-      the disciplined-refactoring-cycle procedure; switch back to red only by
-      writing the next failing test.
+      the disciplined-refactoring-cycle procedure.
     examples:
       - "Duplicated branch logic after the third slice: switch to green mode, extract it in one move, run the suite, then write the next failing test."
   - title: Maintain fast feedback

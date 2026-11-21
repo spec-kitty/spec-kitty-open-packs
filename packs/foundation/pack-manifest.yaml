@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: c2840a4c58fd46485b3a17b3c7b409dec42749ce902a0914d3c98699575a34bd
+manifest_hash: 1f18f858cc558d656efd185e04a1e29ee1912e636053ba5202f42c75142d9afe
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -152,7 +152,7 @@ constituents:
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
-  content_hash: e652b216faa205748b8766adc7b12bd7f0566f2e3329b34b6fdcc08f0c80eb20
+  content_hash: cb9de78430fe74e01e33d579b935fd6780b5b5b7a6b0f1b2d37f6a2aa7060b8e
 - kind: directive
   id: RECONCILE_CHANGE_SCOPE_TENSIONS
   path: directives/reconcile-change-scope-tensions.directive.yaml
@@ -648,7 +648,7 @@ constituents:
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
-  content_hash: db1a39dfb67aad53d24887e4ef0c1de40f0181472e7da03521e206ffc67a4c92
+  content_hash: 48a98977f97351a4f69b08b49839e538e8bd592b524d9ca4506d4ba956120046
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
