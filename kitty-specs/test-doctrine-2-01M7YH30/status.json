@@ -152,7 +152,7 @@
     },
     "WP05": {
       "actor": "reviewer-renata",
-      "agent": "claude::implementer",
+      "agent": "reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -162,7 +162,8 @@
       "last_transition_at": "2026-11-21T08:36:29.231167+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review; out-of-map: tests/ci/test_pack_digest.py built-in digest constant, lane-c/lane-d merge conflict resolved additively"
+        "Ready for review; out-of-map: tests/ci/test_pack_digest.py built-in digest constant, lane-c/lane-d merge conflict resolved additively",
+        "Approved by reviewer-renata subagent (3119055); changelog nit folded"
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
