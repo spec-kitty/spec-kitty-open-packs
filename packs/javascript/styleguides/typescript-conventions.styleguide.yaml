@@ -49,7 +49,7 @@ principles:
   - name: "RxJS operator discipline"
     description: "RxJS: choose the flattening operator by its concurrency meaning (`switchMap` drops the previous inner stream, `concatMap` queues, `mergeMap` runs in parallel, `exhaustMap` ignores new values while busy)."
   - name: "Quad-A test structure"
-    description: "Quad-A test structure: every test follows Arrange, Assumption-check, Act, Assert. Type-level expectations belong to the type-check gate, not to runtime asserts."
+    description: "Quad-A test structure: tests follow the testing pack's quad-a-test-structure asset. Type-level expectations belong to the type-check gate, not to runtime asserts."
 
 patterns:
   - name: Narrow Unknown Input

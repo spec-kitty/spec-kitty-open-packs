@@ -1,10 +1,18 @@
 schema_version: '1.0'
-manifest_hash: 40a17e7f82b0be592ab2018177d871ab7fd05f24c233ac52b7096aa3e84c1001
+manifest_hash: 9bc9db1bb32408629bd99852f8d9a4c05aa1ccbb5444d2e5cf33b43717894f25
 constituents:
 - kind: agent_profile
   id: debugger-debbie
   path: agent_profiles/debugger-debbie.agent.yaml
   content_hash: 136320cda231e1efd60b28f4357d2d03fd5b73dcc47583762954016c33334f1b
+- kind: asset
+  id: quad-a-test-structure
+  path: assets/quad-a-test-structure.md.asset.yaml
+  content_hash: 94963d41ff810fe20670fc0ebb9eb2a3afc7c250d973c11f5a0329dc805f0b2d
+- kind: asset
+  id: test-desiderata-checklist
+  path: assets/test-desiderata-checklist.md.asset.yaml
+  content_hash: a4d1bad2c1f687256a19e440c744528238491833eb1c3c9955d470e5096fc8d8
 - kind: directive
   id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   path: directives/use-mutation-testing-to-validate-test-quality.directive.yaml
@@ -48,15 +56,15 @@ constituents:
 - kind: styleguide
   id: quadruple-a-test-format
   path: styleguides/quadruple-a-test-format.styleguide.yaml
-  content_hash: cee9207eee799af779a2f46f205e4a384694d4447f60b0adef82472bdce2648d
+  content_hash: 5e5a5e0c2e9423ea63f6027462eb54b202399aa377e91729b460e8d466038d32
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: 1e42dfa6ce9a3e6449489af74257a4af127b0f45c5c8643c98e0f3539b69da35
+  content_hash: e2a24d004813d5ac15e7b60ad3e4b8aa1a20aef83d84b65dcf74f155a4734b35
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: ab5a97894b092571232b2036760070d8d441c1901829f881b4252209a42eec07
+  content_hash: 8a7d68d325fc8d7cca502f6f134bd85fa284e1b762e8d671617e8bbab924b058
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml

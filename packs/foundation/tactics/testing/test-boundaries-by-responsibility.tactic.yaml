@@ -4,7 +4,7 @@ name: Test Boundaries by Functional Responsibility
 purpose: Determine test scope by identifying which components are directly responsible for the behavior under test, rather than following structural layer boundaries. Reduces brittle tests while ensuring meaningful validation.
 steps:
   - title: Identify the functionality to validate
-    description: Write a one-sentence description of the feature or behavior being tested. This anchors all boundary decisions.
+    description: Write a one-sentence description of the feature or behavior being tested. Name the functionality, not the class under test; the boundary encloses however many collaborators jointly deliver it. This anchors all boundary decisions.
     examples:
       - "User registration validates email format and creates account record."
   - title: Map responsibility boundaries
@@ -26,6 +26,13 @@ steps:
       Ask two questions:
       (1) If I refactor inside-boundary components without changing functionality, should this test still pass? (Yes.)
       (2) If outside-boundary implementations change, should this test be affected? (No; they sit outside the boundary.)
+  - title: Slice so the suite survives restructuring
+    description: >
+      Write the test as if you were unaware of the internal structure: extracting a helper class or splitting a
+      service must not change the suite. A well-scoped unit test needs few substitutes; needing a double of owned
+      logic to make it pass means the boundary is drawn wrong, so widen the slice or extract a pure seam. Boundaries
+      drawn for today's design can fossilize: when the architecture moves, re-check them before trusting old doubles.
+      The asset exemplar-slicing-user-registration walks one case end to end.
 failure_modes:
   - "Excessive mocking: stubbing components that are part of the functional slice, testing doubles instead of real logic."
   - "Slow or flaky real dependencies: a real external dependency that makes the test slow or nondeterministic; substitute it at an allow-listed seam (substitution is permitted, never required)."
