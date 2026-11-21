@@ -1,7 +1,7 @@
 {
-  "event_count": 20,
-  "last_event_id": "01M7YHHRVH6DZP3AB2EH0JJ6M4",
-  "materialized_at": "2026-11-21T07:53:49.169410+00:00",
+  "event_count": 21,
+  "last_event_id": "01M7YHJ5F5AVAS8M58PJ2QCZH0",
+  "materialized_at": "2026-11-21T07:54:02.085647+00:00",
   "mission_number": "",
   "mission_slug": "citation-and-docs-writing-01M7YGMQ",
   "mission_type": "software-dev",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 1,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 1
   },
   "work_packages": {
@@ -83,22 +83,22 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude::implementer",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "for_review",
-      "last_event_id": "01M7YHDGHX39HGG16GPMVSSTPM",
-      "last_transition_at": "2026-11-21T07:51:29.597376+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M7YHJ5F5AVAS8M58PJ2QCZH0",
+      "last_transition_at": "2026-11-21T07:54:02.085647+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: ai-writing-tells styleguide, report-writing pointer and refines edge, writing graph wiring; out-of-map: executive-debrief pointer wording and internal README line (both follow the move); edge-identity and vocabulary pass"
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 14986,
-      "shell_pid_created_at": "1795247379.65",
+      "role": "reviewer",
+      "shell_pid": 27681,
+      "shell_pid_created_at": "1795247638.14",
       "subtasks": {
         "T008": "done",
         "T009": "done",
