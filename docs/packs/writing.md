@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/writing`
 - **Pack level:** `built-in`
-- **Declared version:** `3.3.0`
-- **Content checksum (sha256):** `7bb10fd742914b91073f05322e08508441877cd0ad101bd534c53c93fc481e8c`
+- **Declared version:** `3.4.0`
+- **Content checksum (sha256):** `946f2ac5b440b6a5035f98f975a6dc4f856dde80fa36894c7b1e27fb6f0b66e2`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -34,7 +34,7 @@ documentation styleguides, the diagram and docs structural-lint toolguides, the
 glossary-stewardship tactics and templates, the docs structural lint and the writing-audience
 assets.
 
-**Depends on:** [`foundation`](foundation.md) `==3.3.0`
+**Depends on:** [`foundation`](foundation.md) `==3.4.0`
 
 ## Artifact inventory
 

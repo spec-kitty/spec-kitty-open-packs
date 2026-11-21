@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
-- **Declared version:** `3.3.0`
-- **Content checksum (sha256):** `553e0ec34c29b9b642ab3e169a841234d27f1589207c103cfebea7fea73e0b05`
+- **Declared version:** `3.4.0`
+- **Content checksum (sha256):** `d5146a834dc10ef1523c6e1cd8fe3d99acf0b141b56313d398b481821eea57b0`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -43,15 +43,16 @@ glossary.
 | `tactics` | 62 |
 | `styleguides` | 1 |
 | `toolguides` | 12 |
-| `paradigms` | 1 |
+| `paradigms` | 2 |
 | `procedures` | 41 |
 | `agent_profiles` | 6 |
+| `assets` | 4 |
 | `glossaries` | 1 |
 | `guards` | 1 |
 | `lifecycles` | 1 |
 | `missions` | 60 |
 | `routing_catalogs` | 1 |
-| **Total files** | **235** |
+| **Total files** | **242** |
 
 ### Full listing
 
@@ -188,8 +189,9 @@ glossary.
 </details>
 
 <details>
-<summary><code>paradigms</code> (1)</summary>
+<summary><code>paradigms</code> (2)</summary>
 
+- `tests-as-scaffold-not-friction.paradigm.yaml`
 - `trunk-based.paradigm.yaml`
 
 </details>
@@ -250,6 +252,16 @@ glossary.
 - `human-in-charge.agent.yaml`
 - `implementer-ivan.agent.yaml`
 - `reviewer-renata.agent.yaml`
+
+</details>
+
+<details>
+<summary><code>assets</code> (4)</summary>
+
+- `exemplar-slicing-user-registration.md`
+- `exemplar-slicing-user-registration.md.asset.yaml`
+- `exemplar-unfake-an-over-mocked-test.md`
+- `exemplar-unfake-an-over-mocked-test.md.asset.yaml`
 
 </details>
 
