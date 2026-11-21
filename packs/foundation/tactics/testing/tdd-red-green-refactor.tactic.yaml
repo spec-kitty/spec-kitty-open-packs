@@ -1,29 +1,72 @@
 schema_version: "1.0"
 id: tdd-red-green-refactor
 name: Test Driven Development (TDD)
-purpose: Enforce short, verifiable coding loops that improve design while keeping behavior safe.
+purpose: >
+  Drive production code in short red-green loops, one behavior at a time, so
+  every line exists because a test asked for it and each test is a tracer bullet
+  through the public interface. Work in vertical slices: one behavior, one
+  failing test, the least code that passes it, then the next slice. Refactoring
+  is not a step of the loop; once a cycle is green, the implementer may switch
+  to green mode and restructure, as the disciplined-refactoring-cycle procedure
+  describes.
 steps:
-  - title: Red
-    description: Write the smallest failing automated test that expresses one behavior increment.
+  - title: Agree the test surface
+    description: >
+      Before the first test, name the public interface the tests will go
+      through (the test surface) and record it in the spec or the work package.
+      Tests call the code the way its callers do; they never reach past that
+      interface. If the interface itself is in doubt, settle its shape first.
     examples:
-      - "Add one unit test for an unsupported branch and verify it fails before production edits."
+      - "Test surface: OrderService.place(order) and the OrderPlaced event it emits; nothing behind them is called directly."
+  - title: Red
+    description: >
+      Write one failing test, for one behavior, through the test surface. The
+      expected value comes from an independent source of truth (a known literal,
+      a worked example, the spec), never from recomputing it the way the code
+      does. Watch it fail for the intended reason.
+    examples:
+      - "test_order_over_the_credit_limit_is_refused fails because place() accepts the order, not because a symbol is missing."
   - title: Green
-    description: Implement only the minimum production code needed to satisfy the new failing test.
+    description: >
+      Write the least production code that makes the failing test pass. Do not
+      anticipate the next test and do not add features no test asked for.
     examples:
       - "Return the simplest valid value and avoid premature abstractions."
-  - title: Refactor
-    description: Improve production code structure and naming while keeping all tests green.
+  - title: Next slice
+    description: >
+      Repeat with the next behavior. Each test responds to what the previous
+      cycle taught you, so the suite grows as a chain of tracer bullets rather
+      than as a batch written up front.
     examples:
-      - "Extract duplicated branch logic into a helper after tests pass."
-  - title: Refactor guardrails
-    description: During refactoring, do not alter test behavior, assertions, or intent to force green results.
+      - "After the credit-limit refusal, the next slice is the refusal message the customer sees, not a prepared list of ten further tests."
+  - title: Hand off to green mode
+    description: >
+      Refactoring is not part of the red-green loop. When the suite is green and
+      the code would read better restructured, switch to green mode and follow
+      the disciplined-refactoring-cycle procedure.
     examples:
-      - "If tests fail during refactor, revert the production change and retry in smaller steps."
+      - "Duplicated branch logic after the third slice: switch to green mode, extract it in one move, run the suite, then write the next failing test."
   - title: Maintain fast feedback
     description: Keep cycle time in minutes with local automation and fail fast in CI.
     examples:
-      - "Run watch mode locally and block merge when new logic has no corresponding tests."
+      - "Run watch mode locally and block merge when new logic with a lasting regression risk has no corresponding test (configuration and glue work cite their run or gate evidence instead, as DIRECTIVE_034 sets out)."
   - title: Handle constraints explicitly
     description: When strict TDD cannot be applied, add safety nets and document impediments for remediation.
     examples:
       - "Create characterization tests around legacy tangles before deeper structural changes."
+failure_modes:
+  - "Horizontal slicing: writing all the tests first and then all the code. Tests written in bulk verify imagined behavior and the shape of things, go insensitive to real changes, and commit to a test structure before the implementation is understood."
+  - "Tautological expected values: the assertion recomputes the expected value the way the code computes it, so the test passes by construction and can never disagree with the code."
+  - "Implementation-coupled tests: the smells named by the anti-patterns this tactic rejects (mocking owned logic to pin a call contract, asserting on mock interactions; DIRECTIVE_054 owns the allow-list), and verifying a write by bypassing a public read interface the system offers."
+applies_to_languages: []
+notes: >
+  The vertical-slice, tracer-bullet, test-surface and tautology guidance is
+  adapted from mattpocock/skills at commit
+  abeeaf95660ba9e8b7c753eb38f441ca707a8823 (MIT):
+  skills/engineering/tdd/SKILL.md, skills/engineering/tdd/tests.md,
+  skills/engineering/tdd/mocking.md, and skills/engineering/codebase-design/SKILL.md
+  ("the interface is the test surface"). Upstream's list of what to mock is not
+  adopted; DIRECTIVE_054 owns the allow-list. Upstream places refactoring in the
+  review stage; here it is green mode, entered after any green. The id keeps
+  "refactor" for stability; the practice name "red-green-refactor" refers to
+  this loop with its green-mode hand-off.

@@ -586,6 +586,10 @@ edges:
   target: styleguide:test-desiderata-and-boundaries
   relation: requires
   when: 'applying the tests-as-scaffold mindset to a concrete test: the desiderata and boundaries it rests on'
+- source: procedure:test-first-bug-fixing
+  target: foundation::procedure:disciplined-refactoring-cycle
+  relation: suggests
+  when: tidying the fix in green mode once the reproduction test passes
 # Measurement discipline for shared machines.
 - source: tactic:no-parallel-duplicate-test-runs
   target: tactic:shared-machine-test-measurement

@@ -6,7 +6,7 @@ description: |
 entry_condition: |
   New behavior or a behavior change with a lasting regression risk is about to be implemented in production code.
 exit_condition: |
-  Every production change with a lasting regression risk was preceded by a failing test that captured the intended behavior, or took another route DIRECTIVE_034 allows (a policy check with a recorded red, or a recorded skip justification); configuration and glue work cites its real-run or gate evidence; and the work moved in short red-green-refactor cycles.
+  Every production change with a lasting regression risk was preceded by a failing test that captured the intended behavior, or took another route DIRECTIVE_034 allows (a policy check with a recorded red, or a recorded skip justification); configuration and glue work cites its real-run or gate evidence; and the work moved in short red-green cycles, one behavior per cycle.
 steps:
 - title: Select the test-first tactic for the scope
   description: |
@@ -14,6 +14,6 @@ steps:
 - title: Write a failing test first
   description: |
     For a change with a lasting regression risk, write a test that captures the intended behavior and fails before any production code is written.
-- title: Keep red-green-refactor cycles short
+- title: Keep red-green cycles short and vertical
   description: |
-    Keep each cycle to minutes, not hours.
+    Keep each cycle to minutes, not hours, one behavior at a time (tactic tdd-red-green-refactor owns vertical slicing). Restructure only in green mode, as procedure disciplined-refactoring-cycle describes.
