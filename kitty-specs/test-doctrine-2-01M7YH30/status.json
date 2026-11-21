@@ -30,7 +30,8 @@
       "last_transition_at": "2026-11-21T08:07:51.368049+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review"
+        "Ready for review",
+        "Review cycle 1 rejected: restore connascence framing in the double principle (FR-001); drop 'binding' from the paradigm summary; name the twelve desiderata"
       ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
