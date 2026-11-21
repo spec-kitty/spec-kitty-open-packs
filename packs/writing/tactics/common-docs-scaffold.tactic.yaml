@@ -15,11 +15,11 @@ steps:
       common-docs styleguide's own list. One concern lives in one section —
       never spread the same concern across two sections and never invent a
       fourteenth section or a per-version shadow tree. Durable design
-      decisions go to adr/ (by era) or architecture/ (living, unversioned);
+      decisions go to adr/ or architecture/ (living, unversioned);
       in-flight investigations and traces go to plans/ under the distil-then-retire
       lifecycle.
     examples:
-      - "A new dashboard how-to is owned by guides/; the durable decision it documents is owned by adr/<era>/ (the current era, e.g. adr/4.x/), not duplicated in both."
+      - "A new dashboard how-to is owned by guides/; the durable decision it documents is owned by adr/, not duplicated in both."
       - "A migration runbook is owned by migrations/; a connector integration note is owned by integrations/."
   - title: Create the file at the section-aware path
     description: >
@@ -30,30 +30,31 @@ steps:
       the section already exists, add the file beside its siblings.
     examples:
       - "docs/guides/open-the-dashboard.md for a new how-to."
-      - "docs/adr/4.x/2026-10-19-1-example-decision.md for a new ADR in the current era, keeping the dated prefix."
+      - "docs/adr/2026-10-19-1-example-decision.md for a new ADR, keeping the dated prefix (under docs/adr/<era>/ if the project versions its ADRs)."
   - title: Seed the frontmatter schema
     description: >
       Open the file with in-file YAML frontmatter as the per-page source of
       truth: title; the project's lifecycle key (doc_status by default) with one of
       the values its docs styleguide defines; updated: YYYY-MM-DD; a description of
-      50-180 characters; and a related: list of resolvable repo-relative
-      .md paths (empty list if there are none yet). A freshly scaffolded page
+      50-180 characters; a related: list of page slugs (empty list if there
+      are none yet); and audience: entries of profile and guidance_text for the
+      readers the page serves. A freshly scaffolded page
       normally starts at doc_status: draft. Do not create a sidecar metadata
       store; if the project keeps a page inventory, it is generated from this
       frontmatter.
     examples:
-      - "doc_status: draft with updated: 2026-06-27, a 110-character description, and related: [] for a brand-new page."
+      - "doc_status: draft with updated: 2026-06-27, a 110-character description, related: [] and one audience: entry (profile: operator, guidance_text: Use this to restart the service safely.) for a brand-new page."
       - "A non-ADR page: doc_status: draft, flipped to doc_status: active once finalised."
-  - title: File a new ADR under its era, with MADR status
+  - title: File a new ADR under adr/, with MADR status
     description: >
       An Architecture Decision Record is the one sanctioned exception to the
-      doc_status schema above: file it under adr/<era>/ (adr/1.x through
-      adr/4.x) by era of decision, with YAML frontmatter carrying the MADR
+      doc_status schema above: file it under adr/ (or adr/<era>/ if the
+      project versions its ADRs), with YAML frontmatter carrying the MADR
       `status` field (Proposed | Accepted | Deprecated | Superseded) — never
       `doc_status`. See DIRECTIVE_042 for the full ADR frontmatter exception;
       this step does not restate it.
     examples:
-      - "A new adr/4.x/2026-10-19-1-example-decision.md starts status: Proposed."
+      - "A new adr/2026-10-19-1-example-decision.md starts status: Proposed."
       - "When ADR-B supersedes ADR-A, ADR-A flips to status: Superseded and gains a related: link to ADR-B."
   - title: Add the section index when the section is new
     description: >
@@ -74,6 +75,6 @@ steps:
 failure_modes:
   - "The new file is dropped under a second documentation root or a per-version shadow tree, re-creating the split-brain."
   - "The concern is scattered across two sections instead of being owned by exactly one."
-  - "Frontmatter is seeded with a bare status key, colliding with the work-package lane status model."
+  - "Frontmatter is seeded with a bare status key, colliding with another meaning of status in the project."
   - "A new curated-complete section (architecture/) gains a page missing from its index.md, failing docs_structural_lint's index_completeness check; for every other section a missing index.md is a review-time gap, not yet caught mechanically."
   - "The description is seeded outside the 50-180 character band and fails review."
