@@ -69,7 +69,7 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude",
+      "agent": "claude::implementer",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
@@ -78,6 +78,9 @@
       "last_event_id": "01M7YHDGHX39HGG16GPMVSSTPM",
       "last_transition_at": "2026-11-21T07:51:29.597376+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: ai-writing-tells styleguide, report-writing pointer and refines edge, writing graph wiring; out-of-map: executive-debrief pointer wording and internal README line (both follow the move); edge-identity and vocabulary pass"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 14986,
