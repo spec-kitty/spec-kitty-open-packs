@@ -1,13 +1,13 @@
 {
-  "event_count": 36,
-  "last_event_id": "01M7YKZWXF8RFAR2X5AH236FGJ",
-  "materialized_at": "2026-11-21T08:36:29.231167+00:00",
+  "event_count": 37,
+  "last_event_id": "01M7YMCYYETM4RMRC48R55FV16",
+  "materialized_at": "2026-11-21T08:43:37.294704+00:00",
   "mission_number": "",
   "mission_slug": "test-doctrine-2-01M7YH30",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 5,
+    "approved": 4,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
@@ -15,7 +15,7 @@
     "for_review": 0,
     "in_progress": 0,
     "in_review": 0,
-    "planned": 0
+    "planned": 1
   },
   "work_packages": {
     "WP01": {
@@ -132,15 +132,15 @@
       ]
     },
     "WP04": {
-      "actor": "reviewer-renata",
+      "actor": "user",
       "agent": "reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 1,
+      "force_count": 2,
       "implementer_of_record": "claude::implementer",
-      "lane": "approved",
-      "last_event_id": "01M7YKJT1M6HJQZE6QG7TYKJ5W",
-      "last_transition_at": "2026-11-21T08:29:20.308542+00:00",
+      "lane": "planned",
+      "last_event_id": "01M7YMCYYETM4RMRC48R55FV16",
+      "last_transition_at": "2026-11-21T08:43:37.294704+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review",
@@ -150,9 +150,10 @@
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
-        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP04-measurement-discipline/review-cycle-1.md",
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/test-doctrine-2-01M7YH30-coord/kitty-specs/test-doctrine-2-01M7YH30/tasks/WP04-measurement-discipline/review-cycle-2.md",
+        "reference": "review-cycle://test-doctrine-2-01M7YH30/WP04-measurement-discipline/review-cycle-2.md",
         "reviewer": "reviewer-renata",
-        "verdict": "approved"
+        "verdict": "changes_requested"
       },
       "role": "reviewer",
       "shell_pid": 3730,
