@@ -37,7 +37,7 @@
       "wp": "WP03"
     },
     "#216": {
-      "evidence_ref": "residue: paradigm, 041 split, anti-patterns (WP01); assets, dedup, slicing, curator (WP02)",
+      "evidence_ref": "WP01 paradigm, 041 split, anti-pattern nodes; WP02 assets, dedup, slicing, curator; WP05 release",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -45,7 +45,7 @@
       "scope": null,
       "source_file": null,
       "title": "Doctrine: test slicing/scoping + mocking-boundary antipatterns",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP01"
     },
     "#273": {
