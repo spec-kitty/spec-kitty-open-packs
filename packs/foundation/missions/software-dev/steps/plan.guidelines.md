@@ -25,7 +25,7 @@ These guidelines govern the quality and correctness standards for implementation
 - Phase 0 must fully resolve all `NEEDS CLARIFICATION` items before Phase 1 begins.
 - Phase 1 design artifacts (data-model.md, contracts/, quickstart.md) must derive from confirmed planning answers - not from raw user input.
 - This command ends after Phase 1. Do NOT proceed to task generation.
-- Ask whether the mission has a cross-owner spine (work packages where one owner's output is another's input). If it does, name the spine and its first composed path in the plan (tactic vertical-skeleton-first).
+- Ask whether the mission has a cross-owner spine (work packages where one owner's output is another's input). If it does, name the spine and its first composed path in the plan (tactic vertical-skeleton-first in the planning-analysis pack, where active).
 
 ---
 

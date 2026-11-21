@@ -22,15 +22,15 @@ def test_ship_paid_orders(monkeypatch):
 
 The second assertion failed. The failure looked like data loss: "shipments recorded, but the report is empty". It was not. The stub of `_record_shipment` wrote nothing, so the store held no shipment, a state the real code never produces. The investigation chased a state only the stub could create.
 
-## Step 1 — Name the behaviour under test
+## Step 1: Name the behaviour under test
 
 "Shipping paid orders stores one shipment per order, and the dispatch report lists them." The behaviour, not the function `_record_shipment`.
 
-## Step 2 — Draw the responsibility boundary
+## Step 2: Draw the responsibility boundary
 
 Inside: `ship_paid_orders`, stock reservation, shipment recording, the store's write path, the dispatch report. Outside: the carrier, a separate company reached over the network.
 
-## Step 3 — Classify each double
+## Step 3: Classify each double
 
 | Double | Seam | Verdict |
 |--------|------|---------|
@@ -38,11 +38,11 @@ Inside: `ship_paid_orders`, stock reservation, shipment recording, the store's w
 | `_reserve_stock` | owned logic | remove |
 | `carrier_client.book` | network to an external service | keep |
 
-## Step 4 — Run the real collaborators on realistic seeded state
+## Step 4: Run the real collaborators on realistic seeded state
 
-Create the orders through the real order pipeline (place and pay them) instead of building records by hand, so only reachable states exist.
+Create the orders through the real order pipeline (place and pay them) instead of building records by hand, so only reachable states exist. The carrier is now passed in as a parameter instead of patched at module level, so the one remaining substitute is visible at the call.
 
-## Step 5 — Move assertions from calls to outcomes
+## Step 5: Move assertions from calls to outcomes
 
 ```python
 def test_shipping_paid_orders_stores_one_shipment_per_order(fake_carrier):
@@ -57,15 +57,15 @@ def test_shipping_paid_orders_stores_one_shipment_per_order(fake_carrier):
     assert dispatch_report(store).lines == 2
 ```
 
-## Step 6 — Check the remaining substitute
+## Step 6: Check the remaining substitute
 
 `fake_carrier` keeps the carrier's contract: it returns a tracking number for a valid shipment and raises the carrier's own error for an unknown address. A fake that always succeeded would hide the failure branch, moving the anti-pattern one step out.
 
-## Step 7 — Prove the test is not vacuous
+## Step 7: Prove the test is not vacuous
 
-Break the behaviour (make the recording step skip the second order), watch the test fail with "assert ['A-1'] == ['A-1', 'A-2']", record that failure text, and restore the code.
+Break the behaviour (make the recording step skip the second order), watch the test fail on the missing second order id, record that failure text, and restore the code.
 
-## Step 8 — Budget the cost
+## Step 8: Budget the cost
 
 The new test needs a temporary store and the order pipeline. If that setup grows heavy, extract a pure seam (for example a function that turns paid orders into shipment records) and test it with plain inputs, as `test-scaffolding-as-design-smell` describes.
 

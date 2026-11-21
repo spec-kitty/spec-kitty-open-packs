@@ -21,7 +21,7 @@ steps:
       work packages are genuinely independent, this tactic does not apply: say
       so in the plan and move on.
     examples:
-      - "A preview pipeline: select bundle, provision, render, apply, repeat. Every cross-owner invalidation lives on that path, so it is the spine."
+      - "An order-import pipeline: receive file, validate, reserve stock, invoice, notify. Each owner's output is the next owner's input, so that path is the spine."
       - "A new CLI command: registration, routing through the real entry point, configuration read, effect applied; not the per-command unit behavior."
       - "Counterexample: a fix that preserves comments when one component rewrites a file has no cross-owner spine; the defect lives in one component. Cutting a skeleton there is theatre; model the defect class instead."
   - title: Define the shared transition matrix as the spine's contract
@@ -96,13 +96,11 @@ failure_modes:
   - "Unbounded spine events: pausing the whole wave, re-running without a budget, or letting the discovering work package classify its own event."
 applies_to_languages: []
 notes: >
-  Distilled from the retrospective of one long upstream mission (13 work
-  packages, about 34 hours) whose dominant cost was late composition and
-  per-symptom serial repair: five integration failures there (an entry point
-  wrote shared paths before rejecting changed input; provisioning invalidated a
-  configuration another owner had read; two owners created the same parent)
-  were one contract gap surfacing in five places. The evidence is a single mission, so the
-  four-hour threshold seen there is offered as a heuristic. The guidance is a
+  Derived from one observed mission whose dominant cost was late composition
+  and per-symptom serial repair: several integration failures there were one
+  cross-owner contract gap surfacing in different places. The evidence is a
+  single mission, so the four-hour threshold seen there is offered as a
+  heuristic. The guidance is a
   set of examples and counterexamples plus one checkable order (first composed
   run green before second-wave work), because agents infer a spine from
   representative cases better than from a selection algorithm. A directive that
