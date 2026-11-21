@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 3b42d963af4e79743e9070afb4e807d89f14f5161a44aa2893411b56f8ccdbb8
+manifest_hash: 921d9543de6a84c2d3f33d55c4be14a7c25fd843e8530913d31f8f605f62f8e9
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -132,7 +132,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_052
   path: directives/052-prefer-durable-fixes.directive.yaml
-  content_hash: 2973dd1e430ca14eaceafbd9a0cedb3700d70a40d4a719fee7ee4a56dfe9ac37
+  content_hash: 439b03d01d3736a5e494971f0765e2eec1b9bf55d1b81d1a7748ae8f802a954c
 - kind: directive
   id: DIRECTIVE_053
   path: directives/053-choose-op-or-mission-before-starting.directive.yaml
@@ -296,7 +296,7 @@ constituents:
 - kind: procedure
   id: durable-fix-investigation
   path: procedures/durable-fix-investigation.procedure.yaml
-  content_hash: 76d44de7ce8e25de2e5463aea6cfc4bbe1c7c4ee5b4b124619167c4299bd4caf
+  content_hash: aec8350d0cf44a1ea0a59bcd8df8f00cbbd1b7509f98f0a35c6169f08506c23d
 - kind: procedure
   id: example-mapping-workshop
   path: procedures/example-mapping-workshop.procedure.yaml
