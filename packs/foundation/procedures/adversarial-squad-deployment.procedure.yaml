@@ -22,7 +22,7 @@ steps:
     3. On-disk fallback (degraded). Only when the orchestrator cannot resolve the profile and the delegate cannot run processes may the delegate read the profile file in the installed pack that ships it (`agent_profiles/<id>.agent.yaml` in that pack). That fallback can diverge because overlays, `specializes_from` lineage, and `enhances`/`overrides` semantics are not applied; the delegate states the limitation in its verdict.
     Read-only depends on the harness. In some harnesses a read-only delegate can run no process at all (for example, a Cursor subagent in Ask mode): no `spec-kitty` CLI, no `git`, no MCP tools, and no file edits. Before dispatch, the orchestrator checks what read-only means in its harness. Where it means no shell, the orchestrator either injects the profile (route 1) and the evidence below, or launches the delegate in a mode that can run processes, with an explicit instruction not to edit, stage, or commit.
     Pre-load the evidence. The orchestrator always names the review target's ref in the delegate prompt. When a delegate cannot run `git` (or an equivalent MCP tool), the orchestrator also puts the target's diff in the prompt: the diff of the PR head or branch under review, not the working tree, which may be another checkout such as `main`. A delegate that reads the working tree in place of the target raises false findings and misses real ones, and nothing reports the error.
-    Each delegate is read-only unless its task is an isolated implementation in its own worktree. A profile cast on escalation runs in its squad-delegate mode: it answers the squad's question from its own lens directly, as one delegate, without dispatching its own sub-agent swarm.
+    Each delegate is read-only unless its task is an isolated implementation in its own worktree. A delegate checks instructions and claims by reading the code and running the existing tests; it does not prototype, simulate or dry-run the change, in the repository or in a scratch copy. That work belongs to implementation, and doing it in review does the work twice. A profile cast on escalation runs in its squad-delegate mode: it answers the squad's question from its own lens directly, as one delegate, without dispatching its own sub-agent swarm.
 - title: Require structured, non-fakeable output
   description: |
     Every delegate returns findings as "[SEVERITY] file:line - issue - recommendation" ending in a verdict, grounded in concrete cited evidence, with honest concession of where its lens does NOT apply. A steelman that over-claims is weak; an adversary that concedes nothing is noise.
@@ -31,9 +31,12 @@ steps:
     Follow the model-task-routing tactic to match model tier to lens difficulty. Do not burn the top tier on bookkeeping, and do not put the weakest tier on the hardest adversarial lens.
 - title: Synthesize, and get a second opinion on divergence
   description: |
-    Aggregate the verdicts. Where delegates disagree on a consequential point, do not average — adjudicate from the source, or dispatch one more focused second-opinion delegate. Be critical of any delegate with a known bias (e.g. a reducer that prefers symptomatic consolidation over a structural fix).
+    Aggregate the verdicts. Where delegates disagree on a consequential point, do not average. Adjudicate from the source, or dispatch one more focused second-opinion delegate. Be critical of any delegate with a known bias (e.g. a reducer that prefers symptomatic consolidation over a structural fix).
   on_failure: |
     If verdicts remain irreconcilable, escalate the decision to the human with the competing positions laid out; do not silently pick one.
+- title: Check claims first-hand before a ruling
+  description: |
+    Before a brief, synthesis or ruling calls a blocker resolved, reproduce the blocker against the current head and record how (the command and its result); a blocker that no longer reproduces is resolved, one that was only argued away is not. Before a ruling relies on a named acceptance test, check that the test exists and runs, and record that. Cite the code and changes involved as the writing pack's research-citation-discipline styleguide describes, so the check can be repeated after the branch is rewritten.
 - title: Record and disposition every finding, then proceed regardless
   description: |
     Capture the confirmed findings and disposition each one per the findings disposition contract (see notes). The squad's value is convergent evidence that survived independent scrutiny, not a single opinion; the squad does not gate the work, so work proceeds once every finding is recorded and dispositioned.
@@ -54,7 +57,11 @@ anti_patterns:
   content: Top-tier model on mechanical or tracker delegates, or a weak tier on the hardest adversarial lens.
 - title: Hard-wiring the squad as a gate
   content: |
-    Turning the squad into a required mission gate instead of optional, charter- or memory-activated enrichment. Bad: a status transition blocked until squad evidence is present, e.g. raising a StatusGateError before a work package can be claimed. Good: the squad runs at the point-cut as guidance and the work proceeds independently of the squad's outcome — the squad enriches, it never blocks.
+    Turning the squad into a required mission gate instead of optional, charter- or memory-activated enrichment. Bad: a status transition blocked until squad evidence is present, e.g. a work package that cannot be claimed until a squad report is attached. Good: the squad runs at the point-cut as guidance and the work proceeds independently of the squad's outcome. The squad enriches; it never blocks.
+- title: Resolved on paper
+  content: Declaring a blocker resolved in a brief or ruling because a delegate argued it away, without reproducing it against the current head.
+- title: Ruling on an unreachable test
+  content: Basing a ruling on a named acceptance test that does not exist, is skipped, or cannot run, so the ruling rests on evidence nobody has seen.
 - title: Silently dropped finding
   content: Recording a finding without a disposition under the findings-disposition contract — every finding must be accepted, changed, or deferred with a rationale, never dropped.
 notes: |
@@ -68,8 +75,9 @@ notes: |
   expansions.
 
   Invariants: distinct lenses over headcount, profile-LOADED, structured output,
-  model discipline per model-task-routing, live-evidence-grounded, second-opinion on
-  divergence, every finding dispositioned, never a mission gate.
+  model discipline per model-task-routing, live-evidence-grounded, first-hand checks
+  before a ruling, second-opinion on divergence, every finding dispositioned, never a
+  mission gate.
 
   Apply a bounded timebox: keep a squad run to about half an hour of wall-clock
   delegate time; if a lens needs materially longer, split the question rather
