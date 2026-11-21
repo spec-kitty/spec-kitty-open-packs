@@ -22,7 +22,7 @@ steps:
     Do not run an end-to-end suite, a full integration sweep, a performance, stress or timing run, or a full-suite make target.
 - title: Bound parallel test runs
   description: |
-    On a shared machine bound `pytest-xdist` explicitly (e.g. `-n 4`), never `-n auto`, and never start a second concurrent run of the same suite (see `no-parallel-duplicate-test-runs`).
+    On a shared machine bound `pytest-xdist` explicitly (e.g. `-n 4`), never `-n auto`, and never start a second concurrent run of the same suite (see `no-parallel-duplicate-test-runs`). The machine-wide cap on heavy suites, the no-measurement rule for killed or piped runs, and attributing a red against the mission base are the testing pack's `shared-machine-test-measurement`; host specifics belong in this procedure.
 - title: Record the exact commands run
   description: |
     Record the targeted commands and pass/fail counts in the PR body.

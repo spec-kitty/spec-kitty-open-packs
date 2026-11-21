@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 2d79f343b251118a9e8f2dfad893727b64ba66d246556e2886a599a50f190890
+manifest_hash: c7593fd319351d9709ce69e141b566ed8902bb0bf81088de6379f0659f442c7e
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -85,6 +85,10 @@ constituents:
   id: no-parallel-duplicate-test-runs
   path: tactics/testing/no-parallel-duplicate-test-runs.tactic.yaml
   content_hash: 6c3dd67e04db5c9265260b2f0229c37544c506c3162d2d5527094f661b84e2a2
+- kind: tactic
+  id: shared-machine-test-measurement
+  path: tactics/testing/shared-machine-test-measurement.tactic.yaml
+  content_hash: 8e4f45fc03b03545c0244d89f8f39fd1f9123bd34f6bc42ba725e5bf8aa3637e
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml
