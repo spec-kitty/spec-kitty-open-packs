@@ -47,6 +47,18 @@
       "title": "Doctrine: test slicing/scoping + mocking-boundary antipatterns",
       "verdict": "in-mission",
       "wp": "WP01"
+    },
+    "#273": {
+      "evidence_ref": "partial: DIRECTIVE_034 comment and testing-principles only; issue stays open",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Strip version stamps, core issue numbers and provenance narrative from consumer pack bodies",
+      "verdict": "in-mission",
+      "wp": "WP02"
     }
   },
   "schema_version": 1
