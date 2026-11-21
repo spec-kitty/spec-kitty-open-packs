@@ -73,12 +73,15 @@ patterns:
     description: >
       Name a page's readers as audience: entries, each with a profile and a
       guidance_text. profile names a reader persona the project defines as a
-      page (doc-kitty resolves it to context/audience/<profile>);
+      page (doc-kitty resolves it to the page at context/audience/<profile>
+      under the docs root);
       guidance_text says, in a sentence, what that reader gets from the page or
       should read it for. A free-text note that nothing can check does not
       count. Where the project keeps no persona pages, still name the profile
-      in plain words and record the gap: doc-kitty then shows the profile name
-      and warns, rather than failing the build. Required on touched pages only.
+      in plain words and record the gap. doc-kitty only warns on a profile
+      that resolves to no page and shows its name; unlike a related: miss, it
+      never fails the build, so review enforces the rule. Required on touched
+      pages only.
       Legacy form: an audience: value holding a repo-relative .md path is the
       pre-doc-kitty shape; do not start new pages that way.
     bad_example: |
@@ -174,7 +177,7 @@ tooling:
   frontmatter-lifecycle-key: "The common-docs-structural-lint asset. frontmatter_contract flags an in-scope page that lacks a field in frontmatter_required_fields (doc_status and updated by default). The lifecycle values, the updated date format and a bare status key are review."
   frontmatter-ssot: "Review: no second hand-maintained store of per-page metadata exists. If the project keeps a generated page inventory, its own freshness check confirms the inventory matches frontmatter."
   frontmatter-seo-description: "Review: the description is 50-180 characters. The structural lint does not count it."
-  related-resolvable-slugs: "A docsite generator that reads the related: slug shape (doc-kitty does) fails the build on a slug that does not resolve, and its link check covers external_references:. Without one, review confirms every related: entry resolves. If the project has its own related: validator, run it too."
+  related-resolvable-slugs: "A docsite generator that reads the related: slug shape (doc-kitty does) fails the build on a slug that does not resolve. Without one, review confirms every related: entry resolves. If the project has its own related: validator, run it too."
   audience-resolvable: "A docsite generator that reads the audience: shape (doc-kitty does) resolves each profile to a persona page and warns on a miss. Review confirms every touched page has audience: entries with a profile and a guidance_text, and that each profile names a persona the project defines or a recorded gap. Scoped to touched pages only."
 
 quality_test: >

@@ -10,7 +10,7 @@ principles:
   - name: "Name the audience, serve them all"
     description: "Name the audience, serve them all. A project report speaks to maintainers, stakeholders, and investors in the same document; write each section knowing which of them it is for and what that reader needs to decide."
   - name: "Attribute every number"
-    description: "Attribute every number. Each figure is either traceable to the source that produced it or labelled as gathered first-hand for this report. A number without a source does not appear."
+    description: "Attribute every number. Each figure is traceable to the source that produced it, or was measured for this report and labelled so as ai-writing-tells describes. A number without a source does not appear."
   - name: "Hedge honestly rather than overclaim"
     description: "Hedge honestly rather than overclaim. When a figure is provisional, an identity fold is incomplete, or a metric could not be gathered, say so plainly and name the gap."
   - name: "Prefer concrete nouns and verbs to abstraction"
@@ -18,7 +18,7 @@ principles:
   - name: "Keep the Spec Kitty voice"
     description: "Keep the Spec Kitty voice: composed, direct, and concrete. No exclamation marks. The canonical product term is Mission; never write feature for a Mission."
   - name: "Run the shared AI-writing tells list"
-    description: "Run the writing pack's ai-writing-tells styleguide as a checklist before circulating a report. It owns the em-dash, buzzword, intensifier, puffery and figure-labelling rules; this styleguide adds only report rules and the Spec Kitty voice."
+    description: "Run the writing pack's ai-writing-tells styleguide as a checklist before circulating a report. It owns the em-dash, buzzword, intensifier and puffery rules and labelling a figure measured or reused; this styleguide adds report rules and the voice."
 
 patterns:
   - name: Progressive-disclosure structure

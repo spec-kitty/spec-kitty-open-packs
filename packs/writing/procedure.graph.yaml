@@ -64,3 +64,7 @@ edges:
 - source: procedure:meeting-minutes-pipeline
   target: styleguide:meeting-minutes-format
   relation: suggests
+- source: foundation::procedure:adversarial-squad-deployment
+  target: styleguide:research-citation-discipline
+  relation: suggests
+  when: citing the code and changes a first-hand check reproduced, so the check survives a branch rewrite

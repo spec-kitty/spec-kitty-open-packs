@@ -58,7 +58,7 @@ edges:
 - source: styleguide:common-docs
   target: tactic:common-docs-write
   relation: suggests
-  when: 'applying the frontmatter schema, the 50-180 description band, related: paths, Divio type, and naming'
+  when: 'applying the frontmatter schema, the 50-180 description band, related: page slugs, Divio type, and naming'
 - source: styleguide:divio-type-discipline
   target: styleguide:common-docs
   relation: suggests

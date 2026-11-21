@@ -34,7 +34,7 @@ steps:
       list of page slugs (the path under the docs root without .md), each of
       which must resolve to an existing page; an entry may carry a note as
       ref and note. Put links outside the docs tree under
-      external_references: (url, title, optional note). A docsite build that
+      external_references: (url, title and an optional note, or type and id). A docsite build that
       reads this shape fails on a slug that does not resolve; otherwise review
       checks every entry, and so does the project's own related: validator if
       it has one. Do not reintroduce the dead citation_refs sidecar field and

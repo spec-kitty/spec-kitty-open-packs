@@ -25,7 +25,7 @@ steps:
     Each delegate is read-only unless its task is an isolated implementation in its own worktree. A delegate checks instructions and claims by reading the code and running the existing tests; it does not prototype, simulate or dry-run the change, in the repository or in a scratch copy. That work belongs to implementation, and doing it in review does the work twice. A profile cast on escalation runs in its squad-delegate mode: it answers the squad's question from its own lens directly, as one delegate, without dispatching its own sub-agent swarm.
 - title: Require structured, non-fakeable output
   description: |
-    Every delegate returns findings as "[SEVERITY] file:line - issue - recommendation" ending in a verdict, grounded in concrete cited evidence, with honest concession of where its lens does NOT apply. A steelman that over-claims is weak; an adversary that concedes nothing is noise.
+    Every delegate returns findings as "[SEVERITY] file:anchor - issue - recommendation" (the anchor is a `path::qualname` or a short quoted string, not a line number) ending in a verdict, grounded in concrete cited evidence, with honest concession of where its lens does NOT apply. A steelman that over-claims is weak; an adversary that concedes nothing is noise.
 - title: Match model tier to task difficulty
   description: |
     Follow the model-task-routing tactic to match model tier to lens difficulty. Do not burn the top tier on bookkeeping, and do not put the weakest tier on the hardest adversarial lens.
