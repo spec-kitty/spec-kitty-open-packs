@@ -301,7 +301,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tests as scaffold, with named smells and reference examples** (#216). A new `foundation`
   paradigm, `tests-as-scaffold-not-friction`, holds the why behind `DIRECTIVE_041` (tests protect
   change; false confidence and false friction; the desiderata; a double as a second copy of a
-  contract). `DIRECTIVE_041` keeps every rule and points to it; 041 and `DIRECTIVE_054` refine it.
+  contract). `DIRECTIVE_041` keeps every rule; it and `DIRECTIVE_054` refine the paradigm.
   Two anti-pattern nodes, "mock owned logic to pin a call contract" and "assert on mock
   interactions", are rejected by the paradigm, 054, the unfake procedure and the testing tactics, so
   review can name them. Four reference assets ship: a functional-slicing worked example and a full
