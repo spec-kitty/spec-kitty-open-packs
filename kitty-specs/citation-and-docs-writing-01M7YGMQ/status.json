@@ -1,20 +1,20 @@
 {
-  "event_count": 21,
-  "last_event_id": "01M7YHJ5F5AVAS8M58PJ2QCZH0",
-  "materialized_at": "2026-11-21T07:54:02.085647+00:00",
+  "event_count": 27,
+  "last_event_id": "01M7YHQ04R7P1WWAFAJ58K7BWE",
+  "materialized_at": "2026-11-21T07:56:40.373361+00:00",
   "mission_number": "",
   "mission_slug": "citation-and-docs-writing-01M7YGMQ",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 2,
+    "approved": 3,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
     "done": 0,
     "for_review": 0,
     "in_progress": 1,
-    "in_review": 1,
+    "in_review": 0,
     "planned": 1
   },
   "work_packages": {
@@ -83,44 +83,67 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude::reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
-      "implementer_of_record": "claude",
-      "lane": "in_review",
-      "last_event_id": "01M7YHJ5F5AVAS8M58PJ2QCZH0",
-      "last_transition_at": "2026-11-21T07:54:02.085647+00:00",
+      "force_count": 1,
+      "implementer_of_record": "claude::implementer",
+      "lane": "in_progress",
+      "last_event_id": "01M7YHQ04R7P1WWAFAJ58K7BWE",
+      "last_transition_at": "2026-11-21T07:56:40.373361+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: ai-writing-tells styleguide, report-writing pointer and refines edge, writing graph wiring; out-of-map: executive-debrief pointer wording and internal README line (both follow the move); edge-identity and vocabulary pass"
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "reviewer",
-      "shell_pid": 27681,
-      "shell_pid_created_at": "1795247638.14",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/citation-and-docs-writing-01M7YGMQ-coord/kitty-specs/citation-and-docs-writing-01M7YGMQ/tasks/WP03-ai-writing-tells/review-cycle-1.md",
+        "reference": "review-cycle://citation-and-docs-writing-01M7YGMQ/WP03-ai-writing-tells/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "changes_requested"
+      },
+      "role": "implementer",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T008": "done",
-        "T009": "done",
-        "T010": "done",
-        "T011": "done"
+        "T008": "planned",
+        "T009": "planned",
+        "T010": "planned",
+        "T011": "planned"
       }
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "in_progress",
-      "last_event_id": "01M7YHEH8RHD0D5GGDZ42TX5A3",
-      "last_transition_at": "2026-11-21T07:52:02.995452+00:00",
+      "lane": "approved",
+      "last_event_id": "01M7YHNCC866X648DB750MK7ZV",
+      "last_transition_at": "2026-11-21T07:55:47.464394+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: doc-kitty shape across common-docs styleguide, 042, write/scaffold tactics, declare-page-audience, internal page-audience; out-of-map: internal spec-kitty-common-docs-layout related: line (same path-form defect, FR-012); find tactic needed no change; NFR-004/005 greps clean",
+        "Review passed: common-docs styleguide teaches related: as page slugs (or {ref, note}) with external_references: for out-of-tree links, and audience: as {profile, guidance_text} entries, in principle, same-named pattern, examples, tooling (related-resolvable-slugs, audience-resolvable) and quality_test (FR-011); principles <= 251 chars. DIRECTIVE_042, common-docs-write/scaffold, declare-page-audience and internal spec-kitty-page-audience say the same in the same words; common-docs-find needs no change (FR-012). Out-of-map edit to internal spec-kitty-common-docs-layout.procedure.yaml is the intentional FR-012 follow-up (it otherwise still recommended repo-relative .md paths). ADR era optional, no adr/N.x, Charter Activation, 565/6-of-565 examples (FR-013). NFR-004 grep: 2 hits, both labelled legacy; NFR-005 grep over packs/writing: 0 hits (the StatusGateError hit in this lane is the squad procedure, fixed in WP02/lane-b, clean after merge). Graph-edge, ASCII, vocabulary pass; YAML parses. Code anti-pattern checklist items N/A; frozen surface, locked decision, shared-file ownership PASS. Nits: (1) common-docs principles 'Frontmatter is the per-page source of truth' at 251 chars is close to the cap (untouched); (2) the scaffold tactic still carries untouched em-dashes ('One concern lives in one section —'); (3) internal common-docs-layout step does not mention the legacy form, which is fine for a doc-kitty repo."
+      ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 19360,
-      "shell_pid_created_at": "1795247516.97"
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/citation-and-docs-writing-01M7YGMQ-coord/kitty-specs/citation-and-docs-writing-01M7YGMQ/tasks/WP04-doc-kitty-frontmatter/review-cycle-1.md",
+        "reference": "review-cycle://citation-and-docs-writing-01M7YGMQ/WP04-doc-kitty-frontmatter/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 31805,
+      "shell_pid_created_at": "1795247697.3",
+      "subtasks": {
+        "T012": "done",
+        "T013": "done",
+        "T014": "done",
+        "T015": "done"
+      }
     },
     "WP05": {
       "actor": "finalize-tasks",
