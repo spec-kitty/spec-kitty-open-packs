@@ -1,0 +1,11 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: anti_pattern:assert-on-mock-interactions
+  kind: anti_pattern
+  label: Assert on mock interactions
+- urn: anti_pattern:mock-owned-logic-to-pin-a-call-contract
+  kind: anti_pattern
+  label: Mock owned logic to pin a call contract
+edges: []

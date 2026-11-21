@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5753f89c525b983117405a480874d24b6a80709ffa5d98a00e9171782c4cc2c5
+manifest_hash: 1f18f858cc558d656efd185e04a1e29ee1912e636053ba5202f42c75142d9afe
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -21,6 +21,14 @@ constituents:
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
   content_hash: e68219460097260a616cfb294ca00bb2548c89fd1fe9e4307a42a961a0b109f3
+- kind: asset
+  id: exemplar-slicing-user-registration
+  path: assets/exemplar-slicing-user-registration.md.asset.yaml
+  content_hash: 12ec339c19a3575f8988dc02644343c171b133c261b7160cd601c4a46e87320b
+- kind: asset
+  id: exemplar-unfake-an-over-mocked-test
+  path: assets/exemplar-unfake-an-over-mocked-test.md.asset.yaml
+  content_hash: a459e4f1947408333d3900ff020e081983a31605010ec5f02394ebe756ca2321
 - kind: directive
   id: DIRECTIVE_001
   path: directives/001-architectural-integrity-standard.directive.yaml
@@ -72,7 +80,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 747d0919b8f4d48df6324cd60d97cef0f7a45156d6042aa1eef98def5170b926
+  content_hash: 7674e191e6a4b86ac72cd67fe604f737c693fb812f965268e47adec75fd5a4b5
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -96,7 +104,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_041
   path: directives/041-tests-as-scaffold-not-friction.directive.yaml
-  content_hash: 6a1bf9eef3d11f5f116523c6dc1f15185f8b24361c4aa8607ea2123ee97461cb
+  content_hash: e1dace028335405e26483cf8c0cc6c9318aed48f4fec09c567c554d6e11f41ea
 - kind: directive
   id: DIRECTIVE_043
   path: directives/043-close-defect-class-by-construction.directive.yaml
@@ -144,7 +152,7 @@ constituents:
 - kind: directive
   id: DISCIPLINED_REFACTORING
   path: directives/disciplined-refactoring.directive.yaml
-  content_hash: 852475bc5841b96089381d86f30a98e016d763643f7b180199e29ac683238389
+  content_hash: cb9de78430fe74e01e33d579b935fd6780b5b5b7a6b0f1b2d37f6a2aa7060b8e
 - kind: directive
   id: RECONCILE_CHANGE_SCOPE_TENSIONS
   path: directives/reconcile-change-scope-tensions.directive.yaml
@@ -156,7 +164,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: a9f75c6ed71dd49d6bd1a3821b53b246761a2c6f66a6108df4a3f36b963864fa
+  content_hash: 23dddc893ec183f7743c257f92212a8c7ed676148097ebba74c3e862deda03f9
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -234,6 +242,10 @@ constituents:
   path: missions/software-dev/templates/tasks-template.md
   content_hash: c0bf1031a8fdf07b51d34d8d3bef22d4a00984ca2490ce3500a409010d2bc8a8
 - kind: paradigm
+  id: tests-as-scaffold-not-friction
+  path: paradigms/tests-as-scaffold-not-friction.paradigm.yaml
+  content_hash: 1cae9427569a88d9b0a1d5cc62578fa874a91859bb3f55fb8ac882325123b943
+- kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
   content_hash: c9ad1d928625885241b5a1af87c516662c2995ff3197286030d3bf802083ca61
@@ -288,7 +300,7 @@ constituents:
 - kind: procedure
   id: disciplined-refactoring-cycle
   path: procedures/disciplined-refactoring-cycle.procedure.yaml
-  content_hash: 4c5d83bf2d171242a50754d0304cd3b018ea75fcfb05a20fd44cd83db7a3ba0d
+  content_hash: f85217f67c8b6e9f5e39af3f3e412cf80d3bbe3105d6e5d6f57c696b68a988fd
 - kind: procedure
   id: doctrine-version-change
   path: procedures/doctrine-version-change.procedure.yaml
@@ -384,7 +396,7 @@ constituents:
 - kind: procedure
   id: test-first-cycle
   path: procedures/test-first-cycle.procedure.yaml
-  content_hash: 92ff505e3db007516b1d4790ab480ba1eecbf6ac5b4d98dfdfefffc77929a379
+  content_hash: 25991b14fb92a089b178cbcbfa558d1bf678e3393dbc620bdd64fa93b4df5771
 - kind: procedure
   id: tidy-first-campsite-clean
   path: procedures/tidy-first-campsite-clean.procedure.yaml
@@ -616,7 +628,7 @@ constituents:
 - kind: tactic
   id: acceptance-test-first
   path: tactics/testing/acceptance-test-first.tactic.yaml
-  content_hash: 91771190dd84979c98f2f14a75f19ea2b775fcaef21234748d4d43e32066c035
+  content_hash: 19e432b307443172ed840817c578139e649e6cfa07ef6b0fa3bd17022060cd21
 - kind: tactic
   id: black-box-integration-testing
   path: tactics/testing/black-box-integration-testing.tactic.yaml
@@ -636,11 +648,11 @@ constituents:
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
-  content_hash: a7ed72b52cd7465ec4dfceccb09880f4d1a74fb973e3509fd006212aade2e38a
+  content_hash: 48a98977f97351a4f69b08b49839e538e8bd592b524d9ca4506d4ba956120046
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: b0fe3138ede6fd2ed4035c7c19adfd25eb5d59504bd723610866bb35f09a47e3
+  content_hash: af602daad7657f60398c26d0904589a68dd61c60b78c418351ca26cc6c6a2326
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml

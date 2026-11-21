@@ -695,3 +695,7 @@ edges:
     ''by bounded context'', translates cross-context uses ''at the context boundary'', and names ''missing ACL or translation
     layers'' as a failure mode -- so it reinforces Domain-Driven Design. INBOUND to the already-action-reachable DDD paradigm
     (family-A); a member->paradigm edge does not make the source reachable, so it is composition-only under today''s traversal.'
+- source: foundation::paradigm:tests-as-scaffold-not-friction
+  target: tactic:connascence-analysis
+  relation: suggests
+  when: diagnosing which coupling a test or a double carries
