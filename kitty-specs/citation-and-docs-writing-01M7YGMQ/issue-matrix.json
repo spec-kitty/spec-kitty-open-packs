@@ -24,6 +24,18 @@
       "verdict": "in-mission",
       "wp": null
     },
+    "#210": {
+      "evidence_ref": "Not folded: needs #207 owner agreement; Follow-up: #207",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "plan prompt: measure, don't estimate",
+      "verdict": "deferred-with-followup",
+      "wp": null
+    },
     "#219": {
       "evidence_ref": "FR-001, FR-003, FR-004",
       "fr": null,
