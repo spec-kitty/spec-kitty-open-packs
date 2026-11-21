@@ -85,8 +85,8 @@ class JudgeTheSet(unittest.TestCase):
         self.assertTrue(self.judge(0, report(["a", "b", "c"])))
 
     def test_a_warning_other_than_file_not_held_fails(self) -> None:
-        # driftTest, which this replaces, failed on every load warning; file_not_held stays a notice here because the
-        # schema pass owns the stray-file rule (#249).
+        # driftTest, which this replaces, failed on every load warning; file_not_held stays a notice here because a
+        # stray file warns, never fails (operator ruling R34, #331).
         stderr = "warning: b: prompt_slot_not_empty missions/x/prompt.md: legacy text in a slot\n"
         failures = self.judge(0, report(["a", "b"]), stderr)
         self.assertTrue(any("prompt_slot_not_empty" in line for line in failures))

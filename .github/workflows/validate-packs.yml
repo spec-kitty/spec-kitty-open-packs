@@ -140,8 +140,8 @@ jobs:
   # pack, register every org and project pack, and refuse every invalid fixture with the code its
   # expected-code file names. It also gates every pack on the charter's whole-pack check, pack-check (#252):
   # each pack, the closure and the round trip, from the jar the pinned release ships. The per-pack schema pass
-  # above stays as the fast pre-check, and keeps the rules pack-check is weaker on (the stray-file rule, the
-  # preset checks; docs/guides/validate-a-pack.md).
+  # above stays as the fast pre-check, and keeps the rules pack-check is weaker on (the preset checks) and the
+  # stale-hash pre-check (docs/guides/validate-a-pack.md). A stray file only warns (R34, #331).
   charter-service:
     name: Charter service validation
     # Skipped on a paused pull request; the gate then fails.
