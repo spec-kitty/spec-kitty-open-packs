@@ -71,6 +71,18 @@
       "title": "Replace Spec Kitty core examples in consumer artifacts with neutral ones",
       "verdict": "in-mission",
       "wp": "WP02"
+    },
+    "#288": {
+      "evidence_ref": "context-only: parent epic",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Epic: new doctrine content moved from core",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
