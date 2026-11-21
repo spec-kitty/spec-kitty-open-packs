@@ -83,6 +83,18 @@
       "title": "Replace Spec Kitty core examples in consumer artifacts (common-docs and squad slice)",
       "verdict": "in-mission",
       "wp": null
+    },
+    "#288": {
+      "evidence_ref": "Parent epic, context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Epic: new doctrine content moved from core",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
