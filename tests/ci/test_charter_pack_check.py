@@ -315,7 +315,7 @@ class JarScript(unittest.TestCase):
         self.bin = self.tmp / "bin"
         self.bin.mkdir()
         # curl writes the served bytes to --output (and may then fail); git ls-remote answers the tag's refs.
-        (self.bin / "curl").write_text("#!/bin/sh\nwhile [ $# -gt 0 ]; do [ \"$1\" = --output ] && out=\"$2\"; "
+        (self.bin / "curl").write_text("#!/bin/sh\necho \"$*\" > \"$URL_LOG.args\"\nwhile [ $# -gt 0 ]; do [ \"$1\" = --output ] && out=\"$2\"; "
                                        "url=\"$1\"; shift; done\necho \"$url\" > \"$URL_LOG\"\n"
                                        "printf %s \"$SERVED\" > \"$out\"\n"
                                        "[ -z \"$CURL_EXIT\" ] || exit \"$CURL_EXIT\"\n")
@@ -346,6 +346,10 @@ class JarScript(unittest.TestCase):
                 self.assertEqual(done.stdout.splitlines(), [str(self.tmp / "work" / jar)])
                 # The release of the pinned tag, by name: never a floating "latest".
                 self.assertEqual((self.tmp / "url").read_text().strip(), self.RELEASE + jar)
+                # Over https only, redirects included: a downgrade to http is never followed.
+                arguments = (self.tmp / "url.args").read_text()
+                self.assertIn("--proto =https", arguments)
+                self.assertIn("--proto-redir =https", arguments)
 
     def test_a_jar_with_another_digest_is_refused_and_no_path_is_printed(self) -> None:
         for script, key, jar in self.SCRIPTS:
@@ -409,7 +413,9 @@ class RealPackCheck(unittest.TestCase):
         self.assertNotIn("::error::pack-check: invalid fixture", done.stdout)
         self.assertIn("ok: pack-check refuses invalid fixture malformed-pack-version as expected", done.stdout)
         if gate.expected_pack_check(self.FIXTURE) == gate.FAILED:
-            self.assertIn(gate.CRASH_ISSUE, done.stdout)  # still the crash, so the gate must name it
+            # Still the crash, so the set's own failure must name it (the invalid fixture's ok line names it too).
+            self.assertTrue(any(line.startswith("::error::pack-check: pack-check exited 2") and gate.CRASH_ISSUE in line
+                                for line in done.stdout.splitlines()), done.stdout)
 
 
 if __name__ == "__main__":
