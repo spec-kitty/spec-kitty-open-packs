@@ -315,16 +315,17 @@ class JarScript(unittest.TestCase):
         self.bin.mkdir()
         # curl writes the served bytes to --output; git ls-remote answers the tag's refs.
         (self.bin / "curl").write_text("#!/bin/sh\nwhile [ $# -gt 0 ]; do [ \"$1\" = --output ] && out=\"$2\"; "
-                                       "shift; done\nprintf %s \"$SERVED\" > \"$out\"\n")
+                                       "shift; done\nprintf %s \"$SERVED\" > \"$out\"\n"
+                                       "[ -z \"$CURL_EXIT\" ] || exit \"$CURL_EXIT\"\n")
         (self.bin / "git").write_text("#!/bin/sh\nprintf '%s\\trefs/tags/service-v1.0.0\\n' \"$TAGGED\"\n")
         for tool in ("curl", "git"):
             (self.bin / tool).chmod(0o755)
 
-    def run_script(self, *, pack_check: str, tagged: str, served: bytes) -> subprocess.CompletedProcess:
+    def run_script(self, *, pack_check: str, tagged: str, served: bytes, curl_exit: int = 0) -> subprocess.CompletedProcess:
         (self.repo / "charter.lock.yaml").write_text(
             f"commit: {self.COMMIT}\nrelease_tag: service-v1.0.0\njar_sha256: {'a' * 64}\npack_check_sha256: {pack_check}\n")
         env = dict(os.environ, PATH=f"{self.bin}{os.pathsep}{os.environ['PATH']}", TAGGED=tagged,
-                   SERVED=served.decode())
+                   SERVED=served.decode(), CURL_EXIT=str(curl_exit or ""))
         return subprocess.run(["bash", str(self.repo / "scripts" / "ci" / "charter_pack_check_jar.sh"),
                                str(self.tmp / "work")], capture_output=True, text=True, env=env, check=False)
 
@@ -339,6 +340,12 @@ class JarScript(unittest.TestCase):
         self.assertEqual(done.stdout, "")
         self.assertIn("refusing to run it", done.stderr)
         self.assertFalse((self.tmp / "work" / "pack-check-1.0.0.jar").exists())  # the unverified download is gone
+
+    def test_a_failed_download_leaves_nothing_in_the_work_dir(self) -> None:
+        done = self.run_script(pack_check=self.digest, tagged=self.COMMIT, served=b"half a jar", curl_exit=22)
+        self.assertNotEqual(done.returncode, 0)
+        self.assertEqual(done.stdout, "")
+        self.assertEqual(list((self.tmp / "work").iterdir()), [])  # neither the jar nor a partial file
 
     def test_a_tag_that_points_elsewhere_than_the_lock_commit_is_refused(self) -> None:
         done = self.run_script(pack_check=self.digest, tagged="d" * 40, served=self.jar_bytes)
