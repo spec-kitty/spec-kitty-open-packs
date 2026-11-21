@@ -13,7 +13,7 @@
       "wp": "WP03"
     },
     "#152": {
-      "evidence_ref": "new testing tactic + internal pointer",
+      "evidence_ref": "shared-machine-test-measurement tactic + internal pointer",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -21,7 +21,7 @@
       "scope": null,
       "source_file": null,
       "title": "Tactic: measurement discipline for multi-agent missions",
-      "verdict": "in-mission",
+      "verdict": "fixed",
       "wp": "WP04"
     },
     "#154": {
