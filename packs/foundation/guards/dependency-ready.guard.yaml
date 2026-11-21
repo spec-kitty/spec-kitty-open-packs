@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: dependency-ready
+title: The work package's dependencies are satisfied
+description: The work packages this one depends on are done. It guards the claim (planned to claimed) and the start from claimed (claimed to in_progress). When the guard cannot decide, the move passes (charter ADR-0054 decision 6).
+interface: guard/1
+implemented_by: builtin:dependency-ready
+on_indeterminate: pass
