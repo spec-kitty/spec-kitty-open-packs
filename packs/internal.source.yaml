@@ -4,4 +4,4 @@
 # default `snapshot_sha256(root)`, `pack-manifest.yaml` excluded; not interchangeable with core's pin digests.
 tree_digest:
   algorithm: spec-kitty-snapshot-sha256
-  value: f064e3e0bed38408107bb0a0176c8b2a84f3aaae2a1588fe7dd1fcb803724ac5
+  value: c295daef10a629cfdcaa1459c740af50939b33accb04ed181e1dff5e83852357
