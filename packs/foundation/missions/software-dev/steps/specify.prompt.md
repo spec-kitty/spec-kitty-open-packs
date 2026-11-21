@@ -688,7 +688,7 @@ Given that mission description, do this:
     - Ensure each requirement entry has a status value and testable wording
     - Write every requirement to the requirement-quality bar of tactic `requirement-quality-ears` (fetch: `spec-kitty charter context --include tactic:requirement-quality-ears`): testable, solution-free, unambiguous, consistent and complete. For behaviour, prefer the EARS shapes ("When <trigger>, the <system> shall <response>", and the state-driven, unwanted-behaviour, optional-feature and ubiquitous forms) and state a response an actor or a test can observe. EARS is a lens, not a mandatory template. `/spec-kitty.analyze` checks the same bar, so a requirement that misses it comes back as a finding.
     - Capture rules or invariants that shape acceptance scenarios, edge cases, permissions, or lifecycle boundaries
-    - Cite earlier changes by PR or issue number, ADR id, release tag or a description of the change, not a bare commit SHA: the lifecycle rewrites history at close-out, so a SHA written now will not resolve later. Cite code by `path::qualname` or a path plus a quoted anchor, not a line range. The rule lives in the writing pack's `research-citation-discipline` styleguide.
+    - Cite earlier changes by PR or issue number, ADR id, release tag or a description of the change, not a bare commit SHA: the lifecycle rewrites history at close-out, so a SHA written now will not resolve later. Cite code by `path::qualname` or a path plus a quoted anchor, not a line range, and put the command that produced a cited count next to it. The rule lives in the writing pack's `research-citation-discipline` styleguide.
     - Define Success Criteria (measurable, technology-agnostic outcomes)
     - Identify Key Entities (if data involved)
 

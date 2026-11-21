@@ -10,7 +10,7 @@ principles:
   - name: "Tier the evidence"
     description: "Tier the evidence: rank sources by strength — primary/reproducible (direct measurement, source code, an official spec) over secondary (documentation, third-party analysis) over anecdotal (a single report, an unverified claim)."
   - name: "Cite the specific locus, not the whole source"
-    description: "Cite the specific locus, not the whole source: reference the exact section, line, table, or query that supports the claim, not merely the document title, so the reader can verify without re-deriving it."
+    description: "Cite the specific locus, not the whole source: reference the exact section, table, query or code anchor that supports the claim, not merely the document title, so the reader can verify it. For code, see \"Anchor code citations to content\"."
   - name: "Cite changes by a stable identifier"
     description: "Cite changes by a stable identifier: a PR or issue number, ADR id, release tag or a description of the change, never a bare commit SHA, because rebases and squashes rewrite SHAs. See \"Anchor code citations to content\"."
   - name: "Anchor code citations to content"

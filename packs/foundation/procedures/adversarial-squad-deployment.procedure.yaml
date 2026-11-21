@@ -31,7 +31,7 @@ steps:
     Follow the model-task-routing tactic to match model tier to lens difficulty. Do not burn the top tier on bookkeeping, and do not put the weakest tier on the hardest adversarial lens.
 - title: Synthesize, and get a second opinion on divergence
   description: |
-    Aggregate the verdicts. Where delegates disagree on a consequential point, do not average — adjudicate from the source, or dispatch one more focused second-opinion delegate. Be critical of any delegate with a known bias (e.g. a reducer that prefers symptomatic consolidation over a structural fix).
+    Aggregate the verdicts. Where delegates disagree on a consequential point, do not average. Adjudicate from the source, or dispatch one more focused second-opinion delegate. Be critical of any delegate with a known bias (e.g. a reducer that prefers symptomatic consolidation over a structural fix).
   on_failure: |
     If verdicts remain irreconcilable, escalate the decision to the human with the competing positions laid out; do not silently pick one.
 - title: Check claims first-hand before a ruling
