@@ -31,6 +31,7 @@
   "purpose_context": "The first test-doctrine mission shipped the mock-boundary rule. This one finishes that work: the tests-as-scaffold mindset moves out of a binding directive into its own paradigm, the two mocking anti-patterns become named graph nodes, duplicated checklists and long worked examples move into shared reference assets, and the curator profile learns the canonical layout. It also sharpens test-first guidance with vertical tracer-bullet slicing (one behaviour, one failing test, one minimal change), ships a vertical-skeleton-first planning tactic for missions whose work crosses owners, separates refactoring from the red-green loop as a green-mode technique, and adds a measurement discipline so agents sharing a machine do not read killed or contended test runs as results.",
   "purpose_tldr": "Give the test doctrine its missing mindset, reference examples and checklists, and teach vertical tracer-bullet slicing and honest test measurement.",
   "slug": "test-doctrine-2-01M7YH30",
+  "status_phase": "1",
   "target_branch": "t3/test-doctrine-2",
   "topology": "lanes_with_coord",
   "topology_decision": {
