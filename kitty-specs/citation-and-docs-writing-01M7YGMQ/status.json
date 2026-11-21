@@ -1,7 +1,7 @@
 {
-  "event_count": 14,
-  "last_event_id": "01M7YHDGHX39HGG16GPMVSSTPM",
-  "materialized_at": "2026-11-21T07:51:29.597376+00:00",
+  "event_count": 16,
+  "last_event_id": "01M7YHEH8RHD0D5GGDZ42TX5A3",
+  "materialized_at": "2026-11-21T07:52:02.995452+00:00",
   "mission_number": "",
   "mission_slug": "citation-and-docs-writing-01M7YGMQ",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 3,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 2
+    "planned": 1
   },
   "work_packages": {
     "WP01": {
@@ -93,11 +93,20 @@
       }
     },
     "WP04": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M7YH145FZTWAA8R9KDMVPXRG",
-      "last_transition_at": "2026-11-21T07:44:43.695379+00:00"
+      "implementer_of_record": "claude",
+      "lane": "in_progress",
+      "last_event_id": "01M7YHEH8RHD0D5GGDZ42TX5A3",
+      "last_transition_at": "2026-11-21T07:52:02.995452+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 19360,
+      "shell_pid_created_at": "1795247516.97"
     },
     "WP05": {
       "actor": "finalize-tasks",
