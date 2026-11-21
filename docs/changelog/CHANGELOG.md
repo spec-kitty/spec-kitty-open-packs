@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-21'
 ---
 # Changelog
 
@@ -262,6 +262,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### ✨ Added
 
+- **Durable artifacts cite changes and code in forms that survive a rebase** (#219, #150). The
+  writing pack's `research-citation-discipline` styleguide gains two principles, each stated once:
+  cite a change by PR or issue number, ADR id, release tag or a description of the change, never a
+  bare commit SHA (rebases and squashes rewrite SHAs; a SHA is allowed only when necessary and
+  marked ephemeral); and cite code by `path::qualname` or a quoted anchor rather than a line range,
+  with the command that produced any count. The software-dev specify and plan step prompts and the
+  `adr-drafting-workflow` tactic carry a one-line reminder, and the specify and plan actions now
+  load the styleguide.
+- **Squads check claims first-hand before a ruling** (#150, #176). The `adversarial-squad-deployment`
+  procedure has a new step: reproduce a blocker against the current head before calling it
+  resolved, and check that a named acceptance test exists and runs before a ruling relies on it.
+  Delegates validate by reading code and running existing tests; they do not prototype the change.
+  In `internal`, an overturned operator ruling is posted on the governing issue with the
+  measurement that overturned it.
+- **One shared list of AI-writing tells** (#238). The new writing styleguide `ai-writing-tells`
+  holds the em-dash, "not just X but Y", intensifier, buzzword, rule-of-three, puffery and
+  figure-labelling rules with neutral examples. The documentation mission, its generate and
+  validate actions and `comms-cleo` reach it. The internal `report-writing` styleguide now points
+  to it instead of keeping its own copy.
 - **`/spec-kitty.analyze` reviews the whole planning corpus and product coherence** (#213, #214,
   #247; epic #244). Before, the software-dev `analyze` step read only the spec, the plan, the tasks
   and the WP prompts. Now it also does the following.
@@ -809,6 +828,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 Changed
 
+- **Common Docs teaches doc-kitty frontmatter** (#240, #274). The `common-docs` styleguide,
+  DIRECTIVE_042, the `common-docs-write` and `common-docs-scaffold` tactics and the
+  `declare-page-audience` procedure now recommend `related:` as page slugs (or `ref` and `note`),
+  links outside the docs tree under `external_references:`, and `audience:` as a list of `profile`
+  and `guidance_text` entries. Repo-relative `.md` paths are named only as the legacy form. ADR era
+  folders are optional, and the examples no longer use Spec Kitty's own pages, ADR eras or counts.
+  The squad procedure's gate example no longer names a core exception class.
+- **Versions** (DIRECTIVE_018, minor): the foundation lockstep set 3.4.0, built-in 5.4.0, internal
+  4.3.0 (its writing range is now `>=3.4,<4`).
 - **Red-first where it earns lasting value** (#209). `DIRECTIVE_034` now requires red-first for product
   logic, gate and classifier scripts, invariants, and security or permission policy. For configuration
   and glue work, a recorded real run or an existing gate is the evidence, labelled
