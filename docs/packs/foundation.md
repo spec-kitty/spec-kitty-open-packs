@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
-- **Declared version:** `3.4.0`
-- **Content checksum (sha256):** `c9f302c775b569731bb104900942644aecfacb4bf4cbd1891f2c72bee3798190`
+- **Declared version:** `3.5.0`
+- **Content checksum (sha256):** `1bd719187fe8f7f6b2ef2f8b170fb93632e16426d6084ca62f722b31bb4c8cf4`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -47,11 +47,11 @@ glossary.
 | `procedures` | 41 |
 | `agent_profiles` | 6 |
 | `glossaries` | 1 |
-| `guards` | 1 |
+| `guards` | 5 |
 | `lifecycles` | 1 |
 | `missions` | 60 |
 | `routing_catalogs` | 1 |
-| **Total files** | **235** |
+| **Total files** | **239** |
 
 ### Full listing
 
@@ -261,8 +261,12 @@ glossary.
 </details>
 
 <details>
-<summary><code>guards</code> (1)</summary>
+<summary><code>guards</code> (5)</summary>
 
+- `dependency-ready.guard.yaml`
+- `implementation-ready.guard.yaml`
+- `review-approved.guard.yaml`
+- `review-ref.guard.yaml`
 - `spec-kitty-pre-review.guard.yaml`
 
 </details>
