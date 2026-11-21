@@ -131,6 +131,18 @@
       "title": "context",
       "verdict": "not-applicable",
       "wp": null
+    },
+    "#5095": {
+      "evidence_ref": "core issue (spec-kitty/spec-kitty#5095), core CLI half of #150; context only",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "context",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
