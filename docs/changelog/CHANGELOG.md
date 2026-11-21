@@ -269,7 +269,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   marked ephemeral); and cite code by `path::qualname` or a quoted anchor rather than a line range,
   with the command that produced any count. The specify and plan step prompts of the software-dev,
   plan and qa missions and the `adr-drafting-workflow` tactic carry a one-line reminder, and the
-  software-dev specify and plan actions now load the styleguide.
+  software-dev and plan missions' specify and plan actions now load the styleguide. Durable-fix
+  investigations (DIRECTIVE_052 and the `durable-fix-investigation` procedure) now ask for the
+  defect site by content anchor instead of `file:line` (#339).
 - **Squads check claims first-hand before a ruling** (#150, #176). The `adversarial-squad-deployment`
   procedure has a new step: reproduce a blocker against the current head before calling it
   resolved, and check that a named acceptance test exists and runs before a ruling relies on it.
