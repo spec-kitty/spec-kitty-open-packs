@@ -7,7 +7,7 @@
 # pack_id is the canonical identity, minted once by a tool and never edited.
 schema_version: "1.0"
 pack_id: 01M75PCTDT75M19ZMXHRES4CSJ
-pack_version: 3.3.0
+pack_version: 3.4.0
 parent_pack: null
 name: architecture
 pack_level: built-in
@@ -16,8 +16,8 @@ pack_drg: drg/fragment.yaml
 # kitty-specs/foundation-writing-split-01M75HV3/membership.json; acyclic, built-in -> built-in only, charter ADR-0048 d7).
 depends_on:
   - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: "==3.3.0"
+    range: "==3.4.0"
   - pack_id: 01M75PCTD0V3AFZA9EAXDJ894D  # refactoring
-    range: "==3.3.0"
+    range: "==3.4.0"
   - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
-    range: "==3.3.0"
+    range: "==3.4.0"

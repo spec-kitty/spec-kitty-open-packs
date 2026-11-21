@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 5753f89c525b983117405a480874d24b6a80709ffa5d98a00e9171782c4cc2c5
+manifest_hash: 8696ac5f2325170fac53b74eb30a8dfcd93f049ff571cc5e3f57ed2b8f2e7de9
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -240,7 +240,7 @@ constituents:
 - kind: procedure
   id: adversarial-squad-deployment
   path: procedures/adversarial-squad-deployment.procedure.yaml
-  content_hash: 88b03b8d4fc46dcb0ecce3e9a9758bfb979e4a235044ddd18be84c9b928df689
+  content_hash: e30a4f1fc86a5074ffc692158880853b9c1b11471d06d9cc4ce297e0e0eeceec
 - kind: procedure
   id: agent-commit-signing
   path: procedures/agent-commit-signing.procedure.yaml
@@ -512,7 +512,7 @@ constituents:
 - kind: tactic
   id: adr-drafting-workflow
   path: tactics/communication/adr-drafting-workflow.tactic.yaml
-  content_hash: 0a7ebb2483356b6cd06ca713fb34055c669ab0c6b073ed369c412839dd6ca9e6
+  content_hash: 197c2a2a89fa40fea8c36479bd9491534f3df876a6ae581a3c01228bec50ed6e
 - kind: tactic
   id: decision-marker-capture
   path: tactics/communication/decision-marker-capture.tactic.yaml
