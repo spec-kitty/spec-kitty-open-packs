@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 4ec425c04793200925e8d6ce79801c3adce1fd6c6dca0ad540b3a14c955fabeb
+manifest_hash: fa4c05ead808c4e82a94ecd6282ef2544a1b45f2683c0b6bf800f140ea7745c9
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -21,6 +21,14 @@ constituents:
   id: reviewer-renata
   path: agent_profiles/reviewer-renata.agent.yaml
   content_hash: e68219460097260a616cfb294ca00bb2548c89fd1fe9e4307a42a961a0b109f3
+- kind: asset
+  id: exemplar-slicing-user-registration
+  path: assets/exemplar-slicing-user-registration.md.asset.yaml
+  content_hash: 12ec339c19a3575f8988dc02644343c171b133c261b7160cd601c4a46e87320b
+- kind: asset
+  id: exemplar-unfake-an-over-mocked-test
+  path: assets/exemplar-unfake-an-over-mocked-test.md.asset.yaml
+  content_hash: a459e4f1947408333d3900ff020e081983a31605010ec5f02394ebe756ca2321
 - kind: directive
   id: DIRECTIVE_001
   path: directives/001-architectural-integrity-standard.directive.yaml
@@ -72,7 +80,7 @@ constituents:
 - kind: directive
   id: DIRECTIVE_034
   path: directives/034-test-first-development.directive.yaml
-  content_hash: 747d0919b8f4d48df6324cd60d97cef0f7a45156d6042aa1eef98def5170b926
+  content_hash: 7674e191e6a4b86ac72cd67fe604f737c693fb812f965268e47adec75fd5a4b5
 - kind: directive
   id: DIRECTIVE_035
   path: directives/035-bulk-edit-occurrence-classification.directive.yaml
@@ -644,7 +652,7 @@ constituents:
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
-  content_hash: b0fe3138ede6fd2ed4035c7c19adfd25eb5d59504bd723610866bb35f09a47e3
+  content_hash: af602daad7657f60398c26d0904589a68dd61c60b78c418351ca26cc6c6a2326
 - kind: tactic
   id: test-readability-clarity-check
   path: tactics/testing/test-readability-clarity-check.tactic.yaml
