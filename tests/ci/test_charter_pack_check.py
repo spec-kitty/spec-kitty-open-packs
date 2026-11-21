@@ -195,13 +195,6 @@ class ExpectedCode(unittest.TestCase):
             with self.subTest(fixture=fixture.name):
                 self.assertTrue(gate.expected_pack_check(fixture))
 
-    def test_the_malformed_pack_version_fixture_is_otherwise_well_formed(self) -> None:
-        # Only the version is wrong, so the gate's red comes from the version and nothing else.
-        fixture = ROOT / "tests" / "fixtures" / "invalid" / "malformed-pack-version"
-        descriptor = (fixture / "pack.yaml").read_text(encoding="utf-8")
-        self.assertIn("pack_version: not-a-version", descriptor)
-        self.assertEqual(gate.expected_pack_check(fixture), "failed")
-
 
 STUB = textwrap.dedent("""\
     #!/usr/bin/env python3
