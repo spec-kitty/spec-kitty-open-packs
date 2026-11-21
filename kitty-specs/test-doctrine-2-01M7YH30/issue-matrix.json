@@ -12,6 +12,18 @@
       "verdict": "in-mission",
       "wp": "WP03"
     },
+    "#152": {
+      "evidence_ref": "new testing tactic + internal pointer",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Tactic: measurement discipline for multi-agent missions",
+      "verdict": "in-mission",
+      "wp": "WP04"
+    },
     "#154": {
       "evidence_ref": "tracer-bullet TDD and green mode, re-grounded at mattpocock/skills abeeaf9",
       "fr": null,
