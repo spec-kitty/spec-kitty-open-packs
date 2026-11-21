@@ -9,7 +9,7 @@ purpose: >
   the coupling lives in the cross-owner state transitions; the skeleton
   exercises those transitions first, while they are still cheap to change. This
   is vertical slicing at mission scale: one thin path through every owner, not
-  one finished layer per owner (horizontal slicing).
+  one finished owner component at a time (horizontal slicing).
 steps:
   - title: Identify the spine before sizing any owner work package
     description: >
@@ -47,7 +47,7 @@ steps:
       - "Counterexample: a set of diagnostic checks that call each owner directly, bypassing the entry point, is not a green skeleton, however many of them pass."
   - title: Hold the second wave until the spine runs green
     description: >
-      The composed path is the gate for parallel scale-out. Owners may continue
+      The composed path is the precondition this tactic sets for parallel scale-out. Owners may continue
       interface definitions and local scaffolding, but the second wave of
       supplier work packages does not start until the skeleton runs the shared
       matrix green. The checkable order is: first composed run green, then
