@@ -9,6 +9,9 @@ requirement_refs:
 planning_base_branch: t3/test-doctrine-2
 merge_target_branch: t3/test-doctrine-2
 branch_strategy: Planning artifacts for this mission were generated on t3/test-doctrine-2. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into t3/test-doctrine-2 unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-test-doctrine-2-01M7YH30
+base_commit: cdd2b851ad2e5669e52a25358f76a1e2e9584488
+created_at: '2026-11-21T08:22:40.700220+00:00'
 subtasks:
 - T017
 - T018
