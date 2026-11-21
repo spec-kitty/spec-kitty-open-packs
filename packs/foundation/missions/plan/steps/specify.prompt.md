@@ -69,6 +69,8 @@ the planning problem; do not introduce implementation architecture.
    the `plan` step's decomposition can be trusted. These feed directly into
    the `research` step next.
 
+History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide (when installed) says.
+
 ## Deliverable
 
 Fill in the plan specification template (`artifact_key: spec`) with the

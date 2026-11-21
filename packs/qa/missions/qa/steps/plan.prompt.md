@@ -28,6 +28,7 @@ This step asks for the `qa-strategist` role. The pack's `qa` preset activates `q
    Every id in the requirement register appears at least once.
 6. In **5. Tooling**, describe tooling generically. Do not name a specific test runner.
 7. Review the draft with the `qa-test-plan-review-workshop` procedure before hand-off.
+8. History is rewritten at close-out, so a commit SHA written now will not resolve later: cite changes and code as the writing pack's `research-citation-discipline` styleguide (when installed) says.
 
 ## Success criteria
 
