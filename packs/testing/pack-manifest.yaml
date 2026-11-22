@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 21c02e26419473233f414fa70a4af74aa7397364b747c92b3819f5363f0bde5c
+manifest_hash: d348c4a0e36d990eaf19bc4371d53982fb59954a9651cd688f1d4d0ba442a961
 constituents:
 - kind: agent_profile
   id: debugger-debbie
@@ -44,7 +44,7 @@ constituents:
 - kind: procedure
   id: test-first-bug-fixing
   path: procedures/test-first-bug-fixing.procedure.yaml
-  content_hash: bfee99e52b37ee884c9e4504722586dbb2a7b06595b08f7653b774353bb38bbf
+  content_hash: 7ae74230ec7f82906ca06be60cd30d6737a75ce87c40d7668cc187796066fb35
 - kind: styleguide
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
@@ -60,7 +60,7 @@ constituents:
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: cb35b11ebcd0a831a2d51a819859ea1ececbeb2bf7fb379727413f1bf7736317
+  content_hash: d859606856bafe3f87615e67674914783af760d398f60ac49e33df481c6cc594
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
@@ -88,7 +88,7 @@ constituents:
 - kind: tactic
   id: shared-machine-test-measurement
   path: tactics/testing/shared-machine-test-measurement.tactic.yaml
-  content_hash: 473c76f909512b782dcbb38d138feedfa03d4a79d555c3eb2febcd8f9eaec8ee
+  content_hash: 058be3c8fdf2c5a5bed24d00feb3b612493ed27dbaef6f58cbc3c657b17930cd
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml
