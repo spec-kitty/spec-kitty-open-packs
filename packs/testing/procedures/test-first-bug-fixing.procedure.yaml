@@ -10,7 +10,7 @@ exit_condition: |
 steps:
 - title: Tidy first, if the surfaces the fix will touch need it
   description: |
-    Before writing the red reproduction test, check whether the surfaces the fix will touch carry structural debt that would make the fix riskier or harder to review. If so, campsite-clean those surfaces in a separate, behaviour-preserving commit FIRST — order is: tidy-first, then the red reproduction test, then the fix, then a refactor scoped to the fix's own code. DIRECTIVE_025 (Boy Scout Rule) owns the tidy-first / enabler-sequencing rule; this step cites it rather than restating it.
+    Before writing the red reproduction test, check whether the surfaces the fix will touch carry structural debt that would make the fix riskier or harder to review. If so, campsite-clean those surfaces in a separate, behaviour-preserving commit FIRST — order is: tidy-first, then the red reproduction test, then the fix, committed, then an optional green-mode tidy-up of the fix's own code in its own commit. DIRECTIVE_025 (Boy Scout Rule) owns the tidy-first / enabler-sequencing rule; this step cites it rather than restating it.
 - title: Understand the bug
   description: |
     Read the bug report. State what SHOULD happen and what ACTUALLY happens, each in one sentence — do not open a code editor until you can. Identify reproduction steps and triggering data or context, and formulate a hypothesis about what is wrong and where the problem is likely located. For a hard or unclear bug, hand off to disciplined-defect-diagnosis to build a feedback loop and minimize the defect before returning here.
@@ -25,16 +25,16 @@ steps:
     Temporarily change the assertion to expect the WRONG (current buggy) behavior. If the test now passes, the reproduction is correct. Revert the assertion back to expect the correct behavior. Record the failure text; procedure `red-first-bug-reproduction` (foundation) holds the full rules (red shape, characterization inversion, cross-work-package split).
 - title: Fix the production code
   description: |
-    Make the change proportional to the diagnosed cause needed to make the failing test pass. Resist the urge to refactor beyond the fix's own code — that belongs to green mode, in the next step, scoped to the fix. Document the root cause in a comment if it would not be obvious to a future reader.
-- title: Tidy the fix in green mode, scoped to the fix
-  description: |
-    With the reproduction test passing, the fix's own code may be restructured in green mode (procedure disciplined-refactoring-cycle in foundation). Keep it to the surfaces the fix touched; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025).
+    Make the change proportional to the diagnosed cause needed to make the failing test pass. Resist the urge to refactor beyond the fix's own code — that belongs to green mode, after the fix is committed, scoped to the fix. Document the root cause in a comment if it would not be obvious to a future reader.
 - title: Run the full test suite
   description: |
     Verify all existing tests still pass. If something else breaks, the fix has unintended side effects — reconsider the approach.
 - title: Commit test and fix together
   description: |
     Stage the test file and the production fix in a single commit — the test documents the bug, the fix resolves it, and they are inseparable. Two carve-outs. First, when a failing reproduction test for this exact defect already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE (an honest red signal for a known, accepted defect), the fix lands as its own commit that turns that pre-existing red test green. Second, in a mission that splits the reproduction and the fix across work packages, the reproduction lands first as a strict expected failure (procedure `red-first-bug-reproduction`).
+- title: Tidy the fix in green mode, scoped to the fix
+  description: |
+    With the full suite green and the fix committed, the fix's own code may be restructured in green mode, in its own commit (procedure disciplined-refactoring-cycle in foundation). Keep it to the surfaces the fix touched; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025).
 - title: Document the fix
   description: |
     In the commit message or PR description: state the root cause, the fix applied, any edge cases the new test does not yet cover, and a link to the bug report or ticket.
@@ -48,6 +48,6 @@ anti_patterns:
 - title: Test Passes Immediately
   content: The reproduction test passes on first run. The test does not capture the bug — revise setup or assertions.
 - title: Refactoring Beyond the Fix
-  content: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug-fix commit; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
+  content: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug fix; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
 notes: |
   External reference: "Example of test-first bug-fixing (Stijn Dejongh, 2022)" https://www.linkedin.com/pulse/example-test-first-bug-fixing-javascript-stijn-dejongh/ Folds in the retired bug-fixing-checklist tactic (single-owner consolidation): state expected vs actual in one sentence before touching code; if the reproduction test cannot be written, the defect is not understood; document the root cause and the fix; a post-fix test is a confirmation test, not a regression test.
