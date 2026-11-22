@@ -364,7 +364,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   agrees the test surface first, then one behavior, one failing test and the least code per cycle;
   it names horizontal slicing and tautological expected values. Refactoring is no longer a step of
   the loop: whenever the suite is green, `disciplined-refactoring-cycle` applies (green mode), and the
-  test-first and bug-fixing surfaces point to it. Adapted from mattpocock/skills at `abeeaf9`.
+  test-first and bug-fixing surfaces point to it. Adapted from mattpocock/skills v1.3.2.
 - **Vertical skeleton first, for missions that cross owners** (#147). A new `planning-analysis`
   tactic, `vertical-skeleton-first`, has the plan name the cross-owner spine and land its first
   composed path before second-wave work, with a bounded rule for changes to a consumed transition.

@@ -40,13 +40,14 @@ Inside: `ship_paid_orders`, stock reservation, shipment recording, the store's w
 
 ## Step 4: Run the real collaborators on realistic seeded state
 
-Create the orders through the real order pipeline (place and pay them) instead of building records by hand, so only reachable states exist. The carrier is now passed in as a parameter instead of patched at module level, so the one remaining substitute is visible at the call.
+Create the orders through the real order pipeline (place and pay them) instead of building records by hand, so only reachable states exist. Stock one book and one lamp first, because stock reservation now runs for real. The carrier is now passed in as a parameter instead of patched at module level, so the one remaining substitute is visible at the call.
 
 ## Step 5: Move assertions from calls to outcomes
 
 ```python
 def test_shipping_paid_orders_stores_one_shipment_per_order(fake_carrier):
     store = Store.in_temp_dir()
+    stock(store, book=1, lamp=1)
     order_a = place_and_pay(store, items=["book"])
     order_b = place_and_pay(store, items=["lamp"])
 
