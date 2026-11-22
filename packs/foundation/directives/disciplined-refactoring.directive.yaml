@@ -21,7 +21,7 @@ scope: >
   observable behaviour — tidying a surface before a functional change, paying
   down a code smell, decomposing an over-long class or method, or untangling
   convoluted logic. It does not govern authoring new behaviour; restructuring
-  code just written, once the suite is green, is in scope (green mode). Nor
+  code just written, once the tests covering the surface are green, is in scope (green mode). Nor
   does it license changing behaviour under cover of a refactor: a refactor
   and a behaviour change are separate steps with separate commits.
 integrity_rules:
@@ -34,8 +34,7 @@ integrity_rules:
   - "The refactor is aimed at a named smell; restructuring for personal taste
     with no stated problem is out of scope for this directive."
 validation_criteria:
-  - "Every restructuring step names the smell it resolves and leaves the test
-    suite green."
+  - "Every restructuring step names the smell it resolves and leaves the tests covering the surface green and no other test newly red."
   - "No commit mixes a behaviour change with a structural move; reviewers can
     classify each diff as behaviour-preserving or behaviour-changing without
     guessing."
