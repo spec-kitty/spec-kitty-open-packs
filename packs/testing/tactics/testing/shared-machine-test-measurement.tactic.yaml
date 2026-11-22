@@ -17,7 +17,9 @@ steps:
       on the machine, from any agent. Above the cap the team has set (one per
       machine when none is set), wait or serialise instead of starting another.
       Bound worker counts explicitly; never let a runner pick "as many workers as
-      cores" on a shared machine.
+      cores" on a shared machine. Count through the team's shared lock or queue
+      where there is one, otherwise the process list; kill only processes you
+      started.
   - title: Count only a finished run with a captured exit status
     description: >
       A run is a measurement only if it finished and its own exit status was
@@ -31,9 +33,9 @@ steps:
       code is a finding to fix or file at its root; report every outcome, and a
       later green does not clear it (DIRECTIVE_041). When piping test output, capture the test command's status, not
       the status of the last command in the pipe (for example with the shell's
-      pipefail option or its pipe-status array).
+      pipefail option, where it has one).
     examples:
-      - "`<test command> | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Run with `set -o pipefail`, or read the test command's entry in the pipe-status array."
+      - "`<test command> | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Prefer no pipe: `<test command> > run.log 2>&1; status=$?; tail -20 run.log; echo exit=$status`. In bash or zsh `set -o pipefail` also works with a consumer that reads everything (tail, tee), but not with head or grep, whose own status can make a pass look red."
   - title: Put test temporary and cache space where there is quota
     description: >
       Point test temporary directories and caches at storage with enough free
