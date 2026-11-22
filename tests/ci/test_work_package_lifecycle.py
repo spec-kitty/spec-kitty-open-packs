@@ -43,7 +43,7 @@ EXPECTED_GUARDS: dict[tuple[str, str], set[str]] = {
 #: Guard id -> (implementing built-in, on_indeterminate as the file states it; None means absent, so block).
 EXPECTED_GUARD_FILES: dict[str, tuple[str, str | None]] = {
     "spec-kitty-pre-review": ("builtin:spec-kitty-pre-review", "pass"),
-    "dependency-ready": ("builtin:dependency-ready", "pass"),
+    "dependency-ready": ("builtin:dependency-ready", None),
     "implementation-ready": ("builtin:implementation-ready", None),
     "review-approved": ("builtin:review-approved", None),
     "review-ref": ("builtin:review-ref", None),
