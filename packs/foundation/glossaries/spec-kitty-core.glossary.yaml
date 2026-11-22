@@ -140,7 +140,8 @@ terms:
     status: active
   - id: green-mode
     name: green mode
-    definition: The state in which refactoring is allowed. The test suite is green and the change keeps behaviour. It can
+    definition: The state in which refactoring is allowed. The tests covering the surface are green (a known red that
+      stays unchanged, such as an outer acceptance test, does not count) and the change keeps behaviour. It can
       be entered after any green, inside or outside a red-green cycle, and left for red only by writing the next failing
       test. The disciplined-refactoring-cycle procedure owns the practice.
     status: active

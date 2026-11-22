@@ -41,8 +41,8 @@ steps:
       - "After the credit-limit refusal, the next slice is the refusal message the customer sees, not a prepared list of ten further tests."
   - title: Hand off to green mode
     description: >
-      Refactoring is not part of the red-green loop. When the suite is green and
-      the code would read better restructured, switch to green mode and follow
+      Refactoring is not part of the red-green loop. When the tests covering the
+      surface are green and the code would read better restructured, switch to green mode and follow
       the disciplined-refactoring-cycle procedure.
     examples:
       - "Duplicated branch logic after the third slice: commit the green, switch to green mode, extract it in one move, run the suite, commit the refactor on its own, then write the next failing test."
