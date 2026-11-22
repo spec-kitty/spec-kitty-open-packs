@@ -227,10 +227,16 @@ anti_patterns:
       assert convert(100, "EUR", "USD", rates=stub_rates) == Decimal("110")   # stays green anyway
     good_example: |
       # A fake at the network seam that keeps the real contract, failure branch included.
-      rates = FakeRateService(rates={"EUR/USD": Decimal("1.1")}, stale={"EUR/GBP"})
-      assert convert(100, "EUR", "USD", rates=rates) == Decimal("110")
-      with pytest.raises(StaleRateError):
-          convert(100, "EUR", "GBP", rates=rates)
+      @pytest.fixture
+      def rates():
+          return FakeRateService(rates={"EUR/USD": Decimal("1.1")}, stale={"EUR/GBP"})
+
+      def test_converts_at_the_current_rate(rates):
+          assert convert(100, "EUR", "USD", rates=rates) == Decimal("110")
+
+      def test_refuses_a_stale_rate(rates):
+          with pytest.raises(StaleRateError):
+              convert(100, "EUR", "GBP", rates=rates)
   - name: Development-assist scaffolding left in the suite
     description: >
       Characterization oracles, before/after parity checks, per-WP shape or
