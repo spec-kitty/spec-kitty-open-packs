@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 6a916b1501186b5a1459ed2bc9441231359bdb41f70bf6539cfd825ecb29e245
+manifest_hash: d302c021e16a2cfbb1d270a86e621cc3c0c4b4ef534d22faead6e252af7e2fb2
 constituents:
 - kind: agent_profile
   id: randy-reducer
@@ -16,7 +16,7 @@ constituents:
 - kind: tactic
   id: chain-of-responsibility-rule-pipeline
   path: tactics/code-patterns/chain-of-responsibility-rule-pipeline.tactic.yaml
-  content_hash: c23dd367fb5b6d2be9728a402ed3c44acb917cc7ab18d3dc1209ccc8788d271f
+  content_hash: a310cf88c1e6b76f9e9a17ef976bd14ea507e3fa79973bb6daa70910a47b5f15
 - kind: tactic
   id: refactoring-change-function-declaration
   path: tactics/refactoring/refactoring-change-function-declaration.tactic.yaml

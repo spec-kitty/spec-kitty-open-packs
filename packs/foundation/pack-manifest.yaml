@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 198b752e366dd423b7e657b968d53032db93400ea95d22e815db3990f141ad54
+manifest_hash: e4640e96139abf511d7d531b9a2377fee715d66817c2074cd03a37701c22fa70
 constituents:
 - kind: agent_profile
   id: analyst-annie
@@ -164,7 +164,7 @@ constituents:
 - kind: glossary
   id: spec-kitty-core
   path: glossaries/spec-kitty-core.glossary.yaml
-  content_hash: ccded21d6f265a1391e68ac1bb544a7e2e9f9114e4e7a965c16ed18653a9fe1a
+  content_hash: 47a3fe923370c1e66051170ab78dcf7e5bf69813d1e77489321ba5cd83bcce37
 - kind: guard
   id: spec-kitty-pre-review
   path: guards/spec-kitty-pre-review.guard.yaml
@@ -244,7 +244,7 @@ constituents:
 - kind: paradigm
   id: tests-as-scaffold-not-friction
   path: paradigms/tests-as-scaffold-not-friction.paradigm.yaml
-  content_hash: 1cae9427569a88d9b0a1d5cc62578fa874a91859bb3f55fb8ac882325123b943
+  content_hash: 58a118dcc65a5c82e23e088eeb7598cd1dae4d0aef75ed6604504d08359b0190
 - kind: paradigm
   id: trunk-based
   path: paradigms/trunk-based.paradigm.yaml
@@ -300,7 +300,7 @@ constituents:
 - kind: procedure
   id: disciplined-refactoring-cycle
   path: procedures/disciplined-refactoring-cycle.procedure.yaml
-  content_hash: f85217f67c8b6e9f5e39af3f3e412cf80d3bbe3105d6e5d6f57c696b68a988fd
+  content_hash: 81014267cd52d01cddf400408eaea511619cb83789a553a63b0f45dcc6b03676
 - kind: procedure
   id: doctrine-version-change
   path: procedures/doctrine-version-change.procedure.yaml
@@ -648,7 +648,7 @@ constituents:
 - kind: tactic
   id: tdd-red-green-refactor
   path: tactics/testing/tdd-red-green-refactor.tactic.yaml
-  content_hash: 22b634c47ca4d5ada2c37cceae070c361924739daa4bad19074832319f0ab6a3
+  content_hash: 9514b6879b3c6f6ef871fff05fd98488dff0a24cc319d302389df8cb83e46f92
 - kind: tactic
   id: test-boundaries-by-responsibility
   path: tactics/testing/test-boundaries-by-responsibility.tactic.yaml
