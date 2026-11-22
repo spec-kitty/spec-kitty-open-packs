@@ -215,7 +215,8 @@ terms:
       handler, handler_kind, schema_version, fail_open, provenance}`), carried by a guard of the work-package lifecycle. A binding
       is a field/relationship, not a standalone artefact. Do NOT confuse with the five pre-existing `*gate*` senses (branch
       strategy gate / diff compliance gate / dependency gate / merge dependency gate / sonar quality gate) — those are unrelated
-      one-off guards, not doctrine-resolved lane-edge checks.
+      one-off guards, not gate bindings. The dependency gate's check is also declared on the work-package lifecycle, as the
+      `dependency-ready` guard.
     status: active
   - id: gate-handler
     name: gate handler
