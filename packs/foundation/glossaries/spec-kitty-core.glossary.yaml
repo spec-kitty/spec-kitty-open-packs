@@ -147,7 +147,9 @@ terms:
   - id: no-measurement
     name: no measurement
     definition: The outcome of a test run that cannot be trusted, because it was killed, timed out, ran out of memory or
-      disk, lost its exit status, or passes and fails on the same code. It is reported as neither a pass nor a fail.
+      disk, lost its exit status, or passes and fails on the same code. It is reported as neither a pass nor a fail and
+      satisfies no gate. A kill, timeout or exhaustion that repeats on a quiet machine is a failure, and a later green does
+      not clear a test that passes and fails on the same code.
     status: active
   - id: charter-lint
     name: charter lint

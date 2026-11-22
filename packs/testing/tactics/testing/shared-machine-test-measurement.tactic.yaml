@@ -25,7 +25,11 @@ steps:
       glossary calls no measurement: killed, timed out, out of memory or disk, exit status lost,
       or passing and failing on the same code) is reported as no measurement,
       with its reason, never as a pass or a fail; re-run it when the machine is
-      quiet. When piping test output, capture the test command's status, not
+      quiet. No measurement satisfies no gate. A timeout, kill or memory
+      exhaustion that repeats on a quiet machine, under the limits the suite
+      normally meets, is a failure. A test that passes and fails on the same
+      code is a finding to fix or file at its root; report every outcome, and a
+      later green does not clear it (DIRECTIVE_041). When piping test output, capture the test command's status, not
       the status of the last command in the pipe (for example with the shell's
       pipefail option or its pipe-status array).
     examples:

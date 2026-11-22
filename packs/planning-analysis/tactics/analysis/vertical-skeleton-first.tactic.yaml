@@ -81,7 +81,8 @@ steps:
       than about three spine events, stops re-running and goes back to planning
       or example mapping, or to DIRECTIVE_040. (4) Flaky smoke: a composed smoke
       that passes and fails on the same code is no measurement (glossary), not a
-      blocking red; fix the flakiness before trusting either result. (5) Classification:
+      blocking red and not the green the second wave waits for; fix the
+      flakiness before trusting either result. (5) Classification:
       the integration owner classifies an event, not the work package that found
       it.
     examples:
