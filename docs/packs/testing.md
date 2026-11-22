@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/testing`
 - **Pack level:** `built-in`
-- **Declared version:** `3.5.0`
-- **Content checksum (sha256):** `9ce7a866739071ad41db429a442304ddc3cf315571c58cd6ece2e1b164bdaa03`
+- **Declared version:** `3.6.0`
+- **Content checksum (sha256):** `8104fd6dc6d6c9d950249c899a9980158364b37132376a13fac6ec26d27efd03`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Test design and test-first practice beyond the foundation basics: BDD and specification by example, test minimisation and reconstruction, mutation testing, Gherkin, and the debugging profile.
 
-**Depends on:** [`foundation`](foundation.md) `==3.5.0`
+**Depends on:** [`foundation`](foundation.md) `==3.6.0`
 
 ## Artifact inventory
 

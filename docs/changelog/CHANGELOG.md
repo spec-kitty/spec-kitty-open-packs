@@ -383,10 +383,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Less core residue in two consumer files** (part of #273 and #274). `DIRECTIVE_034` loses its
   provenance comment, and `testing-principles` its core PR, commit and symbol references.
 - **Versions**: the lockstep set (`foundation`, `writing`, `testing`, `refactoring`, `architecture`,
-  `planning-analysis`) moves to 3.5.0 and `built-in` to 5.5.0; `python` and `java` to 2.3.0,
+  `planning-analysis`) moves to 3.6.0 and `built-in` to 5.6.0; `python` and `java` to 2.3.0,
   `javascript` to 2.2.0, `pack-authoring` to 1.4.0 and `internal` to 4.4.0.
   **What to do:** nothing in your packs. `python`, `java`, `javascript` and `internal` now require
-  `testing` 3.5 or later (`>=3.5,<4`), because they point to its new Quad-A asset and measurement
+  `testing` 3.6 or later (`>=3.6,<4`), because they point to its new Quad-A asset and measurement
   tactic.
 - **Tests may mock only at the responsibility boundary** (#216). A new `foundation` `DIRECTIVE_054`
   holds the allow-list of seams a test may substitute; collaborators the code owns run for real. The

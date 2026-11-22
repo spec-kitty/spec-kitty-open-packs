@@ -26,6 +26,6 @@ depends_on:
   - pack_id: 01M75PCTD0V3AFZA9EAXDJ894D  # refactoring
     range: ">=2.0,<4"
   - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
-    range: ">=3.5,<4"
+    range: ">=3.6,<4"
   - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
     range: ">=3.4,<4"
