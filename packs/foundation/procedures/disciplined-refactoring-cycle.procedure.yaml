@@ -16,7 +16,7 @@ steps:
     Make sure the surface is covered by passing tests; where coverage is missing, add characterization tests first. Never refactor under red or uncovered code.
 - title: Apply one transformation at a time
   description: |
-    Perform a single named move (extract, encapsulate, move, inline, replace-conditional-with-polymorphism, incremental cutover), then re-run the tests. Revert a step that reddens the suite and retry in smaller increments; never weaken, rewrite or delete a test to make a move pass (DISCIPLINED_REFACTORING); be green before the next move.
+    Perform a single named move (extract, encapsulate, move, inline, replace-conditional-with-polymorphism, incremental cutover), then re-run the tests. Revert a step that reddens the suite and retry in smaller increments; never weaken or delete a test to make a move pass. A test that only asserts on the internal structure the move deliberately changes is updated to assert on behavior (DISCIPLINED_REFACTORING). Be green before the next move.
 - title: Separate structural moves from behavior changes
   description: |
     When behavior must change, stop the refactor at a green point and make the change as its own step with its own tests, so each diff reads as either "same behavior, better shape" or "new behavior".

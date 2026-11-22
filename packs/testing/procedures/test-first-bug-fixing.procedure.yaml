@@ -34,7 +34,7 @@ steps:
     Stage the test file and the production fix in a single commit — the test documents the bug, the fix resolves it, and they are inseparable. Two carve-outs. First, when a failing reproduction test for this exact defect already landed on the mainline under RED_MAIN_RELEASE_DISCIPLINE (an honest red signal for a known, accepted defect), the fix lands as its own commit that turns that pre-existing red test green. Second, in a mission that splits the reproduction and the fix across work packages, the reproduction lands first as a strict expected failure (procedure `red-first-bug-reproduction`).
 - title: Tidy the fix in green mode, scoped to the fix
   description: |
-    With the full suite green and the fix committed, the fix's own code may be restructured in green mode, in its own commit (procedure disciplined-refactoring-cycle in foundation). Keep it to the surfaces the fix touched; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025).
+    With the tests covering the fix's surface green, no new red in the full suite and the fix committed, the fix's own code may be restructured in green mode, in its own commit (procedure disciplined-refactoring-cycle in foundation). Keep it to the surfaces the fix touched; broader structural cleanup belongs to the tidy-first step that precedes the red reproduction test (DIRECTIVE_025).
 - title: Document the fix
   description: |
     In the commit message or PR description: state the root cause, the fix applied, any edge cases the new test does not yet cover, and a link to the bug report or ticket.
