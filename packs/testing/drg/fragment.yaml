@@ -595,6 +595,18 @@ edges:
   target: tactic:shared-machine-test-measurement
   relation: suggests
   when: several agents, not one, run tests on the same machine
+- source: tactic:shared-machine-test-measurement
+  target: foundation::procedure:post-merge-arch-gate-adjudication
+  relation: suggests
+  when: re-running a red test on the mission base commit
+- source: tactic:shared-machine-test-measurement
+  target: foundation::directive:DIRECTIVE_034
+  relation: suggests
+  when: the red test is one the mission added or changed
+- source: tactic:shared-machine-test-measurement
+  target: foundation::directive:DIRECTIVE_041
+  relation: suggests
+  when: a test passes and fails on the same code
 - source: foundation::action:software-dev/implement
   target: tactic:shared-machine-test-measurement
   relation: scope
