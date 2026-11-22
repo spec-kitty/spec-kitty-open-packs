@@ -356,15 +356,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   interactions", are rejected by the paradigm, 054, the unfake procedure and three `foundation` testing tactics, so
   review can name them. Four reference assets ship: a functional-slicing worked example and a full
   unfake worked example in `foundation`, and the desiderata checklist and the Quad-A skeleton and
-  checklist in `testing`. The desiderata and the Quad-A definition each live in one place now; the
-  styleguides, including the python, java and typescript conventions, point to the assets.
+  checklist in `testing`. The desiderata live in one place now; Quad-A's skeleton and checklist live in
+  the asset and its phases in `quadruple-a-test-format`. The styleguides, including the python, java and typescript conventions, point to the assets.
   `test-boundaries-by-responsibility` gains the slicing heuristics, and `doctrine-daphne` records the
   asset and anti-pattern layout.
 - **Test-first works in tracer bullets, and refactoring is green mode** (#154). `tdd-red-green-refactor`
   agrees the test surface first, then one behavior, one failing test and the least code per cycle;
   it names horizontal slicing and tautological expected values. Refactoring is no longer a step of
-  the loop: whenever the suite is green, `disciplined-refactoring-cycle` applies (green mode), and the
-  test-first and bug-fixing surfaces point to it. Adapted from mattpocock/skills v1.3.2.
+  the loop: whenever the tests covering the surface are green, `disciplined-refactoring-cycle` applies
+  (green mode), and the test-first and bug-fixing surfaces point to it. Bug fixing now commits the fix
+  before that tidy-up, which gets a commit of its own. Adapted from mattpocock/skills v1.3.2.
 - **Vertical skeleton first, for missions that cross owners** (#147). A new `planning-analysis`
   tactic, `vertical-skeleton-first`, has the plan name the cross-owner spine and land its first
   composed path before second-wave work, with a bounded rule for changes to a consumed transition.
@@ -372,8 +373,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and the tasks-outline example is sliced vertically. The directive that would require this order is
   deferred.
 - **Honest test measurement on shared machines** (#152). A new `testing` tactic,
-  `shared-machine-test-measurement`, caps heavy suites per machine, reports a killed, timed-out or
-  piped run as no measurement, and attributes a red by re-running it on the mission's base commit.
+  `shared-machine-test-measurement`, caps heavy suites per machine, reports a killed or timed-out run
+  or one whose exit status was lost as no measurement (which satisfies no gate), and attributes a red
+  by re-running it on the mission's base commit and, where it builds on earlier work packages, on its
+  own start commit.
   It loads at the software-dev implement and review steps.
 - **Five new glossary terms**: tracer bullet, horizontal slicing, spine, green mode and no
   measurement.
