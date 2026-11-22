@@ -101,7 +101,7 @@ terms:
 
       written before any refactor of that code. The refactor must leave the characterization test
 
-      green. See the `tdd-red-green-refactor` tactic. Distinguished from snapshot tests (overloaded
+      green. See the `disciplined-refactoring-cycle` procedure. Distinguished from snapshot tests (overloaded
 
       term) and regression tests (too broad).'
     status: active
