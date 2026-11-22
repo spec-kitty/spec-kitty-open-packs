@@ -598,7 +598,7 @@ edges:
 - source: tactic:shared-machine-test-measurement
   target: foundation::procedure:post-merge-arch-gate-adjudication
   relation: suggests
-  when: re-running a red test on the mission base commit
+  when: 're-running a red test on the mission base commit: use its short-lived worktree recipe with the recorded commit, not the branch name'
 - source: tactic:shared-machine-test-measurement
   target: foundation::directive:DIRECTIVE_034
   relation: suggests
