@@ -385,6 +385,9 @@ edges:
   target: procedure:git-flow
   relation: scope
 - source: action:software-dev/implement
+  target: paradigm:tests-as-scaffold-not-friction
+  relation: scope
+- source: action:software-dev/implement
   target: paradigm:trunk-based
   relation: scope
 - source: action:software-dev/implement
@@ -548,6 +551,9 @@ edges:
   relation: scope
 - source: action:software-dev/review
   target: procedure:git-flow
+  relation: scope
+- source: action:software-dev/review
+  target: paradigm:tests-as-scaffold-not-friction
   relation: scope
 - source: action:software-dev/review
   target: paradigm:trunk-based
