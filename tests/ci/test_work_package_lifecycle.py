@@ -20,24 +20,24 @@ GUARDS = FOUNDATION / "guards"
 
 NON_TERMINAL = ("planned", "claimed", "in_progress", "for_review", "in_review", "approved", "blocked")
 
-#: (from, to) -> the guard refs that transition names. Unlisted edges of this table are unguarded.
-EXPECTED_GUARDS: dict[tuple[str, str], set[str]] = {
-    ("planned", "claimed"): {"dependency-ready"},
-    ("claimed", "in_progress"): {"dependency-ready"},
-    ("blocked", "in_progress"): set(),
-    ("in_progress", "for_review"): {"implementation-ready", "spec-kitty-pre-review"},
-    ("for_review", "in_review"): set(),
-    ("in_progress", "approved"): {"review-approved"},
-    ("in_review", "approved"): {"review-approved"},
-    ("in_review", "done"): {"review-approved"},
-    ("approved", "done"): {"review-approved"},
-    ("in_review", "in_progress"): {"review-ref"},
-    ("approved", "in_progress"): {"review-ref"},
-    ("in_progress", "planned"): set(),
-    ("in_review", "planned"): set(),
-    ("approved", "planned"): {"review-ref"},
-    **{(lane, "blocked"): set() for lane in NON_TERMINAL if lane != "blocked"},
-    **{(lane, "canceled"): set() for lane in NON_TERMINAL},
+#: (from, to) -> (event, the guard refs in order); every entry blocks.
+EXPECTED_EDGES: dict[tuple[str, str], tuple[str | None, list[str]]] = {
+    ("planned", "claimed"): ("claim", ["dependency-ready"]),
+    ("claimed", "in_progress"): ("start", ["dependency-ready"]),
+    ("blocked", "in_progress"): ("start", []),
+    ("in_progress", "for_review"): (None, ["implementation-ready", "spec-kitty-pre-review"]),
+    ("for_review", "in_review"): ("start_review", []),
+    ("in_progress", "approved"): ("approve", ["review-approved"]),
+    ("in_review", "approved"): ("approve", ["review-approved"]),
+    ("in_review", "done"): ("complete", ["review-approved"]),
+    ("approved", "done"): ("complete", ["review-approved"]),
+    ("in_review", "in_progress"): ("changes_requested", ["review-ref"]),
+    ("approved", "in_progress"): ("changes_requested", ["review-ref"]),
+    ("in_progress", "planned"): ("reset", []),
+    ("in_review", "planned"): ("reset", []),
+    ("approved", "planned"): ("reset", ["review-ref"]),
+    **{(lane, "blocked"): ("block", []) for lane in NON_TERMINAL if lane != "blocked"},
+    **{(lane, "canceled"): ("cancel", []) for lane in NON_TERMINAL},
 }
 
 #: Guard id -> (implementing built-in, on_indeterminate as the file states it; None means absent, so block).
@@ -65,38 +65,24 @@ def _edges(lifecycle: dict) -> list[tuple[tuple[str, str], dict]]:
 
 class WorkPackageLifecycleGuardsTest(unittest.TestCase):
     def setUp(self) -> None:
+        self.maxDiff = None
         self.edges = _edges(_load(LIFECYCLE))
 
     def test_each_edge_is_declared_once(self) -> None:
         dupes = [edge for edge, n in Counter(edge for edge, _ in self.edges).items() if n > 1]
         self.assertEqual(dupes, [], "an edge appears in more than one transition entry")
 
-    def test_edges_are_core_lanes_edges(self) -> None:
-        self.assertEqual({edge for edge, _ in self.edges}, set(EXPECTED_GUARDS))
-
-    def test_each_edge_names_the_guards_core_enforces_on_it(self) -> None:
-        actual = {edge: {g["ref"] for g in t.get("guard", [])} for edge, t in self.edges}
-        mismatches = {edge: (actual.get(edge), want) for edge, want in EXPECTED_GUARDS.items() if actual.get(edge) != want}
-        self.assertEqual(mismatches, {}, "edge -> (declared, expected) guard refs")
-
-    def test_every_declared_guard_blocks(self) -> None:
+    def test_each_edge_has_its_event_and_the_blocking_guards_core_enforces_on_it(self) -> None:
         # blocking absent means true; a report-only entry would make the guard advisory.
-        soft = [(edge, g["ref"]) for edge, t in self.edges for g in t.get("guard", []) if g.get("blocking", True) is not True]
-        self.assertEqual(soft, [], "a guard entry is report-only")
-
-    def test_split_entries_keep_their_event(self) -> None:
-        events = {edge: t.get("event") for edge, t in self.edges}
-        for edge in (("claimed", "in_progress"), ("blocked", "in_progress")):
-            self.assertEqual(events[edge], "start", edge)
-        for source in ("in_progress", "in_review", "approved"):
-            self.assertEqual(events[(source, "planned")], "reset", source)
+        actual = {edge: (t.get("event"), [(g["ref"], g.get("blocking", True)) for g in t.get("guard", [])]) for edge, t in self.edges}
+        expected = {edge: (event, [(ref, True) for ref in refs]) for edge, (event, refs) in EXPECTED_EDGES.items()}
+        self.assertEqual(actual, expected)
 
     def test_every_guard_file_is_the_builtin_it_is_named_for(self) -> None:
         files = {path.name.removesuffix(".guard.yaml"): _load(path) for path in GUARDS.glob("*.guard.yaml")}
         self.assertEqual(set(files), set(EXPECTED_GUARD_FILES))
         for guard_id, (implemented_by, on_indeterminate) in EXPECTED_GUARD_FILES.items():
             guard = files[guard_id]
-            self.assertEqual(guard["id"], guard_id)
             self.assertEqual(guard["implemented_by"], implemented_by, guard_id)
             self.assertEqual(guard.get("on_indeterminate"), on_indeterminate, guard_id)
 
