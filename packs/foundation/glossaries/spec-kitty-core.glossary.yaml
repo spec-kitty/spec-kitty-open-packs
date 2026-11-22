@@ -329,16 +329,17 @@ terms:
   - id: dependency-readiness
     name: dependency readiness
     definition: 'The condition the dependency gate evaluates before a work package may be claimed or implemented: every WP
-      listed in its `dependencies` frontmatter must be in the `approved` or `done` WP state. `approved` is included deliberately
+      listed in its `dependencies` frontmatter must be in the `approved` or `done` WP state, or `canceled` with a reason an
+      operator recorded. `approved` is included deliberately
       — `done` is emitted only by whole-mission consolidation, so requiring a dependency to be strictly `done` would deadlock
       every same-mission dependency chain (the dependent WP could never start, so the mission could never consolidate, so
       the dependency could never reach `done`). The consolidation dependency gate treats `{approved, done}` as satisfied in
-      the same way. `for_review`, `in_review`, `blocked`, `canceled`, and missing status are not ready.'
+      the same way. `for_review`, `in_review`, `blocked`, `canceled` without such a reason, and missing status are not ready.'
     status: active
   - id: dependency-gate
     name: dependency gate
     definition: 'The pre-implementation enforcement point that refuses to start a work package until it meets dependency readiness
-      (all declared dependencies are ``approved`` or ``done``). Enforced consistently at every claim path. The read-only surfaces
+      (all declared dependencies are ``approved`` or ``done``, or ``canceled`` with a reason an operator recorded). Enforced consistently at every claim path. The read-only surfaces
       — the ``next`` claim-discovery preview (``preview_claimable_wp``) and orchestrator-api ``list-ready`` — only ever surface
       ``planned`` candidates, so a dependency-blocked planned WP is simply withheld (preview returns ``dependencies_not_satisfied``;
       list-ready omits it). The imperative claim verbs — ``agent action implement``, the low-level ``implement`` command (before
