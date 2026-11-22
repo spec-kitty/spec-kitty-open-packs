@@ -1,7 +1,7 @@
 schema_version: '1.0'
 id: work-package
 title: Work package
-description: The lanes a work package moves through, as core's status model names them. A guarded move names the built-in checks core's status model runs on it. Core also requires a structured review result on every move out of in_review, which no built-in guard checks on its own, so the moves out of in_review other than approve and complete name no review-result check.
+description: The lanes a work package moves through, as core's status model names them. A guarded move names the built-in checks core runs on it, apart from the actor, workspace and reason checks (transition-context-complete), which this lifecycle does not declare. Core also requires a structured review result on every move out of in_review, which no built-in guard checks on its own, so the moves out of in_review other than approve and complete name no review-result check.
 initial: planned
 states:
 - id: planned
