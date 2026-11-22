@@ -22,14 +22,14 @@ generated:
 - **Pack directory:** `packs/python`
 - **Pack level:** `org`
 - **Declared version:** `2.3.0`
-- **Content checksum (sha256):** `fc1cac6ed669a063f133893b446a7802752b2139a218de92edec402c707a712b`
+- **Content checksum (sha256):** `0fcc355f941a62318691fe9af3d1bdb9f062dede87e815efb17424acec92956f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The Python stack: the Python Pedro profile, Python conventions, review checks, supply-chain and mutation tooling.
 
-**Depends on:** [`foundation`](foundation.md) `>=3.2,<4`, [`testing`](testing.md) `>=3.4,<4`
+**Depends on:** [`foundation`](foundation.md) `>=3.2,<4`, [`testing`](testing.md) `>=3.5,<4`
 
 ## Artifact inventory
 

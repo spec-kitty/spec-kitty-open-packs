@@ -21,15 +21,15 @@ generated:
 
 - **Pack directory:** `packs/planning-analysis`
 - **Pack level:** `built-in`
-- **Declared version:** `3.4.0`
-- **Content checksum (sha256):** `2b2c28696f4072169c577fd555769306dd2c952de879571b4fce2747d0a42a0a`
+- **Declared version:** `3.5.0`
+- **Content checksum (sha256):** `e28df8f975e2ed84f30a67589bd823947c1bb88ddbf48f4336ab0f20a523cd03`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 Planning, research and brownfield analysis: the planner and researcher profiles, the retrospective facilitator, situational assessment, legacy triage, spikes and the planning templates.
 
-**Depends on:** [`architecture`](architecture.md) `==3.4.0`, [`foundation`](foundation.md) `==3.4.0`
+**Depends on:** [`architecture`](architecture.md) `==3.5.0`, [`foundation`](foundation.md) `==3.5.0`
 
 ## Artifact inventory
 

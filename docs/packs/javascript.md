@@ -22,14 +22,14 @@ generated:
 - **Pack directory:** `packs/javascript`
 - **Pack level:** `org`
 - **Declared version:** `2.2.0`
-- **Content checksum (sha256):** `9b5556134cf5204c91a1ee37a2934396724cb800788db7f108751db8c09c54b2`
+- **Content checksum (sha256):** `355cdfa77896ef9ed4bd77e48102a2b5d361d4a1a85f51742346f306c1158f85`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
 
 The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HTML and CSS conventions, atomic design, supply-chain and mutation tooling.
 
-**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`testing`](testing.md) `>=3.4,<4`
+**Depends on:** [`foundation`](foundation.md) `>=2.0,<4`, [`testing`](testing.md) `>=3.5,<4`
 
 ## Artifact inventory
 
