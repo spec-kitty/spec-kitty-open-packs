@@ -12,7 +12,10 @@ summary: >
   revert good changes. Both are scaffolding that has turned into an obstacle.
   The rules that follow from this view are DIRECTIVE_041 (tests as
   scaffold) and DIRECTIVE_054 (substitute only at the responsibility
-  boundary); this paradigm holds the reasons.
+  boundary); this paradigm holds the reasons. Sources: Beck, Test Desiderata
+  (https://testdesiderata.com/); Dejongh, Clear Test Boundaries
+  (https://patterns.sddevelopment.be/practices/define_test_boundaries/); Ocket
+  and Dejongh, Connascence (https://patterns.sddevelopment.be/concepts/connascence/).
 principles:
   - name: Protect change
     description: A test is scaffolding for the next change. It stays green while behavior holds, whatever the structure, and goes red when behavior breaks.
@@ -21,11 +24,11 @@ principles:
   - name: The desiderata are the value system
     description: Beck's test desiderata name what a good test optimizes; they trade off against each other, so a test chooses deliberately. The testing pack keeps the twelve desiderata as a checklist.
   - name: A double is a second copy of a contract
-    description: A stub that answers "when called with X, return Y" restates the collaborator's contract by hand (connascence of algorithm), kept in step only by discipline.
+    description: A stub that answers "when called with X, return Y" restates the collaborator's contract by hand, kept in step only by discipline. Reading this as connascence of algorithm extends the term to test doubles.
   - name: Asserting calls adds coupling
     description: Asserting which owned collaborator was called, how often and with which arguments adds connascence of name, position and execution across the boundary; asserting the outcome leaves only connascence of meaning at the public boundary.
   - name: Boundary-only substitution is a policy choice
-    description: Substituting only at the responsibility boundary is stronger than its sources demand (the desiderata never mention mocks). It is chosen because owned doubles manufacture states the real code never reaches.
+    description: Clear Test Boundaries says not to mock parts of the module under test; Beck's desiderata never mention mocks. The closed allow-list is this pack's policy, chosen because owned doubles manufacture states the real code never reaches.
   - name: Connascence is a lens, not a proof
     description: Naming the coupling a test carries helps diagnose brittleness; it does not by itself prove a test wrong, and it does not replace judgement about design.
   - name: Real code moves risk to runtime

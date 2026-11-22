@@ -30,7 +30,7 @@ class UserRegistrationApiTest {
 
 The test proves that one method called another. It does not prove that registration works: if `createUser` rejected every address, this test would stay green.
 
-Then the product added a Captcha step to registration. Registration still worked, but most API-level tests went red, because each one had stubbed the old call sequence. Every test had to be re-stubbed, and the team stopped trusting the suite: red no longer meant "broken".
+Then the product added a Captcha step to registration. The API layer changed, and most API-level tests went red, because each one pinned the old calls between layers. They had to be updated with extra stubs, and the team's confidence dropped.
 
 ## After: one test for the functional slice
 
@@ -60,7 +60,7 @@ class UserRegistrationTest {
 
 The in-memory database keeps the real dependency's contract: it can hold a user, refuse a duplicate and report absence, so no state appears that the real store could not produce.
 
-Note on the Captcha step the product added: whether a test substitutes it depends on what sits behind it. A third-party Captcha service reached over the network is another system, so a substitute is allowed there; a Captcha rule the system owns runs for real. The example above predates the Captcha step.
+Note on the Captcha step the product added: whether a test substitutes it depends on what sits behind it. A third-party Captcha service reached over the network is another system, so a substitute is allowed there; a Captcha rule the system owns runs for real. The example above leaves the Captcha step out.
 
 ## Boundary statement
 

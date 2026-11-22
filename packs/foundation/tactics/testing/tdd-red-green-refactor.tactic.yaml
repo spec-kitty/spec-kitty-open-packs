@@ -61,12 +61,12 @@ failure_modes:
 applies_to_languages: []
 notes: >
   The vertical-slice, tracer-bullet, test-surface and tautology guidance is
-  adapted from mattpocock/skills at commit
-  abeeaf95660ba9e8b7c753eb38f441ca707a8823 (MIT):
-  skills/engineering/tdd/SKILL.md, skills/engineering/tdd/tests.md,
-  skills/engineering/tdd/mocking.md, and skills/engineering/codebase-design/SKILL.md
-  ("the interface is the test surface"). Upstream's list of what to mock is not
-  adopted; DIRECTIVE_054 owns the allow-list. Upstream places refactoring in the
+  adapted from mattpocock/skills release v1.3.2 (MIT; the files are the same at
+  commit abeeaf95660ba9e8b7c753eb38f441ca707a8823):
+  skills/engineering/tdd/SKILL.md, skills/engineering/tdd/tests.md, and
+  skills/engineering/codebase-design/SKILL.md ("the interface is the test
+  surface"). Upstream's list of what to mock (skills/engineering/tdd/mocking.md)
+  is not adopted; DIRECTIVE_054 owns the allow-list. Upstream places refactoring in the
   review stage; here it is green mode, entered after any green. The id keeps
   "refactor" for stability; the practice name "red-green-refactor" refers to
   this loop with its green-mode hand-off.
