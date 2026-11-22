@@ -49,7 +49,7 @@ steps:
   - title: Maintain fast feedback
     description: Keep cycle time in minutes with local automation and fail fast in CI.
     examples:
-      - "Run watch mode locally and block merge when new logic with a lasting regression risk has no corresponding test (configuration and glue work cite their run or gate evidence instead, as DIRECTIVE_034 sets out)."
+      - "Run watch mode locally and block merge when new logic with a lasting regression risk has no corresponding test (or took another route DIRECTIVE_034 allows, such as run or gate evidence for configuration and glue work)."
   - title: Handle constraints explicitly
     description: When strict TDD cannot be applied, add safety nets and document impediments for remediation.
     examples:
