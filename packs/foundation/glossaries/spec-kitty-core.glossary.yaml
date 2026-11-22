@@ -334,8 +334,7 @@ terms:
       operator recorded. `approved` is included deliberately
       — `done` is emitted only by whole-mission consolidation, so requiring a dependency to be strictly `done` would deadlock
       every same-mission dependency chain (the dependent WP could never start, so the mission could never consolidate, so
-      the dependency could never reach `done`). The consolidation dependency gate treats `{approved, done}` as satisfied in
-      the same way. `for_review`, `in_review`, `blocked`, `canceled` without such a reason, and missing status are not ready.'
+      the dependency could never reach `done`). The consolidation dependency gate accepts the same endings. `for_review`, `in_review`, `blocked`, `canceled` without such a reason, and missing status are not ready.'
     status: active
   - id: dependency-gate
     name: dependency gate
