@@ -20,7 +20,7 @@ GUARDS = FOUNDATION / "guards"
 
 NON_TERMINAL = ("planned", "claimed", "in_progress", "for_review", "in_review", "approved", "blocked")
 
-#: (from, to) -> (event, the guard refs in order); every entry blocks.
+#: (from, to) -> (event, the guard refs); every entry blocks.
 EXPECTED_EDGES: dict[tuple[str, str], tuple[str | None, list[str]]] = {
     ("planned", "claimed"): ("claim", ["dependency-ready"]),
     ("claimed", "in_progress"): ("start", ["dependency-ready"]),
@@ -40,13 +40,13 @@ EXPECTED_EDGES: dict[tuple[str, str], tuple[str | None, list[str]]] = {
     **{(lane, "canceled"): ("cancel", []) for lane in NON_TERMINAL},
 }
 
-#: Guard id -> (implementing built-in, on_indeterminate as the file states it; None means absent, so block).
-EXPECTED_GUARD_FILES: dict[str, tuple[str, str | None]] = {
+#: Guard id -> (implementing built-in, on_indeterminate; absent means block).
+EXPECTED_GUARD_FILES: dict[str, tuple[str, str]] = {
     "spec-kitty-pre-review": ("builtin:spec-kitty-pre-review", "pass"),
-    "dependency-ready": ("builtin:dependency-ready", None),
-    "implementation-ready": ("builtin:implementation-ready", None),
-    "review-approved": ("builtin:review-approved", None),
-    "review-ref": ("builtin:review-ref", None),
+    "dependency-ready": ("builtin:dependency-ready", "block"),
+    "implementation-ready": ("builtin:implementation-ready", "block"),
+    "review-approved": ("builtin:review-approved", "block"),
+    "review-ref": ("builtin:review-ref", "block"),
 }
 
 
@@ -73,9 +73,9 @@ class WorkPackageLifecycleGuardsTest(unittest.TestCase):
         self.assertEqual(dupes, [], "an edge appears in more than one transition entry")
 
     def test_each_edge_has_its_event_and_the_blocking_guards_core_enforces_on_it(self) -> None:
-        # blocking absent means true; a report-only entry would make the guard advisory.
-        actual = {edge: (t.get("event"), [(g["ref"], g.get("blocking", True)) for g in t.get("guard", [])]) for edge, t in self.edges}
-        expected = {edge: (event, [(ref, True) for ref in refs]) for edge, (event, refs) in EXPECTED_EDGES.items()}
+        # blocking absent means true; a report-only entry would make the guard advisory. Ref order carries no meaning.
+        actual = {edge: (t.get("event"), sorted((g["ref"], g.get("blocking", True)) for g in t.get("guard", []))) for edge, t in self.edges}
+        expected = {edge: (event, sorted((ref, True) for ref in refs)) for edge, (event, refs) in EXPECTED_EDGES.items()}
         self.assertEqual(actual, expected)
 
     def test_every_guard_file_is_the_builtin_it_is_named_for(self) -> None:
@@ -84,7 +84,7 @@ class WorkPackageLifecycleGuardsTest(unittest.TestCase):
         for guard_id, (implemented_by, on_indeterminate) in EXPECTED_GUARD_FILES.items():
             guard = files[guard_id]
             self.assertEqual(guard["implemented_by"], implemented_by, guard_id)
-            self.assertEqual(guard.get("on_indeterminate"), on_indeterminate, guard_id)
+            self.assertEqual(guard.get("on_indeterminate", "block"), on_indeterminate, guard_id)
 
 
 if __name__ == "__main__":
