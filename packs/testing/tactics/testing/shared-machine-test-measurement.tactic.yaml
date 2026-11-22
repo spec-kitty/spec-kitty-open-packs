@@ -35,7 +35,7 @@ steps:
       the status of the last command in the pipe (for example with the shell's
       pipefail option, where it has one).
     examples:
-      - "`<test command> | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Prefer no pipe: `<test command> > run.log 2>&1; status=$?; tail -20 run.log; echo exit=$status`. In bash or zsh `set -o pipefail` also works with a consumer that reads everything (tail, tee), but not with head or grep, whose own status can make a pass look red."
+      - "`<test command> | tail -20` exits 0 because `tail` succeeded; the suite's own failure is lost. Prefer no pipe: `<test command> > run.log 2>&1; rc=$?; tail -20 run.log; echo exit=$rc; (exit $rc)`. In bash or zsh `set -o pipefail` also works with a consumer that reads everything (tail, tee), but not with head or grep, whose own status can make a pass look red."
   - title: Put test temporary and cache space where there is quota
     description: >
       Point test temporary directories and caches at storage with enough free
