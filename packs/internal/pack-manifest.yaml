@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 74c122083b07294d1237349706531cd8cc04b0855af68a7786a62c5f5cc24cb2
+manifest_hash: 7e6318cd7d15a970be38067d11987dd515310bde2ecf3f57123ddd408c75efb9
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -76,7 +76,7 @@ constituents:
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: 60d34a5c1d985166aa2bd0bf659b89a0a5485e986e80dec29325b32f6f79e9c2
+  content_hash: 228f9f84fdb7d9d24eb0d662fc2d9c6d660cba2c4729e95dc52a2bfa2d93115d
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
@@ -124,11 +124,11 @@ constituents:
 - kind: procedure
   id: spec-kitty-common-docs-layout
   path: procedures/spec-kitty-common-docs-layout.procedure.yaml
-  content_hash: fa777328b3ef760c932d425a26e20cbdb11e5f92dab18181ddf8ba811f5c073e
+  content_hash: ce82301ee11904e9d2b6de56a4b8f59523186d27f5754ab6be04effe874281e6
 - kind: procedure
   id: spec-kitty-page-audience
   path: procedures/spec-kitty-page-audience.procedure.yaml
-  content_hash: 74c84deffd673c3d5610eafb24ae995af9229855a74960c41066e4d95e5f4448
+  content_hash: 2207e38ea4a69b40d75e1d12053bf221b1249080da8ad18c1c139fa3bf19c5ed
 - kind: procedure
   id: spec-kitty-red-main-triage
   path: procedures/spec-kitty-red-main-triage.procedure.yaml
@@ -168,7 +168,7 @@ constituents:
 - kind: styleguide
   id: executive-debrief
   path: styleguides/executive-debrief.styleguide.yaml
-  content_hash: 47a8a52ad81342ab7aaa9073c637501ca5719c6ec987029f3b4884be9f449ea1
+  content_hash: 148066d719165b8559431c255d86c1c97b60077f31c21242ae414e90386cba7a
 - kind: styleguide
   id: feature-and-scenario-authoring
   path: styleguides/feature-and-scenario-authoring.styleguide.yaml
@@ -176,7 +176,7 @@ constituents:
 - kind: styleguide
   id: report-writing
   path: styleguides/report-writing.styleguide.yaml
-  content_hash: 2b0defa9e3a2e4613e7cbf433e6b6638758270cff20fa1f4d7f673d1ee14ae5d
+  content_hash: 1997b2e1ca726f8616245100682a5793003c9d5ab1932886179d71518df96a21
 - kind: styleguide
   id: spec-kitty-docs-lint-config
   path: styleguides/spec-kitty-docs-lint-config.styleguide.yaml
