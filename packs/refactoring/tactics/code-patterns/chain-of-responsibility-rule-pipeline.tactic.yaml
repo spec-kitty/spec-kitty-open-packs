@@ -112,7 +112,7 @@ steps:
       interaction (does rule N see what rule N-1 produced?).
 
       Characterization tests of the pre-extraction monolith come first when
-      refactoring existing code per `tdd-red-green-refactor` — capture today's
+      refactoring existing code per `disciplined-refactoring-cycle` — capture today's
       behavior, then extract.
     examples:
       - "A per-rule test file: one parametrized table per rule, asserting input→output."

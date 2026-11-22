@@ -307,6 +307,10 @@ edges:
   relation: suggests
   when: Characterization tests of the monolith come first; rules are extracted with the tests already green
 - source: tactic:chain-of-responsibility-rule-pipeline
+  target: foundation::procedure:disciplined-refactoring-cycle
+  relation: suggests
+  when: refactoring an existing monolith onto the pipeline
+- source: tactic:chain-of-responsibility-rule-pipeline
   target: foundation::tactic:function-over-form-testing
   relation: suggests
   when: Each rule is tested as a value transformer (input → expected output); the composition is tested end-to-end on realistic
