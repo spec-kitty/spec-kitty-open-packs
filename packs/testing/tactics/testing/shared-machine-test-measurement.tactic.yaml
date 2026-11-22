@@ -38,10 +38,18 @@ steps:
   - title: Attribute a red against the mission's base commit
     description: >
       Before claiming that a work package caused, or did not cause, a red,
-      re-run the same test on the mission's recorded base commit. Red on the base
-      too: the failure is pre-existing; record it and do not count it against the
-      work package. Green on the base: the work package's changes are the
-      suspect. Never compare against your own first commit, which already
+      re-run the same test on the mission's recorded base commit, in a separate
+      short-lived worktree, never by stashing or switching the active checkout.
+      This applies only to a test that exists on the base: a test the mission
+      added or changed is expected to be red or absent there (DIRECTIVE_034), so
+      its red counts against the work that must turn it green. A test that is
+      not found or not collected on the base is not a red. Same failure on the
+      base (same assertion or error text): pre-existing; record it and do not
+      count it against the work package. A different failure is a separate
+      finding. Green on the base: the mission introduced it. Where the work
+      package builds on earlier work packages, re-run it at the commit the work
+      package started from too; the work package is the suspect only if the test
+      is green there. Never compare against your own first commit, which already
       contains your changes, or against a moving branch head.
   - title: Record what was measured
     description: >
