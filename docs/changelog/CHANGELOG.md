@@ -296,7 +296,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `review-ref` on `in_review -> in_progress`, `approved -> in_progress` and the reset from
     `approved`. On `in_review -> in_progress` core's lane check requires the reference on the review
     result, and the recorded move takes it as its review reference when the caller gave none. A
-    forced move must cite one.
+    forced move to `in_progress` must cite one.
 
   The `start` and `reset` transitions are split into one entry per source lane, so a guard sits
   only on the moves core checks; `blocked -> in_progress`, `in_progress -> planned` and
