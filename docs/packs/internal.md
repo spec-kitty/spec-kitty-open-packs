@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/internal`
 - **Pack level:** `org`
-- **Declared version:** `4.4.0`
-- **Content checksum (sha256):** `513eb7b3186c88e90818ec75d11eb9ba78c69b50df8ad45e9262e88edbdfd682`
+- **Declared version:** `4.5.0`
+- **Content checksum (sha256):** `956dc60ee6c2749cfef5dcbd8118d3cd9b6fa40954088e654aff2d295a880b47`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -33,7 +33,7 @@ It is loaded as an **org-tier** pack (registered in `.kittify/config.yaml` under
 `charter_packs.org.packs`), overlaying the public `packs/built-in/` product doctrine. It is never shipped to consumers:
 maintainer-only doctrine must not be force-shipped on the wheel.
 
-**Depends on:** [`foundation`](foundation.md) `>=3.2,<4`, [`planning-analysis`](planning-analysis.md) `>=2.0,<4`, [`refactoring`](refactoring.md) `>=2.0,<4`, [`testing`](testing.md) `>=3.6,<4`, [`writing`](writing.md) `>=3.4,<4`
+**Depends on:** [`foundation`](foundation.md) `>=3.7,<4`, [`planning-analysis`](planning-analysis.md) `>=2.0,<4`, [`refactoring`](refactoring.md) `>=2.0,<4`, [`testing`](testing.md) `>=3.6,<4`, [`writing`](writing.md) `>=3.4,<4`
 
 ## Artifact inventory
 

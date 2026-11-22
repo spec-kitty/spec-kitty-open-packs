@@ -21,8 +21,8 @@ generated:
 
 - **Pack directory:** `packs/built-in`
 - **Pack level:** `built-in`
-- **Declared version:** `5.6.0`
-- **Content checksum (sha256):** `43eea25beb85f8b1f674425f52a0b2840b819411f49064de9577e58a904de4cf`
+- **Declared version:** `5.7.0`
+- **Content checksum (sha256):** `586c1b7580de877fb585018dcba06268f605d95cf1ff9d24dd47f72f1e89c47a`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,7 +40,7 @@ built-in-level pack, so it depends only on built-in-level packs (decision 7). Th
 
 It has no `parent_pack` (it is the root of every lineage chain).
 
-**Depends on:** [`foundation`](foundation.md) `==3.6.0`, [`writing`](writing.md) `==3.6.0`, [`testing`](testing.md) `==3.6.0`, [`refactoring`](refactoring.md) `==3.6.0`, [`architecture`](architecture.md) `==3.6.0`, [`planning-analysis`](planning-analysis.md) `==3.6.0`
+**Depends on:** [`foundation`](foundation.md) `==3.7.0`, [`writing`](writing.md) `==3.7.0`, [`testing`](testing.md) `==3.7.0`, [`refactoring`](refactoring.md) `==3.7.0`, [`architecture`](architecture.md) `==3.7.0`, [`planning-analysis`](planning-analysis.md) `==3.7.0`
 
 ## Artifact inventory
 
