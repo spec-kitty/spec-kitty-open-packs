@@ -462,6 +462,14 @@ edges:
   when: Supply-chain install safety is a specialization of Fail-Safe Defaults (deny by default) applied to dependency install-time
     hook scripts
 - source: tactic:tdd-red-green-refactor
+  target: directive:DIRECTIVE_034
+  relation: suggests
+  when: deciding whether a change needs a failing test or run or gate evidence
+- source: tactic:tdd-red-green-refactor
+  target: directive:DIRECTIVE_054
+  relation: suggests
+  when: a slice seems to need a test double
+- source: tactic:tdd-red-green-refactor
   target: anti_pattern:assert-on-mock-interactions
   relation: rejects
   reason: A test that asserts calls on doubles breaks on the first green-mode refactor while the behavior holds, so it cannot serve as the loop's safety net.
@@ -474,6 +482,10 @@ edges:
   relation: suggests
   when: 'a cycle is green and the code would read better restructured: switch to green mode'
   reason: The TDD loop is red then green; restructuring happens in green mode under the disciplined refactoring cycle.
+- source: tactic:test-boundaries-by-responsibility
+  target: paradigm:tests-as-scaffold-not-friction
+  relation: suggests
+  when: re-auditing a boundary or explaining why it is drawn by responsibility
 - source: tactic:test-boundaries-by-responsibility
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects
