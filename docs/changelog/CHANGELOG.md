@@ -275,8 +275,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fallback, verify on a real tag or deploy, and only then add the fail-loud guard. `implementer-ivan`
   suggests the directive when a change touches a product's version or build output. The internal
   pack adds `SPEC_KITTY_BUILD_IDENTITY`, which binds the contract to Spec Kitty's own products:
-  spec-kitty-analyzer's build object is the reference shape, the CLI serves the object under
-  `build` in `spec-kitty --version --json`, and the SaaS `Build` sync aggregate, the sync event
+  spec-kitty-analyzer's build object is the reference shape, the CLI's target state is to serve
+  the object under `build` in `spec-kitty --version --json` (tracked in spec-kitty/spec-kitty#2771), and the SaaS `Build` sync aggregate, the sync event
   envelope's `build_id` and the CLI's per-project `build_id` stay apart from build identity. The
   change is additive (DIRECTIVE_018).
   **Versions:** `foundation`, `writing`, `testing`, `refactoring`, `architecture` and
