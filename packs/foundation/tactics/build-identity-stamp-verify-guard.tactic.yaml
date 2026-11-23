@@ -20,7 +20,7 @@ steps:
     examples:
       - "Command-line tool: `--version` and `-v` print the human line; `--version --json`, or an equivalent structured flag, returns the build object."
       - "Library: importable attributes stamped at package build (in Python, `__version__`, `__commit_sha__`, `__build_date__`); the hosting product reports it under components."
-      - "Deployed service: a build identity HTTP endpoint that returns the build object, with the commit threaded from CI into the deploy."
+      - "Deployed service: a build identity HTTP endpoint that returns the build object, with the CI pipeline passing the commit SHA to the deploy."
   - title: Inject the stamp at build time, with a live-git fallback
     description: >
       At build or link time, write version as the semantic version from
@@ -28,11 +28,11 @@ steps:
       commit being built, with a -dirty suffix when tracked files have
       uncommitted changes, and build_date as the current UTC time with the Z
       designator. Check for uncommitted changes before the build writes any
-      stamp file of its own. For a service, thread the commit from CI into
-      the deploy; never take the platform's tree id. When the product runs
-      unstamped from its own source checkout, read commit_sha from a live
-      `git rev-parse` and report build_date as unknown, since git holds no
-      build time; a local or editable install may report `0.0.0-dev` as its
+      stamp file of its own. For a service, have the CI pipeline pass the
+      commit SHA to the deploy; never take the platform's tree id. When the
+      product runs unstamped from its own source checkout, read commit_sha
+      from a live `git rev-parse` and report build_date as unknown, since git
+      holds no build time; a local or editable install may report `0.0.0-dev` as its
       version. Read git only in the product's own repository; anywhere else,
       including a product installed inside another repository, report
       unknown for commit_sha.
@@ -72,8 +72,9 @@ steps:
       exempt. For a deployed service, the deploy pipeline owns an integrity
       check that reads the deployed structured surface and fails or alarms
       when the stamp is a sentinel or a non-commit value such as a platform
-      tree id. It is a gate, so it reads more than once, until the rollout
-      settles, before it passes or fails.
+      tree id. It is a gate, so it reads repeatedly until
+      every instance reports the expected commit or a timeout passes, and only
+      then passes or fails.
   - title: Read peers through their structured surface
     description: >
       A consumer runs a command-line peer and reads its structured output, or
@@ -96,7 +97,7 @@ failure_modes:
     version, a placeholder SHA, or the HEAD of whatever repository it happens
     to be installed in, instead of a sentinel."
   - "Platform id as commit: a service that reports its hosting platform's
-    tree or deploy id in commit_sha because CI never threaded the commit into
+    tree or deploy id in commit_sha because CI never passed the commit SHA to
     the deploy."
   - "False dirty: a dirty check that counts untracked build output or the
     build's own stamp file, so every build reports -dirty and the suffix
