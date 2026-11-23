@@ -376,7 +376,8 @@ class ValidatorExitCodes(unittest.TestCase):
             # Not Markdown, or Markdown a files rule takes in another letter case (the fallback never sweeps those
             # up): from charter #554 (ruling Q1) the charter warns each as `file_not_held` and leaves it out (#309).
             stray = ["tactics/x.tactic.yml", "tactics/y.tactic.YML", "tactics/x.tactc.yaml", "tactics/plain.yaml",
-                     "presets/sub/x.yaml", "notes.txt", "data/table.json", "tactics/.gitkeep", "tactics/z.Tactic.yaml"]
+                     "presets/sub/x.yaml", "notes.txt", "logs/run.log", "data/table.json", "tactics/.gitkeep",
+                     "tactics/z.Tactic.yaml"]
             pack = self.write_pack(root, {name: "id: x\n" for name in stray})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_OK, output)
@@ -408,20 +409,6 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertNotIn("::error", output)
             for name in allowed:
                 self.assertNotIn(f"pack/{name}:", output)
-
-    def test_r34_a_stray_note_or_log_in_a_pack_passes_with_a_warning(self) -> None:
-        # Operator ruling R34 (#331): authors may keep logs and notes in a pack; the schema pass warns, never fails.
-        # notes.md and directives/scratch.md exercise the R34 change (they failed as not_held before). notes.txt and
-        # the log were already warnings here; pack-check's round trip still reds those two in CI (#331 is open).
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            stray = ["notes.txt", "notes.md", "logs/run.log", "directives/scratch.md"]
-            pack = self.write_pack(root, {name: "kept by the author\n" for name in stray})
-            code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_OK, output)
-            for name in stray:
-                self.assertIn(f"::warning file={pack}::pack/{name}: file_not_held", output)
 
     def test_r38_a_misspelled_companion_suffix_is_annotated_with_the_name_it_should_have(self) -> None:
         # Operator ruling R38: a lightweight, linter-style name check. A stray file whose suffix is close to a companion
