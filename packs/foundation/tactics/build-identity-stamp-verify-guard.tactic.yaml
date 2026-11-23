@@ -72,9 +72,9 @@ steps:
       exempt. For a deployed service, the deploy pipeline owns an integrity
       check that reads the deployed structured surface and fails or alarms
       when the stamp is a sentinel or a non-commit value such as a platform
-      tree id. It is a gate, so it reads repeatedly until
-      every instance reports the expected commit or a timeout passes, and only
-      then passes or fails.
+      tree id. It is a gate, so it reads more than once,
+      until the rollout settles, and fails or alarms if any read shows a
+      sentinel or a non-commit value.
   - title: Read peers through their structured surface
     description: >
       A consumer runs a command-line peer and reads its structured output, or

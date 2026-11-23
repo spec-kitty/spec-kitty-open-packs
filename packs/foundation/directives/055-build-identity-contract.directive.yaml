@@ -107,8 +107,8 @@ validation_criteria:
     the -dirty suffix."
   - "A tagged release build without an injected commit_sha fails, a service
     deploy whose stamp is a sentinel or a non-commit value fails or alarms,
-    and the change that adds the guard links evidence of a stamp verified on
-    a real tag or deploy."
+    and the guard was added only after the stamp was verified on a real tag
+    or deploy."
   - "Every peer compatibility check reads version, not commit_sha, and does
     not gate a dependency on a single hosted read, because during a rolling
     deploy the next call may reach an instance running another build; every
