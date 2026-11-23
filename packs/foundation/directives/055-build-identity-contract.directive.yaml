@@ -37,7 +37,7 @@ integrity_rules:
   - "commit_sha is commit-traceable: a short or full SHA that can be checked
     out or looked up on the forge. It is the exact-pin and diagnostic field. A
     content hash, a tree hash or a build-system or platform id does not
-    satisfy it. A build whose working tree diverges from the commit reflects
+    satisfy it. A build whose tracked files differ from the commit reflects
     it with the -dirty suffix of the `git describe --dirty` convention, for
     example a1b2c3d-dirty."
   - "build_date is the build or deploy time in ISO 8601 / RFC 3339 form, in
@@ -69,7 +69,8 @@ integrity_rules:
     editable install reports `0.0.0-dev` or the semantic version from source,
     with the SHA from a live `git rev-parse` where git is available and
     unknown otherwise; an unstamped build without git reports the same
-    version and unknown for the SHA."
+    version and unknown for the SHA. Where no build time was stamped, as in an
+    unstamped source checkout, build_date is unknown."
   - "A release never ships a blank, unknown or sentinel commit_sha. A
     distributed tool, binary or library guards at build time, and only on a
     release tag: a tagged release build fails when commit_sha was not
@@ -103,8 +104,8 @@ validation_criteria:
     names and in the stated formats. A deployed service's structured surface
     is authenticated."
   - "Each install kind reports the version and commit_sha the sentinel rules
-    give it, and a build from a diverged working tree carries the -dirty
-    suffix."
+    give it, and a build whose tracked files differ from the commit carries
+    the -dirty suffix."
   - "A tagged release build without an injected commit_sha fails, a service
     deploy whose stamp is a sentinel or a non-commit value fails or alarms,
     and the guard landed only after stamping was verified on a real tag or
