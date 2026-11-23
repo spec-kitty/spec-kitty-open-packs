@@ -16,7 +16,7 @@ scope: >
   to any product added later, wherever DIRECTIVE_055 applies. The per-product
   conformance status of the contract (its §8) is a snapshot, not
   doctrine, and stays in the products' own trackers. Two open team questions
-  of the contract (§7) are not decided here: the service endpoint's
+  of the contract (§7.2 and §7.3) are not decided here: the service endpoint's
   authentication mechanism (the contract recommends an unauthenticated
   liveness `/health` beside an authenticated build identity endpoint), and
   how spec-kitty-saas moves `/health` to the structured surface (the
