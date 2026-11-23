@@ -1,5 +1,5 @@
 schema_version: '1.0'
-manifest_hash: 91e1c4721d8ae493838a9c4378827d86d00d1c25271429ac58a63f26e71df82c
+manifest_hash: a9cb0235eb8c0ccc036d9e63bad4b91d8fd82cfabe3a7c69d148523518af3baa
 constituents:
 - kind: asset
   id: writing-audience-agentic-framework-core-team
@@ -60,7 +60,7 @@ constituents:
 - kind: directive
   id: SPEC_KITTY_BUILD_IDENTITY
   path: directives/spec-kitty-build-identity.directive.yaml
-  content_hash: dcce3797be484d79782968dd02867c3cb2b82e525077dc43894cf50019fd703a
+  content_hash: cab3b65eed2ca3ca20cebe371c6e8b50636b081a34ba55685379c39f717d05b8
 - kind: directive
   id: SPEC_KITTY_DOCS_CONVENTIONS
   path: directives/spec-kitty-docs-conventions.directive.yaml
