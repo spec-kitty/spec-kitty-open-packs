@@ -490,26 +490,21 @@ class ValidatorExitCodes(unittest.TestCase):
                     self.assertIn(f"names {meant} as body_path", line)
             self.assertNotIn("Possible misspelled companion", output)
 
-    def test_r38_short_tokens_allow_one_edit_and_no_substitution(self) -> None:
-        # Review of #332 (MINOR): two edits on a 5-6 letter token flagged English words. Short tokens now take one
-        # edit at most, and a five-letter-or-shorter token no plain substitution (still is not skill).
+    def test_r38_suffix_suggestion_names_close_companions_and_spares_ordinary_words(self) -> None:
+        # Review of #332 (MINOR): two edits on a 5-6 letter token flagged English words. Short tokens take one edit at
+        # most, a five-letter-or-shorter token no plain substitution (still is not skill), and only a long token
+        # (guidelines, prompt-fragment) takes two edits.
         tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
-        for word in ("slide", "suite", "grid", "still", "drill", "skin", "promote", "guilds", "spill"):
-            with self.subTest(word=word):
-                self.assertIsNone(validator.suffix_suggestion(f"x.{word}.md", tokens))
         for name, meant in (("x.skil.md", "x.skill.md"), ("x.gudie.md", "x.guide.md"), ("x.promt.md", "x.prompt.md"),
-                            ("x.skilll.md", "x.skill.md")):
-            with self.subTest(name=name):
+                            ("x.skilll.md", "x.skill.md"), ("implement.promt.md", "implement.prompt.md"),
+                            ("a.guidelnes.md", "a.guidelines.md"), ("a.guidlnes.md", "a.guidelines.md"),
+                            ("f.prompt-fragmnet.md", "f.prompt-fragment.md"), ("s.SKILL.md", "s.skill.md")):
+            with self.subTest(suggests=name):
                 self.assertEqual(validator.suffix_suggestion(name, tokens), meant)
-
-    def test_r38_suffix_suggestion_and_edit_distance(self) -> None:
-        tokens = {"guide", "prompt", "guidelines", "prompt-fragment", "skill"}
-        self.assertEqual(validator.suffix_suggestion("implement.promt.md", tokens), "implement.prompt.md")
-        self.assertEqual(validator.suffix_suggestion("a.guidelnes.md", tokens), "a.guidelines.md")
-        self.assertEqual(validator.suffix_suggestion("f.prompt-fragmnet.md", tokens), "f.prompt-fragment.md")
-        self.assertEqual(validator.suffix_suggestion("s.SKILL.md", tokens), "s.skill.md")
-        for name in ("implement.prompt.md", "notes.md", "my.notes.md", "a.txt", "x.prompts.yaml", "README.md"):
-            with self.subTest(name=name):
+        for name in ("x.slide.md", "x.suite.md", "x.grid.md", "x.still.md", "x.drill.md", "x.skin.md", "x.promote.md",
+                     "x.guilds.md", "x.spill.md", "implement.prompt.md", "notes.md", "my.notes.md", "a.txt",
+                     "x.prompts.yaml", "README.md"):
+            with self.subTest(never=name):
                 self.assertIsNone(validator.suffix_suggestion(name, tokens))
 
     def test_a_skill_body_its_skill_names_is_held_as_a_companion_whatever_its_name(self) -> None:
