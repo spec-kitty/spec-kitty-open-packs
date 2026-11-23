@@ -8,8 +8,7 @@ intent: >
   answering a support request copies one line; a collector reads the same
   structured schema from every product; and a peer product checks
   compatibility at run time, for which the field names are a frozen API and
-  version is the ordered field to compare. A service's structured surface is
-  meant for credentialed readers, not the public. A real-looking but wrong
+  version is the ordered field to compare. A real-looking but wrong
   identity is never acceptable: it sends the diagnosis to the wrong commit.
 enforcement: required
 scope: >
@@ -59,6 +58,9 @@ integrity_rules:
     attributes, stamped when the package is built (in Python, `__version__`,
     `__commit_sha__` and `__build_date__`), and is reported nested under the
     product that hosts it."
+  - "A deployed service's structured build identity surface is authenticated:
+    a credentialed collector can read it and the public cannot. The
+    authentication mechanism is out of scope."
   - "A build reports honest sentinels (dev, none, unknown) for what it cannot
     vouch for, never a real-looking but wrong value, and a build that cannot
     prove its commit says so. By install kind: a tagged release reports the
@@ -98,7 +100,8 @@ integrity_rules:
 validation_criteria:
   - "Every surface the product exposes conforms for its form factor, and the
     structured surface carries version, commit_sha and build_date by those
-    names and in the stated formats."
+    names and in the stated formats. A deployed service's structured surface
+    is authenticated."
   - "Each install kind reports the version and commit_sha the sentinel rules
     give it, and a build from a diverged working tree carries the -dirty
     suffix."
