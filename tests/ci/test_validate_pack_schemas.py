@@ -449,10 +449,13 @@ class ValidatorExitCodes(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
+            # Dotted near-words are strays a broken lint would flag: still/spill differ from skill by one
+            # substitution (the short-token guard), slide/guild/skit by two edits (the per-length allowance).
             pack = self.write_pack(root, {"notes.md": "n\n", "docs/plan.md": "p\n", "logs/run.log": "l\n",
-                                          "notes.txt": "n\n", "toolguides/README.md": "# r\n",
-                                          "toolguides/g.guide.md": "# g\n", "skills/s.skill.yaml": "id: s\nbody_path: s.skill.md\n",
-                                          "skills/s.skill.md": "# s\n", "my.notes.md": "n\n"})
+                                          "notes.txt": "n\n", "toolguides/README.md": "# r\n", "my.notes.md": "n\n",
+                                          "team.still.md": "n\n", "docs/oil.spill.md": "n\n",
+                                          "toolguides/old.guild.md": "n\n", "talk.slide.md": "n\n",
+                                          "docs/comedy.skit.md": "n\n"})
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_OK, output)
             self.assertNotIn("Possible misspelled companion", output)
