@@ -276,9 +276,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   suggests the directive when a change touches a product's version or build output. The internal
   pack adds `SPEC_KITTY_BUILD_IDENTITY`, which binds the contract to Spec Kitty's own products:
   spec-kitty-analyzer's build object is the reference shape, the CLI's target state is to serve
-  the object under `build` in `spec-kitty --version --json` (tracked in spec-kitty/spec-kitty#2771), and the SaaS `Build` sync aggregate, the sync event
-  envelope's `build_id` and the CLI's per-project `build_id` stay apart from build identity. The
-  change is additive (DIRECTIVE_018).
+  the object under `build` in `spec-kitty --version --json` (tracked in spec-kitty/spec-kitty#2771),
+  and the SaaS `Build` sync aggregate, the sync event envelope's `build_id` and the CLI's
+  per-project `build_id` stay apart from build identity. The change is additive (DIRECTIVE_018).
   **Versions:** `foundation`, `writing`, `testing`, `refactoring`, `architecture` and
   `planning-analysis` 3.6.0 → 3.7.0 with the exact pins following, `built-in` 5.6.0 → 5.7.0 and
   `internal` 4.4.0 → 4.5.0. The `foundation` range in `internal` tightened from `>=3.2,<4` to
