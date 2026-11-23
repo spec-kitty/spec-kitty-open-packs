@@ -86,12 +86,15 @@ integrity_rules:
   - "A peer reads the structured surface idiomatic to the form factor:
     execution and structured standard output for a command-line tool, the
     HTTP endpoint for a service. A hosted read is a sample at a timestamp, not
-    an authority: its payload carries the time of the read, and a peer never
-    gates a dependency on a value that a different instance may not honor on
-    the next call. A build or health surface that fails reports the true
-    cause, never a misleading one; a payload-too-large error, for example,
-    does not surface as not authenticated. A collected envelope lists a
-    product it cannot reach with reachable: false and never omits it."
+    an authority: its payload carries the time of the read. The service
+    structured surface SHOULD carry a tier or instance discriminator, because
+    during a rolling deploy a read returns whichever instance answered. A peer
+    does not gate a dependency on a single hosted read: during a rolling
+    deploy the next call may reach an instance running another build."
+  - "A build or health surface that fails reports the true cause, never a
+    misleading one; a payload-too-large error, for example, does not surface
+    as not authenticated. A collected envelope lists a product it cannot reach
+    with reachable: false and never omits it."
 validation_criteria:
   - "Every surface the product exposes conforms for its form factor, and the
     structured surface carries version, commit_sha and build_date by those
@@ -103,7 +106,8 @@ validation_criteria:
     deploy whose stamp is a sentinel or a non-commit value fails or alarms,
     and the guard landed only after stamping was verified on a real tag or
     deploy."
-  - "Every peer compatibility check reads version, not commit_sha, and never
-    gates a dependency on a value a different instance may not honor on the
-    next call; every collected envelope lists each unreachable product with
+  - "Every peer compatibility check reads version, not commit_sha, and does
+    not gate a dependency on a single hosted read, because during a rolling
+    deploy the next call may reach an instance running another build; every
+    collected envelope lists each unreachable product with
     reachable: false and each component with its own build object."
