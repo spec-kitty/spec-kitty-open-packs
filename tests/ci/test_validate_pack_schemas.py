@@ -449,8 +449,9 @@ class ValidatorExitCodes(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
-            # Dotted near-words are strays a broken lint would flag: still/spill differ from skill by one
-            # substitution (the short-token guard), slide/guild/skit by two edits (the per-length allowance).
+            # Dotted near-words are strays a broken lint would flag: still/spill/slide/guild are same-length
+            # substitutions of a short token (the substitution guard), skit is two edits from skill (the
+            # per-length allowance).
             pack = self.write_pack(root, {"notes.md": "n\n", "docs/plan.md": "p\n", "logs/run.log": "l\n",
                                           "notes.txt": "n\n", "toolguides/README.md": "# r\n", "my.notes.md": "n\n",
                                           "team.still.md": "n\n", "docs/oil.spill.md": "n\n",
