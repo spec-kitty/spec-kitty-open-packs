@@ -167,6 +167,18 @@
       "title": null,
       "verdict": "deferred-with-followup",
       "wp": null
+    },
+    "#630": {
+      "evidence_ref": "spec-kitty-charter#630: outstanding charter fix, tracked in the roadmap Waits-on (WP05 l.88); not open-packs work",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "deferred-with-followup",
+      "wp": null
     }
   },
   "schema_version": 1
