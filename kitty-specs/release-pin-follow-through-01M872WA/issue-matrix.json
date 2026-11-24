@@ -97,15 +97,15 @@
       "wp": "WP01"
     },
     "#336": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Merged PR reference (context): landed the R34 warning half of #331",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "PR: a stray file warns instead of failing",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#554": {
