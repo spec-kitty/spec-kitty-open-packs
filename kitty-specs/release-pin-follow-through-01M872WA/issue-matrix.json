@@ -24,6 +24,18 @@
       "verdict": "deferred-with-followup",
       "wp": null
     },
+    "#255": {
+      "evidence_ref": "Context only: names the existing derived-manifest test class WP02 extends (WP02 T004)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#262": {
       "evidence_ref": "ccefadb8c18ebb41a1b72a408ce60049d90c2d59 (ratchet tests: link walk, duplicated-and-unheld mismatch, derive write; no code change, rglob measured on 3.11/3.12/3.13)",
       "fr": null,
