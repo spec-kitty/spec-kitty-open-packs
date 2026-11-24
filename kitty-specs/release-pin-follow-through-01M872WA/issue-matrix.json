@@ -25,15 +25,15 @@
       "wp": null
     },
     "#287": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Parent epic (context); its State and order rewrite is a hand-off tracker action",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Epic: follow the charter contract",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#304": {
