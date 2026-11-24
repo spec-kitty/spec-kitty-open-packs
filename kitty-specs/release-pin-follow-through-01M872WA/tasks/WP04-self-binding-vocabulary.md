@@ -8,6 +8,9 @@ requirement_refs:
 planning_base_branch: ci/release-pin-follow-through
 merge_target_branch: ci/release-pin-follow-through
 branch_strategy: Planning artifacts for this mission were generated on ci/release-pin-follow-through. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into ci/release-pin-follow-through unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-release-pin-follow-through-01M872WA
+base_commit: 276e9e6b1b3571e756f93077ae07567e92d0959d
+created_at: '2026-11-24T15:48:10.780387+00:00'
 subtasks:
 - T015
 - T016
