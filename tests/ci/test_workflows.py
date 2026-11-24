@@ -720,6 +720,19 @@ class CharterTrackBumpBoundary(unittest.TestCase):
                 code, output, request, _ = self.build_request(self.REAL, raw=self.changes_with_lock(text))
                 self.assertNotEqual(code, 0)
                 self.assertIsNone(request)
+        # Landing review: jq's @base64d stops at the first padding, so a good lock with an evil one appended after
+        # it decoded as the good lock alone; only canonical base64 is taken.
+        evil = self.LOCK_TEXT.replace("d" * 64, "f" * 64)
+        padded = self.LOCK_TEXT + "#"
+        while len(padded.encode()) % 3 == 0:
+            padded += "#"
+        smuggled = json.loads(self.changes_with_lock(padded))
+        for addition in smuggled["additions"]:
+            if addition["path"] == "charter.lock.yaml":
+                addition["contents"] += base64.b64encode(("\n" + evil).encode()).decode()
+        code, _, request, _ = self.build_request(self.REAL, raw=json.dumps(smuggled))
+        self.assertNotEqual(code, 0)
+        self.assertIsNone(request)
         blank_and_comments = "\n# a comment\n\n" + self.LOCK_TEXT + "\n"
         self.assertEqual(self.build_request(self.REAL, raw=self.changes_with_lock(blank_and_comments))[0], 0)
 
