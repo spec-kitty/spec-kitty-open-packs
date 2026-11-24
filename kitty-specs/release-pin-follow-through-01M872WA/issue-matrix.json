@@ -24,6 +24,18 @@
       "verdict": "verified-already-fixed",
       "wp": null
     },
+    "#255": {
+      "evidence_ref": "Context only: the #255 derived-manifest work WP02's tests extend; no further work owed here",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Charter gate manifests (derived manifest mirror origin)",
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#287": {
       "evidence_ref": "Parent epic (context); its State and order rewrite is a hand-off tracker action",
       "fr": null,
