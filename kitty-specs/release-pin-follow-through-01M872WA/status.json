@@ -1,7 +1,7 @@
 {
-  "event_count": 45,
-  "last_event_id": "01M876A1H93QYN450QV2SH3QC1",
-  "materialized_at": "2026-11-24T16:30:31.361975+00:00",
+  "event_count": 50,
+  "last_event_id": "01M876RZZQQXY3BJRENZD20KXQ",
+  "materialized_at": "2026-11-24T16:38:41.293006+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
@@ -156,19 +156,35 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": "claude::scribe-sally",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
+      "force_count": 1,
       "implementer_of_record": "claude::scribe-sally",
       "lane": "in_progress",
-      "last_event_id": "01M876A1H93QYN450QV2SH3QC1",
-      "last_transition_at": "2026-11-24T16:30:31.361975+00:00",
+      "last_event_id": "01M876RZZQQXY3BJRENZD20KXQ",
+      "last_transition_at": "2026-11-24T16:38:41.293006+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Guide, roadmap, changelog match WP01-WP04"
+      ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP05-docs-roadmap-changelog/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP05-docs-roadmap-changelog/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "changes_requested"
+      },
       "role": "implementer",
-      "shell_pid": 1417,
-      "shell_pid_created_at": "1795537819.39"
+      "shell_pid": null,
+      "shell_pid_created_at": null,
+      "subtasks": {
+        "T019": "planned",
+        "T020": "planned",
+        "T021": "planned",
+        "T022": "planned"
+      }
     }
   }
 }
