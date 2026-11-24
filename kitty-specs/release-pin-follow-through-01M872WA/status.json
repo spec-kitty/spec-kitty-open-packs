@@ -106,6 +106,9 @@
       "last_event_id": "01M873Z2KJRDEC2BSR5BDZK91E",
       "last_transition_at": "2026-11-24T15:49:34.962181+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 17978,
