@@ -268,6 +268,44 @@ class CommitPayload(unittest.TestCase):
             charter_pin.commit_payload("charter/x", head, "headline", "body")
 
 
+class AttestationNote(unittest.TestCase):
+    """The bump pull request says, per jar, what stands behind its digest (#310; operator ruling: warn only)."""
+
+    def test_both_verified(self) -> None:
+        note = charter_pin.attestation_note("verified", "verified")
+        self.assertEqual(note.count("\n- "), 2)
+        self.assertEqual(note.count("verified against `spec-kitty/spec-kitty-charter`"), 2)
+        self.assertNotIn("by hand", note)
+
+    def test_an_unverified_jar_is_named_and_the_reviewer_is_told_to_check_by_hand(self) -> None:
+        note = charter_pin.attestation_note("verified", "unverified")
+        service, pack_check = [line for line in note.splitlines() if line.startswith("- ")]
+        self.assertIn("service jar", service)
+        self.assertIn("verified against", service)
+        self.assertIn("pack-check jar", pack_check)
+        self.assertIn("**not verified**", pack_check)
+        self.assertIn("by hand", note)
+
+    def test_a_provenance_job_that_did_not_report_is_not_checked(self) -> None:
+        note = charter_pin.attestation_note("", "")
+        self.assertEqual(note.count("**not checked**"), 2)
+        self.assertIn("by hand", note)
+
+    def test_an_unknown_state_is_refused(self) -> None:
+        with self.assertRaises(charter_pin.PinError):
+            charter_pin.attestation_note("ok", "verified")
+        err = io.StringIO()
+        with redirect_stderr(err):
+            self.assertEqual(charter_pin.main(["attestation-note", "--service", "ok", "--pack-check", "verified"]), 2)
+        self.assertIn("::error::charter_pin.py attestation-note", err.getvalue())
+
+    def test_the_subcommand_prints_the_note(self) -> None:
+        out = io.StringIO()
+        with redirect_stdout(out):
+            self.assertEqual(charter_pin.main(["attestation-note", "--service", "unverified", "--pack-check", ""]), 0)
+        self.assertEqual(out.getvalue(), charter_pin.attestation_note("unverified", "") + "\n")
+
+
 class Cli(unittest.TestCase):
     def test_an_unresolvable_target_exits_2_with_an_annotation(self) -> None:
         err = io.StringIO()

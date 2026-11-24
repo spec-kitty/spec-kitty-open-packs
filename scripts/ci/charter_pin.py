@@ -11,6 +11,7 @@ The PR gate, the scheduled release run and the on-demand run share this tool and
     python3 scripts/ci/charter_pin.py at-or-past TAG        # exit 0 when the lock's release_tag is TAG or later
     python3 scripts/ci/charter_pin.py changelog --release-tag T --commit C --previous P --date YYYY-MM-DD
     python3 scripts/ci/charter_pin.py commit-payload --branch B --head-oid OID --headline TEXT
+    python3 scripts/ci/charter_pin.py attestation-note --service STATE --pack-check STATE   # STATE: verified|unverified|""
 
 ``newest-release``, ``resolve-release`` and ``resolve-ref`` print ``key=value`` lines (append them to
 ``$GITHUB_OUTPUT``). ``newest-release`` lists the releases and never asks for "latest": GitHub's latest skips
@@ -262,6 +263,30 @@ def changelog_entry(release_tag: str, commit: str, previous: str, date: str, pat
 
 # ------------------------------------------------------------------------------------------ the commit
 
+#: What the ``provenance`` job of charter-track.yml reports per jar; empty when it did not report (#310).
+ATTESTATION_STATES = ("verified", "unverified", "")
+
+
+def attestation_note(service: str, pack_check: str) -> str:
+    """The bump pull request's paragraph on the build attestations of the release's two jars (#310).
+
+    Operator ruling: warn only. The pull request is opened whatever the outcome, and says per jar what stands behind
+    its pinned digest; when either jar is not verified, the reviewer is asked to compare both digests by hand."""
+    for state in (service, pack_check):
+        if state not in ATTESTATION_STATES:
+            raise PinError(f"attestation state must be one of {ATTESTATION_STATES}, got {state!r}")
+    words = {"verified": f"verified against `{REPOSITORY}` (`gh attestation verify`)",
+             "unverified": "**not verified**: no build attestation was found, or it did not verify",
+             "": "**not checked**: the provenance job did not report"}
+    lines = ["**Build provenance** (#310; a missing attestation warns, it does not block):",
+             f"- the service jar: {words[service]}",
+             f"- the pack-check jar: {words[pack_check]}"]
+    if service != "verified" or pack_check != "verified":
+        lines += ["", "**Check both digests by hand before merging:** compare them with the release page and its "
+                      "assets, since no verified attestation stands behind every jar."]
+    return "\n".join(lines)
+
+
 def commit_payload(branch: str, head_oid: str, headline: str, body: str) -> dict:
     """The ``createCommitOnBranch`` input for the working tree's changes against HEAD, new files included."""
     if not charter_lock.COMMIT.fullmatch(head_oid):
@@ -317,6 +342,9 @@ def main(argv: list[str] | None = None) -> int:
     payload.add_argument("--head-oid", required=True)
     payload.add_argument("--headline", required=True)
     payload.add_argument("--body", default="")
+    note = sub.add_parser("attestation-note", help="the bump pull request's build-provenance paragraph (#310)")
+    note.add_argument("--service", required=True)
+    note.add_argument("--pack-check", required=True)
     args = parser.parse_args(argv)
     try:
         if args.command == "newest-release":
@@ -341,6 +369,8 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if current and precedence(current) >= precedence(args.tag) else 1
         elif args.command == "changelog":
             changelog_entry(args.release_tag, args.commit, args.previous, args.date)
+        elif args.command == "attestation-note":
+            print(attestation_note(args.service, args.pack_check))
         else:
             print(json.dumps(commit_payload(args.branch, args.head_oid, args.headline, args.body)))
     except (PinError, charter_lock.LockError) as error:
