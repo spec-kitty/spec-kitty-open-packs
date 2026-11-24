@@ -36,12 +36,12 @@
     },
     {
       "criterion_id": "FR-004",
-      "description": "Verify FR-004 is satisfied",
+      "description": "An entry listed twice and not held gets both charter reasons, in charter order",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: test_an_entry_listed_twice_and_not_held..., checked against ManifestRules.mismatch at cb9b154",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:44.391735+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
