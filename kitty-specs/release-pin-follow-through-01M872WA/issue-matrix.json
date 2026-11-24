@@ -143,6 +143,18 @@
       "title": "Charter: file_not_held ruling",
       "verdict": "not-applicable",
       "wp": null
+    },
+    "#629": {
+      "evidence_ref": "Charter-side issue cited for context; no open-packs work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "spec-kitty-charter#629: requiredNotHeld in pack-check",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
