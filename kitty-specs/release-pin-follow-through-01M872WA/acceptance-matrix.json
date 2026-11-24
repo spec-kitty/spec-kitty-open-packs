@@ -56,12 +56,12 @@
     },
     {
       "criterion_id": "FR-006",
-      "description": "Verify FR-006 is satisfied",
+      "description": "No token is exposed to the pin tooling: derive runs in its own read-only job; publish runs no repository code and builds the request from fixed text",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: tests.ci.test_workflows CharterTrackBumpBoundary, OK; WP03 cycle-2 review (13 adversarial artifacts, actionlint 0)",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:52.789485+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
