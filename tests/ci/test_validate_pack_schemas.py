@@ -1149,9 +1149,14 @@ class DerivedManifests(unittest.TestCase):
             self.assertEqual(code, validator.EXIT_INVALID)
             self.assertIn("pack/pack-manifest.yaml: missing: every pack carries the manifest the charter derives", output)
 
+            manifest = pack / "pack-manifest.yaml"
+            before = manifest.read_bytes() if manifest.exists() else None
             code, output = self.run_validator(root, "--derive-manifest", str(pack), "--derived-manifests", str(pack))
             self.assertEqual(code, validator.EXIT_OK, output)
             self.assertNotIn("manifest_hash", output)  # stamped: the hash check agrees
+            # #262: the derive wrote the manifest, so a derive that does nothing cannot pass this test.
+            self.assertTrue(manifest.is_file())
+            self.assertNotEqual(manifest.read_bytes(), before)
 
             (pack / "tactics" / "new.tactic.yaml").write_text("id: new\n", encoding="utf-8")
             (pack / "presets" / "a.yaml").unlink()
@@ -1162,6 +1167,47 @@ class DerivedManifests(unittest.TestCase):
             self.assertIn("--derive-manifest", output)
             # Without the flag the membership is not judged (an authored manifest stays the older checks' to judge).
             self.assertNotIn("manifest_membership", self.run_validator(root, str(pack))[1])
+
+    def linked_pack(self, root: Path) -> Path:
+        """A pack holding two tactics, plus linked directories (one nested) and a linked file, each reaching a tactic outside."""
+        pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n", "tactics/a.tactic.yaml": "id: a\n"})
+        outside = root / "outside" / "tactics"
+        outside.mkdir(parents=True)
+        (outside / "b.tactic.yaml").write_text("id: b\n", encoding="utf-8")
+        (outside / "c.tactic.yaml").write_text("id: c\n", encoding="utf-8")
+        (pack / "linked").symlink_to(outside, target_is_directory=True)
+        (pack / "nested").mkdir()
+        (pack / "nested" / "deeper").symlink_to(outside, target_is_directory=True)
+        (pack / "tactics" / "c.tactic.yaml").symlink_to(outside / "c.tactic.yaml")
+        return pack
+
+    def test_the_derived_lists_leave_out_what_a_link_reaches_as_the_charter_walk_does(self) -> None:
+        # #262: the charter's PackFileSet walk (Files.walkFileTree) follows no link inside the pack and lists none, but
+        # enters a pack root reached through a link (spec-kitty-charter#174). Measured on 2026-11-24: Path.rglob("*") already behaves so
+        # on Python 3.11, 3.12 (CI) and 3.13, so this pins it; a walk that follows links (os.walk(followlinks=True))
+        # turns it red.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.linked_pack(root)
+            alias = root / "alias"
+            alias.symlink_to(pack, target_is_directory=True)
+            contract = validator.load_contract(root / "contract")
+            for start in (pack, alias):
+                with self.subTest(start=start.name):
+                    derived = validator.derived_manifest(start, contract)
+                    self.assertEqual([(e["id"], e["path"]) for e in derived["constituents"]],
+                                     [("a", "tactics/a.tactic.yaml"), ("t", "tactics/t.tactic.yaml")])
+
+    def test_an_entry_listed_twice_and_not_held_gives_both_reasons_as_the_charter_does(self) -> None:
+        # Checked against ManifestRules.mismatch at the pin (cb9b154): unheld entries first, then repeated ones, so an
+        # entry that is both is reported twice, once each way. The port must not merge them.
+        listed = {"constituents": [{"kind": "tactic", "id": "x", "path": "x.yaml"}] * 2, "presets": []}
+        derived = {"constituents": [], "presets": []}
+        self.assertEqual(validator.membership_mismatch(listed, derived), [
+            "lists constituent tactic:x at x.yaml, which the pack does not hold",
+            "lists constituent tactic:x at x.yaml twice",
+        ])
 
     def test_an_invalid_fixture_is_not_held_to_a_derived_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1190,6 +1236,23 @@ class DerivedManifests(unittest.TestCase):
             "leaves out preset q at presets/q.yaml, which the pack holds",
         ])
         self.assertEqual(validator.membership_mismatch(derived, derived), [])
+
+    def test_a_derive_rewrites_a_manifest_the_check_would_already_accept(self) -> None:
+        # #262: a manifest with the right membership and hashes but not in the derived bytes (here a leading comment)
+        # passes the check as it stands, so only the rewrite tells a real derive from one that writes nothing.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_contract(root)
+            pack = self.write_pack(root, self.FILES)
+            self.assertEqual(self.run_validator(root, "--derive-manifest", str(pack))[0], validator.EXIT_OK)
+            manifest = pack / "pack-manifest.yaml"
+            seeded = b"# written by hand\n" + manifest.read_bytes()
+            manifest.write_bytes(seeded)
+            code, output = self.run_validator(root, "--derived-manifests", str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)  # the check alone cannot see the difference
+            code, output = self.run_validator(root, "--derive-manifest", str(pack), "--derived-manifests", str(pack))
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotEqual(manifest.read_bytes(), seeded)
 
     def test_the_generator_refuses_to_write_through_a_link(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
