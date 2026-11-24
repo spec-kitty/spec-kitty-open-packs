@@ -37,16 +37,16 @@
       "wp": null
     },
     "#304": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "9dd127be025847327625b8f8280412835e846549 (lane-d)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "check_vocabulary self-binding rule: anchor the patterns and cover obvious variants",
+      "verdict": "in-mission",
+      "wp": "WP04"
     },
     "#310": {
       "evidence_ref": "<link or commit>",
