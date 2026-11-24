@@ -123,8 +123,9 @@ _NOT_THE_LEVEL = r"(?!\s+reading\b)"
 SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
-        # "Advisory in v1" / "in version 1"; a dotted dependency version ("an advisory in version 4.17.20") is npm's.
-        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v|version\s*)\d+(?![.\d]*\.\d)",
+        # "Advisory in v1" / "v1.0" / "in version 1"; a dotted dependency version after the word ("an advisory in
+        # version 4.17.20") is npm's, so only that form spares a dotted number.
+        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v\d|version\s*\d+(?![.\d]*\.\d))",
         r"\b(?:this|the)\s+directive\s+is\s+(?:not\s+|no\s+longer\s+)?(?:(?:strictly|purely|merely|only)\s+)?"
         r"(?:advisory|required(?!\s+by\b)|mandatory|binding|lenient|non-blocking)\b" + _NOT_THE_LEVEL,
         r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b" + _NOT_THE_LEVEL,

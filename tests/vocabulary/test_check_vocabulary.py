@@ -208,6 +208,7 @@ class SelfBindingTest(unittest.TestCase):
     MISSED_LEVELS = (
         "This directive is strictly advisory.",
         "Advisory in version 1.",
+        "Advisory in v1.0 for now.",
         "These rules are mandatory.",
         "An advisory-only directive.",
         "This directive is non-blocking.",
