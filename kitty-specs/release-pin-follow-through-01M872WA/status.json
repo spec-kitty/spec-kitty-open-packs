@@ -167,7 +167,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "Guide, roadmap, changelog match WP01-WP04",
-        "Cycle 2: #631 merged-but-unreleased wording; nits"
+        "Cycle 2: #631 merged-but-unreleased wording; nits",
+        "Review passed (cycle 2). B1 fixed and verified against charter: #629/#630 open; #631 closed completed 2026-11-21 via PR #633 (4b581e4, 2518cb2), neither in service-v0.1.0-rc.3 (cb9b1542 = lock commit); no service tag after rc.3. Nits 1-4 folded accurately vs charter-track.yml and WP04 tests. Owned files of WP01-WP04 byte-identical; no stray changes; gen_pack_reference --check, check_docs_freshness, tests/docs green. Non-blocking: roadmap 'The pin,' paragraph has a stray leading space; two new guide/CHANGELOG lines overrun the wrap width."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
