@@ -85,8 +85,8 @@ tests/ci/
 ├── test_charter_pack_check.py  # WP01
 ├── test_validate_pack_schemas.py  # WP02
 ├── test_charter_pin.py         # WP03
-├── test_workflows.py           # WP03
-└── test_check_vocabulary.py    # WP04
+└── test_workflows.py           # WP03
+(tests/vocabulary/test_check_vocabulary.py  # WP04)
 docs/guides/validate-a-pack.md  # WP01 (stray-file section), WP03 (bump/attestation section)
 docs/plans/roadmap.md           # WP05
 CHANGELOG.md, docs/changelog/CHANGELOG.md  # WP05

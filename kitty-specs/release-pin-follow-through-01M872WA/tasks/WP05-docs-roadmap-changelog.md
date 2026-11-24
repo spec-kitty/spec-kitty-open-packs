@@ -13,7 +13,7 @@ requirement_refs:
 - NFR-001
 planning_base_branch: ci/release-pin-follow-through
 merge_target_branch: ci/release-pin-follow-through
-branch_strategy: Planning artifacts for this mission were generated on ci/release-pin-follow-through. Completed changes merge back into ci/release-pin-follow-through; execution worktrees are allocated per computed lane from lanes.json.
+branch_strategy: Planning artifacts for this mission were generated on ci/release-pin-follow-through. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into ci/release-pin-follow-through unless the human explicitly redirects the landing branch.
 subtasks:
 - T019
 - T020
@@ -25,6 +25,7 @@ history:
   action: Prompt generated via /spec-kitty.tasks
 agent_profile: scribe-sally
 authoritative_surface: docs/guides/validate-a-pack.md
+create_intent: []
 execution_mode: code_change
 model: ''
 owned_files:
