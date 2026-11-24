@@ -165,6 +165,9 @@
       "last_event_id": "01M876D3MXN1ZH98X46JW5PBP2",
       "last_transition_at": "2026-11-24T16:32:11.933711+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Guide, roadmap, changelog match WP01-WP04"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 1417,
