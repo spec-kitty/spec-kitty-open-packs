@@ -38,7 +38,8 @@ name: Charter track
 # Only the bump job holds contents: write or a secret:
 # - the job's own token (contents: write on that job only) pushes the bump branch and makes its commit through
 #   the GitHub API, so GitHub signs the commit. The bump job runs no repository code: no checkout, no Python. The pin
-#   tooling runs in the derive job, which holds no token at all and hands over only file changes; the bump job checks
+#   tooling runs in the derive job, which holds no write scope, exposes no token to any step and hands over only
+#   file changes; the bump job checks
 #   every path and builds the commit request from fixed text (#310);
 # - the repository secret PR_CREATION_TOKEN, a fine-grained PAT on spec-kitty-charter and spec-kitty-open-packs
 #   with Actions and Pull requests read and write and no Contents, opens the bump pull request and closes a
@@ -335,7 +336,8 @@ jobs:
           check pack_check "pack-check-$version.jar" "$PACK_CHECK_SHA256"
           exit "$failed"
 
-  # Green on a newer release, on main: the pin tooling re-derives the packs here, with no token at all (#310). This job
+  # Green on a newer release, on main: the pin tooling re-derives the packs here, with no write scope and no token in
+  # any step (#310). This job
   # hands its file changes to the bump job as an artifact; it can push nothing and open nothing.
   derive:
     name: Derive the bump
@@ -491,20 +493,35 @@ jobs:
           fi
           # Every path is one a bump writes. The pattern is anchored and no segment may start with a dot, so a path
           # is relative, holds no . or .. segment and is never under .github/; a control character (a trailing
-          # newline, which jq's $ would let through) is refused on its own. The lock and the changelog are only ever
-          # rewritten, so they may not be deleted.
-          kept='^(charter\.lock\.yaml|docs/changelog/CHANGELOG\.md)$'
-          derived='^(packs/[A-Za-z0-9_-][A-Za-z0-9._-]*\.source\.yaml|(packs|tests/fixtures/valid)/[A-Za-z0-9_-][A-Za-z0-9._-]*/pack-manifest\.yaml|docs/packs/[A-Za-z0-9_-][A-Za-z0-9._-]*\.md)$'
-          refused="$(jq -r --arg kept "$kept" --arg derived "$derived" '
+          # newline, which jq's $ would let through) is refused on its own. Only a generated pack page may be deleted
+          # (a pack that is gone); the authored pages beside them (index, catalog-proposal) are never touched.
+          rewritten='^(charter\.lock\.yaml|docs/changelog/CHANGELOG\.md|packs/[A-Za-z0-9_-][A-Za-z0-9._-]*\.source\.yaml|(packs|tests/fixtures/valid)/[A-Za-z0-9_-][A-Za-z0-9._-]*/pack-manifest\.yaml)$'
+          page='^docs/packs/[A-Za-z0-9_-][A-Za-z0-9._-]*\.md$'
+          authored='^docs/packs/(index|catalog-proposal)\.md$'
+          refused="$(jq -r --arg rewritten "$rewritten" --arg page "$page" --arg authored "$authored" '
             def bad: if type != "string" then "(a path that is not text)"
                      elif test("[[:cntrl:]]") then tojson
+                     elif test($authored) then tojson
                      else null end;
             if (type != "object") or ((keys - ["additions", "deletions"]) != []) then "(the file changes are not additions and deletions)"
-            else ([(.additions // [])[] | .path | (bad // (if test($kept) or test($derived) then empty else tojson end))],
-                  [(.deletions // [])[] | .path | (bad // (if test($derived) then empty else tojson end))]
+            else ([(.additions // [])[] | .path | (bad // (if test($rewritten) or test($page) then empty else tojson end))],
+                  [(.deletions // [])[] | .path | (bad // (if test($page) then empty else tojson end))]
                   | .[]) end' "$ARTIFACT/file-changes.json")"
           if [[ -n "$refused" ]]; then
             while IFS= read -r path; do echo "::error::the derived changes hold a path a bump does not write: $path"; done <<< "$refused"
+            exit 1
+          fi
+          # The lock the commit carries must pin exactly what the gate checked and the provenance job re-checked:
+          # this release, its commit and both digests. The artifact cannot pin anything else.
+          if ! jq -e --arg commit "$COMMIT" --arg tag "$RELEASE_TAG" --arg jar "$JAR_SHA256" --arg check "$PACK_CHECK_SHA256" '
+              [.additions[] | select(.path == "charter.lock.yaml")] as $locks
+              | ($locks | length) == 1
+                and ($locks[0].contents | @base64d | split("\n")) as $lines
+                | (["commit: " + $commit, "release_tag: " + $tag, "jar_sha256: " + $jar, "pack_check_sha256: " + $check]
+                   | all(. as $want | $lines | index([$want]) != null))
+                  and ([$lines[] | select(test("^(commit|release_tag|jar_sha256|pack_check_sha256):"))] | length) == 4
+            ' "$ARTIFACT/file-changes.json" > /dev/null; then
+            echo "::error::the derived charter.lock.yaml does not pin exactly $RELEASE_TAG ($COMMIT) with the checked digests; nothing is pushed"
             exit 1
           fi
           jq -n --arg repo "$REPO" --arg branch "$BRANCH" --arg head "$HEAD_SHA" \
@@ -532,8 +549,8 @@ jobs:
             echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's service \`.sha256\` asset)"
             echo "- \`pack_check_sha256\`: \`$PACK_CHECK_SHA256\` (the release's pack-check \`.sha256\` asset)"
             echo
-            echo "Both jars are the files these digests name (checked by the provenance job). Their build provenance"
-            echo "(#310; a missing attestation warns, it does not block):"
+            echo "The required checks ran both jars, each refused unless it matches its digest, and the commit pins"
+            echo "exactly these values. Their build provenance (#310; a missing attestation warns, it does not block):"
             echo
             attested "the service jar" "$ATTEST_SERVICE"
             attested "the pack-check jar" "$ATTEST_PACK_CHECK"
