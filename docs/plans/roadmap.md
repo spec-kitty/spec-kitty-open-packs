@@ -2,7 +2,7 @@
 title: Roadmap
 description: "The themes open-packs is pursuing, the horizon each sits in, what done looks like, and the tracker epics that deliver each theme."
 doc_status: active
-updated: '2026-11-20'
+updated: '2026-11-24'
 related:
 - plans
 - architecture/vision
@@ -71,10 +71,11 @@ builds on the charter commit this repository pins; moving that pin first keeps l
 - The decisions behind the pin policy and the ownership split are recorded as ADRs
   ([ADR 2026-11-19-3](../architecture/adr/2026-11-19-3-pin-charter-releases-and-charter-owns-pack-logic.md)).
 
-**Waits on:** a charter release that includes the `tension` relation spelling, the
-`file_not_held` ruling (charter #554) and the routing catalog (charter ADR-0080). Until then
-the nightly check against charter `main` stays red. The tracker records which issues must
-land before that check goes green.
+**Waits on:** charter fixes spec-kitty-charter#629 and #630, before the last Python rules (#330) can
+retire, and spec-kitty-charter#631, before a stray file other than a Markdown note may stay in a
+pack (#331). The pin, `service-v0.1.0-rc.3`, already carries the `tension` relation spelling, the
+`file_not_held` ruling (charter #554) and the routing catalog (charter ADR-0080). The nightly
+check against charter `main` reports unreleased charter changes to follow before the next release.
 
 ## Pack content quality
 

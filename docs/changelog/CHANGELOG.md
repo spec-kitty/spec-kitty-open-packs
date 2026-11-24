@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-21'
+updated: '2026-11-24'
 ---
 # Changelog
 
@@ -920,6 +920,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the required gate.
 
 ### 🔄 Changed
+
+- **The release bump keeps its tokens away from the release it reads, and checks where the jars came from**
+  (#310; epic #287).
+  - **Token scope.** The charter track now re-derives the packs in a job of its own, `derive`, which holds no
+    token or secret. The `bump` job holds the tokens and runs no repository code. It accepts only the files a
+    bump writes, refuses any other path before it pushes, and builds the commit request itself.
+  - **Release provenance.** Before a bump, both jars of the release (the service jar and pack-check) are
+    downloaded again:
+    - a jar that is not the file the pin names stops the bump;
+    - each jar's build attestation is verified against the charter's release workflow and the tag. A missing
+      or failing attestation only warns (operator ruling): the bump pull request is opened anyway and says,
+      per jar, whether it was verified.
+  - **The accepted stray-file gap** (#331, operator ruling 2026-11-21). An unmodelled stray file (`notes.txt`, a
+    log) still fails through pack-check's round trip. This repository does not override that verdict, and
+    tests now pin it against the pinned pack-check. Only Markdown notes may stay in a pack until
+    spec-kitty-charter#631.
+  - **The manifest mirror's edge cases are pinned** (#262). The derived manifest leaves out what a link
+    reaches, as the charter's walk does: measured on Python 3.11 to 3.13, it never followed links, and a test
+    now holds it there. A test also checks that a manifest listing an entry twice that the pack does not hold
+    is worded as the charter words it, and a derive that writes nothing fails its test.
+  - **The self-binding vocabulary check is more precise** (#304). Ordinary prose such as "mandatory reading",
+    "required by the charter", "the advisory context menu" or "makes rules binding at startup" is no longer
+    flagged, including when a line wraps after the level word. Claims such as "strictly advisory",
+    "Advisory in version 1", "these rules are mandatory" and "this directive is non-blocking" now are. Markdown
+    emphasis and list items are taken into account, and the message is shorter.
 
 - **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep notes and
   logs in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
