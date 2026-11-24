@@ -115,23 +115,34 @@ GLOSSARY_SUFFIX = ".glossary.yaml"
 #: other senses that stay legal (npm advisories and an ``advisory:`` key, dependency or
 #: data *binding*, mandatory report fields, the glossary's enforcement tiers, runtime gates
 #: such as analyze, format versions such as ``qa-traceability/v1``).
+#: What follows a level word when it is not the level: "mandatory reading", "required by" (activation), "rules binding
+#: at startup" (a framework's binding). Each pattern names the continuations it spares instead of demanding the end
+#: of a clause, so "these rules are mandatory for every mission" stays a level claim (#304).
+_NOT_THE_LEVEL = r"(?!\s+reading\b)"
+
 SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
-        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+v\d",
-        r"\b(?:this|the)\s+directive\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b",
-        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b",
+        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v|version\s*)\d",
+        r"\b(?:this|the)\s+directive\s+is\s+(?:(?:strictly|purely|merely|only)\s+)?"
+        r"(?:advisory|required(?!\s+by\b)|mandatory|binding|lenient|non-blocking)\b",
+        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b" + _NOT_THE_LEVEL,
+        r"\b(?:these|the|its|all)\s+(?:rules|directives)\s+are\s+(?:advisory|mandatory|binding|non-negotiable)\b"
+        + _NOT_THE_LEVEL,
         r"\b(?:directive|rule)s?\s+(?:is|are)\s+(?:non-negotiable|a\s+hard\s+gate)\b",
         r"\bnon-negotiable\s+(?:rule|directive|policy)\b",
         r"\bthis\s+is\s+(?:advisory|not\s+a\s+recommendation)\b",
+        r"\badvisory-only\s+(?:directive|rule|guidance|tactic|procedure|styleguide)s?\b",
         r"\bnot\s+a\s+runtime\s+gate\b",
         r"\bbinding\s+charter\s+content\b",
         r"\badvisory\s+posture\b",
         r"\benforcement\s+`(?:required|advisory|lenient-adherence)`",
-        r"\bmakes?\b[^.]{0,160}?\brules?\s+binding\b",
+        # Within one clause (no . ; :) and at most 120 characters apart; "rules binding at startup" is a framework's.
+        r"\bmakes?\b[^.;:]{0,120}?\brules?\s+binding\b(?!\s+(?:at\s+startup|the|a|an)\b)",
         r"\brules?\s+that\s+\S+\s+makes?\s+binding\b",
         r"\bdirective'?s?\s+binding\s+rules?\b",
-        r"\badvisory\s+context\b",
+        # "is advisory context" states the level; "the advisory context menu" does not (#304).
+        r"\b(?:is|as)\s+advisory\s+context\b",
         r"\bremains?\s+advisory\b",
         r"\bhard\s+validation\s+gate\b",
         r"\blenient-adherence\s+[a-z]",
@@ -140,40 +151,43 @@ SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
 )
 _ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
 _LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
-
-
-def _phrase(line: str) -> str | None:
-    for pattern in SELF_BINDING:
-        match = pattern.search(line)
-        if match:
-            return match.group(0)
-    return None
+#: A Markdown heading (unindented, so an indented YAML comment still continues a wrapped line). Residual: a Markdown
+#: heading indented one to three spaces is joined like a comment, as it was before #304.
+_HEADING = re.compile(r"^#{1,6}\s")
+#: A next line that is not a continuation: a heading, or (also inside a blockquote) a list item (- * + 1. 1)) or an
+#: enforcement field. Judged on the raw line, before emphasis is stripped, so a ``*`` bullet is still a bullet.
+_STARTS_SOMETHING_NEW = re.compile(r"^(?:#{1,6}\s|\s*(?:>\s*)*(?:(?:[-*+]|\d+[.)])\s|enforcement:))")
+#: ``_`` or ``__`` used as emphasis around a word, not inside one (snake_case and __dunder__ inside words stay).
+_EMPHASIS = re.compile(r"(?<![^\W_])_+(?=[^\W_])|(?<=[^\W_])_+(?![^\W_])")
 
 
 def self_binding_in(text: str) -> list[tuple[int, str]]:
     """(line, phrase) for every line that states a directive's level in prose (#233).
 
-    Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line
-    break. Each line is also checked joined to the next; a phrase found only across the
-    join is reported on the line where it starts.
+    Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line break, and what follows a level
+    word on the next line can decide whether it is the level ("mandatory" / "reading for reviewers"). Each line is
+    therefore judged joined to the next one (#304, WP04 review); a phrase is reported on the line where it starts.
+    Markdown emphasis (``*``, and ``_`` around a word) is ignored. A line is not joined to a blank line, a list item, a
+    heading or an ``enforcement:`` field, and a heading is not joined to the next line: those start something new.
     """
-    lines = text.splitlines()
+    raw = text.splitlines()
+    lines = [_EMPHASIS.sub("", line.replace("*", "")) for line in raw]
     found: list[tuple[int, str]] = []
     for index, line in enumerate(lines):
         if _ENFORCEMENT_FIELD.match(line):
             continue
-        phrase = _phrase(line)
-        if phrase is None and index + 1 < len(lines) and not _ENFORCEMENT_FIELD.match(lines[index + 1]):
-            head = line.rstrip()
+        head = line.rstrip()
+        joined = head
+        following = raw[index + 1] if index + 1 < len(raw) else ""
+        if following and not _HEADING.match(raw[index]) and not _STARTS_SOMETHING_NEW.match(following):
             joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
-            for pattern in SELF_BINDING:
-                match = pattern.search(joined)
-                if match and match.start() < len(head) < match.end():
-                    phrase = match.group(0)
-                    break
-        if phrase is not None:
-            found.append((index + 1, " ".join(phrase.split())))
+        for pattern in SELF_BINDING:
+            match = pattern.search(joined)
+            if match and match.start() < len(head):
+                found.append((index + 1, " ".join(match.group(0).split())))
+                break
     return found
+
 
 #: Runtime and platform families that are not language names (#202). The charter
 #: compares ``applies_to_languages`` entries as plain strings, so a family tag never
@@ -258,7 +272,9 @@ def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
         if rel.endswith(GLOSSARY_SUFFIX) and RETIRED_SURFACE.match(line):
             found.append((number, "declares the retired governing glossary surface"))
     for number, phrase in self_binding_in(text):
-        found.append((number, f"states a directive's enforcement level in prose ({phrase!r}); the level is the enforcement field, a pack-supplied default the charter decides (term:spec-kitty-core/enforcement-level)"))
+        shown = phrase if len(phrase) <= 48 else f"{phrase[:45]}..."
+        found.append((number, f"states a directive's level in prose ({shown!r}); set the enforcement field "
+                              "instead (term:spec-kitty-core/enforcement-level)"))
     if rel.endswith((".yaml", ".yml")):
         for number, family in family_languages_in(text):
             found.append((number, f"applies_to_languages names the runtime family '{family}'; name the language (for example java, kotlin)"))
