@@ -44,7 +44,7 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "reviewer-renata",
       "agent_profile_version": "1.0",
       "force_count": 0,
@@ -54,7 +54,8 @@
       "last_transition_at": "2026-11-24T15:54:05.576959+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change"
+        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change",
+        "Review passed: rglob('*') measured on 3.11.18/3.12.3/3.13.18 never descends into linked dirs (depth 0/1/2, outside target, cycle, linked file, aliased root), so no code change and the ratchet tests are the right closure; T005 drop sound. Mutations red: os.walk(followlinks), dropped is_symlink guard, resolved root (#174), rglob(recurse_symlinks=True) on 3.13, three mismatch reorderings. Nit: FR-005 lines redundant (before is always None; the pre-existing EXIT_OK assert already fails a no-op derive). Follow-up: charter_service_check.stage() copytree dereferences links and l.457 is_file() counts linked files; no pack holds links. Checklist: 1 N/A, 2 PASS, 3 N/A, 4 PASS, 5 PASS, 6 PASS, 7 PASS (lane-b sole owner), 8 N/A. Suites equal to base apart from the 2 new tests."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
