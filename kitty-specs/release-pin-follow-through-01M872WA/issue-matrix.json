@@ -1,7 +1,7 @@
 {
   "rows": {
     "#174": {
-      "evidence_ref": "Context only: charter #174 root-link semantics cited by the WP02 walk test (ccefadb); no open-packs work owed",
+      "evidence_ref": "The mission cites spec-kitty-charter#174 (the charter enters a pack root configured through a link). Open-packs #174 is an unrelated closed PR (qa profile references); no work owed. The bare citation is qualified as spec-kitty-charter#174 in the R24 rebuild.",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -49,7 +49,7 @@
       "wp": "WP02"
     },
     "#287": {
-      "evidence_ref": "Parent epic (context); its State and order rewrite is a hand-off tracker action",
+      "evidence_ref": "Parent epic: WP05 refreshes the roadmap (FR-010); the State and order rewrite is posted at hand-off",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,8 +57,8 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Epic: follow the charter contract",
-      "verdict": "not-applicable",
-      "wp": null
+      "verdict": "in-mission",
+      "wp": "WP05"
     },
     "#304": {
       "evidence_ref": "9dd127be025847327625b8f8280412835e846549 (lane-d)",
@@ -109,7 +109,7 @@
       "wp": null
     },
     "#330": {
-      "evidence_ref": "Context only: holds the Python-port retirement, waiting on spec-kitty-charter#629/#630; not this mission's work",
+      "evidence_ref": "Follow-up: #330 retires the remaining Python rules once spec-kitty-charter#629/#630 ship; this mission keeps them",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -117,7 +117,7 @@
       "scope": null,
       "source_file": null,
       "title": "Retire the remaining Python pack rules",
-      "verdict": "not-applicable",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#331": {
@@ -157,7 +157,7 @@
       "wp": null
     },
     "#629": {
-      "evidence_ref": "Charter-side issue cited for context; no open-packs work owed",
+      "evidence_ref": "Follow-up: spec-kitty-charter#629 (requiredNotHeld in pack-check), tracked by #330",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -165,11 +165,11 @@
       "scope": null,
       "source_file": null,
       "title": "spec-kitty-charter#629: requiredNotHeld in pack-check",
-      "verdict": "not-applicable",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#630": {
-      "evidence_ref": "Charter-side issue cited for context; no open-packs work owed",
+      "evidence_ref": "Follow-up: spec-kitty-charter#630 (stale content_hash), tracked by #330",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -177,11 +177,11 @@
       "scope": null,
       "source_file": null,
       "title": "spec-kitty-charter#630: stale content_hash",
-      "verdict": "not-applicable",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#631": {
-      "evidence_ref": "Charter-side fix the accepted #331 gap waits on; cited for context; no open-packs work owed",
+      "evidence_ref": "Follow-up: spec-kitty-charter#631; the accepted #331 gap (no override) holds until it ships",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -189,7 +189,7 @@
       "scope": null,
       "source_file": null,
       "title": "spec-kitty-charter#631: round trip skips unheld files",
-      "verdict": "not-applicable",
+      "verdict": "deferred-with-followup",
       "wp": null
     }
   },
