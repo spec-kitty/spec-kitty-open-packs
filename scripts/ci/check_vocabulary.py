@@ -115,30 +115,30 @@ GLOSSARY_SUFFIX = ".glossary.yaml"
 #: other senses that stay legal (npm advisories and an ``advisory:`` key, dependency or
 #: data *binding*, mandatory report fields, the glossary's enforcement tiers, runtime gates
 #: such as analyze, format versions such as ``qa-traceability/v1``).
-#: The end of a clause: the level word is the predicate, not an adjective on a noun ("mandatory reading", #304).
-_CLAUSE_END = r"(?=\s*(?:[.;:,)!?'\"`*]|$))"
+#: What follows a level word when it is not the level: "mandatory reading", "required by" (activation), "rules binding
+#: at startup" (a framework's binding). Each pattern names the continuations it spares instead of demanding the end
+#: of a clause, so "these rules are mandatory for every mission" stays a level claim (#304).
+_NOT_THE_LEVEL = r"(?!\s+reading\b)"
 
 SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
         r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v|version\s*)\d",
-        # "required by" is how a directive is activated, not how strictly it binds (#304).
-        r"\b(?:this|the)\s+directive\s+is\s+(?:(?:strictly|purely|merely)\s+)?"
+        r"\b(?:this|the)\s+directive\s+is\s+(?:(?:strictly|purely|merely|only)\s+)?"
         r"(?:advisory|required(?!\s+by\b)|mandatory|binding|lenient|non-blocking)\b",
-        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b(?!\s+reading\b)",
-        r"\b(?:these|the|its|all)\s+(?:rules|directives)\s+are\s+(?:advisory|mandatory|binding|non-negotiable)"
-        + _CLAUSE_END,
+        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b" + _NOT_THE_LEVEL,
+        r"\b(?:these|the|its|all)\s+(?:rules|directives)\s+are\s+(?:advisory|mandatory|binding|non-negotiable)\b"
+        + _NOT_THE_LEVEL,
         r"\b(?:directive|rule)s?\s+(?:is|are)\s+(?:non-negotiable|a\s+hard\s+gate)\b",
         r"\bnon-negotiable\s+(?:rule|directive|policy)\b",
         r"\bthis\s+is\s+(?:advisory|not\s+a\s+recommendation)\b",
-        r"\b(?:strictly|purely|merely)\s+advisory\b",
-        r"\badvisory-only\b",
+        r"\badvisory-only\s+(?:directive|rule|guidance|tactic|procedure|styleguide)s?\b",
         r"\bnot\s+a\s+runtime\s+gate\b",
         r"\bbinding\s+charter\s+content\b",
         r"\badvisory\s+posture\b",
         r"\benforcement\s+`(?:required|advisory|lenient-adherence)`",
-        # Within one clause, and "binding" ends it: "makes rules binding at startup" is a framework's binding (#304).
-        r"\bmakes?\b[^.;:]{0,120}?\brules?\s+binding" + _CLAUSE_END,
+        # Within one clause (no . ; :) and at most 120 characters apart; "rules binding at startup" is a framework's.
+        r"\bmakes?\b[^.;:]{0,120}?\brules?\s+binding\b(?!\s+(?:at\s+startup|the|a|an)\b)",
         r"\brules?\s+that\s+\S+\s+makes?\s+binding\b",
         r"\bdirective'?s?\s+binding\s+rules?\b",
         # "is advisory context" states the level; "the advisory context menu" does not (#304).
@@ -153,38 +153,30 @@ _ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
 _LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
 
 
-def _phrase(line: str) -> str | None:
-    for pattern in SELF_BINDING:
-        match = pattern.search(line)
-        if match:
-            return match.group(0)
-    return None
-
-
 def self_binding_in(text: str) -> list[tuple[int, str]]:
     """(line, phrase) for every line that states a directive's level in prose (#233).
 
-    Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line
-    break. Each line is also checked joined to the next; a phrase found only across the
-    join is reported on the line where it starts.
+    Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line break, and what follows a level
+    word on the next line can decide whether it is the level ("mandatory" / "reading for reviewers"). Each line is
+    therefore judged joined to the next one (#304, WP04 review); a phrase is reported on the line where it starts.
+    Markdown emphasis (``*``) is ignored. A line that is, or is followed by, an ``enforcement:`` field is not joined.
     """
-    lines = text.splitlines()
+    lines = [line.replace("*", "") for line in text.splitlines()]
     found: list[tuple[int, str]] = []
     for index, line in enumerate(lines):
         if _ENFORCEMENT_FIELD.match(line):
             continue
-        phrase = _phrase(line)
-        if phrase is None and index + 1 < len(lines) and not _ENFORCEMENT_FIELD.match(lines[index + 1]):
-            head = line.rstrip()
+        head = line.rstrip()
+        joined = head
+        if index + 1 < len(lines) and not _ENFORCEMENT_FIELD.match(lines[index + 1]):
             joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
-            for pattern in SELF_BINDING:
-                match = pattern.search(joined)
-                if match and match.start() < len(head) < match.end():
-                    phrase = match.group(0)
-                    break
-        if phrase is not None:
-            found.append((index + 1, " ".join(phrase.split())))
+        for pattern in SELF_BINDING:
+            match = pattern.search(joined)
+            if match and match.start() < len(head):
+                found.append((index + 1, " ".join(match.group(0).split())))
+                break
     return found
+
 
 #: Runtime and platform families that are not language names (#202). The charter
 #: compares ``applies_to_languages`` entries as plain strings, so a family tag never

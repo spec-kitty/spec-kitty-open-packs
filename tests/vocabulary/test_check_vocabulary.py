@@ -213,6 +213,62 @@ class SelfBindingTest(unittest.TestCase):
         "This directive is non-blocking.",
     )
 
+    #: WP04 review cycle 1: the same sentences, legitimate or not, with the ~80-column wrap right after the level
+    #: word. A line is judged together with the next one, so the wrap changes nothing.
+    WRAPPED_NOT_A_LEVEL = (
+        "Spring makes rules binding\nat startup.\n",
+        "the directive is required\nby the charter\n",
+        "These rules are mandatory\nreading for reviewers.\n",
+        "The rule is mandatory\nreading for reviewers.\n",
+    )
+
+    #: Real level claims, some of which the first anchors missed (WP04 review cycle 1, findings 2 and 5).
+    MORE_LEVELS = (
+        "This directive makes these rules binding for every mission.",
+        "The charter makes its rules binding in every lane.",
+        "These rules are mandatory for every mission.",
+        "These rules are mandatory and enforced.",
+        "These rules are mandatory\u2014no exceptions.",
+        "These rules are mandatory\u201d.",
+        "These rules are mandatory",
+        "This is *advisory context*.",
+        "This directive is *strictly* advisory.",
+        "These rules are **mandatory**.",
+        "This directive is only advisory.",
+    )
+
+    #: Other senses that stay legal: the reach and clause limits of the makes-binding pattern, and npm's advisories.
+    MORE_NOT_A_LEVEL = (
+        "These rules are mandatory reading.",
+        "Mark it mandatory *reading* and the directive is required *by* the charter.",
+        "Gradle makes the jar; the reviewers keep their rules binding.",
+        "The plugin makes " + "every wrapped module and every generated stub of the build " * 2 + "and its docs "
+        + "rules binding.",
+        "The npm audit output is purely advisory.",
+        "npm advisories are advisory-only notices.",
+    )
+
+    def test_a_wrap_after_the_level_word_changes_nothing(self) -> None:
+        for text in self.WRAPPED_NOT_A_LEVEL:
+            with self.subTest(text=text):
+                self.assertEqual(vocab.self_binding_in(text), [])
+        for line in self.MORE_LEVELS[:5]:
+            head, _, tail = line.rpartition(" ")
+            with self.subTest(wrapped=line):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(f"intro\n{head}\n{tail}\n")], [2])
+
+    def test_refuses_every_level_claim_however_it_ends_or_is_emphasised(self) -> None:
+        for line in self.MORE_LEVELS:
+            with self.subTest(line=line):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(f"intro\n{line}\n")], [2])
+
+    def test_spares_the_other_senses_at_the_edges_of_each_pattern(self) -> None:
+        # The reach case sits between the pattern's 120 characters and the 160 it had: a wider reach flags it.
+        self.assertTrue(120 < len(self.MORE_NOT_A_LEVEL[3].split("makes ")[1].split(" rules")[0]) <= 160)
+        for line in self.MORE_NOT_A_LEVEL:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
     def test_spares_an_adjective_that_is_not_the_level(self) -> None:
         for line in self.NOT_A_LEVEL:
             with self.subTest(line=line):
