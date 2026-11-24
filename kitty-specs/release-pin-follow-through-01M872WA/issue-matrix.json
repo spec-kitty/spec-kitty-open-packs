@@ -85,7 +85,7 @@
       "wp": "WP03"
     },
     "#315": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Open follow-on (routing-catalog pipeline, reuses #310 machinery, operator decision pending); out of scope, hand-off tracker action (spec l.128)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -93,7 +93,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#329": {
