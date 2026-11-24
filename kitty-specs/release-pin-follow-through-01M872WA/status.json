@@ -1,7 +1,7 @@
 {
-  "event_count": 28,
-  "last_event_id": "01M874MPN1F306VV9R1H32X0B9",
-  "materialized_at": "2026-11-24T16:01:23.617263+00:00",
+  "event_count": 30,
+  "last_event_id": "01M874P8WEE57NTAMC76FG2Y6W",
+  "materialized_at": "2026-11-24T16:02:14.946673+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 1,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 2
+    "planned": 1
   },
   "work_packages": {
     "WP01": {
@@ -124,9 +124,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "planned",
-      "last_event_id": "01M87471GPJA7N0VPGRMQ56DKN",
-      "last_transition_at": "2026-11-24T15:53:55.990835+00:00",
+      "lane": "in_progress",
+      "last_event_id": "01M874P8WEE57NTAMC76FG2Y6W",
+      "last_transition_at": "2026-11-24T16:02:14.946673+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings"
@@ -139,7 +139,7 @@
         "reviewer": "claude::reviewer-renata",
         "verdict": "changes_requested"
       },
-      "role": "reviewer",
+      "role": "implementer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
