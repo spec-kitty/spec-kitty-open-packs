@@ -515,11 +515,13 @@ jobs:
           # this release, its commit and both digests. The artifact cannot pin anything else.
           if ! jq -e --arg commit "$COMMIT" --arg tag "$RELEASE_TAG" --arg jar "$JAR_SHA256" --arg check "$PACK_CHECK_SHA256" '
               [.additions[] | select(.path == "charter.lock.yaml")] as $locks
-              | ($locks | length) == 1
-                and ($locks[0].contents | @base64d | split("\n")) as $lines
-                | (["commit: " + $commit, "release_tag: " + $tag, "jar_sha256: " + $jar, "pack_check_sha256: " + $check]
-                   | all(. as $want | $lines | index([$want]) != null))
-                  and ([$lines[] | select(test("^(commit|release_tag|jar_sha256|pack_check_sha256):"))] | length) == 4
+              | if ($locks | length) != 1 then false
+                else
+                  ($locks[0].contents | @base64d | split("\n")) as $lines
+                  | ([$lines[] | select(test("^(commit|release_tag|jar_sha256|pack_check_sha256):"))] | sort)
+                    == (["commit: " + $commit, "release_tag: " + $tag, "jar_sha256: " + $jar,
+                         "pack_check_sha256: " + $check] | sort)
+                end
             ' "$ARTIFACT/file-changes.json" > /dev/null; then
             echo "::error::the derived charter.lock.yaml does not pin exactly $RELEASE_TAG ($COMMIT) with the checked digests; nothing is pushed"
             exit 1
