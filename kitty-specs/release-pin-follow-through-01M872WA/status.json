@@ -47,7 +47,10 @@
         "T001": "done",
         "T002": "done",
         "T003": "done"
-      }
+      },
+      "tracker_refs": [
+        "#331"
+      ]
     },
     "WP02": {
       "actor": "claude",
@@ -80,7 +83,10 @@
         "T006": "done",
         "T007": "done",
         "T008": "done"
-      }
+      },
+      "tracker_refs": [
+        "#262"
+      ]
     },
     "WP03": {
       "actor": "claude",
@@ -116,7 +122,10 @@
         "T012": "done",
         "T013": "done",
         "T014": "done"
-      }
+      },
+      "tracker_refs": [
+        "#310"
+      ]
     },
     "WP04": {
       "actor": "claude",
@@ -152,7 +161,10 @@
         "T016": "done",
         "T017": "done",
         "T018": "done"
-      }
+      },
+      "tracker_refs": [
+        "#304"
+      ]
     },
     "WP05": {
       "actor": "claude",
@@ -186,7 +198,12 @@
         "T020": "done",
         "T021": "done",
         "T022": "done"
-      }
+      },
+      "tracker_refs": [
+        "#331",
+        "#310",
+        "#287"
+      ]
     }
   }
 }
