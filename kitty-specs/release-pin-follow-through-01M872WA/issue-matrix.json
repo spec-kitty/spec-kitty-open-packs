@@ -61,15 +61,15 @@
       "wp": "WP03"
     },
     "#315": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Follow-up: #315 stays open as a follow-on Mission (operator ruling); sources and cadence are with the operator",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Routing catalog currency pipeline",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#329": {
