@@ -97,7 +97,7 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude::reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -110,6 +110,7 @@
         "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings"
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP04-self-binding-vocabulary/review-cycle-1.md",
         "reference": "review-cycle://release-pin-follow-through-01M872WA/WP04-self-binding-vocabulary/review-cycle-1.md",
@@ -117,13 +118,13 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 3755,
-      "shell_pid_created_at": "1795535605.59",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T015": "done",
-        "T016": "done",
-        "T017": "done",
-        "T018": "done"
+        "T015": "planned",
+        "T016": "planned",
+        "T017": "planned",
+        "T018": "planned"
       }
     },
     "WP05": {
