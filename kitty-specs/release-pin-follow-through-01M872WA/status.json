@@ -1,7 +1,7 @@
 {
-  "event_count": 30,
-  "last_event_id": "01M874P8WEE57NTAMC76FG2Y6W",
-  "materialized_at": "2026-11-24T16:02:14.946673+00:00",
+  "event_count": 32,
+  "last_event_id": "01M875601PXQ59KF8WTNXJM0VR",
+  "materialized_at": "2026-11-24T16:10:50.294074+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
@@ -119,17 +119,18 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": null,
+      "agent": "claude::python-pedro",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 1,
+      "force_count": 2,
       "implementer_of_record": "claude::python-pedro",
       "lane": "in_progress",
-      "last_event_id": "01M874P8WEE57NTAMC76FG2Y6W",
-      "last_transition_at": "2026-11-24T16:02:14.946673+00:00",
+      "last_event_id": "01M875601PXQ59KF8WTNXJM0VR",
+      "last_transition_at": "2026-11-24T16:10:50.294074+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings"
+        "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings",
+        "Cycle 2: join-first matching, named continuations, mutant-killing cases, non-blocking folds"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
@@ -143,10 +144,10 @@
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
-        "T015": "planned",
-        "T016": "planned",
-        "T017": "planned",
-        "T018": "planned"
+        "T015": "done",
+        "T016": "done",
+        "T017": "done",
+        "T018": "done"
       }
     },
     "WP05": {
