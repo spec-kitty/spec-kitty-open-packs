@@ -926,7 +926,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Token scope.** The charter track now re-derives the packs in a job of its own, `derive`, which has no
     write token and no secret, and exposes no token to the pin tooling. The `bump` job holds the tokens and
     runs no repository code. It accepts only the files a bump writes, refuses any other path before it
-    pushes, and builds the commit request itself.
+    pushes, requires the lock to pin exactly the release, commit and digests that were checked, and builds
+    the commit request itself.
   - **Release provenance.** Before a bump, both jars of the release (the service jar and pack-check) are
     downloaded again:
     - a jar that is not the file the pin names stops the bump;
@@ -948,8 +949,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     forms: an adverb before the level, a version spelled out, a plural subject, a hyphenated "-only", and
     "non-blocking". Markdown emphasis and list items are taken into account, and the message is shorter.
 
-- **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep notes and
-  logs in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
+- **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep Markdown notes
+  in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
   - **Schema pass.** An ignored file other than a `README.md` note (a `notes.md`, an orphan skill body) is now
     warned as `file_not_held` instead of failing as `not_held`. `README.md` notes are still carried silently.
   - **Service check.** Every file a registration leaves out is a notice. Only a file the mirror takes for held

@@ -73,7 +73,8 @@ builds on the charter commit this repository pins; moving that pin first keeps l
 
 **Waits on:**
 
-- spec-kitty-charter#629 and #630, both open, before the last Python rules (#330) can retire;
+- a charter release carrying spec-kitty-charter#629 and #632, before the last Python rules can retire
+  (#330: #333 and #334);
 - a charter release carrying spec-kitty-charter#631, plus the pin bump to it, before a stray file other
   than a Markdown note may stay in a pack (#331). The fix is merged on charter `main` but in no release
   yet.
