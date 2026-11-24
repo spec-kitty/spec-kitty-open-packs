@@ -1,4 +1,16 @@
 {
+  "acceptance_history": [
+    {
+      "acceptance_mode": "pr",
+      "accepted_at": "2026-11-24T16:49:18.854860+00:00",
+      "accepted_by": "system",
+      "accepted_from_commit": "00f18008dbc5fbfcb4a925b9bbb369b027788b2a"
+    }
+  ],
+  "acceptance_mode": "pr",
+  "accepted_at": "2026-11-24T16:49:18.854860+00:00",
+  "accepted_by": "system",
+  "accepted_from_commit": "00f18008dbc5fbfcb4a925b9bbb369b027788b2a",
   "contracts": "none",
   "contracts_rationale": "CI scripts, a workflow and docs only; the mission adds no service interface. The one new CLI surface (charter_pin.py attestation-note) is specified in plan.md and pinned by its unit test.",
   "coordination_branch": "kitty/mission-release-pin-follow-through-01M872WA",
