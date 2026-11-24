@@ -559,6 +559,9 @@ class CharterTrackBumpBoundary(unittest.TestCase):
             self.assertNotIn(credential, text)
         checkout = next(s for s in self.derive_job["steps"] if str(s.get("uses", "")).startswith("actions/checkout@"))
         self.assertIs(checkout["with"]["persist-credentials"], False)
+        runs = "\n".join(str(step.get("run", "")) for step in self.derive_job["steps"])
+        for command in ("charter_pin.py apply", "charter_pin.py changelog", "charter_pin.py commit-payload"):
+            self.assertIn(command, runs)
 
     def test_publish_runs_no_repository_or_artifact_code(self) -> None:
         self.assertEqual(self.job["permissions"], {"contents": "write", "pull-requests": "read", "issues": "read"})
@@ -807,6 +810,12 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         self.assertIn('if ! gh api -X DELETE "repos/$REPO/git/refs/heads/$old_branch"', self.open["run"])
         for step in (self.lookup, self.build, self.push, self.open):
             self.assertNotIn("gh workflow run", step["run"])
+        # A bump pull request already open: the lookup exits before it writes go, so nothing is built, pushed or opened.
+        skipped = {"steps": {"lookup": {"outputs": {}}, "push": {"outputs": {}}}}
+        go = {"steps": {"lookup": {"outputs": {"go": "true"}}, "push": {"outputs": {"branch": "b"}}}}
+        for step in (self.build, self.push, self.open):
+            self.assertFalse(gh_expr.evaluate_if(step.get("if"), skipped))
+            self.assertTrue(gh_expr.evaluate_if(step.get("if"), go))
 
     def test_a_superseded_pull_request_that_cannot_be_closed_or_cleaned_fails_the_job(self) -> None:
         def run(fail: str) -> tuple[int, list[str]]:
@@ -888,6 +897,11 @@ class CharterTrackProvenance(unittest.TestCase):
         self.assertNotIn("actions/checkout", text)
         self.assertNotIn("python", text)
         self.assertEqual(self.step["env"]["CHARTER"], "spec-kitty/spec-kitty-charter")
+        # The states the bump body reports are the ones this step wrote, not a constant.
+        build = next(s for s in self.jobs["bump"]["steps"] if s.get("id") == "build")
+        for output, env in (("service", "ATTEST_SERVICE"), ("pack_check", "ATTEST_PACK_CHECK")):
+            self.assertEqual(self.job["outputs"][output], f"${{{{ steps.verify.outputs.{output} }}}}")
+            self.assertEqual(build["env"][env], f"${{{{ needs.provenance.outputs.{output} }}}}")
 
     def test_it_runs_exactly_when_the_bump_would_act_and_gates_derive_and_publish(self) -> None:
         for job_id in ("provenance", "derive", "bump"):
