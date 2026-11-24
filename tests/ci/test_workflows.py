@@ -678,6 +678,9 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         code, output, request, _ = self.build_request([p for p in self.REAL if p != "charter.lock.yaml"])
         self.assertNotEqual(code, 0, "a bump without the lock is no bump")
         self.assertIsNone(request)
+        code, output, request, _ = self.build_request([*self.REAL, "charter.lock.yaml"])
+        self.assertNotEqual(code, 0, "the lock is written once")
+        self.assertIsNone(request)
 
     def test_only_a_generated_pack_page_may_be_deleted_and_no_authored_page_is_touched(self) -> None:
         for path in ("packs/foundation.source.yaml", "packs/foundation/pack-manifest.yaml",
