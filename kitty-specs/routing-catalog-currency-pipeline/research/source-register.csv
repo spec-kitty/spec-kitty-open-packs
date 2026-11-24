@@ -1,0 +1,10 @@
+id,kind,source,url,format,licence,auth,checked_2026_11_24,observation
+A1,availability+pricing,models.dev,https://models.dev/api.json,JSON (generated from TOML in git),MIT (LICENSE verified),none,partial: README+LICENSE via GitHub; api.json host blocked,cost.input/cost.output Number USD per 1M; status deprecated; limit.context
+A2,availability+pricing,provider docs (models overview / pricing / deprecations),https://docs.anthropic.com,HTML,provider site terms,none (model API needs key: excluded),no: host blocked,authoritative; no machine API
+A3,availability+pricing,LiteLLM price map,https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json,JSON 5.2MB,MIT outside enterprise/ (verified),none,yes,7158 entries; input_cost_per_token float literals e.g. 3e-06; deprecation_date on 1277 entries (4 of 24 for the catalog's provider)
+A4,availability+pricing,OpenRouter,https://openrouter.ai/api/v1/models,JSON,reseller ToS unknown,none (reputation),no: host blocked,reseller prices
+B1,benchmark,SWE-bench leaderboards,https://raw.githubusercontent.com/SWE-bench/swe-bench.github.io/master/data/leaderboards.json,JSON 4MB,CC BY-NC 4.0 (verified),none,yes,newest rows: Verified 2026-02-26; Multilingual 2026-02-20; Multimodal 2025-11-17; Test 2025-12-19; Lite 2025-09-11
+B2,benchmark,Aider polyglot,https://raw.githubusercontent.com/Aider-AI/aider/main/aider/website/_data/polyglot_leaderboard.yml,YAML,Apache-2.0 (verified),none,yes,69 rows; newest 2025-10-03
+B3,benchmark,Epoch AI Benchmarking Hub,https://epoch.ai/data/ai-benchmarking-dashboard,CSV/zip,CC BY (reputation; to confirm),none (reputation),no: host blocked,
+B4,benchmark,LiveBench,https://livebench.ai,HF datasets JSONL,code mixed Apache-2.0/MIT; data unstated,none,partial: GitHub README,README release 2025-04-25
+B5,benchmark,LMArena / Artificial Analysis,https://lmarena.ai ; https://artificialanalysis.ai,HF datasets / API,unverified; AA API needs key (excluded),AA key,no: hosts blocked,
