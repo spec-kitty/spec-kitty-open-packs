@@ -133,7 +133,8 @@
         "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings",
         "Cycle 2: join-first matching, named continuations, mutant-killing cases, non-blocking folds",
         "Cycle 3: B1 binding-guard cases incl. full T015 sentence; B2 no join across list items/headings; alternatives pinned",
-        "Cycle 4: raw next-line item/heading guard incl * bullets and blockquotes; join-only cases pin each alternative; __bold__"
+        "Cycle 4: raw next-line item/heading guard incl * bullets and blockquotes; join-only cases pin each alternative; __bold__",
+        "Review passed (cycle 4): B2 fixed; 4 non-blocking notes"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
