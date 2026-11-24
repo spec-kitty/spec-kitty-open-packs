@@ -96,12 +96,12 @@
     },
     {
       "criterion_id": "FR-010",
-      "description": "Verify FR-010 is satisfied",
+      "description": "The roadmap Charter pin Waits on reflects rc.3 and the open charter follow-ups",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: docs/plans/roadmap.md; check_docs_freshness OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:09.530519+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
