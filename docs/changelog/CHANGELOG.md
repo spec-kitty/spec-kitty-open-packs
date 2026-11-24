@@ -949,7 +949,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     forms: an adverb before the level, a version spelled out, a plural subject, a hyphenated "-only", and
     "non-blocking". Markdown emphasis and list items are taken into account, and the message is shorter.
 
-- **A stray file in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep Markdown notes
+- **A stray Markdown note in a pack warns, it no longer fails** (operator ruling R34, #331). Authors may keep Markdown notes
   in a pack, and the charter service ignores them (`file_not_held`, charter #549 ruling 4).
   - **Schema pass.** An ignored file other than a `README.md` note (a `notes.md`, an orphan skill body) is now
     warned as `file_not_held` instead of failing as `not_held`. `README.md` notes are still carried silently.

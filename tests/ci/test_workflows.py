@@ -594,7 +594,8 @@ class CharterTrackBumpBoundary(unittest.TestCase):
 
     def build_request(self, additions: list[str], deletions: list[str] = (), head: str = "a" * 40,
                       states: tuple[str, str] = ("verified", "verified"),
-                      branch: str = "charter/service-release-service-v2.0.0") -> tuple[int, str, dict | None, str]:
+                      branch: str = "charter/service-release-service-v2.0.0",
+                      raw: str | None = None, head_file: str | None = None) -> tuple[int, str, dict | None, str]:
         """Run the build step on a stand-in artifact; return its exit code, output, the request and the PR body."""
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp)
@@ -602,8 +603,9 @@ class CharterTrackBumpBoundary(unittest.TestCase):
             changes = {"additions": [{"path": p, "contents": self.LOCK if p == "charter.lock.yaml" else "eA=="}
                                      for p in additions],
                        "deletions": [{"path": p} for p in deletions]}
-            (work / "artifact" / "file-changes.json").write_text(json.dumps(changes), encoding="utf-8")
-            (work / "artifact" / "head").write_text(head + "\n", encoding="utf-8")
+            (work / "artifact" / "file-changes.json").write_text(json.dumps(changes) if raw is None else raw,
+                                                                 encoding="utf-8")
+            (work / "artifact" / "head").write_text(head + "\n" if head_file is None else head_file, encoding="utf-8")
             env = {**os.environ, "RUNNER_TEMP": tmp, "ARTIFACT": str(work / "artifact"), "HEAD_SHA": "a" * 40,
                    "REPO": "spec-kitty/spec-kitty-open-packs", "BRANCH": branch,
                    "RELEASE_TAG": "service-v2.0.0", "COMMIT": "c" * 40, "CURRENT": "service-v1.0.0",
@@ -680,6 +682,50 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         self.assertIsNone(request)
         code, output, request, _ = self.build_request([*self.REAL, "charter.lock.yaml"])
         self.assertNotEqual(code, 0, "the lock is written once")
+        self.assertIsNone(request)
+
+    def changes_with_lock(self, text: str) -> str:
+        return json.dumps({"additions": [{"path": p, "contents": base64.b64encode(text.encode()).decode()
+                                          if p == "charter.lock.yaml" else "eA=="} for p in self.REAL],
+                           "deletions": []})
+
+    def test_a_second_json_document_cannot_smuggle_another_lock(self) -> None:
+        # Tier R review, B1: jq judged the last value of the file while the request took the first one, so an evil
+        # document followed by a good one passed the lock check and committed the evil lock. The file is now read
+        # once, as exactly one object.
+        good = self.changes_with_lock(self.LOCK_TEXT)
+        evil = self.changes_with_lock(self.LOCK_TEXT.replace("d" * 64, "f" * 64))
+        for name, raw in {"evil then good": f"{evil}\n{good}\n", "no separator": evil + good,
+                          "good then evil": f"{good}\n{evil}\n", "good twice": f"{good}\n{good}\n",
+                          "an array": f"[{good}]", "nothing": ""}.items():
+            with self.subTest(artifact=name):
+                code, output, request, _ = self.build_request(self.REAL, raw=raw)
+                self.assertNotEqual(code, 0)
+                self.assertIsNone(request)
+                self.assertIn("::error::", output)
+        self.assertEqual(self.build_request(self.REAL, raw=good)[0], 0)
+
+    def test_the_lock_holds_only_comments_blank_lines_and_the_four_pins(self) -> None:
+        # Tier R review, N1: anything else in the lock is refused before it is pushed, including what a YAML reader
+        # could take for another line (a NUL, NEL or line separator) that jq's split does not see.
+        cases = {"a quoted key": self.LOCK_TEXT + f'"jar_sha256": {"f" * 64}\n',
+                 "another key": self.LOCK_TEXT + "extra: 1\n",
+                 "a NUL": self.LOCK_TEXT.replace("\njar_sha256", "\x00jar_sha256"),
+                 "a NEL in a comment": "#\u0085jar_sha256: " + "f" * 64 + "\n" + self.LOCK_TEXT,
+                 "a line separator": "# x\u2028jar_sha256: " + "f" * 64 + "\n" + self.LOCK_TEXT,
+                 "CRLF": self.LOCK_TEXT.replace("\n", "\r\n"),
+                 "an indented pin": self.LOCK_TEXT + "  jar_sha256: " + "d" * 64 + "\n"}
+        for name, text in cases.items():
+            with self.subTest(lock=name):
+                code, output, request, _ = self.build_request(self.REAL, raw=self.changes_with_lock(text))
+                self.assertNotEqual(code, 0)
+                self.assertIsNone(request)
+        blank_and_comments = "\n# a comment\n\n" + self.LOCK_TEXT + "\n"
+        self.assertEqual(self.build_request(self.REAL, raw=self.changes_with_lock(blank_and_comments))[0], 0)
+
+    def test_the_head_file_holds_this_commit_and_nothing_else(self) -> None:
+        code, _, request, _ = self.build_request(self.REAL, head_file="a" * 40 + "\n" + "b" * 40 + "\n")
+        self.assertNotEqual(code, 0)
         self.assertIsNone(request)
 
     def test_only_a_generated_pack_page_may_be_deleted_and_no_authored_page_is_touched(self) -> None:

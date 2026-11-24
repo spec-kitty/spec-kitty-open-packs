@@ -294,7 +294,7 @@ jobs:
     permissions:
       # Reads only: the charter's public release assets (contents) and their build attestations (attestations).
       contents: read
-      attestations: read
+      attestations: read  # gh attestation verify reads the release jars' build attestations
     outputs:
       service: ${{ steps.verify.outputs.service }}
       pack_check: ${{ steps.verify.outputs.pack_check }}
@@ -482,10 +482,19 @@ jobs:
             fi
           done
           # The derive job's checkout must be this run's commit, the one the branch is cut from.
-          if [[ "$(head -n 1 "$ARTIFACT/head")" != "$HEAD_SHA" ]]; then
-            echo "::error::the derived changes were cut from $(head -n 1 "$ARTIFACT/head"), not $HEAD_SHA; nothing is pushed"
+          if [[ "$(cat "$ARTIFACT/head")" != "$HEAD_SHA" ]]; then
+            echo "::error::the derived changes were not cut from $HEAD_SHA; nothing is pushed"
             exit 1
           fi
+          # The file changes are read once, as exactly one JSON object, and every check below and the request use
+          # that same copy. (jq judges each value of a multi-value file on its own: a check could pass on one value
+          # while the request is built from another.)
+          if ! jq -e -s 'length == 1 and (.[0] | type) == "object"' "$ARTIFACT/file-changes.json" > /dev/null; then
+            echo "::error::the derived file changes are not exactly one JSON object; nothing is pushed"
+            exit 1
+          fi
+          changes="$RUNNER_TEMP/file-changes.json"
+          jq -c -s '.[0]' "$ARTIFACT/file-changes.json" > "$changes"
           # The branch is the one the lookup made for this release, never another.
           if [[ "$BRANCH" != "charter/service-release-$RELEASE_TAG" ]]; then
             echo "::error::the bump branch is '$BRANCH', not charter/service-release-$RELEASE_TAG; nothing is pushed"
@@ -506,7 +515,7 @@ jobs:
             if (type != "object") or ((keys - ["additions", "deletions"]) != []) then "(the file changes are not additions and deletions)"
             else ([(.additions // [])[] | .path | (bad // (if test($rewritten) or test($page) then empty else tojson end))],
                   [(.deletions // [])[] | .path | (bad // (if test($page) then empty else tojson end))]
-                  | .[]) end' "$ARTIFACT/file-changes.json")"
+                  | .[]) end' "$changes")"
           if [[ -n "$refused" ]]; then
             while IFS= read -r path; do echo "::error::the derived changes hold a path a bump does not write: $path"; done <<< "$refused"
             exit 1
@@ -518,17 +527,22 @@ jobs:
               | if ($locks | length) != 1 then false
                 else
                   ($locks[0].contents | @base64d | split("\n")) as $lines
-                  | ([$lines[] | select(test("^(commit|release_tag|jar_sha256|pack_check_sha256):"))] | sort)
-                    == (["commit: " + $commit, "release_tag: " + $tag, "jar_sha256: " + $jar,
-                         "pack_check_sha256: " + $check] | sort)
+                  # Only blank lines, comments and exactly the four pins; no control or line-separator character,
+                  # which a YAML reader could take for a line break that split does not see.
+                  | if any($lines[]; test("[[:cntrl:]\u0085\u2028\u2029]")) then false
+                    else
+                      ([$lines[] | select(. != "" and (startswith("#") | not))] | sort)
+                      == (["commit: " + $commit, "release_tag: " + $tag, "jar_sha256: " + $jar,
+                           "pack_check_sha256: " + $check] | sort)
+                    end
                 end
-            ' "$ARTIFACT/file-changes.json" > /dev/null; then
+            ' "$changes" > /dev/null; then
             echo "::error::the derived charter.lock.yaml does not pin exactly $RELEASE_TAG ($COMMIT) with the checked digests; nothing is pushed"
             exit 1
           fi
           jq -n --arg repo "$REPO" --arg branch "$BRANCH" --arg head "$HEAD_SHA" \
             --arg headline "chore(charter): pin charter release $RELEASE_TAG (#253)" \
-            --arg body "Opened by charter-track.yml: $RUN_URL" --slurpfile changes "$ARTIFACT/file-changes.json" \
+            --arg body "Opened by charter-track.yml: $RUN_URL" --slurpfile changes "$changes" \
             '{query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
               variables: {input: {branch: {repositoryNameWithOwner: $repo, branchName: $branch}, expectedHeadOid: $head,
                 message: {headline: $headline, body: $body},
