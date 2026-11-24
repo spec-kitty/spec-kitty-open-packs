@@ -49,7 +49,7 @@
       "wp": "WP02"
     },
     "#287": {
-      "evidence_ref": "Parent epic (context); its State and order rewrite is a hand-off tracker action",
+      "evidence_ref": "Parent epic: WP05 refreshes the roadmap (FR-010); the State and order rewrite is posted at hand-off",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -57,8 +57,8 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Epic: follow the charter contract",
-      "verdict": "not-applicable",
-      "wp": null
+      "verdict": "in-mission",
+      "wp": "WP05"
     },
     "#304": {
       "evidence_ref": "9dd127be025847327625b8f8280412835e846549 (lane-d)",
