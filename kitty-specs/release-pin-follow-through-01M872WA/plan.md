@@ -59,6 +59,35 @@ Re-check after design: pass. No new conflicts.
 - **Mismatch (FR-004).** No code change: the port already equals `ManifestRules.mismatch` at the pin (research R2). A test pins the duplicated, unheld case.
 - **#304 (FR-009).** Anchor the four false-positive patterns to the end of a clause (`[.;:,)]|$`). Add patterns for the five false negatives. Shorten the `::error` message to 200 characters or fewer.
 
+## Amendment 1 (2026-11-24, WP03 review cycle 1)
+
+The WP03 reviewer rejected the three-step split within one job (finding B1): a step boundary is not a credential boundary.
+The re-derive step could still steer the later token-holding steps:
+- through `$GITHUB_PATH` or `$GITHUB_ENV` (`BASH_ENV`, `LD_PRELOAD`);
+- through the GraphQL request file it wrote, which could name any mutation or branch;
+- through a background process reading `/proc/*/environ`.
+
+This amendment supersedes the "Token split" and "Attestation" bullets above. It stays within the operator's #310 ruling: scope the token, and warn only on attestation.
+
+- **`derive` job** (`contents: read`, no secret, no token in any step):
+  - checks out the run's commit and runs `charter_pin.py apply`, `changelog` and `commit-payload`;
+  - uploads one artifact: the commit payload's `fileChanges` and the head it was cut from.
+- **`bump` job** (publish; `contents: write`, `pull-requests: read`, `issues: read`, the PAT only in "Open"):
+  - **no checkout, no Python, no pip**, and no step runs a file from the repository or the artifact;
+  - it downloads the artifact with a pinned action;
+  - **it builds the request from fixed text**: a fixed `createCommitOnBranch` query, a branch name made from the resolved release tag, and `expectedHeadOid` equal to `github.sha`. The artifact's head must equal `github.sha` too;
+  - only `fileChanges` comes from the artifact. Every path in it is validated: relative and normalized, with no `..`, no leading `/`, nothing under `.github/`, and each path inside the set a bump writes (`charter.lock.yaml`, `docs/changelog/CHANGELOG.md`, `packs/*.source.yaml`, `packs/*/pack-manifest.yaml`, `tests/fixtures/valid/*/pack-manifest.yaml`, `docs/packs/*.md`). Any other path fails the job before anything is pushed;
+  - the PR body is built in the job from fixed text, the resolved outputs and the provenance states.
+- **Integrity vs attestation (advisory 3).** A jar whose SHA-256 differs from the pin is an integrity event, not a missing attestation. The `provenance` job records it as the state `mismatch` with an `::error::`, and the bump does not run: a wrong jar never produces a bump PR. A missing or failing attestation stays `unverified` and warn-only.
+- **Pinned verification (advisory 4).** `gh attestation verify` runs with `--signer-workflow spec-kitty/spec-kitty-charter/.github/workflows/service-release.yml --source-ref refs/tags/$RELEASE_TAG`, as the charter's own release notes prescribe. A failure stays warn-only.
+- **Tests exercise the boundary**, not only the `env:` blocks:
+  - derive and publish are separate jobs;
+  - derive holds no write scope and no secret;
+  - publish has no checkout, `setup-python` or pip, and no `run:` that invokes python, `.py`/`.sh` files or `source`;
+  - the GraphQL query in publish is a fixed literal;
+  - the path validator, run against stand-in artifacts, refuses `..`, absolute paths, `.github/` and paths outside the expected set, and accepts a real bump's paths.
+- `charter_pin.py attestation-note` is retired: the note is built by the publish job's shell, which runs no Python.
+
 ## Project Structure
 
 ### Documentation (this mission)

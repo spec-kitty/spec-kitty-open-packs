@@ -1,20 +1,20 @@
 {
-  "event_count": 17,
-  "last_event_id": "01M873WHGE9CPNYPPD0864YEPC",
-  "materialized_at": "2026-11-24T15:48:11.828006+00:00",
+  "event_count": 30,
+  "last_event_id": "01M874P8WEE57NTAMC76FG2Y6W",
+  "materialized_at": "2026-11-24T16:02:14.946673+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 0,
+    "approved": 2,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 2,
+    "for_review": 1,
     "in_progress": 1,
-    "in_review": 1,
+    "in_review": 0,
     "planned": 1
   },
   "work_packages": {
@@ -25,14 +25,21 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "in_review",
-      "last_event_id": "01M873JYFA0VFK6W83JXQJB1JG",
-      "last_transition_at": "2026-11-24T15:42:57.514935+00:00",
+      "lane": "approved",
+      "last_event_id": "01M874AAFZ80VJKT2KSGPW1XEV",
+      "last_transition_at": "2026-11-24T15:55:43.488020+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling"
+        "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling",
+        "Review passed (claude::reviewer-renata). Both tests non-vacuous: a reviewer-applied option-2 override (drop round_trip_red naming a file_not_held file) turns JudgeTheSet and RealPackCheck red; reverted. RealPackCheck passes against the pinned rc.3 jar on Java 25 and runs in the Charter service validation job (setup-java 25, PACK_CHECK_JAR set, set -e); elsewhere it is a counted skip. It fails loudly on the pin bump that brings charter#631 (exit 0 != 1). Docstring matches the #331 option-3 ruling. Only owned files touched; no downgrade of round_trip_red (C-001). Non-blocking nits: (a) the real-jar assertIn('notes.txt') is also met by the ::notice line, not only the round_trip_red line; (b) the notes.md half does not assert the file_not_held notice."
       ],
       "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP01-stray-file-gap-pinned/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP01-stray-file-gap-pinned/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
       "role": "reviewer",
       "shell_pid": 5033,
       "shell_pid_created_at": "1795534973.31",
@@ -44,22 +51,29 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude::python-pedro",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "reviewer-renata",
+      "agent_profile_version": "1.0",
       "force_count": 0,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "for_review",
-      "last_event_id": "01M873J702666E8Z5H2YYG4WGM",
-      "last_transition_at": "2026-11-24T15:42:33.474944+00:00",
+      "lane": "approved",
+      "last_event_id": "01M8747AW8W8KMK8B9YBQ2GKV3",
+      "last_transition_at": "2026-11-24T15:54:05.576959+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change"
+        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change",
+        "Review passed: rglob('*') measured on 3.11.18/3.12.3/3.13.18 never descends into linked dirs (depth 0/1/2, outside target, cycle, linked file, aliased root), so no code change and the ratchet tests are the right closure; T005 drop sound. Mutations red: os.walk(followlinks), dropped is_symlink guard, resolved root (#174), rglob(recurse_symlinks=True) on 3.13, three mismatch reorderings. Nit: FR-005 lines redundant (before is always None; the pre-existing EXIT_OK assert already fails a no-op derive). Follow-up: charter_service_check.stage() copytree dereferences links and l.457 is_file() counts linked files; no pack holds links. Checklist: 1 N/A, 2 PASS, 3 N/A, 4 PASS, 5 PASS, 6 PASS, 7 PASS (lane-b sole owner), 8 N/A. Suites equal to base apart from the 2 new tests."
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 8126,
-      "shell_pid_created_at": "1795534788.55",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP02-manifest-mirror-parity/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP02-manifest-mirror-parity/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 6950,
+      "shell_pid_created_at": "1795535309.21",
       "subtasks": {
         "T004": "done",
         "T005": "done",
@@ -73,19 +87,27 @@
       "agent": "claude::python-pedro",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
+      "force_count": 1,
       "implementer_of_record": "claude::python-pedro",
       "lane": "for_review",
-      "last_event_id": "01M873SXKA0DNVH935P5E4PHS4",
-      "last_transition_at": "2026-11-24T15:46:45.994108+00:00",
+      "last_event_id": "01M874MPN1F306VV9R1H32X0B9",
+      "last_transition_at": "2026-11-24T16:01:23.617263+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: bump split (no token beside apply), warn-only provenance job, PR-body attestation note; live proof needs main"
+        "Ready for review: bump split (no token beside apply), warn-only provenance job, PR-body attestation note; live proof needs main",
+        "Cycle 2: derive/publish job boundary, path-checked fixed-text request, mismatch blocks, pinned attestation verify"
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP03-release-bump-hardening/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP03-release-bump-hardening/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "changes_requested"
+      },
       "role": "implementer",
-      "shell_pid": 11755,
-      "shell_pid_created_at": "1795534973.56",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
         "T009": "done",
         "T010": "done",
@@ -97,19 +119,35 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude::python-pedro",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
+      "force_count": 1,
       "implementer_of_record": "claude::python-pedro",
       "lane": "in_progress",
-      "last_event_id": "01M873WHGE9CPNYPPD0864YEPC",
-      "last_transition_at": "2026-11-24T15:48:11.828006+00:00",
+      "last_event_id": "01M874P8WEE57NTAMC76FG2Y6W",
+      "last_transition_at": "2026-11-24T16:02:14.946673+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings"
+      ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP04-self-binding-vocabulary/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP04-self-binding-vocabulary/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "changes_requested"
+      },
       "role": "implementer",
-      "shell_pid": 17978,
-      "shell_pid_created_at": "1795535286.08"
+      "shell_pid": null,
+      "shell_pid_created_at": null,
+      "subtasks": {
+        "T015": "planned",
+        "T016": "planned",
+        "T017": "planned",
+        "T018": "planned"
+      }
     },
     "WP05": {
       "actor": "finalize-tasks",
