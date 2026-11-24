@@ -88,6 +88,10 @@ This amendment supersedes the "Token split" and "Attestation" bullets above. It 
   - the path validator, run against stand-in artifacts, refuses `..`, absolute paths, `.github/` and paths outside the expected set, and accepts a real bump's paths.
 - `charter_pin.py attestation-note` is retired: the note is built by the publish job's shell, which runs no Python.
 
+> **Note (after acceptance):** the structure below predates Amendment 1 and the WP02 measurement. `charter_pin.py` and
+> its tests end unchanged (the attestation note is built in the workflow), and `validate_pack_schemas.py` gains no
+> `pack_files()` helper (research R3, correction).
+
 ## Project Structure
 
 ### Documentation (this mission)

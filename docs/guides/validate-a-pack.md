@@ -395,12 +395,13 @@ A green release is turned into a pull request by two jobs, so that no token is i
 reads the new release's contract (#310):
 
 - **`derive`** runs `charter_pin.py apply` and the changelog entry. It has no write token and no secret, and
-  no token is exposed to the pin tooling (the job's read-only token stays out of its steps and its checkout),
-  hands on only the changed files and the commit it started from.
+  no token is exposed to the pin tooling: the job's read-only token is in no step's environment and is not
+  persisted in its checkout. It hands on only the changed files and the commit it started from.
 - **`bump`** holds the tokens and runs no repository code: no checkout, no Python. It accepts only the
   files a bump writes (`charter.lock.yaml`, the changelog, the pack digests, the pack and fixture
-  manifests and the pack pages) and refuses anything else before it pushes. It builds the commit
-  request itself, on this run's commit.
+  manifests and the pack pages) and refuses anything else before it pushes. The lock it commits must pin
+  exactly the release, commit and digests the checks ran. It builds the commit request itself, on this
+  run's commit.
 
 The bump job uses two tokens (operator ruling on #314; the organization does not let GitHub Actions
 create pull requests):

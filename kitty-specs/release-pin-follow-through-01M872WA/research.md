@@ -21,6 +21,10 @@ All findings were checked against `main` at `a7243e2` and charter `cb9b154` (`se
 
 ## R3. The symlinked-directory hole is real on CI's Python
 
+> **Correction (WP02, measured 2026-11-24):** the premise below is wrong for `rglob("*")`. On Python 3.11, 3.12 and
+> 3.13 it lists a linked directory but never descends into it, at any depth. There was no hole: WP02 pins the
+> behaviour with a ratchet test instead of adding `pack_files()`.
+
 - **Finding:** `derived_manifest` uses `pack_dir.rglob("*")` (l.476) and skips only link *files*. On Python ≤3.12, which CI uses, `rglob` descends into a linked directory. The charter's `PackFileSet` uses `Files.walkFileTree`, which does not follow links, and enters the root through its real path (#174).
 - **Decision:** add a `pack_files()` helper over `os.walk(followlinks=False)` that resolves the root first.
 - **Alternative rejected:** `rglob(recurse_symlinks=False)` is 3.13+ only.

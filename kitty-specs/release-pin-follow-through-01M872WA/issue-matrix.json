@@ -157,7 +157,7 @@
       "wp": null
     },
     "#629": {
-      "evidence_ref": "Follow-up: spec-kitty-charter#629 (requiredNotHeld in pack-check), tracked by #330",
+      "evidence_ref": "Follow-up: spec-kitty-charter#629 (requiredNotHeld in pack-check), tracked by #333 under #330",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -169,7 +169,7 @@
       "wp": null
     },
     "#630": {
-      "evidence_ref": "Follow-up: spec-kitty-charter#630 (stale content_hash), tracked by #330",
+      "evidence_ref": "Context only: spec-kitty-charter#630 (stale content_hash). pack-check rc.3 already refuses a stale hash under --round-trip; #330 waits on spec-kitty-charter#629 and #632, not #630. No work owed.",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -177,7 +177,7 @@
       "scope": null,
       "source_file": null,
       "title": "spec-kitty-charter#630: stale content_hash",
-      "verdict": "deferred-with-followup",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#631": {
