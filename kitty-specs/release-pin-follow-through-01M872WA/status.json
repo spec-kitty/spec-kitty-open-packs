@@ -1,7 +1,7 @@
 {
-  "event_count": 8,
-  "last_event_id": "01M873CGMZZW3J3NNR427DTWRS",
-  "materialized_at": "2026-11-24T15:39:26.752033+00:00",
+  "event_count": 10,
+  "last_event_id": "01M873DBW70AZFHFPM6E19QT7Y",
+  "materialized_at": "2026-11-24T15:39:54.529636+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 1,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 4
+    "planned": 3
   },
   "work_packages": {
     "WP01": {
@@ -43,11 +43,20 @@
       }
     },
     "WP02": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude::python-pedro",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M87384NBFNFVKQ9DGFFHB4JV",
-      "last_transition_at": "2026-11-24T15:37:03.403236+00:00"
+      "implementer_of_record": "claude::python-pedro",
+      "lane": "in_progress",
+      "last_event_id": "01M873DBW70AZFHFPM6E19QT7Y",
+      "last_transition_at": "2026-11-24T15:39:54.529636+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 8126,
+      "shell_pid_created_at": "1795534788.55"
     },
     "WP03": {
       "actor": "finalize-tasks",
