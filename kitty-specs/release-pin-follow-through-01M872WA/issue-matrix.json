@@ -1,7 +1,7 @@
 {
   "rows": {
     "#174": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "WP02 ccefadb: alias subtest pins that a pack root reached through a link is walked (spec l.69); red under a resolve()-root mutation",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -9,8 +9,8 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "verdict": "in-mission",
+      "wp": "WP02"
     },
     "#252": {
       "evidence_ref": "<link or commit>",
