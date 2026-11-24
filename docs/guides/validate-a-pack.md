@@ -273,8 +273,9 @@ only once the pinned pack-check refuses its case (#330):
 pack-check and, since R34, a warning here too: nothing fails it. An unmodelled stray file (`notes.txt`, a log)
 is also only a warning in the schema pass and the service check, but pack-check's round trip still refuses it
 as `round_trip_red`, and the gate keeps that verdict: it fails. The operator accepted this gap on 2026-11-21
-(#331), with no override here. Until spec-kitty-charter#631 lets the round trip skip the files the store does
-not hold, only Markdown notes may stay in a pack.
+(#331), with no override here. The charter fix, spec-kitty-charter#631 (the round trip skips the files the
+store does not hold), is merged on charter `main` but not yet in a release. Until a release carries it and the
+pin moves to that release, only Markdown notes may stay in a pack.
 
 pack-check also refuses a stale `content_hash` or `manifest_hash` in `pack-manifest.yaml` (`round_trip_red`;
 spec-kitty-charter#630). The schema pass keeps its own stale-hash check anyway: it is the fast pre-check, and
@@ -393,7 +394,8 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
 A green release is turned into a pull request by two jobs, so that no token is in reach of the code that
 reads the new release's contract (#310):
 
-- **`derive`** runs `charter_pin.py apply` and the changelog entry. It holds no token and no secret, and
+- **`derive`** runs `charter_pin.py apply` and the changelog entry. It has no write token and no secret, and
+  no token is exposed to the pin tooling (the job's read-only token stays out of its steps and its checkout),
   hands on only the changed files and the commit it started from.
 - **`bump`** holds the tokens and runs no repository code: no checkout, no Python. It accepts only the
   files a bump writes (`charter.lock.yaml`, the changelog, the pack digests, the pack and fixture
@@ -418,9 +420,10 @@ create pull requests):
 - A jar that is not the file the pin names (another SHA-256) is an error, and nothing is derived or
   opened.
 - Each jar's build attestation is verified against the charter's release workflow and the tag
-  (`gh attestation verify --signer-workflow … --source-ref refs/tags/<tag>`, as the charter's release
-  notes prescribe). A missing or failing attestation is only a warning (operator ruling): the pull
-  request is opened anyway, and its body says, per jar, *verified* or *not verified*. When either is not
+  (`gh attestation verify <jar> --repo spec-kitty/spec-kitty-charter --signer-workflow … --source-ref refs/tags/<tag>`, as the charter's release
+  notes prescribe). A missing or failing attestation, or a jar that cannot be downloaded again, is only
+  a warning (operator ruling): the pull request is opened anyway, and its body says, per jar, *verified*
+  or *not verified*. When either is not
   verified, compare both digests with the release page by hand before merging.
 
 A superseded bump pull request that cannot be closed, or whose branch cannot be deleted, fails the bump

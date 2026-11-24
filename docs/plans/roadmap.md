@@ -71,9 +71,14 @@ builds on the charter commit this repository pins; moving that pin first keeps l
 - The decisions behind the pin policy and the ownership split are recorded as ADRs
   ([ADR 2026-11-19-3](../architecture/adr/2026-11-19-3-pin-charter-releases-and-charter-owns-pack-logic.md)).
 
-**Waits on:** charter fixes spec-kitty-charter#629 and #630, before the last Python rules (#330) can
-retire, and spec-kitty-charter#631, before a stray file other than a Markdown note may stay in a
-pack (#331). The pin, `service-v0.1.0-rc.3`, already carries the `tension` relation spelling, the
+**Waits on:**
+
+- spec-kitty-charter#629 and #630, both open, before the last Python rules (#330) can retire;
+- a charter release carrying spec-kitty-charter#631, plus the pin bump to it, before a stray file other
+  than a Markdown note may stay in a pack (#331). The fix is merged on charter `main` but in no release
+  yet.
+
+ The pin, `service-v0.1.0-rc.3`, already carries the `tension` relation spelling, the
 `file_not_held` ruling (charter #554) and the routing catalog (charter ADR-0080). The nightly
 check against charter `main` reports unreleased charter changes to follow before the next release.
 
