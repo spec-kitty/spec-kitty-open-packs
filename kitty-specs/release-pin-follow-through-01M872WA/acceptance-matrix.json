@@ -26,12 +26,12 @@
     },
     {
       "criterion_id": "FR-003",
-      "description": "Verify FR-003 is satisfied",
+      "description": "The derived manifest leaves out everything a link reaches and still walks a linked pack root",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: DerivedManifests ratchet test on Python 3.12 and 3.13, OK; mutation followlinks=True red",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:40.260181+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
