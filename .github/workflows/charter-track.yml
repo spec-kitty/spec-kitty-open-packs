@@ -37,7 +37,9 @@ name: Charter track
 # Tokens (operator ruling on #314; the org locks "Allow GitHub Actions to create and approve pull requests").
 # Only the bump job holds contents: write or a secret:
 # - the job's own token (contents: write on that job only) pushes the bump branch and makes its commit through
-#   the GitHub API, so GitHub signs the commit;
+#   the GitHub API, so GitHub signs the commit. The bump job runs no repository code: no checkout, no Python. The pin
+#   tooling runs in the derive job, which holds no token at all and hands over only file changes; the bump job checks
+#   every path and builds the commit request from fixed text (#310);
 # - the repository secret PR_CREATION_TOKEN, a fine-grained PAT on spec-kitty-charter and spec-kitty-open-packs
 #   with Actions and Pull requests read and write and no Contents, opens the bump pull request and closes a
 #   superseded one. A pull request opened with it starts the pull_request workflows, so the required check
@@ -45,6 +47,13 @@ name: Charter track
 #   step runs nothing but gh. This workflow uses its Pull requests scope; its Actions scope is the operator's
 #   choice for other uses. Without the secret the bump job fails, naming it, before it pushes.
 # Every other job uses only the workflow's own token, read-only apart from the issue jobs' issues: write.
+#
+# Provenance (#310). Before a bump, the read-only provenance job checks the release's service jar and pack-check jar:
+# - a jar that is not the file the bump pins (another SHA-256) is an integrity failure: the job fails and no bump is
+#   derived or opened;
+# - its build attestation is verified against spec-kitty-charter's release workflow and the tag (gh attestation
+#   verify --signer-workflow --source-ref). A missing or failing attestation is a warning only (operator ruling): the
+#   bump pull request is opened anyway and its body states, per jar, verified or not verified.
 
 on:
   schedule:
@@ -268,10 +277,116 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # Green on a newer release, on main: one bump pull request.
+  # Before a bump, both release jars (#310). Read-only, runs no repository code.
+  # - A jar that is not the pinned file (another SHA-256) is an integrity event: an error, and this job fails, so
+  #   nothing is derived or published. A wrong jar never produces a bump pull request.
+  # - A build attestation that is missing or does not verify (pinned to the charter's release workflow and the tag) is
+  #   a warning only (operator ruling on #310): the bump pull request is opened anyway and says so.
+  provenance:
+    name: Release provenance
+    needs: resolve
+    if: >-
+      ${{ needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
+      && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      attestations: read
+    outputs:
+      service: ${{ steps.verify.outputs.service }}
+      pack_check: ${{ steps.verify.outputs.pack_check }}
+    steps:
+      - name: Check both release jars and their build attestations
+        id: verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CHARTER: spec-kitty/spec-kitty-charter
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          JAR_SHA256: ${{ needs.resolve.outputs.jar_sha256 }}
+          PACK_CHECK_SHA256: ${{ needs.resolve.outputs.pack_check_sha256 }}
+        run: |
+          # No `set -e`: each check records a state; only an integrity failure fails the job, at the end.
+          set -uo pipefail
+          version="${RELEASE_TAG#service-v}"
+          jars="$RUNNER_TEMP/jars"
+          mkdir -p "$jars"
+          failed=0
+          echo "## Release provenance: \`$RELEASE_TAG\`" >> "$GITHUB_STEP_SUMMARY"
+          check() {  # <output name> <jar> <the SHA-256 the bump pins>
+            local name="$1" jar="$2" pinned="$3" state=unverified
+            if ! gh release download "$RELEASE_TAG" --repo "$CHARTER" --pattern "$jar" --dir "$jars" --clobber; then
+              echo "::warning::could not download $jar of $RELEASE_TAG: its build attestation is not verified (#310)"
+            elif [[ "$(sha256sum "$jars/$jar" | cut -d' ' -f1)" != "$pinned" ]]; then
+              echo "::error::$jar of $RELEASE_TAG is not the file the bump pins (its SHA-256 is not $pinned): no bump is made (#310)"
+              state=mismatch
+              failed=1
+            elif ! gh attestation verify "$jars/$jar" --repo "$CHARTER" \
+                --signer-workflow "$CHARTER/.github/workflows/service-release.yml" --source-ref "refs/tags/$RELEASE_TAG"; then
+              echo "::warning::$jar of $RELEASE_TAG has no build attestation that verifies against $CHARTER's release workflow (#310; warn only)"
+            else
+              state=verified
+            fi
+            echo "$name=$state" >> "$GITHUB_OUTPUT"
+            echo "- \`$jar\`: $state" >> "$GITHUB_STEP_SUMMARY"
+          }
+          check service "spec-kitty-charter-service-$version.jar" "$JAR_SHA256"
+          check pack_check "pack-check-$version.jar" "$PACK_CHECK_SHA256"
+          exit "$failed"
+
+  # Green on a newer release, on main: the pin tooling re-derives the packs here, with no token at all (#310). This job
+  # hands its file changes to the bump job as an artifact; it can push nothing and open nothing.
+  derive:
+    name: Derive the bump
+    needs: [resolve, checks, provenance]
+    if: >-
+      ${{ needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
+      && needs.checks.result == 'success'
+      && github.repository == 'spec-kitty/spec-kitty-open-packs' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install the schema validator's dependencies
+        run: |
+          pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
+      - name: Re-derive the packs at the release
+        env:
+          COMMIT: ${{ needs.resolve.outputs.commit }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          JAR_SHA256: ${{ needs.resolve.outputs.jar_sha256 }}
+          PACK_CHECK_SHA256: ${{ needs.resolve.outputs.pack_check_sha256 }}
+          CURRENT: ${{ needs.resolve.outputs.current }}
+        run: |
+          set -euo pipefail
+          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-check-sha256 "$PACK_CHECK_SHA256"
+          python3 scripts/ci/charter_pin.py changelog --release-tag "$RELEASE_TAG" --commit "$COMMIT" --previous "$CURRENT" --date "$(date -u +%F)"
+          # Only the file changes travel on: the bump job builds the commit request itself, from fixed text.
+          mkdir -p "$RUNNER_TEMP/charter-bump"
+          head="$(git rev-parse HEAD)"
+          python3 scripts/ci/charter_pin.py commit-payload --branch unused --head-oid "$head" --headline unused \
+            | jq '.fileChanges' > "$RUNNER_TEMP/charter-bump/file-changes.json"
+          echo "$head" > "$RUNNER_TEMP/charter-bump/head"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: charter-bump
+          path: ${{ runner.temp }}/charter-bump/
+          if-no-files-found: error
+          retention-days: 7
+
+  # The bump pull request. This job holds the tokens, so it runs no repository code and no file from the artifact: no
+  # checkout, no Python, no pip. It builds the commit request from fixed text and takes only the file changes from the
+  # derive job, each path checked against the files a bump writes (#310).
   bump:
     name: Open the bump pull request
-    needs: [resolve, checks]
+    needs: [resolve, checks, provenance, derive]
     if: >-
       ${{ needs.resolve.outputs.track == 'release' && needs.resolve.outputs.act == 'true'
       && needs.checks.result == 'success'
@@ -294,28 +409,17 @@ jobs:
             echo "::error::The repository secret PR_CREATION_TOKEN is not set: the bump pull request cannot be opened. Set it to the fine-grained PAT described in docs/guides/validate-a-pack.md (Pull requests read and write on this repository; no Contents)."
             exit 1
           fi
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          persist-credentials: false
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
-        with:
-          python-version: "3.12"
-      - name: Install the schema validator's dependencies
-        run: |
-          pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
-      - name: Push the bump branch
-        id: prepare
+          name: charter-bump
+          path: ${{ runner.temp }}/charter-bump
+      - name: Look up the bump state
+        id: lookup
         env:
-          # The job's own token only: reads pull requests and issues, pushes the branch and its commit. The PAT is
-          # kept out of this step, which runs the pin tooling and its third-party dependencies.
+          # The job's own token: reads pull requests and issues, deletes an interrupted run's branch. Runs only gh.
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          COMMIT: ${{ needs.resolve.outputs.commit }}
           RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
-          JAR_SHA256: ${{ needs.resolve.outputs.jar_sha256 }}
-          PACK_CHECK_SHA256: ${{ needs.resolve.outputs.pack_check_sha256 }}
-          CURRENT: ${{ needs.resolve.outputs.current }}
         run: |
           set -euo pipefail
           # One branch per release, cut from this run's main commit; an open bump pull request for an older
@@ -338,23 +442,76 @@ jobs:
             fi
             gh api -X DELETE "repos/$REPO/git/refs/heads/$branch"  # left by an interrupted run
           fi
-
-          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-check-sha256 "$PACK_CHECK_SHA256"
-          python3 scripts/ci/charter_pin.py changelog --release-tag "$RELEASE_TAG" --commit "$COMMIT" --previous "$CURRENT" --date "$(date -u +%F)"
-
-          # The branch and commit are made through the API with the job's token, so GitHub signs the commit.
-          head="$(git rev-parse HEAD)"
-          gh api -X POST "repos/$REPO/git/refs" -f ref="refs/heads/$branch" -f sha="$head" > /dev/null
-          headline="chore(charter): pin charter release $RELEASE_TAG (#253)"
-          python3 scripts/ci/charter_pin.py commit-payload --branch "$branch" --head-oid "$head" \
-            --headline "$headline" --body "Opened by charter-track.yml: $RUN_URL" > "$RUNNER_TEMP/input.json"
-          jq -n --slurpfile input "$RUNNER_TEMP/input.json" \
-            '{query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
-              variables: {input: $input[0]}}' > "$RUNNER_TEMP/request.json"
-          oid="$(gh api graphql --input "$RUNNER_TEMP/request.json" --jq '.data.createCommitOnBranch.commit.oid')"
-          echo "committed $oid on $branch"
-
           red="$(gh issue list --repo "$REPO" --label charter:release-red --state open --limit 1 --json number --jq '.[0].number // empty')"
+          {
+            echo "go=true"
+            echo "branch=$branch"
+            echo "red=$red"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check the derived changes and build the commit
+        id: build
+        if: ${{ steps.lookup.outputs.go == 'true' }}
+        env:
+          # No token. jq and shell only: the request is fixed text around the checked file changes.
+          ARTIFACT: ${{ runner.temp }}/charter-bump
+          HEAD_SHA: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.lookup.outputs.branch }}
+          RED: ${{ steps.lookup.outputs.red }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COMMIT: ${{ needs.resolve.outputs.commit }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          JAR_SHA256: ${{ needs.resolve.outputs.jar_sha256 }}
+          PACK_CHECK_SHA256: ${{ needs.resolve.outputs.pack_check_sha256 }}
+          CURRENT: ${{ needs.resolve.outputs.current }}
+          ATTEST_SERVICE: ${{ needs.provenance.outputs.service }}
+          ATTEST_PACK_CHECK: ${{ needs.provenance.outputs.pack_check }}
+        run: |
+          set -euo pipefail
+          # The provenance job only lets a bump through with these states; anything else stops here.
+          for state in "$ATTEST_SERVICE" "$ATTEST_PACK_CHECK"; do
+            if [[ "$state" != verified && "$state" != unverified ]]; then
+              echo "::error::unexpected provenance state '$state'; nothing is pushed"
+              exit 1
+            fi
+          done
+          # The derive job's checkout must be this run's commit, the one the branch is cut from.
+          if [[ "$(head -n 1 "$ARTIFACT/head")" != "$HEAD_SHA" ]]; then
+            echo "::error::the derived changes were cut from $(head -n 1 "$ARTIFACT/head"), not $HEAD_SHA; nothing is pushed"
+            exit 1
+          fi
+          # Every path is one a bump writes. The pattern is anchored and no segment may start with a dot, so a path
+          # is relative, holds no . or .. segment and is never under .github/.
+          allowed='^(charter\.lock\.yaml|docs/changelog/CHANGELOG\.md|packs/[A-Za-z0-9_-][A-Za-z0-9._-]*\.source\.yaml|(packs|tests/fixtures/valid)/[A-Za-z0-9_-][A-Za-z0-9._-]*/pack-manifest\.yaml|docs/packs/[A-Za-z0-9_-][A-Za-z0-9._-]*\.md)$'
+          refused="$(jq -r --arg allowed "$allowed" '
+            if (type != "object") or ((keys - ["additions", "deletions"]) != []) then "(the file changes are not additions and deletions)"
+            else ([(.additions // [])[], (.deletions // [])[]]
+                  | map(if (.path | type) != "string" then "(a path that is not text)"
+                        elif .path | test($allowed) then empty
+                        else (.path | tojson) end)
+                  | .[]) end' "$ARTIFACT/file-changes.json")"
+          if [[ -n "$refused" ]]; then
+            while IFS= read -r path; do echo "::error::the derived changes hold a path a bump does not write: $path"; done <<< "$refused"
+            exit 1
+          fi
+          jq -n --arg repo "$REPO" --arg branch "$BRANCH" --arg head "$HEAD_SHA" \
+            --arg headline "chore(charter): pin charter release $RELEASE_TAG (#253)" \
+            --arg body "Opened by charter-track.yml: $RUN_URL" --slurpfile changes "$ARTIFACT/file-changes.json" \
+            '{query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+              variables: {input: {branch: {repositoryNameWithOwner: $repo, branchName: $branch}, expectedHeadOid: $head,
+                message: {headline: $headline, body: $body},
+                fileChanges: {additions: [($changes[0].additions // [])[] | {path, contents}],
+                              deletions: [($changes[0].deletions // [])[] | {path}]}}}}' > "$RUNNER_TEMP/request.json"
+
+          # What stands behind each digest (#310): the provenance job's states. A mismatch never gets here.
+          attested() {  # <what> <state>
+            case "$2" in
+              verified) echo "- $1: verified against \`spec-kitty/spec-kitty-charter\`'s release workflow (\`gh attestation verify\`)" ;;
+              unverified) echo "- $1: **not verified**: no build attestation was found, or it did not verify" ;;
+              *) echo "- $1: **not verified**" ;;  # unreachable: the states were checked above
+            esac
+          }
           {
             echo "Charter published \`$RELEASE_TAG\`, and the packs pass the whole gate against it (#253)."
             echo
@@ -363,23 +520,45 @@ jobs:
             echo "- \`jar_sha256\`: \`$JAR_SHA256\` (the release's service \`.sha256\` asset)"
             echo "- \`pack_check_sha256\`: \`$PACK_CHECK_SHA256\` (the release's pack-check \`.sha256\` asset)"
             echo
-            echo "**Check the two digests yourself before merging.** They were copied from the release's own \`.sha256\` assets,"
-            echo "so nothing independent stands behind them: compare both with the release page and its assets."
+            echo "Both jars are the files these digests name (checked by the provenance job). Their build provenance"
+            echo "(#310; a missing attestation warns, it does not block):"
+            echo
+            attested "the service jar" "$ATTEST_SERVICE"
+            attested "the pack-check jar" "$ATTEST_PACK_CHECK"
+            if [[ "$ATTEST_SERVICE" != verified || "$ATTEST_PACK_CHECK" != verified ]]; then
+              echo
+              echo "**Check both digests by hand before merging:** compare them with the release page and its assets."
+            fi
             echo
             echo "Every pack manifest, digest and pack page is re-derived at the new pin, and a changelog entry is added."
-            echo "Proven green by $RUN_URL against \`main\` at \`$head\`. Review the changelog entry before merging."
+            echo "Proven green by $RUN_URL against \`main\` at \`$HEAD_SHA\`. Review the changelog entry before merging."
             echo "If \`main\` has moved since, **Update branch** before merging: that push runs the gate on the merge"
             echo "result, and a pack added since needs its manifest re-derived at the new pin."
-            [[ -n "$red" ]] && { echo; echo "Closes #$red."; }
+            if [[ -n "$RED" ]]; then echo; echo "Closes #$RED."; fi
             echo
             echo "---"
             echo "_Opened by \`.github/workflows/charter-track.yml\`._"
           } > "$RUNNER_TEMP/pr.md"
-          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Push the bump branch
+        id: push
+        if: ${{ steps.lookup.outputs.go == 'true' }}
+        env:
+          # The job's own token: creates the branch at this run's commit, then the commit GitHub signs. Runs only gh.
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.lookup.outputs.branch }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          gh api -X POST "repos/$REPO/git/refs" -f ref="refs/heads/$BRANCH" -f sha="$HEAD_SHA" > /dev/null
+          oid="$(gh api graphql --input "$RUNNER_TEMP/request.json" --jq '.data.createCommitOnBranch.commit.oid')"
+          echo "committed $oid on $BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
 
       # The only step that holds PR_CREATION_TOKEN, and it runs nothing but gh.
       - name: Open the bump pull request
-        if: ${{ steps.prepare.outputs.branch != '' }}
+        if: ${{ steps.push.outputs.branch != '' }}
         env:
           # The job's own token: deletes the superseded branches (contents: write).
           GH_TOKEN: ${{ github.token }}
@@ -387,7 +566,7 @@ jobs:
           # so the bump pull request's own pull_request workflows, the required check among them, run.
           PR_TOKEN: ${{ secrets.PR_CREATION_TOKEN }}
           REPO: ${{ github.repository }}
-          BRANCH: ${{ steps.prepare.outputs.branch }}
+          BRANCH: ${{ steps.push.outputs.branch }}
           RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
         run: |
           set -euo pipefail
