@@ -53,6 +53,9 @@
       "last_event_id": "01M873J702666E8Z5H2YYG4WGM",
       "last_transition_at": "2026-11-24T15:42:33.474944+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 8126,
