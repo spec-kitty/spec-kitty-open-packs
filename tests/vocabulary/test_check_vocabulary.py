@@ -332,6 +332,52 @@ class SelfBindingTest(unittest.TestCase):
         self.assertEqual(vocab.self_binding_in("This tactic is lenient-adherence\nenforcement: lenient-adherence\n"), [])
         self.assertEqual(vocab.self_binding_in("Advisory in version\n1. A list item.\n"), [])
 
+    #: Squad review before the PR: other senses still flagged before, each now spared.
+    SQUAD_NOT_A_LEVEL = (
+        ("This directive is mandatory reading for reviewers.\n", True),
+        ("The directive is required reading before review.\n", True),
+        ("npm reports an advisory in version 4.17.20 of lodash.\n", True),
+        ("Gradle makes the jar: the reviewers keep their rules binding.\n", True),
+        ("- enforcement: lenient-adherence\n  scope: x\n", False),
+        ("default_enforcement: lenient-adherence\nscope: x\n", False),
+        ("level: lenient-adherence\nnotes: x\n", False),
+        ("# The rule is mandatory\n# reading for reviewers.\n", False),
+        ("enforcement: advisory\nposture: none\n", False),
+        ("- enforcement: advisory\n  posture: none\n", False),
+    )
+
+    #: ... and level claims the suite never exercised, each now pinned.
+    SQUAD_LEVELS = (
+        ("This directive is purely advisory.\n", True),
+        ("This directive is merely advisory.\n", True),
+        ("The directive is binding.\n", True),
+        ("This directive is lenient.\n", True),
+        ("The guidance is advisory.\n", True),
+        ("This directive is not advisory.\n", True),
+        ("This directive is no longer advisory.\n", True),
+        ("These rules are required.\n", True),
+        ("Advisory in version1.\n", True),
+        ("# A styleguide is advisory\n# context an agent applies.\n", False),
+    )
+
+    def test_the_squads_other_senses_are_spared(self) -> None:
+        for text, markdown in self.SQUAD_NOT_A_LEVEL:
+            with self.subTest(text=text):
+                self.assertEqual(vocab.self_binding_in(text, markdown=markdown), [])
+
+    def test_the_squads_level_claims_are_flagged(self) -> None:
+        for text, markdown in self.SQUAD_LEVELS:
+            with self.subTest(text=text):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(text, markdown=markdown)], [1])
+
+    def test_a_column_zero_hash_is_a_heading_in_markdown_and_a_comment_in_yaml(self) -> None:
+        text = "# A styleguide is advisory\n# context an agent applies.\n"
+        self.assertEqual(vocab.self_binding_in(text, markdown=True), [])
+        self.assertEqual([n for n, _ in vocab.self_binding_in(text, markdown=False)], [1])
+        found = vocab.findings_in(text, "packs/x/styleguides/x.styleguide.yaml")
+        self.assertEqual([n for n, _ in found], [1])
+        self.assertEqual(vocab.findings_in(text, "packs/x/README.md"), [])
+
     def test_double_underscore_emphasis_is_ignored_too(self) -> None:
         self.assertEqual([n for n, _ in vocab.self_binding_in("intro\nThese rules are __mandatory__.\n")], [2])
         self.assertEqual(vocab.self_binding_in("Mark it mandatory __reading__; keep __dunder__ names.\n"), [])

@@ -123,12 +123,13 @@ _NOT_THE_LEVEL = r"(?!\s+reading\b)"
 SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
-        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v|version\s*)\d",
-        r"\b(?:this|the)\s+directive\s+is\s+(?:(?:strictly|purely|merely|only)\s+)?"
-        r"(?:advisory|required(?!\s+by\b)|mandatory|binding|lenient|non-blocking)\b",
+        # "Advisory in v1" / "in version 1"; a dotted dependency version ("an advisory in version 4.17.20") is npm's.
+        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v|version\s*)\d+(?![.\d]*\.\d)",
+        r"\b(?:this|the)\s+directive\s+is\s+(?:not\s+|no\s+longer\s+)?(?:(?:strictly|purely|merely|only)\s+)?"
+        r"(?:advisory|required(?!\s+by\b)|mandatory|binding|lenient|non-blocking)\b" + _NOT_THE_LEVEL,
         r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b" + _NOT_THE_LEVEL,
-        r"\b(?:these|the|its|all)\s+(?:rules|directives)\s+are\s+(?:advisory|mandatory|binding|non-negotiable)\b"
-        + _NOT_THE_LEVEL,
+        r"\b(?:these|the|its|all)\s+(?:rules|directives)\s+are\s+(?:not\s+)?"
+        r"(?:advisory|required(?!\s+by\b)|mandatory|binding|non-negotiable)\b" + _NOT_THE_LEVEL,
         r"\b(?:directive|rule)s?\s+(?:is|are)\s+(?:non-negotiable|a\s+hard\s+gate)\b",
         r"\bnon-negotiable\s+(?:rule|directive|policy)\b",
         r"\bthis\s+is\s+(?:advisory|not\s+a\s+recommendation)\b",
@@ -145,30 +146,33 @@ SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
         r"\b(?:is|as)\s+advisory\s+context\b",
         r"\bremains?\s+advisory\b",
         r"\bhard\s+validation\s+gate\b",
-        r"\blenient-adherence\s+[a-z]",
+        # "lenient-adherence <word>" in prose; a YAML value followed by the next key ("scope:") is not prose.
+        r"\blenient-adherence\s+[a-z][\w-]*\b(?!:)",
         r"\.\s+advisory(?:\s+in\s+v\d)?:\s+[^.]*\b(?:gates?|transition)\b",
     )
 )
-_ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
+_ENFORCEMENT_FIELD = re.compile(r"^\s*(?:-\s+)?enforcement:")
 _LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
-#: A Markdown heading (unindented, so an indented YAML comment still continues a wrapped line). Residual: a Markdown
-#: heading indented one to three spaces is joined like a comment, as it was before #304.
+#: A Markdown heading, judged only in ``.md`` files (in YAML a column-0 ``#`` line is a comment, which continues a
+#: wrapped line). Unindented, so an indented comment continues too. Residual: a Markdown heading indented one to
+#: three spaces is joined like a comment, as it was before #304.
 _HEADING = re.compile(r"^#{1,6}\s")
-#: A next line that is not a continuation: a heading, or (also inside a blockquote) a list item (- * + 1. 1)) or an
-#: enforcement field. Judged on the raw line, before emphasis is stripped, so a ``*`` bullet is still a bullet.
-_STARTS_SOMETHING_NEW = re.compile(r"^(?:#{1,6}\s|\s*(?:>\s*)*(?:(?:[-*+]|\d+[.)])\s|enforcement:))")
+#: A next line that is not a continuation: (also inside a blockquote) a list item (- * + 1. 1)) or an enforcement
+#: field. Judged on the raw line, before emphasis is stripped, so a ``*`` bullet is still a bullet.
+_STARTS_SOMETHING_NEW = re.compile(r"^\s*(?:>\s*)*(?:(?:[-*+]|\d+[.)])\s|enforcement:)")
 #: ``_`` or ``__`` used as emphasis around a word, not inside one (snake_case and __dunder__ inside words stay).
 _EMPHASIS = re.compile(r"(?<![^\W_])_+(?=[^\W_])|(?<=[^\W_])_+(?![^\W_])")
 
 
-def self_binding_in(text: str) -> list[tuple[int, str]]:
+def self_binding_in(text: str, markdown: bool = True) -> list[tuple[int, str]]:
     """(line, phrase) for every line that states a directive's level in prose (#233).
 
     Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line break, and what follows a level
     word on the next line can decide whether it is the level ("mandatory" / "reading for reviewers"). Each line is
     therefore judged joined to the next one (#304, WP04 review); a phrase is reported on the line where it starts.
-    Markdown emphasis (``*``, and ``_`` around a word) is ignored. A line is not joined to a blank line, a list item, a
-    heading or an ``enforcement:`` field, and a heading is not joined to the next line: those start something new.
+    Markdown emphasis (``*``, and ``_`` or ``__`` around a word) is ignored. A line is not joined to a list item or an
+    ``enforcement:`` field, and an enforcement field is not joined to the next line. With ``markdown`` (a ``.md``
+    file), a heading is neither joined to the next line nor joined onto: those start something new.
     """
     raw = text.splitlines()
     lines = [_EMPHASIS.sub("", line.replace("*", "")) for line in raw]
@@ -179,7 +183,8 @@ def self_binding_in(text: str) -> list[tuple[int, str]]:
         head = line.rstrip()
         joined = head
         following = raw[index + 1] if index + 1 < len(raw) else ""
-        if following and not _HEADING.match(raw[index]) and not _STARTS_SOMETHING_NEW.match(following):
+        heading = markdown and (_HEADING.match(raw[index]) or _HEADING.match(following))
+        if following and not heading and not _STARTS_SOMETHING_NEW.match(following):
             joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
         for pattern in SELF_BINDING:
             match = pattern.search(joined)
@@ -271,7 +276,7 @@ def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
             found.append((number, "names the renamed `merge` command; use `spec-kitty consolidate`"))
         if rel.endswith(GLOSSARY_SUFFIX) and RETIRED_SURFACE.match(line):
             found.append((number, "declares the retired governing glossary surface"))
-    for number, phrase in self_binding_in(text):
+    for number, phrase in self_binding_in(text, markdown=rel.endswith(".md")):
         shown = phrase if len(phrase) <= 48 else f"{phrase[:45]}..."
         found.append((number, f"states a directive's level in prose ({shown!r}); set the enforcement field "
                               "instead (term:spec-kitty-core/enforcement-level)"))
