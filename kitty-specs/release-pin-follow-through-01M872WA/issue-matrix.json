@@ -49,16 +49,16 @@
       "wp": "WP04"
     },
     "#310": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "7311a4643edcae1c571e4b9bc5f104335c35ceaa (lane-c)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "charter-track: harden the release bump",
+      "verdict": "in-mission",
+      "wp": "WP03"
     },
     "#315": {
       "evidence_ref": "<link or commit>",
