@@ -2,7 +2,7 @@
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_number": "",
   "mission_type": "software-dev",
-  "overall_verdict": "pending",
+  "overall_verdict": "pass",
   "criteria": [
     {
       "criterion_id": "FR-001",
@@ -106,12 +106,12 @@
     },
     {
       "criterion_id": "FR-011",
-      "description": "Verify FR-011 is satisfied",
+      "description": "One changelog entry covers #310, #331, #262 and #304",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: docs/changelog/CHANGELOG.md Unreleased/Changed",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:13.489543+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     }
   ],
