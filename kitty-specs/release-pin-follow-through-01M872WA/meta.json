@@ -17,5 +17,7 @@
   "target_branch": "ci/release-pin-follow-through",
   "topology": "single_branch",
   "topology_settled": false,
-  "topology_source": "default"
+  "topology_source": "default",
+  "contracts": "none",
+  "contracts_rationale": "CI scripts, a workflow and docs only; the mission adds no service interface. The one new CLI surface (charter_pin.py attestation-note) is specified in plan.md and pinned by its unit test."
 }
