@@ -1,7 +1,7 @@
 {
-  "event_count": 27,
-  "last_event_id": "01M874BAV25HDW5SYYWSDPT4XB",
-  "materialized_at": "2026-11-24T15:56:16.517648+00:00",
+  "event_count": 28,
+  "last_event_id": "01M874MPN1F306VV9R1H32X0B9",
+  "materialized_at": "2026-11-24T16:01:23.617263+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
@@ -12,8 +12,8 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 0,
-    "in_progress": 1,
+    "for_review": 1,
+    "in_progress": 0,
     "in_review": 0,
     "planned": 2
   },
@@ -89,9 +89,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "in_progress",
-      "last_event_id": "01M874BAV25HDW5SYYWSDPT4XB",
-      "last_transition_at": "2026-11-24T15:56:16.517648+00:00",
+      "lane": "for_review",
+      "last_event_id": "01M874MPN1F306VV9R1H32X0B9",
+      "last_transition_at": "2026-11-24T16:01:23.617263+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: bump split (no token beside apply), warn-only provenance job, PR-body attestation note; live proof needs main"
