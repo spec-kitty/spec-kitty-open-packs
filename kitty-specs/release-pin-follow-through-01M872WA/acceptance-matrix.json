@@ -86,12 +86,12 @@
     },
     {
       "criterion_id": "FR-009",
-      "description": "Verify FR-009 is satisfied",
+      "description": "The #304 false positives are spared and its false negatives flagged, with one test each",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: tests/vocabulary 34 OK; check_vocabulary.py 0 findings over 758 files",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:05.517879+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
