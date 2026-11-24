@@ -2,7 +2,7 @@
 title: Validate a pack
 description: Validate a Charter Pack against the charter pack schemas and the charter service, read the findings, and understand the CI gate this repository runs on every pull request.
 doc_status: wip
-updated: '2026-11-21'
+updated: '2026-11-24'
 related:
 - guides/author-a-charter-pack
 - guides/publish-a-pack
@@ -272,7 +272,10 @@ only once the pinned pack-check refuses its case (#330):
 **Stray files (R34, #331).** A stray ignored file (a note such as `notes.md`) is a `file_not_held` warning in
 pack-check and, since R34, a warning here too: nothing fails it. An unmodelled stray file (`notes.txt`, a log)
 is also only a warning in the schema pass and the service check, but pack-check's round trip still refuses it
-as `round_trip_red`, so it fails the gate until #331's decision lands.
+as `round_trip_red`, and the gate keeps that verdict: it fails. The operator accepted this gap on 2026-11-21
+(#331), with no override here. The charter fix, spec-kitty-charter#631 (the round trip skips the files the
+store does not hold), is merged on charter `main` but not yet in a release. Until a release carries it and the
+pin moves to that release, only Markdown notes may stay in a pack.
 
 pack-check also refuses a stale `content_hash` or `manifest_hash` in `pack-manifest.yaml` (`round_trip_red`;
 spec-kitty-charter#630). The schema pass keeps its own stale-hash check anyway: it is the fast pre-check, and
@@ -332,8 +335,9 @@ by default (operator ruling, 2026-11-18). Set:
 - `commit`, the commit the tag points at.
 
 The job then downloads both jars and refuses any other digest. A bump takes those digests from the release's
-own `.sha256` assets, so a tampered release would carry matching ones: the reviewer of a bump pull request is
-the only independent check, and confirms both digests against the release page. No Gradle build runs. Pin a `main` HEAD
+own `.sha256` assets, so a tampered release would carry matching ones. Two checks stand apart from those
+assets: the build attestation of each jar, which the release track verifies before a bump, and the
+reviewer of the bump pull request, who confirms both digests against the release page. No Gradle build runs. Pin a `main` HEAD
 commit, with the three release keys empty, only on demand: the job then builds the service and pack-check
 from `commit`. The easiest way to move the pin is `scripts/ci/charter_pin.py apply`, which also re-derives
 everything the pin decides. Move the pin in the
@@ -353,7 +357,8 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   `main` acts on the verdict:
   - green: it opens one pull request, from `charter/service-release-<tag>`, that bumps the four pin
     values and carries the re-derived files and a changelog entry. An open bump pull request for an
-    older release is closed in its favour;
+    older release is closed in its favour. Before that, both jars are checked once more (see *Release
+    provenance* below): a jar that is not the file the pin names stops the bump;
   - red: it opens one issue labelled `charter:release-red`, or rewrites the open one, naming the
     release and the errors of the failing jobs. A scheduled run that cannot resolve the release (the
     listing, the tag or one of its two `.sha256` assets) says so on the same issue. A release without a
@@ -386,6 +391,17 @@ manifest, digest and pack page at the target (`scripts/ci/charter_pin.py apply`)
   Dispatch **Charter track** with `track: main` to run it now (any `charter_ref` is ignored); off `main`,
   it reports what it would open or close and touches no issue.
 
+A green release is turned into a pull request by two jobs, so that no token is in reach of the code that
+reads the new release's contract (#310):
+
+- **`derive`** runs `charter_pin.py apply` and the changelog entry. It has no write token and no secret, and
+  no token is exposed to the pin tooling (the job's read-only token stays out of its steps and its checkout),
+  hands on only the changed files and the commit it started from.
+- **`bump`** holds the tokens and runs no repository code: no checkout, no Python. It accepts only the
+  files a bump writes (`charter.lock.yaml`, the changelog, the pack digests, the pack and fixture
+  manifests and the pack pages) and refuses anything else before it pushes. It builds the commit
+  request itself, on this run's commit.
+
 The bump job uses two tokens (operator ruling on #314; the organization does not let GitHub Actions
 create pull requests):
 
@@ -398,6 +414,24 @@ create pull requests):
   pull request. Only the step that opens and closes pull requests holds it, and that step runs nothing
   but `gh`. This workflow uses only its Pull requests scope. If the secret is missing, the bump job fails
   before it pushes anything, and its error names `PR_CREATION_TOKEN`.
+
+**Release provenance** (#310). Before a bump, a read-only job downloads both jars of the release again:
+
+- A jar that is not the file the pin names (another SHA-256) is an error, and nothing is derived or
+  opened.
+- Each jar's build attestation is verified against the charter's release workflow and the tag, as the
+  charter's release notes prescribe:
+
+  ```bash
+  gh attestation verify <jar> --repo spec-kitty/spec-kitty-charter \
+    --signer-workflow spec-kitty/spec-kitty-charter/.github/workflows/service-release.yml \
+    --source-ref refs/tags/<tag>
+  ```
+
+  A missing or failing attestation, or a jar that cannot be downloaded again, is only a warning
+  (operator ruling): the pull request is opened anyway, and its body says, per jar, *verified* or
+  *not verified*. When either is not verified, compare both digests with the release page by hand
+  before merging.
 
 A superseded bump pull request that cannot be closed, or whose branch cannot be deleted, fails the bump
 job with an error naming it. Close or delete it by hand: no later run looks at a closed pull request again.
