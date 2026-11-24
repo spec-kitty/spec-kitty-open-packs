@@ -79,6 +79,9 @@
       "last_event_id": "01M873SXKA0DNVH935P5E4PHS4",
       "last_transition_at": "2026-11-24T15:46:45.994108+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: bump split (no token beside apply), warn-only provenance job, PR-body attestation note; live proof needs main"
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 11755,
