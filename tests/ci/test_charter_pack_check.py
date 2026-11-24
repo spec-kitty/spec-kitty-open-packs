@@ -52,6 +52,19 @@ class JudgeTheSet(unittest.TestCase):
         stderr = "Picked up JAVA_TOOL_OPTIONS: x\nwarning: a: file_not_held docs/README.md: not held (notes)\n"
         self.assertEqual(self.judge(0, report(["a", "b"]), stderr), [])
 
+    def test_an_unmodelled_stray_file_still_fails_through_the_round_trip_with_no_override(self) -> None:
+        # Operator ruling on #331 (2026-11-21, option 3): the gap is accepted and open-packs does not override
+        # pack-check. A stray note (an ignored kind) is a notice; an unmodelled stray file is round_trip_red in the
+        # charter's own round trip, and that red stands until spec-kitty-charter#631. Same packs, both halves.
+        note = "warning: a: file_not_held notes.md: not held (notes)\n"
+        self.assertEqual(self.judge(0, report(["a", "b"]), note), [])
+        stray = "warning: a: file_not_held notes.txt: not held (no pack file kind models this file)\n"
+        red = problem("validation_failed", "round_trip_red")
+        red["violations"][0]["detail"] = "UNEXPECTED_RED notes.txt (other:notes.txt): no adapter models kind other:notes.txt"
+        failures = self.judge(1, report(["a", "b"], problems=[red]), stray)
+        self.assertTrue(any("round_trip_red" in line for line in failures), failures)
+        self.assertTrue(any("notes.txt" in line for line in failures), failures)
+
     def test_exit_2_fails_closed_and_names_charter_624(self) -> None:
         # R32: until charter#624 lands, a crash is a failure of the gate, never an infrastructure skip.
         failures = self.judge(2, None, "Exception in thread main java.lang.IllegalArgumentException: bad version\n")
@@ -425,6 +438,27 @@ class RealPackCheck(unittest.TestCase):
             # Still the crash, so the set's own failure must name it (the invalid fixture's ok line names it too).
             self.assertTrue(any(line.startswith("::error::pack-check: pack-check exited 2") and gate.CRASH_ISSUE in line
                                 for line in done.stdout.splitlines()), done.stdout)
+
+    def run_with_stray(self, name: str) -> subprocess.CompletedProcess[str]:
+        """The gate over one valid pack holding one stray file ``name``, with the invalid fixture it needs to run."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            pack = repo / "packs" / "example-pack"
+            shutil.copytree(ROOT / "tests" / "fixtures" / "valid" / "example-pack", pack)
+            (pack / name).write_text("a maintainer's note\n", encoding="utf-8")
+            shutil.copytree(self.FIXTURE, repo / "tests" / "fixtures" / "invalid" / "malformed-pack-version")
+            return subprocess.run([sys.executable, str(SCRIPT), "--jar", os.environ["PACK_CHECK_JAR"],
+                                   "--root", str(repo)], capture_output=True, text=True, check=False)
+
+    def test_a_stray_note_passes_and_an_unmodelled_stray_file_fails_the_gate(self) -> None:
+        # Operator ruling on #331 (option 3, no override). Expected to flip once spec-kitty-charter#631 lets the
+        # round trip skip the files the store does not hold: then notes.txt passes too, and this test must change.
+        note = self.run_with_stray("notes.md")
+        self.assertEqual(note.returncode, 0, note.stdout + note.stderr)
+        stray = self.run_with_stray("notes.txt")
+        self.assertEqual(stray.returncode, 1, stray.stdout + stray.stderr)
+        self.assertIn("round_trip_red", stray.stdout)
+        self.assertIn("notes.txt", stray.stdout)
 
 
 if __name__ == "__main__":

@@ -196,6 +196,185 @@ class SelfBindingTest(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
 
+    #: #304: legitimate prose the first patterns flagged (an adjective that is not the directive's level).
+    NOT_A_LEVEL = (
+        "The rule is mandatory reading for reviewers.",
+        "the directive is required by the charter",
+        "Open the advisory context menu.",
+        "Spring makes rules binding at startup",
+    )
+
+    #: #304: simple variants the first patterns missed.
+    MISSED_LEVELS = (
+        "This directive is strictly advisory.",
+        "Advisory in version 1.",
+        "These rules are mandatory.",
+        "An advisory-only directive.",
+        "This directive is non-blocking.",
+    )
+
+    #: WP04 review cycle 1: the same sentences, legitimate or not, with the ~80-column wrap right after the level
+    #: word. A line is judged together with the next one, so the wrap changes nothing.
+    WRAPPED_NOT_A_LEVEL = (
+        "Spring makes rules binding\nat startup.\n",
+        "the directive is required\nby the charter\n",
+        "These rules are mandatory\nreading for reviewers.\n",
+        "The rule is mandatory\nreading for reviewers.\n",
+    )
+
+    #: Real level claims, some of which the first anchors missed (WP04 review cycle 1, findings 2 and 5).
+    MORE_LEVELS = (
+        "This directive makes these rules binding for every mission.",
+        "The charter makes its rules binding in every lane.",
+        "These rules are mandatory for every mission.",
+        "These rules are mandatory and enforced.",
+        "These rules are mandatory\u2014no exceptions.",
+        "These rules are mandatory\u201d.",
+        "These rules are mandatory",
+        "This is *advisory context*.",
+        "This directive is *strictly* advisory.",
+        "These rules are **mandatory**.",
+        "This directive is only advisory.",
+    )
+
+    #: Other senses that stay legal: the reach and clause limits of the makes-binding pattern, and npm's advisories.
+    MORE_NOT_A_LEVEL = (
+        "These rules are mandatory reading.",
+        "Mark it mandatory *reading* and the directive is required *by* the charter.",
+        "Gradle makes the jar; the reviewers keep their rules binding.",
+        "The plugin makes " + "every wrapped module and every generated stub of the build " * 2 + "and its docs "
+        + "rules binding.",
+        "The npm audit output is purely advisory.",
+        "npm advisories are advisory-only notices.",
+    )
+
+    #: WP04 review cycle 2, B1: the framework sense of "binding" is spared by its continuation (at startup, the, a,
+    #: an), and only by it. The full T015 sentence and one case per continuation, against a level claim that ends in
+    #: "at" something else.
+    BINDING_CONTINUATIONS = (
+        "Spring makes rules binding at startup, then the service reads every directive and its rules binding the request.",
+        "The container makes rules binding a service to its port.",
+        "The container makes rules binding an endpoint to its handler.",
+    )
+
+    #: WP04 review cycle 2, B2: a line is not joined to a blank line, a list item or a heading, nor is a heading
+    #: joined to the next line, so a claim at the end of one item stays a claim, and a heading does not run on.
+    NOT_JOINED_LEVELS = (
+        "- This makes rules binding\n- A second item.\n",
+        "- This makes rules binding\n- the next item.\n",
+        "- These rules are mandatory\n- reading list\n",
+        "These rules are mandatory\n\nReading list follows.\n",
+        "1. This makes rules binding\n2. A second item.\n",
+    )
+
+    #: The non-blocking residuals of cycle 2 that were cheap to pin: every subject and level of the rules-are
+    #: pattern, every advisory-only noun, "as advisory context", and _underscore_ emphasis.
+    EVERY_ALTERNATIVE = (
+        "This directive makes these rules binding at every gate.",
+        "The rules are advisory.",
+        "Its rules are binding.",
+        "All directives are mandatory.",
+        "An advisory-only rule.",
+        "Some advisory-only guidance.",
+        "An advisory-only tactic.",
+        "An advisory-only procedure.",
+        "An advisory-only styleguide.",
+        "Treat it as advisory context.",
+        "These rules are _mandatory_.",
+    )
+
+    def test_the_framework_sense_of_binding_is_spared_only_by_its_continuation(self) -> None:
+        for line in self.BINDING_CONTINUATIONS:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
+    def test_a_list_item_a_blank_line_or_a_heading_is_never_joined(self) -> None:
+        for text in self.NOT_JOINED_LEVELS:
+            with self.subTest(text=text):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(text)], [1])
+        self.assertEqual(vocab.self_binding_in("# Heading that makes\n- rules binding happen on startup\n"), [])
+        self.assertEqual([n for n, _ in vocab.self_binding_in("## The rule is mandatory\nreading for reviewers.\n")], [1])
+
+    #: WP04 review cycle 3: every bullet (- * +), an indented one, a numbered one and a quoted list are judged on the raw
+    #: next line, before emphasis is stripped, so a claim at the end of an item stays one.
+    NOT_JOINED_BULLETS = (
+        "* This makes rules binding\n* the next item.\n",
+        "* This makes rules binding\n* A second item.\n",
+        "  * This makes rules binding\n  * an item\n",
+        "* The directive is required\n* by the charter\n",
+        "- This directive is required\n* by the gate\n",
+        "> - This makes rules binding\n> - the next item.\n",
+    )
+
+    #: A claim that exists only if the two lines are joined: each guard alternative keeps it apart.
+    JOIN_ONLY = (
+        "+ This makes\n+ rules binding.\n",
+        "* This makes\n* rules binding.\n",
+        "1. This makes\n2. rules binding.\n",
+        "1) This makes\n2) rules binding.\n",
+        "This makes\n# rules binding\n",
+        "> This makes\n> - rules binding.\n",
+    )
+
+    def test_a_claim_at_the_end_of_any_kind_of_list_item_stays_a_claim(self) -> None:
+        for text in self.NOT_JOINED_BULLETS:
+            with self.subTest(text=text):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(text)], [1])
+
+    def test_no_claim_is_made_up_across_a_new_item_or_heading(self) -> None:
+        for text in self.JOIN_ONLY:
+            with self.subTest(text=text):
+                self.assertEqual(vocab.self_binding_in(text), [])
+
+    def test_double_underscore_emphasis_is_ignored_too(self) -> None:
+        self.assertEqual([n for n, _ in vocab.self_binding_in("intro\nThese rules are __mandatory__.\n")], [2])
+        self.assertEqual(vocab.self_binding_in("Mark it mandatory __reading__; keep __dunder__ names.\n"), [])
+
+    def test_every_alternative_of_the_new_patterns_is_a_level_claim(self) -> None:
+        for line in self.EVERY_ALTERNATIVE:
+            with self.subTest(line=line):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(f"intro\n{line}\n")], [2])
+        self.assertEqual(vocab.self_binding_in("Mark it mandatory _reading_ for reviewers; keep snake_case_names.\n"), [])
+
+    def test_a_wrap_after_the_level_word_changes_nothing(self) -> None:
+        for text in self.WRAPPED_NOT_A_LEVEL:
+            with self.subTest(text=text):
+                self.assertEqual(vocab.self_binding_in(text), [])
+        for line in self.MORE_LEVELS[:5]:
+            head, _, tail = line.rpartition(" ")
+            with self.subTest(wrapped=line):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(f"intro\n{head}\n{tail}\n")], [2])
+
+    def test_refuses_every_level_claim_however_it_ends_or_is_emphasised(self) -> None:
+        for line in self.MORE_LEVELS:
+            with self.subTest(line=line):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(f"intro\n{line}\n")], [2])
+
+    def test_spares_the_other_senses_at_the_edges_of_each_pattern(self) -> None:
+        # The reach case sits between the pattern's 120 characters and the 160 it had: a wider reach flags it.
+        self.assertTrue(120 < len(self.MORE_NOT_A_LEVEL[3].split("makes ")[1].split(" rules")[0]) <= 160)
+        for line in self.MORE_NOT_A_LEVEL:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
+    def test_spares_an_adjective_that_is_not_the_level(self) -> None:
+        for line in self.NOT_A_LEVEL:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
+    def test_refuses_the_simple_variants(self) -> None:
+        for line in self.MISSED_LEVELS:
+            with self.subTest(line=line):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(f"intro\n{line}\n")], [2])
+
+    def test_the_finding_stays_short(self) -> None:
+        # #304 NIT: the annotation's message (after the file and line) stays within 200 characters, even for the
+        # longest phrase a pattern can match.
+        for line in (*self.REFUSED, *self.MISSED_LEVELS):
+            for _, message in vocab.findings_in(f"{line}\n", "packs/x/directives/x.directive.yaml"):
+                with self.subTest(line=line):
+                    self.assertLessEqual(len(message), 200)
+
     def test_findings_name_the_glossary_term(self) -> None:
         found = vocab.findings_in("x\nThis is advisory guidance.\n", "packs/foundation/directives/049.directive.yaml")
         self.assertEqual([line for line, _ in found], [2])

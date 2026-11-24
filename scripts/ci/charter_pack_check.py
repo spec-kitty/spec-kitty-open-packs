@@ -17,7 +17,9 @@ with ``--round-trip``, the production round trip by meaning (ROUND_TRIP). This s
      failure of the gate, never an infrastructure skip (operator ruling R32).
    - **A warning other than ``file_not_held`` fails**, as it did in charter's driftTest, which this replaces.
      ``file_not_held`` is printed as a notice: a stray file warns, never fails (operator ruling R34, #331). pack-check's
-     round trip still refuses an unmodelled stray file as ``round_trip_red``, which #331 tracks.
+     round trip still refuses an unmodelled stray file (``notes.txt``, a log) as ``round_trip_red``, and this gate
+     does not override it (operator ruling on #331, 2026-11-21: the gap is accepted). Until spec-kitty-charter#631
+     lets the round trip skip the files the store does not hold, only ignored-kind notes (``notes.md``) may stay.
 2. **Non-vacuity.** Every pack under ``tests/fixtures/invalid/`` is checked alone, from a copy without its own
    ``expected-code`` (pack-check models no such file, so it would be red for that file alone). Its ``expected-code``
    names what pack-check must say in a ``pack-check:`` line: a code that must appear in a problem or one of its
