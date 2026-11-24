@@ -73,15 +73,15 @@
       "wp": null
     },
     "#329": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Merged PR reference (context): the gate this mission follows through",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "PR: gate every pack on charter's pack-check",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#331": {
