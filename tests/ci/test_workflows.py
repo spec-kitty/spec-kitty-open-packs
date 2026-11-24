@@ -9,6 +9,7 @@ and the pause label need, not how the YAML spells it.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import re
 import subprocess
@@ -370,9 +371,9 @@ class CharterTrack(unittest.TestCase):
         self.jobs = self.workflow["jobs"]
 
     def runs(self, job: str, github: dict[str, Any], resolved: dict[str, str], checks: str = "success",
-             resolve: str = "success", provenance: str = "success") -> bool:
+             resolve: str = "success", provenance: str = "success", derive: str = "success") -> bool:
         needs = self.jobs[job].get("needs", [])
-        results = {"resolve": resolve, "checks": checks, "provenance": provenance}
+        results = {"resolve": resolve, "checks": checks, "provenance": provenance, "derive": derive}
         ok = all(results[need] == "success" for need in ([needs] if isinstance(needs, str) else needs))
         status = {"success": ok, "failure": not ok, "cancelled": False}
         ctx = track_contexts(github, resolved, checks)
@@ -406,10 +407,13 @@ class CharterTrack(unittest.TestCase):
                 self.assertTrue(self.runs("bump", event, self.RELEASE))
                 self.assertFalse(self.runs("alert", event, self.RELEASE))
                 self.assertFalse(self.runs("bump", event, self.RELEASE, checks="failure"))
-                # The provenance check warns only (#310): its failure never holds a green release back.
+                # The provenance job fails only on an integrity event (a jar that is not the pinned file, #310): then
+                # nothing is derived or published. A missing attestation is a warning and leaves it green.
                 self.assertTrue(self.runs("provenance", event, self.RELEASE))
-                self.assertTrue(self.runs("bump", event, self.RELEASE, provenance="failure"))
-                self.assertTrue(self.runs("bump", event, self.RELEASE, provenance="skipped"))
+                self.assertTrue(self.runs("derive", event, self.RELEASE))
+                for job in ("derive", "bump"):
+                    self.assertFalse(self.runs(job, event, self.RELEASE, provenance="failure"))
+                self.assertFalse(self.runs("bump", event, self.RELEASE, derive="failure"))
                 self.assertTrue(self.runs("alert", event, self.RELEASE, checks="failure"))
                 self.assertFalse(self.runs("alert", event, self.RELEASE, checks="cancelled"))
                 self.assertTrue(self.runs("report", event, self.RELEASE, checks="failure"))
@@ -430,9 +434,10 @@ class CharterTrack(unittest.TestCase):
 
     def test_nothing_runs_past_resolve_when_there_is_nothing_to_check(self) -> None:
         idle = {"track": "release", "run": "false", "act": "false"}
-        for job in ("checks", "report", "provenance", "bump", "alert"):
+        for job in ("checks", "report", "provenance", "derive", "bump", "alert"):
             with self.subTest(job=job):
-                self.assertFalse(self.runs(job, schedule_event(), idle, checks="skipped", provenance="skipped"))
+                self.assertFalse(self.runs(job, schedule_event(), idle, checks="skipped", provenance="skipped",
+                                           derive="skipped"))
 
     def test_only_the_acting_jobs_hold_a_secret_or_a_write_permission(self) -> None:
         self.assertEqual(self.workflow["permissions"], {"contents": "read"})
@@ -528,55 +533,138 @@ class CharterTrack(unittest.TestCase):
                             group(pr_event("labeled", labels=("charter:head", "x"), label="x", run_id=8)))
 
 
-class CharterTrackBumpTokens(unittest.TestCase):
-    """The bump job's token split (operator ruling on #314; #310): the job token looks up and pushes, from steps that
-    run only gh; the step that runs the pin tooling over the new release's contract holds no token at all; the PAT
-    only opens and closes the pull request."""
+class CharterTrackBumpBoundary(unittest.TestCase):
+    """#310 item 2, after review cycle 1: the token boundary is a job boundary. The derive job runs the pin tooling over
+    the new release's contract and holds no token at all; the publish job (bump) holds the tokens, runs no repository
+    code, and builds the commit request from fixed text, taking only validated file changes from the derive artifact.
+    The PAT stays in the one step that opens and closes pull requests (operator ruling on #314)."""
+
+    QUERY = "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }"
 
     def setUp(self) -> None:
-        self.job = load(TRACK)["jobs"]["bump"]
+        jobs = load(TRACK)["jobs"]
+        self.derive_job, self.job = jobs["derive"], jobs["bump"]
         self.steps = self.job["steps"]
         self.lookup = next(step for step in self.steps if step.get("id") == "lookup")
-        self.derive = next(step for step in self.steps if step.get("id") == "derive")
+        self.build = next(step for step in self.steps if step.get("id") == "build")
         self.push = next(step for step in self.steps if step.get("id") == "push")
         self.open = next(step for step in self.steps if step.get("name") == "Open the bump pull request")
 
-    def test_only_contents_is_written_with_the_job_token(self) -> None:
+    def test_derive_and_publish_are_separate_jobs_and_derive_holds_no_token(self) -> None:
+        self.assertIn("derive", self.job["needs"])
+        self.assertEqual(self.derive_job["permissions"], {"contents": "read"})
+        text = yaml.safe_dump(self.derive_job)
+        for credential in ("secrets.", "github.token", "GH_TOKEN", "GITHUB_TOKEN"):
+            self.assertNotIn(credential, text)
+        runs = "\n".join(str(step.get("run", "")) for step in self.derive_job["steps"])
+        for command in ("charter_pin.py apply", "charter_pin.py changelog", "charter_pin.py commit-payload"):
+            self.assertIn(command, runs)
+        upload = next(s for s in self.derive_job["steps"] if str(s.get("uses", "")).startswith("actions/upload-artifact@"))
+        self.assertEqual(upload["with"]["name"], "charter-bump")
+        checkout = next(s for s in self.derive_job["steps"] if str(s.get("uses", "")).startswith("actions/checkout@"))
+        self.assertIs(checkout["with"]["persist-credentials"], False)
+
+    def test_publish_runs_no_repository_or_artifact_code(self) -> None:
         self.assertEqual(self.job["permissions"], {"contents": "write", "pull-requests": "read", "issues": "read"})
+        uses = [str(step["uses"]) for step in self.steps if "uses" in step]
+        self.assertEqual([u.split("@")[0] for u in uses], ["actions/download-artifact"])
+        self.assertRegex(uses[0], r"@[0-9a-f]{40}$")  # pinned to a commit, like every action here
+        for step in self.steps:
+            run = str(step.get("run", ""))
+            with self.subTest(step=step.get("name") or step.get("uses")):
+                self.assertIsNone(re.search(r"python|\bpip3? |\.py\b|\.sh\b|(?:^|[;&|(]\s*)(?:source|\.)\s+\S|\b(?:ba)?sh\s+[-\w$\"/]|chmod|eval\b", run, re.M))
+
+    def test_the_request_is_built_from_fixed_text(self) -> None:
+        self.assertIn(self.QUERY, self.build["run"])
+        self.assertEqual(self.build["env"]["HEAD_SHA"], "${{ github.sha }}")
+        self.assertNotRegex(yaml.safe_dump(self.build.get("env")), r"TOKEN|secrets\.|github\.token")
+        self.assertIn('gh api graphql --input "$RUNNER_TEMP/request.json"', self.push["run"])
+        self.assertIn('gh api -X POST "repos/$REPO/git/refs" -f ref="refs/heads/$BRANCH" -f sha="$HEAD_SHA"', self.push["run"])
+        self.assertEqual(self.push["env"]["HEAD_SHA"], "${{ github.sha }}")
+        order = [self.steps.index(step) for step in (self.lookup, self.build, self.push, self.open)]
+        self.assertEqual(order, sorted(order))
+
+    def build_request(self, additions: list[str], deletions: list[str] = (), head: str = "a" * 40,
+                      states: tuple[str, str] = ("verified", "verified")) -> tuple[int, str, dict | None, str]:
+        """Run the build step on a stand-in artifact; return its exit code, output, the request and the PR body."""
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            (work / "artifact").mkdir()
+            changes = {"additions": [{"path": p, "contents": "eA=="} for p in additions],
+                       "deletions": [{"path": p} for p in deletions]}
+            (work / "artifact" / "file-changes.json").write_text(json.dumps(changes), encoding="utf-8")
+            (work / "artifact" / "head").write_text(head + "\n", encoding="utf-8")
+            env = {**os.environ, "RUNNER_TEMP": tmp, "ARTIFACT": str(work / "artifact"), "HEAD_SHA": "a" * 40,
+                   "REPO": "spec-kitty/spec-kitty-open-packs", "BRANCH": "charter/service-release-service-v2.0.0",
+                   "RELEASE_TAG": "service-v2.0.0", "COMMIT": "c" * 40, "CURRENT": "service-v1.0.0",
+                   "JAR_SHA256": "d" * 64, "PACK_CHECK_SHA256": "e" * 64, "RED": "12",
+                   "RUN_URL": "https://example.invalid/run/1", "ATTEST_SERVICE": states[0],
+                   "ATTEST_PACK_CHECK": states[1]}
+            done = subprocess.run(["bash", "-c", self.build["run"]], env=env, capture_output=True, text=True, cwd=tmp)
+            request = work / "request.json"
+            body = work / "pr.md"
+            return (done.returncode, done.stdout + done.stderr,
+                    json.loads(request.read_text(encoding="utf-8")) if request.exists() else None,
+                    body.read_text(encoding="utf-8") if body.exists() else "")
+
+    REAL = ["charter.lock.yaml", "docs/changelog/CHANGELOG.md", "packs/foundation.source.yaml",
+            "packs/foundation/pack-manifest.yaml", "tests/fixtures/valid/example-pack/pack-manifest.yaml",
+            "docs/packs/foundation.md"]
+
+    def test_a_real_bumps_changes_become_a_request_with_the_fixed_query_branch_and_head(self) -> None:
+        code, output, request, body = self.build_request(self.REAL, deletions=["docs/packs/retired.md"])
+        self.assertEqual(code, 0, output)
+        self.assertEqual(request["query"], self.QUERY)
+        given = request["variables"]["input"]
+        self.assertEqual(given["branch"], {"repositoryNameWithOwner": "spec-kitty/spec-kitty-open-packs",
+                                           "branchName": "charter/service-release-service-v2.0.0"})
+        self.assertEqual(given["expectedHeadOid"], "a" * 40)
+        self.assertEqual([a["path"] for a in given["fileChanges"]["additions"]], self.REAL)
+        self.assertEqual(given["fileChanges"]["deletions"], [{"path": "docs/packs/retired.md"}])
+        self.assertIn("Closes #12.", body)
+
+    def test_any_path_a_bump_does_not_write_fails_before_anything_is_pushed(self) -> None:
+        for bad in ("../outside.md", "/etc/passwd", ".github/workflows/charter-track.yml", "scripts/ci/charter_pin.py",
+                    "packs/../.github/x.yml", "docs/packs/sub/x.md", "packs/./foundation.source.yaml",
+                    "packs/foundation/pack-manifest.yaml/x", "charter.lock.yaml\n.github/x", ""):
+            for kind in ("addition", "deletion"):
+                with self.subTest(path=bad, kind=kind):
+                    args = ([*self.REAL, bad], []) if kind == "addition" else (self.REAL, [bad])
+                    code, output, request, _ = self.build_request(*args)
+                    self.assertNotEqual(code, 0)
+                    self.assertIsNone(request)
+                    self.assertIn("::error::", output)
+
+    def test_an_artifact_cut_from_another_commit_is_refused(self) -> None:
+        code, output, request, _ = self.build_request(self.REAL, head="b" * 40)
+        self.assertNotEqual(code, 0)
+        self.assertIsNone(request)
+        self.assertIn("::error::", output)
+
+    def test_the_body_states_each_jars_build_provenance(self) -> None:
+        cases = {("verified", "verified"): (2, 0, False),
+                 ("verified", "unverified"): (1, 1, True),
+                 ("unverified", "unverified"): (0, 2, True)}
+        for states, (verified, unverified, by_hand) in cases.items():
+            with self.subTest(states=states):
+                code, output, _, body = self.build_request(self.REAL, states=states)
+                self.assertEqual(code, 0, output)
+                self.assertEqual(body.count("verified against `spec-kitty/spec-kitty-charter`"), verified)
+                self.assertEqual(body.count("**not verified**"), unverified)
+                self.assertEqual("by hand" in body, by_hand)
+        code, _, request, _ = self.build_request(self.REAL, states=("mismatch", "verified"))
+        self.assertNotEqual(code, 0)  # never reached in a run (the bump needs a green provenance job), refused anyway
+        self.assertIsNone(request)
+
+    def test_only_contents_is_written_with_the_job_token_and_the_pat_lives_only_in_open(self) -> None:
         for step in (self.lookup, self.push, self.open):
             self.assertEqual(step["env"]["GH_TOKEN"], "${{ github.token }}")
         text = yaml.safe_dump(self.job)
         self.assertNotIn("CHARTER_BUMP_TOKEN", text)
         self.assertEqual(set(re.findall(r"secrets\.(\w+)", text)), {"PR_CREATION_TOKEN"})
-
-    def test_no_step_that_holds_a_token_runs_repository_code_and_the_one_that_does_holds_none(self) -> None:
-        # #310 item 2: charter_pin.py apply parses the new release's contract with third-party parsers, so no token
-        # may be in reach of it. Every step either holds a token and runs only gh and shell, or runs code and
-        # holds nothing.
-        for step in self.steps:
-            env = yaml.safe_dump(step.get("env") or {})
-            holds = bool(re.search(r"TOKEN|secrets\.|github\.token", env))
-            runs_code = bool(re.search(r"python|pip3? |\.py\b|\.sh\b", str(step.get("run", "")))) or "uses" in step
-            with self.subTest(step=step.get("name") or step.get("uses")):
-                self.assertFalse(holds and runs_code)
-        self.assertIn("charter_pin.py apply", self.derive["run"])
-        self.assertIn("charter_pin.py changelog", self.derive["run"])
-        self.assertIn("charter_pin.py commit-payload", self.derive["run"])
-        self.assertNotRegex(yaml.safe_dump(self.derive.get("env")), r"TOKEN|secrets\.|github\.token")
-        checkout = next(step for step in self.steps if str(step.get("uses", "")).startswith("actions/checkout@"))
-        self.assertIs(checkout["with"]["persist-credentials"], False)  # no token left in .git/config either
-        order = [self.steps.index(step) for step in (self.lookup, self.derive, self.push, self.open)]
-        self.assertEqual(order, sorted(order))
-
-    def test_the_pat_lives_only_in_the_step_that_runs_nothing_but_gh(self) -> None:
         holders = [step.get("name") for step in self.steps if "PR_CREATION_TOKEN" in yaml.safe_dump(step.get("env", {}))]
         self.assertEqual(holders, ["Require PR_CREATION_TOKEN", "Open the bump pull request"])
         self.assertEqual(self.open["env"]["PR_TOKEN"], "${{ secrets.PR_CREATION_TOKEN }}")
-        for step in (self.lookup, self.derive, self.push):
-            self.assertNotIn("PR_TOKEN", yaml.safe_dump(step))
-        # Every command it runs is gh, echo or shell control flow: no pin tooling or third-party package sees the PAT.
-        self.assertNotIn("python3", self.open["run"])
-        self.assertIsNone(re.search(r"\bpip3? ", self.open["run"]))
         self.assertNotIn("uses", self.open)
 
     def test_the_pat_opens_and_closes_and_the_job_token_pushes_and_deletes(self) -> None:
@@ -587,25 +675,12 @@ class CharterTrackBumpTokens(unittest.TestCase):
         self.assertTrue(any("gh pr comment" in line for line in pat_lines))
         self.assertNotIn("--delete-branch", self.open["run"])  # it needs Contents, which the PAT does not hold
         self.assertIn('if ! gh api -X DELETE "repos/$REPO/git/refs/heads/$old_branch"', self.open["run"])
-        self.assertIn('gh api -X POST "repos/$REPO/git/refs"', self.push["run"])
-        self.assertIn("createCommitOnBranch", self.derive["run"])  # the request is built without a token
-        self.assertIn("gh api graphql", self.push["run"])         # and sent with one
-        for step in (self.lookup, self.derive, self.push, self.open):
+        for step in (self.lookup, self.build, self.push, self.open):
             self.assertNotIn("gh workflow run", step["run"])
         self.assertNotIn("actions", self.job["permissions"])
-        self.assertEqual(self.derive["if"], "${{ steps.lookup.outputs.go == 'true' }}")
+        self.assertEqual(self.build["if"], "${{ steps.lookup.outputs.go == 'true' }}")
         self.assertEqual(self.push["if"], "${{ steps.lookup.outputs.go == 'true' }}")
         self.assertEqual(self.open["if"], "${{ steps.push.outputs.branch != '' }}")
-
-    def test_the_pull_request_body_states_each_jars_build_provenance(self) -> None:
-        env = self.derive["env"]
-        self.assertEqual(env["ATTEST_SERVICE"], "${{ needs.provenance.outputs.service }}")
-        self.assertEqual(env["ATTEST_PACK_CHECK"], "${{ needs.provenance.outputs.pack_check }}")
-        self.assertIn('charter_pin.py attestation-note --service "$ATTEST_SERVICE" --pack-check "$ATTEST_PACK_CHECK"',
-                      self.derive["run"])
-        self.assertIn("provenance", self.job["needs"])
-        self.assertIn('[[ -n "$RED" ]] && { echo; echo "Closes #$RED."; }', self.derive["run"])
-        self.assertEqual(self.derive["env"]["RED"], "${{ steps.lookup.outputs.red }}")
 
     def test_a_superseded_pull_request_that_cannot_be_closed_or_cleaned_fails_the_job(self) -> None:
         def run(fail: str) -> tuple[int, list[str]]:
@@ -666,8 +741,13 @@ class CharterTrackBumpTokens(unittest.TestCase):
 
 
 class CharterTrackProvenance(unittest.TestCase):
-    """#310 item 1 (operator ruling: warn only): before a bump, the build attestation of both release jars is verified
-    by a read-only job that never fails; the bump pull request is opened either way and says what was verified."""
+    """#310 item 1, after review cycle 1. Before a bump, a read-only job checks both release jars:
+    - A jar that is not the pinned file (another SHA-256) is an integrity event: ::error::, and the job fails, so
+      nothing is derived or published.
+    - A build attestation that is missing or does not verify (signer workflow and tag pinned) is a warning only
+      (operator ruling); the bump pull request says so."""
+
+    SIGNER = "spec-kitty/spec-kitty-charter/.github/workflows/service-release.yml"
 
     def setUp(self) -> None:
         self.jobs = load(TRACK)["jobs"]
@@ -685,26 +765,36 @@ class CharterTrackProvenance(unittest.TestCase):
         self.assertNotIn("python", text)
         self.assertEqual(self.step["env"]["CHARTER"], "spec-kitty/spec-kitty-charter")
 
-    def test_it_runs_exactly_when_the_bump_would_act(self) -> None:
-        bump = str(self.jobs["bump"]["if"])
-        for part in ("needs.resolve.outputs.track == 'release'", "needs.resolve.outputs.act == 'true'",
-                     "github.repository == 'spec-kitty/spec-kitty-open-packs'", "github.ref == 'refs/heads/main'"):
-            with self.subTest(part=part):
-                self.assertIn(part, str(self.job["if"]))
-                self.assertIn(part, bump)
-        self.assertTrue(bump.startswith("${{ !cancelled() && "))
-        self.assertIn("needs.checks.result == 'success'", bump)
+    def test_the_attestation_is_pinned_to_the_charters_release_workflow_and_tag(self) -> None:
+        self.assertIn('--signer-workflow "$CHARTER/.github/workflows/service-release.yml"', self.step["run"])
+        self.assertIn('--source-ref "refs/tags/$RELEASE_TAG"', self.step["run"])
+
+    def test_it_runs_exactly_when_the_bump_would_act_and_gates_derive_and_publish(self) -> None:
+        for job_id in ("provenance", "derive", "bump"):
+            condition = str(self.jobs[job_id]["if"])
+            for part in ("needs.resolve.outputs.track == 'release'", "needs.resolve.outputs.act == 'true'",
+                         "github.repository == 'spec-kitty/spec-kitty-open-packs'", "github.ref == 'refs/heads/main'"):
+                with self.subTest(job=job_id, part=part):
+                    self.assertIn(part, condition)
+            self.assertNotIn("always()", condition)
+            self.assertNotIn("cancelled()", condition)
+        self.assertIn("provenance", self.jobs["derive"]["needs"])
+        self.assertIn("provenance", self.jobs["bump"]["needs"])
+        self.assertIn("needs.checks.result == 'success'", str(self.jobs["bump"]["if"]))
 
     def verify(self, *, download: str = "", attest: str = "", digest_ok: bool = True) -> tuple[int, str, str, str]:
         """Run the step with a stand-in gh: ``download`` / ``attest`` name the jar whose download / verification fails."""
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp)
             (work / "bin").mkdir()
+            log = work / "gh.log"
             gh = work / "bin" / "gh"
             gh.write_text(
                 "#!/usr/bin/env bash\n"
+                'echo "$*" >> "$GH_LOG"\n'
+                'args="$*"\n'
                 'if [[ "$1 $2" == "release download" ]]; then\n'
-                '  args="$*"; jar="${args##*--pattern }"; jar="${jar%% *}"\n'
+                '  jar="${args##*--pattern }"; jar="${jar%% *}"\n'
                 '  [[ -n "$FAIL_DOWNLOAD" && "$jar" == *"$FAIL_DOWNLOAD"* ]] && exit 1\n'
                 '  dir="${args##*--dir }"; dir="${dir%% *}"; mkdir -p "$dir"; printf "%s" "$jar" > "$dir/$jar"; exit 0\n'
                 "fi\n"
@@ -718,29 +808,43 @@ class CharterTrackProvenance(unittest.TestCase):
             out, summary = work / "out", work / "summary"
             env = {**os.environ, "PATH": f"{work / 'bin'}:{os.environ['PATH']}", "RUNNER_TEMP": tmp,
                    "GITHUB_OUTPUT": str(out), "GITHUB_STEP_SUMMARY": str(summary), "GH_TOKEN": "job",
-                   "CHARTER": "spec-kitty/spec-kitty-charter", "RELEASE_TAG": "service-v2.0.0",
+                   "GH_LOG": str(log), "CHARTER": "spec-kitty/spec-kitty-charter", "RELEASE_TAG": "service-v2.0.0",
                    "JAR_SHA256": digest("spec-kitty-charter-service-2.0.0.jar") if digest_ok else "0" * 64,
                    "PACK_CHECK_SHA256": digest("pack-check-2.0.0.jar"),
                    "FAIL_DOWNLOAD": download, "FAIL_ATTEST": attest}
             done = subprocess.run(["bash", "-c", self.step["run"]], env=env, capture_output=True, text=True, cwd=tmp)
+            self.calls = log.read_text(encoding="utf-8").splitlines()
             return done.returncode, out.read_text(encoding="utf-8"), done.stdout, summary.read_text(encoding="utf-8")
 
-    def test_both_verified(self) -> None:
+    def test_both_verified_with_the_signer_workflow_and_tag(self) -> None:
         code, out, _, summary = self.verify()
         self.assertEqual(code, 0)
         self.assertEqual(out.splitlines(), ["service=verified", "pack_check=verified"])
         self.assertIn("pack-check-2.0.0.jar", summary)
+        verifies = [call for call in self.calls if call.startswith("attestation verify")]
+        self.assertEqual(len(verifies), 2)
+        for call in verifies:
+            self.assertIn(f"--signer-workflow {self.SIGNER}", call)
+            self.assertIn("--source-ref refs/tags/service-v2.0.0", call)
 
-    def test_a_missing_attestation_a_failed_download_or_another_file_warns_and_never_fails(self) -> None:
+    def test_a_missing_attestation_or_a_failed_download_warns_and_never_fails(self) -> None:
         cases = {"no attestation": ({"attest": "pack-check"}, ["service=verified", "pack_check=unverified"]),
-                 "no download": ({"download": "service"}, ["service=unverified", "pack_check=verified"]),
-                 "another file than the pin": ({"digest_ok": False}, ["service=unverified", "pack_check=verified"])}
+                 "no download": ({"download": "service"}, ["service=unverified", "pack_check=verified"])}
         for name, (kwargs, expected) in cases.items():
             with self.subTest(case=name):
                 code, out, stdout, _ = self.verify(**kwargs)
                 self.assertEqual(code, 0)
                 self.assertEqual(out.splitlines(), expected)
                 self.assertIn("::warning::", stdout)
+                self.assertNotIn("::error::", stdout)
+
+    def test_a_jar_that_is_not_the_pinned_file_is_an_integrity_failure(self) -> None:
+        code, out, stdout, summary = self.verify(digest_ok=False)
+        self.assertEqual(code, 1)
+        self.assertEqual(out.splitlines(), ["service=mismatch", "pack_check=verified"])
+        self.assertIn("::error::", stdout)
+        self.assertIn("mismatch", summary)
+        self.assertFalse(any("attestation verify" in call and "service-2.0.0" in call for call in self.calls))
 
 
 class CharterTrackNightlyMain(unittest.TestCase):
