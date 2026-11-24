@@ -1,5 +1,5 @@
 {
-  "event_count": 26,
+  "event_count": 27,
   "last_event_id": "01M874BAV25HDW5SYYWSDPT4XB",
   "materialized_at": "2026-11-24T15:56:16.517648+00:00",
   "mission_number": "",
@@ -7,14 +7,14 @@
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 1,
+    "approved": 2,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
     "done": 0,
     "for_review": 0,
     "in_progress": 1,
-    "in_review": 1,
+    "in_review": 0,
     "planned": 2
   },
   "work_packages": {
@@ -25,14 +25,21 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "in_review",
-      "last_event_id": "01M873JYFA0VFK6W83JXQJB1JG",
-      "last_transition_at": "2026-11-24T15:42:57.514935+00:00",
+      "lane": "approved",
+      "last_event_id": "01M874AAFZ80VJKT2KSGPW1XEV",
+      "last_transition_at": "2026-11-24T15:55:43.488020+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling"
+        "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling",
+        "Review passed (claude::reviewer-renata). Both tests non-vacuous: a reviewer-applied option-2 override (drop round_trip_red naming a file_not_held file) turns JudgeTheSet and RealPackCheck red; reverted. RealPackCheck passes against the pinned rc.3 jar on Java 25 and runs in the Charter service validation job (setup-java 25, PACK_CHECK_JAR set, set -e); elsewhere it is a counted skip. It fails loudly on the pin bump that brings charter#631 (exit 0 != 1). Docstring matches the #331 option-3 ruling. Only owned files touched; no downgrade of round_trip_red (C-001). Non-blocking nits: (a) the real-jar assertIn('notes.txt') is also met by the ::notice line, not only the round_trip_red line; (b) the notes.md half does not assert the file_not_held notice."
       ],
       "provider": "__resolved_provider_absent__",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP01-stray-file-gap-pinned/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP01-stray-file-gap-pinned/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
       "role": "reviewer",
       "shell_pid": 5033,
       "shell_pid_created_at": "1795534973.31",
