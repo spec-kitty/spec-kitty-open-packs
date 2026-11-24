@@ -181,7 +181,7 @@
       "wp": null
     },
     "#631": {
-      "evidence_ref": "Charter-side fix the accepted #331 gap waits on; cited for context; no open-packs work owed",
+      "evidence_ref": "Follow-up: spec-kitty-charter#631; the accepted #331 gap (no override) holds until it ships",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -189,7 +189,7 @@
       "scope": null,
       "source_file": null,
       "title": "spec-kitty-charter#631: round trip skips unheld files",
-      "verdict": "not-applicable",
+      "verdict": "deferred-with-followup",
       "wp": null
     }
   },
