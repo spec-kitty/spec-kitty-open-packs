@@ -85,7 +85,7 @@
       "wp": null
     },
     "#331": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "fda694c7a2dfcc9bfb8097bb5704a15b06634543 (JudgeTheSet + RealPackCheck pin option 3, no override)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -93,8 +93,8 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "verdict": "in-mission",
+      "wp": "WP01"
     },
     "#336": {
       "evidence_ref": "<link or commit>",
