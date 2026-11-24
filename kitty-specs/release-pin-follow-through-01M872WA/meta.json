@@ -1,0 +1,21 @@
+{
+  "create_return_branch": "ci/release-pin-follow-through",
+  "created_at": "2026-11-24T15:30:36.403841+00:00",
+  "flattened": false,
+  "friendly_name": "Release-pin follow-through",
+  "mid8": "01M872WA",
+  "mission_base_sha": "a7243e2d2e1b65ecc822b23158b08e5b9f269530",
+  "mission_branch": "kitty/mission-release-pin-follow-through-01M872WA",
+  "mission_id": "01M872WA0MZQHY0QPBR4T3VYKW",
+  "mission_number": null,
+  "mission_slug": "release-pin-follow-through-01M872WA",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "Epic #287 moved open-packs onto a charter release pin and a pack-check gate. This mission closes the remaining follow-ups: it records the accepted stray-file round-trip gap (#331), fixes the derived-manifest mirror's edge cases (#262), adds a warn-only attestation check and drops the write token from the step that re-derives the packs on a release bump (#310), anchors the self-binding vocabulary patterns (#304), and refreshes the epic and roadmap state.",
+  "purpose_tldr": "Finish the charter release-pin work: settle the stray-file gap, close the manifest-mirror edge cases, and harden the release bump.",
+  "slug": "release-pin-follow-through-01M872WA",
+  "target_branch": "ci/release-pin-follow-through",
+  "topology": "single_branch",
+  "topology_settled": false,
+  "topology_source": "default"
+}
