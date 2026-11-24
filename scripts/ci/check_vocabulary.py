@@ -153,10 +153,11 @@ _ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
 _LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
 #: A Markdown heading (unindented, so an indented YAML comment still continues a wrapped line).
 _HEADING = re.compile(r"^#{1,6}\s")
-#: A next line that is not a continuation: a list item, a heading or an enforcement field.
-_STARTS_SOMETHING_NEW = re.compile(r"^(?:\s*(?:[-+]|\d+[.)])\s|#{1,6}\s|\s*enforcement:)")
-#: ``_`` used as emphasis around a word, not inside one (snake_case stays).
-_EMPHASIS = re.compile(r"(?<!\w)_(?=\w)|(?<=\w)_(?!\w)")
+#: A next line that is not a continuation: a heading, or (also inside a blockquote) a list item (- * + 1. 1)) or an
+#: enforcement field. Judged on the raw line, before emphasis is stripped, so a ``*`` bullet is still a bullet.
+_STARTS_SOMETHING_NEW = re.compile(r"^(?:#{1,6}\s|\s*(?:>\s*)*(?:(?:[-*+]|\d+[.)])\s|enforcement:))")
+#: ``_`` or ``__`` used as emphasis around a word, not inside one (snake_case and __dunder__ inside words stay).
+_EMPHASIS = re.compile(r"(?<![^\W_])_+(?=[^\W_])|(?<=[^\W_])_+(?![^\W_])")
 
 
 def self_binding_in(text: str) -> list[tuple[int, str]]:
@@ -168,16 +169,17 @@ def self_binding_in(text: str) -> list[tuple[int, str]]:
     Markdown emphasis (``*``, and ``_`` around a word) is ignored. A line is not joined to a blank line, a list item, a
     heading or an ``enforcement:`` field, and a heading is not joined to the next line: those start something new.
     """
-    lines = [_EMPHASIS.sub("", line.replace("*", "")) for line in text.splitlines()]
+    raw = text.splitlines()
+    lines = [_EMPHASIS.sub("", line.replace("*", "")) for line in raw]
     found: list[tuple[int, str]] = []
     for index, line in enumerate(lines):
         if _ENFORCEMENT_FIELD.match(line):
             continue
         head = line.rstrip()
         joined = head
-        following = lines[index + 1] if index + 1 < len(lines) else ""
-        if following and not _HEADING.match(line) and not _STARTS_SOMETHING_NEW.match(following):
-            joined = f"{head} {_LEAD.sub('', following)}"
+        following = raw[index + 1] if index + 1 < len(raw) else ""
+        if following and not _HEADING.match(raw[index]) and not _STARTS_SOMETHING_NEW.match(following):
+            joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
         for pattern in SELF_BINDING:
             match = pattern.search(joined)
             if match and match.start() < len(head):

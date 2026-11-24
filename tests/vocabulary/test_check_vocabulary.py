@@ -295,6 +295,41 @@ class SelfBindingTest(unittest.TestCase):
         self.assertEqual(vocab.self_binding_in("# Heading that makes\n- rules binding happen on startup\n"), [])
         self.assertEqual([n for n, _ in vocab.self_binding_in("## The rule is mandatory\nreading for reviewers.\n")], [1])
 
+    #: WP04 review cycle 3: every bullet (- * +), an indented one, a numbered one and a quoted list are judged on the raw
+    #: next line, before emphasis is stripped, so a claim at the end of an item stays one.
+    NOT_JOINED_BULLETS = (
+        "* This makes rules binding\n* the next item.\n",
+        "* This makes rules binding\n* A second item.\n",
+        "  * This makes rules binding\n  * an item\n",
+        "* The directive is required\n* by the charter\n",
+        "- This directive is required\n* by the gate\n",
+        "> - This makes rules binding\n> - the next item.\n",
+    )
+
+    #: A claim that exists only if the two lines are joined: each guard alternative keeps it apart.
+    JOIN_ONLY = (
+        "+ This makes\n+ rules binding.\n",
+        "* This makes\n* rules binding.\n",
+        "1. This makes\n2. rules binding.\n",
+        "1) This makes\n2) rules binding.\n",
+        "This makes\n# rules binding\n",
+        "> This makes\n> - rules binding.\n",
+    )
+
+    def test_a_claim_at_the_end_of_any_kind_of_list_item_stays_a_claim(self) -> None:
+        for text in self.NOT_JOINED_BULLETS:
+            with self.subTest(text=text):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(text)], [1])
+
+    def test_no_claim_is_made_up_across_a_new_item_or_heading(self) -> None:
+        for text in self.JOIN_ONLY:
+            with self.subTest(text=text):
+                self.assertEqual(vocab.self_binding_in(text), [])
+
+    def test_double_underscore_emphasis_is_ignored_too(self) -> None:
+        self.assertEqual([n for n, _ in vocab.self_binding_in("intro\nThese rules are __mandatory__.\n")], [2])
+        self.assertEqual(vocab.self_binding_in("Mark it mandatory __reading__; keep __dunder__ names.\n"), [])
+
     def test_every_alternative_of_the_new_patterns_is_a_level_claim(self) -> None:
         for line in self.EVERY_ALTERNATIVE:
             with self.subTest(line=line):
