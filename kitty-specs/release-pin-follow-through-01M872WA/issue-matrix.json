@@ -109,7 +109,7 @@
       "wp": "WP01"
     },
     "#336": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "PR #336 merged 2026-11-23 (mission gate, spec l.6); notes.md warning kept (spec l.35)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -117,7 +117,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "verdict": "verified-already-fixed",
       "wp": null
     },
     "#554": {
