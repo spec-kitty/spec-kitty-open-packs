@@ -525,6 +525,9 @@ jobs:
           if ! jq -e --arg commit "$COMMIT" --arg tag "$RELEASE_TAG" --arg jar "$JAR_SHA256" --arg check "$PACK_CHECK_SHA256" '
               [.additions[] | select(.path == "charter.lock.yaml")] as $locks
               | if ($locks | length) != 1 then false
+                # Only canonical base64: jq stops decoding at the first padding, GitHub may not, so the check and
+                # the commit would read different locks.
+                elif $locks[0].contents != ($locks[0].contents | @base64d | @base64) then false
                 else
                   ($locks[0].contents | @base64d | split("\n")) as $lines
                   # Only blank lines, comments and exactly the four pins; no control or line-separator character,
