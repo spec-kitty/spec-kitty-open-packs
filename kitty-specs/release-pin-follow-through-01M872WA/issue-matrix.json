@@ -181,7 +181,7 @@
       "wp": null
     },
     "#631": {
-      "evidence_ref": "Follow-up: spec-kitty-charter#631; the accepted #331 gap (no override) holds until it ships",
+      "evidence_ref": "Follow-up: spec-kitty-charter#631 is fixed on charter main (PR #633, 2026-11-21) but in no release since rc.3; the #331 gap holds until charter-track's pin bump to the first release carrying it",
       "fr": null,
       "nfr": null,
       "repo": null,
