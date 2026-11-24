@@ -156,7 +156,7 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": null,
+      "agent": "claude::scribe-sally",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
@@ -166,7 +166,8 @@
       "last_transition_at": "2026-11-24T16:39:34.034430+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Guide, roadmap, changelog match WP01-WP04"
+        "Guide, roadmap, changelog match WP01-WP04",
+        "Cycle 2: #631 merged-but-unreleased wording; nits"
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
