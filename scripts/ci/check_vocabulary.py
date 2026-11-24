@@ -151,6 +151,12 @@ SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
 )
 _ENFORCEMENT_FIELD = re.compile(r"^\s*enforcement:")
 _LEAD = re.compile(r"^\s*(?:[-#>]\s*)*")
+#: A Markdown heading (unindented, so an indented YAML comment still continues a wrapped line).
+_HEADING = re.compile(r"^#{1,6}\s")
+#: A next line that is not a continuation: a list item, a heading or an enforcement field.
+_STARTS_SOMETHING_NEW = re.compile(r"^(?:\s*(?:[-+]|\d+[.)])\s|#{1,6}\s|\s*enforcement:)")
+#: ``_`` used as emphasis around a word, not inside one (snake_case stays).
+_EMPHASIS = re.compile(r"(?<!\w)_(?=\w)|(?<=\w)_(?!\w)")
 
 
 def self_binding_in(text: str) -> list[tuple[int, str]]:
@@ -159,17 +165,19 @@ def self_binding_in(text: str) -> list[tuple[int, str]]:
     Pack YAML and Markdown wrap at about 80 columns, so a phrase may straddle a line break, and what follows a level
     word on the next line can decide whether it is the level ("mandatory" / "reading for reviewers"). Each line is
     therefore judged joined to the next one (#304, WP04 review); a phrase is reported on the line where it starts.
-    Markdown emphasis (``*``) is ignored. A line that is, or is followed by, an ``enforcement:`` field is not joined.
+    Markdown emphasis (``*``, and ``_`` around a word) is ignored. A line is not joined to a blank line, a list item, a
+    heading or an ``enforcement:`` field, and a heading is not joined to the next line: those start something new.
     """
-    lines = [line.replace("*", "") for line in text.splitlines()]
+    lines = [_EMPHASIS.sub("", line.replace("*", "")) for line in text.splitlines()]
     found: list[tuple[int, str]] = []
     for index, line in enumerate(lines):
         if _ENFORCEMENT_FIELD.match(line):
             continue
         head = line.rstrip()
         joined = head
-        if index + 1 < len(lines) and not _ENFORCEMENT_FIELD.match(lines[index + 1]):
-            joined = f"{head} {_LEAD.sub('', lines[index + 1])}"
+        following = lines[index + 1] if index + 1 < len(lines) else ""
+        if following and not _HEADING.match(line) and not _STARTS_SOMETHING_NEW.match(following):
+            joined = f"{head} {_LEAD.sub('', following)}"
         for pattern in SELF_BINDING:
             match = pattern.search(joined)
             if match and match.start() < len(head):

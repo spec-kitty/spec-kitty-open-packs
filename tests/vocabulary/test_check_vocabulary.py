@@ -248,6 +248,59 @@ class SelfBindingTest(unittest.TestCase):
         "npm advisories are advisory-only notices.",
     )
 
+    #: WP04 review cycle 2, B1: the framework sense of "binding" is spared by its continuation (at startup, the, a,
+    #: an), and only by it. The full T015 sentence and one case per continuation, against a level claim that ends in
+    #: "at" something else.
+    BINDING_CONTINUATIONS = (
+        "Spring makes rules binding at startup, then the service reads every directive and its rules binding the request.",
+        "The container makes rules binding a service to its port.",
+        "The container makes rules binding an endpoint to its handler.",
+    )
+
+    #: WP04 review cycle 2, B2: a line is not joined to a blank line, a list item or a heading, nor is a heading
+    #: joined to the next line, so a claim at the end of one item stays a claim, and a heading does not run on.
+    NOT_JOINED_LEVELS = (
+        "- This makes rules binding\n- A second item.\n",
+        "- This makes rules binding\n- the next item.\n",
+        "- These rules are mandatory\n- reading list\n",
+        "These rules are mandatory\n\nReading list follows.\n",
+        "1. This makes rules binding\n2. A second item.\n",
+    )
+
+    #: The non-blocking residuals of cycle 2 that were cheap to pin: every subject and level of the rules-are
+    #: pattern, every advisory-only noun, "as advisory context", and _underscore_ emphasis.
+    EVERY_ALTERNATIVE = (
+        "This directive makes these rules binding at every gate.",
+        "The rules are advisory.",
+        "Its rules are binding.",
+        "All directives are mandatory.",
+        "An advisory-only rule.",
+        "Some advisory-only guidance.",
+        "An advisory-only tactic.",
+        "An advisory-only procedure.",
+        "An advisory-only styleguide.",
+        "Treat it as advisory context.",
+        "These rules are _mandatory_.",
+    )
+
+    def test_the_framework_sense_of_binding_is_spared_only_by_its_continuation(self) -> None:
+        for line in self.BINDING_CONTINUATIONS:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
+    def test_a_list_item_a_blank_line_or_a_heading_is_never_joined(self) -> None:
+        for text in self.NOT_JOINED_LEVELS:
+            with self.subTest(text=text):
+                self.assertEqual([n for n, _ in vocab.self_binding_in(text)], [1])
+        self.assertEqual(vocab.self_binding_in("# Heading that makes\n- rules binding happen on startup\n"), [])
+        self.assertEqual([n for n, _ in vocab.self_binding_in("## The rule is mandatory\nreading for reviewers.\n")], [1])
+
+    def test_every_alternative_of_the_new_patterns_is_a_level_claim(self) -> None:
+        for line in self.EVERY_ALTERNATIVE:
+            with self.subTest(line=line):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(f"intro\n{line}\n")], [2])
+        self.assertEqual(vocab.self_binding_in("Mark it mandatory _reading_ for reviewers; keep snake_case_names.\n"), [])
+
     def test_a_wrap_after_the_level_word_changes_nothing(self) -> None:
         for text in self.WRAPPED_NOT_A_LEVEL:
             with self.subTest(text=text):
