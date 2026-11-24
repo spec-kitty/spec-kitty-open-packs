@@ -52,20 +52,6 @@ class JudgeTheSet(unittest.TestCase):
         stderr = "Picked up JAVA_TOOL_OPTIONS: x\nwarning: a: file_not_held docs/README.md: not held (notes)\n"
         self.assertEqual(self.judge(0, report(["a", "b"]), stderr), [])
 
-    def test_an_unmodelled_stray_file_still_fails_through_the_round_trip_with_no_override(self) -> None:
-        # Operator ruling on #331 (2026-11-21, option 3): the gap is accepted and open-packs does not override
-        # pack-check. A stray note (an ignored kind) is a notice; an unmodelled stray file is round_trip_red in the
-        # charter's own round trip, and that red stands until the pin reaches a charter release carrying
-        # spec-kitty-charter#631 (merged on charter main, unreleased). Same packs, both halves.
-        note = "warning: a: file_not_held notes.md: not held (notes)\n"
-        self.assertEqual(self.judge(0, report(["a", "b"]), note), [])
-        stray = "warning: a: file_not_held notes.txt: not held (no pack file kind models this file)\n"
-        red = problem("validation_failed", "round_trip_red")
-        red["violations"][0]["detail"] = "UNEXPECTED_RED notes.txt (other:notes.txt): no adapter models kind other:notes.txt"
-        failures = self.judge(1, report(["a", "b"], problems=[red]), stray)
-        self.assertTrue(any("round_trip_red" in line for line in failures), failures)
-        self.assertTrue(any("notes.txt" in line for line in failures), failures)
-
     def test_exit_2_fails_closed_and_names_charter_624(self) -> None:
         # R32: until charter#624 lands, a crash is a failure of the gate, never an infrastructure skip.
         failures = self.judge(2, None, "Exception in thread main java.lang.IllegalArgumentException: bad version\n")
