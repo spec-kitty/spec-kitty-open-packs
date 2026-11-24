@@ -8,6 +8,7 @@ and the pause label need, not how the YAML spells it.
 
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 import os
@@ -572,7 +573,14 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         for step in self.steps:
             run = str(step.get("run", ""))
             with self.subTest(step=step.get("name") or step.get("uses")):
-                self.assertIsNone(re.search(r"python|\bpip3? |\.py\b|\.sh\b|(?:^|[;&|(]\s*)(?:source|\.)\s+\S|\b(?:ba)?sh\s+[-\w$\"/]|chmod|eval\b", run, re.M))
+                # No interpreter, no shell file, no sourcing, and no artifact file run as a command.
+                self.assertIsNone(re.search(
+                    r"python|\bpip3? |\.py\b|\.sh\b|\bchmod\b|\beval\b|\b(?:node|npx|java|perl|ruby|php|deno|bun)\b"
+                    r"|\b(?:ba)?sh\s+[-\w$\"/]|(?:^|[;&|]\s*|\bthen\s+|\bdo\s+)(?:source\s|\.\s+\S|\"?\$ARTIFACT/)", run, re.M))
+                # Every value reaches a script through env:, never by ${{ }} interpolation, and nothing reaches the
+                # environment of a later step.
+                self.assertNotIn("${{", run)
+                self.assertNotRegex(run, r"GITHUB_(?:ENV|PATH)\b")
 
     def test_the_request_is_built_from_fixed_text(self) -> None:
         self.assertIn(self.QUERY, self.build["run"])
@@ -591,7 +599,8 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp)
             (work / "artifact").mkdir()
-            changes = {"additions": [{"path": p, "contents": "eA=="} for p in additions],
+            changes = {"additions": [{"path": p, "contents": self.LOCK if p == "charter.lock.yaml" else "eA=="}
+                                     for p in additions],
                        "deletions": [{"path": p} for p in deletions]}
             (work / "artifact" / "file-changes.json").write_text(json.dumps(changes), encoding="utf-8")
             (work / "artifact" / "head").write_text(head + "\n", encoding="utf-8")
@@ -607,6 +616,12 @@ class CharterTrackBumpBoundary(unittest.TestCase):
             return (done.returncode, done.stdout + done.stderr,
                     json.loads(request.read_text(encoding="utf-8")) if request.exists() else None,
                     body.read_text(encoding="utf-8") if body.exists() else "")
+
+    #: The lock a real bump of service-v2.0.0 writes (the stand-in resolve outputs below), comments and all.
+    LOCK_TEXT = ("# The charter this repository's packs are proven against.\n"
+                 f"commit: {'c' * 40}\nrelease_tag: service-v2.0.0\njar_sha256: {'d' * 64}\n"
+                 f"pack_check_sha256: {'e' * 64}\n")
+    LOCK = base64.b64encode(LOCK_TEXT.encode()).decode()
 
     REAL = ["charter.lock.yaml", "docs/changelog/CHANGELOG.md", "packs/foundation.source.yaml",
             "packs/foundation/pack-manifest.yaml", "tests/fixtures/valid/example-pack/pack-manifest.yaml",
@@ -637,6 +652,41 @@ class CharterTrackBumpBoundary(unittest.TestCase):
                     self.assertNotEqual(code, 0)
                     self.assertIsNone(request)
                     self.assertIn("::error::", output)
+
+    def test_the_lock_must_pin_exactly_what_was_checked(self) -> None:
+        # Squad review: the derive artifact is untrusted, so the lock it carries could pin another jar, tag or commit
+        # than the gate and the provenance job checked. Each wrong, missing or doubled pin value is refused.
+        def lock_with(text: str) -> tuple[int, str, dict | None, str]:
+            saved = self.LOCK
+            self.LOCK = base64.b64encode(text.encode()).decode()
+            try:
+                return self.build_request(self.REAL)
+            finally:
+                self.LOCK = saved
+        cases = {"another jar": self.LOCK_TEXT.replace("d" * 64, "f" * 64),
+                 "another pack-check": self.LOCK_TEXT.replace("e" * 64, "f" * 64),
+                 "another release": self.LOCK_TEXT.replace("service-v2.0.0", "service-v1.0.0"),
+                 "another commit": self.LOCK_TEXT.replace("c" * 40, "b" * 40),
+                 "a value missing": self.LOCK_TEXT.replace(f"jar_sha256: {'d' * 64}\n", ""),
+                 "a value twice": self.LOCK_TEXT + f"jar_sha256: {'f' * 64}\n"}
+        for name, text in cases.items():
+            with self.subTest(case=name):
+                code, output, request, _ = lock_with(text)
+                self.assertNotEqual(code, 0)
+                self.assertIsNone(request)
+                self.assertIn("::error::", output)
+        code, output, request, _ = self.build_request([p for p in self.REAL if p != "charter.lock.yaml"])
+        self.assertNotEqual(code, 0, "a bump without the lock is no bump")
+        self.assertIsNone(request)
+
+    def test_only_a_generated_pack_page_may_be_deleted_and_no_authored_page_is_touched(self) -> None:
+        for path in ("packs/foundation.source.yaml", "packs/foundation/pack-manifest.yaml",
+                     "tests/fixtures/valid/example-pack/pack-manifest.yaml", "docs/packs/index.md"):
+            with self.subTest(deleted=path):
+                self.assertIsNone(self.build_request(self.REAL, deletions=[path])[2])
+        for page in ("docs/packs/index.md", "docs/packs/catalog-proposal.md"):
+            with self.subTest(added=page):
+                self.assertIsNone(self.build_request([*self.REAL, page])[2])
 
     def test_the_lock_and_the_changelog_are_rewritten_never_deleted(self) -> None:
         for kept in ("charter.lock.yaml", "docs/changelog/CHANGELOG.md"):
