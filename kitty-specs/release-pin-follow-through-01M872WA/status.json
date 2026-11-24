@@ -1,7 +1,7 @@
 {
-  "event_count": 13,
-  "last_event_id": "01M873K0BY9ZMKRXEQ13MWXQW0",
-  "materialized_at": "2026-11-24T15:42:59.371616+00:00",
+  "event_count": 16,
+  "last_event_id": "01M8743PMXT2AP8GM759X128ZK",
+  "materialized_at": "2026-11-24T15:52:06.557409+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
@@ -12,30 +12,30 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 2,
-    "in_progress": 1,
-    "in_review": 0,
+    "for_review": 1,
+    "in_progress": 0,
+    "in_review": 2,
     "planned": 2
   },
   "work_packages": {
     "WP01": {
       "actor": "claude",
-      "agent": "claude::python-pedro",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude",
-      "lane": "for_review",
-      "last_event_id": "01M873CGMZZW3J3NNR427DTWRS",
-      "last_transition_at": "2026-11-24T15:39:26.752033+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M873JYFA0VFK6W83JXQJB1JG",
+      "last_transition_at": "2026-11-24T15:42:57.514935+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling"
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 3910,
-      "shell_pid_created_at": "1795534670.26",
+      "role": "reviewer",
+      "shell_pid": 5033,
+      "shell_pid_created_at": "1795534973.31",
       "subtasks": {
         "T001": "done",
         "T002": "done",
@@ -70,19 +70,30 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude::python-pedro",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "in_progress",
-      "last_event_id": "01M873K0BY9ZMKRXEQ13MWXQW0",
-      "last_transition_at": "2026-11-24T15:42:59.371616+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M8743PMXT2AP8GM759X128ZK",
+      "last_transition_at": "2026-11-24T15:52:06.557409+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review: bump split (no token beside apply), warn-only provenance job, PR-body attestation note; live proof needs main"
+      ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 11755,
-      "shell_pid_created_at": "1795534973.56"
+      "role": "reviewer",
+      "shell_pid": 4936,
+      "shell_pid_created_at": "1795535520.87",
+      "subtasks": {
+        "T009": "done",
+        "T010": "done",
+        "T011": "done",
+        "T012": "done",
+        "T013": "done",
+        "T014": "done"
+      }
     },
     "WP04": {
       "actor": "finalize-tasks",
