@@ -1,0 +1,119 @@
+{
+  "mission_slug": "release-pin-follow-through-01M872WA",
+  "mission_number": "",
+  "mission_type": "software-dev",
+  "overall_verdict": "pass",
+  "criteria": [
+    {
+      "criterion_id": "FR-001",
+      "description": "The gate still fails an unmodelled stray file through pack-check's round_trip_red, with no override; a stray Markdown note passes",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: tests.ci.test_charter_pack_check JudgeTheSet + RealPackCheck (rc.3 jar), OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:31.692722+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-002",
+      "description": "The guide, changelog and gate docstring state the #331 ruling and that spec-kitty-charter#631 is merged but unreleased",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: docs/guides/validate-a-pack.md, CHANGELOG, charter_pack_check.py docstring; tests/docs OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:35.913992+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-003",
+      "description": "The derived manifest leaves out everything a link reaches and still walks a linked pack root",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: DerivedManifests ratchet test on Python 3.12 and 3.13, OK; mutation followlinks=True red",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:40.260181+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-004",
+      "description": "An entry listed twice and not held gets both charter reasons, in charter order",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: test_an_entry_listed_twice_and_not_held..., checked against ManifestRules.mismatch at cb9b154",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:44.391735+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-005",
+      "description": "The derive-then-check test fails a derive that writes nothing",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: test_the_generator_writes... asserts bytes changed; no-op mutation red",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:48.561184+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-006",
+      "description": "No token is exposed to the pin tooling: derive runs in its own read-only job; publish runs no repository code and builds the request from fixed text",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: tests.ci.test_workflows CharterTrackBumpBoundary, OK; WP03 cycle-2 review (13 adversarial artifacts, actionlint 0)",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:52.789485+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-007",
+      "description": "Both jars' attestations are verified (signer workflow and tag pinned), warn only; a digest mismatch blocks the bump",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: tests.ci.test_workflows CharterTrackProvenance, OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:57.175895+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-008",
+      "description": "The bump PR body states per jar verified or not verified",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: test_the_body_states_each_jars_build_provenance, OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:01.387067+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-009",
+      "description": "The #304 false positives are spared and its false negatives flagged, with one test each",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: tests/vocabulary 34 OK; check_vocabulary.py 0 findings over 758 files",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:05.517879+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-010",
+      "description": "The roadmap Charter pin Waits on reflects rc.3 and the open charter follow-ups",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: docs/plans/roadmap.md; check_docs_freshness OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:09.530519+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    },
+    {
+      "criterion_id": "FR-011",
+      "description": "One changelog entry covers #310, #331, #262 and #304",
+      "proof_type": "automated_test",
+      "evidence": "lane-e 66888de8: docs/changelog/CHANGELOG.md Unreleased/Changed",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:49:13.489543+00:00",
+      "notes": "TODO: replace with a real acceptance criterion"
+    }
+  ],
+  "negative_invariants": []
+}

@@ -1,0 +1,106 @@
+{
+  "event_count": 58,
+  "last_event_id": "01M877J0ZKNMVQSP9X5J8ZZP1K",
+  "materialized_at": "2026-11-24T16:52:21.619361+00:00",
+  "mission_number": "",
+  "mission_slug": "release-pin-follow-through-01M872WA",
+  "mission_type": "",
+  "summary": {
+    "approved": 0,
+    "blocked": 0,
+    "canceled": 0,
+    "claimed": 0,
+    "done": 5,
+    "for_review": 0,
+    "in_progress": 0,
+    "in_review": 0,
+    "planned": 0
+  },
+  "work_packages": {
+    "WP01": {
+      "actor": "merge",
+      "agent": "claude",
+      "force_count": 0,
+      "implementer_of_record": "claude",
+      "lane": "done",
+      "last_event_id": "01M877HSGGNVE7YJX34XPQ113V",
+      "last_transition_at": "2026-11-24T16:52:13.968602+00:00",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP01-stray-file-gap-pinned/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP01-stray-file-gap-pinned/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 3910,
+      "shell_pid_created_at": "1795534670.26"
+    },
+    "WP02": {
+      "actor": "merge",
+      "agent": "claude::python-pedro",
+      "force_count": 0,
+      "implementer_of_record": "claude::python-pedro",
+      "lane": "done",
+      "last_event_id": "01M877HVED47B9QE7MD5C18JR2",
+      "last_transition_at": "2026-11-24T16:52:15.950020+00:00",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP02-manifest-mirror-parity/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP02-manifest-mirror-parity/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 8126,
+      "shell_pid_created_at": "1795534788.55"
+    },
+    "WP03": {
+      "actor": "merge",
+      "agent": "claude::python-pedro",
+      "force_count": 1,
+      "implementer_of_record": "claude::python-pedro",
+      "lane": "done",
+      "last_event_id": "01M877HXDKKSBNYTK76Q5F5ZGH",
+      "last_transition_at": "2026-11-24T16:52:17.971856+00:00",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP03-release-bump-hardening/review-cycle-2.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP03-release-bump-hardening/review-cycle-2.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 27783,
+      "shell_pid_created_at": "1795535772.01"
+    },
+    "WP04": {
+      "actor": "merge",
+      "agent": "claude::python-pedro",
+      "force_count": 5,
+      "implementer_of_record": "claude::python-pedro",
+      "lane": "done",
+      "last_event_id": "01M877HZ8ECF3EFRYG0AD47AW1",
+      "last_transition_at": "2026-11-24T16:52:19.854957+00:00",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP04-self-binding-vocabulary/review-cycle-4.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP04-self-binding-vocabulary/review-cycle-4.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 3548,
+      "shell_pid_created_at": "1795536130.0"
+    },
+    "WP05": {
+      "actor": "merge",
+      "agent": "claude::scribe-sally",
+      "force_count": 1,
+      "implementer_of_record": "claude::scribe-sally",
+      "lane": "done",
+      "last_event_id": "01M877J0ZKNMVQSP9X5J8ZZP1K",
+      "last_transition_at": "2026-11-24T16:52:21.619361+00:00",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP05-docs-roadmap-changelog/review-cycle-2.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP05-docs-roadmap-changelog/review-cycle-2.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "shell_pid": 10172,
+      "shell_pid_created_at": "1795538315.12"
+    }
+  }
+}
