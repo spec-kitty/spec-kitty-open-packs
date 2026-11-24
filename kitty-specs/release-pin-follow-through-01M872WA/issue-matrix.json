@@ -85,7 +85,7 @@
       "wp": null
     },
     "#329": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "PR #329 merged 2026-11-21 (mission gate, spec l.6); removed the #262 drift-step items",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -93,7 +93,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "verdict": "verified-already-fixed",
       "wp": null
     },
     "#331": {
