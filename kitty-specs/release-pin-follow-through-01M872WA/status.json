@@ -1,19 +1,19 @@
 {
-  "event_count": 20,
-  "last_event_id": "01M87452B4WJ8538CMPR6HAYGW",
-  "materialized_at": "2026-11-24T15:52:51.300833+00:00",
+  "event_count": 26,
+  "last_event_id": "01M874BAV25HDW5SYYWSDPT4XB",
+  "materialized_at": "2026-11-24T15:56:16.517648+00:00",
   "mission_number": "",
   "mission_slug": "release-pin-follow-through-01M872WA",
   "mission_type": "software-dev",
   "schema_version": 2,
   "summary": {
-    "approved": 0,
+    "approved": 1,
     "blocked": 0,
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 2,
-    "in_progress": 0,
+    "for_review": 0,
+    "in_progress": 1,
     "in_review": 1,
     "planned": 2
   },
@@ -44,22 +44,29 @@
     },
     "WP02": {
       "actor": "claude",
-      "agent": "claude::python-pedro",
-      "agent_profile": "__resolved_profile_absent__",
-      "agent_profile_version": "__resolved_profile_version_absent__",
+      "agent": "claude::reviewer-renata",
+      "agent_profile": "reviewer-renata",
+      "agent_profile_version": "1.0",
       "force_count": 0,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "for_review",
-      "last_event_id": "01M873J702666E8Z5H2YYG4WGM",
-      "last_transition_at": "2026-11-24T15:42:33.474944+00:00",
+      "lane": "approved",
+      "last_event_id": "01M8747AW8W8KMK8B9YBQ2GKV3",
+      "last_transition_at": "2026-11-24T15:54:05.576959+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change"
+        "Ready for review: #262 symlink premise measured false on 3.11-3.13; ratchet tests + mutation proofs; no code change",
+        "Review passed: rglob('*') measured on 3.11.18/3.12.3/3.13.18 never descends into linked dirs (depth 0/1/2, outside target, cycle, linked file, aliased root), so no code change and the ratchet tests are the right closure; T005 drop sound. Mutations red: os.walk(followlinks), dropped is_symlink guard, resolved root (#174), rglob(recurse_symlinks=True) on 3.13, three mismatch reorderings. Nit: FR-005 lines redundant (before is always None; the pre-existing EXIT_OK assert already fails a no-op derive). Follow-up: charter_service_check.stage() copytree dereferences links and l.457 is_file() counts linked files; no pack holds links. Checklist: 1 N/A, 2 PASS, 3 N/A, 4 PASS, 5 PASS, 6 PASS, 7 PASS (lane-b sole owner), 8 N/A. Suites equal to base apart from the 2 new tests."
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 8126,
-      "shell_pid_created_at": "1795534788.55",
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP02-manifest-mirror-parity/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP02-manifest-mirror-parity/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "approved"
+      },
+      "role": "reviewer",
+      "shell_pid": 6950,
+      "shell_pid_created_at": "1795535309.21",
       "subtasks": {
         "T004": "done",
         "T005": "done",
@@ -75,9 +82,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 1,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "planned",
-      "last_event_id": "01M87452B4WJ8538CMPR6HAYGW",
-      "last_transition_at": "2026-11-24T15:52:51.300833+00:00",
+      "lane": "in_progress",
+      "last_event_id": "01M874BAV25HDW5SYYWSDPT4XB",
+      "last_transition_at": "2026-11-24T15:56:16.517648+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: bump split (no token beside apply), warn-only provenance job, PR-body attestation note; live proof needs main"
@@ -90,7 +97,7 @@
         "reviewer": "claude::reviewer-renata",
         "verdict": "changes_requested"
       },
-      "role": "reviewer",
+      "role": "implementer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
@@ -104,27 +111,34 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude::python-pedro",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 0,
+      "force_count": 1,
       "implementer_of_record": "claude::python-pedro",
-      "lane": "for_review",
-      "last_event_id": "01M873Z2KJRDEC2BSR5BDZK91E",
-      "last_transition_at": "2026-11-24T15:49:34.962181+00:00",
+      "lane": "planned",
+      "last_event_id": "01M87471GPJA7N0VPGRMQ56DKN",
+      "last_transition_at": "2026-11-24T15:53:55.990835+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ready for review: #304 anchors and variants, one test each; repo scan 0 findings"
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 17978,
-      "shell_pid_created_at": "1795535286.08",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks/WP04-self-binding-vocabulary/review-cycle-1.md",
+        "reference": "review-cycle://release-pin-follow-through-01M872WA/WP04-self-binding-vocabulary/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "changes_requested"
+      },
+      "role": "reviewer",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T015": "done",
-        "T016": "done",
-        "T017": "done",
-        "T018": "done"
+        "T015": "planned",
+        "T016": "planned",
+        "T017": "planned",
+        "T018": "planned"
       }
     },
     "WP05": {

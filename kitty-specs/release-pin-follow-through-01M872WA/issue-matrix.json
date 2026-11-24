@@ -36,6 +36,18 @@
       "verdict": "not-applicable",
       "wp": null
     },
+    "#262": {
+      "evidence_ref": "ccefadb8c18ebb41a1b72a408ce60049d90c2d59 (ratchet tests: link walk, duplicated-and-unheld mismatch, derive write; no code change, rglob measured on 3.11/3.12/3.13)",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": null,
+      "verdict": "in-mission",
+      "wp": "WP02"
+    },
     "#287": {
       "evidence_ref": "Parent epic (context); its State and order rewrite is a hand-off tracker action",
       "fr": null,
