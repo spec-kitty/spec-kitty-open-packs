@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "mission_slug": "release-pin-follow-through-01M872WA",
+  "mission_id": "01M872WA0MZQHY0QPBR4T3VYKW",
+  "mission_branch": "kitty/mission-release-pin-follow-through-01M872WA",
+  "target_branch": "ci/release-pin-follow-through",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        "scripts/ci/charter_pack_check.py",
+        "tests/ci/test_charter_pack_check.py"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP02"
+      ],
+      "write_scope": [
+        "scripts/ci/charter_service_check.py",
+        "scripts/ci/validate_pack_schemas.py",
+        "tests/ci/test_charter_service_check.py",
+        "tests/ci/test_validate_pack_schemas.py"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP03"
+      ],
+      "write_scope": [
+        ".github/workflows/charter-track.yml",
+        "scripts/ci/charter_pin.py",
+        "tests/ci/test_charter_pin.py",
+        "tests/ci/test_workflows.py"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP04"
+      ],
+      "write_scope": [
+        "scripts/ci/check_vocabulary.py",
+        "tests/vocabulary/test_check_vocabulary.py"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP05"
+      ],
+      "write_scope": [
+        "CHANGELOG.md",
+        "docs/changelog/CHANGELOG.md",
+        "docs/guides/validate-a-pack.md",
+        "docs/plans/roadmap.md"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup",
+        "tracker-integration"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b",
+        "lane-c",
+        "lane-d"
+      ],
+      "parallel_group": 1
+    }
+  ],
+  "computed_at": "2026-11-24T15:37:08.657754+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [],
+  "planning_commit_sha": "a7243e2d2e1b65ecc822b23158b08e5b9f269530"
+}
