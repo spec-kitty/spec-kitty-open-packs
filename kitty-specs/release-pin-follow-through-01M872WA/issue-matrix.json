@@ -13,7 +13,7 @@
       "wp": "WP02"
     },
     "#252": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Gate landed in PR #329; its retirement ask moved to #330; closing #252 is a hand-off tracker action (spec l.128)",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -21,7 +21,7 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#262": {
