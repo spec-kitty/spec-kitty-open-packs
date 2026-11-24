@@ -16,12 +16,12 @@
     },
     {
       "criterion_id": "FR-002",
-      "description": "Verify FR-002 is satisfied",
+      "description": "The guide, changelog and gate docstring state the #331 ruling and that spec-kitty-charter#631 is merged but unreleased",
       "proof_type": "automated_test",
-      "evidence": null,
-      "pass_fail": "pending",
-      "verified_by": null,
-      "verified_at": null,
+      "evidence": "lane-e 66888de8: docs/guides/validate-a-pack.md, CHANGELOG, charter_pack_check.py docstring; tests/docs OK",
+      "pass_fail": "pass",
+      "verified_by": "claude::python-pedro",
+      "verified_at": "2026-11-24T16:48:35.913992+00:00",
       "notes": "TODO: replace with a real acceptance criterion"
     },
     {
