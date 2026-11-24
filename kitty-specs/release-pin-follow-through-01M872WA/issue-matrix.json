@@ -109,15 +109,15 @@
       "wp": null
     },
     "#554": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Charter issue cited for context (rc.3 ships it); no open-packs work owed",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Charter: file_not_held ruling",
+      "verdict": "not-applicable",
       "wp": null
     }
   },
