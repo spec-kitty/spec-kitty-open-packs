@@ -4,7 +4,7 @@ artifact_type: spec-kitty.analysis-report
 command: /spec-kitty.analyze
 mission_slug: release-pin-follow-through-01M872WA
 mission_id: 01M872WA0MZQHY0QPBR4T3VYKW
-generated_at: '2026-11-24T15:37:44.256216+00:00'
+generated_at: '2026-11-24T15:56:06.925152+00:00'
 analyzer_agent: unknown
 input_artifacts:
   spec.md:
@@ -12,7 +12,7 @@ input_artifacts:
     sha256: 5434ff802532bee2821e204569a8cbbecfe2f050fdf042b8984a19bc747f592d
   plan.md:
     path: .worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/plan.md
-    sha256: ae60706d1d9cb583b8a048643d51da160234b27e71916fec1365841cfaeadaa5
+    sha256: 69c844778a5d3a51b57f46e0a24b36ff921c94d85fd02142f5feb3bfc95a87a7
   tasks.md:
     path: .worktrees/release-pin-follow-through-01M872WA-coord/kitty-specs/release-pin-follow-through-01M872WA/tasks.md
     sha256: 4c21798f87825d17cb3107670107adf623280744647ab2b141fbef5d21f3a00c
@@ -21,9 +21,9 @@ input_artifacts:
     sha256: efcfe1f5ac18032e213f3962fe660e8ea93b377b55562edf5265c2f6d8ac3ce7
 verdict: ready
 issue_counts:
-  critical: 0
-  low: 4
   high: 0
+  low: 5
+  critical: 0
   medium: 1
   info: 0
 findings:
@@ -43,6 +43,10 @@ findings:
   severity: low
   category: inconsistency
   summary: plan.md Source Code tree lists the vocabulary test outside the tests/ci subtree in a parenthetical; the path tests/vocabulary/test_check_vocabulary.py is correct in tasks.
+- id: A2
+  severity: low
+  category: inconsistency
+  summary: "plan.md Amendment 1 (WP03 review cycle 1) supersedes the original Token split and Attestation bullets, and FR-008's attestation-note subcommand; the original text is kept for the record. The spec's FRs are unchanged: FR-006 is now met by a job boundary rather than a step boundary."
 - id: R1
   severity: medium
   category: risk
@@ -57,6 +61,7 @@ findings:
 | U1 | Underspecification | LOW | WP03 T012 | Digest cross-check not in the spec | Accept: it is within FR-007's intent and warn-only (C-003) |
 | U2 | Underspecification | LOW | WP04 T018 | Possible out-of-map pack prose edit | Accept: the WP prompt names the rule (one-line rationale and digest restamp) |
 | I1 | Inconsistency | LOW | plan.md Project Structure | Tree formatting for the vocabulary test | Cosmetic; no action |
+| A2 | Inconsistency | LOW | plan.md Amendment 1; WP03 Amendment 1 | Amendment supersedes the step split with a job split and retires attestation-note | Accept: amendment is explicit and recorded; FRs unchanged |
 | R1 | Risk | MEDIUM | WP03; spec Assumptions | Bump path cannot be exercised off main | Structure tests gate it; name the live-proof gap in the PR and to the dispatcher |
 
 **Coverage Summary Table:**
