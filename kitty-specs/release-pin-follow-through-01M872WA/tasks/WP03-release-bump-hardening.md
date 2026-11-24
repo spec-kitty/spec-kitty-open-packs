@@ -63,6 +63,20 @@ Read `plan.md` (Engineering Alignment) and `research.md` (R4, R5) first. Keep ev
 - the missing-secret check fails before any push;
 - `Closes #<red issue>` stays in the PR body.
 
+## Amendment 1 (review cycle 1, 2026-11-24) — supersedes T009, T011, T012 and T013 below where they differ
+
+Read `plan.md` "Amendment 1" first. In short:
+
+1. **T011, restated: two jobs, not three steps.**
+   - `derive` (contents: read, no token or secret anywhere): checkout, Python, `apply`, `changelog`, `commit-payload`. It uploads the artifact `charter-bump` (`file-changes.json` = the payload's `fileChanges`, `head` = `git rev-parse HEAD`).
+   - `bump` (publish): no checkout, no Python, no pip, no `source`. It downloads the artifact, validates every path (see the plan for the allowed set), and builds the request with `jq` from a fixed query. The branch is `charter/service-release-$RELEASE_TAG`, and `expectedHeadOid` is `github.sha`, which must equal the artifact's `head`.
+2. **T012, amended.**
+   - A SHA-256 mismatch is the state `mismatch`: `::error::`, plus the job output `integrity=mismatch`, and the bump is blocked (`needs.provenance.outputs.integrity != 'mismatch'`).
+   - The attestation is verified with `--signer-workflow spec-kitty/spec-kitty-charter/.github/workflows/service-release.yml --source-ref refs/tags/$RELEASE_TAG`. A failure stays `unverified`, warn only.
+3. **T009, amended.** The PR-body note is built by the publish job's shell. `charter_pin.py attestation-note` is removed.
+4. **T010, amended.** The tests exercise the boundary, as listed in the plan's amendment: separate jobs, publish runs no repository code, a fixed query, and path validation against stand-in artifacts. Add a test that a `mismatch` blocks the bump.
+5. **B2.** The lane's history carries no unsigned commit of the implementer's own making.
+
 ## Branch Strategy
 
 The planning branch and merge target is `ci/release-pin-follow-through`. Worktrees are allocated per lane from `lanes.json`. Implement with `spec-kitty agent action implement WP03 --agent <name> --mission release-pin-follow-through-01M872WA`.
