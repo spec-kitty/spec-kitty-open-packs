@@ -30,7 +30,8 @@
       "last_transition_at": "2026-11-24T15:55:43.488020+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling"
+        "Ready for review: gate-judge and real-jar tests pin the accepted gap; docstring states the ruling",
+        "Review passed (claude::reviewer-renata). Both tests non-vacuous: a reviewer-applied option-2 override (drop round_trip_red naming a file_not_held file) turns JudgeTheSet and RealPackCheck red; reverted. RealPackCheck passes against the pinned rc.3 jar on Java 25 and runs in the Charter service validation job (setup-java 25, PACK_CHECK_JAR set, set -e); elsewhere it is a counted skip. It fails loudly on the pin bump that brings charter#631 (exit 0 != 1). Docstring matches the #331 option-3 ruling. Only owned files touched; no downgrade of round_trip_red (C-001). Non-blocking nits: (a) the real-jar assertIn('notes.txt') is also met by the ::notice line, not only the round_trip_red line; (b) the notes.md half does not assert the file_not_held notice."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
