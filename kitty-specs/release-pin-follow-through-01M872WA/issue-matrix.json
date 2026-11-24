@@ -96,6 +96,18 @@
       "verdict": "not-applicable",
       "wp": null
     },
+    "#330": {
+      "evidence_ref": "Context only: holds the Python-port retirement, waiting on spec-kitty-charter#629/#630; not this mission's work",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Retire the remaining Python pack rules",
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#331": {
       "evidence_ref": "fda694c7a2dfcc9bfb8097bb5704a15b06634543 (JudgeTheSet + RealPackCheck pin option 3, no override)",
       "fr": null,
