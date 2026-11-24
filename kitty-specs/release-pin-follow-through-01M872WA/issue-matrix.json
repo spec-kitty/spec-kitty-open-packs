@@ -1,15 +1,15 @@
 {
   "rows": {
     "#174": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Context only: charter #174 root-link semantics cited by the WP02 walk test (ccefadb); no open-packs work owed",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Charter: enter a pack root configured through a link",
+      "verdict": "not-applicable",
       "wp": null
     },
     "#252": {
