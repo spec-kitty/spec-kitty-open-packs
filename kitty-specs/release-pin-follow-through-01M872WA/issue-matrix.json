@@ -24,6 +24,18 @@
       "verdict": "verified-already-fixed",
       "wp": null
     },
+    "#255": {
+      "evidence_ref": "Context only: the #255 derived-manifest work WP02's tests extend; no further work owed here",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Charter gate manifests (derived manifest mirror origin)",
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#287": {
       "evidence_ref": "Parent epic (context); its State and order rewrite is a hand-off tracker action",
       "fr": null,
@@ -84,6 +96,18 @@
       "verdict": "not-applicable",
       "wp": null
     },
+    "#330": {
+      "evidence_ref": "Context only: holds the Python-port retirement, waiting on spec-kitty-charter#629/#630; not this mission's work",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "Retire the remaining Python pack rules",
+      "verdict": "not-applicable",
+      "wp": null
+    },
     "#331": {
       "evidence_ref": "fda694c7a2dfcc9bfb8097bb5704a15b06634543 (JudgeTheSet + RealPackCheck pin option 3, no override)",
       "fr": null,
@@ -117,6 +141,42 @@
       "scope": null,
       "source_file": "spec.md",
       "title": "Charter: file_not_held ruling",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#629": {
+      "evidence_ref": "Charter-side issue cited for context; no open-packs work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "spec-kitty-charter#629: requiredNotHeld in pack-check",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#630": {
+      "evidence_ref": "Charter-side issue cited for context; no open-packs work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "spec-kitty-charter#630: stale content_hash",
+      "verdict": "not-applicable",
+      "wp": null
+    },
+    "#631": {
+      "evidence_ref": "Charter-side fix the accepted #331 gap waits on; cited for context; no open-packs work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "spec-kitty-charter#631: round trip skips unheld files",
       "verdict": "not-applicable",
       "wp": null
     }
