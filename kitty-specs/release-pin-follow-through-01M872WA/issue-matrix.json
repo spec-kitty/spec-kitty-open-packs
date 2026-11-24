@@ -1,7 +1,7 @@
 {
   "rows": {
     "#174": {
-      "evidence_ref": "Context only: charter #174 root-link semantics cited by the WP02 walk test (ccefadb); no open-packs work owed",
+      "evidence_ref": "The mission cites spec-kitty-charter#174 (the charter enters a pack root configured through a link). Open-packs #174 is an unrelated closed PR (qa profile references); no work owed. The bare citation is qualified as spec-kitty-charter#174 in the R24 rebuild.",
       "fr": null,
       "nfr": null,
       "repo": null,
