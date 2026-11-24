@@ -13,15 +13,15 @@
       "wp": null
     },
     "#252": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "Delivered by PR #329 (merged 2026-11-21); the Python-port retirement moved to #330; closed at hand-off per operator ruling",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
+      "title": "Gate every pack on charter's whole-pack round trip, at the charter pin",
+      "verdict": "verified-already-fixed",
       "wp": null
     },
     "#287": {
