@@ -109,7 +109,7 @@
       "wp": null
     },
     "#330": {
-      "evidence_ref": "Context only: holds the Python-port retirement, waiting on spec-kitty-charter#629/#630; not this mission's work",
+      "evidence_ref": "Follow-up: #330 retires the remaining Python rules once spec-kitty-charter#629/#630 ship; this mission keeps them",
       "fr": null,
       "nfr": null,
       "repo": null,
@@ -117,7 +117,7 @@
       "scope": null,
       "source_file": null,
       "title": "Retire the remaining Python pack rules",
-      "verdict": "not-applicable",
+      "verdict": "deferred-with-followup",
       "wp": null
     },
     "#331": {
