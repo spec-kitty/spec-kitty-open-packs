@@ -167,6 +167,18 @@
       "title": "spec-kitty-charter#630: stale content_hash",
       "verdict": "not-applicable",
       "wp": null
+    },
+    "#631": {
+      "evidence_ref": "Charter-side fix the accepted #331 gap waits on; cited for context; no open-packs work owed",
+      "fr": null,
+      "nfr": null,
+      "repo": null,
+      "sc": null,
+      "scope": null,
+      "source_file": null,
+      "title": "spec-kitty-charter#631: round trip skips unheld files",
+      "verdict": "not-applicable",
+      "wp": null
     }
   },
   "schema_version": 1
