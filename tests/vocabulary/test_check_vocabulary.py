@@ -196,6 +196,41 @@ class SelfBindingTest(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
 
+    #: #304: legitimate prose the first patterns flagged (an adjective that is not the directive's level).
+    NOT_A_LEVEL = (
+        "The rule is mandatory reading for reviewers.",
+        "the directive is required by the charter",
+        "Open the advisory context menu.",
+        "Spring makes rules binding at startup",
+    )
+
+    #: #304: simple variants the first patterns missed.
+    MISSED_LEVELS = (
+        "This directive is strictly advisory.",
+        "Advisory in version 1.",
+        "These rules are mandatory.",
+        "An advisory-only directive.",
+        "This directive is non-blocking.",
+    )
+
+    def test_spares_an_adjective_that_is_not_the_level(self) -> None:
+        for line in self.NOT_A_LEVEL:
+            with self.subTest(line=line):
+                self.assertEqual(vocab.self_binding_in(f"{line}\n"), [])
+
+    def test_refuses_the_simple_variants(self) -> None:
+        for line in self.MISSED_LEVELS:
+            with self.subTest(line=line):
+                self.assertEqual([number for number, _ in vocab.self_binding_in(f"intro\n{line}\n")], [2])
+
+    def test_the_finding_stays_short(self) -> None:
+        # #304 NIT: the annotation's message (after the file and line) stays within 200 characters, even for the
+        # longest phrase a pattern can match.
+        for line in (*self.REFUSED, *self.MISSED_LEVELS):
+            for _, message in vocab.findings_in(f"{line}\n", "packs/x/directives/x.directive.yaml"):
+                with self.subTest(line=line):
+                    self.assertLessEqual(len(message), 200)
+
     def test_findings_name_the_glossary_term(self) -> None:
         found = vocab.findings_in("x\nThis is advisory guidance.\n", "packs/foundation/directives/049.directive.yaml")
         self.assertEqual([line for line, _ in found], [2])

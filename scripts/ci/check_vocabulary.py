@@ -115,23 +115,34 @@ GLOSSARY_SUFFIX = ".glossary.yaml"
 #: other senses that stay legal (npm advisories and an ``advisory:`` key, dependency or
 #: data *binding*, mandatory report fields, the glossary's enforcement tiers, runtime gates
 #: such as analyze, format versions such as ``qa-traceability/v1``).
+#: The end of a clause: the level word is the predicate, not an adjective on a noun ("mandatory reading", #304).
+_CLAUSE_END = r"(?=\s*(?:[.;:,)!?'\"`*]|$))"
+
 SELF_BINDING: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
-        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+v\d",
-        r"\b(?:this|the)\s+directive\s+is\s+(?:advisory|required|mandatory|binding|lenient)\b",
-        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b",
+        r"\badvisory\s+(?:in|at\s+the\s+[\w-]+\s+level\s+in)\s+(?:v|version\s*)\d",
+        # "required by" is how a directive is activated, not how strictly it binds (#304).
+        r"\b(?:this|the)\s+directive\s+is\s+(?:(?:strictly|purely|merely)\s+)?"
+        r"(?:advisory|required(?!\s+by\b)|mandatory|binding|lenient|non-blocking)\b",
+        r"\b(?:this|the)\s+(?:rule|guidance)\s+is\s+(?:advisory|mandatory|binding)\b(?!\s+reading\b)",
+        r"\b(?:these|the|its|all)\s+(?:rules|directives)\s+are\s+(?:advisory|mandatory|binding|non-negotiable)"
+        + _CLAUSE_END,
         r"\b(?:directive|rule)s?\s+(?:is|are)\s+(?:non-negotiable|a\s+hard\s+gate)\b",
         r"\bnon-negotiable\s+(?:rule|directive|policy)\b",
         r"\bthis\s+is\s+(?:advisory|not\s+a\s+recommendation)\b",
+        r"\b(?:strictly|purely|merely)\s+advisory\b",
+        r"\badvisory-only\b",
         r"\bnot\s+a\s+runtime\s+gate\b",
         r"\bbinding\s+charter\s+content\b",
         r"\badvisory\s+posture\b",
         r"\benforcement\s+`(?:required|advisory|lenient-adherence)`",
-        r"\bmakes?\b[^.]{0,160}?\brules?\s+binding\b",
+        # Within one clause, and "binding" ends it: "makes rules binding at startup" is a framework's binding (#304).
+        r"\bmakes?\b[^.;:]{0,120}?\brules?\s+binding" + _CLAUSE_END,
         r"\brules?\s+that\s+\S+\s+makes?\s+binding\b",
         r"\bdirective'?s?\s+binding\s+rules?\b",
-        r"\badvisory\s+context\b",
+        # "is advisory context" states the level; "the advisory context menu" does not (#304).
+        r"\b(?:is|as)\s+advisory\s+context\b",
         r"\bremains?\s+advisory\b",
         r"\bhard\s+validation\s+gate\b",
         r"\blenient-adherence\s+[a-z]",
@@ -258,7 +269,9 @@ def findings_in(text: str, rel: str) -> list[tuple[int, str]]:
         if rel.endswith(GLOSSARY_SUFFIX) and RETIRED_SURFACE.match(line):
             found.append((number, "declares the retired governing glossary surface"))
     for number, phrase in self_binding_in(text):
-        found.append((number, f"states a directive's enforcement level in prose ({phrase!r}); the level is the enforcement field, a pack-supplied default the charter decides (term:spec-kitty-core/enforcement-level)"))
+        shown = phrase if len(phrase) <= 48 else f"{phrase[:45]}..."
+        found.append((number, f"states a directive's level in prose ({shown!r}); set the enforcement field "
+                              "instead (term:spec-kitty-core/enforcement-level)"))
     if rel.endswith((".yaml", ".yml")):
         for number, family in family_languages_in(text):
             found.append((number, f"applies_to_languages names the runtime family '{family}'; name the language (for example java, kotlin)"))
