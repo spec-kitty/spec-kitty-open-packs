@@ -4,8 +4,9 @@
 - **Origin flow:** `specify`
 - **Slot key:** `specify.scope.availability-edits`
 - **Input key:** `availability_edit_policy`
-- **Status:** `open`
+- **Status:** `resolved`
 - **Created:** `2026-11-25T06:57:28.738702+00:00`
+- **Resolved:** `2026-11-25T06:58:44.872012+00:00`
 - **Opened by:** `cli`
 - **Other answer:** `false`
 
@@ -22,7 +23,7 @@ When a source shows a catalog entry is deprecated/retired, or the catalog's prov
 
 ## Final answer
 
-_(none)_
+Report only: list deprecations and new entries in the PR body for the reviewer; edit prices only (recommended)
 
 ## Rationale
 
@@ -31,3 +32,4 @@ _(none)_
 ## Change log
 
 - `2026-11-25T06:57:28.738702+00:00` - opened
+- `2026-11-25T06:58:44.872012+00:00` - resolved (final_answer="Report only: list deprecations and new entries in the PR body for the reviewer; edit prices only (recommended)")
