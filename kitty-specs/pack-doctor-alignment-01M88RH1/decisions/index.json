@@ -567,6 +567,75 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T20:22:29.601223Z",
+      "decision_id": "01M8A5ZGF1RE1QY8NNAH1W1JNN",
+      "final_answer": "Re-plan A is withdrawn; the original graph stands (WP01, WP09, WP10, WP11). Consolidate with --strategy merge and --keep-branch, then fold the CLI and bookkeeping commits into one commit per WP. A force-push of the rebased feat/pack-doctor-alignment is approved in principle; when reached, the operator approves it in the implementer session itself. (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "landing_strategy",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "as stated",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "Re-plan A, the consolidate strategy and the publishing of the rebased feat: how?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T20:22:32.158852Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.sequencing.landing",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T20:22:34.842761Z",
+      "decision_id": "01M8A5ZNJTETCBFCC4H5G0VHQ6",
+      "final_answer": "Accept both: a dropped null or empty default is no change in meaning, and the lost comments are acceptable. T045's proof compares the YAML after removing null and empty keys, ignoring comments; the WP09 PR text notes the headers are gone, so their 'never machine-rewritten' claim no longer holds. (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "remediate_meaning",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "as stated",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "remediate drops null or empty keys and strips every comment, the pack.yaml 'authored, never machine-rewritten' headers included, so WP09's T045 proof ('0 differences') fails as written. Accept?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T20:22:37.561704Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.remediate_canonical",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T20:22:40.253841Z",
+      "decision_id": "01M8A5ZTVXJ59PNN56PC3WGR3Z",
+      "final_answer": "No separate reviewer session: the implementer runs an independent adversarial review with in-session subagents for WP01, WP09, WP10, WP11 and the post-rebase review, records each verdict unforced through spec-kitty agent action review / move-task under a reviewer identity distinct from the implementer's (claude::reviewer-renata), and posts the PR review as a comment headed 'Independent adversarial review (agent)', folding every finding. (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "review_model",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "as stated",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "Who reviews the remaining work packages and the post-rebase result?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T20:22:43.065396Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.review.in_session",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
