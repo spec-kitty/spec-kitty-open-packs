@@ -763,11 +763,12 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         self.assertEqual(download["with"]["path"], "${{ runner.temp }}/charter-bump")
         self.assertEqual(self.build["env"]["ARTIFACT"], "${{ runner.temp }}/charter-bump")
 
-    def run_publish(self) -> tuple[bytes, list[str]]:
+    def run_publish(self) -> tuple[dict[str, str], list[str]]:
         """Run build, push and open in one RUNNER_TEMP, with the artifact where the download puts it, under a stub gh.
 
-        The artifact directory also holds a planted request.json and pr.md. Returns the request the build step wrote
-        and every gh call, each followed by the SHA-256 of any file it was given (--input, --body-file)."""
+        The artifact directory also holds a planted request.json and pr.md. Returns the SHA-256 of request.json and
+        pr.md as the build step left them, taken before the push runs, and every gh call, each followed by the SHA-256
+        of any file it was given (--input, --body-file)."""
         with tempfile.TemporaryDirectory() as tmp:
             work = Path(tmp)
             artifact = work / "charter-bump"  # ${{ runner.temp }}/charter-bump, the download step's path
@@ -810,25 +811,31 @@ class CharterTrackBumpBoundary(unittest.TestCase):
                 done = subprocess.run(["bash", "-c", step["run"]], env=step_env, capture_output=True, text=True,
                                       cwd=tmp, check=False)
                 self.assertEqual(done.returncode, 0, f"{step.get('name')}: {done.stdout}{done.stderr}")
-            request = (work / "request.json").read_bytes()
+                if step is self.build:
+                    built = {name: hashlib.sha256((work / name).read_bytes()).hexdigest()
+                             for name in ("request.json", "pr.md")}
             calls = log.read_text(encoding="utf-8").replace(tmp, "$RUNNER_TEMP").splitlines()
-            return request, calls
+            return built, calls
 
     def test_the_push_commits_the_request_the_build_checked_and_no_gh_call_reads_the_artifact(self) -> None:
         # The build step's checks (paths, the exact lock, canonical base64) stand behind the commit only if the push
         # sends the very request the build wrote. A push that read the artifact directory would send what a poisoned
         # derive wrote there, unchecked; so would an open that took its body from it.
-        request, calls = self.run_publish()
+        # The files gh is given are compared with the build step's output as it was before the push ran, so a step
+        # that copies the artifact's files over the build's before calling gh is caught too.
+        built, calls = self.run_publish()
         graphql = [i for i, call in enumerate(calls) if call.startswith("api graphql")]
         self.assertEqual(len(graphql), 1, calls)
-        self.assertEqual(calls[graphql[0] + 1], f"  $RUNNER_TEMP/request.json <- {hashlib.sha256(request).hexdigest()}")
+        self.assertEqual(calls[graphql[0] + 1], f"  $RUNNER_TEMP/request.json <- {built['request.json']}")
         body_files = [call for call in calls if call.startswith("  ") and "pr.md" in call]
-        self.assertEqual([call.split(" <- ")[0] for call in body_files], ["  $RUNNER_TEMP/pr.md"])
+        self.assertEqual(body_files, [f"  $RUNNER_TEMP/pr.md <- {built['pr.md']}"])
         for call in calls:
             with self.subTest(call=call):
                 self.assertNotIn("charter-bump", call)
         for step in (self.push, self.open):
-            self.assertNotIn("ARTIFACT", step.get("env", {}))
+            with self.subTest(step=step.get("name")):
+                self.assertNotIn("ARTIFACT", step.get("env", {}))
+                self.assertNotRegex(step["run"], r"charter-bump|\bARTIFACT\b")
 
     def test_the_artifact_the_derive_uploads_is_the_one_the_bump_downloads(self) -> None:
         upload = next(step for step in self.derive_job["steps"]
