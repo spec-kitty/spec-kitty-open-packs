@@ -90,15 +90,14 @@ def remove_top_level_key(text: str, key: str) -> str:
     if span is None:
         return text
     start, end = span
-    rest = lines[:start] + lines[end:]
-    # Collapse the blank lines the removal leaves behind, and drop trailing blank lines.
-    out: list[str] = []
-    for line in rest:
-        if not line.strip() and out and not out[-1].strip():
-            continue
-        out.append(line)
-    while out and not out[-1].strip():
-        out.pop()
+    out = lines[:start] + lines[end:]
+    # Collapse blank lines only at the seam the removal leaves; the rest of the file keeps its spacing.
+    if start == len(out):
+        while out and not out[-1].strip():
+            out.pop()
+    else:
+        while 0 < start < len(out) and not out[start - 1].strip() and not out[start].strip():
+            del out[start]
     result = "".join(out)
     expected = {k: v for k, v in before.items() if k != key}
     if yaml.safe_load(result) != expected:
@@ -608,6 +607,13 @@ def check(root: Path, rows: list[Row], merge_map: dict | None) -> list[str]:
                 data = yaml.safe_load(file.read_text(encoding="utf-8")) or {}
                 if isinstance(data, dict) and "anti_patterns" in data:
                     faults.append(f"{file.relative_to(root)}: still carries anti_patterns")
+
+    # Every cross-pack anti-pattern edge, ledger-made or hand-written, stays inside the owner's closure.
+    for key, pack in sorted(packs.items()):
+        for _, target, relation in sorted(tree.edges(pack), key=str):
+            m = QUALIFIED_RE.match(str(target or ""))
+            if m and m.group("pack") != key and m.group("pack") not in tree.closure(packs, key):
+                faults.append(f"{key}: {relation} edge to {target} is outside {key}'s depends_on closure")
 
     if cyc := tree.cycle(packs):
         faults.append("depends_on cycle: " + " -> ".join(cyc))

@@ -420,6 +420,21 @@ def test_append_creates_a_missing_key():
     assert yaml.safe_load(out) == {"a": 1, "nodes": [{"id": "n"}]}
 
 
+def test_remove_collapses_blank_lines_only_at_the_seam():
+    text = "a: 1\n\n\nb: 2\n\nanti_patterns:\n- x\n\nc: 3\n"
+    out = ac.remove_top_level_key(text, "anti_patterns")
+    assert out == "a: 1\n\n\nb: 2\n\nc: 3\n"
+
+
+def test_check_reports_a_hand_written_cross_pack_edge_outside_the_closure(repo, capsys):
+    paths, mm = ledgers(repo)
+    run(repo, paths, mm)
+    graph = repo / "packs/alpha/drg/fragment.yaml"
+    graph.write_text(ac.append_list_items(graph.read_text(), "edges", [
+        {"source": "styleguide:alpha-guide", "target": "beta::anti_pattern:skipping-the-claim", "relation": "rejects"}]))
+    assert "edge to beta::anti_pattern:skipping-the-claim is outside alpha's depends_on closure" in check_faults(repo, paths, mm, capsys)
+
+
 def test_remove_the_last_key_of_a_document():
     out = ac.remove_top_level_key("id: x\nanti_patterns:\n- title: t\n  content: |\n    c\n", "anti_patterns")
     assert out == "id: x\n"
