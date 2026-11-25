@@ -494,6 +494,30 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T19:51:30.909290Z",
+      "decision_id": "01M8A46SAWTKB2ZH3XEW5B2J89",
+      "final_answer": "Build WP01 last: finish the other WPs (WP09 next), consolidate onto feat/pack-doctor-alignment, fast-forward feat to origin/main (a strict ancestor), then do WP01 on that base. Main is merged into no lane, Mission or coordination branch (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "wp01_base_after_344",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "A: fast-forward feat to main now",
+        "B: merge main into the WP01 lane only",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "WP01 must base on main after #344 (C-001), but #344 (d444ada4) is not in feat/pack-doctor-alignment, and main may not be merged into the Mission or coordination branch. How does WP01 get its base?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T19:51:33.683727Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.sequencing.wp01_base",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
