@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: single-diagram-architecture
+title: Single-Diagram Architecture
+description: A single all-in-one architecture diagram conflates audiences and abstraction levels, producing a poster that
+  nobody can review in a reasonable time.
+severity: severe
+bad_example: One wall-sized diagram shows the users, every service, each database table and the deployment nodes, for sponsors
+  and developers alike.

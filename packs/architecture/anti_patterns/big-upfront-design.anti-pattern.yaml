@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: big-upfront-design
+title: Big Upfront Design
+description: Big Upfront Design attempts to specify every architectural detail before implementation begins.
+severity: smell
+bad_example: Before the first sprint, the team signs off a 120-page design that fixes every container, component and class
+  of the system.

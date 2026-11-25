@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: mock-owned-logic-to-pin-a-call-contract
+title: Mock owned logic to pin a call contract
+description: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation
+  shape and can manufacture a state the real code never reaches.
+severity: breaking
+bad_example: an order-fulfilment test stubbed the step that records a shipment, to assert it was called once with the expected
+  order ids.

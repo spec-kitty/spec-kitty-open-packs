@@ -12,7 +12,9 @@ edges:
 - source: paradigm:tests-as-scaffold-not-friction
   target: anti_pattern:assert-on-mock-interactions
   relation: rejects
-  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the
+    test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test
+    outcomes, not mechanisms.
 - source: paradigm:tests-as-scaffold-not-friction
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects

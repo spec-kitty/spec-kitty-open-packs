@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: feature-envy
+title: Feature Envy
+description: a method that uses more of another class's data and behaviour than its own host's
+severity: smell
+bad_example: '`Invoice.total()` reads `order.lines`, `order.discount` and `order.customer.tier` and calls three `Order` helpers,
+  but touches no field of `Invoice`.'
