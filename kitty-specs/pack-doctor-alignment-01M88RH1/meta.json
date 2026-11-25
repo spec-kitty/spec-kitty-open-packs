@@ -1,4 +1,7 @@
 {
+  "change_mode": "bulk_edit",
+  "contracts": "none",
+  "contracts_rationale": "The mission defines no interface of its own: it consumes the charter-owned contracts (PackDoctorReport, anti-pattern.schema.json, the pack-doctor command line), recorded in research.md R2/R4 and data-model.md.",
   "create_return_branch": "feat/pack-doctor-alignment",
   "created_at": "2026-11-25T07:08:10.604813+00:00",
   "flattened": false,

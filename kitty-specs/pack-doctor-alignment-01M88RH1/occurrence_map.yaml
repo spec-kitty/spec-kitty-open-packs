@@ -1,0 +1,44 @@
+# Occurrence map for the pack-check -> pack-doctor rename (DIRECTIVE_035), charter ADR-0083 decisions 6-7.
+# The charter renamed the checker outright, with no alias. Open-packs follows, one name per tool (#345 items 1-4, 9).
+target:
+  term: pack-check
+  replacement: pack-doctor
+  operation: rename
+
+categories:
+  code_symbols:         { action: rename }         # PACK_CHECK_JAR, expected_pack_check, CRASH_* (retired), test classes
+  import_paths:         { action: rename }         # charter_pack_check -> charter_pack_doctor (tests import it)
+  filesystem_paths:     { action: rename }         # script names, service/pack-doctor/build/pack-doctor/ glob, jar file name
+  serialized_keys:      { action: rename }         # lock key pack_check_sha256 -> pack_doctor_sha256; expected-code key 'pack-check:' -> 'pack-doctor:'. Open-packs owns every reader.
+  cli_commands:         { action: rename }         # --pack-check-sha256 (charter_pin.py), workflow_call input charter_pack_check_sha256; only this repository calls them
+  user_facing_strings:  { action: rename_if_user_visible } # step names, ::error:: prefixes, guide text; history stays
+  tests_fixtures:       { action: rename }         # tests/ci/test_charter_pack_check.py and fixture expected-code lines
+  logs_telemetry:       { action: rename }         # the uploaded artifact charter-pack-check-report -> charter-pack-doctor-report (read by charter-track's issue body)
+
+exceptions:
+  - path: "docs/changelog/**"
+    action: do_not_change
+    reason: "Released history names the tool as it was; the new entry names pack-doctor"
+  - path: "docs/architecture/adr/**"
+    action: do_not_change
+    reason: "ADRs are superseded, never silently edited (charter DIRECTIVE_003); #345 item 9 leaves the 2026-11-19-3 ADR to history"
+  - path: "kitty-specs/**"
+    action: do_not_change
+    reason: "Past missions' records; this mission's own artifacts describe the rename"
+  - path: "kitty-ops/**"
+    action: do_not_change
+    reason: "Op records are history"
+  - path: "site/**"
+    action: do_not_change
+    reason: "Generated docsite output; regenerated, never hand-edited"
+
+moves:
+  - from: [scripts/ci/charter_pack_check_jar.sh]
+    to: scripts/ci/charter_pack_doctor_jar.sh
+    reason: "One name per tool (#345 item 1)"
+  - from: [scripts/ci/charter_pack_check.py]
+    to: scripts/ci/charter_pack_doctor.py
+    reason: "One name per tool (#345 item 9)"
+  - from: [tests/ci/test_charter_pack_check.py]
+    to: tests/ci/test_charter_pack_doctor.py
+    reason: "Follows the script it tests"
