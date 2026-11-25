@@ -4,4 +4,4 @@
 # per-pack schema pass refuses them too (retired layout), so there is no precheck line.
 composition: pack_unreadable
 registration: validation_failed
-pack-check: retired                # pack-check refuses pack.md and PROVENANCE.md by name
+pack-doctor: retired               # pack-doctor refuses pack.md and PROVENANCE.md by name

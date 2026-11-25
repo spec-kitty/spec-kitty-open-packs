@@ -294,26 +294,28 @@ class CharterServiceJob(unittest.TestCase):
         java = [step for step in job["steps"] if str(step.get("uses", "")).startswith("actions/setup-java@")]
         self.assertEqual([step["with"]["java-version"] for step in java], ["25"])
 
-    def test_it_gates_every_pack_on_pack_check_from_the_pin_and_keeps_the_report(self) -> None:
-        # #252: the charter's whole-pack check, pack-check, from the pinned release (digest-checked), replaces driftTest.
+    def test_it_gates_every_pack_on_pack_doctor_from_the_pin_and_keeps_the_report(self) -> None:
+        # #252, #345: the charter's whole-pack check, pack-doctor, from the pinned release (digest-checked), replaces
+        # driftTest.
         _, job = job_named(self.workflow, "Charter service validation")
         steps = job["steps"]
         runs = "\n".join(str(step.get("run", "")) for step in steps)
-        check = next(step for step in steps if "charter_pack_check.py" in str(step.get("run", "")))
-        self.assertEqual(check.get("id"), "pack_check")
+        check = next(step for step in steps if "charter_pack_doctor.py" in str(step.get("run", "")))
+        self.assertEqual(check.get("id"), "pack_doctor")
         self.assertNotIn("continue-on-error", check)
         self.assertIn("!cancelled()", check["if"])  # it runs even when obtaining the service jar failed
         # Obtaining the jar and running it are one step under `set -e`: a jar that cannot be had fails the gate.
         self.assertIn("set -euo pipefail", check["run"])
-        self.assertLess(check["run"].index("charter_pack_check_jar.sh"), check["run"].index("charter_pack_check.py --jar"))
-        self.assertIn("tests.ci.test_charter_pack_check.RealPackCheck", check["run"])
+        self.assertLess(check["run"].index("charter_pack_doctor_jar.sh"), check["run"].index("charter_pack_doctor.py --jar"))
+        self.assertIn("tests.ci.test_charter_pack_doctor.RealPackDoctor", check["run"])
+        self.assertIn('PACK_DOCTOR_JAR="$jar"', check["run"])
         upload = next(step for step in steps if str(step.get("uses", "")).startswith("actions/upload-artifact@"))
         self.assertGreater(steps.index(upload), steps.index(check))
         self.assertIn("always()", upload["if"])
-        self.assertEqual(upload["with"]["name"], "charter-pack-check-report")
-        self.assertEqual(upload["with"]["path"], "${{ runner.temp }}/pack-check-report")
+        self.assertEqual(upload["with"]["name"], "charter-pack-doctor-report")
+        self.assertEqual(upload["with"]["path"], "${{ runner.temp }}/pack-doctor-report")
         self.assertEqual(check["env"]["REPORT_DIR"], upload["with"]["path"])
-        # The service check still runs when pack-check is red, so one run reports both.
+        # The service check still runs when pack-doctor is red, so one run reports both.
         self.assertIn("!cancelled()", steps[-1]["if"])
 
     def test_gradle_is_set_up_only_for_a_commit_pin(self) -> None:
@@ -331,7 +333,7 @@ class CharterServiceJob(unittest.TestCase):
 
 TRACK = "charter-track.yml"
 TARGET = {"charter_commit": "d" * 40, "charter_release_tag": "service-v9.0.0", "charter_jar_sha256": "e" * 64,
-          "charter_pack_check_sha256": "f" * 64}
+          "charter_pack_doctor_sha256": "f" * 64}
 
 
 RELEASE_CRON = "41 5 * * *"

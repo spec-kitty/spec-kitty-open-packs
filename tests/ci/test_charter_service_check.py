@@ -19,7 +19,7 @@ import validate_pack_schemas as validator  # noqa: E402
 
 COMMIT = "f4acac975522e4bf8d423d552672f9d1d78e8186"
 DIGEST = "a" * 64
-PACK_CHECK = "b" * 64
+PACK_DOCTOR = "b" * 64
 
 
 class CharterLock(unittest.TestCase):
@@ -36,17 +36,17 @@ class CharterLock(unittest.TestCase):
 
     def test_a_commit_pin_reads_with_its_comments_and_empty_release_keys(self) -> None:
         pin = self.read(f"# why\ncommit: {COMMIT}  # the pin\nrelease_tag:\njar_sha256: ''\n")
-        self.assertEqual(pin, {"commit": COMMIT, "release_tag": "", "jar_sha256": "", "pack_check_sha256": ""})
+        self.assertEqual(pin, {"commit": COMMIT, "release_tag": "", "jar_sha256": "", "pack_doctor_sha256": ""})
 
     def test_a_release_pin_needs_its_tag_and_both_digests_together(self) -> None:
-        both = f"jar_sha256: {DIGEST}\npack_check_sha256: {PACK_CHECK}\n"
+        both = f"jar_sha256: {DIGEST}\npack_doctor_sha256: {PACK_DOCTOR}\n"
         pin = self.read(f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\n{both}")
-        self.assertEqual((pin["release_tag"], pin["pack_check_sha256"]), ("service-v1.2.3", PACK_CHECK))
+        self.assertEqual((pin["release_tag"], pin["pack_doctor_sha256"]), ("service-v1.2.3", PACK_DOCTOR))
         self.read(f"commit: {COMMIT}\nrelease_tag: service-v1.2.3-rc.1\n{both}")
         for text in (f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\n", f"commit: {COMMIT}\njar_sha256: {DIGEST}\n",
-                     # #252: a release pin without the pack-check digest cannot verify the gate's jar.
+                     # #252, #345: a release pin without the pack-doctor digest cannot verify the gate's jar.
                      f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\njar_sha256: {DIGEST}\n",
-                     f"commit: {COMMIT}\npack_check_sha256: {PACK_CHECK}\n"):
+                     f"commit: {COMMIT}\npack_doctor_sha256: {PACK_DOCTOR}\n"):
             with self.subTest(text=text), self.assertRaises(lock.LockError):
                 self.read(text)
 
@@ -61,8 +61,8 @@ class CharterLock(unittest.TestCase):
         for text in (
             f"commit: {COMMIT}\nrelease_tag: v1.2.3\njar_sha256: {DIGEST}\n",
             f"commit: {COMMIT}\nrelease_tag: service-v1.2\njar_sha256: {DIGEST}\n",
-            f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\njar_sha256: {'A' * 64}\npack_check_sha256: {PACK_CHECK}\n",
-            f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\njar_sha256: {DIGEST}\npack_check_sha256: {'b' * 63}\n",
+            f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\njar_sha256: {'A' * 64}\npack_doctor_sha256: {PACK_DOCTOR}\n",
+            f"commit: {COMMIT}\nrelease_tag: service-v1.2.3\njar_sha256: {DIGEST}\npack_doctor_sha256: {'b' * 63}\n",
             f"commit: {COMMIT}\nbranch: main\n",
             f"commit: {COMMIT}\ncommit: {COMMIT}\n",
             f"commit {COMMIT}\n",

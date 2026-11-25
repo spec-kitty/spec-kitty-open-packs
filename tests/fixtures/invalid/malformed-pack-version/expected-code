@@ -1,14 +1,13 @@
 # The codes this pack must be refused with: by the charter service (scripts/ci/charter_service_check.py)
-# and by pack-check (scripts/ci/charter_pack_check.py).
+# and by pack-doctor (scripts/ci/charter_pack_doctor.py).
 # pack_version is not a semantic (PEP 440) version. Every other file is the valid example pack's, under its own
 # pack_id and name, so the version is the only fault. The pack-descriptor schema asks only for a non-empty string,
 # so the per-pack schema pass accepts it. The service refuses it at composition (pack_unreadable) and at
 # registration (validation_failed, its violation pack_version_invalid).
 #
-# pack-check `failed`: rc.3 crashes on it with exit 2 and no report (spec-kitty-charter#624). The gate treats
-# exit 2 as a failure, never as a skip. Once #624 lands, pack-check reports the fault instead, `failed` no
-# longer matches, and this line must name the code pack-check then gives (likely pack_version_invalid).
+# pack-doctor reports the fault as `pack_version_invalid` (exit 1). rc.3's checker crashed on it instead, with
+# exit 2 and no report (spec-kitty-charter#624); what a pack holds is never exit 2 now (#343, #345).
 composition: pack_unreadable
 registration: validation_failed
 precheck: accepted
-pack-check: failed
+pack-doctor: pack_version_invalid

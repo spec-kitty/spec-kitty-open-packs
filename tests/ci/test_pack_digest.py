@@ -204,7 +204,7 @@ class CheckTests(PackFixture):
         self.stamp()
         self.assertEqual(run(pd.check, self.packs, None)[0], 0)
 
-    def test_orphan_fails_all_pack_check_only(self) -> None:
+    def test_an_orphan_sidecar_fails_the_check_of_every_pack_only(self) -> None:
         self.stamp()
         (self.packs / "ghost.source.yaml").write_text("x: 1\n", encoding="utf-8")
         code, out = run(pd.check, self.packs, None)

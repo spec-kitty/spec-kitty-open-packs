@@ -1,8 +1,9 @@
-"""The pack-check gate (#252): charter's whole-pack check, run from the pinned release, judged fail-closed.
+"""The pack-doctor gate (#252, #345): charter's whole-pack check, run from the pinned jar, judged fail-closed.
 
-Most tests drive ``scripts/ci/charter_pack_check.py`` with a stand-in ``java`` that answers as pack-check would, so
-they run anywhere. ``RealPackCheck`` runs the real jar when ``PACK_CHECK_JAR`` names one; the ``Charter service
-validation`` job sets it to the jar of the pin, so the charter#624 case is proven against the real release there.
+Most tests drive ``scripts/ci/charter_pack_doctor.py`` with a stand-in ``java`` that answers as pack-doctor would, so
+they run anywhere. ``RealPackDoctor`` runs the real jar when ``PACK_DOCTOR_JAR`` names one; the ``Charter service
+validation`` job sets it to the jar of the pin, so the invalid fixtures and this checkout's packs are proven against
+the real tool there.
 """
 
 from __future__ import annotations
@@ -20,17 +21,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts" / "ci"))
 
-import charter_pack_check as gate  # noqa: E402
+import charter_pack_doctor as gate  # noqa: E402
 
-SCRIPT = ROOT / "scripts" / "ci" / "charter_pack_check.py"
-ALL_CHECKS = ["PACK", "CLOSURE", "ROUND_TRIP"]
+SCRIPT = ROOT / "scripts" / "ci" / "charter_pack_doctor.py"
+ALL_CHECKS = ["PACK", "CLOSURE", "REFERENCES", "ROUND_TRIP"]
 
 
 def report(names: list[str], *, problems: list | None = None, checks: list[str] | None = None,
-           skipped: list | None = None) -> dict:
-    document = {"checks": checks or ALL_CHECKS,
+           skipped: list | None = None, exit_code: int | None = None) -> dict:
+    """A ``PackDoctorReport`` of the measured shape (research.md R2): its summary states the exit code it implies."""
+    problems = problems or []
+    document = {"tool": {"name": "pack-doctor", "version": "0.1.0-SNAPSHOT"},
+                "inputs": {"packs": [f"./packs/{name}" for name in names],
+                           "options": {"full": True, "round_trip": True}},
+                "checks": checks or ALL_CHECKS,
                 "packs": [{"name": name, "level": "org", "path": f"./packs/{name}"} for name in names],
-                "problems": problems or []}
+                "problems": problems,
+                "summary": {"packs": len(names), "violations": len(problems), "warnings": 0, "notices": 0,
+                            "exit_code": (1 if problems else 0) if exit_code is None else exit_code}}
     if skipped is not None:
         document["skipped"] = skipped
     return document
@@ -52,13 +60,44 @@ class JudgeTheSet(unittest.TestCase):
         stderr = "Picked up JAVA_TOOL_OPTIONS: x\nwarning: a: file_not_held docs/README.md: not held (notes)\n"
         self.assertEqual(self.judge(0, report(["a", "b"]), stderr), [])
 
-    def test_exit_2_fails_closed_and_names_charter_624(self) -> None:
-        # R32: until charter#624 lands, a crash is a failure of the gate, never an infrastructure skip.
-        failures = self.judge(2, None, "Exception in thread main java.lang.IllegalArgumentException: bad version\n")
+    def test_exit_2_fails_closed_as_no_verdict(self) -> None:
+        # Exit 2 is a usage fault or a failure outside a pack read: nothing was judged, so the gate fails closed.
+        failures = self.judge(2, None, "pack-doctor: no command: give validate or remediate before the options\n")
         self.assertTrue(failures)
         self.assertIn("exited 2", failures[0])
-        self.assertIn("spec-kitty-charter#624", failures[0])
-        self.assertTrue(any("IllegalArgumentException" in line for line in failures))
+        self.assertTrue(any("no command" in line for line in failures))
+
+    def test_an_unknown_top_level_key_fails(self) -> None:
+        failures = self.judge(0, {**report(["a", "b"]), "repairs": []})
+        self.assertTrue(any("'repairs'" in line for line in failures), failures)
+
+    def test_a_missing_or_skipped_references_check_fails(self) -> None:
+        self.assertTrue(any("did not run REFERENCES" in line
+                            for line in self.judge(0, report(["a", "b"], checks=["PACK", "CLOSURE", "ROUND_TRIP"]))))
+        skipped = report(["a", "b"], checks=["PACK", "CLOSURE", "ROUND_TRIP"],
+                         skipped=[{"check": "REFERENCES", "reason": "a closure failed to compose"}])
+        failures = self.judge(0, skipped)
+        self.assertIn("skipped REFERENCES", failures[0])
+
+    def test_a_summary_exit_code_that_disagrees_with_the_run_fails(self) -> None:
+        failures = self.judge(0, report(["a", "b"], exit_code=1))
+        self.assertTrue(any("summary.exit_code is 1, but pack-doctor exited 0" in line for line in failures), failures)
+        document = report(["a", "b"])
+        del document["summary"]
+        self.assertTrue(any("summary.exit_code is None" in line for line in self.judge(0, document)))
+
+    def test_another_tool_name_fails(self) -> None:
+        for tool in ({"name": "pack-check", "version": "0.1.0-rc.3"}, None):
+            with self.subTest(tool=tool):
+                failures = self.judge(0, {**report(["a", "b"]), "tool": tool})
+                self.assertTrue(any("tool.name" in line for line in failures), failures)
+
+    def test_a_run_without_full_or_round_trip_fails(self) -> None:
+        for options in ({"full": False, "round_trip": True}, {"full": True, "round_trip": False}, {}):
+            with self.subTest(options=options):
+                document = report(["a", "b"])
+                document["inputs"]["options"] = options
+                self.assertTrue(any("inputs.options" in line for line in self.judge(0, document)))
 
     def test_exit_1_fails_and_names_every_problem_and_violation(self) -> None:
         failures = self.judge(1, report(["a", "b"], problems=[problem("validation_failed", "round_trip_red")]))
@@ -79,13 +118,14 @@ class JudgeTheSet(unittest.TestCase):
         # Review of #332: on a pack that cannot be read (a missing companion), the generic "refused" and "did not run
         # CLOSURE" lines buried the cause, which only the skipped check's reason names. It now leads.
         reason = "CLOSURE needs the composition facts; cave-kitty cannot be read: steps/implement.prompt.md: missing"
-        document = report(["a", "b"], checks=["PACK", "ROUND_TRIP"], skipped=[{"check": "CLOSURE", "reason": reason}],
+        document = report(["a", "b"], checks=["PACK", "ROUND_TRIP"], skipped=[{"check": "CLOSURE", "reason": reason},
+                                                                               {"check": "REFERENCES", "reason": reason}],
                           problems=[problem("validation_failed")])
         failures = self.judge(1, document)
         self.assertIn("steps/implement.prompt.md: missing", failures[0])
 
     def test_a_skipped_or_missing_check_fails(self) -> None:
-        self.assertTrue(self.judge(0, report(["a", "b"], checks=["PACK", "ROUND_TRIP"])))
+        self.assertTrue(self.judge(0, report(["a", "b"], checks=["PACK", "REFERENCES", "ROUND_TRIP"])))
         skipped = [{"check": "CLOSURE", "reason": "no facts"}]
         self.assertTrue(self.judge(0, report(["a", "b"], skipped=skipped)))
 
@@ -133,27 +173,16 @@ class JudgeAnInvalidFixture(unittest.TestCase):
         self.assertTrue(self.judge(1, report(["x"], problems=[problem("validation_failed", "retired")]),
                                    "pack_dependency_unknown"))
 
-    def test_failed_expects_exactly_the_charter_624_crash(self) -> None:
-        # The charter#624 tripwire: once pack-check reports the fault instead of crashing, `failed` no longer matches
-        # and the fixture must name the code pack-check then gives. A usage or I/O failure, a report, or another crash
-        # (each also exit 2) must not pass for it.
-        def judge(exit_code: int, document: dict | None, stderr: str) -> list[str]:
-            return gate.judge_invalid(gate.Result(exit_code=exit_code, report=document, stderr=stderr), "failed")
-        self.assertEqual(judge(2, None, CRASH_624), [])
-        self.assertTrue(judge(2, None, "usage: pack-check (--config-root <dir> | --pack <dir> ...)"))
-        self.assertTrue(judge(2, None, "pack-check: internal error: java.io.UncheckedIOException: disk"))
-        self.assertTrue(judge(2, None, "pack-check: internal error: java.lang.NullPointerException: pack_version"))
-        self.assertTrue(judge(2, report(["x"]), CRASH_624))
-        self.assertTrue(judge(1, report(["x"], problems=[problem("validation_failed")]), CRASH_624))
-        self.assertTrue(judge(0, report(["x"]), ""))
+    def test_a_malformed_pack_version_is_a_problem_not_a_crash(self) -> None:
+        # #343: rc.3 crashed on it (exit 2, charter#624); pack-doctor refuses it as pack_version_invalid (exit 1).
+        refused = report(["x"], problems=[problem("validation_failed", "pack_version_invalid")])
+        self.assertEqual(self.judge(1, refused, "pack_version_invalid"), [])
 
-    def test_a_crash_is_never_taken_for_an_expected_code(self) -> None:
-        self.assertTrue(self.judge(2, None, "retired"))
-
-
-CRASH_624 = ("pack-check: internal error: java.lang.IllegalStateException: the resolver takes only well-formed "
-             "descriptors, and pack.yaml of bad: pack_version 'nope' is not a PEP 440 version\n"
-             "\tat ai.speckitty.charter.packs.domain.PackCompositionResolver.compose(PackCompositionResolver.java:367)\n")
+    def test_exit_2_is_never_taken_for_an_expected_code(self) -> None:
+        # The retired `failed` expectation: exit 2 judged nothing, so no expectation matches it.
+        for expected in ("retired", "failed", "pack_version_invalid"):
+            with self.subTest(expected=expected):
+                self.assertTrue(self.judge(2, None, expected))
 
 
 class CommandFor(unittest.TestCase):
@@ -162,65 +191,94 @@ class CommandFor(unittest.TestCase):
     def test_only_existing_files_and_resolved_pack_directories_reach_the_command(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            java, jar, pack = root / "java", root / "pack-check.jar", root / "packs" / "a"
+            java, jar, pack = root / "java", root / "pack-doctor.jar", root / "packs" / "a"
             java.write_text("#!/bin/sh\n")
             java.chmod(0o755)
             jar.write_bytes(b"jar")
             pack.mkdir(parents=True)
             relative = Path(os.path.relpath(pack))
-            command = gate.command_for(str(java), jar, [relative])
-            self.assertEqual(command, [str(java.resolve()), "-jar", str(jar.resolve()), "--pack", str(pack.resolve()),
-                                       "--round-trip"])
+            report_file = root / "report" / "packs.yaml"
+            command = gate.command_for(str(java), jar, [relative], report_file)
+            self.assertEqual(command, [str(java.resolve()), "-jar", str(jar.resolve()), "validate",
+                                       "--pack", str(pack.resolve()), "--round-trip", "--full",
+                                       "--report", str(report_file.resolve())])
             for bad_java, bad_jar, bad_pack in ((str(root / "nope"), jar, pack), (str(jar), jar, pack),
                                                 (str(java), root / "x.zip", pack), (str(java), jar, root / "missing"),
                                                 (str(java), jar, Path("--config-root"))):
                 with self.subTest(java=bad_java, jar=bad_jar, pack=bad_pack), self.assertRaises(gate.GateError):
-                    gate.command_for(bad_java, bad_jar, [bad_pack])
+                    gate.command_for(bad_java, bad_jar, [bad_pack], report_file)
+
+    def test_a_report_file_inside_a_pack_is_refused(self) -> None:
+        # pack-doctor refuses a report inside a pack it checks; the gate never asks for one.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            java, jar, pack = root / "java", root / "pack-doctor.jar", root / "packs" / "a"
+            java.write_text("#!/bin/sh\n")
+            java.chmod(0o755)
+            jar.write_bytes(b"jar")
+            pack.mkdir(parents=True)
+            for inside in (pack / "report.yaml", pack / "sub" / "report.yaml"):
+                with self.subTest(report=inside), self.assertRaises(gate.GateError):
+                    gate.command_for(str(java), jar, [pack], inside)
 
 
 class ExpectedCode(unittest.TestCase):
-    def test_two_pack_check_lines_are_refused(self) -> None:
+    def test_two_pack_doctor_lines_are_refused(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            (Path(tmp) / "expected-code").write_text("pack-check: retired\npack-check: failed\n")
+            (Path(tmp) / "expected-code").write_text("pack-doctor: retired\npack-doctor: case_variant\n")
             with self.assertRaises(gate.GateError):
-                gate.expected_pack_check(Path(tmp))
+                gate.expected_pack_doctor(Path(tmp))
 
-    def test_the_pack_check_line_is_read_and_required(self) -> None:
+    def test_the_pack_doctor_line_is_read_and_required(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             fixture = Path(tmp)
-            (fixture / "expected-code").write_text("# note\ncomposition: x  # c\npack-check: retired  # why\n")
-            self.assertEqual(gate.expected_pack_check(fixture), "retired")
-            (fixture / "expected-code").write_text("composition: x\n")
-            with self.assertRaises(gate.GateError):
-                gate.expected_pack_check(fixture)
-            (fixture / "expected-code").write_text("pack-check: Not A Code\n")
-            with self.assertRaises(gate.GateError):
-                gate.expected_pack_check(fixture)
+            (fixture / "expected-code").write_text("# note\ncomposition: x  # c\npack-doctor: retired  # why\n")
+            self.assertEqual(gate.expected_pack_doctor(fixture), "retired")
+            for text in ("composition: x\n", "pack-doctor: Not A Code\n",
+                         "pack-check: retired\n"):  # the old key is read no more (#345): no line, so refused
+                (fixture / "expected-code").write_text(text)
+                with self.subTest(text=text), self.assertRaises(gate.GateError):
+                    gate.expected_pack_doctor(fixture)
 
-    def test_every_invalid_fixture_names_its_pack_check_code(self) -> None:
+    def test_every_invalid_fixture_names_its_pack_doctor_code(self) -> None:
         fixtures = sorted(path for path in (ROOT / "tests" / "fixtures" / "invalid").iterdir() if path.is_dir())
-        self.assertTrue(fixtures)
-        for fixture in fixtures:
-            with self.subTest(fixture=fixture.name):
-                self.assertTrue(gate.expected_pack_check(fixture))
+        self.assertEqual(len(fixtures), 5)
+        expected = {fixture.name: gate.expected_pack_doctor(fixture) for fixture in fixtures}
+        # #343: the two expectations that lagged charter main now name what pack-doctor answers.
+        self.assertEqual(expected["case-variant-readme"], "case_variant")
+        self.assertEqual(expected["malformed-pack-version"], "pack_version_invalid")
 
 
 STUB = textwrap.dedent("""\
     #!/usr/bin/env python3
-    # A stand-in for `java -jar pack-check.jar`: answers from the JSON plan in $STUB_PLAN, keyed by whether the
-    # run is the set run (more than one --pack) or names a fixture directory.
+    # A stand-in for `java -jar pack-doctor.jar validate ...`: answers from the JSON plan in $STUB_PLAN, keyed by
+    # whether the run is the set run (more than one --pack) or names a fixture directory. With "names": "auto" it
+    # writes a PackDoctorReport over the packs it was given, refusing them with the plan's "codes" when there are any,
+    # to standard output and, as pack-doctor does, to the --report file.
     import json, os, sys
     plan = json.load(open(os.environ["STUB_PLAN"]))
     packs = [sys.argv[i + 1] for i, arg in enumerate(sys.argv) if arg == "--pack"]
+    target = next((sys.argv[i + 1] for i, arg in enumerate(sys.argv) if arg == "--report"), None)
     key = "set" if len(packs) > 1 else os.path.basename(packs[0].rstrip("/"))
     answer = plan.get(key, plan.get("default"))
     if answer.get("names") == "auto":
-        answer["stdout"] = json.dumps({"checks": ["PACK", "CLOSURE", "ROUND_TRIP"], "problems": [],
-            "packs": [{"name": os.path.basename(p.rstrip("/")), "level": "org", "path": p} for p in packs]})
+        codes = answer.get("codes", [])
+        problems = [{"title": "Validation failed", "status": 422, "code": "validation_failed",
+                     "violations": [{"pointer": "pack.yaml", "code": c, "detail": c} for c in codes]}] if codes else []
+        answer["stdout"] = json.dumps({"tool": {"name": "pack-doctor", "version": "stub"},
+            "inputs": {"packs": packs, "options": {"full": "--full" in sys.argv, "round_trip": "--round-trip" in sys.argv}},
+            "checks": ["PACK", "CLOSURE", "REFERENCES", "ROUND_TRIP"], "problems": problems,
+            "packs": [{"name": os.path.basename(p.rstrip("/")), "level": "org", "path": p} for p in packs],
+            "summary": {"packs": len(packs), "violations": len(codes), "warnings": 0, "notices": 0,
+                        "exit_code": answer["exit"]}})
+        if target:
+            open(target, "w").write(answer["stdout"])
     sys.stdout.write(answer.get("stdout", ""))
     sys.stderr.write(answer.get("stderr", ""))
     sys.exit(answer["exit"])
     """)
+#: How the stand-in refuses the invalid fixture of the scratch repository, as pack-doctor does (#343).
+REFUSED = {"exit": 1, "names": "auto", "codes": ["pack_version_invalid"]}
 
 
 class EndToEnd(unittest.TestCase):
@@ -237,11 +295,11 @@ class EndToEnd(unittest.TestCase):
         bad = self.repo / "tests" / "fixtures" / "invalid" / "bad"
         bad.mkdir(parents=True)
         (bad / "pack.yaml").write_text("pack_version: nope\n")
-        (bad / "expected-code").write_text("pack-check: failed\n")
+        (bad / "expected-code").write_text("pack-doctor: pack_version_invalid\n")
         self.java = self.tmp / "java"
         self.java.write_text(STUB)
         self.java.chmod(0o755)
-        self.jar = self.tmp / "pack-check.jar"
+        self.jar = self.tmp / "pack-doctor.jar"
         self.jar.write_bytes(b"stub")
 
     def run_gate(self, plan: dict) -> subprocess.CompletedProcess:
@@ -253,42 +311,50 @@ class EndToEnd(unittest.TestCase):
                               capture_output=True, text=True, env=env, check=False)
 
     def test_green_when_the_set_is_clean_and_every_invalid_fixture_is_refused_as_named(self) -> None:
-        done = self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": {"exit": 2, "stderr": CRASH_624}})
+        done = self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": REFUSED})
         self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
-        self.assertTrue((self.tmp / "report" / "packs.json").is_file())
+        # Each run's --report YAML is kept with its stderr, outside every pack.
+        for name in ("packs.yaml", "packs.stderr.txt", "invalid-bad.yaml", "invalid-bad.stderr.txt"):
+            self.assertTrue((self.tmp / "report" / name).is_file(), name)
 
-    def test_the_set_is_every_pack_and_valid_fixture_with_the_round_trip(self) -> None:
+    def test_the_set_is_every_pack_and_valid_fixture_validated_with_round_trip_and_full(self) -> None:
         record = self.tmp / "argv.txt"
         self.java.write_text(STUB.replace("answer = plan.get", "open(%r, 'a').write(repr(sys.argv[1:]) + chr(10))\n"
                                           "answer = plan.get" % str(record), 1))
-        self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": {"exit": 2, "stderr": CRASH_624}})
+        self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": REFUSED})
         runs = [eval(line) for line in record.read_text().splitlines()]  # noqa: S307 (our own repr)
         set_run = next(argv for argv in runs if argv.count("--pack") > 1)
+        self.assertEqual(set_run[:3], ["-jar", str(self.jar.resolve()), "validate"])
         self.assertIn("--round-trip", set_run)
+        self.assertIn("--full", set_run)
         given = sorted(Path(set_run[i + 1]).relative_to(self.repo).as_posix()
                        for i, arg in enumerate(set_run) if arg == "--pack")
         self.assertEqual(given, ["packs/alpha", "packs/beta", "tests/fixtures/valid/example"])
-        self.assertTrue(all("--round-trip" in argv for argv in runs))
+        self.assertTrue(all(argv[2] == "validate" and "--round-trip" in argv and "--full" in argv for argv in runs))
 
     def test_a_pack_directory_without_a_pack_yaml_cannot_be_left_out_unseen(self) -> None:
         (self.repo / "packs" / "gamma").mkdir()
         (self.repo / "packs" / "gamma" / "pack.yml").write_text("misnamed\n")
-        done = self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": {"exit": 2, "stderr": CRASH_624}})
+        done = self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": REFUSED})
         self.assertEqual(done.returncode, 2, done.stdout)
         self.assertIn("gamma", done.stdout)
 
-    def test_the_set_run_crashing_with_exit_2_fails_the_gate(self) -> None:
-        # The red-first case of R32: a malformed pack_version among the packs crashes rc.3 with exit 2.
-        done = self.run_gate({"set": {"exit": 2, "stderr": CRASH_624}, "bad": {"exit": 2, "stderr": CRASH_624}})
+    def test_the_set_run_exiting_2_fails_the_gate(self) -> None:
+        done = self.run_gate({"set": {"exit": 2, "stderr": "pack-doctor: cannot write the report\n"}, "bad": REFUSED})
         self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
-        self.assertIn("spec-kitty-charter#624", done.stdout)
+        self.assertIn("exited 2", done.stdout)
+
+    def test_the_set_refused_with_the_curation_codes_fails_the_gate(self) -> None:
+        done = self.run_gate({"set": {"exit": 1, "names": "auto", "codes": ["artifact_schema_error"]}, "bad": REFUSED})
+        self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
+        self.assertIn("artifact_schema_error", done.stdout)
 
     def test_an_invalid_fixture_that_passes_fails_the_gate(self) -> None:
         done = self.run_gate({"set": {"exit": 0, "names": "auto"}, "bad": {"exit": 0, "names": "auto"}})
         self.assertEqual(done.returncode, 1, done.stdout + done.stderr)
 
     def test_the_fixture_is_judged_without_its_expected_code(self) -> None:
-        # pack-check does not model expected-code, so a fixture carrying it would be red for that file alone.
+        # pack-doctor does not model expected-code, so a fixture carrying it would be red for that file alone.
         record = self.tmp / "seen.txt"
         stub = STUB.replace("answer = plan.get", "open(%r, 'a').write(repr(sorted(os.listdir(packs[0]))) + chr(10)) "
                             "if len(packs) == 1 else None\nanswer = plan.get" % str(record), 1)
@@ -307,7 +373,7 @@ class JarScript(unittest.TestCase):
 
     COMMIT = "c" * 40
     # script, the lock key holding its jar's digest, the jar it prints
-    SCRIPTS = (("charter_pack_check_jar.sh", "pack_check_sha256", "pack-check-1.0.0.jar"),
+    SCRIPTS = (("charter_pack_doctor_jar.sh", "pack_doctor_sha256", "pack-doctor-1.0.0.jar"),
                ("charter_service_jar.sh", "jar_sha256", "spec-kitty-charter-service-1.0.0.jar"))
     RELEASE = "https://github.com/spec-kitty/spec-kitty-charter/releases/download/service-v1.0.0/"
 
@@ -316,7 +382,7 @@ class JarScript(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.tmp)
         self.repo = self.tmp / "repo"
         (self.repo / "scripts" / "ci").mkdir(parents=True)
-        for name in ("charter_pack_check_jar.sh", "charter_service_jar.sh", "charter_release_asset.sh", "charter_lock.py"):
+        for name in ("charter_pack_doctor_jar.sh", "charter_service_jar.sh", "charter_release_asset.sh", "charter_lock.py"):
             shutil.copy2(ROOT / "scripts" / "ci" / name, self.repo / "scripts" / "ci" / name)
         self.jar_bytes = b"the pinned jar"
         import hashlib
@@ -338,10 +404,10 @@ class JarScript(unittest.TestCase):
 
     def run_script(self, script: str, key: str, *, digest: str, tagged: str, served: bytes,
                    curl_exit: int = 0, tag_object: str = "") -> subprocess.CompletedProcess:
-        digests = {"pack_check_sha256": "a" * 64, "jar_sha256": "a" * 64, key: digest}
+        digests = {"pack_doctor_sha256": "a" * 64, "jar_sha256": "a" * 64, key: digest}
         (self.repo / "charter.lock.yaml").write_text(
             f"commit: {self.COMMIT}\nrelease_tag: service-v1.0.0\njar_sha256: {digests['jar_sha256']}\n"
-            f"pack_check_sha256: {digests['pack_check_sha256']}\n")
+            f"pack_doctor_sha256: {digests['pack_doctor_sha256']}\n")
         env = dict(os.environ, PATH=f"{self.bin}{os.pathsep}{os.environ['PATH']}", TAGGED=tagged, TAG_OBJECT=tag_object,
                    SERVED=served.decode(), URL_LOG=str(self.tmp / "url"), CURL_EXIT=str(curl_exit or ""))
         return subprocess.run(["bash", str(self.repo / "scripts" / "ci" / script), str(self.tmp / "work")],
@@ -399,32 +465,50 @@ class JarScript(unittest.TestCase):
                     self.assertFalse((self.tmp / "work").exists() and list((self.tmp / "work").iterdir()))  # no download
 
 
-@unittest.skipUnless(os.environ.get("PACK_CHECK_JAR"), "PACK_CHECK_JAR names no pack-check jar")
-class RealPackCheck(unittest.TestCase):
-    """Against the real jar of the pin (the Charter service validation job sets PACK_CHECK_JAR)."""
+#: The codes the set run over this checkout may carry until the curation lands (#345 item 7, #350): the inline
+#: ``anti_patterns`` blocks, the file-less ``anti_pattern`` nodes, their knock-on substep delegations, and the round
+#: trip's knock-ons. WP08 (the curation) and WP09 (the restamp) clear them; the problem code wrapping them is
+#: ``validation_failed``.
+CURATION_CODES = {"validation_failed", "artifact_schema_error", "drg_schema_error", "substep_delegation_unresolved",
+                  "round_trip_red", "round_trip_written_unpaired"}
 
-    FIXTURE = ROOT / "tests" / "fixtures" / "invalid" / "malformed-pack-version"
 
-    def test_a_malformed_pack_version_among_the_packs_fails_the_gate(self) -> None:
+@unittest.skipUnless(os.environ.get("PACK_DOCTOR_JAR"), "PACK_DOCTOR_JAR names no pack-doctor jar")
+class RealPackDoctor(unittest.TestCase):
+    """Against the real jar of the pin (the Charter service validation job sets PACK_DOCTOR_JAR)."""
+
+    def gate(self, repo: Path) -> subprocess.CompletedProcess:
+        return subprocess.run([sys.executable, str(SCRIPT), "--jar", os.environ["PACK_DOCTOR_JAR"], "--root", str(repo)],
+                              capture_output=True, text=True, check=False)
+
+    def test_every_invalid_fixture_is_refused_as_its_expected_code_says(self) -> None:
+        # The five fixtures (case_variant and pack_version_invalid since #343), beside one valid pack so the set passes.
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
             shutil.copytree(ROOT / "tests" / "fixtures" / "valid" / "example-pack", repo / "packs" / "example-pack")
-            shutil.copytree(self.FIXTURE, repo / "packs" / "malformed-pack-version",
-                            ignore=shutil.ignore_patterns("expected-code"))
-            # This one invalid fixture is enough for the non-vacuity step; the gate step already runs the others.
-            shutil.copytree(self.FIXTURE, repo / "tests" / "fixtures" / "invalid" / "malformed-pack-version")
-            done = subprocess.run([sys.executable, str(SCRIPT), "--jar", os.environ["PACK_CHECK_JAR"],
-                                   "--root", str(repo)], capture_output=True, text=True, check=False)
-        output = done.stdout + done.stderr
-        self.assertEqual(done.returncode, 1, output)
-        # Holds before and after charter#624: the set fails on the malformed version, and the invalid fixture is
-        # refused as its expected-code says. Only the fixture's 'pack-check:' line changes when #624 is fixed.
-        self.assertNotIn("::error::pack-check: invalid fixture", done.stdout)
-        self.assertIn("ok: pack-check refuses invalid fixture malformed-pack-version as expected", done.stdout)
-        if gate.expected_pack_check(self.FIXTURE) == gate.FAILED:
-            # Still the crash, so the set's own failure must name it (the invalid fixture's ok line names it too).
-            self.assertTrue(any(line.startswith("::error::pack-check: pack-check exited 2") and gate.CRASH_ISSUE in line
-                                for line in done.stdout.splitlines()), done.stdout)
+            shutil.copytree(ROOT / "tests" / "fixtures" / "invalid", repo / "tests" / "fixtures" / "invalid")
+            done = self.gate(repo)
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
+        for fixture in sorted((ROOT / "tests" / "fixtures" / "invalid").iterdir()):
+            with self.subTest(fixture=fixture.name):
+                self.assertIn(f"ok: pack-doctor refuses invalid fixture {fixture.name} as expected "
+                              f"({gate.expected_pack_doctor(fixture)})", done.stdout)
+
+    def test_the_set_report_parses_and_holds_only_the_curation_codes(self) -> None:
+        packs = gate.pack_dirs(ROOT / "packs") + gate.pack_dirs(ROOT / "tests" / "fixtures" / "valid")
+        with tempfile.TemporaryDirectory() as tmp:
+            result = gate.run(gate.java_command(None), Path(os.environ["PACK_DOCTOR_JAR"]), packs,
+                              Path(tmp) / "packs.yaml")
+        self.assertIn(result.exit_code, (0, 1), result.stderr[-2000:])
+        self.assertIsNotNone(result.report)
+        self.assertEqual(gate.report_faults(result), [])
+        self.assertEqual(list(result.report["checks"])[:1], ["PACK"])
+        self.assertLessEqual(gate.codes(result.report), CURATION_CODES, gate.problem_lines(result.report)[:20])
+
+    @unittest.expectedFailure  # the set's known red: cleared by WP08/WP09, and WP09 removes this marker
+    def test_the_gate_passes_this_checkout(self) -> None:
+        done = self.gate(ROOT)
+        self.assertEqual(done.returncode, 0, done.stdout[-4000:])
 
 
 if __name__ == "__main__":
