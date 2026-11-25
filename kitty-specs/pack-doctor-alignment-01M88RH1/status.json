@@ -64,7 +64,7 @@
     },
     "WP03": {
       "actor": "claude",
-      "agent": "claude::implementer-ivan",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -74,9 +74,11 @@
       "last_transition_at": "2026-11-25T16:15:43.995340+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
-        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860: the planning-artifact evidence window looks at feat/pack-doctor-alignment; the work lives on the coordination branch). Files: curation/merge-map.yaml, curation/ledger-a-foundation.yaml (+ README field docs). Two operator questions open: the M4 assessment doubts (merge map) and the severity of blocking-a-merge-on-a-confirmed-pre-existing-failure (ledger A). Read every authored bad example (20 rows) and the 4 authored cross-language texts."
+        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860: the planning-artifact evidence window looks at feat/pack-doctor-alignment; the work lives on the coordination branch). Files: curation/merge-map.yaml, curation/ledger-a-foundation.yaml (+ README field docs). Two operator questions open: the M4 assessment doubts (merge map) and the severity of blocking-a-merge-on-a-confirmed-pre-existing-failure (ledger A). Read every authored bad example (20 rows) and the 4 authored cross-language texts.",
+        "Changes requested (claude::reviewer-renata), review head 7e1754b: (1) theme merge returning-final-minutes-while-attribution-gaps-remain (pipeline gate vs unattributed-action content rule): split or operator_question; (2) WP history records required by T014/T017/T018 missing. Everything else verified, T018 reproduced (87, nothing new)."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/tasks/WP03-merge-map-and-ledger-a-foundation/review-cycle-1.md",
         "reference": "review-cycle://pack-doctor-alignment-01M88RH1/WP03-merge-map-and-ledger-a-foundation/review-cycle-1.md",
@@ -84,14 +86,14 @@
         "verdict": "changes_requested"
       },
       "role": "implementer",
-      "shell_pid": 4882,
-      "shell_pid_created_at": "1795620896.85",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T014": "done",
-        "T015": "done",
-        "T016": "done",
-        "T017": "done",
-        "T018": "done"
+        "T014": "planned",
+        "T015": "planned",
+        "T016": "planned",
+        "T017": "planned",
+        "T018": "planned"
       }
     },
     "WP04": {
