@@ -49,16 +49,16 @@
       "wp": "WP10"
     },
     "#347": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-011, FR-012: remediate restamp (WP09 T044-T046), rederive via remediate (WP01 T003)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "A stale manifest hash is `manifest_stale` on every surface; restamp with `pack-doctor remediate`",
+      "verdict": "in-mission",
+      "wp": "WP09"
     },
     "#348": {
       "evidence_ref": "<link or commit>",
