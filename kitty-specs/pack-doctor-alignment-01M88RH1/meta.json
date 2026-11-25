@@ -1,0 +1,21 @@
+{
+  "create_return_branch": "feat/pack-doctor-alignment",
+  "created_at": "2026-11-25T07:08:10.604813+00:00",
+  "flattened": false,
+  "friendly_name": "Align open-packs to charter main with pack-doctor",
+  "mid8": "01M88RH1",
+  "mission_base_sha": "a7243e2d2e1b65ecc822b23158b08e5b9f269530",
+  "mission_branch": "kitty/mission-pack-doctor-alignment-01M88RH1",
+  "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+  "mission_number": null,
+  "mission_slug": "pack-doctor-alignment-01M88RH1",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "The charter renamed its standalone checker to pack-doctor and now refuses inline anti-patterns, stale manifests and unresolved references on every surface. Open-packs' nightly run against charter main is red (#343). This mission moves the pin tooling, report parsing, pack content and fixtures to what charter main ships, so pack authors get one answer from the charter instead of a drifting Python copy.",
+  "purpose_tldr": "Make every open pack pass the charter's own pack checker at charter main, and retire the Python copies of its rules.",
+  "slug": "pack-doctor-alignment-01M88RH1",
+  "target_branch": "feat/pack-doctor-alignment",
+  "topology": "single_branch",
+  "topology_settled": false,
+  "topology_source": "default"
+}
