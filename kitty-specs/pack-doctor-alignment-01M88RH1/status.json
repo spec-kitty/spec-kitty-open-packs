@@ -218,7 +218,7 @@
     },
     "WP07": {
       "actor": "claude",
-      "agent": "claude::reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -231,6 +231,7 @@
         "Ledger E in ca7a039; 13 operator questions (E1-E13) open with the operator. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860)."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/tasks/WP07-ledger-e-internal-qa/review-cycle-1.md",
         "reference": "review-cycle://pack-doctor-alignment-01M88RH1/WP07-ledger-e-internal-qa/review-cycle-1.md",
@@ -238,14 +239,14 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 824,
-      "shell_pid_created_at": "1795632149.38",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T034": "done",
-        "T035": "done",
-        "T036": "done",
-        "T037": "done",
-        "T038": "done"
+        "T034": "planned",
+        "T035": "planned",
+        "T036": "planned",
+        "T037": "planned",
+        "T038": "planned"
       }
     },
     "WP08": {
