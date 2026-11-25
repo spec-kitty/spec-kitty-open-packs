@@ -179,10 +179,22 @@
       "last_event_id": "01M89X55NN2J5JWBSZAF0BKEJS",
       "last_transition_at": "2026-11-25T17:48:17.871393+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "- 2026-11-25T17:51:38Z – claude::implementer-ivan – shell_pid=5511 – Rows: 50 singleton clusters homed in go 8, java 5, javascript 13, python 4, rust 6, drupal 14 (WP03 T014 counts). The stack entries merged upstream (4 cross-language pairs, python's missing assumption check) are rows of ledgers A and B.",
+        "- 2026-11-25T17:51:41Z – claude::implementer-ivan – shell_pid=5511 – T032: 4 operator questions sent to the dispatcher in one batch (severity, rule without outcome): javascript Deprecated Media Types (proposed smell), drupal Config Versus State (proposed severe), Entity Query Over Raw SQL (proposed severe), Focused Form Alter (proposed smell). M6 drupal retitles applied per decision 01M89KEM7HW8675J5V54JPGE24.",
+        "- 2026-11-25T17:51:44Z – claude::implementer-ivan – shell_pid=5511 – T033 (pack-doctor from charter 4b95b9151; scratch, ledgers 00 to D, questions cleared on the copy only). Before D (after C): artifact_schema_error 25. After D: 285 = artifact_schema_error 16, manifest_membership 206, manifest_stale 45, round_trip_red 9, round_trip_written_unpaired 7, substep_delegation_unresolved 2. After a scratch remediate of the 14 fully curated packs: 34, nothing new. 45 blocks deleted (9 by D), 5 internal blocks kept for WP07; a second apply writes nothing. --check: only WP07's (16 blocks, 65 map members)."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 5511,
-      "shell_pid_created_at": "1795628892.59"
+      "shell_pid_created_at": "1795628892.59",
+      "subtasks": {
+        "T029": "done",
+        "T030": "done",
+        "T031": "done",
+        "T032": "done",
+        "T033": "done"
+      }
     },
     "WP07": {
       "actor": "finalize-tasks",
