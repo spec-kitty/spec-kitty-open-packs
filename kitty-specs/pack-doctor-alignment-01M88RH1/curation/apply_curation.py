@@ -197,6 +197,7 @@ class Tree:
     root: Path
     texts: dict[Path, str] = field(default_factory=dict)  # pending writes
     deleted_blocks: set[Path] = field(default_factory=set)
+    parsed: dict[Path, tuple[str, object]] = field(default_factory=dict)  # parse cache
 
     @property
     def packs_dir(self) -> Path:
@@ -208,8 +209,16 @@ class Tree:
         return path.read_text(encoding="utf-8") if path.exists() else None
 
     def load(self, path: Path):
+        """The parsed document, cached by its exact text (a write invalidates it). Callers must not mutate it."""
         text = self.read(path)
-        return yaml.safe_load(text) if text is not None else None
+        if text is None:
+            return None
+        cached = self.parsed.get(path)
+        if cached is not None and cached[0] == text:
+            return cached[1]
+        data = yaml.safe_load(text)
+        self.parsed[path] = (text, data)
+        return data
 
     def write(self, path: Path, text: str) -> None:
         self.texts[path] = text
