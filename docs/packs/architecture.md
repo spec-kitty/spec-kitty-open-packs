@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/architecture`
 - **Pack level:** `built-in`
 - **Declared version:** `3.7.0`
-- **Content checksum (sha256):** `895945efee3650cc2a268a7e2dbcec39996199716bf14951bf0e2f0a81ae237c`
+- **Content checksum (sha256):** `ab4083f53c1a94d79b6f3e44a347e1e5c0e3a39c0e082d509dee0da4002e30b3`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -40,9 +40,10 @@ Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bo
 | `styleguides` | 1 |
 | `paradigms` | 3 |
 | `procedures` | 3 |
+| `anti_patterns` | 12 |
 | `agent_profiles` | 2 |
 | `drg` | 1 |
-| **Total files** | **28** |
+| **Total files** | **40** |
 
 ### Full listing
 
@@ -95,6 +96,24 @@ Domain-driven design and C4 architecture modelling: the DDD and C4 paradigms, bo
 - `c4-diagram-authoring.procedure.yaml`
 - `drill-down-documentation.procedure.yaml`
 - `event-storming-discovery.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (12)</summary>
+
+- `anemic-domain-model.anti-pattern.yaml`
+- `big-ball-of-mud.anti-pattern.yaml`
+- `big-upfront-design.anti-pattern.yaml`
+- `code-is-the-documentation.anti-pattern.yaml`
+- `database-driven-design.anti-pattern.yaml`
+- `direct-object-references.anti-pattern.yaml`
+- `no-domain-expert-validation.anti-pattern.yaml`
+- `premature-structure.anti-pattern.yaml`
+- `scope-creep.anti-pattern.yaml`
+- `single-diagram-architecture.anti-pattern.yaml`
+- `solution-mode.anti-pattern.yaml`
+- `transaction-spanning.anti-pattern.yaml`
 
 </details>
 

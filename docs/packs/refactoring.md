@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/refactoring`
 - **Pack level:** `built-in`
 - **Declared version:** `3.7.0`
-- **Content checksum (sha256):** `7b337de56bc4dd9ac85383690a7f388614fd9871158ca54c1029210e85a7a970`
+- **Content checksum (sha256):** `cdeef12ed53f293d0e8f9e7ee0bea627508ece27049f8aeb38c8366ed9d423d5`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -38,9 +38,10 @@ The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy
 | `tactics` | 25 |
 | `paradigms` | 1 |
 | `procedures` | 1 |
+| `anti_patterns` | 7 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **32** |
+| **Total files** | **39** |
 
 ### Full listing
 
@@ -86,6 +87,19 @@ The refactoring catalogue (Fowler-style moves, strangler fig, state and strategy
 <summary><code>procedures</code> (1)</summary>
 
 - `refactoring.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (7)</summary>
+
+- `big-bang-rewrite.anti-pattern.yaml`
+- `feature-envy.anti-pattern.yaml`
+- `global-data.anti-pattern.yaml`
+- `implicit-concept.anti-pattern.yaml`
+- `misplaced-field.anti-pattern.yaml`
+- `repeated-switches-on-state.anti-pattern.yaml`
+- `unencapsulated-record.anti-pattern.yaml`
 
 </details>
 

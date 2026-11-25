@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/internal`
 - **Pack level:** `org`
 - **Declared version:** `4.5.0`
-- **Content checksum (sha256):** `2dd8a60eb3683cd937c7962774e57d9429d7791d2bca39e748ad8b2834921c4a`
+- **Content checksum (sha256):** `d3af7a610c5739eb8559fea9ef6163281dd0b785eca88a5431652c6637c1471d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -44,12 +44,13 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 | `styleguides` | 7 |
 | `toolguides` | 6 |
 | `procedures` | 19 |
+| `anti_patterns` | 57 |
 | `assets` | 22 |
 | `glossaries` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
 | `skills` | 10 |
-| **Total files** | **82** |
+| **Total files** | **139** |
 
 ### Full listing
 
@@ -124,6 +125,69 @@ maintainer-only doctrine must not be force-shipped on the wheel.
 - `targeted-mission-test-run.procedure.yaml`
 - `test-suite-quality-assessment.procedure.yaml`
 - `tracker-organisation-workflow.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (57)</summary>
+
+- `a-report-with-no-ask.anti-pattern.yaml`
+- `agent-merges-the-mainline.anti-pattern.yaml`
+- `arming-auto-merge-before-the-fix-is-complete.anti-pattern.yaml`
+- `catch-all-root.anti-pattern.yaml`
+- `claiming-unread-progress.anti-pattern.yaml`
+- `command-named-steps.anti-pattern.yaml`
+- `crud-affordance-echo.anti-pattern.yaml`
+- `dark-chrome-or-a-white-print-margin.anti-pattern.yaml`
+- `deciding-silently.anti-pattern.yaml`
+- `decision-drip.anti-pattern.yaml`
+- `defect-framing.anti-pattern.yaml`
+- `deferring-instead-of-finishing.anti-pattern.yaml`
+- `dispatching-from-a-title.anti-pattern.yaml`
+- `environment-improvisation.anti-pattern.yaml`
+- `flipping-a-red-or-still-changing-pr-to-ready-for-review.anti-pattern.yaml`
+- `forking-a-near-duplicate-epic.anti-pattern.yaml`
+- `full-auto-drift.anti-pattern.yaml`
+- `gating-instead-of-discipline.anti-pattern.yaml`
+- `greening-by-erasure.anti-pattern.yaml`
+- `grounding-prompt-without-discovery.anti-pattern.yaml`
+- `hand-built-chrome.anti-pattern.yaml`
+- `hand-counted-or-invented-figures.anti-pattern.yaml`
+- `hiding-pre-existing-debt-in-new-work.anti-pattern.yaml`
+- `importing-core-logic-from-scripting-packages.anti-pattern.yaml`
+- `judging-liveness-against-a-stale-origin.anti-pattern.yaml`
+- `keyword-only-triage.anti-pattern.yaml`
+- `landing-a-draft-pr-without-asking.anti-pattern.yaml`
+- `merge-commits-instead-of-a-linear-history.anti-pattern.yaml`
+- `one-pr-for-unrelated-domains.anti-pattern.yaml`
+- `over-broad-uncheckable-scenarios.anti-pattern.yaml`
+- `over-length-entries.anti-pattern.yaml`
+- `per-wp-green-treated-as-the-final-gate.anti-pattern.yaml`
+- `placeholder-prompts.anti-pattern.yaml`
+- `pointfix-without-discovery.anti-pattern.yaml`
+- `reading-the-corpus-in-commit-order.anti-pattern.yaml`
+- `recapturing-a-ci-owned-file-during-a-landing.anti-pattern.yaml`
+- `restating-report-writing-here.anti-pattern.yaml`
+- `retroactive-fill-in.anti-pattern.yaml`
+- `rewriting-history-to-make-every-commit-green.anti-pattern.yaml`
+- `running-the-heavy-suites-in-mission.anti-pattern.yaml`
+- `running-the-suite-to-find-weak-tests.anti-pattern.yaml`
+- `scope-creep-into-activation.anti-pattern.yaml`
+- `setting-priority-p0-silently.anti-pattern.yaml`
+- `skipping-the-assess-step.anti-pattern.yaml`
+- `specifying-before-grounding.anti-pattern.yaml`
+- `specifying-before-the-claim.anti-pattern.yaml`
+- `starting-from-a-stale-or-wrong-remote.anti-pattern.yaml`
+- `technical-first-burial.anti-pattern.yaml`
+- `tests-for-the-sake-of-tests.anti-pattern.yaml`
+- `touching-workflow-state-leases.anti-pattern.yaml`
+- `transcribing-the-e2e-mechanism.anti-pattern.yaml`
+- `treating-a-static-flag-as-a-verdict.anti-pattern.yaml`
+- `unbounded-or-colliding-dispatch.anti-pattern.yaml`
+- `uniform-standards-across-all-packages.anti-pattern.yaml`
+- `unresolved-issue-verdicts-at-close.anti-pattern.yaml`
+- `work-stranded-under-a-closed-epic.anti-pattern.yaml`
+- `writing-to-an-issue-that-closed-mid-pass.anti-pattern.yaml`
 
 </details>
 

@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/built-in`
 - **Pack level:** `built-in`
 - **Declared version:** `5.7.0`
-- **Content checksum (sha256):** `586c1b7580de877fb585018dcba06268f605d95cf1ff9d24dd47f72f1e89c47a`
+- **Content checksum (sha256):** `51f4f70ae42c3c7044cf2426dea5b81a1499732fa525eeb00cc1e74f29e9c2fa`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose

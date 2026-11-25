@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/testing`
 - **Pack level:** `built-in`
 - **Declared version:** `3.7.0`
-- **Content checksum (sha256):** `47a04c61dbedc6ddb1bb75ff0f805f3a4bc2c3c5783ffb1bf94adf4353f074c1`
+- **Content checksum (sha256):** `299262294bd92252060adc2e35c72f83fa2593a22f9d020a38847d6974191a7d`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -41,10 +41,11 @@ Test design and test-first practice beyond the foundation basics: BDD and specif
 | `toolguides` | 2 |
 | `paradigms` | 2 |
 | `procedures` | 5 |
+| `anti_patterns` | 32 |
 | `agent_profiles` | 1 |
 | `assets` | 4 |
 | `drg` | 1 |
-| **Total files** | **34** |
+| **Total files** | **66** |
 
 ### Full listing
 
@@ -106,6 +107,44 @@ Test design and test-first practice beyond the foundation basics: BDD and specif
 - `disciplined-defect-diagnosis.procedure.yaml`
 - `mutation-testing-review.procedure.yaml`
 - `test-first-bug-fixing.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (32)</summary>
+
+- `delete-a-mega-file-wholesale.anti-pattern.yaml`
+- `exception-only-assertion.anti-pattern.yaml`
+- `fabricated-unrealistic-test-data.anti-pattern.yaml`
+- `fixing-without-a-feedback-loop.anti-pattern.yaml`
+- `forgetting-that-a-stub-is-a-second-copy-of-the-contract.anti-pattern.yaml`
+- `full-application-restart.anti-pattern.yaml`
+- `gold-plating-as-a-licence-to-double-owned-logic.anti-pattern.yaml`
+- `identity-value-inputs.anti-pattern.yaml`
+- `imperative-gherkin.anti-pattern.yaml`
+- `infrastructure-as-untyped-shared-mutable-state.anti-pattern.yaml`
+- `keep-the-wp-nfr-label-on-a-promoted-test.anti-pattern.yaml`
+- `leaving-debug-artifacts-behind.anti-pattern.yaml`
+- `logging-everything.anti-pattern.yaml`
+- `merge-the-scaffolding-clean-it-up-later.anti-pattern.yaml`
+- `missing-assumption-check.anti-pattern.yaml`
+- `multiple-whens-in-one-scenario.anti-pattern.yaml`
+- `orphaned-step-definitions.anti-pattern.yaml`
+- `over-mocking-to-compensate-for-a-missing-boundary.anti-pattern.yaml`
+- `refactoring-beyond-the-fix.anti-pattern.yaml`
+- `retire-coverage-disguised-as-a-duplicate.anti-pattern.yaml`
+- `rubber-stamp-scenarios.anti-pattern.yaml`
+- `self-constructed-oracle-an-injection-proof-that-never-injects.anti-pattern.yaml`
+- `shared-mutable-state-between-scenarios.anti-pattern.yaml`
+- `side-script-investigation.anti-pattern.yaml`
+- `single-branch-condition.anti-pattern.yaml`
+- `single-hypothesis-anchoring.anti-pattern.yaml`
+- `stubbing-a-new-gate-out-of-an-old-harness.anti-pattern.yaml`
+- `substring-case-insensitive-message-assertion.anti-pattern.yaml`
+- `sweep-the-whole-suite-in-the-landing-pr.anti-pattern.yaml`
+- `test-passes-immediately.anti-pattern.yaml`
+- `the-literal-scan-trap.anti-pattern.yaml`
+- `wrong-failure-reproduction.anti-pattern.yaml`
 
 </details>
 

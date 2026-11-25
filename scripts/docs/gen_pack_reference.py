@@ -80,6 +80,7 @@ CANONICAL_KINDS: tuple[str, ...] = (
     "toolguides",
     "paradigms",
     "procedures",
+    "anti_patterns",  # one file per anti-pattern since the curation (#350)
     "agent_profiles",
     "assets",
     "glossaries",
