@@ -141,7 +141,7 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": "claude::reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -157,6 +157,7 @@
         "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860). Files: curation/ledger-c-architecture-planning.yaml (46 rows); WP02-tool changes for review: the default guard discounts only quotes found verbatim in the source (WP04 review residual), and a parse cache (--check 79 s -> 3 s). 4 severity questions open with the operator. Read every authored bad example (29)."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/tasks/WP05-ledger-c-architecture-planning/review-cycle-1.md",
         "reference": "review-cycle://pack-doctor-alignment-01M88RH1/WP05-ledger-c-architecture-planning/review-cycle-1.md",
@@ -164,14 +165,14 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 521,
-      "shell_pid_created_at": "1795628977.11",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T024": "done",
-        "T025": "done",
-        "T026": "done",
-        "T027": "done",
-        "T028": "done"
+        "T024": "planned",
+        "T025": "planned",
+        "T026": "planned",
+        "T027": "planned",
+        "T028": "planned"
       }
     },
     "WP06": {
