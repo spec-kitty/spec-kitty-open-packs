@@ -1,0 +1,764 @@
+# Ledger C: rows homed in architecture, event-driven, pack-authoring and planning-analysis (WP05). Contract: README.md; clusters: merge-map.yaml.
+batch: c-architecture-planning
+entries:
+- source: styleguides/aggregate-design-rules.styleguide.yaml#/anti_patterns/0
+  source_title: Direct Object References
+  pack: architecture
+  owner: styleguide:aggregate-design-rules
+  id: direct-object-references
+  merged_into: null
+  merge_reason: null
+  title: Direct Object References
+  description: Holding in-memory references to other aggregates, creating hidden transactional coupling that violates aggregate
+    independence.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: direct-object-references.anti-pattern.yaml severity severe (same text)'
+  bad_example: "class Order:\n    customer: Customer  # loads and locks Customer aggregate"
+  bad_example_source: bad_example
+  good_example: "class Order:\n    customer_id: UUID  # independent loading"
+  operator_question: null
+- source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/0
+  source_title: No domain expert validation
+  pack: architecture
+  owner: procedure:event-storming-discovery
+  id: no-domain-expert-validation
+  merged_into: null
+  merge_reason: null
+  title: No domain expert validation
+  description: Completing the entire discovery without human validation, producing a model that reflects technical assumptions
+    rather than business reality.
+  severity: severe
+  severity_grounding: '"producing a model that reflects technical assumptions rather than business reality": defeats discovery''s
+    purpose -> severe'
+  bad_example: The event storm's model is signed off by the engineers who drew it; no domain expert walks the timeline before
+    it becomes the design.
+  bad_example_source: authored, grounded in "Completing the entire discovery without human validation" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/1
+  source_title: Premature structure
+  pack: architecture
+  owner: procedure:event-storming-discovery
+  id: premature-structure
+  merged_into: null
+  merge_reason: null
+  title: Premature structure
+  description: Jumping to aggregate design before completing event discovery, missing events that reveal important domain
+    behaviour.
+  severity: severe
+  severity_grounding: '"missing events that reveal important domain behaviour": defeats discovery''s purpose -> severe'
+  bad_example: After twenty sticky notes the group starts drawing Order and Customer aggregates, and the refund and chargeback
+    events are never found.
+  bad_example_source: authored, grounded in "Jumping to aggregate design before completing event discovery" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/2
+  source_title: Scope creep
+  pack: architecture
+  owner: procedure:event-storming-discovery
+  id: scope-creep
+  merged_into: null
+  merge_reason: null
+  title: Scope creep
+  description: Attempting to model the entire enterprise in one pass instead of focusing on a specific subdomain.
+  severity: smell
+  severity_grounding: states the practice ("Attempting to model the entire enterprise in one pass") but no outcome; proposed
+    smell
+  bad_example: The first event-storming session tries to cover sales, billing, logistics and HR at once on one wall.
+  bad_example_source: authored, grounded in "Attempting to model the entire enterprise in one pass" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/3
+  source_title: Solution mode
+  pack: architecture
+  owner: procedure:event-storming-discovery
+  id: solution-mode
+  merged_into: null
+  merge_reason: null
+  title: Solution mode
+  description: Discussing technical implementation during discovery instead of focusing on domain behaviour and business flows.
+  severity: smell
+  severity_grounding: states the practice ("Discussing technical implementation during discovery") but no outcome; proposed
+    smell
+  bad_example: Half the session goes on whether OrderPlaced should travel over Kafka or SQS.
+  bad_example_source: authored, grounded in "Discussing technical implementation during discovery" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: styleguides/aggregate-design-rules.styleguide.yaml#/anti_patterns/1
+  source_title: Transaction Spanning
+  pack: architecture
+  owner: styleguide:aggregate-design-rules
+  id: transaction-spanning
+  merged_into: null
+  merge_reason: null
+  title: Transaction Spanning
+  description: Using database transactions across multiple aggregates instead of domain events. Creates contention and couples
+    aggregate lifecycles.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: transaction-spanning.anti-pattern.yaml severity severe (same text)'
+  bad_example: "with db.transaction():\n    order.confirm()\n    billing.create_invoice(order)\n    shipping.schedule(order)"
+  bad_example_source: bad_example
+  good_example: "with db.transaction():\n    order.confirm()\n    order.publish(OrderConfirmed(...))\n# Billing and Shipping\
+    \ react via event handlers"
+  operator_question: null
+- source: styleguides/evd-event-naming-and-payload.styleguide.yaml#/anti_patterns/0
+  source_title: Command named as an event
+  pack: event-driven
+  owner: styleguide:evd-event-naming-and-payload
+  id: command-named-as-an-event
+  merged_into: null
+  merge_reason: null
+  title: Command named as an event
+  description: An imperative name reads as a request that might be refused, so consumers cannot tell whether it happened.
+  severity: severe
+  severity_grounding: '"consumers cannot tell whether it happened": the event fails its purpose -> severe'
+  bad_example: '{"event_type": "ClaimWorkPackage", "payload": {"wp_id": "WP03"}}'
+  bad_example_source: bad_example
+  good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned",
+    "to_lane": "claimed"}}'
+  operator_question: null
+- source: styleguides/evd-event-naming-and-payload.styleguide.yaml#/anti_patterns/1
+  source_title: CRUD event with a field bag
+  pack: event-driven
+  owner: styleguide:evd-event-naming-and-payload
+  id: crud-event-with-a-field-bag
+  merged_into: null
+  merge_reason: null
+  title: CRUD event with a field bag
+  description: A generic update with changed fields forces every consumer to reverse-engineer which business fact occurred.
+  severity: severe
+  severity_grounding: '"forces every consumer to reverse-engineer which business fact occurred": the event fails its purpose
+    -> severe'
+  bad_example: '{"event_type": "WorkPackageUpdated", "payload": {"wp_id": "WP03", "changes": {"lane": "approved", "notes":
+    "..."}}}'
+  bad_example_source: bad_example
+  good_example: '{"event_type": "WorkPackageApproved", "schema_version": 1, "payload": {"wp_id": "WP03", "reviewer": "renata"}}'
+  operator_question: null
+- source: styleguides/evd-event-naming-and-payload.styleguide.yaml#/anti_patterns/2
+  source_title: Version inferred from shape
+  pack: event-driven
+  owner: styleguide:evd-event-naming-and-payload
+  id: version-inferred-from-shape
+  merged_into: null
+  merge_reason: null
+  title: Version inferred from shape
+  description: Without an explicit version, readers guess the contract from which fields are present, and the guess fails
+    silently when a field becomes optional.
+  severity: breaking
+  severity_grounding: '"the guess fails silently when a field becomes optional": a wrong result, silently -> breaking'
+  bad_example: '{"event_type": "WorkPackageClaimed", "payload": {"wp": "WP03", "lane": "doing"}}'
+  bad_example_source: bad_example
+  good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned",
+    "to_lane": "claimed"}}'
+  operator_question: null
+- source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/0
+  source_title: Ambiguous trigger surface
+  pack: pack-authoring
+  owner: styleguide:deployable-skill-authoring
+  id: ambiguous-trigger-surface
+  merged_into: null
+  merge_reason: null
+  title: Ambiguous trigger surface
+  description: A vague description causes agents to load the skill for unrelated tasks or miss it when it is needed.
+  severity: severe
+  severity_grounding: '"causes agents to load the skill for unrelated tasks or miss it when it is needed": the skill fails
+    its purpose -> severe'
+  bad_example: Use this skill for projects.
+  bad_example_source: bad_example
+  good_example: Use this skill when working on Spec Kitty missions, runtime, tracker, hub, website, mobile, SaaS, or tests.
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/4
+  source_title: Authoring lineage as an inline profile field
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: authoring-lineage-as-an-inline-profile-field
+  merged_into: null
+  merge_reason: null
+  title: Authoring lineage as an inline profile field
+  description: Adding specializes-from directly on the agent profile YAML. The profile validator rejects this field. Express
+    lineage and augmentation exclusively as specializes_from edges in the DRG.
+  severity: breaking
+  severity_grounding: '"The profile validator rejects this field.": the artifact does not validate -> breaking'
+  bad_example: 'The profile YAML gets `specializes-from: architect-alphonso` among its own keys, and validation rejects the
+    profile.'
+  bad_example_source: authored, grounded in "Adding specializes-from directly on the agent profile YAML" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/7
+  source_title: Citing file paths instead of artifact ids
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: citing-file-paths-instead-of-artifact-ids
+  merged_into: null
+  merge_reason: null
+  title: Citing file paths instead of artifact ids
+  description: Writing an artifact's file path in another artifact's prose instead of the canonical id. File paths are not
+    validated by the DRG and are fragile to reorganisation; the DRG only tracks id-to-id edges.
+  severity: severe
+  severity_grounding: '"File paths are not validated by the DRG and are fragile to reorganisation": references break unchecked
+    -> severe'
+  bad_example: A tactic's prose says "see tactics/testing/function-over-form-testing.tactic.yaml" instead of naming `function-over-form-testing`.
+  bad_example_source: authored, grounded in "Writing an artifact's file path in another artifact's prose instead of the canonical
+    id" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/1
+  source_title: Context dump skill
+  pack: pack-authoring
+  owner: styleguide:deployable-skill-authoring
+  id: context-dump-skill
+  merged_into: null
+  merge_reason: null
+  title: Context dump skill
+  description: A skill that loads all reference material up front defeats progressive disclosure and crowds out task-specific
+    context.
+  severity: severe
+  severity_grounding: '"defeats progressive disclosure": defeats the guidance''s purpose -> severe'
+  bad_example: Read every file in references/ before starting.
+  bad_example_source: bad_example
+  good_example: Read only the reference that matches the current host or workflow branch.
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/3
+  source_title: Creating an agent profile by default
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: creating-an-agent-profile-by-default
+  merged_into: null
+  merge_reason: null
+  title: Creating an agent profile by default
+  description: Authoring a new agent profile for every onboarded agent without checking whether the behaviour is already covered
+    by the extracted directives, tactics, and toolguides wired to an existing profile. New profiles add routing and maintenance
+    surface; only create one when the agent is a distinct reusable role.
+  severity: smell
+  severity_grounding: '"New profiles add routing and maintenance surface": a cost -> smell'
+  bad_example: Onboarding a lint-fixing agent creates `lint-larry.agent.yaml`, though the extracted toolguide and directives
+    already attach to the existing implementer profile.
+  bad_example_source: authored, grounded in "Authoring a new agent profile for every onboarded agent without checking whether
+    the behaviour is already covered" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/0
+  source_title: Decomposing before understanding the agent
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: decomposing-before-understanding-the-agent
+  merged_into: null
+  merge_reason: null
+  title: Decomposing before understanding the agent
+  description: Jumping to artifact authoring before the owner has been interviewed, the available documentation gathered,
+    and the agent's purpose confirmed back to the owner. Converting an agent you do not fully understand produces artifacts
+    that misrepresent its behaviour. Gather the source material and confirm understanding first.
+  severity: breaking
+  severity_grounding: '"produces artifacts that misrepresent its behaviour": a wrong result -> breaking'
+  bad_example: The owner's 400-line system prompt is split into directives on the first read, before anyone asks what the
+    agent is for.
+  bad_example_source: authored, grounded in "Jumping to artifact authoring before the owner has been interviewed" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/2
+  source_title: Embedding the workflow inside the agent profile
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: embedding-the-workflow-inside-the-agent-profile
+  merged_into: null
+  merge_reason: null
+  title: Embedding the workflow inside the agent profile
+  description: Pasting the agent's step-by-step operating instructions into the specialization block of the agent profile
+    YAML. This hides a testable workflow inside a container not meant to hold procedural content. Extract the workflow as
+    a procedure or tactic and link it from the profile via a DRG edge.
+  severity: severe
+  severity_grounding: '"hides a testable workflow inside a container not meant to hold procedural content": defeats the artifact
+    model -> severe'
+  bad_example: The profile's specialization block holds the agent's twelve numbered release steps, verbatim.
+  bad_example_source: authored, grounded in "Pasting the agent's step-by-step operating instructions into the specialization
+    block of the agent profile YAML" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/2
+  source_title: Host-specific assumptions
+  pack: pack-authoring
+  owner: styleguide:deployable-skill-authoring
+  id: host-specific-assumptions
+  merged_into: null
+  merge_reason: null
+  title: Host-specific assumptions
+  description: A deployable skill should not silently assume one agent product's paths, commands, or tool names when Spec
+    Kitty distributes it across multiple hosts.
+  severity: severe
+  severity_grounding: states the rule ("should not silently assume one agent product's paths, commands, or tool names") but
+    no outcome; proposed severe
+  bad_example: Always edit .claude/settings.json.
+  bad_example_source: bad_example
+  good_example: Resolve the active host surface first, then edit the host-specific settings file if that host supports one.
+  operator_question: 'severity: smell or severe? (proposed severe; the text states the rule, no outcome)'
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/8
+  source_title: Ignoring external references
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: ignoring-external-references
+  merged_into: null
+  merge_reason: null
+  title: Ignoring external references
+  description: Authoring an artifact that assumes availability of an external tool, API, or platform and proceeding without
+    the owner explicitly acknowledging that dependency. The content-DRG consistency step requires the owner to decide whether
+    to author a toolguide or document the dependency — do not treat silence as acceptance.
+  severity: severe
+  severity_grounding: '"do not treat silence as acceptance": a required owner decision is skipped -> severe'
+  bad_example: A new toolguide assumes a Jira API token is available, and the owner never confirms that dependency.
+  bad_example_source: authored, grounded in "Authoring an artifact that assumes availability of an external tool, API, or
+    platform and proceeding without the owner explicitly acknowledging that dependency" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/5
+  source_title: Leaving new project-tier artifacts unactivated
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: leaving-new-project-tier-artifacts-unactivated
+  merged_into: null
+  merge_reason: null
+  title: Leaving new project-tier artifacts unactivated
+  description: Authoring project-tier artifacts and validating them, but never running spec-kitty charter activate --cascade
+    all. Validation passes, yet the project graph never gains the new nodes or edges, so the artifacts are not part of the
+    active charter and no action loads them. Activate them, then confirm with spec-kitty charter list.
+  severity: breaking
+  severity_grounding: '"the artifacts are not part of the active charter and no action loads them": the work silently has
+    no effect, a wrong result -> breaking'
+  bad_example: Three new project-tier tactics pass validation and are committed, but `spec-kitty charter activate --cascade
+    all` is never run, so no action ever loads them.
+  bad_example_source: authored, grounded in "never running spec-kitty charter activate --cascade all" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/1
+  source_title: Lifting the whole prompt into a single artifact
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: lifting-the-whole-prompt-into-a-single-artifact
+  merged_into: null
+  merge_reason: null
+  title: Lifting the whole prompt into a single artifact
+  description: Copying an entire system prompt or rules file verbatim into one directive or one agent profile. A source agent
+    almost always contains several distinct kinds of knowledge — rules, techniques, tool usage, and conventions. Decompose
+    it into the correct artifact kinds so each piece is independently governable and reusable, rather than trapping everything
+    in one opaque blob.
+  severity: severe
+  severity_grounding: '"rather than trapping everything in one opaque blob": no piece is independently governable, defeating
+    the decomposition -> severe'
+  bad_example: A vendor agent's whole system prompt becomes one directive, `DIRECTIVE_LEGACY_AGENT`, mixing rules, tool usage
+    and naming conventions.
+  bad_example_source: authored, grounded in "Copying an entire system prompt or rules file verbatim into one directive or
+    one agent profile" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/doctrine-instruction-voice.styleguide.yaml#/anti_patterns/0
+  source_title: Local values as canonical rules
+  pack: pack-authoring
+  owner: styleguide:doctrine-instruction-voice
+  id: local-values-as-canonical-rules
+  merged_into: null
+  merge_reason: null
+  title: Local values as canonical rules
+  description: An artifact names one team's labels, branch, token location or tracker convention as if every consumer had
+    it. A consumer without that convention follows a rule it cannot satisfy, or invents one.
+  severity: severe
+  severity_grounding: '"A consumer without that convention follows a rule it cannot satisfy, or invents one": the rule fails
+    its purpose -> severe'
+  bad_example: Tag the ticket priority:P1 and unset GITHUB_TOKEN so gh uses the keyring token.
+  bad_example_source: bad_example
+  good_example: 'Record the urgency in the project''s priority scheme, if it has one. If gh
+
+    reports missing scopes, check which token is active.'
+  operator_question: null
+- source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/6
+  source_title: Skipping the existing-artifact overlap audit
+  pack: pack-authoring
+  owner: procedure:onboard-external-agent-to-pack
+  id: skipping-the-existing-artifact-overlap-audit
+  merged_into: null
+  merge_reason: null
+  title: Skipping the existing-artifact overlap audit
+  description: 'Id-only deduplication without a semantic read: declaring two artifacts non-overlapping because their ids and
+    titles differ, without reading their intent or enforcement fields. Two directives with different ids can have identical
+    enforcement targets — the duplicate creates governance noise and splits authority. Always read intent, scope, and enforcement
+    before concluding no overlap exists.'
+  severity: severe
+  severity_grounding: '"the duplicate creates governance noise and splits authority": defeats single authority -> severe'
+  bad_example: A new `REVIEW_SMALL_PRS` directive is added because no id or title matches, though `READABLE_CONSISTENT_PRS`
+    already enforces the same size limit.
+  bad_example_source: authored, grounded in "declaring two artifacts non-overlapping because their ids and titles differ"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/3
+  source_title: Unsourced operating rule
+  pack: pack-authoring
+  owner: styleguide:deployable-skill-authoring
+  id: unsourced-operating-rule
+  merged_into: null
+  merge_reason: null
+  title: Unsourced operating rule
+  description: A skill that encodes policy without pointing to doctrine, charter, ADR, or project source makes governance
+    hard to audit.
+  severity: smell
+  severity_grounding: '"makes governance hard to audit": a cost -> smell'
+  bad_example: Never use feature flags here.
+  bad_example_source: bad_example
+  good_example: Apply DIRECTIVE_024 and ADR-2026-04-11 before adding a new flag.
+  operator_question: null
+- source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/3
+  source_title: Batch questioning
+  pack: planning-analysis
+  owner: procedure:domain-aware-decision-interview
+  id: batch-questioning
+  merged_into: null
+  merge_reason: null
+  title: Batch questioning
+  description: Asking many questions at once prevents the interview from adapting to resolved dependencies.
+  severity: smell
+  severity_grounding: '"prevents the interview from adapting to resolved dependencies": a cost -> smell'
+  bad_example: The interview opens with nine questions in one message, three of which depend on the answer to the first.
+  bad_example_source: authored, grounded in "Asking many questions at once" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/2
+  source_title: Blocking on the optional steps
+  pack: planning-analysis
+  owner: procedure:legacy-codebase-triage
+  id: blocking-on-the-optional-steps
+  merged_into: null
+  merge_reason: null
+  title: Blocking on the optional steps
+  description: The domain-classification overlay (step 4) and the security overlay (step 5) are explicitly optional. Treat
+    them as enrichments, not gates. A triage with a clean audit and a sound bucket plan is decision-grade even without either
+    overlay.
+  severity: smell
+  severity_grounding: '"Treat them as enrichments, not gates.": a merge or report held needlessly, a cost -> smell'
+  bad_example: The triage report is held for a week until the optional security overlay is done, though the audit and bucket
+    plan are already sound.
+  bad_example_source: authored, grounded in "Treat them as enrichments, not gates" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/0
+  source_title: Budgetless Spike
+  pack: planning-analysis
+  owner: procedure:spike-timebox-policy
+  id: budgetless-spike
+  merged_into: null
+  merge_reason: null
+  title: Budgetless Spike
+  description: Starting an investigation with no agreed stop rule, so the spike silently expands into open-ended work that
+    competes with delivery.
+  severity: severe
+  severity_grounding: '"the spike silently expands into open-ended work that competes with delivery": defeats the timebox
+    -> severe'
+  bad_example: '"Look into replacing the ORM" starts with no time box or stop rule and is still open three sprints later.'
+  bad_example_source: authored, grounded in "Starting an investigation with no agreed stop rule" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/1
+  source_title: Child-ticket checklist in the epic body
+  pack: planning-analysis
+  owner: styleguide:planning-and-tracking
+  id: child-ticket-checklist-in-the-epic-body
+  merged_into: null
+  merge_reason: 'both: child ticket numbers listed in the epic body drift from the native sub-issue graph — "A hand-maintained
+    list of child ticket numbers in an epic body drifts out of sync with the native sub-issue graph" / "Listing child ticket
+    numbers in the epic body, which drifts out of sync"'
+  title: Child-ticket checklist in the epic body
+  description: A hand-maintained list of child ticket numbers in an epic body drifts out of sync with the native sub-issue
+    graph and is invisible to tooling that reads parent/child via the API. The graph is the source of truth.
+  severity: severe
+  severity_grounding: '"drifts out of sync with the native sub-issue graph and is invisible to tooling": the record becomes
+    wrong -> severe'
+  bad_example: 'Epic body: "## Children\n- [ ] <issue-a>\n- [x] <issue-b>\n- [ ] <issue-c>"'
+  bad_example_source: bad_example
+  good_example: 'Epic body: Purpose / Scope / Out-of-scope. Children linked as native
+
+    sub-issues; the body lists none.'
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/5
+  source_title: Child ticket list in the epic body
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  home_pack: planning-analysis
+  id: child-ticket-checklist-in-the-epic-body
+  merged_into: planning-analysis::anti_pattern:child-ticket-checklist-in-the-epic-body
+  merge_reason: 'both: child ticket numbers listed in the epic body drift from the native sub-issue graph — "A hand-maintained
+    list of child ticket numbers in an epic body drifts out of sync with the native sub-issue graph" / "Listing child ticket
+    numbers in the epic body, which drifts out of sync"'
+  operator_question: null
+- source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/2
+  source_title: Closing a community duplicate before migrating its evidence
+  pack: planning-analysis
+  owner: styleguide:planning-and-tracking
+  id: closing-a-community-duplicate-before-migrating-its-evidence
+  merged_into: null
+  merge_reason: 'both: closing a contributor''s duplicate without migrating its evidence — "Closing a contributor''s ticket
+    as a duplicate without first moving its reproduction steps" / "Closing a community contributor''s ticket as duplicate
+    without migrating its evidence"'
+  title: Closing a community duplicate before migrating its evidence
+  description: Closing a contributor's ticket as a duplicate without first moving its reproduction steps, logs, and discussion
+    into the survivor loses evidence and alienates the contributor. Community-authored tickets take precedence over core-team
+    duplicates.
+  severity: severe
+  severity_grounding: '"loses evidence and alienates the contributor": evidence is lost -> severe'
+  bad_example: '`gh issue close <community#> --reason "not planned" --comment "dup"`
+
+    while keeping the core-team ticket open and unenriched.'
+  bad_example_source: bad_example
+  good_example: 'Migrate evidence into the community ticket, close the core-team
+
+    duplicate, and comment on the community ticket inviting confirmation.'
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/4
+  source_title: Bare duplicate closure
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  home_pack: planning-analysis
+  id: closing-a-community-duplicate-before-migrating-its-evidence
+  merged_into: planning-analysis::anti_pattern:closing-a-community-duplicate-before-migrating-its-evidence
+  merge_reason: 'both: closing a contributor''s duplicate without migrating its evidence — "Closing a contributor''s ticket
+    as a duplicate without first moving its reproduction steps" / "Closing a community contributor''s ticket as duplicate
+    without migrating its evidence"'
+  operator_question: null
+- source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/1
+  source_title: Implementation-coupled briefs
+  pack: planning-analysis
+  owner: procedure:issue-triage-state-machine
+  id: implementation-coupled-briefs
+  merged_into: null
+  merge_reason: null
+  title: Implementation-coupled briefs
+  description: Briefs that mention line numbers or current file paths decay quickly and constrain agents unnecessarily.
+  severity: smell
+  severity_grounding: '"decay quickly and constrain agents unnecessarily": a cost -> smell'
+  bad_example: The brief says "fix the null check at src/orders/service.py:212"; a refactor moves the line before the agent
+    starts.
+  bad_example_source: authored, grounded in "Briefs that mention line numbers or current file paths" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/3
+  source_title: Memory-only rejection
+  pack: planning-analysis
+  owner: procedure:issue-triage-state-machine
+  id: memory-only-rejection
+  merged_into: null
+  merge_reason: null
+  title: Memory-only rejection
+  description: Closing an enhancement without a persistent concept record causes future duplicate requests to be relitigated.
+  severity: smell
+  severity_grounding: '"causes future duplicate requests to be relitigated": a cost -> smell'
+  bad_example: The plugin-system request is closed with a comment in chat; four months later the same request is debated from
+    scratch.
+  bad_example_source: authored, grounded in "Closing an enhancement without a persistent concept record" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/0
+  source_title: Meta-tracker as canonical parent
+  pack: planning-analysis
+  owner: styleguide:planning-and-tracking
+  id: meta-tracker-as-canonical-parent
+  merged_into: null
+  merge_reason: 'all: a release/go-no-go rollup as the canonical parent of work tickets — "Making a release/go-no-go/stabilization
+    rollup the canonical parent of functional tickets" / "Making a release or go/no-go rollup the canonical parent of work
+    tickets" / "Parenting under a meta-tracker" (internal#78 also names the body checklist; the operator ruled it into this
+    cluster, decision 01M89PV9YNGP5YCABX4HJ8Y1MW)'
+  title: Meta-tracker as canonical parent
+  description: 'Making a release/go-no-go/stabilization rollup the canonical parent of functional tickets hides real ownership:
+    the work appears tracked but its true functional home is unknown, and closing the release issue orphans everything beneath
+    it. Release gating belongs in milestones or labels.'
+  severity: severe
+  severity_grounding: '"hides real ownership" and "closing the release issue orphans everything beneath it": the tracking
+    fails its purpose -> severe'
+  bad_example: '"3.2.0 release tracker" set as the native parent of a CLI bug and a
+
+    runtime refactor.'
+  bad_example_source: bad_example
+  good_example: 'Bug parented under the CLI-UX functional epic; refactor under the
+
+    runtime epic; both referenced from the release rollup by checklist, and
+
+    the rollup titled `META-TRACKER: 3.2.0 release`.'
+  operator_question: null
+- source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/4
+  source_title: Parenting under a meta-tracker or in a body checklist
+  pack: internal
+  owner: procedure:issue-triage-pass
+  home_pack: planning-analysis
+  id: meta-tracker-as-canonical-parent
+  merged_into: planning-analysis::anti_pattern:meta-tracker-as-canonical-parent
+  merge_reason: 'all: a release/go-no-go rollup as the canonical parent of work tickets — "Making a release/go-no-go/stabilization
+    rollup the canonical parent of functional tickets" / "Making a release or go/no-go rollup the canonical parent of work
+    tickets" / "Parenting under a meta-tracker" (internal#78 also names the body checklist; the operator ruled it into this
+    cluster, decision 01M89PV9YNGP5YCABX4HJ8Y1MW)'
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/0
+  source_title: Meta-tracker as functional parent
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  home_pack: planning-analysis
+  id: meta-tracker-as-canonical-parent
+  merged_into: planning-analysis::anti_pattern:meta-tracker-as-canonical-parent
+  merge_reason: 'all: a release/go-no-go rollup as the canonical parent of work tickets — "Making a release/go-no-go/stabilization
+    rollup the canonical parent of functional tickets" / "Making a release or go/no-go rollup the canonical parent of work
+    tickets" / "Parenting under a meta-tracker" (internal#78 also names the body checklist; the operator ruled it into this
+    cluster, decision 01M89PV9YNGP5YCABX4HJ8Y1MW)'
+  operator_question: null
+- source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/0
+  source_title: Multiple active state labels
+  pack: planning-analysis
+  owner: procedure:issue-triage-state-machine
+  id: multiple-active-state-labels
+  merged_into: null
+  merge_reason: null
+  title: Multiple active state labels
+  description: Conflicting states make ownership and next action ambiguous.
+  severity: severe
+  severity_grounding: '"Conflicting states make ownership and next action ambiguous": the state machine fails its purpose
+    -> severe'
+  bad_example: An issue carries both `status:ready` and `status:blocked`, and two maintainers act on different ones.
+  bad_example_source: authored, grounded in "Conflicting states make ownership and next action ambiguous" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/0
+  source_title: Over-interviewing
+  pack: planning-analysis
+  owner: procedure:domain-aware-decision-interview
+  id: over-interviewing
+  merged_into: null
+  merge_reason: null
+  title: Over-interviewing
+  description: Asking questions whose answers are already present in code, tests, docs, or the current plan wastes human attention.
+  severity: smell
+  severity_grounding: '"wastes human attention": a cost -> smell'
+  bad_example: The interviewer asks which database the service uses, though the answer is in docker-compose.yml.
+  bad_example_source: authored, grounded in "Asking questions whose answers are already present in code, tests, docs, or the
+    current plan" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/4
+  source_title: Over-reading squash-merged history
+  pack: planning-analysis
+  owner: procedure:legacy-codebase-triage
+  id: over-reading-squash-merged-history
+  merged_into: null
+  merge_reason: null
+  title: Over-reading squash-merged history
+  description: Repositories that squash every PR collapse multi-commit work into single events; the audit recipes will undercount
+    activity. The triage must note the merge strategy and corroborate with PR metadata or issue-tracker data before drawing
+    strong conclusions.
+  severity: severe
+  severity_grounding: '"the audit recipes will undercount activity": conclusions rest on undercounted data unless corroborated
+    -> severe'
+  bad_example: The triage reports one commit by the payments team in a quarter, from a repository that squashes every PR,
+    without checking the PR count.
+  bad_example_source: authored, grounded in "the audit recipes will undercount activity" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/2
+  source_title: Premature decision records
+  pack: planning-analysis
+  owner: procedure:domain-aware-decision-interview
+  id: premature-decision-records
+  merged_into: null
+  merge_reason: null
+  title: Premature decision records
+  description: Recording reversible, obvious, or non-trade-off choices bloats decision history.
+  severity: smell
+  severity_grounding: '"bloats decision history": a cost -> smell'
+  bad_example: A decision record is opened for naming a local variable `count` rather than `n`.
+  bad_example_source: authored, grounded in "Recording reversible, obvious, or non-trade-off choices" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/1
+  source_title: Rationalised Outcome
+  pack: planning-analysis
+  owner: procedure:spike-timebox-policy
+  id: rationalised-outcome
+  merged_into: null
+  merge_reason: null
+  title: Rationalised Outcome
+  description: Deciding what the spike "proved" after the fact because no exit criteria were written in advance, turning an
+    investigation into confirmation of a pre-held belief.
+  severity: severe
+  severity_grounding: '"turning an investigation into confirmation of a pre-held belief": defeats the spike''s purpose ->
+    severe'
+  bad_example: The caching spike's report says it "proved caching is the bottleneck", a claim chosen after the results came
+    in.
+  bad_example_source: authored, grounded in "Deciding what the spike "proved" after the fact" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/1
+  source_title: Skipping the exclusion list
+  pack: planning-analysis
+  owner: procedure:legacy-codebase-triage
+  id: skipping-the-exclusion-list
+  merged_into: null
+  merge_reason: null
+  title: Skipping the exclusion list
+  description: Without the vanity-file exclusion list agreed in step 1, the churn and bug-hotspot tables will be dominated
+    by lockfiles and generated bundles. Any triage that omits the exclusion list is invalid and must be re-run.
+  severity: breaking
+  severity_grounding: '"Any triage that omits the exclusion list is invalid and must be re-run.": an invalid result -> breaking'
+  bad_example: The churn table's top ten files are package-lock.json and generated bundles, because no exclusion list was
+    agreed in step 1.
+  bad_example_source: authored, grounded in "Without the vanity-file exclusion list agreed in step 1" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/3
+  source_title: Substituting triage for deeper investigation
+  pack: planning-analysis
+  owner: procedure:legacy-codebase-triage
+  id: substituting-triage-for-deeper-investigation
+  merged_into: null
+  merge_reason: null
+  title: Substituting triage for deeper investigation
+  description: 'This procedure produces a first-pass evidence base. It is not the brownfield-investigation skill (issue #665/#666),
+    is not a default gate on any mission, and does not replace event storming, context discovery, threat modelling, or full
+    architecture review where those are warranted. Cite this triage as input to those activities; do not let it stand in for
+    them.'
+  severity: severe
+  severity_grounding: '"do not let it stand in for them": a required deeper review is skipped -> severe'
+  bad_example: A risky payments rewrite is approved on the strength of the triage alone, with no threat model or architecture
+    review.
+  bad_example_source: authored, grounded in "do not let it stand in for them" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/1
+  source_title: Terminology policing
+  pack: planning-analysis
+  owner: procedure:domain-aware-decision-interview
+  id: terminology-policing
+  merged_into: null
+  merge_reason: null
+  title: Terminology policing
+  description: Correcting words without structural or domain impact creates friction without improving understanding.
+  severity: smell
+  severity_grounding: '"creates friction without improving understanding": a cost -> smell'
+  bad_example: The interviewer stops the discussion twice to correct "user" to "customer" where the two mean the same thing
+    here.
+  bad_example_source: authored, grounded in "Correcting words without structural or domain impact" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/0
+  source_title: Treating triage as a verdict
+  pack: planning-analysis
+  owner: procedure:legacy-codebase-triage
+  id: treating-triage-as-a-verdict
+  merged_into: null
+  merge_reason: null
+  title: Treating triage as a verdict
+  description: The buckets are an action plan, not a judgement on the team or the codebase. Files in 'fix this week' are not
+    bad; they are load-bearing and fragile, which is information about how to invest, not a moral claim.
+  severity: smell
+  severity_grounding: states the practice ("The buckets are an action plan, not a judgement on the team or the codebase")
+    but no outcome; proposed smell
+  bad_example: The triage's 'fix this week' list is circulated as the list of the team's worst code.
+  bad_example_source: authored, grounded in "The buckets are an action plan, not a judgement on the team or the codebase"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/2
+  source_title: Unwritten Finding
+  pack: planning-analysis
+  owner: procedure:spike-timebox-policy
+  id: unwritten-finding
+  merged_into: null
+  merge_reason: null
+  title: Unwritten Finding
+  description: Reaching a conclusion in the investigator's head and moving on without recording the hypothesis, evidence,
+    and decision, so the uncertainty is only retired for one person.
+  severity: severe
+  severity_grounding: '"the uncertainty is only retired for one person": the finding is lost to everyone else -> severe'
+  bad_example: The investigator concludes the slow builds come from cache misses, tells nobody, and moves on; the next person
+    repeats the investigation.
+  bad_example_source: authored, grounded in "Reaching a conclusion in the investigator's head and moving on without recording
+    the hypothesis, evidence, and decision" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/2
+  source_title: Vague needs-info questions
+  pack: planning-analysis
+  owner: procedure:issue-triage-state-machine
+  id: vague-needs-info-questions
+  merged_into: null
+  merge_reason: null
+  title: Vague needs-info questions
+  description: Questions like 'please provide more detail' do not help the reporter unblock triage.
+  severity: smell
+  severity_grounding: '"do not help the reporter unblock triage": a cost -> smell'
+  bad_example: The triage comment asks the reporter to "please provide more detail" and nothing else.
+  bad_example_source: authored, grounded in "Questions like 'please provide more detail'" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null

@@ -330,6 +330,20 @@ def test_a_quoted_source_word_default_is_not_a_default_grounding():
         assert ac.says_default(bare), bare
 
 
+def test_a_made_up_quote_mentioning_default_is_not_discounted():
+    corpus = [ac._norm("lets a wrong fixture or a drifted default state present itself")]
+    assert not ac.says_default('"a drifted default state": breaking', corpus)
+    assert ac.says_default('smell ("by default")', corpus)
+    assert ac.says_default('"the default" -> smell', corpus)
+    assert not ac.says_default('"Retrying without a log line": smell', corpus)
+
+
+def test_refuses_a_made_up_default_quote_in_a_ledger(repo, capsys):
+    paths, mm = ledgers(repo)
+    _edit_row(paths[1], 1, severity_grounding='smell ("by default")')
+    refused(repo, paths, mm, capsys, "says 'default'")
+
+
 def test_refuses_a_default_grounding(repo, capsys):
     paths, mm = ledgers(repo)
     _edit_row(paths[1], 1, severity_grounding="default")

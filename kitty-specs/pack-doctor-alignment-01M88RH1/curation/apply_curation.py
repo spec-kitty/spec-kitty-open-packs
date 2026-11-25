@@ -389,18 +389,56 @@ def source_entry(tree: Tree, packs: dict[str, Pack], row: Row):
     return items[index]
 
 
-def says_default(value: str) -> bool:
-    """True when the text itself (not a quote of the source inside it) rests on a default."""
-    # A quote counts as source text only when it holds more than the bare word: a quoted
-    # "default" on its own is still the call resting on a default.
-    def keep_bare(m: re.Match) -> str:
-        inner = m.group(1).strip(" .,:;!?()'")
-        return m.group(0) if re.fullmatch(r"default(s|ed)?", inner, re.IGNORECASE) else ""
-    unquoted = re.sub(r'"([^"]*)"', keep_bare, value)
-    return re.search(r"\bdefault", unquoted, re.IGNORECASE) is not None
+DEFAULT_RE = re.compile(r"\bdefault", re.IGNORECASE)
 
 
-def validate_row(row: Row) -> list[str]:
+def says_default(value: str, corpus: list[str] | None = None) -> bool:
+    """True when the text itself, not a verbatim quote of the source inside it, rests on a default.
+
+    A quoted span that mentions "default" is discounted only when it holds more than the bare word
+    and, given a ``corpus`` (the normalised source and ledger texts), only when it appears in it
+    verbatim. A made-up quote such as "by default" therefore still counts as the text's own word."""
+    def keep(m: re.Match) -> str:
+        inner = m.group(1)
+        if not DEFAULT_RE.search(inner):
+            return ""
+        if re.fullmatch(r"default(s|ed)?", inner.strip(" .,:;!?()'"), re.IGNORECASE):
+            return m.group(0)
+        if corpus is not None:
+            span = _norm(inner).strip(" .")
+            if not any(span in text for text in corpus):
+                return m.group(0)
+        return ""
+    unquoted = re.sub(r'"([^"]*)"', keep, value)
+    return DEFAULT_RE.search(unquoted) is not None
+
+
+def build_corpus(tree: "Tree", rows: list["Row"]) -> list[str]:
+    """Every string of every pack YAML document, and every row's text, whitespace-normalised."""
+    texts: list[str] = []
+
+    def walk(node) -> None:
+        if isinstance(node, str):
+            texts.append(_norm(node))
+        elif isinstance(node, dict):
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+    for path in sorted(tree.packs_dir.rglob("*.yaml")):
+        try:
+            walk(tree.load(path))
+        except yaml.YAMLError:
+            continue
+    for row in rows:
+        for key in ("source_title", "title", "description", "bad_example", "good_example"):
+            if row.get(key):
+                texts.append(_norm(row.get(key)))
+    return texts
+
+
+def validate_row(row: Row, corpus: list[str] | None = None) -> list[str]:
     faults = []
     ident = row.get("id")
     if not row.merged:
@@ -416,7 +454,7 @@ def validate_row(row: Row) -> list[str]:
         value = str(row.get(key) or "")
         if not value.strip():
             faults.append(f"{row.label}: {key} is empty")
-        elif says_default(value):
+        elif says_default(value, corpus):
             faults.append(f"{row.label}: {key} says 'default'")
     if row.get("operator_question"):
         faults.append(f"{row.label}: open operator_question")
@@ -466,7 +504,8 @@ def plan_apply(tree: Tree, rows: list[Row], catalog: list[Row], merge_map: dict 
     """Compute every write into ``tree.texts``; return the log. Raise Refusal on any fault."""
     packs = tree.packs()
     log: list[str] = []
-    faults = [f for row in rows for f in validate_row(row)]
+    corpus = build_corpus(tree, catalog)
+    faults = [f for row in rows for f in validate_row(row, corpus)]
 
     targets: dict[tuple[str, str], Row] = {}
     for row in rows:
@@ -668,7 +707,8 @@ def commit(tree: Tree) -> None:
 def check(root: Path, rows: list[Row], merge_map: dict | None) -> list[str]:
     tree = Tree(root)
     packs = tree.packs()
-    faults = [f for row in rows for f in validate_row(row)]
+    corpus = build_corpus(tree, rows)
+    faults = [f for row in rows for f in validate_row(row, corpus)]
 
     non_merged: dict[tuple[str, str], Row] = {}
     for row in rows:
