@@ -60,11 +60,11 @@ entries:
   title: Scope creep
   description: Attempting to model the entire enterprise in one pass instead of focusing on a specific subdomain.
   severity: smell
-  severity_grounding: states the practice ("Attempting to model the entire enterprise in one pass") but no outcome; proposed
-    smell
+  severity_grounding: states the practice ("Attempting to model the entire enterprise in one pass") but no outcome -> smell
+    (operator ruling 2026-11-25, decision 01M89XNG2467Z7BZ41N6R4KEEK)
   bad_example: The first event-storming session tries to cover sales, billing, logistics and HR at once on one wall.
   bad_example_source: authored, grounded in "Attempting to model the entire enterprise in one pass" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/3
   source_title: Solution mode
   pack: architecture
@@ -75,11 +75,11 @@ entries:
   title: Solution mode
   description: Discussing technical implementation during discovery instead of focusing on domain behaviour and business flows.
   severity: smell
-  severity_grounding: states the practice ("Discussing technical implementation during discovery") but no outcome; proposed
-    smell
+  severity_grounding: states the practice ("Discussing technical implementation during discovery") but no outcome -> smell
+    (operator ruling 2026-11-25, decision 01M89XNG2467Z7BZ41N6R4KEEK)
   bad_example: Half the session goes on whether OrderPlaced should travel over Kafka or SQS.
   bad_example_source: authored, grounded in "Discussing technical implementation during discovery" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: styleguides/aggregate-design-rules.styleguide.yaml#/anti_patterns/1
   source_title: Transaction Spanning
   pack: architecture
@@ -278,11 +278,11 @@ entries:
     Kitty distributes it across multiple hosts.
   severity: severe
   severity_grounding: states the rule ("should not silently assume one agent product's paths, commands, or tool names") but
-    no outcome; proposed severe
+    no outcome -> severe (operator ruling 2026-11-25, decision 01M89XNG2467Z7BZ41N6R4KEEK)
   bad_example: Always edit .claude/settings.json.
   bad_example_source: bad_example
   good_example: Resolve the active host surface first, then edit the host-specific settings file if that host supports one.
-  operator_question: 'severity: smell or severe? (proposed severe; the text states the rule, no outcome)'
+  operator_question: null
 - source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/8
   source_title: Ignoring external references
   pack: pack-authoring
@@ -726,11 +726,11 @@ entries:
     bad; they are load-bearing and fragile, which is information about how to invest, not a moral claim.
   severity: smell
   severity_grounding: states the practice ("The buckets are an action plan, not a judgement on the team or the codebase")
-    but no outcome; proposed smell
+    but no outcome -> smell (operator ruling 2026-11-25, decision 01M89XNG2467Z7BZ41N6R4KEEK)
   bad_example: The triage's 'fix this week' list is circulated as the list of the team's worst code.
   bad_example_source: authored, grounded in "The buckets are an action plan, not a judgement on the team or the codebase"
     (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/2
   source_title: Unwritten Finding
   pack: planning-analysis

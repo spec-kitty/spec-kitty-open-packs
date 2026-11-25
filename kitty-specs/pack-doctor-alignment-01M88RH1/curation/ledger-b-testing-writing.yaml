@@ -776,11 +776,11 @@ entries:
   description: Using terms like API, YAML, or SHA256 without ensuring they are defined elsewhere in the glossary.
   severity: smell
   severity_grounding: states the practice ("Using terms like API, YAML, or SHA256 without ensuring they are defined") but
-    no outcome; proposed smell
+    no outcome -> smell (operator ruling 2026-11-25, decision 01M89XNAWAGVG3YXYS3HZ57GTA)
   bad_example: YAML file that bootstraps domain entries.
   bad_example_source: bad_example
   good_example: An optional YAML file that pre-loads domain glossary terms before the runtime starts extracting new ones.
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/4
   source_title: Bare SHA citation
   pack: writing
@@ -861,13 +861,13 @@ entries:
   title: Circular Definition
   description: Defining a term using itself or equally opaque synonyms.
   severity: smell
-  severity_grounding: states the practice ("Defining a term using itself or equally opaque synonyms") but no outcome; proposed
-    smell
+  severity_grounding: states the practice ("Defining a term using itself or equally opaque synonyms") but no outcome -> smell
+    (operator ruling 2026-11-25, decision 01M89XNAWAGVG3YXYS3HZ57GTA)
   bad_example: Parity baseline is a baseline for parity tracking.
   bad_example_source: bad_example
   good_example: A saved parity hash representing the last accepted state of a dossier. Drift is detected by comparing the
     current parity hash against this baseline.
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/1
   source_title: Citation Laundering
   pack: writing
@@ -1081,12 +1081,12 @@ entries:
     in metadata fields.
   severity: smell
   severity_grounding: states the practice ("Including code-level details (class names, method signatures, file paths) in the
-    definition body") but no outcome; proposed smell
+    definition body") but no outcome -> smell (operator ruling 2026-11-25, decision 01M89XNAWAGVG3YXYS3HZ57GTA)
   bad_example: ArtifactClassEnum with six values defined in models.py.
   bad_example_source: bad_example
   good_example: 'Classification of an artifact''s role in the mission lifecycle. Six values: input, workflow, output, evidence,
     policy, runtime.'
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: styleguides/plain-language.styleguide.yaml#/anti_patterns/0
   source_title: Jargon aimed at the wrong audience
   pack: writing
@@ -1185,7 +1185,7 @@ entries:
     and demo sessions will typically have empty Decisions cells for most or all agenda items; that is correct and expected.
   severity: severe
   severity_grounding: states the practice ("Populating the Decisions column with facts about how things already work ... as
-    if they were decided in this meeting") but no explicit outcome; proposed severe (the record misstates what was decided)
+    if they were decided in this meeting") but no explicit outcome -> severe (operator ruling 2026-11-25, decision 01M89XNAWAGVG3YXYS3HZ57GTA)
   bad_example: 'Agenda item: "managed container overview" (presenter walking through existing setup)
 
     Decisions: "Managed containers chosen as the hosting platform for idle services"
@@ -1210,7 +1210,7 @@ entries:
 
     Decisions: "Template repositories + shared CI library identified as the integration mechanism — tiers and governance to
     be defined with Priya Shah, Morgan Blake, and Chris Nguyen"'
-  operator_question: 'severity: smell or severe? (proposed severe; the text states the practice, no explicit outcome)'
+  operator_question: null
 - source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/2
   source_title: One-Size-Fits-None Document
   pack: writing
@@ -1223,12 +1223,12 @@ entries:
     separation.
   severity: smell
   severity_grounding: states the practice ("Trying to serve an executive summary and a deep technical audience in the same
-    document without structural separation") but no outcome; proposed smell
+    document without structural separation") but no outcome -> smell (operator ruling 2026-11-25, decision 01M89XNAWAGVG3YXYS3HZ57GTA)
   bad_example: A single flat document mixing business-impact framing and implementation-level detail throughout.
   bad_example_source: bad_example
   good_example: An executive-summary section up top, with technical detail in clearly separated sections or a linked companion
     document.
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: styleguides/plain-language.styleguide.yaml#/anti_patterns/1
   source_title: Passive, hedged, filler-laden instruction
   pack: writing
