@@ -1,8 +1,8 @@
 # The codes the charter service must refuse this pack with (scripts/ci/charter_service_check.py).
 # Readme.md differs only in letter case from the pack document README.md, so the charter refuses it by
-# name as `retired` under the `*/README.md` rule (FR-022): the composition cannot read the pack, and a
-# registration refuses it with a `retired` violation. The per-pack schema pass refuses it the same way
+# name as `case_variant` (charter PR #626; before it, `retired` under the `*/README.md` rule, FR-022): the
+# composition cannot read the pack, and a registration refuses it. The per-pack schema pass refuses it the same way
 # (retired layout: differs only in letter case), so there is no precheck line.
 composition: pack_unreadable
 registration: validation_failed
-pack-check: retired                # pack-check refuses Readme.md by name, as the service does
+pack-doctor: case_variant         # pack-doctor refuses Readme.md as a case variant of README.md (#343)

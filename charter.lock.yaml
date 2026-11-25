@@ -4,14 +4,15 @@
 #   - scripts/ci/validate_pack_schemas.py fetches the pack schemas (contracts/packs/) at `commit`;
 #   - the "Charter service validation" job builds, or downloads, the charter service for the same
 #     `commit` and asks it to compose and register every pack (scripts/ci/charter_service_check.py).
-#   - the same job gates every pack on the charter's whole-pack check, pack-check (each pack, the closure and the
-#     round trip; #252): the release's pack-check jar on a release pin, built from `commit` on a main pin
-#     (scripts/ci/charter_pack_check_jar.sh, scripts/ci/charter_pack_check.py).
+#   - the same job gates every pack on the charter's whole-pack check, pack-doctor (`validate --round-trip --full`:
+#     each pack, the closure, the references and the round trip; #345): the release's pack-doctor jar on a release
+#     pin, built from `commit` on a main pin (scripts/ci/charter_pack_doctor_jar.sh, scripts/ci/charter_pack_doctor.py).
 #
 # Pin policy (operator ruling, 2026-11-18): pin a charter release or pre-release tag by default; pin
 # charter `main` HEAD (a commit, with `release_tag` and both digests empty) only on demand.
 # .github/workflows/charter-track.yml (#253) proposes each newer release as one bump pull request, written
 # by scripts/ci/charter_pin.py apply, and runs the same checks against charter `main` on demand.
+# Pinned to charter `main` on demand by operator ruling, 2026-11-25 (#345).
 #
 # commit       the spec-kitty-charter commit, 40 lowercase hex characters. Never a branch or a tag:
 #              a pin must name the same code tomorrow. On a release pin, the commit `release_tag` points
@@ -20,15 +21,15 @@
 #              new commit changed.
 # release_tag  the `service-v<version>` release or pre-release of that commit. When set, the job
 #              downloads both release jars instead of building the commit, and both digests
-#              (`jar_sha256`, `pack_check_sha256`) are required. Empty only for a `main` pin.
+#              (`jar_sha256`, `pack_doctor_sha256`) are required. Empty only for a `main` pin.
 # jar_sha256   the SHA-256 of `spec-kitty-charter-service-<version>.jar`, 64 lowercase hex characters,
 #              as the release's `.sha256` asset states it; empty while `release_tag` is empty. The job
 #              refuses a jar with any other digest.
-# pack_check_sha256
-#              the SHA-256 of the same release's `pack-check-<version>.jar` (#252), as its `.sha256` asset
+# pack_doctor_sha256
+#              the SHA-256 of the same release's `pack-doctor-<version>.jar` (#345), as its `.sha256` asset
 #              states it; set with `release_tag`, empty while it is. The job refuses a jar with any other
-#              digest. Releases before `service-v0.1.0-rc.3` ship no pack-check, so cannot be pinned.
-commit: cb9b15426d17c402b06204185a17ebfbc65f22ff
-release_tag: service-v0.1.0-rc.3
-jar_sha256: 763536af1c56cc29d3e08720461546ac63f9ddab4989c6db89c3b7b7e2aaf42c
-pack_check_sha256: adde1dfff5d02efbb3a02fafde8222951d0e1f0fafccde29d7fb39be3ea9ccbe
+#              digest. Releases before `service-v<next>` ship no pack-doctor, so cannot be pinned.
+commit: f6f21e4c086cb37d42c7b93b903725e11bcaad8b
+release_tag:
+jar_sha256:
+pack_doctor_sha256:

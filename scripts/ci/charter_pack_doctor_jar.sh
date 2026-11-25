@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Obtain the charter's pack-check jar for the pin in charter.lock.yaml and print its path, the only line on stdout
-# (every other message goes to stderr). #252; charter ADR-0075 decision 9.
+# Obtain the charter's pack-doctor jar for the pin in charter.lock.yaml and print its path, the only line on stdout
+# (every other message goes to stderr). #252, #345; charter ADR-0075 decision 9, ADR-0083 decisions 6 and 7.
 #
-#   scripts/ci/charter_pack_check_jar.sh <work-dir>
+#   scripts/ci/charter_pack_doctor_jar.sh <work-dir>
 #
-# - `release_tag` set: download pack-check-<version>.jar from that service-v* release of spec-kitty/spec-kitty-charter
-#   and refuse it unless its SHA-256 is `pack_check_sha256`. Never a floating "latest". The tag must point at the
+# - `release_tag` set: download pack-doctor-<version>.jar from that service-v* release of spec-kitty/spec-kitty-charter
+#   and refuse it unless its SHA-256 is `pack_doctor_sha256`. Never a floating "latest". The tag must point at the
 #   lock's `commit`, the commit the schema pass reads its schemas at, so a hand-edited lock cannot judge the packs
 #   against two charters.
 # - `release_tag` empty (a main pin, or the charter track's on-demand run): fetch the pinned `commit` and build the jar
-#   with `./gradlew :pack-check:packCheckJar`. Needs Java 25 on the PATH or in JAVA_HOME, and network access to
+#   with `./gradlew :pack-doctor:packDoctorJar`. Needs Java 25 on the PATH or in JAVA_HOME, and network access to
 #   github.com and the Gradle dependency repositories. The checkout is shared with charter_service_jar.sh.
 #
 # <work-dir> is created if needed and holds the download, or the checkout and the build.
@@ -27,14 +27,14 @@ mkdir -p "$work"
 lock() { python3 "$here/charter_lock.py" "$1"; }  # fails closed on a malformed pin
 commit="$(lock commit)"
 tag="$(lock release_tag)"
-digest="$(lock pack_check_sha256)"
+digest="$(lock pack_doctor_sha256)"
 
 if [[ -n "$tag" ]]; then
   require_tag_at_commit "$repository" "$tag" "$commit"
   version="${tag#service-v}"
-  jar="$work/pack-check-$version.jar"
-  url="https://github.com/$repository/releases/download/$tag/pack-check-$version.jar"
-  download_verified "$url" "$jar" "$digest" pack_check_sha256
+  jar="$work/pack-doctor-$version.jar"
+  url="https://github.com/$repository/releases/download/$tag/pack-doctor-$version.jar"
+  download_verified "$url" "$jar" "$digest" pack_doctor_sha256
   printf '%s\n' "$jar"
   exit 0
 fi
@@ -52,10 +52,10 @@ if [[ "$(git -C "$source_dir" rev-parse HEAD 2>/dev/null || true)" != "$commit" 
 fi
 [[ "$(git -C "$source_dir" rev-parse HEAD)" == "$commit" ]] || { echo "::error::the checkout is not at the pinned commit $commit" >&2; exit 1; }
 
-echo "building the pack-check jar (./gradlew :pack-check:packCheckJar)" >&2
-(cd "$source_dir" && ./gradlew --console=plain --no-daemon :pack-check:packCheckJar >&2)
+echo "building the pack-doctor jar (./gradlew :pack-doctor:packDoctorJar)" >&2
+(cd "$source_dir" && ./gradlew --console=plain --no-daemon :pack-doctor:packDoctorJar >&2)
 
 shopt -s nullglob
-built=("$source_dir"/service/pack-check/build/pack-check/pack-check-*.jar)
-(( ${#built[@]} == 1 )) || { echo "::error::expected one jar under service/pack-check/build/pack-check/, found ${#built[@]}: ${built[*]:-none}" >&2; exit 1; }
+built=("$source_dir"/service/pack-doctor/build/pack-doctor/pack-doctor-*.jar)
+(( ${#built[@]} == 1 )) || { echo "::error::expected one jar under service/pack-doctor/build/pack-doctor/, found ${#built[@]}: ${built[*]:-none}" >&2; exit 1; }
 printf '%s\n' "${built[0]}"
