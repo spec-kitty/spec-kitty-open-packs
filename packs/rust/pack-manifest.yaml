@@ -1,14 +1,38 @@
 schema_version: '1.0'
-manifest_hash: c6325cf1c1a469886a33ff8e3c38cf45d3803e751a5f22904708e1fe7b15e627
+manifest_hash: 1f19561136ea277a7ce3dab8d999e95c69ff861c2774e259c2b60d5a442dda87
 constituents:
 - kind: agent_profile
   id: rust-ruben
   path: agent_profiles/rust-ruben.agent.yaml
-  content_hash: 0beb723d88036a71567b91d5268ff83367b47373621bb4400e03c8bde69f4d01
+  content_hash: 95ce317e15485b20e90949c60185084243a7bbaef3db136056cf4eadc2fce4f7
+- kind: anti_pattern
+  id: anyhow-in-a-library-api
+  path: anti_patterns/anyhow-in-a-library-api.anti-pattern.yaml
+  content_hash: 9dbe8de877058e0a45e2d257e7ad502848ae0bdcad7ff820a5026a9f4cc29ac4
+- kind: anti_pattern
+  id: bare-integer-codes
+  path: anti_patterns/bare-integer-codes.anti-pattern.yaml
+  content_hash: 10c92942f8e33f73a0009bd2d35d2c1ff088b7b9a17213e1c321841423f4c998
+- kind: anti_pattern
+  id: boolean-parameters
+  path: anti_patterns/boolean-parameters.anti-pattern.yaml
+  content_hash: 4509a53d1ed527e40563e49c0bdc57dc5b4b419411b83fbc29278a989aa910c1
+- kind: anti_pattern
+  id: clone-to-silence-the-borrow-checker
+  path: anti_patterns/clone-to-silence-the-borrow-checker.anti-pattern.yaml
+  content_hash: 006044d7b1f0925c47d672f96dad7dbf79702f3d46c5391c103ee83e1b19c89a
+- kind: anti_pattern
+  id: stringly-typed-domain
+  path: anti_patterns/stringly-typed-domain.anti-pattern.yaml
+  content_hash: 9150d73f3d3605158a631eaa775cdb97b44a74c232f0efbad9499478a322783f
+- kind: anti_pattern
+  id: wildcard-match-on-a-domain-enum
+  path: anti_patterns/wildcard-match-on-a-domain-enum.anti-pattern.yaml
+  content_hash: 4ba86a03df747e277c205f1a6f5335d93419158594de31f710e780503445fdfc
 - kind: styleguide
   id: rust-conventions
   path: styleguides/rust-conventions.styleguide.yaml
-  content_hash: b2fac8b5f63fdf176e5b824a0b8b4f383cc26bfa665abd82b24d7299b9fd1c9f
+  content_hash: 0921dc1484f71e614df683107b214f0524325a32cf5c0b1a408911ab06e9f773
 - kind: toolguide
   id: rust-review-checks
   path: toolguides/rust-review-checks.toolguide.yaml
@@ -16,4 +40,4 @@ constituents:
 presets:
 - id: rust
   path: presets/rust.yaml
-  content_hash: 7754f0ba2b042d822b1453c53920387e70c2e84a25fa86b442dd6bc676baa689
+  content_hash: af0792d9cf3ecf2b8d690d45b46aa4a9cd627dd213d2c03f80ba5e6574acc339

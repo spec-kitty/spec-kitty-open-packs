@@ -1,47 +1,47 @@
 schema_version: '1.0'
-manifest_hash: 59f1f5ee92427771ae5e331edd43f43ec1e02e4f808d2de47458544de19b48db
+manifest_hash: 897f15a5bb6dc98574048b2bc678f2a001b1731146df62292f9437f69e80e6ae
 constituents:
 - kind: directive
   id: DIRECTIVE_038
   path: directives/038-structured-prompt-boundary.directive.yaml
-  content_hash: 0f033bb88038c1fefd5f36d57a27e996368d23f3cbd0824870c6e0de219fb9f1
+  content_hash: c54d088eef7b0740e1a94d029de99d478743748dc052e2370328327a7806d4eb
 - kind: step_enhancement
   id: spdd-implement
   path: missions/software-dev/enhancements/spdd-implement.step-enhancement.yaml
-  content_hash: bfb236cc347f206ca2f7cc62b1dab51386e94764fbfd050302ae3f901fcfe77f
+  content_hash: de65e4ccc760e7f52b19d7a56ce372ba9c15727b58def9d83f8c8c0fb1fa26c9
 - kind: step_enhancement
   id: spdd-plan
   path: missions/software-dev/enhancements/spdd-plan.step-enhancement.yaml
-  content_hash: ae02e7782a8393ad2ef7b4e39d15daa8fd7d5b210dbb11397dbec7a95cedf7af
+  content_hash: 3507c7bc9eaee15a1a34865ee765b314db531349d9a1470434f8eebe05259997
 - kind: step_enhancement
   id: spdd-review
   path: missions/software-dev/enhancements/spdd-review.step-enhancement.yaml
-  content_hash: 8eb59c3b0d4dd7efa530363d4625a27254badac179f1cf7fe29707b381e226f1
+  content_hash: 9ca4beb8cc67b9976f25c8c88b1ad6d14b72bf1ca66f39aa9b89f6961b9f81c7
 - kind: step_enhancement
   id: spdd-specify
   path: missions/software-dev/enhancements/spdd-specify.step-enhancement.yaml
-  content_hash: 5bda512f323561767123ea5d74e8085fa895d1e69c31463e58720d9462e66741
+  content_hash: 4a27b584da88cabb9dc080949c3943b8eaa90788d78ae73062a0466dd6eb5c97
 - kind: step_enhancement
   id: spdd-tasks
   path: missions/software-dev/enhancements/spdd-tasks.step-enhancement.yaml
-  content_hash: f3b3ea2ea20b4dd91217d3b234f403e4e07c5325eee25817d914069015335336
+  content_hash: 635b171702e7a6ed57850672a94cd37453c68413450716dba00ae6bbb02fa5c9
 - kind: paradigm
   id: structured-prompt-driven-development
   path: paradigms/structured-prompt-driven-development.paradigm.yaml
-  content_hash: 17fc7012448027620b843b9c50ab99515adc6a70d321088fa97765bd3dfc8e9d
+  content_hash: 8a04dc2e7cc178aac30b78cd465fa07a81698a768d32fd66464ea26f4777fe1c
 - kind: styleguide
   id: reasons-canvas-writing
   path: styleguides/reasons-canvas-writing.styleguide.yaml
-  content_hash: 50b9e542e3d27ebf756bb3754adc69abca97942647b67408cbd7a048d986f812
+  content_hash: d47c8adf18a8201f5dd2a1f0f18a4086a92dede34060ed9c5a7806b08fb88d7a
 - kind: tactic
   id: reasons-canvas-fill
   path: tactics/reasons-canvas-fill.tactic.yaml
-  content_hash: 5afbf96d492586faf8fb328b6bb9ef8919588a7a8543e4dd367a917e71fb891b
+  content_hash: d97169699351f8be9264b3cf865b1c477313c0b5e36cb66bdba036ce0ed36ca2
 - kind: tactic
   id: reasons-canvas-review
   path: tactics/reasons-canvas-review.tactic.yaml
-  content_hash: 424270aa7960e8e870e264308045af9dae41a510a423720d486e6efa10a68415
+  content_hash: 64e1103cc330bc7d4fb9115b08b4f85ea08764f78d8962bdaeb377ade2b32939
 presets:
 - id: spdd
   path: presets/spdd.yaml
-  content_hash: 5a28a4f570b1d5a9b03f26cab58cfa452eedc789c366ec461f1000b2b576734d
+  content_hash: 69cbe270bf1983a7217d62872bf250aa2736f46aaba96513167e7a27e8c4f5b5

@@ -1,14 +1,42 @@
 schema_version: '1.0'
-manifest_hash: d302c021e16a2cfbb1d270a86e621cc3c0c4b4ef534d22faead6e252af7e2fb2
+manifest_hash: 7f8310b6ae2e121f1094b6447d165484a9cdae10cb9882c36a676d9c923678f4
 constituents:
 - kind: agent_profile
   id: randy-reducer
   path: agent_profiles/randy-reducer.agent.yaml
-  content_hash: 95a76cf82068c8b08d0be1621d0682e983a394699a52cfdacc3c178b07d5acaa
+  content_hash: 844a3541e51d569b8625a840ac9586f5280a3f706e8073f8db15fc8b89dae53b
+- kind: anti_pattern
+  id: big-bang-rewrite
+  path: anti_patterns/big-bang-rewrite.anti-pattern.yaml
+  content_hash: 298423a19674c18482e5ea5bd7b54b46a56a1a7b818da18d403b788946c6813b
+- kind: anti_pattern
+  id: feature-envy
+  path: anti_patterns/feature-envy.anti-pattern.yaml
+  content_hash: 19ddcee6c429ad042136c554a9515ab14ec8fe2aaa81005691f6d6277876803f
+- kind: anti_pattern
+  id: global-data
+  path: anti_patterns/global-data.anti-pattern.yaml
+  content_hash: a04fcb464c04a225a852124a781d0f8b07a837a5da83dd2a8b664b2fd021b2b2
+- kind: anti_pattern
+  id: implicit-concept
+  path: anti_patterns/implicit-concept.anti-pattern.yaml
+  content_hash: d8a0339a6d5b82dc79be3b3746bec47ad8f70a57ba2df6b8535d69367ac5e4bb
+- kind: anti_pattern
+  id: misplaced-field
+  path: anti_patterns/misplaced-field.anti-pattern.yaml
+  content_hash: 58f5d2a56dd6d7670f18642877818f350e2948bfe00f439852f4eae8fdc27d07
+- kind: anti_pattern
+  id: repeated-switches-on-state
+  path: anti_patterns/repeated-switches-on-state.anti-pattern.yaml
+  content_hash: 7206b9084a95447930f132fd46958ac75d5986acae99c0d23fa2dd8fdaa9b248
+- kind: anti_pattern
+  id: unencapsulated-record
+  path: anti_patterns/unencapsulated-record.anti-pattern.yaml
+  content_hash: 7cc1998ccb83ee0da944ddc16b803f2bde718cfdb19570942236e85017c57fba
 - kind: paradigm
   id: semantic-compression
   path: paradigms/semantic-compression.paradigm.yaml
-  content_hash: f241812545b203f6bc059ff4e94497ecb502ba63bc75b73181ba678e79f042ec
+  content_hash: 6604ab4f4cb7aa84b0d70565754544e1b05aaeb51623b46b895af021ad71ea1e
 - kind: procedure
   id: refactoring
   path: procedures/refactoring.procedure.yaml
@@ -16,100 +44,100 @@ constituents:
 - kind: tactic
   id: chain-of-responsibility-rule-pipeline
   path: tactics/code-patterns/chain-of-responsibility-rule-pipeline.tactic.yaml
-  content_hash: a310cf88c1e6b76f9e9a17ef976bd14ea507e3fa79973bb6daa70910a47b5f15
+  content_hash: a0e620fa2389d068f15fb26ddec9794564ddacfcb856daada97377e7d97aa9dd
 - kind: tactic
   id: refactoring-change-function-declaration
   path: tactics/refactoring/refactoring-change-function-declaration.tactic.yaml
-  content_hash: a759132c5a4582cd78f7d7612e14793b171e9de94ca6fd2b7ce6a933ca7a7ab7
+  content_hash: 8c2c915136a11fb667fcc01d6f16b80dc3a4fb46b68f09156de199d99d084c22
 - kind: tactic
   id: refactoring-combine-functions-into-transform
   path: tactics/refactoring/refactoring-combine-functions-into-transform.tactic.yaml
-  content_hash: 93a3b6b28babe74e1fc35c785d4e952f04c80e7d326b0a04c3962ead5ece977c
+  content_hash: 8756eaca3a6e8b2d07c377a22e5d0a77cb05e3e37ef48bec06c28763600525c1
 - kind: tactic
   id: refactoring-conditional-to-strategy
   path: tactics/refactoring/refactoring-conditional-to-strategy.tactic.yaml
-  content_hash: 67475bbc76fa65e085873d9fadc5df69814319131add28bcbdf00a6262d1b1be
+  content_hash: 6003d87133d01e206c3f548c8e3d8cb4dcd93692b4c41e6c261f772d0244ea77
 - kind: tactic
   id: refactoring-consolidate-conditional-expression
   path: tactics/refactoring/refactoring-consolidate-conditional-expression.tactic.yaml
-  content_hash: 105b60428846359fc010b507ff82088642af97adcf94593b9e5f4b04488d627a
+  content_hash: 9e4465bfb4c750cd303041134e32acb449d861ec41ebc476178c3630f3000eed
 - kind: tactic
   id: refactoring-encapsulate-record
   path: tactics/refactoring/refactoring-encapsulate-record.tactic.yaml
-  content_hash: 35d2b90411d95eb03334dc7375c0936ddcbc7346d2edc08ab0ff5153471a038d
+  content_hash: c81373ce8ea08161ec8808170d929b300f80106fc8d146165a139d09d985adbd
 - kind: tactic
   id: refactoring-encapsulate-variable
   path: tactics/refactoring/refactoring-encapsulate-variable.tactic.yaml
-  content_hash: 54cf7850f0ffc7f299c017055c6732762ab560d64c749145cf03516eb4a39592
+  content_hash: ab485b6f2a573bacafa2444d41919bfaaf3dec6b057a8f87ce5ea3ec33993ae3
 - kind: tactic
   id: refactoring-extract-class-by-responsibility-split
   path: tactics/refactoring/refactoring-extract-class-by-responsibility-split.tactic.yaml
-  content_hash: 1af80d69556415a48e108ccfb10976f55a2d5be33de02c09bc5a0e0ef25e12e8
+  content_hash: 75a3367c7c2300a9ab957c852f0728ed0dfdc251160e462f74d19d6e4ce23812
 - kind: tactic
   id: refactoring-extract-first-order-concept
   path: tactics/refactoring/refactoring-extract-first-order-concept.tactic.yaml
-  content_hash: a925c729320c0bcbb94484577b5890bb533aed4ecb7c62e8a11cf5d9cb4975f6
+  content_hash: 1c02d4841b1ca975398770628770e5ea3675f980f25dc7902a5d32ad44877c76
 - kind: tactic
   id: refactoring-guard-clauses-before-polymorphism
   path: tactics/refactoring/refactoring-guard-clauses-before-polymorphism.tactic.yaml
-  content_hash: 5f551f38ba8af2dcce70ef5b330f64d322ecd9cb9142841dc8b5aa8a02843907
+  content_hash: 1d5fa975f223e627acdb26dea2d4a5f81b8255ce169b2a0134754e600f27cbcc
 - kind: tactic
   id: refactoring-inline-temp
   path: tactics/refactoring/refactoring-inline-temp.tactic.yaml
-  content_hash: bc7d4587a39c0c5e89f56d64ba396b1e02103dbf366ef0f68b8493278c5ef12b
+  content_hash: c494eb1ecd9d881a1b4ea2029cc5b9e9bc948084e2c8409dd0ec31d3cdad01ed
 - kind: tactic
   id: refactoring-introduce-null-object
   path: tactics/refactoring/refactoring-introduce-null-object.tactic.yaml
-  content_hash: d7b864fba35bceb9ff0e95b8116f6fc15b15ed7d919b872b17c4409d1d67bd3c
+  content_hash: 4b15cb52470c65531adcf1e07c7ddc38753d9a13d7f34c7dcfdb3ff8343e04f9
 - kind: tactic
   id: refactoring-move-field
   path: tactics/refactoring/refactoring-move-field.tactic.yaml
-  content_hash: 4df1da2d1b8c78e6ccb8f0a4e57c73fc27321cc6e3b9349a6ba23cc4fb590d5d
+  content_hash: b9d6d38fdb09b5557a07fb0f57a9a63677459d8ec60662b80571a9c46c6be125
 - kind: tactic
   id: refactoring-move-method
   path: tactics/refactoring/refactoring-move-method.tactic.yaml
-  content_hash: 2921618a9736a72a5f9a9bd60dbdb075b30b65e9b229c141df1e75af790b111e
+  content_hash: 0108828af12c4477eb5ca4e1411cbb78fb7a5a8541005bd4dd6478bfc5b81bf4
 - kind: tactic
   id: refactoring-replace-magic-number-with-symbolic-constant
   path: tactics/refactoring/refactoring-replace-magic-number-with-symbolic-constant.tactic.yaml
-  content_hash: b262dd3faf77fd2f8bbf90d587b4b85f851f22a566111afe090280099a2a749b
+  content_hash: 0a965743103e4fc353f7aa250d937377fe85f1a8e6763a19d011ff66acc1f637
 - kind: tactic
   id: refactoring-replace-temp-with-query
   path: tactics/refactoring/refactoring-replace-temp-with-query.tactic.yaml
-  content_hash: a68e89580cab0683c227e80837e0e297ed57b8535b3b6ab7f8d686cababffcc9
+  content_hash: 027392c630241da04d537f270c204c75baca50453ccc45e84096a432a9b8dd74
 - kind: tactic
   id: refactoring-retry-pattern
   path: tactics/refactoring/refactoring-retry-pattern.tactic.yaml
-  content_hash: 52d65e9ea98bee70fea75c2202e3cdac2a033d0a42ca833576345e7badf936a5
+  content_hash: 0cabbbdaa9bbcae3c475e43a799fae7f9422d423730f576d018634850a5df4e0
 - kind: tactic
   id: refactoring-state-pattern-for-behavior
   path: tactics/refactoring/refactoring-state-pattern-for-behavior.tactic.yaml
-  content_hash: 3635775baf58f266acb545b4d98150feaf352a082acedfca2ab44a3bfd5a1e32
+  content_hash: cef642e73a881fe9e3280576ae139b68f94e2067d9acd500824401f043bc93b2
 - kind: tactic
   id: refactoring-strangler-fig
   path: tactics/refactoring/refactoring-strangler-fig.tactic.yaml
-  content_hash: c2c5cc996fda6b4870a29465d4a49d4bd8be4343445e7242623b508f5f161dd2
+  content_hash: 1c94c06ebbf538c1be45da3a2b1c8903cc4c58efc88925d4a395133517e1f08b
 - kind: tactic
   id: semantic-compression-abstraction-extraction
   path: tactics/semantic-compression/semantic-compression-abstraction-extraction.tactic.yaml
-  content_hash: dce5d8aef18a4390075e7c23e5e68c982fe10055d02c3a3f94363c1d021fa4cc
+  content_hash: 51d86e1dbf8c9d0ed42f02f84cc422adad8223b253269e63235bc3dabba3c42c
 - kind: tactic
   id: semantic-compression-behavioral-boundary-mapping
   path: tactics/semantic-compression/semantic-compression-behavioral-boundary-mapping.tactic.yaml
-  content_hash: 97aab2afdbeda8b786b941a129802715f84bd1d202bfd926e081931d68fce4e0
+  content_hash: 71a7c1165d1e105014c57522f2ded2d726dd90a1b6e9040e4ee323f1398d8afd
 - kind: tactic
   id: semantic-compression-dead-weight-elimination
   path: tactics/semantic-compression/semantic-compression-dead-weight-elimination.tactic.yaml
-  content_hash: 65adf0a2414ece98c3dcd9e3cc971283fa75197d6dcdd16117fac995f38975ef
+  content_hash: 31f5d60a6588abf60574151eae2ed60aa167942d779c1fc6174757a51f07afca
 - kind: tactic
   id: semantic-compression-equivalence-verification
   path: tactics/semantic-compression/semantic-compression-equivalence-verification.tactic.yaml
-  content_hash: 51ce2618b049c12818bba56bc7fed99ba9b4d228ae21d738043fdf39f274401a
+  content_hash: c5415237983d480ef5d429c4fd4b9211b944ec47e0f12c4b3abd9cc8feac4820
 - kind: tactic
   id: semantic-compression-redundancy-discovery
   path: tactics/semantic-compression/semantic-compression-redundancy-discovery.tactic.yaml
-  content_hash: baf4e8b052cb1477485ae08accbdbbe39a5e63fe17d31bb837273f6099ca9563
+  content_hash: fabf733e4a24facd0224bed87ac32ab838f47cdf24fc238db641118c3caab421
 - kind: tactic
   id: semantic-compression-semantic-consolidation
   path: tactics/semantic-compression/semantic-compression-semantic-consolidation.tactic.yaml
-  content_hash: 258116d0b5fb6a1861cf1cd408f406a665318a44063f5f7935e2c0c780a7d40b
+  content_hash: 428f17d26411400b9ce829256da9997f64396073d98ab7ca71e692c7bb1538b8

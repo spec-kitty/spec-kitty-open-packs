@@ -1,34 +1,110 @@
 schema_version: '1.0'
-manifest_hash: daeb6de3df6de1155d217e425ed6701ff04864ccc279a1f642d3c7c52e20b508
+manifest_hash: 95ef46adcd5e5cc8d1b7839b95d6c369d8bca981b24d8aa5338992206e12bc24
 constituents:
 - kind: agent_profile
   id: planner-priti
   path: agent_profiles/planner-priti.agent.yaml
-  content_hash: f8b3b8cd79df369be61f86942f1990b904c6313cdc10806167531fefab36923b
+  content_hash: 24f36c5cfd98d2a88e3ff09a0e94a096b1be631180ad2978fe17fd6a4b44caf7
 - kind: agent_profile
   id: researcher-robbie
   path: agent_profiles/researcher-robbie.agent.yaml
-  content_hash: 1634f30b342fc02a607f6acac04a81b355265e14fabcc911f7fb732d8ead3943
+  content_hash: 769f0f74ea5172ac0b1c09caf0d1144e8b37494f73e948a4ccc16918dddf8778
 - kind: agent_profile
   id: retrospective-facilitator
   path: agent_profiles/retrospective-facilitator.agent.yaml
-  content_hash: 5b2c5b5c4ec01af730b4870aa27e0e8a4a85e79c3afc2e5ea85cdffa0eebb2ea
+  content_hash: 83fc0cdbe693703623d1534d419db7c41851b8f9f993fc04227b96444306555d
+- kind: anti_pattern
+  id: batch-questioning
+  path: anti_patterns/batch-questioning.anti-pattern.yaml
+  content_hash: 97efb60e215e7704e85796f5eb7f0e0314cd7815f2fe6d12d6fb3ed42b4f8fd6
+- kind: anti_pattern
+  id: blocking-on-the-optional-steps
+  path: anti_patterns/blocking-on-the-optional-steps.anti-pattern.yaml
+  content_hash: 7e7046e2a9948bfe272c07997b15258bc63ce533c778b7f8e5abb0d047f102d9
+- kind: anti_pattern
+  id: budgetless-spike
+  path: anti_patterns/budgetless-spike.anti-pattern.yaml
+  content_hash: 83e29db3291b770a99a510a44143e6d1b129947398b010d90de9f800f85252ad
+- kind: anti_pattern
+  id: child-ticket-checklist-in-the-epic-body
+  path: anti_patterns/child-ticket-checklist-in-the-epic-body.anti-pattern.yaml
+  content_hash: 3df098eb4474d31e2f635018d149772321098c07435d680cbf243197f6c3eab7
+- kind: anti_pattern
+  id: closing-a-community-duplicate-before-migrating-its-evidence
+  path: anti_patterns/closing-a-community-duplicate-before-migrating-its-evidence.anti-pattern.yaml
+  content_hash: 48091b97acd8a128f61e5d6da9205780db5174c810828afc3ef823d6c162629a
+- kind: anti_pattern
+  id: implementation-coupled-briefs
+  path: anti_patterns/implementation-coupled-briefs.anti-pattern.yaml
+  content_hash: 5a4703c28b54ef011269075e18fad9aa88a33d1488217b162df2f6aca7a4245a
+- kind: anti_pattern
+  id: memory-only-rejection
+  path: anti_patterns/memory-only-rejection.anti-pattern.yaml
+  content_hash: cf7f3d1de4af3df4a8291e3c21f95fb8163de6f74f2db7ad220b3e7fdefc5f18
+- kind: anti_pattern
+  id: meta-tracker-as-canonical-parent
+  path: anti_patterns/meta-tracker-as-canonical-parent.anti-pattern.yaml
+  content_hash: 7d1f589e99d99c5f4da7fa9f3af83725a6633c6812a1e14187750b2596eae8c1
+- kind: anti_pattern
+  id: multiple-active-state-labels
+  path: anti_patterns/multiple-active-state-labels.anti-pattern.yaml
+  content_hash: bb96101492d5c2bea8f530ae44701fcc03bad07a5912b26ed754f066b3357640
+- kind: anti_pattern
+  id: over-interviewing
+  path: anti_patterns/over-interviewing.anti-pattern.yaml
+  content_hash: 5273641d13554406f8632a41fb9a3cedd16f59769e4b49f95dd7894540b0ed5c
+- kind: anti_pattern
+  id: over-reading-squash-merged-history
+  path: anti_patterns/over-reading-squash-merged-history.anti-pattern.yaml
+  content_hash: 71b58144a5d7c6e0aa644617834dd7297815201f8d19f82f1db3016a5d092619
+- kind: anti_pattern
+  id: premature-decision-records
+  path: anti_patterns/premature-decision-records.anti-pattern.yaml
+  content_hash: 30aa75b4c6620f5044020c6523ca8c1ab910e65d9e5a1cf6992df109a6fdb01b
+- kind: anti_pattern
+  id: rationalised-outcome
+  path: anti_patterns/rationalised-outcome.anti-pattern.yaml
+  content_hash: c56d9f3ca6200a2d230acc0bcacf360712948a3dd2aad0d7b483f1a7fdcee6ec
+- kind: anti_pattern
+  id: skipping-the-exclusion-list
+  path: anti_patterns/skipping-the-exclusion-list.anti-pattern.yaml
+  content_hash: a489d4734b1719f4bb295003b711eebab76ee199eb63e2ba1b9a68033f8321a1
+- kind: anti_pattern
+  id: substituting-triage-for-deeper-investigation
+  path: anti_patterns/substituting-triage-for-deeper-investigation.anti-pattern.yaml
+  content_hash: b19627e48fb2f5687cdb11c14cba984f85822d794d287e25c716ba9f2ba8c7dc
+- kind: anti_pattern
+  id: terminology-policing
+  path: anti_patterns/terminology-policing.anti-pattern.yaml
+  content_hash: d49994d4769718019f662b7dfdacfdc1bb9017234807705fe14b365b91c9ee53
+- kind: anti_pattern
+  id: treating-triage-as-a-verdict
+  path: anti_patterns/treating-triage-as-a-verdict.anti-pattern.yaml
+  content_hash: caed4a8a583f7a3ea4b5592de9c620a4d07fc346b9f58c127bcc60e21e229c67
+- kind: anti_pattern
+  id: unwritten-finding
+  path: anti_patterns/unwritten-finding.anti-pattern.yaml
+  content_hash: fe1f291dc661ee55c3a5620cab4772b97f74dbecb2bb9fffaa1ed47a150804ca
+- kind: anti_pattern
+  id: vague-needs-info-questions
+  path: anti_patterns/vague-needs-info-questions.anti-pattern.yaml
+  content_hash: 969920c9b42a3ccd193cf16de25a7e87e998f058f6d310f5afc5380d7e7d5e73
 - kind: paradigm
   id: brownfield-onboarding
   path: paradigms/brownfield-onboarding.paradigm.yaml
-  content_hash: 6f82f9de06cbb7701331bd7b5b770e53701405d926192f1242a8dfe23663259b
+  content_hash: 4381527942d8be8136f960011f7b16c0af10c6306f28f446ada2dc701e7cd89d
 - kind: procedure
   id: domain-aware-decision-interview
   path: procedures/domain-aware-decision-interview.procedure.yaml
-  content_hash: b7bfbac4d102bd924d0579121fb712f238a203672914dac856084b8e23339a75
+  content_hash: ae53c43699a23211f6df020c74e60463a7c8eb9916dc080ab6988dcc2c8bec3f
 - kind: procedure
   id: issue-triage-state-machine
   path: procedures/issue-triage-state-machine.procedure.yaml
-  content_hash: e8371aa1d0eaf00d1812db13027c6d9b586c5c16cdaa3fa3f1265a3c644efec3
+  content_hash: 11240e3d71b91d5c7c0e5fed7342658aaa07467ce9eb671b3250262335d14a5b
 - kind: procedure
   id: legacy-codebase-triage
   path: procedures/legacy-codebase-triage.procedure.yaml
-  content_hash: c842735d116af9e688b6579ce74d2130803b5317d2cbcddb8ae6a4efd2405e14
+  content_hash: f0f5805561e9a71967b2fd85cac82e85f4493cb584cfb0ac02482b6b428cca6b
 - kind: procedure
   id: situational-assessment
   path: procedures/situational-assessment.procedure.yaml
@@ -36,16 +112,16 @@ constituents:
 - kind: procedure
   id: spike-timebox-policy
   path: procedures/spike-timebox-policy.procedure.yaml
-  content_hash: 2d16f78464481dc365099bb7d8642e67bca321880622c13da2a75b5912e8c6da
+  content_hash: a2243cf28375c113445d209034ab68f27e94be24cff1396d7a9d7008eae82554
 - kind: styleguide
   id: planning-and-tracking
   path: styleguides/planning-and-tracking.styleguide.yaml
-  content_hash: c4718b7a25d587f7bc3030396216c8b563237a5e8fc379c35774a307ff841a88
+  content_hash: 5d8b67ece1b29c782b9936f1b2d622c3fa16e8116ed4a870a8e3f7ab062e40ba
 - kind: tactic
   id: analysis-extract-before-interpret
   path: tactics/analysis/analysis-extract-before-interpret.tactic.yaml
-  content_hash: 8fcfe5dbc82e1ddf27e33ffd0e8165b7038f7b040178545317a756d203d5c633
+  content_hash: 1b7e00f322b72693f205ca830471798ad20666870781904deb6b85ee48cd960b
 - kind: tactic
   id: vertical-skeleton-first
   path: tactics/analysis/vertical-skeleton-first.tactic.yaml
-  content_hash: fea1f2f0760de94fdf27d360570f87e319750f597aa3f60501abc612795c95a3
+  content_hash: c88d862f3288bd9f2fa4528c23a549ee060e9bf153374404e4c6451fed4a4bd4

@@ -1,50 +1,102 @@
 schema_version: '1.0'
-manifest_hash: 588b3eb12cf78d3a2cbbb39dc982fdefe779113fbb6864ce654b55fdb74e0f69
+manifest_hash: a009076e878dd82c0e36733b15693e3f0ac3cd73609c46cde575a48de28d5ff4
 constituents:
 - kind: agent_profile
   id: designer-dagmar
   path: agent_profiles/designer-dagmar.agent.yaml
-  content_hash: 65f78e149c86e3451d02e983a537dd510ca36f527ec52a99db0f2fe6493b2748
+  content_hash: ad45e8dd22166e2fe22d4a1b7158526aef7c9cbadcaaff32ac340cad2ba07560
 - kind: agent_profile
   id: frontend-freddy
   path: agent_profiles/frontend-freddy.agent.yaml
-  content_hash: 520f62af18ab5ef29a629c69d2a08460372b38bf7a6ff2e7c4fe1bc7d4879e4b
+  content_hash: 9f0c292b04126ec5e2fde086f15b2e18e48bb20488d31dc0a62ae690751a7865
 - kind: agent_profile
   id: node-norris
   path: agent_profiles/node-norris.agent.yaml
-  content_hash: e2e154203e6e088eb56d3a4fcc16798db7e9549f2e250aa064513c9c4fca7943
+  content_hash: 0862271c595606a713a96120525eb308e22b5215c8a672230ffea63a618d0516
+- kind: anti_pattern
+  id: any-leakage
+  path: anti_patterns/any-leakage.anti-pattern.yaml
+  content_hash: 1a72cd8b04e2281d44b6b7df290acce76fc35cf8cd74be7870d38a9817f66302
+- kind: anti_pattern
+  id: aria-overriding-native-semantics
+  path: anti_patterns/aria-overriding-native-semantics.anti-pattern.yaml
+  content_hash: 2d8039b53321583c05b6b60774ca17df44254d95e1a87b70bec85af26f77ddd6
+- kind: anti_pattern
+  id: deprecated-media-types
+  path: anti_patterns/deprecated-media-types.anti-pattern.yaml
+  content_hash: 821d02eab44ea89509342b04503de2a753a6fa4d455a4f6d9e220488dbde6960
+- kind: anti_pattern
+  id: desktop-first-overrides
+  path: anti_patterns/desktop-first-overrides.anti-pattern.yaml
+  content_hash: 188b2472cd17c9dc38b02c265f6727f1c0329964f702a7f5dedd18b27bf644c2
+- kind: anti_pattern
+  id: device-named-breakpoints
+  path: anti_patterns/device-named-breakpoints.anti-pattern.yaml
+  content_hash: 99ae784346670a5b51c3371782fd7451b42698ab362a8e3f4ae7c16f8a11d482
+- kind: anti_pattern
+  id: div-as-button
+  path: anti_patterns/div-as-button.anti-pattern.yaml
+  content_hash: fc7f7b88689a76ea247299fff2953ac7f895e8032e3595e86b8716f0bf8191e2
+- kind: anti_pattern
+  id: hover-only-interaction
+  path: anti_patterns/hover-only-interaction.anti-pattern.yaml
+  content_hash: ef53feeaf9c9fc30a05bd6e5c9a5fb965051e370e3173085440372ade51bd341
+- kind: anti_pattern
+  id: inline-style-and-handlers
+  path: anti_patterns/inline-style-and-handlers.anti-pattern.yaml
+  content_hash: fed3befb86cf00a446dcee9858db64a5592563547a4c362a39b79f1dcd15ef74
+- kind: anti_pattern
+  id: layout-table
+  path: anti_patterns/layout-table.anti-pattern.yaml
+  content_hash: 82f76fee15a0805db1d77e8ce587e185061d433aaf22c9626cf8c148ff449c48
+- kind: anti_pattern
+  id: leaked-subscription
+  path: anti_patterns/leaked-subscription.anti-pattern.yaml
+  content_hash: 200a5b413ab069a8a2505ae357be87bb4f9d1a7ca749823ea13d9ee9bcf4a861
+- kind: anti_pattern
+  id: missing-or-redundant-alt-text
+  path: anti_patterns/missing-or-redundant-alt-text.anti-pattern.yaml
+  content_hash: 7e248403114f8724ff4824055366c868055b7f6593a89790803fafbdac6178e8
+- kind: anti_pattern
+  id: specificity-escalation
+  path: anti_patterns/specificity-escalation.anti-pattern.yaml
+  content_hash: b42717d25e6e3fe571ab537f72f55e28d1fa0f80366ab7a5356a6eac339967cc
+- kind: anti_pattern
+  id: suppressed-type-error
+  path: anti_patterns/suppressed-type-error.anti-pattern.yaml
+  content_hash: 01f32872e5c0016fe98aa305ce4a7f3e472c3766323e43361748cb3b016ad2fb
 - kind: paradigm
   id: atomic-design
   path: paradigms/atomic-design.paradigm.yaml
-  content_hash: bf0fc2edf63a03a277010f6a96af278fd5918d1b3df5380111dc8656fb11ff89
+  content_hash: 81ca0631164f3412847b6004f86cb2392afc4c403b33da216a1c85da483627c9
 - kind: styleguide
   id: css-conventions
   path: styleguides/css-conventions.styleguide.yaml
-  content_hash: ad7e2cac7a1ff80c6a2d583792a295d5e646b690de3100d8251d2e8ba751223f
+  content_hash: b8b45355bb2261532b5f1ee6637fad65890be2f44ef3440186cd18c37b18a91d
 - kind: styleguide
   id: html-conventions
   path: styleguides/html-conventions.styleguide.yaml
-  content_hash: 49263ed6632c3d08edd3665b914b63e77a261a33d52d11bd212471565b534e32
+  content_hash: 481af8d8b244514548cb5bb191da8f0a2d4d78bc259dfeff73dccb9c23f1da18
 - kind: styleguide
   id: typescript-conventions
   path: styleguides/typescript-conventions.styleguide.yaml
-  content_hash: ad4a117274c4ea7b5fbcef6e9c5d99fd3ab41ae6266cb019ff0f26c9df1086f2
+  content_hash: 977ae6765ba7ca9d5d096960f0ac400ca3cbbbc97fb9fa32556263add517715f
 - kind: tactic
   id: atomic-design-review-checklist
   path: tactics/architecture/atomic-design-review-checklist.tactic.yaml
-  content_hash: 569d5f0107c16857c2e2ac711b5c4db97f4528e98c1bf0d8e9db64ca09589bb2
+  content_hash: 7a3a4aa92485e84a324412e10f16fd48e051a2d42a2a105904e1b9049e0907d0
 - kind: tactic
   id: atomic-state-ownership
   path: tactics/architecture/atomic-state-ownership.tactic.yaml
-  content_hash: c2c29eb9ea787c52456e512cd3d32925a794d59400f9b2f23c9a427666230530
+  content_hash: db95c2e7fef62d901ae26cf435837caede4f6d5d15b1a730ecc8003a89fda9e4
 - kind: tactic
   id: compositional-stream-boundaries
   path: tactics/architecture/compositional-stream-boundaries.tactic.yaml
-  content_hash: 8ae55d8c99f89a2dbb03b8abe9e17fd00ac554229fea463b835beed4f2cb8e96
+  content_hash: ac819d308f8c90b88c6b51756b42aa649546e9cb8ee9d5741643aea3a00014ba
 - kind: tactic
   id: cross-cutting-state-via-store
   path: tactics/architecture/cross-cutting-state-via-store.tactic.yaml
-  content_hash: 385558e851e96c747270d8b8646a305ec781ac6fb550b66a7cc1ddb8eb6f0323
+  content_hash: 780972883445d4e4fe4011546f213e4f9892c4b8227757992940512f24abea54
 - kind: toolguide
   id: javascript-supply-chain
   path: toolguides/javascript-supply-chain.toolguide.yaml

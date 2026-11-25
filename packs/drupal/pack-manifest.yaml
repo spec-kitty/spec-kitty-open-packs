@@ -1,18 +1,74 @@
 schema_version: '1.0'
-manifest_hash: e7095d73993add553db5de1aaf3fde44ab8bb7a8755234239c6152cc802e41e0
+manifest_hash: bc2fb53d471e990df0556c359f739d41cfeea7a9795f1cae4f732505510f3e84
 constituents:
 - kind: agent_profile
   id: drupal-dries
   path: agent_profiles/drupal-dries.agent.yaml
-  content_hash: f8877ff7f2f9395f89403d75f9cc476462fa1995215d025e3dd003796366e179
+  content_hash: 1648ba1516f828b659adf315d2b838e13efbaa9673db720d0f839f8cde0c7d69
+- kind: anti_pattern
+  id: business-logic-in-the-module-file
+  path: anti_patterns/business-logic-in-the-module-file.anti-pattern.yaml
+  content_hash: 7282b4b21c2043bca64775293f5929985f8158431f2612915ece93aa1bf8edad
+- kind: anti_pattern
+  id: calling-removed-entity-loaders
+  path: anti_patterns/calling-removed-entity-loaders.anti-pattern.yaml
+  content_hash: 12fee3ac80e32e5ce35bda8181afb2db49d152a87487d86e2850b0a330ad0e76
+- kind: anti_pattern
+  id: configuration-stored-in-state
+  path: anti_patterns/configuration-stored-in-state.anti-pattern.yaml
+  content_hash: 740fdd5e0ebde3252e526a7f95ccac69cc7314920bf945cb88264560ac640795
+- kind: anti_pattern
+  id: credentials-in-version-control
+  path: anti_patterns/credentials-in-version-control.anti-pattern.yaml
+  content_hash: e1696a4da538cd7d38ca9f7a6131c1b59db2f118632a38b14e2a93f2315bacd7
+- kind: anti_pattern
+  id: entity-query-without-an-explicit-access-check
+  path: anti_patterns/entity-query-without-an-explicit-access-check.anti-pattern.yaml
+  content_hash: 9f1aa274472741e4182ddf65336114bf862aec7d2fe04d197ea5d9985ddbe98e
+- kind: anti_pattern
+  id: fetching-services-via-drupal-inside-a-class
+  path: anti_patterns/fetching-services-via-drupal-inside-a-class.anti-pattern.yaml
+  content_hash: de45c4716ed5952540f286fa14a4664ee53d2cc911f852922f2001fbb8643026
+- kind: anti_pattern
+  id: hardcoded-ids-and-paths
+  path: anti_patterns/hardcoded-ids-and-paths.anti-pattern.yaml
+  content_hash: 2e99944cc3d07cfcecc68cd39fd00ea04ad295c4f1ef724fc86f496962eef35f
+- kind: anti_pattern
+  id: markup-for-untrusted-text
+  path: anti_patterns/markup-for-untrusted-text.anti-pattern.yaml
+  content_hash: 924844e75c253a577fbfb9ad81ff78320c6b2e7a13736c3d17c762a45e4a199a
+- kind: anti_pattern
+  id: raw-sql-instead-of-entity-query
+  path: anti_patterns/raw-sql-instead-of-entity-query.anti-pattern.yaml
+  content_hash: 620b4e928f9cb586c2fb54eacdc78d38291896442528ebefb689edb5dc1c5548
+- kind: anti_pattern
+  id: reading-superglobals-instead-of-the-injected-request
+  path: anti_patterns/reading-superglobals-instead-of-the-injected-request.anti-pattern.yaml
+  content_hash: 6fe163b9f98e42356c0b7cb44739c2043f438e5fea41dfae540db3b2d3b686b7
+- kind: anti_pattern
+  id: render-array-without-cache-metadata
+  path: anti_patterns/render-array-without-cache-metadata.anti-pattern.yaml
+  content_hash: c5ae785380ceca30d3f448fb45a46ae171a54ab781ea00383c4b77bf26ace615
+- kind: anti_pattern
+  id: sprawling-form-alter
+  path: anti_patterns/sprawling-form-alter.anti-pattern.yaml
+  content_hash: 13eab24e0a22dd56e20c08422947e3254602690e8efd767ba61fd6a12f043b7a
+- kind: anti_pattern
+  id: twig-raw-filter-on-user-input
+  path: anti_patterns/twig-raw-filter-on-user-input.anti-pattern.yaml
+  content_hash: ccf80a2d8e5cc06ede6ccdedd0c9e64efeaf404a31ddfb4f5ec893c6b7fd942b
+- kind: anti_pattern
+  id: views-data-without-table-aliases
+  path: anti_patterns/views-data-without-table-aliases.anti-pattern.yaml
+  content_hash: 6069d33cf96b2a8a38223d278e7d0ef84957c0cd61290c7efe1b7415cf254467
 - kind: styleguide
   id: drupal-conventions
   path: styleguides/drupal-conventions.styleguide.yaml
-  content_hash: 8e0c71a14c93f282630794686f016ae64aff11be5107b0b66c8f64dc8fd6014d
+  content_hash: 86a7f06cb9d0321fb1e80a02cf91644908d3d35978938191a3807a8fd9739c70
 - kind: styleguide
   id: drupal-security-performance
   path: styleguides/drupal-security-performance.styleguide.yaml
-  content_hash: f60a1286b92d35fe4bc7a68c0b1c1a55aadcff356c6b2d91e389142e70f16730
+  content_hash: dd1af347da60baa295cc2844fb1954b948fc55169980df7074c1904be65b5ccc
 - kind: toolguide
   id: drupal-review-checks
   path: toolguides/drupal-review-checks.toolguide.yaml
