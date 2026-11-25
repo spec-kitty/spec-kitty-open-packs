@@ -402,6 +402,74 @@ def test_check_reports_an_unresolved_merge(repo, capsys):
     assert "resolves to no non-merged row" in check_faults(repo, paths, mm, capsys)
 
 
+# --------------------------------------------------------------------------- extra edges and reason updates
+
+
+def _with_extras(paths):
+    _edit_row(paths[1], 1, also_rejected_by=[
+        {"owner": "tactic:keep-it-small", "pack": "alpha", "reason": "Keeping retries visible keeps them small."},
+        {"owner": "procedure:beta-proc", "pack": "beta", "reason": "A silent retry hides the claim's failure."}])
+    _edit_row(paths[2], 0, also_rejects=["alpha::anti_pattern:silent-retry"])
+    _edit_row(paths[0], 0, description="An orphan practice that keeps nothing small, enhanced.",
+              description_source="authored by merge",
+              reason_update={"from": "An orphan practice that keeps nothing small.",
+                             "to": "An orphan practice that keeps nothing small, enhanced."})
+
+
+def test_extra_edges_and_reason_update_apply_idempotently(repo):
+    paths, mm = ledgers(repo)
+    _with_extras(paths)
+    assert run(repo, paths, mm) == 0
+    fragment = yaml.safe_load((repo / "packs/alpha/drg/fragment.yaml").read_text())
+    assert {"source": "tactic:keep-it-small", "target": "anti_pattern:silent-retry", "relation": "rejects",
+            "reason": "Keeping retries visible keeps them small."} in fragment["edges"]
+    orphan_edge = next(e for e in fragment["edges"] if e["target"] == "anti_pattern:orphan")
+    assert orphan_edge["reason"] == "An orphan practice that keeps nothing small, enhanced."
+    proc = yaml.safe_load((repo / "packs/beta/procedure.graph.yaml").read_text())["edges"]
+    targets = {(e["source"], e["target"], e["reason"]) for e in proc}
+    assert ("procedure:beta-proc", "alpha::anti_pattern:silent-retry", "A silent retry hides the claim's failure.") in targets
+    assert ("procedure:beta-proc", "alpha::anti_pattern:silent-retry", "the procedure beta-proc names this anti-pattern") not in targets
+    first = snapshot(repo)
+    assert run(repo, paths, mm, "--check") == 0
+    assert run(repo, paths, mm) == 0
+    assert snapshot(repo) == first
+
+
+def test_refuses_an_extra_edge_outside_the_closure(repo, capsys):
+    paths, mm = ledgers(repo)
+    _edit_row(paths[2], 0, also_rejected_by=[{"owner": "tactic:keep-it-small", "pack": "alpha", "reason": "r"}])
+    refused(repo, paths, mm, capsys, "beta::anti_pattern:skipping-the-claim is not in alpha's depends_on closure")
+
+
+def test_refuses_a_malformed_extra(repo, capsys):
+    paths, mm = ledgers(repo)
+    _edit_row(paths[1], 1, also_rejects=["silent-retry"])
+    refused(repo, paths, mm, capsys, "must be <pack>::anti_pattern:<id>")
+
+
+def test_check_reports_a_missing_extra_edge_and_a_stale_reason(repo, capsys):
+    paths, mm = ledgers(repo)
+    _with_extras(paths)
+    run(repo, paths, mm)
+    frag = repo / "packs/alpha/drg/fragment.yaml"
+    data = yaml.safe_load(frag.read_text())
+    data["edges"] = [e for e in data["edges"] if e["source"] != "tactic:keep-it-small" or e["target"] != "anti_pattern:silent-retry"]
+    for e in data["edges"]:
+        if e["target"] == "anti_pattern:orphan":
+            e["reason"] = "An orphan practice that keeps nothing small."
+    frag.write_text(yaml.safe_dump(data, sort_keys=False))
+    out = check_faults(repo, paths, mm, capsys)
+    assert "no rejects edge tactic:keep-it-small -> anti_pattern:silent-retry in alpha" in out
+    assert "keeps the old reason" in out
+
+
+def test_replace_list_items_rewrites_only_the_matching_item():
+    text = "# head\nedges:\n- source: a\n  reason: old\n# between\n- source: b\n  reason: old\nnodes: []\n"
+    out, n = ac.replace_list_items(text, "edges", lambda e: e["source"] == "b", lambda e: {**e, "reason": "new"})
+    assert n == 1 and "# head" in out and "# between" in out
+    assert yaml.safe_load(out)["edges"] == [{"source": "a", "reason": "old"}, {"source": "b", "reason": "new"}]
+
+
 # --------------------------------------------------------------------------- text helpers
 
 

@@ -143,6 +143,43 @@ def append_list_items(text: str, key: str, items: list) -> str:
     return result
 
 
+def replace_list_items(text: str, key: str, match, replace) -> tuple[str, int]:
+    """Re-render each item of the top-level block list ``key`` for which ``match(item)`` holds as
+    ``replace(item)``, keeping every other line; return the text and the number replaced."""
+    before = yaml.safe_load(text) if text.strip() else {}
+    lines = text.splitlines(keepends=True)
+    span = _block_span(lines, key)
+    if span is None:
+        return text, 0
+    start, end = span
+    body = lines[start + 1:end]
+    dash = next((re.match(r"^(\s*)- ", l) for l in body if re.match(r"^\s*- ", l)), None)
+    if dash is None:
+        return text, 0
+    indent = dash.group(1)
+    starts = [i for i, l in enumerate(body) if l.startswith(indent + "- ")] + [len(body)]
+    out, count, expected = [], 0, []
+    out.extend(body[:starts[0]])
+    for a, b in zip(starts, starts[1:]):
+        chunk = body[a:b]
+        tail = []
+        while chunk and (not chunk[-1].strip() or chunk[-1].lstrip().startswith("#")):
+            tail.insert(0, chunk.pop())
+        item = yaml.safe_load("".join(l[len(indent):] if l.startswith(indent) else l for l in chunk))[0]
+        if match(item):
+            item = replace(item)
+            chunk = [indent + l if l.strip() else l for l in dump([item]).splitlines(keepends=True)]
+            count += 1
+        expected.append(item)
+        out.extend(chunk + tail)
+    result = "".join(lines[:start + 1] + out + lines[end:])
+    want = copy.deepcopy(before)
+    want[key] = expected
+    if yaml.safe_load(result) != want:
+        raise Refusal(f"rewriting items of '{key}' textually would change the document")
+    return result, count
+
+
 # --------------------------------------------------------------------------- the tree
 
 
@@ -372,7 +409,43 @@ def validate_row(row: Row) -> list[str]:
             faults.append(f"{row.label}: {key} says 'default'")
     if row.get("operator_question"):
         faults.append(f"{row.label}: open operator_question")
+    for target in row.get("also_rejects") or []:
+        if not QUALIFIED_RE.match(str(target)):
+            faults.append(f"{row.label}: also_rejects '{target}' must be <pack>::anti_pattern:<id>")
+    for extra in row.get("also_rejected_by") or []:
+        if not (isinstance(extra, dict) and re.match(r"^[a-z_]+:[\w-]+$", str(extra.get("owner", "")))
+                and extra.get("pack") and extra.get("reason")):
+            faults.append(f"{row.label}: also_rejected_by entries need owner (<kind>:<id>), pack and reason")
+    update = row.get("reason_update")
+    if update is not None and (row.merged or not isinstance(update, dict) or not update.get("from") or not update.get("to")):
+        faults.append(f"{row.label}: reason_update needs from and to, on a non-merged row")
     return faults
+
+
+def qualified_target(owner_pack: str, home: str, ident: str) -> str:
+    return f"anti_pattern:{ident}" if home == owner_pack else f"{home}::anti_pattern:{ident}"
+
+
+def extra_edges(row: Row) -> list[tuple[str, str, dict]]:
+    """(owner pack, owner kind, edge) for each also_rejects / also_rejected_by edge of the row."""
+    out = []
+    home, ident = row.target
+    if row.source_parts[1] == "anti_patterns":
+        kind, owner_id = owner_urn(row).split(":", 1)
+        for target in row.get("also_rejects") or []:
+            m = QUALIFIED_RE.match(str(target))
+            out.append((row.get("pack"), kind, {
+                "source": owner_urn(row), "target": qualified_target(row.get("pack"), m.group("pack"), m.group("id")),
+                "relation": "rejects", "reason": f"the {kind} {owner_id} names this anti-pattern"}))
+    for extra in row.get("also_rejected_by") or []:
+        kind = str(extra["owner"]).split(":", 1)[0]
+        out.append((extra["pack"], kind, {"source": extra["owner"], "target": qualified_target(extra["pack"], home, ident),
+                                          "relation": "rejects", "reason": verbatim(extra["reason"])}))
+    return out
+
+
+def _norm(text) -> str:
+    return " ".join(str(text or "").split())
 
 
 # --------------------------------------------------------------------------- apply
@@ -451,6 +524,7 @@ def _apply_row(tree: Tree, packs: dict[str, Pack], row: Row, log: list[str]) -> 
         # The block is gone: idempotent only when this row's effects are all present.
         if not _row_effects_present(tree, packs, row):
             raise Refusal(f"{row.label}: the source is gone and the row's file or edge is missing")
+        _apply_extras(tree, packs, row, log)
         return
     title = entry.get("name") or entry.get("title") or entry.get("label")
     if verbatim(title) != verbatim(row.get("source_title")):
@@ -480,6 +554,35 @@ def _apply_row(tree: Tree, packs: dict[str, Pack], row: Row, log: list[str]) -> 
         _add_edge(tree, owner_pack, kind, {
             "source": owner_urn(row), "target": edge_target(row), "relation": "rejects",
             "reason": f"the {kind} {owner_id} names this anti-pattern"}, log)
+    _apply_extras(tree, packs, row, log)
+
+
+def _apply_extras(tree: Tree, packs: dict[str, Pack], row: Row, log: list[str]) -> None:
+    """also_rejects / also_rejected_by edges, and the reason_update of a non-merged row."""
+    for pack_key, kind, edge in extra_edges(row):
+        if pack_key not in packs:
+            raise Refusal(f"{row.label}: unknown pack '{pack_key}' for an extra edge")
+        m = QUALIFIED_RE.match(edge["target"])
+        if m and m.group("pack") not in tree.closure(packs, pack_key):
+            raise Refusal(f"{row.label}: {edge['target']} is not in {pack_key}'s depends_on closure")
+        _add_edge(tree, packs[pack_key], kind, edge, log)
+    update = row.get("reason_update")
+    if update:
+        home, ident = row.target
+        for key, pack in sorted(packs.items()):
+            target = qualified_target(key, home, ident)
+            for doc in tree.graph_docs(pack):
+                text = tree.read(doc)
+                if text is None:
+                    continue
+                new, n = replace_list_items(
+                    text, "edges",
+                    lambda e: e.get("target") == target and e.get("relation") == "rejects"
+                    and _norm(e.get("reason")) == _norm(update["from"]),
+                    lambda e: {**e, "reason": verbatim(update["to"])})
+                if n:
+                    tree.write(doc, new)
+                    log.append(f"reason {pack.name}: {n} rejects edge(s) to {target} follow the new text")
 
 
 def _row_effects_present(tree: Tree, packs: dict[str, Pack], row: Row) -> bool:
@@ -607,6 +710,26 @@ def check(root: Path, rows: list[Row], merge_map: dict | None) -> list[str]:
                 data = yaml.safe_load(file.read_text(encoding="utf-8")) or {}
                 if isinstance(data, dict) and "anti_patterns" in data:
                     faults.append(f"{file.relative_to(root)}: still carries anti_patterns")
+
+    for row in rows:
+        try:
+            edges = extra_edges(row)
+        except (Refusal, KeyError, AttributeError):
+            continue
+        for pack_key, _, edge in edges:
+            if pack_key not in packs:
+                faults.append(f"{row.label}: unknown pack '{pack_key}' for an extra edge")
+            elif (edge["source"], edge["target"], "rejects") not in tree.edges(packs[pack_key]):
+                faults.append(f"{row.label}: no rejects edge {edge['source']} -> {edge['target']} in {pack_key}")
+        update = row.get("reason_update")
+        if update and not row.merged:
+            home, ident = row.target
+            for key, pack in sorted(packs.items()):
+                target = qualified_target(key, home, ident)
+                for doc in tree.graph_docs(pack):
+                    for edge in (tree.load(doc) or {}).get("edges") or []:
+                        if edge.get("target") == target and _norm(edge.get("reason")) == _norm(update.get("from")):
+                            faults.append(f"{row.label}: {key} edge {edge.get('source')} -> {target} keeps the old reason")
 
     # Every cross-pack anti-pattern edge, ledger-made or hand-written, stays inside the owner's closure.
     for key, pack in sorted(packs.items()):

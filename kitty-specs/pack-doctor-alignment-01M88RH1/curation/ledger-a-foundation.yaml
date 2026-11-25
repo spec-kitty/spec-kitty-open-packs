@@ -553,3 +553,40 @@ entries:
   bad_example_source: authored, grounded in "Treating agent-generated examples as authoritative without stakeholder or source
     validation" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent unvalidated-examples.anti-pattern.yaml
   operator_question: null
+- source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/1
+  source_title: Asserting Implementation Details
+  pack: testing
+  owner: styleguide:testing-principles
+  home_pack: foundation
+  id: assert-on-internal-field-values
+  merged_into: null
+  merge_reason: 'M4 split (decisions 01M89PVF41V2X1DRNZ5N7PM4YB, 01M89Q9DVXHDYWN8V0R5BQ30X2): the call-count part enhances
+    foundation::anti_pattern:assert-on-mock-interactions (ledger 00); the internal-field-values part is this file'
+  title: Assert on internal field values
+  title_source: authored (decision 01M89Q9DVXHDYWN8V0R5BQ30X2); parallels "Assert on mock interactions"
+  description: Tests that assert internal field values break during refactoring even when observable behavior is unchanged.
+    Test outcomes, not mechanisms.
+  description_source: verbatim, minus "method call counts or" (decision 01M89Q9DVXHDYWN8V0R5BQ30X2)
+  severity: severe
+  severity_grounding: '"break during refactoring even when observable behavior is unchanged": a false alarm on a correct change
+    defeats the test as a refactoring safety net -> severe; the source never says a wrong result passes'
+  bad_example: 'cart.add(book);
+
+    assertThat(ReflectionTestUtils.getField(cart, "lines")).isEqualTo(List.of(book));
+
+    // fails when `lines` becomes a Map<Sku, Line>, although cart.total() and checkout are unchanged'
+  bad_example_source: authored, grounded in "assert internal field values break during refactoring even when observable behavior
+    is unchanged" (Q3, decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  also_rejects:
+  - foundation::anti_pattern:assert-on-mock-interactions
+  also_rejected_by:
+  - owner: tactic:function-over-form-testing
+    pack: foundation
+    reason: Do not assert on internal field values, method call counts, or intermediate states.
+  - owner: tactic:black-box-integration-testing
+    pack: foundation
+    reason: Do not assert on private attributes or internal call sequences.
+  - owner: tactic:test-boundaries-by-responsibility
+    pack: foundation
+    reason: 'Over-assertion: verifying internal implementation details instead of functional outcomes.'
+  operator_question: null

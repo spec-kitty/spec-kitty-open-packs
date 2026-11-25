@@ -90,6 +90,10 @@ batch that owns its **home** pack: a `rust` entry merged into a `foundation` hom
 | `bad_example` | the file's bad example; not on a merged row |
 | `bad_example_source` | `bad_example`, `authored, grounded in <content clause>` (Q3), or `tactic <id> …` / `directive <id> …` for a file-less node; not on a merged row |
 | `operator_question` | one line, answerable with a choice. The apply and `--check` refuse a row that has one |
+| `also_rejects` | optional: further `<pack>::anti_pattern:<id>` targets the row's owner rejects (a split source, M4) |
+| `also_rejected_by` | optional: `[{owner: <kind>:<id>, pack, reason}]`, other guidance that rejects the row's file; the target must sit in that pack's `depends_on` closure |
+| `reason_update` | optional, on a non-merged row: `{from, to}`; every `rejects` edge to the file whose reason still reads `from` is rewritten to `to` (an authored-by-merge description edit, M4) |
+| `merge_note` | optional: a free-text note on a row another row enhances |
 
 A merged row's file, severity and bad example are its home row's, so it owes only its `merge_reason`. Its owner still
 gets its own `rejects` edge to the home file, pack-qualified when the home is another pack.

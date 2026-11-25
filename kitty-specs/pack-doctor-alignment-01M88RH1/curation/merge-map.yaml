@@ -3,6 +3,72 @@
 # Entries listed side by side in one owner file are taken as distinct by their author's intent unless they are exact
 # duplicates. Theme-level kinship (same topic, different claim) is not merged; see the operator questions.
 clusters:
+- cluster: assert-on-internal-field-values
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+  assessment:
+    ruling: 'M4, decision 01M89PVF41V2X1DRNZ5N7PM4YB: split across the test foundations; enhance foundation assert-on-mock-interactions
+      with its content'
+    by: curation subagent, profile curator-carla, read-only, 2026-11-25
+    decomposition:
+    - 'C1 "assert method call counts": the same claim as foundation assert-on-mock-interactions, narrower; a call count is
+      only observable through a double or spy, and the entry''s own bad_example is Mockito verify(...times(2))'
+    - 'C2 "internal field values": a different claim (the system under test''s own state, not doubles); no anti-pattern covers
+      it; foundation already states it in function-over-form-testing ("Do not assert on internal field values, method call
+      counts, or intermediate states"), black-box-integration-testing ("Do not assert on private attributes or internal call
+      sequences"), test-boundaries-by-responsibility ("Over-assertion") and disciplined-refactoring'
+    - 'C3 "break during refactoring even when observable behavior is unchanged": overlaps the foundation file''s "the test
+      breaks on refactoring", adding a precision'
+    - 'C4 "Test outcomes, not mechanisms.": the remedy of the foundation file''s "tests how a result was produced, not what
+      was produced"; it also applies to C2'
+    enhance_assert_on_mock_interactions:
+      description: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced;
+        the test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong.
+        Test outcomes, not mechanisms.
+      provenance: the foundation description verbatim; "even when observable behavior is unchanged" and "Test outcomes, not
+        mechanisms." verbatim from the testing entry; ", and" authored
+      severity: 'breaking, unchanged: "stays green when the outcome is wrong" is kept'
+    new_entry:
+      home_pack: foundation (proposed; the foundation tactics that state C2 can only reject a foundation file, and testing
+        already depends on foundation)
+      id: assert-on-internal-field-values
+      title: Assert on internal field values (authored; parallels "Assert on mock interactions")
+      description: Tests that assert internal field values break during refactoring even when observable behavior is unchanged.
+        Test outcomes, not mechanisms. (verbatim, minus "method call counts or")
+      severity: 'severe: "break during refactoring even when observable behavior is unchanged" is a false alarm on a correct
+        change, defeating the test as a refactoring safety net; the source never says a wrong result passes'
+      bad_example: 'cart.add(book);
+
+        assertThat(ReflectionTestUtils.getField(cart, "lines")).isEqualTo(List.of(book));
+
+        // fails when `lines` becomes a Map<Sku, Line>, although cart.total() and checkout are unchanged'
+      bad_example_source: authored, grounded in "assert ... internal field values break during refactoring even when observable
+        behavior is unchanged"
+    edges:
+    - styleguide:testing-principles -rejects-> foundation::anti_pattern:assert-on-mock-interactions (C1, C3, C4)
+    - styleguide:testing-principles -rejects-> foundation::anti_pattern:assert-on-internal-field-values (C2)
+    resolution: decisions 01M89Q9DVXHDYWN8V0R5BQ30X2 (Q1a foundation, Q2a authored title, Q4a, Q5a three foundation tactics
+      also reject it, Q6a also_rejects + an authored-by-merge edit of the ledger-00 row, Q8a unscoped) and 01M89Q9JT79VYFMBRNPS9BHHP1
+      (Q3b the testing entry's verbatim example on assert-on-mock-interactions, Q7a the three edges copying the old description
+      follow the enhanced text)
+- cluster: asserting-instead-of-handling-a-missing-or-invalid-value
+  home_pack: foundation
+  merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
+    input becomes a crash instead of an error the caller can handle"'
+  members:
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/1
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
 - cluster: averaging-divergent-verdicts
   home_pack: foundation
   merge_reason: null
@@ -59,19 +125,6 @@ clusters:
     source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/2
   depends_on_added: []
   operator_question: null
-- cluster: storage-or-wire-format-on-domain-types
-  home_pack: foundation
-  merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
-    model and the wire format together: a field added to one breaks the others"'
-  members:
-  - pack: java
-    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/4
-  - pack: rust
-    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
-  depends_on_added: []
-  operator_question: null
-  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
-    examples are kept, labelled by language
 - cluster: example-theater
   home_pack: foundation
   merge_reason: null
@@ -80,19 +133,6 @@ clusters:
     source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/0
   depends_on_added: []
   operator_question: null
-- cluster: unowned-asynchronous-work
-  home_pack: foundation
-  merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
-    it … and its errors vanish"'
-  members:
-  - pack: go
-    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/6
-  - pack: javascript
-    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/2
-  depends_on_added: []
-  operator_question: null
-  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
-    examples are kept, labelled by language
 - cluster: floating-point-money
   home_pack: foundation
   merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
@@ -146,19 +186,6 @@ clusters:
     source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/6
   depends_on_added: []
   operator_question: null
-- cluster: asserting-instead-of-handling-a-missing-or-invalid-value
-  home_pack: foundation
-  merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
-    input becomes a crash instead of an error the caller can handle"'
-  members:
-  - pack: javascript
-    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/1
-  - pack: rust
-    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3
-  depends_on_added: []
-  operator_question: null
-  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
-    examples are kept, labelled by language
 - cluster: persona-without-profile
   home_pack: foundation
   merge_reason: null
@@ -215,6 +242,19 @@ clusters:
     source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/4
   depends_on_added: []
   operator_question: null
+- cluster: storage-or-wire-format-on-domain-types
+  home_pack: foundation
+  merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
+    model and the wire format together: a field added to one breaks the others"'
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/4
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
 - cluster: trusting-a-biased-delegate
   home_pack: foundation
   merge_reason: null
@@ -231,6 +271,19 @@ clusters:
     source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/2
   depends_on_added: []
   operator_question: null
+- cluster: unowned-asynchronous-work
+  home_pack: foundation
+  merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
+    it … and its errors vanish"'
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/6
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
 - cluster: unvalidated-examples
   home_pack: foundation
   merge_reason: null
@@ -239,65 +292,6 @@ clusters:
     source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/3
   depends_on_added: []
   operator_question: null
-- cluster: asserting-implementation-details
-  home_pack: testing
-  merge_reason: null
-  members:
-  - pack: testing
-    source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/1
-  depends_on_added: []
-  operator_question: 'M4 assessment doubts: Q1 home of the new C2 file: (a) foundation, proposed, (b) testing (the single-member
-    home rule); Q2 its title: (a) authored "Assert on internal field values", (b) verbatim "Asserting Implementation Details";
-    Q3 assert-on-mock-interactions bad example: (a) keep the authored emailSender one, (b) use the testing entry''s verbatim
-    verify(repository, times(2)) pair; Q4 C2 description: (a) verbatim minus "method call counts or", (b) also add "or intermediate
-    states"; Q5 foundation tactics already naming C2 (function-over-form-testing, black-box-integration-testing, test-boundaries-by-responsibility):
-    (a) also reject the new file, (b) only testing-principles does; Q6 the split needs a ledger-contract change (one source
-    row now yields an extra rejects edge and an enhancement of a ledger-00 row): (a) a field for the extra edge plus a recorded,
-    authored-by-merge edit of the ledger-00 row, (b) two rows for one source; Q7 the function-over-form-testing edge reason
-    copies the old description: (a) follow the enhanced one, (b) leave it; Q8 DIRECTIVE_054 allows a spy on an allow-listed
-    seam, while the file says "doubles" without limit: (a) keep it unscoped, (b) scope to doubles of owned collaborators (a
-    change of meaning)'
-  assessment:
-    ruling: 'M4, decision 01M89PVF41V2X1DRNZ5N7PM4YB: split across the test foundations; enhance foundation assert-on-mock-interactions
-      with its content'
-    by: curation subagent, profile curator-carla, read-only, 2026-11-25
-    decomposition:
-    - 'C1 "assert method call counts": the same claim as foundation assert-on-mock-interactions, narrower; a call count is
-      only observable through a double or spy, and the entry''s own bad_example is Mockito verify(...times(2))'
-    - 'C2 "internal field values": a different claim (the system under test''s own state, not doubles); no anti-pattern covers
-      it; foundation already states it in function-over-form-testing ("Do not assert on internal field values, method call
-      counts, or intermediate states"), black-box-integration-testing ("Do not assert on private attributes or internal call
-      sequences"), test-boundaries-by-responsibility ("Over-assertion") and disciplined-refactoring'
-    - 'C3 "break during refactoring even when observable behavior is unchanged": overlaps the foundation file''s "the test
-      breaks on refactoring", adding a precision'
-    - 'C4 "Test outcomes, not mechanisms.": the remedy of the foundation file''s "tests how a result was produced, not what
-      was produced"; it also applies to C2'
-    enhance_assert_on_mock_interactions:
-      description: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced;
-        the test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong.
-        Test outcomes, not mechanisms.
-      provenance: the foundation description verbatim; "even when observable behavior is unchanged" and "Test outcomes, not
-        mechanisms." verbatim from the testing entry; ", and" authored
-      severity: 'breaking, unchanged: "stays green when the outcome is wrong" is kept'
-    new_entry:
-      home_pack: foundation (proposed; the foundation tactics that state C2 can only reject a foundation file, and testing
-        already depends on foundation)
-      id: assert-on-internal-field-values
-      title: Assert on internal field values (authored; parallels "Assert on mock interactions")
-      description: Tests that assert internal field values break during refactoring even when observable behavior is unchanged.
-        Test outcomes, not mechanisms. (verbatim, minus "method call counts or")
-      severity: 'severe: "break during refactoring even when observable behavior is unchanged" is a false alarm on a correct
-        change, defeating the test as a refactoring safety net; the source never says a wrong result passes'
-      bad_example: 'cart.add(book);
-
-        assertThat(ReflectionTestUtils.getField(cart, "lines")).isEqualTo(List.of(book));
-
-        // fails when `lines` becomes a Map<Sku, Line>, although cart.total() and checkout are unchanged'
-      bad_example_source: authored, grounded in "assert ... internal field values break during refactoring even when observable
-        behavior is unchanged"
-    edges:
-    - styleguide:testing-principles -rejects-> foundation::anti_pattern:assert-on-mock-interactions (C1, C3, C4)
-    - styleguide:testing-principles -rejects-> foundation::anti_pattern:assert-on-internal-field-values (C2)
 - cluster: delete-a-mega-file-wholesale
   home_pack: testing
   merge_reason: null

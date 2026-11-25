@@ -333,6 +333,52 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T16:05:45.981277Z",
+      "decision_id": "01M89Q9DVXHDYWN8V0R5BQ30X2",
+      "final_answer": "the operator delegated M4's fit to the curation assessment, so its recommendations stand: Q1a the new assert-on-internal-field-values file lives in foundation; Q2a authored title \"Assert on internal field values\"; Q4a description verbatim minus \"method call counts or\"; Q5a function-over-form-testing, black-box-integration-testing and test-boundaries-by-responsibility also reject it; Q6a a ledger field for the extra rejects edge plus a recorded authored-by-merge edit of the ledger-00 row, with tests and a re-review of the WP02 tool change; Q8a unscoped, no change of meaning (dispatcher, applying the operator's delegation of 2026-11-25)",
+      "input_key": "m4_assessment_followups",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "accept the curation assessment recommendations",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "M4 assessment doubts Q1, Q2, Q4, Q5, Q6, Q8 (merge-map cluster asserting-implementation-details)",
+      "rationale": null,
+      "resolved_at": "2026-11-25T16:05:48.591886Z",
+      "resolved_by": "dispatcher (operator delegation)",
+      "slot_key": "plan.curation.m4_followups",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T16:05:51.047247Z",
+      "decision_id": "01M89Q9JT79VYFMBRNPS9BHHP1",
+      "final_answer": "Q3 (b): the testing entry's verbatim verify(repository, times(2)) bad example (and its good example) replaces the authored one, since authored examples are for entries with no verbatim instance; Q7 (a): the edge reasons that copy the old description follow the enhanced text (dispatcher, applying the existing rulings 2026-11-25; the operator can override)",
+      "input_key": "m4_q3_q7",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "Q3 verbatim testing example; Q7 reasons follow the enhanced text",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "M4 Q3 (assert-on-mock-interactions bad example) and Q7 (the reason on edges copying the old description)",
+      "rationale": null,
+      "resolved_at": "2026-11-25T16:05:53.689143Z",
+      "resolved_by": "dispatcher (operator delegation)",
+      "slot_key": "plan.curation.m4_q3_q7",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",

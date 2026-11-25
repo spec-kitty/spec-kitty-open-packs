@@ -238,17 +238,29 @@ entries:
   merge_reason: null
   title: Assert on mock interactions
   description: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced;
-    the test breaks on refactoring and stays green when the outcome is wrong.
+    the test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong.
+    Test outcomes, not mechanisms.
   severity: breaking
   severity_grounding: '"the test breaks on refactoring and stays green when the outcome is wrong" (edge tactic:function-over-form-testing
     -rejects-> anti_pattern:assert-on-mock-interactions; same reason on directive:DIRECTIVE_054 and paradigm:tests-as-scaffold-not-friction;
     also tactic:tdd-red-green-refactor): a wrong result passes unnoticed -> breaking (operator ruling 2026-11-25, decision
     01M89KE3FCN4PZM0K03767GAWV)'
-  bad_example: '`verify(emailSender, times(1)).send(any())` is the test''s only assertion, so it fails when sending is batched
-    and passes when the email goes to the wrong recipient.'
-  bad_example_source: authored, grounded in "stays green when the outcome is wrong" (operator ruling 2026-11-25, decision
-    01M89KE3FCN4PZM0K03767GAWV)
+  bad_example: 'verify(repository, times(2)).save(any());  // brittle: couples test to save-call count'
+  bad_example_source: testing styleguides/testing-principles.styleguide.yaml#/anti_patterns/1 bad_example, verbatim (decision
+    01M89Q9JT79VYFMBRNPS9BHHP1)
   operator_question: null
+  description_source: 'authored by merge (M4, decisions 01M89PVF41V2X1DRNZ5N7PM4YB, 01M89Q9DVXHDYWN8V0R5BQ30X2): the node''s
+    edge-reason text verbatim, plus "even when observable behavior is unchanged" and "Test outcomes, not mechanisms." verbatim
+    from testing styleguides/testing-principles.styleguide.yaml#/anti_patterns/1; ", and" authored'
+  good_example: assertThat(repository.findAll()).hasSize(2); // observable outcome
+  reason_update:
+    from: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the
+      test breaks on refactoring and stays green when the outcome is wrong.
+    to: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test
+      breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test outcomes,
+      not mechanisms.
+  merge_note: enhanced with testing styleguides/testing-principles.styleguide.yaml#/anti_patterns/1 (M4); that row is in ledger
+    A and also rejects this file
 - source: anti_pattern.graph.yaml#/nodes/1
   source_title: Mock owned logic to pin a call contract
   pack: foundation
