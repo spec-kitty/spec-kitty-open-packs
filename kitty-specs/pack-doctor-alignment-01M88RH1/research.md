@@ -77,8 +77,9 @@ the curation lands. The plan re-measures after every curation work package.
 
 ## R5. The curation is a ledger-driven, mechanical apply
 
-- **Decision:** curation judgement lives in one ledger per pack:
-  `kitty-specs/pack-doctor-alignment-01M88RH1/curation/<pack>.ledger.yaml`.
+- **Decision:** curation judgement lives in ledgers under `kitty-specs/pack-doctor-alignment-01M88RH1/curation/`.
+  Superseded in part by decision Q1 (2026-11-25): one ledger per batch, batched by home pack
+  (`ledger-<x>-<name>.yaml`), after a single `merge-map.yaml`; first drafted as one ledger per pack.
   - The ledger holds one row per source entry or file-less node.
   - A mission-local tool (`curation/apply_curation.py`) applies the ledgers:
     1. it writes the files;
