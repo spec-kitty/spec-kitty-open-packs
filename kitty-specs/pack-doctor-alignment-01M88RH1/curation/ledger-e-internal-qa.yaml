@@ -1,0 +1,1078 @@
+# Ledger E: rows homed in qa and internal (WP07). Contract: README.md; clusters: merge-map.yaml.
+batch: e-internal-qa
+entries:
+- source: procedures/qa-go-no-go-readiness-review.procedure.yaml#/anti_patterns/0
+  source_title: Rubber-stamp sign-off
+  pack: qa
+  owner: procedure:qa-go-no-go-readiness-review
+  id: rubber-stamp-sign-off
+  merged_into: null
+  merge_reason: null
+  title: Rubber-stamp sign-off
+  description: Recording a go decision without reporting actual status against each exit criterion turns the review into a
+    formality rather than a real readiness check.
+  severity: severe
+  severity_grounding: '"turns the review into a formality rather than a real readiness check": defeats the review''s purpose
+    -> severe'
+  bad_example: The go/no-go record says "Go" with no line per exit criterion; two criteria were never measured.
+  bad_example_source: authored, grounded in "Recording a go decision without reporting actual status against each exit criterion"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/qa-test-plan-review-workshop.procedure.yaml#/anti_patterns/0
+  source_title: Silent acceptance without traceability check
+  pack: qa
+  owner: procedure:qa-test-plan-review-workshop
+  id: silent-acceptance-without-traceability-check
+  merged_into: null
+  merge_reason: null
+  title: Silent acceptance without traceability check
+  description: Approving a plan without confirming its test-area-to-requirement traceability defeats the purpose of the review.
+  severity: severe
+  severity_grounding: '"defeats the purpose of the review": -> severe'
+  bad_example: The test plan is approved although three requirements map to no test area.
+  bad_example_source: authored, grounded in "Approving a plan without confirming its test-area-to-requirement traceability"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/1
+  source_title: A report with no ask
+  pack: internal
+  owner: styleguide:executive-debrief
+  id: a-report-with-no-ask
+  merged_into: null
+  merge_reason: null
+  title: A report with no ask
+  description: A long-form debrief that lists what happened and stops makes each executive work out what is wanted of them.
+    If nothing needs deciding, say that in one line; otherwise name the decisions.
+  severity: smell
+  severity_grounding: '"makes each executive work out what is wanted of them": a cost -> smell'
+  bad_example: An executive summary that ends on the fifth "what happened" item.
+  bad_example_source: bad_example
+  good_example: '"What we need from leadership. Decide when rc6 ships: the release rule needs a green nightly and the last
+    run had one red job."'
+  operator_question: null
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/5
+  source_title: Agent merges the mainline
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: agent-merges-the-mainline
+  merged_into: null
+  merge_reason: null
+  title: Agent merges the mainline
+  description: Merging to the protected mainline or arming auto-merge on the agent's own initiative. The agent flips a green
+    PR to ready for review and stops; the operator merges.
+  severity: breaking
+  severity_grounding: states the rule ("The agent flips a green PR to ready for review and stops; the operator merges") but
+    no outcome; proposed breaking
+  bad_example: The agent arms auto-merge on its own PR to main once CI turns green.
+  bad_example_source: authored, grounded in "Merging to the protected mainline or arming auto-merge on the agent's own initiative"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed breaking; the text states a rule or practice, no outcome)'
+- source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/2
+  source_title: Arming auto-merge before the fix is complete
+  pack: internal
+  owner: procedure:landing-contributor-prs
+  id: arming-auto-merge-before-the-fix-is-complete
+  merged_into: null
+  merge_reason: null
+  title: Arming auto-merge before the fix is complete
+  description: Auto-merge fires on the first green, so commits pushed afterwards miss the merge.
+  severity: breaking
+  severity_grounding: '"Auto-merge fires on the first green, so commits pushed afterwards miss the merge": an incomplete fix
+    lands, a wrong result -> breaking'
+  bad_example: Auto-merge is armed while the second half of the fix is still being written, and the first green merges half
+    a fix.
+  bad_example_source: authored, grounded in "Auto-merge fires on the first green" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/2
+  source_title: Catch-all root
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  id: catch-all-root
+  merged_into: null
+  merge_reason: null
+  title: Catch-all root
+  description: A single root holding mixed-granularity tickets instead of coherent buckets, defeating tiered ownership.
+  severity: severe
+  severity_grounding: '"defeating tiered ownership": -> severe'
+  bad_example: One `backlog` root holds epics, one-line chores and bugs side by side, with no owner per bucket.
+  bad_example_source: authored, grounded in "A single root holding mixed-granularity tickets instead of coherent buckets"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/5
+  source_title: Claiming unread progress
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: claiming-unread-progress
+  merged_into: null
+  merge_reason: null
+  title: Claiming unread progress
+  description: Reporting a runner's outcome before reading it back from the session.
+  severity: severe
+  severity_grounding: states the practice ("Reporting a runner's outcome before reading it back from the session") but no
+    outcome; proposed severe
+  bad_example: The dispatcher reports "WP02 done, tests green" from the runner's plan, before reading the runner's final message.
+  bad_example_source: authored, grounded in "Reporting a runner's outcome before reading it back from the session" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
+- source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/2
+  source_title: Command-named steps
+  pack: internal
+  owner: procedure:charter-offering-scenario-extraction
+  id: command-named-steps
+  merged_into: null
+  merge_reason: 'exact duplicate title; both: steps asserting the command output instead of the governed outcome — "Steps
+    that assert "the command printed <...>" instead of the governed outcome" / "Steps written against the command''s output
+    rather than the governed outcome"'
+  title: Command-named steps
+  description: Steps that assert "the command printed <...>" instead of the governed outcome. The scenario should hold regardless
+    of which command surfaces the result.
+  severity: severe
+  severity_grounding: 'merged member feature-and-scenario-authoring: "so the scenario breaks when the surface changes even
+    though the promise holds": false failures defeat the scenario -> severe'
+  bad_example: '"Then the command prints ''Activated: skill:acme-triage''."'
+  bad_example_source: bad_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/2,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: '"Then the acme-triage skill is in force for the project."'
+  good_example_source: good_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/2,
+    verbatim
+  operator_question: null
+- source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/2
+  source_title: Command-named steps
+  pack: internal
+  owner: styleguide:feature-and-scenario-authoring
+  id: command-named-steps
+  merged_into: internal::anti_pattern:command-named-steps
+  merge_reason: 'exact duplicate title; both: steps asserting the command output instead of the governed outcome — "Steps
+    that assert "the command printed <...>" instead of the governed outcome" / "Steps written against the command''s output
+    rather than the governed outcome"'
+  operator_question: null
+- source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/0
+  source_title: CRUD / affordance echo
+  pack: internal
+  owner: procedure:charter-offering-scenario-extraction
+  id: crud-affordance-echo
+  merged_into: null
+  merge_reason: 'exact duplicate title; both: a scenario that echoes the command output the unit/e2e tier owns — "These assert
+    the command''s output surface, which the Python unit/e2e tier already owns" / "It asserts the output surface the unit/e2e
+    tier already owns"'
+  title: CRUD / affordance echo
+  description: Re-skinning "list shows X", "path resolves to Y", or the kind vocabulary as Gherkin. These assert the command's
+    output surface, which the Python unit/e2e tier already owns; in Gherkin they read as technical tests with Given/When/Then
+    noise and add a slow cross-OS runner for no consumer meaning.
+  severity: smell
+  severity_grounding: '"add a slow cross-OS runner for no consumer meaning": a cost -> smell'
+  bad_example: '"Scenario: charter list shows the researcher profile / When I run ''spec-kitty charter list --kind agent_profile''
+    / Then the output contains ''researcher-ryan''."'
+  bad_example_source: bad_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/0,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: '"Scenario: an author sees only the profiles their charter puts in force / Given a project whose charter selects
+    the researcher profile / When the author starts a mission / Then the governance in force includes the researcher profile
+    and excludes profiles that are merely available."'
+  good_example_source: good_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/0,
+    verbatim
+  operator_question: null
+- source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/0
+  source_title: CRUD / affordance echo
+  pack: internal
+  owner: styleguide:feature-and-scenario-authoring
+  id: crud-affordance-echo
+  merged_into: internal::anti_pattern:crud-affordance-echo
+  merge_reason: 'exact duplicate title; both: a scenario that echoes the command output the unit/e2e tier owns — "These assert
+    the command''s output surface, which the Python unit/e2e tier already owns" / "It asserts the output surface the unit/e2e
+    tier already owns"'
+  operator_question: null
+- source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/4
+  source_title: Dark chrome or a white print margin
+  pack: internal
+  owner: styleguide:executive-debrief
+  id: dark-chrome-or-a-white-print-margin
+  merged_into: null
+  merge_reason: null
+  title: Dark chrome or a white print margin
+  description: 'These are printed documents: use the light cream/paper treatment, never the dark website surface, and let
+    the cream reach every page edge. The long form gets this from the generator (WeasyPrint paints the page background). The
+    one-pager prints through Chromium, which paints the page-margin box white; shift its continuation-page content down in
+    flow with a transparent top border instead, so the background stays cream.'
+  severity: smell
+  severity_grounding: states the rule ("use the light cream/paper treatment, never the dark website surface, and let the cream
+    reach every page edge") but no outcome; proposed smell
+  bad_example: A dark-mode debrief, or pages 2+ with a white strip above the content.
+  bad_example_source: bad_example
+  good_example: Cream full-bleed on every page; one-pager continuation pages inset in-flow so content sits lower and the background
+    never turns white.
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/0
+  source_title: Deciding silently
+  pack: internal
+  owner: procedure:semi-auto-delivery
+  id: deciding-silently
+  merged_into: null
+  merge_reason: null
+  title: Deciding silently
+  description: Resolving an escalation-class decision — a regression-vs-stale-test verdict, a contract or boundary change,
+    a test-expectation edit, a scope widening — without surfacing it to the operator. The operator cannot steer what was never
+    signalled, and the fake-green half is the half that misleads the next agent.
+  severity: severe
+  severity_grounding: '"The operator cannot steer what was never signalled, and the fake-green half is the half that misleads
+    the next agent": -> severe'
+  bad_example: The runner edits a failing test's expected value to match the new output and reports green, without telling
+    the operator.
+  bad_example_source: authored, grounded in "Resolving an escalation-class decision" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/8
+  source_title: Decision drip
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: decision-drip
+  merged_into: null
+  merge_reason: null
+  title: Decision drip
+  description: Sending choices one at a time, acting irreversibly on a recommendation, or re-deciding a settled convention
+    independently in each runner.
+  severity: severe
+  severity_grounding: states the practice ("Sending choices one at a time, acting irreversibly on a recommendation, or re-deciding
+    a settled convention independently in each runner") but no outcome; proposed severe
+  bad_example: The runner asks the operator three questions in three messages over an hour, and implements its own recommendation
+    for the first before the answer comes.
+  bad_example_source: authored, grounded in "Sending choices one at a time, acting irreversibly on a recommendation" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
+- source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/3
+  source_title: Defect framing
+  pack: internal
+  owner: procedure:charter-offering-scenario-extraction
+  id: defect-framing
+  merged_into: null
+  merge_reason: 'exact duplicate title; both: a scenario framed as a defect reproduction — "Tagging a scenario @defect or
+    writing it as a bug reproduction" / "Tagging a scenario @defect or phrasing it as a reproduction"'
+  title: Defect framing
+  description: Tagging a scenario @defect or writing it as a bug reproduction. The .feature layer describes what the system
+    should do for a user; defect linkage and reproductions live in the Python/regression tier.
+  severity: smell
+  severity_grounding: states the rule ("The .feature layer describes what the system should do for a user") but no outcome;
+    proposed smell
+  bad_example: '"@defect:4941 Scenario: reproduce the lost-rejection bug when the clock is skewed."'
+  bad_example_source: bad_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: '"@promise:PR-CHARTER-GOVERNANCE-003 Scenario: a rejection recorded after an approval sends the work package
+    back."'
+  good_example_source: good_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3,
+    verbatim
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3
+  source_title: Defect framing
+  pack: internal
+  owner: styleguide:feature-and-scenario-authoring
+  id: defect-framing
+  merged_into: internal::anti_pattern:defect-framing
+  merge_reason: 'exact duplicate title; both: a scenario framed as a defect reproduction — "Tagging a scenario @defect or
+    writing it as a bug reproduction" / "Tagging a scenario @defect or phrasing it as a reproduction"'
+  operator_question: null
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/3
+  source_title: Deferring instead of finishing
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: deferring-instead-of-finishing
+  merged_into: null
+  merge_reason: null
+  title: Deferring instead of finishing
+  description: Punting genuinely small remaining work to a follow-up to close the mission faster. Only the exceptions in the
+    deferral bar ("Review the rebased branch and fold every finding") are deferred; the rest is completed before hand-off.
+  severity: severe
+  severity_grounding: '"Only the exceptions in the deferral bar ... are deferred; the rest is completed before hand-off.":
+    a mandatory rule is broken -> severe'
+  bad_example: Two missing log lines and a stale doc paragraph are filed as follow-ups so the mission can close today.
+  bad_example_source: authored, grounded in "Punting genuinely small remaining work to a follow-up to close the mission faster"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/0
+  source_title: Dispatching from a title
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: dispatching-from-a-title
+  merged_into: null
+  merge_reason: null
+  title: Dispatching from a title
+  description: Re-scope notes, collisions and blocking P0s live in the comments and links. A prompt built from the title sends
+    the runner after stale scope.
+  severity: severe
+  severity_grounding: '"A prompt built from the title sends the runner after stale scope.": defeats the dispatch''s purpose
+    -> severe'
+  bad_example: The runner's prompt is built from the issue title alone; a comment narrowing the scope to the CLI is never
+    seen.
+  bad_example_source: authored, grounded in "A prompt built from the title sends the runner after stale scope" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/7
+  source_title: Environment improvisation
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: environment-improvisation
+  merged_into: null
+  merge_reason: null
+  title: Environment improvisation
+  description: Trying multiple install routes or editing outside the repository (sibling access and blocked sessions are CLOUD_SESSION_ORCHESTRATION's
+    rules).
+  severity: smell
+  severity_grounding: states the practice ("Trying multiple install routes or editing outside the repository") but no outcome;
+    proposed smell
+  bad_example: The runner tries pip, then pipx, then a vendored wheel, and finally edits a sibling repository's lockfile.
+  bad_example_source: authored, grounded in "Trying multiple install routes or editing outside the repository" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/4
+  source_title: Flipping a red or still-changing PR to ready for review
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: flipping-a-red-or-still-changing-pr-to-ready-for-review
+  merged_into: null
+  merge_reason: null
+  title: Flipping a red or still-changing PR to ready for review
+  description: The flip hands the PR to the maintainers. Do it only when the PR is green and complete.
+  severity: severe
+  severity_grounding: '"The flip hands the PR to the maintainers. Do it only when the PR is green and complete.": a mandatory
+    rule is broken -> severe'
+  bad_example: The PR is flipped to ready for review while one CI job is still red and a fix commit is being pushed.
+  bad_example_source: authored, grounded in "Do it only when the PR is green and complete" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/3
+  source_title: Forking a near-duplicate epic
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  id: forking-a-near-duplicate-epic
+  merged_into: null
+  merge_reason: null
+  title: Forking a near-duplicate epic
+  description: Spawning a sibling epic when an existing canonical epic already covers the domain; nest a slice under it instead.
+  severity: smell
+  severity_grounding: states the practice ("Spawning a sibling epic when an existing canonical epic already covers the domain")
+    but no outcome; proposed smell
+  bad_example: A new epic "Docs search v2" is opened beside the open canonical "Docs search" epic.
+  bad_example_source: authored, grounded in "Spawning a sibling epic when an existing canonical epic already covers the domain"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/5
+  source_title: Full-auto drift
+  pack: internal
+  owner: procedure:semi-auto-delivery
+  id: full-auto-drift
+  merged_into: null
+  merge_reason: null
+  title: Full-auto drift
+  description: Widening scope, crossing an architectural boundary, or changing a contract because it looked obviously needed,
+    without the pause. Autonomy is bounded by the agreed scope; past it, escalate.
+  severity: severe
+  severity_grounding: '"Autonomy is bounded by the agreed scope; past it, escalate.": a mandatory rule is broken -> severe'
+  bad_example: While fixing a CLI flag, the runner also changes the report schema because it "looked obviously needed".
+  bad_example_source: authored, grounded in "changing a contract because it looked obviously needed, without the pause" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/4
+  source_title: Gating instead of discipline
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: gating-instead-of-discipline
+  merged_into: null
+  merge_reason: null
+  title: Gating instead of discipline
+  description: Adding size or ratchet gates the operator ruled out, instead of delivering the refactor itself.
+  severity: severe
+  severity_grounding: '"Adding size or ratchet gates the operator ruled out": an operator ruling is broken -> severe'
+  bad_example: Instead of splitting the 2,000-line module, the PR adds a file-size ratchet the operator ruled out.
+  bad_example_source: authored, grounded in "Adding size or ratchet gates the operator ruled out, instead of delivering the
+    refactor itself" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/3
+  source_title: Greening by erasure
+  pack: internal
+  owner: procedure:semi-auto-delivery
+  id: greening-by-erasure
+  merged_into: null
+  merge_reason: null
+  title: Greening by erasure
+  description: Skipping, disabling, xfailing or quarantining a test, or retrying to green, instead of a real root-cause fix
+    or an honestly classified red (a strict expected failure on a reproduction whose fix lands in a named sibling work package
+    is not this failure).
+  severity: breaking
+  severity_grounding: '"Skipping, disabling, xfailing or quarantining a test, or retrying to green, instead of a real root-cause
+    fix": a red is hidden and a wrong result passes -> breaking'
+  bad_example: The flaky integration test gets `@pytest.mark.skip(reason="flaky")` and the PR goes green.
+  bad_example_source: authored, grounded in "Skipping, disabling, xfailing or quarantining a test" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/1
+  source_title: Grounding prompt without discovery
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: grounding-prompt-without-discovery
+  merged_into: null
+  merge_reason: null
+  title: Grounding prompt without discovery
+  description: Writing section (1) as a solo code-read with no similar-surfaces and tracked-issues squads. The runner then
+    pointfixes the named surface and leaves its siblings and its issue family untouched.
+  severity: severe
+  severity_grounding: '"The runner then pointfixes the named surface and leaves its siblings and its issue family untouched.":
+    the defect stays elsewhere -> severe'
+  bad_example: Section (1) of the prompt is the dispatcher's own read of one file; no squad looks for similar surfaces or
+    tracked issues.
+  bad_example_source: authored, grounded in "Writing section (1) as a solo code-read with no similar-surfaces and tracked-issues
+    squads" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/3
+  source_title: Hand-built chrome
+  pack: internal
+  owner: styleguide:executive-debrief
+  id: hand-built-chrome
+  merged_into: null
+  merge_reason: null
+  title: Hand-built chrome
+  description: Building a cover, page footer or table styling by hand for a long-form debrief produces a near-copy of the
+    house look that drifts from it. The branded generator already draws all of it from the design tokens; write Markdown and
+    pass the cover fields as arguments.
+  severity: smell
+  severity_grounding: '"produces a near-copy of the house look that drifts from it": a cost -> smell'
+  bad_example: A one-off HTML template and stylesheet written beside the report.
+  bad_example_source: bad_example
+  good_example: One Markdown file rendered with spec-kitty-branded-pdf, cover set through --title, --subtitle, --lede and
+    --meta.
+  operator_question: null
+- source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/0
+  source_title: Hand-counted or invented figures
+  pack: internal
+  owner: styleguide:executive-debrief
+  id: hand-counted-or-invented-figures
+  merged_into: null
+  merge_reason: null
+  title: Hand-counted or invented figures
+  description: Typing a count from memory, or citing an issue no collected file contains, breaks the debrief's core guarantee
+    and its Method's promise. Every number and every ref traces to a collected file, or it does not ship.
+  severity: breaking
+  severity_grounding: '"breaks the debrief''s core guarantee and its Method''s promise. Every number and every ref traces
+    to a collected file, or it does not ship": a wrong result -> breaking'
+  bad_example: '"About 50 PRs landed (#5301 was the big one)": the count is estimated and #5301 is not in the collected window.'
+  bad_example_source: bad_example
+  good_example: '"54 PRs merged" from the collector''s metrics; every cited #ref present in valid_refs or in a named supplemental
+    file.'
+  operator_question: null
+- source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/2
+  source_title: Hiding Pre-existing Debt in New Work
+  pack: internal
+  owner: styleguide:tiered-standards
+  id: hiding-pre-existing-debt-in-new-work
+  merged_into: null
+  merge_reason: null
+  title: Hiding Pre-existing Debt in New Work
+  description: Adding new code alongside broken tests, lint failures, or type errors in the same commit without noting the
+    pre-existing state. Reviewers cannot tell which failures are new without archaeology.
+  severity: severe
+  severity_grounding: '"Reviewers cannot tell which failures are new without archaeology.": defeats the review -> severe'
+  bad_example: '# PR adds 200 lines to <project>/state/reducer.py
+
+    # and silently inherits 3 pre-existing mypy errors.
+
+    # Reviewer cannot distinguish new from old.'
+  bad_example_source: bad_example
+  good_example: '# PR description: "Pre-existing mypy errors in reducer.py: 3 (unrelated to this diff).
+
+    # New code passes mypy --strict on its own surface."'
+  operator_question: null
+- source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/1
+  source_title: Importing Core Logic from Scripting Packages
+  pack: internal
+  owner: styleguide:tiered-standards
+  id: importing-core-logic-from-scripting-packages
+  merged_into: null
+  merge_reason: null
+  title: Importing Core Logic from Scripting Packages
+  description: A scripting or shim package that imports from a core package pulls that dependency into a low-rigour tier,
+    making it harder to reason about the core's invariants. Shims and scripts must consume core behaviour via the published
+    CLI or public API, not by direct import.
+  severity: severe
+  severity_grounding: '"Shims and scripts must consume core behaviour via the published CLI or public API, not by direct import.":
+    a mandatory rule is broken -> severe'
+  bad_example: '# <project>/shims/legacy_bridge.py
+
+    from myproject.state.reducer import materialize  # direct core import'
+  bad_example_source: bad_example
+  good_example: '# <project>/shims/legacy_bridge.py
+
+    import subprocess
+
+    result = subprocess.run(["myproject", "status"], capture_output=True)'
+  operator_question: null
+- source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/1
+  source_title: Judging liveness against a stale origin
+  pack: internal
+  owner: procedure:issue-triage-pass
+  id: judging-liveness-against-a-stale-origin
+  merged_into: null
+  merge_reason: null
+  title: Judging liveness against a stale origin
+  description: A lagging fork makes shipped work look missing and new code look removed. Check against the canonical remote's
+    main and require positive presence of the fix.
+  severity: breaking
+  severity_grounding: '"A lagging fork makes shipped work look missing and new code look removed.": a wrong conclusion ->
+    breaking'
+  bad_example: 'The triage marks the fix for #412 as missing because the fork''s origin/main is three weeks behind the canonical
+    repository.'
+  bad_example_source: authored, grounded in "A lagging fork makes shipped work look missing" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/6
+  source_title: Keyword-only triage
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  id: keyword-only-triage
+  merged_into: null
+  merge_reason: null
+  title: Keyword-only triage
+  description: Assigning parents by title or keyword match without reading the body and missing cross-epic overlaps.
+  severity: severe
+  severity_grounding: '"missing cross-epic overlaps": tickets land under the wrong parent -> severe'
+  bad_example: Ticket "Search crashes on empty query" is parented under the Search epic by its title, though its body shows
+    it is the CLI parser's bug.
+  bad_example_source: authored, grounded in "Assigning parents by title or keyword match without reading the body" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/0
+  source_title: Landing a draft PR without asking
+  pack: internal
+  owner: procedure:landing-contributor-prs
+  id: landing-a-draft-pr-without-asking
+  merged_into: null
+  merge_reason: null
+  title: Landing a draft PR without asking
+  description: A draft has not been handed off to the maintainers. Ask the operator first.
+  severity: breaking
+  severity_grounding: states the rule ("A draft has not been handed off to the maintainers. Ask the operator first.") but
+    no outcome; proposed breaking
+  bad_example: A contributor's draft PR is rebased, approved and merged without asking the operator.
+  bad_example_source: authored, grounded in "A draft has not been handed off to the maintainers" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed breaking; the text states a rule or practice, no outcome)'
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/1
+  source_title: Merge commits instead of a linear history
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: merge-commits-instead-of-a-linear-history
+  merged_into: null
+  merge_reason: null
+  title: Merge commits instead of a linear history
+  description: Landing the mission as a tangle of merge/status commits rather than a compacted, rebased, linear branch. Readability
+    and bisectability are lost.
+  severity: severe
+  severity_grounding: '"Readability and bisectability are lost.": -> severe'
+  bad_example: The mission lands with 34 commits, eleven of them merges of status updates.
+  bad_example_source: authored, grounded in "Landing the mission as a tangle of merge/status commits" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/3
+  source_title: One PR for unrelated domains
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: one-pr-for-unrelated-domains
+  merged_into: null
+  merge_reason: null
+  title: One PR for unrelated domains
+  description: Unrelated issues go to separate dispatches. Group issues only when they share a surface or a sequence.
+  severity: smell
+  severity_grounding: states the rule ("Group issues only when they share a surface or a sequence") but no outcome; proposed
+    smell
+  bad_example: A docs typo, a parser bug and a CI cache change go out in one dispatch and one PR.
+  bad_example_source: authored, grounded in "Unrelated issues go to separate dispatches" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/5
+  source_title: Over-broad, uncheckable scenarios
+  pack: internal
+  owner: procedure:charter-offering-scenario-extraction
+  id: over-broad-uncheckable-scenarios
+  merged_into: null
+  merge_reason: 'both: a promise too broad for a step to witness — "Breadth a step cannot witness" / "A promise too broad
+    for a step to witness"'
+  title: Over-broad, uncheckable scenarios
+  description: Breadth a step cannot witness, such as "composition resolves the way I expect". Narrow to a single guarantee
+    a consumer can observe and a step can check.
+  severity: breaking
+  severity_grounding: 'merged member feature-and-scenario-authoring: "It reads as a slogan and passes vacuously.": a test
+    that passes whatever the system does -> breaking'
+  bad_example: '"Scenario: composition resolves the way I expect."'
+  bad_example_source: bad_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/4,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: '"Scenario: when two selected profiles both set the same step''s input, the more specific profile''s value
+    is the one in force."'
+  good_example_source: good_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/4,
+    verbatim
+  operator_question: null
+- source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/4
+  source_title: Over-broad, uncheckable scenario
+  pack: internal
+  owner: styleguide:feature-and-scenario-authoring
+  id: over-broad-uncheckable-scenarios
+  merged_into: internal::anti_pattern:over-broad-uncheckable-scenarios
+  merge_reason: 'both: a promise too broad for a step to witness — "Breadth a step cannot witness" / "A promise too broad
+    for a step to witness"'
+  operator_question: null
+- source: procedures/mission-tracer-files.procedure.yaml#/anti_patterns/1
+  source_title: Over-length entries
+  pack: internal
+  owner: procedure:mission-tracer-files
+  id: over-length-entries
+  merged_into: null
+  merge_reason: null
+  title: Over-length entries
+  description: Writing paragraphs per entry instead of 1-3 focused sentences. The files are a running log, not a document.
+    Verbosity degrades the signal-to-noise ratio and makes the assess step harder.
+  severity: smell
+  severity_grounding: '"Verbosity degrades the signal-to-noise ratio and makes the assess step harder.": a cost -> smell'
+  bad_example: A tracer entry runs to four paragraphs about one flaky test.
+  bad_example_source: authored, grounded in "Writing paragraphs per entry instead of 1-3 focused sentences" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/0
+  source_title: Per-WP green treated as the final gate
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: per-wp-green-treated-as-the-final-gate
+  merged_into: null
+  merge_reason: null
+  title: Per-WP green treated as the final gate
+  description: Skipping the aggregate review because every work package already passed. The WPs only coexist after consolidation;
+    the aggregate diff is where cross-WP integration breaks surface.
+  severity: severe
+  severity_grounding: '"the aggregate diff is where cross-WP integration breaks surface": integration breaks go unreviewed
+    -> severe'
+  bad_example: The mission is handed off once each work package's review passed, without a review of the consolidated diff.
+  bad_example_source: authored, grounded in "Skipping the aggregate review because every work package already passed" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/2
+  source_title: Placeholder prompts
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: placeholder-prompts
+  merged_into: null
+  merge_reason: null
+  title: Placeholder prompts
+  description: A runner cannot ask what an unfilled field meant. Every section must be concrete before spawning.
+  severity: severe
+  severity_grounding: '"A runner cannot ask what an unfilled field meant. Every section must be concrete before spawning.":
+    a mandatory rule is broken -> severe'
+  bad_example: 'The dispatch prompt still says "Scope: <fill in>" when the runner is spawned.'
+  bad_example_source: authored, grounded in "Every section must be concrete before spawning" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/2
+  source_title: Pointfix without discovery
+  pack: internal
+  owner: procedure:semi-auto-delivery
+  id: pointfix-without-discovery
+  merged_into: null
+  merge_reason: null
+  title: Pointfix without discovery
+  description: Fixing only the exact surface the ticket names and skipping the discovery squads, so sibling surfaces that
+    share the defect stay broken and duplicate or superseding tickets go unlinked. The discovery verdict — similar surfaces
+    with their disposition, related issues with their disposition — is part of grounding, not an optional extra, and "no related
+    work" is stated explicitly.
+  severity: severe
+  severity_grounding: '"sibling surfaces that share the defect stay broken and duplicate or superseding tickets go unlinked":
+    the defect stays elsewhere -> severe'
+  bad_example: The runner fixes the date parsing in `export.py` only; `import.py` has the same parser and stays broken.
+  bad_example_source: authored, grounded in "Fixing only the exact surface the ticket names and skipping the discovery squads"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/0
+  source_title: Reading the corpus in commit order
+  pack: internal
+  owner: procedure:test-suite-quality-assessment
+  id: reading-the-corpus-in-commit-order
+  merged_into: null
+  merge_reason: null
+  title: Reading the corpus in commit order
+  description: Splitting the work by date range instead of by domain makes every squad reload the context of every subsystem,
+    and it hides the covering guard that decides whether a test is redundant.
+  severity: severe
+  severity_grounding: '"it hides the covering guard that decides whether a test is redundant": defeats the assessment -> severe'
+  bad_example: The test-quality squads split the corpus by quarter, so each reloads every subsystem and none sees the guard
+    that covers a test.
+  bad_example_source: authored, grounded in "Splitting the work by date range instead of by domain" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/4
+  source_title: Recapturing a CI-owned file during a landing
+  pack: internal
+  owner: procedure:landing-contributor-prs
+  id: recapturing-a-ci-owned-file-during-a-landing
+  merged_into: null
+  merge_reason: null
+  title: Recapturing a CI-owned file during a landing
+  description: A scheduled CI job owns it; a local recapture costs time for a drift that cannot block the PR.
+  severity: smell
+  severity_grounding: '"a local recapture costs time for a drift that cannot block the PR": a cost -> smell'
+  bad_example: During a landing, the runner regenerates the CI-owned benchmark snapshot locally and commits it.
+  bad_example_source: authored, grounded in "a local recapture costs time for a drift that cannot block the PR" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/5
+  source_title: Restating report-writing here
+  pack: internal
+  owner: styleguide:executive-debrief
+  id: restating-report-writing-here
+  merged_into: null
+  merge_reason: null
+  title: Restating report-writing here
+  description: Voice, progressive disclosure and number attribution are report-writing's job, and em-dash rationing and buzzword
+    avoidance belong to the shared ai-writing-tells styleguide that report-writing points to. Duplicating them here would
+    drift them apart. Reference report-writing and add only debrief shape.
+  severity: severe
+  severity_grounding: '"Duplicating them here would drift them apart.": rival copies of one rule -> severe'
+  bad_example: Re-listing "ration the em-dash" and "drop the LLM buzzwords" in this file.
+  bad_example_source: bad_example
+  good_example: '"Follow report-writing for voice and anti-AI-prose; this file governs the debrief''s structure, readers,
+    ref check and print treatment."'
+  operator_question: null
+- source: procedures/mission-tracer-files.procedure.yaml#/anti_patterns/0
+  source_title: Retroactive fill-in
+  pack: internal
+  owner: procedure:mission-tracer-files
+  id: retroactive-fill-in
+  merged_into: null
+  merge_reason: null
+  title: Retroactive fill-in
+  description: Writing all tracer entries at mission close from memory rather than appending at the moment friction or a decision
+    occurs. Retroactive entries miss detail and timing; the tracer files' value comes from in-the-moment capture.
+  severity: severe
+  severity_grounding: '"Retroactive entries miss detail and timing; the tracer files'' value comes from in-the-moment capture.":
+    defeats the files'' purpose -> severe'
+  bad_example: All tracer entries are written on the last day from memory, with no timestamps.
+  bad_example_source: authored, grounded in "Writing all tracer entries at mission close from memory" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/1
+  source_title: Rewriting history to make every commit green
+  pack: internal
+  owner: procedure:landing-contributor-prs
+  id: rewriting-history-to-make-every-commit-green
+  merged_into: null
+  merge_reason: 'both: rewriting history only to make each commit green — "Per-commit green is not the bar" / "Rewriting history
+    only to make each commit pass a gate"'
+  title: Rewriting history to make every commit green
+  description: Per-commit green is not the bar (mission-wrap-up-sequence's compaction step). Rewrite only for readability
+    or to remove personal data, and always run the tree check before a force-push.
+  severity: smell
+  severity_grounding: states the rule ("Per-commit green is not the bar") but no outcome; proposed smell
+  bad_example: Every commit of the branch is rewritten so each passes the gate on its own, and the branch is force-pushed.
+  bad_example_source: authored, grounded in "Per-commit green is not the bar" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/2
+  source_title: Per-commit green as a requirement
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: rewriting-history-to-make-every-commit-green
+  merged_into: internal::anti_pattern:rewriting-history-to-make-every-commit-green
+  merge_reason: 'both: rewriting history only to make each commit green — "Per-commit green is not the bar" / "Rewriting history
+    only to make each commit pass a gate"'
+  operator_question: null
+- source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/4
+  source_title: Running the heavy suites in-mission
+  pack: internal
+  owner: procedure:semi-auto-delivery
+  id: running-the-heavy-suites-in-mission
+  merged_into: null
+  merge_reason: null
+  title: Running the heavy suites in-mission
+  description: Sweeping a heavy suite whole (for example a whole architectural directory or a full-suite make target) locally
+    during the run. CI owns the heavy and full suites at the draft PR; the run targets the specific gate files it implicates.
+  severity: smell
+  severity_grounding: states the rule ("CI owns the heavy and full suites at the draft PR") but no outcome; proposed smell
+  bad_example: The runner runs `make test-all` locally for forty minutes during the mission.
+  bad_example_source: authored, grounded in "Sweeping a heavy suite whole" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+- source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/2
+  source_title: Running the suite to find weak tests
+  pack: internal
+  owner: procedure:test-suite-quality-assessment
+  id: running-the-suite-to-find-weak-tests
+  merged_into: null
+  merge_reason: null
+  title: Running the suite to find weak tests
+  description: 'A weak oracle passes, so running the suite cannot find it. Detection belongs at the leftmost layer that can
+    see it: the linter, then the static scan, then a human or agent read, and only then a planted break.'
+  severity: severe
+  severity_grounding: '"A weak oracle passes, so running the suite cannot find it.": the method cannot do its job -> severe'
+  bad_example: To find weak tests, the whole suite is run and only the failing tests are examined.
+  bad_example_source: authored, grounded in "A weak oracle passes, so running the suite cannot find it" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/4
+  source_title: Scope creep into activation
+  pack: internal
+  owner: procedure:charter-offering-scenario-extraction
+  id: scope-creep-into-activation
+  merged_into: null
+  merge_reason: null
+  title: Scope creep into activation
+  description: Writing activate/deactivate/cascade scenarios into the offering suite. Activation is a separate layer that
+    extracts later; mixing it in makes the offering conformance net not match the unit being extracted first.
+  severity: severe
+  severity_grounding: '"makes the offering conformance net not match the unit being extracted first": -> severe'
+  bad_example: 'The offering suite gains `Scenario: cascade deactivation removes dependent packs`.'
+  bad_example_source: authored, grounded in "Writing activate/deactivate/cascade scenarios into the offering suite" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/0
+  source_title: Setting priority:P0 silently
+  pack: internal
+  owner: procedure:issue-triage-pass
+  id: setting-priority-p0-silently
+  merged_into: null
+  merge_reason: null
+  title: Setting priority:P0 silently
+  description: P0 on a Bug halts the release train. Escalation is the operator's decision.
+  severity: breaking
+  severity_grounding: '"P0 on a Bug halts the release train.": a release is halted by an unsanctioned call -> breaking'
+  bad_example: A triage pass adds `priority:P0` to a bug and moves on without telling the operator.
+  bad_example_source: authored, grounded in "P0 on a Bug halts the release train" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/mission-tracer-files.procedure.yaml#/anti_patterns/2
+  source_title: Skipping the assess step
+  pack: internal
+  owner: procedure:mission-tracer-files
+  id: skipping-the-assess-step
+  merged_into: null
+  merge_reason: null
+  title: Skipping the assess step
+  description: Treating the tracer files as write-only and never reviewing them at mission close. The assess step is what
+    converts the raw log into actionable tracker items and retrospective inputs.
+  severity: severe
+  severity_grounding: '"The assess step is what converts the raw log into actionable tracker items and retrospective inputs.":
+    defeats the files'' purpose -> severe'
+  bad_example: The mission closes with three tracer files that nobody reads, and no tracker items come out of them.
+  bad_example_source: authored, grounded in "Treating the tracer files as write-only and never reviewing them at mission close"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/1
+  source_title: Specifying before grounding
+  pack: internal
+  owner: procedure:semi-auto-delivery
+  id: specifying-before-grounding
+  merged_into: null
+  merge_reason: null
+  title: Specifying before grounding
+  description: Writing a spec or plan before the read-only grounding run. It commits the run to assumptions the code does
+    not hold.
+  severity: severe
+  severity_grounding: '"It commits the run to assumptions the code does not hold.": -> severe'
+  bad_example: The spec assumes the config loader caches, which the grounding run would have shown it does not.
+  bad_example_source: authored, grounded in "Writing a spec or plan before the read-only grounding run" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-to-mission-delivery.procedure.yaml#/anti_patterns/0
+  source_title: Specifying before the claim
+  pack: internal
+  owner: procedure:issue-to-mission-delivery
+  id: specifying-before-the-claim
+  merged_into: null
+  merge_reason: null
+  title: Specifying before the claim
+  description: An unclaimed issue invites a second runner (another agent or a person) onto the same work. Claim and verify
+    first.
+  severity: severe
+  severity_grounding: '"An unclaimed issue invites a second runner (another agent or a person) onto the same work.": duplicated
+    work -> severe'
+  bad_example: The runner writes a spec for the issue before posting a claim, and a second runner starts the same issue an
+    hour later.
+  bad_example_source: authored, grounded in "An unclaimed issue invites a second runner" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-to-mission-delivery.procedure.yaml#/anti_patterns/1
+  source_title: Starting from a stale or wrong remote
+  pack: internal
+  owner: procedure:issue-to-mission-delivery
+  id: starting-from-a-stale-or-wrong-remote
+  merged_into: null
+  merge_reason: null
+  title: Starting from a stale or wrong remote
+  description: A fork's `origin/main` can lag the canonical repository. Ground on the canonical remote, and push nothing to
+    `main`.
+  severity: severe
+  severity_grounding: '"A fork''s `origin/main` can lag the canonical repository.": the work grounds on the wrong base ->
+    severe'
+  bad_example: The runner branches from its fork's origin/main, three weeks behind the canonical repository.
+  bad_example_source: authored, grounded in "A fork's `origin/main` can lag the canonical repository" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/report-writing.styleguide.yaml#/anti_patterns/0
+  source_title: Technical-first burial
+  pack: internal
+  owner: styleguide:report-writing
+  id: technical-first-burial
+  merged_into: null
+  merge_reason: null
+  title: Technical-first burial
+  description: Opening with architecture detail or a metric table forces the stakeholder and investor to mine for the outcome,
+    and most will stop before they find it. The outcome belongs in the first two lines.
+  severity: severe
+  severity_grounding: '"most will stop before they find it": defeats the report''s purpose -> severe'
+  bad_example: '"## Architecture. The commit-boundary router now materialises the coord worktree before origin-binding..."
+    — page one, before any statement of what the cycle delivered.'
+  bad_example_source: bad_example
+  good_example: '"Spec Kitty shipped 3.2.6: charter governance is now the default, and release integrity holds end to end.
+    Detail follows." Outcome first, then the architecture section for the reader who wants it.'
+  operator_question: null
+- source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/3
+  source_title: Tests for the sake of tests
+  pack: internal
+  owner: procedure:landing-contributor-prs
+  id: tests-for-the-sake-of-tests
+  merged_into: null
+  merge_reason: null
+  title: Tests for the sake of tests
+  description: A landing test that duplicates an existing assertion, pins code shape, or is inert once the fix lands adds
+    cost and no protection.
+  severity: smell
+  severity_grounding: '"adds cost and no protection": a cost -> smell'
+  bad_example: The landing adds a test asserting that `fix_parser` exists as a function.
+  bad_example_source: authored, grounded in "A landing test that duplicates an existing assertion, pins code shape, or is
+    inert once the fix lands" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/3
+  source_title: Touching workflow-state leases
+  pack: internal
+  owner: procedure:issue-triage-pass
+  id: touching-workflow-state-leases
+  merged_into: null
+  merge_reason: null
+  title: Touching workflow-state leases
+  description: '`status:ready`, `status:claimed`, `status:blocked` and `taken-by-human` are leases and queue state set by
+    a person or by contributor tooling. Report a stale one; do not remove it. The one exception is `status:triage`, which
+    the pass removes once an issue is triaged and nothing is pending on it.'
+  severity: severe
+  severity_grounding: '"Report a stale one; do not remove it.": a mandatory rule is broken -> severe'
+  bad_example: The triage pass removes a two-week-old `status:claimed` label it judges stale.
+  bad_example_source: authored, grounded in "Report a stale one; do not remove it" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/1
+  source_title: Transcribing the e2e mechanism
+  pack: internal
+  owner: procedure:charter-offering-scenario-extraction
+  id: transcribing-the-e2e-mechanism
+  merged_into: null
+  merge_reason: 'both: a Gherkin copy of an e2e''s internal-state assertions — "Copying an e2e''s internal-state assertions,
+    file-layout checks or sequencing into a scenario" / "A Gherkin copy of an e2e''s internal-state assertions, file-layout
+    checks or step sequencing"'
+  title: Transcribing the e2e mechanism
+  description: Copying an e2e's internal-state assertions, file-layout checks or sequencing into a scenario. The e2e proves
+    the mechanism; the scenario states the consumer outcome. Use the e2e as evidence and a fixture source, decoupled from
+    implementation.
+  severity: severe
+  severity_grounding: 'merged member feature-and-scenario-authoring: "It proves the mechanism, not the promise, and breaks
+    whenever the implementation moves.": false failures defeat the scenario -> severe'
+  bad_example: '"Then .kittify/charter/synthesis-manifest.yaml lists 12 nodes and the DRG fragment has an edge agent_profile:a
+    -> agent_profile:b."'
+  bad_example_source: bad_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/1,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: '"Then the specialised profile''s governance applies on top of the one it specialises."'
+  good_example_source: good_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/1,
+    verbatim
+  operator_question: null
+- source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/1
+  source_title: Mechanism transcription
+  pack: internal
+  owner: styleguide:feature-and-scenario-authoring
+  id: transcribing-the-e2e-mechanism
+  merged_into: internal::anti_pattern:transcribing-the-e2e-mechanism
+  merge_reason: 'both: a Gherkin copy of an e2e''s internal-state assertions — "Copying an e2e''s internal-state assertions,
+    file-layout checks or sequencing into a scenario" / "A Gherkin copy of an e2e''s internal-state assertions, file-layout
+    checks or step sequencing"'
+  operator_question: null
+- source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/1
+  source_title: Treating a static flag as a verdict
+  pack: internal
+  owner: procedure:test-suite-quality-assessment
+  id: treating-a-static-flag-as-a-verdict
+  merged_into: null
+  merge_reason: null
+  title: Treating a static flag as a verdict
+  description: Filing or deleting on the scanner's word alone. The flags rank what to read; the verdict comes from reading
+    the test against its behaviour and proving it with a planted break.
+  severity: severe
+  severity_grounding: '"the verdict comes from reading the test against its behaviour and proving it with a planted break":
+    tests are filed or deleted on an unproven verdict -> severe'
+  bad_example: Forty tests are deleted because the static scanner flagged them as weak, and none of them is read.
+  bad_example_source: authored, grounded in "Filing or deleting on the scanner's word alone" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/6
+  source_title: Unbounded or colliding dispatch
+  pack: internal
+  owner: procedure:cloud-session-dispatch
+  id: unbounded-or-colliding-dispatch
+  merged_into: null
+  merge_reason: null
+  title: Unbounded or colliding dispatch
+  description: Exceeding three open unmerged PRs per repository, putting runners on the same file family, or starting a wave
+    before its environment probe and shared prerequisites have settled.
+  severity: severe
+  severity_grounding: states the rule ("Exceeding three open unmerged PRs per repository, putting runners on the same file
+    family") but no outcome; proposed severe
+  bad_example: A fourth runner is started while three PRs on the repository are still unmerged, on the same file family as
+    one of them.
+  bad_example_source: authored, grounded in "Exceeding three open unmerged PRs per repository, putting runners on the same
+    file family" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
+- source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/0
+  source_title: Uniform Standards Across All Packages
+  pack: internal
+  owner: styleguide:tiered-standards
+  id: uniform-standards-across-all-packages
+  merged_into: null
+  merge_reason: null
+  title: Uniform Standards Across All Packages
+  description: Applying the same coverage and duplication targets to CLI shells and shims as to the status reducer or merge
+    executor creates false confidence and wastes effort. CLI shells are best covered by integration tests; demanding 90% unit
+    coverage there produces mock-heavy tests that obscure real behaviour.
+  severity: severe
+  severity_grounding: '"creates false confidence and wastes effort": -> severe'
+  bad_example: '# CI enforces 90% coverage on every module equally, including cli/commands/
+
+    # — results in over-mocked unit tests for thin command shells that provide
+
+    # no real confidence.'
+  bad_example_source: bad_example
+  good_example: '# Core modules (state, merge) require >=85% and mypy --strict.
+
+    # CLI command shells require integration-level coverage at the command boundary,
+
+    # not unit tests of every argument-parsing branch.'
+  operator_question: null
+- source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/6
+  source_title: Unresolved issue verdicts at close
+  pack: internal
+  owner: procedure:mission-wrap-up-sequence
+  id: unresolved-issue-verdicts-at-close
+  merged_into: null
+  merge_reason: null
+  title: Unresolved issue verdicts at close
+  description: Leaving in-mission or empty verdicts in the issue matrix at hand-off. Every referenced issue must reach a terminal
+    verdict before done.
+  severity: severe
+  severity_grounding: '"Every referenced issue must reach a terminal verdict before done.": a mandatory rule is broken ->
+    severe'
+  bad_example: 'The mission is handed off with #812 still marked in-mission in the issue matrix.'
+  bad_example_source: authored, grounded in "Leaving in-mission or empty verdicts in the issue matrix at hand-off" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/1
+  source_title: Work stranded under a closed epic
+  pack: internal
+  owner: procedure:tracker-organisation-workflow
+  id: work-stranded-under-a-closed-epic
+  merged_into: null
+  merge_reason: null
+  title: Work stranded under a closed epic
+  description: Open tickets parented under a closed or split epic look tracked but are invisible to planning.
+  severity: severe
+  severity_grounding: '"look tracked but are invisible to planning": -> severe'
+  bad_example: Five open tickets stay parented under the closed "Search v1" epic.
+  bad_example_source: authored, grounded in "Open tickets parented under a closed or split epic" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/2
+  source_title: Writing to an issue that closed mid-pass
+  pack: internal
+  owner: procedure:issue-triage-pass
+  id: writing-to-an-issue-that-closed-mid-pass
+  merged_into: null
+  merge_reason: null
+  title: Writing to an issue that closed mid-pass
+  description: Re-read the state immediately before each write.
+  severity: smell
+  severity_grounding: states the rule ("Re-read the state immediately before each write.") but no outcome; proposed smell
+  bad_example: The triage pass labels an issue that was closed ten minutes earlier, from a state read at the start of the
+    pass.
+  bad_example_source: authored, grounded in "Re-read the state immediately before each write" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
