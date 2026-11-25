@@ -144,17 +144,19 @@ entries:
   bad_example_source: bad_example of each member, verbatim, labelled by language
   good_example: "// java\nrecord PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing\
     \ else\n\nfinal class PaymentLineCodec {\n    PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling\
-    \ live here */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {\
-    \                       // PaymentStatus follows the fromByte pattern above\n    Payment toDomain(PaymentLine line) {\n\
-    \        return new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(), 2),\n  \
-    \              PaymentStatus.fromByte(line.status()));\n    }\n\n    PaymentEntity toEntity(Payment payment) { /* field\
-    \ by field, no layout knowledge */ }\n}\n\n@Entity\nclass PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING)\
-    \ PaymentStatus status; }\n\n// rust\npub struct Account { balance: Money }          // domain\n\n#[derive(Deserialize)]\n\
-    struct AccountRow { balance_minor: i64, currency: String } // adapter\n\nimpl TryFrom<AccountRow> for Account { /* validate\
-    \ and convert */ }"
+    \ live here */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {\n\
+    \    Payment toDomain(PaymentLine line) {\n        return new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(),\
+    \ 2),\n                PaymentStatus.fromByte(line.status()));\n    }\n\n    PaymentEntity toEntity(Payment payment) {\
+    \ /* field by field, no layout knowledge */ }\n}\n\n@Entity\nclass PaymentEntity { @Id String reference; BigDecimal amount;\
+    \ @Enumerated(EnumType.STRING) PaymentStatus status; }\n\n// rust\npub struct Account { balance: Money }          // domain\n\
+    \n#[derive(Deserialize)]\nstruct AccountRow { balance_minor: i64, currency: String } // adapter\n\nimpl TryFrom<AccountRow>\
+    \ for Account { /* validate and convert */ }"
   title_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M)
   description_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M), from the members' shared claim
   operator_question: null
+  merge_note: 'good_example: each member''s verbatim good_example, labelled by language, except that the java comment "//
+    PaymentStatus follows the fromByte pattern above" is removed, because it points at java-conventions text that a foundation
+    file does not carry (review nit N3)'
 - source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
   source_title: Storage Attributes on Domain Types
   pack: rust
@@ -178,8 +180,9 @@ entries:
   severity: smell
   severity_grounding: 'charter example-pack precedent: example-theater.anti-pattern.yaml severity smell (same text)'
   bad_example: Produce many workshop examples that no acceptance check or review ever reads.
-  bad_example_source: authored, grounded in "Producing many examples that are never used for acceptance or review" (decision
-    01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent example-theater.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Producing many examples that are never used for acceptance or review, turning
+    the workshop into documentation overhead instead of a delivery aid" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the
+    charter example-pack precedent example-theater.anti-pattern.yaml
   operator_question: null
 - source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/6
   source_title: Fire-and-Forget Goroutine
@@ -275,8 +278,9 @@ entries:
   severity: severe
   severity_grounding: 'charter example-pack precedent: happy-path-only.anti-pattern.yaml severity severe (same text)'
   bad_example: Map only "a valid order is accepted", with no example of a rejected, boundary or exceptional order.
-  bad_example_source: authored, grounded in "Capturing only success stories and missing the boundaries" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
-    text from the charter example-pack precedent happy-path-only.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Capturing only success stories and missing the boundaries, exceptions, and rejection
+    cases that actually define the contract" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent
+    happy-path-only.anti-pattern.yaml
   operator_question: null
 - source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/7
   source_title: Hard-wiring the squad as a gate
@@ -292,11 +296,12 @@ entries:
     outcome. The squad enriches; it never blocks.'
   severity: severe
   severity_grounding: 'charter example-pack precedent: hard-wiring-the-squad-as-a-gate.anti-pattern.yaml severity severe (the
-    source adds its own Bad/Good sentences; the practice is the same)'
+    practice, Bad and Good are the same; only the e.g. differs: charter "raise a StatusGateError", source "a squad report
+    is attached")'
   bad_example: 'Block a status transition until squad evidence is present: raise a StatusGateError before a work package can
     be claimed.'
-  bad_example_source: authored, grounded in "Turning the squad into a required mission gate instead of optional" (decision
-    01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent hard-wiring-the-squad-as-a-gate.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Turning the squad into a required mission gate instead of optional, charter-
+    or memory-activated enrichment" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent hard-wiring-the-squad-as-a-gate.anti-pattern.yaml
   operator_question: null
 - source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/1
   source_title: Implementation leakage
@@ -312,8 +317,9 @@ entries:
   severity_grounding: 'charter example-pack precedent: implementation-leakage.anti-pattern.yaml severity smell (same text)'
   bad_example: Given the orders row has status_code 3, when OrderService.confirm is called, then the Confirm button is greyed
     out.
-  bad_example_source: authored, grounded in "Writing examples in terms of database fields" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
-    text from the charter example-pack precedent implementation-leakage.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Writing examples in terms of database fields, internal services, or UI widgets
+    rather than observable business behavior" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent
+    implementation-leakage.anti-pattern.yaml
   operator_question: null
 - source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/0
   source_title: Indirection to remove a few repeated lines
@@ -343,8 +349,8 @@ entries:
   severity: smell
   severity_grounding: 'charter example-pack precedent: model-tier-mismatch.anti-pattern.yaml severity smell (same text)'
   bad_example: Run the tracker delegate on the top-tier model and the hardest adversarial lens on the weakest tier.
-  bad_example_source: authored, grounded in "Top-tier model on mechanical or tracker delegates" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
-    text from the charter example-pack precedent model-tier-mismatch.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Top-tier model on mechanical or tracker delegates, or a weak tier on the hardest
+    adversarial lens" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent model-tier-mismatch.anti-pattern.yaml
   operator_question: null
 - source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/1
   source_title: Non-Null Assertion as Error Handling
@@ -469,8 +475,8 @@ entries:
   bad_example: 'Record a delegate''s finding and leave it with no disposition: neither accepted, changed nor deferred with
     a rationale.'
   bad_example_source: authored, grounded in "Recording a finding without a disposition under the findings-disposition contract
-    — every finding must be accepted" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent
-    silently-dropped-finding.anti-pattern.yaml
+    — every finding must be accepted, changed, or deferred with a rationale, never dropped" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
+    text from the charter example-pack precedent silently-dropped-finding.anti-pattern.yaml
   operator_question: null
 - source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/0
   source_title: Single-shard inspection
@@ -519,8 +525,9 @@ entries:
   severity_grounding: 'charter example-pack precedent: trusting-a-biased-delegate.anti-pattern.yaml severity severe (same
     text)'
   bad_example: Apply a duct-tape-prone reducer's prescription as it stands, with no critical pass.
-  bad_example_source: authored, grounded in "Accepting a delegate's prescription despite a known bias (e" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
-    text from the charter example-pack precedent trusting-a-biased-delegate.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Accepting a delegate's prescription despite a known bias (e.g. a duct-tape-prone
+    reducer) without a critical pass" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent
+    trusting-a-biased-delegate.anti-pattern.yaml
   operator_question: null
 - source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/2
   source_title: Unbounded squad
@@ -535,8 +542,9 @@ entries:
   severity: smell
   severity_grounding: 'charter example-pack precedent: unbounded-squad.anti-pattern.yaml severity smell (same text)'
   bad_example: Deploy dozens of delegates on one question that three distinct lenses would answer.
-  bad_example_source: authored, grounded in "Dozens of delegates for a question that a small" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
-    text from the charter example-pack precedent unbounded-squad.anti-pattern.yaml
+  bad_example_source: authored, grounded in "Dozens of delegates for a question that a small, distinct set of lenses would
+    answer; more delegates is not better" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent
+    unbounded-squad.anti-pattern.yaml
   operator_question: null
 - source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/3
   source_title: Unvalidated examples

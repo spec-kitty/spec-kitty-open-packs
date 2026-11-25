@@ -793,13 +793,10 @@ clusters:
   operator_question: null
 - cluster: returning-final-minutes-while-attribution-gaps-remain
   home_pack: writing
-  merge_reason: 'both: action items without a named owner — "Unowned action items cannot be followed up" / "Recording an action
-    without a named owner"'
+  merge_reason: null
   members:
   - pack: writing
     source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/1
-  - pack: writing
-    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/1
   depends_on_added: []
   operator_question: null
 - cluster: second-documentation-root
@@ -864,6 +861,14 @@ clusters:
   members:
   - pack: writing
     source: styleguides/divio-type-discipline.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: unattributed-action-items
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/1
   depends_on_added: []
   operator_question: null
 - cluster: undefined-audience

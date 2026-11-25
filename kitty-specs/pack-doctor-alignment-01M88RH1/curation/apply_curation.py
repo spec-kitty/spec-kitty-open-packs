@@ -728,7 +728,8 @@ def check(root: Path, rows: list[Row], merge_map: dict | None) -> list[str]:
                 target = qualified_target(key, home, ident)
                 for doc in tree.graph_docs(pack):
                     for edge in (tree.load(doc) or {}).get("edges") or []:
-                        if edge.get("target") == target and _norm(edge.get("reason")) == _norm(update.get("from")):
+                        if (edge.get("target") == target and edge.get("relation") == "rejects"
+                                and _norm(edge.get("reason")) == _norm(update.get("from"))):
                             faults.append(f"{row.label}: {key} edge {edge.get('source')} -> {target} keeps the old reason")
 
     # Every cross-pack anti-pattern edge, ledger-made or hand-written, stays inside the owner's closure.
