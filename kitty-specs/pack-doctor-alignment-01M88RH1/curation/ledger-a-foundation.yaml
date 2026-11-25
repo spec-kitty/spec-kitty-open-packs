@@ -30,11 +30,12 @@ entries:
     should be tracked and scheduled for remediation, not used to block merges that did not introduce them.
   severity: smell
   severity_grounding: '"Pre-existing failures should be tracked and scheduled for remediation, not used to block merges that
-    did not introduce them": states the cost (a merge held needlessly) but no severity signal; proposed smell'
+    did not introduce them": states the cost (a merge held needlessly) but no severity signal -> smell (operator ruling 2026-11-25,
+    decision 01M89Q7P03NGASGGP8JG9B4770)'
   bad_example: The merge is held because `test_legacy_export` fails, though it fails identically on the mission base branch.
   bad_example_source: authored, grounded in "Treating a gate failure that existed on the mission base branch as a regression
     blocker" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell or severe? (proposed smell; the text states a cost, not an outcome)'
+  operator_question: null
 - source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/3
   source_title: Casting by habit
   pack: foundation

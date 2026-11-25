@@ -310,6 +310,29 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T16:04:48.771801Z",
+      "decision_id": "01M89Q7P03NGASGGP8JG9B4770",
+      "final_answer": "smell (operator ruling 2026-11-25, relayed by the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "severity_w3_1",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "smell",
+        "severe"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "foundation \"Blocking a merge on a confirmed pre-existing failure\": smell or severe? (the text states a cost, not an outcome)",
+      "rationale": null,
+      "resolved_at": "2026-11-25T16:04:51.594598Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.w3_1",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
