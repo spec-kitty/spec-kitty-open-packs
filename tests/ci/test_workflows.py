@@ -763,6 +763,85 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         self.assertEqual(download["with"]["path"], "${{ runner.temp }}/charter-bump")
         self.assertEqual(self.build["env"]["ARTIFACT"], "${{ runner.temp }}/charter-bump")
 
+    def run_publish(self) -> tuple[bytes, list[str]]:
+        """Run build, push and open in one RUNNER_TEMP, with the artifact where the download puts it, under a stub gh.
+
+        The artifact directory also holds a planted request.json and pr.md. Returns the request the build step wrote
+        and every gh call, each followed by the SHA-256 of any file it was given (--input, --body-file)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp)
+            artifact = work / "charter-bump"  # ${{ runner.temp }}/charter-bump, the download step's path
+            artifact.mkdir()
+            changes = {"additions": [{"path": p, "contents": self.LOCK if p == "charter.lock.yaml" else "eA=="}
+                                     for p in self.REAL], "deletions": []}
+            (artifact / "file-changes.json").write_text(json.dumps(changes), encoding="utf-8")
+            (artifact / "head").write_text("a" * 40 + "\n", encoding="utf-8")
+            (artifact / "request.json").write_text('{"planted": "unchecked request"}', encoding="utf-8")
+            (artifact / "pr.md").write_text("planted body\n", encoding="utf-8")
+            (work / "open-prs.tsv").write_text("", encoding="utf-8")  # the lookup's listing: nothing to supersede
+            (work / "bin").mkdir()
+            gh = work / "bin" / "gh"
+            gh.write_text(
+                "#!/usr/bin/env bash\n"
+                'printf "%s\\n" "$*" >> "$GH_LOG"\n'
+                "args=(\"$@\")\n"
+                'for i in "${!args[@]}"; do\n'
+                '  case "${args[$i]}" in --input|--body-file) f="${args[$((i + 1))]}"\n'
+                '    printf "  %s <- %s\\n" "$f" "$(sha256sum < "$f" | cut -d " " -f 1)" >> "$GH_LOG" ;; esac\n'
+                "done\n"
+                '[[ "$1 $2" == "pr create" ]] && echo https://example.invalid/pull/9\n'
+                '[[ "$1 $2" == "api graphql" ]] && echo 0123abcd\n'
+                "exit 0\n", encoding="utf-8")
+            gh.chmod(0o755)
+            log = work / "gh.log"
+            log.touch()
+            output = work / "output"
+            env = {**os.environ, "PATH": f"{work / 'bin'}:{os.environ['PATH']}", "GH_LOG": str(log),
+                   "RUNNER_TEMP": tmp, "ARTIFACT": str(artifact), "HEAD_SHA": "a" * 40, "GH_TOKEN": "job",
+                   "PR_TOKEN": "pat", "REPO": "spec-kitty/spec-kitty-open-packs",
+                   "BRANCH": "charter/service-release-service-v2.0.0", "RELEASE_TAG": "service-v2.0.0",
+                   "COMMIT": "c" * 40, "CURRENT": "service-v1.0.0", "JAR_SHA256": "d" * 64,
+                   "PACK_CHECK_SHA256": "e" * 64, "RED": "", "RUN_URL": "https://example.invalid/run/1",
+                   "ATTEST_SERVICE": "verified", "ATTEST_PACK_CHECK": "verified",
+                   "GITHUB_OUTPUT": str(output), "GITHUB_STEP_SUMMARY": str(work / "summary.md")}
+            for step in (self.build, self.push, self.open):
+                # Only the steps' own env names reach them, plus what the runner sets; ARTIFACT is the build's alone.
+                step_env = {k: v for k, v in env.items() if k in step.get("env", {}) or k not in self.build["env"]}
+                done = subprocess.run(["bash", "-c", step["run"]], env=step_env, capture_output=True, text=True,
+                                      cwd=tmp, check=False)
+                self.assertEqual(done.returncode, 0, f"{step.get('name')}: {done.stdout}{done.stderr}")
+            request = (work / "request.json").read_bytes()
+            calls = log.read_text(encoding="utf-8").replace(tmp, "$RUNNER_TEMP").splitlines()
+            return request, calls
+
+    def test_the_push_commits_the_request_the_build_checked_and_no_gh_call_reads_the_artifact(self) -> None:
+        # The build step's checks (paths, the exact lock, canonical base64) stand behind the commit only if the push
+        # sends the very request the build wrote. A push that read the artifact directory would send what a poisoned
+        # derive wrote there, unchecked; so would an open that took its body from it.
+        request, calls = self.run_publish()
+        graphql = [i for i, call in enumerate(calls) if call.startswith("api graphql")]
+        self.assertEqual(len(graphql), 1, calls)
+        self.assertEqual(calls[graphql[0] + 1], f"  $RUNNER_TEMP/request.json <- {hashlib.sha256(request).hexdigest()}")
+        body_files = [call for call in calls if call.startswith("  ") and "pr.md" in call]
+        self.assertEqual([call.split(" <- ")[0] for call in body_files], ["  $RUNNER_TEMP/pr.md"])
+        for call in calls:
+            with self.subTest(call=call):
+                self.assertNotIn("charter-bump", call)
+        for step in (self.push, self.open):
+            self.assertNotIn("ARTIFACT", step.get("env", {}))
+
+    def test_the_artifact_the_derive_uploads_is_the_one_the_bump_downloads(self) -> None:
+        upload = next(step for step in self.derive_job["steps"]
+                      if str(step.get("uses", "")).startswith("actions/upload-artifact@"))
+        download = next(step for step in self.steps
+                        if str(step.get("uses", "")).startswith("actions/download-artifact@"))
+        self.assertEqual(upload["with"]["name"], download["with"]["name"])
+        # The upload carries the directory the derive writes its file changes and head into.
+        derive_run = "\n".join(str(step.get("run", "")) for step in self.derive_job["steps"])
+        written = re.findall(r'> "\$RUNNER_TEMP/([^"/]+)/(?:file-changes\.json|head)"', derive_run)
+        self.assertEqual(len(written), 2, derive_run)
+        self.assertEqual(set(written), {upload["with"]["path"].rstrip("/").removeprefix("${{ runner.temp }}/")})
+
     def test_an_artifact_cut_from_another_commit_is_refused(self) -> None:
         # The head file holds this commit and nothing else: another commit, or this one plus a second line, is refused.
         cases = {"another commit": {"head": "b" * 40},
