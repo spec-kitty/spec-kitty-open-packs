@@ -1,7 +1,7 @@
 {
-  "event_count": 63,
-  "last_event_id": "01M8A2TFY700K70X50E9FG9ZWG",
-  "materialized_at": "2026-11-25T19:27:19.367052+00:00",
+  "event_count": 64,
+  "last_event_id": "01M8A31PKHPEMXMWME7GC5YNGS",
+  "materialized_at": "2026-11-25T19:31:15.697754+00:00",
   "mission_number": "",
   "mission_slug": "pack-doctor-alignment-01M88RH1",
   "mission_type": "software-dev",
@@ -12,8 +12,8 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 0,
-    "in_progress": 1,
+    "for_review": 1,
+    "in_progress": 0,
     "in_review": 0,
     "planned": 4
   },
@@ -258,9 +258,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude::implementer-ivan",
-      "lane": "in_progress",
-      "last_event_id": "01M8A2TFY700K70X50E9FG9ZWG",
-      "last_transition_at": "2026-11-25T19:27:19.367052+00:00",
+      "lane": "for_review",
+      "last_event_id": "01M8A31PKHPEMXMWME7GC5YNGS",
+      "last_transition_at": "2026-11-25T19:31:15.697754+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-25T19:30:55Z – claude::implementer-ivan – shell_pid=3696 – WP08 applied (lane-b). One signed commit per approved ledger, each the pure output of apply_curation.py --root . --ledger <ledger>:\n- 7c53c2e ledger 00 (architecture foundation refactoring)\n- fa57156 ledger A (foundation go java javascript rust testing)\n- b6b0060 ledger B (internal python testing writing)\n- 198f295 ledger C (architecture event-driven internal pack-authoring planning-analysis)\n- be2e15f ledger D (drupal go java javascript python rust)\n- 91e3239 ledger E (internal qa)\nT041: apply_curation.py --check --root . exit 0; grep -rln '^anti_patterns:' packs is empty (SC-003); a second apply writes nothing.\nT042: pack-doctor validate --round-trip --full over packs/* and tests/fixtures/valid/* (jar built from charter 4b95b9151, quickstart step 1; WP01's script has not landed):\n  checks [PACK, CLOSURE, REFERENCES, ROUND_TRIP], skipped [] (CLOSURE and REFERENCES run over the set for the first time).\n  violations 326: manifest_membership 265, manifest_stale 61; warnings 19 (baseline 19). No round_trip_*, no preset_item_*/pack_reference_*/substep_* codes.\nT043: nothing to fix here. All 326 are manifest_* and owned by WP09 (restamp)."
