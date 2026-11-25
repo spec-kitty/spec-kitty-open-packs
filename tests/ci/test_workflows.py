@@ -330,19 +330,38 @@ class CharterServiceJob(unittest.TestCase):
         # A release pin downloads both jars; only a commit pin builds them from the pinned source.
         _, job = job_named(self.workflow, "Charter service validation")
         steps = job["steps"]
-        gradle = next(step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@"))
+        gradles = [step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@")]
+        self.assertEqual(len(gradles), 2)
+        for_move, for_pin = gradles
+        move = next(i for i, step in enumerate(steps) if step.get("id") == "move")
         pin = next(i for i, step in enumerate(steps) if step.get("id") == "pin")
-        self.assertGreater(steps.index(gradle), pin)
-        for release_tag, expected in (("", True), ("service-v0.1.0-rc.3", False)):
+        self.assertLess(steps.index(for_move), move)
+        self.assertGreater(steps.index(for_pin), pin)
+        # (the target's commit and release tag, the pin's release tag) -> (Gradle before the move, Gradle after it).
+        # Exactly one runs whenever anything is built: a move to a main target, or a commit pin on the PR gate.
+        cases = {("", "", ""): (False, True), ("", "", "service-v0.1.0-rc.3"): (False, False),
+                 ("d" * 40, "", ""): (True, False), ("d" * 40, "service-v9.0.0", "service-v9.0.0"): (False, False)}
+        for (commit, target_tag, pin_tag), expected in cases.items():
             ctx = contexts(pr_event())
-            ctx["steps"] = {"pin": {"outputs": {"release_tag": release_tag}}}
-            with self.subTest(release_tag=release_tag):
-                self.assertEqual(gh_expr.evaluate_if(gradle["if"], ctx), expected)
+            ctx["inputs"] = {"charter_commit": commit, "charter_release_tag": target_tag}
+            ctx["steps"] = {"pin": {"outputs": {"release_tag": pin_tag}}}
+            with self.subTest(commit=commit, target=target_tag, pin=pin_tag):
+                self.assertEqual((gh_expr.evaluate_if(for_move["if"], ctx), gh_expr.evaluate_if(for_pin["if"], ctx)),
+                                 expected)
+
+    def test_only_the_check_jobs_move_the_pin_with_allow_red(self) -> None:
+        # A red restamp is judged and reported by the checks; the bump, which commits the tree, never allows one.
+        for name in ("Charter Pack validation", "Charter service validation"):
+            with self.subTest(job=name):
+                _, job = job_named(self.workflow, name)
+                move = next(step for step in job["steps"] if step.get("id") == "move")
+                self.assertIn("--allow-red", move["run"])
 
 def assert_java_before_apply(case: unittest.TestCase, steps: list) -> None:
     """A step running ``charter_pin.py apply`` follows a setup-java step for Java 25 in the same job, under the same
     condition or none."""
-    apply = next(i for i, step in enumerate(steps) if "charter_pin.py apply" in str(step.get("run", "")))
+    apply = next((i for i, step in enumerate(steps) if "charter_pin.py apply" in str(step.get("run", ""))), None)
+    case.assertIsNotNone(apply, "the job has no step that runs charter_pin.py apply")
     java = [i for i, step in enumerate(steps[:apply]) if str(step.get("uses", "")).startswith("actions/setup-java@")]
     case.assertTrue(java, "no setup-java before the step that runs charter_pin.py apply")
     setup = steps[java[-1]]
@@ -481,6 +500,9 @@ class CharterTrack(unittest.TestCase):
 
     def test_the_bump_sets_up_java_25_before_it_moves_the_pin(self) -> None:
         assert_java_before_apply(self, self.jobs["bump"]["steps"])
+
+    def test_the_bump_never_carries_a_red_restamp(self) -> None:
+        self.assertNotIn("--allow-red", yaml.safe_dump(self.jobs["bump"]))
 
     def test_its_checks_are_the_required_checks_own_jobs_moved_to_the_target(self) -> None:
         checks = self.jobs["checks"]

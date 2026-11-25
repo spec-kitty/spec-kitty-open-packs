@@ -345,13 +345,31 @@ class Rederive(unittest.TestCase):
             with self.subTest(line=line):
                 self.assertIsNone(charter_pin.REMEDIATE_OUTCOME.match(line))
 
-    def test_a_refused_pack_warns_and_leaves_the_judgement_to_the_gate(self) -> None:
-        # Exit 1: the other packs are restamped; the gate step still runs and keeps its report of the red tree.
-        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err:
+    def test_a_red_restamp_fails_the_derive_unless_red_is_allowed(self) -> None:
+        # Exit 1 (a pack refused): a bump or a hand-run apply never carries a red tree, so the derive fails...
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err, \
+             self.assertRaises(charter_pin.PinError) as raised:
             charter_pin.rederive("/jars/pack-doctor.jar")
-        self.assertIn("::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: packs/alpha)", err.getvalue())
+        self.assertIn("exited 1 (refused: packs/alpha)", str(raised.exception))
         self.assertIn("pack_version_invalid", err.getvalue())
+        self.assertEqual(self.ran, [])
+        # ...while the gate's check jobs (apply --allow-red) go on, and their pack-doctor step judges and reports it.
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err:
+            charter_pin.rederive("/jars/pack-doctor.jar", allow_red=True)
+        self.assertIn("::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: packs/alpha)", err.getvalue())
         self.assertEqual(len(self.ran), 2)
+
+    def test_apply_passes_allow_red_through(self) -> None:
+        with mock.patch.object(charter_pin, "write_lock"), mock.patch.object(charter_pin, "rederive") as rederive:
+            charter_pin.main(["apply", "--commit", COMMIT])
+            charter_pin.main(["apply", "--commit", COMMIT, "--allow-red"])
+        self.assertEqual([c.kwargs for c in rederive.call_args_list], [{"allow_red": False}, {"allow_red": True}])
+
+    def test_pack_doctors_own_stderr_is_passed_on(self) -> None:
+        # Its warnings, and its "delete it" for an old copy of a rewritten pack that could not be removed.
+        with redirect_stderr(io.StringIO()) as err:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertIn("warning: beta: file_not_held notes.txt: not held", err.getvalue())
 
     def test_a_usage_fault_fails_the_derive_and_prints_its_output(self) -> None:
         with mock.patch.dict("os.environ", {"JAVA_EXIT": "2"}), redirect_stderr(io.StringIO()) as err, \

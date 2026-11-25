@@ -94,7 +94,7 @@ jobs:
           PACK_DOCTOR_SHA256: ${{ inputs.charter_pack_doctor_sha256 }}
         run: |
           set -euo pipefail
-          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-doctor-sha256 "$PACK_DOCTOR_SHA256"
+          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-doctor-sha256 "$PACK_DOCTOR_SHA256" --allow-red
           {
             echo "### The pin moved to the charter target"
             echo
@@ -168,11 +168,15 @@ jobs:
         # Wheels only, so no setup script runs (a block scalar: `:all:` is not plain-scalar safe).
         run: |
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
-      # Java 25 runs the charter service, pack-doctor and the move's remediate, so it is set up before the move.
+      # Java 25 runs the charter service, pack-doctor and the move's remediate, so it is set up before the move; a
+      # move to a main target builds pack-doctor, so Gradle is set up before it too (the release_tag of the target).
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
           distribution: temurin
           java-version: "25"
+      - name: Set up Gradle for the move
+        if: ${{ inputs.charter_commit && inputs.charter_release_tag == '' }}
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       # Called against another charter target (charter-track.yml) only: the same move as the job above.
       - name: Move the pin to the charter target
         id: move
@@ -182,7 +186,7 @@ jobs:
           RELEASE_TAG: ${{ inputs.charter_release_tag }}
           JAR_SHA256: ${{ inputs.charter_jar_sha256 }}
           PACK_DOCTOR_SHA256: ${{ inputs.charter_pack_doctor_sha256 }}
-        run: python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-doctor-sha256 "$PACK_DOCTOR_SHA256"
+        run: python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-doctor-sha256 "$PACK_DOCTOR_SHA256" --allow-red
       # Fails closed unless the pin is a full commit (never a branch) and a release pin has its digest.
       - name: Read the charter pin
         id: pin
@@ -192,9 +196,10 @@ jobs:
           release_tag="$(python3 scripts/ci/charter_lock.py release_tag)"
           echo "commit=$commit" >> "$GITHUB_OUTPUT"
           echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
-      # Only a commit pin builds anything: a release pin downloads both jars.
+      # Only a commit pin builds anything: a release pin downloads both jars. Once only: a move to a main target set
+      # Gradle up above.
       - name: Set up Gradle
-        if: ${{ steps.pin.outputs.release_tag == '' }}
+        if: ${{ steps.pin.outputs.release_tag == '' && !(inputs.charter_commit && inputs.charter_release_tag == '') }}
         uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       # A release jar (checked against jar_sha256) when the pin names a service-v* release, else the
       # pinned commit built with ./gradlew :deployable:bootJar. The same script runs on a developer machine.

@@ -576,9 +576,14 @@ class RealPackDoctor(unittest.TestCase):
         self.assertLessEqual(gate.codes(result.report), CURATION_CODES, gate.problem_lines(result.report)[:20])
 
     def test_the_gate_gives_this_checkout_a_verdict(self) -> None:
-        # The known red below must be a verdict (exit 0 or 1), never a run that judged nothing (exit 2).
+        # The known red below must be pack-doctor's verdict on the packs, never a run that judged nothing: a jar that
+        # cannot start, or pack-doctor's own exit 2, also make the gate exit 1, with "gave no verdict".
         done = self.gate_over_this_checkout()
         self.assertIn(done.returncode, (0, 1), done.stdout[-4000:])
+        self.assertNotIn("gave no verdict", done.stdout)
+        self.assertNotIn("exited 2", done.stdout)
+        if done.returncode == 1:
+            self.assertIn("pack-doctor refused the packs (exit 1)", done.stdout)
 
     @unittest.expectedFailure  # the set's known red: cleared by WP08/WP09, and WP09 removes this marker
     def test_the_gate_passes_this_checkout(self) -> None:
