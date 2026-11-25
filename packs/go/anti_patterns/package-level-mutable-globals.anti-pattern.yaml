@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: package-level-mutable-globals
+title: Package-level Mutable Globals
+description: Holding connections, configuration or caches in package variables set from init() or main. Tests interfere with
+  each other, and dependencies are invisible in function signatures.
+severity: severe
+bad_example: |-
+  var db *sql.DB
+
+  func init() {
+      db, _ = sql.Open("pgx", os.Getenv("DATABASE_URL"))
+  }
+good_example: |-
+  type Store struct{ db *sql.DB }
+
+  func NewStore(db *sql.DB) *Store { return &Store{db: db} }

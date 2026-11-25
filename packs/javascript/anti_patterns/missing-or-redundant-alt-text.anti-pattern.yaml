@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: missing-or-redundant-alt-text
+title: Missing or Redundant Alt Text
+description: Without `alt`, assistive technology has nothing to announce in the image's place; `alt="divider image"` adds
+  redundancy. Say what the image conveys, or mark it decorative.
+severity: severe
+bad_example: |-
+  <img src="chart-q3.png">
+  <img src="divider.svg" alt="divider image">
+good_example: |-
+  <img src="chart-q3.png" alt="Q3 revenue grew 12% over Q2, led by subscriptions">
+  <img src="divider.svg" alt="">

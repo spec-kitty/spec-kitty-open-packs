@@ -1,0 +1,18 @@
+schema_version: '1.0'
+id: leaked-subscription
+title: Leaked Subscription
+description: A subscription with no owner keeps running after its component or service is gone, causing leaks and duplicate
+  side effects.
+severity: severe
+bad_example: |-
+  ngOnInit(): void {
+    this.ticks$.subscribe((tick) => {
+      this.refresh(tick);
+    });
+  }
+good_example: |-
+  ngOnInit(): void {
+    this.ticks$.pipe(takeUntil(this.destroyed$)).subscribe((tick) => {
+      this.refresh(tick);
+    });
+  }

@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: raw-sql-instead-of-entity-query
+title: Raw SQL Instead of Entity Query
+description: Prefer Entity Query over hand-written SQL. Explicit accessCheck() is mandatory — implicit access checking throws
+  an error from Drupal 10.0.0. See drupal-security-performance for the full treatment.
+severity: severe
+bad_example: $nids = db_query('SELECT nid FROM {node} WHERE status = 1')->fetchCol();
+good_example: |-
+  $nids = $this->entityTypeManager->getStorage('node')->getQuery()
+    ->condition('status', 1)
+    ->accessCheck(TRUE)
+    ->execute();

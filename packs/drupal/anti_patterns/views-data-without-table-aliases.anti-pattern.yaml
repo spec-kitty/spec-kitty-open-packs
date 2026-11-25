@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: views-data-without-table-aliases
+title: Views Data Without Table Aliases
+description: hook_views_data() always prefixes columns with an explicit alias to avoid SQL ambiguity across joined tables.
+severity: severe
+bad_example: |-
+  $data['my_table']['status'] = [
+    'title' => t('Status'),
+    'field' => ['id' => 'standard'],
+  ];
+good_example: |-
+  $data['my_table']['my_table_status'] = [
+    'title' => t('Status'),
+    'real field' => 'status',
+    'field' => ['id' => 'standard'],
+  ];

@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: hardcoded-ids-and-paths
+title: Hardcoded IDs and Paths
+description: Entity IDs, user IDs, and paths shift between environments; resolve them dynamically instead of hardcoding.
+severity: severe
+bad_example: |-
+  $node = Node::load(42);
+  $link = '/node/42/edit';
+good_example: |-
+  $nodes = $this->entityTypeManager->getStorage('node')
+    ->loadByProperties(['field_machine_name' => 'homepage']);
+  $link = reset($nodes)->toUrl('edit-form')->toString();

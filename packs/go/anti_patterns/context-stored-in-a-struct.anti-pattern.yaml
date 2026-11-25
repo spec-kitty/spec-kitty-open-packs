@@ -1,0 +1,14 @@
+schema_version: '1.0'
+id: context-stored-in-a-struct
+title: Context Stored in a Struct
+description: Keeping a context.Context in a struct field. Its lifetime no longer matches a call, so cancellation reaches the
+  wrong work or none at all.
+severity: breaking
+bad_example: |-
+  type Worker struct {
+      ctx context.Context
+  }
+good_example: |-
+  type Worker struct{ /* dependencies only */ }
+
+  func (w *Worker) Run(ctx context.Context) error { /* ... */ }

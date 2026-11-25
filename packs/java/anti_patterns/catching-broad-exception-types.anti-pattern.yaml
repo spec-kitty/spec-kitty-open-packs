@@ -1,0 +1,17 @@
+schema_version: '1.0'
+id: catching-broad-exception-types
+title: Catching Broad Exception Types
+description: Catching Exception or RuntimeException swallows unrelated failures and makes debugging much harder.
+severity: severe
+bad_example: |-
+  try {
+      process(input);
+  } catch (Exception e) {
+      log.error("Something went wrong", e);
+  }
+good_example: |-
+  try {
+      process(input);
+  } catch (ParseException e) {
+      throw new InvalidInputException("Malformed input: " + input, e);
+  }

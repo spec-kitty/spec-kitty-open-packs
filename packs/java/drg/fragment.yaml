@@ -19,6 +19,21 @@ nodes:
   kind: toolguides
   title: Maven Review Checks
   body_path: toolguides/maven-review-checks.toolguide.yaml
+- id: catching-broad-exception-types
+  kind: anti_patterns
+  title: Catching Broad Exception Types
+- id: constructor-sprawl-in-tests
+  kind: anti_patterns
+  title: Constructor Sprawl in Tests
+- id: jqwik-as-a-test-dependency
+  kind: anti_patterns
+  title: jqwik as a Test Dependency
+- id: platform-dependent-encoding
+  kind: anti_patterns
+  title: Platform-Dependent Encoding
+- id: returning-null
+  kind: anti_patterns
+  title: Returning Null
 edges:
 - source: agent_profile:java-jenny
   target: foundation::agent_profile:implementer-ivan
@@ -124,5 +139,25 @@ edges:
   when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
 - source: styleguide:java-conventions
   target: foundation::anti_pattern:storage-or-wire-format-on-domain-types
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:catching-broad-exception-types
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:constructor-sprawl-in-tests
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:jqwik-as-a-test-dependency
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:platform-dependent-encoding
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:returning-null
   relation: rejects
   reason: the styleguide java-conventions names this anti-pattern

@@ -1,0 +1,18 @@
+schema_version: '1.0'
+id: deprecated-media-types
+title: Deprecated Media Types
+description: '`handheld`, `tv` and `projection` are deprecated and should not be used; query the capability you care about
+  instead.'
+severity: smell
+bad_example: |-
+  @media handheld {
+    .menu {
+      font-size: 1.2em;
+    }
+  }
+good_example: |-
+  @media (pointer: coarse) {
+    .menu a {
+      min-block-size: 2.75rem;
+    }
+  }

@@ -55,6 +55,45 @@ nodes:
   kind: toolguides
   title: TypeScript Mutation Testing with Stryker
   body_path: toolguides/typescript-mutation-tools.toolguide.yaml
+- id: any-leakage
+  kind: anti_patterns
+  title: Any Leakage
+- id: aria-overriding-native-semantics
+  kind: anti_patterns
+  title: ARIA Overriding Native Semantics
+- id: deprecated-media-types
+  kind: anti_patterns
+  title: Deprecated Media Types
+- id: desktop-first-overrides
+  kind: anti_patterns
+  title: Desktop-First Overrides
+- id: device-named-breakpoints
+  kind: anti_patterns
+  title: Device-Named Breakpoints
+- id: div-as-button
+  kind: anti_patterns
+  title: Div as Button
+- id: hover-only-interaction
+  kind: anti_patterns
+  title: Hover-Only Interaction
+- id: inline-style-and-handlers
+  kind: anti_patterns
+  title: Inline Style and Handlers
+- id: layout-table
+  kind: anti_patterns
+  title: Layout Table
+- id: leaked-subscription
+  kind: anti_patterns
+  title: Leaked Subscription
+- id: missing-or-redundant-alt-text
+  kind: anti_patterns
+  title: Missing or Redundant Alt Text
+- id: specificity-escalation
+  kind: anti_patterns
+  title: Specificity Escalation
+- id: suppressed-type-error
+  kind: anti_patterns
+  title: Suppressed Type Error
 edges:
 - source: agent_profile:designer-dagmar
   target: foundation::directive:DIRECTIVE_031
@@ -277,5 +316,57 @@ edges:
   reason: the styleguide typescript-conventions names this anti-pattern
 - source: styleguide:typescript-conventions
   target: foundation::anti_pattern:asserting-instead-of-handling-a-missing-or-invalid-value
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: anti_pattern:any-leakage
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:aria-overriding-native-semantics
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:deprecated-media-types
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:desktop-first-overrides
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:device-named-breakpoints
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:div-as-button
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:hover-only-interaction
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:inline-style-and-handlers
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:layout-table
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: anti_pattern:leaked-subscription
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:missing-or-redundant-alt-text
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:specificity-escalation
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: anti_pattern:suppressed-type-error
   relation: rejects
   reason: the styleguide typescript-conventions names this anti-pattern
