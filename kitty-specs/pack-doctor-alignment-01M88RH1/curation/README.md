@@ -82,6 +82,7 @@ batch that owns its **home** pack: a `rust` entry merged into a `foundation` hom
 | `merged_into` | null, or `<home pack>::anti_pattern:<id>`; always pack-qualified, even within one pack |
 | `merge_reason` | on a merged row: the cluster's shared claim, quoting both texts |
 | `title`, `description`, `good_example` | the file's text (see the text rules); not on a merged row |
+| `title_source` | `authored` where the operator ruled a rephrased title (the drupal entries); omitted when the title is verbatim |
 | `severity` | `smell`, `severe` or `breaking`; not on a merged row |
 | `severity_grounding` | one line quoting the deciding words (Q2); not on a merged row |
 | `bad_example` | the file's bad example; not on a merged row |
@@ -105,9 +106,11 @@ gets its own `rejects` edge to the home file, pack-qualified when the home is an
 - Never rewrite or "improve" doctrine text. A description that needs a change for the schema gets an
   `operator_question`.
 - `good_example` is verbatim, when present.
-- **Pending with the operator (analysis U3):** when a cluster's members are worded differently, whose verbatim text
-  the home file carries. Until the answer is recorded here, a cluster with differently worded members holds an
-  `operator_question`.
+- **Merged text** (operator ruling 2026-11-25, decision `01M89KDY2KWCN62K4RD9HCRPMN`, analysis U3): a cluster's
+  home file carries the verbatim text of its home-pack member, else of the earliest source in the merge map (sorted by
+  pack, path, index). Its id derives from that member's title.
+- **Authored text** only where the operator ruled it: the drupal titles, rephrased as anti-patterns (decision
+  `01M89KEM7HW8675J5V54JPGE24`), each marked `title_source: authored` on its row.
 
 ### Severity (Q2)
 
