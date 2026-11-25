@@ -1,0 +1,21 @@
+{
+  "create_return_branch": "feat/catalog-currency-pipeline",
+  "created_at": "2026-11-25T06:57:14.656838+00:00",
+  "flattened": false,
+  "friendly_name": "Routing catalog currency pipeline",
+  "mid8": "01M88QX1",
+  "mission_base_sha": "d61c1df53c9da71548b4fcf3aa9bd6519bfe989b",
+  "mission_branch": "kitty/mission-catalog-currency-pipeline-01M88QX1",
+  "mission_id": "01M88QX12V3XYYAD8E37M15M3A",
+  "mission_number": null,
+  "mission_slug": "catalog-currency-pipeline-01M88QX1",
+  "mission_type": "software-dev",
+  "pr_bound": true,
+  "purpose_context": "The foundation pack's default routing catalog records prices and availability that go stale as providers change them. A weekly scheduled run compares the catalog with approved public sources and, on a difference, proposes one pull request that a person reviews; it never merges itself (#315, charter ADR-0080 decision 14).",
+  "purpose_tldr": "Keep the default routing catalog's prices and model availability current through a weekly, human-reviewed pull request.",
+  "slug": "catalog-currency-pipeline-01M88QX1",
+  "target_branch": "feat/catalog-currency-pipeline",
+  "topology": "single_branch",
+  "topology_settled": false,
+  "topology_source": "default"
+}
