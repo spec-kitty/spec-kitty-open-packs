@@ -1529,7 +1529,7 @@ clusters:
     source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/4
   depends_on_added: []
   operator_question: null
-- cluster: avoid-hardcoded-ids-and-paths
+- cluster: hardcoded-ids-and-paths
   home_pack: drupal
   merge_reason: null
   members:
@@ -1537,7 +1537,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/6
   depends_on_added: []
   operator_question: null
-- cluster: config-versus-state
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: configuration-stored-in-state
   home_pack: drupal
   merge_reason: null
   members:
@@ -1545,7 +1546,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/2
   depends_on_added: []
   operator_question: null
-- cluster: constructor-dependency-injection
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: fetching-services-via-drupal-inside-a-class
   home_pack: drupal
   merge_reason: null
   members:
@@ -1553,7 +1555,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/0
   depends_on_added: []
   operator_question: null
-- cluster: credentials-out-of-version-control
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: credentials-in-version-control
   home_pack: drupal
   merge_reason: null
   members:
@@ -1561,7 +1564,8 @@ clusters:
     source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/4
   depends_on_added: []
   operator_question: null
-- cluster: entity-query-access-check
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: entity-query-without-an-explicit-access-check
   home_pack: drupal
   merge_reason: null
   members:
@@ -1569,7 +1573,8 @@ clusters:
     source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/2
   depends_on_added: []
   operator_question: null
-- cluster: entity-query-over-raw-sql
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: raw-sql-instead-of-entity-query
   home_pack: drupal
   merge_reason: null
   members:
@@ -1577,7 +1582,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/1
   depends_on_added: []
   operator_question: null
-- cluster: entity-type-manager-over-deprecated-loaders
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: calling-removed-entity-loaders
   home_pack: drupal
   merge_reason: null
   members:
@@ -1585,7 +1591,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/7
   depends_on_added: []
   operator_question: null
-- cluster: focused-form-alter
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: sprawling-form-alter
   home_pack: drupal
   merge_reason: null
   members:
@@ -1593,7 +1600,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/4
   depends_on_added: []
   operator_question: null
-- cluster: injected-request-over-superglobals
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: reading-superglobals-instead-of-the-injected-request
   home_pack: drupal
   merge_reason: null
   members:
@@ -1601,7 +1609,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/8
   depends_on_added: []
   operator_question: null
-- cluster: plain-text-over-markup
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: markup-for-untrusted-text
   home_pack: drupal
   merge_reason: null
   members:
@@ -1609,7 +1618,8 @@ clusters:
     source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/1
   depends_on_added: []
   operator_question: null
-- cluster: render-array-cacheability
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: render-array-without-cache-metadata
   home_pack: drupal
   merge_reason: null
   members:
@@ -1617,7 +1627,8 @@ clusters:
     source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/3
   depends_on_added: []
   operator_question: null
-- cluster: thin-module-file
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: business-logic-in-the-module-file
   home_pack: drupal
   merge_reason: null
   members:
@@ -1625,7 +1636,8 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/3
   depends_on_added: []
   operator_question: null
-- cluster: twig-output-escaping
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: twig-raw-filter-on-user-input
   home_pack: drupal
   merge_reason: null
   members:
@@ -1633,7 +1645,8 @@ clusters:
     source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/0
   depends_on_added: []
   operator_question: null
-- cluster: views-data-with-table-aliases
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
+- cluster: views-data-without-table-aliases
   home_pack: drupal
   merge_reason: null
   members:
@@ -1641,6 +1654,7 @@ clusters:
     source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/5
   depends_on_added: []
   operator_question: null
+  text: authored anti-pattern title (decision 01M89KEM7HW8675J5V54JPGE24); description verbatim
 - cluster: rubber-stamp-sign-off
   home_pack: qa
   merge_reason: null

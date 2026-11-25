@@ -1,0 +1,943 @@
+# Ledger D: rows homed in the language stacks (WP06). Contract: README.md; clusters: merge-map.yaml.
+batch: d-language-stacks
+entries:
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/8
+  source_title: Backward goto and Fall-through Flow
+  pack: go
+  owner: styleguide:go-conventions
+  id: backward-goto-and-fall-through-flow
+  merged_into: null
+  merge_reason: null
+  title: Backward goto and Fall-through Flow
+  description: Using goto to jump backwards or to emulate a sequence of fall-through steps. The control flow cannot be read
+    top to bottom, and a step cannot be tested on its own.
+  severity: smell
+  severity_grounding: '"The control flow cannot be read top to bottom, and a step cannot be tested on its own.": a cost ->
+    smell'
+  bad_example: "step1:\n    if !validate(r) {\n        goto step3\n    }\n    enrich(r)\nstep3:\n    if retry {\n        goto\
+    \ step1\n    }"
+  bad_example_source: bad_example
+  good_example: "var lastErr error\nfor attempt := 0; attempt < maxAttempts; attempt++ {\n    if err := validate(r); err !=\
+    \ nil {\n        return fmt.Errorf(\"validate: %w\", err)\n    }\n    if lastErr = enrich(ctx, r); lastErr == nil {\n\
+    \        return nil\n    }\n}\nreturn fmt.Errorf(\"enrich after %d attempts: %w\", maxAttempts, errors.Join(ErrRetriesExhausted,\
+    \ lastErr))"
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/5
+  source_title: Context Stored in a Struct
+  pack: go
+  owner: styleguide:go-conventions
+  id: context-stored-in-a-struct
+  merged_into: null
+  merge_reason: null
+  title: Context Stored in a Struct
+  description: Keeping a context.Context in a struct field. Its lifetime no longer matches a call, so cancellation reaches
+    the wrong work or none at all.
+  severity: breaking
+  severity_grounding: '"cancellation reaches the wrong work or none at all": a wrong result -> breaking'
+  bad_example: "type Worker struct {\n    ctx context.Context\n}"
+  bad_example_source: bad_example
+  good_example: 'type Worker struct{ /* dependencies only */ }
+
+
+    func (w *Worker) Run(ctx context.Context) error { /* ... */ }'
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/9
+  source_title: Copying a Struct with a Mutex
+  pack: go
+  owner: styleguide:go-conventions
+  id: copying-a-struct-with-a-mutex
+  merged_into: null
+  merge_reason: null
+  title: Copying a Struct with a Mutex
+  description: Passing or returning a struct that contains a sync.Mutex by value. The copy has its own lock, so the original
+    fields are no longer protected. go vet's copylocks check reports it.
+  severity: breaking
+  severity_grounding: '"the original fields are no longer protected": a data race, a wrong result -> breaking'
+  bad_example: "type Counter struct {\n    mu sync.Mutex\n    n  int\n}\nfunc (c Counter) Inc() { c.mu.Lock(); c.n++; c.mu.Unlock()\
+    \ } // value receiver"
+  bad_example_source: bad_example
+  good_example: "func (c *Counter) Inc() {\n    c.mu.Lock()\n    defer c.mu.Unlock()\n    c.n++\n}"
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Error String Matching
+  pack: go
+  owner: styleguide:go-conventions
+  id: error-string-matching
+  merged_into: null
+  merge_reason: null
+  title: Error String Matching
+  description: Deciding on an error by comparing or searching its message. Messages change, wrapping changes them, and the
+    check silently stops matching.
+  severity: breaking
+  severity_grounding: '"the check silently stops matching": a wrong result, silently -> breaking'
+  bad_example: if err != nil && err.Error() == "record not found" { /* ... */ }
+  bad_example_source: bad_example
+  good_example: if errors.Is(err, ErrNotFound) { /* ... */ }
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Package-level Mutable Globals
+  pack: go
+  owner: styleguide:go-conventions
+  id: package-level-mutable-globals
+  merged_into: null
+  merge_reason: null
+  title: Package-level Mutable Globals
+  description: Holding connections, configuration or caches in package variables set from init() or main. Tests interfere
+    with each other, and dependencies are invisible in function signatures.
+  severity: severe
+  severity_grounding: '"Tests interfere with each other, and dependencies are invisible in function signatures": defeats isolation
+    -> severe'
+  bad_example: "var db *sql.DB\n\nfunc init() {\n    db, _ = sql.Open(\"pgx\", os.Getenv(\"DATABASE_URL\"))\n}"
+  bad_example_source: bad_example
+  good_example: 'type Store struct{ db *sql.DB }
+
+
+    func NewStore(db *sql.DB) *Store { return &Store{db: db} }'
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/7
+  source_title: Producer-side Interface
+  pack: go
+  owner: styleguide:go-conventions
+  id: producer-side-interface
+  merged_into: null
+  merge_reason: null
+  title: Producer-side Interface
+  description: A package exporting an interface next to its only implementation, mirroring every method. Consumers depend
+    on more than they use, and the interface changes with each new method.
+  severity: smell
+  severity_grounding: '"Consumers depend on more than they use, and the interface changes with each new method": a cost ->
+    smell'
+  bad_example: 'package store
+
+    type Store interface { Get(...); Put(...); Delete(...); List(...); Migrate(...) }
+
+    type PGStore struct{ /* ... */ }'
+  bad_example_source: bad_example
+  good_example: "package billing\n// Only what billing calls.\ntype accountGetter interface {\n    Get(ctx context.Context,\
+    \ id AccountID) (*Account, error)\n}"
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: Typed nil Error
+  pack: go
+  owner: styleguide:go-conventions
+  id: typed-nil-error
+  merged_into: null
+  merge_reason: null
+  title: Typed nil Error
+  description: Returning a nil pointer of a concrete error type as an error. The interface holds a type and a nil value, so
+    err != nil is true and callers see a failure that never happened. go vet does not catch it.
+  severity: breaking
+  severity_grounding: '"callers see a failure that never happened": a wrong result -> breaking'
+  bad_example: "func validate(o Order) error {\n    var verr *ValidationError // nil\n    if o.Qty <= 0 {\n        verr =\
+    \ &ValidationError{Field: \"qty\"}\n    }\n    return verr // non-nil error even when the order is valid\n}"
+  bad_example_source: bad_example
+  good_example: "func validate(o Order) error {\n    if o.Qty <= 0 {\n        return &ValidationError{Field: \"qty\"}\n  \
+    \  }\n    return nil\n}"
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Unchecked Conversion into a Typed Set
+  pack: go
+  owner: styleguide:go-conventions
+  id: unchecked-conversion-into-a-typed-set
+  merged_into: null
+  merge_reason: null
+  title: Unchecked Conversion into a Typed Set
+  description: Converting outside input straight into a named type, as in Status(n), which accepts any value of the underlying
+    type and lets unknown codes flow through the system.
+  severity: severe
+  severity_grounding: '"accepts any value of the underlying type and lets unknown codes flow through the system": invalid
+    states pass unchecked -> severe'
+  bad_example: status := Status(req.StatusCode) // any uint8, e.g. 42, is now a "Status"
+  bad_example_source: bad_example
+  good_example: "status, err := ParseStatusCode(req.StatusCode) // same shape as ParseStatus, for numeric codes\nif err !=\
+    \ nil {\n    return fmt.Errorf(\"decode request: %w\", err)\n}"
+  operator_question: null
+- source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Catching Broad Exception Types
+  pack: java
+  owner: styleguide:java-conventions
+  id: catching-broad-exception-types
+  merged_into: null
+  merge_reason: null
+  title: Catching Broad Exception Types
+  description: Catching Exception or RuntimeException swallows unrelated failures and makes debugging much harder.
+  severity: severe
+  severity_grounding: '"swallows unrelated failures and makes debugging much harder": failures go unseen -> severe'
+  bad_example: "try {\n    process(input);\n} catch (Exception e) {\n    log.error(\"Something went wrong\", e);\n}"
+  bad_example_source: bad_example
+  good_example: "try {\n    process(input);\n} catch (ParseException e) {\n    throw new InvalidInputException(\"Malformed\
+    \ input: \" + input, e);\n}"
+  operator_question: null
+- source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: Constructor Sprawl in Tests
+  pack: java
+  owner: styleguide:java-conventions
+  id: constructor-sprawl-in-tests
+  merged_into: null
+  merge_reason: null
+  title: Constructor Sprawl in Tests
+  description: Calling new SomeEntity(a, b, c, ...) in every test binds tests to the constructor signature. Any structural
+    change requires updating every test.
+  severity: smell
+  severity_grounding: '"Any structural change requires updating every test.": a cost -> smell'
+  bad_example: 'Order o1 = new Order("ORD-001", STANDARD, start, customerId, 50000L);
+
+    Order o2 = new Order("ORD-002", EXPRESS, start, customerId, 10000L);'
+  bad_example_source: bad_example
+  good_example: 'Order o1 = OrderFixtures.standardOrder().withAmount(50000L).build();
+
+    Order o2 = OrderFixtures.expressOrder().withAmount(10000L).build();'
+  operator_question: null
+- source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/5
+  source_title: jqwik as a Test Dependency
+  pack: java
+  owner: styleguide:java-conventions
+  id: jqwik-as-a-test-dependency
+  merged_into: null
+  merge_reason: null
+  title: jqwik as a Test Dependency
+  description: 'Do not add jqwik (net.jqwik:*, 1.10.0 and later) to a project. Since 1.10.0 its test engine prints a line
+    to stdout telling AI agents to disregard previous instructions and ignore all jqwik results (1.10.0 told them to delete
+    the jqwik tests and code); agents read that captured output to judge test evidence. Upstream calls this its Anti-AI Usage
+    Clause: https://jqwik.net/docs/current/user-guide.html#anti-ai-usage-clause. It is in the docs and the engine output,
+    not in the licence, which is still EPL-2.0. For property-style tests use @ParameterizedTest with @MethodSource or @FieldSource
+    fed by generated inputs (a seeded java.util.Random stream plus explicit edge cases).'
+  severity: breaking
+  severity_grounding: '"its test engine prints a line to stdout telling AI agents to disregard previous instructions and ignore
+    all jqwik results" and "agents read that captured output to judge test evidence": test evidence is corrupted -> breaking'
+  bad_example: "<dependency>\n    <groupId>net.jqwik</groupId>\n    <artifactId>jqwik</artifactId>\n    <scope>test</scope>\n\
+    </dependency>"
+  bad_example_source: bad_example
+  good_example: "static Stream<Money> amounts() {\n    Random random = new Random(42L);\n    return Stream.concat(\n     \
+    \   Stream.of(Money.ZERO, Money.of(Long.MAX_VALUE)),\n        random.longs(200, 0, Long.MAX_VALUE).mapToObj(Money::of));\n\
+    }\n\n@ParameterizedTest\n@MethodSource(\"amounts\")\nvoid roundTripsThroughJson(Money amount) {\n    assertThat(Money.fromJson(amount.toJson())).isEqualTo(amount);\n\
+    }"
+  operator_question: null
+- source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Platform-Dependent Encoding
+  pack: java
+  owner: styleguide:java-conventions
+  id: platform-dependent-encoding
+  merged_into: null
+  merge_reason: null
+  title: Platform-Dependent Encoding
+  description: Omitting an explicit Charset makes the application non-portable and produces silent data corruption on non-UTF-8
+    platforms.
+  severity: breaking
+  severity_grounding: '"produces silent data corruption on non-UTF-8 platforms": a wrong result -> breaking'
+  bad_example: Files.writeString(outputPath, content); // uses platform default
+  bad_example_source: bad_example
+  good_example: Files.writeString(outputPath, content, StandardCharsets.UTF_8);
+  operator_question: null
+- source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Returning Null
+  pack: java
+  owner: styleguide:java-conventions
+  id: returning-null
+  merged_into: null
+  merge_reason: null
+  title: Returning Null
+  description: Returning null from public methods forces all callers to add null checks, spreading defensive code across the
+    codebase.
+  severity: smell
+  severity_grounding: '"spreading defensive code across the codebase": a cost -> smell'
+  bad_example: "public Config load(Path path) {\n    if (!path.toFile().exists()) return null;\n    // ...\n}"
+  bad_example_source: bad_example
+  good_example: "public Optional<Config> load(Path path) {\n    if (!Files.exists(path)) return Optional.empty();\n    //\
+    \ ...\n}"
+  operator_question: null
+- source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Any Leakage
+  pack: javascript
+  owner: styleguide:typescript-conventions
+  id: any-leakage
+  merged_into: null
+  merge_reason: null
+  title: Any Leakage
+  description: An `any` parameter or return type spreads unchecked values through every caller; the compiler stops catching
+    interface drift.
+  severity: severe
+  severity_grounding: '"the compiler stops catching interface drift": defeats type checking -> severe'
+  bad_example: "function total(items: any): any {\n  return items.reduce((sum: any, item: any) => sum + item.price, 0);\n}"
+  bad_example_source: bad_example
+  good_example: "function total(items: readonly LineItem[]): number {\n  return items.reduce((sum, item) => sum + item.price,\
+    \ 0);\n}"
+  operator_question: null
+- source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: ARIA Overriding Native Semantics
+  pack: javascript
+  owner: styleguide:html-conventions
+  id: aria-overriding-native-semantics
+  merged_into: null
+  merge_reason: null
+  title: ARIA Overriding Native Semantics
+  description: ARIA in HTML advises against restating an element's implicit role, and changing a heading into presentation
+    removes it from the outline; the native element already carries the right role and behaviour.
+  severity: severe
+  severity_grounding: '"changing a heading into presentation removes it from the outline": an accessibility failure -> severe'
+  bad_example: '<button role="button" aria-label="button">Save</button>
+
+    <h2 role="presentation">Billing</h2>'
+  bad_example_source: bad_example
+  good_example: '<button type="button">Save</button>
+
+    <h2>Billing</h2>'
+  operator_question: null
+- source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Deprecated Media Types
+  pack: javascript
+  owner: styleguide:css-conventions
+  id: deprecated-media-types
+  merged_into: null
+  merge_reason: null
+  title: Deprecated Media Types
+  description: '`handheld`, `tv` and `projection` are deprecated and should not be used; query the capability you care about
+    instead.'
+  severity: smell
+  severity_grounding: states the rule ("are deprecated and should not be used") but no outcome; proposed smell
+  bad_example: "@media handheld {\n  .menu {\n    font-size: 1.2em;\n  }\n}"
+  bad_example_source: bad_example
+  good_example: "@media (pointer: coarse) {\n  .menu a {\n    min-block-size: 2.75rem;\n  }\n}"
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the rule, no outcome)'
+- source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Desktop-First Overrides
+  pack: javascript
+  owner: styleguide:css-conventions
+  id: desktop-first-overrides
+  merged_into: null
+  merge_reason: null
+  title: Desktop-First Overrides
+  description: Desktop styles undone by narrower queries make every small screen pay for the large layout and multiply overrides.
+  severity: smell
+  severity_grounding: '"make every small screen pay for the large layout and multiply overrides": a cost -> smell'
+  bad_example: ".layout {\n  display: grid;\n  grid-template-columns: 300px 1fr;\n}\n\n@media (max-width: 768px) {\n  .layout\
+    \ {\n    display: block;\n  }\n}"
+  bad_example_source: bad_example
+  good_example: ".layout {\n  display: block;\n}\n\n@media (width >= 48em) {\n  .layout {\n    display: grid;\n    grid-template-columns:\
+    \ 18.75rem 1fr;\n  }\n}"
+  operator_question: null
+- source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Device-Named Breakpoints
+  pack: javascript
+  owner: styleguide:css-conventions
+  id: device-named-breakpoints
+  merged_into: null
+  merge_reason: null
+  title: Device-Named Breakpoints
+  description: Breakpoints aimed at particular devices go stale with every new screen size; there are far too many devices
+    to target.
+  severity: smell
+  severity_grounding: '"go stale with every new screen size": a cost -> smell'
+  bad_example: "/* iPhone */\n@media (min-width: 375px) and (max-width: 414px) {\n  .article {\n    columns: 1;\n  }\n}"
+  bad_example_source: bad_example
+  good_example: "/* Beyond this width the line length of .article exceeds about 75ch. */\n@media (width >= 52em) {\n  .article\
+    \ {\n    columns: 2;\n  }\n}"
+  operator_question: null
+- source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Div as Button
+  pack: javascript
+  owner: styleguide:html-conventions
+  id: div-as-button
+  merged_into: null
+  merge_reason: null
+  title: Div as Button
+  description: A clickable `<div>` has no role, cannot be focused with the keyboard and does not respond to Enter or Space.
+  severity: severe
+  severity_grounding: '"cannot be focused with the keyboard and does not respond to Enter or Space": an accessibility failure
+    -> severe'
+  bad_example: <div class="btn" onclick="save()">Save</div>
+  bad_example_source: bad_example
+  good_example: <button type="submit" class="btn">Save</button>
+  operator_question: null
+- source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: Hover-Only Interaction
+  pack: javascript
+  owner: styleguide:css-conventions
+  id: hover-only-interaction
+  merged_into: null
+  merge_reason: null
+  title: Hover-Only Interaction
+  description: Content revealed only on hover cannot be reached on touch screens; show interactive features by default and
+    add hover effects only where hover exists.
+  severity: severe
+  severity_grounding: '"cannot be reached on touch screens": content is unreachable for those users -> severe'
+  bad_example: ".card .actions {\n  display: none;\n}\n\n.card:hover .actions {\n  display: flex;\n}"
+  bad_example_source: bad_example
+  good_example: ".card .actions {\n  display: flex;\n}\n\n@media (hover: hover) {\n  .card:hover {\n    box-shadow: 0 0 0\
+    \ 2px #06c;\n  }\n}"
+  operator_question: null
+- source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Inline Style and Handlers
+  pack: javascript
+  owner: styleguide:html-conventions
+  id: inline-style-and-handlers
+  merged_into: null
+  merge_reason: null
+  title: Inline Style and Handlers
+  description: Inline `style` and `on*` attributes mix presentation and behaviour into structure, so they cannot be reused
+    or changed from the stylesheet or script that owns them.
+  severity: smell
+  severity_grounding: '"cannot be reused or changed from the stylesheet or script that owns them": a cost -> smell'
+  bad_example: '<p style="color: red" onclick="dismiss(this)">Payment failed</p>'
+  bad_example_source: bad_example
+  good_example: <p class="alert alert-error" data-dismissible>Payment failed</p>
+  operator_question: null
+- source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Layout Table
+  pack: javascript
+  owner: styleguide:html-conventions
+  id: layout-table
+  merged_into: null
+  merge_reason: null
+  title: Layout Table
+  description: A table used for page layout is announced as data, with rows and columns, and does not reflow on narrow screens.
+  severity: severe
+  severity_grounding: '"is announced as data, with rows and columns, and does not reflow on narrow screens": an accessibility
+    failure -> severe'
+  bad_example: <table><tr><td>Sidebar</td><td>Content</td></tr></table>
+  bad_example_source: bad_example
+  good_example: "<div class=\"layout\">\n  <aside>Sidebar</aside>\n  <main>Content</main>\n</div>"
+  operator_question: null
+- source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Leaked Subscription
+  pack: javascript
+  owner: styleguide:typescript-conventions
+  id: leaked-subscription
+  merged_into: null
+  merge_reason: null
+  title: Leaked Subscription
+  description: A subscription with no owner keeps running after its component or service is gone, causing leaks and duplicate
+    side effects.
+  severity: severe
+  severity_grounding: '"keeps running after its component or service is gone, causing leaks and duplicate side effects": unowned
+    work misbehaves -> severe'
+  bad_example: "ngOnInit(): void {\n  this.ticks$.subscribe((tick) => {\n    this.refresh(tick);\n  });\n}"
+  bad_example_source: bad_example
+  good_example: "ngOnInit(): void {\n  this.ticks$.pipe(takeUntil(this.destroyed$)).subscribe((tick) => {\n    this.refresh(tick);\n\
+    \  });\n}"
+  operator_question: null
+- source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Missing or Redundant Alt Text
+  pack: javascript
+  owner: styleguide:html-conventions
+  id: missing-or-redundant-alt-text
+  merged_into: null
+  merge_reason: null
+  title: Missing or Redundant Alt Text
+  description: Without `alt`, assistive technology has nothing to announce in the image's place; `alt="divider image"` adds
+    redundancy. Say what the image conveys, or mark it decorative.
+  severity: severe
+  severity_grounding: '"assistive technology has nothing to announce in the image''s place": an accessibility failure -> severe'
+  bad_example: '<img src="chart-q3.png">
+
+    <img src="divider.svg" alt="divider image">'
+  bad_example_source: bad_example
+  good_example: '<img src="chart-q3.png" alt="Q3 revenue grew 12% over Q2, led by subscriptions">
+
+    <img src="divider.svg" alt="">'
+  operator_question: null
+- source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Specificity Escalation
+  pack: javascript
+  owner: styleguide:css-conventions
+  id: specificity-escalation
+  merged_into: null
+  merge_reason: null
+  title: Specificity Escalation
+  description: ID selectors and `!important` win today and force a stronger selector tomorrow; the stylesheet becomes order-fragile.
+  severity: smell
+  severity_grounding: '"the stylesheet becomes order-fragile": a cost -> smell'
+  bad_example: "#checkout .button.primary {\n  background: #00f !important;\n}"
+  bad_example_source: bad_example
+  good_example: "@layer components {\n  .button-primary {\n    background: #00f;\n  }\n}"
+  operator_question: null
+- source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: Suppressed Type Error
+  pack: javascript
+  owner: styleguide:typescript-conventions
+  id: suppressed-type-error
+  merged_into: null
+  merge_reason: null
+  title: Suppressed Type Error
+  description: '`@ts-ignore` hides the error it targets and every future error on that line; fix the type instead.'
+  severity: severe
+  severity_grounding: '"hides the error it targets and every future error on that line": defeats type checking -> severe'
+  bad_example: '// @ts-ignore
+
+    const port: number = config.port;'
+  bad_example_source: bad_example
+  good_example: "const raw = String(config.port ?? '').trim();\nconst port = Number(raw);\nif (raw === '' || !Number.isInteger(port))\
+    \ {\n  throw new Error(`Invalid port: ${raw}`);\n}"
+  operator_question: null
+- source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Cleanup In Test Body
+  pack: python
+  owner: styleguide:python-conventions
+  id: cleanup-in-test-body
+  merged_into: null
+  merge_reason: null
+  title: Cleanup In Test Body
+  description: Manual teardown at end of test instead of using pytest fixtures with yield or tmp_path. Cleanup is skipped
+    on failure.
+  severity: severe
+  severity_grounding: '"Cleanup is skipped on failure.": state leaks past a failing test, defeating isolation -> severe'
+  bad_example: "def test_write_output():\n    out = Path(\"/tmp/test_output.yaml\")\n    write_output(out, {\"key\": \"value\"\
+    })\n    assert out.exists()\n    out.unlink()  # skipped if assertion fails"
+  bad_example_source: bad_example
+  good_example: "def test_write_output(tmp_path):\n    out = tmp_path / \"test_output.yaml\"\n    write_output(out, {\"key\"\
+    : \"value\"})\n    assert out.exists()\n    # tmp_path fixture handles cleanup automatically"
+  operator_question: null
+- source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Nested Conditional Logic
+  pack: python
+  owner: styleguide:python-conventions
+  id: nested-conditional-logic
+  merged_into: null
+  merge_reason: null
+  title: Nested Conditional Logic
+  description: Deep if/else nesting instead of early-return guard clauses. Increases cognitive load and hides the happy path.
+  severity: smell
+  severity_grounding: '"Increases cognitive load and hides the happy path.": a readability cost -> smell'
+  bad_example: "def process(path: Path) -> dict:\n    if path.exists():\n        if path.is_file():\n            with open(path)\
+    \ as f:\n                return yaml.safe_load(f)\n        else:\n            raise ValueError(\"Not a file\")\n    else:\n\
+    \        raise FileNotFoundError(str(path))"
+  bad_example_source: bad_example
+  good_example: "def process(path: Path) -> dict:\n    if not path.exists():\n        raise FileNotFoundError(str(path))\n\
+    \    if not path.is_file():\n        raise ValueError(f\"Not a file: {path}\")\n    with open(path) as f:\n        return\
+    \ yaml.safe_load(f)"
+  operator_question: null
+- source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: String Path Manipulation
+  pack: python
+  owner: styleguide:python-conventions
+  id: string-path-manipulation
+  merged_into: null
+  merge_reason: null
+  title: String Path Manipulation
+  description: Using os.path.join or string concatenation for paths instead of pathlib. Fragile across platforms and harder
+    to read.
+  severity: smell
+  severity_grounding: '"Fragile across platforms and harder to read.": a cost -> smell'
+  bad_example: 'config = os.path.join(base_dir, "config", "settings.yaml")
+
+    os.makedirs(os.path.dirname(output), exist_ok=True)'
+  bad_example_source: bad_example
+  good_example: 'config = base_dir / "config" / "settings.yaml"
+
+    output.parent.mkdir(parents=True, exist_ok=True)'
+  operator_question: null
+- source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Untyped Public Functions
+  pack: python
+  owner: styleguide:python-conventions
+  id: untyped-public-functions
+  merged_into: null
+  merge_reason: null
+  title: Untyped Public Functions
+  description: Missing type annotations on public function signatures. Prevents static analysis from catching interface drift.
+  severity: severe
+  severity_grounding: '"Prevents static analysis from catching interface drift.": defeats type checking -> severe'
+  bad_example: "def load_tasks(directory, lane=None):\n    results = []\n    for f in directory.iterdir():\n        results.append(parse(f))\n\
+    \    return results"
+  bad_example_source: bad_example
+  good_example: "def load_tasks(directory: Path, lane: str | None = None) -> list[dict[str, Any]]:\n    results: list[dict[str,\
+    \ Any]] = []\n    for f in directory.iterdir():\n        results.append(parse(f))\n    return results"
+  operator_question: null
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/7
+  source_title: anyhow in a Library API
+  pack: rust
+  owner: styleguide:rust-conventions
+  id: anyhow-in-a-library-api
+  merged_into: null
+  merge_reason: null
+  title: anyhow in a Library API
+  description: A library returning anyhow::Result from public functions. Callers cannot match on the cause, so every failure
+    is equally opaque to them.
+  severity: severe
+  severity_grounding: '"Callers cannot match on the cause, so every failure is equally opaque to them": defeats error handling
+    -> severe'
+  bad_example: 'pub fn load(path: &Path) -> anyhow::Result<Ledger> { /* ... */ }'
+  bad_example_source: bad_example
+  good_example: 'pub fn load(path: &Path) -> Result<Ledger, LedgerError> { /* ... */ }'
+  operator_question: null
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Bare Integer Codes
+  pack: rust
+  owner: styleguide:rust-conventions
+  id: bare-integer-codes
+  merged_into: null
+  merge_reason: null
+  title: Bare Integer Codes
+  description: Passing status, kind or mode values as raw integers or chars. Any value type-checks, unknown codes are accepted
+    silently, and the meaning lives in comments.
+  severity: severe
+  severity_grounding: '"unknown codes are accepted silently": invalid states pass unchecked -> severe'
+  bad_example: 'fn set_status(id: u64, status: u8) { /* 1 = open, 2 = settled, 9 = ??? */ }'
+  bad_example_source: bad_example
+  good_example: "#[derive(Debug, Clone, Copy, PartialEq, Eq)]\nenum Status { Open, Settled, Cancelled }\n\nimpl TryFrom<u8>\
+    \ for Status {\n    type Error = ParseError;\n    fn try_from(code: u8) -> Result<Self, Self::Error> {\n        match\
+    \ code {\n            1 => Ok(Status::Open),\n            2 => Ok(Status::Settled),\n            3 => Ok(Status::Cancelled),\n\
+    \            other => Err(ParseError::UnknownStatus(other)),\n        }\n    }\n}"
+  operator_question: null
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/5
+  source_title: Boolean Parameters
+  pack: rust
+  owner: styleguide:rust-conventions
+  id: boolean-parameters
+  merged_into: null
+  merge_reason: null
+  title: Boolean Parameters
+  description: Functions taking bare bools whose meaning is invisible at the call site, and which cannot grow a third case.
+  severity: smell
+  severity_grounding: '"whose meaning is invisible at the call site, and which cannot grow a third case": a readability cost
+    -> smell'
+  bad_example: export(&report, true, false); // which flag is which?
+  bad_example_source: bad_example
+  good_example: 'enum Format { Csv, Json }
+
+    enum Compression { None, Gzip }
+
+    export(&report, Format::Csv, Compression::None);'
+  operator_question: null
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/6
+  source_title: Clone to Silence the Borrow Checker
+  pack: rust
+  owner: styleguide:rust-conventions
+  id: clone-to-silence-the-borrow-checker
+  merged_into: null
+  merge_reason: null
+  title: Clone to Silence the Borrow Checker
+  description: Adding .clone() until the code compiles. It hides an ownership design problem and copies data on every call.
+  severity: smell
+  severity_grounding: '"It hides an ownership design problem and copies data on every call.": a cost -> smell'
+  bad_example: "for item in items.clone() {\n    process(item.clone(), config.clone());\n}"
+  bad_example_source: bad_example
+  good_example: "for item in &items {\n    process(item, &config);\n}"
+  operator_question: null
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Stringly-Typed Domain
+  pack: rust
+  owner: styleguide:rust-conventions
+  id: stringly-typed-domain
+  merged_into: null
+  merge_reason: null
+  title: Stringly-Typed Domain
+  description: Using String for identifiers, codes and validated text throughout the core. Two different ids are interchangeable
+    at the type level and every function re-validates or trusts blindly.
+  severity: severe
+  severity_grounding: '"Two different ids are interchangeable at the type level and every function re-validates or trusts
+    blindly": defeats the type system -> severe'
+  bad_example: 'fn transfer(from: String, to: String, amount: String) -> Result<(), String> { /* ... */ }'
+  bad_example_source: bad_example
+  good_example: 'fn transfer(from: &AccountCode, to: &AccountCode, amount: Money) -> Result<(), LedgerError> { /* ... */ }'
+  operator_question: null
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Wildcard Match on a Domain Enum
+  pack: rust
+  owner: styleguide:rust-conventions
+  id: wildcard-match-on-a-domain-enum
+  merged_into: null
+  merge_reason: null
+  title: Wildcard Match on a Domain Enum
+  description: 'Ending a match on one of your own domain enums with `_ =>`. The compiler can no longer point at the code that
+    must handle a new variant. Foreign #[non_exhaustive] enums, such as std::io::ErrorKind, are the exception: they require
+    the wildcard.'
+  severity: severe
+  severity_grounding: '"The compiler can no longer point at the code that must handle a new variant.": defeats exhaustiveness
+    checking -> severe'
+  bad_example: let fee = match tier { Tier::Gold => 0, _ => 5 };
+  bad_example_source: bad_example
+  good_example: let fee = match tier { Tier::Gold => 0, Tier::Silver | Tier::Basic => 5 };
+  operator_question: null
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/6
+  source_title: Avoid Hardcoded IDs And Paths
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: hardcoded-ids-and-paths
+  merged_into: null
+  merge_reason: null
+  title: Hardcoded IDs and Paths
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Avoid Hardcoded IDs
+    And Paths"'
+  description: Entity IDs, user IDs, and paths shift between environments; resolve them dynamically instead of hardcoding.
+  severity: severe
+  severity_grounding: '"Entity IDs, user IDs, and paths shift between environments": the code targets the wrong entity elsewhere
+    -> severe'
+  bad_example: '$node = Node::load(42);
+
+    $link = ''/node/42/edit'';'
+  bad_example_source: bad_example
+  good_example: "$nodes = $this->entityTypeManager->getStorage('node')\n  ->loadByProperties(['field_machine_name' => 'homepage']);\n\
+    $link = reset($nodes)->toUrl('edit-form')->toString();"
+  operator_question: null
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Config Versus State
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: configuration-stored-in-state
+  merged_into: null
+  merge_reason: null
+  title: Configuration Stored in State
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Config Versus State"'
+  description: Config (configFactory()) is structured, exportable, and belongs in version control. State (\Drupal::state())
+    is for ephemeral runtime data such as the last cron run.
+  severity: severe
+  severity_grounding: states the rule ("Config (configFactory()) is structured, exportable, and belongs in version control")
+    but no outcome; proposed severe
+  bad_example: \Drupal::state()->set('site_tagline', 'Welcome to our site');
+  bad_example_source: bad_example
+  good_example: "$this->configFactory->getEditable('my_module.settings')\n  ->set('site_tagline', 'Welcome to our site')\n\
+    \  ->save();"
+  operator_question: 'severity: smell or severe? (proposed severe; the text states the rule, no outcome)'
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Constructor Dependency Injection
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: fetching-services-via-drupal-inside-a-class
+  merged_into: null
+  merge_reason: null
+  title: 'Fetching Services via \Drupal:: Inside a Class'
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Constructor Dependency
+    Injection"'
+  description: 'Services arrive through the constructor and a static create() factory; never fetch them via \Drupal:: inside
+    a class.'
+  severity: severe
+  severity_grounding: '"never fetch them via \Drupal:: inside a class": a mandatory rule is broken -> severe'
+  bad_example: $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
+  bad_example_source: bad_example
+  good_example: "public function __construct(protected EntityTypeManagerInterface $entityTypeManager) {}\npublic static function\
+    \ create(ContainerInterface $container): static {\n  return new static($container->get('entity_type.manager'));\n}\n//\
+    \ ...\n$nodes = $this->entityTypeManager->getStorage('node')->loadMultiple();"
+  operator_question: null
+- source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/4
+  source_title: Credentials Out Of Version Control
+  pack: drupal
+  owner: styleguide:drupal-security-performance
+  id: credentials-in-version-control
+  merged_into: null
+  merge_reason: null
+  title: Credentials in Version Control
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Credentials Out Of
+    Version Control"'
+  description: A database password committed to `settings.php` is compromised the moment it lands in a commit, even in a private
+    repository -- and deleting it in a later commit does not fix that, because git history retains every prior version of
+    the file. Removal is cleanup, not remediation; the only remediation is rotating the credential. Keep secrets out of version
+    control from the start.
+  severity: breaking
+  severity_grounding: '"is compromised the moment it lands in a commit": a security breach -> breaking'
+  bad_example: "<?php\n// settings.php, committed to the repository\n$databases['default']['default'] = [\n  'database' =>\
+    \ 'drupal',\n  'username' => 'drupal_user',\n  'password' => 'Sup3rSecret!',\n  'host' => 'db',\n];"
+  bad_example_source: bad_example
+  good_example: "<?php\n// settings.php, committed -- reads from the environment, no secret in git\n$databases['default']['default']\
+    \ = [\n  'database' => getenv('DB_NAME'),\n  'username' => getenv('DB_USER'),\n  'password' => getenv('DB_PASSWORD'),\n\
+    \  'host' => getenv('DB_HOST'),\n];\n// settings.local.php supplies real local values and is excluded via\n// .gitignore\
+    \ -- it is never committed."
+  operator_question: null
+- source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/2
+  source_title: Entity Query Access Check
+  pack: drupal
+  owner: styleguide:drupal-security-performance
+  id: entity-query-without-an-explicit-access-check
+  merged_into: null
+  merge_reason: null
+  title: Entity Query Without an Explicit Access Check
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Entity Query Access
+    Check"'
+  description: Implicit access checking on content entity queries was deprecated in Drupal 9.2.0 and throws an error from
+    Drupal 10.0.0 -- on any supported Drupal (10/11) an entity query without an explicit `accessCheck()` fails outright, so
+    this is a correctness requirement, not a lint. `accessCheck(FALSE)` remains legitimate for genuinely internal, non-user-facing
+    queries (a cron sweep that must see every entity regardless of permissions) but must be explicit and commented, never
+    the default because nobody set it. See drupal-conventions' Entity Query pattern for the injected-service shape this call
+    sits inside; this entry owns only the access-check argument.
+  severity: breaking
+  severity_grounding: '"an entity query without an explicit `accessCheck()` fails outright, so this is a correctness requirement,
+    not a lint": a failure -> breaking'
+  bad_example: "<?php\n$nids = $this->entityTypeManager->getStorage('node')\n  ->getQuery()\n  ->condition('status', 1)\n\
+    \  ->execute();"
+  bad_example_source: bad_example
+  good_example: "<?php\n$nids = $this->entityTypeManager->getStorage('node')\n  ->getQuery()\n  ->condition('status', 1)\n\
+    \  ->accessCheck(TRUE)\n  ->execute();\n// Cron-only sweep: no user session to check against, so bypassing\n// access\
+    \ control is deliberate and documented, not an oversight.\n$all_nids = $this->entityTypeManager->getStorage('node')\n\
+    \  ->getQuery()\n  ->accessCheck(FALSE)\n  ->execute();"
+  operator_question: null
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Entity Query Over Raw SQL
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: raw-sql-instead-of-entity-query
+  merged_into: null
+  merge_reason: null
+  title: Raw SQL Instead of Entity Query
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Entity Query Over
+    Raw SQL"'
+  description: Prefer Entity Query over hand-written SQL. Explicit accessCheck() is mandatory — implicit access checking throws
+    an error from Drupal 10.0.0. See drupal-security-performance for the full treatment.
+  severity: severe
+  severity_grounding: states the preference ("Prefer Entity Query over hand-written SQL") but no outcome for raw SQL itself;
+    proposed severe
+  bad_example: $nids = db_query('SELECT nid FROM {node} WHERE status = 1')->fetchCol();
+  bad_example_source: bad_example
+  good_example: "$nids = $this->entityTypeManager->getStorage('node')->getQuery()\n  ->condition('status', 1)\n  ->accessCheck(TRUE)\n\
+    \  ->execute();"
+  operator_question: 'severity: smell or severe? (proposed severe; the text states a preference, no outcome for raw SQL)'
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/7
+  source_title: Entity Type Manager Over Deprecated Loaders
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: calling-removed-entity-loaders
+  merged_into: null
+  merge_reason: null
+  title: Calling Removed Entity Loaders
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Entity Type Manager
+    Over Deprecated Loaders"'
+  description: node_load() was removed in Drupal 9.0.0, not merely deprecated -- on this profile's Drupal 10/11 baseline the
+    function does not exist, so calling it is a fatal error, not a deprecation warning. Use the entity type manager instead.
+  severity: breaking
+  severity_grounding: '"calling it is a fatal error, not a deprecation warning": a failure -> breaking'
+  bad_example: $node = node_load(123);
+  bad_example_source: bad_example
+  good_example: $node = $this->entityTypeManager->getStorage('node')->load(123);
+  operator_question: null
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Focused Form Alter
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: sprawling-form-alter
+  merged_into: null
+  merge_reason: null
+  title: Sprawling Form Alter
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Focused Form Alter"'
+  description: A complex hook_form_alter() delegates to a service with focused methods rather than growing a single branching
+    switch.
+  severity: smell
+  severity_grounding: states the practice ("rather than growing a single branching switch") but no outcome; proposed smell
+  bad_example: "function my_module_form_alter(&$form, FormStateInterface $form_state, $form_id): void {\n  if ($form_id ===\
+    \ 'node_article_form') { /* 20 lines */ }\n  elseif ($form_id === 'node_page_form') { /* 20 more lines */ }\n  elseif\
+    \ ($form_id === 'user_register_form') { /* 20 more lines */ }\n}"
+  bad_example_source: bad_example
+  good_example: "function my_module_form_alter(&$form, FormStateInterface $form_state, $form_id): void {\n  \\Drupal::service('my_module.form_alterations')->apply($form,\
+    \ $form_state, $form_id);\n}"
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/8
+  source_title: Injected Request Over Superglobals
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: reading-superglobals-instead-of-the-injected-request
+  merged_into: null
+  merge_reason: null
+  title: Reading Superglobals Instead of the Injected Request
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Injected Request Over
+    Superglobals"'
+  description: Superglobals bypass Symfony's request stack and make handlers untestable; inject the current Request instead.
+  severity: severe
+  severity_grounding: '"Superglobals bypass Symfony''s request stack and make handlers untestable": defeats the request abstraction
+    -> severe'
+  bad_example: $id = $_GET['id'];
+  bad_example_source: bad_example
+  good_example: "public function __construct(protected RequestStack $requestStack) {}\npublic function content(): array {\n\
+    \  return ['id' => $this->requestStack->getCurrentRequest()->query->get('id')];\n}"
+  operator_question: null
+- source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/1
+  source_title: Plain Text Over Markup
+  pack: drupal
+  owner: styleguide:drupal-security-performance
+  id: markup-for-untrusted-text
+  merged_into: null
+  merge_reason: null
+  title: Markup for Untrusted Text
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Plain Text Over Markup"'
+  description: '`#markup` is XSS-filtered against the admin tag list (via `Renderer::ensureMarkupIsSafe`) rather than escaped,
+    so it still permits a broad set of HTML tags and is the wrong choice for untrusted input -- it does not close the same
+    hole Twig''s auto-escaping does. Use `#plain_text` for untrusted content, since it escapes; use `Html::escape()` when
+    the value must be interpolated outside a render array.'
+  severity: breaking
+  severity_grounding: '"is the wrong choice for untrusted input -- it does not close the same hole Twig''s auto-escaping does":
+    cross-site scripting stays open -> breaking'
+  bad_example: "<?php\nfunction my_module_build_greeting(string $user_supplied_name): array {\n  return ['#markup' => 'Hello,\
+    \ ' . $user_supplied_name . '!'];\n}"
+  bad_example_source: bad_example
+  good_example: "<?php\nfunction my_module_build_greeting(string $user_supplied_name): array {\n  return ['#plain_text' =>\
+    \ 'Hello, ' . $user_supplied_name . '!'];\n}"
+  operator_question: null
+- source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/3
+  source_title: Render Array Cacheability
+  pack: drupal
+  owner: styleguide:drupal-security-performance
+  id: render-array-without-cache-metadata
+  merged_into: null
+  merge_reason: null
+  title: Render Array Without Cache Metadata
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Render Array Cacheability"'
+  description: A render array built from entity or query data with no `#cache` metadata either caches forever under an accidental
+    key or never caches at all -- both produce stale or needlessly recomputed content. Declare `tags`, `contexts`, and `max-age`
+    based on what the data actually depends on.
+  severity: breaking
+  severity_grounding: '"either caches forever under an accidental key or never caches at all -- both produce stale or needlessly
+    recomputed content": stale content is a wrong result -> breaking'
+  bad_example: '<?php
+
+    $build = [''#theme'' => ''item_list'', ''#items'' => $items];'
+  bad_example_source: bad_example
+  good_example: "<?php\n$build = [\n  '#theme' => 'item_list',\n  '#items' => $items,\n  '#cache' => [\n    'tags' => ['node_list',\
+    \ 'taxonomy_term:' . $categoryId],\n    'contexts' => ['url.query_args'],\n    'max-age' => 3600,\n  ],\n];"
+  operator_question: null
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: Thin Module File
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: business-logic-in-the-module-file
+  merged_into: null
+  merge_reason: null
+  title: Business Logic in the Module File
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Thin Module File"'
+  description: The .module file routes hooks to injected services; it never carries business logic itself.
+  severity: severe
+  severity_grounding: '"it never carries business logic itself": a mandatory rule is broken -> severe'
+  bad_example: "function my_module_entity_presave(EntityInterface $entity): void {\n  if ($entity->bundle() === 'article')\
+    \ {\n    // 40 lines of validation, notification, and audit logic inline.\n  }\n}"
+  bad_example_source: bad_example
+  good_example: "function my_module_entity_presave(EntityInterface $entity): void {\n  \\Drupal::service('my_module.article_presave_handler')->handle($entity);\n\
+    }"
+  operator_question: null
+- source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/0
+  source_title: Twig Output Escaping
+  pack: drupal
+  owner: styleguide:drupal-security-performance
+  id: twig-raw-filter-on-user-input
+  merged_into: null
+  merge_reason: null
+  title: Twig raw Filter on User Input
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Twig Output Escaping"'
+  description: Twig auto-escapes all variable output by default. `|raw` disables that protection entirely and reopens cross-site
+    scripting for anything derived from user input; for genuine HTML, render through a text format (`#type => 'processed_text'`
+    in a render array, or `check_markup()` outside one -- see drupal-conventions' Twig Auto-Escaping entry for the render-array
+    construct) instead of bypassing escaping.
+  severity: breaking
+  severity_grounding: '"reopens cross-site scripting for anything derived from user input": a security hole -> breaking'
+  bad_example: '{# comment.body may contain unsanitized markup from a webform submission #}
+
+    <div class="comment">{{ comment.body|raw }}</div>'
+  bad_example_source: bad_example
+  good_example: "{# auto-escaping is sufficient for plain text #}\n<div class=\"comment\">{{ comment.body }}</div>\n{# intentional\
+    \ HTML: comment.body.processed runs the value through the\n   text format's filters (equivalent to #type => 'processed_text'\
+    \ /\n   check_markup() in PHP) -- never |raw #}\n<div class=\"comment\">{{ comment.body.processed }}</div>"
+  operator_question: null
+- source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/5
+  source_title: Views Data With Table Aliases
+  pack: drupal
+  owner: styleguide:drupal-conventions
+  id: views-data-without-table-aliases
+  merged_into: null
+  merge_reason: null
+  title: Views Data Without Table Aliases
+  title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Views Data With Table
+    Aliases"'
+  description: hook_views_data() always prefixes columns with an explicit alias to avoid SQL ambiguity across joined tables.
+  severity: severe
+  severity_grounding: '"always prefixes columns with an explicit alias to avoid SQL ambiguity across joined tables": a mandatory
+    rule is broken -> severe'
+  bad_example: "$data['my_table']['status'] = [\n  'title' => t('Status'),\n  'field' => ['id' => 'standard'],\n];"
+  bad_example_source: bad_example
+  good_example: "$data['my_table']['my_table_status'] = [\n  'title' => t('Status'),\n  'real field' => 'status',\n  'field'\
+    \ => ['id' => 'standard'],\n];"
+  operator_question: null
