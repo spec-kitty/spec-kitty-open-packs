@@ -61,16 +61,16 @@
       "wp": "WP09"
     },
     "#348": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-014, FR-015 (WP10 T050-T056)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Retire the Python rules that pack-doctor now judges; keep the house rules",
+      "verdict": "in-mission",
+      "wp": "WP10"
     },
     "#349": {
       "evidence_ref": "<link or commit>",
