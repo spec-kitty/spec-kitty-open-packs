@@ -1,7 +1,8 @@
 ---
 work_package_id: WP07
 title: Ledger E, writing (39 entries)
-dependencies: []
+dependencies:
+- WP02
 requirement_refs:
 - FR-007
 - FR-008

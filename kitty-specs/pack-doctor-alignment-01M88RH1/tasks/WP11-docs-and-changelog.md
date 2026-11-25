@@ -1,7 +1,8 @@
 ---
 work_package_id: WP11
 title: Docs and changelog
-dependencies: []
+dependencies:
+- WP10
 requirement_refs:
 - FR-019
 - FR-020

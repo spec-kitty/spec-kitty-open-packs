@@ -164,7 +164,7 @@ T038 dry run and check (WP07)
 
 ### WP08: Apply the curation to `packs/`
 
-- **Prompt**: [tasks/WP08-apply-curation.md](tasks/WP08-apply-curation.md). **Depends on**: WP02-WP07.
+- **Prompt**: [tasks/WP08-apply-curation.md](tasks/WP08-apply-curation.md). **Depends on**: WP02, WP03, WP04, WP05, WP06, WP07.
 
 T039 apply ledger 00 (WP08)
 T040 apply ledgers A-E (WP08)

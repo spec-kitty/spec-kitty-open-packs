@@ -1,7 +1,8 @@
 ---
 work_package_id: WP06
 title: Ledger D, the internal styleguides and testing (49 entries)
-dependencies: []
+dependencies:
+- WP02
 requirement_refs:
 - FR-007
 - FR-008

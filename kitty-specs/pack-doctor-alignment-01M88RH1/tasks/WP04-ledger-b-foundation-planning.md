@@ -1,7 +1,8 @@
 ---
 work_package_id: WP04
 title: Ledger B, foundation, qa, pack-authoring and planning-analysis (58 entries)
-dependencies: []
+dependencies:
+- WP02
 requirement_refs:
 - FR-007
 - FR-008

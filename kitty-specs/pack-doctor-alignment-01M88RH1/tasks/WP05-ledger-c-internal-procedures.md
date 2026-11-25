@@ -1,7 +1,8 @@
 ---
 work_package_id: WP05
 title: Ledger C, the internal procedures and feature-and-scenario-authoring (59 entries)
-dependencies: []
+dependencies:
+- WP02
 requirement_refs:
 - FR-007
 - FR-008

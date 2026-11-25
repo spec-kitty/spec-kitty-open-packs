@@ -1,7 +1,13 @@
 ---
 work_package_id: WP08
 title: Apply the curation to packs/
-dependencies: []
+dependencies:
+- WP02
+- WP03
+- WP04
+- WP05
+- WP06
+- WP07
 requirement_refs:
 - FR-007
 - FR-008
@@ -66,7 +72,7 @@ Check `review_ref` with `spec-kitty agent tasks status --mission pack-doctor-ali
 
 ## Context & Constraints
 
-- **Depends on**: WP02-WP07, all approved. Every ledger must have no open `operator_question`.
+- **Depends on**: WP02, WP03, WP04, WP05, WP06, WP07; all approved. Every ledger must have no open `operator_question`.
 - **Read**: `curation/README.md`, `data-model.md`, `plan.md` IC-03 and IC-04.
 - **Do not touch** `pack-manifest.yaml`, `*.source.yaml` or `docs/packs/`. They belong to WP09, which restamps after this WP.
 

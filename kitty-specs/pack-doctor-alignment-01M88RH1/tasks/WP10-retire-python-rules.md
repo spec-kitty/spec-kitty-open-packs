@@ -1,7 +1,9 @@
 ---
 work_package_id: WP10
 title: Retire the Python rules pack-doctor judges; keep the house rules
-dependencies: []
+dependencies:
+- WP01
+- WP09
 requirement_refs:
 - FR-013
 - FR-014

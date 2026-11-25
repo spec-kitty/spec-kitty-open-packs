@@ -39,81 +39,6 @@
       "parallel_group": 0
     },
     {
-      "lane_id": "lane-b",
-      "wp_ids": [
-        "WP08"
-      ],
-      "write_scope": [
-        "packs/*/*.graph.yaml",
-        "packs/*/anti_patterns/**",
-        "packs/*/drg/fragment.yaml",
-        "packs/*/procedures/**",
-        "packs/*/styleguides/**"
-      ],
-      "predicted_surfaces": [
-        "api"
-      ],
-      "depends_on_lanes": [],
-      "parallel_group": 0
-    },
-    {
-      "lane_id": "lane-c",
-      "wp_ids": [
-        "WP09"
-      ],
-      "write_scope": [
-        "docs/packs/*.md",
-        "packs/*.source.yaml",
-        "packs/*/pack-manifest.yaml",
-        "scripts/docs/gen_pack_reference.py",
-        "tests/docs/test_gen_pack_reference.py",
-        "tests/fixtures/valid/**"
-      ],
-      "predicted_surfaces": [
-        "api",
-        "artifact-rendering",
-        "legacy-cleanup"
-      ],
-      "depends_on_lanes": [],
-      "parallel_group": 0
-    },
-    {
-      "lane_id": "lane-d",
-      "wp_ids": [
-        "WP10"
-      ],
-      "write_scope": [
-        "scripts/ci/validate-packs.sh",
-        "scripts/ci/validate_pack_schemas.py",
-        "tests/ci/test_validate_pack_schemas.py"
-      ],
-      "predicted_surfaces": [
-        "api",
-        "artifact-rendering",
-        "legacy-cleanup"
-      ],
-      "depends_on_lanes": [],
-      "parallel_group": 0
-    },
-    {
-      "lane_id": "lane-e",
-      "wp_ids": [
-        "WP11"
-      ],
-      "write_scope": [
-        "docs/artefacts/index.md",
-        "docs/changelog/CHANGELOG.md",
-        "docs/guides/validate-a-pack.md",
-        "docs/plans/roadmap.md"
-      ],
-      "predicted_surfaces": [
-        "api",
-        "legacy-cleanup"
-      ],
-      "depends_on_lanes": [],
-      "parallel_group": 0
-    },
-    {
       "lane_id": "lane-planning",
       "wp_ids": [
         "WP02",
@@ -139,9 +64,94 @@
       ],
       "depends_on_lanes": [],
       "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP08"
+      ],
+      "write_scope": [
+        "packs/*/*.graph.yaml",
+        "packs/*/anti_patterns/**",
+        "packs/*/drg/fragment.yaml",
+        "packs/*/procedures/**",
+        "packs/*/styleguides/**"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [
+        "lane-planning"
+      ],
+      "parallel_group": 1
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP09"
+      ],
+      "write_scope": [
+        "docs/packs/*.md",
+        "packs/*.source.yaml",
+        "packs/*/pack-manifest.yaml",
+        "scripts/docs/gen_pack_reference.py",
+        "tests/docs/test_gen_pack_reference.py",
+        "tests/fixtures/valid/**"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-b"
+      ],
+      "parallel_group": 2
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP10"
+      ],
+      "write_scope": [
+        "scripts/ci/validate-packs.sh",
+        "scripts/ci/validate_pack_schemas.py",
+        "tests/ci/test_validate_pack_schemas.py"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-a",
+        "lane-c"
+      ],
+      "parallel_group": 3
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP11"
+      ],
+      "write_scope": [
+        "docs/artefacts/index.md",
+        "docs/changelog/CHANGELOG.md",
+        "docs/guides/validate-a-pack.md",
+        "docs/plans/roadmap.md"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [
+        "lane-d"
+      ],
+      "parallel_group": 4
     }
   ],
-  "computed_at": "2026-11-25T07:21:10.173626+00:00",
+  "computed_at": "2026-11-25T07:21:33.677232+00:00",
   "computed_from": "dependency_graph+ownership",
   "planning_artifact_wps": [
     "WP02",

@@ -1,7 +1,8 @@
 ---
 work_package_id: WP03
 title: Ledger A, the language stacks (68 entries)
-dependencies: []
+dependencies:
+- WP02
 requirement_refs:
 - FR-007
 - FR-008

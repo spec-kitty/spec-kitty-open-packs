@@ -1,7 +1,9 @@
 ---
 work_package_id: WP09
 title: Restamp with pack-doctor remediate, and the derived artifacts
-dependencies: []
+dependencies:
+- WP01
+- WP08
 requirement_refs:
 - FR-011
 - FR-013
