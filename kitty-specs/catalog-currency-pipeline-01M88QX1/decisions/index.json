@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "created_at": "2026-11-25T06:57:28.738702Z",
+      "decision_id": "01M88QXFN26B71FTDHQP954KDN",
+      "final_answer": null,
+      "input_key": "availability_edit_policy",
+      "mission_id": "01M88QX12V3XYYAD8E37M15M3A",
+      "mission_slug": "catalog-currency-pipeline-01M88QX1",
+      "opened_by": "cli",
+      "options": [
+        "Report only: list deprecations and new entries in the PR body for the reviewer; edit prices only (recommended)",
+        "Edit retirements: remove a retired entry from the catalog; report new entries only",
+        "Edit both: remove retired entries and add new entries with placeholder editorial fields",
+        "Other"
+      ],
+      "origin_flow": "specify",
+      "other_answer": false,
+      "question": "When a source shows a catalog entry is deprecated/retired, or the catalog's provider ships a new entry, what does the pull request do? Prices are edited in place either way.",
+      "rationale": null,
+      "resolved_at": null,
+      "resolved_by": null,
+      "slot_key": "specify.scope.availability-edits",
+      "status": "open",
+      "step_id": null,
+      "summary_json": null
+    }
+  ],
+  "mission_id": "01M88QX12V3XYYAD8E37M15M3A",
+  "version": 1
+}
