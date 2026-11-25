@@ -1,0 +1,2084 @@
+# Merge map (decision Q1; WP03 T014). Contract: README.md.
+# Method: two entries share a cluster only when their texts make the same claim (each merge_reason quotes both).
+# Entries listed side by side in one owner file are taken as distinct by their author's intent unless they are exact
+# duplicates. Theme-level kinship (same topic, different claim) is not merged; see the operator questions.
+clusters:
+- cluster: averaging-divergent-verdicts
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: blocking-a-merge-on-a-confirmed-pre-existing-failure
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: casting-by-habit
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: clever-over-direct
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: comparing-against-the-lane-base-instead-of-the-mission-base
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: concluding-flake-without-running-ci-only-shards-locally
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: duplicated-business-rules-called-acceptable-repetition
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: entity-over-a-wire-layout
+  home_pack: foundation
+  merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
+    model and the wire format together: a field added to one breaks the others"'
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/4
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- cluster: example-theater
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: fire-and-forget-goroutine
+  home_pack: foundation
+  merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
+    it … and its errors vanish"'
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/6
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- cluster: float64-money
+  home_pack: foundation
+  merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
+    fail" / "Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail"'
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/0
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- cluster: happy-path-only
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: hard-wiring-the-squad-as-a-gate
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/7
+  depends_on_added: []
+  operator_question: null
+- cluster: implementation-leakage
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: indirection-to-remove-a-few-repeated-lines
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: model-tier-mismatch
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: non-null-assertion-as-error-handling
+  home_pack: foundation
+  merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
+    input becomes a crash instead of an error the caller can handle"'
+  members:
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/1
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- cluster: persona-without-profile
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: resolved-on-paper
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: null
+- cluster: reviewing-the-wrong-tree
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: ruling-on-an-unreachable-test
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/9
+  depends_on_added: []
+  operator_question: null
+- cluster: silently-dropped-finding
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/10
+  depends_on_added: []
+  operator_question: null
+- cluster: single-shard-inspection
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: skipping-the-activity-log-record
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: trusting-a-biased-delegate
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: unbounded-squad
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: unvalidated-examples
+  home_pack: foundation
+  merge_reason: null
+  members:
+  - pack: foundation
+    source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: asserting-implementation-details
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: 'testing "Asserting Implementation Details" overlaps foundation::anti_pattern:assert-on-mock-interactions
+    (ledger 00) on call counts but also covers internal field values: (a) keep its own file in testing, (b) merge into the
+    foundation file'
+- cluster: delete-a-mega-file-wholesale
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: exception-only-assertion
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: fabricated-unrealistic-test-data
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: fixing-without-a-feedback-loop
+  home_pack: testing
+  merge_reason: 'both: changing production code before a reproducing signal exists — "Changing production code before a repeatable
+    signal exists" / "Modifying production code before having a failing test"'
+  members:
+  - pack: testing
+    source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/0
+  - pack: testing
+    source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: full-application-restart
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: gold-plating-as-a-licence-to-double-owned-logic
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: identity-value-inputs
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: imperative-gherkin
+  home_pack: testing
+  merge_reason: 'both: a scenario scripted as UI actions breaks on UI change though the behaviour holds — "Imperative scenarios
+    break when the UI changes, even if the behavior is unchanged" / "The scenario breaks on any UI or wiring change even when
+    the behaviour is unchanged"'
+  members:
+  - pack: testing
+    source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/0
+  - pack: testing
+    source: styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: infrastructure-as-untyped-shared-mutable-state
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: keep-the-wp-nfr-label-on-a-promoted-test
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: leaving-debug-artifacts-behind
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: logging-everything
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: merge-the-scaffolding-clean-it-up-later
+  home_pack: testing
+  merge_reason: 'both: development-assist tests left in the suite after the slice lands — "Landing a mission''s development-assist
+    tests as-is and trusting a future pass to retire them" / "Once it lands they become inert … duplicative … or structure-sensitive"'
+  members:
+  - pack: testing
+    source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/0
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: missing-assumption-check
+  home_pack: testing
+  merge_reason: 'both: omitting the precondition/assumption check, so a broken setup decides the result — "Omitting the assumption
+    check lets a wrong fixture or a drifted default state present itself as a failure" / "Skipping the precondition assertion.
+    When test setup silently fails, the test passes for the wrong reason"'
+  members:
+  - pack: python
+    source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/3
+  - pack: testing
+    source: styleguides/quadruple-a-test-format.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: multiple-whens-in-one-scenario
+  home_pack: testing
+  merge_reason: 'both: two behaviours in one test, so a failure no longer says which broke — "a failure no longer identifies
+    which trigger broke" / "A failure no longer identifies which behaviour broke"'
+  members:
+  - pack: testing
+    source: styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/1
+  - pack: testing
+    source: styleguides/quadruple-a-test-format.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: orphaned-step-definitions
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: over-mocking-to-compensate-for-a-missing-boundary
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: refactoring-beyond-the-fix
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: retire-coverage-disguised-as-a-duplicate
+  home_pack: testing
+  merge_reason: 'both: deleting a test without proving a standing guard covers it — "Confirm the standing guard covers it
+    before deleting" / "without naming and proving the broader test that still covers the behaviour"'
+  members:
+  - pack: internal
+    source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/3
+  - pack: testing
+    source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: rubber-stamp-scenarios
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: self-constructed-oracle-an-injection-proof-that-never-injects
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: shared-mutable-state-between-scenarios
+  home_pack: testing
+  merge_reason: 'both: tests that share state with another test fail for the wrong reason — "Scenario B relying on data created
+    by Scenario A" / "Tests that share mutable state … fail non-deterministically depending on execution order"'
+  members:
+  - pack: testing
+    source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/2
+  - pack: testing
+    source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: side-script-investigation
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: single-branch-condition
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: single-hypothesis-anchoring
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: stubbing-a-new-gate-out-of-an-old-harness
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: substring-case-insensitive-message-assertion
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: sweep-the-whole-suite-in-the-landing-pr
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: test-passes-immediately
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: the-literal-scan-trap
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: wrong-failure-reproduction
+  home_pack: testing
+  merge_reason: null
+  members:
+  - pack: testing
+    source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: aspirational-documentation-ahead-of-the-code
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/publication-authority.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: assuming-reader-knowledge
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: bare-sha-citation
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: buried-contradiction
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: buzzword-soup
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: calling-the-llm-from-inside-the-optional-publish-step
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: circular-definition
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: citation-laundering
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: confidence-inflation
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: drifting-line-citation
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: duplicated-fact-with-no-canonical-home
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/publication-authority.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: em-dash-sprawl-and-buzzword-fog
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/ai-writing-tells.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: empty-or-ownerless-action-items-in-discussion-notes
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: forcing-a-discussion-meeting-into-the-decision-table
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: freshness-date-bumped-without-re-verifying-content
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/docs-freshness-sla.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: hand-patching-a-generated-page-to-look-current
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/docs-freshness-sla.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: implementation-leaking-into-definition
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: jargon-aimed-at-the-wrong-audience
+  home_pack: writing
+  merge_reason: 'both: vocabulary the named audience does not share — "unglossed domain jargon in a page written for beginners
+    locks out exactly the reader" / "Module names, gate names, error codes and lane mechanics in the executive summary lose
+    the readers it is written for"'
+  members:
+  - pack: internal
+    source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/2
+  - pack: writing
+    source: styleguides/plain-language.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: meaning-carried-only-by-colour-or-only-by-a-diagram
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/docs-accessibility.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: missing-or-wrong-section-order
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: narrating-existing-state-as-a-decision
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: one-size-fits-none-document
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: passive-hedged-filler-laden-instruction
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/plain-language.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: publishing-without-the-validated-markdown-in-this-chat
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: reference-page-carrying-narrative-rationale
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/divio-type-discipline.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: rendering-without-selecting-a-format
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: requiring-an-api-key-for-an-already-running-chat-agent
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: returning-final-minutes-while-attribution-gaps-remain
+  home_pack: writing
+  merge_reason: 'both: action items without a named owner — "Unowned action items cannot be followed up" / "Recording an action
+    without a named owner"'
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/1
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: second-documentation-root
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/common-docs.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: sidecar-metadata-ssot
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/common-docs.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: silent-fact-drift
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: skipped-or-size-driven-heading-levels
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/docs-accessibility.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: transcript-level-detail-in-notes
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: treating-json-or-wiki-publish-as-mandatory-delivery
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: treating-truncation-silently
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: tutorial-that-branches-on-reader-choices
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/divio-type-discipline.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: undefined-audience
+  home_pack: writing
+  merge_reason: null
+  members:
+  - pack: writing
+    source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: unsourced-assertion
+  home_pack: writing
+  merge_reason: 'both: a claim with no traceable source — "Stating a fact with no traceable source" / "A striking figure with
+    no source"'
+  members:
+  - pack: internal
+    source: styleguides/report-writing.styleguide.yaml#/anti_patterns/1
+  - pack: writing
+    source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: direct-object-references
+  home_pack: architecture
+  merge_reason: null
+  members:
+  - pack: architecture
+    source: styleguides/aggregate-design-rules.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: no-domain-expert-validation
+  home_pack: architecture
+  merge_reason: null
+  members:
+  - pack: architecture
+    source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: premature-structure
+  home_pack: architecture
+  merge_reason: null
+  members:
+  - pack: architecture
+    source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: scope-creep
+  home_pack: architecture
+  merge_reason: null
+  members:
+  - pack: architecture
+    source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: solution-mode
+  home_pack: architecture
+  merge_reason: null
+  members:
+  - pack: architecture
+    source: procedures/event-storming-discovery.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: transaction-spanning
+  home_pack: architecture
+  merge_reason: null
+  members:
+  - pack: architecture
+    source: styleguides/aggregate-design-rules.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: command-named-as-an-event
+  home_pack: event-driven
+  merge_reason: null
+  members:
+  - pack: event-driven
+    source: styleguides/evd-event-naming-and-payload.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: crud-event-with-a-field-bag
+  home_pack: event-driven
+  merge_reason: null
+  members:
+  - pack: event-driven
+    source: styleguides/evd-event-naming-and-payload.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: version-inferred-from-shape
+  home_pack: event-driven
+  merge_reason: null
+  members:
+  - pack: event-driven
+    source: styleguides/evd-event-naming-and-payload.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: ambiguous-trigger-surface
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: authoring-lineage-as-an-inline-profile-field
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: citing-file-paths-instead-of-artifact-ids
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/7
+  depends_on_added: []
+  operator_question: null
+- cluster: context-dump-skill
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: creating-an-agent-profile-by-default
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: decomposing-before-understanding-the-agent
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: embedding-the-workflow-inside-the-agent-profile
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: host-specific-assumptions
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: ignoring-external-references
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: null
+- cluster: leaving-new-project-tier-artifacts-unactivated
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: lifting-the-whole-prompt-into-a-single-artifact
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: local-values-as-canonical-rules
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: styleguides/doctrine-instruction-voice.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: skipping-the-existing-artifact-overlap-audit
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: procedures/onboard-external-agent-to-pack.procedure.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: unsourced-operating-rule
+  home_pack: pack-authoring
+  merge_reason: null
+  members:
+  - pack: pack-authoring
+    source: styleguides/deployable-skill-authoring.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: batch-questioning
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: blocking-on-the-optional-steps
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: budgetless-spike
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: child-ticket-checklist-in-the-epic-body
+  home_pack: planning-analysis
+  merge_reason: 'both: child ticket numbers listed in the epic body drift from the native sub-issue graph — "A hand-maintained
+    list of child ticket numbers in an epic body drifts out of sync with the native sub-issue graph" / "Listing child ticket
+    numbers in the epic body, which drifts out of sync"'
+  members:
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/5
+  - pack: planning-analysis
+    source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: closing-a-community-duplicate-before-migrating-its-evidence
+  home_pack: planning-analysis
+  merge_reason: 'both: closing a contributor''s duplicate without migrating its evidence — "Closing a contributor''s ticket
+    as a duplicate without first moving its reproduction steps" / "Closing a community contributor''s ticket as duplicate
+    without migrating its evidence"'
+  members:
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/4
+  - pack: planning-analysis
+    source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: implementation-coupled-briefs
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: memory-only-rejection
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: meta-tracker-as-canonical-parent
+  home_pack: planning-analysis
+  merge_reason: 'all: a release/go-no-go rollup as the canonical parent of work tickets — "Making a release/go-no-go/stabilization
+    rollup the canonical parent of functional tickets" / "Making a release or go/no-go rollup the canonical parent of work
+    tickets" / "Parenting under a meta-tracker"'
+  members:
+  - pack: internal
+    source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/4
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/0
+  - pack: planning-analysis
+    source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: 'internal#78 "Parenting under a meta-tracker or in a body checklist" names two practices: (a) merge here
+    (meta-tracker), (b) merge into child-ticket-checklist-in-the-epic-body, (c) keep it a file of its own'
+- cluster: multiple-active-state-labels
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: over-interviewing
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: over-reading-squash-merged-history
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: premature-decision-records
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: rationalised-outcome
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: skipping-the-exclusion-list
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: substituting-triage-for-deeper-investigation
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: terminology-policing
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: treating-triage-as-a-verdict
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/legacy-codebase-triage.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: unwritten-finding
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/spike-timebox-policy.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: vague-needs-info-questions
+  home_pack: planning-analysis
+  merge_reason: null
+  members:
+  - pack: planning-analysis
+    source: procedures/issue-triage-state-machine.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: backward-goto-and-fall-through-flow
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: null
+- cluster: context-stored-in-a-struct
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: copying-a-struct-with-a-mutex
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/9
+  depends_on_added: []
+  operator_question: null
+- cluster: error-string-matching
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: package-level-mutable-globals
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: producer-side-interface
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/7
+  depends_on_added: []
+  operator_question: null
+- cluster: typed-nil-error
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: unchecked-conversion-into-a-typed-set
+  home_pack: go
+  merge_reason: null
+  members:
+  - pack: go
+    source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: catching-broad-exception-types
+  home_pack: java
+  merge_reason: null
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: constructor-sprawl-in-tests
+  home_pack: java
+  merge_reason: null
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: jqwik-as-a-test-dependency
+  home_pack: java
+  merge_reason: null
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: platform-dependent-encoding
+  home_pack: java
+  merge_reason: null
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: returning-null
+  home_pack: java
+  merge_reason: null
+  members:
+  - pack: java
+    source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: any-leakage
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: aria-overriding-native-semantics
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: deprecated-media-types
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: desktop-first-overrides
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: device-named-breakpoints
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: div-as-button
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: hover-only-interaction
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: inline-style-and-handlers
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: layout-table
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: leaked-subscription
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: missing-or-redundant-alt-text
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/html-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: specificity-escalation
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: suppressed-type-error
+  home_pack: javascript
+  merge_reason: null
+  members:
+  - pack: javascript
+    source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: cleanup-in-test-body
+  home_pack: python
+  merge_reason: null
+  members:
+  - pack: python
+    source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: nested-conditional-logic
+  home_pack: python
+  merge_reason: null
+  members:
+  - pack: python
+    source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: string-path-manipulation
+  home_pack: python
+  merge_reason: null
+  members:
+  - pack: python
+    source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: untyped-public-functions
+  home_pack: python
+  merge_reason: null
+  members:
+  - pack: python
+    source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: anyhow-in-a-library-api
+  home_pack: rust
+  merge_reason: null
+  members:
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/7
+  depends_on_added: []
+  operator_question: null
+- cluster: bare-integer-codes
+  home_pack: rust
+  merge_reason: null
+  members:
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: boolean-parameters
+  home_pack: rust
+  merge_reason: null
+  members:
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: clone-to-silence-the-borrow-checker
+  home_pack: rust
+  merge_reason: null
+  members:
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: stringly-typed-domain
+  home_pack: rust
+  merge_reason: null
+  members:
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: wildcard-match-on-a-domain-enum
+  home_pack: rust
+  merge_reason: null
+  members:
+  - pack: rust
+    source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: avoid-hardcoded-ids-and-paths
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: config-versus-state
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: constructor-dependency-injection
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: credentials-out-of-version-control
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: entity-query-access-check
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: entity-query-over-raw-sql
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: entity-type-manager-over-deprecated-loaders
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/7
+  depends_on_added: []
+  operator_question: null
+- cluster: focused-form-alter
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: injected-request-over-superglobals
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: null
+- cluster: plain-text-over-markup
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: render-array-cacheability
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: thin-module-file
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: twig-output-escaping
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-security-performance.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: views-data-with-table-aliases
+  home_pack: drupal
+  merge_reason: null
+  members:
+  - pack: drupal
+    source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: rubber-stamp-sign-off
+  home_pack: qa
+  merge_reason: null
+  members:
+  - pack: qa
+    source: procedures/qa-go-no-go-readiness-review.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: silent-acceptance-without-traceability-check
+  home_pack: qa
+  merge_reason: null
+  members:
+  - pack: qa
+    source: procedures/qa-test-plan-review-workshop.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: a-report-with-no-ask
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: agent-merges-the-mainline
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: arming-auto-merge-before-the-fix-is-complete
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: catch-all-root
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: claiming-unread-progress
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: command-named-steps
+  home_pack: internal
+  merge_reason: 'exact duplicate title; both: steps asserting the command output instead of the governed outcome — "Steps
+    that assert "the command printed <...>" instead of the governed outcome" / "Steps written against the command''s output
+    rather than the governed outcome"'
+  members:
+  - pack: internal
+    source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/2
+  - pack: internal
+    source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: crud-affordance-echo
+  home_pack: internal
+  merge_reason: 'exact duplicate title; both: a scenario that echoes the command output the unit/e2e tier owns — "These assert
+    the command''s output surface, which the Python unit/e2e tier already owns" / "It asserts the output surface the unit/e2e
+    tier already owns"'
+  members:
+  - pack: internal
+    source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/0
+  - pack: internal
+    source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: dark-chrome-or-a-white-print-margin
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: deciding-silently
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: decision-drip
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/8
+  depends_on_added: []
+  operator_question: null
+- cluster: defect-framing
+  home_pack: internal
+  merge_reason: 'exact duplicate title; both: a scenario framed as a defect reproduction — "Tagging a scenario @defect or
+    writing it as a bug reproduction" / "Tagging a scenario @defect or phrasing it as a reproduction"'
+  members:
+  - pack: internal
+    source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/3
+  - pack: internal
+    source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: deferring-instead-of-finishing
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: dispatching-from-a-title
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: environment-improvisation
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/7
+  depends_on_added: []
+  operator_question: null
+- cluster: flipping-a-red-or-still-changing-pr-to-ready-for-review
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: forking-a-near-duplicate-epic
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: full-auto-drift
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: gating-instead-of-discipline
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: greening-by-erasure
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: grounding-prompt-without-discovery
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: hand-built-chrome
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: hand-counted-or-invented-figures
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: hiding-pre-existing-debt-in-new-work
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: importing-core-logic-from-scripting-packages
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: judging-liveness-against-a-stale-origin
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: keyword-only-triage
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: landing-a-draft-pr-without-asking
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: merge-commits-instead-of-a-linear-history
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: one-pr-for-unrelated-domains
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: over-broad-uncheckable-scenarios
+  home_pack: internal
+  merge_reason: 'both: a promise too broad for a step to witness — "Breadth a step cannot witness" / "A promise too broad
+    for a step to witness"'
+  members:
+  - pack: internal
+    source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/5
+  - pack: internal
+    source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: over-length-entries
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-tracer-files.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: per-wp-green-treated-as-the-final-gate
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: placeholder-prompts
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: pointfix-without-discovery
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: reading-the-corpus-in-commit-order
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: recapturing-a-ci-owned-file-during-a-landing
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: restating-report-writing-here
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/5
+  depends_on_added: []
+  operator_question: null
+- cluster: retroactive-fill-in
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-tracer-files.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: rewriting-history-to-make-every-commit-green
+  home_pack: internal
+  merge_reason: 'both: rewriting history only to make each commit green — "Per-commit green is not the bar" / "Rewriting history
+    only to make each commit pass a gate"'
+  members:
+  - pack: internal
+    source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/1
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: running-the-heavy-suites-in-mission
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: running-the-suite-to-find-weak-tests
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: scope-creep-into-activation
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/4
+  depends_on_added: []
+  operator_question: null
+- cluster: setting-priority-p0-silently
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: skipping-the-assess-step
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-tracer-files.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null
+- cluster: specifying-before-grounding
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: specifying-before-the-claim
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/issue-to-mission-delivery.procedure.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: starting-from-a-stale-or-wrong-remote
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/issue-to-mission-delivery.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: technical-first-burial
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/report-writing.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: tests-for-the-sake-of-tests
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: touching-workflow-state-leases
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/3
+  depends_on_added: []
+  operator_question: null
+- cluster: transcribing-the-e2e-mechanism
+  home_pack: internal
+  merge_reason: 'both: a Gherkin copy of an e2e''s internal-state assertions — "Copying an e2e''s internal-state assertions,
+    file-layout checks or sequencing into a scenario" / "A Gherkin copy of an e2e''s internal-state assertions, file-layout
+    checks or step sequencing"'
+  members:
+  - pack: internal
+    source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/1
+  - pack: internal
+    source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: treating-a-static-flag-as-a-verdict
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: unbounded-or-colliding-dispatch
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/cloud-session-dispatch.procedure.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: uniform-standards-across-all-packages
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/0
+  depends_on_added: []
+  operator_question: null
+- cluster: unresolved-issue-verdicts-at-close
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/6
+  depends_on_added: []
+  operator_question: null
+- cluster: work-stranded-under-a-closed-epic
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/tracker-organisation-workflow.procedure.yaml#/anti_patterns/1
+  depends_on_added: []
+  operator_question: null
+- cluster: writing-to-an-issue-that-closed-mid-pass
+  home_pack: internal
+  merge_reason: null
+  members:
+  - pack: internal
+    source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/2
+  depends_on_added: []
+  operator_question: null

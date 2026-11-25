@@ -1,0 +1,525 @@
+# Ledger A: rows homed in foundation (WP03 T015-T017). Contract: README.md; clusters: merge-map.yaml.
+batch: a-foundation
+entries:
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/4
+  source_title: Averaging divergent verdicts
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: averaging-divergent-verdicts
+  merged_into: null
+  merge_reason: null
+  title: Averaging divergent verdicts
+  description: Averaging conflicting verdicts instead of adjudicating from the source or taking a focused second opinion.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: averaging-divergent-verdicts.anti-pattern.yaml severity severe (same
+    text)'
+  bad_example: One delegate approves and another rejects; record the average of the two verdicts instead of adjudicating from
+    the source.
+  bad_example_source: authored, grounded in "Averaging conflicting verdicts instead of adjudicating from the source or taking
+    a focused second opinion" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent averaging-divergent-verdicts.anti-pattern.yaml
+  operator_question: null
+- source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/3
+  source_title: Blocking a merge on a confirmed pre-existing failure
+  pack: foundation
+  owner: procedure:post-merge-arch-gate-adjudication
+  id: blocking-a-merge-on-a-confirmed-pre-existing-failure
+  merged_into: null
+  merge_reason: null
+  title: Blocking a merge on a confirmed pre-existing failure
+  description: Treating a gate failure that existed on the mission base branch as a regression blocker. Pre-existing failures
+    should be tracked and scheduled for remediation, not used to block merges that did not introduce them.
+  severity: smell
+  severity_grounding: '"Pre-existing failures should be tracked and scheduled for remediation, not used to block merges that
+    did not introduce them": states the cost (a merge held needlessly) but no severity signal; proposed smell'
+  bad_example: The merge is held because `test_legacy_export` fails, though it fails identically on the mission base branch.
+  bad_example_source: authored, grounded in "Treating a gate failure that existed on the mission base branch as a regression
+    blocker" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: 'severity: smell or severe? (proposed smell; the text states a cost, not an outcome)'
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/3
+  source_title: Casting by habit
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: casting-by-habit
+  merged_into: null
+  merge_reason: null
+  title: Casting by habit
+  description: Reusing the same cast regardless of the point-cut's question instead of choosing profiles whose declared focus
+    actually answers it.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: casting-by-habit.anti-pattern.yaml severity smell (same text)'
+  bad_example: Reuse the last point-cut's cast for this one without checking that each profile's declared focus answers its
+    question.
+  bad_example_source: authored, grounded in "Reusing the same cast regardless of the point-cut's question instead of choosing
+    profiles whose declared focus actually answers it" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack
+    precedent casting-by-habit.anti-pattern.yaml
+  operator_question: null
+- source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/1
+  source_title: Clever over direct
+  pack: foundation
+  owner: styleguide:boring-code-review
+  id: clever-over-direct
+  merged_into: null
+  merge_reason: null
+  title: Clever over direct
+  description: Using a clever language feature when a direct, familiar idiom would be easier to review and change.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: clever-over-direct.anti-pattern.yaml severity smell (same text)'
+  bad_example: result = next((v for v in xs if pred(v)), None)
+  bad_example_source: bad_example
+  good_example: "result = None\nfor v in xs:\n    if pred(v):\n        result = v\n        break"
+  operator_question: null
+- source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/1
+  source_title: Comparing against the lane base instead of the mission base
+  pack: foundation
+  owner: procedure:post-merge-arch-gate-adjudication
+  id: comparing-against-the-lane-base-instead-of-the-mission-base
+  merged_into: null
+  merge_reason: null
+  title: Comparing against the lane base instead of the mission base
+  description: In coord topology, lane bases are intermediate commits that may already include other lanes' changes. Comparing
+    a failing test against the lane base (rather than the true mission base branch) gives an incorrect pre-existing verdict
+    when the failure was in fact introduced by an earlier lane.
+  severity: breaking
+  severity_grounding: '"gives an incorrect pre-existing verdict": a wrong result -> breaking'
+  bad_example: A lane-c test failure is judged pre-existing because it also fails on lane-c's base, a commit that already
+    carries lane-a's breaking change.
+  bad_example_source: authored, grounded in "Comparing a failing test against the lane base" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/2
+  source_title: Concluding flake without running CI-only shards locally
+  pack: foundation
+  owner: procedure:post-merge-arch-gate-adjudication
+  id: concluding-flake-without-running-ci-only-shards-locally
+  merged_into: null
+  merge_reason: null
+  title: Concluding flake without running CI-only shards locally
+  description: Dismissing a CI-only failure as a flake without first reproducing the failing CI-only tests locally. CI-only
+    shards reveal real failures that never appear in the fast local tier.
+  severity: severe
+  severity_grounding: '"CI-only shards reveal real failures that never appear in the fast local tier": a real failure can
+    be waved through unverified -> severe'
+  bad_example: A failure seen only in the CI integration shard is labelled a flake without running that shard's tests locally.
+  bad_example_source: authored, grounded in "Dismissing a CI-only failure as a flake" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/2
+  source_title: Duplicated business rules called acceptable repetition
+  pack: foundation
+  owner: styleguide:boring-code-review
+  id: duplicated-business-rules-called-acceptable-repetition
+  merged_into: null
+  merge_reason: null
+  title: Duplicated business rules called acceptable repetition
+  description: Duplicating business rules, state rules, or fragile constants across modules and calling it acceptable repetition
+    instead of consolidating the single source of truth.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: duplicated-business-rules-called-acceptable-repetition.anti-pattern.yaml
+    severity severe (same text)'
+  bad_example: '# tax_rate repeated as a literal constant in three separate modules'
+  bad_example_source: bad_example
+  good_example: '# tax_rate sourced from one shared constant, imported by all callers'
+  operator_question: null
+- source: styleguides/java-conventions.styleguide.yaml#/anti_patterns/4
+  source_title: Entity over a Wire Layout
+  pack: java
+  owner: styleguide:java-conventions
+  home_pack: foundation
+  id: entity-over-a-wire-layout
+  merged_into: null
+  merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
+    model and the wire format together: a field added to one breaks the others"'
+  title: Entity over a Wire Layout
+  description: 'Annotating a fixed-width or positional record as a JPA @Entity ties the database schema, the domain model
+    and the wire format together: a field added to one breaks the others, and offsets, padding and sign handling leak into
+    persistence code. Keep a codec for the layout and map explicitly.'
+  severity: breaking
+  severity_grounding: '"a field added to one breaks the others": a wrong result -> breaking; the rust member says "a wire-format
+    change silently changes business behaviour"'
+  bad_example: "@Entity\n@Table(name = \"payment\")\npublic class PaymentRecord {               // also parsed from a fixed-width\
+    \ import file\n    @Id @Column(length = 16) String reference;   // bytes 0-15, space padded\n    @Column(length = 11)\
+    \ String amountCents;     // bytes 16-26, signed digits\n    @Column(length = 1) char statusCode;         // byte 27\n\
+    }"
+  bad_example_source: bad_example
+  good_example: "record PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing else\n\n\
+    final class PaymentLineCodec {\n    PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling live here\
+    \ */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {          \
+    \             // PaymentStatus follows the fromByte pattern above\n    Payment toDomain(PaymentLine line) {\n        return\
+    \ new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(), 2),\n                PaymentStatus.fromByte(line.status()));\n\
+    \    }\n\n    PaymentEntity toEntity(Payment payment) { /* field by field, no layout knowledge */ }\n}\n\n@Entity\nclass\
+    \ PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING) PaymentStatus status; }"
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
+  source_title: Storage Attributes on Domain Types
+  pack: rust
+  owner: styleguide:rust-conventions
+  home_pack: foundation
+  id: entity-over-a-wire-layout
+  merged_into: foundation::anti_pattern:entity-over-a-wire-layout
+  merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
+    model and the wire format together: a field added to one breaks the others"'
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/0
+  source_title: Example theater
+  pack: foundation
+  owner: procedure:example-mapping-workshop
+  id: example-theater
+  merged_into: null
+  merge_reason: null
+  title: Example theater
+  description: Producing many examples that are never used for acceptance or review, turning the workshop into documentation
+    overhead instead of a delivery aid.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: example-theater.anti-pattern.yaml severity smell (same text)'
+  bad_example: Produce many workshop examples that no acceptance check or review ever reads.
+  bad_example_source: authored, grounded in "Producing many examples that are never used for acceptance or review" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent example-theater.anti-pattern.yaml
+  operator_question: null
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/6
+  source_title: Fire-and-Forget Goroutine
+  pack: go
+  owner: styleguide:go-conventions
+  home_pack: foundation
+  id: fire-and-forget-goroutine
+  merged_into: null
+  merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
+    it … and its errors vanish"'
+  title: Fire-and-Forget Goroutine
+  description: Starting a goroutine with no way to stop it and nobody waiting for it. It leaks on shutdown, races with tests,
+    and its errors vanish.
+  severity: severe
+  severity_grounding: '"its errors vanish": failures go unseen, the guidance''s purpose is defeated -> severe; the javascript
+    member says "swallows its rejection"'
+  bad_example: go sendAuditEvent(evt) // error ignored, may outlive the request
+  bad_example_source: bad_example
+  good_example: '// Work that must outlive the request: context.WithoutCancel(ctx) (Go 1.21+), still owned and awaited.
+
+    g.Go(func() error { return sendAuditEvent(ctx, evt) })
+
+    // ... later
+
+    if err := g.Wait(); err != nil { /* handle */ }'
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/2
+  source_title: Floating Promise
+  pack: javascript
+  owner: styleguide:typescript-conventions
+  home_pack: foundation
+  id: fire-and-forget-goroutine
+  merged_into: foundation::anti_pattern:fire-and-forget-goroutine
+  merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
+    it … and its errors vanish"'
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: float64 Money
+  pack: go
+  owner: styleguide:go-conventions
+  home_pack: foundation
+  id: float64-money
+  merged_into: null
+  merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
+    fail" / "Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail"'
+  title: float64 Money
+  description: Holding currency in float32 or float64. Binary floating point cannot represent most decimal fractions, so totals
+    drift and equality checks fail.
+  severity: breaking
+  severity_grounding: '"totals drift and equality checks fail": a wrong result -> breaking (the rubric''s own example)'
+  bad_example: type Invoice struct{ Total float64 }
+  bad_example_source: bad_example
+  good_example: type Invoice struct{ Total Money } // minor units + currency, or a decimal type
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/0
+  source_title: Float Money
+  pack: rust
+  owner: styleguide:rust-conventions
+  home_pack: foundation
+  id: float64-money
+  merged_into: foundation::anti_pattern:float64-money
+  merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
+    fail" / "Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail"'
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/2
+  source_title: Happy-path only
+  pack: foundation
+  owner: procedure:example-mapping-workshop
+  id: happy-path-only
+  merged_into: null
+  merge_reason: null
+  title: Happy-path only
+  description: Capturing only success stories and missing the boundaries, exceptions, and rejection cases that actually define
+    the contract.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: happy-path-only.anti-pattern.yaml severity severe (same text)'
+  bad_example: Map only "a valid order is accepted", with no example of a rejected, boundary or exceptional order.
+  bad_example_source: authored, grounded in "Capturing only success stories and missing the boundaries" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
+    text from the charter example-pack precedent happy-path-only.anti-pattern.yaml
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/7
+  source_title: Hard-wiring the squad as a gate
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: hard-wiring-the-squad-as-a-gate
+  merged_into: null
+  merge_reason: null
+  title: Hard-wiring the squad as a gate
+  description: 'Turning the squad into a required mission gate instead of optional, charter- or memory-activated enrichment.
+    Bad: a status transition blocked until squad evidence is present, e.g. a work package that cannot be claimed until a squad
+    report is attached. Good: the squad runs at the point-cut as guidance and the work proceeds independently of the squad''s
+    outcome. The squad enriches; it never blocks.'
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: hard-wiring-the-squad-as-a-gate.anti-pattern.yaml severity severe (the
+    source adds its own Bad/Good sentences; the practice is the same)'
+  bad_example: 'Block a status transition until squad evidence is present: raise a StatusGateError before a work package can
+    be claimed.'
+  bad_example_source: authored, grounded in "Turning the squad into a required mission gate instead of optional" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent hard-wiring-the-squad-as-a-gate.anti-pattern.yaml
+  operator_question: null
+- source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/1
+  source_title: Implementation leakage
+  pack: foundation
+  owner: procedure:example-mapping-workshop
+  id: implementation-leakage
+  merged_into: null
+  merge_reason: null
+  title: Implementation leakage
+  description: Writing examples in terms of database fields, internal services, or UI widgets rather than observable business
+    behavior.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: implementation-leakage.anti-pattern.yaml severity smell (same text)'
+  bad_example: Given the orders row has status_code 3, when OrderService.confirm is called, then the Confirm button is greyed
+    out.
+  bad_example_source: authored, grounded in "Writing examples in terms of database fields" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
+    text from the charter example-pack precedent implementation-leakage.anti-pattern.yaml
+  operator_question: null
+- source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/0
+  source_title: Indirection to remove a few repeated lines
+  pack: foundation
+  owner: styleguide:boring-code-review
+  id: indirection-to-remove-a-few-repeated-lines
+  merged_into: null
+  merge_reason: null
+  title: Indirection to remove a few repeated lines
+  description: Adding a helper or wrapper solely to remove a few repeated lines rather than to preserve a single source of
+    truth for business meaning.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: indirection-for-repetition.anti-pattern.yaml severity smell (same text)'
+  bad_example: "def _plus_one(x):\n    return x + 1\n# introduced to avoid \"duplicating\" a one-line expression used once"
+  bad_example_source: bad_example
+  good_example: '# inline the one-line expression at its single call site instead'
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/6
+  source_title: Model-tier mismatch
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: model-tier-mismatch
+  merged_into: null
+  merge_reason: null
+  title: Model-tier mismatch
+  description: Top-tier model on mechanical or tracker delegates, or a weak tier on the hardest adversarial lens.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: model-tier-mismatch.anti-pattern.yaml severity smell (same text)'
+  bad_example: Run the tracker delegate on the top-tier model and the hardest adversarial lens on the weakest tier.
+  bad_example_source: authored, grounded in "Top-tier model on mechanical or tracker delegates" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
+    text from the charter example-pack precedent model-tier-mismatch.anti-pattern.yaml
+  operator_question: null
+- source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/1
+  source_title: Non-Null Assertion as Error Handling
+  pack: javascript
+  owner: styleguide:typescript-conventions
+  home_pack: foundation
+  id: non-null-assertion-as-error-handling
+  merged_into: null
+  merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
+    input becomes a crash instead of an error the caller can handle"'
+  title: Non-Null Assertion as Error Handling
+  description: '`!` tells the compiler a value exists without checking it; the crash moves to runtime, far from the cause.'
+  severity: breaking
+  severity_grounding: '"the crash moves to runtime, far from the cause": a crash is a wrong outcome -> breaking; the rust
+    member says "A malformed input becomes a crash"'
+  bad_example: 'const user = users.find((u) => u.id === id)!;
+
+    greet(user.name);'
+  bad_example_source: bad_example
+  good_example: "const user = users.find((u) => u.id === id);\nif (user === undefined) {\n  throw new Error(`Unknown user:\
+    \ ${id}`);\n}\ngreet(user.name);"
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: unwrap on Input
+  pack: rust
+  owner: styleguide:rust-conventions
+  home_pack: foundation
+  id: non-null-assertion-as-error-handling
+  merged_into: foundation::anti_pattern:non-null-assertion-as-error-handling
+  merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
+    input becomes a crash instead of an error the caller can handle"'
+  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
+    language-specific verbatim text (U3), or author language-agnostic text'
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/0
+  source_title: Persona without profile
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: persona-without-profile
+  merged_into: null
+  merge_reason: null
+  title: Persona without profile
+  description: Naming a persona without loading its agent profile — a persona label is not a lens.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: persona-without-profile.anti-pattern.yaml severity smell (same text)'
+  bad_example: Deploy "a security expert" with no profile loaded.
+  bad_example_source: authored, grounded in "Naming a persona without loading its agent profile — a persona label is not a
+    lens" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent persona-without-profile.anti-pattern.yaml
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/8
+  source_title: Resolved on paper
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: resolved-on-paper
+  merged_into: null
+  merge_reason: null
+  title: Resolved on paper
+  description: Declaring a blocker resolved in a brief or ruling because a delegate argued it away, without reproducing it
+    against the current head.
+  severity: severe
+  severity_grounding: '"without reproducing it against the current head": the blocker check is defeated -> severe'
+  bad_example: A brief marks the merge-race blocker resolved because a delegate argued the race cannot happen, and nobody
+    re-runs the failing scenario on the current head.
+  bad_example_source: authored, grounded in "because a delegate argued it away" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/1
+  source_title: Reviewing the wrong tree
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: reviewing-the-wrong-tree
+  merged_into: null
+  merge_reason: null
+  title: Reviewing the wrong tree
+  description: Dispatching a read-only delegate that cannot run `git` without putting the review target's diff in its prompt,
+    so it reads whatever checkout is on disk (often `main`) and reports on code the change does not contain.
+  severity: breaking
+  severity_grounding: '"reports on code the change does not contain": the review verdict is about the wrong code, a wrong
+    result -> breaking'
+  bad_example: A read-only delegate gets only the PR's title and number in its prompt, reads the `main` checkout on disk,
+    and approves code the PR never touched.
+  bad_example_source: authored, grounded in "reads whatever checkout is on disk" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/9
+  source_title: Ruling on an unreachable test
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: ruling-on-an-unreachable-test
+  merged_into: null
+  merge_reason: null
+  title: Ruling on an unreachable test
+  description: Basing a ruling on a named acceptance test that does not exist, is skipped, or cannot run, so the ruling rests
+    on evidence nobody has seen.
+  severity: severe
+  severity_grounding: '"so the ruling rests on evidence nobody has seen": the ruling''s purpose is defeated -> severe'
+  bad_example: The ruling cites `test_offline_sync_roundtrip` as its proof, but that test is marked skip on every CI shard.
+  bad_example_source: authored, grounded in "a named acceptance test that does not exist, is skipped, or cannot run" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/10
+  source_title: Silently dropped finding
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: silently-dropped-finding
+  merged_into: null
+  merge_reason: null
+  title: Silently dropped finding
+  description: Recording a finding without a disposition under the findings-disposition contract — every finding must be accepted,
+    changed, or deferred with a rationale, never dropped.
+  severity: breaking
+  severity_grounding: 'charter example-pack precedent: silently-dropped-finding.anti-pattern.yaml severity breaking (same
+    text)'
+  bad_example: 'Record a delegate''s finding and leave it with no disposition: neither accepted, changed nor deferred with
+    a rationale.'
+  bad_example_source: authored, grounded in "Recording a finding without a disposition under the findings-disposition contract
+    — every finding must be accepted" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent
+    silently-dropped-finding.anti-pattern.yaml
+  operator_question: null
+- source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/0
+  source_title: Single-shard inspection
+  pack: foundation
+  owner: procedure:post-merge-arch-gate-adjudication
+  id: single-shard-inspection
+  merged_into: null
+  merge_reason: null
+  title: Single-shard inspection
+  description: Running only the failing CI shard and declaring the investigation complete. Sibling gate failures with the
+    same root cause are missed, and the full failure inventory is wrong.
+  severity: breaking
+  severity_grounding: '"the full failure inventory is wrong": a wrong result -> breaking'
+  bad_example: Only `shard-3` is re-run and investigated; `shard-5` fails on the same missing migration and is never looked
+    at.
+  bad_example_source: authored, grounded in "Running only the failing CI shard" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/post-merge-arch-gate-adjudication.procedure.yaml#/anti_patterns/4
+  source_title: Skipping the activity log record
+  pack: foundation
+  owner: procedure:post-merge-arch-gate-adjudication
+  id: skipping-the-activity-log-record
+  merged_into: null
+  merge_reason: null
+  title: Skipping the activity log record
+  description: Adjudicating a failure verbally or in chat without recording the classification and evidence in the PR or activity
+    log. Future reviewers must be able to reconstruct the adjudication from written artifacts.
+  severity: severe
+  severity_grounding: '"Future reviewers must be able to reconstruct the adjudication from written artifacts": a mandatory
+    record is missing -> severe'
+  bad_example: The failure is classified pre-existing in a chat thread; the PR and the activity log hold no classification
+    or evidence.
+  bad_example_source: authored, grounded in "Adjudicating a failure verbally or in chat" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/5
+  source_title: Trusting a biased delegate
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: trusting-a-biased-delegate
+  merged_into: null
+  merge_reason: null
+  title: Trusting a biased delegate
+  description: Accepting a delegate's prescription despite a known bias (e.g. a duct-tape-prone reducer) without a critical
+    pass.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: trusting-a-biased-delegate.anti-pattern.yaml severity severe (same
+    text)'
+  bad_example: Apply a duct-tape-prone reducer's prescription as it stands, with no critical pass.
+  bad_example_source: authored, grounded in "Accepting a delegate's prescription despite a known bias (e" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
+    text from the charter example-pack precedent trusting-a-biased-delegate.anti-pattern.yaml
+  operator_question: null
+- source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/2
+  source_title: Unbounded squad
+  pack: foundation
+  owner: procedure:adversarial-squad-deployment
+  id: unbounded-squad
+  merged_into: null
+  merge_reason: null
+  title: Unbounded squad
+  description: Dozens of delegates for a question that a small, distinct set of lenses would answer; more delegates is not
+    better.
+  severity: smell
+  severity_grounding: 'charter example-pack precedent: unbounded-squad.anti-pattern.yaml severity smell (same text)'
+  bad_example: Deploy dozens of delegates on one question that three distinct lenses would answer.
+  bad_example_source: authored, grounded in "Dozens of delegates for a question that a small" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH);
+    text from the charter example-pack precedent unbounded-squad.anti-pattern.yaml
+  operator_question: null
+- source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/3
+  source_title: Unvalidated examples
+  pack: foundation
+  owner: procedure:example-mapping-workshop
+  id: unvalidated-examples
+  merged_into: null
+  merge_reason: null
+  title: Unvalidated examples
+  description: Treating agent-generated examples as authoritative without stakeholder or source validation.
+  severity: severe
+  severity_grounding: 'charter example-pack precedent: unvalidated-examples.anti-pattern.yaml severity severe (same text)'
+  bad_example: Adopt the examples an agent generated as the specification, with no stakeholder or source checking them.
+  bad_example_source: authored, grounded in "Treating agent-generated examples as authoritative without stakeholder or source
+    validation" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH); text from the charter example-pack precedent unvalidated-examples.anti-pattern.yaml
+  operator_question: null
