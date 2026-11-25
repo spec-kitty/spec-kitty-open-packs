@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: writing-to-an-issue-that-closed-mid-pass
+title: Writing to an issue that closed mid-pass
+description: Re-read the state immediately before each write.
+severity: smell
+bad_example: The triage pass labels an issue that was closed ten minutes earlier, from a state read at the start of the pass.

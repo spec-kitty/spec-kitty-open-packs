@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: returning-final-minutes-while-attribution-gaps-remain
+title: Returning final minutes while attribution gaps remain
+description: Unowned action items cannot be followed up. If validation finds a gap, ask in the same chat and wait for names
+  or removal confirmation. Do not invent owners, do not return the final Markdown, and do not hand off for publishing until
+  the gate passes.
+severity: severe
+bad_example: Validation flags an action owned by "TBD"; the agent fills in a name itself and returns the final minutes.

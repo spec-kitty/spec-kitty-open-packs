@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: multiple-whens-in-one-scenario
+title: Multiple Whens in One Scenario
+description: More than one When collapses several behaviours into a single scenario, so a failure no longer identifies which
+  trigger broke and the Then can no longer describe one coherent outcome. Each trigger deserves its own scenario.
+severity: smell
+bad_example: |-
+  Given an empty cart
+  When the customer adds an item
+  And the customer checks out
+  And the customer requests a refund
+  Then the refund is processed
+good_example: |-
+  Given a cart containing one item
+  When the customer checks out
+  Then an order is created for that item

@@ -1,0 +1,22 @@
+schema_version: '1.0'
+id: forgetting-that-a-stub-is-a-second-copy-of-the-contract
+title: Forgetting that a stub is a second copy of the contract
+description: A stub restates its collaborator's contract by hand, so when the real dependency changes the test stays green
+  for a world that no longer exists (the foundation paradigm tests-as-scaffold-not-friction explains why). Keep stubs at allow-listed
+  seams and make them honor the real contract.
+severity: breaking
+bad_example: |-
+  stub_rates.get_rate.return_value = Decimal("1.1")   # the real service now raises on stale rates
+  assert convert(100, "EUR", "USD", rates=stub_rates) == Decimal("110")   # stays green anyway
+good_example: |-
+  # A fake at the network seam that keeps the real contract, failure branch included.
+  @pytest.fixture
+  def rates():
+      return FakeRateService(rates={"EUR/USD": Decimal("1.1")}, stale={"EUR/GBP"})
+
+  def test_converts_at_the_current_rate(rates):
+      assert convert(100, "EUR", "USD", rates=rates) == Decimal("110")
+
+  def test_refuses_a_stale_rate(rates):
+      with pytest.raises(StaleRateError):
+          convert(100, "EUR", "GBP", rates=rates)

@@ -103,45 +103,6 @@ patterns:
       issue-matrix row + claim (assign operator) + tracker comment naming the mission.
       Sources: .kittify/glossaries/planning-and-tracking.yaml.
 
-anti_patterns:
-  - name: Meta-tracker as canonical parent
-    description: >
-      Making a release/go-no-go/stabilization rollup the canonical parent of
-      functional tickets hides real ownership: the work appears tracked but its
-      true functional home is unknown, and closing the release issue orphans
-      everything beneath it. Release gating belongs in milestones or labels.
-    bad_example: |
-      "3.2.0 release tracker" set as the native parent of a CLI bug and a
-      runtime refactor.
-    good_example: |
-      Bug parented under the CLI-UX functional epic; refactor under the
-      runtime epic; both referenced from the release rollup by checklist, and
-      the rollup titled `META-TRACKER: 3.2.0 release`.
-
-  - name: Child-ticket checklist in the epic body
-    description: >
-      A hand-maintained list of child ticket numbers in an epic body drifts out
-      of sync with the native sub-issue graph and is invisible to tooling that
-      reads parent/child via the API. The graph is the source of truth.
-    bad_example: |
-      Epic body: "## Children\n- [ ] <issue-a>\n- [x] <issue-b>\n- [ ] <issue-c>"
-    good_example: |
-      Epic body: Purpose / Scope / Out-of-scope. Children linked as native
-      sub-issues; the body lists none.
-
-  - name: Closing a community duplicate before migrating its evidence
-    description: >
-      Closing a contributor's ticket as a duplicate without first moving its
-      reproduction steps, logs, and discussion into the survivor loses evidence
-      and alienates the contributor. Community-authored tickets take precedence
-      over core-team duplicates.
-    bad_example: |
-      `gh issue close <community#> --reason "not planned" --comment "dup"`
-      while keeping the core-team ticket open and unenriched.
-    good_example: |
-      Migrate evidence into the community ticket, close the core-team
-      duplicate, and comment on the community ticket inviting confirmation.
-
 tooling:
   github-cli: "the github-tracker toolguide, foundation pack (gh CLI + GraphQL mechanics for sub-issues, types, and parent walks)"
 

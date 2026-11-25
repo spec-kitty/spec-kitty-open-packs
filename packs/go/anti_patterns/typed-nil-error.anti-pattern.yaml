@@ -1,0 +1,21 @@
+schema_version: '1.0'
+id: typed-nil-error
+title: Typed nil Error
+description: Returning a nil pointer of a concrete error type as an error. The interface holds a type and a nil value, so
+  err != nil is true and callers see a failure that never happened. go vet does not catch it.
+severity: breaking
+bad_example: |-
+  func validate(o Order) error {
+      var verr *ValidationError // nil
+      if o.Qty <= 0 {
+          verr = &ValidationError{Field: "qty"}
+      }
+      return verr // non-nil error even when the order is valid
+  }
+good_example: |-
+  func validate(o Order) error {
+      if o.Qty <= 0 {
+          return &ValidationError{Field: "qty"}
+      }
+      return nil
+  }

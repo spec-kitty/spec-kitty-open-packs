@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: citing-file-paths-instead-of-artifact-ids
+title: Citing file paths instead of artifact ids
+description: Writing an artifact's file path in another artifact's prose instead of the canonical id. File paths are not validated
+  by the DRG and are fragile to reorganisation; the DRG only tracks id-to-id edges.
+severity: severe
+bad_example: A tactic's prose says "see tactics/testing/function-over-form-testing.tactic.yaml" instead of naming `function-over-form-testing`.

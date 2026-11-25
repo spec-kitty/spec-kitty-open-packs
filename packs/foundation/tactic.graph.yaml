@@ -341,7 +341,9 @@ edges:
 - source: tactic:function-over-form-testing
   target: anti_pattern:assert-on-mock-interactions
   relation: rejects
-  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring and stays green when the outcome is wrong.
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the
+    test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test
+    outcomes, not mechanisms.
 - source: tactic:function-over-form-testing
   target: directive:DIRECTIVE_034
   relation: suggests
@@ -572,3 +574,15 @@ edges:
   relation: suggests
   when: Use adversarial-squad challenge passes at plan/research and review point-cuts for security-impacting dependency decisions,
     and disposition every contested finding explicitly
+- source: tactic:function-over-form-testing
+  target: anti_pattern:assert-on-internal-field-values
+  relation: rejects
+  reason: Do not assert on internal field values, method call counts, or intermediate states.
+- source: tactic:black-box-integration-testing
+  target: anti_pattern:assert-on-internal-field-values
+  relation: rejects
+  reason: Do not assert on private attributes or internal call sequences.
+- source: tactic:test-boundaries-by-responsibility
+  target: anti_pattern:assert-on-internal-field-values
+  relation: rejects
+  reason: 'Over-assertion: verifying internal implementation details instead of functional outcomes.'

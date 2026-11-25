@@ -1,0 +1,27 @@
+schema_version: '1.0'
+id: asserting-instead-of-handling-a-missing-or-invalid-value
+title: Asserting Instead of Handling a Missing or Invalid Value
+description: Telling the compiler or the runtime that a value exists or is valid without checking it, as a non-null assertion
+  or an unwrap on input does. A missing or malformed value becomes a crash at runtime, far from its cause, instead of an error
+  the caller can handle.
+severity: breaking
+bad_example: |-
+  // javascript: Non-Null Assertion as Error Handling
+  const user = users.find((u) => u.id === id)!;
+  greet(user.name);
+
+  // rust: unwrap on Input
+  let port: u16 = std::env::var("PORT").unwrap().parse().unwrap();
+good_example: |-
+  // javascript
+  const user = users.find((u) => u.id === id);
+  if (user === undefined) {
+    throw new Error(`Unknown user: ${id}`);
+  }
+  greet(user.name);
+
+  // rust
+  let port: u16 = std::env::var("PORT")
+      .context("PORT is not set")?
+      .parse()
+      .context("PORT is not a valid port number")?;

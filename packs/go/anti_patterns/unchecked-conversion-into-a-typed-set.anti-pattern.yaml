@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: unchecked-conversion-into-a-typed-set
+title: Unchecked Conversion into a Typed Set
+description: Converting outside input straight into a named type, as in Status(n), which accepts any value of the underlying
+  type and lets unknown codes flow through the system.
+severity: severe
+bad_example: status := Status(req.StatusCode) // any uint8, e.g. 42, is now a "Status"
+good_example: |-
+  status, err := ParseStatusCode(req.StatusCode) // same shape as ParseStatus, for numeric codes
+  if err != nil {
+      return fmt.Errorf("decode request: %w", err)
+  }

@@ -34,10 +34,3 @@ steps:
 - title: Report and stop
   description: |
     Hand off as the last step of mission-wrap-up-sequence describes, and stop; the operator merges. If you are asked to follow up after the PR has merged, confirm the commits are on the canonical remote's `main`. Consolidation already removed the Mission's lane and coordination checkouts and branches; remove only your PR-landing or harness isolation worktree and the PR branch, and run `spec-kitty doctor workspaces --prune` for anything left.
-anti_patterns:
-- title: Specifying before the claim
-  content: |
-    An unclaimed issue invites a second runner (another agent or a person) onto the same work. Claim and verify first.
-- title: Starting from a stale or wrong remote
-  content: |
-    A fork's `origin/main` can lag the canonical repository. Ground on the canonical remote, and push nothing to `main`.

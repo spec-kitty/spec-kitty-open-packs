@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: full-application-restart
+title: Full Application Restart
+description: Deploying the whole application to verify a fix. Slow, noisy, and not isolated.
+severity: smell
+bad_example: To check a one-line date-parser fix, the whole stack is redeployed to staging and the failing page is clicked
+  through by hand.

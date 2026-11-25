@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: gating-instead-of-discipline
+title: Gating instead of discipline
+description: Adding size or ratchet gates the operator ruled out, instead of delivering the refactor itself.
+severity: severe
+bad_example: Instead of splitting the 2,000-line module, the PR adds a file-size ratchet the operator ruled out.

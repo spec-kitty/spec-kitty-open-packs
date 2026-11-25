@@ -94,20 +94,6 @@ patterns:
     good_example: |
       Builds are 30 percent faster (measured: median of 20 CI runs before and after). The 85 percent cache hit rate comes from the vendor's dashboard (not reproduced).
 
-anti_patterns:
-  - name: Em-dash sprawl and buzzword fog
-    description: >
-      Prose where clauses are strung on em-dashes and sentences reach for
-      "leverage", "robust" and "seamless" reads as generated however sound the
-      content is, and a skeptical reader discounts the whole page.
-    bad_example: >
-      "We leveraged a robust, seamless workflow — one that — across the
-      quarter — underscored our velocity." Three em-dashes and four buzzwords
-      in one sentence.
-    good_example: >
-      "The release workflow ran unattended for every tag this quarter. It
-      caught a version mismatch before publishing." Two plain sentences.
-
 quality_test: >
   A page satisfies this styleguide when a read-through against the patterns
   finds no buzzword from the list, no "not just X but Y" construction, no

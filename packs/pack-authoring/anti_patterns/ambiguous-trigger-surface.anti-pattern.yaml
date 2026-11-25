@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: ambiguous-trigger-surface
+title: Ambiguous trigger surface
+description: A vague description causes agents to load the skill for unrelated tasks or miss it when it is needed.
+severity: severe
+bad_example: Use this skill for projects.
+good_example: Use this skill when working on Spec Kitty missions, runtime, tracker, hub, website, mobile, SaaS, or tests.

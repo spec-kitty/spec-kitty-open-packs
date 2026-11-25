@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: misplaced-field
+title: Misplaced Field
+description: a field read and modified more by another class than the one that declares it, so data ownership has drifted
+  to the wrong owner
+severity: smell
+bad_example: '`Customer.discount_rate` is read and updated only by `PricingEngine`, never by `Customer` itself.'

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: batch-questioning
+title: Batch questioning
+description: Asking many questions at once prevents the interview from adapting to resolved dependencies.
+severity: smell
+bad_example: The interview opens with nine questions in one message, three of which depend on the answer to the first.

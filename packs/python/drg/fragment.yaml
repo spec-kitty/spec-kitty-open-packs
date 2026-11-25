@@ -23,6 +23,18 @@ nodes:
   kind: toolguides
   title: Python Supply-Chain Install Safety
   body_path: toolguides/python-supply-chain.toolguide.yaml
+- id: cleanup-in-test-body
+  kind: anti_patterns
+  title: Cleanup In Test Body
+- id: nested-conditional-logic
+  kind: anti_patterns
+  title: Nested Conditional Logic
+- id: string-path-manipulation
+  kind: anti_patterns
+  title: String Path Manipulation
+- id: untyped-public-functions
+  kind: anti_patterns
+  title: Untyped Public Functions
 edges:
 - source: agent_profile:python-pedro
   target: foundation::agent_profile:implementer-ivan
@@ -145,3 +157,23 @@ edges:
   target: testing::asset:quad-a-test-structure
   relation: requires
   when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
+- source: styleguide:python-conventions
+  target: testing::anti_pattern:missing-assumption-check
+  relation: rejects
+  reason: the styleguide python-conventions names this anti-pattern
+- source: styleguide:python-conventions
+  target: anti_pattern:cleanup-in-test-body
+  relation: rejects
+  reason: the styleguide python-conventions names this anti-pattern
+- source: styleguide:python-conventions
+  target: anti_pattern:nested-conditional-logic
+  relation: rejects
+  reason: the styleguide python-conventions names this anti-pattern
+- source: styleguide:python-conventions
+  target: anti_pattern:string-path-manipulation
+  relation: rejects
+  reason: the styleguide python-conventions names this anti-pattern
+- source: styleguide:python-conventions
+  target: anti_pattern:untyped-public-functions
+  relation: rejects
+  reason: the styleguide python-conventions names this anti-pattern

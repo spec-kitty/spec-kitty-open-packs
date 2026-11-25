@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: implicit-concept
+title: Implicit Concept
+description: an important concept left implicit, duplicated, or scattered across the code with no explicit name or single
+  home
+severity: smell
+bad_example: The rule "orders over 500 ship free" is written as `if total > 500` in checkout, in the confirmation email and
+  in the invoice export, with no `FreeShippingPolicy` that names it.

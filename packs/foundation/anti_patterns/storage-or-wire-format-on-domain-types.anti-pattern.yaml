@@ -1,0 +1,52 @@
+schema_version: '1.0'
+id: storage-or-wire-format-on-domain-types
+title: Storage or Wire Format on Domain Types
+description: Binding a core domain type directly to a storage schema or a wire format, through serialization or ORM attributes
+  or an entity mapped onto a fixed record layout, so a change to one format silently changes business behaviour or breaks
+  the others.
+severity: breaking
+bad_example: |-
+  // java: Entity over a Wire Layout
+  @Entity
+  @Table(name = "payment")
+  public class PaymentRecord {               // also parsed from a fixed-width import file
+      @Id @Column(length = 16) String reference;   // bytes 0-15, space padded
+      @Column(length = 11) String amountCents;     // bytes 16-26, signed digits
+      @Column(length = 1) char statusCode;         // byte 27
+  }
+
+  // rust: Storage Attributes on Domain Types
+  #[derive(Serialize, Deserialize, sqlx::FromRow)]
+  pub struct Account {
+      #[serde(default)] // a missing field now means 0 to the business rules
+      pub balance: i64,
+  }
+good_example: |-
+  // java
+  record PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing else
+
+  final class PaymentLineCodec {
+      PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling live here */ }
+      void write(PaymentLine payment, ByteBuffer out) { /* ... */ }
+  }
+
+  final class PaymentMapper {                       // PaymentStatus follows the fromByte pattern above
+      Payment toDomain(PaymentLine line) {
+          return new Payment(line.reference().strip(),
+                  BigDecimal.valueOf(line.amountCents(), 2),
+                  PaymentStatus.fromByte(line.status()));
+      }
+
+      PaymentEntity toEntity(Payment payment) { /* field by field, no layout knowledge */ }
+  }
+
+  @Entity
+  class PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING) PaymentStatus status; }
+
+  // rust
+  pub struct Account { balance: Money }          // domain
+
+  #[derive(Deserialize)]
+  struct AccountRow { balance_minor: i64, currency: String } // adapter
+
+  impl TryFrom<AccountRow> for Account { /* validate and convert */ }

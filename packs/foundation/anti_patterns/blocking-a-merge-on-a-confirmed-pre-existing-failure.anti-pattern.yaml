@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: blocking-a-merge-on-a-confirmed-pre-existing-failure
+title: Blocking a merge on a confirmed pre-existing failure
+description: Treating a gate failure that existed on the mission base branch as a regression blocker. Pre-existing failures
+  should be tracked and scheduled for remediation, not used to block merges that did not introduce them.
+severity: smell
+bad_example: The merge is held because `test_legacy_export` fails, though it fails identically on the mission base branch.

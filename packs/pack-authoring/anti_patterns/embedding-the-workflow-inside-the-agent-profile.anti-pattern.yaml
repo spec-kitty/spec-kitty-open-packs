@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: embedding-the-workflow-inside-the-agent-profile
+title: Embedding the workflow inside the agent profile
+description: Pasting the agent's step-by-step operating instructions into the specialization block of the agent profile YAML.
+  This hides a testable workflow inside a container not meant to hold procedural content. Extract the workflow as a procedure
+  or tactic and link it from the profile via a DRG edge.
+severity: severe
+bad_example: The profile's specialization block holds the agent's twelve numbered release steps, verbatim.

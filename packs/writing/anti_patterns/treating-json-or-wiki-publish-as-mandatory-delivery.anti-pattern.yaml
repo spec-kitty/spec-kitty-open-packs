@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: treating-json-or-wiki-publish-as-mandatory-delivery
+title: Treating JSON or wiki publish as mandatory delivery
+description: Canonical delivery is one Markdown response in the originating chat. Saving `.minutes.json` / `.wiki.txt` or
+  publishing to a wiki is optional and user-requested only. Never block chat delivery on publish credentials.
+severity: severe
+bad_example: The run stops with "wiki credentials missing" instead of returning the Markdown minutes in the chat.

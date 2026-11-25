@@ -1,0 +1,14 @@
+schema_version: '1.0'
+id: shared-mutable-state-between-scenarios
+title: Shared mutable state between scenarios
+description: Scenario B relying on data created by Scenario A. When Scenario A is skipped or fails, Scenario B fails for the
+  wrong reason. Each scenario must establish its own preconditions via Given steps.
+severity: severe
+bad_example: |-
+  private static List<String> log = new ArrayList<>(); // shared across tests
+
+  @Test void testA() { service.run(); assertThat(log).containsExactly("A"); }
+  @Test void testB() { service.run(); assertThat(log).containsExactly("B"); } // fails if testA ran first
+good_example: |-
+  @BeforeEach
+  void setUp() { log = new ArrayList<>(); } // fresh state per test

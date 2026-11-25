@@ -1,0 +1,9 @@
+schema_version: '1.0'
+id: over-broad-uncheckable-scenarios
+title: Over-broad, uncheckable scenarios
+description: Breadth a step cannot witness, such as "composition resolves the way I expect". Narrow to a single guarantee
+  a consumer can observe and a step can check.
+severity: breaking
+bad_example: '"Scenario: composition resolves the way I expect."'
+good_example: '"Scenario: when two selected profiles both set the same step''s input, the more specific profile''s value is
+  the one in force."'

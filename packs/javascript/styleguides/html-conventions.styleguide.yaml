@@ -103,49 +103,6 @@ patterns:
       needed (a `label for`, a fragment link, an ARIA reference), and keep ids unique and hyphenated (a
       hyphenated id cannot shadow a JavaScript global, since browsers expose ids as `window` properties).
 
-anti_patterns:
-  - name: Div as Button
-    description: "A clickable `<div>` has no role, cannot be focused with the keyboard and does not respond to Enter or Space."
-    bad_example: |
-      <div class="btn" onclick="save()">Save</div>
-    good_example: |
-      <button type="submit" class="btn">Save</button>
-
-  - name: Inline Style and Handlers
-    description: "Inline `style` and `on*` attributes mix presentation and behaviour into structure, so they cannot be reused or changed from the stylesheet or script that owns them."
-    bad_example: |
-      <p style="color: red" onclick="dismiss(this)">Payment failed</p>
-    good_example: |
-      <p class="alert alert-error" data-dismissible>Payment failed</p>
-
-  - name: Missing or Redundant Alt Text
-    description: "Without `alt`, assistive technology has nothing to announce in the image's place; `alt=\"divider image\"` adds redundancy. Say what the image conveys, or mark it decorative."
-    bad_example: |
-      <img src="chart-q3.png">
-      <img src="divider.svg" alt="divider image">
-    good_example: |
-      <img src="chart-q3.png" alt="Q3 revenue grew 12% over Q2, led by subscriptions">
-      <img src="divider.svg" alt="">
-
-  - name: ARIA Overriding Native Semantics
-    description: "ARIA in HTML advises against restating an element's implicit role, and changing a heading into presentation removes it from the outline; the native element already carries the right role and behaviour."
-    bad_example: |
-      <button role="button" aria-label="button">Save</button>
-      <h2 role="presentation">Billing</h2>
-    good_example: |
-      <button type="button">Save</button>
-      <h2>Billing</h2>
-
-  - name: Layout Table
-    description: "A table used for page layout is announced as data, with rows and columns, and does not reflow on narrow screens."
-    bad_example: |
-      <table><tr><td>Sidebar</td><td>Content</td></tr></table>
-    good_example: |
-      <div class="layout">
-        <aside>Sidebar</aside>
-        <main>Content</main>
-      </div>
-
 tooling:
   validator: "html-validate (or the W3C Nu HTML Checker, vnu)"
   accessibility: "axe-core (via Playwright or jest-axe) and Lighthouse accessibility audit"

@@ -240,3 +240,83 @@ edges:
   relation: requires
   reason: The architectural gate non-vacuity tactic describes how to author gates that cannot silently pass; this procedure
     describes what to do when those gates fire after a merge and the root cause (pre-existing vs. regression) must be determined.
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:averaging-divergent-verdicts
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:blocking-a-merge-on-a-confirmed-pre-existing-failure
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:casting-by-habit
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:comparing-against-the-lane-base-instead-of-the-mission-base
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:concluding-flake-without-running-ci-only-shards-locally
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:example-theater
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:happy-path-only
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:hard-wiring-the-squad-as-a-gate
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:implementation-leakage
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:model-tier-mismatch
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:persona-without-profile
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:resolved-on-paper
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:reviewing-the-wrong-tree
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:ruling-on-an-unreachable-test
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:silently-dropped-finding
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:single-shard-inspection
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:skipping-the-activity-log-record
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:trusting-a-biased-delegate
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:unbounded-squad
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:unvalidated-examples
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern

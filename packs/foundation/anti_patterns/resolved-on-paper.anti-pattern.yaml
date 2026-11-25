@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: resolved-on-paper
+title: Resolved on paper
+description: Declaring a blocker resolved in a brief or ruling because a delegate argued it away, without reproducing it against
+  the current head.
+severity: severe
+bad_example: A brief marks the merge-race blocker resolved because a delegate argued the race cannot happen, and nobody re-runs
+  the failing scenario on the current head.

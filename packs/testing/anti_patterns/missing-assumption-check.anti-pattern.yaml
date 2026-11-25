@@ -1,0 +1,18 @@
+schema_version: '1.0'
+id: missing-assumption-check
+title: Missing Assumption Check
+description: Omitting the assumption check lets a wrong fixture or a drifted default state present itself as a failure of
+  the behaviour under test. The test then either fails for the wrong reason (wasting an investigation) or, worse, passes because
+  the arranged state was never the state the behaviour needs.
+severity: breaking
+bad_example: |-
+  def test_discount_applies_to_gold_members():
+      member = make_member()          # is this actually a gold member?
+      price = pricing.quote(member)
+      assert price == Decimal("90.00")  # green even if make_member() drifts to silver
+good_example: |-
+  def test_discount_applies_to_gold_members():
+      member = make_member(tier="gold")
+      assert member.tier == "gold"      # assumption check pins the precondition
+      price = pricing.quote(member)
+      assert price == Decimal("90.00")

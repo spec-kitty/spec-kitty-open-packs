@@ -38,19 +38,3 @@ steps:
   role: operator
   on_failure: |
     If a subagent fails or a write is refused, list the affected issues as "not triaged" with the error. Retry at most once.
-anti_patterns:
-- title: Setting priority:P0 silently
-  content: |
-    P0 on a Bug halts the release train. Escalation is the operator's decision.
-- title: Judging liveness against a stale origin
-  content: |
-    A lagging fork makes shipped work look missing and new code look removed. Check against the canonical remote's main and require positive presence of the fix.
-- title: Writing to an issue that closed mid-pass
-  content: |
-    Re-read the state immediately before each write.
-- title: Touching workflow-state leases
-  content: |
-    `status:ready`, `status:claimed`, `status:blocked` and `taken-by-human` are leases and queue state set by a person or by contributor tooling. Report a stale one; do not remove it. The one exception is `status:triage`, which the pass removes once an issue is triaged and nothing is pending on it.
-- title: Parenting under a meta-tracker or in a body checklist
-  content: |
-    Parent real work under a functional epic with a native sub-issue link.

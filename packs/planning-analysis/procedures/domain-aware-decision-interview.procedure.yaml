@@ -29,14 +29,5 @@ steps:
 - title: Close with resolved branches and residual questions
   description: |
     Summarize decisions, rejected alternatives, updated terminology, open questions, and the next artifact that should consume the result.
-anti_patterns:
-- title: Over-interviewing
-  content: Asking questions whose answers are already present in code, tests, docs, or the current plan wastes human attention.
-- title: Terminology policing
-  content: Correcting words without structural or domain impact creates friction without improving understanding.
-- title: Premature decision records
-  content: Recording reversible, obvious, or non-trade-off choices bloats decision history.
-- title: Batch questioning
-  content: Asking many questions at once prevents the interview from adapting to resolved dependencies.
 notes: |
   Adapted from the mattpocock/skills grill-with-docs and grill-me workflows at commit 49cec7be019bc408e87b77670f3d442f536da254. Spec Kitty uses its glossary, DRG, charter, and ADR surfaces rather than the upstream CONTEXT.md convention.

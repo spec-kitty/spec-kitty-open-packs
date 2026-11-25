@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: inline-style-and-handlers
+title: Inline Style and Handlers
+description: Inline `style` and `on*` attributes mix presentation and behaviour into structure, so they cannot be reused or
+  changed from the stylesheet or script that owns them.
+severity: smell
+bad_example: '<p style="color: red" onclick="dismiss(this)">Payment failed</p>'
+good_example: <p class="alert alert-error" data-dismissible>Payment failed</p>

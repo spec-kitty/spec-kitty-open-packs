@@ -53,29 +53,3 @@ patterns:
       plainly and name the gap. An honest gap builds more trust than a
       confident guess, and a confident guess is the failure this rule exists
       to prevent.
-
-anti_patterns:
-  - name: Technical-first burial
-    description: >
-      Opening with architecture detail or a metric table forces the stakeholder
-      and investor to mine for the outcome, and most will stop before they find
-      it. The outcome belongs in the first two lines.
-    bad_example: >
-      "## Architecture. The commit-boundary router now materialises the coord
-      worktree before origin-binding..." — page one, before any statement of
-      what the cycle delivered.
-    good_example: >
-      "Spec Kitty shipped 3.2.6: charter governance is now the default, and
-      release integrity holds end to end. Detail follows." Outcome first, then
-      the architecture section for the reader who wants it.
-  - name: The unattributed hero number
-    description: >
-      A striking figure with no source is the fastest way to lose a report's
-      credibility on review. If the number cannot be traced, it cannot be the
-      headline.
-    bad_example: >
-      "Velocity tripled this cycle." No baseline, no window, no source — a
-      reviewer cannot check it and stops trusting the surrounding figures.
-    good_example: >
-      "320 commits and 41 merged PRs per week (git log over the 3.2.5..3.2.6
-      range, measured for this report)." The reader can reproduce it.

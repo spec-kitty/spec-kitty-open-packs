@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: silent-acceptance-without-traceability-check
+title: Silent acceptance without traceability check
+description: Approving a plan without confirming its test-area-to-requirement traceability defeats the purpose of the review.
+severity: severe
+bad_example: The test plan is approved although two of its test areas trace to no requirement, feature or risk item.

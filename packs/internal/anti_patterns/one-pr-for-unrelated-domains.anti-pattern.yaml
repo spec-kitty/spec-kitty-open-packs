@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: one-pr-for-unrelated-domains
+title: One PR for unrelated domains
+description: Unrelated issues go to separate dispatches. Group issues only when they share a surface or a sequence.
+severity: smell
+bad_example: A docs typo, a parser bug and a CI cache change go out in one dispatch and one PR.

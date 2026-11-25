@@ -1,0 +1,14 @@
+schema_version: '1.0'
+id: imperative-gherkin
+title: Imperative Gherkin
+description: Scenarios that describe UI clicks and form fills rather than business intent. "Click the Submit button" is imperative.
+  "Complete the order" is declarative. Imperative scenarios break when the UI changes, even if the behavior is unchanged.
+severity: severe
+bad_example: |-
+  Given I am on the login page
+  When I type my username, type my password, and click "Sign in"
+  Then I see the dashboard div render
+good_example: |-
+  Given a registered user with valid credentials
+  When they authenticate
+  Then they gain access to their dashboard

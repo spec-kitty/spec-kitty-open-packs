@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: setting-priority-p0-silently
+title: Setting priority:P0 silently
+description: P0 on a Bug halts the release train. Escalation is the operator's decision.
+severity: breaking
+bad_example: A triage pass adds `priority:P0` to a bug and moves on without telling the operator.

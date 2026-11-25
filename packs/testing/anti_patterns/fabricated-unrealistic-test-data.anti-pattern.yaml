@@ -1,0 +1,20 @@
+schema_version: '1.0'
+id: fabricated-unrealistic-test-data
+title: Fabricated / Unrealistic Test Data
+description: Fixtures built from handcrafted placeholder values that violate production invariants (truncated or fake identifiers,
+  impossible lengths, sentinel strings) test a world that cannot occur. They mask real behavior, manufacture phantom edge
+  cases, and mislead debugging — a fixture value that can never reach the code on the golden path is a silent wrong-fixture
+  bug. Prefer production-shaped data; if malformed input must be tested, do it in a test whose name declares that intent,
+  never as incidental setup.
+severity: breaking
+bad_example: |-
+  # An order_id is ALWAYS a 26-char ULID in production. This fixture fakes a short one:
+  meta = {"order_id": "01KORD"}   # 6 chars — impossible on any real path
+  # Short ids resolve down a different branch than real ones, so this fixture invents an
+  # "edge case" the system never produces — here it cost a full adversarial investigation
+  # to prove the "divergence" was a fixture artifact, not a code defect.
+good_example: |-
+  # Use a production-shaped value: a full 26-char ULID.
+  meta = {"order_id": "01KV7SFD0123456789ABCDEFGH"}
+  # Genuinely testing malformed input? Name the test for it and isolate it:
+  #   def test_rejects_short_order_id(): ...   # the short id is the subject, not setup

@@ -66,6 +66,63 @@ nodes:
   kind: tactics
   title: Vertical Skeleton First
   body_path: tactics/analysis/vertical-skeleton-first.tactic.yaml
+- id: batch-questioning
+  kind: anti_patterns
+  title: Batch questioning
+- id: blocking-on-the-optional-steps
+  kind: anti_patterns
+  title: Blocking on the optional steps
+- id: budgetless-spike
+  kind: anti_patterns
+  title: Budgetless Spike
+- id: child-ticket-checklist-in-the-epic-body
+  kind: anti_patterns
+  title: Child-ticket checklist in the epic body
+- id: closing-a-community-duplicate-before-migrating-its-evidence
+  kind: anti_patterns
+  title: Closing a community duplicate before migrating its evidence
+- id: implementation-coupled-briefs
+  kind: anti_patterns
+  title: Implementation-coupled briefs
+- id: memory-only-rejection
+  kind: anti_patterns
+  title: Memory-only rejection
+- id: meta-tracker-as-canonical-parent
+  kind: anti_patterns
+  title: Meta-tracker as canonical parent
+- id: multiple-active-state-labels
+  kind: anti_patterns
+  title: Multiple active state labels
+- id: over-interviewing
+  kind: anti_patterns
+  title: Over-interviewing
+- id: over-reading-squash-merged-history
+  kind: anti_patterns
+  title: Over-reading squash-merged history
+- id: premature-decision-records
+  kind: anti_patterns
+  title: Premature decision records
+- id: rationalised-outcome
+  kind: anti_patterns
+  title: Rationalised Outcome
+- id: skipping-the-exclusion-list
+  kind: anti_patterns
+  title: Skipping the exclusion list
+- id: substituting-triage-for-deeper-investigation
+  kind: anti_patterns
+  title: Substituting triage for deeper investigation
+- id: terminology-policing
+  kind: anti_patterns
+  title: Terminology policing
+- id: treating-triage-as-a-verdict
+  kind: anti_patterns
+  title: Treating triage as a verdict
+- id: unwritten-finding
+  kind: anti_patterns
+  title: Unwritten Finding
+- id: vague-needs-info-questions
+  kind: anti_patterns
+  title: Vague needs-info questions
 edges:
 - source: writing::action:documentation/retrospect
   target: agent_profile:retrospective-facilitator
@@ -339,3 +396,79 @@ edges:
   target: foundation::directive:DIRECTIVE_036
   relation: suggests
   when: the composed smoke exercises the system through its external interfaces
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:batch-questioning
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:blocking-on-the-optional-steps
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:spike-timebox-policy
+  target: anti_pattern:budgetless-spike
+  relation: rejects
+  reason: the procedure spike-timebox-policy names this anti-pattern
+- source: styleguide:planning-and-tracking
+  target: anti_pattern:child-ticket-checklist-in-the-epic-body
+  relation: rejects
+  reason: the styleguide planning-and-tracking names this anti-pattern
+- source: styleguide:planning-and-tracking
+  target: anti_pattern:closing-a-community-duplicate-before-migrating-its-evidence
+  relation: rejects
+  reason: the styleguide planning-and-tracking names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:implementation-coupled-briefs
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:memory-only-rejection
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern
+- source: styleguide:planning-and-tracking
+  target: anti_pattern:meta-tracker-as-canonical-parent
+  relation: rejects
+  reason: the styleguide planning-and-tracking names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:multiple-active-state-labels
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:over-interviewing
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:over-reading-squash-merged-history
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:premature-decision-records
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:spike-timebox-policy
+  target: anti_pattern:rationalised-outcome
+  relation: rejects
+  reason: the procedure spike-timebox-policy names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:skipping-the-exclusion-list
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:substituting-triage-for-deeper-investigation
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:terminology-policing
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:treating-triage-as-a-verdict
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:spike-timebox-policy
+  target: anti_pattern:unwritten-finding
+  relation: rejects
+  reason: the procedure spike-timebox-policy names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:vague-needs-info-questions
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern

@@ -268,6 +268,177 @@ nodes:
     kind: styleguides
     title: Tiered Coding Standards
     body_path: styleguides/tiered-standards.styleguide.yaml
+  - id: a-report-with-no-ask
+    kind: anti_patterns
+    title: A report with no ask
+  - id: agent-merges-the-mainline
+    kind: anti_patterns
+    title: Agent merges the mainline
+  - id: arming-auto-merge-before-the-fix-is-complete
+    kind: anti_patterns
+    title: Arming auto-merge before the fix is complete
+  - id: catch-all-root
+    kind: anti_patterns
+    title: Catch-all root
+  - id: claiming-unread-progress
+    kind: anti_patterns
+    title: Claiming unread progress
+  - id: command-named-steps
+    kind: anti_patterns
+    title: Command-named steps
+  - id: crud-affordance-echo
+    kind: anti_patterns
+    title: CRUD / affordance echo
+  - id: dark-chrome-or-a-white-print-margin
+    kind: anti_patterns
+    title: Dark chrome or a white print margin
+  - id: deciding-silently
+    kind: anti_patterns
+    title: Deciding silently
+  - id: decision-drip
+    kind: anti_patterns
+    title: Decision drip
+  - id: defect-framing
+    kind: anti_patterns
+    title: Defect framing
+  - id: deferring-instead-of-finishing
+    kind: anti_patterns
+    title: Deferring instead of finishing
+  - id: dispatching-from-a-title
+    kind: anti_patterns
+    title: Dispatching from a title
+  - id: environment-improvisation
+    kind: anti_patterns
+    title: Environment improvisation
+  - id: flipping-a-red-or-still-changing-pr-to-ready-for-review
+    kind: anti_patterns
+    title: Flipping a red or still-changing PR to ready for review
+  - id: forking-a-near-duplicate-epic
+    kind: anti_patterns
+    title: Forking a near-duplicate epic
+  - id: full-auto-drift
+    kind: anti_patterns
+    title: Full-auto drift
+  - id: gating-instead-of-discipline
+    kind: anti_patterns
+    title: Gating instead of discipline
+  - id: greening-by-erasure
+    kind: anti_patterns
+    title: Greening by erasure
+  - id: grounding-prompt-without-discovery
+    kind: anti_patterns
+    title: Grounding prompt without discovery
+  - id: hand-built-chrome
+    kind: anti_patterns
+    title: Hand-built chrome
+  - id: hand-counted-or-invented-figures
+    kind: anti_patterns
+    title: Hand-counted or invented figures
+  - id: hiding-pre-existing-debt-in-new-work
+    kind: anti_patterns
+    title: Hiding Pre-existing Debt in New Work
+  - id: importing-core-logic-from-scripting-packages
+    kind: anti_patterns
+    title: Importing Core Logic from Scripting Packages
+  - id: judging-liveness-against-a-stale-origin
+    kind: anti_patterns
+    title: Judging liveness against a stale origin
+  - id: keyword-only-triage
+    kind: anti_patterns
+    title: Keyword-only triage
+  - id: landing-a-draft-pr-without-asking
+    kind: anti_patterns
+    title: Landing a draft PR without asking
+  - id: merge-commits-instead-of-a-linear-history
+    kind: anti_patterns
+    title: Merge commits instead of a linear history
+  - id: one-pr-for-unrelated-domains
+    kind: anti_patterns
+    title: One PR for unrelated domains
+  - id: over-broad-uncheckable-scenarios
+    kind: anti_patterns
+    title: Over-broad, uncheckable scenarios
+  - id: over-length-entries
+    kind: anti_patterns
+    title: Over-length entries
+  - id: per-wp-green-treated-as-the-final-gate
+    kind: anti_patterns
+    title: Per-WP green treated as the final gate
+  - id: placeholder-prompts
+    kind: anti_patterns
+    title: Placeholder prompts
+  - id: pointfix-without-discovery
+    kind: anti_patterns
+    title: Pointfix without discovery
+  - id: reading-the-corpus-in-commit-order
+    kind: anti_patterns
+    title: Reading the corpus in commit order
+  - id: recapturing-a-ci-owned-file-during-a-landing
+    kind: anti_patterns
+    title: Recapturing a CI-owned file during a landing
+  - id: restating-report-writing-here
+    kind: anti_patterns
+    title: Restating report-writing here
+  - id: retroactive-fill-in
+    kind: anti_patterns
+    title: Retroactive fill-in
+  - id: rewriting-history-to-make-every-commit-green
+    kind: anti_patterns
+    title: Rewriting history to make every commit green
+  - id: running-the-heavy-suites-in-mission
+    kind: anti_patterns
+    title: Running the heavy suites in-mission
+  - id: running-the-suite-to-find-weak-tests
+    kind: anti_patterns
+    title: Running the suite to find weak tests
+  - id: scope-creep-into-activation
+    kind: anti_patterns
+    title: Scope creep into activation
+  - id: setting-priority-p0-silently
+    kind: anti_patterns
+    title: Setting priority:P0 silently
+  - id: skipping-the-assess-step
+    kind: anti_patterns
+    title: Skipping the assess step
+  - id: specifying-before-grounding
+    kind: anti_patterns
+    title: Specifying before grounding
+  - id: specifying-before-the-claim
+    kind: anti_patterns
+    title: Specifying before the claim
+  - id: starting-from-a-stale-or-wrong-remote
+    kind: anti_patterns
+    title: Starting from a stale or wrong remote
+  - id: technical-first-burial
+    kind: anti_patterns
+    title: Technical-first burial
+  - id: tests-for-the-sake-of-tests
+    kind: anti_patterns
+    title: Tests for the sake of tests
+  - id: touching-workflow-state-leases
+    kind: anti_patterns
+    title: Touching workflow-state leases
+  - id: transcribing-the-e2e-mechanism
+    kind: anti_patterns
+    title: Transcribing the e2e mechanism
+  - id: treating-a-static-flag-as-a-verdict
+    kind: anti_patterns
+    title: Treating a static flag as a verdict
+  - id: unbounded-or-colliding-dispatch
+    kind: anti_patterns
+    title: Unbounded or colliding dispatch
+  - id: uniform-standards-across-all-packages
+    kind: anti_patterns
+    title: Uniform Standards Across All Packages
+  - id: unresolved-issue-verdicts-at-close
+    kind: anti_patterns
+    title: Unresolved issue verdicts at close
+  - id: work-stranded-under-a-closed-epic
+    kind: anti_patterns
+    title: Work stranded under a closed epic
+  - id: writing-to-an-issue-that-closed-mid-pass
+    kind: anti_patterns
+    title: Writing to an issue that closed mid-pass
 
 edges:
   # Reference-not-duplicate: the landing runbook refines built-in Charter Pack doctrine that
@@ -819,3 +990,283 @@ edges:
     target: testing::tactic:shared-machine-test-measurement
     relation: suggests
     when: Several agents run tests on one machine, or a red needs attributing to a change.
+  - source: procedure:test-suite-quality-assessment
+    target: testing::anti_pattern:retire-coverage-disguised-as-a-duplicate
+    relation: rejects
+    reason: the procedure test-suite-quality-assessment names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: writing::anti_pattern:jargon-aimed-at-the-wrong-audience
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: styleguide:report-writing
+    target: writing::anti_pattern:unsourced-assertion
+    relation: rejects
+    reason: the styleguide report-writing names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: planning-analysis::anti_pattern:child-ticket-checklist-in-the-epic-body
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: planning-analysis::anti_pattern:closing-a-community-duplicate-before-migrating-its-evidence
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:issue-triage-pass
+    target: planning-analysis::anti_pattern:meta-tracker-as-canonical-parent
+    relation: rejects
+    reason: the procedure issue-triage-pass names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: planning-analysis::anti_pattern:meta-tracker-as-canonical-parent
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: anti_pattern:a-report-with-no-ask
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:agent-merges-the-mainline
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:landing-contributor-prs
+    target: anti_pattern:arming-auto-merge-before-the-fix-is-complete
+    relation: rejects
+    reason: the procedure landing-contributor-prs names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: anti_pattern:catch-all-root
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:claiming-unread-progress
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:charter-offering-scenario-extraction
+    target: anti_pattern:command-named-steps
+    relation: rejects
+    reason: the procedure charter-offering-scenario-extraction names this anti-pattern
+  - source: styleguide:feature-and-scenario-authoring
+    target: anti_pattern:command-named-steps
+    relation: rejects
+    reason: the styleguide feature-and-scenario-authoring names this anti-pattern
+  - source: procedure:charter-offering-scenario-extraction
+    target: anti_pattern:crud-affordance-echo
+    relation: rejects
+    reason: the procedure charter-offering-scenario-extraction names this anti-pattern
+  - source: styleguide:feature-and-scenario-authoring
+    target: anti_pattern:crud-affordance-echo
+    relation: rejects
+    reason: the styleguide feature-and-scenario-authoring names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: anti_pattern:dark-chrome-or-a-white-print-margin
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: procedure:semi-auto-delivery
+    target: anti_pattern:deciding-silently
+    relation: rejects
+    reason: the procedure semi-auto-delivery names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:decision-drip
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:charter-offering-scenario-extraction
+    target: anti_pattern:defect-framing
+    relation: rejects
+    reason: the procedure charter-offering-scenario-extraction names this anti-pattern
+  - source: styleguide:feature-and-scenario-authoring
+    target: anti_pattern:defect-framing
+    relation: rejects
+    reason: the styleguide feature-and-scenario-authoring names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:deferring-instead-of-finishing
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:dispatching-from-a-title
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:environment-improvisation
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:flipping-a-red-or-still-changing-pr-to-ready-for-review
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: anti_pattern:forking-a-near-duplicate-epic
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:semi-auto-delivery
+    target: anti_pattern:full-auto-drift
+    relation: rejects
+    reason: the procedure semi-auto-delivery names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:gating-instead-of-discipline
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:semi-auto-delivery
+    target: anti_pattern:greening-by-erasure
+    relation: rejects
+    reason: the procedure semi-auto-delivery names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:grounding-prompt-without-discovery
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: anti_pattern:hand-built-chrome
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: anti_pattern:hand-counted-or-invented-figures
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: styleguide:tiered-standards
+    target: anti_pattern:hiding-pre-existing-debt-in-new-work
+    relation: rejects
+    reason: the styleguide tiered-standards names this anti-pattern
+  - source: styleguide:tiered-standards
+    target: anti_pattern:importing-core-logic-from-scripting-packages
+    relation: rejects
+    reason: the styleguide tiered-standards names this anti-pattern
+  - source: procedure:issue-triage-pass
+    target: anti_pattern:judging-liveness-against-a-stale-origin
+    relation: rejects
+    reason: the procedure issue-triage-pass names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: anti_pattern:keyword-only-triage
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:landing-contributor-prs
+    target: anti_pattern:landing-a-draft-pr-without-asking
+    relation: rejects
+    reason: the procedure landing-contributor-prs names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:merge-commits-instead-of-a-linear-history
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:one-pr-for-unrelated-domains
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:charter-offering-scenario-extraction
+    target: anti_pattern:over-broad-uncheckable-scenarios
+    relation: rejects
+    reason: the procedure charter-offering-scenario-extraction names this anti-pattern
+  - source: styleguide:feature-and-scenario-authoring
+    target: anti_pattern:over-broad-uncheckable-scenarios
+    relation: rejects
+    reason: the styleguide feature-and-scenario-authoring names this anti-pattern
+  - source: procedure:mission-tracer-files
+    target: anti_pattern:over-length-entries
+    relation: rejects
+    reason: the procedure mission-tracer-files names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:per-wp-green-treated-as-the-final-gate
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:placeholder-prompts
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: procedure:semi-auto-delivery
+    target: anti_pattern:pointfix-without-discovery
+    relation: rejects
+    reason: the procedure semi-auto-delivery names this anti-pattern
+  - source: procedure:test-suite-quality-assessment
+    target: anti_pattern:reading-the-corpus-in-commit-order
+    relation: rejects
+    reason: the procedure test-suite-quality-assessment names this anti-pattern
+  - source: procedure:landing-contributor-prs
+    target: anti_pattern:recapturing-a-ci-owned-file-during-a-landing
+    relation: rejects
+    reason: the procedure landing-contributor-prs names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: anti_pattern:restating-report-writing-here
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: procedure:mission-tracer-files
+    target: anti_pattern:retroactive-fill-in
+    relation: rejects
+    reason: the procedure mission-tracer-files names this anti-pattern
+  - source: procedure:landing-contributor-prs
+    target: anti_pattern:rewriting-history-to-make-every-commit-green
+    relation: rejects
+    reason: the procedure landing-contributor-prs names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:rewriting-history-to-make-every-commit-green
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:semi-auto-delivery
+    target: anti_pattern:running-the-heavy-suites-in-mission
+    relation: rejects
+    reason: the procedure semi-auto-delivery names this anti-pattern
+  - source: procedure:test-suite-quality-assessment
+    target: anti_pattern:running-the-suite-to-find-weak-tests
+    relation: rejects
+    reason: the procedure test-suite-quality-assessment names this anti-pattern
+  - source: procedure:charter-offering-scenario-extraction
+    target: anti_pattern:scope-creep-into-activation
+    relation: rejects
+    reason: the procedure charter-offering-scenario-extraction names this anti-pattern
+  - source: procedure:issue-triage-pass
+    target: anti_pattern:setting-priority-p0-silently
+    relation: rejects
+    reason: the procedure issue-triage-pass names this anti-pattern
+  - source: procedure:mission-tracer-files
+    target: anti_pattern:skipping-the-assess-step
+    relation: rejects
+    reason: the procedure mission-tracer-files names this anti-pattern
+  - source: procedure:semi-auto-delivery
+    target: anti_pattern:specifying-before-grounding
+    relation: rejects
+    reason: the procedure semi-auto-delivery names this anti-pattern
+  - source: procedure:issue-to-mission-delivery
+    target: anti_pattern:specifying-before-the-claim
+    relation: rejects
+    reason: the procedure issue-to-mission-delivery names this anti-pattern
+  - source: procedure:issue-to-mission-delivery
+    target: anti_pattern:starting-from-a-stale-or-wrong-remote
+    relation: rejects
+    reason: the procedure issue-to-mission-delivery names this anti-pattern
+  - source: styleguide:report-writing
+    target: anti_pattern:technical-first-burial
+    relation: rejects
+    reason: the styleguide report-writing names this anti-pattern
+  - source: procedure:landing-contributor-prs
+    target: anti_pattern:tests-for-the-sake-of-tests
+    relation: rejects
+    reason: the procedure landing-contributor-prs names this anti-pattern
+  - source: procedure:issue-triage-pass
+    target: anti_pattern:touching-workflow-state-leases
+    relation: rejects
+    reason: the procedure issue-triage-pass names this anti-pattern
+  - source: procedure:charter-offering-scenario-extraction
+    target: anti_pattern:transcribing-the-e2e-mechanism
+    relation: rejects
+    reason: the procedure charter-offering-scenario-extraction names this anti-pattern
+  - source: styleguide:feature-and-scenario-authoring
+    target: anti_pattern:transcribing-the-e2e-mechanism
+    relation: rejects
+    reason: the styleguide feature-and-scenario-authoring names this anti-pattern
+  - source: procedure:test-suite-quality-assessment
+    target: anti_pattern:treating-a-static-flag-as-a-verdict
+    relation: rejects
+    reason: the procedure test-suite-quality-assessment names this anti-pattern
+  - source: procedure:cloud-session-dispatch
+    target: anti_pattern:unbounded-or-colliding-dispatch
+    relation: rejects
+    reason: the procedure cloud-session-dispatch names this anti-pattern
+  - source: styleguide:tiered-standards
+    target: anti_pattern:uniform-standards-across-all-packages
+    relation: rejects
+    reason: the styleguide tiered-standards names this anti-pattern
+  - source: procedure:mission-wrap-up-sequence
+    target: anti_pattern:unresolved-issue-verdicts-at-close
+    relation: rejects
+    reason: the procedure mission-wrap-up-sequence names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: anti_pattern:work-stranded-under-a-closed-epic
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:issue-triage-pass
+    target: anti_pattern:writing-to-an-issue-that-closed-mid-pass
+    relation: rejects
+    reason: the procedure issue-triage-pass names this anti-pattern

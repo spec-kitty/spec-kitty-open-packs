@@ -169,6 +169,12 @@ nodes:
 - id: qa/accept
   kind: actions
   title: Acceptance
+- id: rubber-stamp-sign-off
+  kind: anti_patterns
+  title: Rubber-stamp sign-off
+- id: silent-acceptance-without-traceability-check
+  kind: anti_patterns
+  title: Silent acceptance without traceability check
 
 edges:
 - source: directive:QA_001
@@ -389,3 +395,11 @@ edges:
 - source: action:qa/tasks
   target: procedure:qa-coverage-gap-analysis
   relation: scope
+- source: procedure:qa-go-no-go-readiness-review
+  target: anti_pattern:rubber-stamp-sign-off
+  relation: rejects
+  reason: the procedure qa-go-no-go-readiness-review names this anti-pattern
+- source: procedure:qa-test-plan-review-workshop
+  target: anti_pattern:silent-acceptance-without-traceability-check
+  relation: rejects
+  reason: the procedure qa-test-plan-review-workshop names this anti-pattern

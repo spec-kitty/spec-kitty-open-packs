@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: crud-affordance-echo
+title: CRUD / affordance echo
+description: Re-skinning "list shows X", "path resolves to Y", or the kind vocabulary as Gherkin. These assert the command's
+  output surface, which the Python unit/e2e tier already owns; in Gherkin they read as technical tests with Given/When/Then
+  noise and add a slow cross-OS runner for no consumer meaning.
+severity: smell
+bad_example: '"Scenario: charter list shows the researcher profile / When I run ''spec-kitty charter list --kind agent_profile''
+  / Then the output contains ''researcher-ryan''."'
+good_example: '"Scenario: an author sees only the profiles their charter puts in force / Given a project whose charter selects
+  the researcher profile / When the author starts a mission / Then the governance in force includes the researcher profile
+  and excludes profiles that are merely available."'

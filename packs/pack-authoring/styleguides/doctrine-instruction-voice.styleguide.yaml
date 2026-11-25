@@ -35,16 +35,4 @@ patterns:
     good_example: |
       git push -u origin my-topic-branch   # then open a pull request; the operator merges
 
-anti_patterns:
-  - name: Local values as canonical rules
-    description: >
-      An artifact names one team's labels, branch, token location or tracker
-      convention as if every consumer had it. A consumer without that
-      convention follows a rule it cannot satisfy, or invents one.
-    bad_example: |
-      Tag the ticket priority:P1 and unset GITHUB_TOKEN so gh uses the keyring token.
-    good_example: |
-      Record the urgency in the project's priority scheme, if it has one. If gh
-      reports missing scopes, check which token is active.
-
 quality_test: "Could an agent in a project that shares none of the author's local conventions follow every instruction and example in the artifact as written, without repeating a deprecated term or running an unauthorized operation?"

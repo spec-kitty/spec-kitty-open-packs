@@ -1,0 +1,122 @@
+schema_version: '1.0'
+generated_at: STATIC
+generated_by: drg-migration-v1
+nodes:
+- urn: anti_pattern:aspirational-documentation-ahead-of-the-code
+  kind: anti_pattern
+  label: Aspirational documentation ahead of the code
+- urn: anti_pattern:assuming-reader-knowledge
+  kind: anti_pattern
+  label: Assuming Reader Knowledge
+- urn: anti_pattern:bare-sha-citation
+  kind: anti_pattern
+  label: Bare SHA citation
+- urn: anti_pattern:buried-contradiction
+  kind: anti_pattern
+  label: Buried Contradiction
+- urn: anti_pattern:buzzword-soup
+  kind: anti_pattern
+  label: Buzzword Soup
+- urn: anti_pattern:calling-the-llm-from-inside-the-optional-publish-step
+  kind: anti_pattern
+  label: Calling the LLM from inside the optional publish step
+- urn: anti_pattern:circular-definition
+  kind: anti_pattern
+  label: Circular Definition
+- urn: anti_pattern:citation-laundering
+  kind: anti_pattern
+  label: Citation Laundering
+- urn: anti_pattern:confidence-inflation
+  kind: anti_pattern
+  label: Confidence Inflation
+- urn: anti_pattern:drifting-line-citation
+  kind: anti_pattern
+  label: Drifting line citation
+- urn: anti_pattern:duplicated-fact-with-no-canonical-home
+  kind: anti_pattern
+  label: Duplicated fact with no canonical home
+- urn: anti_pattern:em-dash-sprawl-and-buzzword-fog
+  kind: anti_pattern
+  label: Em-dash sprawl and buzzword fog
+- urn: anti_pattern:empty-or-ownerless-action-items-in-discussion-notes
+  kind: anti_pattern
+  label: Empty or ownerless Action Items in discussion notes
+- urn: anti_pattern:forcing-a-discussion-meeting-into-the-decision-table
+  kind: anti_pattern
+  label: Forcing a discussion meeting into the decision table
+- urn: anti_pattern:freshness-date-bumped-without-re-verifying-content
+  kind: anti_pattern
+  label: Freshness date bumped without re-verifying content
+- urn: anti_pattern:hand-patching-a-generated-page-to-look-current
+  kind: anti_pattern
+  label: Hand-patching a generated page to look current
+- urn: anti_pattern:implementation-leaking-into-definition
+  kind: anti_pattern
+  label: Implementation Leaking Into Definition
+- urn: anti_pattern:jargon-aimed-at-the-wrong-audience
+  kind: anti_pattern
+  label: Jargon aimed at the wrong audience
+- urn: anti_pattern:meaning-carried-only-by-colour-or-only-by-a-diagram
+  kind: anti_pattern
+  label: Meaning carried only by colour or only by a diagram
+- urn: anti_pattern:missing-or-wrong-section-order
+  kind: anti_pattern
+  label: Missing or wrong section order
+- urn: anti_pattern:narrating-existing-state-as-a-decision
+  kind: anti_pattern
+  label: Narrating existing state as a decision
+- urn: anti_pattern:one-size-fits-none-document
+  kind: anti_pattern
+  label: One-Size-Fits-None Document
+- urn: anti_pattern:passive-hedged-filler-laden-instruction
+  kind: anti_pattern
+  label: Passive, hedged, filler-laden instruction
+- urn: anti_pattern:publishing-without-the-validated-markdown-in-this-chat
+  kind: anti_pattern
+  label: Publishing without the validated Markdown in this chat
+- urn: anti_pattern:reference-page-carrying-narrative-rationale
+  kind: anti_pattern
+  label: Reference page carrying narrative rationale
+- urn: anti_pattern:rendering-without-selecting-a-format
+  kind: anti_pattern
+  label: Rendering without selecting a format
+- urn: anti_pattern:requiring-an-api-key-for-an-already-running-chat-agent
+  kind: anti_pattern
+  label: Requiring an API key for an already-running chat agent
+- urn: anti_pattern:returning-final-minutes-while-attribution-gaps-remain
+  kind: anti_pattern
+  label: Returning final minutes while attribution gaps remain
+- urn: anti_pattern:second-documentation-root
+  kind: anti_pattern
+  label: Second documentation root
+- urn: anti_pattern:sidecar-metadata-ssot
+  kind: anti_pattern
+  label: Sidecar metadata SSOT
+- urn: anti_pattern:silent-fact-drift
+  kind: anti_pattern
+  label: Silent Fact Drift
+- urn: anti_pattern:skipped-or-size-driven-heading-levels
+  kind: anti_pattern
+  label: Skipped or size-driven heading levels
+- urn: anti_pattern:transcript-level-detail-in-notes
+  kind: anti_pattern
+  label: Transcript-level detail in notes
+- urn: anti_pattern:treating-json-or-wiki-publish-as-mandatory-delivery
+  kind: anti_pattern
+  label: Treating JSON or wiki publish as mandatory delivery
+- urn: anti_pattern:treating-truncation-silently
+  kind: anti_pattern
+  label: Treating truncation silently
+- urn: anti_pattern:tutorial-that-branches-on-reader-choices
+  kind: anti_pattern
+  label: Tutorial that branches on reader choices
+- urn: anti_pattern:unattributed-action-items
+  kind: anti_pattern
+  label: Unattributed action items
+- urn: anti_pattern:undefined-audience
+  kind: anti_pattern
+  label: Undefined Audience
+- urn: anti_pattern:unsourced-assertion
+  kind: anti_pattern
+  label: Unsourced Assertion
+edges: []

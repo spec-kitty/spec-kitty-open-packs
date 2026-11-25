@@ -1,0 +1,14 @@
+schema_version: '1.0'
+id: suppressed-type-error
+title: Suppressed Type Error
+description: '`@ts-ignore` hides the error it targets and every future error on that line; fix the type instead.'
+severity: severe
+bad_example: |-
+  // @ts-ignore
+  const port: number = config.port;
+good_example: |-
+  const raw = String(config.port ?? '').trim();
+  const port = Number(raw);
+  if (raw === '' || !Number.isInteger(port)) {
+    throw new Error(`Invalid port: ${raw}`);
+  }

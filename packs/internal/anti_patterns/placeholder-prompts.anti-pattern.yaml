@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: placeholder-prompts
+title: Placeholder prompts
+description: A runner cannot ask what an unfilled field meant. Every section must be concrete before spawning.
+severity: severe
+bad_example: 'The dispatch prompt still says "Scope: <fill in>" when the runner is spawned.'

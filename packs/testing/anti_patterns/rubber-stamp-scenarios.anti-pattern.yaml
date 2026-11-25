@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: rubber-stamp-scenarios
+title: Rubber-stamp scenarios
+description: Scenarios written after the implementation passes to satisfy a process requirement. These scenarios always start
+  green and provide no regression protection — they cannot fail because the code was not written to make them fail first.
+severity: breaking
+bad_example: After the export feature is merged, scenarios are written against its current output to satisfy the process checklist;
+  they pass on their first run.

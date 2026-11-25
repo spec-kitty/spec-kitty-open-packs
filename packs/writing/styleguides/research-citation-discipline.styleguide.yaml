@@ -58,28 +58,3 @@ patterns:
       ran, so it can be re-derived rather than trusted. This refines "Cite the
       specific locus, not the whole source" for code, and is the code-level
       partner of "Cite changes by a stable identifier".
-anti_patterns:
-  - name: Unsourced Assertion
-    description: "Stating a fact with no traceable source, leaving the reader unable to verify it or judge its strength."
-    bad_example: "The framework handles ten thousand requests per second."
-    good_example: "The framework sustained ~10k req/s in the maintainers' published benchmark (docs/benchmarks.md, v2.4, retrieved 2026-07-15); we did not reproduce it locally, so treat it as a secondary claim."
-  - name: Citation Laundering
-    description: "Citing a secondary source that merely repeats a claim as if it were primary evidence, hiding the absence of a verifiable origin."
-    bad_example: "Multiple blog posts confirm the library is thread-safe."
-    good_example: "The library documents thread-safety for its read path (README §Concurrency, v3.1); the write path is unspecified, and no primary source confirms it — flagged as an open uncertainty."
-  - name: Buried Contradiction
-    description: "Presenting only the sources that support the conclusion while omitting a known contradicting source."
-    bad_example: "Benchmarks show approach A is faster."
-    good_example: "Benchmark X favours approach A by 20%; benchmark Y (different workload) favours B by 15%. A wins for our read-heavy profile; see the workload comparison in the source register."
-  - name: Confidence Inflation
-    description: "Writing a tentative, weakly-evidenced finding in the assertive tone reserved for well-established fact."
-    bad_example: "Approach B is the correct choice."
-    good_example: "On the current evidence (one spike, one secondary benchmark) approach B looks preferable; confidence is low and a second measurement would raise it."
-  - name: Bare SHA citation
-    description: "Citing a change by a bare commit SHA in a durable artifact. The SHA stops resolving once the branch is squashed or rebased, and nothing warns the reader."
-    bad_example: "The field was renamed in a1b2c3d, so the old name is gone."
-    good_example: "The field was renamed in PR #412 (the Order to Purchase rename). If no PR exists yet: \"local commit a1b2c3d (pre-rewrite, ephemeral; the Order to Purchase rename)\"."
-  - name: Drifting line citation
-    description: "Citing code by line numbers alone, or quoting a count with no way to reproduce it. The lines move with the next edit and the count cannot be checked."
-    bad_example: "The retry loop at billing/retry.py:120-140 handles 14 call sites."
-    good_example: "billing/retry.py::RetryPolicy.next_delay handles the retry loop; 14 call sites (git grep -n \"next_delay(\" -- . \":!billing/retry.py\" | wc -l, on 2026-11-21)."

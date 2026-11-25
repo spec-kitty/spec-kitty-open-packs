@@ -111,6 +111,102 @@ nodes:
   kind: tactics
   title: Shared-Machine Test Measurement
   body_path: tactics/testing/shared-machine-test-measurement.tactic.yaml
+- id: delete-a-mega-file-wholesale
+  kind: anti_patterns
+  title: Delete a mega-file wholesale
+- id: exception-only-assertion
+  kind: anti_patterns
+  title: Exception-Only Assertion
+- id: fabricated-unrealistic-test-data
+  kind: anti_patterns
+  title: Fabricated / Unrealistic Test Data
+- id: fixing-without-a-feedback-loop
+  kind: anti_patterns
+  title: Fixing without a feedback loop
+- id: forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  kind: anti_patterns
+  title: Forgetting that a stub is a second copy of the contract
+- id: full-application-restart
+  kind: anti_patterns
+  title: Full Application Restart
+- id: gold-plating-as-a-licence-to-double-owned-logic
+  kind: anti_patterns
+  title: Gold plating as a licence to double owned logic
+- id: identity-value-inputs
+  kind: anti_patterns
+  title: Identity Value Inputs
+- id: imperative-gherkin
+  kind: anti_patterns
+  title: Imperative Gherkin
+- id: infrastructure-as-untyped-shared-mutable-state
+  kind: anti_patterns
+  title: Infrastructure as untyped shared mutable state
+- id: keep-the-wp-nfr-label-on-a-promoted-test
+  kind: anti_patterns
+  title: Keep the WP/NFR label on a promoted test
+- id: leaving-debug-artifacts-behind
+  kind: anti_patterns
+  title: Leaving debug artifacts behind
+- id: logging-everything
+  kind: anti_patterns
+  title: Logging everything
+- id: merge-the-scaffolding-clean-it-up-later
+  kind: anti_patterns
+  title: Merge the scaffolding, clean it up "later"
+- id: missing-assumption-check
+  kind: anti_patterns
+  title: Missing Assumption Check
+- id: multiple-whens-in-one-scenario
+  kind: anti_patterns
+  title: Multiple Whens in One Scenario
+- id: orphaned-step-definitions
+  kind: anti_patterns
+  title: Orphaned step definitions
+- id: over-mocking-to-compensate-for-a-missing-boundary
+  kind: anti_patterns
+  title: Over-mocking to compensate for a missing boundary
+- id: refactoring-beyond-the-fix
+  kind: anti_patterns
+  title: Refactoring Beyond the Fix
+- id: retire-coverage-disguised-as-a-duplicate
+  kind: anti_patterns
+  title: Retire coverage disguised as a duplicate
+- id: rubber-stamp-scenarios
+  kind: anti_patterns
+  title: Rubber-stamp scenarios
+- id: self-constructed-oracle-an-injection-proof-that-never-injects
+  kind: anti_patterns
+  title: Self-constructed oracle (an "injection proof" that never injects)
+- id: shared-mutable-state-between-scenarios
+  kind: anti_patterns
+  title: Shared mutable state between scenarios
+- id: side-script-investigation
+  kind: anti_patterns
+  title: Side-Script Investigation
+- id: single-branch-condition
+  kind: anti_patterns
+  title: Single-Branch Condition
+- id: single-hypothesis-anchoring
+  kind: anti_patterns
+  title: Single-hypothesis anchoring
+- id: stubbing-a-new-gate-out-of-an-old-harness
+  kind: anti_patterns
+  title: Stubbing a new gate out of an old harness
+- id: substring-case-insensitive-message-assertion
+  kind: anti_patterns
+  title: Substring/Case-Insensitive Message Assertion
+- id: sweep-the-whole-suite-in-the-landing-pr
+  kind: anti_patterns
+  title: Sweep the whole suite in the landing PR
+- id: test-passes-immediately
+  kind: anti_patterns
+  title: Test Passes Immediately
+- id: the-literal-scan-trap
+  kind: anti_patterns
+  title: The Literal-Scan Trap
+- id: wrong-failure-reproduction
+  kind: anti_patterns
+  title: Wrong-failure reproduction
 edges:
 - source: foundation::action:software-dev/implement
   target: procedure:disciplined-defect-diagnosis
@@ -615,3 +711,159 @@ edges:
   target: tactic:shared-machine-test-measurement
   relation: scope
   when: judging whether a reported test result is a measurement and which change a red belongs to
+- source: styleguide:testing-principles
+  target: foundation::anti_pattern:assert-on-internal-field-values
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: styleguide:testing-principles
+  target: foundation::anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:delete-a-mega-file-wholesale
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:exception-only-assertion
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: styleguide:testing-principles
+  target: anti_pattern:fabricated-unrealistic-test-data
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:fixing-without-a-feedback-loop
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:fixing-without-a-feedback-loop
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:full-application-restart
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:gold-plating-as-a-licence-to-double-owned-logic
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:identity-value-inputs
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:imperative-gherkin
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:given-when-then-authoring
+  target: anti_pattern:imperative-gherkin
+  relation: rejects
+  reason: the styleguide given-when-then-authoring names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:infrastructure-as-untyped-shared-mutable-state
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:keep-the-wp-nfr-label-on-a-promoted-test
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:leaving-debug-artifacts-behind
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:logging-everything
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:merge-the-scaffolding-clean-it-up-later
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:merge-the-scaffolding-clean-it-up-later
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: styleguide:quadruple-a-test-format
+  target: anti_pattern:missing-assumption-check
+  relation: rejects
+  reason: the styleguide quadruple-a-test-format names this anti-pattern
+- source: styleguide:given-when-then-authoring
+  target: anti_pattern:multiple-whens-in-one-scenario
+  relation: rejects
+  reason: the styleguide given-when-then-authoring names this anti-pattern
+- source: styleguide:quadruple-a-test-format
+  target: anti_pattern:multiple-whens-in-one-scenario
+  relation: rejects
+  reason: the styleguide quadruple-a-test-format names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:orphaned-step-definitions
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:over-mocking-to-compensate-for-a-missing-boundary
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:refactoring-beyond-the-fix
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:retire-coverage-disguised-as-a-duplicate
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:rubber-stamp-scenarios
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:self-constructed-oracle-an-injection-proof-that-never-injects
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:shared-mutable-state-between-scenarios
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:testing-principles
+  target: anti_pattern:shared-mutable-state-between-scenarios
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:side-script-investigation
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:single-branch-condition
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:single-hypothesis-anchoring
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:stubbing-a-new-gate-out-of-an-old-harness
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:substring-case-insensitive-message-assertion
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:sweep-the-whole-suite-in-the-landing-pr
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:test-passes-immediately
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:testing-principles
+  target: anti_pattern:the-literal-scan-trap
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:wrong-failure-reproduction
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern

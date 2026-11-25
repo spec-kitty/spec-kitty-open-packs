@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: div-as-button
+title: Div as Button
+description: A clickable `<div>` has no role, cannot be focused with the keyboard and does not respond to Enter or Space.
+severity: severe
+bad_example: <div class="btn" onclick="save()">Save</div>
+good_example: <button type="submit" class="btn">Save</button>

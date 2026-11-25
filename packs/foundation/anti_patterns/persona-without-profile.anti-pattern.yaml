@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: persona-without-profile
+title: Persona without profile
+description: Naming a persona without loading its agent profile — a persona label is not a lens.
+severity: smell
+bad_example: Deploy "a security expert" with no profile loaded.

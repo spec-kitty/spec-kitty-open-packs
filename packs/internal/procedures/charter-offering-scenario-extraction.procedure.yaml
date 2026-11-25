@@ -34,22 +34,3 @@ steps:
 - title: Record traceability and keep the mechanism net
   description: |
     Map every @promise id to the offering FR/ADR it asserts in tests/scenarios/charter/PROMISES.md, so the suite doubles as the frozen offering-contract index. Leave the Python e2e and tests/charter* suites in place as the lower-level mechanism net — the BDD suite is the consumer contract on top, not a replacement. Report per area: promises extracted, scenarios authored, scenarios bound-and-green versus @wip, and the gaps with no coverage.
-anti_patterns:
-- title: CRUD / affordance echo
-  content: |
-    Re-skinning "list shows X", "path resolves to Y", or the kind vocabulary as Gherkin. These assert the command's output surface, which the Python unit/e2e tier already owns; in Gherkin they read as technical tests with Given/When/Then noise and add a slow cross-OS runner for no consumer meaning.
-- title: Transcribing the e2e mechanism
-  content: |
-    Copying an e2e's internal-state assertions, file-layout checks or sequencing into a scenario. The e2e proves the mechanism; the scenario states the consumer outcome. Use the e2e as evidence and a fixture source, decoupled from implementation.
-- title: Command-named steps
-  content: |
-    Steps that assert "the command printed <...>" instead of the governed outcome. The scenario should hold regardless of which command surfaces the result.
-- title: Defect framing
-  content: |
-    Tagging a scenario @defect or writing it as a bug reproduction. The .feature layer describes what the system should do for a user; defect linkage and reproductions live in the Python/regression tier.
-- title: Scope creep into activation
-  content: |
-    Writing activate/deactivate/cascade scenarios into the offering suite. Activation is a separate layer that extracts later; mixing it in makes the offering conformance net not match the unit being extracted first.
-- title: Over-broad, uncheckable scenarios
-  content: |
-    Breadth a step cannot witness, such as "composition resolves the way I expect". Narrow to a single guarantee a consumer can observe and a step can check.

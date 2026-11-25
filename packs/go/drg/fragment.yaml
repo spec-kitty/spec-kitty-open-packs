@@ -15,6 +15,30 @@ nodes:
   kind: agent_profiles
   title: Go Gwen
   body_path: agent_profiles/go-gwen.agent.yaml
+- id: backward-goto-and-fall-through-flow
+  kind: anti_patterns
+  title: Backward goto and Fall-through Flow
+- id: context-stored-in-a-struct
+  kind: anti_patterns
+  title: Context Stored in a Struct
+- id: copying-a-struct-with-a-mutex
+  kind: anti_patterns
+  title: Copying a Struct with a Mutex
+- id: error-string-matching
+  kind: anti_patterns
+  title: Error String Matching
+- id: package-level-mutable-globals
+  kind: anti_patterns
+  title: Package-level Mutable Globals
+- id: producer-side-interface
+  kind: anti_patterns
+  title: Producer-side Interface
+- id: typed-nil-error
+  kind: anti_patterns
+  title: Typed nil Error
+- id: unchecked-conversion-into-a-typed-set
+  kind: anti_patterns
+  title: Unchecked Conversion into a Typed Set
 edges:
 - source: agent_profile:go-gwen
   target: styleguide:go-conventions
@@ -105,3 +129,43 @@ edges:
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
   reason: An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, mirroring java-jenny.
+- source: styleguide:go-conventions
+  target: foundation::anti_pattern:unowned-asynchronous-work
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: foundation::anti_pattern:floating-point-money
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:backward-goto-and-fall-through-flow
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:context-stored-in-a-struct
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:copying-a-struct-with-a-mutex
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:error-string-matching
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:package-level-mutable-globals
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:producer-side-interface
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:typed-nil-error
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: anti_pattern:unchecked-conversion-into-a-typed-set
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern

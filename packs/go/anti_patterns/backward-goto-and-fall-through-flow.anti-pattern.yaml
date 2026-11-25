@@ -1,0 +1,27 @@
+schema_version: '1.0'
+id: backward-goto-and-fall-through-flow
+title: Backward goto and Fall-through Flow
+description: Using goto to jump backwards or to emulate a sequence of fall-through steps. The control flow cannot be read
+  top to bottom, and a step cannot be tested on its own.
+severity: smell
+bad_example: |-
+  step1:
+      if !validate(r) {
+          goto step3
+      }
+      enrich(r)
+  step3:
+      if retry {
+          goto step1
+      }
+good_example: |-
+  var lastErr error
+  for attempt := 0; attempt < maxAttempts; attempt++ {
+      if err := validate(r); err != nil {
+          return fmt.Errorf("validate: %w", err)
+      }
+      if lastErr = enrich(ctx, r); lastErr == nil {
+          return nil
+      }
+  }
+  return fmt.Errorf("enrich after %d attempts: %w", maxAttempts, errors.Join(ErrRetriesExhausted, lastErr))

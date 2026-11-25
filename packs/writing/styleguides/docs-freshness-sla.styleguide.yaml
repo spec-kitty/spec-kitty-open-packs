@@ -109,31 +109,6 @@ patterns:
       retirement by the SLA. Its freshness is maintained by re-verification on domain change (the
       behaviour-change-resets-the-clock rule still applies), not by the tiered ageing thresholds.
 
-anti_patterns:
-  - name: Freshness date bumped without re-verifying content
-    description: >
-      Touching `updated` for a cosmetic edit resets the staleness clock without
-      anyone having checked the page against current behaviour, defeating the
-      whole SLA. Bump the date only when the content was actually verified.
-    bad_example: |
-      A find-and-replace across 200 pages bumps every `updated` to today; the
-      staleness sweep now reports a fully-fresh corpus that nobody verified.
-    good_example: |
-      Only the pages whose content was re-checked against current behaviour get
-      a bumped `updated`; the rest keep their real date and stay eligible to be
-      flagged.
-  - name: Hand-patching a generated page to look current
-    description: >
-      Editing generated output by hand to fix a drifted value makes the page
-      diverge from its source and defeats the regeneration gate. Fix the source
-      and regenerate.
-    bad_example: |
-      Hand-editing a signature in Sphinx-generated `docs/api/` so it matches the
-      code, instead of re-running autodoc.
-    good_example: |
-      Update the annotated source and re-run the generator; the freshness gate
-      then confirms the committed output matches regeneration.
-
 tooling:
   freshness-date-present: "documentation mission validate action (asserts every page carries an `updated: YYYY-MM-DD` and flags pages past their tier threshold as stale)."
   generated-page-drift-check: "the project's own regeneration check for generated reference and for any generated rollup the project keeps (it regenerates the artifact and fails on drift). Where the project has no such check, review reruns the generator and compares; see the common-docs styleguide's `frontmatter-ssot` row."

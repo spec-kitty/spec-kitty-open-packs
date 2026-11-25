@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: full-auto-drift
+title: Full-auto drift
+description: Widening scope, crossing an architectural boundary, or changing a contract because it looked obviously needed,
+  without the pause. Autonomy is bounded by the agreed scope; past it, escalate.
+severity: severe
+bad_example: While fixing a CLI flag, the runner also changes the report schema because it "looked obviously needed".

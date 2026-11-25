@@ -38,16 +38,5 @@ steps:
 - title: Document the fix
   description: |
     In the commit message or PR description: state the root cause, the fix applied, any edge cases the new test does not yet cover, and a link to the bug report or ticket.
-anti_patterns:
-- title: Fix First, Test Later
-  content: Modifying production code before having a failing test. No proof the bug existed or that the fix addresses it. A test written after the fix is only a confirmation test, not a regression test — it does not prove the fix was necessary.
-- title: Side-Script Investigation
-  content: Building ad-hoc scripts to reproduce the bug instead of writing a proper test. Scripts rot; tests live.
-- title: Full Application Restart
-  content: Deploying the whole application to verify a fix. Slow, noisy, and not isolated.
-- title: Test Passes Immediately
-  content: The reproduction test passes on first run. The test does not capture the bug — revise setup or assertions.
-- title: Refactoring Beyond the Fix
-  content: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug fix; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
 notes: |
   External reference: "Example of test-first bug-fixing (Stijn Dejongh, 2022)" https://www.linkedin.com/pulse/example-test-first-bug-fixing-javascript-stijn-dejongh/ Folds in the retired bug-fixing-checklist tactic (single-owner consolidation): state expected vs actual in one sentence before touching code; if the reproduction test cannot be written, the defect is not understood; document the root cause and the fix; a post-fix test is a confirmation test, not a regression test.

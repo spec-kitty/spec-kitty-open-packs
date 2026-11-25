@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: string-path-manipulation
+title: String Path Manipulation
+description: Using os.path.join or string concatenation for paths instead of pathlib. Fragile across platforms and harder
+  to read.
+severity: smell
+bad_example: |-
+  config = os.path.join(base_dir, "config", "settings.yaml")
+  os.makedirs(os.path.dirname(output), exist_ok=True)
+good_example: |-
+  config = base_dir / "config" / "settings.yaml"
+  output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,27 @@
+schema_version: '1.0'
+id: unowned-asynchronous-work
+title: Unowned Asynchronous Work
+description: Starting asynchronous work that nothing awaits or handles. Its failures vanish, it can outlive its caller, and
+  the caller continues as if the work had finished.
+severity: severe
+bad_example: |-
+  // go: Fire-and-Forget Goroutine
+  go sendAuditEvent(evt) // error ignored, may outlive the request
+
+  // javascript: Floating Promise
+  function onSave(draft: Draft): void {
+    repository.save(draft);
+    notify('Saved');
+  }
+good_example: |-
+  // go
+  // Work that must outlive the request: context.WithoutCancel(ctx) (Go 1.21+), still owned and awaited.
+  g.Go(func() error { return sendAuditEvent(ctx, evt) })
+  // ... later
+  if err := g.Wait(); err != nil { /* handle */ }
+
+  // javascript
+  async function onSave(draft: Draft): Promise<void> {
+    await repository.save(draft);
+    notify('Saved');
+  }

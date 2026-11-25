@@ -116,3 +116,131 @@ edges:
 - source: styleguide:research-citation-discipline
   target: foundation::tactic:dialectic-research
   relation: suggests
+- source: styleguide:publication-authority
+  target: anti_pattern:aspirational-documentation-ahead-of-the-code
+  relation: rejects
+  reason: the styleguide publication-authority names this anti-pattern
+- source: styleguide:kitty-glossary-writing
+  target: anti_pattern:assuming-reader-knowledge
+  relation: rejects
+  reason: the styleguide kitty-glossary-writing names this anti-pattern
+- source: styleguide:research-citation-discipline
+  target: anti_pattern:bare-sha-citation
+  relation: rejects
+  reason: the styleguide research-citation-discipline names this anti-pattern
+- source: styleguide:research-citation-discipline
+  target: anti_pattern:buried-contradiction
+  relation: rejects
+  reason: the styleguide research-citation-discipline names this anti-pattern
+- source: styleguide:kitty-glossary-writing
+  target: anti_pattern:buzzword-soup
+  relation: rejects
+  reason: the styleguide kitty-glossary-writing names this anti-pattern
+- source: styleguide:kitty-glossary-writing
+  target: anti_pattern:circular-definition
+  relation: rejects
+  reason: the styleguide kitty-glossary-writing names this anti-pattern
+- source: styleguide:research-citation-discipline
+  target: anti_pattern:citation-laundering
+  relation: rejects
+  reason: the styleguide research-citation-discipline names this anti-pattern
+- source: styleguide:research-citation-discipline
+  target: anti_pattern:confidence-inflation
+  relation: rejects
+  reason: the styleguide research-citation-discipline names this anti-pattern
+- source: styleguide:research-citation-discipline
+  target: anti_pattern:drifting-line-citation
+  relation: rejects
+  reason: the styleguide research-citation-discipline names this anti-pattern
+- source: styleguide:publication-authority
+  target: anti_pattern:duplicated-fact-with-no-canonical-home
+  relation: rejects
+  reason: the styleguide publication-authority names this anti-pattern
+- source: styleguide:ai-writing-tells
+  target: anti_pattern:em-dash-sprawl-and-buzzword-fog
+  relation: rejects
+  reason: the styleguide ai-writing-tells names this anti-pattern
+- source: styleguide:meeting-minutes-format
+  target: anti_pattern:empty-or-ownerless-action-items-in-discussion-notes
+  relation: rejects
+  reason: the styleguide meeting-minutes-format names this anti-pattern
+- source: styleguide:meeting-minutes-format
+  target: anti_pattern:forcing-a-discussion-meeting-into-the-decision-table
+  relation: rejects
+  reason: the styleguide meeting-minutes-format names this anti-pattern
+- source: styleguide:docs-freshness-sla
+  target: anti_pattern:freshness-date-bumped-without-re-verifying-content
+  relation: rejects
+  reason: the styleguide docs-freshness-sla names this anti-pattern
+- source: styleguide:docs-freshness-sla
+  target: anti_pattern:hand-patching-a-generated-page-to-look-current
+  relation: rejects
+  reason: the styleguide docs-freshness-sla names this anti-pattern
+- source: styleguide:kitty-glossary-writing
+  target: anti_pattern:implementation-leaking-into-definition
+  relation: rejects
+  reason: the styleguide kitty-glossary-writing names this anti-pattern
+- source: styleguide:plain-language
+  target: anti_pattern:jargon-aimed-at-the-wrong-audience
+  relation: rejects
+  reason: the styleguide plain-language names this anti-pattern
+- source: styleguide:docs-accessibility
+  target: anti_pattern:meaning-carried-only-by-colour-or-only-by-a-diagram
+  relation: rejects
+  reason: the styleguide docs-accessibility names this anti-pattern
+- source: styleguide:meeting-minutes-format
+  target: anti_pattern:missing-or-wrong-section-order
+  relation: rejects
+  reason: the styleguide meeting-minutes-format names this anti-pattern
+- source: styleguide:meeting-minutes-format
+  target: anti_pattern:narrating-existing-state-as-a-decision
+  relation: rejects
+  reason: the styleguide meeting-minutes-format names this anti-pattern
+- source: styleguide:professional-communications
+  target: anti_pattern:one-size-fits-none-document
+  relation: rejects
+  reason: the styleguide professional-communications names this anti-pattern
+- source: styleguide:plain-language
+  target: anti_pattern:passive-hedged-filler-laden-instruction
+  relation: rejects
+  reason: the styleguide plain-language names this anti-pattern
+- source: styleguide:divio-type-discipline
+  target: anti_pattern:reference-page-carrying-narrative-rationale
+  relation: rejects
+  reason: the styleguide divio-type-discipline names this anti-pattern
+- source: styleguide:common-docs
+  target: anti_pattern:second-documentation-root
+  relation: rejects
+  reason: the styleguide common-docs names this anti-pattern
+- source: styleguide:common-docs
+  target: anti_pattern:sidecar-metadata-ssot
+  relation: rejects
+  reason: the styleguide common-docs names this anti-pattern
+- source: styleguide:professional-communications
+  target: anti_pattern:silent-fact-drift
+  relation: rejects
+  reason: the styleguide professional-communications names this anti-pattern
+- source: styleguide:docs-accessibility
+  target: anti_pattern:skipped-or-size-driven-heading-levels
+  relation: rejects
+  reason: the styleguide docs-accessibility names this anti-pattern
+- source: styleguide:meeting-minutes-format
+  target: anti_pattern:transcript-level-detail-in-notes
+  relation: rejects
+  reason: the styleguide meeting-minutes-format names this anti-pattern
+- source: styleguide:divio-type-discipline
+  target: anti_pattern:tutorial-that-branches-on-reader-choices
+  relation: rejects
+  reason: the styleguide divio-type-discipline names this anti-pattern
+- source: styleguide:meeting-minutes-format
+  target: anti_pattern:unattributed-action-items
+  relation: rejects
+  reason: the styleguide meeting-minutes-format names this anti-pattern
+- source: styleguide:professional-communications
+  target: anti_pattern:undefined-audience
+  relation: rejects
+  reason: the styleguide professional-communications names this anti-pattern
+- source: styleguide:research-citation-discipline
+  target: anti_pattern:unsourced-assertion
+  relation: rejects
+  reason: the styleguide research-citation-discipline names this anti-pattern

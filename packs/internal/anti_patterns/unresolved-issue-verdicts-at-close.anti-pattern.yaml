@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: unresolved-issue-verdicts-at-close
+title: Unresolved issue verdicts at close
+description: Leaving in-mission or empty verdicts in the issue matrix at hand-off. Every referenced issue must reach a terminal
+  verdict before done.
+severity: severe
+bad_example: 'The mission is handed off with #812 still marked in-mission in the issue matrix.'

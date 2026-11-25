@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: unsourced-assertion
+title: Unsourced Assertion
+description: Stating a fact with no traceable source, leaving the reader unable to verify it or judge its strength.
+severity: severe
+bad_example: The framework handles ten thousand requests per second.
+good_example: The framework sustained ~10k req/s in the maintainers' published benchmark (docs/benchmarks.md, v2.4, retrieved
+  2026-07-15); we did not reproduce it locally, so treat it as a secondary claim.

@@ -1,0 +1,19 @@
+schema_version: '1.0'
+id: stubbing-a-new-gate-out-of-an-old-harness
+title: Stubbing a new gate out of an old harness
+description: 'A new safety gate lands, an older mock-heavy test goes red because the gate now runs in its flow, and the "fix"
+  patches the gate out of that test''s fixture so it stays green. Each such stub makes the test check less than it did before
+  the gate existed (loss of Predictive). The pressure comes from a harness that is not Writable: when adding one real step
+  costs another patch, people stub. Move the test onto a real (git, filesystem) fixture that is cheap to extend, or retire
+  it and name the test that already covers its contract.'
+severity: severe
+bad_example: |-
+  # Commit message: "stub the new verification gate in the release fixtures"
+  stack.enter_context(patch("pkg.releaser._verify_new_gate", return_value=None))
+  # ... 25 other releaser internals patched ...
+  assert git_write_spy.call_args.kwargs["files"] == expected_files  # a spy on the git write itself is fine (DIRECTIVE_054); the patched releaser internals above are the smell
+good_example: |-
+  # Drive the real command against a real temp repo; the new gate runs too.
+  result = run_cli(repo, "release", "--version", "1.2.0")
+  assert result.exit_code == 0
+  assert read_committed_file(repo, "main", "VERSION") == "1.2.0\n"

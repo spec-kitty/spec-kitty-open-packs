@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: platform-dependent-encoding
+title: Platform-Dependent Encoding
+description: Omitting an explicit Charset makes the application non-portable and produces silent data corruption on non-UTF-8
+  platforms.
+severity: breaking
+bad_example: Files.writeString(outputPath, content); // uses platform default
+good_example: Files.writeString(outputPath, content, StandardCharsets.UTF_8);
