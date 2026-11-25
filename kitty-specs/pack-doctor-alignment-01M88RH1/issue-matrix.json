@@ -73,16 +73,16 @@
       "wp": "WP10"
     },
     "#349": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-005 (WP01 T004-T005)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Parse pack-doctor's report: the standard-output JSON and the `--report` file",
+      "verdict": "in-mission",
+      "wp": "WP01"
     },
     "#350": {
       "evidence_ref": "<link or commit>",
