@@ -85,16 +85,16 @@
       "wp": "WP01"
     },
     "#350": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-007..FR-010: curation tool and ledger 00 (WP02), ledgers A-E (WP03-WP07), apply (WP08)",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Adopt the `anti_pattern` kind of the packs contract: files, `rejects` edges, no inline entries (ADR-0052)",
+      "verdict": "in-mission",
+      "wp": "WP08"
     },
     "#636": {
       "evidence_ref": "<link or commit>",
