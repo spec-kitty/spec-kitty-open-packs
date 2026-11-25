@@ -141,7 +141,7 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": null,
+      "agent": "claude::implementer-ivan",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 3,
@@ -154,7 +154,8 @@
         "- 2026-11-25T17:47:35Z – claude::implementer-ivan – shell_pid=1883 – Rows: 46 for the 42 clusters homed in architecture (6), event-driven (3), pack-authoring (14), planning-analysis (19); 4 merged internal members (into meta-tracker, child-ticket checklist, duplicate closure). Matches the WP03 T014 per-home counts.",
         "- 2026-11-25T17:47:38Z – claude::implementer-ivan – shell_pid=1883 – T027: 4 operator questions sent to the dispatcher in one batch (severity, no outcome in the text): architecture Scope creep, Solution mode, planning-analysis Treating triage as a verdict (proposed smell); pack-authoring Host-specific assumptions (proposed severe).",
         "- 2026-11-25T17:47:41Z – claude::implementer-ivan – shell_pid=1883 – T028 (pack-doctor from charter 4b95b9151; scratch, ledger 00 + A + B + C, questions cleared on the copy only). Before C (after B): artifact_schema_error 36. After C: 241 = artifact_schema_error 25, manifest_membership 156, manifest_stale 36, round_trip_red 15, round_trip_written_unpaired 7, substep_delegation_unresolved 2. After a scratch remediate of the 8 fully curated packs: 49, nothing new. 36 inline blocks deleted (11 by C: architecture 2, event-driven 1, pack-authoring 3, planning-analysis 5), 10 kept for later batches; a second apply writes nothing. --check: only later batches (25 blocks, 115 map members).",
-        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860). Files: curation/ledger-c-architecture-planning.yaml (46 rows); WP02-tool changes for review: the default guard discounts only quotes found verbatim in the source (WP04 review residual), and a parse cache (--check 79 s -> 3 s). 4 severity questions open with the operator. Read every authored bad example (29)."
+        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860). Files: curation/ledger-c-architecture-planning.yaml (46 rows); WP02-tool changes for review: the default guard discounts only quotes found verbatim in the source (WP04 review residual), and a parse cache (--check 79 s -> 3 s). 4 severity questions open with the operator. Read every authored bad example (29).",
+        "Review cycle 1 folded in 9a02e46 (R1-R3, N1-N3). --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860)."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
