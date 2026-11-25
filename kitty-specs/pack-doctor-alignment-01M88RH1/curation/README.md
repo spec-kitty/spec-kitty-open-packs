@@ -50,6 +50,8 @@ clusters:
       - {pack: rust, source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3}
     depends_on_added: []              # [{pack: <member pack>, depends_on: <home pack>, range: "<range>"}]
     operator_question: null
+    text: null                        # set when the operator ruled authored text for the cluster (e.g. M2)
+    assessment: null                  # set when a ruling asked for a recorded curation assessment (e.g. M4)
 ```
 
 - One cluster per practice. A singleton cluster is a practice with one member. About 150 clusters is the expected
@@ -82,7 +84,7 @@ batch that owns its **home** pack: a `rust` entry merged into a `foundation` hom
 | `merged_into` | null, or `<home pack>::anti_pattern:<id>`; always pack-qualified, even within one pack |
 | `merge_reason` | on a merged row: the cluster's shared claim, quoting both texts |
 | `title`, `description`, `good_example` | the file's text (see the text rules); not on a merged row |
-| `title_source` | `authored` where the operator ruled a rephrased title (the drupal entries); omitted when the title is verbatim |
+| `title_source`, `description_source` | `authored (<decision>)` where the operator ruled authored text (the drupal titles, the cross-language foundation files); omitted when the text is verbatim |
 | `severity` | `smell`, `severe` or `breaking`; not on a merged row |
 | `severity_grounding` | one line quoting the deciding words (Q2); not on a merged row |
 | `bad_example` | the file's bad example; not on a merged row |
