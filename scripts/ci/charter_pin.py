@@ -284,7 +284,8 @@ def remediate(jar: str, packs: list[str], allow_red: bool = False) -> dict[str, 
         print(done.stdout, file=sys.stderr)
         if not allow_red:
             raise PinError(f"pack-doctor remediate exited 1 (refused: {', '.join(refused) or 'none'}): the restamped "
-                           "tree is red")
+                           "tree is red. The new lock and the other packs' restamp are already written: restore the "
+                           "tree with `git checkout -- . && git clean -fd packs tests/fixtures/valid` before retrying")
         print(f"::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: {', '.join(refused) or 'none'}); "
               "the gate judges the tree it left", file=sys.stderr)
     return outcomes
