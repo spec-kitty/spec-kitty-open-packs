@@ -843,9 +843,24 @@ class CharterTrackBumpBoundary(unittest.TestCase):
                 self.assertNotIn("charter-bump", call)
         for step in (self.push, self.open):
             with self.subTest(step=step.get("name")):
-                self.assertNotIn("ARTIFACT", step.get("env", {}))
                 self.assertNotRegex(step["run"], r"charter-bump|\bARTIFACT\b")
-                self.assertNotRegex(yaml.safe_dump(step.get("env", {})), r"charter-bump|runner\.temp")
+        # run_publish gives each step the test's values, not the workflow's, so what reaches the push and open is pinned
+        # here: their env exactly, no env at the job or workflow level, and no shell template around the scripts. A
+        # value that is empty or unset under test (a format() expression, a job-level name) cannot then redirect a copy.
+        self.assertEqual(self.push["env"], {"GH_TOKEN": "${{ github.token }}", "REPO": "${{ github.repository }}",
+                                            "BRANCH": "${{ steps.lookup.outputs.branch }}",
+                                            "HEAD_SHA": "${{ github.sha }}"})
+        self.assertEqual(self.open["env"], {"GH_TOKEN": "${{ github.token }}",
+                                            "PR_TOKEN": "${{ secrets.PR_CREATION_TOKEN }}",
+                                            "REPO": "${{ github.repository }}",
+                                            "BRANCH": "${{ steps.push.outputs.branch }}",
+                                            "RELEASE_TAG": "${{ needs.resolve.outputs.release_tag }}"})
+        workflow = load(TRACK)
+        for scope in (workflow, self.job):
+            self.assertNotIn("env", scope)
+            self.assertNotIn("defaults", scope)
+        for step in (self.build, self.push, self.open):
+            self.assertNotIn("shell", step)
 
     def test_the_artifact_the_derive_uploads_is_the_one_the_bump_downloads(self) -> None:
         upload = next(step for step in self.derive_job["steps"]
