@@ -102,7 +102,7 @@
     },
     "WP04": {
       "actor": "claude",
-      "agent": "claude::reviewer-renata",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -118,6 +118,7 @@
         "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860: the planning-artifact evidence window looks at feat/pack-doctor-alignment; the work lives on the coordination branch). Files: curation/ledger-b-testing-writing.yaml (80 rows), and a WP02-tool fix (the 'default' guard ignores quoted source text; for re-review). Five severity questions open with the operator. Read every authored bad example (25)."
       ],
       "provider": "__resolved_provider_absent__",
+      "review": null,
       "review_result": {
         "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/tasks/WP04-ledger-b-testing-writing/review-cycle-1.md",
         "reference": "review-cycle://pack-doctor-alignment-01M88RH1/WP04-ledger-b-testing-writing/review-cycle-1.md",
@@ -125,14 +126,14 @@
         "verdict": "changes_requested"
       },
       "role": "reviewer",
-      "shell_pid": 829,
-      "shell_pid_created_at": "1795628082.22",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T019": "done",
-        "T020": "done",
-        "T021": "done",
-        "T022": "done",
-        "T023": "done"
+        "T019": "planned",
+        "T020": "planned",
+        "T021": "planned",
+        "T022": "planned",
+        "T023": "planned"
       }
     },
     "WP05": {
