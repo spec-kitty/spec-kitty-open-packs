@@ -448,6 +448,52 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T19:23:50.338644Z",
+      "decision_id": "01M8A2M3P2KMF8Y29QB82EHCMR",
+      "final_answer": "D1 Deprecated Media Types and D4 smell; D2 and D3 severe; the two drupal \"never\" rows stay severe; all as proposed (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy). Correction: the question's D1 label should read \"Deprecated Media Types\".",
+      "input_key": "severity_wp06_d",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "as proposed",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "WP06 severities with no outcome in the text: D1 Deprecated Twig/CSS rule, D2 Configuration Stored in State, D3 Raw SQL Instead of Entity Query, D4 Sprawling Form Alter; and the two drupal \"never\" rows (Fetching Services via \\Drupal:: Inside a Class, Business Logic in the Module File) graded severe on rule wording",
+      "rationale": null,
+      "resolved_at": "2026-11-25T19:24:06.317902Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.wp06_severities",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T19:24:09.060634Z",
+      "decision_id": "01M8A2MNZ40FAJWDXHQ98AKM9R",
+      "final_answer": "E1 and E8 breaking; E2, E4 and E12 severe; E3, E5, E6, E7, E9, E10, E11 and E13 smell; all as proposed (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "severity_wp07_e",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "as proposed",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "WP07 severities with no outcome in the text: E1 agent-merges-the-mainline, E2 claiming-unread-progress, E3 dark-chrome-or-a-white-print-margin, E4 decision-drip, E5 defect-framing, E6 environment-improvisation, E7 forking-a-near-duplicate-epic, E8 landing-a-draft-pr-without-asking, E9 one-pr-for-unrelated-domains, E10 rewriting-history-to-make-every-commit-green, E11 running-the-heavy-suites-in-mission, E12 unbounded-or-colliding-dispatch, E13 writing-to-an-issue-that-closed-mid-pass",
+      "rationale": null,
+      "resolved_at": "2026-11-25T19:24:11.767130Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.wp07_severities",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",

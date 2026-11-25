@@ -62,11 +62,11 @@ entries:
     PR to ready for review and stops; the operator merges.
   severity: breaking
   severity_grounding: states the rule ("The agent flips a green PR to ready for review and stops; the operator merges") but
-    no outcome; proposed breaking
+    no outcome -> breaking (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: The agent arms auto-merge on its own PR to main once CI turns green.
   bad_example_source: authored, grounded in "Merging to the protected mainline or arming auto-merge on the agent's own initiative"
     (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed breaking; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/2
   source_title: Arming auto-merge before the fix is complete
   pack: internal
@@ -109,11 +109,11 @@ entries:
   description: Reporting a runner's outcome before reading it back from the session.
   severity: severe
   severity_grounding: states the practice ("Reporting a runner's outcome before reading it back from the session") but no
-    outcome; proposed severe
+    outcome -> severe (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: The dispatcher reports "WP02 done, tests green" from the runner's plan, before reading the runner's final message.
   bad_example_source: authored, grounded in "Reporting a runner's outcome before reading it back from the session" (decision
     01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/2
   source_title: Command-named steps
   pack: internal
@@ -195,12 +195,12 @@ entries:
     flow with a transparent top border instead, so the background stays cream.'
   severity: smell
   severity_grounding: states the rule ("use the light cream/paper treatment, never the dark website surface, and let the cream
-    reach every page edge") but no outcome; proposed smell
+    reach every page edge") but no outcome -> smell (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: A dark-mode debrief, or pages 2+ with a white strip above the content.
   bad_example_source: bad_example
   good_example: Cream full-bleed on every page; one-pager continuation pages inset in-flow so content sits lower and the background
     never turns white.
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/0
   source_title: Deciding silently
   pack: internal
@@ -231,12 +231,12 @@ entries:
     independently in each runner.
   severity: severe
   severity_grounding: states the practice ("Sending choices one at a time, acting irreversibly on a recommendation, or re-deciding
-    a settled convention independently in each runner") but no outcome; proposed severe
+    a settled convention independently in each runner") but no outcome -> severe (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: The runner asks the operator three questions in three messages over an hour, and drops the legacy `orders_v1`
     table on its own recommendation for the first before the answer comes.
   bad_example_source: authored, grounded in "Sending choices one at a time, acting irreversibly on a recommendation" (decision
     01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/3
   source_title: Defect framing
   pack: internal
@@ -249,8 +249,8 @@ entries:
   description: Tagging a scenario @defect or writing it as a bug reproduction. The .feature layer describes what the system
     should do for a user; defect linkage and reproductions live in the Python/regression tier.
   severity: smell
-  severity_grounding: states the rule ("The .feature layer describes what the system should do for a user") but no outcome;
-    proposed smell
+  severity_grounding: states the rule ("The .feature layer describes what the system should do for a user") but no outcome
+    -> smell (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: '"@defect:4941 Scenario: reproduce the lost-rejection bug when the clock is skewed."'
   bad_example_source: bad_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3,
     verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
@@ -258,7 +258,7 @@ entries:
     back."'
   good_example_source: good_example of merged member internal styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3,
     verbatim
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: styleguides/feature-and-scenario-authoring.styleguide.yaml#/anti_patterns/3
   source_title: Defect framing
   pack: internal
@@ -313,11 +313,11 @@ entries:
   description: Trying multiple install routes or editing outside the repository (sibling access and blocked sessions are CLOUD_SESSION_ORCHESTRATION's
     rules).
   severity: smell
-  severity_grounding: states the practice ("Trying multiple install routes or editing outside the repository") but no outcome;
-    proposed smell
+  severity_grounding: states the practice ("Trying multiple install routes or editing outside the repository") but no outcome
+    -> smell (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: The runner tries pip, then pipx, then a vendored wheel, and finally edits a sibling repository's lockfile.
   bad_example_source: authored, grounded in "Trying multiple install routes or editing outside the repository" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/4
   source_title: Flipping a red or still-changing PR to ready for review
   pack: internal
@@ -344,11 +344,11 @@ entries:
   description: Spawning a sibling epic when an existing canonical epic already covers the domain; nest a slice under it instead.
   severity: smell
   severity_grounding: states the practice ("Spawning a sibling epic when an existing canonical epic already covers the domain")
-    but no outcome; proposed smell
+    but no outcome -> smell (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: A new epic "Docs search v2" is opened beside the open canonical "Docs search" epic.
   bad_example_source: authored, grounded in "Spawning a sibling epic when an existing canonical epic already covers the domain"
     (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/semi-auto-delivery.procedure.yaml#/anti_patterns/5
   source_title: Full-auto drift
   pack: internal
@@ -541,10 +541,10 @@ entries:
   description: A draft has not been handed off to the maintainers. Ask the operator first.
   severity: breaking
   severity_grounding: states the rule ("A draft has not been handed off to the maintainers. Ask the operator first.") but
-    no outcome; proposed breaking
+    no outcome -> breaking (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: A contributor's draft PR is rebased and two landing fixes are pushed to its branch without asking the operator.
   bad_example_source: authored, grounded in "A draft has not been handed off to the maintainers" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed breaking; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/1
   source_title: Merge commits instead of a linear history
   pack: internal
@@ -570,11 +570,11 @@ entries:
   title: One PR for unrelated domains
   description: Unrelated issues go to separate dispatches. Group issues only when they share a surface or a sequence.
   severity: smell
-  severity_grounding: states the rule ("Group issues only when they share a surface or a sequence") but no outcome; proposed
-    smell
+  severity_grounding: states the rule ("Group issues only when they share a surface or a sequence") but no outcome -> smell
+    (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: A docs typo, a parser bug and a CI cache change go out in one dispatch and one PR.
   bad_example_source: authored, grounded in "Unrelated issues go to separate dispatches" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/charter-offering-scenario-extraction.procedure.yaml#/anti_patterns/5
   source_title: Over-broad, uncheckable scenarios
   pack: internal
@@ -750,10 +750,11 @@ entries:
   description: Per-commit green is not the bar (mission-wrap-up-sequence's compaction step). Rewrite only for readability
     or to remove personal data, and always run the tree check before a force-push.
   severity: smell
-  severity_grounding: states the rule ("Per-commit green is not the bar") but no outcome; proposed smell
+  severity_grounding: states the rule ("Per-commit green is not the bar") but no outcome -> smell (operator ruling 2026-11-25,
+    decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: Every commit of the branch is rewritten so each passes the gate on its own, and the branch is force-pushed.
   bad_example_source: authored, grounded in "Per-commit green is not the bar" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/2
   source_title: Per-commit green as a requirement
   pack: internal
@@ -774,10 +775,11 @@ entries:
   description: Sweeping a heavy suite whole (for example a whole architectural directory or a full-suite make target) locally
     during the run. CI owns the heavy and full suites at the draft PR; the run targets the specific gate files it implicates.
   severity: smell
-  severity_grounding: states the rule ("CI owns the heavy and full suites at the draft PR") but no outcome; proposed smell
+  severity_grounding: states the rule ("CI owns the heavy and full suites at the draft PR") but no outcome -> smell (operator
+    ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: The runner runs `make test-all` locally for forty minutes during the mission.
   bad_example_source: authored, grounded in "Sweeping a heavy suite whole" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/2
   source_title: Running the suite to find weak tests
   pack: internal
@@ -1000,12 +1002,12 @@ entries:
     before its environment probe and shared prerequisites have settled.
   severity: severe
   severity_grounding: states the rule ("Exceeding three open unmerged PRs per repository, putting runners on the same file
-    family") but no outcome; proposed severe
+    family") but no outcome -> severe (operator ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: A fourth runner is started while three PRs on the repository are still unmerged, on the same file family as
     one of them.
   bad_example_source: authored, grounded in "Exceeding three open unmerged PRs per repository, putting runners on the same
     file family" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
+  operator_question: null
 - source: styleguides/tiered-standards.styleguide.yaml#/anti_patterns/0
   source_title: Uniform Standards Across All Packages
   pack: internal
@@ -1072,8 +1074,9 @@ entries:
   title: Writing to an issue that closed mid-pass
   description: Re-read the state immediately before each write.
   severity: smell
-  severity_grounding: states the rule ("Re-read the state immediately before each write.") but no outcome; proposed smell
+  severity_grounding: states the rule ("Re-read the state immediately before each write.") but no outcome -> smell (operator
+    ruling 2026-11-25, decision 01M8A2MNZ40FAJWDXHQ98AKM9R)
   bad_example: The triage pass labels an issue that was closed ten minutes earlier, from a state read at the start of the
     pass.
   bad_example_source: authored, grounded in "Re-read the state immediately before each write" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
-  operator_question: 'severity: smell, severe or breaking? (proposed smell; the text states a rule or practice, no outcome)'
+  operator_question: null

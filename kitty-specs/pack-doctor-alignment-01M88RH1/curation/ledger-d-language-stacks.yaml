@@ -294,11 +294,12 @@ entries:
   description: '`handheld`, `tv` and `projection` are deprecated and should not be used; query the capability you care about
     instead.'
   severity: smell
-  severity_grounding: states the rule ("are deprecated and should not be used") but no outcome; proposed smell
+  severity_grounding: states the rule ("are deprecated and should not be used") but no outcome -> smell (operator ruling 2026-11-25,
+    decision 01M8A2M3P2KMF8Y29QB82EHCMR)
   bad_example: "@media handheld {\n  .menu {\n    font-size: 1.2em;\n  }\n}"
   bad_example_source: bad_example
   good_example: "@media (pointer: coarse) {\n  .menu a {\n    min-block-size: 2.75rem;\n  }\n}"
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the rule, no outcome)'
+  operator_question: null
 - source: styleguides/css-conventions.styleguide.yaml#/anti_patterns/0
   source_title: Desktop-First Overrides
   pack: javascript
@@ -683,12 +684,12 @@ entries:
     is for ephemeral runtime data such as the last cron run.
   severity: severe
   severity_grounding: states the rule ("Config (configFactory()) is structured, exportable, and belongs in version control")
-    but no outcome; proposed severe
+    but no outcome -> severe (operator ruling 2026-11-25, decision 01M8A2M3P2KMF8Y29QB82EHCMR)
   bad_example: \Drupal::state()->set('site_tagline', 'Welcome to our site');
   bad_example_source: bad_example
   good_example: "$this->configFactory->getEditable('my_module.settings')\n  ->set('site_tagline', 'Welcome to our site')\n\
     \  ->save();"
-  operator_question: 'severity: smell or severe? (proposed severe; the text states the rule, no outcome)'
+  operator_question: null
 - source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/0
   source_title: Constructor Dependency Injection
   pack: drupal
@@ -702,7 +703,8 @@ entries:
   description: 'Services arrive through the constructor and a static create() factory; never fetch them via \Drupal:: inside
     a class.'
   severity: severe
-  severity_grounding: '"never fetch them via \Drupal:: inside a class": a mandatory rule is broken -> severe'
+  severity_grounding: '"never fetch them via \Drupal:: inside a class": a mandatory rule is broken -> severe; confirmed (operator
+    ruling 2026-11-25, decision 01M8A2M3P2KMF8Y29QB82EHCMR)'
   bad_example: $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
   bad_example_source: bad_example
   good_example: "public function __construct(protected EntityTypeManagerInterface $entityTypeManager) {}\npublic static function\
@@ -773,13 +775,13 @@ entries:
   description: Prefer Entity Query over hand-written SQL. Explicit accessCheck() is mandatory — implicit access checking throws
     an error from Drupal 10.0.0. See drupal-security-performance for the full treatment.
   severity: severe
-  severity_grounding: states the preference ("Prefer Entity Query over hand-written SQL") but no outcome for raw SQL itself;
-    proposed severe
+  severity_grounding: states the preference ("Prefer Entity Query over hand-written SQL") but no outcome for raw SQL itself
+    -> severe (operator ruling 2026-11-25, decision 01M8A2M3P2KMF8Y29QB82EHCMR)
   bad_example: $nids = db_query('SELECT nid FROM {node} WHERE status = 1')->fetchCol();
   bad_example_source: bad_example
   good_example: "$nids = $this->entityTypeManager->getStorage('node')->getQuery()\n  ->condition('status', 1)\n  ->accessCheck(TRUE)\n\
     \  ->execute();"
-  operator_question: 'severity: smell or severe? (proposed severe; the text states a preference, no outcome for raw SQL)'
+  operator_question: null
 - source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/7
   source_title: Entity Type Manager Over Deprecated Loaders
   pack: drupal
@@ -810,14 +812,15 @@ entries:
   description: A complex hook_form_alter() delegates to a service with focused methods rather than growing a single branching
     switch.
   severity: smell
-  severity_grounding: states the practice ("rather than growing a single branching switch") but no outcome; proposed smell
+  severity_grounding: states the practice ("rather than growing a single branching switch") but no outcome -> smell (operator
+    ruling 2026-11-25, decision 01M8A2M3P2KMF8Y29QB82EHCMR)
   bad_example: "function my_module_form_alter(&$form, FormStateInterface $form_state, $form_id): void {\n  if ($form_id ===\
     \ 'node_article_form') { /* 20 lines */ }\n  elseif ($form_id === 'node_page_form') { /* 20 more lines */ }\n  elseif\
     \ ($form_id === 'user_register_form') { /* 20 more lines */ }\n}"
   bad_example_source: bad_example
   good_example: "function my_module_form_alter(&$form, FormStateInterface $form_state, $form_id): void {\n  \\Drupal::service('my_module.form_alterations')->apply($form,\
     \ $form_state, $form_id);\n}"
-  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+  operator_question: null
 - source: styleguides/drupal-conventions.styleguide.yaml#/anti_patterns/8
   source_title: Injected Request Over Superglobals
   pack: drupal
@@ -892,7 +895,8 @@ entries:
   title_source: 'authored (decision 01M89KEM7HW8675J5V54JPGE24); the source titles the rule to follow: "Thin Module File"'
   description: The .module file routes hooks to injected services; it never carries business logic itself.
   severity: severe
-  severity_grounding: '"it never carries business logic itself": a mandatory rule is broken -> severe'
+  severity_grounding: '"it never carries business logic itself": a mandatory rule is broken -> severe; confirmed (operator
+    ruling 2026-11-25, decision 01M8A2M3P2KMF8Y29QB82EHCMR)'
   bad_example: "function my_module_entity_presave(EntityInterface $entity): void {\n  if ($entity->bundle() === 'article')\
     \ {\n    // 40 lines of validation, notification, and audit logic inline.\n  }\n}"
   bad_example_source: bad_example
