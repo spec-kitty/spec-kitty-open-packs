@@ -7,6 +7,9 @@ requirement_refs:
 - FR-008
 - FR-009
 - SC-003
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
 subtasks:
 - T039
 - T040
@@ -14,9 +17,6 @@ subtasks:
 - T042
 - T043
 phase: Phase 3 - Content and derived artifacts
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
@@ -34,7 +34,9 @@ owned_files:
 - packs/*/drg/fragment.yaml
 - packs/*/*.graph.yaml
 role: implementer
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP08 - Apply the curation to packs/

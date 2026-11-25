@@ -9,11 +9,16 @@ requirement_refs:
 - NFR-002
 - NFR-005
 - C-004
-subtasks: [T029, T030, T031, T032, T033]
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
+subtasks:
+- T029
+- T030
+- T031
+- T032
+- T033
 phase: Phase 2 - Curation
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
@@ -27,7 +32,9 @@ model: ''
 owned_files:
 - kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-d-internal-styleguides-testing.yaml
 role: curator
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP06 - Ledger D, the internal styleguides and testing (49 entries)

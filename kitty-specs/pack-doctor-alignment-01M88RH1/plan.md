@@ -120,8 +120,8 @@ None.
   - A, language stacks: architecture 6, drupal 14, event-driven 3, go 10, java 6, javascript 15, python 5, rust 9;
     68 in all.
   - B: foundation 23, qa 2, pack-authoring 14, planning-analysis 19; 58 in all.
-  - C: internal procedures, 54.
-  - D: internal styleguides 16 and testing 38; 54 in all.
+  - C: internal procedures 54, plus `feature-and-scenario-authoring` 5 (it shares exact duplicates with a procedure); 59 in all.
+  - D: the other internal styleguides 11, and testing 38; 49 in all.
   - E: writing, 39.
 - **Sequencing/depends-on**: IC-02, and the three operator decisions (dedupe, severity rubric, bad-example source).
 - **Risks**:

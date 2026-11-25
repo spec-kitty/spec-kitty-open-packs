@@ -7,6 +7,9 @@ requirement_refs:
 - FR-010
 - NFR-002
 - C-004
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
 subtasks:
 - T009
 - T010
@@ -14,9 +17,6 @@ subtasks:
 - T012
 - T013
 phase: Phase 2 - Curation
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
@@ -36,7 +36,9 @@ owned_files:
 - kitty-specs/pack-doctor-alignment-01M88RH1/curation/README.md
 - kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-00-nodes.yaml
 role: implementer
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP02 - Curation tool, ledger contract, and the 15 file-less nodes

@@ -11,6 +11,9 @@ requirement_refs:
 - NFR-004
 - SC-002
 - SC-001
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
 subtasks:
 - T044
 - T045
@@ -19,15 +22,13 @@ subtasks:
 - T048
 - T049
 phase: Phase 3 - Content and derived artifacts
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
   action: Prompt generated via /spec-kitty.tasks
 agent_profile: python-pedro
 authoritative_surface: packs/
+create_intent: []
 execution_mode: code_change
 model: ''
 owned_files:
@@ -38,7 +39,9 @@ owned_files:
 - tests/docs/test_gen_pack_reference.py
 - docs/packs/*.md
 role: implementer
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP09 - Restamp with pack-doctor remediate, and the derived artifacts

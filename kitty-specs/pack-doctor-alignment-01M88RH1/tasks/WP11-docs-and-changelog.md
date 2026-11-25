@@ -6,6 +6,9 @@ requirement_refs:
 - FR-019
 - FR-020
 - SC-004
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
 subtasks:
 - T057
 - T058
@@ -13,16 +16,14 @@ subtasks:
 - T060
 - T061
 phase: Phase 4 - Retirement and polish
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
   action: Prompt generated via /spec-kitty.tasks
 agent_profile: scribe-sally
 authoritative_surface: docs/
-execution_mode: planning_artifact
+create_intent: []
+execution_mode: code_change
 model: ''
 owned_files:
 - docs/guides/validate-a-pack.md
@@ -30,7 +31,9 @@ owned_files:
 - docs/plans/roadmap.md
 - docs/changelog/CHANGELOG.md
 role: documentarian
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP11 - Docs and changelog

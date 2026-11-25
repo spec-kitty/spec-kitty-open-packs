@@ -14,6 +14,9 @@ requirement_refs:
 - FR-019
 - C-001
 - C-002
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
 subtasks:
 - T001
 - T002
@@ -24,9 +27,6 @@ subtasks:
 - T007
 - T008
 phase: Phase 1 - The gate
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
@@ -59,7 +59,9 @@ owned_files:
 - tests/ci/test_pack_digest.py
 - tests/fixtures/invalid/*/expected-code
 role: implementer
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP01 - The pack-doctor gate at a charter-main pin

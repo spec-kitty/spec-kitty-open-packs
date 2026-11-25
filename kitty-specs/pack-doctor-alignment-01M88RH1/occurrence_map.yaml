@@ -17,8 +17,8 @@ categories:
 
 exceptions:
   - path: "docs/changelog/**"
-    action: do_not_change
-    reason: "Released history names the tool as it was; the new entry names pack-doctor"
+    action: manual_review
+    reason: "Released entries keep the tool's old name; only the one new entry (WP11) is added, naming pack-doctor"
   - path: "docs/architecture/adr/**"
     action: do_not_change
     reason: "ADRs are superseded, never silently edited (charter DIRECTIVE_003); #345 item 9 leaves the 2026-11-19-3 ADR to history"

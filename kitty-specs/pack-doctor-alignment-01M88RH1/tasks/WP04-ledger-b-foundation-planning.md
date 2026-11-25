@@ -9,11 +9,16 @@ requirement_refs:
 - NFR-002
 - NFR-005
 - C-004
-subtasks: [T019, T020, T021, T022, T023]
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
+subtasks:
+- T019
+- T020
+- T021
+- T022
+- T023
 phase: Phase 2 - Curation
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
@@ -27,7 +32,9 @@ model: ''
 owned_files:
 - kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-b-foundation-planning.yaml
 role: curator
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP04 - Ledger B, foundation, qa, pack-authoring and planning-analysis (58 entries)

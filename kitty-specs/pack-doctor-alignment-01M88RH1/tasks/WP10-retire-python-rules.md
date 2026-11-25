@@ -8,6 +8,9 @@ requirement_refs:
 - FR-015
 - FR-017
 - C-003
+planning_base_branch: feat/pack-doctor-alignment
+merge_target_branch: feat/pack-doctor-alignment
+branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
 subtasks:
 - T050
 - T051
@@ -17,15 +20,13 @@ subtasks:
 - T055
 - T056
 phase: Phase 4 - Retirement and polish
-assignee: ''
-agent: claude
-shell_pid: ''
 history:
 - at: '2026-11-25T07:30:00Z'
   actor: system
   action: Prompt generated via /spec-kitty.tasks
 agent_profile: python-pedro
 authoritative_surface: scripts/ci/validate_pack_schemas.py
+create_intent: []
 execution_mode: code_change
 model: ''
 owned_files:
@@ -33,7 +34,9 @@ owned_files:
 - scripts/ci/validate-packs.sh
 - tests/ci/test_validate_pack_schemas.py
 role: implementer
+tags: []
 task_type: implement
+tracker_refs: []
 ---
 
 # Work Package Prompt: WP10 - Retire the Python rules pack-doctor judges; keep the house rules
