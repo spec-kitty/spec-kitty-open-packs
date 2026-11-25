@@ -83,9 +83,10 @@ Check `review_ref` with `spec-kitty agent tasks status --mission pack-doctor-ali
 - **Two graph layouts here**:
   - `drg/fragment.yaml`, in 17 packs. Its nodes are `{id, kind: <plural>, title, body_path?}` and its edges are `{source, target, relation, reason|when}`. The existing `anti_patterns` nodes in `packs/architecture` and `packs/refactoring` show the anti-pattern spelling.
   - Per-kind `*.graph.yaml`, in `foundation` and `writing`. Their nodes are `{urn, kind, label}`. Anti-pattern nodes go in `anti_pattern.graph.yaml`; create it if missing, mirroring `foundation`'s header. Edges go in the owner kind's file (`procedure.graph.yaml` or `styleguide.graph.yaml`), as the charter example does.
-- **The decisions this WP depends on**:
-  - `01M88RHFTS2X5HK1ZNP74G3WZ7` (the severity rubric) and `01M88RHJ9HN4N8HDE97SJ6ZBAH` (the bad-example source). If either is unresolved when you reach T011/T012, write the README's rubric section as "pending operator decision" and put an `operator_question` on every row whose severity it governs.
-  - The tool and `--check` do not depend on them.
+- **The decisions this WP follows** (all resolved 2026-11-25; quote them from `decisions/`, do not paraphrase their rules):
+  - `01M88RHDGQSS6R5R5ZCDCH84A2` (Q1, merge by meaning into one home pack);
+  - `01M88RHFTS2X5HK1ZNP74G3WZ7` (Q2, the severity rubric);
+  - `01M88RHJ9HN4N8HDE97SJ6ZBAH` (Q3, authored bad examples).
 - The tool lives in `kitty-specs/` because it is mission tooling, not a product surface (plan, Structure Decision). Standard library plus PyYAML only.
 
 ## Branch Strategy
@@ -101,6 +102,7 @@ Check `review_ref` with `spec-kitty agent tasks status --mission pack-doctor-ali
   - `python3 apply_curation.py --root <repo-or-scratch> [--ledger <file> ...]`. The default is every `ledger-*.yaml` beside the script, sorted.
   - `--check` (T010).
   - `--dry-run`, which prints the planned writes.
+- **Before the rows**: apply the merge map's `depends_on_added` for the clusters the given ledgers home: add `{pack_id, range}` to the owner pack's `pack.yaml` `depends_on`, refusing a cycle. The `range` is recorded in the map (the form the owner pack already uses for its other dependencies); the tool does not choose it.
 - **For each row**:
   - **A source `<file>#/anti_patterns/<i>`:**
     - Verify that the source entry still exists and that its title text equals the row's `source_title`. This catches drift.
@@ -130,17 +132,27 @@ Check `review_ref` with `spec-kitty agent tasks status --mission pack-doctor-ali
   - no `styleguides/**` or `procedures/**` file carries `anti_patterns`;
   - no `anti_pattern` node in any graph lacks a file in its pack;
   - every row has a non-empty `severity_grounding` and `bad_example_source`, and neither contains "default";
-  - no row has an open `operator_question`.
+  - no row has an open `operator_question`;
+  - every `merged_into` is a pack-qualified id (`<pack>::anti_pattern:<id>`) that resolves to a non-merged row;
+  - every `rejects` edge to another pack's anti-pattern targets a pack in the owner pack's `depends_on` closure;
+  - the pack `depends_on` graph stays acyclic;
+  - `curation/merge-map.yaml` covers every source index exactly once, and every row's `id`, home pack and `merged_into` agree with it.
 - **Exit code**: 0 when clean, 1 with one line per fault.
 - **Tests** (`test_apply_curation.py`, pytest): use a tiny two-pack fixture built in `tmp_path`, with one layout each. Cover:
   - apply and idempotence;
   - deleting a block keeps neighbouring comments;
-  - a merge, both within a pack and across packs;
+  - a merge, both within a pack and across packs (the home pack upstream, the origin pack rejecting it pack-qualified);
   - each refusal;
   - each `--check` fault.
 
 ### Subtask T011 - `curation/README.md`: the ledger contract
 
+- **Merge map** (`curation/merge-map.yaml`, written in WP03 before any ledger row; Q1): one cluster per practice, each with:
+  - `cluster` (the home id), `home_pack`, `members` (every source index in it: `source`, `pack`), `merge_reason` (quotes the shared claim of the members' texts);
+  - `depends_on_added` when the home needs a new edge (never a cycle; prefer a home that existing `depends_on` already reaches);
+  - `operator_question` when the members' meanings may differ, or when the home rule would place a stack- or domain-specific practice in a more general pack (for example go `float64 Money` with rust `Float Money`). Those questions go to the dispatcher in one batch; the map does not decide them.
+  - A singleton cluster is a practice with one member. The ~150-file target is the expected cluster count, not a quota.
+- **Which ledger holds a row**: the ledger of the batch that owns the row's home pack (batches A-E follow the home-pack order: foundation; testing, writing; architecture, pack-authoring, planning-analysis, event-driven; the language stacks; qa, internal). So a home file exists before any dependent pack's `rejects` edge.
 - **Ledger file**: `ledger-<NN>-<name>.yaml` with `batch: <name>` and `entries: [rows]`. Each row has these fields:
   - `source`, `source_title`, `pack`, `owner` (`styleguide:<id>` or `procedure:<id>`; null for a node);
   - `id`, `merged_into`, `merge_reason`;
@@ -156,16 +168,15 @@ Check `review_ref` with `spec-kitty agent tasks status --mission pack-doctor-ali
   - `title` and `description` are **verbatim** from the source (`name`/`title`, `description`/`content`).
   - Never rewrite or "improve" doctrine text. If a description needs a change for the schema, add an `operator_question`.
   - `good_example` is verbatim, when present.
-- **Severity**: state the operator's rubric (decision `01M88RHFTS2X5HK1ZNP74G3WZ7`) exactly. Until it is decided, use the proposal under review:
+- **Severity**: state the operator's rubric (decision `01M88RHFTS2X5HK1ZNP74G3WZ7`) exactly:
   - The schema's meaning: `smell`, worth a remark; `severe`, should block review; `breaking`, must block.
   - `severity_grounding` quotes the words of the entry or its host that decide the call. Examples: "totals drift and equality checks fail" means a wrong result, so `breaking`; "sends the runner after stale scope" means defeating the guidance's purpose, so `severe`; "harder to scan" means `smell`.
   - Where the charter's example pack curated the same entry, its severity is cited as precedent.
-  - No signal in the text means an `operator_question`, not a guess.
-- **Bad example** (decision `01M88RHJ9HN4N8HDE97SJ6ZBAH`; the proposal until it is decided):
-  - Use the source `bad_example` verbatim.
-  - For a `title`/`content` entry, use the content's concrete-instance sentence, verbatim, and name it in `bad_example_source` as `content sentence <n>`.
-  - No concrete instance means an `operator_question`.
-- **Merge** (decision `01M88RHDGQSS6R5R5ZCDCH84A2`): the rule as decided. Until then, merge only exact-title duplicates within a pack. The `merge_reason` quotes both texts' shared claim.
+  - No signal in the text means an `operator_question`, not a guess. The WP batches its no-signal entries to the dispatcher for the operator.
+- **Bad example** (decision `01M88RHJ9HN4N8HDE97SJ6ZBAH`):
+  - A `name`/`bad_example` entry: the source `bad_example`, verbatim, with `bad_example_source: bad_example`.
+  - A `title`/`content` entry: the curator writes a short, concrete bad example grounded in the content, with `bad_example_source: authored, grounded in <content clause>`. These are new doctrine; the WP review reads every one.
+- **Merge** (decision `01M88RHDGQSS6R5R5ZCDCH84A2`): per the merge map. Each non-home member row carries `merged_into: <home pack>::anti_pattern:<id>` and the cluster's `merge_reason`; its owner keeps a pack-qualified `rejects` edge to the home file. Record pack of origin, chosen home and why.
 - **Operator questions**: one line, answerable with a choice. The WP collects them, and the implementer sends them to the dispatcher in one batch per WP.
 
 ### Subtask T012 - `ledger-00-nodes.yaml`: the 15 file-less nodes

@@ -20,30 +20,30 @@
 | T011 | `curation/README.md`: the ledger contract and the authoring rules (rubric per the operator's decision) | WP02 | |
 | T012 | `ledger-00-nodes.yaml`: the 15 file-less nodes, grounded in their `rejects` reasons and tactics | WP02 | |
 | T013 | Dry run on a scratch copy: pack-doctor's `drg_schema_error` count drops by 15 | WP02 | |
-| T014 | Ledger A rows: architecture, drupal, event-driven | WP03 | [P] |
-| T015 | Ledger A rows: go, java, python, rust | WP03 | [P] |
-| T016 | Ledger A rows: javascript | WP03 | [P] |
-| T017 | Ledger A: severity groundings, bad-example sources, merge notes, operator questions | WP03 | |
+| T014 | Merge map: all 273 entries → clusters by meaning, home pack, id; homing and meaning questions (Q1) | WP03 | |
+| T015 | Ledger A rows: foundation | WP03 | [P] |
+| T016 | Ledger A rows: members merged into a foundation home from downstream packs | WP03 | [P] |
+| T017 | Ledger A: severity groundings (Q2), bad examples (Q3), merges, operator questions | WP03 | |
 | T018 | Ledger A dry run and `--check` | WP03 | |
-| T019 | Ledger B rows: foundation (cite the charter example-pack precedent) | WP04 | [P] |
-| T020 | Ledger B rows: qa, pack-authoring | WP04 | [P] |
-| T021 | Ledger B rows: planning-analysis | WP04 | [P] |
-| T022 | Ledger B: groundings, sources, merges, operator questions | WP04 | |
+| T019 | Ledger B rows: testing | WP04 | [P] |
+| T020 | Ledger B rows: writing (incl. `ai-writing-tells`) | WP04 | [P] |
+| T021 | Ledger B rows: members merged into a testing or writing home from downstream packs | WP04 | [P] |
+| T022 | Ledger B: groundings, bad examples, merges, operator questions | WP04 | |
 | T023 | Ledger B dry run and `--check` | WP04 | |
-| T024 | Ledger C rows: internal procedures (dispatch, delivery, triage, landing) | WP05 | [P] |
-| T025 | Ledger C rows: internal procedures (wrap-up, semi-auto, test-suite, tracker, tracer, offering) | WP05 | [P] |
-| T026 | Ledger C rows: internal `feature-and-scenario-authoring`, with the 3 exact duplicates merged per Q1 | WP05 | |
-| T027 | Ledger C: groundings, sources, merges, operator questions | WP05 | |
+| T024 | Ledger C rows: architecture, event-driven | WP05 | [P] |
+| T025 | Ledger C rows: pack-authoring | WP05 | [P] |
+| T026 | Ledger C rows: planning-analysis, and members merged in from qa and internal | WP05 | [P] |
+| T027 | Ledger C: groundings, bad examples, merges, operator questions | WP05 | |
 | T028 | Ledger C dry run and `--check` | WP05 | |
-| T029 | Ledger D rows: internal styleguides (executive-debrief, report-writing, tiered-standards) | WP06 | [P] |
-| T030 | Ledger D rows: testing procedures | WP06 | [P] |
-| T031 | Ledger D rows: testing styleguides | WP06 | [P] |
-| T032 | Ledger D: groundings, sources, merges, operator questions | WP06 | |
+| T029 | Ledger D rows: go, java, python, rust | WP06 | [P] |
+| T030 | Ledger D rows: javascript | WP06 | [P] |
+| T031 | Ledger D rows: drupal | WP06 | [P] |
+| T032 | Ledger D: groundings, bad examples, merges, operator questions | WP06 | |
 | T033 | Ledger D dry run and `--check` | WP06 | |
-| T034 | Ledger E rows: writing procedures and `ai-writing-tells` | WP07 | [P] |
-| T035 | Ledger E rows: writing docs styleguides | WP07 | [P] |
-| T036 | Ledger E rows: writing communication, minutes, citation, glossary styleguides | WP07 | [P] |
-| T037 | Ledger E: groundings, sources, merges, operator questions | WP07 | |
+| T034 | Ledger E rows: internal procedures | WP07 | [P] |
+| T035 | Ledger E rows: internal styleguides, with the `feature-and-scenario-authoring` duplicates | WP07 | [P] |
+| T036 | Ledger E rows: qa | WP07 | [P] |
+| T037 | Ledger E: groundings, bad examples, merges, operator questions | WP07 | |
 | T038 | Ledger E dry run and `--check` | WP07 | |
 | T039 | Apply ledger 00 to `packs/` | WP08 | |
 | T040 | Apply ledgers A-E to `packs/` | WP08 | |
@@ -108,57 +108,58 @@ T011 Ledger contract and authoring rules (WP02)
 T012 Ledger 00 for the file-less nodes (WP02)
 T013 Dry run and measurement (WP02)
 
-### WP03: Ledger A, the language stacks (68 entries)
+### WP03: Merge map, and ledger A: homes in foundation (23 origin entries)
 
-- **Prompt**: [tasks/WP03-ledger-a-language-stacks.md](tasks/WP03-ledger-a-language-stacks.md). **Depends on**: WP02, and the decisions Q1-Q3.
+- **Prompt**: [tasks/WP03-merge-map-and-ledger-a-foundation.md](tasks/WP03-merge-map-and-ledger-a-foundation.md). **Depends on**: WP02.
+- **Goal**: one merge map for all 273 entries (decision Q1), then the rows homed in `foundation`. Every later ledger reads its rows from the map.
 
-T014 architecture, drupal, event-driven (WP03)
-T015 go, java, python, rust (WP03)
-T016 javascript (WP03)
-T017 groundings, sources, merges, questions (WP03)
+T014 merge map (WP03)
+T015 foundation (WP03)
+T016 members merged into foundation homes (WP03)
+T017 groundings, bad examples, merges, questions (WP03)
 T018 dry run and check (WP03)
 
-### WP04: Ledger B, foundation, qa, pack-authoring, planning-analysis (58 entries)
+### WP04: Ledger B: homes in testing and writing (77 origin entries)
 
-- **Prompt**: [tasks/WP04-ledger-b-foundation-planning.md](tasks/WP04-ledger-b-foundation-planning.md). **Depends on**: WP02.
+- **Prompt**: [tasks/WP04-ledger-b-testing-writing.md](tasks/WP04-ledger-b-testing-writing.md). **Depends on**: WP03.
 
-T019 foundation (WP04)
-T020 qa, pack-authoring (WP04)
-T021 planning-analysis (WP04)
-T022 groundings, sources, merges, questions (WP04)
+T019 testing (WP04)
+T020 writing (WP04)
+T021 members merged into testing and writing homes (WP04)
+T022 groundings, bad examples, merges, questions (WP04)
 T023 dry run and check (WP04)
 
-### WP05: Ledger C, the internal procedures and `feature-and-scenario-authoring` (59 entries)
+### WP05: Ledger C: homes in architecture, pack-authoring, planning-analysis and event-driven (42 origin entries)
 
-- **Prompt**: [tasks/WP05-ledger-c-internal-procedures.md](tasks/WP05-ledger-c-internal-procedures.md). **Depends on**: WP02.
+- **Prompt**: [tasks/WP05-ledger-c-architecture-planning.md](tasks/WP05-ledger-c-architecture-planning.md). **Depends on**: WP04.
 
-T024 internal procedures, part 1 (WP05)
-T025 internal procedures, part 2 (WP05)
-T026 feature-and-scenario-authoring and the exact duplicates (WP05)
-T027 groundings, sources, merges, questions (WP05)
+T024 architecture, event-driven (WP05)
+T025 pack-authoring (WP05)
+T026 planning-analysis, with members from qa and internal (WP05)
+T027 groundings, bad examples, merges, questions (WP05)
 T028 dry run and check (WP05)
 
-### WP06: Ledger D, the internal styleguides and testing (49 entries)
+### WP06: Ledger D: homes in the language stacks (59 origin entries)
 
-- **Prompt**: [tasks/WP06-ledger-d-internal-styleguides-testing.md](tasks/WP06-ledger-d-internal-styleguides-testing.md). **Depends on**: WP02.
+- **Prompt**: [tasks/WP06-ledger-d-language-stacks.md](tasks/WP06-ledger-d-language-stacks.md). **Depends on**: WP04.
 
-T029 internal styleguides (WP06)
-T030 testing procedures (WP06)
-T031 testing styleguides (WP06)
-T032 groundings, sources, merges, questions (WP06)
+T029 go, java, python, rust (WP06)
+T030 javascript (WP06)
+T031 drupal (WP06)
+T032 groundings, bad examples, merges, questions (WP06)
 T033 dry run and check (WP06)
 
-### WP07: Ledger E, writing (39 entries)
+### WP07: Ledger E: homes in qa and internal (72 origin entries)
 
-- **Prompt**: [tasks/WP07-ledger-e-writing.md](tasks/WP07-ledger-e-writing.md). **Depends on**: WP02.
+- **Prompt**: [tasks/WP07-ledger-e-internal-qa.md](tasks/WP07-ledger-e-internal-qa.md). **Depends on**: WP05.
 
-T034 writing procedures and ai-writing-tells (WP07)
-T035 docs styleguides (WP07)
-T036 communication, minutes, citation, glossary styleguides (WP07)
-T037 groundings, sources, merges, questions (WP07)
+T034 internal procedures (WP07)
+T035 internal styleguides and the duplicates (WP07)
+T036 qa (WP07)
+T037 groundings, bad examples, merges, questions (WP07)
 T038 dry run and check (WP07)
 
-**Parallel opportunities**: WP03-WP07 are independent of each other, and of WP01.
+**Batch order** (decision Q1): the ledgers follow the home-pack order of the pack `depends_on` graph, so a home file exists before any dependent pack's `rejects` edge: WP03 → WP04 → {WP05, WP06}; WP07 after WP05. Origin counts are before merging; the merge map sets the final row counts. **Parallel opportunities**: WP05 and WP06 run in parallel; WP01 is independent of all ledger WPs.
 
 ## Phase 3: Content and derived artifacts
 

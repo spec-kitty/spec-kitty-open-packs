@@ -112,17 +112,17 @@ None.
 - **Sequencing/depends-on**: none. Severity calls for these 15 still follow the operator's rubric decision.
 - **Risks**: the two graph layouts. The tool must write each pack's existing layout.
 
-### IC-03: Curating the inline blocks (five batches, ≤70 entries each)
+### IC-03: Curating the inline blocks (a merge map, then five batches by home pack)
 
-- **Purpose**: move each entry to its file in its owner's pack, with a `rejects` edge, and delete the inline blocks.
+- **Purpose**: move each entry to its file in its home pack, with a `rejects` edge from each owner (pack-qualified across packs), and delete the inline blocks.
 - **Relevant requirements**: FR-007, FR-008, FR-010
-- **Batches**:
-  - A, language stacks: architecture 6, drupal 14, event-driven 3, go 10, java 6, javascript 15, python 5, rust 9;
-    68 in all.
-  - B: foundation 23, qa 2, pack-authoring 14, planning-analysis 19; 58 in all.
-  - C: internal procedures 54, plus `feature-and-scenario-authoring` 5 (it shares exact duplicates with a procedure); 59 in all.
-  - D: the other internal styleguides 11, and testing 38; 49 in all.
-  - E: writing, 39.
+- **Merge map** (decision Q1): all 273 entries are clustered by meaning first (about 150 files), each cluster homed in the most foundational pack upstream of its members.
+- **Batches by home pack**, in `depends_on` order so each home file exists before any dependent pack's `rejects` edge (origin counts, before merging):
+  - A: the merge map, and homes in foundation (23).
+  - B: homes in testing (38) and writing (39); 77 in all.
+  - C: homes in architecture 6, event-driven 3, pack-authoring 14, planning-analysis 19; 42 in all.
+  - D: homes in the language stacks: drupal 14, go 10, java 6, javascript 15, python 5, rust 9; 59 in all.
+  - E: homes in qa 2 and internal 70; 72 in all.
 - **Sequencing/depends-on**: IC-02, and the three operator decisions (dedupe, severity rubric, bad-example source).
 - **Risks**:
   - Judgement volume. Every ungroundable call becomes an `operator_question` row, batched to the dispatcher.

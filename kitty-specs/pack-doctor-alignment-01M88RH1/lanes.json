@@ -52,11 +52,12 @@
         "kitty-specs/pack-doctor-alignment-01M88RH1/curation/README.md",
         "kitty-specs/pack-doctor-alignment-01M88RH1/curation/apply_curation.py",
         "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-00-nodes.yaml",
-        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-a-language-stacks.yaml",
-        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-b-foundation-planning.yaml",
-        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-c-internal-procedures.yaml",
-        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-d-internal-styleguides-testing.yaml",
-        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-e-writing.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-a-foundation.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-b-testing-writing.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-c-architecture-planning.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-d-language-stacks.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-e-internal-qa.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/merge-map.yaml",
         "kitty-specs/pack-doctor-alignment-01M88RH1/curation/test_apply_curation.py"
       ],
       "predicted_surfaces": [
@@ -151,7 +152,7 @@
       "parallel_group": 4
     }
   ],
-  "computed_at": "2026-11-25T07:21:33.677232+00:00",
+  "computed_at": "2026-11-25T12:28:27.559525+00:00",
   "computed_from": "dependency_graph+ownership",
   "planning_artifact_wps": [
     "WP02",
