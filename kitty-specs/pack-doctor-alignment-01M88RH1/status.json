@@ -1,7 +1,7 @@
 {
-  "event_count": 61,
-  "last_event_id": "01M8A2NRZ4YJ2QMZDQ4W17DVA9",
-  "materialized_at": "2026-11-25T19:24:44.900930+00:00",
+  "event_count": 63,
+  "last_event_id": "01M8A2TFY700K70X50E9FG9ZWG",
+  "materialized_at": "2026-11-25T19:27:19.367052+00:00",
   "mission_number": "",
   "mission_slug": "pack-doctor-alignment-01M88RH1",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 5
+    "planned": 4
   },
   "work_packages": {
     "WP01": {
@@ -252,11 +252,20 @@
       }
     },
     "WP08": {
-      "actor": "finalize-tasks",
+      "actor": "claude",
+      "agent": "claude::implementer-ivan",
+      "agent_profile": "__resolved_profile_absent__",
+      "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
-      "lane": "planned",
-      "last_event_id": "01M88S8P1ZFXY2Y3NA1E9N8KVK",
-      "last_transition_at": "2026-11-25T07:21:04.319390+00:00"
+      "implementer_of_record": "claude::implementer-ivan",
+      "lane": "in_progress",
+      "last_event_id": "01M8A2TFY700K70X50E9FG9ZWG",
+      "last_transition_at": "2026-11-25T19:27:19.367052+00:00",
+      "model": "__resolved_model_absent__",
+      "provider": "__resolved_provider_absent__",
+      "role": "implementer",
+      "shell_pid": 3696,
+      "shell_pid_created_at": "1795634831.42"
     },
     "WP09": {
       "actor": "finalize-tasks",
