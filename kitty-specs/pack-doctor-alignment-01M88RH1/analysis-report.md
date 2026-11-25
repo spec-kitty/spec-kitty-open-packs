@@ -4,37 +4,29 @@ artifact_type: spec-kitty.analysis-report
 command: /spec-kitty.analyze
 mission_slug: pack-doctor-alignment-01M88RH1
 mission_id: 01M88RH1WRS5YA0FC3G7M3JJ49
-generated_at: '2026-11-25T12:30:21.207140+00:00'
+generated_at: '2026-11-25T12:50:09.109965+00:00'
 analyzer_agent: unknown
 input_artifacts:
   spec.md:
     path: .worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/spec.md
-    sha256: f87e171edc63b08fed263ba0a68fcc23718a669f9aeba2f622241d0865a80506
+    sha256: 441076f14dbe6e61a9e0b48127e4e1fd2b0b2168166b5daa3f560d786a57255c
   plan.md:
     path: .worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/plan.md
-    sha256: 9a0a5e406042375a81f9859faff36efe9c4c4ee1075539f74ae64f46f54ebe13
+    sha256: 85bcf734964edebb9120d2c49fc2bfdbd153279e5a57cb61995227d2a9770d34
   tasks.md:
     path: .worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/tasks.md
     sha256: 519b7f963e58a0c721ad841f921b1fcf1715ab4d19cd6b29bb3ef8dc73649a84
   charter:
     path: .kittify/charter/charter.yaml
     sha256: efcfe1f5ac18032e213f3962fe660e8ea93b377b55562edf5265c2f6d8ac3ce7
-verdict: blocked
+verdict: ready
 issue_counts:
-  low: 5
   critical: 0
-  high: 1
-  medium: 5
+  medium: 4
+  high: 0
+  low: 3
   info: 0
 findings:
-- id: F1
-  severity: high
-  category: inconsistency
-  summary: spec.md FR-007 ('in its owner's pack'), US2 scenario 1 (N files in the owner's pack, a rejects edge per file) and the duplicates edge case (one pack only) conflict with resolved decision Q1 (merge by meaning across packs into one home pack, about 150 files).
-- id: F2
-  severity: medium
-  category: inconsistency
-  summary: data-model.md (ledger path <pack>.ledger.yaml, unqualified merged_into, bad_example_source 'content sentence N' / 'grounded extract', no merge map) and plan.md (Summary 'per-pack ledgers', Project Structure '<pack>.ledger.yaml') predate Q1/Q3 and the re-batch; WP02 T011 and WP03-07 now say otherwise.
 - id: F3
   severity: medium
   category: coverage
@@ -51,14 +43,6 @@ findings:
   severity: medium
   category: underspecification
   summary: 'The #348 line references have drifted; WP10 locates the rules by name, but the reviewer has no line map to check against.'
-- id: I3
-  severity: low
-  category: inconsistency
-  summary: plan.md 'Operator decisions' still lists the re-batch as an open planning step; it is done (tasks.md, WP03-07).
-- id: I4
-  severity: low
-  category: underspecification
-  summary: spec.md Key Entities has no merge map, though WP03 T014 and the WP02 --check depend on it.
 - id: C2
   severity: low
   category: coverage
@@ -75,18 +59,14 @@ findings:
 
 ## Specification Analysis Report
 
-Re-run after the re-batch of WP03-WP07 by home pack (decision Q1), commit `1af98f8`. The previous U1 (three decisions pending) is resolved: Q1-Q3 are recorded and the WP prompts follow them.
+Re-run after the planning amendment `530cf28` (spec, plan and data model aligned to decisions Q1 and Q3). Resolved since the previous run: F1 (spec FR-007, US2 scenario 1, duplicates edge case), F2 (data-model ledger row, plan structure), I3 (plan re-plan marked done) and I4 (spec Key Entities gains the merge map). F3 and U3 are with the operator (dispatcher, 2026-11-25); the recommendations are to waive NFR-005's ~70 for the home-pack batches, and to take a merged file's text from the home-pack member, else the earliest source.
 
 | ID | Category | Severity | Location(s) | Summary | Recommendation |
 |----|----------|----------|-------------|---------|----------------|
-| F1 | Inconsistency | HIGH | spec.md FR-007; US2 scenario 1; Edge Cases "Duplicates across files of one pack" | Per-owner-pack file model conflicts with Q1's cross-pack home pack. | Amend FR-007 to "in its home pack (Q1)", US2 scenario 1 to "its home packs hold the files; one `rejects` edge per entry from the owner, pack-qualified across packs", and the edge case to merge by meaning across packs. |
-| F2 | Inconsistency | MEDIUM | data-model.md "Curation ledger row"; plan.md Summary, Project Structure, IC-02 | Ledger path, `merged_into` form, `bad_example_source` values and the missing merge map predate Q1/Q3. | Align with WP02 T011: `ledger-<x>-<name>.yaml` + `merge-map.yaml`; `merged_into: <pack>::anti_pattern:<id>`; `bad_example_source: bad_example` or `authored, grounded in <content clause>`. |
 | F3 | Coverage | MEDIUM | spec.md NFR-005; tasks WP03, WP04, WP07 | Batch sizes above about 70; the merge map spans all 273. | Either split WP04 (testing / writing) and accept WP07 at 72, or record an operator waiver of NFR-005 for the home-pack batching. The merge map is a clustering pass, not 273 row calls; say so in NFR-005 or WP03. |
 | U3 | Underspecification | MEDIUM | data-model.md anti-pattern `description`; WP02 T011 text rules | Which member's verbatim text a merged file carries is undefined. | Add a rule (e.g. the member from the home pack, else the earliest source in the merge map) or raise it as an operator question with the merge map. |
 | C1 | Coverage | MEDIUM | spec.md SC-001; WP09 T049 | No task runs the charter-track `ref` dispatch on the branch. | At close-out, dispatch Charter track (`track: ref`) on the PR branch and record the result in the PR body. |
 | U2 | Underspecification | MEDIUM | WP10, issue #348 | The rule locations drifted. | Reviewers check by the rule names in #348's table; WP10 history lists the removed symbols. |
-| I3 | Inconsistency | LOW | plan.md "Operator decisions" | The re-plan is marked open but is done. | Mark it done, pointing at tasks.md. |
-| I4 | Underspecification | LOW | spec.md Key Entities | No merge map entity. | Add "Merge map: one cluster per practice, its home pack, members, reason". |
 | C2 | Coverage | LOW | spec.md C-005..C-007 | Process constraints are not mapped. | Covered by orchestration and close-out. No WP change. |
 | I1 | Inconsistency | LOW | plan.md; WP11 frontmatter | The WP kind was normalised. | None needed. |
 | I2 | Inconsistency | LOW | WP08 T042 | Uses a WP01 surface without depending on WP01. | The fallback is in the prompt, or add a WP01 dependency. |
@@ -96,7 +76,7 @@ Re-run after the re-batch of WP03-WP07 by home pack (decision Q1), commit `1af98
 | Requirement Key | Has Task? | Task IDs | Notes |
 |-----------------|-----------|----------|-------|
 | FR-001..FR-006 | Yes | WP01 T001-T008 | |
-| FR-007, FR-008, FR-010 | Yes | WP02 T009-T011; WP03-WP07 T014-T038; WP08 T040-T041 | F1 on FR-007 wording |
+| FR-007, FR-008, FR-010 | Yes | WP02 T009-T011; WP03-WP07 T014-T038; WP08 T040-T041 | |
 | FR-009 | Yes | WP02 T012-T013; WP08 T039 | |
 | FR-011, FR-013, FR-018 | Yes | WP09 T044-T049 | |
 | FR-012, FR-016 | Yes | WP01 T003, T006 | |
@@ -122,11 +102,10 @@ Re-run after the re-batch of WP03-WP07 by home pack (decision Q1), commit `1af98
 - Coverage: 29/32 = 91% (the 3 unmapped are process constraints)
 - Ambiguity Count: 2 (U2, U3)
 - Duplication Count: 0
-- Critical Issues Count: 0 (High: 1)
+- Critical Issues Count: 0 (High: 0)
 
 ## Next Actions
 
-- F1 (HIGH) blocks: amend spec.md FR-007, US2 scenario 1 and the duplicates edge case to Q1's wording before the ledger WPs start. WP02 (tool and ledger 00) does not depend on that wording.
-- Fold F2, I3 and I4 in the same planning amendment (data-model.md, plan.md, spec.md Key Entities).
-- F3 and U3 need a choice: raise them with the dispatcher for the operator.
-- Then re-run `/spec-kitty.analyze`.
+- No critical or high findings: implementation may proceed. WP02 (tool, ledger 00) does not depend on F3 or U3.
+- F3 and U3 must be answered by the operator before WP03 fixes its batch sizes and the merge map's text rule; fold the answers into NFR-005 / WP02 T011, then re-run `/spec-kitty.analyze`.
+- C1: dispatch the charter-track `ref` run on the PR branch at close-out.
