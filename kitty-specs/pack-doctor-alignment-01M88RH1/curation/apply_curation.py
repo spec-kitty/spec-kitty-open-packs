@@ -391,7 +391,12 @@ def source_entry(tree: Tree, packs: dict[str, Pack], row: Row):
 
 def says_default(value: str) -> bool:
     """True when the text itself (not a quote of the source inside it) rests on a default."""
-    unquoted = re.sub(r'"[^"]*"', "", value)
+    # A quote counts as source text only when it holds more than the bare word: a quoted
+    # "default" on its own is still the call resting on a default.
+    def keep_bare(m: re.Match) -> str:
+        inner = m.group(1).strip(" .,:;!?()'")
+        return m.group(0) if re.fullmatch(r"default(s|ed)?", inner, re.IGNORECASE) else ""
+    unquoted = re.sub(r'"([^"]*)"', keep_bare, value)
     return re.search(r"\bdefault", unquoted, re.IGNORECASE) is not None
 
 

@@ -326,6 +326,8 @@ def test_a_quoted_source_word_default_is_not_a_default_grounding():
     assert not ac.says_default('"lets a wrong fixture or a drifted default state present itself": breaking')
     assert ac.says_default('no signal, so the default severity')
     assert ac.says_default('Default')
+    for bare in ('severity "default"', 'smell ("default")', '"x": the "default" call', '"Default." severity'):
+        assert ac.says_default(bare), bare
 
 
 def test_refuses_a_default_grounding(repo, capsys):

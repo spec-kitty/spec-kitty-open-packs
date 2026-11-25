@@ -189,12 +189,20 @@ entries:
   severity: severe
   severity_grounding: '"Imperative scenarios break when the UI changes, even if the behavior is unchanged": false alarms defeat
     the scenario as a safety net -> severe'
-  bad_example: 'When I click the "Submit" button
+  bad_example: 'Given I am on the login page
 
-    And I wait 2 seconds
+    When I type my username, type my password, and click "Sign in"
 
-    Then I see "Order confirmed" in the page header'
-  bad_example_source: authored, grounded in ""Click the Submit button" is imperative" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+    Then I see the dashboard div render'
+  bad_example_source: bad_example of merged member testing styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/0,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: 'Given a registered user with valid credentials
+
+    When they authenticate
+
+    Then they gain access to their dashboard'
+  good_example_source: good_example of merged member testing styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/0,
+    verbatim
   operator_question: null
 - source: styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/0
   source_title: Imperative UI Script Masquerading as a Scenario
@@ -305,10 +313,13 @@ entries:
     rarely comes. Judge at the point-cut where the scaffolding was created.'
   severity: smell
   severity_grounding: '"accumulate as permanent suite bloat": a cost -> smell'
-  bad_example: The mission lands with its before/after parity tests and `hasattr` pins, and a TODO says they will be cleaned
-    up later.
-  bad_example_source: authored, grounded in "Landing a mission's development-assist tests as-is and trusting a future pass
-    to retire them" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  bad_example: "def test_wp03_before_after_parity():\n    assert new_resolver(x) == old_resolver(x)   # old_resolver now delegates\
+    \ to new"
+  bad_example_source: bad_example of merged member testing styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/6,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: "def test_router_sends_express_orders_to_the_priority_queue():\n    assert route(express_order).queue == priority_queue(express_order)"
+  good_example_source: good_example of merged member testing styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/6,
+    verbatim
   operator_question: null
 - source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/6
   source_title: Development-assist scaffolding left in the suite
@@ -530,9 +541,19 @@ entries:
   severity: severe
   severity_grounding: '"When Scenario A is skipped or fails, Scenario B fails for the wrong reason": false failures defeat
     the suite as a signal -> severe'
-  bad_example: '"Scenario: Cancel the order" uses the order the previous scenario created, and fails with "order not found"
-    when that scenario is skipped.'
-  bad_example_source: authored, grounded in "Scenario B relying on data created by Scenario A" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  bad_example: 'private static List<String> log = new ArrayList<>(); // shared across tests
+
+
+    @Test void testA() { service.run(); assertThat(log).containsExactly("A"); }
+
+    @Test void testB() { service.run(); assertThat(log).containsExactly("B"); } // fails if testA ran first'
+  bad_example_source: bad_example of merged member testing styleguides/testing-principles.styleguide.yaml#/anti_patterns/0,
+    verbatim (decision 01M89Q9JT79VYFMBRNPS9BHHP1)
+  good_example: '@BeforeEach
+
+    void setUp() { log = new ArrayList<>(); } // fresh state per test'
+  good_example_source: good_example of merged member testing styleguides/testing-principles.styleguide.yaml#/anti_patterns/0,
+    verbatim
   operator_question: null
 - source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/0
   source_title: Shared Mutable State Between Tests
