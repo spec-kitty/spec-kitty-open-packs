@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "mission_slug": "pack-doctor-alignment-01M88RH1",
+  "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+  "mission_branch": "kitty/mission-pack-doctor-alignment-01M88RH1",
+  "target_branch": "feat/pack-doctor-alignment",
+  "lanes": [
+    {
+      "lane_id": "lane-a",
+      "wp_ids": [
+        "WP01"
+      ],
+      "write_scope": [
+        ".github/workflows/charter-track.yml",
+        ".github/workflows/validate-packs.yml",
+        "charter.lock.yaml",
+        "scripts/ci/charter_lock.py",
+        "scripts/ci/charter_pack_check.py",
+        "scripts/ci/charter_pack_check_jar.sh",
+        "scripts/ci/charter_pack_doctor.py",
+        "scripts/ci/charter_pack_doctor_jar.sh",
+        "scripts/ci/charter_pin.py",
+        "scripts/ci/charter_release_asset.sh",
+        "scripts/ci/charter_service_check.py",
+        "tests/ci/test_charter_pack_check.py",
+        "tests/ci/test_charter_pack_doctor.py",
+        "tests/ci/test_charter_pin.py",
+        "tests/ci/test_charter_service_check.py",
+        "tests/ci/test_pack_digest.py",
+        "tests/ci/test_workflows.py",
+        "tests/fixtures/invalid/*/expected-code"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-b",
+      "wp_ids": [
+        "WP08"
+      ],
+      "write_scope": [
+        "packs/*/*.graph.yaml",
+        "packs/*/anti_patterns/**",
+        "packs/*/drg/fragment.yaml",
+        "packs/*/procedures/**",
+        "packs/*/styleguides/**"
+      ],
+      "predicted_surfaces": [
+        "api"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-c",
+      "wp_ids": [
+        "WP09"
+      ],
+      "write_scope": [
+        "docs/packs/*.md",
+        "packs/*.source.yaml",
+        "packs/*/pack-manifest.yaml",
+        "scripts/docs/gen_pack_reference.py",
+        "tests/docs/test_gen_pack_reference.py",
+        "tests/fixtures/valid/**"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-d",
+      "wp_ids": [
+        "WP10"
+      ],
+      "write_scope": [
+        "scripts/ci/validate-packs.sh",
+        "scripts/ci/validate_pack_schemas.py",
+        "tests/ci/test_validate_pack_schemas.py"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "artifact-rendering",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-e",
+      "wp_ids": [
+        "WP11"
+      ],
+      "write_scope": [
+        "docs/artefacts/index.md",
+        "docs/changelog/CHANGELOG.md",
+        "docs/guides/validate-a-pack.md",
+        "docs/plans/roadmap.md"
+      ],
+      "predicted_surfaces": [
+        "api",
+        "legacy-cleanup"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    },
+    {
+      "lane_id": "lane-planning",
+      "wp_ids": [
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07"
+      ],
+      "write_scope": [
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/README.md",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/apply_curation.py",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-00-nodes.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-a-language-stacks.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-b-foundation-planning.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-c-internal-procedures.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-d-internal-styleguides-testing.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/ledger-e-writing.yaml",
+        "kitty-specs/pack-doctor-alignment-01M88RH1/curation/test_apply_curation.py"
+      ],
+      "predicted_surfaces": [
+        "planning"
+      ],
+      "depends_on_lanes": [],
+      "parallel_group": 0
+    }
+  ],
+  "computed_at": "2026-11-25T07:21:10.173626+00:00",
+  "computed_from": "dependency_graph+ownership",
+  "planning_artifact_wps": [
+    "WP02",
+    "WP03",
+    "WP04",
+    "WP05",
+    "WP06",
+    "WP07"
+  ],
+  "planning_commit_sha": "a7243e2d2e1b65ecc822b23158b08e5b9f269530"
+}
