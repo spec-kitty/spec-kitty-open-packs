@@ -161,10 +161,18 @@ None.
 - **Sequencing/depends-on**: all the above
 - **Risks**: generated pages must be regenerated, never hand-edited.
 
-## Decisions pending (operator)
+## Operator decisions (resolved 2026-11-25)
 
-[NEEDS CLARIFICATION: Dedupe scope for the curation (IC-03).] <!-- decision_id: 01M88RHDGQSS6R5R5ZCDCH84A2 -->
+**Open planning step (re-plan, before WP03):** Q1 changes IC-03. Re-batch WP03-WP07 by **home pack**, so each home file exists before any dependent pack's `rejects` edge. Keep each WP at about 70 entries or fewer. Update `curation/README.md` (WP02, T011) with the merge-by-meaning rule. The batches listed under IC-03 above predate Q1 and are superseded by that re-plan.
 
-[NEEDS CLARIFICATION: Severity rubric for the curation (IC-02, IC-03).] <!-- decision_id: 01M88RHFTS2X5HK1ZNP74G3WZ7 -->
+**Q1, dedupe (decision `01M88RHDGQSS6R5R5ZCDCH84A2`, resolved).** Merge by meaning across packs, aiming for about 150 files.
+  - Each shared anti-pattern has one home pack: the most foundational one upstream of the others, preferring a pack existing `depends_on` already reaches.
+  - Other packs reject it with a pack-qualified `rejects` edge. `depends_on` is added only where needed, and never creates a cycle.
+  - Every merge is recorded in the ledger.
+  - A merge whose meanings differ becomes an operator question.
+  - The ledger WPs are batched by home pack.
+  - Source: Operator ruling 2026-11-25, relayed by the dispatcher session_01E5wJU9WQgVdyyBRFbVHcGL.
 
-[NEEDS CLARIFICATION: bad_example source for title/content entries (IC-03).] <!-- decision_id: 01M88RHJ9HN4N8HDE97SJ6ZBAH -->
+**Q2, severity (decision `01M88RHFTS2X5HK1ZNP74G3WZ7`, resolved).** Use the schema's definitions (smell is worth a remark, severe should block review, breaking must block), with a one-line ledger grounding quoting the entry or its host text. No-signal entries are batched to the dispatcher. Source: Operator ruling 2026-11-25, relayed by the dispatcher session_01E5wJU9WQgVdyyBRFbVHcGL.
+
+**Q3, bad example (decision `01M88RHJ9HN4N8HDE97SJ6ZBAH`, resolved).** For the 131 title/content entries, the curator writes a short, concrete bad example grounded in the content, which becomes the description. Each is marked `authored` in the ledger and is new doctrine that WP review must read. Source: Operator ruling 2026-11-25, relayed by the dispatcher session_01E5wJU9WQgVdyyBRFbVHcGL.

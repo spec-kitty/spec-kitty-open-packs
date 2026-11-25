@@ -132,11 +132,17 @@ The invalid fixtures `case-variant-readme` and `malformed-pack-version` expect `
 | FR-019 | No live surface names pack-check | As a reader, I want workflows (step names, inputs, the `charter-pack-doctor-report` artifact, env), scripts, tests and the guides (`validate-a-pack.md`, `docs/artefacts/index.md`) to name pack-doctor and describe the anti-pattern file model. Historical ADRs and changelog entries stay as written, and readers are pointed at charter `docs/guides/check-packs.md`. (#345 item 9, #350.) | Medium | Open | [build] | no — a grep over the live surfaces must return no `pack-check`/`pack_check` |
 | FR-020 | Changelog | As a reader, I want one changelog entry describing the alignment, the main pin and the anti-pattern model, so that the change is announced (charter gate). | Low | Open | [build] | no |
 
-[NEEDS CLARIFICATION: Dedupe scope. Merge only same-practice duplicates within a pack or an existing depends_on (~265 files), or merge by meaning to ~150 with new cross-pack depends_on.] <!-- decision_id: 01M88RHDGQSS6R5R5ZCDCH84A2 -->
+**Q1, dedupe (decision `01M88RHDGQSS6R5R5ZCDCH84A2`, resolved).** Merge by meaning across packs, aiming for about 150 files.
+  - Each shared anti-pattern has one home pack: the most foundational one upstream of the others, preferring a pack existing `depends_on` already reaches.
+  - Other packs reject it with a pack-qualified `rejects` edge. `depends_on` is added only where needed, and never creates a cycle.
+  - Every merge is recorded in the ledger.
+  - A merge whose meanings differ becomes an operator question.
+  - The ledger WPs are batched by home pack.
+  - Source: Operator ruling 2026-11-25, relayed by the dispatcher session_01E5wJU9WQgVdyyBRFbVHcGL.
 
-[NEEDS CLARIFICATION: Severity rubric. Per-entry calls by the schema's definitions, each grounded in a ledger line, with ungroundable entries batched to the operator; or an operator-given rubric.] <!-- decision_id: 01M88RHFTS2X5HK1ZNP74G3WZ7 -->
+**Q2, severity (decision `01M88RHFTS2X5HK1ZNP74G3WZ7`, resolved).** Use the schema's definitions (smell is worth a remark, severe should block review, breaking must block), with a one-line ledger grounding quoting the entry or its host text. No-signal entries are batched to the dispatcher. Source: Operator ruling 2026-11-25, relayed by the dispatcher session_01E5wJU9WQgVdyyBRFbVHcGL.
 
-[NEEDS CLARIFICATION: bad_example for the 131 title/content entries. The content's concrete-instance sentence verbatim, with no-instance entries batched to the operator.] <!-- decision_id: 01M88RHJ9HN4N8HDE97SJ6ZBAH -->
+**Q3, bad example (decision `01M88RHJ9HN4N8HDE97SJ6ZBAH`, resolved).** For the 131 title/content entries, the curator writes a short, concrete bad example grounded in the content, which becomes the description. Each is marked `authored` in the ledger and is new doctrine that WP review must read. Source: Operator ruling 2026-11-25, relayed by the dispatcher session_01E5wJU9WQgVdyyBRFbVHcGL.
 
 ### Non-Functional Requirements
 
@@ -181,4 +187,4 @@ The invalid fixtures `case-variant-readme` and `malformed-pack-version` expect `
 
 - Charter `main` keeps the pack-doctor contract that `4b95b9151` ships for the life of the mission. At implement time the pin moves to charter `main` HEAD, and the plan re-measures.
 - A charter `main` merge that changes pack-doctor's verdicts after the pin is a new alignment, not this mission's scope.
-- An anti-pattern's file lives in its former owner's pack (ADR-0052 decision 11), so no new `depends_on` is needed unless a merge crosses packs (pending the dedupe decision).
+- An anti-pattern's file lives in its home pack (Q1): its former owner's pack, or, for an anti-pattern merged across packs, the most foundational upstream pack. Dependents reject it pack-qualified, with `depends_on` added only where needed.
