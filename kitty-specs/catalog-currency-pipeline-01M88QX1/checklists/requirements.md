@@ -42,6 +42,6 @@
   are kept to the Constraints table. Approach and structure are deferred to the plan.
 - No [NEEDS CLARIFICATION] markers: decision DM-01M88QXFN26B71FTDHQP954KDN was resolved (option A),
   and the decimal form was supplied by the dispatcher (FR-013, C-007, NFR-001).
-- FR-012 (a standing issue for availability findings with no price change) follows from option A
-  and was not in the confirmed draft. It is flagged to the dispatcher for confirmation.
+- FR-012, NFR-004, C-008 and the edge cases were added after the confirmed draft. The dispatcher
+  confirmed all of them on 2026-11-25, with none struck.
 - Plan is blocked by C-006 until the pack-doctor alignment mission lands.
