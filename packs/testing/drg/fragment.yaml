@@ -615,3 +615,11 @@ edges:
   target: tactic:shared-machine-test-measurement
   relation: scope
   when: judging whether a reported test result is a measurement and which change a red belongs to
+- source: styleguide:testing-principles
+  target: foundation::anti_pattern:assert-on-internal-field-values
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: styleguide:testing-principles
+  target: foundation::anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern

@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: single-shard-inspection
+title: Single-shard inspection
+description: Running only the failing CI shard and declaring the investigation complete. Sibling gate failures with the same
+  root cause are missed, and the full failure inventory is wrong.
+severity: breaking
+bad_example: Only `shard-3` is re-run and investigated; `shard-5` fails on the same missing migration and is never looked
+  at.

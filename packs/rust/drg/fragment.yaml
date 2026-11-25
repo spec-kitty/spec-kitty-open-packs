@@ -105,3 +105,15 @@ edges:
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
   reason: An implementer-role profile should reach the mutation hub when assessing test quality; rust-review-checks names cargo mutants for it.
+- source: styleguide:rust-conventions
+  target: foundation::anti_pattern:storage-or-wire-format-on-domain-types
+  relation: rejects
+  reason: the styleguide rust-conventions names this anti-pattern
+- source: styleguide:rust-conventions
+  target: foundation::anti_pattern:floating-point-money
+  relation: rejects
+  reason: the styleguide rust-conventions names this anti-pattern
+- source: styleguide:rust-conventions
+  target: foundation::anti_pattern:asserting-instead-of-handling-a-missing-or-invalid-value
+  relation: rejects
+  reason: the styleguide rust-conventions names this anti-pattern

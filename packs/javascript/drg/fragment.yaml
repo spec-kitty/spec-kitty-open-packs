@@ -271,3 +271,11 @@ edges:
   target: testing::asset:quad-a-test-structure
   relation: requires
   when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
+- source: styleguide:typescript-conventions
+  target: foundation::anti_pattern:unowned-asynchronous-work
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: foundation::anti_pattern:asserting-instead-of-handling-a-missing-or-invalid-value
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern

@@ -105,3 +105,11 @@ edges:
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
   reason: An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, mirroring java-jenny.
+- source: styleguide:go-conventions
+  target: foundation::anti_pattern:unowned-asynchronous-work
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern
+- source: styleguide:go-conventions
+  target: foundation::anti_pattern:floating-point-money
+  relation: rejects
+  reason: the styleguide go-conventions names this anti-pattern

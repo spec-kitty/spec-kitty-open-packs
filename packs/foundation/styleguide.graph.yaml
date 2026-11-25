@@ -15,3 +15,15 @@ edges:
 - source: styleguide:boring-code-review
   target: tactic:easy-to-change
   relation: suggests
+- source: styleguide:boring-code-review
+  target: anti_pattern:clever-over-direct
+  relation: rejects
+  reason: the styleguide boring-code-review names this anti-pattern
+- source: styleguide:boring-code-review
+  target: anti_pattern:duplicated-business-rules-called-acceptable-repetition
+  relation: rejects
+  reason: the styleguide boring-code-review names this anti-pattern
+- source: styleguide:boring-code-review
+  target: anti_pattern:indirection-to-remove-a-few-repeated-lines
+  relation: rejects
+  reason: the styleguide boring-code-review names this anti-pattern

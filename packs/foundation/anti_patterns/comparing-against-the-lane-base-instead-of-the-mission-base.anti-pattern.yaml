@@ -1,0 +1,9 @@
+schema_version: '1.0'
+id: comparing-against-the-lane-base-instead-of-the-mission-base
+title: Comparing against the lane base instead of the mission base
+description: In coord topology, lane bases are intermediate commits that may already include other lanes' changes. Comparing
+  a failing test against the lane base (rather than the true mission base branch) gives an incorrect pre-existing verdict
+  when the failure was in fact introduced by an earlier lane.
+severity: breaking
+bad_example: A lane-c test failure is judged pre-existing because it also fails on lane-c's base, a commit that already carries
+  lane-a's breaking change.
