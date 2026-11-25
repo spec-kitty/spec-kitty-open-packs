@@ -1,7 +1,7 @@
 {
-  "event_count": 15,
-  "last_event_id": "01M89KK9YEVE3QRVSRGMDS0WFJ",
-  "materialized_at": "2026-11-25T15:01:15.342575+00:00",
+  "event_count": 16,
+  "last_event_id": "01M89NEH2GQJ9XKXEDRFYH3H6B",
+  "materialized_at": "2026-11-25T15:33:35.952653+00:00",
   "mission_number": "",
   "mission_slug": "pack-doctor-alignment-01M88RH1",
   "mission_type": "software-dev",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 0,
+    "for_review": 1,
     "in_progress": 0,
-    "in_review": 1,
+    "in_review": 0,
     "planned": 10
   },
   "work_packages": {
@@ -30,11 +30,11 @@
       "agent": "claude",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 1,
+      "force_count": 2,
       "implementer_of_record": "claude",
-      "lane": "in_review",
-      "last_event_id": "01M89KK9YEVE3QRVSRGMDS0WFJ",
-      "last_transition_at": "2026-11-25T15:01:15.342575+00:00",
+      "lane": "for_review",
+      "last_event_id": "01M89NEH2GQJ9XKXEDRFYH3H6B",
+      "last_transition_at": "2026-11-25T15:33:35.952653+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-25T13:11:39Z – claude::implementer-ivan – shell_pid=2218 – Implemented @1925dd3. Dry run (charter 4b95b9151): drg_schema_error 15->0; total 144->136 (+7 manifest_membership = refactoring's unstamped manifest; 129 after a scratch remediate, nothing new). 15 ledger-00 operator questions sent to the dispatcher in one batch (A1-A11 bad examples, B1-B4 severities).",
@@ -43,6 +43,7 @@
         "- 2026-11-25T15:00:53Z – claude::implementer-ivan – shell_pid=2218 – The for_review --force (decision 01M89KESM0WJJCFZQNTMEN0YYP) is tracked in core as spec-kitty/spec-kitty#7860."
       ],
       "provider": "__resolved_provider_absent__",
+      "review_result": null,
       "role": "reviewer",
       "shell_pid": 280,
       "shell_pid_created_at": "1795618862.86",
