@@ -844,7 +844,7 @@ class CharterTrackBumpBoundary(unittest.TestCase):
         for step in (self.push, self.open):
             with self.subTest(step=step.get("name")):
                 self.assertNotRegex(step["run"], r"charter-bump|\bARTIFACT\b")
-        # run_publish gives each step the test's values, not the workflow's, so what reaches the push and open is pinned
+        # run_publish gives each step the test's values, not the workflow's, so what reaches the three steps is pinned
         # here: their env exactly, no env at the job or workflow level, and no shell template around the scripts. A
         # value that is empty or unset under test (a format() expression, a job-level name) cannot then redirect a copy.
         self.assertEqual(self.push["env"], {"GH_TOKEN": "${{ github.token }}", "REPO": "${{ github.repository }}",
@@ -855,12 +855,28 @@ class CharterTrackBumpBoundary(unittest.TestCase):
                                             "REPO": "${{ github.repository }}",
                                             "BRANCH": "${{ steps.push.outputs.branch }}",
                                             "RELEASE_TAG": "${{ needs.resolve.outputs.release_tag }}"})
+        self.assertEqual(self.build["env"], {
+            "ARTIFACT": "${{ runner.temp }}/charter-bump",
+            "HEAD_SHA": "${{ github.sha }}",
+            "REPO": "${{ github.repository }}",
+            "BRANCH": "${{ steps.lookup.outputs.branch }}",
+            "RED": "${{ steps.lookup.outputs.red }}",
+            "RUN_URL": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "COMMIT": "${{ needs.resolve.outputs.commit }}",
+            "RELEASE_TAG": "${{ needs.resolve.outputs.release_tag }}",
+            "JAR_SHA256": "${{ needs.resolve.outputs.jar_sha256 }}",
+            "PACK_CHECK_SHA256": "${{ needs.resolve.outputs.pack_check_sha256 }}",
+            "CURRENT": "${{ needs.resolve.outputs.current }}",
+            "ATTEST_SERVICE": "${{ needs.provenance.outputs.service }}",
+            "ATTEST_PACK_CHECK": "${{ needs.provenance.outputs.pack_check }}"})
         workflow = load(TRACK)
         for scope in (workflow, self.job):
             self.assertNotIn("env", scope)
             self.assertNotIn("defaults", scope)
         for step in (self.build, self.push, self.open):
+            # run_publish runs each script with bash in RUNNER_TEMP; a step with its own shell or directory would not.
             self.assertNotIn("shell", step)
+            self.assertNotIn("working-directory", step)
 
     def test_the_artifact_the_derive_uploads_is_the_one_the_bump_downloads(self) -> None:
         upload = next(step for step in self.derive_job["steps"]
