@@ -1,0 +1,281 @@
+# Ledger 00: the 15 file-less anti_pattern nodes (FR-009, WP02 T012). Contract: README.md.
+batch: 00-nodes
+entries:
+- source: drg/fragment.yaml#/nodes/2
+  source_title: Anemic Domain Model
+  pack: architecture
+  owner: null
+  id: anemic-domain-model
+  merged_into: null
+  merge_reason: null
+  title: Anemic Domain Model
+  description: Anemic Domain Models strip behaviour from domain objects, reducing them to data bags with external procedural
+    services. This defeats the purpose of a rich, expressive domain model and scatters invariant enforcement across service
+    layers.
+  severity: severe
+  severity_grounding: '"This defeats the purpose of a rich, expressive domain model" (edge paradigm:domain-driven-design -rejects->
+    anti_pattern:anemic-domain-model): defeats the guidance''s purpose -> severe'
+  bad_example: '`Order` holds only fields with getters and setters, while `OrderService.cancel(order)` checks the status,
+    refunds the payment and sets `order.status` itself.'
+  bad_example_source: authored, grounded in "Anemic Domain Models strip behaviour from domain objects, reducing them to data
+    bags with external procedural services" (pending the operator)
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/3
+  source_title: Big Ball of Mud
+  pack: architecture
+  owner: null
+  id: big-ball-of-mud
+  merged_into: null
+  merge_reason: null
+  title: Big Ball of Mud
+  description: A Big Ball of Mud architecture has no explicit context boundaries or ubiquitous language. Concepts leak across
+    modules, coupling grows unchecked, and model integrity becomes impossible to maintain.
+  severity: severe
+  severity_grounding: '"model integrity becomes impossible to maintain" (edge paradigm:domain-driven-design -rejects-> anti_pattern:big-ball-of-mud):
+    defeats the guidance''s purpose -> severe'
+  bad_example: The billing module imports the shipping module's `Parcel` table class and writes its columns, and "customer"
+    means the payer in one module and the recipient in the next.
+  bad_example_source: authored, grounded in "A Big Ball of Mud architecture has no explicit context boundaries or ubiquitous
+    language" (pending the operator)
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/4
+  source_title: Big Upfront Design
+  pack: architecture
+  owner: null
+  id: big-upfront-design
+  merged_into: null
+  merge_reason: null
+  title: Big Upfront Design
+  description: Big Upfront Design attempts to specify every architectural detail before implementation begins.
+  severity: smell
+  severity_grounding: edge paradigm:c4-incremental-detail-modeling -rejects-> anti_pattern:big-upfront-design states the practice
+    ("attempts to specify every architectural detail before implementation begins") but no outcome; proposed smell, pending
+    the operator
+  bad_example: Before the first sprint, the team signs off a 120-page design that fixes every container, component and class
+    of the system.
+  bad_example_source: authored, grounded in "Big Upfront Design attempts to specify every architectural detail before implementation
+    begins" (pending the operator)
+  operator_question: 'severity: smell or severe? (proposed smell); no concrete instance in the rejecting text: use the drafted
+    authored example (marked authored), or supply another?'
+- source: drg/fragment.yaml#/nodes/5
+  source_title: Code Is the Documentation
+  pack: architecture
+  owner: null
+  id: code-is-the-documentation
+  merged_into: null
+  merge_reason: null
+  title: Code Is the Documentation
+  description: Relying solely on source code as documentation forces every stakeholder -- including non-technical sponsors
+    -- to read code to understand system boundaries.
+  severity: severe
+  severity_grounding: '"forces every stakeholder -- including non-technical sponsors -- to read code to understand system
+    boundaries" (edge paradigm:c4-incremental-detail-modeling -rejects-> anti_pattern:code-is-the-documentation): a cost,
+    or the guidance''s purpose defeated? proposed severe, pending the operator'
+  bad_example: Asked how the payment service talks to the bank, the sponsor is pointed at the `gateway/` package in the repository.
+  bad_example_source: authored, grounded in "Relying solely on source code as documentation forces every stakeholder -- including
+    non-technical sponsors -- to read code to understand system boundaries" (pending the operator)
+  operator_question: 'severity: smell or severe? (proposed severe); no concrete instance in the rejecting text: use the drafted
+    authored example (marked authored), or supply another?'
+- source: drg/fragment.yaml#/nodes/6
+  source_title: Database-Driven Design
+  pack: architecture
+  owner: null
+  id: database-driven-design
+  merged_into: null
+  merge_reason: null
+  title: Database-Driven Design
+  description: 'Starting from a database schema and generating code around it inverts the DDD priority: the domain model should
+    drive persistence, not the other way around. Schema-first thinking produces models shaped by storage constraints rather
+    than business rules.'
+  severity: severe
+  severity_grounding: '"inverts the DDD priority: the domain model should drive persistence" (edge paradigm:domain-driven-design
+    -rejects-> anti_pattern:database-driven-design): defeats the guidance''s purpose -> severe'
+  bad_example: The domain classes are generated from the `ORDERS` and `ORDER_LINES` tables, so `Order` has a `status_cd CHAR(1)`
+    field and no `cancel()` method.
+  bad_example_source: 'authored, grounded in "Starting from a database schema and generating code around it inverts the DDD
+    priority: the domain model should drive persistence, not the other way around" (pending the operator)'
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/7
+  source_title: Single-Diagram Architecture
+  pack: architecture
+  owner: null
+  id: single-diagram-architecture
+  merged_into: null
+  merge_reason: null
+  title: Single-Diagram Architecture
+  description: A single all-in-one architecture diagram conflates audiences and abstraction levels, producing a poster that
+    nobody can review in a reasonable time.
+  severity: severe
+  severity_grounding: '"producing a poster that nobody can review in a reasonable time" (edge paradigm:c4-incremental-detail-modeling
+    -rejects-> anti_pattern:single-diagram-architecture): the diagram fails its purpose (severe), or a readability cost (smell)?
+    proposed severe, pending the operator'
+  bad_example: One wall-sized diagram shows the users, every service, each database table and the deployment nodes, for sponsors
+    and developers alike.
+  bad_example_source: authored, grounded in "A single all-in-one architecture diagram conflates audiences and abstraction
+    levels, producing a poster that nobody can review in a reasonable time" (pending the operator)
+  operator_question: 'severity: smell or severe? (proposed severe); no concrete instance in the rejecting text: use the drafted
+    authored example (marked authored), or supply another?'
+- source: drg/fragment.yaml#/nodes/1
+  source_title: Big-Bang Rewrite
+  pack: refactoring
+  owner: null
+  id: big-bang-rewrite
+  merged_into: null
+  merge_reason: null
+  title: Big-Bang Rewrite
+  description: replacing a legacy component or code path in a single-step cutover when it is too risky, instead of running
+    the new implementation alongside the old and rerouting callers one at a time
+  severity: severe
+  severity_grounding: '"in a single-step cutover when it is too risky" (edge tactic:refactoring-strangler-fig -rejects-> anti_pattern:big-bang-rewrite):
+    the avoidable risk the tactic exists to prevent -> severe'
+  bad_example: Rewrite the billing module on a branch for three months, then switch every caller to it in one release and
+    delete the old code the same day.
+  bad_example_source: authored, grounded in "replacing a legacy component or code path in a single-step cutover when it is
+    too risky" (pending the operator)
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/2
+  source_title: Feature Envy
+  pack: refactoring
+  owner: null
+  id: feature-envy
+  merged_into: null
+  merge_reason: null
+  title: Feature Envy
+  description: a method that uses more of another class's data and behaviour than its own host's
+  severity: smell
+  severity_grounding: '"rejects the Feature Envy smell" (edge tactic:refactoring-move-method -rejects-> anti_pattern:feature-envy):
+    the reason names it a smell, and states no wrong outcome -> smell'
+  bad_example: '`Invoice.total()` reads `order.lines`, `order.discount` and `order.customer.tier` and calls three `Order`
+    helpers, but touches no field of `Invoice`.'
+  bad_example_source: authored, grounded in "a method that uses more of another class's data and behaviour than its own host's"
+    (pending the operator)
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/3
+  source_title: Global Data
+  pack: refactoring
+  owner: null
+  id: global-data
+  merged_into: null
+  merge_reason: null
+  title: Global Data
+  description: a widely-accessed module-level or global variable read and written from many locations with no single chokepoint
+    for monitoring, validation, or a later change of type
+  severity: smell
+  severity_grounding: '"rejects the Global Data smell" (edge tactic:refactoring-encapsulate-variable -rejects-> anti_pattern:global-data):
+    the reason names it a smell, and states no wrong outcome -> smell'
+  bad_example: 'default_owner = {''first_name'': ''Martin'', ''last_name'': ''Fowler''} imported in 8 modules.'
+  bad_example_source: tactic refactoring-encapsulate-variable steps[0] examples[0]
+  operator_question: null
+- source: drg/fragment.yaml#/nodes/4
+  source_title: Implicit Concept
+  pack: refactoring
+  owner: null
+  id: implicit-concept
+  merged_into: null
+  merge_reason: null
+  title: Implicit Concept
+  description: an important concept left implicit, duplicated, or scattered across the code with no explicit name or single
+    home
+  severity: smell
+  severity_grounding: '"rejects the Implicit Concept smell" (edge tactic:refactoring-extract-first-order-concept -rejects->
+    anti_pattern:implicit-concept): the reason names it a smell, and states no wrong outcome -> smell'
+  bad_example: The rule "orders over 500 ship free" is written as `if total > 500` in checkout, in the confirmation email
+    and in the invoice export, with no `FreeShippingPolicy` that names it.
+  bad_example_source: authored, grounded in "an important concept left implicit" (pending the operator)
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/5
+  source_title: Misplaced Field
+  pack: refactoring
+  owner: null
+  id: misplaced-field
+  merged_into: null
+  merge_reason: null
+  title: Misplaced Field
+  description: a field read and modified more by another class than the one that declares it, so data ownership has drifted
+    to the wrong owner
+  severity: smell
+  severity_grounding: '"rejects the Misplaced Field smell" (edge tactic:refactoring-move-field -rejects-> anti_pattern:misplaced-field):
+    the reason names it a smell, and states no wrong outcome -> smell'
+  bad_example: '`Customer.discount_rate` is read and updated only by `PricingEngine`, never by `Customer` itself.'
+  bad_example_source: authored, grounded in "a field read and modified more by another class than the one that declares it"
+    (pending the operator)
+  operator_question: 'no concrete instance in the rejecting text: use the drafted authored example (marked authored), or supply
+    another?'
+- source: drg/fragment.yaml#/nodes/6
+  source_title: Repeated Switches on State
+  pack: refactoring
+  owner: null
+  id: repeated-switches-on-state
+  merged_into: null
+  merge_reason: null
+  title: Repeated Switches on State
+  description: a class whose methods are full of conditionals branching on the same internal state variable, with behaviour
+    driven by lifecycle state transitions
+  severity: smell
+  severity_grounding: '"rejects the Repeated Switches on State smell" (edge tactic:refactoring-state-pattern-for-behavior
+    -rejects-> anti_pattern:repeated-switches-on-state): the reason names it a smell, and states no wrong outcome -> smell'
+  bad_example: Order class with if/elif chains on self.status in process(), cancel(), ship().
+  bad_example_source: tactic refactoring-state-pattern-for-behavior steps[0] examples[0]
+  operator_question: null
+- source: drg/fragment.yaml#/nodes/7
+  source_title: Unencapsulated Record
+  pack: refactoring
+  owner: null
+  id: unencapsulated-record
+  merged_into: null
+  merge_reason: null
+  title: Unencapsulated Record
+  description: a raw data record accessed by field name from many call sites, where the direct access blocks adding validation,
+    renaming fields, or changing the internal representation
+  severity: smell
+  severity_grounding: '"rejects the Unencapsulated Record smell" (edge tactic:refactoring-encapsulate-record -rejects-> anti_pattern:unencapsulated-record):
+    the reason names it a smell, and states no wrong outcome -> smell'
+  bad_example: 'organization = {''name'': ''Acme'', ''country'': ''GB''} accessed as organization[''name''] in 12 places.'
+  bad_example_source: tactic refactoring-encapsulate-record steps[0] examples[0]
+  operator_question: null
+- source: anti_pattern.graph.yaml#/nodes/0
+  source_title: Assert on mock interactions
+  pack: foundation
+  owner: null
+  id: assert-on-mock-interactions
+  merged_into: null
+  merge_reason: null
+  title: Assert on mock interactions
+  description: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced;
+    the test breaks on refactoring and stays green when the outcome is wrong.
+  severity: breaking
+  severity_grounding: '"the test breaks on refactoring and stays green when the outcome is wrong" (edge tactic:function-over-form-testing
+    -rejects-> anti_pattern:assert-on-mock-interactions; same reason on directive:DIRECTIVE_054 and paradigm:tests-as-scaffold-not-friction;
+    also tactic:tdd-red-green-refactor): a wrong result passes unnoticed -> breaking, proposed; DIRECTIVE_054 still allows
+    asserting what crossed an allow-listed seam, so severe is arguable'
+  bad_example: '`verify(emailSender, times(1)).send(any())` is the test''s only assertion, so it fails when sending is batched
+    and passes when the email goes to the wrong recipient.'
+  bad_example_source: authored, grounded in "stays green when the outcome is wrong" (pending the operator)
+  operator_question: 'severity: breaking or severe? (proposed breaking); no concrete instance in the rejecting text: use the
+    drafted authored example (marked authored), or supply another?'
+- source: anti_pattern.graph.yaml#/nodes/1
+  source_title: Mock owned logic to pin a call contract
+  pack: foundation
+  owner: null
+  id: mock-owned-logic-to-pin-a-call-contract
+  merged_into: null
+  merge_reason: null
+  title: Mock owned logic to pin a call contract
+  description: Substituting logic the system under test owns to assert which helper was called couples the test to an implementation
+    shape and can manufacture a state the real code never reaches.
+  severity: breaking
+  severity_grounding: 'DIRECTIVE_054 integrity rule "A test must not mock, stub, patch or spy on code the system under test
+    owns", and "a double of owned logic makes the test pass for code that was never run" (edge tactic:tdd-red-green-refactor
+    -rejects->; also directive:DIRECTIVE_054, paradigm:tests-as-scaffold-not-friction, procedure:unfake-an-over-mocked-test,
+    and tactic:test-boundaries-by-responsibility, whose reason is the description): a mandatory rule, and a wrong result passes
+    -> breaking'
+  bad_example: an order-fulfilment test stubbed the step that records a shipment, to assert it was called once with the expected
+    order ids.
+  bad_example_source: procedure unfake-an-over-mocked-test steps[3] ("Run the real collaborators") worked example, first sentence
+  operator_question: null
