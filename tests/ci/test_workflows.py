@@ -797,15 +797,21 @@ class CharterTrackBumpBoundary(unittest.TestCase):
             log = work / "gh.log"
             log.touch()
             output = work / "output"
-            env = {**os.environ, "PATH": f"{work / 'bin'}:{os.environ['PATH']}", "GH_LOG": str(log),
-                   "RUNNER_TEMP": tmp, "ARTIFACT": str(artifact), "HEAD_SHA": "a" * 40, "GH_TOKEN": "job",
-                   "PR_TOKEN": "pat", "REPO": "spec-kitty/spec-kitty-open-packs",
-                   "BRANCH": "charter/service-release-service-v2.0.0", "RELEASE_TAG": "service-v2.0.0",
-                   "COMMIT": "c" * 40, "CURRENT": "service-v1.0.0", "JAR_SHA256": "d" * 64,
-                   "PACK_CHECK_SHA256": "e" * 64, "RED": "", "RUN_URL": "https://example.invalid/run/1",
-                   "ATTEST_SERVICE": "verified", "ATTEST_PACK_CHECK": "verified",
-                   "GITHUB_OUTPUT": str(output), "GITHUB_STEP_SUMMARY": str(work / "summary.md")}
+            given = {"GH_LOG": str(log), "RUNNER_TEMP": tmp, "ARTIFACT": str(artifact), "HEAD_SHA": "a" * 40,
+                     "GH_TOKEN": "job", "PR_TOKEN": "pat", "REPO": "spec-kitty/spec-kitty-open-packs",
+                     "BRANCH": "charter/service-release-service-v2.0.0", "RELEASE_TAG": "service-v2.0.0",
+                     "COMMIT": "c" * 40, "CURRENT": "service-v1.0.0", "JAR_SHA256": "d" * 64,
+                     "PACK_CHECK_SHA256": "e" * 64, "RED": "", "RUN_URL": "https://example.invalid/run/1",
+                     "ATTEST_SERVICE": "verified", "ATTEST_PACK_CHECK": "verified",
+                     "GITHUB_OUTPUT": str(output), "GITHUB_STEP_SUMMARY": str(work / "summary.md")}
+            env = {**os.environ, **given, "PATH": f"{work / 'bin'}:{os.environ['PATH']}"}
+            # The three steps run back to back: no other step can touch the build's files before the push and open.
+            index = self.steps.index(self.build)
+            self.assertEqual(self.steps[index:index + 3], [self.build, self.push, self.open])
             for step in (self.build, self.push, self.open):
+                # Every name a step declares is supplied here, so a value the test does not know (a renamed variable
+                # holding the artifact directory) cannot sit unset under test and set in a real run.
+                self.assertLessEqual(set(step.get("env", {})), set(given), step.get("name"))
                 # Only the steps' own env names reach them, plus what the runner sets; ARTIFACT is the build's alone.
                 step_env = {k: v for k, v in env.items() if k in step.get("env", {}) or k not in self.build["env"]}
                 done = subprocess.run(["bash", "-c", step["run"]], env=step_env, capture_output=True, text=True,
@@ -814,6 +820,9 @@ class CharterTrackBumpBoundary(unittest.TestCase):
                 if step is self.build:
                     built = {name: hashlib.sha256((work / name).read_bytes()).hexdigest()
                              for name in ("request.json", "pr.md")}
+                    # The build's request carries the checked file changes, never the planted request.
+                    sent = json.loads((work / "request.json").read_text(encoding="utf-8"))
+                    self.assertEqual(sent["variables"]["input"]["fileChanges"], changes)
             calls = log.read_text(encoding="utf-8").replace(tmp, "$RUNNER_TEMP").splitlines()
             return built, calls
 
@@ -836,6 +845,7 @@ class CharterTrackBumpBoundary(unittest.TestCase):
             with self.subTest(step=step.get("name")):
                 self.assertNotIn("ARTIFACT", step.get("env", {}))
                 self.assertNotRegex(step["run"], r"charter-bump|\bARTIFACT\b")
+                self.assertNotRegex(yaml.safe_dump(step.get("env", {})), r"charter-bump|runner\.temp")
 
     def test_the_artifact_the_derive_uploads_is_the_one_the_bump_downloads(self) -> None:
         upload = next(step for step in self.derive_job["steps"]
