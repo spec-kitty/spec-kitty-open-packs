@@ -22,6 +22,9 @@ exceptions:
   - path: "docs/architecture/adr/**"
     action: do_not_change
     reason: "ADRs are superseded, never silently edited (charter DIRECTIVE_003); #345 item 9 leaves the 2026-11-19-3 ADR to history"
+  - path: "kitty-specs/pack-doctor-alignment-01M88RH1/curation/**"
+    action: manual_review
+    reason: "This Mission's own curation tooling and ledgers; no pack-check occurrence lives here, and every change is reviewed per WP"
   - path: "kitty-specs/**"
     action: do_not_change
     reason: "Past missions' records; this mission's own artifacts describe the rename"

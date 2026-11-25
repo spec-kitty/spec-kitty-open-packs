@@ -379,6 +379,29 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T17:04:22.766701Z",
+      "decision_id": "01M89TMR7EG5BRYH4REDGXD5RT",
+      "final_answer": "narrow curation/** manual_review exception: path kitty-specs/pack-doctor-alignment-01M88RH1/curation/**, action manual_review, placed before the kitty-specs/** rule; nothing broader (operator approval given directly in the implementer session, 2026-11-25)",
+      "input_key": "occurrence_map_curation_exception",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "narrow curation/** manual_review exception",
+        "no change"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "The bulk-edit diff-compliance gate refuses review of this Mission's curation/ files under the occurrence map's kitty-specs/** do_not_change rule. Add a narrow exception?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T17:04:25.982444Z",
+      "resolved_by": "operator",
+      "slot_key": "plan.process.occurrence_map",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
