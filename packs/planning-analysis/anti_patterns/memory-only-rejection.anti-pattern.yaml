@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: memory-only-rejection
+title: Memory-only rejection
+description: Closing an enhancement without a persistent concept record causes future duplicate requests to be relitigated.
+severity: smell
+bad_example: The plugin-system request is closed with a comment in chat; four months later the same request is debated from
+  scratch.

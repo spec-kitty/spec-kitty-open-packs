@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: command-named-as-an-event
+title: Command named as an event
+description: An imperative name reads as a request that might be refused, so consumers cannot tell whether it happened.
+severity: severe
+bad_example: '{"event_type": "ClaimWorkPackage", "payload": {"wp_id": "WP03"}}'
+good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned",
+  "to_lane": "claimed"}}'

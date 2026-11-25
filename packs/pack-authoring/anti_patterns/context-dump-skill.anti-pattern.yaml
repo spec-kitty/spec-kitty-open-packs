@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: context-dump-skill
+title: Context dump skill
+description: A skill that loads all reference material up front defeats progressive disclosure and crowds out task-specific
+  context.
+severity: severe
+bad_example: Read every file in references/ before starting.
+good_example: Read only the reference that matches the current host or workflow branch.

@@ -831,3 +831,19 @@ edges:
     target: writing::anti_pattern:unsourced-assertion
     relation: rejects
     reason: the styleguide report-writing names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: planning-analysis::anti_pattern:child-ticket-checklist-in-the-epic-body
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: planning-analysis::anti_pattern:closing-a-community-duplicate-before-migrating-its-evidence
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern
+  - source: procedure:issue-triage-pass
+    target: planning-analysis::anti_pattern:meta-tracker-as-canonical-parent
+    relation: rejects
+    reason: the procedure issue-triage-pass names this anti-pattern
+  - source: procedure:tracker-organisation-workflow
+    target: planning-analysis::anti_pattern:meta-tracker-as-canonical-parent
+    relation: rejects
+    reason: the procedure tracker-organisation-workflow names this anti-pattern

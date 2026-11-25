@@ -1,0 +1,10 @@
+schema_version: '1.0'
+id: local-values-as-canonical-rules
+title: Local values as canonical rules
+description: An artifact names one team's labels, branch, token location or tracker convention as if every consumer had it.
+  A consumer without that convention follows a rule it cannot satisfy, or invents one.
+severity: severe
+bad_example: Tag the ticket priority:P1 and unset GITHUB_TOKEN so gh uses the keyring token.
+good_example: |-
+  Record the urgency in the project's priority scheme, if it has one. If gh
+  reports missing scopes, check which token is active.

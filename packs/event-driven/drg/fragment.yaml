@@ -58,6 +58,15 @@ nodes:
   kind: assets
   title: "Worked Example: Event-Sourced Work-Package Board"
   body_path: assets/event_sourced_lane_board.md.asset.yaml
+- id: command-named-as-an-event
+  kind: anti_patterns
+  title: Command named as an event
+- id: crud-event-with-a-field-bag
+  kind: anti_patterns
+  title: CRUD event with a field bag
+- id: version-inferred-from-shape
+  kind: anti_patterns
+  title: Version inferred from shape
 edges:
 # The paradigm pulls in its rules and its styleguide, and suggests its tactics.
 - source: paradigm:evd-event-sourced-design
@@ -187,3 +196,15 @@ edges:
   target: directive:EVD_005
   relation: suggests
   when: "when separating replay from live delivery"
+- source: styleguide:evd-event-naming-and-payload
+  target: anti_pattern:command-named-as-an-event
+  relation: rejects
+  reason: the styleguide evd-event-naming-and-payload names this anti-pattern
+- source: styleguide:evd-event-naming-and-payload
+  target: anti_pattern:crud-event-with-a-field-bag
+  relation: rejects
+  reason: the styleguide evd-event-naming-and-payload names this anti-pattern
+- source: styleguide:evd-event-naming-and-payload
+  target: anti_pattern:version-inferred-from-shape
+  relation: rejects
+  reason: the styleguide evd-event-naming-and-payload names this anti-pattern

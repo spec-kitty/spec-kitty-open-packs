@@ -43,21 +43,4 @@ patterns:
       Ask the agent to hand-write a JSON merger every time the skill installs a hook.
     good_example: |
       Provide scripts/merge_settings.py and have SKILL.md call it with explicit inputs.
-anti_patterns:
-  - name: Ambiguous trigger surface
-    description: "A vague description causes agents to load the skill for unrelated tasks or miss it when it is needed."
-    bad_example: "Use this skill for projects."
-    good_example: "Use this skill when working on Spec Kitty missions, runtime, tracker, hub, website, mobile, SaaS, or tests."
-  - name: Context dump skill
-    description: "A skill that loads all reference material up front defeats progressive disclosure and crowds out task-specific context."
-    bad_example: "Read every file in references/ before starting."
-    good_example: "Read only the reference that matches the current host or workflow branch."
-  - name: Host-specific assumptions
-    description: "A deployable skill should not silently assume one agent product's paths, commands, or tool names when Spec Kitty distributes it across multiple hosts."
-    bad_example: "Always edit .claude/settings.json."
-    good_example: "Resolve the active host surface first, then edit the host-specific settings file if that host supports one."
-  - name: Unsourced operating rule
-    description: "A skill that encodes policy without pointing to doctrine, charter, ADR, or project source makes governance hard to audit."
-    bad_example: "Never use feature flags here."
-    good_example: "Apply DIRECTIVE_024 and ADR-2026-04-11 before adding a new flag."
 quality_test: "Can a new maintainer read the skill description and know when it triggers, then read only SKILL.md to complete the common workflow without loading unrelated provider detail?"

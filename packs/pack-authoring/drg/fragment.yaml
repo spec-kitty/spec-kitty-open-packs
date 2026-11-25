@@ -32,6 +32,48 @@ nodes:
 - id: source-agent-dossier-template
   kind: templates
   title: source-agent-dossier-template
+- id: ambiguous-trigger-surface
+  kind: anti_patterns
+  title: Ambiguous trigger surface
+- id: authoring-lineage-as-an-inline-profile-field
+  kind: anti_patterns
+  title: Authoring lineage as an inline profile field
+- id: citing-file-paths-instead-of-artifact-ids
+  kind: anti_patterns
+  title: Citing file paths instead of artifact ids
+- id: context-dump-skill
+  kind: anti_patterns
+  title: Context dump skill
+- id: creating-an-agent-profile-by-default
+  kind: anti_patterns
+  title: Creating an agent profile by default
+- id: decomposing-before-understanding-the-agent
+  kind: anti_patterns
+  title: Decomposing before understanding the agent
+- id: embedding-the-workflow-inside-the-agent-profile
+  kind: anti_patterns
+  title: Embedding the workflow inside the agent profile
+- id: host-specific-assumptions
+  kind: anti_patterns
+  title: Host-specific assumptions
+- id: ignoring-external-references
+  kind: anti_patterns
+  title: Ignoring external references
+- id: leaving-new-project-tier-artifacts-unactivated
+  kind: anti_patterns
+  title: Leaving new project-tier artifacts unactivated
+- id: lifting-the-whole-prompt-into-a-single-artifact
+  kind: anti_patterns
+  title: Lifting the whole prompt into a single artifact
+- id: local-values-as-canonical-rules
+  kind: anti_patterns
+  title: Local values as canonical rules
+- id: skipping-the-existing-artifact-overlap-audit
+  kind: anti_patterns
+  title: Skipping the existing-artifact overlap audit
+- id: unsourced-operating-rule
+  kind: anti_patterns
+  title: Unsourced operating rule
 edges:
 - source: agent_profile:doctrine-daphne
   target: foundation::directive:DIRECTIVE_003
@@ -110,3 +152,59 @@ edges:
   target: template:source-agent-dossier-template
   relation: suggests
   reason: Provides the evidence record required before decomposing the external agent.
+- source: styleguide:deployable-skill-authoring
+  target: anti_pattern:ambiguous-trigger-surface
+  relation: rejects
+  reason: the styleguide deployable-skill-authoring names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:authoring-lineage-as-an-inline-profile-field
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:citing-file-paths-instead-of-artifact-ids
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: styleguide:deployable-skill-authoring
+  target: anti_pattern:context-dump-skill
+  relation: rejects
+  reason: the styleguide deployable-skill-authoring names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:creating-an-agent-profile-by-default
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:decomposing-before-understanding-the-agent
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:embedding-the-workflow-inside-the-agent-profile
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: styleguide:deployable-skill-authoring
+  target: anti_pattern:host-specific-assumptions
+  relation: rejects
+  reason: the styleguide deployable-skill-authoring names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:ignoring-external-references
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:leaving-new-project-tier-artifacts-unactivated
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:lifting-the-whole-prompt-into-a-single-artifact
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: styleguide:doctrine-instruction-voice
+  target: anti_pattern:local-values-as-canonical-rules
+  relation: rejects
+  reason: the styleguide doctrine-instruction-voice names this anti-pattern
+- source: procedure:onboard-external-agent-to-pack
+  target: anti_pattern:skipping-the-existing-artifact-overlap-audit
+  relation: rejects
+  reason: the procedure onboard-external-agent-to-pack names this anti-pattern
+- source: styleguide:deployable-skill-authoring
+  target: anti_pattern:unsourced-operating-rule
+  relation: rejects
+  reason: the styleguide deployable-skill-authoring names this anti-pattern

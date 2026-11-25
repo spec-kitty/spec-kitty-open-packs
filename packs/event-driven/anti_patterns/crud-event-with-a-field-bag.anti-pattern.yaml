@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: crud-event-with-a-field-bag
+title: CRUD event with a field bag
+description: A generic update with changed fields forces every consumer to reverse-engineer which business fact occurred.
+severity: severe
+bad_example: '{"event_type": "WorkPackageUpdated", "payload": {"wp_id": "WP03", "changes": {"lane": "approved", "notes": "..."}}}'
+good_example: '{"event_type": "WorkPackageApproved", "schema_version": 1, "payload": {"wp_id": "WP03", "reviewer": "renata"}}'

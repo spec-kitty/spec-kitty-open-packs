@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: premature-decision-records
+title: Premature decision records
+description: Recording reversible, obvious, or non-trade-off choices bloats decision history.
+severity: smell
+bad_example: A decision record is opened for naming a local variable `count` rather than `n`.

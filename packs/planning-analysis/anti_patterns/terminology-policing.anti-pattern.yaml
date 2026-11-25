@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: terminology-policing
+title: Terminology policing
+description: Correcting words without structural or domain impact creates friction without improving understanding.
+severity: smell
+bad_example: The interviewer stops the discussion twice to correct "user" to "customer" where the two mean the same thing
+  here.

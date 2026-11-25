@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: over-interviewing
+title: Over-interviewing
+description: Asking questions whose answers are already present in code, tests, docs, or the current plan wastes human attention.
+severity: smell
+bad_example: The interviewer asks which database the service uses, though the answer is in docker-compose.yml.

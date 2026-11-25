@@ -135,6 +135,24 @@ nodes:
 - id: glossary-template
   kind: templates
   title: Glossary Template
+- id: direct-object-references
+  kind: anti_patterns
+  title: Direct Object References
+- id: no-domain-expert-validation
+  kind: anti_patterns
+  title: No domain expert validation
+- id: premature-structure
+  kind: anti_patterns
+  title: Premature structure
+- id: scope-creep
+  kind: anti_patterns
+  title: Scope creep
+- id: solution-mode
+  kind: anti_patterns
+  title: Solution mode
+- id: transaction-spanning
+  kind: anti_patterns
+  title: Transaction Spanning
 
 edges:
 - source: writing::action:documentation/design
@@ -699,3 +717,27 @@ edges:
   target: tactic:connascence-analysis
   relation: suggests
   when: diagnosing which coupling a test or a double carries
+- source: styleguide:aggregate-design-rules
+  target: anti_pattern:direct-object-references
+  relation: rejects
+  reason: the styleguide aggregate-design-rules names this anti-pattern
+- source: procedure:event-storming-discovery
+  target: anti_pattern:no-domain-expert-validation
+  relation: rejects
+  reason: the procedure event-storming-discovery names this anti-pattern
+- source: procedure:event-storming-discovery
+  target: anti_pattern:premature-structure
+  relation: rejects
+  reason: the procedure event-storming-discovery names this anti-pattern
+- source: procedure:event-storming-discovery
+  target: anti_pattern:scope-creep
+  relation: rejects
+  reason: the procedure event-storming-discovery names this anti-pattern
+- source: procedure:event-storming-discovery
+  target: anti_pattern:solution-mode
+  relation: rejects
+  reason: the procedure event-storming-discovery names this anti-pattern
+- source: styleguide:aggregate-design-rules
+  target: anti_pattern:transaction-spanning
+  relation: rejects
+  reason: the styleguide aggregate-design-rules names this anti-pattern

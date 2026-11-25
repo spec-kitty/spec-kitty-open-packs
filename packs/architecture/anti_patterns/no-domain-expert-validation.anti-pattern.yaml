@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: no-domain-expert-validation
+title: No domain expert validation
+description: Completing the entire discovery without human validation, producing a model that reflects technical assumptions
+  rather than business reality.
+severity: severe
+bad_example: The event storm's model is signed off by the engineers who drew it; no domain expert walks the timeline before
+  it becomes the design.

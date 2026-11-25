@@ -40,26 +40,6 @@ patterns:
        "payload": {"wp_id": "WP03", "reverses_event_id": "01JA0000000000000000000001",
                    "reason": "claimed by mistake"}}
 
-anti_patterns:
-  - name: Command named as an event
-    description: >
-      An imperative name reads as a request that might be refused, so consumers cannot
-      tell whether it happened.
-    bad_example: '{"event_type": "ClaimWorkPackage", "payload": {"wp_id": "WP03"}}'
-    good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned", "to_lane": "claimed"}}'
-  - name: CRUD event with a field bag
-    description: >
-      A generic update with changed fields forces every consumer to reverse-engineer
-      which business fact occurred.
-    bad_example: '{"event_type": "WorkPackageUpdated", "payload": {"wp_id": "WP03", "changes": {"lane": "approved", "notes": "..."}}}'
-    good_example: '{"event_type": "WorkPackageApproved", "schema_version": 1, "payload": {"wp_id": "WP03", "reviewer": "renata"}}'
-  - name: Version inferred from shape
-    description: >
-      Without an explicit version, readers guess the contract from which fields are
-      present, and the guess fails silently when a field becomes optional.
-    bad_example: '{"event_type": "WorkPackageClaimed", "payload": {"wp": "WP03", "lane": "doing"}}'
-    good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned", "to_lane": "claimed"}}'
-
 quality_test: >
   Show the event type name and payload to a domain expert with no code. They can say
   what happened, to what, by whom and when, and the reader of the contract can tell

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: solution-mode
+title: Solution mode
+description: Discussing technical implementation during discovery instead of focusing on domain behaviour and business flows.
+severity: smell
+bad_example: Half the session goes on whether OrderPlaced should travel over Kafka or SQS.
