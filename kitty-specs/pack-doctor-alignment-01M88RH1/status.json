@@ -1,5 +1,5 @@
 {
-  "event_count": 42,
+  "event_count": 44,
   "last_event_id": "01M89XS2VAW22WW2G937S509B8",
   "materialized_at": "2026-11-25T17:59:10.442194+00:00",
   "mission_number": "",
@@ -12,10 +12,10 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 2,
+    "for_review": 1,
     "in_progress": 0,
     "in_review": 0,
-    "planned": 6
+    "planned": 7
   },
   "work_packages": {
     "WP01": {
@@ -141,14 +141,14 @@
     },
     "WP05": {
       "actor": "claude",
-      "agent": "claude::implementer-ivan",
+      "agent": null,
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
-      "force_count": 1,
+      "force_count": 2,
       "implementer_of_record": "claude::implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M89X4C3W8TEG44YD17VP0K7K",
-      "last_transition_at": "2026-11-25T17:47:51.804935+00:00",
+      "lane": "planned",
+      "last_event_id": "01M89XQH5FK9NJWJ87T94GH1YD",
+      "last_transition_at": "2026-11-25T17:58:19.567157+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-25T17:47:35Z – claude::implementer-ivan – shell_pid=1883 – Rows: 46 for the 42 clusters homed in architecture (6), event-driven (3), pack-authoring (14), planning-analysis (19); 4 merged internal members (into meta-tracker, child-ticket checklist, duplicate closure). Matches the WP03 T014 per-home counts.",
@@ -157,15 +157,22 @@
         "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860). Files: curation/ledger-c-architecture-planning.yaml (46 rows); WP02-tool changes for review: the default guard discounts only quotes found verbatim in the source (WP04 review residual), and a parse cache (--check 79 s -> 3 s). 4 severity questions open with the operator. Read every authored bad example (29)."
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 1883,
-      "shell_pid_created_at": "1795628452.61",
+      "review": null,
+      "review_result": {
+        "feedback_path": "/home/user/spec-kitty-open-packs/.worktrees/pack-doctor-alignment-01M88RH1-coord/kitty-specs/pack-doctor-alignment-01M88RH1/tasks/WP05-ledger-c-architecture-planning/review-cycle-1.md",
+        "reference": "review-cycle://pack-doctor-alignment-01M88RH1/WP05-ledger-c-architecture-planning/review-cycle-1.md",
+        "reviewer": "claude::reviewer-renata",
+        "verdict": "changes_requested"
+      },
+      "role": "reviewer",
+      "shell_pid": null,
+      "shell_pid_created_at": null,
       "subtasks": {
-        "T024": "done",
-        "T025": "done",
-        "T026": "done",
-        "T027": "done",
-        "T028": "done"
+        "T024": "planned",
+        "T025": "planned",
+        "T026": "planned",
+        "T027": "planned",
+        "T028": "planned"
       }
     },
     "WP06": {
