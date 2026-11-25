@@ -76,6 +76,13 @@ jobs:
           python-version: "3.12"
       - name: Install the validator and scanner dependencies
         run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0" "tree-sitter==0.25.2" "tree-sitter-java==0.23.5"
+      # The move restamps every pack with the target's pack-doctor remediate (scripts/ci/charter_pin.py apply, #347),
+      # a Java 25 jar: downloaded on a release target, built from the target's source on a main target.
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        if: ${{ inputs.charter_commit }}
+        with:
+          distribution: temurin
+          java-version: "25"
       # Called against another charter target (charter-track.yml) only: move the pin and re-derive.
       - name: Move the pin to the charter target
         id: move
@@ -161,6 +168,11 @@ jobs:
         # Wheels only, so no setup script runs (a block scalar: `:all:` is not plain-scalar safe).
         run: |
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
+      # Java 25 runs the charter service, pack-doctor and the move's remediate, so it is set up before the move.
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "25"
       # Called against another charter target (charter-track.yml) only: the same move as the job above.
       - name: Move the pin to the charter target
         id: move
@@ -180,10 +192,6 @@ jobs:
           release_tag="$(python3 scripts/ci/charter_lock.py release_tag)"
           echo "commit=$commit" >> "$GITHUB_OUTPUT"
           echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
-        with:
-          distribution: temurin
-          java-version: "25"
       # Only a commit pin builds anything: a release pin downloads both jars.
       - name: Set up Gradle
         if: ${{ steps.pin.outputs.release_tag == '' }}

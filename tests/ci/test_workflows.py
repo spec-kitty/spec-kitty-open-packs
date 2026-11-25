@@ -318,6 +318,14 @@ class CharterServiceJob(unittest.TestCase):
         # The service check still runs when pack-doctor is red, so one run reports both.
         self.assertIn("!cancelled()", steps[-1]["if"])
 
+    def test_java_25_is_set_up_before_the_pin_moves(self) -> None:
+        # #347: apply restamps every pack with pack-doctor remediate, a Java 25 jar. A move without Java fails and
+        # every later step is skipped, so no check runs.
+        for name in ("Charter Pack validation", "Charter service validation"):
+            with self.subTest(job=name):
+                _, job = job_named(self.workflow, name)
+                assert_java_before_apply(self, job["steps"])
+
     def test_gradle_is_set_up_only_for_a_commit_pin(self) -> None:
         # A release pin downloads both jars; only a commit pin builds them from the pinned source.
         _, job = job_named(self.workflow, "Charter service validation")
@@ -330,6 +338,17 @@ class CharterServiceJob(unittest.TestCase):
             ctx["steps"] = {"pin": {"outputs": {"release_tag": release_tag}}}
             with self.subTest(release_tag=release_tag):
                 self.assertEqual(gh_expr.evaluate_if(gradle["if"], ctx), expected)
+
+def assert_java_before_apply(case: unittest.TestCase, steps: list) -> None:
+    """A step running ``charter_pin.py apply`` follows a setup-java step for Java 25 in the same job, under the same
+    condition or none."""
+    apply = next(i for i, step in enumerate(steps) if "charter_pin.py apply" in str(step.get("run", "")))
+    java = [i for i, step in enumerate(steps[:apply]) if str(step.get("uses", "")).startswith("actions/setup-java@")]
+    case.assertTrue(java, "no setup-java before the step that runs charter_pin.py apply")
+    setup = steps[java[-1]]
+    case.assertEqual(setup["with"]["java-version"], "25")
+    case.assertIn(setup.get("if"), (None, steps[apply].get("if")))
+
 
 TRACK = "charter-track.yml"
 TARGET = {"charter_commit": "d" * 40, "charter_release_tag": "service-v9.0.0", "charter_jar_sha256": "e" * 64,
@@ -459,6 +478,9 @@ class CharterTrack(unittest.TestCase):
             with self.subTest(event=name):
                 ctx = track_contexts(event, {})
                 self.assertEqual(gh_expr.evaluate_if(self.jobs["resolve"]["if"], ctx, strict_event=True), runs)
+
+    def test_the_bump_sets_up_java_25_before_it_moves_the_pin(self) -> None:
+        assert_java_before_apply(self, self.jobs["bump"]["steps"])
 
     def test_its_checks_are_the_required_checks_own_jobs_moved_to_the_target(self) -> None:
         checks = self.jobs["checks"]

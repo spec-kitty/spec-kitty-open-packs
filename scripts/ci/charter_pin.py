@@ -19,9 +19,10 @@ version precedence, than the lock's ``release_tag``; a lock without one (a chart
 demand) is left alone, ``newer=false``, so the scheduled run never replaces a deliberate main pin.
 
 ``apply`` writes the four pin values into the lock (comments kept), then re-derives what the pin decides
-here: every pack, restamped by the pinned charter's ``pack-doctor remediate`` (its ``pack-manifest.yaml``, the
-membership and hashes, in canonical form; #347), every ``packs/<name>.source.yaml`` digest and the generated pack
-pages. The checks then judge the tree a bump
+here: every pack, restamped by the pinned charter's ``pack-doctor remediate`` (#347), which writes each pack's
+``pack-manifest.yaml`` (the membership and hashes) and rewrites every modelled file of the pack in canonical form,
+dropping comments and null or empty defaults (operator ruling 01M8A5ZNJTETCBFCC4H5G0VHQ6); every
+``packs/<name>.source.yaml`` digest; and the generated pack pages. The checks then judge the tree a bump
 pull request would carry. ``commit-payload`` prints the ``createCommitOnBranch`` input for the working tree's
 changes, so the bump commit is made, and signed, by GitHub.
 
@@ -214,18 +215,26 @@ def _run(*command: str) -> None:
         raise PinError(f"{' '.join(command)} exited {done.returncode}")
 
 
-#: One outcome line of ``pack-doctor remediate`` on standard error: ``<pack dir>: rewritten`` or ``... unchanged``.
-REMEDIATE_OUTCOME = re.compile(r"^(?P<pack>\S.*?): (?P<outcome>rewritten|unchanged)$")
+#: One outcome line of ``pack-doctor remediate`` on standard output, one per pack given (charter ``Remediate.java``):
+#: ``<pack dir>: unchanged``, ``<pack dir>: rewritten``, ``<pack dir>: rewritten, <n> quoted number(s) repaired``, or
+#: ``<pack dir>: refused`` (its faults follow, indented).
+REMEDIATE_OUTCOME = re.compile(
+    r"^(?P<pack>\S.*?): (?P<outcome>unchanged|refused|rewritten)(?:, (?P<repaired>\d+) quoted numbers? repaired)?$")
 
 
-def pack_doctor_jar() -> str:
-    """The pinned pack-doctor jar, obtained by ``charter_pack_doctor_jar.sh`` (the last line it prints).
+def _work_dir(scratch: str) -> str:
+    """Where ``charter_pack_doctor_jar.sh`` keeps its download or its checkout and build: ``$CHARTER_WORK_DIR`` when set,
+    else ``$RUNNER_TEMP/charter-service`` (the directory the gate's own step uses, so a main pin is built once per
+    job), else ``scratch``. Never inside the repository, whose working tree a bump commit carries whole."""
+    if os.environ.get("CHARTER_WORK_DIR"):
+        return os.environ["CHARTER_WORK_DIR"]
+    if os.environ.get("RUNNER_TEMP"):
+        return str(Path(os.environ["RUNNER_TEMP"]) / "charter-service")
+    return scratch
 
-    Its work directory is ``$CHARTER_WORK_DIR`` when set, else ``$RUNNER_TEMP/charter-pack-doctor``, else a fresh
-    temporary directory: never inside the repository, whose working tree a bump commit carries whole."""
-    work = os.environ.get("CHARTER_WORK_DIR") or (
-        str(Path(os.environ["RUNNER_TEMP"]) / "charter-pack-doctor") if os.environ.get("RUNNER_TEMP")
-        else tempfile.mkdtemp(prefix="charter-pack-doctor-"))
+
+def pack_doctor_jar(work: str) -> str:
+    """The pinned pack-doctor jar, obtained by ``charter_pack_doctor_jar.sh`` into ``work`` (the last line it prints)."""
     done = subprocess.run(["bash", str(ROOT / "scripts" / "ci" / "charter_pack_doctor_jar.sh"), work], cwd=ROOT,
                           check=False, stdout=subprocess.PIPE, text=True)
     lines = done.stdout.strip().splitlines()
@@ -234,24 +243,38 @@ def pack_doctor_jar() -> str:
     return lines[-1]
 
 
+def java_command() -> str:
+    """The java to run pack-doctor with: ``$JAVA_HOME/bin/java`` when ``JAVA_HOME`` is set, else ``java`` on the PATH."""
+    home = os.environ.get("JAVA_HOME")
+    return str(Path(home) / "bin" / "java") if home else "java"
+
+
 def remediate(jar: str, packs: list[str]) -> dict[str, str]:
     """Run ``java -jar <jar> remediate <pack>...`` once over every pack, from the repository root (a pack holding the
-    working directory is exit 2) under ``LC_ALL=C.UTF-8``; return each pack's outcome, ``rewritten`` or ``unchanged``.
+    working directory is exit 2) under ``LC_ALL=C.UTF-8``; return each pack's outcome.
 
-    A non-zero exit fails the derive and prints the tool's output: nothing is restamped half-way."""
-    command = ["java", "-jar", jar, "remediate", *packs]
+    Exit 0 restamped every pack. Exit 1 means a pack was refused, or the tree remediate wrote still has problems: the
+    other packs are restamped, the derive goes on with a warning that names the refused packs, and the gate's own
+    step then judges the tree and keeps its report (a red tree must still be reported, not skipped). Any other exit,
+    or a pack with no outcome line, fails the derive and prints the tool's output."""
+    command = [java_command(), "-jar", jar, "remediate", *packs]
     print("+ " + " ".join(command), file=sys.stderr, flush=True)
     done = subprocess.run(command, cwd=ROOT, check=False, env={**os.environ, "LC_ALL": "C.UTF-8"},
-                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    if done.returncode != 0:
-        print(done.stdout, file=sys.stderr)
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if done.returncode not in (0, 1):
+        print(done.stdout, done.stderr, sep="\n", file=sys.stderr)
         raise PinError(f"pack-doctor remediate exited {done.returncode}")
     outcomes = {match["pack"]: match["outcome"] for line in done.stdout.splitlines()
-                if (match := REMEDIATE_OUTCOME.match(line.strip()))}
+                if (match := REMEDIATE_OUTCOME.match(line.rstrip()))}
     missing = [pack for pack in packs if pack not in outcomes]
     if missing:
-        print(done.stdout, file=sys.stderr)
+        print(done.stdout, done.stderr, sep="\n", file=sys.stderr)
         raise PinError(f"pack-doctor remediate gave no outcome for {', '.join(missing)}")
+    if done.returncode == 1:
+        refused = sorted(pack for pack, outcome in outcomes.items() if outcome == "refused")
+        print(done.stdout, file=sys.stderr)
+        print(f"::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: {', '.join(refused) or 'none'}); "
+              "the gate judges the tree it left", file=sys.stderr)
     return outcomes
 
 
@@ -262,8 +285,9 @@ def rederive(jar: str | None = None) -> None:
                    if path.is_dir() and (path / "pack.yaml").is_file())
     if not packs:
         raise PinError("no pack found under packs/ or tests/fixtures/valid/")
-    for pack, outcome in remediate(jar or pack_doctor_jar(), packs).items():
-        print(f"{pack}: {outcome}", file=sys.stderr)
+    with tempfile.TemporaryDirectory(prefix="charter-pack-doctor-") as scratch:
+        for pack, outcome in remediate(jar or pack_doctor_jar(_work_dir(scratch)), packs).items():
+            print(f"{pack}: {outcome}", file=sys.stderr)
     _run(sys.executable, "scripts/ci/pack_digest.py", "--update")
     _run(sys.executable, "scripts/docs/gen_pack_reference.py")
 

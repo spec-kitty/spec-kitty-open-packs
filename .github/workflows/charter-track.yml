@@ -303,6 +303,11 @@ jobs:
       - name: Install the schema validator's dependencies
         run: |
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
+      # apply restamps every pack with the release's pack-doctor remediate (#347), a Java 25 jar downloaded here.
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "25"
       - name: Push the bump branch
         id: prepare
         env:

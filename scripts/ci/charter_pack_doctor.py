@@ -139,11 +139,17 @@ def _no_verdict(result: Result) -> list[str]:
 
 def report_faults(result: Result) -> list[str]:
     """What makes a report unreadable as this run's ``PackDoctorReport``: an unknown key, another tool, options
-    other than ``--full --round-trip``, or a summary whose exit code is not the run's. Each fails closed."""
+    other than ``--full --round-trip``, ``checks`` that is not an ordered list of known checks, or a summary whose exit
+    code is not the run's. Each fails closed."""
     document = result.report or {}
     faults = [f"pack-doctor's report holds a key this gate cannot read, so cannot judge: '{key}' "
               f"(known: {', '.join(REPORT_KEYS)}); a changed format must not pass silently"
               for key in sorted(set(document) - set(REPORT_KEYS))]
+    ran = document.get("checks")
+    if not isinstance(ran, list) or not all(isinstance(check, str) for check in ran):
+        faults.append(f"the report's checks is {ran!r}, not a list of check names")
+    elif any(check not in CHECKS for check in ran) or ran != [check for check in CHECKS if check in ran]:
+        faults.append(f"the report's checks {ran} are not a subset of {list(CHECKS)} in that order")
     tool = document.get("tool")
     name = tool.get("name") if isinstance(tool, dict) else None
     if name != TOOL:
@@ -157,7 +163,7 @@ def report_faults(result: Result) -> list[str]:
                           f"{flag}, so its verdict is not the gate's")
     summary = document.get("summary")
     stated = summary.get("exit_code") if isinstance(summary, dict) else None
-    if stated != result.exit_code:
+    if type(stated) is not int or stated != result.exit_code:  # a boolean is not an exit code (False == 0)
         faults.append(f"the report's summary.exit_code is {stated!r}, but pack-doctor exited {result.exit_code}; "
                       "a report that disagrees with its run cannot be judged")
     return faults
@@ -183,15 +189,16 @@ def judge_set(result: Result, names: list[str]) -> list[str]:
     if result.exit_code == 1 or document.get("problems"):
         failures.append(f"pack-doctor refused the packs (exit {result.exit_code}):")
         failures += [f"  {line}" for line in problem_lines(document)] or ["  (no problem in the report)"]
-    ran = document.get("checks") or []
+    ran = document.get("checks") if isinstance(document.get("checks"), list) else []
     for check in CHECKS:
         if check not in ran:
             failures.append(f"pack-doctor did not run {check}; a verdict without it proves nothing")
     reported = sorted(str(pack.get("name")) for pack in document.get("packs") or [] if isinstance(pack, dict))
     if reported != sorted(names):
         missing, extra = sorted(set(names) - set(reported)), sorted(set(reported) - set(names))
+        twice = sorted({name for name in reported if reported.count(name) > 1})
         failures.append(f"pack-doctor judged other packs than it was given (missing: {missing or 'none'}; "
-                        f"unexpected: {extra or 'none'})")
+                        f"unexpected: {extra or 'none'}; reported twice: {twice or 'none'})")
     for pack, code, rest in warnings(result.stderr):
         if code != FILE_NOT_HELD:
             failures.append(f"pack-doctor warns {pack}: {code} {rest} (every warning but file_not_held fails, as in driftTest)")
@@ -207,6 +214,9 @@ def judge_invalid(result: Result, expected: str) -> list[str]:
     if result.exit_code != 1 or result.report is None:
         return [f"pack-doctor gave no verdict (exit {result.exit_code}), but must refuse it with {expected}",
                 *(f"  {line}" for line in _tail(result.stderr))]
+    faults = report_faults(result)  # a refusal read from a report the gate cannot read proves nothing either
+    if faults:
+        return faults
     found = codes(result.report)
     if expected not in found:
         return [f"pack-doctor refused it with {sorted(found)}, not with {expected}",
@@ -262,12 +272,12 @@ def run(java: str, jar: Path, packs: list[Path], report_file: Path | None) -> Re
     report goes to a temporary directory and is dropped. The parsed source is the JSON on standard output."""
     with tempfile.TemporaryDirectory(prefix="pack-doctor-report-") as scratch:
         target = report_file if report_file is not None else Path(scratch) / "report.yaml"
-        target.parent.mkdir(parents=True, exist_ok=True)
         return _run(java, jar, packs, target, keep=report_file is not None)
 
 
 def _run(java: str, jar: Path, packs: list[Path], report_file: Path, keep: bool) -> Result:
-    command = command_for(java, jar, packs, report_file)
+    command = command_for(java, jar, packs, report_file)  # refuses a report inside a pack before anything is made
+    report_file.parent.mkdir(parents=True, exist_ok=True)
     environment = {**os.environ, "LC_ALL": "C.UTF-8"}  # a non-ASCII file name under the POSIX locale is exit 2
     try:
         # A justified suppression, not a removed taint flow: S8701/S8705 read the CLI as untrusted, and --java or

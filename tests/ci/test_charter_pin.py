@@ -268,19 +268,28 @@ class CommitPayload(unittest.TestCase):
             charter_pin.commit_payload("charter/x", head, "headline", "body")
 
 
-#: A stand-in ``java`` for ``java -jar <jar> remediate <pack>...``: records its argv and working directory in
-#: $JAVA_LOG and answers each pack as rewritten, or exits $JAVA_EXIT with a refusal.
+#: A stand-in ``java`` for ``java -jar <jar> remediate <pack>...``: records its argv, working directory and locale in
+#: $JAVA_LOG, then answers as the charter's Remediate does: one outcome line per pack on standard output (alpha
+#: rewritten with a repaired quoted number, the others unchanged), then the JSON report; $JAVA_EXIT=1 refuses alpha
+#: (its faults indented below), $JAVA_EXIT=2 is a usage fault with nothing on standard output.
 FAKE_JAVA = """#!/usr/bin/env python3
 import json, os, sys
 open(os.environ["JAVA_LOG"], "w").write(json.dumps({"argv": sys.argv[1:], "cwd": os.getcwd(),
                                                      "lc_all": os.environ.get("LC_ALL")}))
 code = int(os.environ.get("JAVA_EXIT", "0"))
-if code:
-    print("packs/alpha: refused: pack.yaml: pack_version_invalid", file=sys.stderr)
-    sys.exit(code)
+if code == 2:
+    print("pack-doctor: remediate: no pack given", file=sys.stderr)
+    sys.exit(2)
 for pack in sys.argv[4:]:
-    print(f"{pack}: rewritten" if pack.endswith("alpha") else f"{pack}: unchanged", file=sys.stderr)
-print("{}")
+    if pack.endswith("alpha"):
+        print(f"{pack}: refused" if code else f"{pack}: rewritten, 1 quoted number repaired")
+        if code:
+            print("  pack.yaml#/pack_version: pack_version_invalid: 'nope' is not a PEP 440 version")
+    else:
+        print(f"{pack}: unchanged")
+print(json.dumps({"tool": {"name": "pack-doctor"}, "repairs": []}))
+print("warning: beta: file_not_held notes.txt: not held", file=sys.stderr)
+sys.exit(code)
 """
 
 
@@ -294,18 +303,19 @@ class Rederive(unittest.TestCase):
             (self.tmp / pack).mkdir(parents=True)
             (self.tmp / pack / "pack.yaml").write_text("pack_version: 1.0.0\n")
         (self.tmp / "packs" / "notes").mkdir()  # no pack.yaml: not a pack
-        bin_dir = self.tmp / "bin"
-        bin_dir.mkdir()
-        (bin_dir / "java").write_text(FAKE_JAVA)
-        (bin_dir / "java").chmod(0o755)
+        self.bin = self.tmp / "bin"
+        self.bin.mkdir()
+        (self.bin / "java").write_text(FAKE_JAVA)
+        (self.bin / "java").chmod(0o755)
         self.log = self.tmp / "java.json"
-        self.env = {"PATH": f"{bin_dir}:{os_environ()['PATH']}", "JAVA_LOG": str(self.log), "LC_ALL": "C"}
+        env = {"PATH": f"{self.bin}:{os_environ()['PATH']}", "JAVA_LOG": str(self.log), "LC_ALL": "C"}
         self.ran: list[tuple[str, ...]] = []
         for patcher in (mock.patch.object(charter_pin, "ROOT", self.tmp),
                         mock.patch.object(charter_pin, "_run", side_effect=lambda *c: self.ran.append(c)),
-                        mock.patch.dict("os.environ", self.env)):
+                        mock.patch.dict("os.environ", env), mock.patch.dict("os.environ", {}, clear=False)):
             patcher.start()
             self.addCleanup(patcher.stop)
+        os_unset("JAVA_HOME")
 
     def test_remediate_runs_once_over_every_pack_from_the_root_under_a_utf8_locale(self) -> None:
         with redirect_stderr(io.StringIO()) as err:
@@ -315,27 +325,71 @@ class Rederive(unittest.TestCase):
                                         "tests/fixtures/valid/example"])
         self.assertEqual(Path(seen["cwd"]).resolve(), self.tmp.resolve())
         self.assertEqual(seen["lc_all"], "C.UTF-8")
+        # The charter's own line for a pack with a repaired quoted number is a rewrite, not a missing outcome.
         self.assertIn("packs/alpha: rewritten", err.getvalue())
         self.assertIn("packs/beta: unchanged", err.getvalue())
+        self.assertNotIn("::warning::", err.getvalue())
         # The schema pass no longer derives manifests: the digests and the pack pages follow remediate.
         self.assertEqual([c[1:] for c in self.ran], [("scripts/ci/pack_digest.py", "--update"),
                                                      ("scripts/docs/gen_pack_reference.py",)])
         self.assertFalse(any("validate_pack_schemas.py" in part for command in self.ran for part in command))
 
-    def test_a_failing_remediate_fails_the_derive_and_prints_its_output(self) -> None:
-        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err, \
+    def test_every_outcome_line_the_charter_prints_is_read(self) -> None:
+        for line, outcome in (("packs/a: unchanged", "unchanged"), ("packs/a: rewritten", "rewritten"),
+                              ("packs/a: rewritten, 1 quoted number repaired", "rewritten"),
+                              ("packs/a: rewritten, 12 quoted numbers repaired", "rewritten"),
+                              ("packs/a: refused", "refused")):
+            with self.subTest(line=line):
+                self.assertEqual(charter_pin.REMEDIATE_OUTCOME.match(line)["outcome"], outcome)
+        for line in ("packs/a: rewritten, some", "  pack.yaml: pack_version_invalid", "warning: a: file_not_held x"):
+            with self.subTest(line=line):
+                self.assertIsNone(charter_pin.REMEDIATE_OUTCOME.match(line))
+
+    def test_a_refused_pack_warns_and_leaves_the_judgement_to_the_gate(self) -> None:
+        # Exit 1: the other packs are restamped; the gate step still runs and keeps its report of the red tree.
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertIn("::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: packs/alpha)", err.getvalue())
+        self.assertIn("pack_version_invalid", err.getvalue())
+        self.assertEqual(len(self.ran), 2)
+
+    def test_a_usage_fault_fails_the_derive_and_prints_its_output(self) -> None:
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "2"}), redirect_stderr(io.StringIO()) as err, \
              self.assertRaises(charter_pin.PinError) as raised:
             charter_pin.rederive("/jars/pack-doctor.jar")
-        self.assertIn("remediate exited 1", str(raised.exception))
-        self.assertIn("pack_version_invalid", err.getvalue())
-        self.assertEqual(self.ran, [])  # nothing after a refused restamp
+        self.assertIn("remediate exited 2", str(raised.exception))
+        self.assertIn("no pack given", err.getvalue())
+        self.assertEqual(self.ran, [])  # nothing after a restamp that judged nothing
 
     def test_a_pack_without_an_outcome_line_fails_the_derive(self) -> None:
-        (self.tmp / "bin" / "java").write_text(FAKE_JAVA.replace('f"{pack}: rewritten" if pack.endswith("alpha") else ', ""
-                                                                 ).replace('f"{pack}: unchanged"', '"nothing"'))
+        (self.bin / "java").write_text(FAKE_JAVA.replace('print(f"{pack}: unchanged")', 'pass'))
         with redirect_stderr(io.StringIO()), self.assertRaises(charter_pin.PinError) as raised:
             charter_pin.rederive("/jars/pack-doctor.jar")
-        self.assertIn("no outcome", str(raised.exception))
+        self.assertIn("no outcome for packs/beta, tests/fixtures/valid/example", str(raised.exception))
+
+    def test_java_home_is_honoured(self) -> None:
+        home = self.tmp / "jdk"
+        (home / "bin").mkdir(parents=True)
+        shutil.copy2(self.bin / "java", home / "bin" / "java")
+        (self.bin / "java").write_text("#!/bin/sh\nexit 3\n")  # the PATH java must not run
+        with mock.patch.dict("os.environ", {"JAVA_HOME": str(home)}), redirect_stderr(io.StringIO()):
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertTrue(self.log.is_file())
+
+    def test_the_jar_work_dir_is_the_gate_steps_and_never_the_repository(self) -> None:
+        with mock.patch.dict("os.environ", {"RUNNER_TEMP": "/runner/tmp"}):
+            os_unset("CHARTER_WORK_DIR")
+            self.assertEqual(charter_pin._work_dir("/scratch"), "/runner/tmp/charter-service")
+            with mock.patch.dict("os.environ", {"CHARTER_WORK_DIR": "/w"}):
+                self.assertEqual(charter_pin._work_dir("/scratch"), "/w")
+        os_unset("RUNNER_TEMP")
+        os_unset("CHARTER_WORK_DIR")
+        self.assertEqual(charter_pin._work_dir("/scratch"), "/scratch")
+
+
+def os_unset(name: str) -> None:
+    import os
+    os.environ.pop(name, None)
 
 
 def os_environ() -> dict:
@@ -344,6 +398,16 @@ def os_environ() -> dict:
 
 
 class Cli(unittest.TestCase):
+    def test_the_retired_pack_check_key_and_flag_are_refused(self) -> None:
+        # FR-002: a lock still holding pack_check_sha256 is refused as an unknown key, and so is the old flag.
+        with self.assertRaises(charter_lock.LockError) as raised:
+            charter_lock.check(charter_lock.parse(f"commit: {COMMIT}\npack_check_sha256: {PACK_DIGEST}\n"))
+        self.assertIn("pack_check_sha256", str(raised.exception))
+        with redirect_stderr(io.StringIO()) as err, self.assertRaises(SystemExit) as exited:
+            charter_pin.main(["apply", "--commit", COMMIT, "--pack-check-sha256", PACK_DIGEST])
+        self.assertEqual(exited.exception.code, 2)
+        self.assertIn("--pack-check-sha256", err.getvalue())
+
     def test_an_unresolvable_target_exits_2_with_an_annotation(self) -> None:
         err = io.StringIO()
         with redirect_stderr(err):

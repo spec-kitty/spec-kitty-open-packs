@@ -99,6 +99,24 @@ class JudgeTheSet(unittest.TestCase):
                 document["inputs"]["options"] = options
                 self.assertTrue(any("inputs.options" in line for line in self.judge(0, document)))
 
+    def test_checks_must_be_an_ordered_list_of_known_checks(self) -> None:
+        for checks in ("PACK CLOSURE REFERENCES ROUND_TRIP", ["CLOSURE", "PACK", "REFERENCES", "ROUND_TRIP"],
+                       [*ALL_CHECKS, "NEW_CHECK"]):
+            with self.subTest(checks=checks):
+                document = report(["a", "b"])
+                document["checks"] = checks
+                self.assertTrue(any("the report's checks" in line for line in self.judge(0, document)))
+
+    def test_a_boolean_exit_code_in_the_summary_fails(self) -> None:
+        document = report(["a", "b"])
+        document["summary"]["exit_code"] = False  # False == 0, but it is not an exit code
+        self.assertTrue(any("summary.exit_code is False" in line for line in self.judge(0, document)))
+
+    def test_a_pack_reported_twice_is_named(self) -> None:
+        document = report(["a", "b"])
+        document["packs"].append(dict(document["packs"][0]))
+        self.assertTrue(any("reported twice: ['a']" in line for line in self.judge(0, document)))
+
     def test_exit_1_fails_and_names_every_problem_and_violation(self) -> None:
         failures = self.judge(1, report(["a", "b"], problems=[problem("validation_failed", "round_trip_red")]))
         self.assertTrue(any("round_trip_red" in line for line in failures))
@@ -173,6 +191,18 @@ class JudgeAnInvalidFixture(unittest.TestCase):
         self.assertTrue(self.judge(1, report(["x"], problems=[problem("validation_failed", "retired")]),
                                    "pack_dependency_unknown"))
 
+    def test_the_report_of_an_invalid_fixture_is_read_as_strictly_as_the_sets(self) -> None:
+        # FR-005, #349: a refusal read from a report the gate cannot read proves nothing.
+        refused = report(["x"], problems=[problem("validation_failed", "retired")])
+        cases = {"tool.name": {**refused, "tool": {"name": "pack-check", "version": "x"}},
+                 "summary.exit_code": {**refused, "summary": {**refused["summary"], "exit_code": 0}},
+                 "a key this gate cannot read": {**refused, "repairs": []},
+                 "inputs.options": {**refused, "inputs": {"packs": ["x"], "options": {}}}}
+        for needle, document in cases.items():
+            with self.subTest(fault=needle):
+                failures = self.judge(1, document, "retired")
+                self.assertTrue(any(needle in line for line in failures), failures)
+
     def test_a_malformed_pack_version_is_a_problem_not_a_crash(self) -> None:
         # #343: rc.3 crashed on it (exit 2, charter#624); pack-doctor refuses it as pack_version_invalid (exit 1).
         refused = report(["x"], problems=[problem("validation_failed", "pack_version_invalid")])
@@ -207,6 +237,26 @@ class CommandFor(unittest.TestCase):
                                                 (str(java), jar, Path("--config-root"))):
                 with self.subTest(java=bad_java, jar=bad_jar, pack=bad_pack), self.assertRaises(gate.GateError):
                     gate.command_for(bad_java, bad_jar, [bad_pack], report_file)
+
+    def test_a_report_inside_a_pack_is_refused_by_its_real_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            java, jar, pack = root / "java", root / "pack-doctor.jar", root / "packs" / "a"
+            java.write_text("#!/bin/sh\n")
+            java.chmod(0o755)
+            jar.write_bytes(b"jar")
+            (pack / "sub").mkdir(parents=True)
+            (root / "into-pack").symlink_to(pack, target_is_directory=True)
+            (root / "dangling").symlink_to(pack / "nope.yaml")
+            (root / "pack-link").symlink_to(pack, target_is_directory=True)
+            cases = {"a directory symlink into the pack": ([pack], root / "into-pack" / "r.yaml"),
+                     "a file symlink into the pack": ([pack], root / "dangling"),
+                     "a pack given by a symlink": ([root / "pack-link"], pack / "r.yaml"),
+                     "a .. path": ([pack], root / "packs" / "x" / ".." / "a" / "r.yaml"),
+                     "the pack directory itself": ([pack], pack)}
+            for name, (packs, target) in cases.items():
+                with self.subTest(case=name), self.assertRaises(gate.GateError):
+                    gate.command_for(str(java), jar, packs, target)
 
     def test_a_report_file_inside_a_pack_is_refused(self) -> None:
         # pack-doctor refuses a report inside a pack it checks; the gate never asks for one.
@@ -362,6 +412,17 @@ class EndToEnd(unittest.TestCase):
         self.run_gate({"set": {"exit": 0, "names": "auto"}, "default": {"exit": 2}})
         self.assertEqual(record.read_text().strip(), "['pack.yaml']")
 
+    def test_a_report_dir_inside_a_pack_is_refused_before_anything_is_made_there(self) -> None:
+        plan_file = self.tmp / "plan.json"
+        plan_file.write_text(json.dumps({"set": {"exit": 0, "names": "auto"}, "bad": REFUSED}))
+        inside = self.repo / "packs" / "alpha" / "report"
+        done = subprocess.run([sys.executable, str(SCRIPT), "--jar", str(self.jar), "--java", str(self.java),
+                               "--root", str(self.repo), "--report-dir", str(inside)],
+                              capture_output=True, text=True, env=dict(os.environ, STUB_PLAN=str(plan_file)), check=False)
+        self.assertEqual(done.returncode, 2, done.stdout)
+        self.assertIn("must lie outside every pack", done.stdout)
+        self.assertFalse(inside.exists())
+
     def test_a_missing_jar_cannot_run_and_fails(self) -> None:
         self.jar.unlink()
         done = self.run_gate({"set": {"exit": 0, "names": "auto"}})
@@ -477,9 +538,18 @@ CURATION_CODES = {"validation_failed", "artifact_schema_error", "drg_schema_erro
 class RealPackDoctor(unittest.TestCase):
     """Against the real jar of the pin (the Charter service validation job sets PACK_DOCTOR_JAR)."""
 
-    def gate(self, repo: Path) -> subprocess.CompletedProcess:
+    checkout: subprocess.CompletedProcess | None = None
+
+    @staticmethod
+    def gate(repo: Path) -> subprocess.CompletedProcess:
         return subprocess.run([sys.executable, str(SCRIPT), "--jar", os.environ["PACK_DOCTOR_JAR"], "--root", str(repo)],
                               capture_output=True, text=True, check=False)
+
+    @classmethod
+    def gate_over_this_checkout(cls) -> subprocess.CompletedProcess:
+        if cls.checkout is None:
+            cls.checkout = cls.gate(ROOT)  # one run, read by the two tests below
+        return cls.checkout
 
     def test_every_invalid_fixture_is_refused_as_its_expected_code_says(self) -> None:
         # The five fixtures (case_variant and pack_version_invalid since #343), beside one valid pack so the set passes.
@@ -505,9 +575,14 @@ class RealPackDoctor(unittest.TestCase):
         self.assertEqual(list(result.report["checks"])[:1], ["PACK"])
         self.assertLessEqual(gate.codes(result.report), CURATION_CODES, gate.problem_lines(result.report)[:20])
 
+    def test_the_gate_gives_this_checkout_a_verdict(self) -> None:
+        # The known red below must be a verdict (exit 0 or 1), never a run that judged nothing (exit 2).
+        done = self.gate_over_this_checkout()
+        self.assertIn(done.returncode, (0, 1), done.stdout[-4000:])
+
     @unittest.expectedFailure  # the set's known red: cleared by WP08/WP09, and WP09 removes this marker
     def test_the_gate_passes_this_checkout(self) -> None:
-        done = self.gate(ROOT)
+        done = self.gate_over_this_checkout()
         self.assertEqual(done.returncode, 0, done.stdout[-4000:])
 
 
