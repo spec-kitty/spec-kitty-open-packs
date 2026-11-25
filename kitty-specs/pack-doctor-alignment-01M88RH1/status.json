@@ -36,6 +36,9 @@
       "last_event_id": "01M89C4PBEAG00P1020VNC5PCJ",
       "last_transition_at": "2026-11-25T12:50:56.390548+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "- 2026-11-25T13:11:39Z – claude::implementer-ivan – shell_pid=2218 – Implemented @1925dd3. Dry run (charter 4b95b9151): drg_schema_error 15->0; total 144->136 (+7 manifest_membership = refactoring's unstamped manifest; 129 after a scratch remediate, nothing new). 15 ledger-00 operator questions sent to the dispatcher in one batch (A1-A11 bad examples, B1-B4 severities)."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 2218,
