@@ -73,6 +73,9 @@
       "last_event_id": "01M89Q025TQP86QSAVQMKCQEBM",
       "last_transition_at": "2026-11-25T16:00:39.098627+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860: the planning-artifact evidence window looks at feat/pack-doctor-alignment; the work lives on the coordination branch). Files: curation/merge-map.yaml, curation/ledger-a-foundation.yaml (+ README field docs). Two operator questions open: the M4 assessment doubts (merge map) and the severity of blocking-a-merge-on-a-confirmed-pre-existing-failure (ledger A). Read every authored bad example (20 rows) and the 4 authored cross-language texts."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 4882,
