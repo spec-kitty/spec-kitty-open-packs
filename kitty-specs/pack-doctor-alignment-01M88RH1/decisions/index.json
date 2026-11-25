@@ -518,6 +518,30 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T19:59:18.123840Z",
+      "decision_id": "01M8A4N1KBDNZKWS0SNGTPR8RC",
+      "final_answer": "\"Consolidate mission first, then clean branch history, then rebase on main.\" 1. consolidate onto feat; 2. clean feat's history (squash or fix up the CLI and bookkeeping commits); 3. rebase feat onto origin/main, resolving conflicts there; 4. re-sign every rewritten commit. Main is never merged into feat. No force-push without the operator's approval: otherwise push a -v2 branch (operator ruling 2026-11-25, given directly to the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "feat_update_after_consolidate",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "(i) fast-forward feat before consolidate",
+        "(ii) merge main into feat after consolidate",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "Refines 01M8A46SAWTKB2ZH3XEW5B2J89: once consolidate lands the Mission on feat, feat and main diverge, so a plain fast-forward of feat to origin/main is impossible. How is feat brought up to main?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T19:59:20.673667Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.sequencing.feat_update",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
