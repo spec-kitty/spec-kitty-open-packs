@@ -1,7 +1,7 @@
 {
-  "event_count": 56,
-  "last_event_id": "01M8A0AB9CWYR9AJ56PHR81EF5",
-  "materialized_at": "2026-11-25T18:43:33.292960+00:00",
+  "event_count": 58,
+  "last_event_id": "01M8A2J03XPCRFADJ31H3AV16Q",
+  "materialized_at": "2026-11-25T19:22:41.042954+00:00",
   "mission_number": "",
   "mission_slug": "pack-doctor-alignment-01M88RH1",
   "mission_type": "software-dev",
@@ -13,9 +13,9 @@
     "claimed": 0,
     "done": 0,
     "for_review": 0,
-    "in_progress": 0,
+    "in_progress": 1,
     "in_review": 0,
-    "planned": 6
+    "planned": 5
   },
   "work_packages": {
     "WP01": {
@@ -223,9 +223,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
       "implementer_of_record": "claude::implementer-ivan",
-      "lane": "planned",
-      "last_event_id": "01M8A0AB9CWYR9AJ56PHR81EF5",
-      "last_transition_at": "2026-11-25T18:43:33.292960+00:00",
+      "lane": "in_progress",
+      "last_event_id": "01M8A2J03XPCRFADJ31H3AV16Q",
+      "last_transition_at": "2026-11-25T19:22:41.042954+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "Ledger E in ca7a039; 13 operator questions (E1-E13) open with the operator. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860)."
@@ -238,7 +238,7 @@
         "reviewer": "claude::reviewer-renata",
         "verdict": "changes_requested"
       },
-      "role": "reviewer",
+      "role": "implementer",
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
