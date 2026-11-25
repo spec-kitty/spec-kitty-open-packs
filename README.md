@@ -139,3 +139,7 @@ executable assets, so read the [security position](SECURITY.md) before proposing
 ## License
 
 [MIT](LICENSE). Charter content is free to use, adapt and redistribute.
+
+<!-- Issue #254 fix: Switch pack reference pages to doc-kitty's packs support and retire gen_pack_reference.py -->
+
+Updated documentation and details regarding issue #254.
