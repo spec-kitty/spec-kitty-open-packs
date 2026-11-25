@@ -4,7 +4,7 @@ artifact_type: spec-kitty.analysis-report
 command: /spec-kitty.analyze
 mission_slug: pack-doctor-alignment-01M88RH1
 mission_id: 01M88RH1WRS5YA0FC3G7M3JJ49
-generated_at: '2026-11-25T12:50:09.109965+00:00'
+generated_at: '2026-11-25T12:50:41.869942+00:00'
 analyzer_agent: unknown
 input_artifacts:
   spec.md:
@@ -22,9 +22,9 @@ input_artifacts:
 verdict: ready
 issue_counts:
   critical: 0
+  low: 3
   medium: 4
   high: 0
-  low: 3
   info: 0
 findings:
 - id: F3
@@ -59,7 +59,7 @@ findings:
 
 ## Specification Analysis Report
 
-Re-run after the planning amendment `530cf28` (spec, plan and data model aligned to decisions Q1 and Q3). Resolved since the previous run: F1 (spec FR-007, US2 scenario 1, duplicates edge case), F2 (data-model ledger row, plan structure), I3 (plan re-plan marked done) and I4 (spec Key Entities gains the merge map). F3 and U3 are with the operator (dispatcher, 2026-11-25); the recommendations are to waive NFR-005's ~70 for the home-pack batches, and to take a merged file's text from the home-pack member, else the earliest source.
+Re-run after the planning amendment `de4b5cd` (spec, plan and data model aligned to decisions Q1 and Q3). Resolved since the previous run: F1 (spec FR-007, US2 scenario 1, duplicates edge case), F2 (data-model ledger row, plan structure), I3 (plan re-plan marked done) and I4 (spec Key Entities gains the merge map). F3 and U3 are with the operator (dispatcher, 2026-11-25); the recommendations are to waive NFR-005's ~70 for the home-pack batches, and to take a merged file's text from the home-pack member, else the earliest source.
 
 | ID | Category | Severity | Location(s) | Summary | Recommendation |
 |----|----------|----------|-------------|---------|----------------|
