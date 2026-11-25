@@ -1,16 +1,16 @@
 {
   "rows": {
     "#343": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-016 fixture expectations (WP01) and SC-001/FR-018 closing measurement (WP09); closes when the charter-main track is green",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Charter main fails the packs",
+      "verdict": "in-mission",
+      "wp": "WP09"
     },
     "#344": {
       "evidence_ref": "<auto-classified: no action required>",
