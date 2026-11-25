@@ -29,7 +29,7 @@ entries:
   description: Approving a plan without confirming its test-area-to-requirement traceability defeats the purpose of the review.
   severity: severe
   severity_grounding: '"defeats the purpose of the review": -> severe'
-  bad_example: The test plan is approved although three requirements map to no test area.
+  bad_example: The test plan is approved although two of its test areas trace to no requirement, feature or risk item.
   bad_example_source: authored, grounded in "Approving a plan without confirming its test-area-to-requirement traceability"
     (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
@@ -94,7 +94,7 @@ entries:
   description: A single root holding mixed-granularity tickets instead of coherent buckets, defeating tiered ownership.
   severity: severe
   severity_grounding: '"defeating tiered ownership": -> severe'
-  bad_example: One `backlog` root holds epics, one-line chores and bugs side by side, with no owner per bucket.
+  bad_example: One `backlog` root holds epics, one-line chores and bugs side by side, with no buckets beneath it.
   bad_example_source: authored, grounded in "A single root holding mixed-granularity tickets instead of coherent buckets"
     (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
@@ -232,8 +232,8 @@ entries:
   severity: severe
   severity_grounding: states the practice ("Sending choices one at a time, acting irreversibly on a recommendation, or re-deciding
     a settled convention independently in each runner") but no outcome; proposed severe
-  bad_example: The runner asks the operator three questions in three messages over an hour, and implements its own recommendation
-    for the first before the answer comes.
+  bad_example: The runner asks the operator three questions in three messages over an hour, and drops the legacy `orders_v1`
+    table on its own recommendation for the first before the answer comes.
   bad_example_source: authored, grounded in "Sending choices one at a time, acting irreversibly on a recommendation" (decision
     01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: 'severity: smell, severe or breaking? (proposed severe; the text states a rule or practice, no outcome)'
@@ -542,7 +542,7 @@ entries:
   severity: breaking
   severity_grounding: states the rule ("A draft has not been handed off to the maintainers. Ask the operator first.") but
     no outcome; proposed breaking
-  bad_example: A contributor's draft PR is rebased, approved and merged without asking the operator.
+  bad_example: A contributor's draft PR is rebased and two landing fixes are pushed to its branch without asking the operator.
   bad_example_source: authored, grounded in "A draft has not been handed off to the maintainers" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: 'severity: smell, severe or breaking? (proposed breaking; the text states a rule or practice, no outcome)'
 - source: procedures/mission-wrap-up-sequence.procedure.yaml#/anti_patterns/1
@@ -699,7 +699,8 @@ entries:
   description: A scheduled CI job owns it; a local recapture costs time for a drift that cannot block the PR.
   severity: smell
   severity_grounding: '"a local recapture costs time for a drift that cannot block the PR": a cost -> smell'
-  bad_example: During a landing, the runner regenerates the CI-owned benchmark snapshot locally and commits it.
+  bad_example: During a landing, the runner recaptures the test-shard timing file that a scheduled CI job owns and commits
+    it.
   bad_example_source: authored, grounded in "a local recapture costs time for a drift that cannot block the PR" (decision
     01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
@@ -734,7 +735,7 @@ entries:
   severity: severe
   severity_grounding: '"Retroactive entries miss detail and timing; the tracer files'' value comes from in-the-moment capture.":
     defeats the files'' purpose -> severe'
-  bad_example: All tracer entries are written on the last day from memory, with no timestamps.
+  bad_example: All tracer entries are written on the last day from memory, undated.
   bad_example_source: authored, grounded in "Writing all tracer entries at mission close from memory" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
 - source: procedures/landing-contributor-prs.procedure.yaml#/anti_patterns/1
