@@ -25,16 +25,16 @@
       "wp": null
     },
     "#345": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-001..FR-006, FR-019 (WP01); the service-v<version> release pin is deferred to the first release after this mission (C-002, operator ruling 2026-11-25), stated in the PR body per SC-004",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Align with the charter release that carries pack-doctor: jar, lock field, command line, report and refusals",
+      "verdict": "in-mission",
+      "wp": "WP01"
     },
     "#346": {
       "evidence_ref": "<link or commit>",
