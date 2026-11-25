@@ -1,0 +1,14 @@
+schema_version: '1.0'
+id: importing-core-logic-from-scripting-packages
+title: Importing Core Logic from Scripting Packages
+description: A scripting or shim package that imports from a core package pulls that dependency into a low-rigour tier, making
+  it harder to reason about the core's invariants. Shims and scripts must consume core behaviour via the published CLI or
+  public API, not by direct import.
+severity: severe
+bad_example: |-
+  # <project>/shims/legacy_bridge.py
+  from myproject.state.reducer import materialize  # direct core import
+good_example: |-
+  # <project>/shims/legacy_bridge.py
+  import subprocess
+  result = subprocess.run(["myproject", "status"], capture_output=True)

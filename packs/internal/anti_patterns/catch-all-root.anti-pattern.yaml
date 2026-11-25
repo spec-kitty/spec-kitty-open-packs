@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: catch-all-root
+title: Catch-all root
+description: A single root holding mixed-granularity tickets instead of coherent buckets, defeating tiered ownership.
+severity: severe
+bad_example: One `backlog` root holds epics, one-line chores and bugs side by side, with no buckets beneath it.

@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: specifying-before-the-claim
+title: Specifying before the claim
+description: An unclaimed issue invites a second runner (another agent or a person) onto the same work. Claim and verify first.
+severity: severe
+bad_example: The runner writes a spec for the issue before posting a claim, and a second runner starts the same issue an hour
+  later.

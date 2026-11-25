@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: deferring-instead-of-finishing
+title: Deferring instead of finishing
+description: Punting genuinely small remaining work to a follow-up to close the mission faster. Only the exceptions in the
+  deferral bar ("Review the rebased branch and fold every finding") are deferred; the rest is completed before hand-off.
+severity: severe
+bad_example: Two missing log lines and a stale doc paragraph are filed as follow-ups so the mission can close today.

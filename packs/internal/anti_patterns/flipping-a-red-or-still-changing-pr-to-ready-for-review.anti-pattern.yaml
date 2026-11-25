@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: flipping-a-red-or-still-changing-pr-to-ready-for-review
+title: Flipping a red or still-changing PR to ready for review
+description: The flip hands the PR to the maintainers. Do it only when the PR is green and complete.
+severity: severe
+bad_example: The PR is flipped to ready for review while one CI job is still red and a fix commit is being pushed.

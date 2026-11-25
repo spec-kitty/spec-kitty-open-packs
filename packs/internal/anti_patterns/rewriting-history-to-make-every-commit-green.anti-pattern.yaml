@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: rewriting-history-to-make-every-commit-green
+title: Rewriting history to make every commit green
+description: Per-commit green is not the bar (mission-wrap-up-sequence's compaction step). Rewrite only for readability or
+  to remove personal data, and always run the tree check before a force-push.
+severity: smell
+bad_example: Every commit of the branch is rewritten so each passes the gate on its own, and the branch is force-pushed.

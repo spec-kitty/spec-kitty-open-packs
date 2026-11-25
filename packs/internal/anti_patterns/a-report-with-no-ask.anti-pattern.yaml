@@ -1,0 +1,9 @@
+schema_version: '1.0'
+id: a-report-with-no-ask
+title: A report with no ask
+description: A long-form debrief that lists what happened and stops makes each executive work out what is wanted of them.
+  If nothing needs deciding, say that in one line; otherwise name the decisions.
+severity: smell
+bad_example: An executive summary that ends on the fifth "what happened" item.
+good_example: '"What we need from leadership. Decide when rc6 ships: the release rule needs a green nightly and the last run
+  had one red job."'

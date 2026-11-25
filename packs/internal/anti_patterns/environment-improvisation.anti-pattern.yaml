@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: environment-improvisation
+title: Environment improvisation
+description: Trying multiple install routes or editing outside the repository (sibling access and blocked sessions are CLOUD_SESSION_ORCHESTRATION's
+  rules).
+severity: smell
+bad_example: The runner tries pip, then pipx, then a vendored wheel, and finally edits a sibling repository's lockfile.

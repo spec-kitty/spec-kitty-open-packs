@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: reading-the-corpus-in-commit-order
+title: Reading the corpus in commit order
+description: Splitting the work by date range instead of by domain makes every squad reload the context of every subsystem,
+  and it hides the covering guard that decides whether a test is redundant.
+severity: severe
+bad_example: The test-quality squads split the corpus by quarter, so each reloads every subsystem and none sees the guard
+  that covers a test.

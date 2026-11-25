@@ -65,49 +65,6 @@ patterns:
       # lint      : ruff check with zero issues
       # typing    : Type hints encouraged but not enforced; mypy may run in non-strict mode
 
-anti_patterns:
-  - name: Uniform Standards Across All Packages
-    description: >
-      Applying the same coverage and duplication targets to CLI shells and shims as
-      to the status reducer or merge executor creates false confidence and wastes
-      effort. CLI shells are best covered by integration tests; demanding 90% unit
-      coverage there produces mock-heavy tests that obscure real behaviour.
-    bad_example: |
-      # CI enforces 90% coverage on every module equally, including cli/commands/
-      # — results in over-mocked unit tests for thin command shells that provide
-      # no real confidence.
-    good_example: |
-      # Core modules (state, merge) require >=85% and mypy --strict.
-      # CLI command shells require integration-level coverage at the command boundary,
-      # not unit tests of every argument-parsing branch.
-
-  - name: Importing Core Logic from Scripting Packages
-    description: >
-      A scripting or shim package that imports from a core package pulls that
-      dependency into a low-rigour tier, making it harder to reason about the
-      core's invariants. Shims and scripts must consume core behaviour via the
-      published CLI or public API, not by direct import.
-    bad_example: |
-      # <project>/shims/legacy_bridge.py
-      from myproject.state.reducer import materialize  # direct core import
-    good_example: |
-      # <project>/shims/legacy_bridge.py
-      import subprocess
-      result = subprocess.run(["myproject", "status"], capture_output=True)
-
-  - name: Hiding Pre-existing Debt in New Work
-    description: >
-      Adding new code alongside broken tests, lint failures, or type errors in the
-      same commit without noting the pre-existing state. Reviewers cannot tell which
-      failures are new without archaeology.
-    bad_example: |
-      # PR adds 200 lines to <project>/state/reducer.py
-      # and silently inherits 3 pre-existing mypy errors.
-      # Reviewer cannot distinguish new from old.
-    good_example: |
-      # PR description: "Pre-existing mypy errors in reducer.py: 3 (unrelated to this diff).
-      # New code passes mypy --strict on its own surface."
-
 quality_test: >
   Can a reviewer, without running the test suite, look at a changed module's
   package path and immediately know what coverage, typing, and lint bar applies —
