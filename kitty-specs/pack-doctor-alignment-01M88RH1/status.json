@@ -264,7 +264,8 @@
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-25T19:30:55Z – claude::implementer-ivan – shell_pid=3696 – WP08 applied (lane-b). One signed commit per approved ledger, each the pure output of apply_curation.py --root . --ledger <ledger>:\n- 7c53c2e ledger 00 (architecture foundation refactoring)\n- fa57156 ledger A (foundation go java javascript rust testing)\n- b6b0060 ledger B (internal python testing writing)\n- 198f295 ledger C (architecture event-driven internal pack-authoring planning-analysis)\n- be2e15f ledger D (drupal go java javascript python rust)\n- 91e3239 ledger E (internal qa)\nT041: apply_curation.py --check --root . exit 0; grep -rln '^anti_patterns:' packs is empty (SC-003); a second apply writes nothing.\nT042: pack-doctor validate --round-trip --full over packs/* and tests/fixtures/valid/* (jar built from charter 4b95b9151, quickstart step 1; WP01's script has not landed):\n  checks [PACK, CLOSURE, REFERENCES, ROUND_TRIP], skipped [] (CLOSURE and REFERENCES run over the set for the first time).\n  violations 326: manifest_membership 265, manifest_stale 61; warnings 19 (baseline 19). No round_trip_*, no preset_item_*/pack_reference_*/substep_* codes.\nT043: nothing to fix here. All 326 are manifest_* and owned by WP09 (restamp).",
-        "Six ledgers applied, one commit each; --check 0; pack-doctor: all four checks, nothing skipped, only WP09's manifest_* remain (326)."
+        "Six ledgers applied, one commit each; --check 0; pack-doctor: all four checks, nothing skipped, only WP09's manifest_* remain (326).",
+        "Approved: six commits reproduce byte-identically from the ledgers; --check 0; SC-003 holds; pack-doctor shows only WP09's manifest_membership 265 and manifest_stale 61, 19 warnings as baseline."
       ],
       "provider": "__resolved_provider_absent__",
       "review_result": {
@@ -274,8 +275,8 @@
         "verdict": "approved"
       },
       "role": "reviewer",
-      "shell_pid": 2405,
-      "shell_pid_created_at": "1795636052.57",
+      "shell_pid": 2769,
+      "shell_pid_created_at": "1795636086.52",
       "subtasks": {
         "T039": "done",
         "T040": "done",
