@@ -389,6 +389,12 @@ def source_entry(tree: Tree, packs: dict[str, Pack], row: Row):
     return items[index]
 
 
+def says_default(value: str) -> bool:
+    """True when the text itself (not a quote of the source inside it) rests on a default."""
+    unquoted = re.sub(r'"[^"]*"', "", value)
+    return re.search(r"\bdefault", unquoted, re.IGNORECASE) is not None
+
+
 def validate_row(row: Row) -> list[str]:
     faults = []
     ident = row.get("id")
@@ -405,7 +411,7 @@ def validate_row(row: Row) -> list[str]:
         value = str(row.get(key) or "")
         if not value.strip():
             faults.append(f"{row.label}: {key} is empty")
-        elif "default" in value.lower():
+        elif says_default(value):
             faults.append(f"{row.label}: {key} says 'default'")
     if row.get("operator_question"):
         faults.append(f"{row.label}: open operator_question")

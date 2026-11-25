@@ -1,0 +1,1539 @@
+# Ledger B: rows homed in testing and writing (WP04). Contract: README.md; clusters: merge-map.yaml.
+batch: b-testing-writing
+entries:
+- source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/1
+  source_title: Delete a mega-file wholesale
+  pack: testing
+  owner: procedure:development-assist-test-cleanup
+  id: delete-a-mega-file-wholesale
+  merged_into: null
+  merge_reason: null
+  title: Delete a mega-file wholesale
+  description: Treating a mixed mission test file as all-scaffold and deleting it to remove the friction, dropping the genuine
+    functional and arch invariants buried in it. Split by kind and keep those; only the spent cases are retired.
+  severity: severe
+  severity_grounding: '"dropping the genuine functional and arch invariants buried in it": real coverage is lost -> severe'
+  bad_example: A 1,400-line mission test file is deleted as scaffolding; the two architecture invariants and the refund-rounding
+    regression test inside it go with it.
+  bad_example_source: authored, grounded in "Treating a mixed mission test file as all-scaffold and deleting it" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/0
+  source_title: Exception-Only Assertion
+  pack: testing
+  owner: styleguide:mutation-aware-test-design
+  id: exception-only-assertion
+  merged_into: null
+  merge_reason: null
+  title: Exception-Only Assertion
+  description: Test verifies only that no exception is raised. An empty function body also passes — no mutant can be killed.
+  severity: breaking
+  severity_grounding: '"An empty function body also passes — no mutant can be killed": a wrong result passes -> breaking'
+  bad_example: "def test_process_order():\n    process_order(order)  # No assertion — empty function also passes"
+  bad_example_source: bad_example
+  good_example: "def test_process_order():\n    process_order(order)\n    assert order_repository.find(order.id).status ==\
+    \ \"processed\""
+  operator_question: null
+- source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/2
+  source_title: Fabricated / Unrealistic Test Data
+  pack: testing
+  owner: styleguide:testing-principles
+  id: fabricated-unrealistic-test-data
+  merged_into: null
+  merge_reason: null
+  title: Fabricated / Unrealistic Test Data
+  description: Fixtures built from handcrafted placeholder values that violate production invariants (truncated or fake identifiers,
+    impossible lengths, sentinel strings) test a world that cannot occur. They mask real behavior, manufacture phantom edge
+    cases, and mislead debugging — a fixture value that can never reach the code on the golden path is a silent wrong-fixture
+    bug. Prefer production-shaped data; if malformed input must be tested, do it in a test whose name declares that intent,
+    never as incidental setup.
+  severity: breaking
+  severity_grounding: '"They mask real behavior, manufacture phantom edge cases, and mislead debugging — a fixture value that
+    can never reach the code on the golden path is a silent wrong-fixture bug": a wrong result -> breaking'
+  bad_example: '# An order_id is ALWAYS a 26-char ULID in production. This fixture fakes a short one:
+
+    meta = {"order_id": "01KORD"}   # 6 chars — impossible on any real path
+
+    # Short ids resolve down a different branch than real ones, so this fixture invents an
+
+    # "edge case" the system never produces — here it cost a full adversarial investigation
+
+    # to prove the "divergence" was a fixture artifact, not a code defect.'
+  bad_example_source: bad_example
+  good_example: '# Use a production-shaped value: a full 26-char ULID.
+
+    meta = {"order_id": "01KV7SFD0123456789ABCDEFGH"}
+
+    # Genuinely testing malformed input? Name the test for it and isolate it:
+
+    #   def test_rejects_short_order_id(): ...   # the short id is the subject, not setup'
+  operator_question: null
+- source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/0
+  source_title: Fixing without a feedback loop
+  pack: testing
+  owner: procedure:disciplined-defect-diagnosis
+  id: fixing-without-a-feedback-loop
+  merged_into: null
+  merge_reason: 'both: changing production code before a reproducing signal exists — "Changing production code before a repeatable
+    signal exists" / "Modifying production code before having a failing test"'
+  title: Fixing without a feedback loop
+  description: Changing production code before a repeatable signal exists turns debugging into guessing.
+  severity: severe
+  severity_grounding: '"turns debugging into guessing": the fix is unproven, the guidance''s purpose is defeated -> severe'
+  bad_example: The retry timeout is raised from 5 s to 30 s on a hunch, with no test or reproduction that fails before the
+    change.
+  bad_example_source: authored, grounded in "Changing production code before a repeatable signal exists" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/0
+  source_title: Fix First, Test Later
+  pack: testing
+  owner: procedure:test-first-bug-fixing
+  id: fixing-without-a-feedback-loop
+  merged_into: testing::anti_pattern:fixing-without-a-feedback-loop
+  merge_reason: 'both: changing production code before a reproducing signal exists — "Changing production code before a repeatable
+    signal exists" / "Modifying production code before having a failing test"'
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/5
+  source_title: Forgetting that a stub is a second copy of the contract
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  merged_into: null
+  merge_reason: null
+  title: Forgetting that a stub is a second copy of the contract
+  description: A stub restates its collaborator's contract by hand, so when the real dependency changes the test stays green
+    for a world that no longer exists (the foundation paradigm tests-as-scaffold-not-friction explains why). Keep stubs at
+    allow-listed seams and make them honor the real contract.
+  severity: breaking
+  severity_grounding: '"the test stays green for a world that no longer exists": a wrong result passes -> breaking'
+  bad_example: 'stub_rates.get_rate.return_value = Decimal("1.1")   # the real service now raises on stale rates
+
+    assert convert(100, "EUR", "USD", rates=stub_rates) == Decimal("110")   # stays green anyway'
+  bad_example_source: bad_example
+  good_example: "# A fake at the network seam that keeps the real contract, failure branch included.\n@pytest.fixture\ndef\
+    \ rates():\n    return FakeRateService(rates={\"EUR/USD\": Decimal(\"1.1\")}, stale={\"EUR/GBP\"})\n\ndef test_converts_at_the_current_rate(rates):\n\
+    \    assert convert(100, \"EUR\", \"USD\", rates=rates) == Decimal(\"110\")\n\ndef test_refuses_a_stale_rate(rates):\n\
+    \    with pytest.raises(StaleRateError):\n        convert(100, \"EUR\", \"GBP\", rates=rates)"
+  operator_question: null
+- source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/2
+  source_title: Full Application Restart
+  pack: testing
+  owner: procedure:test-first-bug-fixing
+  id: full-application-restart
+  merged_into: null
+  merge_reason: null
+  title: Full Application Restart
+  description: Deploying the whole application to verify a fix. Slow, noisy, and not isolated.
+  severity: smell
+  severity_grounding: '"Slow, noisy, and not isolated.": a cost -> smell'
+  bad_example: To check a one-line date-parser fix, the whole stack is redeployed to staging and the failing page is clicked
+    through by hand.
+  bad_example_source: authored, grounded in "Deploying the whole application to verify a fix" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/4
+  source_title: Gold plating as a licence to double owned logic
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: gold-plating-as-a-licence-to-double-owned-logic
+  merged_into: null
+  merge_reason: null
+  title: Gold plating as a licence to double owned logic
+  description: '"Avoid gold plating" (build only what is needed now) is sometimes read as permission to substitute owned logic
+    because running it for real costs setup. It is not. The rare cheap substitutes the allow-list permits (DIRECTIVE_054:
+    schema-only validation by a library, an outbound notification) are boundary seams; logic the behavior depends on runs
+    for real. If the real slice is too heavy, extract a pure seam instead.'
+  severity: breaking
+  severity_grounding: '"logic the behavior depends on runs for real" (DIRECTIVE_054''s rule; the entry rejects reading gold
+    plating as licence to double owned logic): a mandatory rule, as for foundation mock-owned-logic-to-pin-a-call-contract
+    -> breaking'
+  bad_example: "# \"Running the discount rules for real is overkill here.\"\nwith patch(\"shop.pricing.apply_discount_rules\"\
+    , return_value=Decimal(\"90\")):\n    assert checkout(cart).total == Decimal(\"90\")    # tests the stub, not pricing"
+  bad_example_source: bad_example
+  good_example: '# The discount rules are owned logic: run them; seed a cart that triggers one.
+
+    cart = cart_with(items=[book(price="100")], coupon="TEN_OFF")
+
+    assert checkout(cart).total == Decimal("90")'
+  operator_question: null
+- source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/1
+  source_title: Identity Value Inputs
+  pack: testing
+  owner: styleguide:mutation-aware-test-design
+  id: identity-value-inputs
+  merged_into: null
+  merge_reason: null
+  title: Identity Value Inputs
+  description: Using 0 for addition, 1 for multiplication, or an empty string makes the original operator and its mutation
+    produce the same result.
+  severity: severe
+  severity_grounding: '"makes the original operator and its mutation produce the same result": the test cannot see that class
+    of fault, its purpose is defeated for it -> severe'
+  bad_example: "def test_discount():\n    assert apply_discount(price=100, rate=0) == 100  # 100 * 0 == 100 / 0 would crash,\n\
+    \                                                     # but 100 - 0 == 100 + 0 == 100"
+  bad_example_source: bad_example
+  good_example: "def test_discount():\n    assert apply_discount(price=100, rate=0.2) == 80.0  # 100 - 20 != 100 + 20"
+  operator_question: null
+- source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/0
+  source_title: Imperative Gherkin
+  pack: testing
+  owner: procedure:bdd-scenario-lifecycle
+  id: imperative-gherkin
+  merged_into: null
+  merge_reason: 'both: a scenario scripted as UI actions breaks on UI change though the behaviour holds — "Imperative scenarios
+    break when the UI changes, even if the behavior is unchanged" / "The scenario breaks on any UI or wiring change even when
+    the behaviour is unchanged"'
+  title: Imperative Gherkin
+  description: Scenarios that describe UI clicks and form fills rather than business intent. "Click the Submit button" is
+    imperative. "Complete the order" is declarative. Imperative scenarios break when the UI changes, even if the behavior
+    is unchanged.
+  severity: severe
+  severity_grounding: '"Imperative scenarios break when the UI changes, even if the behavior is unchanged": false alarms defeat
+    the scenario as a safety net -> severe'
+  bad_example: 'When I click the "Submit" button
+
+    And I wait 2 seconds
+
+    Then I see "Order confirmed" in the page header'
+  bad_example_source: authored, grounded in ""Click the Submit button" is imperative" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/0
+  source_title: Imperative UI Script Masquerading as a Scenario
+  pack: testing
+  owner: styleguide:given-when-then-authoring
+  id: imperative-gherkin
+  merged_into: testing::anti_pattern:imperative-gherkin
+  merge_reason: 'both: a scenario scripted as UI actions breaks on UI change though the behaviour holds — "Imperative scenarios
+    break when the UI changes, even if the behavior is unchanged" / "The scenario breaks on any UI or wiring change even when
+    the behaviour is unchanged"'
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/0
+  source_title: Infrastructure as untyped shared mutable state
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: infrastructure-as-untyped-shared-mutable-state
+  merged_into: null
+  merge_reason: null
+  title: Infrastructure as untyped shared mutable state
+  description: 'When production code reads and writes infrastructure (the filesystem, database, git) DIRECTLY from many surfaces
+    instead of through an owning application boundary, that infrastructure becomes un-owned shared mutable state. Two consequences
+    follow: (1) surfaces can disagree about the same on-disk state (read/write forks, staleness); (2) tests cannot exercise
+    the logic without standing up the infrastructure or mocking many seams. The mock/stub scaffolding in tests is a symptom,
+    not the disease — the cure is an owning boundary (a port / aggregate / pure resolver) the logic routes through, which
+    the test then drives with simple inputs.'
+  severity: severe
+  severity_grounding: '"surfaces can disagree about the same on-disk state (read/write forks, staleness)": a design that can
+    yield wrong results -> severe'
+  bad_example: '# Direct, scattered filesystem access — every caller re-reads/re-writes
+
+    # order state, and every test must reconstruct that state on disk.
+
+    order_dir = data_root / "orders" / order_id
+
+    events = (order_dir / "status.events.jsonl").read_text()
+
+    ...
+
+    (order_dir / "status.events.jsonl").write_text(updated)   # another surface'
+  bad_example_source: bad_example
+  good_example: '# One owning boundary mediates the state; logic and tests depend on it,
+
+    # not on the filesystem. The IO lives in one place behind the seam.
+
+    status = OrderStatus.load(data_root, order_id)   # owns read+write
+
+    status.transition(line_id="L1", to_state="picking")
+
+    # tests drive OrderStatus / plan_shipments with stub inputs — no files'
+  operator_question: null
+- source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/3
+  source_title: Keep the WP/NFR label on a promoted test
+  pack: testing
+  owner: procedure:development-assist-test-cleanup
+  id: keep-the-wp-nfr-label-on-a-promoted-test
+  merged_into: null
+  merge_reason: null
+  title: Keep the WP/NFR label on a promoted test
+  description: Leaving a WP##/NFR-### label on a test promoted to standing status. The label signals "belongs to a finished
+    slice," inviting the same audit churn next time and misrepresenting a durable guard as disposable.
+  severity: smell
+  severity_grounding: '"inviting the same audit churn next time": a cost -> smell'
+  bad_example: A test promoted to the standing suite is still named `test_wp07_nfr_003_retry_budget`.
+  bad_example_source: authored, grounded in "Leaving a WP##/NFR-### label on a test promoted to standing status" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/4
+  source_title: Leaving debug artifacts behind
+  pack: testing
+  owner: procedure:disciplined-defect-diagnosis
+  id: leaving-debug-artifacts-behind
+  merged_into: null
+  merge_reason: null
+  title: Leaving debug artifacts behind
+  description: Temporary logs, harnesses, trace files, and flags must either be deleted or promoted into named diagnostics.
+  severity: severe
+  severity_grounding: '"must either be deleted or promoted into named diagnostics": a mandatory rule is broken -> severe'
+  bad_example: A `print("DEBUG state=", state)` line and a `repro_issue_412.py` harness ship in the fix's commit.
+  bad_example_source: authored, grounded in "Temporary logs, harnesses, trace files, and flags must either be deleted or promoted
+    into named diagnostics" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/1
+  source_title: Logging everything
+  pack: testing
+  owner: procedure:disciplined-defect-diagnosis
+  id: logging-everything
+  merged_into: null
+  merge_reason: null
+  title: Logging everything
+  description: Broad untagged logging creates noise, hides the discriminating signal, and leaves cleanup debt.
+  severity: smell
+  severity_grounding: '"creates noise, hides the discriminating signal, and leaves cleanup debt": a cost -> smell'
+  bad_example: Every function in the sync module logs its arguments at INFO while one ordering bug is chased, and the lines
+    stay.
+  bad_example_source: authored, grounded in "Broad untagged logging" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/0
+  source_title: Merge the scaffolding, clean it up "later"
+  pack: testing
+  owner: procedure:development-assist-test-cleanup
+  id: merge-the-scaffolding-clean-it-up-later
+  merged_into: null
+  merge_reason: 'both: development-assist tests left in the suite after the slice lands — "Landing a mission''s development-assist
+    tests as-is and trusting a future pass to retire them" / "Once it lands they become inert … duplicative … or structure-sensitive"'
+  title: Merge the scaffolding, clean it up "later"
+  description: 'Landing a mission''s development-assist tests as-is and trusting a future pass to retire them. The friction
+    compounds: inert self-compares and duplicated shape checks accumulate as permanent suite bloat, and the "later" audit
+    rarely comes. Judge at the point-cut where the scaffolding was created.'
+  severity: smell
+  severity_grounding: '"accumulate as permanent suite bloat": a cost -> smell'
+  bad_example: The mission lands with its before/after parity tests and `hasattr` pins, and a TODO says they will be cleaned
+    up later.
+  bad_example_source: authored, grounded in "Landing a mission's development-assist tests as-is and trusting a future pass
+    to retire them" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/6
+  source_title: Development-assist scaffolding left in the suite
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: merge-the-scaffolding-clean-it-up-later
+  merged_into: testing::anti_pattern:merge-the-scaffolding-clean-it-up-later
+  merge_reason: 'both: development-assist tests left in the suite after the slice lands — "Landing a mission''s development-assist
+    tests as-is and trusting a future pass to retire them" / "Once it lands they become inert … duplicative … or structure-sensitive"'
+  operator_question: null
+- source: styleguides/quadruple-a-test-format.styleguide.yaml#/anti_patterns/0
+  source_title: Missing Assumption Check
+  pack: testing
+  owner: styleguide:quadruple-a-test-format
+  id: missing-assumption-check
+  merged_into: null
+  merge_reason: 'both: omitting the precondition/assumption check, so a broken setup decides the result — "Omitting the assumption
+    check lets a wrong fixture or a drifted default state present itself as a failure" / "Skipping the precondition assertion.
+    When test setup silently fails, the test passes for the wrong reason"'
+  title: Missing Assumption Check
+  description: Omitting the assumption check lets a wrong fixture or a drifted default state present itself as a failure of
+    the behaviour under test. The test then either fails for the wrong reason (wasting an investigation) or, worse, passes
+    because the arranged state was never the state the behaviour needs.
+  severity: breaking
+  severity_grounding: '"or, worse, passes because the arranged state was never the state the behaviour needs": a wrong result
+    passes -> breaking'
+  bad_example: "def test_discount_applies_to_gold_members():\n    member = make_member()          # is this actually a gold\
+    \ member?\n    price = pricing.quote(member)\n    assert price == Decimal(\"90.00\")  # green even if make_member() drifts\
+    \ to silver"
+  bad_example_source: bad_example
+  good_example: "def test_discount_applies_to_gold_members():\n    member = make_member(tier=\"gold\")\n    assert member.tier\
+    \ == \"gold\"      # assumption check pins the precondition\n    price = pricing.quote(member)\n    assert price == Decimal(\"\
+    90.00\")"
+  operator_question: null
+- source: styleguides/python-conventions.styleguide.yaml#/anti_patterns/3
+  source_title: Test Without Assumption Check
+  pack: python
+  owner: styleguide:python-conventions
+  home_pack: testing
+  id: missing-assumption-check
+  merged_into: testing::anti_pattern:missing-assumption-check
+  merge_reason: 'both: omitting the precondition/assumption check, so a broken setup decides the result — "Omitting the assumption
+    check lets a wrong fixture or a drifted default state present itself as a failure" / "Skipping the precondition assertion.
+    When test setup silently fails, the test passes for the wrong reason"'
+  operator_question: null
+- source: styleguides/given-when-then-authoring.styleguide.yaml#/anti_patterns/1
+  source_title: Multiple Whens in One Scenario
+  pack: testing
+  owner: styleguide:given-when-then-authoring
+  id: multiple-whens-in-one-scenario
+  merged_into: null
+  merge_reason: 'both: two behaviours in one test, so a failure no longer says which broke — "a failure no longer identifies
+    which trigger broke" / "A failure no longer identifies which behaviour broke"'
+  title: Multiple Whens in One Scenario
+  description: More than one When collapses several behaviours into a single scenario, so a failure no longer identifies which
+    trigger broke and the Then can no longer describe one coherent outcome. Each trigger deserves its own scenario.
+  severity: smell
+  severity_grounding: '"a failure no longer identifies which trigger broke": a diagnosis cost; the failure is still caught
+    -> smell'
+  bad_example: 'Given an empty cart
+
+    When the customer adds an item
+
+    And the customer checks out
+
+    And the customer requests a refund
+
+    Then the refund is processed'
+  bad_example_source: bad_example
+  good_example: 'Given a cart containing one item
+
+    When the customer checks out
+
+    Then an order is created for that item'
+  operator_question: null
+- source: styleguides/quadruple-a-test-format.styleguide.yaml#/anti_patterns/1
+  source_title: Two Behaviours Wearing One Skeleton
+  pack: testing
+  owner: styleguide:quadruple-a-test-format
+  id: multiple-whens-in-one-scenario
+  merged_into: testing::anti_pattern:multiple-whens-in-one-scenario
+  merge_reason: 'both: two behaviours in one test, so a failure no longer says which broke — "a failure no longer identifies
+    which trigger broke" / "A failure no longer identifies which behaviour broke"'
+  operator_question: null
+- source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/3
+  source_title: Orphaned step definitions
+  pack: testing
+  owner: procedure:bdd-scenario-lifecycle
+  id: orphaned-step-definitions
+  merged_into: null
+  merge_reason: null
+  title: Orphaned step definitions
+  description: Step definitions with no matching feature file step. Accumulate silently as scenarios evolve. Run `cucumber
+    --dry-run` (or equivalent) regularly to detect them.
+  severity: smell
+  severity_grounding: '"Accumulate silently as scenarios evolve": a cost -> smell'
+  bad_example: '`steps/checkout_steps.py` still defines `Given a guest cart with {n} items`, which no feature file has used
+    since the cart scenarios were rewritten.'
+  bad_example_source: authored, grounded in "Step definitions with no matching feature file step" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/1
+  source_title: Over-mocking to compensate for a missing boundary
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: over-mocking-to-compensate-for-a-missing-boundary
+  merged_into: null
+  merge_reason: null
+  title: Over-mocking to compensate for a missing boundary
+  description: Patching five infrastructure functions to test one behavior means the test is fighting the absence of a seam.
+    Substitute only at the allow-listed seams of DIRECTIVE_054; if you find yourself doubling owned logic, extract the boundary
+    instead. Heavy mocking also makes tests pass when the real integration is broken (loss of Predictive).
+  severity: breaking
+  severity_grounding: '"Heavy mocking also makes tests pass when the real integration is broken": a wrong result passes ->
+    breaking'
+  bad_example: "with patch(\"a.find_config_root\"), patch(\"a.save_order\"), \\\n     patch(\"a.run_command\"), patch(\"a.load_initial_state\"\
+    ), \\\n     patch(\"a.check_permissions\"):\n    run_command_under_test()   # nothing real is exercised"
+  bad_example_source: bad_example
+  good_example: '# Extract the decision into a pure function; mock nothing.
+
+    result = decide(domain_inputs)
+
+    assert result == expected'
+  operator_question: null
+- source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/4
+  source_title: Refactoring Beyond the Fix
+  pack: testing
+  owner: procedure:test-first-bug-fixing
+  id: refactoring-beyond-the-fix
+  merged_into: null
+  merge_reason: null
+  title: Refactoring Beyond the Fix
+  description: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug fix; broader cleanup
+    belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
+  severity: severe
+  severity_grounding: '"introduces unrelated risk into a bug fix": should block review -> severe'
+  bad_example: The null-check fix also renames the module's helpers and reorders its imports in the same commit.
+  bad_example_source: authored, grounded in "Widening the green-mode tidy-up past the fix's own code" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/2
+  source_title: Retire coverage disguised as a duplicate
+  pack: testing
+  owner: procedure:development-assist-test-cleanup
+  id: retire-coverage-disguised-as-a-duplicate
+  merged_into: null
+  merge_reason: 'both: deleting a test without proving a standing guard covers it — "Confirm the standing guard covers it
+    before deleting" / "without naming and proving the broader test that still covers the behaviour"'
+  title: Retire coverage disguised as a duplicate
+  description: Deleting a per-WP check as "duplicative" when the family-wide guard does not actually assert the same contract.
+    Confirm the standing guard covers it before deleting; if it does not, the test is not a duplicate — keep and rename it.
+  severity: severe
+  severity_grounding: '"the family-wide guard does not actually assert the same contract": real coverage is lost -> severe'
+  bad_example: A per-WP test of refund rounding is deleted as duplicative, though the family-wide guard only checks that a
+    refund is created, not its amount.
+  bad_example_source: authored, grounded in "Deleting a per-WP check as "duplicative" when the family-wide guard does not
+    actually assert the same contract" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/test-suite-quality-assessment.procedure.yaml#/anti_patterns/3
+  source_title: Retiring without a named guard
+  pack: internal
+  owner: procedure:test-suite-quality-assessment
+  home_pack: testing
+  id: retire-coverage-disguised-as-a-duplicate
+  merged_into: testing::anti_pattern:retire-coverage-disguised-as-a-duplicate
+  merge_reason: 'both: deleting a test without proving a standing guard covers it — "Confirm the standing guard covers it
+    before deleting" / "without naming and proving the broader test that still covers the behaviour"'
+  operator_question: null
+- source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/1
+  source_title: Rubber-stamp scenarios
+  pack: testing
+  owner: procedure:bdd-scenario-lifecycle
+  id: rubber-stamp-scenarios
+  merged_into: null
+  merge_reason: null
+  title: Rubber-stamp scenarios
+  description: Scenarios written after the implementation passes to satisfy a process requirement. These scenarios always
+    start green and provide no regression protection — they cannot fail because the code was not written to make them fail
+    first.
+  severity: breaking
+  severity_grounding: '"they cannot fail because the code was not written to make them fail first": a test that passes whatever
+    the code does -> breaking'
+  bad_example: After the export feature is merged, scenarios are written against its current output to satisfy the process
+    checklist; they pass on their first run.
+  bad_example_source: authored, grounded in "Scenarios written after the implementation passes to satisfy a process requirement"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/3
+  source_title: Self-constructed oracle (an "injection proof" that never injects)
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: self-constructed-oracle-an-injection-proof-that-never-injects
+  merged_into: null
+  merge_reason: null
+  title: Self-constructed oracle (an "injection proof" that never injects)
+  description: A test meant to prove a gate or ratchet goes red builds two divergent inputs and asserts they differ, without
+    ever calling the gate. It is green whatever the product does, so it is not Behavioral. A non-vacuity proof invokes the
+    real check on the planted input and asserts the check fails.
+  severity: breaking
+  severity_grounding: '"It is green whatever the product does": a wrong result passes -> breaking'
+  bad_example: 'primary_state = reduce(read_events(primary_log))
+
+    replica_state = reduce(read_events(replica_log))     # data the test wrote
+
+    assert primary_state != replica_state                # never runs the gate'
+  bad_example_source: bad_example
+  good_example: "plant_divergence(replica_log)\nwith pytest.raises(AssertionError, match=\"replica parity\"):\n    assert_replica_parity(primary,\
+    \ replica)          # the real check goes red"
+  operator_question: null
+- source: procedures/bdd-scenario-lifecycle.procedure.yaml#/anti_patterns/2
+  source_title: Shared mutable state between scenarios
+  pack: testing
+  owner: procedure:bdd-scenario-lifecycle
+  id: shared-mutable-state-between-scenarios
+  merged_into: null
+  merge_reason: 'both: tests that share state with another test fail for the wrong reason — "Scenario B relying on data created
+    by Scenario A" / "Tests that share mutable state … fail non-deterministically depending on execution order"'
+  title: Shared mutable state between scenarios
+  description: Scenario B relying on data created by Scenario A. When Scenario A is skipped or fails, Scenario B fails for
+    the wrong reason. Each scenario must establish its own preconditions via Given steps.
+  severity: severe
+  severity_grounding: '"When Scenario A is skipped or fails, Scenario B fails for the wrong reason": false failures defeat
+    the suite as a signal -> severe'
+  bad_example: '"Scenario: Cancel the order" uses the order the previous scenario created, and fails with "order not found"
+    when that scenario is skipped.'
+  bad_example_source: authored, grounded in "Scenario B relying on data created by Scenario A" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/0
+  source_title: Shared Mutable State Between Tests
+  pack: testing
+  owner: styleguide:testing-principles
+  id: shared-mutable-state-between-scenarios
+  merged_into: testing::anti_pattern:shared-mutable-state-between-scenarios
+  merge_reason: 'both: tests that share state with another test fail for the wrong reason — "Scenario B relying on data created
+    by Scenario A" / "Tests that share mutable state … fail non-deterministically depending on execution order"'
+  operator_question: null
+- source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/1
+  source_title: Side-Script Investigation
+  pack: testing
+  owner: procedure:test-first-bug-fixing
+  id: side-script-investigation
+  merged_into: null
+  merge_reason: null
+  title: Side-Script Investigation
+  description: Building ad-hoc scripts to reproduce the bug instead of writing a proper test. Scripts rot; tests live.
+  severity: smell
+  severity_grounding: '"Scripts rot; tests live.": a cost -> smell'
+  bad_example: The bug is reproduced with `scratch/repro_412.py`, which never becomes a test and stops running after the next
+    schema change.
+  bad_example_source: authored, grounded in "Building ad-hoc scripts to reproduce the bug instead of writing a proper test"
+    (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/2
+  source_title: Single-Branch Condition
+  pack: testing
+  owner: styleguide:mutation-aware-test-design
+  id: single-branch-condition
+  merged_into: null
+  merge_reason: null
+  title: Single-Branch Condition
+  description: Testing only the all-true or all-false case of a logical condition leaves AND / OR mutations undetected.
+  severity: severe
+  severity_grounding: '"leaves AND / OR mutations undetected": the test cannot see that class of fault, its purpose is defeated
+    for it -> severe'
+  bad_example: "def test_has_valid_email():\n    users = [User(email=\"a@b.com\"), User(email=\"c@d.com\")]\n    assert has_valid_email(users)\
+    \ is True   # any = True, all = True — same result"
+  bad_example_source: bad_example
+  good_example: "def test_has_valid_email_one_present():     # kills any → all\n    users = [User(email=\"a@b.com\"), User(email=None)]\n\
+    \    assert has_valid_email(users) is True   # any = True, all = False"
+  operator_question: null
+- source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/2
+  source_title: Single-hypothesis anchoring
+  pack: testing
+  owner: procedure:disciplined-defect-diagnosis
+  id: single-hypothesis-anchoring
+  merged_into: null
+  merge_reason: null
+  title: Single-hypothesis anchoring
+  description: Testing the first plausible explanation anchors the diagnosis and misses cheaper disconfirming probes.
+  severity: smell
+  severity_grounding: '"misses cheaper disconfirming probes": a cost -> smell'
+  bad_example: The flaky upload is blamed on the network, and two days go into retry logic before anyone checks the clock
+    skew between the hosts.
+  bad_example_source: authored, grounded in "Testing the first plausible explanation" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/test-desiderata-and-boundaries.styleguide.yaml#/anti_patterns/2
+  source_title: Stubbing a new gate out of an old harness
+  pack: testing
+  owner: styleguide:test-desiderata-and-boundaries
+  id: stubbing-a-new-gate-out-of-an-old-harness
+  merged_into: null
+  merge_reason: null
+  title: Stubbing a new gate out of an old harness
+  description: 'A new safety gate lands, an older mock-heavy test goes red because the gate now runs in its flow, and the
+    "fix" patches the gate out of that test''s fixture so it stays green. Each such stub makes the test check less than it
+    did before the gate existed (loss of Predictive). The pressure comes from a harness that is not Writable: when adding
+    one real step costs another patch, people stub. Move the test onto a real (git, filesystem) fixture that is cheap to extend,
+    or retire it and name the test that already covers its contract.'
+  severity: severe
+  severity_grounding: '"Each such stub makes the test check less than it did before the gate existed": the gate''s protection
+    is bypassed in the test -> severe'
+  bad_example: '# Commit message: "stub the new verification gate in the release fixtures"
+
+    stack.enter_context(patch("pkg.releaser._verify_new_gate", return_value=None))
+
+    # ... 25 other releaser internals patched ...
+
+    assert git_write_spy.call_args.kwargs["files"] == expected_files  # a spy on the git write itself is fine (DIRECTIVE_054);
+    the patched releaser internals above are the smell'
+  bad_example_source: bad_example
+  good_example: '# Drive the real command against a real temp repo; the new gate runs too.
+
+    result = run_cli(repo, "release", "--version", "1.2.0")
+
+    assert result.exit_code == 0
+
+    assert read_committed_file(repo, "main", "VERSION") == "1.2.0\n"'
+  operator_question: null
+- source: styleguides/mutation-aware-test-design.styleguide.yaml#/anti_patterns/3
+  source_title: Substring/Case-Insensitive Message Assertion
+  pack: testing
+  owner: styleguide:mutation-aware-test-design
+  id: substring-case-insensitive-message-assertion
+  merged_into: null
+  merge_reason: null
+  title: Substring/Case-Insensitive Message Assertion
+  description: Asserting an error or log message with a substring or case-insensitive check lets every case-change, prefix,
+    or suffix mutation of that string survive. Assert the exact string; define it as a module-level constant when reused.
+  severity: severe
+  severity_grounding: '"lets every case-change, prefix, or suffix mutation of that string survive": the test cannot see that
+    class of fault -> severe'
+  bad_example: "def test_guard_rejects_missing_actor():\n    ok, error = validate_transition(\"planned\", \"claimed\", actor=None)\n\
+    \    assert ok is False\n    assert \"actor\" in error.lower()   # survives \"Actor\" -> \"actor\" mutation"
+  bad_example_source: bad_example
+  good_example: "ACTOR_REQUIRED_MSG = \"Transition planned -> claimed requires actor identity\"\n\ndef test_guard_rejects_missing_actor():\n\
+    \    ok, error = validate_transition(\"planned\", \"claimed\", actor=None)\n    assert ok is False\n    assert error ==\
+    \ ACTOR_REQUIRED_MSG   # kills all case/prefix/suffix mutations"
+  operator_question: null
+- source: procedures/development-assist-test-cleanup.procedure.yaml#/anti_patterns/4
+  source_title: Sweep the whole suite in the landing PR
+  pack: testing
+  owner: procedure:development-assist-test-cleanup
+  id: sweep-the-whole-suite-in-the-landing-pr
+  merged_into: null
+  merge_reason: null
+  title: Sweep the whole suite in the landing PR
+  description: Auditing and rewriting every sibling file that shares the pattern inside the mission's own PR, inflating the
+    diff far past the mission's scope. The in-mission cleanup covers the tests the mission created; the wider sweep is a tracked
+    follow-up.
+  severity: smell
+  severity_grounding: '"inflating the diff far past the mission''s scope": a review cost -> smell'
+  bad_example: The mission's PR also rewrites 40 sibling test files that share the old fixture pattern, turning a 300-line
+    diff into 6,000 lines.
+  bad_example_source: authored, grounded in "Auditing and rewriting every sibling file that shares the pattern inside the
+    mission's own PR" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/test-first-bug-fixing.procedure.yaml#/anti_patterns/3
+  source_title: Test Passes Immediately
+  pack: testing
+  owner: procedure:test-first-bug-fixing
+  id: test-passes-immediately
+  merged_into: null
+  merge_reason: null
+  title: Test Passes Immediately
+  description: The reproduction test passes on first run. The test does not capture the bug — revise setup or assertions.
+  severity: severe
+  severity_grounding: '"The test does not capture the bug — revise setup or assertions.": the fix is unproven and the test
+    must be revised -> severe'
+  bad_example: The new `test_rejects_negative_quantity` passes on its first run against the unfixed code, and the fix is committed
+    anyway.
+  bad_example_source: authored, grounded in "The reproduction test passes on first run" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/testing-principles.styleguide.yaml#/anti_patterns/3
+  source_title: The Literal-Scan Trap
+  pack: testing
+  owner: styleguide:testing-principles
+  id: the-literal-scan-trap
+  merged_into: null
+  merge_reason: null
+  title: The Literal-Scan Trap
+  description: Pinning a test to the literal text of production code — function names, class names, module paths, docstring
+    wording — couples the test to implementation shape, not behavior. Every cleanup or rename forces a re-pin, teaching contributors
+    that tests are friction to work around. A literal-symbol scan that has been re-pinned twice on shape-only changes is retired
+    with proof that integration paths still cover the behavior; a line-count ceiling on a single file is replaced by a project-wide
+    metric that does not gate on one file's momentary size.
+  severity: severe
+  severity_grounding: '"couples the test to implementation shape, not behavior. Every cleanup or rename forces a re-pin":
+    false alarms defeat the test as a safety net -> severe'
+  bad_example: "# Asserts a specific class name appears verbatim in the source file.\n# Must be re-pinned every time the class\
+    \ is renamed or the file is reorganised —\n# even when no behavior changed. Two re-pins = one deletion waiting to happen.\n\
+    def test_domain_object_present():\n    src = Path(\"src/myproject/orders/domain.py\").read_text()\n    assert \"class\
+    \ Order\" in src  # shape pin, not a behavioral contract\n\n# LOC gate: fails for the contributor who added a docstring;\n\
+    # passes for the one who doubled a neighboring file not under the gate.\ndef test_orders_module_not_too_large():\n   \
+    \ lines = Path(\"src/myproject/cli/orders.py\").read_text().splitlines()\n    assert len(lines) <= 500, f\"orders.py too\
+    \ large: {len(lines)} lines\""
+  bad_example_source: bad_example
+  good_example: "# Behavioral contract through the public surface — survives any internal reorganisation.\ndef test_order_rejects_empty_customer_id():\n\
+    \    with pytest.raises(ValueError, match=\"customer_id\"):\n        Order(customer_id=\"\", total_cents=1200)\n\n# Size\
+    \ metric delegated to Sonar / ruff; pytest asserts the behavioral contract only.\ndef test_orders_command_lists_all_orders(runner,\
+    \ tmp_store):\n    result = runner.invoke(app, [\"orders\", \"list\", \"--store\", tmp_store])\n    assert result.exit_code\
+    \ == 0"
+  operator_question: null
+- source: procedures/disciplined-defect-diagnosis.procedure.yaml#/anti_patterns/3
+  source_title: Wrong-failure reproduction
+  pack: testing
+  owner: procedure:disciplined-defect-diagnosis
+  id: wrong-failure-reproduction
+  merged_into: null
+  merge_reason: null
+  title: Wrong-failure reproduction
+  description: A loop that fails for a nearby setup error or different behavior validates the wrong fix.
+  severity: breaking
+  severity_grounding: '"validates the wrong fix": a wrong result -> breaking'
+  bad_example: The reproduction fails with a missing-fixture error, not with the reported rounding bug, and the rounding fix
+    is declared verified when it goes green.
+  bad_example_source: authored, grounded in "A loop that fails for a nearby setup error or different behavior" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/publication-authority.styleguide.yaml#/anti_patterns/0
+  source_title: Aspirational documentation ahead of the code
+  pack: writing
+  owner: styleguide:publication-authority
+  id: aspirational-documentation-ahead-of-the-code
+  merged_into: null
+  merge_reason: null
+  title: Aspirational documentation ahead of the code
+  description: Documenting intended-but-unshipped behaviour makes the docs assert something the code does not do. The reader
+    trusts the page and is misled. Document shipped behaviour only; keep intent in the spec or an ADR.
+  severity: breaking
+  severity_grounding: '"The reader trusts the page and is misled": a wrong result -> breaking'
+  bad_example: '# In published reference, for a flag that does not exist yet:
+
+    Use `--parallel` to run work packages concurrently.'
+  bad_example_source: bad_example
+  good_example: '# The flag is still a proposal — it lives in the spec, not in reference.
+
+    # Published reference documents only the flags the CLI actually exposes.'
+  operator_question: null
+- source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/3
+  source_title: Assuming Reader Knowledge
+  pack: writing
+  owner: styleguide:kitty-glossary-writing
+  id: assuming-reader-knowledge
+  merged_into: null
+  merge_reason: null
+  title: Assuming Reader Knowledge
+  description: Using terms like API, YAML, or SHA256 without ensuring they are defined elsewhere in the glossary.
+  severity: smell
+  severity_grounding: states the practice ("Using terms like API, YAML, or SHA256 without ensuring they are defined") but
+    no outcome; proposed smell
+  bad_example: YAML file that bootstraps domain entries.
+  bad_example_source: bad_example
+  good_example: An optional YAML file that pre-loads domain glossary terms before the runtime starts extracting new ones.
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/4
+  source_title: Bare SHA citation
+  pack: writing
+  owner: styleguide:research-citation-discipline
+  id: bare-sha-citation
+  merged_into: null
+  merge_reason: null
+  title: Bare SHA citation
+  description: Citing a change by a bare commit SHA in a durable artifact. The SHA stops resolving once the branch is squashed
+    or rebased, and nothing warns the reader.
+  severity: severe
+  severity_grounding: '"The SHA stops resolving once the branch is squashed or rebased, and nothing warns the reader": the
+    citation silently fails its purpose -> severe'
+  bad_example: The field was renamed in a1b2c3d, so the old name is gone.
+  bad_example_source: bad_example
+  good_example: 'The field was renamed in PR #412 (the Order to Purchase rename). If no PR exists yet: "local commit a1b2c3d
+    (pre-rewrite, ephemeral; the Order to Purchase rename)".'
+  operator_question: null
+- source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/2
+  source_title: Buried Contradiction
+  pack: writing
+  owner: styleguide:research-citation-discipline
+  id: buried-contradiction
+  merged_into: null
+  merge_reason: null
+  title: Buried Contradiction
+  description: Presenting only the sources that support the conclusion while omitting a known contradicting source.
+  severity: severe
+  severity_grounding: '"omitting a known contradicting source": misrepresents the evidence the author holds, defeating citation
+    discipline -> severe'
+  bad_example: Benchmarks show approach A is faster.
+  bad_example_source: bad_example
+  good_example: Benchmark X favours approach A by 20%; benchmark Y (different workload) favours B by 15%. A wins for our read-heavy
+    profile; see the workload comparison in the source register.
+  operator_question: null
+- source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/0
+  source_title: Buzzword Soup
+  pack: writing
+  owner: styleguide:kitty-glossary-writing
+  id: buzzword-soup
+  merged_into: null
+  merge_reason: null
+  title: Buzzword Soup
+  description: Stacking technical jargon into dense, unreadable sentences.
+  severity: smell
+  severity_grounding: '"dense, unreadable sentences": a readability cost -> smell'
+  bad_example: Deterministic SHA256 computed from sorted artifact content hashes enabling identity-independent comparison
+    and parity computation.
+  bad_example_source: bad_example
+  good_example: Checksum computed from all artifact content hashes in a dossier, sorted to guarantee the same result regardless
+    of scan order. If any artifact's content changes, the parity hash changes too.
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/4
+  source_title: Calling the LLM from inside the optional publish step
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: calling-the-llm-from-inside-the-optional-publish-step
+  merged_into: null
+  merge_reason: null
+  title: Calling the LLM from inside the optional publish step
+  description: Optional publication is deterministic. The validated Markdown is the authoritative input. Merging extraction
+    and publishing removes the validation gate between them.
+  severity: severe
+  severity_grounding: '"Merging extraction and publishing removes the validation gate between them": a gate is defeated ->
+    severe'
+  bad_example: The wiki publish step calls the LLM again on the transcript and publishes that fresh output instead of the
+    Markdown the user validated.
+  bad_example_source: authored, grounded in "Merging extraction and publishing removes the validation gate between them" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/1
+  source_title: Circular Definition
+  pack: writing
+  owner: styleguide:kitty-glossary-writing
+  id: circular-definition
+  merged_into: null
+  merge_reason: null
+  title: Circular Definition
+  description: Defining a term using itself or equally opaque synonyms.
+  severity: smell
+  severity_grounding: states the practice ("Defining a term using itself or equally opaque synonyms") but no outcome; proposed
+    smell
+  bad_example: Parity baseline is a baseline for parity tracking.
+  bad_example_source: bad_example
+  good_example: A saved parity hash representing the last accepted state of a dossier. Drift is detected by comparing the
+    current parity hash against this baseline.
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/1
+  source_title: Citation Laundering
+  pack: writing
+  owner: styleguide:research-citation-discipline
+  id: citation-laundering
+  merged_into: null
+  merge_reason: null
+  title: Citation Laundering
+  description: Citing a secondary source that merely repeats a claim as if it were primary evidence, hiding the absence of
+    a verifiable origin.
+  severity: severe
+  severity_grounding: '"hiding the absence of a verifiable origin": misrepresents the evidence, defeating citation discipline
+    -> severe'
+  bad_example: Multiple blog posts confirm the library is thread-safe.
+  bad_example_source: bad_example
+  good_example: The library documents thread-safety for its read path (README §Concurrency, v3.1); the write path is unspecified,
+    and no primary source confirms it — flagged as an open uncertainty.
+  operator_question: null
+- source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/3
+  source_title: Confidence Inflation
+  pack: writing
+  owner: styleguide:research-citation-discipline
+  id: confidence-inflation
+  merged_into: null
+  merge_reason: null
+  title: Confidence Inflation
+  description: Writing a tentative, weakly-evidenced finding in the assertive tone reserved for well-established fact.
+  severity: severe
+  severity_grounding: '"Writing a tentative, weakly-evidenced finding in the assertive tone reserved for well-established
+    fact": misrepresents the evidence''s strength -> severe'
+  bad_example: Approach B is the correct choice.
+  bad_example_source: bad_example
+  good_example: On the current evidence (one spike, one secondary benchmark) approach B looks preferable; confidence is low
+    and a second measurement would raise it.
+  operator_question: null
+- source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/5
+  source_title: Drifting line citation
+  pack: writing
+  owner: styleguide:research-citation-discipline
+  id: drifting-line-citation
+  merged_into: null
+  merge_reason: null
+  title: Drifting line citation
+  description: Citing code by line numbers alone, or quoting a count with no way to reproduce it. The lines move with the
+    next edit and the count cannot be checked.
+  severity: severe
+  severity_grounding: '"The lines move with the next edit and the count cannot be checked": the citation fails its purpose
+    -> severe'
+  bad_example: The retry loop at billing/retry.py:120-140 handles 14 call sites.
+  bad_example_source: bad_example
+  good_example: billing/retry.py::RetryPolicy.next_delay handles the retry loop; 14 call sites (git grep -n "next_delay("
+    -- . ":!billing/retry.py" | wc -l, on 2026-11-21).
+  operator_question: null
+- source: styleguides/publication-authority.styleguide.yaml#/anti_patterns/1
+  source_title: Duplicated fact with no canonical home
+  pack: writing
+  owner: styleguide:publication-authority
+  id: duplicated-fact-with-no-canonical-home
+  merged_into: null
+  merge_reason: null
+  title: Duplicated fact with no canonical home
+  description: Copying the same fact into several pages creates rival sources of truth that drift. Keep one canonical page
+    and link to it from the rest.
+  severity: severe
+  severity_grounding: '"creates rival sources of truth that drift": defeats the single canonical home -> severe'
+  bad_example: 'The retention window "30 days" is stated verbatim in the tutorial, the
+
+    how-to, and two reference pages; a policy change updates only one.'
+  bad_example_source: bad_example
+  good_example: 'The retention window is stated once in docs/api/retention.md; the
+
+    tutorial and how-to link to it. One change updates every reader.'
+  operator_question: null
+- source: styleguides/ai-writing-tells.styleguide.yaml#/anti_patterns/0
+  source_title: Em-dash sprawl and buzzword fog
+  pack: writing
+  owner: styleguide:ai-writing-tells
+  id: em-dash-sprawl-and-buzzword-fog
+  merged_into: null
+  merge_reason: null
+  title: Em-dash sprawl and buzzword fog
+  description: Prose where clauses are strung on em-dashes and sentences reach for "leverage", "robust" and "seamless" reads
+    as generated however sound the content is, and a skeptical reader discounts the whole page.
+  severity: severe
+  severity_grounding: '"a skeptical reader discounts the whole page": defeats the page''s purpose -> severe'
+  bad_example: '"We leveraged a robust, seamless workflow — one that — across the quarter — underscored our velocity." Three
+    em-dashes and four buzzwords in one sentence.'
+  bad_example_source: bad_example
+  good_example: '"The release workflow ran unattended for every tag this quarter. It caught a version mismatch before publishing."
+    Two plain sentences.'
+  operator_question: null
+- source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/5
+  source_title: Empty or ownerless Action Items in discussion notes
+  pack: writing
+  owner: styleguide:meeting-minutes-format
+  id: empty-or-ownerless-action-items-in-discussion-notes
+  merged_into: null
+  merge_reason: null
+  title: Empty or ownerless Action Items in discussion notes
+  description: In the discussion-notes format the Action Items section is optional. Do not emit an empty table or a "no actions"
+    placeholder — omit the whole section when nothing actionable arose. Conversely, if an action IS listed it must still have
+    a named owner; optional does not mean unattributed.
+  severity: severe
+  severity_grounding: '"if an action IS listed it must still have a named owner": a mandatory rule is broken -> severe'
+  bad_example: '## Action Items
+
+
+    | Owner | Action | Deadline |
+
+    |-------|--------|----------|
+
+    | | (none this meeting) | |
+
+    | The team | follow up on hosting | |'
+  bad_example_source: bad_example
+  good_example: '(No actions arose, so the Action Items section is omitted entirely.)
+
+
+    — or, when an action did arise —
+
+
+    ## Action Items
+
+
+    | Owner | Action | Deadline |
+
+    |-------|--------|----------|
+
+    | Alex Rivera | share the cold-start numbers | |'
+  operator_question: null
+- source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/4
+  source_title: Forcing a discussion meeting into the decision table
+  pack: writing
+  owner: styleguide:meeting-minutes-format
+  id: forcing-a-discussion-meeting-into-the-decision-table
+  merged_into: null
+  merge_reason: null
+  title: Forcing a discussion meeting into the decision table
+  description: Cramming a discussion- or knowledge-sharing meeting into the five-column Minutes table, leaving most Decisions
+    and Action cells empty, produces a sparse record that reads worse than a topic summary. When the meeting was about exploring
+    topics rather than reaching decisions, select the discussion-notes format instead of half-filling the decision table.
+  severity: smell
+  severity_grounding: '"produces a sparse record that reads worse than a topic summary": a readability cost -> smell'
+  bad_example: '| # | Agenda Item | Notes | Decisions | Presenter |
+
+    | 1 | Container overview | scales to zero | | Alex |
+
+    | 2 | Hosting tiers | discussed options | | Jordan |
+
+    — Wrong: a discussion recap squeezed into the decision table with empty Decisions.'
+  bad_example_source: bad_example
+  good_example: '### Managed container overview
+
+    - Apps run on a managed container service — no VM upkeep
+
+    - Services scale to zero when idle, so idle tools cost nothing
+
+    - Cold-start latency is the main trade-off of scale-to-zero'
+  operator_question: null
+- source: styleguides/docs-freshness-sla.styleguide.yaml#/anti_patterns/0
+  source_title: Freshness date bumped without re-verifying content
+  pack: writing
+  owner: styleguide:docs-freshness-sla
+  id: freshness-date-bumped-without-re-verifying-content
+  merged_into: null
+  merge_reason: null
+  title: Freshness date bumped without re-verifying content
+  description: Touching `updated` for a cosmetic edit resets the staleness clock without anyone having checked the page against
+    current behaviour, defeating the whole SLA. Bump the date only when the content was actually verified.
+  severity: severe
+  severity_grounding: '"defeating the whole SLA": the guidance''s purpose is defeated -> severe'
+  bad_example: 'A find-and-replace across 200 pages bumps every `updated` to today; the
+
+    staleness sweep now reports a fully-fresh corpus that nobody verified.'
+  bad_example_source: bad_example
+  good_example: 'Only the pages whose content was re-checked against current behaviour get
+
+    a bumped `updated`; the rest keep their real date and stay eligible to be
+
+    flagged.'
+  operator_question: null
+- source: styleguides/docs-freshness-sla.styleguide.yaml#/anti_patterns/1
+  source_title: Hand-patching a generated page to look current
+  pack: writing
+  owner: styleguide:docs-freshness-sla
+  id: hand-patching-a-generated-page-to-look-current
+  merged_into: null
+  merge_reason: null
+  title: Hand-patching a generated page to look current
+  description: Editing generated output by hand to fix a drifted value makes the page diverge from its source and defeats
+    the regeneration gate. Fix the source and regenerate.
+  severity: severe
+  severity_grounding: '"defeats the regeneration gate": a gate is defeated -> severe'
+  bad_example: 'Hand-editing a signature in Sphinx-generated `docs/api/` so it matches the
+
+    code, instead of re-running autodoc.'
+  bad_example_source: bad_example
+  good_example: 'Update the annotated source and re-run the generator; the freshness gate
+
+    then confirms the committed output matches regeneration.'
+  operator_question: null
+- source: styleguides/writing/kitty-glossary-writing.styleguide.yaml#/anti_patterns/2
+  source_title: Implementation Leaking Into Definition
+  pack: writing
+  owner: styleguide:kitty-glossary-writing
+  id: implementation-leaking-into-definition
+  merged_into: null
+  merge_reason: null
+  title: Implementation Leaking Into Definition
+  description: Including code-level details (class names, method signatures, file paths) in the definition body rather than
+    in metadata fields.
+  severity: smell
+  severity_grounding: states the practice ("Including code-level details (class names, method signatures, file paths) in the
+    definition body") but no outcome; proposed smell
+  bad_example: ArtifactClassEnum with six values defined in models.py.
+  bad_example_source: bad_example
+  good_example: 'Classification of an artifact''s role in the mission lifecycle. Six values: input, workflow, output, evidence,
+    policy, runtime.'
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: styleguides/plain-language.styleguide.yaml#/anti_patterns/0
+  source_title: Jargon aimed at the wrong audience
+  pack: writing
+  owner: styleguide:plain-language
+  id: jargon-aimed-at-the-wrong-audience
+  merged_into: null
+  merge_reason: 'both: vocabulary the named audience does not share — "unglossed domain jargon in a page written for beginners
+    locks out exactly the reader" / "Module names, gate names, error codes and lane mechanics in the executive summary lose
+    the readers it is written for"'
+  title: Jargon aimed at the wrong audience
+  description: Using unglossed domain jargon in a page written for beginners locks out exactly the reader the page exists
+    to serve. Match vocabulary to the named audience; gloss or link the first occurrence.
+  severity: severe
+  severity_grounding: '"locks out exactly the reader the page exists to serve": defeats the page''s purpose -> severe'
+  bad_example: '# In a first-run tutorial:
+
+    Reduce the DRG over the activation set, then materialize the snapshot from
+
+    the append-only event log before you emit the transition.'
+  bad_example_source: bad_example
+  good_example: '# In a first-run tutorial:
+
+    Run `spec-kitty agent tasks status` to see where each work package is. (Under the
+
+    hood this reads an event log; you do not need to know the details yet.)'
+  operator_question: null
+- source: styleguides/executive-debrief.styleguide.yaml#/anti_patterns/2
+  source_title: Maintainer vocabulary in the summary
+  pack: internal
+  owner: styleguide:executive-debrief
+  home_pack: writing
+  id: jargon-aimed-at-the-wrong-audience
+  merged_into: writing::anti_pattern:jargon-aimed-at-the-wrong-audience
+  merge_reason: 'both: vocabulary the named audience does not share — "unglossed domain jargon in a page written for beginners
+    locks out exactly the reader" / "Module names, gate names, error codes and lane mechanics in the executive summary lose
+    the readers it is written for"'
+  operator_question: null
+- source: styleguides/docs-accessibility.styleguide.yaml#/anti_patterns/1
+  source_title: Meaning carried only by colour or only by a diagram
+  pack: writing
+  owner: styleguide:docs-accessibility
+  id: meaning-carried-only-by-colour-or-only-by-a-diagram
+  merged_into: null
+  merge_reason: null
+  title: Meaning carried only by colour or only by a diagram
+  description: Encoding status purely in colour, or stating a relationship only inside a diagram, excludes colour-blind readers
+    and anyone who cannot see the render. Add a text label and restate the diagram's facts in prose.
+  severity: severe
+  severity_grounding: '"excludes colour-blind readers and anyone who cannot see the render": defeats the page for those readers
+    -> severe'
+  bad_example: 'Lanes shown in red are blocked.   <!-- colour is the only signal -->
+
+    (relationship shown only in the Mermaid graph, never in the text)'
+  bad_example_source: bad_example
+  good_example: 'Blocked lanes are marked **blocked** and shown in red.
+
+    As the diagram shows, WP03 is blocked on WP01 — WP03 cannot be claimed
+
+    until WP01 is approved (this dependency is also stated here in prose).'
+  operator_question: null
+- source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/2
+  source_title: Missing or wrong section order
+  pack: writing
+  owner: styleguide:meeting-minutes-format
+  id: missing-or-wrong-section-order
+  merged_into: null
+  merge_reason: null
+  title: Missing or wrong section order
+  description: 'Decision minutes: omitting a section or changing the order violates the format contract and makes the chat
+    response harder to scan. When optionally published, the wrong order also breaks wiki task roll-up. Discussion notes have
+    their own fixed order — Attendance, Topics Discussed, then an OPTIONAL Action Items section — where omitting Action Items
+    is correct when nothing actionable arose (it is not a missing section). Reordering or renaming the mandatory sections
+    is still a violation in either format.'
+  severity: severe
+  severity_grounding: '"violates the format contract ... the wrong order also breaks wiki task roll-up": a contract and a
+    downstream consumer break -> severe'
+  bad_example: 'Decision minutes — Sections: Action Items / Attendance / Minutes
+
+    Discussion notes — Sections: Topics Discussed / Attendance'
+  bad_example_source: bad_example
+  good_example: 'Decision minutes — Sections: Attendance / Minutes / Action Items
+
+    Discussion notes — Sections: Attendance / Topics Discussed [/ Action Items if any]'
+  operator_question: null
+- source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/3
+  source_title: Narrating existing state as a decision
+  pack: writing
+  owner: styleguide:meeting-minutes-format
+  id: narrating-existing-state-as-a-decision
+  merged_into: null
+  merge_reason: null
+  title: Narrating existing state as a decision
+  description: Populating the Decisions column with facts about how things already work, or plans already in motion, as if
+    they were decided in this meeting. A decision is something the group resolved or agreed upon during the meeting itself.
+    Pre-existing policy, current architecture, and informational context belong in the Notes column — not Decisions. Knowledge-sharing
+    and demo sessions will typically have empty Decisions cells for most or all agenda items; that is correct and expected.
+  severity: severe
+  severity_grounding: states the practice ("Populating the Decisions column with facts about how things already work ... as
+    if they were decided in this meeting") but no explicit outcome; proposed severe (the record misstates what was decided)
+  bad_example: 'Agenda item: "managed container overview" (presenter walking through existing setup)
+
+    Decisions: "Managed containers chosen as the hosting platform for idle services"
+
+    — Wrong: this was not decided in the meeting; it is existing infrastructure being explained.
+
+
+    Agenda item: "Infrastructure as code" (presenter explaining current practice)
+
+    Decisions: "Terraform is the IaC standard; manual infrastructure deployment is not used"
+
+    — Wrong: this is current practice being documented, not a decision reached today.'
+  bad_example_source: bad_example
+  good_example: 'Agenda item: "managed container overview" (presenter walking through existing setup)
+
+    Decisions: (empty)
+
+    Notes: "Apps hosted on a managed container service / Scales to zero when idle — no cost when unused"
+
+
+    Agenda item: "App hosting tiers" (discussion with directional outcome)
+
+    Decisions: "Template repositories + shared CI library identified as the integration mechanism — tiers and governance to
+    be defined with Priya Shah, Morgan Blake, and Chris Nguyen"'
+  operator_question: 'severity: smell or severe? (proposed severe; the text states the practice, no explicit outcome)'
+- source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/2
+  source_title: One-Size-Fits-None Document
+  pack: writing
+  owner: styleguide:professional-communications
+  id: one-size-fits-none-document
+  merged_into: null
+  merge_reason: null
+  title: One-Size-Fits-None Document
+  description: Trying to serve an executive summary and a deep technical audience in the same document without structural
+    separation.
+  severity: smell
+  severity_grounding: states the practice ("Trying to serve an executive summary and a deep technical audience in the same
+    document without structural separation") but no outcome; proposed smell
+  bad_example: A single flat document mixing business-impact framing and implementation-level detail throughout.
+  bad_example_source: bad_example
+  good_example: An executive-summary section up top, with technical detail in clearly separated sections or a linked companion
+    document.
+  operator_question: 'severity: smell or severe? (proposed smell; the text states the practice, no outcome)'
+- source: styleguides/plain-language.styleguide.yaml#/anti_patterns/1
+  source_title: Passive, hedged, filler-laden instruction
+  pack: writing
+  owner: styleguide:plain-language
+  id: passive-hedged-filler-laden-instruction
+  merged_into: null
+  merge_reason: null
+  title: Passive, hedged, filler-laden instruction
+  description: Passive voice plus hedging plus filler turns a one-line instruction into a paragraph that hides who does what.
+    Rewrite in the active voice, drop the hedges, and address the reader directly.
+  severity: smell
+  severity_grounding: '"turns a one-line instruction into a paragraph that hides who does what": a readability cost -> smell'
+  bad_example: 'It should be noted that, in order to proceed, the configuration file will
+
+    need to be simply edited so that the value can be updated appropriately.'
+  bad_example_source: bad_example
+  good_example: 'Edit `config.yaml` and set `timeout: 30`.'
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/3
+  source_title: Publishing without the validated Markdown in this chat
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: publishing-without-the-validated-markdown-in-this-chat
+  merged_into: null
+  merge_reason: null
+  title: Publishing without the validated Markdown in this chat
+  description: Optional wiki publishing reuses Markdown the user has already seen. If this chat does not hold that Markdown,
+    ask them to paste it. Do not silently re-extract. Providing a transcript instead starts a new minutes run, not a shortcut
+    to publish.
+  severity: severe
+  severity_grounding: '"Do not silently re-extract": publishing unvalidated output defeats the validation gate -> severe'
+  bad_example: Asked to publish, the agent finds no validated Markdown in this chat, silently re-runs extraction on the transcript
+    and publishes the new output.
+  bad_example_source: authored, grounded in "Do not silently re-extract" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/divio-type-discipline.styleguide.yaml#/anti_patterns/1
+  source_title: Reference page carrying narrative rationale
+  pack: writing
+  owner: styleguide:divio-type-discipline
+  id: reference-page-carrying-narrative-rationale
+  merged_into: null
+  merge_reason: null
+  title: Reference page carrying narrative rationale
+  description: Reference must be scannable and neutral. Folding the "why" into a reference entry bloats it and buries the
+    fact the reader came to look up. Move rationale to an explanation page and link to it.
+  severity: smell
+  severity_grounding: '"bloats it and buries the fact the reader came to look up": a readability cost -> smell'
+  bad_example: '### `--force`
+
+    Forces the transition. We added this in 2026 after a long debate about
+
+    whether terminal lanes should ever be re-openable; the team decided...'
+  bad_example_source: bad_example
+  good_example: '### `--force`
+
+    Overrides the terminal-lane guard, permitting a transition out of `done`
+
+    or `canceled`. See Explanation: Terminal lane semantics for the rationale.'
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/0
+  source_title: Rendering without selecting a format
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: rendering-without-selecting-a-format
+  merged_into: null
+  merge_reason: null
+  title: Rendering without selecting a format
+  description: Defaulting to decision minutes (or discussion notes) without asking. The format materially changes the structure
+    and what counts as complete. Ask the user which format up front; a transcript-based suggestion is allowed, but the user
+    chooses. A discussion meeting rendered as a decision table (mostly empty Decisions and Action cells) is a format-selection
+    failure, not a content failure.
+  severity: severe
+  severity_grounding: '"The format materially changes the structure and what counts as complete": the record can be incomplete
+    -> severe'
+  bad_example: Given a knowledge-sharing call's transcript, the agent renders decision minutes without asking, leaving most
+    Decisions and Action cells empty.
+  bad_example_source: authored, grounded in "Defaulting to decision minutes (or discussion notes) without asking" (decision
+    01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/5
+  source_title: Requiring an API key for an already-running chat agent
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: requiring-an-api-key-for-an-already-running-chat-agent
+  merged_into: null
+  merge_reason: null
+  title: Requiring an API key for an already-running chat agent
+  description: The chat agent already in session performs extraction. Do not block chat-only delivery on an extra provider
+    API key or wiki publish credentials.
+  severity: severe
+  severity_grounding: '"Do not block chat-only delivery on an extra provider API key": delivery is blocked for no reason ->
+    severe'
+  bad_example: The agent refuses to return the minutes in chat until an LLM provider API key and wiki credentials are configured.
+  bad_example_source: authored, grounded in "Do not block chat-only delivery on an extra provider API key or wiki publish
+    credentials" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/1
+  source_title: Returning final minutes while attribution gaps remain
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: returning-final-minutes-while-attribution-gaps-remain
+  merged_into: null
+  merge_reason: null
+  title: Returning final minutes while attribution gaps remain
+  description: Unowned action items cannot be followed up. If validation finds a gap, ask in the same chat and wait for names
+    or removal confirmation. Do not invent owners, do not return the final Markdown, and do not hand off for publishing until
+    the gate passes.
+  severity: severe
+  severity_grounding: '"Unowned action items cannot be followed up ... do not return the final Markdown ... until the gate
+    passes": a gate is defeated -> severe'
+  bad_example: Validation flags an action owned by "TBD"; the agent fills in a name itself and returns the final minutes.
+  bad_example_source: authored, grounded in "Do not invent owners, do not return the final Markdown" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/common-docs.styleguide.yaml#/anti_patterns/0
+  source_title: Second documentation root
+  pack: writing
+  owner: styleguide:common-docs
+  id: second-documentation-root
+  merged_into: null
+  merge_reason: null
+  title: Second documentation root
+  description: A second top-level documentation root or a per-version shadow tree re-creates the split-brain the Common Docs
+    root exists to cure.
+  severity: severe
+  severity_grounding: '"re-creates the split-brain the Common Docs root exists to cure": defeats the guidance''s purpose ->
+    severe'
+  bad_example: 'architecture/3.x/...        # one root
+
+    docs/architecture/3x/...    # shadow duplicate of the same content'
+  bad_example_source: bad_example
+  good_example: 'docs/architecture/...       # single living design, unversioned
+
+    docs/adr/...                # immutable decision history only'
+  operator_question: null
+- source: styleguides/common-docs.styleguide.yaml#/anti_patterns/1
+  source_title: Sidecar metadata SSOT
+  pack: writing
+  owner: styleguide:common-docs
+  id: sidecar-metadata-ssot
+  merged_into: null
+  merge_reason: null
+  title: Sidecar metadata SSOT
+  description: Treating a sidecar inventory as the metadata source of truth forces authors to keep a remembered rollup in
+    sync and leaves the published site reading a different store than the one being edited.
+  severity: breaking
+  severity_grounding: '"leaves the published site reading a different store than the one being edited": the published content
+    is wrong -> breaking'
+  bad_example: '# A hand-maintained page-inventory.yaml treated as SSOT;
+
+    # frontmatter generated from it.'
+  bad_example_source: bad_example
+  good_example: '# Frontmatter is SSOT. If the project keeps page-inventory.yaml,
+
+    # it is generated from frontmatter and checked for drift.'
+  operator_question: null
+- source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/1
+  source_title: Silent Fact Drift
+  pack: writing
+  owner: styleguide:professional-communications
+  id: silent-fact-drift
+  merged_into: null
+  merge_reason: null
+  title: Silent Fact Drift
+  description: Editing for tone or clarity in a way that quietly changes what was actually claimed.
+  severity: breaking
+  severity_grounding: '"quietly changes what was actually claimed": a wrong result -> breaking'
+  bad_example: Rewriting 'the migration reduced latency by roughly 20%' to 'the migration eliminated latency issues' during
+    a tone pass.
+  bad_example_source: bad_example
+  good_example: Keeping the original claim's precision ('roughly 20%') while only adjusting sentence structure for readability.
+  operator_question: null
+- source: styleguides/docs-accessibility.styleguide.yaml#/anti_patterns/0
+  source_title: Skipped or size-driven heading levels
+  pack: writing
+  owner: styleguide:docs-accessibility
+  id: skipped-or-size-driven-heading-levels
+  merged_into: null
+  merge_reason: null
+  title: Skipped or size-driven heading levels
+  description: Jumping heading levels, or picking a level for its font size, destroys the document outline that screen-reader
+    users navigate by. Descend one level at a time and use headings only for structure.
+  severity: severe
+  severity_grounding: '"destroys the document outline that screen-reader users navigate by": defeats the page for those readers
+    -> severe'
+  bad_example: '# Configuration
+
+    #### A small note        <!-- jumped H1 -> H4 for visual smallness -->'
+  bad_example_source: bad_example
+  good_example: '# Configuration
+
+    ## Backends
+
+    ### SQLite'
+  operator_question: null
+- source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/0
+  source_title: Transcript-level detail in notes
+  pack: writing
+  owner: styleguide:meeting-minutes-format
+  id: transcript-level-detail-in-notes
+  merged_into: null
+  merge_reason: null
+  title: Transcript-level detail in notes
+  description: Copying discussion play-by-play into the notes column. Minutes are a summary, not a transcript. If the full
+    discussion is needed, link to the recording — do not reproduce it as notes.
+  severity: smell
+  severity_grounding: '"Minutes are a summary, not a transcript": a readability cost -> smell'
+  bad_example: 'Notes: "First Jordan raised the question of whether to use PAT or OAuth. Alex said they preferred PAT because
+    it is simpler. Jordan agreed but noted that OAuth might be needed later. After some back and forth they decided to go
+    with PAT for now."'
+  bad_example_source: bad_example
+  good_example: 'Notes: "API-first approach chosen / PAT auth preferred for V1 — OAuth deferred"'
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/2
+  source_title: Treating JSON or wiki publish as mandatory delivery
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: treating-json-or-wiki-publish-as-mandatory-delivery
+  merged_into: null
+  merge_reason: null
+  title: Treating JSON or wiki publish as mandatory delivery
+  description: Canonical delivery is one Markdown response in the originating chat. Saving `.minutes.json` / `.wiki.txt` or
+    publishing to a wiki is optional and user-requested only. Never block chat delivery on publish credentials.
+  severity: severe
+  severity_grounding: '"Never block chat delivery on publish credentials": delivery is blocked for no reason -> severe'
+  bad_example: The run stops with "wiki credentials missing" instead of returning the Markdown minutes in the chat.
+  bad_example_source: authored, grounded in "Never block chat delivery on publish credentials" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: procedures/meeting-minutes-pipeline.procedure.yaml#/anti_patterns/6
+  source_title: Treating truncation silently
+  pack: writing
+  owner: procedure:meeting-minutes-pipeline
+  id: treating-truncation-silently
+  merged_into: null
+  merge_reason: null
+  title: Treating truncation silently
+  description: If the transcript is truncated at 80,000 characters, the tail of the meeting is dropped before extraction.
+    This must be surfaced to the user, not silently accepted. Long meetings may require the user to split the transcript or
+    run the pipeline in sections.
+  severity: breaking
+  severity_grounding: '"the tail of the meeting is dropped before extraction. This must be surfaced to the user, not silently
+    accepted": the minutes silently miss content, a wrong result -> breaking'
+  bad_example: A two-hour transcript is cut at 80,000 characters, and the minutes are returned without saying that the last
+    40 minutes were never read.
+  bad_example_source: authored, grounded in "the tail of the meeting is dropped before extraction" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  operator_question: null
+- source: styleguides/divio-type-discipline.styleguide.yaml#/anti_patterns/0
+  source_title: Tutorial that branches on reader choices
+  pack: writing
+  owner: styleguide:divio-type-discipline
+  id: tutorial-that-branches-on-reader-choices
+  merged_into: null
+  merge_reason: null
+  title: Tutorial that branches on reader choices
+  description: A tutorial that says "if you prefer X do this, otherwise do that" forces a first-time learner to make a decision
+    they lack the context to make. The guaranteed-path contract of a tutorial is broken the moment it branches.
+  severity: severe
+  severity_grounding: '"The guaranteed-path contract of a tutorial is broken the moment it branches": defeats the guidance''s
+    purpose -> severe'
+  bad_example: '## Step 3
+
+    If you use Postgres, run the migration with `--pg`; if you use SQLite,
+
+    skip the flag; if you are on Windows you may need to quote the path...'
+  bad_example_source: bad_example
+  good_example: "## Step 3\nRun the migration:\n    spec-kitty migrate\n(This tutorial uses the default SQLite backend. To\
+    \ target Postgres, see\nthe how-to: Configure a Postgres backend.)"
+  operator_question: null
+- source: styleguides/meeting-minutes-format.styleguide.yaml#/anti_patterns/1
+  source_title: Unattributed action items
+  pack: writing
+  owner: styleguide:meeting-minutes-format
+  id: unattributed-action-items
+  merged_into: null
+  merge_reason: null
+  title: Unattributed action items
+  description: Recording an action without a named owner. "The team", "TBD", "everyone", or an empty owner are all violations
+    of the ACTION_ITEM_ATTRIBUTION directive. The pipeline will refuse to return final minutes or publish while unattributed
+    actions remain.
+  severity: severe
+  severity_grounding: '"all violations of the ACTION_ITEM_ATTRIBUTION directive": a mandatory rule is broken -> severe'
+  bad_example: 'Actions: "The team — document PAT setup"
+
+    Actions: "TBD — review OAuth options"'
+  bad_example_source: bad_example
+  good_example: 'Actions: "Alex Rivera — document PAT setup guide (by Friday)"'
+  operator_question: null
+- source: styleguides/professional-communications.styleguide.yaml#/anti_patterns/0
+  source_title: Undefined Audience
+  pack: writing
+  owner: styleguide:professional-communications
+  id: undefined-audience
+  merged_into: null
+  merge_reason: null
+  title: Undefined Audience
+  description: Drafting content without a named target persona, producing prose that over-explains to experts and under-explains
+    to newcomers simultaneously.
+  severity: smell
+  severity_grounding: '"over-explains to experts and under-explains to newcomers simultaneously": a cost -> smell'
+  bad_example: This document describes the new workflow.
+  bad_example_source: bad_example
+  good_example: This document describes the new workflow for engineering leads evaluating whether to adopt it for their team.
+  operator_question: null
+- source: styleguides/research-citation-discipline.styleguide.yaml#/anti_patterns/0
+  source_title: Unsourced Assertion
+  pack: writing
+  owner: styleguide:research-citation-discipline
+  id: unsourced-assertion
+  merged_into: null
+  merge_reason: 'both: a claim with no traceable source — "Stating a fact with no traceable source" / "A striking figure with
+    no source"'
+  title: Unsourced Assertion
+  description: Stating a fact with no traceable source, leaving the reader unable to verify it or judge its strength.
+  severity: severe
+  severity_grounding: '"leaving the reader unable to verify it or judge its strength": defeats citation discipline -> severe'
+  bad_example: The framework handles ten thousand requests per second.
+  bad_example_source: bad_example
+  good_example: The framework sustained ~10k req/s in the maintainers' published benchmark (docs/benchmarks.md, v2.4, retrieved
+    2026-07-15); we did not reproduce it locally, so treat it as a secondary claim.
+  operator_question: null
+- source: styleguides/report-writing.styleguide.yaml#/anti_patterns/1
+  source_title: The unattributed hero number
+  pack: internal
+  owner: styleguide:report-writing
+  home_pack: writing
+  id: unsourced-assertion
+  merged_into: writing::anti_pattern:unsourced-assertion
+  merge_reason: 'both: a claim with no traceable source — "Stating a fact with no traceable source" / "A striking figure with
+    no source"'
+  operator_question: null

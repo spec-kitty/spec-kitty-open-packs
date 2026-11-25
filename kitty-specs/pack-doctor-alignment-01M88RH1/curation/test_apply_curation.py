@@ -322,6 +322,12 @@ def test_refuses_a_merge_without_its_reason(repo, capsys):
     refused(repo, paths, mm, capsys, "merge_reason is empty")
 
 
+def test_a_quoted_source_word_default_is_not_a_default_grounding():
+    assert not ac.says_default('"lets a wrong fixture or a drifted default state present itself": breaking')
+    assert ac.says_default('no signal, so the default severity')
+    assert ac.says_default('Default')
+
+
 def test_refuses_a_default_grounding(repo, capsys):
     paths, mm = ledgers(repo)
     _edit_row(paths[1], 1, severity_grounding="default")
