@@ -58,7 +58,7 @@ A pack author reads a styleguide or procedure. Its anti-patterns are no longer a
 
 **Acceptance Scenarios**:
 
-1. **Given** a styleguide that carried N inline entries, **When** the curation lands, **Then** the styleguide has no `anti_patterns` key, its pack holds N files (fewer only where a same-practice duplicate merged), and its graph has one `rejects` edge per file from the styleguide.
+1. **Given** a styleguide that carried N inline entries, **When** the curation lands, **Then** the styleguide has no `anti_patterns` key, each of its N entries has a file in its home pack (decision Q1: the owner's pack, or the most foundational upstream pack for an entry merged by meaning across packs), and its graph has one `rejects` edge per entry from the styleguide, pack-qualified when the file lives in another pack.
 2. **Given** a file-less `anti_pattern` node, **When** the curation lands, **Then** the same pack holds its file and the existing `rejects` edge resolves.
 3. **Given** any anti-pattern file, **Then** its `severity` and `bad_example` trace to a grounding line in the curation ledger, and neither is a default.
 
@@ -102,7 +102,7 @@ The invalid fixtures `case-variant-readme` and `malformed-pack-version` expect `
 - **The release track at a main pin.** A lock with no `release_tag` is never replaced by that track (pin policy). The track must stay green or skip, not fail on the empty release fields.
 - **`remediate` and the working directory.** A pack that holds the working directory is a usage fault (exit 2). Run it from the repository root.
 - **The report file.** A `--report` file inside a checked pack is a usage fault (exit 2). Write it outside `packs/` and `tests/fixtures/`.
-- **Duplicates across files of one pack.** The 3 exact `internal` duplicates and the near-pairs merge into one file only when their text names the same practice. Each former owner still gets its own `rejects` edge.
+- **Duplicates and near-pairs, within a pack or across packs.** Entries merge into one file only when their texts make the same claim (decision Q1, the merge map). The 3 exact `internal` duplicates are the within-pack case. A merge whose meanings may differ is an operator question. Each former owner still gets its own `rejects` edge.
 - **An id collision.** A derived id that collides with an existing node of another kind, or exceeds 64 characters, is shortened deterministically and recorded in the ledger.
 
 ## Requirements *(mandatory)*
@@ -117,7 +117,7 @@ The invalid fixtures `case-variant-readme` and `malformed-pack-version` expect `
 | FR-004 | Invoke `validate` with `--round-trip --full` | As a maintainer, I want `charter_pack_check.py`'s command builder to emit `validate --pack … --round-trip --full`, so that the gate runs `REFERENCES` and the flat form (exit 2) is never sent (#345 item 4, #348). | High | Open | [build] | no — the flat form exits 2 against the pinned jar |
 | FR-005 | Parse the `PackDoctorReport` | As a maintainer, I want the gate to accept exactly the schema's top-level keys (`tool`, `inputs`, `checks`, `packs`, `skipped`, `problems`, `summary`), to require `REFERENCES` among `checks`, and to fail closed when `summary.exit_code` disagrees with the process exit code, so that the report is read by its contract (#349, #345 item 6). | High | Open | [build] | no — today's `REPORT_KEYS` fails closed on `tool` |
 | FR-006 | Retire the rc.3 crash branch | As a maintainer, I want `CRASH_ISSUE`, `FAILED`, `CRASH_SIGN`, the `failed` judge branch and the `failed` expectation removed, so that a pack's content is never treated as exit 2 (#345 item 5). | Medium | Open | [build] | no — the `malformed-pack-version` fixture must now expect `pack_version_invalid` |
-| FR-007 | Anti-patterns as files | As a pack author, I want every inline `anti_patterns` entry moved to `anti_patterns/<id>.anti-pattern.yaml` in its owner's pack, with `schema_version`, `id` (the stem), `title`, `description`, `severity` and `bad_example`, and `good_example` where the author stated one, so that 15 packs become readable (#350). | High | Open | [build] | no — 61 `artifact_schema_error` at baseline |
+| FR-007 | Anti-patterns as files | As a pack author, I want every inline `anti_patterns` entry moved to `anti_patterns/<id>.anti-pattern.yaml` in its home pack (decision Q1: its owner's pack, or, for an entry merged by meaning across packs, the most foundational upstream pack), with `schema_version`, `id` (the stem), `title`, `description`, `severity` and `bad_example`, and `good_example` where the author stated one, so that 15 packs become readable (#350). | High | Open | [build] | no — 61 `artifact_schema_error` at baseline |
 | FR-008 | `rejects` edges from former owners | As a pack author, I want a graph node and a `rejects` edge from each former owner to each file (pack-qualified across packs, with the pack in `depends_on`), so that guidance still rejects what it named inline (#350 step 5). | High | Open | [build] | no — `REFERENCES` must resolve every new edge |
 | FR-009 | Files for the file-less nodes | As a pack author, I want each of the 15 file-less `anti_pattern` nodes to get its file in the same pack, grounded in its `rejects` edge's `reason` and its rejecting tactic, so that no `drg_schema_error` remains (#350 step 4). | High | Open | [build] | no — 15 `drg_schema_error` at baseline |
 | FR-010 | A curation ledger | As a reviewer, I want one ledger row per entry: its source file and index, its target id, a merge note if any, its severity with a one-line grounding, and the bad-example source, so that every judgement call is reviewable and none is defaulted (dispatcher brief). | High | Open | [build] | no — each file must have a ledger row; a check enforces it |
@@ -170,7 +170,8 @@ The invalid fixtures `case-variant-readme` and `malformed-pack-version` expect `
 
 - **Anti-pattern file**: `anti_patterns/<id>.anti-pattern.yaml`, closed schema (`schema_version`, `id`, `title`, `description`, `severity` ∈ {smell, severe, breaking}, `bad_example`, optional `good_example`).
 - **`rejects` edge**: from guidance (a styleguide, procedure or tactic) to `anti_pattern:<id>`, qualified `<pack>::anti_pattern:<id>` across packs.
-- **Curation ledger**: one row per source entry and file-less node. It traces each source to its target file, a merge note, the severity with its grounding, and the bad-example source.
+- **Merge map**: one cluster per practice (decision Q1): its id, home pack, members (every source entry in it), the shared claim that justifies the merge, and any `depends_on` it adds.
+- **Curation ledger**: one row per source entry and file-less node, in the ledger of the batch that owns the row's home pack. It traces each source to its target file, a merge note (`merged_into`, pack-qualified), the severity with its grounding, and the bad-example source.
 - **Charter lock**: `commit`, `release_tag`, `jar_sha256`, `pack_doctor_sha256`.
 - **PackDoctorReport**: `tool`, `inputs`, `checks`, `packs`, `skipped?`, `problems`, `summary`.
 

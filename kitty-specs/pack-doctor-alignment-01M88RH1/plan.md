@@ -11,7 +11,7 @@ Move open-packs' charter gate from pack-check (charter `service-v0.1.0-rc.3`) to
 - the jar script, the lock field, `validate … --round-trip --full`, and `PackDoctorReport` parsing;
 - the two #343 fixture expectations;
 - the 273 inline anti-pattern entries and 15 file-less nodes curated into `anti_patterns/<id>.anti-pattern.yaml` files
-  with `rejects` edges, driven by per-pack ledgers that make every severity and bad-example call reviewable;
+  with `rejects` edges, driven by a merge map (decision Q1) and per-batch ledgers, batched by home pack, that make every merge, severity and bad-example call reviewable;
 - every pack restamped with `pack-doctor remediate`;
 - retirement of the Python rules the charter now judges, keeping the house rules with their rulings.
 
@@ -52,7 +52,8 @@ kitty-specs/pack-doctor-alignment-01M88RH1/
 ├── spec.md  plan.md  research.md  data-model.md  quickstart.md  occurrence_map.yaml
 ├── curation/                 # created in WP02
 │   ├── apply_curation.py     # applies and checks the ledgers
-│   └── <pack>.ledger.yaml    # one per pack with anti-patterns
+│   ├── merge-map.yaml        # all 273 entries → clusters, home packs (WP03)
+│   └── ledger-<x>-<name>.yaml  # 00 (file-less nodes), then A-E by home pack
 └── tasks/
 ```
 
@@ -100,7 +101,7 @@ None.
 
 ### IC-02: The curation tool, ledger format, and the 15 file-less nodes
 
-- **Purpose**: a deterministic apply and check of per-pack ledgers, piloted on the 15 file-less nodes whose text is
+- **Purpose**: a deterministic apply and check of the per-batch ledgers, piloted on the 15 file-less nodes whose text is
   already grounded in `rejects` reasons and tactics. Also, the Python schema pass learns anti-pattern files (a
   constituent, not graph-only).
 - **Relevant requirements**: FR-009, FR-010, FR-017, FR-014 (the anti-pattern-model part)
@@ -163,7 +164,7 @@ None.
 
 ## Operator decisions (resolved 2026-11-25)
 
-**Open planning step (re-plan, before WP03):** Q1 changes IC-03. Re-batch WP03-WP07 by **home pack**, so each home file exists before any dependent pack's `rejects` edge. Keep each WP at about 70 entries or fewer. Update `curation/README.md` (WP02, T011) with the merge-by-meaning rule. The batches listed under IC-03 above predate Q1 and are superseded by that re-plan.
+**Re-plan for Q1 (done, commit `1af98f8`):** WP03-WP07 are batched by **home pack** (IC-03 above), so each home file exists before any dependent pack's `rejects` edge. WP02 T011 carries the merge-by-meaning rule and the merge-map contract. Open with the operator: whether NFR-005's "about 70" is waived for the home-pack batches (WP04 77, WP07 72 origin entries), and whose wording a merged file carries.
 
 **Q1, dedupe (decision `01M88RHDGQSS6R5R5ZCDCH84A2`, resolved).** Merge by meaning across packs, aiming for about 150 files.
   - Each shared anti-pattern has one home pack: the most foundational one upstream of the others, preferring a pack existing `depends_on` already reaches.
