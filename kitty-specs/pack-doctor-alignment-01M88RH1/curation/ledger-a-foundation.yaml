@@ -297,7 +297,7 @@ entries:
     outcome. The squad enriches; it never blocks.'
   severity: severe
   severity_grounding: 'charter example-pack precedent: hard-wiring-the-squad-as-a-gate.anti-pattern.yaml severity severe (the
-    practice, Bad and Good are the same; only the e.g. differs: charter "raise a StatusGateError", source "a squad report
+    practice, Bad and Good are the same; only the e.g. differs: charter "raising a StatusGateError", source "a squad report
     is attached")'
   bad_example: 'Block a status transition until squad evidence is present: raise a StatusGateError before a work package can
     be claimed.'
@@ -584,8 +584,8 @@ entries:
     assertThat(ReflectionTestUtils.getField(cart, "lines")).isEqualTo(List.of(book));
 
     // fails when `lines` becomes a Map<Sku, Line>, although cart.total() and checkout are unchanged'
-  bad_example_source: authored, grounded in "assert internal field values break during refactoring even when observable behavior
-    is unchanged" (Q3, decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
+  bad_example_source: authored, grounded in "assert … internal field values break during refactoring even when observable
+    behavior is unchanged" (Q3, decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   also_rejects:
   - foundation::anti_pattern:assert-on-mock-interactions
   also_rejected_by:
