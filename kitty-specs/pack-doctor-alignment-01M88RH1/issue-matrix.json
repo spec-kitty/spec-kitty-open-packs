@@ -37,16 +37,16 @@
       "wp": "WP01"
     },
     "#346": {
-      "evidence_ref": "<link or commit>",
+      "evidence_ref": "FR-013: pack-doctor judges preset items (WP09 measurement); the Python preset rules retire in WP10 T051",
       "fr": null,
       "nfr": null,
       "repo": null,
       "sc": null,
       "scope": null,
       "source_file": "spec.md",
-      "title": "<fill at WP-implementation time>",
-      "verdict": "unknown",
-      "wp": null
+      "title": "Preset items are judged against their pack's own closure: `preset_item_not_held`, `preset_item_undeclared`",
+      "verdict": "in-mission",
+      "wp": "WP10"
     },
     "#347": {
       "evidence_ref": "<link or commit>",
