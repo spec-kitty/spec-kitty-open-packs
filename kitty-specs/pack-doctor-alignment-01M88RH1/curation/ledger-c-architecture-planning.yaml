@@ -296,7 +296,8 @@ entries:
     to author a toolguide or document the dependency — do not treat silence as acceptance.
   severity: severe
   severity_grounding: '"do not treat silence as acceptance": a required owner decision is skipped -> severe'
-  bad_example: A new toolguide assumes a Jira API token is available, and the owner never confirms that dependency.
+  bad_example: A new tactic calls the Jira REST API to fetch ticket fields; no toolguide covers Jira, and the owner never
+    confirms that dependency.
   bad_example_source: authored, grounded in "Authoring an artifact that assumes availability of an external tool, API, or
     platform and proceeding without the owner explicitly acknowledging that dependency" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
@@ -371,8 +372,8 @@ entries:
     before concluding no overlap exists.'
   severity: severe
   severity_grounding: '"the duplicate creates governance noise and splits authority": defeats single authority -> severe'
-  bad_example: A new `REVIEW_SMALL_PRS` directive is added because no id or title matches, though `READABLE_CONSISTENT_PRS`
-    already enforces the same size limit.
+  bad_example: A project-tier `DIRECTIVE_117` ("Keep Pull Requests Small") is added because no id or title matches, though
+    the project's `DIRECTIVE_101` ("Pull Request Size Cap") already caps PR size at the same limit.
   bad_example_source: authored, grounded in "declaring two artifacts non-overlapping because their ids and titles differ"
     (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
@@ -418,7 +419,7 @@ entries:
     them as enrichments, not gates. A triage with a clean audit and a sound bucket plan is decision-grade even without either
     overlay.
   severity: smell
-  severity_grounding: '"Treat them as enrichments, not gates.": a merge or report held needlessly, a cost -> smell'
+  severity_grounding: '"Treat them as enrichments, not gates.": a report held needlessly, a cost -> smell'
   bad_example: The triage report is held for a week until the optional security overlay is done, though the audit and bucket
     plan are already sound.
   bad_example_source: authored, grounded in "Treat them as enrichments, not gates" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
@@ -452,8 +453,8 @@ entries:
   description: A hand-maintained list of child ticket numbers in an epic body drifts out of sync with the native sub-issue
     graph and is invisible to tooling that reads parent/child via the API. The graph is the source of truth.
   severity: severe
-  severity_grounding: '"drifts out of sync with the native sub-issue graph and is invisible to tooling": the record becomes
-    wrong -> severe'
+  severity_grounding: '"drifts out of sync with the native sub-issue graph and is invisible to tooling": the tracking drifts
+    from the source of truth -> severe'
   bad_example: 'Epic body: "## Children\n- [ ] <issue-a>\n- [x] <issue-b>\n- [ ] <issue-c>"'
   bad_example_source: bad_example
   good_example: 'Epic body: Purpose / Scope / Out-of-scope. Children linked as native
@@ -598,7 +599,7 @@ entries:
   severity: severe
   severity_grounding: '"Conflicting states make ownership and next action ambiguous": the state machine fails its purpose
     -> severe'
-  bad_example: An issue carries both `status:ready` and `status:blocked`, and two maintainers act on different ones.
+  bad_example: An issue carries both `ready-for-agent` and `needs-info`, and two maintainers act on different ones.
   bad_example_source: authored, grounded in "Conflicting states make ownership and next action ambiguous" (decision 01M88RHJ9HN4N8HDE97SJ6ZBAH)
   operator_question: null
 - source: procedures/domain-aware-decision-interview.procedure.yaml#/anti_patterns/0

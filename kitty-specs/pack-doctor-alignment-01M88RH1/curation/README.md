@@ -131,7 +131,8 @@ gets its own `rejects` edge to the home file, pack-qualified when the home is an
   `charter example-pack precedent: <file> severity <x>`, and say if the texts differ.
 - No signal in the text is an `operator_question`, never a guess. Each WP batches its no-signal entries to the
   dispatcher for the operator.
-- A grounding never says "default"; `--check` refuses one that does.
+- A grounding never says "default"; `--check` refuses one that does. A quoted "default" passes only when the quote is
+  verbatim in pack text or a row's source text; an authored `bad_example` does not count as source text.
 
 ### Bad example (Q3)
 

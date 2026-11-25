@@ -344,6 +344,21 @@ def test_refuses_a_made_up_default_quote_in_a_ledger(repo, capsys):
     refused(repo, paths, mm, capsys, "says 'default'")
 
 
+def test_an_authored_example_cannot_ground_a_default_quote(repo, capsys):
+    paths, mm = ledgers(repo)
+    _edit_row(paths[1], 1, bad_example="The job runs retries by default.",
+              bad_example_source='authored, grounded in "x"', severity_grounding='"runs retries by default": smell')
+    refused(repo, paths, mm, capsys, "says 'default'")
+
+
+def test_a_verbatim_example_can_ground_a_default_quote(repo, capsys):
+    paths, mm = ledgers(repo)
+    _edit_row(paths[1], 1, bad_example="The job runs retries by default.",
+              bad_example_source="bad_example", severity_grounding='"runs retries by default": smell')
+    run(repo, paths, mm, "--dry-run")
+    assert "says 'default'" not in capsys.readouterr().out
+
+
 def test_refuses_a_default_grounding(repo, capsys):
     paths, mm = ledgers(repo)
     _edit_row(paths[1], 1, severity_grounding="default")

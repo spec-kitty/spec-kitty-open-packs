@@ -439,9 +439,11 @@ def build_corpus(tree: "Tree", rows: list["Row"]) -> list[str]:
         try:
             walk(tree.load(path))
         except yaml.YAMLError:
-            continue
+            continue  # fail-safe: a skipped document only removes quotes, so the guard gets stricter
     for row in rows:
         for key in ("source_title", "title", "description", "bad_example", "good_example"):
+            if key == "bad_example" and str(row.get("bad_example_source") or "").startswith("authored"):
+                continue  # curator-written text cannot ground a quote
             if row.get(key):
                 texts.append(_norm(row.get(key)))
     return texts
