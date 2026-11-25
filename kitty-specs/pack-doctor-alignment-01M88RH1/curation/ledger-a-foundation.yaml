@@ -144,19 +144,20 @@ entries:
   bad_example_source: bad_example of each member, verbatim, labelled by language
   good_example: "// java\nrecord PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing\
     \ else\n\nfinal class PaymentLineCodec {\n    PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling\
-    \ live here */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {\n\
-    \    Payment toDomain(PaymentLine line) {\n        return new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(),\
-    \ 2),\n                PaymentStatus.fromByte(line.status()));\n    }\n\n    PaymentEntity toEntity(Payment payment) {\
-    \ /* field by field, no layout knowledge */ }\n}\n\n@Entity\nclass PaymentEntity { @Id String reference; BigDecimal amount;\
-    \ @Enumerated(EnumType.STRING) PaymentStatus status; }\n\n// rust\npub struct Account { balance: Money }          // domain\n\
-    \n#[derive(Deserialize)]\nstruct AccountRow { balance_minor: i64, currency: String } // adapter\n\nimpl TryFrom<AccountRow>\
-    \ for Account { /* validate and convert */ }"
+    \ live here */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {\
+    \                       // PaymentStatus follows the fromByte pattern above\n    Payment toDomain(PaymentLine line) {\n\
+    \        return new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(), 2),\n  \
+    \              PaymentStatus.fromByte(line.status()));\n    }\n\n    PaymentEntity toEntity(Payment payment) { /* field\
+    \ by field, no layout knowledge */ }\n}\n\n@Entity\nclass PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING)\
+    \ PaymentStatus status; }\n\n// rust\npub struct Account { balance: Money }          // domain\n\n#[derive(Deserialize)]\n\
+    struct AccountRow { balance_minor: i64, currency: String } // adapter\n\nimpl TryFrom<AccountRow> for Account { /* validate\
+    \ and convert */ }"
   title_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M)
   description_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M), from the members' shared claim
   operator_question: null
-  merge_note: 'good_example: each member''s verbatim good_example, labelled by language, except that the java comment "//
-    PaymentStatus follows the fromByte pattern above" is removed, because it points at java-conventions text that a foundation
-    file does not carry (review nit N3)'
+  merge_note: 'good_example: each member''s verbatim good_example, labelled by language. The java comment "PaymentStatus follows
+    the fromByte pattern above" points at java-conventions text a foundation file does not carry; it stays verbatim, since
+    no ruling allows an edit (review nit N3)'
 - source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
   source_title: Storage Attributes on Domain Types
   pack: rust
