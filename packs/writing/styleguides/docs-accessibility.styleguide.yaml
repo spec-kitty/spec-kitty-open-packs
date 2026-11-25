@@ -91,32 +91,6 @@ patterns:
       from highlight colour must also be present in the code or a comment, because highlighting is theme- and
       reader-dependent.
 
-anti_patterns:
-  - name: Skipped or size-driven heading levels
-    description: >
-      Jumping heading levels, or picking a level for its font size, destroys the
-      document outline that screen-reader users navigate by. Descend one level
-      at a time and use headings only for structure.
-    bad_example: |
-      # Configuration
-      #### A small note        <!-- jumped H1 -> H4 for visual smallness -->
-    good_example: |
-      # Configuration
-      ## Backends
-      ### SQLite
-  - name: Meaning carried only by colour or only by a diagram
-    description: >
-      Encoding status purely in colour, or stating a relationship only inside a
-      diagram, excludes colour-blind readers and anyone who cannot see the
-      render. Add a text label and restate the diagram's facts in prose.
-    bad_example: |
-      Lanes shown in red are blocked.   <!-- colour is the only signal -->
-      (relationship shown only in the Mermaid graph, never in the text)
-    good_example: |
-      Blocked lanes are marked **blocked** and shown in red.
-      As the diagram shows, WP03 is blocked on WP01 — WP03 cannot be claimed
-      until WP01 is approved (this dependency is also stated here in prose).
-
 tooling:
   alt-text-and-heading-check: "documentation mission validate action (asserts every non-decorative image has non-empty alt text, the heading outline descends without skips, and no link text is a bare 'click here'/URL)."
   diagram-accessibility: "the mermaid-diagramming and plantuml-diagramming toolguides (text-authored diagrams with labelled, contrasting nodes; relationships also stated in prose)."

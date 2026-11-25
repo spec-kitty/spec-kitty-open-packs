@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: freshness-date-bumped-without-re-verifying-content
+title: Freshness date bumped without re-verifying content
+description: Touching `updated` for a cosmetic edit resets the staleness clock without anyone having checked the page against
+  current behaviour, defeating the whole SLA. Bump the date only when the content was actually verified.
+severity: severe
+bad_example: |-
+  A find-and-replace across 200 pages bumps every `updated` to today; the
+  staleness sweep now reports a fully-fresh corpus that nobody verified.
+good_example: |-
+  Only the pages whose content was re-checked against current behaviour get
+  a bumped `updated`; the rest keep their real date and stay eligible to be
+  flagged.

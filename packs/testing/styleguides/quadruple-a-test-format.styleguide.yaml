@@ -89,43 +89,4 @@ patterns:
       starting state first, then (if needed) arrange further — so the phase is
       about position in intent, not a rigid line order.
 
-anti_patterns:
-  - name: Missing Assumption Check
-    description: >
-      Omitting the assumption check lets a wrong fixture or a drifted default
-      state present itself as a failure of the behaviour under test. The test
-      then either fails for the wrong reason (wasting an investigation) or, worse,
-      passes because the arranged state was never the state the behaviour needs.
-    bad_example: |
-      def test_discount_applies_to_gold_members():
-          member = make_member()          # is this actually a gold member?
-          price = pricing.quote(member)
-          assert price == Decimal("90.00")  # green even if make_member() drifts to silver
-    good_example: |
-      def test_discount_applies_to_gold_members():
-          member = make_member(tier="gold")
-          assert member.tier == "gold"      # assumption check pins the precondition
-          price = pricing.quote(member)
-          assert price == Decimal("90.00")
-
-  - name: Two Behaviours Wearing One Skeleton
-    description: >
-      Stacking a second Act and a second, unrelated Assert into one test breaks
-      the single-behaviour contract the four phases exist to express. A failure
-      no longer identifies which behaviour broke, and the assumption check can no
-      longer describe one coherent precondition.
-    bad_example: |
-      def test_order_lifecycle():
-          order = make_order()
-          order.pay()
-          assert order.status == "paid"     # behaviour 1
-          order.ship()
-          assert order.status == "shipped"  # behaviour 2 — split this out
-    good_example: |
-      def test_paying_marks_order_paid():
-          order = make_order()
-          assert order.status == "new"      # assumption check
-          order.pay()
-          assert order.status == "paid"
-
 quality_test: "Can a reader name the precondition (Arrange + Assumption check), the single trigger (Act), and the expected effect (Assert) of this test at a glance, and would a wrong fixture fail at the assumption check rather than masquerade as a behaviour failure?"

@@ -1,0 +1,8 @@
+schema_version: '1.0'
+id: delete-a-mega-file-wholesale
+title: Delete a mega-file wholesale
+description: Treating a mixed mission test file as all-scaffold and deleting it to remove the friction, dropping the genuine
+  functional and arch invariants buried in it. Split by kind and keep those; only the spent cases are retired.
+severity: severe
+bad_example: A 1,400-line mission test file is deleted as scaffolding; the two architecture invariants and the refund-rounding
+  regression test inside it go with it.

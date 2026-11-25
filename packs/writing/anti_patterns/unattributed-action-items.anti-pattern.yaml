@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: unattributed-action-items
+title: Unattributed action items
+description: Recording an action without a named owner. "The team", "TBD", "everyone", or an empty owner are all violations
+  of the ACTION_ITEM_ATTRIBUTION directive. The pipeline will refuse to return final minutes or publish while unattributed
+  actions remain.
+severity: severe
+bad_example: |-
+  Actions: "The team — document PAT setup"
+  Actions: "TBD — review OAuth options"
+good_example: 'Actions: "Alex Rivera — document PAT setup guide (by Friday)"'

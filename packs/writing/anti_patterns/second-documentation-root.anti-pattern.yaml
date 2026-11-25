@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: second-documentation-root
+title: Second documentation root
+description: A second top-level documentation root or a per-version shadow tree re-creates the split-brain the Common Docs
+  root exists to cure.
+severity: severe
+bad_example: |-
+  architecture/3.x/...        # one root
+  docs/architecture/3x/...    # shadow duplicate of the same content
+good_example: |-
+  docs/architecture/...       # single living design, unversioned
+  docs/adr/...                # immutable decision history only

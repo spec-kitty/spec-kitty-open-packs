@@ -83,62 +83,6 @@ patterns:
       def test_can_access_neither():
           assert can_access(is_admin=False, is_owner=False) is False
 
-anti_patterns:
-  - name: Exception-Only Assertion
-    description: >
-      Test verifies only that no exception is raised. An empty function body also
-      passes — no mutant can be killed.
-    bad_example: |
-      def test_process_order():
-          process_order(order)  # No assertion — empty function also passes
-    good_example: |
-      def test_process_order():
-          process_order(order)
-          assert order_repository.find(order.id).status == "processed"
-
-  - name: Identity Value Inputs
-    description: >
-      Using 0 for addition, 1 for multiplication, or an empty string makes the
-      original operator and its mutation produce the same result.
-    bad_example: |
-      def test_discount():
-          assert apply_discount(price=100, rate=0) == 100  # 100 * 0 == 100 / 0 would crash,
-                                                           # but 100 - 0 == 100 + 0 == 100
-    good_example: |
-      def test_discount():
-          assert apply_discount(price=100, rate=0.2) == 80.0  # 100 - 20 != 100 + 20
-
-  - name: Single-Branch Condition
-    description: >
-      Testing only the all-true or all-false case of a logical condition leaves
-      AND / OR mutations undetected.
-    bad_example: |
-      def test_has_valid_email():
-          users = [User(email="a@b.com"), User(email="c@d.com")]
-          assert has_valid_email(users) is True   # any = True, all = True — same result
-    good_example: |
-      def test_has_valid_email_one_present():     # kills any → all
-          users = [User(email="a@b.com"), User(email=None)]
-          assert has_valid_email(users) is True   # any = True, all = False
-
-  - name: Substring/Case-Insensitive Message Assertion
-    description: >
-      Asserting an error or log message with a substring or case-insensitive check
-      lets every case-change, prefix, or suffix mutation of that string survive.
-      Assert the exact string; define it as a module-level constant when reused.
-    bad_example: |
-      def test_guard_rejects_missing_actor():
-          ok, error = validate_transition("planned", "claimed", actor=None)
-          assert ok is False
-          assert "actor" in error.lower()   # survives "Actor" -> "actor" mutation
-    good_example: |
-      ACTOR_REQUIRED_MSG = "Transition planned -> claimed requires actor identity"
-
-      def test_guard_rejects_missing_actor():
-          ok, error = validate_transition("planned", "claimed", actor=None)
-          assert ok is False
-          assert error == ACTOR_REQUIRED_MSG   # kills all case/prefix/suffix mutations
-
 tooling:
   python: "mutmut>=3.5.0 — run: uv run mutmut run"
   typescript: "stryker — run: npx stryker run --incremental"

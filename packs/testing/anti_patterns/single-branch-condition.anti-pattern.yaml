@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: single-branch-condition
+title: Single-Branch Condition
+description: Testing only the all-true or all-false case of a logical condition leaves AND / OR mutations undetected.
+severity: severe
+bad_example: |-
+  def test_has_valid_email():
+      users = [User(email="a@b.com"), User(email="c@d.com")]
+      assert has_valid_email(users) is True   # any = True, all = True — same result
+good_example: |-
+  def test_has_valid_email_one_present():     # kills any → all
+      users = [User(email="a@b.com"), User(email=None)]
+      assert has_valid_email(users) is True   # any = True, all = False

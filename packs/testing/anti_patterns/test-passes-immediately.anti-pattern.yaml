@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: test-passes-immediately
+title: Test Passes Immediately
+description: The reproduction test passes on first run. The test does not capture the bug — revise setup or assertions.
+severity: severe
+bad_example: The new `test_rejects_negative_quantity` passes on its first run against the unfixed code, and the fix is committed
+  anyway.

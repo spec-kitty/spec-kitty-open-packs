@@ -1,0 +1,16 @@
+schema_version: '1.0'
+id: tutorial-that-branches-on-reader-choices
+title: Tutorial that branches on reader choices
+description: A tutorial that says "if you prefer X do this, otherwise do that" forces a first-time learner to make a decision
+  they lack the context to make. The guaranteed-path contract of a tutorial is broken the moment it branches.
+severity: severe
+bad_example: |-
+  ## Step 3
+  If you use Postgres, run the migration with `--pg`; if you use SQLite,
+  skip the flag; if you are on Windows you may need to quote the path...
+good_example: |-
+  ## Step 3
+  Run the migration:
+      spec-kitty migrate
+  (This tutorial uses the default SQLite backend. To target Postgres, see
+  the how-to: Configure a Postgres backend.)

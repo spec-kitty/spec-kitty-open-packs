@@ -145,3 +145,7 @@ edges:
   target: testing::asset:quad-a-test-structure
   relation: requires
   when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
+- source: styleguide:python-conventions
+  target: testing::anti_pattern:missing-assumption-check
+  relation: rejects
+  reason: the styleguide python-conventions names this anti-pattern

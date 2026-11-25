@@ -1,0 +1,10 @@
+schema_version: '1.0'
+id: em-dash-sprawl-and-buzzword-fog
+title: Em-dash sprawl and buzzword fog
+description: Prose where clauses are strung on em-dashes and sentences reach for "leverage", "robust" and "seamless" reads
+  as generated however sound the content is, and a skeptical reader discounts the whole page.
+severity: severe
+bad_example: '"We leveraged a robust, seamless workflow — one that — across the quarter — underscored our velocity." Three
+  em-dashes and four buzzwords in one sentence.'
+good_example: '"The release workflow ran unattended for every tag this quarter. It caught a version mismatch before publishing."
+  Two plain sentences.'

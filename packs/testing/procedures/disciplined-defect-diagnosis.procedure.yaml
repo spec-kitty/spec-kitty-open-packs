@@ -35,16 +35,5 @@ steps:
 - title: Clean up and record the learning
   description: |
     Remove all tagged debug instrumentation and throwaway harnesses, rerun the relevant gates, and record the confirmed root cause plus the hypothesis that proved correct. If diagnosis exposed a missing test seam or architectural tangle, open follow-up work after the fix is verified.
-anti_patterns:
-- title: Fixing without a feedback loop
-  content: Changing production code before a repeatable signal exists turns debugging into guessing.
-- title: Logging everything
-  content: Broad untagged logging creates noise, hides the discriminating signal, and leaves cleanup debt.
-- title: Single-hypothesis anchoring
-  content: Testing the first plausible explanation anchors the diagnosis and misses cheaper disconfirming probes.
-- title: Wrong-failure reproduction
-  content: A loop that fails for a nearby setup error or different behavior validates the wrong fix.
-- title: Leaving debug artifacts behind
-  content: Temporary logs, harnesses, trace files, and flags must either be deleted or promoted into named diagnostics.
 notes: |
   Adapted from the mattpocock/skills diagnose workflow at commit 49cec7be019bc408e87b77670f3d442f536da254. The upstream skill is a host workflow; this artifact preserves the reusable diagnostic procedure without copying host-specific mechanics into doctrine.

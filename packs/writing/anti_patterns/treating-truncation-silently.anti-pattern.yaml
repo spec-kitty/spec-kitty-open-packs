@@ -1,0 +1,9 @@
+schema_version: '1.0'
+id: treating-truncation-silently
+title: Treating truncation silently
+description: If the transcript is truncated at 80,000 characters, the tail of the meeting is dropped before extraction. This
+  must be surfaced to the user, not silently accepted. Long meetings may require the user to split the transcript or run the
+  pipeline in sections.
+severity: breaking
+bad_example: A two-hour transcript is cut at 80,000 characters, and the minutes are returned without saying that the last
+  40 minutes were never read.

@@ -94,29 +94,6 @@ patterns:
       auto-generated reference, or a retired one. Authority you cannot see is
       authority you cannot trust.
 
-anti_patterns:
-  - name: Aspirational documentation ahead of the code
-    description: >
-      Documenting intended-but-unshipped behaviour makes the docs assert
-      something the code does not do. The reader trusts the page and is misled.
-      Document shipped behaviour only; keep intent in the spec or an ADR.
-    bad_example: |
-      # In published reference, for a flag that does not exist yet:
-      Use `--parallel` to run work packages concurrently.
-    good_example: |
-      # The flag is still a proposal — it lives in the spec, not in reference.
-      # Published reference documents only the flags the CLI actually exposes.
-  - name: Duplicated fact with no canonical home
-    description: >
-      Copying the same fact into several pages creates rival sources of truth
-      that drift. Keep one canonical page and link to it from the rest.
-    bad_example: |
-      The retention window "30 days" is stated verbatim in the tutorial, the
-      how-to, and two reference pages; a policy change updates only one.
-    good_example: |
-      The retention window is stated once in docs/api/retention.md; the
-      tutorial and how-to link to it. One change updates every reader.
-
 tooling:
   living-documentation-sync: "DIRECTIVE_037 (living-documentation-sync, foundation pack) — the single owner of the same-change documentation-update rule."
   publication-gate: "documentation mission publish action (a page goes live only after the validate action is green — Divio type, plain language, accessibility, freshness, and source-of-truth fidelity all pass)."

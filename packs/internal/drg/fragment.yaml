@@ -819,3 +819,15 @@ edges:
     target: testing::tactic:shared-machine-test-measurement
     relation: suggests
     when: Several agents run tests on one machine, or a red needs attributing to a change.
+  - source: procedure:test-suite-quality-assessment
+    target: testing::anti_pattern:retire-coverage-disguised-as-a-duplicate
+    relation: rejects
+    reason: the procedure test-suite-quality-assessment names this anti-pattern
+  - source: styleguide:executive-debrief
+    target: writing::anti_pattern:jargon-aimed-at-the-wrong-audience
+    relation: rejects
+    reason: the styleguide executive-debrief names this anti-pattern
+  - source: styleguide:report-writing
+    target: writing::anti_pattern:unsourced-assertion
+    relation: rejects
+    reason: the styleguide report-writing names this anti-pattern

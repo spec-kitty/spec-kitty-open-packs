@@ -1,0 +1,10 @@
+schema_version: '1.0'
+id: rendering-without-selecting-a-format
+title: Rendering without selecting a format
+description: Defaulting to decision minutes (or discussion notes) without asking. The format materially changes the structure
+  and what counts as complete. Ask the user which format up front; a transcript-based suggestion is allowed, but the user
+  chooses. A discussion meeting rendered as a decision table (mostly empty Decisions and Action cells) is a format-selection
+  failure, not a content failure.
+severity: severe
+bad_example: Given a knowledge-sharing call's transcript, the agent renders decision minutes without asking, leaving most
+  Decisions and Action cells empty.

@@ -143,29 +143,6 @@ patterns:
       Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled into a
       decision (adr/) or design (architecture/) and then retired rather than accumulating.
 
-anti_patterns:
-  - name: Second documentation root
-    description: >
-      A second top-level documentation root or a per-version shadow tree
-      re-creates the split-brain the Common Docs root exists to cure.
-    bad_example: |
-      architecture/3.x/...        # one root
-      docs/architecture/3x/...    # shadow duplicate of the same content
-    good_example: |
-      docs/architecture/...       # single living design, unversioned
-      docs/adr/...                # immutable decision history only
-  - name: Sidecar metadata SSOT
-    description: >
-      Treating a sidecar inventory as the metadata source of truth forces
-      authors to keep a remembered rollup in sync and leaves the published site
-      reading a different store than the one being edited.
-    bad_example: |
-      # A hand-maintained page-inventory.yaml treated as SSOT;
-      # frontmatter generated from it.
-    good_example: |
-      # Frontmatter is SSOT. If the project keeps page-inventory.yaml,
-      # it is generated from frontmatter and checked for drift.
-
 # Rule -> check mapping table. Every documentation rule maps either to a check
 # of the structural lint shipped with this pack (named by its check id) or to
 # review. The common-docs-structural-lint toolguide says how to run the lint.

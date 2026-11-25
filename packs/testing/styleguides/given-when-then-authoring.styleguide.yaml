@@ -58,37 +58,4 @@ patterns:
       one BDD runner, another, or by a plain unit test; it names behaviour, not a tool. (The Gherkin DSL is
       one notation for writing these scenarios; the authoring conventions here are independent of it.)
 
-anti_patterns:
-  - name: Imperative UI Script Masquerading as a Scenario
-    description: >
-      Writing Given-When-Then as a sequence of clicks, keystrokes, and page
-      navigations couples the behaviour to one interface and one runner. The
-      scenario breaks on any UI or wiring change even when the behaviour is
-      unchanged, and it no longer communicates intent to a non-technical
-      stakeholder.
-    bad_example: |
-      Given I am on the login page
-      When I type my username, type my password, and click "Sign in"
-      Then I see the dashboard div render
-    good_example: |
-      Given a registered user with valid credentials
-      When they authenticate
-      Then they gain access to their dashboard
-
-  - name: Multiple Whens in One Scenario
-    description: >
-      More than one When collapses several behaviours into a single scenario, so a
-      failure no longer identifies which trigger broke and the Then can no longer
-      describe one coherent outcome. Each trigger deserves its own scenario.
-    bad_example: |
-      Given an empty cart
-      When the customer adds an item
-      And the customer checks out
-      And the customer requests a refund
-      Then the refund is processed
-    good_example: |
-      Given a cart containing one item
-      When the customer checks out
-      Then an order is created for that item
-
 quality_test: "Does each scenario state one precondition (Given), one trigger (When), and one observable outcome (Then) in domain language, and would it still read correctly if executed by a different runner or as a plain unit test?"

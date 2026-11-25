@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: assuming-reader-knowledge
+title: Assuming Reader Knowledge
+description: Using terms like API, YAML, or SHA256 without ensuring they are defined elsewhere in the glossary.
+severity: smell
+bad_example: YAML file that bootstraps domain entries.
+good_example: An optional YAML file that pre-loads domain glossary terms before the runtime starts extracting new ones.
