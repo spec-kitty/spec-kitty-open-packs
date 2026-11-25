@@ -1,7 +1,7 @@
 {
-  "event_count": 68,
-  "last_event_id": "01M8A4Q5EDM6JM3RDGACW6AF2B",
-  "materialized_at": "2026-11-25T20:00:27.482226+00:00",
+  "event_count": 69,
+  "last_event_id": "01M8A5X5H1GVZZ1TWBJ4HSEN1Z",
+  "materialized_at": "2026-11-25T20:21:12.865841+00:00",
   "mission_number": "",
   "mission_slug": "pack-doctor-alignment-01M88RH1",
   "mission_type": "software-dev",
@@ -12,8 +12,8 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 0,
-    "in_progress": 1,
+    "for_review": 1,
+    "in_progress": 0,
     "in_review": 0,
     "planned": 3
   },
@@ -25,9 +25,9 @@
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude::implementer-ivan",
-      "lane": "in_progress",
-      "last_event_id": "01M8A4Q5EDM6JM3RDGACW6AF2B",
-      "last_transition_at": "2026-11-25T20:00:27.482226+00:00",
+      "lane": "for_review",
+      "last_event_id": "01M8A5X5H1GVZZ1TWBJ4HSEN1Z",
+      "last_transition_at": "2026-11-25T20:21:12.865841+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-25T20:20:57Z – claude::implementer-ivan – shell_pid=2403 – WP01 implemented on lane-a in 7385886b (one atomic rename commit). Base: the Mission's current base, without #344, per decision 01M8A4P97Y01HR6ZP3X9DG15HD; #344's overlaps (charter-track.yml, test_workflows.py) and main's edits to charter_pack_check.py and its test are reconciled at the rebase of feat.\nT001: pinned charter main HEAD at implementation start, f6f21e4c086cb37d42c7b93b903725e11bcaad8b (33 commits past 4b95b9151; validate and remediate over the WP08 tree are identical at both). release_tag, jar_sha256 and pack_doctor_sha256 empty. charter_lock.py pack_doctor_sha256 prints an empty line; a lock with pack_check_sha256 is refused.\nT002: scripts/ci/charter_pack_doctor_jar.sh .charter-work printed one jar path (built :pack-doctor:packDoctorJar at the pin). bash -n ok on both jar scripts.\nT003-T008: py_compile ok. env -u GITHUB_TOKEN python3 -m pytest tests/ci -q: 313 passed, 3 skipped (RealPackDoctor without a jar). (The session's GITHUB_TOKEN makes the schema pass's raw.githubusercontent fetch 404; CI's token does not.)\nReal jar, PACK_DOCTOR_JAR=<jar> python3 -m pytest tests/ci/test_charter_pack_doctor.py -q:\n  ........................................x.                                                             [100%] 41 passed, 1 xfailed, 42 subtests passed in 32.15s \nSame class under unittest (as validate-packs.yml runs it): Ran 3 tests, OK (expected failures=1).\nGate over this checkout (pre-curation): exit 1; all five invalid fixtures refused as expected (case_variant, artifact_schema_error, pack_version_invalid, retired, pack_dependency_unknown); the set refused only with the curation codes: artifact_schema_error 61, drg_schema_error 15, round_trip_red 40, round_trip_written_unpaired 25, substep_delegation_unresolved 3 (144; CLOSURE and REFERENCES skipped because of the inline blocks).\ngrep pack.check over scripts/ci .github tests charter.lock.yaml: only WP10's files (validate_pack_schemas.py, validate-packs.sh, test_validate_pack_schemas.py) and two deliberate refusal tests of the old names. No change under docs/changelog, docs/architecture/adr, kitty-ops or site."
