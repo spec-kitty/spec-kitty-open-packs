@@ -3,5 +3,4 @@ id: single-hypothesis-anchoring
 title: Single-hypothesis anchoring
 description: Testing the first plausible explanation anchors the diagnosis and misses cheaper disconfirming probes.
 severity: smell
-bad_example: The flaky upload is blamed on the network, and two days go into retry logic before anyone checks the clock skew
-  between the hosts.
+bad_example: The flaky upload is blamed on the network, and two days go into retry logic before anyone checks the clock skew between the hosts.

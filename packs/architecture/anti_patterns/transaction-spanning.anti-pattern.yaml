@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: transaction-spanning
 title: Transaction Spanning
-description: Using database transactions across multiple aggregates instead of domain events. Creates contention and couples
-  aggregate lifecycles.
+description: Using database transactions across multiple aggregates instead of domain events. Creates contention and couples aggregate lifecycles.
 severity: severe
 bad_example: |-
   with db.transaction():

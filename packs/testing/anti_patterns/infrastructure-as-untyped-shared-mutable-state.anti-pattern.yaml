@@ -1,12 +1,7 @@
 schema_version: '1.0'
 id: infrastructure-as-untyped-shared-mutable-state
 title: Infrastructure as untyped shared mutable state
-description: 'When production code reads and writes infrastructure (the filesystem, database, git) DIRECTLY from many surfaces
-  instead of through an owning application boundary, that infrastructure becomes un-owned shared mutable state. Two consequences
-  follow: (1) surfaces can disagree about the same on-disk state (read/write forks, staleness); (2) tests cannot exercise
-  the logic without standing up the infrastructure or mocking many seams. The mock/stub scaffolding in tests is a symptom,
-  not the disease — the cure is an owning boundary (a port / aggregate / pure resolver) the logic routes through, which the
-  test then drives with simple inputs.'
+description: 'When production code reads and writes infrastructure (the filesystem, database, git) DIRECTLY from many surfaces instead of through an owning application boundary, that infrastructure becomes un-owned shared mutable state. Two consequences follow: (1) surfaces can disagree about the same on-disk state (read/write forks, staleness); (2) tests cannot exercise the logic without standing up the infrastructure or mocking many seams. The mock/stub scaffolding in tests is a symptom, not the disease — the cure is an owning boundary (a port / aggregate / pure resolver) the logic routes through, which the test then drives with simple inputs.'
 severity: severe
 bad_example: |-
   # Direct, scattered filesystem access — every caller re-reads/re-writes

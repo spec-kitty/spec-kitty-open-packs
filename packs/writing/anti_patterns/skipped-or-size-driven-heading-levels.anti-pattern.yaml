@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: skipped-or-size-driven-heading-levels
 title: Skipped or size-driven heading levels
-description: Jumping heading levels, or picking a level for its font size, destroys the document outline that screen-reader
-  users navigate by. Descend one level at a time and use headings only for structure.
+description: Jumping heading levels, or picking a level for its font size, destroys the document outline that screen-reader users navigate by. Descend one level at a time and use headings only for structure.
 severity: severe
 bad_example: |-
   # Configuration

@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: treating-a-static-flag-as-a-verdict
 title: Treating a static flag as a verdict
-description: Filing or deleting on the scanner's word alone. The flags rank what to read; the verdict comes from reading the
-  test against its behaviour and proving it with a planted break.
+description: Filing or deleting on the scanner's word alone. The flags rank what to read; the verdict comes from reading the test against its behaviour and proving it with a planted break.
 severity: severe
 bad_example: Forty tests are deleted because the static scanner flagged them as weak, and none of them is read.

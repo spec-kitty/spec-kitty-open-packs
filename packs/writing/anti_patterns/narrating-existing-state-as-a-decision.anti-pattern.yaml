@@ -1,10 +1,7 @@
 schema_version: '1.0'
 id: narrating-existing-state-as-a-decision
 title: Narrating existing state as a decision
-description: Populating the Decisions column with facts about how things already work, or plans already in motion, as if they
-  were decided in this meeting. A decision is something the group resolved or agreed upon during the meeting itself. Pre-existing
-  policy, current architecture, and informational context belong in the Notes column — not Decisions. Knowledge-sharing and
-  demo sessions will typically have empty Decisions cells for most or all agenda items; that is correct and expected.
+description: Populating the Decisions column with facts about how things already work, or plans already in motion, as if they were decided in this meeting. A decision is something the group resolved or agreed upon during the meeting itself. Pre-existing policy, current architecture, and informational context belong in the Notes column — not Decisions. Knowledge-sharing and demo sessions will typically have empty Decisions cells for most or all agenda items; that is correct and expected.
 severity: severe
 bad_example: |-
   Agenda item: "managed container overview" (presenter walking through existing setup)

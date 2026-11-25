@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: second-documentation-root
 title: Second documentation root
-description: A second top-level documentation root or a per-version shadow tree re-creates the split-brain the Common Docs
-  root exists to cure.
+description: A second top-level documentation root or a per-version shadow tree re-creates the split-brain the Common Docs root exists to cure.
 severity: severe
 bad_example: |-
   architecture/3.x/...        # one root

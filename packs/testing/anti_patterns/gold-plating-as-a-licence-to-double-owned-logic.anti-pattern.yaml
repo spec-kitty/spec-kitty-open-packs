@@ -1,10 +1,7 @@
 schema_version: '1.0'
 id: gold-plating-as-a-licence-to-double-owned-logic
 title: Gold plating as a licence to double owned logic
-description: '"Avoid gold plating" (build only what is needed now) is sometimes read as permission to substitute owned logic
-  because running it for real costs setup. It is not. The rare cheap substitutes the allow-list permits (DIRECTIVE_054: schema-only
-  validation by a library, an outbound notification) are boundary seams; logic the behavior depends on runs for real. If the
-  real slice is too heavy, extract a pure seam instead.'
+description: '"Avoid gold plating" (build only what is needed now) is sometimes read as permission to substitute owned logic because running it for real costs setup. It is not. The rare cheap substitutes the allow-list permits (DIRECTIVE_054: schema-only validation by a library, an outbound notification) are boundary seams; logic the behavior depends on runs for real. If the real slice is too heavy, extract a pure seam instead.'
 severity: breaking
 bad_example: |-
   # "Running the discount rules for real is overkill here."

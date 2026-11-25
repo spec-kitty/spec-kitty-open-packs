@@ -1,16 +1,22 @@
-schema_version: "1.0"
+schema_version: '1.0'
 id: land-pr
 title: Land a PR
 description: Use when a ready-for-review pull request needs a maintainer to get it ready to merge. Rebases it, fixes and reviews it, updates its description and docs, adds a changelog entry the way the repository's docs say, and hands it back without merging by hand.
-triggers: ["land this PR", "landing pass", "land PR"]
+triggers:
+- land this PR
+- landing pass
+- land PR
 form: prompt
 body_path: land-pr.skill.md
 parameters:
-  - name: pr
-    required: true
-    description: The PR number or URL on the repository being worked in
+- name: pr
+  required: true
+  description: The PR number or URL on the repository being worked in
 invocation:
   user_invocable: true
-  side_effects: [git-push, gh-write]
+  side_effects:
+  - git-push
+  - gh-write
 version: 1.0.0
-maintainers: ["@spec-kitty/core"]
+maintainers:
+- '@spec-kitty/core'

@@ -1,38 +1,30 @@
-schema_version: "1.0"
 id: doctrine-instruction-voice
+schema_version: '1.0'
 title: Doctrine Instruction Voice Styleguide
 scope: docs
 principles:
-  - name: "Canonical terms in canonical voice"
-    description: "Instructions an agent follows use the active glossary's canonical terms. A deprecated surface or colloquial idiom appears only quoted, as a marked example."
-  - name: "Examples are instructions too"
-    description: "Agents copy examples. An example never shows an operation the governing rules forbid without the authorization those rules require."
-  - name: "Name the role, not the local value"
-    description: "Write the protected default branch, the project's priority scheme or the active token, not one project's branch name, label set or credential setup."
-  - name: "State the rule, not its strictness"
-    description: "A directive's level lives in its enforcement field, a default; the adopting charter decides the level that applies. Its prose, and content citing it, never says it is advisory, mandatory or binding."
-
+- name: Canonical terms in canonical voice
+  description: Instructions an agent follows use the active glossary's canonical terms. A deprecated surface or colloquial idiom appears only quoted, as a marked example.
+- name: Examples are instructions too
+  description: Agents copy examples. An example never shows an operation the governing rules forbid without the authorization those rules require.
+- name: Name the role, not the local value
+  description: Write the protected default branch, the project's priority scheme or the active token, not one project's branch name, label set or credential setup.
+- name: State the rule, not its strictness
+  description: A directive's level lives in its enforcement field, a default; the adopting charter decides the level that applies. Its prose, and content citing it, never says it is advisory, mandatory or binding.
 patterns:
-  - name: Quote a deprecated surface
-    description: >
-      When an instruction must mention a term the glossary deprecates, for
-      instance to tell the agent what to replace, quote it and name the
-      canonical term beside it. Unquoted, the agent reads it as canonical voice
-      and repeats it.
-    bad_example: |
-      Rebase the feature branch onto the default branch before review.
-    good_example: |
-      Rebase the topic branch (also called "feature branch") onto the default
-      branch before review.
-  - name: Authorization on every high-risk example
-    description: >
-      An example that pushes to the protected default branch, force-pushes or
-      merges a pull request carries the operator-authorization language the
-      governing directive (DIRECTIVE_045 in foundation) requires, or is
-      replaced by the pull-request route.
-    bad_example: |
-      git push origin main
-    good_example: |
-      git push -u origin my-topic-branch   # then open a pull request; the operator merges
-
-quality_test: "Could an agent in a project that shares none of the author's local conventions follow every instruction and example in the artifact as written, without repeating a deprecated term or running an unauthorized operation?"
+- name: Quote a deprecated surface
+  description: |
+    When an instruction must mention a term the glossary deprecates, for instance to tell the agent what to replace, quote it and name the canonical term beside it. Unquoted, the agent reads it as canonical voice and repeats it.
+  bad_example: |
+    Rebase the feature branch onto the default branch before review.
+  good_example: |
+    Rebase the topic branch (also called "feature branch") onto the default
+    branch before review.
+- name: Authorization on every high-risk example
+  description: |
+    An example that pushes to the protected default branch, force-pushes or merges a pull request carries the operator-authorization language the governing directive (DIRECTIVE_045 in foundation) requires, or is replaced by the pull-request route.
+  bad_example: |
+    git push origin main
+  good_example: |
+    git push -u origin my-topic-branch   # then open a pull request; the operator merges
+quality_test: Could an agent in a project that shares none of the author's local conventions follow every instruction and example in the artifact as written, without repeating a deprecated term or running an unauthorized operation?

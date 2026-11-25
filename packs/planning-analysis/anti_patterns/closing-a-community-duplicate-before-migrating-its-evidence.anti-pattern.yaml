@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: closing-a-community-duplicate-before-migrating-its-evidence
 title: Closing a community duplicate before migrating its evidence
-description: Closing a contributor's ticket as a duplicate without first moving its reproduction steps, logs, and discussion
-  into the survivor loses evidence and alienates the contributor. Community-authored tickets take precedence over core-team
-  duplicates.
+description: Closing a contributor's ticket as a duplicate without first moving its reproduction steps, logs, and discussion into the survivor loses evidence and alienates the contributor. Community-authored tickets take precedence over core-team duplicates.
 severity: severe
 bad_example: |-
   `gh issue close <community#> --reason "not planned" --comment "dup"`

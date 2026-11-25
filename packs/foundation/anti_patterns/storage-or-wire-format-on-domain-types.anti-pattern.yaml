@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: storage-or-wire-format-on-domain-types
 title: Storage or Wire Format on Domain Types
-description: Binding a core domain type directly to a storage schema or a wire format, through serialization or ORM attributes
-  or an entity mapped onto a fixed record layout, so a change to one format silently changes business behaviour or breaks
-  the others.
+description: Binding a core domain type directly to a storage schema or a wire format, through serialization or ORM attributes or an entity mapped onto a fixed record layout, so a change to one format silently changes business behaviour or breaks the others.
 severity: breaking
 bad_example: |-
   // java: Entity over a Wire Layout

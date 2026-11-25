@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: keep-the-wp-nfr-label-on-a-promoted-test
 title: Keep the WP/NFR label on a promoted test
-description: Leaving a WP##/NFR-### label on a test promoted to standing status. The label signals "belongs to a finished
-  slice," inviting the same audit churn next time and misrepresenting a durable guard as disposable.
+description: Leaving a WP##/NFR-### label on a test promoted to standing status. The label signals "belongs to a finished slice," inviting the same audit churn next time and misrepresenting a durable guard as disposable.
 severity: smell
 bad_example: A test promoted to the standing suite is still named `test_wp07_nfr_003_retry_budget`.

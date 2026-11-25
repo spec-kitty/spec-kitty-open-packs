@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: specifying-before-grounding
 title: Specifying before grounding
-description: Writing a spec or plan before the read-only grounding run. It commits the run to assumptions the code does not
-  hold.
+description: Writing a spec or plan before the read-only grounding run. It commits the run to assumptions the code does not hold.
 severity: severe
 bad_example: The spec assumes the config loader caches, which the grounding run would have shown it does not.

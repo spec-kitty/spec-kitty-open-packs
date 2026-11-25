@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: floating-point-money
 title: Floating-Point Money
-description: Holding currency in a binary floating-point type. Binary floating point cannot represent most decimal fractions,
-  so totals drift and comparisons fail.
+description: Holding currency in a binary floating-point type. Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail.
 severity: breaking
 bad_example: |-
   // go: float64 Money

@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: passive-hedged-filler-laden-instruction
 title: Passive, hedged, filler-laden instruction
-description: Passive voice plus hedging plus filler turns a one-line instruction into a paragraph that hides who does what.
-  Rewrite in the active voice, drop the hedges, and address the reader directly.
+description: Passive voice plus hedging plus filler turns a one-line instruction into a paragraph that hides who does what. Rewrite in the active voice, drop the hedges, and address the reader directly.
 severity: smell
 bad_example: |-
   It should be noted that, in order to proceed, the configuration file will

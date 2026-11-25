@@ -1,7 +1,3 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
-# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
-# <pack-name>::<urn> and must sit in this pack's depends_on closure.
 nodes:
 - id: randy-reducer
   kind: agent_profiles
@@ -156,32 +152,27 @@ edges:
   target: foundation::directive:DIRECTIVE_030
   relation: requires
   when: when assessing whether tests meet the quality gate they must pass
-  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
   target: foundation::directive:DIRECTIVE_034
   relation: requires
   when: when writing or reviewing the tests that accompany an implementation
-  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
-    channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
   target: foundation::directive:DIRECTIVE_041
   relation: requires
   when: when keeping the tests they write a clear scaffold rather than friction
-  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
   target: foundation::directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
-  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
-    under today''s traversal, authored per the #3063 family-B operator attestation.'
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only under today''s traversal, authored per the #3063 family-B operator attestation.'
 - source: agent_profile:randy-reducer
   target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
-  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:randy-reducer
   target: tactic:semantic-compression-abstraction-extraction
   relation: requires
@@ -209,54 +200,42 @@ edges:
 - source: agent_profile:randy-reducer
   target: foundation::tactic:test-scaffolding-as-design-smell
   relation: requires
-  reason: Heavy test setup signals duplicated, IO-coupled code paths and a missing seam — extract one pure boundary and collapse
-    the variants.
+  reason: Heavy test setup signals duplicated, IO-coupled code paths and a missing seam — extract one pure boundary and collapse the variants.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-encapsulate-record
   relation: suggests
-  when: a raw data record (a dict, plain object, or mutably-used named tuple) is accessed by field name from many call sites,
-    and that direct access blocks adding validation, renaming fields, or changing the internal representation
-  reason: Disciplined refactoring suggests Encapsulate Record when the smell is an unencapsulated data record; the `when`
-    is the tactic's own stated applicability. Composition-only under today's traversal.
+  when: a raw data record (a dict, plain object, or mutably-used named tuple) is accessed by field name from many call sites, and that direct access blocks adding validation, renaming fields, or changing the internal representation
+  reason: Disciplined refactoring suggests Encapsulate Record when the smell is an unencapsulated data record; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-encapsulate-variable
   relation: suggests
-  when: a widely-accessed module-level or global variable (or public class attribute) is read and written from many locations
-    and needs a single chokepoint for monitoring, validation, or a later change of type
-  reason: Disciplined refactoring suggests Encapsulate Variable when the smell is a globally-accessed variable with no chokepoint;
-    the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+  when: a widely-accessed module-level or global variable (or public class attribute) is read and written from many locations and needs a single chokepoint for monitoring, validation, or a later change of type
+  reason: Disciplined refactoring suggests Encapsulate Variable when the smell is a globally-accessed variable with no chokepoint; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-extract-first-order-concept
   relation: suggests
   when: an important concept is implicit, duplicated, or scattered across the code with no explicit name or single home
-  reason: Disciplined refactoring suggests Extract First-Order Concept when the smell is a hidden/duplicated concept that
-    should be named; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+  reason: Disciplined refactoring suggests Extract First-Order Concept when the smell is a hidden/duplicated concept that should be named; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-move-field
   relation: suggests
   when: a field is read and modified more by another class than the one that declares it, so data ownership has drifted
-  reason: Disciplined refactoring suggests Move Field when the smell is a field living on the wrong owner; the `when` is the
-    tactic's own stated applicability. Composition-only under today's traversal.
+  reason: Disciplined refactoring suggests Move Field when the smell is a field living on the wrong owner; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-move-method
   relation: suggests
   when: a method uses more of another class's data and behaviour than its own host's (feature envy)
-  reason: Disciplined refactoring suggests Move Method when the smell is feature envy; the `when` is the tactic's own stated
-    applicability (its first step confirms feature envy and target ownership). Composition-only under today's traversal.
+  reason: Disciplined refactoring suggests Move Method when the smell is feature envy; the `when` is the tactic's own stated applicability (its first step confirms feature envy and target ownership). Composition-only under today's traversal.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-state-pattern-for-behavior
   relation: suggests
-  when: a class's methods are full of conditionals branching on the same internal state variable (enum, status flag, boolean),
-    and behaviour is driven by lifecycle state transitions
-  reason: Disciplined refactoring suggests State Pattern for Behavior when the smell is sprawling conditionals switching on
-    an object's lifecycle state; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+  when: a class's methods are full of conditionals branching on the same internal state variable (enum, status flag, boolean), and behaviour is driven by lifecycle state transitions
+  reason: Disciplined refactoring suggests State Pattern for Behavior when the smell is sprawling conditionals switching on an object's lifecycle state; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
 - source: foundation::directive:DISCIPLINED_REFACTORING
   target: tactic:refactoring-strangler-fig
   relation: suggests
-  when: a legacy component or code path must be replaced incrementally — running the new implementation alongside the old
-    and rerouting callers one at a time — because a single-step cutover is too risky
-  reason: Disciplined refactoring suggests Strangler Fig when the smell is a legacy path that cannot be replaced in one safe
-    step; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
+  when: a legacy component or code path must be replaced incrementally — running the new implementation alongside the old and rerouting callers one at a time — because a single-step cutover is too risky
+  reason: Disciplined refactoring suggests Strangler Fig when the smell is a legacy path that cannot be replaced in one safe step; the `when` is the tactic's own stated applicability. Composition-only under today's traversal.
 - source: paradigm:semantic-compression
   target: foundation::directive:DIRECTIVE_001
   relation: requires
@@ -313,8 +292,7 @@ edges:
 - source: tactic:chain-of-responsibility-rule-pipeline
   target: foundation::tactic:function-over-form-testing
   relation: suggests
-  when: Each rule is tested as a value transformer (input → expected output); the composition is tested end-to-end on realistic
-    fixtures
+  when: Each rule is tested as a value transformer (input → expected output); the composition is tested end-to-end on realistic fixtures
 - source: tactic:chain-of-responsibility-rule-pipeline
   target: tactic:refactoring-extract-first-order-concept
   relation: suggests
@@ -322,8 +300,7 @@ edges:
 - source: tactic:chain-of-responsibility-rule-pipeline
   target: tactic:refactoring-guard-clauses-before-polymorphism
   relation: suggests
-  when: Use guard clauses to flatten the source function before extracting per-rule helpers; the flattened form makes rule
-    boundaries visible
+  when: Use guard clauses to flatten the source function before extracting per-rule helpers; the flattened form makes rule boundaries visible
 - source: foundation::tactic:deepening-opportunity-assessment
   target: procedure:refactoring
   relation: suggests
@@ -335,9 +312,7 @@ edges:
 - source: tactic:refactoring-encapsulate-record
   target: anti_pattern:unencapsulated-record
   relation: rejects
-  reason: 'Encapsulate Record rejects the Unencapsulated Record smell: a raw data record accessed by field name from many
-    call sites, where the direct access blocks adding validation, renaming fields, or changing the internal representation
-    (the tactic''s own attested `when`).'
+  reason: 'Encapsulate Record rejects the Unencapsulated Record smell: a raw data record accessed by field name from many call sites, where the direct access blocks adding validation, renaming fields, or changing the internal representation (the tactic''s own attested `when`).'
 - source: tactic:refactoring-encapsulate-record
   target: tactic:refactoring-encapsulate-variable
   relation: suggests
@@ -345,14 +320,11 @@ edges:
 - source: tactic:refactoring-encapsulate-variable
   target: anti_pattern:global-data
   relation: rejects
-  reason: 'Encapsulate Variable rejects the Global Data smell: a widely-accessed module-level or global variable read and
-    written from many locations with no single chokepoint for monitoring, validation, or a later change of type (the tactic''s
-    own attested `when`).'
+  reason: 'Encapsulate Variable rejects the Global Data smell: a widely-accessed module-level or global variable read and written from many locations with no single chokepoint for monitoring, validation, or a later change of type (the tactic''s own attested `when`).'
 - source: tactic:refactoring-extract-first-order-concept
   target: anti_pattern:implicit-concept
   relation: rejects
-  reason: 'Extract First-Order Concept rejects the Implicit Concept smell: an important concept left implicit, duplicated,
-    or scattered across the code with no explicit name or single home (the tactic''s own attested `when`).'
+  reason: 'Extract First-Order Concept rejects the Implicit Concept smell: an important concept left implicit, duplicated, or scattered across the code with no explicit name or single home (the tactic''s own attested `when`).'
 - source: tactic:refactoring-extract-first-order-concept
   target: tactic:refactoring-strangler-fig
   relation: suggests
@@ -364,8 +336,7 @@ edges:
 - source: tactic:refactoring-move-field
   target: anti_pattern:misplaced-field
   relation: rejects
-  reason: 'Move Field rejects the Misplaced Field smell: a field read and modified more by another class than the one that
-    declares it, so data ownership has drifted to the wrong owner (the tactic''s own attested `when`).'
+  reason: 'Move Field rejects the Misplaced Field smell: a field read and modified more by another class than the one that declares it, so data ownership has drifted to the wrong owner (the tactic''s own attested `when`).'
 - source: tactic:refactoring-move-field
   target: tactic:refactoring-move-method
   relation: suggests
@@ -373,8 +344,7 @@ edges:
 - source: tactic:refactoring-move-method
   target: anti_pattern:feature-envy
   relation: rejects
-  reason: 'Move Method rejects the Feature Envy smell: a method that uses more of another class''s data and behaviour than
-    its own host''s (the tactic''s own attested `when`).'
+  reason: 'Move Method rejects the Feature Envy smell: a method that uses more of another class''s data and behaviour than its own host''s (the tactic''s own attested `when`).'
 - source: tactic:refactoring-move-method
   target: tactic:refactoring-extract-first-order-concept
   relation: suggests
@@ -386,9 +356,7 @@ edges:
 - source: tactic:refactoring-state-pattern-for-behavior
   target: anti_pattern:repeated-switches-on-state
   relation: rejects
-  reason: 'State Pattern for Behavior rejects the Repeated Switches on State smell: a class whose methods are full of conditionals
-    branching on the same internal state variable, with behaviour driven by lifecycle state transitions (the tactic''s own
-    attested `when`).'
+  reason: 'State Pattern for Behavior rejects the Repeated Switches on State smell: a class whose methods are full of conditionals branching on the same internal state variable, with behaviour driven by lifecycle state transitions (the tactic''s own attested `when`).'
 - source: tactic:refactoring-state-pattern-for-behavior
   target: tactic:refactoring-conditional-to-strategy
   relation: suggests
@@ -396,9 +364,7 @@ edges:
 - source: tactic:refactoring-strangler-fig
   target: anti_pattern:big-bang-rewrite
   relation: rejects
-  reason: 'Strangler Fig rejects the Big-Bang Rewrite anti-pattern: replacing a legacy component or code path in a single-step
-    cutover when it is too risky, instead of running the new implementation alongside the old and rerouting callers one at
-    a time (the tactic''s own attested `when`).'
+  reason: 'Strangler Fig rejects the Big-Bang Rewrite anti-pattern: replacing a legacy component or code path in a single-step cutover when it is too risky, instead of running the new implementation alongside the old and rerouting callers one at a time (the tactic''s own attested `when`).'
 - source: tactic:semantic-compression-abstraction-extraction
   target: foundation::directive:DIRECTIVE_001
   relation: suggests

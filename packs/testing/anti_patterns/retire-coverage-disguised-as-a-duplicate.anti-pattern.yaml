@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: retire-coverage-disguised-as-a-duplicate
 title: Retire coverage disguised as a duplicate
-description: Deleting a per-WP check as "duplicative" when the family-wide guard does not actually assert the same contract.
-  Confirm the standing guard covers it before deleting; if it does not, the test is not a duplicate — keep and rename it.
+description: Deleting a per-WP check as "duplicative" when the family-wide guard does not actually assert the same contract. Confirm the standing guard covers it before deleting; if it does not, the test is not a duplicate — keep and rename it.
 severity: severe
-bad_example: A per-WP test of refund rounding is deleted as duplicative, though the family-wide guard only checks that a refund
-  is created, not its amount.
+bad_example: A per-WP test of refund rounding is deleted as duplicative, though the family-wide guard only checks that a refund is created, not its amount.

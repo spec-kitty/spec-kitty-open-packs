@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: constructor-sprawl-in-tests
 title: Constructor Sprawl in Tests
-description: Calling new SomeEntity(a, b, c, ...) in every test binds tests to the constructor signature. Any structural change
-  requires updating every test.
+description: Calling new SomeEntity(a, b, c, ...) in every test binds tests to the constructor signature. Any structural change requires updating every test.
 severity: smell
 bad_example: |-
   Order o1 = new Order("ORD-001", STANDARD, start, customerId, 50000L);

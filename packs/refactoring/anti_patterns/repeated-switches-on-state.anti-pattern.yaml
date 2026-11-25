@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: repeated-switches-on-state
 title: Repeated Switches on State
-description: a class whose methods are full of conditionals branching on the same internal state variable, with behaviour
-  driven by lifecycle state transitions
+description: a class whose methods are full of conditionals branching on the same internal state variable, with behaviour driven by lifecycle state transitions
 severity: smell
 bad_example: Order class with if/elif chains on self.status in process(), cancel(), ship().

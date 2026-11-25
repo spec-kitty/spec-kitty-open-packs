@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: version-inferred-from-shape
 title: Version inferred from shape
-description: Without an explicit version, readers guess the contract from which fields are present, and the guess fails silently
-  when a field becomes optional.
+description: Without an explicit version, readers guess the contract from which fields are present, and the guess fails silently when a field becomes optional.
 severity: breaking
 bad_example: '{"event_type": "WorkPackageClaimed", "payload": {"wp": "WP03", "lane": "doing"}}'
-good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned",
-  "to_lane": "claimed"}}'
+good_example: '{"event_type": "WorkPackageClaimed", "schema_version": 2, "payload": {"wp_id": "WP03", "from_lane": "planned", "to_lane": "claimed"}}'

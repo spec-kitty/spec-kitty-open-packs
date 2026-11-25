@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: grounding-prompt-without-discovery
 title: Grounding prompt without discovery
-description: Writing section (1) as a solo code-read with no similar-surfaces and tracked-issues squads. The runner then pointfixes
-  the named surface and leaves its siblings and its issue family untouched.
+description: Writing section (1) as a solo code-read with no similar-surfaces and tracked-issues squads. The runner then pointfixes the named surface and leaves its siblings and its issue family untouched.
 severity: severe
-bad_example: Section (1) of the prompt is the dispatcher's own read of one file; no squad looks for similar surfaces or tracked
-  issues.
+bad_example: Section (1) of the prompt is the dispatcher's own read of one file; no squad looks for similar surfaces or tracked issues.

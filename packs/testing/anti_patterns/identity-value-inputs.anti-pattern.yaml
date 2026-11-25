@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: identity-value-inputs
 title: Identity Value Inputs
-description: Using 0 for addition, 1 for multiplication, or an empty string makes the original operator and its mutation produce
-  the same result.
+description: Using 0 for addition, 1 for multiplication, or an empty string makes the original operator and its mutation produce the same result.
 severity: severe
 bad_example: |-
   def test_discount():

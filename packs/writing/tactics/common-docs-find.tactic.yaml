@@ -1,62 +1,40 @@
-schema_version: "1.0"
-name: Common Docs Find
 id: common-docs-find
-purpose: >
-  How to find the doc that owns a topic without a hand-maintained lookup table:
-  load the governing doctrine with spec-kitty charter context, then search the
-  project's own docs tree and the frontmatter of its pages. Both answers come
-  from what is actually there, not from a static index that rots. Use this
-  before writing a new page (to avoid duplicating an existing one) and when
-  navigating the corpus.
+schema_version: '1.0'
+name: Common Docs Find
+purpose: |
+  How to find the doc that owns a topic without a hand-maintained lookup table: load the governing doctrine with spec-kitty charter context, then search the project's own docs tree and the frontmatter of its pages. Both answers come from what is actually there, not from a static index that rots. Use this before writing a new page (to avoid duplicating an existing one) and when navigating the corpus.
 steps:
-  - title: Reject the static lookup table
-    description: >
-      Do not resolve a topic against a hand-maintained topic->path table. Such a
-      table drifts from the corpus the moment a page moves, which is why the
-      Common Docs standard does not adopt one. Search the docs tree and its
-      frontmatter instead.
-    examples:
-      - "Rejected: grepping a curated docs-index.md that lists topics and paths by hand."
-      - "Adopted: searching docs/ and the frontmatter of its pages, which change with every page edit."
-  - title: Load the governing doctrine
-    description: >
-      Load the doctrine that governs the documentation concern with spec-kitty
-      charter context --include, one selector per --include. Start from
-      DIRECTIVE_042 and the common-docs styleguide; they name the sections and
-      the frontmatter keys to search by.
-    examples:
-      - "spec-kitty charter context --include directive:DIRECTIVE_042 --include styleguide:common-docs"
-      - "spec-kitty charter context --include tactic:common-docs-write to reach the authoring conventions once the owning page is found."
-  - title: Search the docs tree by section and file name
-    description: >
-      Find the project's docs root (docs/ by default; the project's charter or
-      README may name another). Pick the section that would own the topic from
-      the styleguide's section list and list it. Read its index.md first. Then
-      search file names and headings across the whole root, because a topic can
-      sit in a section you did not expect.
-    examples:
-      - "ls docs/guides/ and read docs/guides/index.md before writing a new how-to."
-      - "grep -rli 'dashboard' docs/ --include='*.md' to find every page that mentions the topic."
-  - title: Search the frontmatter
-    description: >
-      Read the frontmatter of the candidate pages: title, description,
-      doc_status (or the project's lifecycle key), updated and related:. A
-      deprecated or retired page points at its successor. If the project keeps
-      a generated page inventory, you may search it too, but confirm each hit
-      against the page's own frontmatter.
-    examples:
-      - "grep -rl '^doc_status: active' docs/guides/ to list the live how-tos."
-      - "A match carries doc_status: deprecated, so the live answer is the ADR its related: list names."
-  - title: Confirm the absence before you write
-    description: >
-      A topic is unowned only when the section listing, the full-tree search
-      and the frontmatter search all come up empty. Record the searches you ran
-      in your notes. Then scaffold the new page with the common-docs-scaffold
-      tactic.
-    examples:
-      - "No page under docs/ names the topic in its title, description or headings, so a new page is justified."
-      - "A near match exists under docs/architecture/; extend it instead of creating a second page."
+- title: Reject the static lookup table
+  description: |
+    Do not resolve a topic against a hand-maintained topic->path table. Such a table drifts from the corpus the moment a page moves, which is why the Common Docs standard does not adopt one. Search the docs tree and its frontmatter instead.
+  examples:
+  - 'Rejected: grepping a curated docs-index.md that lists topics and paths by hand.'
+  - 'Adopted: searching docs/ and the frontmatter of its pages, which change with every page edit.'
+- title: Load the governing doctrine
+  description: |
+    Load the doctrine that governs the documentation concern with spec-kitty charter context --include, one selector per --include. Start from DIRECTIVE_042 and the common-docs styleguide; they name the sections and the frontmatter keys to search by.
+  examples:
+  - spec-kitty charter context --include directive:DIRECTIVE_042 --include styleguide:common-docs
+  - spec-kitty charter context --include tactic:common-docs-write to reach the authoring conventions once the owning page is found.
+- title: Search the docs tree by section and file name
+  description: |
+    Find the project's docs root (docs/ by default; the project's charter or README may name another). Pick the section that would own the topic from the styleguide's section list and list it. Read its index.md first. Then search file names and headings across the whole root, because a topic can sit in a section you did not expect.
+  examples:
+  - ls docs/guides/ and read docs/guides/index.md before writing a new how-to.
+  - grep -rli 'dashboard' docs/ --include='*.md' to find every page that mentions the topic.
+- title: Search the frontmatter
+  description: |
+    Read the frontmatter of the candidate pages: title, description, doc_status (or the project's lifecycle key), updated and related:. A deprecated or retired page points at its successor. If the project keeps a generated page inventory, you may search it too, but confirm each hit against the page's own frontmatter.
+  examples:
+  - 'grep -rl ''^doc_status: active'' docs/guides/ to list the live how-tos.'
+  - 'A match carries doc_status: deprecated, so the live answer is the ADR its related: list names.'
+- title: Confirm the absence before you write
+  description: |
+    A topic is unowned only when the section listing, the full-tree search and the frontmatter search all come up empty. Record the searches you ran in your notes. Then scaffold the new page with the common-docs-scaffold tactic.
+  examples:
+  - No page under docs/ names the topic in its title, description or headings, so a new page is justified.
+  - A near match exists under docs/architecture/; extend it instead of creating a second page.
 failure_modes:
-  - "A topic is resolved against a hand-maintained lookup table that has drifted from the corpus, returning a moved or deleted page."
-  - "Only one section is searched, so a page in another section is duplicated."
-  - "A generated inventory is trusted without checking the page's own frontmatter, so a stale entry is taken as the answer."
+- A topic is resolved against a hand-maintained lookup table that has drifted from the corpus, returning a moved or deleted page.
+- Only one section is searched, so a page in another section is duplicated.
+- A generated inventory is trusted without checking the page's own frontmatter, so a stale entry is taken as the answer.

@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: retroactive-fill-in
 title: Retroactive fill-in
-description: Writing all tracer entries at mission close from memory rather than appending at the moment friction or a decision
-  occurs. Retroactive entries miss detail and timing; the tracer files' value comes from in-the-moment capture.
+description: Writing all tracer entries at mission close from memory rather than appending at the moment friction or a decision occurs. Retroactive entries miss detail and timing; the tracer files' value comes from in-the-moment capture.
 severity: severe
 bad_example: All tracer entries are written on the last day from memory, undated.

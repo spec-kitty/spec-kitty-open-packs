@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: copying-a-struct-with-a-mutex
 title: Copying a Struct with a Mutex
-description: Passing or returning a struct that contains a sync.Mutex by value. The copy has its own lock, so the original
-  fields are no longer protected. go vet's copylocks check reports it.
+description: Passing or returning a struct that contains a sync.Mutex by value. The copy has its own lock, so the original fields are no longer protected. go vet's copylocks check reports it.
 severity: breaking
 bad_example: |-
   type Counter struct {

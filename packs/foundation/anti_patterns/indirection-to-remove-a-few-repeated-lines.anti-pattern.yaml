@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: indirection-to-remove-a-few-repeated-lines
 title: Indirection to remove a few repeated lines
-description: Adding a helper or wrapper solely to remove a few repeated lines rather than to preserve a single source of truth
-  for business meaning.
+description: Adding a helper or wrapper solely to remove a few repeated lines rather than to preserve a single source of truth for business meaning.
 severity: smell
 bad_example: |-
   def _plus_one(x):

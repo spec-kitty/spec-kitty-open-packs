@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: jargon-aimed-at-the-wrong-audience
 title: Jargon aimed at the wrong audience
-description: Using unglossed domain jargon in a page written for beginners locks out exactly the reader the page exists to
-  serve. Match vocabulary to the named audience; gloss or link the first occurrence.
+description: Using unglossed domain jargon in a page written for beginners locks out exactly the reader the page exists to serve. Match vocabulary to the named audience; gloss or link the first occurrence.
 severity: severe
 bad_example: |-
   # In a first-run tutorial:

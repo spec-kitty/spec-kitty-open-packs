@@ -3,5 +3,4 @@ id: keyword-only-triage
 title: Keyword-only triage
 description: Assigning parents by title or keyword match without reading the body and missing cross-epic overlaps.
 severity: severe
-bad_example: Ticket "Search crashes on empty query" is parented under the Search epic by its title, though its body shows
-  it is the CLI parser's bug.
+bad_example: Ticket "Search crashes on empty query" is parented under the Search epic by its title, though its body shows it is the CLI parser's bug.

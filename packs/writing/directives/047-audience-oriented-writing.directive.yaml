@@ -1,30 +1,15 @@
-schema_version: "1.0"
 id: DIRECTIVE_047
+schema_version: '1.0'
 title: Audience-Oriented Writing
-intent: >
-  Any artifact intended for a human reader must be tailored to a named,
-  identifiable audience rather than written for an undefined or generic
-  reader. Identifying who the reader is, what they already know, and what
-  they need from the artifact must happen before drafting, not after.
-  Artifacts that skip this step tend to over-explain to experts, under-explain
-  to newcomers, or bury the point the reader actually needs.
+intent: |
+  Any artifact intended for a human reader must be tailored to a named, identifiable audience rather than written for an undefined or generic reader. Identifying who the reader is, what they already know, and what they need from the artifact must happen before drafting, not after. Artifacts that skip this step tend to over-explain to experts, under-explain to newcomers, or bury the point the reader actually needs.
 enforcement: advisory
-scope: >
-  Applies to any agent-authored artifact meant for human consumption:
-  reports, summaries, documentation pages, release notes, stakeholder
-  updates, executive summaries, and presentation content briefs. Does not
-  apply to machine-readable artifacts (code, config, structured data) with
-  no direct human reader.
+scope: |
+  Applies to any agent-authored artifact meant for human consumption: reports, summaries, documentation pages, release notes, stakeholder updates, executive summaries, and presentation content briefs. Does not apply to machine-readable artifacts (code, config, structured data) with no direct human reader.
 integrity_rules:
-  - An artifact with no identifiable target audience is incomplete, not
-    merely stylistically weak.
-  - Audience calibration must not be used to justify omitting facts the
-    audience needs, only to justify how those facts are framed and ordered.
+- An artifact with no identifiable target audience is incomplete, not merely stylistically weak.
+- Audience calibration must not be used to justify omitting facts the audience needs, only to justify how those facts are framed and ordered.
 validation_criteria:
-  - The artifact names its target persona.
-  - A reader unfamiliar with the artifact's origin can infer, from tone and
-    detail level alone, roughly who it was written for.
-  - For Common Docs pages, the named persona is expressed as an `audience:`
-    frontmatter field that resolves to the project's persona source, or names
-    the persona in plain words where the project keeps none (see DIRECTIVE_042
-    and the common-docs styleguide).
+- The artifact names its target persona.
+- A reader unfamiliar with the artifact's origin can infer, from tone and detail level alone, roughly who it was written for.
+- For Common Docs pages, the named persona is expressed as an `audience:` frontmatter field that resolves to the project's persona source, or names the persona in plain words where the project keeps none (see DIRECTIVE_042 and the common-docs styleguide).

@@ -1,10 +1,6 @@
 schema_version: '1.0'
 id: lifting-the-whole-prompt-into-a-single-artifact
 title: Lifting the whole prompt into a single artifact
-description: Copying an entire system prompt or rules file verbatim into one directive or one agent profile. A source agent
-  almost always contains several distinct kinds of knowledge — rules, techniques, tool usage, and conventions. Decompose it
-  into the correct artifact kinds so each piece is independently governable and reusable, rather than trapping everything
-  in one opaque blob.
+description: Copying an entire system prompt or rules file verbatim into one directive or one agent profile. A source agent almost always contains several distinct kinds of knowledge — rules, techniques, tool usage, and conventions. Decompose it into the correct artifact kinds so each piece is independently governable and reusable, rather than trapping everything in one opaque blob.
 severity: severe
-bad_example: A vendor agent's whole system prompt becomes one directive, `DIRECTIVE_LEGACY_AGENT`, mixing rules, tool usage
-  and naming conventions.
+bad_example: A vendor agent's whole system prompt becomes one directive, `DIRECTIVE_LEGACY_AGENT`, mixing rules, tool usage and naming conventions.

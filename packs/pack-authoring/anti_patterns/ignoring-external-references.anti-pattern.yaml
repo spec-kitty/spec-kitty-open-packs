@@ -1,9 +1,6 @@
 schema_version: '1.0'
 id: ignoring-external-references
 title: Ignoring external references
-description: Authoring an artifact that assumes availability of an external tool, API, or platform and proceeding without
-  the owner explicitly acknowledging that dependency. The content-DRG consistency step requires the owner to decide whether
-  to author a toolguide or document the dependency — do not treat silence as acceptance.
+description: Authoring an artifact that assumes availability of an external tool, API, or platform and proceeding without the owner explicitly acknowledging that dependency. The content-DRG consistency step requires the owner to decide whether to author a toolguide or document the dependency — do not treat silence as acceptance.
 severity: severe
-bad_example: A new tactic calls the Jira REST API to fetch ticket fields; no toolguide covers Jira, and the owner never confirms
-  that dependency.
+bad_example: A new tactic calls the Jira REST API to fetch ticket fields; no toolguide covers Jira, and the owner never confirms that dependency.

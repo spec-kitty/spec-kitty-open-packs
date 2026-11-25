@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: tutorial-that-branches-on-reader-choices
 title: Tutorial that branches on reader choices
-description: A tutorial that says "if you prefer X do this, otherwise do that" forces a first-time learner to make a decision
-  they lack the context to make. The guaranteed-path contract of a tutorial is broken the moment it branches.
+description: A tutorial that says "if you prefer X do this, otherwise do that" forces a first-time learner to make a decision they lack the context to make. The guaranteed-path contract of a tutorial is broken the moment it branches.
 severity: severe
 bad_example: |-
   ## Step 3

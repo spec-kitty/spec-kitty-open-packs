@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: backward-goto-and-fall-through-flow
 title: Backward goto and Fall-through Flow
-description: Using goto to jump backwards or to emulate a sequence of fall-through steps. The control flow cannot be read
-  top to bottom, and a step cannot be tested on its own.
+description: Using goto to jump backwards or to emulate a sequence of fall-through steps. The control flow cannot be read top to bottom, and a step cannot be tested on its own.
 severity: smell
 bad_example: |-
   step1:

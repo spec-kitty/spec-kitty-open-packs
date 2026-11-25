@@ -248,7 +248,7 @@ steps:
       - acceptance-test-first
       - change-apply-smallest-viable-diff
   - id: supply-chain-security-check
-    description: 'Run the supply-chain-install-safety tactic''s checklist, per DIRECTIVE_051, for any dependency added or changed during implementation, before the standard quality gate. Record the evidence for every control the directive names.'
+    description: Run the supply-chain-install-safety tactic's checklist, per DIRECTIVE_051, for any dependency added or changed during implementation, before the standard quality gate. Record the evidence for every control the directive names.
     delegates_to:
       kind: tactic
       candidates:
@@ -304,7 +304,7 @@ steps:
       candidates:
       - review-intent-and-risk-first
   - id: supply-chain-security-review
-    description: 'Require explicit supply-chain evidence, per DIRECTIVE_051 and the supply-chain-install-safety tactic, before recommending approval for any change that touches the dependency tree. Silence or an unexamined default is a gap in evidence, not a pass.'
+    description: Require explicit supply-chain evidence, per DIRECTIVE_051 and the supply-chain-install-safety tactic, before recommending approval for any change that touches the dependency tree. Silence or an unexamined default is a gap in evidence, not a pass.
     delegates_to:
       kind: tactic
       candidates:

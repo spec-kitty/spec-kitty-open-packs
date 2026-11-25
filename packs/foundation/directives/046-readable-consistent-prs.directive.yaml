@@ -1,50 +1,18 @@
-schema_version: "1.0"
 id: DIRECTIVE_046
+schema_version: '1.0'
 title: Readable and Consistent Pull Requests
-intent: >
-  Every mission branch and pull request an agent prepares must be readable,
-  consistent, and independently reviewed before it is handed to the operator.
-  Concretely, three properties are required and must not be traded away for speed:
-  (1) LINEAR history — the branch is rebased onto the current upstream base and
-  carries a small set of logically-sliced commits, never a tangle of merge and
-  status commits (rebase over merge); (2) CONSISTENT and COMPLETE scope — the
-  branch finishes the work it set out to do and does not defer genuinely small
-  remaining items to a follow-up, deferring only work that is genuinely
-  high-effort or mission-sized; (3) INDEPENDENTLY REVIEWED — the aggregate diff
-  has had an independent review before, or in parallel to, opening the draft PR,
-  with real findings folded in while the PR is still a draft. The adversarial
-  review squad (adversarial-squad-deployment) is the RECOMMENDED review mechanism
-  — not a mandated gate; it stays optional per its own doctrine.
+intent: |
+  Every mission branch and pull request an agent prepares must be readable, consistent, and independently reviewed before it is handed to the operator. Concretely, three properties are required and must not be traded away for speed: (1) LINEAR history — the branch is rebased onto the current upstream base and carries a small set of logically-sliced commits, never a tangle of merge and status commits (rebase over merge); (2) CONSISTENT and COMPLETE scope — the branch finishes the work it set out to do and does not defer genuinely small remaining items to a follow-up, deferring only work that is genuinely high-effort or mission-sized; (3) INDEPENDENTLY REVIEWED — the aggregate diff has had an independent review before, or in parallel to, opening the draft PR, with real findings folded in while the PR is still a draft. The adversarial review squad (adversarial-squad-deployment) is the RECOMMENDED review mechanism — not a mandated gate; it stays optional per its own doctrine.
 enforcement: required
-scope: >
-  Applies to every agent-prepared mission branch and pull request in the SDD flow,
-  from the point the mission's work packages are approved through to hand-off. It
-  governs how the branch history is shaped, how completely the scope is finished,
-  and what review has run before the PR is presented. It does not change the
-  operator-merges rule (DIRECTIVE_045) — it constrains what the agent hands the
-  operator.
+scope: |
+  Applies to every agent-prepared mission branch and pull request in the SDD flow, from the point the mission's work packages are approved through to hand-off. It governs how the branch history is shaped, how completely the scope is finished, and what review has run before the PR is presented. It does not change the operator-merges rule (DIRECTIVE_045) — it constrains what the agent hands the operator.
 integrity_rules:
-  - A mission PR must not be presented as ready while its branch carries
-    merge-commit tangle or status/bookkeeping commits that a compaction would
-    remove; linear, logically-sliced history is required.
-  - Deferring genuinely small remaining work to a follow-up solely to close the
-    mission faster is prohibited. Deferral is reserved for genuinely high-effort
-    or mission-sized work and must be tracked with a rationale.
-  - A mission PR must not be presented as ready without an independent review of
-    the aggregate diff; per-WP green and green CI are not, by themselves, the
-    final gate. The adversarial squad is the recommended review mechanism but is
-    not itself a mandated gate (it stays optional per its own doctrine).
-  - History rewrites follow the clean-linear-commit-history tactic (a
-    non-reordering, behaviour-preserving snapshot chain) and force-push-with-lease;
-    an interactive reorder that risks losing or scrambling commits is not an
-    acceptable compaction method.
+- A mission PR must not be presented as ready while its branch carries merge-commit tangle or status/bookkeeping commits that a compaction would remove; linear, logically-sliced history is required.
+- Deferring genuinely small remaining work to a follow-up solely to close the mission faster is prohibited. Deferral is reserved for genuinely high-effort or mission-sized work and must be tracked with a rationale.
+- A mission PR must not be presented as ready without an independent review of the aggregate diff; per-WP green and green CI are not, by themselves, the final gate. The adversarial squad is the recommended review mechanism but is not itself a mandated gate (it stays optional per its own doctrine).
+- History rewrites follow the clean-linear-commit-history tactic (a non-reordering, behaviour-preserving snapshot chain) and force-push-with-lease; an interactive reorder that risks losing or scrambling commits is not an acceptable compaction method.
 validation_criteria:
-  - The mission branch at hand-off is ahead-only against the upstream base and
-    carries a small, logically-sliced commit set (not per-WP status noise).
-  - Any deferred work is recorded as a tracked follow-up with a rationale, and no
-    genuinely small item was punted to close the mission faster.
-  - An independent review of the aggregate diff was performed (the adversarial
-    squad being the recommended mechanism) and its confirmed findings were
-    addressed before the PR was presented as ready.
-  - The PR body records the change summary, the review evidence, and any
-    outstanding reviewer/Sonar work.
+- The mission branch at hand-off is ahead-only against the upstream base and carries a small, logically-sliced commit set (not per-WP status noise).
+- Any deferred work is recorded as a tracked follow-up with a rationale, and no genuinely small item was punted to close the mission faster.
+- An independent review of the aggregate diff was performed (the adversarial squad being the recommended mechanism) and its confirmed findings were addressed before the PR was presented as ready.
+- The PR body records the change summary, the review evidence, and any outstanding reviewer/Sonar work.

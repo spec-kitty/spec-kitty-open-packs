@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: hiding-pre-existing-debt-in-new-work
 title: Hiding Pre-existing Debt in New Work
-description: Adding new code alongside broken tests, lint failures, or type errors in the same commit without noting the pre-existing
-  state. Reviewers cannot tell which failures are new without archaeology.
+description: Adding new code alongside broken tests, lint failures, or type errors in the same commit without noting the pre-existing state. Reviewers cannot tell which failures are new without archaeology.
 severity: severe
 bad_example: |-
   # PR adds 200 lines to <project>/state/reducer.py

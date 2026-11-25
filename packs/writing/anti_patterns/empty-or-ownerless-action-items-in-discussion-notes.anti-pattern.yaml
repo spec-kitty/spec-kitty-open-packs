@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: empty-or-ownerless-action-items-in-discussion-notes
 title: Empty or ownerless Action Items in discussion notes
-description: In the discussion-notes format the Action Items section is optional. Do not emit an empty table or a "no actions"
-  placeholder — omit the whole section when nothing actionable arose. Conversely, if an action IS listed it must still have
-  a named owner; optional does not mean unattributed.
+description: In the discussion-notes format the Action Items section is optional. Do not emit an empty table or a "no actions" placeholder — omit the whole section when nothing actionable arose. Conversely, if an action IS listed it must still have a named owner; optional does not mean unattributed.
 severity: severe
 bad_example: |-
   ## Action Items

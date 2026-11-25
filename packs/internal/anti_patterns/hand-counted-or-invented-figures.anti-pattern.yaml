@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: hand-counted-or-invented-figures
 title: Hand-counted or invented figures
-description: Typing a count from memory, or citing an issue no collected file contains, breaks the debrief's core guarantee
-  and its Method's promise. Every number and every ref traces to a collected file, or it does not ship.
+description: Typing a count from memory, or citing an issue no collected file contains, breaks the debrief's core guarantee and its Method's promise. Every number and every ref traces to a collected file, or it does not ship.
 severity: breaking
 bad_example: '"About 50 PRs landed (#5301 was the big one)": the count is estimated and #5301 is not in the collected window.'
-good_example: '"54 PRs merged" from the collector''s metrics; every cited #ref present in valid_refs or in a named supplemental
-  file.'
+good_example: '"54 PRs merged" from the collector''s metrics; every cited #ref present in valid_refs or in a named supplemental file.'

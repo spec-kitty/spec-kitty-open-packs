@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: greening-by-erasure
 title: Greening by erasure
-description: Skipping, disabling, xfailing or quarantining a test, or retrying to green, instead of a real root-cause fix
-  or an honestly classified red (a strict expected failure on a reproduction whose fix lands in a named sibling work package
-  is not this failure).
+description: Skipping, disabling, xfailing or quarantining a test, or retrying to green, instead of a real root-cause fix or an honestly classified red (a strict expected failure on a reproduction whose fix lands in a named sibling work package is not this failure).
 severity: breaking
 bad_example: The flaky integration test gets `@pytest.mark.skip(reason="flaky")` and the PR goes green.

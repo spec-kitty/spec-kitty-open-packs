@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: configuration-stored-in-state
 title: Configuration Stored in State
-description: Config (configFactory()) is structured, exportable, and belongs in version control. State (\Drupal::state())
-  is for ephemeral runtime data such as the last cron run.
+description: Config (configFactory()) is structured, exportable, and belongs in version control. State (\Drupal::state()) is for ephemeral runtime data such as the last cron run.
 severity: severe
 bad_example: \Drupal::state()->set('site_tagline', 'Welcome to our site');
 good_example: |-

@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: skipping-the-exclusion-list
 title: Skipping the exclusion list
-description: Without the vanity-file exclusion list agreed in step 1, the churn and bug-hotspot tables will be dominated by
-  lockfiles and generated bundles. Any triage that omits the exclusion list is invalid and must be re-run.
+description: Without the vanity-file exclusion list agreed in step 1, the churn and bug-hotspot tables will be dominated by lockfiles and generated bundles. Any triage that omits the exclusion list is invalid and must be re-run.
 severity: breaking
-bad_example: The churn table's top ten files are package-lock.json and generated bundles, because no exclusion list was agreed
-  in step 1.
+bad_example: The churn table's top ten files are package-lock.json and generated bundles, because no exclusion list was agreed in step 1.

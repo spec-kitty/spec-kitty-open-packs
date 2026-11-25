@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: shared-mutable-state-between-scenarios
 title: Shared mutable state between scenarios
-description: Scenario B relying on data created by Scenario A. When Scenario A is skipped or fails, Scenario B fails for the
-  wrong reason. Each scenario must establish its own preconditions via Given steps.
+description: Scenario B relying on data created by Scenario A. When Scenario A is skipped or fails, Scenario B fails for the wrong reason. Each scenario must establish its own preconditions via Given steps.
 severity: severe
 bad_example: |-
   private static List<String> log = new ArrayList<>(); // shared across tests

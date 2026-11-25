@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: over-length-entries
 title: Over-length entries
-description: Writing paragraphs per entry instead of 1-3 focused sentences. The files are a running log, not a document. Verbosity
-  degrades the signal-to-noise ratio and makes the assess step harder.
+description: Writing paragraphs per entry instead of 1-3 focused sentences. The files are a running log, not a document. Verbosity degrades the signal-to-noise ratio and makes the assess step harder.
 severity: smell
 bad_example: A tracer entry runs to four paragraphs about one flaky test.

@@ -3,5 +3,4 @@ id: implementation-coupled-briefs
 title: Implementation-coupled briefs
 description: Briefs that mention line numbers or current file paths decay quickly and constrain agents unnecessarily.
 severity: smell
-bad_example: The brief says "fix the null check at src/orders/service.py:212"; a refactor moves the line before the agent
-  starts.
+bad_example: The brief says "fix the null check at src/orders/service.py:212"; a refactor moves the line before the agent starts.

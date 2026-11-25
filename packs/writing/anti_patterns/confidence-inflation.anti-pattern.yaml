@@ -4,5 +4,4 @@ title: Confidence Inflation
 description: Writing a tentative, weakly-evidenced finding in the assertive tone reserved for well-established fact.
 severity: severe
 bad_example: Approach B is the correct choice.
-good_example: On the current evidence (one spike, one secondary benchmark) approach B looks preferable; confidence is low
-  and a second measurement would raise it.
+good_example: On the current evidence (one spike, one secondary benchmark) approach B looks preferable; confidence is low and a second measurement would raise it.

@@ -1,80 +1,42 @@
-schema_version: "1.0"
 id: common-docs-scaffold
+schema_version: '1.0'
 name: Common Docs Scaffold
-purpose: >
-  How to scaffold a new Common Doc from nothing: pick the one owning section
-  of the structure the common-docs styleguide's own principle states, create
-  the file at the section-aware path, seed the in-file frontmatter schema
-  (including the namespaced doc_status), and add the section index.md when
-  the section is new. Use this when a concern has no home yet under the
-  single Common Docs root.
+purpose: |
+  How to scaffold a new Common Doc from nothing: pick the one owning section of the structure the common-docs styleguide's own principle states, create the file at the section-aware path, seed the in-file frontmatter schema (including the namespaced doc_status), and add the section index.md when the section is new. Use this when a concern has no home yet under the single Common Docs root.
 steps:
-  - title: Choose the owning section
-    description: >
-      Select exactly one of the sections that owns the concern, per the
-      common-docs styleguide's own list. One concern lives in one section —
-      never spread the same concern across two sections and never invent a
-      fourteenth section or a per-version shadow tree. Durable design
-      decisions go to adr/ or architecture/ (living, unversioned);
-      in-flight investigations and traces go to plans/ under the distil-then-retire
-      lifecycle.
-    examples:
-      - "A new dashboard how-to is owned by guides/; the durable decision it documents is owned by adr/, not duplicated in both."
-      - "A migration runbook is owned by migrations/; a connector integration note is owned by integrations/."
-  - title: Create the file at the section-aware path
-    description: >
-      Place the new file under the single Common Docs root at
-      <root>/<section>/<kebab-case-name>.md, using lowercase kebab-case for both
-      directory and file names. ADR filenames keep their dated prefix. Do not
-      create a second documentation root or a per-version shadow directory; if
-      the section already exists, add the file beside its siblings.
-    examples:
-      - "docs/guides/open-the-dashboard.md for a new how-to."
-      - "docs/adr/2026-10-19-1-example-decision.md for a new ADR, keeping the dated prefix (under docs/adr/<era>/ if the project versions its ADRs)."
-  - title: Seed the frontmatter schema
-    description: >
-      Open the file with in-file YAML frontmatter as the per-page source of
-      truth: title; the project's lifecycle key (doc_status by default) with one of
-      the values its docs styleguide defines; updated: YYYY-MM-DD; a description of
-      50-180 characters; a related: list of page slugs (empty list if there
-      are none yet); and audience: entries of profile and guidance_text for the
-      readers the page serves. A freshly scaffolded page
-      normally starts at doc_status: draft. Do not create a sidecar metadata
-      store; if the project keeps a page inventory, it is generated from this
-      frontmatter.
-    examples:
-      - "doc_status: draft with updated: 2026-06-27, a 110-character description, related: [] and one audience: entry (profile: operator, guidance_text: Use this to restart the service safely.) for a brand-new page."
-      - "A non-ADR page: doc_status: draft, flipped to doc_status: active once finalised."
-  - title: File a new ADR under adr/, with MADR status
-    description: >
-      An Architecture Decision Record is the one sanctioned exception to the
-      doc_status schema above: file it under adr/ (or adr/<era>/ if the
-      project versions its ADRs), with YAML frontmatter carrying the MADR
-      `status` field (Proposed | Accepted | Deprecated | Superseded) — never
-      `doc_status`. See DIRECTIVE_042 for the full ADR frontmatter exception;
-      this step does not restate it.
-    examples:
-      - "A new adr/2026-10-19-1-example-decision.md starts status: Proposed."
-      - "When ADR-B supersedes ADR-A, ADR-A flips to status: Superseded and gains a related: link to ADR-B."
-  - title: Add the section index when the section is new
-    description: >
-      If the chosen section did not exist before, create its index.md so
-      every section (per the styleguide's own list) carries its own index, and seed
-      that index.md with the same frontmatter schema. The
-      common-docs-structural-lint asset's index_completeness check enforces
-      this mechanically only for sections the lint's policy file marks
-      curated-complete (initially architecture/ only) — a page missing
-      from a curated-complete section's index.md fails the lint; every other
-      section index is a landing page, so seeding it promptly is still
-      part of this directive's rule, though no lint checks it yet. Run the
-      lint as the common-docs-structural-lint toolguide describes; with
-      --extended it also flags a page outside the sanctioned sections.
-    examples:
-      - "Creating the first file under integrations/ also creates integrations/index.md with doc_status: active (a directive requirement, not currently lint-checked)."
-      - "Adding a page under architecture/ (curated-complete) without listing it in architecture/index.md fails docs_structural_lint's index_completeness check."
+- title: Choose the owning section
+  description: |
+    Select exactly one of the sections that owns the concern, per the common-docs styleguide's own list. One concern lives in one section — never spread the same concern across two sections and never invent a fourteenth section or a per-version shadow tree. Durable design decisions go to adr/ or architecture/ (living, unversioned); in-flight investigations and traces go to plans/ under the distil-then-retire lifecycle.
+  examples:
+  - A new dashboard how-to is owned by guides/; the durable decision it documents is owned by adr/, not duplicated in both.
+  - A migration runbook is owned by migrations/; a connector integration note is owned by integrations/.
+- title: Create the file at the section-aware path
+  description: |
+    Place the new file under the single Common Docs root at <root>/<section>/<kebab-case-name>.md, using lowercase kebab-case for both directory and file names. ADR filenames keep their dated prefix. Do not create a second documentation root or a per-version shadow directory; if the section already exists, add the file beside its siblings.
+  examples:
+  - docs/guides/open-the-dashboard.md for a new how-to.
+  - docs/adr/2026-10-19-1-example-decision.md for a new ADR, keeping the dated prefix (under docs/adr/<era>/ if the project versions its ADRs).
+- title: Seed the frontmatter schema
+  description: |
+    Open the file with in-file YAML frontmatter as the per-page source of truth: title; the project's lifecycle key (doc_status by default) with one of the values its docs styleguide defines; updated: YYYY-MM-DD; a description of 50-180 characters; a related: list of page slugs (empty list if there are none yet); and audience: entries of profile and guidance_text for the readers the page serves. A freshly scaffolded page normally starts at doc_status: draft. Do not create a sidecar metadata store; if the project keeps a page inventory, it is generated from this frontmatter.
+  examples:
+  - 'doc_status: draft with updated: 2026-06-27, a 110-character description, related: [] and one audience: entry (profile: operator, guidance_text: Use this to restart the service safely.) for a brand-new page.'
+  - 'A non-ADR page: doc_status: draft, flipped to doc_status: active once finalised.'
+- title: File a new ADR under adr/, with MADR status
+  description: |
+    An Architecture Decision Record is the one sanctioned exception to the doc_status schema above: file it under adr/ (or adr/<era>/ if the project versions its ADRs), with YAML frontmatter carrying the MADR `status` field (Proposed | Accepted | Deprecated | Superseded) — never `doc_status`. See DIRECTIVE_042 for the full ADR frontmatter exception; this step does not restate it.
+  examples:
+  - 'A new adr/2026-10-19-1-example-decision.md starts status: Proposed.'
+  - 'When ADR-B supersedes ADR-A, ADR-A flips to status: Superseded and gains a related: link to ADR-B.'
+- title: Add the section index when the section is new
+  description: |
+    If the chosen section did not exist before, create its index.md so every section (per the styleguide's own list) carries its own index, and seed that index.md with the same frontmatter schema. The common-docs-structural-lint asset's index_completeness check enforces this mechanically only for sections the lint's policy file marks curated-complete (initially architecture/ only) — a page missing from a curated-complete section's index.md fails the lint; every other section index is a landing page, so seeding it promptly is still part of this directive's rule, though no lint checks it yet. Run the lint as the common-docs-structural-lint toolguide describes; with --extended it also flags a page outside the sanctioned sections.
+  examples:
+  - 'Creating the first file under integrations/ also creates integrations/index.md with doc_status: active (a directive requirement, not currently lint-checked).'
+  - Adding a page under architecture/ (curated-complete) without listing it in architecture/index.md fails docs_structural_lint's index_completeness check.
 failure_modes:
-  - "The new file is dropped under a second documentation root or a per-version shadow tree, re-creating the split-brain."
-  - "The concern is scattered across two sections instead of being owned by exactly one."
-  - "Frontmatter is seeded with a bare status key, colliding with another meaning of status in the project."
-  - "A new curated-complete section (architecture/) gains a page missing from its index.md, failing docs_structural_lint's index_completeness check; for every other section a missing index.md is a review-time gap, not yet caught mechanically."
-  - "The description is seeded outside the 50-180 character band and fails review."
+- The new file is dropped under a second documentation root or a per-version shadow tree, re-creating the split-brain.
+- The concern is scattered across two sections instead of being owned by exactly one.
+- Frontmatter is seeded with a bare status key, colliding with another meaning of status in the project.
+- A new curated-complete section (architecture/) gains a page missing from its index.md, failing docs_structural_lint's index_completeness check; for every other section a missing index.md is a review-time gap, not yet caught mechanically.
+- The description is seeded outside the 50-180 character band and fails review.

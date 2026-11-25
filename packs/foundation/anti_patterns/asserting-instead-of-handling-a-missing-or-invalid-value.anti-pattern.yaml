@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: asserting-instead-of-handling-a-missing-or-invalid-value
 title: Asserting Instead of Handling a Missing or Invalid Value
-description: Telling the compiler or the runtime that a value exists or is valid without checking it, as a non-null assertion
-  or an unwrap on input does. A missing or malformed value becomes a crash at runtime, far from its cause, instead of an error
-  the caller can handle.
+description: Telling the compiler or the runtime that a value exists or is valid without checking it, as a non-null assertion or an unwrap on input does. A missing or malformed value becomes a crash at runtime, far from its cause, instead of an error the caller can handle.
 severity: breaking
 bad_example: |-
   // javascript: Non-Null Assertion as Error Handling

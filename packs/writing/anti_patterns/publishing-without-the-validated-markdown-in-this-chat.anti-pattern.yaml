@@ -1,9 +1,6 @@
 schema_version: '1.0'
 id: publishing-without-the-validated-markdown-in-this-chat
 title: Publishing without the validated Markdown in this chat
-description: Optional wiki publishing reuses Markdown the user has already seen. If this chat does not hold that Markdown,
-  ask them to paste it. Do not silently re-extract. Providing a transcript instead starts a new minutes run, not a shortcut
-  to publish.
+description: Optional wiki publishing reuses Markdown the user has already seen. If this chat does not hold that Markdown, ask them to paste it. Do not silently re-extract. Providing a transcript instead starts a new minutes run, not a shortcut to publish.
 severity: severe
-bad_example: Asked to publish, the agent finds no validated Markdown in this chat, silently re-runs extraction on the transcript
-  and publishes the new output.
+bad_example: Asked to publish, the agent finds no validated Markdown in this chat, silently re-runs extraction on the transcript and publishes the new output.

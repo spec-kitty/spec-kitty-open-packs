@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: tests-for-the-sake-of-tests
 title: Tests for the sake of tests
-description: A landing test that duplicates an existing assertion, pins code shape, or is inert once the fix lands adds cost
-  and no protection.
+description: A landing test that duplicates an existing assertion, pins code shape, or is inert once the fix lands adds cost and no protection.
 severity: smell
 bad_example: The landing adds a test asserting that `fix_parser` exists as a function.

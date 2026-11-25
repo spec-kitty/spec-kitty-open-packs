@@ -1,102 +1,66 @@
-schema_version: "1.0"
 id: ai-writing-tells
+schema_version: '1.0'
 title: AI Writing Tells Styleguide
 scope: docs
-applies_to_languages: []
-
 principles:
-  - name: "Cut the tells of machine writing"
-    description: "Read your own prose for the tells of machine writing and cut them before you publish. The patterns below are the recurring ones; run them as a checklist, not as advice you apply when convenient."
-  - name: "One list for every kind of page"
-    description: "One list for every kind of page: documentation, reports, release notes and messages all use these patterns. A styleguide for one kind of writing points here and adds only what is specific to it, such as a required separator."
-  - name: "A reader who spots the tells discounts the content"
-    description: "A reader who spots the tells discounts the content. Sound analysis written in generated-sounding prose is read as less trustworthy, so cutting the tells protects the substance, not only the style."
-
+- name: Cut the tells of machine writing
+  description: Read your own prose for the tells of machine writing and cut them before you publish. The patterns below are the recurring ones; run them as a checklist, not as advice you apply when convenient.
+- name: One list for every kind of page
+  description: 'One list for every kind of page: documentation, reports, release notes and messages all use these patterns. A styleguide for one kind of writing points here and adds only what is specific to it, such as a required separator.'
+- name: A reader who spots the tells discounts the content
+  description: A reader who spots the tells discounts the content. Sound analysis written in generated-sounding prose is read as less trustworthy, so cutting the tells protects the substance, not only the style.
 patterns:
-  - name: Ration the em-dash
-    description: >
-      The sentence-joining em-dash is the strongest tell of machine prose.
-      Allow at most two per page, none in headings or bullets; everywhere else
-      use a period, a comma, or a colon. If a sentence leans on two em-dashes
-      to hold its clauses together, it is two sentences. A dash that another
-      styleguide requires as a structural separator (for example in a meeting
-      title or an action-item line) is not a sentence-joining dash.
-    bad_example: |
-      The cache — which is shared across workers — expires after an hour — unless a write refreshes it.
-    good_example: |
-      The cache is shared across workers. It expires after an hour unless a write refreshes it.
-  - name: Say the thing plainly, not "not just X but Y"
-    description: >
-      The "not just X, but Y" and "it's not about X, it's about Y"
-      constructions manufacture a contrast to sound profound. State what is
-      true directly.
-    bad_example: |
-      This is not just a refactor, it's a rethink of how billing works.
-    good_example: |
-      This refactor moves invoice rounding into the billing module.
-  - name: Cut empty intensifiers and throat-clearing
-    description: >
-      Delete emphasis words such as "notably", "significantly" and
-      "importantly", and the throat-clearing openers machine prose overuses,
-      such as "it's worth noting that" and "it's important to understand".
-      They add emphasis that a real figure or fact earns on its own. The
-      plain-language styleguide owns hedging, filler and meta-narration in
-      general ("simply", "just", "it should be noted that"); this pattern
-      adds only these emphasis words and openers.
-    bad_example: |
-      Notably, it's worth noting that the import now finishes significantly faster.
-    good_example: |
-      The import now finishes in 40 seconds instead of 3 minutes.
-  - name: Drop the LLM buzzwords
-    description: >
-      Avoid "leverage" as a verb, "robust", "seamless", "delve", "underscore",
-      "tapestry", "realm", "landscape" and "testament to". Use the plain word:
-      "use", not "leverage"; "the results show", not "the results underscore".
-    bad_example: |
-      We leverage a robust, seamless pipeline that underscores our commitment to quality.
-    good_example: |
-      The pipeline runs the tests and the linter on every pull request.
-  - name: Break the rule of three and the uniform bullet opener
-    description: >
-      Machine prose reaches for three-item triads and for lists where every
-      bullet opens with the same part of speech. Size a list to what the
-      content holds, two items or five, and let bullets begin differently. A
-      page of identically shaped sentences reads as generated.
-    bad_example: |
-      - Improves speed.
-      - Improves reliability.
-      - Improves clarity.
-    good_example: |
-      - Startup takes 2 seconds instead of 9.
-      - A failed download now retries instead of crashing.
-  - name: No puffery
-    description: >
-      Cut self-congratulation and vague praise: "a strong release", "impressive
-      progress", "significant strides". Let the counted change carry the
-      judgement. If throughput rose, give the figure and let the reader decide
-      it is strong.
-    bad_example: |
-      This release marks impressive progress and significant strides in performance.
-    good_example: |
-      This release handles 1,200 requests per second, up from 800.
-  - name: Label gathered versus synthesized figures
-    description: >
-      Mark each measured or reported result (a speed, a count, a rate, an
-      outcome) as measured directly by the author or reused from an upstream
-      source, such as a research note or a vendor benchmark. Specified values
-      (a default timeout, a port, a length limit) need no label. A consistent
-      label lets a reviewer spot-check the figures that carry the argument and
-      lets a later reader trust the ones that were not spot-checked. Where
-      every figure must also carry its source, the research-citation-discipline
-      styleguide applies.
-    bad_example: |
-      Builds are 30 percent faster and the cache hit rate is 85 percent.
-    good_example: |
-      Builds are 30 percent faster (measured: median of 20 CI runs before and after). The 85 percent cache hit rate comes from the vendor's dashboard (not reproduced).
-
-quality_test: >
-  A page satisfies this styleguide when a read-through against the patterns
-  finds no buzzword from the list, no "not just X but Y" construction, no
-  empty intensifier, no unearned praise, at most two sentence-joining
-  em-dashes, lists sized to their content, and every measured or reported
-  result labelled as measured or reused.
+- name: Ration the em-dash
+  description: |
+    The sentence-joining em-dash is the strongest tell of machine prose. Allow at most two per page, none in headings or bullets; everywhere else use a period, a comma, or a colon. If a sentence leans on two em-dashes to hold its clauses together, it is two sentences. A dash that another styleguide requires as a structural separator (for example in a meeting title or an action-item line) is not a sentence-joining dash.
+  bad_example: |
+    The cache — which is shared across workers — expires after an hour — unless a write refreshes it.
+  good_example: |
+    The cache is shared across workers. It expires after an hour unless a write refreshes it.
+- name: Say the thing plainly, not "not just X but Y"
+  description: |
+    The "not just X, but Y" and "it's not about X, it's about Y" constructions manufacture a contrast to sound profound. State what is true directly.
+  bad_example: |
+    This is not just a refactor, it's a rethink of how billing works.
+  good_example: |
+    This refactor moves invoice rounding into the billing module.
+- name: Cut empty intensifiers and throat-clearing
+  description: |
+    Delete emphasis words such as "notably", "significantly" and "importantly", and the throat-clearing openers machine prose overuses, such as "it's worth noting that" and "it's important to understand". They add emphasis that a real figure or fact earns on its own. The plain-language styleguide owns hedging, filler and meta-narration in general ("simply", "just", "it should be noted that"); this pattern adds only these emphasis words and openers.
+  bad_example: |
+    Notably, it's worth noting that the import now finishes significantly faster.
+  good_example: |
+    The import now finishes in 40 seconds instead of 3 minutes.
+- name: Drop the LLM buzzwords
+  description: |
+    Avoid "leverage" as a verb, "robust", "seamless", "delve", "underscore", "tapestry", "realm", "landscape" and "testament to". Use the plain word: "use", not "leverage"; "the results show", not "the results underscore".
+  bad_example: |
+    We leverage a robust, seamless pipeline that underscores our commitment to quality.
+  good_example: |
+    The pipeline runs the tests and the linter on every pull request.
+- name: Break the rule of three and the uniform bullet opener
+  description: |
+    Machine prose reaches for three-item triads and for lists where every bullet opens with the same part of speech. Size a list to what the content holds, two items or five, and let bullets begin differently. A page of identically shaped sentences reads as generated.
+  bad_example: |
+    - Improves speed.
+    - Improves reliability.
+    - Improves clarity.
+  good_example: |
+    - Startup takes 2 seconds instead of 9.
+    - A failed download now retries instead of crashing.
+- name: No puffery
+  description: |
+    Cut self-congratulation and vague praise: "a strong release", "impressive progress", "significant strides". Let the counted change carry the judgement. If throughput rose, give the figure and let the reader decide it is strong.
+  bad_example: |
+    This release marks impressive progress and significant strides in performance.
+  good_example: |
+    This release handles 1,200 requests per second, up from 800.
+- name: Label gathered versus synthesized figures
+  description: |
+    Mark each measured or reported result (a speed, a count, a rate, an outcome) as measured directly by the author or reused from an upstream source, such as a research note or a vendor benchmark. Specified values (a default timeout, a port, a length limit) need no label. A consistent label lets a reviewer spot-check the figures that carry the argument and lets a later reader trust the ones that were not spot-checked. Where every figure must also carry its source, the research-citation-discipline styleguide applies.
+  bad_example: |
+    Builds are 30 percent faster and the cache hit rate is 85 percent.
+  good_example: |
+    Builds are 30 percent faster (measured: median of 20 CI runs before and after). The 85 percent cache hit rate comes from the vendor's dashboard (not reproduced).
+quality_test: |
+  A page satisfies this styleguide when a read-through against the patterns finds no buzzword from the list, no "not just X but Y" construction, no empty intensifier, no unearned praise, at most two sentence-joining em-dashes, lists sized to their content, and every measured or reported result labelled as measured or reused.

@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: unbounded-or-colliding-dispatch
 title: Unbounded or colliding dispatch
-description: Exceeding three open unmerged PRs per repository, putting runners on the same file family, or starting a wave
-  before its environment probe and shared prerequisites have settled.
+description: Exceeding three open unmerged PRs per repository, putting runners on the same file family, or starting a wave before its environment probe and shared prerequisites have settled.
 severity: severe
-bad_example: A fourth runner is started while three PRs on the repository are still unmerged, on the same file family as one
-  of them.
+bad_example: A fourth runner is started while three PRs on the repository are still unmerged, on the same file family as one of them.

@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: rubber-stamp-sign-off
 title: Rubber-stamp sign-off
-description: Recording a go decision without reporting actual status against each exit criterion turns the review into a formality
-  rather than a real readiness check.
+description: Recording a go decision without reporting actual status against each exit criterion turns the review into a formality rather than a real readiness check.
 severity: severe
 bad_example: The go/no-go record says "Go" with no line per exit criterion; two criteria were never measured.

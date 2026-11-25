@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: wildcard-match-on-a-domain-enum
 title: Wildcard Match on a Domain Enum
-description: 'Ending a match on one of your own domain enums with `_ =>`. The compiler can no longer point at the code that
-  must handle a new variant. Foreign #[non_exhaustive] enums, such as std::io::ErrorKind, are the exception: they require
-  the wildcard.'
+description: 'Ending a match on one of your own domain enums with `_ =>`. The compiler can no longer point at the code that must handle a new variant. Foreign #[non_exhaustive] enums, such as std::io::ErrorKind, are the exception: they require the wildcard.'
 severity: severe
 bad_example: let fee = match tier { Tier::Gold => 0, _ => 5 };
 good_example: let fee = match tier { Tier::Gold => 0, Tier::Silver | Tier::Basic => 5 };

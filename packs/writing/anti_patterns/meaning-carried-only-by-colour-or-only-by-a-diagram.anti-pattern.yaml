@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: meaning-carried-only-by-colour-or-only-by-a-diagram
 title: Meaning carried only by colour or only by a diagram
-description: Encoding status purely in colour, or stating a relationship only inside a diagram, excludes colour-blind readers
-  and anyone who cannot see the render. Add a text label and restate the diagram's facts in prose.
+description: Encoding status purely in colour, or stating a relationship only inside a diagram, excludes colour-blind readers and anyone who cannot see the render. Add a text label and restate the diagram's facts in prose.
 severity: severe
 bad_example: |-
   Lanes shown in red are blocked.   <!-- colour is the only signal -->

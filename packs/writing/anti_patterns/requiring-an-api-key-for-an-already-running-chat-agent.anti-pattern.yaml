@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: requiring-an-api-key-for-an-already-running-chat-agent
 title: Requiring an API key for an already-running chat agent
-description: The chat agent already in session performs extraction. Do not block chat-only delivery on an extra provider API
-  key or wiki publish credentials.
+description: The chat agent already in session performs extraction. Do not block chat-only delivery on an extra provider API key or wiki publish credentials.
 severity: severe
 bad_example: The agent refuses to return the minutes in chat until an LLM provider API key and wiki credentials are configured.

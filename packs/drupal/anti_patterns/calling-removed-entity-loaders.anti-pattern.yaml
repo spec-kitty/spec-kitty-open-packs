@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: calling-removed-entity-loaders
 title: Calling Removed Entity Loaders
-description: node_load() was removed in Drupal 9.0.0, not merely deprecated -- on this profile's Drupal 10/11 baseline the
-  function does not exist, so calling it is a fatal error, not a deprecation warning. Use the entity type manager instead.
+description: node_load() was removed in Drupal 9.0.0, not merely deprecated -- on this profile's Drupal 10/11 baseline the function does not exist, so calling it is a fatal error, not a deprecation warning. Use the entity type manager instead.
 severity: breaking
 bad_example: $node = node_load(123);
 good_example: $node = $this->entityTypeManager->getStorage('node')->load(123);

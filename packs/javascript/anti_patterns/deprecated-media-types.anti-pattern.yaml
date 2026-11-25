@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: deprecated-media-types
 title: Deprecated Media Types
-description: '`handheld`, `tv` and `projection` are deprecated and should not be used; query the capability you care about
-  instead.'
+description: '`handheld`, `tv` and `projection` are deprecated and should not be used; query the capability you care about instead.'
 severity: smell
 bad_example: |-
   @media handheld {

@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: sprawling-form-alter
 title: Sprawling Form Alter
-description: A complex hook_form_alter() delegates to a service with focused methods rather than growing a single branching
-  switch.
+description: A complex hook_form_alter() delegates to a service with focused methods rather than growing a single branching switch.
 severity: smell
 bad_example: |-
   function my_module_form_alter(&$form, FormStateInterface $form_state, $form_id): void {

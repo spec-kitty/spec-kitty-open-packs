@@ -109,8 +109,7 @@ edges:
   target: procedure:component-boundary-definition
   relation: requires
   when: a design or implementation change defines or alters component boundaries
-  reason: Draws boundaries before code, separates concerns per layer, checks designs for coupling, and records any deviation
-    in an ADR.
+  reason: Draws boundaries before code, separates concerns per layer, checks designs for coupling, and records any deviation in an ADR.
 - source: directive:DIRECTIVE_003
   target: procedure:decision-record-keeping
   relation: requires
@@ -122,33 +121,26 @@ edges:
 - source: directive:DIRECTIVE_003
   target: tactic:traceable-decisions
   relation: requires
-  reason: This tactic is the practical implementation protocol for Directive 003; use the directive for policy, this tactic
-    for execution.
+  reason: This tactic is the practical implementation protocol for Directive 003; use the directive for policy, this tactic for execution.
 - source: directive:DIRECTIVE_010
   target: procedure:specification-traceability-check
   relation: requires
   when: implementing or reviewing work against a specification
-  reason: Traces each change to a requirement ID in a coverage table, surfaces deviations before merge, and checks every requirement
-    maps to code and a test.
+  reason: Traces each change to a requirement ID in a coverage table, surfaces deviations before merge, and checks every requirement maps to code and a test.
 - source: directive:DIRECTIVE_018
   target: procedure:doctrine-version-change
   relation: requires
   when: changing charter artifacts or their schema versions
-  reason: Records the migration impact of a version-affecting charter artifact change, aligns schema version fields, and confirms
-    compatibility across the repository.
+  reason: Records the migration impact of a version-affecting charter artifact change, aligns schema version fields, and confirms compatibility across the repository.
 - source: directive:DIRECTIVE_024
   target: directive:DIRECTIVE_025
   relation: tension
-  reason: Locality of Change bounds new work to the minimum scope the goal requires; Boy Scout Rule endorses opportunistic
-    improvement of touched areas, which can justify expanding a change beyond that boundary. Both remain valid, co-activatable
-    rules -- the tension is resolved per-change by keeping adjacent campsite cleaning inside the touched area while deferring
-    genuinely broad refactors with an explicit rationale, not by retiring either rule. See directive:RECONCILE_CHANGE_SCOPE_TENSIONS.
+  reason: Locality of Change bounds new work to the minimum scope the goal requires; Boy Scout Rule endorses opportunistic improvement of touched areas, which can justify expanding a change beyond that boundary. Both remain valid, co-activatable rules -- the tension is resolved per-change by keeping adjacent campsite cleaning inside the touched area while deferring genuinely broad refactors with an explicit rationale, not by retiring either rule. See directive:RECONCILE_CHANGE_SCOPE_TENSIONS.
 - source: directive:DIRECTIVE_024
   target: procedure:keep-change-local
   relation: requires
   when: editing code, tests, or docs while executing a scoped work package or bug fix
-  reason: Keeps edits on the target behavior, justifies any wider reach, keeps cleanup separate, and checks the diff for scope
-    creep before commit.
+  reason: Keeps edits on the target behavior, justifies any wider reach, keeps cleanup separate, and checks the diff for scope creep before commit.
 - source: directive:DIRECTIVE_025
   target: directive:DIRECTIVE_030
   relation: suggests
@@ -159,27 +151,21 @@ edges:
   target: procedure:tech-debt-point-cut-triage
   relation: requires
   when: a mission reaches a post-spec, post-plan, or post-tasks point-cut
-  reason: 'Applies the Boy Scout Rule at planning time: folds debt matching the mission domain into the work, files the rest,
-    and records the triage at the point-cut.'
+  reason: 'Applies the Boy Scout Rule at planning time: folds debt matching the mission domain into the work, files the rest, and records the triage at the point-cut.'
 - source: directive:DIRECTIVE_025
   target: procedure:tidy-first-campsite-clean
   relation: requires
   when: starting a mission or work package that will modify a cluttered surface
-  reason: Improves the area before the functional change, in a separate behavior-preserving step, so the cleanup does not
-    bloat or obscure the real change.
+  reason: Improves the area before the functional change, in a separate behavior-preserving step, so the cleanup does not bloat or obscure the real change.
 - source: directive:DIRECTIVE_025
   target: procedure:touched-area-cleanup
   relation: requires
   when: a touched area carries failing tests, lint findings, type errors, or minor clutter
-  reason: Makes fixing the default for failing tests, lint and type errors in touched files, keeping the cleanup proportional
-    and inside the change file set.
+  reason: Makes fixing the default for failing tests, lint and type errors in touched files, keeping the cleanup proportional and inside the change file set.
 - source: directive:DIRECTIVE_025
   target: tactic:change-apply-smallest-viable-diff
   relation: tension
-  reason: The Boy Scout Rule encourages leaving touched code better than found, which can justify changes beyond the smallest
-    viable diff the tactic prescribes. Both remain valid, co-activatable rules -- apply smallest-viable-diff discipline for
-    goal delivery, and fold in only the touched-area fixes Boy Scout Rule requires, deferring broader opportunistic improvement
-    to an explicit task. See directive:RECONCILE_CHANGE_SCOPE_TENSIONS.
+  reason: The Boy Scout Rule encourages leaving touched code better than found, which can justify changes beyond the smallest viable diff the tactic prescribes. Both remain valid, co-activatable rules -- apply smallest-viable-diff discipline for goal delivery, and fold in only the touched-area fixes Boy Scout Rule requires, deferring broader opportunistic improvement to an explicit task. See directive:RECONCILE_CHANGE_SCOPE_TENSIONS.
 - source: directive:DIRECTIVE_028
   target: procedure:local-tooling-selection
   relation: requires
@@ -192,8 +178,7 @@ edges:
   target: procedure:agent-commit-signing
   relation: requires
   when: an agent creates a commit
-  reason: Lets agents commit unattended without failing on missing keys, by committing with signing disabled and documenting
-    when a human-signed commit is needed instead.
+  reason: Lets agents commit unattended without failing on missing keys, by committing with signing disabled and documenting when a human-signed commit is needed instead.
 - source: directive:DIRECTIVE_029
   target: toolguide:git-agent-commit-signing
   relation: suggests
@@ -204,14 +189,12 @@ edges:
   target: procedure:test-and-typecheck-gate-run
   relation: requires
   when: handing off a change for review or merge
-  reason: Runs tests at the right levels, coverage, static analysis and a separate typecheck, and records new versus pre-existing
-    failures.
+  reason: Runs tests at the right levels, coverage, static analysis and a separate typecheck, and records new versus pre-existing failures.
 - source: directive:DIRECTIVE_030
   target: tactic:work-package-completion-validation
   relation: suggests
   when: validating that a work package meets its required quality gates before its status advances to for_review or done
-  reason: The quality gate suggests work-package completion validation as the check that its gates are actually met before
-    a status transition; the `when` is the tactic's own stated purpose. Delivered at implement/review.
+  reason: The quality gate suggests work-package completion validation as the check that its gates are actually met before a status transition; the `when` is the tactic's own stated purpose. Delivered at implement/review.
 - source: directive:DIRECTIVE_031
   target: directive:DIRECTIVE_001
   relation: requires
@@ -219,8 +202,7 @@ edges:
   target: procedure:bounded-context-alignment
   relation: requires
   when: naming, structuring, or integrating code within or across a bounded context
-  reason: Identifies the bounded context, uses its language, translates explicitly at boundaries, and flags implicit cross-context
-    coupling in review.
+  reason: Identifies the bounded context, uses its language, translates explicitly at boundaries, and flags implicit cross-context coupling in review.
 - source: directive:DIRECTIVE_032
   target: directive:DIRECTIVE_031
   relation: suggests
@@ -228,8 +210,7 @@ edges:
   target: procedure:term-interpretation-alignment
   relation: requires
   when: starting a task whose description uses domain-specific or ambiguous terms
-  reason: Surfaces ambiguous terms, states the interpretation in use, has the requester settle real ambiguity, and records
-    the outcome, so no work rests on a misread term.
+  reason: Surfaces ambiguous terms, states the interpretation in use, has the requester settle real ambiguity, and records the outcome, so no work rests on a misread term.
 - source: directive:DIRECTIVE_032
   target: tactic:glossary-curation-interview
   relation: suggests
@@ -240,27 +221,22 @@ edges:
   target: procedure:targeted-staging
   relation: requires
   when: staging a work package's changes for commit
-  reason: Adds only the listed deliverables by explicit path and checks the staging area, so stray files, secrets and build
-    output stay out.
+  reason: Adds only the listed deliverables by explicit path and checks the staging area, so stray files, secrets and build output stay out.
 - source: directive:DIRECTIVE_034
   target: procedure:example-mapping-workshop
   relation: suggests
-  when: turning a behaviour request into concrete rules, examples, and open questions as a shared specification set before
-    implementation
-  reason: Test-first development suggests the Example Mapping workshop as the collaborative step that produces the examples
-    tests are written from; the `when` is the procedure's own stated purpose. Delivered at implement/review.
+  when: turning a behaviour request into concrete rules, examples, and open questions as a shared specification set before implementation
+  reason: Test-first development suggests the Example Mapping workshop as the collaborative step that produces the examples tests are written from; the `when` is the procedure's own stated purpose. Delivered at implement/review.
 - source: directive:DIRECTIVE_034
   target: procedure:red-first-bug-reproduction
   relation: requires
   when: fixing a bug or closing a defect
-  reason: 'Applies test-first to bug fixes: a reproduction test must fail through the existing entry point before the fix,
-    then pass, with a live run confirming the fix.'
+  reason: 'Applies test-first to bug fixes: a reproduction test must fail through the existing entry point before the fix, then pass, with a live run confirming the fix.'
 - source: directive:DIRECTIVE_034
   target: procedure:test-first-cycle
   relation: requires
   when: implementing new or changed behavior
-  reason: Picks the test-first tactic that fits the scope, writes the failing test before production code for behavior with a lasting regression
-    risk (configuration and glue cite run or gate evidence), and keeps red-green cycles short, restructuring in green mode.
+  reason: Picks the test-first tactic that fits the scope, writes the failing test before production code for behavior with a lasting regression risk (configuration and glue cite run or gate evidence), and keeps red-green cycles short, restructuring in green mode.
 - source: directive:DIRECTIVE_034
   target: tactic:acceptance-criteria-non-vacuity
   relation: suggests
@@ -270,13 +246,11 @@ edges:
   target: procedure:bulk-edit-occurrence-mapping
   relation: requires
   when: a mission edits the same term across many files
-  reason: Gates a bulk edit on an occurrence map, so every occurrence is classified by context and given an action before
-    any file changes, and review checks against that map.
+  reason: Gates a bulk edit on an occurrence map, so every occurrence is classified by context and given an action before any file changes, and review checks against that map.
 - source: directive:DIRECTIVE_035
   target: tactic:occurrence-classification-workflow
   relation: requires
-  when: Classifying each matching occurrence by semantic context before a bulk edit, so every change is deliberate rather
-    than a blind sweep.
+  when: Classifying each matching occurrence by semantic context before a bulk edit, so every change is deliberate rather than a blind sweep.
 - source: directive:DIRECTIVE_036
   target: directive:DIRECTIVE_030
   relation: requires
@@ -290,14 +264,12 @@ edges:
   target: procedure:black-box-integration-test-design
   relation: requires
   when: writing an integration test
-  reason: Derives cases from the spec, drives only the published interface with expected outputs fixed in advance, and asserts
-    on what comes back.
+  reason: Derives cases from the spec, drives only the published interface with expected outputs fixed in advance, and asserts on what comes back.
 - source: directive:DIRECTIVE_037
   target: procedure:living-documentation-sync
   relation: requires
   when: planning new behavior or changing behavior or domain language
-  reason: 'Keeps examples, checks and documents moving together: agreed examples become executable checks, every affected
-    document changes in the same change, and stale material is removed.'
+  reason: 'Keeps examples, checks and documents moving together: agreed examples become executable checks, every affected document changes in the same change, and stale material is removed.'
 - source: directive:DIRECTIVE_037
   target: tactic:usage-examples-sync
   relation: requires
@@ -314,14 +286,12 @@ edges:
   target: procedure:small-explicit-code-shaping
   relation: requires
   when: writing, generating, or reviewing production code
-  reason: Holds code to the complexity ceiling and explicit types before abstraction, and reviews generated code with the
-    same checklist as hand-written code.
+  reason: Holds code to the complexity ceiling and explicit types before abstraction, and reviews generated code with the same checklist as hand-written code.
 - source: directive:DIRECTIVE_039
   target: procedure:test-first-cycle
   relation: requires
   when: implementing new or changed behavior
-  reason: Starts each production change that carries a lasting regression risk from a failing test (DIRECTIVE_034) and moves in short red-green cycles, the test-first
-    half of the culture.
+  reason: Starts each production change that carries a lasting regression risk from a failing test (DIRECTIVE_034) and moves in short red-green cycles, the test-first half of the culture.
 - source: directive:DIRECTIVE_039
   target: styleguide:boring-code-review
   relation: suggests
@@ -335,13 +305,11 @@ edges:
   target: procedure:five-paradigm-structural-intervention
   relation: requires
   when: a recurring-bug class is detected
-  reason: 'Replaces another point fix with a structural one: five debugging paradigms run in parallel on one bug statement,
-    and their verdicts feed a single fix plan for the bug class.'
+  reason: 'Replaces another point fix with a structural one: five debugging paradigms run in parallel on one bug statement, and their verdicts feed a single fix plan for the bug class.'
 - source: directive:DIRECTIVE_040
   target: tactic:five-paradigm-parallel-debugging
   relation: requires
-  when: a bug class has recurred and reactive PRs have not stopped the chain, calling for a structural intervention rather
-    than another point fix
+  when: a bug class has recurred and reactive PRs have not stopped the chain, calling for a structural intervention rather than another point fix
 - source: directive:DIRECTIVE_041
   target: directive:DIRECTIVE_034
   relation: requires
@@ -354,20 +322,17 @@ edges:
   target: procedure:failing-test-triage
   relation: requires
   when: a test fails or is identified as friction
-  reason: Classifies a failing test, establishes causation through the code path, then fixes the assertion, deletes the test,
-    or fixes the product.
+  reason: Classifies a failing test, establishes causation through the code path, then fixes the assertion, deletes the test, or fixes the product.
 - source: directive:DIRECTIVE_041
   target: procedure:observable-contract-test-authoring
   relation: requires
   when: writing or changing tests, fixtures, ratchets, or allow-lists
-  reason: Asserts the observable contract, pins desired behavior, anchors ratchets on stable content and builds fixtures through
-    production seams, so new tests do not become friction.
+  reason: Asserts the observable contract, pins desired behavior, anchors ratchets on stable content and builds fixtures through production seams, so new tests do not become friction.
 - source: directive:DIRECTIVE_041
   target: procedure:red-first-bug-reproduction
   relation: requires
   when: fixing a bug or closing a defect
-  reason: 'Ensures a bug test fails for the right reason: it must go red through the existing entry point before the fix and
-    green after it, so it guards the real contract.'
+  reason: 'Ensures a bug test fails for the right reason: it must go red through the existing entry point before the fix and green after it, so it guards the real contract.'
 - source: directive:DIRECTIVE_041
   target: tactic:acceptance-test-first
   relation: suggests
@@ -380,16 +345,13 @@ edges:
 - source: directive:DIRECTIVE_041
   target: tactic:test-readability-clarity-check
   relation: suggests
-  when: checking whether a test suite documents behaviour well enough to reconstruct the system from tests alone (tests as
-    executable specification)
-  reason: Tests-as-scaffold suggests the readability/clarity check as the way to confirm tests remain a legible specification,
-    not friction; the `when` is the tactic's own stated purpose. Inert (041 is not action-scoped).
+  when: checking whether a test suite documents behaviour well enough to reconstruct the system from tests alone (tests as executable specification)
+  reason: Tests-as-scaffold suggests the readability/clarity check as the way to confirm tests remain a legible specification, not friction; the `when` is the tactic's own stated purpose. Inert (041 is not action-scoped).
 - source: directive:DIRECTIVE_043
   target: procedure:defect-class-construction-gate
   relation: requires
   when: a defect class can be closed by a build-time constraint
-  reason: Finds the missing constraint, adds a non-vacuous gate with a shrink-only allowlist, and retires the process rule
-    it replaces.
+  reason: Finds the missing constraint, adds a non-vacuous gate with a shrink-only allowlist, and retires the process rule it replaces.
 - source: directive:DIRECTIVE_043
   target: tactic:pr-agent-worktree-isolation
   relation: suggests
@@ -397,21 +359,18 @@ edges:
   target: procedure:canonical-source-discipline
   relation: requires
   when: choosing a source surface, finding a split-brain surface, or meeting a missing documented command
-  reason: Uses the canonical source, merges split-brain surfaces into one authority, and reports a documented but missing
-    command as an upstream gap.
+  reason: Uses the canonical source, merges split-brain surfaces into one authority, and reports a documented but missing command as an upstream gap.
 - source: directive:DIRECTIVE_044
   target: tactic:autonomous-operation-protocol
   relation: suggests
 - source: directive:DIRECTIVE_044
   target: tactic:canonical-source-unification
   relation: suggests
-  reason: This tactic operationalizes the directive's rules, including the unification-not-parity rule and the missing-command-is-a-gap
-    rule.
+  reason: This tactic operationalizes the directive's rules, including the unification-not-parity rule and the missing-command-is-a-gap rule.
 - source: directive:DIRECTIVE_044
   target: tactic:model-task-routing
   relation: suggests
-  reason: This tactic operationalizes the directive's rule that the catalog is the single canonical source for model/task_type
-    routing data; do not hand-roll a substitute mapping.
+  reason: This tactic operationalizes the directive's rule that the catalog is the single canonical source for model/task_type routing data; do not hand-roll a substitute mapping.
 - source: directive:DIRECTIVE_044
   target: tactic:ownership-map-leeway
   relation: suggests
@@ -422,14 +381,12 @@ edges:
   target: procedure:land-changes-via-pull-request
   relation: requires
   when: changes are ready to reach origin/main
-  reason: Routes every change to origin/main through an operator-merged pull request, including after consolidate and when
-    undoing an accidental push.
+  reason: Routes every change to origin/main through an operator-merged pull request, including after consolidate and when undoing an accidental push.
 - source: directive:DIRECTIVE_045
   target: procedure:read-intent-before-high-risk-operation
   relation: requires
   when: about to run a merge, rebase, deletion, or force operation
-  reason: Reads the spec and context before a merge, rebase, deletion or force operation, escalates unclear intent, and never
-    deletes a test to go green.
+  reason: Reads the spec and context before a merge, rebase, deletion or force operation, escalates unclear intent, and never deletes a test to go green.
 - source: directive:DIRECTIVE_046
   target: directive:DIRECTIVE_045
   relation: requires
@@ -437,8 +394,7 @@ edges:
   target: procedure:readable-pr-preparation
   relation: requires
   when: proposing a mission branch as a pull request
-  reason: Rebases and compacts the branch, gets an independent aggregate review, writes a self-contained body, and verifies
-    the tree before force-push.
+  reason: Rebases and compacts the branch, gets an independent aggregate review, writes a self-contained body, and verifies the tree before force-push.
 - source: directive:DIRECTIVE_046
   target: tactic:clean-linear-commit-history
   relation: suggests
@@ -458,8 +414,7 @@ edges:
   target: procedure:version-freshness-check
   relation: requires
   when: citing a pinned or cached copy of a doc, spec or dependency
-  reason: Confirms which version is being read, says so when freshness cannot be confirmed, and flags findings a newer version
-    invalidates.
+  reason: Confirms which version is being read, says so when freshness cannot be confirmed, and flags findings a newer version invalidates.
 - source: directive:DIRECTIVE_049
   target: directive:DIRECTIVE_003
   relation: requires
@@ -467,14 +422,12 @@ edges:
   target: procedure:agent-self-declaration
   relation: requires
   when: an agent begins substantive work
-  reason: 'Lets a mismatch be caught early: the agent opens by stating identity, scope and hard constraints, and closes by
-    checking what it did against that declaration.'
+  reason: 'Lets a mismatch be caught early: the agent opens by stating identity, scope and hard constraints, and closes by checking what it did against that declaration.'
 - source: directive:DIRECTIVE_050
   target: procedure:credential-exposure-prevention
   relation: requires
   when: a task involves credentials or output that could contain them
-  reason: Prevents credential exposure at the source, strips credentials from unavoidable error text, and stops work if a
-    raw credential ever appears.
+  reason: Prevents credential exposure at the source, strips credentials from unavoidable error text, and stops work if a raw credential ever appears.
 - source: directive:DIRECTIVE_050
   target: tactic:secure-design-checklist
   relation: suggests
@@ -506,23 +459,19 @@ edges:
   target: procedure:durable-fix-investigation
   relation: requires
   when: a defect or fix request arrives, before any fix is authored
-  reason: Searches related tickets, grounds the defect in current code, checks the canonical seam and ADRs, and proposes a
-    structural fix when the problem is wider.
+  reason: Searches related tickets, grounds the defect in current code, checks the canonical seam and ADRs, and proposes a structural fix when the problem is wider.
 - source: directive:DIRECTIVE_053
   target: procedure:op-or-mission-lifecycle
   relation: requires
   when: starting any new piece of work
-  reason: Makes the Op-or-Mission choice before work starts, starts it through the right entry point, re-checks the choice
-    as work grows, and closes each Op with its real outcome.
+  reason: Makes the Op-or-Mission choice before work starts, starts it through the right entry point, re-checks the choice as work grows, and closes each Op with its real outcome.
 - source: directive:DIRECTIVE_053
   target: tactic:op-or-mission-selection
   relation: requires
 - source: directive:DIRECTIVE_054
   target: anti_pattern:assert-on-mock-interactions
   relation: rejects
-  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the
-    test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test
-    outcomes, not mechanisms.
+  reason: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test outcomes, not mechanisms.
 - source: directive:DIRECTIVE_054
   target: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   relation: rejects
@@ -548,8 +497,7 @@ edges:
   target: procedure:unfake-an-over-mocked-test
   relation: requires
   when: a test substitutes a collaborator the system under test owns
-  reason: Names the behavior, draws the boundary, removes the owned doubles, seeds state through the production path and
-    proves the test goes red when the behavior breaks.
+  reason: Names the behavior, draws the boundary, removes the owned doubles, seeds state through the production path and proves the test goes red when the behavior breaks.
 - source: directive:DIRECTIVE_054
   target: tactic:black-box-integration-testing
   relation: suggests
@@ -575,14 +523,12 @@ edges:
   target: tactic:build-identity-stamp-verify-guard
   relation: requires
   when: wiring or changing how a product stamps, reports or guards its build identity
-  reason: Stamps the build object with a live-git fallback, verifies it on a real tag or deploy, and only then adds the
-    fail-loud guard, per form factor.
+  reason: Stamps the build object with a live-git fallback, verifies it on a real tag or deploy, and only then adds the fail-loud guard, per form factor.
 - source: directive:DISCIPLINED_REFACTORING
   target: procedure:disciplined-refactoring-cycle
   relation: requires
   when: restructuring code without changing its behavior
-  reason: Names the smell, starts from a green baseline, applies one transformation at a time with tests green, and never
-    mixes in a behavior change.
+  reason: Names the smell, starts from a green baseline, applies one transformation at a time with tests green, and never mixes in a behavior change.
 - source: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   target: directive:DIRECTIVE_024
   relation: reconciles_tension
@@ -593,26 +539,22 @@ edges:
   target: procedure:change-scope-tension-resolution
   relation: requires
   when: the three change-scope rules pull in different directions on a change
-  reason: Settles smallest viable diff, the Boy Scout Rule and Locality of Change in a fixed order and records the outcome,
-    so scope decisions are predictable and reviewable.
+  reason: Settles smallest viable diff, the Boy Scout Rule and Locality of Change in a fixed order and records the outcome, so scope decisions are predictable and reviewable.
 - source: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   target: procedure:keep-change-local
   relation: requires
   when: a change would extend beyond the touched area
-  reason: 'Supplies the Locality of Change side of the reconciliation: requires any extension beyond the touched area to be
-    justified and checked in the diff before commit.'
+  reason: 'Supplies the Locality of Change side of the reconciliation: requires any extension beyond the touched area to be justified and checked in the diff before commit.'
 - source: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   target: procedure:tidy-first-campsite-clean
   relation: requires
   when: an opening tidy-first cleanup precedes the functional change
-  reason: 'Protects the directive''s resolution order: opening cleanup lands as its own behavior-preserving step before the
-    functional change, so it never enlarges the file set that order fixes.'
+  reason: 'Protects the directive''s resolution order: opening cleanup lands as its own behavior-preserving step before the functional change, so it never enlarges the file set that order fixes.'
 - source: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   target: procedure:touched-area-cleanup
   relation: requires
   when: applying touched-area cleanup inside the change's file set
-  reason: 'Supplies the Boy Scout Rule side of the reconciliation: licenses cleanup but keeps it proportional and inside the
-    change file set.'
+  reason: 'Supplies the Boy Scout Rule side of the reconciliation: licenses cleanup but keeps it proportional and inside the change file set.'
 - source: directive:RECONCILE_CHANGE_SCOPE_TENSIONS
   target: tactic:change-apply-smallest-viable-diff
   relation: reconciles_tension
@@ -620,18 +562,15 @@ edges:
   target: procedure:red-main-handling
   relation: requires
   when: the mainline is red, a P0 is filed, or release readiness is assessed
-  reason: Backs each P0 with a failing reproduction test, holds release for green mainline CI, and puts recovering a red main
-    at the front of the queue.
+  reason: Backs each P0 with a failing reproduction test, holds release for green mainline CI, and puts recovering a red main at the front of the queue.
 - source: directive:DIRECTIVE_025
   target: tactic:frozen-baseline-shrink-only-ratchet
   relation: suggests
 - source: directive:DIRECTIVE_030
   target: tactic:adversarial-qa-handoff
   relation: suggests
-  when: preparing changed code for review/QA by identifying likely failure modes up front and leaving evidence that behaviour,
-    typing, and edge cases were verified
-  reason: The test-and-typecheck quality gate suggests the adversarial QA handoff as the pre-handoff discipline that anticipates
-    what review/QA will probe; the `when` is the tactic's own stated purpose. Delivered at implement/review.
+  when: preparing changed code for review/QA by identifying likely failure modes up front and leaving evidence that behaviour, typing, and edge cases were verified
+  reason: The test-and-typecheck quality gate suggests the adversarial QA handoff as the pre-handoff discipline that anticipates what review/QA will probe; the `when` is the tactic's own stated purpose. Delivered at implement/review.
 - source: directive:DIRECTIVE_039
   target: tactic:adversarial-qa-handoff
   relation: suggests

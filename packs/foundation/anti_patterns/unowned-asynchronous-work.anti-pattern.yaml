@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: unowned-asynchronous-work
 title: Unowned Asynchronous Work
-description: Starting asynchronous work that nothing awaits or handles. Its failures vanish, it can outlive its caller, and
-  the caller continues as if the work had finished.
+description: Starting asynchronous work that nothing awaits or handles. Its failures vanish, it can outlive its caller, and the caller continues as if the work had finished.
 severity: severe
 bad_example: |-
   // go: Fire-and-Forget Goroutine

@@ -1,7 +1,3 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
-# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
-# <pack-name>::<urn> and must sit in this pack's depends_on closure.
 nodes:
 - id: doctrine-daphne
   kind: agent_profiles
@@ -109,13 +105,11 @@ edges:
 - source: procedure:migrate-project-guidance-to-spec-kitty-charter
   target: writing::procedure:glossary-maintenance-workflow
   relation: requires
-  reason: The vocabulary-capture step is an instance of the glossary maintenance workflow applied at migration time, so the
-    source's terms are triaged into the glossary before artifacts that depend on them are drafted.
+  reason: The vocabulary-capture step is an instance of the glossary maintenance workflow applied at migration time, so the source's terms are triaged into the glossary before artifacts that depend on them are drafted.
 - source: procedure:onboard-external-agent-to-pack
   target: foundation::directive:DIRECTIVE_003
   relation: requires
-  reason: Every classification, overlap-versus-augment call, and the profile-or-no-profile decision must be recorded with
-    rationale.
+  reason: Every classification, overlap-versus-augment call, and the profile-or-no-profile decision must be recorded with rationale.
 - source: procedure:onboard-external-agent-to-pack
   target: foundation::directive:DIRECTIVE_018
   relation: requires
@@ -128,9 +122,7 @@ edges:
   target: styleguide:deployable-skill-authoring
   relation: suggests
   when: when the external agent's governed pack form is a deployable skill
-  reason: The procedure gathers the source agent's defining instructions and authors governed pack artifacts; this styleguide
-    supplies the skill-specific routing, progressive-disclosure, deterministic-operation, source-authority and host-portability
-    quality bar.
+  reason: The procedure gathers the source agent's defining instructions and authors governed pack artifacts; this styleguide supplies the skill-specific routing, progressive-disclosure, deterministic-operation, source-authority and host-portability quality bar.
 - source: styleguide:doctrine-instruction-voice
   target: foundation::directive:DIRECTIVE_045
   relation: suggests

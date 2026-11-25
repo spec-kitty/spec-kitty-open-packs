@@ -1,11 +1,7 @@
 schema_version: '1.0'
 id: fabricated-unrealistic-test-data
 title: Fabricated / Unrealistic Test Data
-description: Fixtures built from handcrafted placeholder values that violate production invariants (truncated or fake identifiers,
-  impossible lengths, sentinel strings) test a world that cannot occur. They mask real behavior, manufacture phantom edge
-  cases, and mislead debugging — a fixture value that can never reach the code on the golden path is a silent wrong-fixture
-  bug. Prefer production-shaped data; if malformed input must be tested, do it in a test whose name declares that intent,
-  never as incidental setup.
+description: Fixtures built from handcrafted placeholder values that violate production invariants (truncated or fake identifiers, impossible lengths, sentinel strings) test a world that cannot occur. They mask real behavior, manufacture phantom edge cases, and mislead debugging — a fixture value that can never reach the code on the golden path is a silent wrong-fixture bug. Prefer production-shaped data; if malformed input must be tested, do it in a test whose name declares that intent, never as incidental setup.
 severity: breaking
 bad_example: |-
   # An order_id is ALWAYS a 26-char ULID in production. This fixture fakes a short one:

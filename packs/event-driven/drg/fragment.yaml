@@ -1,62 +1,59 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Edge endpoints are URNs (<kind>:<id>), local nodes included. The pack's name,
-# source and layer come from the operator's configuration, never from this file.
 nodes:
 - id: evd-event-sourced-design
   kind: paradigms
-  title: "Event-Driven, Event-Sourced Design"
+  title: Event-Driven, Event-Sourced Design
   body_path: paradigms/evd-event-sourced-design.paradigm.yaml
 - id: EVD_001
   kind: directives
-  title: "Every Event Carries a Schema Version"
+  title: Every Event Carries a Schema Version
   body_path: directives/evd-001-events-carry-schema-version.directive.yaml
 - id: EVD_002
   kind: directives
-  title: "One Canonical Writer per Event Stream"
+  title: One Canonical Writer per Event Stream
   body_path: directives/evd-002-one-canonical-writer-per-stream.directive.yaml
 - id: EVD_003
   kind: directives
-  title: "Events Are Immutable Facts Named in the Past Tense"
+  title: Events Are Immutable Facts Named in the Past Tense
   body_path: directives/evd-003-events-are-immutable-past-tense-facts.directive.yaml
 - id: EVD_004
   kind: directives
-  title: "Producers Emit the Latest Version, Consumers Declare What They Accept"
+  title: Producers Emit the Latest Version, Consumers Declare What They Accept
   body_path: directives/evd-004-producers-emit-latest-consumers-declare-versions.directive.yaml
 - id: EVD_005
   kind: directives
-  title: "Side Effects Live in Consumers, Not in the Domain Core"
+  title: Side Effects Live in Consumers, Not in the Domain Core
   body_path: directives/evd-005-side-effects-live-in-consumers.directive.yaml
 - id: EVD_006
   kind: directives
-  title: "Producers and Consumers Share Only Published Event Contracts"
+  title: Producers and Consumers Share Only Published Event Contracts
   body_path: directives/evd-006-share-only-published-event-contracts.directive.yaml
 - id: evd-event-versioning-and-upcasting
   kind: tactics
-  title: "Event Versioning and Upcasting"
+  title: Event Versioning and Upcasting
   body_path: tactics/evd-event-versioning-and-upcasting.tactic.yaml
 - id: evd-event-bridge-port
   kind: tactics
-  title: "Ports-and-Adapters Event Bridge"
+  title: Ports-and-Adapters Event Bridge
   body_path: tactics/evd-event-bridge-port.tactic.yaml
 - id: evd-projection-replay
   kind: tactics
-  title: "Projection Replay and State Rebuild"
+  title: Projection Replay and State Rebuild
   body_path: tactics/evd-projection-replay.tactic.yaml
 - id: evd-idempotent-consumer
   kind: tactics
-  title: "Idempotent Consumers"
+  title: Idempotent Consumers
   body_path: tactics/evd-idempotent-consumer.tactic.yaml
 - id: evd-event-naming-and-payload
   kind: styleguides
-  title: "Event Naming and Payload Shape"
+  title: Event Naming and Payload Shape
   body_path: styleguides/evd-event-naming-and-payload.styleguide.yaml
 - id: evd-glossary
   kind: glossaries
-  title: "Event-Driven Glossary"
+  title: Event-Driven Glossary
   body_path: glossaries/evd-glossary.glossary.yaml
 - id: evd-worked-example-lane-board
   kind: assets
-  title: "Worked Example: Event-Sourced Work-Package Board"
+  title: 'Worked Example: Event-Sourced Work-Package Board'
   body_path: assets/event_sourced_lane_board.md.asset.yaml
 - id: command-named-as-an-event
   kind: anti_patterns
@@ -68,7 +65,6 @@ nodes:
   kind: anti_patterns
   title: Version inferred from shape
 edges:
-# The paradigm pulls in its rules and its styleguide, and suggests its tactics.
 - source: paradigm:evd-event-sourced-design
   target: directive:EVD_001
   relation: requires
@@ -105,7 +101,6 @@ edges:
 - source: paradigm:evd-event-sourced-design
   target: asset:evd-worked-example-lane-board
   relation: suggests
-# Built-in doctrine this pack builds on rather than restating.
 - source: paradigm:evd-event-sourced-design
   target: architecture::tactic:domain-event-capture
   relation: suggests
@@ -118,68 +113,66 @@ edges:
 - source: paradigm:evd-event-sourced-design
   target: architecture::paradigm:deep-module-design
   relation: suggests
-# Directives and the tactics or styleguide that carry them out.
 - source: directive:EVD_001
   target: tactic:evd-event-versioning-and-upcasting
   relation: requires
-  when: "when a contract has to change"
+  when: when a contract has to change
 - source: directive:EVD_001
   target: styleguide:evd-event-naming-and-payload
   relation: suggests
-  when: "when deciding what goes in the envelope and what in the payload"
+  when: when deciding what goes in the envelope and what in the payload
 - source: directive:EVD_002
   target: tactic:evd-event-bridge-port
   relation: requires
-  when: "when wiring producers to the writer"
+  when: when wiring producers to the writer
 - source: directive:EVD_003
   target: styleguide:evd-event-naming-and-payload
   relation: requires
-  when: "when naming an event or shaping its payload"
+  when: when naming an event or shaping its payload
 - source: directive:EVD_003
   target: architecture::tactic:domain-event-capture
   relation: suggests
-  when: "when deciding which state changes deserve an event at all"
+  when: when deciding which state changes deserve an event at all
 - source: directive:EVD_004
   target: directive:EVD_001
   relation: requires
-  when: "when declaring which version of an event type a producer writes or a consumer accepts"
+  when: when declaring which version of an event type a producer writes or a consumer accepts
 - source: directive:EVD_004
   target: tactic:evd-event-versioning-and-upcasting
   relation: requires
-  when: "when writing the upcaster chain"
+  when: when writing the upcaster chain
 - source: directive:EVD_005
   target: tactic:evd-event-bridge-port
   relation: requires
-  when: "when separating the pure core from adapters"
+  when: when separating the pure core from adapters
 - source: directive:EVD_005
   target: tactic:evd-idempotent-consumer
   relation: requires
-  when: "when writing the consumer that performs the effect"
+  when: when writing the consumer that performs the effect
 - source: directive:EVD_006
   target: styleguide:evd-event-naming-and-payload
   relation: suggests
-  when: "when writing the published contract"
+  when: when writing the published contract
 - source: directive:EVD_006
   target: architecture::tactic:anti-corruption-layer
   relation: suggests
-  when: "when a consumer must translate a foreign contract into its own model"
-# Tactics that lean on each other, on built-in doctrine and on the worked example.
+  when: when a consumer must translate a foreign contract into its own model
 - source: tactic:evd-event-versioning-and-upcasting
   target: tactic:evd-projection-replay
   relation: suggests
-  when: "when proving the change against real history"
+  when: when proving the change against real history
 - source: tactic:evd-event-bridge-port
   target: tactic:evd-idempotent-consumer
   relation: suggests
-  when: "when writing the subscribers that perform effects"
+  when: when writing the subscribers that perform effects
 - source: tactic:evd-event-bridge-port
   target: architecture::tactic:reference-architectural-patterns
   relation: suggests
-  when: "when deciding whether ports-and-adapters fits the system at all"
+  when: when deciding whether ports-and-adapters fits the system at all
 - source: tactic:evd-projection-replay
   target: tactic:evd-idempotent-consumer
   relation: suggests
-  when: "when a projection is also fed by live, possibly redelivered, events"
+  when: when a projection is also fed by live, possibly redelivered, events
 - source: tactic:evd-event-versioning-and-upcasting
   target: asset:evd-worked-example-lane-board
   relation: suggests
@@ -195,7 +188,7 @@ edges:
 - source: tactic:evd-projection-replay
   target: directive:EVD_005
   relation: suggests
-  when: "when separating replay from live delivery"
+  when: when separating replay from live delivery
 - source: styleguide:evd-event-naming-and-payload
   target: anti_pattern:command-named-as-an-event
   relation: rejects

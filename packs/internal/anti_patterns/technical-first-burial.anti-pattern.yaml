@@ -1,10 +1,7 @@
 schema_version: '1.0'
 id: technical-first-burial
 title: Technical-first burial
-description: Opening with architecture detail or a metric table forces the stakeholder and investor to mine for the outcome,
-  and most will stop before they find it. The outcome belongs in the first two lines.
+description: Opening with architecture detail or a metric table forces the stakeholder and investor to mine for the outcome, and most will stop before they find it. The outcome belongs in the first two lines.
 severity: severe
-bad_example: '"## Architecture. The commit-boundary router now materialises the coord worktree before origin-binding..." —
-  page one, before any statement of what the cycle delivered.'
-good_example: '"Spec Kitty shipped 3.2.6: charter governance is now the default, and release integrity holds end to end. Detail
-  follows." Outcome first, then the architecture section for the reader who wants it.'
+bad_example: '"## Architecture. The commit-boundary router now materialises the coord worktree before origin-binding..." — page one, before any statement of what the cycle delivered.'
+good_example: '"Spec Kitty shipped 3.2.6: charter governance is now the default, and release integrity holds end to end. Detail follows." Outcome first, then the architecture section for the reader who wants it.'

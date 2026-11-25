@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: dispatching-from-a-title
 title: Dispatching from a title
-description: Re-scope notes, collisions and blocking P0s live in the comments and links. A prompt built from the title sends
-  the runner after stale scope.
+description: Re-scope notes, collisions and blocking P0s live in the comments and links. A prompt built from the title sends the runner after stale scope.
 severity: severe
 bad_example: The runner's prompt is built from the issue title alone; a comment narrowing the scope to the CLI is never seen.

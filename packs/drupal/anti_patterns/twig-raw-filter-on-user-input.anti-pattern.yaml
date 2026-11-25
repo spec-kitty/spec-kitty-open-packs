@@ -1,10 +1,7 @@
 schema_version: '1.0'
 id: twig-raw-filter-on-user-input
 title: Twig raw Filter on User Input
-description: Twig auto-escapes all variable output by default. `|raw` disables that protection entirely and reopens cross-site
-  scripting for anything derived from user input; for genuine HTML, render through a text format (`#type => 'processed_text'`
-  in a render array, or `check_markup()` outside one -- see drupal-conventions' Twig Auto-Escaping entry for the render-array
-  construct) instead of bypassing escaping.
+description: Twig auto-escapes all variable output by default. `|raw` disables that protection entirely and reopens cross-site scripting for anything derived from user input; for genuine HTML, render through a text format (`#type => 'processed_text'` in a render array, or `check_markup()` outside one -- see drupal-conventions' Twig Auto-Escaping entry for the render-array construct) instead of bypassing escaping.
 severity: breaking
 bad_example: |-
   {# comment.body may contain unsanitized markup from a webform submission #}

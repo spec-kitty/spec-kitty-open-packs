@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: running-the-suite-to-find-weak-tests
 title: Running the suite to find weak tests
-description: 'A weak oracle passes, so running the suite cannot find it. Detection belongs at the leftmost layer that can
-  see it: the linter, then the static scan, then a human or agent read, and only then a planted break.'
+description: 'A weak oracle passes, so running the suite cannot find it. Detection belongs at the leftmost layer that can see it: the linter, then the static scan, then a human or agent read, and only then a planted break.'
 severity: severe
 bad_example: To find weak tests, the whole suite is run and only the failing tests are examined.

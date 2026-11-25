@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: running-the-heavy-suites-in-mission
 title: Running the heavy suites in-mission
-description: Sweeping a heavy suite whole (for example a whole architectural directory or a full-suite make target) locally
-  during the run. CI owns the heavy and full suites at the draft PR; the run targets the specific gate files it implicates.
+description: Sweeping a heavy suite whole (for example a whole architectural directory or a full-suite make target) locally during the run. CI owns the heavy and full suites at the draft PR; the run targets the specific gate files it implicates.
 severity: smell
 bad_example: The runner runs `make test-all` locally for forty minutes during the mission.

@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: fetching-services-via-drupal-inside-a-class
 title: 'Fetching Services via \Drupal:: Inside a Class'
-description: 'Services arrive through the constructor and a static create() factory; never fetch them via \Drupal:: inside
-  a class.'
+description: 'Services arrive through the constructor and a static create() factory; never fetch them via \Drupal:: inside a class.'
 severity: severe
 bad_example: $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple();
 good_example: |-

@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: big-bang-rewrite
 title: Big-Bang Rewrite
-description: replacing a legacy component or code path in a single-step cutover when it is too risky, instead of running the
-  new implementation alongside the old and rerouting callers one at a time
+description: replacing a legacy component or code path in a single-step cutover when it is too risky, instead of running the new implementation alongside the old and rerouting callers one at a time
 severity: severe
-bad_example: Rewrite the billing module on a branch for three months, then switch every caller to it in one release and delete
-  the old code the same day.
+bad_example: Rewrite the billing module on a branch for three months, then switch every caller to it in one release and delete the old code the same day.

@@ -1,10 +1,7 @@
 schema_version: '1.0'
 id: markup-for-untrusted-text
 title: Markup for Untrusted Text
-description: '`#markup` is XSS-filtered against the admin tag list (via `Renderer::ensureMarkupIsSafe`) rather than escaped,
-  so it still permits a broad set of HTML tags and is the wrong choice for untrusted input -- it does not close the same hole
-  Twig''s auto-escaping does. Use `#plain_text` for untrusted content, since it escapes; use `Html::escape()` when the value
-  must be interpolated outside a render array.'
+description: '`#markup` is XSS-filtered against the admin tag list (via `Renderer::ensureMarkupIsSafe`) rather than escaped, so it still permits a broad set of HTML tags and is the wrong choice for untrusted input -- it does not close the same hole Twig''s auto-escaping does. Use `#plain_text` for untrusted content, since it escapes; use `Html::escape()` when the value must be interpolated outside a render array.'
 severity: breaking
 bad_example: |-
   <?php

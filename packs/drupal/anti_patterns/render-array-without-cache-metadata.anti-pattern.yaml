@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: render-array-without-cache-metadata
 title: Render Array Without Cache Metadata
-description: A render array built from entity or query data with no `#cache` metadata either caches forever under an accidental
-  key or never caches at all -- both produce stale or needlessly recomputed content. Declare `tags`, `contexts`, and `max-age`
-  based on what the data actually depends on.
+description: A render array built from entity or query data with no `#cache` metadata either caches forever under an accidental key or never caches at all -- both produce stale or needlessly recomputed content. Declare `tags`, `contexts`, and `max-age` based on what the data actually depends on.
 severity: breaking
 bad_example: |-
   <?php

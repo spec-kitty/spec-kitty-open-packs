@@ -1,11 +1,7 @@
 schema_version: '1.0'
 id: the-literal-scan-trap
 title: The Literal-Scan Trap
-description: Pinning a test to the literal text of production code — function names, class names, module paths, docstring
-  wording — couples the test to implementation shape, not behavior. Every cleanup or rename forces a re-pin, teaching contributors
-  that tests are friction to work around. A literal-symbol scan that has been re-pinned twice on shape-only changes is retired
-  with proof that integration paths still cover the behavior; a line-count ceiling on a single file is replaced by a project-wide
-  metric that does not gate on one file's momentary size.
+description: Pinning a test to the literal text of production code — function names, class names, module paths, docstring wording — couples the test to implementation shape, not behavior. Every cleanup or rename forces a re-pin, teaching contributors that tests are friction to work around. A literal-symbol scan that has been re-pinned twice on shape-only changes is retired with proof that integration paths still cover the behavior; a line-count ceiling on a single file is replaced by a project-wide metric that does not gate on one file's momentary size.
 severity: severe
 bad_example: |-
   # Asserts a specific class name appears verbatim in the source file.

@@ -1,60 +1,35 @@
-schema_version: "1.0"
 id: research-citation-discipline
+schema_version: '1.0'
 title: Research Citation Discipline Styleguide
 scope: docs
 principles:
-  - name: "Every claim carries a source"
-    description: "Every claim carries a source: any assertion of fact in a research output must be traceable to a named source (a document, a data run, an interview, or a reproducible observation). An unsourced factual claim is a hypothesis, and must be labelled as one."
-  - name: "Distinguish evidence from inference"
-    description: "Distinguish evidence from inference: separate what a source states from what the author concludes. State the source's claim first, then the interpretation, so a reader can accept the evidence while questioning the inference."
-  - name: "Tier the evidence"
-    description: "Tier the evidence: rank sources by strength — primary/reproducible (direct measurement, source code, an official spec) over secondary (documentation, third-party analysis) over anecdotal (a single report, an unverified claim)."
-  - name: "Cite the specific locus, not the whole source"
-    description: "Cite the specific locus, not the whole source: reference the exact section, table, query or code anchor that supports the claim, not merely the document title, so the reader can verify it. For code, see \"Anchor code citations to content\"."
-  - name: "Cite changes by a stable identifier"
-    description: "Cite changes by a stable identifier: a PR or issue number, ADR id, release tag or a description of the change, never a bare commit SHA, because rebases and squashes rewrite SHAs. See \"Anchor code citations to content\"."
-  - name: "Anchor code citations to content"
-    description: "Anchor code citations to content: cite code as path::qualname or a path plus a quoted anchor, not a bare line range, and put the command that produced a cited count next to it. See \"Cite changes by a stable identifier\"."
-  - name: "Record retrieval context"
-    description: "Record retrieval context: capture when and how a source was obtained (date, version, query, release) because sources drift; a citation without a retrieval context cannot be re-verified later. Cite a change per \"Cite changes by a stable identifier\"."
-  - name: "Report contradicting evidence"
-    description: "Report contradicting evidence: when sources disagree, cite both and state how the disagreement was resolved. Suppressing a contradicting source to strengthen a conclusion is a citation failure, not an editorial choice."
-  - name: "Mark confidence explicitly"
-    description: "Mark confidence explicitly: where the evidence is thin or the inference is a judgement call, say so. Confident prose over weak evidence misleads the reader about how much the conclusion can bear."
-  - name: "Keep a source register"
-    description: "Keep a source register: maintain a running list of sources with their tiers and retrieval context so citations across the output stay consistent and auditable."
+- name: Every claim carries a source
+  description: 'Every claim carries a source: any assertion of fact in a research output must be traceable to a named source (a document, a data run, an interview, or a reproducible observation). An unsourced factual claim is a hypothesis, and must be labelled as one.'
+- name: Distinguish evidence from inference
+  description: 'Distinguish evidence from inference: separate what a source states from what the author concludes. State the source''s claim first, then the interpretation, so a reader can accept the evidence while questioning the inference.'
+- name: Tier the evidence
+  description: 'Tier the evidence: rank sources by strength — primary/reproducible (direct measurement, source code, an official spec) over secondary (documentation, third-party analysis) over anecdotal (a single report, an unverified claim).'
+- name: Cite the specific locus, not the whole source
+  description: 'Cite the specific locus, not the whole source: reference the exact section, table, query or code anchor that supports the claim, not merely the document title, so the reader can verify it. For code, see "Anchor code citations to content".'
+- name: Cite changes by a stable identifier
+  description: 'Cite changes by a stable identifier: a PR or issue number, ADR id, release tag or a description of the change, never a bare commit SHA, because rebases and squashes rewrite SHAs. See "Anchor code citations to content".'
+- name: Anchor code citations to content
+  description: 'Anchor code citations to content: cite code as path::qualname or a path plus a quoted anchor, not a bare line range, and put the command that produced a cited count next to it. See "Cite changes by a stable identifier".'
+- name: Record retrieval context
+  description: 'Record retrieval context: capture when and how a source was obtained (date, version, query, release) because sources drift; a citation without a retrieval context cannot be re-verified later. Cite a change per "Cite changes by a stable identifier".'
+- name: Report contradicting evidence
+  description: 'Report contradicting evidence: when sources disagree, cite both and state how the disagreement was resolved. Suppressing a contradicting source to strengthen a conclusion is a citation failure, not an editorial choice.'
+- name: Mark confidence explicitly
+  description: 'Mark confidence explicitly: where the evidence is thin or the inference is a judgement call, say so. Confident prose over weak evidence misleads the reader about how much the conclusion can bear.'
+- name: Keep a source register
+  description: 'Keep a source register: maintain a running list of sources with their tiers and retrieval context so citations across the output stay consistent and auditable.'
 patterns:
-  - name: "Tier the evidence"
-    description: >
-      Tier the evidence: rank sources by strength — primary/reproducible (direct
-      measurement, source code, an official spec) over secondary (documentation,
-      third-party analysis) over anecdotal (a single report, an unverified claim).
-      Name the tier when the strength is material to the conclusion.
-  - name: "Cite changes by a stable identifier"
-    description: >
-      Durable artifacts (specs, plans, data models, ADRs, decision records,
-      research notes, briefs) cite a change by an identifier that survives a
-      history rewrite: a PR number, an issue number, an ADR id, a release tag,
-      or a description of the change (for example "the Order to Purchase
-      rename"). History is rewritten at ordinary, mandated steps: squashing or
-      compacting a branch at close-out, and rebasing onto a moving upstream
-      before push. A SHA written during the work is therefore expected to
-      dangle. A rewritten commit can still exist as an unreachable object, so
-      a lookup that reports "commit" proves nothing about whether the history
-      still contains it. A SHA is acceptable only when no PR, issue, ADR id or
-      tag exists for the change yet (a local or unpushed commit, or a note
-      about an orphaned object), and then it is marked as ephemeral or
-      pre-rewrite, with a description of the change beside it, so a reader
-      knows not to trust it after a rebase. This is the change-level partner
-      of "Anchor code citations to content".
-  - name: "Anchor code citations to content"
-    description: >
-      Cite a code location by something that survives edits: path::qualname
-      (a module path plus the qualified name of the function, class or
-      constant), or a path plus a short quoted anchor that a search finds.
-      A bare line range drifts within one review round, and a reader cannot
-      tell that it now points at different code. A cited count (files, call
-      sites, tests, findings) carries the command that produced it and when it
-      ran, so it can be re-derived rather than trusted. This refines "Cite the
-      specific locus, not the whole source" for code, and is the code-level
-      partner of "Cite changes by a stable identifier".
+- name: Tier the evidence
+  description: |
+    Tier the evidence: rank sources by strength — primary/reproducible (direct measurement, source code, an official spec) over secondary (documentation, third-party analysis) over anecdotal (a single report, an unverified claim). Name the tier when the strength is material to the conclusion.
+- name: Cite changes by a stable identifier
+  description: |
+    Durable artifacts (specs, plans, data models, ADRs, decision records, research notes, briefs) cite a change by an identifier that survives a history rewrite: a PR number, an issue number, an ADR id, a release tag, or a description of the change (for example "the Order to Purchase rename"). History is rewritten at ordinary, mandated steps: squashing or compacting a branch at close-out, and rebasing onto a moving upstream before push. A SHA written during the work is therefore expected to dangle. A rewritten commit can still exist as an unreachable object, so a lookup that reports "commit" proves nothing about whether the history still contains it. A SHA is acceptable only when no PR, issue, ADR id or tag exists for the change yet (a local or unpushed commit, or a note about an orphaned object), and then it is marked as ephemeral or pre-rewrite, with a description of the change beside it, so a reader knows not to trust it after a rebase. This is the change-level partner of "Anchor code citations to content".
+- name: Anchor code citations to content
+  description: |
+    Cite a code location by something that survives edits: path::qualname (a module path plus the qualified name of the function, class or constant), or a path plus a short quoted anchor that a search finds. A bare line range drifts within one review round, and a reader cannot tell that it now points at different code. A cited count (files, call sites, tests, findings) carries the command that produced it and when it ran, so it can be re-derived rather than trusted. This refines "Cite the specific locus, not the whole source" for code, and is the code-level partner of "Cite changes by a stable identifier".

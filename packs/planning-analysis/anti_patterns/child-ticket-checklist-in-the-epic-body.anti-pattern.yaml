@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: child-ticket-checklist-in-the-epic-body
 title: Child-ticket checklist in the epic body
-description: A hand-maintained list of child ticket numbers in an epic body drifts out of sync with the native sub-issue graph
-  and is invisible to tooling that reads parent/child via the API. The graph is the source of truth.
+description: A hand-maintained list of child ticket numbers in an epic body drifts out of sync with the native sub-issue graph and is invisible to tooling that reads parent/child via the API. The graph is the source of truth.
 severity: severe
 bad_example: 'Epic body: "## Children\n- [ ] <issue-a>\n- [x] <issue-b>\n- [ ] <issue-c>"'
 good_example: |-

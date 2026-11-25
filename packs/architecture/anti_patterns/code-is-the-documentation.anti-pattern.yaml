@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: code-is-the-documentation
 title: Code Is the Documentation
-description: Relying solely on source code as documentation forces every stakeholder -- including non-technical sponsors --
-  to read code to understand system boundaries.
+description: Relying solely on source code as documentation forces every stakeholder -- including non-technical sponsors -- to read code to understand system boundaries.
 severity: severe
 bad_example: Asked how the payment service talks to the bank, the sponsor is pointed at the `gateway/` package in the repository.

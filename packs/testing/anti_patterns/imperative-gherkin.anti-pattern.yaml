@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: imperative-gherkin
 title: Imperative Gherkin
-description: Scenarios that describe UI clicks and form fills rather than business intent. "Click the Submit button" is imperative.
-  "Complete the order" is declarative. Imperative scenarios break when the UI changes, even if the behavior is unchanged.
+description: Scenarios that describe UI clicks and form fills rather than business intent. "Click the Submit button" is imperative. "Complete the order" is declarative. Imperative scenarios break when the UI changes, even if the behavior is unchanged.
 severity: severe
 bad_example: |-
   Given I am on the login page

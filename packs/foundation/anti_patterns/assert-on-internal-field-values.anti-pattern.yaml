@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: assert-on-internal-field-values
 title: Assert on internal field values
-description: Tests that assert internal field values break during refactoring even when observable behavior is unchanged.
-  Test outcomes, not mechanisms.
+description: Tests that assert internal field values break during refactoring even when observable behavior is unchanged. Test outcomes, not mechanisms.
 severity: severe
 bad_example: |-
   cart.add(book);

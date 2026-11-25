@@ -1,10 +1,6 @@
 schema_version: '1.0'
 id: substituting-triage-for-deeper-investigation
 title: Substituting triage for deeper investigation
-description: 'This procedure produces a first-pass evidence base. It is not the brownfield-investigation skill (issue #665/#666),
-  is not a default gate on any mission, and does not replace event storming, context discovery, threat modelling, or full
-  architecture review where those are warranted. Cite this triage as input to those activities; do not let it stand in for
-  them.'
+description: 'This procedure produces a first-pass evidence base. It is not the brownfield-investigation skill (issue #665/#666), is not a default gate on any mission, and does not replace event storming, context discovery, threat modelling, or full architecture review where those are warranted. Cite this triage as input to those activities; do not let it stand in for them.'
 severity: severe
-bad_example: A risky payments rewrite is approved on the strength of the triage alone, with no threat model or architecture
-  review.
+bad_example: A risky payments rewrite is approved on the strength of the triage alone, with no threat model or architecture review.

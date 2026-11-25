@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: bare-sha-citation
 title: Bare SHA citation
-description: Citing a change by a bare commit SHA in a durable artifact. The SHA stops resolving once the branch is squashed
-  or rebased, and nothing warns the reader.
+description: Citing a change by a bare commit SHA in a durable artifact. The SHA stops resolving once the branch is squashed or rebased, and nothing warns the reader.
 severity: severe
 bad_example: The field was renamed in a1b2c3d, so the old name is gone.
-good_example: 'The field was renamed in PR #412 (the Order to Purchase rename). If no PR exists yet: "local commit a1b2c3d
-  (pre-rewrite, ephemeral; the Order to Purchase rename)".'
+good_example: 'The field was renamed in PR #412 (the Order to Purchase rename). If no PR exists yet: "local commit a1b2c3d (pre-rewrite, ephemeral; the Order to Purchase rename)".'

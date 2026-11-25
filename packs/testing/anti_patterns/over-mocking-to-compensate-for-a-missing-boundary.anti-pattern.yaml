@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: over-mocking-to-compensate-for-a-missing-boundary
 title: Over-mocking to compensate for a missing boundary
-description: Patching five infrastructure functions to test one behavior means the test is fighting the absence of a seam.
-  Substitute only at the allow-listed seams of DIRECTIVE_054; if you find yourself doubling owned logic, extract the boundary
-  instead. Heavy mocking also makes tests pass when the real integration is broken (loss of Predictive).
+description: Patching five infrastructure functions to test one behavior means the test is fighting the absence of a seam. Substitute only at the allow-listed seams of DIRECTIVE_054; if you find yourself doubling owned logic, extract the boundary instead. Heavy mocking also makes tests pass when the real integration is broken (loss of Predictive).
 severity: breaking
 bad_example: |-
   with patch("a.find_config_root"), patch("a.save_order"), \

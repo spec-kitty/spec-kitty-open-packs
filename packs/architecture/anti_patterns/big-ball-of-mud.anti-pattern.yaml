@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: big-ball-of-mud
 title: Big Ball of Mud
-description: A Big Ball of Mud architecture has no explicit context boundaries or ubiquitous language. Concepts leak across
-  modules, coupling grows unchecked, and model integrity becomes impossible to maintain.
+description: A Big Ball of Mud architecture has no explicit context boundaries or ubiquitous language. Concepts leak across modules, coupling grows unchecked, and model integrity becomes impossible to maintain.
 severity: severe
-bad_example: The billing module imports the shipping module's `Parcel` table class and writes its columns, and "customer"
-  means the payer in one module and the recipient in the next.
+bad_example: The billing module imports the shipping module's `Parcel` table class and writes its columns, and "customer" means the payer in one module and the recipient in the next.

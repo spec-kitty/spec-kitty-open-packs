@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: hand-patching-a-generated-page-to-look-current
 title: Hand-patching a generated page to look current
-description: Editing generated output by hand to fix a drifted value makes the page diverge from its source and defeats the
-  regeneration gate. Fix the source and regenerate.
+description: Editing generated output by hand to fix a drifted value makes the page diverge from its source and defeats the regeneration gate. Fix the source and regenerate.
 severity: severe
 bad_example: |-
   Hand-editing a signature in Sphinx-generated `docs/api/` so it matches the

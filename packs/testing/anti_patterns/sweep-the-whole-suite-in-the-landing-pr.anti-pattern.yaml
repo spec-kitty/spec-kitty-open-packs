@@ -1,9 +1,6 @@
 schema_version: '1.0'
 id: sweep-the-whole-suite-in-the-landing-pr
 title: Sweep the whole suite in the landing PR
-description: Auditing and rewriting every sibling file that shares the pattern inside the mission's own PR, inflating the
-  diff far past the mission's scope. The in-mission cleanup covers the tests the mission created; the wider sweep is a tracked
-  follow-up.
+description: Auditing and rewriting every sibling file that shares the pattern inside the mission's own PR, inflating the diff far past the mission's scope. The in-mission cleanup covers the tests the mission created; the wider sweep is a tracked follow-up.
 severity: smell
-bad_example: The mission's PR also rewrites 40 sibling test files that share the old fixture pattern, turning a 300-line diff
-  into 6,000 lines.
+bad_example: The mission's PR also rewrites 40 sibling test files that share the old fixture pattern, turning a 300-line diff into 6,000 lines.

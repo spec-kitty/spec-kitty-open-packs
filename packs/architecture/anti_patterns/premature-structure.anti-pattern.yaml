@@ -3,5 +3,4 @@ id: premature-structure
 title: Premature structure
 description: Jumping to aggregate design before completing event discovery, missing events that reveal important domain behaviour.
 severity: severe
-bad_example: After twenty sticky notes the group starts drawing Order and Customer aggregates, and the refund and chargeback
-  events are never found.
+bad_example: After twenty sticky notes the group starts drawing Order and Customer aggregates, and the refund and chargeback events are never found.

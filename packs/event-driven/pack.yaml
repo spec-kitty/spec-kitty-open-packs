@@ -1,17 +1,8 @@
-# Authored pack descriptor for the event-driven (org-tier) Charter Pack.
-#
-# Authored, hand-edited data (never machine-rewritten). This pack is UNSHARDED:
-# it carries a single drg/fragment.yaml, so it declares the org pack_level and
-# the DRG pointer explicitly. No pack-manifest.yaml.
-#
-# pack_id is the canonical identity, minted once by a tool and never edited.
 pack_id: 01M6MF4FV4FEBPHD67V9PECGTD
 pack_version: 4.0.1
-parent_pack: null
 name: event-driven
 pack_level: org
 pack_drg: drg/fragment.yaml
-# Its DRG fragment references the architecture bundle's DDD tactics (#73 split built-in).
 depends_on:
-  - pack_id: 01M75PCTDT75M19ZMXHRES4CSJ  # architecture
-    range: ">=2.0,<4"
+- pack_id: 01M75PCTDT75M19ZMXHRES4CSJ
+  range: '>=2.0,<4'

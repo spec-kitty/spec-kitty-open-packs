@@ -1,21 +1,20 @@
-schema_version: "1.0"
 id: kitty-glossary-writing
+schema_version: '1.0'
 title: Kitty Glossary Writing Styleguide
 scope: glossary
 principles:
-  - name: "Clear, not clever"
-    description: "Clear, not clever: definitions exist to help the reader understand, not to demonstrate expertise."
-  - name: "No buzzword soup"
-    description: "No buzzword soup: avoid stacking jargon-heavy terms into a single sentence. If a definition requires re-reading, it has failed."
-  - name: "Functional over compositional"
-    description: "Functional over compositional: explain what something does, not what it is composed of."
-  - name: "Human-focused"
-    description: "Human-focused: write for the person encountering the term for the first time, not the person who already knows it."
-  - name: "One concept per definition"
-    description: "One concept per definition: if a definition needs multiple paragraphs, it may be covering more than one term."
-  - name: "Foundational terms must be defined"
-    description: "Foundational terms must be defined: if a definition depends on terms like API, CLI, YAML, or JSON, those terms must exist in the glossary."
-  - name: "All new terms enter as candidate"
-    description: "All new terms enter as candidate: the operator promotes to canonical."
-
-quality_test: "Read the definition to someone unfamiliar with the project. If they need to ask a follow-up question to understand the core concept, revise it."
+- name: Clear, not clever
+  description: 'Clear, not clever: definitions exist to help the reader understand, not to demonstrate expertise.'
+- name: No buzzword soup
+  description: 'No buzzword soup: avoid stacking jargon-heavy terms into a single sentence. If a definition requires re-reading, it has failed.'
+- name: Functional over compositional
+  description: 'Functional over compositional: explain what something does, not what it is composed of.'
+- name: Human-focused
+  description: 'Human-focused: write for the person encountering the term for the first time, not the person who already knows it.'
+- name: One concept per definition
+  description: 'One concept per definition: if a definition needs multiple paragraphs, it may be covering more than one term.'
+- name: Foundational terms must be defined
+  description: 'Foundational terms must be defined: if a definition depends on terms like API, CLI, YAML, or JSON, those terms must exist in the glossary.'
+- name: All new terms enter as candidate
+  description: 'All new terms enter as candidate: the operator promotes to canonical.'
+quality_test: Read the definition to someone unfamiliar with the project. If they need to ask a follow-up question to understand the core concept, revise it.

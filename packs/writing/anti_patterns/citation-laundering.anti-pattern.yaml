@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: citation-laundering
 title: Citation Laundering
-description: Citing a secondary source that merely repeats a claim as if it were primary evidence, hiding the absence of a
-  verifiable origin.
+description: Citing a secondary source that merely repeats a claim as if it were primary evidence, hiding the absence of a verifiable origin.
 severity: severe
 bad_example: Multiple blog posts confirm the library is thread-safe.
-good_example: The library documents thread-safety for its read path (README §Concurrency, v3.1); the write path is unspecified,
-  and no primary source confirms it — flagged as an open uncertainty.
+good_example: The library documents thread-safety for its read path (README §Concurrency, v3.1); the write path is unspecified, and no primary source confirms it — flagged as an open uncertainty.

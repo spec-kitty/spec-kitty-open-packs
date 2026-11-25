@@ -1,80 +1,57 @@
-# Event-driven: a glossary context (charter ADR-0049); each term is term:evd-glossary/<term-id>.
 schema_version: '1.0'
 id: evd-glossary
 name: Event-driven
-description: Vocabulary for the event-driven pack's paradigm, directives, tactics and styleguide. Definitions are written
-  for this pack in plain terms and follow common usage in the event-sourcing literature. This glossary is reference data
-  consulted by doctrine tooling (e.g. doctor charter-packs, charter status/lint) and by glossary-curation workflows.
+description: Vocabulary for the event-driven pack's paradigm, directives, tactics and styleguide. Definitions are written for this pack in plain terms and follow common usage in the event-sourcing literature. This glossary is reference data consulted by doctrine tooling (e.g. doctor charter-packs, charter status/lint) and by glossary-curation workflows.
 terms:
-  - id: event
-    name: event
-    definition: A record of something that happened in the domain, named in the past tense and immutable once stored. An event
-      carries an envelope (id, type, schema version, stream, ordering key, time, actor) and a payload with the facts of the
-      change. It is answered by later events, never edited.
-    status: active
-  - id: event-stream
-    name: event stream
-    definition: The ordered sequence of events that belong to one aggregate, entity or other consistency boundary, appended
-      by exactly one canonical writer. The stream's order is the order in which its events are folded into state.
-    status: active
-  - id: ledger
-    name: ledger
-    definition: The durable, append-only store of events that serves as the source of truth; also called the event log or
-      event store. Everything else (current state, read models, reports) is derived from it and can be rebuilt from it.
-    status: active
-  - id: event-log
-    name: event log
-    definition: 'Synonym of ledger: the append-only, ordered store of events. Used when the storage is a log file or log-structured
-      system, for example a JSONL file with one event per line.'
-    status: active
-  - id: projection
-    name: projection
-    definition: State derived from the ledger by folding events, in order, through a pure function `apply(state, event) ->
-      state`; also called a read model. A projection may be stored as a cache, but the ledger stays authoritative and the
-      projection can always be dropped and rebuilt.
-    status: active
-  - id: replay
-    name: replay
-    definition: Processing stored events again, from the start or from a recorded position, to rebuild a projection, to answer
-      a question about a past point in time, or to test a changed consumer. Replay feeds projections only and must not repeat
-      side effects.
-    status: active
-  - id: upcaster
-    name: upcaster
-    definition: A pure function that converts a stored event from schema version N of its type to version N+1, applied on
-      read. Upcasters are chained so that a consumer sees only the version it declares, and the stored event is never rewritten.
-    status: active
-  - id: schema-version
-    name: schema version
-    definition: The integer version of an event type's published contract, carried in every event's envelope. Once events
-      of a version exist, the meaning of that version is fixed; any change to it is a new version.
-    status: active
-  - id: publisher
-    name: publisher
-    definition: 'The component that emits events: it decides that something happened and hands the event to the canonical
-      writer through a port. A publisher (or producer) always emits the latest published version of an event type and knows
-      nothing about who consumes it.'
-    status: active
-  - id: subscriber
-    name: subscriber
-    definition: 'The component that consumes events from the ledger and reacts to them: updating a projection or performing
-      a side effect. A subscriber (or consumer) declares which event types and schema versions it accepts and is idempotent
-      per event id.'
-    status: active
-  - id: at-least-once-delivery
-    name: at-least-once delivery
-    definition: A delivery guarantee under which every event reaches a subscriber one or more times. Nothing is lost, but
-      duplicates are possible after retries, restarts or replays, so subscribers must be idempotent. The usual guarantee between
-      a ledger and its subscribers.
-    status: active
-  - id: at-most-once-delivery
-    name: at-most-once delivery
-    definition: A delivery guarantee under which every event reaches a subscriber zero or one times. Duplicates cannot occur
-      but events can be lost, for example when a fire-and-forget publish fails. Acceptable only for effects whose loss is
-      harmless, such as a best-effort live notification.
-    status: active
-  - id: canonical-writer
-    name: canonical writer
-    definition: The single component allowed to append to an event stream. It validates the envelope, fixes the ordering and
-      makes the append durable before anything is published, so a stream has one ordering and one set of checks.
-    status: active
+- id: event
+  name: event
+  definition: A record of something that happened in the domain, named in the past tense and immutable once stored. An event carries an envelope (id, type, schema version, stream, ordering key, time, actor) and a payload with the facts of the change. It is answered by later events, never edited.
+  status: active
+- id: event-stream
+  name: event stream
+  definition: The ordered sequence of events that belong to one aggregate, entity or other consistency boundary, appended by exactly one canonical writer. The stream's order is the order in which its events are folded into state.
+  status: active
+- id: ledger
+  name: ledger
+  definition: The durable, append-only store of events that serves as the source of truth; also called the event log or event store. Everything else (current state, read models, reports) is derived from it and can be rebuilt from it.
+  status: active
+- id: event-log
+  name: event log
+  definition: 'Synonym of ledger: the append-only, ordered store of events. Used when the storage is a log file or log-structured system, for example a JSONL file with one event per line.'
+  status: active
+- id: projection
+  name: projection
+  definition: State derived from the ledger by folding events, in order, through a pure function `apply(state, event) -> state`; also called a read model. A projection may be stored as a cache, but the ledger stays authoritative and the projection can always be dropped and rebuilt.
+  status: active
+- id: replay
+  name: replay
+  definition: Processing stored events again, from the start or from a recorded position, to rebuild a projection, to answer a question about a past point in time, or to test a changed consumer. Replay feeds projections only and must not repeat side effects.
+  status: active
+- id: upcaster
+  name: upcaster
+  definition: A pure function that converts a stored event from schema version N of its type to version N+1, applied on read. Upcasters are chained so that a consumer sees only the version it declares, and the stored event is never rewritten.
+  status: active
+- id: schema-version
+  name: schema version
+  definition: The integer version of an event type's published contract, carried in every event's envelope. Once events of a version exist, the meaning of that version is fixed; any change to it is a new version.
+  status: active
+- id: publisher
+  name: publisher
+  definition: 'The component that emits events: it decides that something happened and hands the event to the canonical writer through a port. A publisher (or producer) always emits the latest published version of an event type and knows nothing about who consumes it.'
+  status: active
+- id: subscriber
+  name: subscriber
+  definition: 'The component that consumes events from the ledger and reacts to them: updating a projection or performing a side effect. A subscriber (or consumer) declares which event types and schema versions it accepts and is idempotent per event id.'
+  status: active
+- id: at-least-once-delivery
+  name: at-least-once delivery
+  definition: A delivery guarantee under which every event reaches a subscriber one or more times. Nothing is lost, but duplicates are possible after retries, restarts or replays, so subscribers must be idempotent. The usual guarantee between a ledger and its subscribers.
+  status: active
+- id: at-most-once-delivery
+  name: at-most-once delivery
+  definition: A delivery guarantee under which every event reaches a subscriber zero or one times. Duplicates cannot occur but events can be lost, for example when a fire-and-forget publish fails. Acceptable only for effects whose loss is harmless, such as a best-effort live notification.
+  status: active
+- id: canonical-writer
+  name: canonical writer
+  definition: The single component allowed to append to an event stream. It validates the envelope, fixes the ordering and makes the append durable before anything is published, so a stream has one ordering and one set of checks.
+  status: active

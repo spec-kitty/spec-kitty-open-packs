@@ -1,11 +1,7 @@
 schema_version: '1.0'
 id: stubbing-a-new-gate-out-of-an-old-harness
 title: Stubbing a new gate out of an old harness
-description: 'A new safety gate lands, an older mock-heavy test goes red because the gate now runs in its flow, and the "fix"
-  patches the gate out of that test''s fixture so it stays green. Each such stub makes the test check less than it did before
-  the gate existed (loss of Predictive). The pressure comes from a harness that is not Writable: when adding one real step
-  costs another patch, people stub. Move the test onto a real (git, filesystem) fixture that is cheap to extend, or retire
-  it and name the test that already covers its contract.'
+description: 'A new safety gate lands, an older mock-heavy test goes red because the gate now runs in its flow, and the "fix" patches the gate out of that test''s fixture so it stays green. Each such stub makes the test check less than it did before the gate existed (loss of Predictive). The pressure comes from a harness that is not Writable: when adding one real step costs another patch, people stub. Move the test onto a real (git, filesystem) fixture that is cheap to extend, or retire it and name the test that already covers its contract.'
 severity: severe
 bad_example: |-
   # Commit message: "stub the new verification gate in the release fixtures"

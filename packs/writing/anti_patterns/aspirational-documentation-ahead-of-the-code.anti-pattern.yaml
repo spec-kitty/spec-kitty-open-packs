@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: aspirational-documentation-ahead-of-the-code
 title: Aspirational documentation ahead of the code
-description: Documenting intended-but-unshipped behaviour makes the docs assert something the code does not do. The reader
-  trusts the page and is misled. Document shipped behaviour only; keep intent in the spec or an ADR.
+description: Documenting intended-but-unshipped behaviour makes the docs assert something the code does not do. The reader trusts the page and is misled. Document shipped behaviour only; keep intent in the spec or an ADR.
 severity: breaking
 bad_example: |-
   # In published reference, for a flag that does not exist yet:

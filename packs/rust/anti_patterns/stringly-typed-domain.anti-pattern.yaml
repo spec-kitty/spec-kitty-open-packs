@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: stringly-typed-domain
 title: Stringly-Typed Domain
-description: Using String for identifiers, codes and validated text throughout the core. Two different ids are interchangeable
-  at the type level and every function re-validates or trusts blindly.
+description: Using String for identifiers, codes and validated text throughout the core. Two different ids are interchangeable at the type level and every function re-validates or trusts blindly.
 severity: severe
 bad_example: 'fn transfer(from: String, to: String, amount: String) -> Result<(), String> { /* ... */ }'
 good_example: 'fn transfer(from: &AccountCode, to: &AccountCode, amount: Money) -> Result<(), LedgerError> { /* ... */ }'

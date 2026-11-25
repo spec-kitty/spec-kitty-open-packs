@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: refactoring-beyond-the-fix
 title: Refactoring Beyond the Fix
-description: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug fix; broader cleanup
-  belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
+description: Widening the green-mode tidy-up past the fix's own code introduces unrelated risk into a bug fix; broader cleanup belongs to the tidy-first step that precedes the red reproduction test, not to the post-fix refactor.
 severity: severe
 bad_example: The null-check fix also renames the module's helpers and reorders its imports in the same commit.

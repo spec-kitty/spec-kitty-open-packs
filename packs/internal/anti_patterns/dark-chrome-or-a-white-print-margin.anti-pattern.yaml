@@ -1,11 +1,7 @@
 schema_version: '1.0'
 id: dark-chrome-or-a-white-print-margin
 title: Dark chrome or a white print margin
-description: 'These are printed documents: use the light cream/paper treatment, never the dark website surface, and let the
-  cream reach every page edge. The long form gets this from the generator (WeasyPrint paints the page background). The one-pager
-  prints through Chromium, which paints the page-margin box white; shift its continuation-page content down in flow with a
-  transparent top border instead, so the background stays cream.'
+description: 'These are printed documents: use the light cream/paper treatment, never the dark website surface, and let the cream reach every page edge. The long form gets this from the generator (WeasyPrint paints the page background). The one-pager prints through Chromium, which paints the page-margin box white; shift its continuation-page content down in flow with a transparent top border instead, so the background stays cream.'
 severity: smell
 bad_example: A dark-mode debrief, or pages 2+ with a white strip above the content.
-good_example: Cream full-bleed on every page; one-pager continuation pages inset in-flow so content sits lower and the background
-  never turns white.
+good_example: Cream full-bleed on every page; one-pager continuation pages inset in-flow so content sits lower and the background never turns white.

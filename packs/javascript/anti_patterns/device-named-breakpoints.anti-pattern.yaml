@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: device-named-breakpoints
 title: Device-Named Breakpoints
-description: Breakpoints aimed at particular devices go stale with every new screen size; there are far too many devices to
-  target.
+description: Breakpoints aimed at particular devices go stale with every new screen size; there are far too many devices to target.
 severity: smell
 bad_example: |-
   /* iPhone */

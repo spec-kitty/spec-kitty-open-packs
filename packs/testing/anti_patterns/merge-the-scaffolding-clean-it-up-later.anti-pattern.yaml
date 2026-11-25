@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: merge-the-scaffolding-clean-it-up-later
 title: Merge the scaffolding, clean it up "later"
-description: 'Landing a mission''s development-assist tests as-is and trusting a future pass to retire them. The friction
-  compounds: inert self-compares and duplicated shape checks accumulate as permanent suite bloat, and the "later" audit rarely
-  comes. Judge at the point-cut where the scaffolding was created.'
+description: 'Landing a mission''s development-assist tests as-is and trusting a future pass to retire them. The friction compounds: inert self-compares and duplicated shape checks accumulate as permanent suite bloat, and the "later" audit rarely comes. Judge at the point-cut where the scaffolding was created.'
 severity: smell
 bad_example: |-
   def test_wp03_before_after_parity():

@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: assert-on-mock-interactions
 title: Assert on mock interactions
-description: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced;
-  the test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test
-  outcomes, not mechanisms.
+description: Verifying call counts, order or arguments of doubles tests how a result was produced, not what was produced; the test breaks on refactoring even when observable behavior is unchanged, and stays green when the outcome is wrong. Test outcomes, not mechanisms.
 severity: breaking
 bad_example: 'verify(repository, times(2)).save(any());  // brittle: couples test to save-call count'
 good_example: assertThat(repository.findAll()).hasSize(2); // observable outcome

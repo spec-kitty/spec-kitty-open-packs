@@ -1,9 +1,6 @@
 schema_version: '1.0'
 id: deciding-silently
 title: Deciding silently
-description: Resolving an escalation-class decision — a regression-vs-stale-test verdict, a contract or boundary change, a
-  test-expectation edit, a scope widening — without surfacing it to the operator. The operator cannot steer what was never
-  signalled, and the fake-green half is the half that misleads the next agent.
+description: Resolving an escalation-class decision — a regression-vs-stale-test verdict, a contract or boundary change, a test-expectation edit, a scope widening — without surfacing it to the operator. The operator cannot steer what was never signalled, and the fake-green half is the half that misleads the next agent.
 severity: severe
-bad_example: The runner edits a failing test's expected value to match the new output and reports green, without telling the
-  operator.
+bad_example: The runner edits a failing test's expected value to match the new output and reports green, without telling the operator.

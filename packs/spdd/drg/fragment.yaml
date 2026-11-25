@@ -1,5 +1,3 @@
-# The SPDD pack's only DRG document (ADR-0064). Prompt-fragment text lives in
-# Markdown companions; only these relationships live here.
 nodes:
 - id: structured-prompt-driven-development
   kind: paradigms
@@ -54,15 +52,11 @@ edges:
 - source: directive:DIRECTIVE_038
   target: tactic:reasons-canvas-review
   relation: suggests
-# Preserve the built-in architect's suggestion without leaving a built-in edge
-# to an opt-in artifact. There is one edge on this unordered pair (ADR-0027).
 - source: architecture::agent_profile:architect-alphonso
   target: styleguide:reasons-canvas-writing
   relation: suggests
   when: capturing the change-intent, decision boundaries and safeguards of a mission or a significant architectural change as a REASONS Canvas -- recording architectural decisions with rationale rather than mirroring code
-  reason: "The architect should reach the REASONS Canvas writing styleguide when documenting the intent behind a significant architectural change: alphonso's attested scope is architectural decisions documented with rationale (DIRECTIVE_003, ADR/design outputs), and the styleguide's own purpose is to capture intent -- Safeguard (must) / Norm (should) / Approach (may) -- for a mission or change, not to mirror code. Composition-only under today's traversal (the profile channel walks requires/specializes_from only), authored per the #3063 family-E operator ruling (canvas WRITING only; the reasons-canvas fill/review tactics and the SPDD paradigm stay in the deferred set, untouched)."
-# The enhancements' only target relationship. Their activation comes from the
-# spdd preset (or explicit selection), never from these targets (ADR-0066 d4).
+  reason: 'The architect should reach the REASONS Canvas writing styleguide when documenting the intent behind a significant architectural change: alphonso''s attested scope is architectural decisions documented with rationale (DIRECTIVE_003, ADR/design outputs), and the styleguide''s own purpose is to capture intent -- Safeguard (must) / Norm (should) / Approach (may) -- for a mission or change, not to mirror code. Composition-only under today''s traversal (the profile channel walks requires/specializes_from only), authored per the #3063 family-E operator ruling (canvas WRITING only; the reasons-canvas fill/review tactics and the SPDD paradigm stay in the deferred set, untouched).'
 - source: step_enhancement:spdd-specify
   target: foundation::action:software-dev/specify
   relation: enhances

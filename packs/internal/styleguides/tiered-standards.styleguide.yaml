@@ -1,71 +1,51 @@
-schema_version: "1.0"
 id: tiered-standards
+schema_version: '1.0'
 title: Tiered Coding Standards
 scope: code
-
 principles:
-  - name: "Rigour must match risk"
-    description: "Rigour must match risk: the closer a package is to mission-critical state management or runtime execution, the higher the quality bar it must meet."
-  - name: "Core packages own the invariants"
-    description: "Core packages own the invariants: status transitions, merge orchestration, dependency resolution, and mission runtime are load-bearing — they must be covered, typed, and lint-clean at all times."
-  - name: "Glue packages connect and delegate"
-    description: "Glue packages connect and delegate: CLI command shells, upgrade migrations, and render helpers orchestrate core behaviour and need integration coverage but may tolerate lighter unit-coverage targets."
-  - name: "Scripting packages are not production surfaces"
-    description: "Scripting packages are not production surfaces: shims, one-off scripts, and exploratory code operate under relaxed rules and must never bleed their laxity into core or glue packages."
-  - name: "Debt is not invisible"
-    description: "Debt is not invisible: pre-existing failures in any tier must be recorded before handoff — never hidden inside new work."
-  - name: "Boundaries must not be crossed downward"
-    description: "Boundaries must not be crossed downward: core packages must not import from glue or scripting packages; glue packages must not import from scripting packages."
-
+- name: Rigour must match risk
+  description: 'Rigour must match risk: the closer a package is to mission-critical state management or runtime execution, the higher the quality bar it must meet.'
+- name: Core packages own the invariants
+  description: 'Core packages own the invariants: status transitions, merge orchestration, dependency resolution, and mission runtime are load-bearing — they must be covered, typed, and lint-clean at all times.'
+- name: Glue packages connect and delegate
+  description: 'Glue packages connect and delegate: CLI command shells, upgrade migrations, and render helpers orchestrate core behaviour and need integration coverage but may tolerate lighter unit-coverage targets.'
+- name: Scripting packages are not production surfaces
+  description: 'Scripting packages are not production surfaces: shims, one-off scripts, and exploratory code operate under relaxed rules and must never bleed their laxity into core or glue packages.'
+- name: Debt is not invisible
+  description: 'Debt is not invisible: pre-existing failures in any tier must be recorded before handoff — never hidden inside new work.'
+- name: Boundaries must not be crossed downward
+  description: 'Boundaries must not be crossed downward: core packages must not import from glue or scripting packages; glue packages must not import from scripting packages.'
 patterns:
-  - name: Core Tier Standards
-    description: >
-      Load-bearing state, orchestration, and runtime logic whose correctness
-      determines mission execution outcomes. A bug here can corrupt mission state
-      or silently drop transitions.
-      Typical members: domain state machines and reducers, merge or
-      transaction orchestration, dependency resolution, the runtime loop.
-      The project maps its own packages to tiers (for example in its charter).
-    good_example: |
-      # Core tier rigour applied to <project>/<core-package>/reducer.py
-      # coverage : >=85% line coverage for new code; no new untested public functions
-      # duplication: No copy-paste duplication of business logic; extract shared helpers
-      # smell    : Complexity ceiling 15 (ruff C901 / Sonar S3776); no dead code paths
-      # lint     : ruff check with zero issues; no blanket noqa suppressions
-      # typing   : mypy --strict with zero errors; no bare Any or type: ignore without rationale
-
-  - name: Glue Tier Standards
-    description: >
-      Integration and orchestration packages that wire core logic to CLI surfaces,
-      agent interfaces, upgrade pipelines, and external tooling. Correctness matters
-      but the risk profile is lower: failures here surface quickly as CLI errors
-      rather than silent state corruption.
-      Typical members: CLI command shells, upgrade or migration pipelines,
-      diagnostics, adapters to external tooling.
-    good_example: |
-      # Glue tier rigour applied to <project>/cli/commands/consolidate.py
-      # coverage  : >=70% line coverage for new code; integration tests preferred over unit stubs
-      # duplication: Extract repeated argument-parsing or output-formatting helpers;
-      #              tolerate minor cosmetic duplication
-      # smell     : Complexity ceiling 15; flag but do not block on pre-existing violations
-      # lint      : ruff check with zero issues
-      # typing    : mypy --strict with zero errors on new code; pre-existing ignores must be documented
-
-  - name: Scripting Tier Standards
-    description: >
-      Shims, one-off scripts, and exploratory utilities not on the production
-      execution path. Code here must clearly be marked as non-production and must
-      never be imported by core or glue packages.
-      Typical members: compatibility shims, one-off scripts, spikes.
-    good_example: |
-      # Scripting tier rigour applied to <project>/scripts/one_off_migration.py
-      # coverage  : No mandatory coverage gate; smoke test if the script has a CLI entry point
-      # duplication: No constraint; scripts are often intentionally self-contained
-      # smell     : No automated gate; flag egregious issues during review
-      # lint      : ruff check with zero issues
-      # typing    : Type hints encouraged but not enforced; mypy may run in non-strict mode
-
-quality_test: >
-  Can a reviewer, without running the test suite, look at a changed module's
-  package path and immediately know what coverage, typing, and lint bar applies —
-  and confirm the new code meets it?
+- name: Core Tier Standards
+  description: |
+    Load-bearing state, orchestration, and runtime logic whose correctness determines mission execution outcomes. A bug here can corrupt mission state or silently drop transitions. Typical members: domain state machines and reducers, merge or transaction orchestration, dependency resolution, the runtime loop. The project maps its own packages to tiers (for example in its charter).
+  good_example: |
+    # Core tier rigour applied to <project>/<core-package>/reducer.py
+    # coverage : >=85% line coverage for new code; no new untested public functions
+    # duplication: No copy-paste duplication of business logic; extract shared helpers
+    # smell    : Complexity ceiling 15 (ruff C901 / Sonar S3776); no dead code paths
+    # lint     : ruff check with zero issues; no blanket noqa suppressions
+    # typing   : mypy --strict with zero errors; no bare Any or type: ignore without rationale
+- name: Glue Tier Standards
+  description: |
+    Integration and orchestration packages that wire core logic to CLI surfaces, agent interfaces, upgrade pipelines, and external tooling. Correctness matters but the risk profile is lower: failures here surface quickly as CLI errors rather than silent state corruption. Typical members: CLI command shells, upgrade or migration pipelines, diagnostics, adapters to external tooling.
+  good_example: |
+    # Glue tier rigour applied to <project>/cli/commands/consolidate.py
+    # coverage  : >=70% line coverage for new code; integration tests preferred over unit stubs
+    # duplication: Extract repeated argument-parsing or output-formatting helpers;
+    #              tolerate minor cosmetic duplication
+    # smell     : Complexity ceiling 15; flag but do not block on pre-existing violations
+    # lint      : ruff check with zero issues
+    # typing    : mypy --strict with zero errors on new code; pre-existing ignores must be documented
+- name: Scripting Tier Standards
+  description: |
+    Shims, one-off scripts, and exploratory utilities not on the production execution path. Code here must clearly be marked as non-production and must never be imported by core or glue packages. Typical members: compatibility shims, one-off scripts, spikes.
+  good_example: |
+    # Scripting tier rigour applied to <project>/scripts/one_off_migration.py
+    # coverage  : No mandatory coverage gate; smoke test if the script has a CLI entry point
+    # duplication: No constraint; scripts are often intentionally self-contained
+    # smell     : No automated gate; flag egregious issues during review
+    # lint      : ruff check with zero issues
+    # typing    : Type hints encouraged but not enforced; mypy may run in non-strict mode
+quality_test: |
+  Can a reviewer, without running the test suite, look at a changed module's package path and immediately know what coverage, typing, and lint bar applies — and confirm the new code meets it?

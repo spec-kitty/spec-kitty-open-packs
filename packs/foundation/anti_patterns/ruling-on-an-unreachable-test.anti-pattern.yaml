@@ -1,7 +1,6 @@
 schema_version: '1.0'
 id: ruling-on-an-unreachable-test
 title: Ruling on an unreachable test
-description: Basing a ruling on a named acceptance test that does not exist, is skipped, or cannot run, so the ruling rests
-  on evidence nobody has seen.
+description: Basing a ruling on a named acceptance test that does not exist, is skipped, or cannot run, so the ruling rests on evidence nobody has seen.
 severity: severe
 bad_example: The ruling cites `test_offline_sync_roundtrip` as its proof, but that test is marked skip on every CI shard.

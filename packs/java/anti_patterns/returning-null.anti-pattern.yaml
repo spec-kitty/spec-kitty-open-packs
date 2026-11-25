@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: returning-null
 title: Returning Null
-description: Returning null from public methods forces all callers to add null checks, spreading defensive code across the
-  codebase.
+description: Returning null from public methods forces all callers to add null checks, spreading defensive code across the codebase.
 severity: smell
 bad_example: |-
   public Config load(Path path) {

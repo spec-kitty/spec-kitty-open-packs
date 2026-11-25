@@ -1,18 +1,18 @@
-schema_version: "1.0"
 id: semantic-compression-dead-weight-elimination
+schema_version: '1.0'
 name: Semantic Compression Dead Weight Elimination
 purpose: Remove code that contributes nothing to protected observable behavior.
 steps:
-  - title: Inventory removal candidates
-    description: Find unused functions, classes, parameters, obsolete flags, unreachable branches, duplicate validations, and unused tests.
-  - title: Prove non-observability
-    description: Use references, runtime traces, coverage, feature-flag state, and owner knowledge to show the candidate has no protected effect.
-  - title: Delete narrowly
-    description: Remove the dead surface and only the directly attached tests, docs, config, or imports.
-  - title: Check execution and review surface
-    description: Run relevant tests and static checks; inspect public API, migration, and compatibility surfaces before handoff.
-  - title: Record the proof
-    description: Note why the deleted code was redundant so future reviewers do not reconstruct the same dead path.
+- title: Inventory removal candidates
+  description: Find unused functions, classes, parameters, obsolete flags, unreachable branches, duplicate validations, and unused tests.
+- title: Prove non-observability
+  description: Use references, runtime traces, coverage, feature-flag state, and owner knowledge to show the candidate has no protected effect.
+- title: Delete narrowly
+  description: Remove the dead surface and only the directly attached tests, docs, config, or imports.
+- title: Check execution and review surface
+  description: Run relevant tests and static checks; inspect public API, migration, and compatibility surfaces before handoff.
+- title: Record the proof
+  description: Note why the deleted code was redundant so future reviewers do not reconstruct the same dead path.
 failure_modes:
-  - "Unused in static search is not proof when reflection, plugins, or external callers exist."
-  - "Deleting obsolete-looking compatibility code can break consumers outside the repository."
+- Unused in static search is not proof when reflection, plugins, or external callers exist.
+- Deleting obsolete-looking compatibility code can break consumers outside the repository.

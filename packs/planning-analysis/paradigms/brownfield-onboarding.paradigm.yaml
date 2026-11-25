@@ -1,61 +1,18 @@
-schema_version: "1.0"
 id: brownfield-onboarding
+schema_version: '1.0'
 name: Brownfield Onboarding
-summary: >
-  Approach a mature, in-use codebase as a
-  teacher rather than a problem. Legacy code is the durable record of
-  constraints, edge cases, and prior decisions the team has already paid for;
-  it deserves epistemic humility before it deserves restructuring. Brownfield
-  onboarding treats investigation as a precondition to non-trivial change:
-  forensic methods (git-history mining, hotspot and change-coupling analysis
-  via tactic:forensic-repository-audit) surface "what" and "where";
-  qualitative methods (SME interviews, decision archaeology) answer "why";
-  structural overlays (DDD strategic classification, deep-module analysis)
-  give the findings a vocabulary the team can act on. None of these methods
-  alone is sufficient. The durable artifact of the engagement is not a
-  refactor plan but a hierarchical reference bundle -- system overview,
-  subsystem maps, click paths, terminology aliases, design paradigms inferred
-  from the code -- that lowers bus-factor risk before code shape is touched.
-  Knowledge transfer is load-bearing: the DM-D principle ("document and
-  transfer first, then refactor") protects the implicit invariants that
-  restructure would otherwise erase. Respect for prior decisions and
-  willingness to change are held in tension on purpose: refusing to remove
-  what you do not yet understand is Chesterton's-fence discipline; refusing
-  to change because change is hard is preservation by inertia. The paradigm
-  walks the line between them by gating structural moves on captured
-  understanding, not on courage or on caution alone.
+summary: |
+  Approach a mature, in-use codebase as a teacher rather than a problem. Legacy code is the durable record of constraints, edge cases, and prior decisions the team has already paid for; it deserves epistemic humility before it deserves restructuring. Brownfield onboarding treats investigation as a precondition to non-trivial change: forensic methods (git-history mining, hotspot and change-coupling analysis via tactic:forensic-repository-audit) surface "what" and "where"; qualitative methods (SME interviews, decision archaeology) answer "why"; structural overlays (DDD strategic classification, deep-module analysis) give the findings a vocabulary the team can act on. None of these methods alone is sufficient. The durable artifact of the engagement is not a refactor plan but a hierarchical reference bundle -- system overview, subsystem maps, click paths, terminology aliases, design paradigms inferred from the code -- that lowers bus-factor risk before code shape is touched. Knowledge transfer is load-bearing: the DM-D principle ("document and transfer first, then refactor") protects the implicit invariants that restructure would otherwise erase. Respect for prior decisions and willingness to change are held in tension on purpose: refusing to remove what you do not yet understand is Chesterton's-fence discipline; refusing to change because change is hard is preservation by inertia. The paradigm walks the line between them by gating structural moves on captured understanding, not on courage or on caution alone.
 principles:
-  - name: Legacy code is evidence
-    description: An existing system records constraints, edge cases and decisions the team already paid for, and is read as a source before it is judged.
-  - name: Understand before you change
-    description: Restructuring something you do not yet understand risks removing what it quietly relies on.
-  - name: Several lenses, one picture
-    description: Forensic data, people's accounts and structural analysis each miss something, so findings are trusted when they agree.
-  - name: Document and transfer, then refactor
-    description: Structural change waits until what was learned is captured and shared, so the change cannot erase knowledge only the old code held, and the team no longer depends on a few individuals.
-  - name: Record why, not only what
-    description: The durable output is a navigable account of the system and its reasons, which later change can build on.
-  - name: Respect without inertia
-    description: Prior decisions are honoured until understood, but difficulty alone is not a reason to leave something unchanged.
-
-# ---------------------------------------------------------------------------
-# Notes
-# ---------------------------------------------------------------------------
-# - This paradigm is ratified. It codifies the worldview that emerged from the
-#   2026-05 CaaCS engagement on spec-kitty itself
-#   (docs/archive/plans/engineering-notes/architecture-audits/2026-05-spec-kitty-caacs.md and the meta-assessment
-#   companion). It was authored before issues #665 (hierarchical reference
-#   bundles as a skill) and #666 (SME-interview tactic) shipped, so that the
-#   worldview anchors those artifacts rather than trailing them.
-# - [open question] The DM-D ordering ("document and transfer first, then
-#   refactor") is stated as a principle here. Whether it should escalate to a
-#   directive is still open; promotion would obligate every mission on a mature
-#   codebase to gate refactor work on a captured knowledge artifact, which is a
-#   strong claim and deserves explicit ratification.
-# - [open question] Bus factor as a first-class risk rests on one engagement
-#   (2026-05 CaaCS); evidence from other brownfield work would strengthen or
-#   qualify it.
-# - Cross-links into the doctrine graph are declared in this pack's
-#   graph fragment (drg/fragment.yaml). The motivating tactic is forensic-repository-audit
-#   and the motivating procedure is legacy-codebase-triage; the structural
-#   overlays are domain-driven-design and deep-module-design.
+- name: Legacy code is evidence
+  description: An existing system records constraints, edge cases and decisions the team already paid for, and is read as a source before it is judged.
+- name: Understand before you change
+  description: Restructuring something you do not yet understand risks removing what it quietly relies on.
+- name: Several lenses, one picture
+  description: Forensic data, people's accounts and structural analysis each miss something, so findings are trusted when they agree.
+- name: Document and transfer, then refactor
+  description: Structural change waits until what was learned is captured and shared, so the change cannot erase knowledge only the old code held, and the team no longer depends on a few individuals.
+- name: Record why, not only what
+  description: The durable output is a navigable account of the system and its reasons, which later change can build on.
+- name: Respect without inertia
+  description: Prior decisions are honoured until understood, but difficulty alone is not a reason to leave something unchanged.

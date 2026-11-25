@@ -1,8 +1,7 @@
 schema_version: '1.0'
 id: anyhow-in-a-library-api
 title: anyhow in a Library API
-description: A library returning anyhow::Result from public functions. Callers cannot match on the cause, so every failure
-  is equally opaque to them.
+description: A library returning anyhow::Result from public functions. Callers cannot match on the cause, so every failure is equally opaque to them.
 severity: severe
 bad_example: 'pub fn load(path: &Path) -> anyhow::Result<Ledger> { /* ... */ }'
 good_example: 'pub fn load(path: &Path) -> Result<Ledger, LedgerError> { /* ... */ }'

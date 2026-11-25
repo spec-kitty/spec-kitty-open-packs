@@ -1,109 +1,47 @@
-schema_version: "1.0"
 id: acceptance-criteria-non-vacuity
+schema_version: '1.0'
 name: Acceptance Criteria Non-Vacuity
-purpose: >
-  Prove that each acceptance criterion, and the test that stands in for it,
-  could actually fail. A criterion a no-op change would satisfy proves
-  nothing about the delivered behavior; a refusal or absence probe that
-  could not have seen the thing it asserts is missing proves nothing about
-  the production path. This tactic is the single canonical definition of the
-  four delivery labels, the no-op-passable mark, the three rules that keep
-  acceptance criteria and their tests non-vacuous, and a fourth rule, the
-  change-detector check: do not write a test whose red does not mean broken.
+purpose: |
+  Prove that each acceptance criterion, and the test that stands in for it, could actually fail. A criterion a no-op change would satisfy proves nothing about the delivered behavior; a refusal or absence probe that could not have seen the thing it asserts is missing proves nothing about the production path. This tactic is the single canonical definition of the four delivery labels, the no-op-passable mark, the three rules that keep acceptance criteria and their tests non-vacuous, and a fourth rule, the change-detector check: do not write a test whose red does not mean broken.
 steps:
-  - title: Label every criterion
-    description: >
-      Tag each functional requirement and success criterion with a delivery
-      label: [build] (new behavior), [ratchet] (existing behavior pinned
-      against regression), [folded] (satisfied by another item -- name
-      the satisfying item so folding cannot hide a gap), or
-      [evidenced-by-run] (no test is written; a real run or an existing gate
-      is the evidence -- name it, and where the record lives: a run ID or URL;
-      for a gate, the gate's name and the ID or URL of its run on this change).
-      Use [evidenced-by-run] only for work without lasting regression risk
-      (DIRECTIVE_034).
-    examples:
-      - "FR-003 labelled [ratchet]: pins the requirement-id parser's existing behavior against regression, not new behavior."
-  - title: Ask "no-op passable?"
-    description: >
-      For each labelled criterion, ask whether a do-nothing change would
-      already satisfy it. If yes, either reword the criterion so a no-op
-      cannot pass it, or name a positive control that proves the check is
-      non-vacuous.
-    examples:
-      - "A [ratchet] row marked no-op passable: yes must name the control it is paired with, e.g. 'yes -- paired with the mis-placed-label row on the same fixture'."
-  - title: Apply the change-detector check (does red mean broken?)
-    description: >
-      Next to "could this test fail?" (no-op passable), ask "when it fails,
-      does that mean something is broken?" and the long-term-value question:
-      "Would this test still catch a real regression in six months, or would
-      it only fail when someone changes the configuration on purpose?" A test
-      that only restates configuration or structure is a change detector: do
-      not write it; where one exists and the evidence is recorded, retire it
-      (DIRECTIVE_041).
-    examples:
-      - "A test pinning a CI job's name, runner and timeout is a change detector; a test of the routing logic that job calls is not."
-  - title: Pair refusal or absence assertions with a same-fixture positive control
-    description: >
-      A test that asserts something is absent, rejected, or unchanged proves
-      nothing unless a companion assertion on the same fixture proves the
-      probe can observe the thing when it is present. Build both assertions
-      from one shared fixture so the positive case and the negative case
-      cannot silently drift apart.
-    examples:
-      - "A parser test asserting a mis-placed id is NOT declared also asserts a correctly placed id in the same source text IS declared -- one fixture, two assertions, proving the probe discriminates on placement rather than always returning 'not declared'."
-  - title: Prove compound fixes half by half
-    description: >
-      When a fix is made of several independent changes, revert each part in
-      turn and confirm the test goes red each time. A test that stays green
-      after reverting half the fix is only exercising the other half.
-  - title: Exercise the production path, not only a helper
-    description: >
-      Non-vacuity tests must call the real production entry point (the CLI
-      command, the public function the runtime actually invokes) rather than
-      only a lower-level helper that the production path happens to use. A
-      helper-only test can stay green while the production wiring that calls
-      it is missing or broken.
-    examples:
-      - "Render the built-in review prompt through the same render_command_template() the CLI uses, and resolve a named id through the same charter-context include function `spec-kitty charter context --include` calls -- not a hand-built string check."
+- title: Label every criterion
+  description: |
+    Tag each functional requirement and success criterion with a delivery label: [build] (new behavior), [ratchet] (existing behavior pinned against regression), [folded] (satisfied by another item -- name the satisfying item so folding cannot hide a gap), or [evidenced-by-run] (no test is written; a real run or an existing gate is the evidence -- name it, and where the record lives: a run ID or URL; for a gate, the gate's name and the ID or URL of its run on this change). Use [evidenced-by-run] only for work without lasting regression risk (DIRECTIVE_034).
+  examples:
+  - 'FR-003 labelled [ratchet]: pins the requirement-id parser''s existing behavior against regression, not new behavior.'
+- title: Ask "no-op passable?"
+  description: |
+    For each labelled criterion, ask whether a do-nothing change would already satisfy it. If yes, either reword the criterion so a no-op cannot pass it, or name a positive control that proves the check is non-vacuous.
+  examples:
+  - 'A [ratchet] row marked no-op passable: yes must name the control it is paired with, e.g. ''yes -- paired with the mis-placed-label row on the same fixture''.'
+- title: Apply the change-detector check (does red mean broken?)
+  description: |
+    Next to "could this test fail?" (no-op passable), ask "when it fails, does that mean something is broken?" and the long-term-value question: "Would this test still catch a real regression in six months, or would it only fail when someone changes the configuration on purpose?" A test that only restates configuration or structure is a change detector: do not write it; where one exists and the evidence is recorded, retire it (DIRECTIVE_041).
+  examples:
+  - A test pinning a CI job's name, runner and timeout is a change detector; a test of the routing logic that job calls is not.
+- title: Pair refusal or absence assertions with a same-fixture positive control
+  description: |
+    A test that asserts something is absent, rejected, or unchanged proves nothing unless a companion assertion on the same fixture proves the probe can observe the thing when it is present. Build both assertions from one shared fixture so the positive case and the negative case cannot silently drift apart.
+  examples:
+  - A parser test asserting a mis-placed id is NOT declared also asserts a correctly placed id in the same source text IS declared -- one fixture, two assertions, proving the probe discriminates on placement rather than always returning 'not declared'.
+- title: Prove compound fixes half by half
+  description: |
+    When a fix is made of several independent changes, revert each part in turn and confirm the test goes red each time. A test that stays green after reverting half the fix is only exercising the other half.
+- title: Exercise the production path, not only a helper
+  description: |
+    Non-vacuity tests must call the real production entry point (the CLI command, the public function the runtime actually invokes) rather than only a lower-level helper that the production path happens to use. A helper-only test can stay green while the production wiring that calls it is missing or broken.
+  examples:
+  - Render the built-in review prompt through the same render_command_template() the CLI uses, and resolve a named id through the same charter-context include function `spec-kitty charter context --include` calls -- not a hand-built string check.
 failure_modes:
-  - "Change detector: a test that restates configuration, goes red only because the configuration does not exist yet, and afterwards fails only on intentional change."
-  - "Evidence by assertion: an `[evidenced-by-run]` row that names no run or gate, or one that does not exist."
-  - "Blind probe: a refusal/absence assertion with no positive control on the same fixture, so it cannot distinguish 'the thing is absent' from 'the probe cannot see anything'."
-  - "Half-fix still green: a compound fix whose test suite stays green after reverting one of its independent parts, because no assertion depends on that part alone."
-  - "Helper-only non-vacuity: a test that calls an internal helper instead of the production entry point, so it cannot detect a wiring gap between the two."
-  - "Label placed in the requirement-id cell: the label silently undeclares the requirement from the id parser instead of being a harmless trailing annotation."
-notes: >
-  Canonical legend (the only place these terms are defined; other surfaces
-  reference this tactic rather than restating the legend):
-
-  Delivery labels -- [build]: new behavior delivered by this criterion.
-  [ratchet]: existing behavior pinned against regression (no new behavior).
-  [folded]: satisfied by another item; name that item so folding cannot hide
-  a gap. [evidenced-by-run]: no test is written; a real run or an existing
-  gate is the evidence, named in the row: a run ID or URL, or a gate's name
-  plus the ID or URL of its run on this change (only for work without lasting
-  regression risk, DIRECTIVE_034).
-
-  No-op passable? -- yes/no per criterion. `yes` means a do-nothing change
-  would already satisfy the criterion's check, so it must be reworded, or
-  paired with a named positive control that proves the check is non-vacuous
-  despite being no-op passable by design (for example, a [ratchet] row
-  guarded by a companion assertion on the same fixture). An
-  [evidenced-by-run] row is marked `n-a` with the evidence named, and the
-  named run or gate must run the changed configuration itself and would fail,
-  or not run the changed part at all, without the change (DIRECTIVE_034 owns
-  the rule).
-
-  Long-term-value question -- would this test still catch a real regression
-  in six months, or would it only fail when someone changes the
-  configuration on purpose? If the latter, it is a change detector: do not
-  write it.
-
-  Related doctrine (named here for a reader's convenience): the
-  architectural-gate-non-vacuity tactic applies these same non-vacuity rules
-  to structural allowlists/gates instead of acceptance tests;
-  delete-the-assertion-not-the-test covers the sibling case of a probe that
-  is vacuous because its assertion is too weak, not because it lacks a
-  positive control; and acceptance-test-first is the baseline ATDD discipline
-  this tactic's rules keep honest.
+- 'Change detector: a test that restates configuration, goes red only because the configuration does not exist yet, and afterwards fails only on intentional change.'
+- 'Evidence by assertion: an `[evidenced-by-run]` row that names no run or gate, or one that does not exist.'
+- 'Blind probe: a refusal/absence assertion with no positive control on the same fixture, so it cannot distinguish ''the thing is absent'' from ''the probe cannot see anything''.'
+- 'Half-fix still green: a compound fix whose test suite stays green after reverting one of its independent parts, because no assertion depends on that part alone.'
+- 'Helper-only non-vacuity: a test that calls an internal helper instead of the production entry point, so it cannot detect a wiring gap between the two.'
+- 'Label placed in the requirement-id cell: the label silently undeclares the requirement from the id parser instead of being a harmless trailing annotation.'
+notes: |
+  Canonical legend (the only place these terms are defined; other surfaces reference this tactic rather than restating the legend):
+  Delivery labels -- [build]: new behavior delivered by this criterion. [ratchet]: existing behavior pinned against regression (no new behavior). [folded]: satisfied by another item; name that item so folding cannot hide a gap. [evidenced-by-run]: no test is written; a real run or an existing gate is the evidence, named in the row: a run ID or URL, or a gate's name plus the ID or URL of its run on this change (only for work without lasting regression risk, DIRECTIVE_034).
+  No-op passable? -- yes/no per criterion. `yes` means a do-nothing change would already satisfy the criterion's check, so it must be reworded, or paired with a named positive control that proves the check is non-vacuous despite being no-op passable by design (for example, a [ratchet] row guarded by a companion assertion on the same fixture). An [evidenced-by-run] row is marked `n-a` with the evidence named, and the named run or gate must run the changed configuration itself and would fail, or not run the changed part at all, without the change (DIRECTIVE_034 owns the rule).
+  Long-term-value question -- would this test still catch a real regression in six months, or would it only fail when someone changes the configuration on purpose? If the latter, it is a change detector: do not write it.
+  Related doctrine (named here for a reader's convenience): the architectural-gate-non-vacuity tactic applies these same non-vacuity rules to structural allowlists/gates instead of acceptance tests; delete-the-assertion-not-the-test covers the sibling case of a probe that is vacuous because its assertion is too weak, not because it lacks a positive control; and acceptance-test-first is the baseline ATDD discipline this tactic's rules keep honest.

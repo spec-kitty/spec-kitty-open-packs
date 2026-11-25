@@ -1,8 +1,6 @@
 schema_version: '1.0'
 id: touching-workflow-state-leases
 title: Touching workflow-state leases
-description: '`status:ready`, `status:claimed`, `status:blocked` and `taken-by-human` are leases and queue state set by a
-  person or by contributor tooling. Report a stale one; do not remove it. The one exception is `status:triage`, which the
-  pass removes once an issue is triaged and nothing is pending on it.'
+description: '`status:ready`, `status:claimed`, `status:blocked` and `taken-by-human` are leases and queue state set by a person or by contributor tooling. Report a stale one; do not remove it. The one exception is `status:triage`, which the pass removes once an issue is triaged and nothing is pending on it.'
 severity: severe
 bad_example: The triage pass removes a two-week-old `status:claimed` label it judges stale.

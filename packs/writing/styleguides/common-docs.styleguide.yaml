@@ -1,179 +1,97 @@
-schema_version: "1.0"
 id: common-docs
+schema_version: '1.0'
 title: Common Docs Styleguide
 scope: docs
-applies_to_languages: []
-
 principles:
-  - name: "Single root, 13 sections"
-    description: "Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog."
-  - name: "Frontmatter is the per-page source of truth"
-    description: "Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. If the project keeps a page inventory or another rollup, it is generated FROM frontmatter; it is never a parallel hand-maintained store."
-  - name: "Lifecycle state has one frontmatter key"
-    description: "Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines."
-  - name: "Description is bounded"
-    description: "Description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive). Search results and link previews show it, as does an SEO step if the project has one. A description outside that band fails review."
-  - name: "Cross-references use related"
-    description: "Cross-references use related: page slugs. related: lists the slugs of other pages in the docs tree, each of which must resolve; links outside the tree go under external_references:. The dead citation_refs sidecar field is not reintroduced."
-  - name: "Audience is named in an audience"
-    description: "Audience is named in an audience: field. Every page touched by a change declares its readers as audience: entries of profile and guidance_text. Required on touched pages only; untouched legacy pages never fail for lacking it."
-  - name: "ADRs live under adr/ with YAML frontmatter"
-    description: "ADRs live under adr/ with YAML frontmatter. Architecture Decision Records are filed under adr/, or under adr/<era>/ if the project versions its ADRs, and carry YAML frontmatter so the docsite can index them."
-  - name: "Naming is kebab-case and section-scoped"
-    description: "Naming is kebab-case and section-scoped. Documentation file and directory names are lowercase kebab-case; ADR filenames keep their dated prefix; one concern per file."
-  - name: "Curate by delete-stale"
-    description: "Curate by delete-stale. docs/ is not a wiki: keep one concern per file, update docs with behaviour changes under DIRECTIVE_037, and distil stale documents into decisions or designs before retiring them."
-
+- name: Single root, 13 sections
+  description: 'Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog.'
+- name: Frontmatter is the per-page source of truth
+  description: Frontmatter is the per-page source of truth. In-file YAML frontmatter is the sole authority for per-page metadata. If the project keeps a page inventory or another rollup, it is generated FROM frontmatter; it is never a parallel hand-maintained store.
+- name: Lifecycle state has one frontmatter key
+  description: Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines.
+- name: Description is bounded
+  description: Description is bounded. Frontmatter carries a description string of 50-180 characters (inclusive). Search results and link previews show it, as does an SEO step if the project has one. A description outside that band fails review.
+- name: Cross-references use related
+  description: 'Cross-references use related: page slugs. related: lists the slugs of other pages in the docs tree, each of which must resolve; links outside the tree go under external_references:. The dead citation_refs sidecar field is not reintroduced.'
+- name: Audience is named in an audience
+  description: 'Audience is named in an audience: field. Every page touched by a change declares its readers as audience: entries of profile and guidance_text. Required on touched pages only; untouched legacy pages never fail for lacking it.'
+- name: ADRs live under adr/ with YAML frontmatter
+  description: ADRs live under adr/ with YAML frontmatter. Architecture Decision Records are filed under adr/, or under adr/<era>/ if the project versions its ADRs, and carry YAML frontmatter so the docsite can index them.
+- name: Naming is kebab-case and section-scoped
+  description: Naming is kebab-case and section-scoped. Documentation file and directory names are lowercase kebab-case; ADR filenames keep their dated prefix; one concern per file.
+- name: Curate by delete-stale
+  description: 'Curate by delete-stale. docs/ is not a wiki: keep one concern per file, update docs with behaviour changes under DIRECTIVE_037, and distil stale documents into decisions or designs before retiring them.'
 patterns:
-  - name: lifecycle key namespacing
-    description: >
-      Where status already means something else in the project, use a namespaced
-      lifecycle key so a documentation lifecycle value can never be confused with
-      it, by a reader or by a grep.
-    bad_example: |
-      ---
-      title: Payment Retries
-      status: active
-      ---
-    good_example: |
-      ---
-      title: Payment Retries
-      doc_status: active
-      updated: 2026-06-27
-      ---
-  - name: related cross-reference
-    description: >
-      Express a cross-reference to another page in the docs tree as a related:
-      entry holding that page's slug: its path under the docs root without the
-      .md extension, such as guides/retry-a-payment. An entry may also be an
-      object with ref (the slug) and an optional note. A docsite generator that
-      reads this shape (doc-kitty does) fails the build on a slug that does not
-      resolve. A link outside the docs tree (a specification, an issue, another
-      site) goes under external_references: as url, title and an optional note,
-      or as type and id. Do not use the dead citation_refs sidecar field.
-      Legacy form: a project whose own validator still reads repo-relative .md
-      paths in related: keeps them until it migrates; do not start new pages
-      that way.
-    bad_example: |
-      # in docs/development/page-inventory.yaml
-      citation_refs: []   # rarely populated, so effectively dead
-    good_example: |
-      ---
-      title: Payment Retries
-      doc_status: active
-      related:
-        - architecture/payment-retries
-        - ref: adr/2026-05-16-1-retry-backoff-policy
-          note: why the backoff is capped
-      external_references:
-        - url: https://www.rfc-editor.org/rfc/rfc9110
-          title: HTTP Semantics
-      ---
-  - name: audience-resolvable
-    description: >
-      Name a page's readers as audience: entries, each with a profile and a
-      guidance_text. profile names a reader persona the project defines as a
-      page (doc-kitty resolves it to the page at context/audience/<profile>
-      under the docs root);
-      guidance_text says, in a sentence, what that reader gets from the page or
-      should read it for. A free-text note that nothing can check does not
-      count. Where the project keeps no persona pages, still name the profile
-      in plain words and record the gap. doc-kitty only warns on a profile
-      that resolves to no page and shows its name; unlike a related: miss, it
-      never fails the build, so review enforces the rule. Required on touched
-      pages only.
-      Legacy form: an audience: value holding a repo-relative .md path is the
-      pre-doc-kitty shape; do not start new pages that way.
-    bad_example: |
-      ---
-      title: Merge Workflow
-      audience: maintainers   # free text: no profile, no guidance
-      ---
-    good_example: |
-      ---
-      title: Merge Workflow
-      doc_status: active
-      updated: 2026-08-10
-      audience:
-        - profile: maintainer
-          guidance_text: Follow this before merging a contributor's pull request.
-      ---
-
-  - name: "Single root, 13 sections"
-    description: >-
-      Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section
-      structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides,
-      operations, migrations, changelog. Each directory carries its own index.md. No second documentation root
-      and no per-version shadow tree.
-
-  - name: "Lifecycle state has one frontmatter key"
-    description: >-
-      Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with
-      the values the project defines. Where status already means something else in the project, use a
-      namespaced key; the structural lint shipped with this pack reads doc_status by default. The freshness
-      date is carried by updated: YYYY-MM-DD.
-
-  - name: "Cross-references use related"
-    description: >-
-      Cross-references use related: page slugs. related: lists the slugs of other pages in the docs tree
-      (the path under the docs root without .md, or an object with ref and an optional note), and each slug
-      must resolve. Links to anything outside the docs tree go under external_references:. The dead
-      citation_refs sidecar field is not reintroduced. Repo-relative .md paths in related: are the legacy form.
-
-  - name: "Audience is named in an audience"
-    description: >-
-      Audience is named in an audience: field. Every documentation page touched by a change declares its
-      readers as a list of audience: entries, each with a profile (a reader persona the project defines as a
-      page) and a guidance_text (what that reader gets from the page). Where the project keeps no persona
-      pages, the profile still names the reader in plain words and the gap is recorded. This is the
-      machine-checkable form of DIRECTIVE_047's audience-oriented-writing rule. The field is required on
-      touched pages only, so untouched legacy pages are never failed for lacking it. A repo-relative .md path
-      as the audience: value is the legacy form.
-
-  - name: "ADRs live under adr/ with YAML frontmatter"
-    description: >-
-      ADRs live under adr/ with YAML frontmatter. Architecture Decision Records are filed under adr/, or
-      under adr/<era>/ if the project versions its ADRs by release era, and carry YAML frontmatter so the
-      docsite can index them. The living architectural design collapses into a single unversioned
-      architecture/ location.
-
-  - name: "Curate by delete-stale"
-    description: >-
-      Curate by delete-stale. docs/ is not a wiki: one concern per file; DIRECTIVE_037 (Living Documentation
-      Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled into a
-      decision (adr/) or design (architecture/) and then retired rather than accumulating.
-
-# Rule -> check mapping table. Every documentation rule maps either to a check
-# of the structural lint shipped with this pack (named by its check id) or to
-# review. The common-docs-structural-lint toolguide says how to run the lint.
+- name: lifecycle key namespacing
+  description: |
+    Where status already means something else in the project, use a namespaced lifecycle key so a documentation lifecycle value can never be confused with it, by a reader or by a grep.
+  bad_example: |
+    ---
+    title: Payment Retries
+    status: active
+    ---
+  good_example: |
+    ---
+    title: Payment Retries
+    doc_status: active
+    updated: 2026-06-27
+    ---
+- name: related cross-reference
+  description: |
+    Express a cross-reference to another page in the docs tree as a related: entry holding that page's slug: its path under the docs root without the .md extension, such as guides/retry-a-payment. An entry may also be an object with ref (the slug) and an optional note. A docsite generator that reads this shape (doc-kitty does) fails the build on a slug that does not resolve. A link outside the docs tree (a specification, an issue, another site) goes under external_references: as url, title and an optional note, or as type and id. Do not use the dead citation_refs sidecar field. Legacy form: a project whose own validator still reads repo-relative .md paths in related: keeps them until it migrates; do not start new pages that way.
+  bad_example: |
+    # in docs/development/page-inventory.yaml
+    citation_refs: []   # rarely populated, so effectively dead
+  good_example: |
+    ---
+    title: Payment Retries
+    doc_status: active
+    related:
+      - architecture/payment-retries
+      - ref: adr/2026-05-16-1-retry-backoff-policy
+        note: why the backoff is capped
+    external_references:
+      - url: https://www.rfc-editor.org/rfc/rfc9110
+        title: HTTP Semantics
+    ---
+- name: audience-resolvable
+  description: |
+    Name a page's readers as audience: entries, each with a profile and a guidance_text. profile names a reader persona the project defines as a page (doc-kitty resolves it to the page at context/audience/<profile> under the docs root); guidance_text says, in a sentence, what that reader gets from the page or should read it for. A free-text note that nothing can check does not count. Where the project keeps no persona pages, still name the profile in plain words and record the gap. doc-kitty only warns on a profile that resolves to no page and shows its name; unlike a related: miss, it never fails the build, so review enforces the rule. Required on touched pages only. Legacy form: an audience: value holding a repo-relative .md path is the pre-doc-kitty shape; do not start new pages that way.
+  bad_example: |
+    ---
+    title: Merge Workflow
+    audience: maintainers   # free text: no profile, no guidance
+    ---
+  good_example: |
+    ---
+    title: Merge Workflow
+    doc_status: active
+    updated: 2026-08-10
+    audience:
+      - profile: maintainer
+        guidance_text: Follow this before merging a contributor's pull request.
+    ---
+- name: Single root, 13 sections
+  description: 'Single root, 13 sections. All documentation lives under one Common Docs root with the 13-section structure: index, context, architecture, adr, plans, api, configuration, integrations, security, guides, operations, migrations, changelog. Each directory carries its own index.md. No second documentation root and no per-version shadow tree.'
+- name: Lifecycle state has one frontmatter key
+  description: 'Lifecycle state has one frontmatter key. A page holds its lifecycle state in one frontmatter key, with the values the project defines. Where status already means something else in the project, use a namespaced key; the structural lint shipped with this pack reads doc_status by default. The freshness date is carried by updated: YYYY-MM-DD.'
+- name: Cross-references use related
+  description: 'Cross-references use related: page slugs. related: lists the slugs of other pages in the docs tree (the path under the docs root without .md, or an object with ref and an optional note), and each slug must resolve. Links to anything outside the docs tree go under external_references:. The dead citation_refs sidecar field is not reintroduced. Repo-relative .md paths in related: are the legacy form.'
+- name: Audience is named in an audience
+  description: 'Audience is named in an audience: field. Every documentation page touched by a change declares its readers as a list of audience: entries, each with a profile (a reader persona the project defines as a page) and a guidance_text (what that reader gets from the page). Where the project keeps no persona pages, the profile still names the reader in plain words and the gap is recorded. This is the machine-checkable form of DIRECTIVE_047''s audience-oriented-writing rule. The field is required on touched pages only, so untouched legacy pages are never failed for lacking it. A repo-relative .md path as the audience: value is the legacy form.'
+- name: ADRs live under adr/ with YAML frontmatter
+  description: ADRs live under adr/ with YAML frontmatter. Architecture Decision Records are filed under adr/, or under adr/<era>/ if the project versions its ADRs by release era, and carry YAML frontmatter so the docsite can index them. The living architectural design collapses into a single unversioned architecture/ location.
+- name: Curate by delete-stale
+  description: 'Curate by delete-stale. docs/ is not a wiki: one concern per file; DIRECTIVE_037 (Living Documentation Sync) owns the same-change documentation-update rule; stale or deprecated documents are distilled into a decision (adr/) or design (architecture/) and then retired rather than accumulating.'
 tooling:
-  structure-single-root-section: "The common-docs-structural-lint asset. shadow_tree_basename flags a content file name shared across section subtrees. With --extended, sanctioned_section_membership flags a page outside the sanctioned sections and one_index_per_dir flags a directory with two competing index pages. That every section has its index.md is review."
-  adr-era-layout: "The common-docs-structural-lint asset. point_in_time_placement allowlists adr/**, and frontmatter_contract leaves adr/** out of scope, so dated ADRs pass. Optional era subdirectories and the unversioned architecture/ are review."
-  naming-kebab-case: "Review. The structural lint does not check file names."
-  curation-delete-stale: "Review, under DIRECTIVE_037's same-change discipline. The common-docs-structural-lint asset catches two drift classes: shadow_tree_basename (a duplicated content file name) and point_in_time_placement (a dated or point-in-time file outside its allowlisted home)."
-  frontmatter-lifecycle-key: "The common-docs-structural-lint asset. frontmatter_contract flags an in-scope page that lacks a field in frontmatter_required_fields (doc_status and updated by default). The lifecycle values, the updated date format and a bare status key are review."
-  frontmatter-ssot: "Review: no second hand-maintained store of per-page metadata exists. If the project keeps a generated page inventory, its own freshness check confirms the inventory matches frontmatter."
-  frontmatter-seo-description: "Review: the description is 50-180 characters. The structural lint does not count it."
-  related-resolvable-slugs: "A docsite generator that reads the related: slug shape (doc-kitty does) fails the build on a slug that does not resolve. Without one, review confirms every related: entry resolves. If the project has its own related: validator, run it too."
-  audience-resolvable: "A docsite generator that reads the audience: shape (doc-kitty does) resolves each profile to a persona page and warns on a miss. Review confirms every touched page has audience: entries with a profile and a guidance_text, and that each profile names a persona the project defines or a recorded gap. Scoped to touched pages only."
-
-quality_test: >
-  A documentation change satisfies this styleguide when the
-  common-docs-structural-lint asset exits 0 over the docs root (the
-  documentation mission's validate step runs it with --extended), and review confirms what the lint does not check: every section has
-  its index.md, names are kebab-case, each description is 50-180 characters,
-  the lifecycle values are the project's own, every related: entry is a page
-  slug that resolves, links outside the docs tree sit under
-  external_references:, and every touched page carries audience: entries of
-  profile and guidance_text. If the project builds with doc-kitty or has its
-  own page-inventory or related: check, that build or check is green too.
-
-# The machine-parseable structural_lint_config:
-# policy block that used to live here has moved to the lint asset's own data
-# file, assets/docs_structural_lint.config.yaml in this pack — owned by
-# the lint asset, not by this styleguide. The loader contract is unchanged
-# (the pinned wrapper key structural_lint_config: still resolves through
-# --styleguide PATH / SPEC_KITTY_STYLEGUIDE); only the file the BUILT-IN
-# DEFAULT is loaded from has moved. A project that needs a different policy
-# keeps its own styleguide or data file carrying that block, as this
-# repository's own maintainer override already does (unaffected by this move).
+  structure-single-root-section: The common-docs-structural-lint asset. shadow_tree_basename flags a content file name shared across section subtrees. With --extended, sanctioned_section_membership flags a page outside the sanctioned sections and one_index_per_dir flags a directory with two competing index pages. That every section has its index.md is review.
+  adr-era-layout: The common-docs-structural-lint asset. point_in_time_placement allowlists adr/**, and frontmatter_contract leaves adr/** out of scope, so dated ADRs pass. Optional era subdirectories and the unversioned architecture/ are review.
+  naming-kebab-case: Review. The structural lint does not check file names.
+  curation-delete-stale: 'Review, under DIRECTIVE_037''s same-change discipline. The common-docs-structural-lint asset catches two drift classes: shadow_tree_basename (a duplicated content file name) and point_in_time_placement (a dated or point-in-time file outside its allowlisted home).'
+  frontmatter-lifecycle-key: The common-docs-structural-lint asset. frontmatter_contract flags an in-scope page that lacks a field in frontmatter_required_fields (doc_status and updated by default). The lifecycle values, the updated date format and a bare status key are review.
+  frontmatter-ssot: 'Review: no second hand-maintained store of per-page metadata exists. If the project keeps a generated page inventory, its own freshness check confirms the inventory matches frontmatter.'
+  frontmatter-seo-description: 'Review: the description is 50-180 characters. The structural lint does not count it.'
+  related-resolvable-slugs: 'A docsite generator that reads the related: slug shape (doc-kitty does) fails the build on a slug that does not resolve. Without one, review confirms every related: entry resolves. If the project has its own related: validator, run it too.'
+  audience-resolvable: 'A docsite generator that reads the audience: shape (doc-kitty does) resolves each profile to a persona page and warns on a miss. Review confirms every touched page has audience: entries with a profile and a guidance_text, and that each profile names a persona the project defines or a recorded gap. Scoped to touched pages only.'
+quality_test: |
+  A documentation change satisfies this styleguide when the common-docs-structural-lint asset exits 0 over the docs root (the documentation mission's validate step runs it with --extended), and review confirms what the lint does not check: every section has its index.md, names are kebab-case, each description is 50-180 characters, the lifecycle values are the project's own, every related: entry is a page slug that resolves, links outside the docs tree sit under external_references:, and every touched page carries audience: entries of profile and guidance_text. If the project builds with doc-kitty or has its own page-inventory or related: check, that build or check is green too.

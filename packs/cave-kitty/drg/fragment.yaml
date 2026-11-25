@@ -1,91 +1,86 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Read by `charter pack validate`, `doctor charter-packs`, `charter context`
-# and profile health.
-# Edge endpoints are URNs (<kind>:<id>), local nodes included. The pack's name,
-# source and layer come from the operator's configuration, never from this file.
 nodes:
-  - id: CAVE_001
-    kind: directives
-    title: "Caveman Terse Output"
-    body_path: directives/cave-001-terse-output.directive.yaml
-  - id: cave-sty-001-communication
-    kind: styleguides
-    title: "Caveman Communication Styleguide"
-    body_path: styleguides/cave-sty-001-communication.styleguide.yaml
-  - id: cave-dev
-    kind: mission_types
-    title: "Cave Dev Mission Type"
-    body_path: missions/cave-dev/cave-dev.mission-type.yaml
-  - id: cave-dev/discovery
-    kind: actions
-    title: "Discovery (caveman)"
-  - id: cave-dev/specify
-    kind: actions
-    title: "Specify (caveman)"
-  - id: cave-dev/plan
-    kind: actions
-    title: "Plan (caveman)"
-  - id: cave-dev/tasks
-    kind: actions
-    title: "Tasks (caveman)"
-  - id: cave-dev/analyze
-    kind: actions
-    title: "Analyze (caveman)"
-  - id: cave-dev/implement
-    kind: actions
-    title: "Implement (caveman)"
-  - id: cave-dev/review
-    kind: actions
-    title: "Review (caveman)"
-  - id: cave-dev/accept
-    kind: actions
-    title: "Accept (caveman)"
+- id: CAVE_001
+  kind: directives
+  title: Caveman Terse Output
+  body_path: directives/cave-001-terse-output.directive.yaml
+- id: cave-sty-001-communication
+  kind: styleguides
+  title: Caveman Communication Styleguide
+  body_path: styleguides/cave-sty-001-communication.styleguide.yaml
+- id: cave-dev
+  kind: mission_types
+  title: Cave Dev Mission Type
+  body_path: missions/cave-dev/cave-dev.mission-type.yaml
+- id: cave-dev/discovery
+  kind: actions
+  title: Discovery (caveman)
+- id: cave-dev/specify
+  kind: actions
+  title: Specify (caveman)
+- id: cave-dev/plan
+  kind: actions
+  title: Plan (caveman)
+- id: cave-dev/tasks
+  kind: actions
+  title: Tasks (caveman)
+- id: cave-dev/analyze
+  kind: actions
+  title: Analyze (caveman)
+- id: cave-dev/implement
+  kind: actions
+  title: Implement (caveman)
+- id: cave-dev/review
+  kind: actions
+  title: Review (caveman)
+- id: cave-dev/accept
+  kind: actions
+  title: Accept (caveman)
 edges:
-  - source: directive:CAVE_001
-    target: styleguide:cave-sty-001-communication
-    relation: requires
-  - source: mission_type:cave-dev
-    target: directive:CAVE_001
-    relation: scope
-  - source: mission_type:cave-dev
-    target: styleguide:cave-sty-001-communication
-    relation: scope
-  - source: mission_type:cave-dev
-    target: action:cave-dev/discovery
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/specify
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/plan
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/tasks
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/analyze
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/implement
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/review
-    relation: requires
-  - source: mission_type:cave-dev
-    target: action:cave-dev/accept
-    relation: requires
-  - source: action:cave-dev/analyze
-    target: foundation::tactic:wp-prompt-readiness-review
-    relation: scope
-  - source: action:cave-dev/analyze
-    target: foundation::tactic:requirement-quality-ears
-    relation: scope
-  - source: action:cave-dev/analyze
-    target: foundation::tactic:planning-corpus-consistency
-    relation: scope
-  - source: action:cave-dev/analyze
-    target: foundation::tactic:product-coherence-review
-    relation: scope
-  - source: action:cave-dev/specify
-    target: foundation::tactic:requirement-quality-ears
-    relation: scope
+- source: directive:CAVE_001
+  target: styleguide:cave-sty-001-communication
+  relation: requires
+- source: mission_type:cave-dev
+  target: directive:CAVE_001
+  relation: scope
+- source: mission_type:cave-dev
+  target: styleguide:cave-sty-001-communication
+  relation: scope
+- source: mission_type:cave-dev
+  target: action:cave-dev/discovery
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/specify
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/plan
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/tasks
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/analyze
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/implement
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/review
+  relation: requires
+- source: mission_type:cave-dev
+  target: action:cave-dev/accept
+  relation: requires
+- source: action:cave-dev/analyze
+  target: foundation::tactic:wp-prompt-readiness-review
+  relation: scope
+- source: action:cave-dev/analyze
+  target: foundation::tactic:requirement-quality-ears
+  relation: scope
+- source: action:cave-dev/analyze
+  target: foundation::tactic:planning-corpus-consistency
+  relation: scope
+- source: action:cave-dev/analyze
+  target: foundation::tactic:product-coherence-review
+  relation: scope
+- source: action:cave-dev/specify
+  target: foundation::tactic:requirement-quality-ears
+  relation: scope

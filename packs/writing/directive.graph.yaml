@@ -19,36 +19,31 @@ edges:
   target: procedure:action-item-attribution-gate
   relation: requires
   when: extracting action items from a meeting transcript
-  reason: Turns the attribution rule into a validation gate that refuses minutes until every action item, including each part
-    of a multi-action entry, names a real owner.
+  reason: Turns the attribution rule into a validation gate that refuses minutes until every action item, including each part of a multi-action entry, names a real owner.
 - source: foundation::directive:DIRECTIVE_032
   target: styleguide:kitty-glossary-writing
   relation: suggests
 - source: directive:DIRECTIVE_042
   target: asset:common-docs-structural-lint
   relation: requires
-  reason: DIRECTIVE_042 names the common-docs structural lint as the live mechanical gate that enforces it; activating the
-    directive requires the shipped lint asset to be present.
+  reason: DIRECTIVE_042 names the common-docs structural lint as the live mechanical gate that enforces it; activating the directive requires the shipped lint asset to be present.
 - source: directive:DIRECTIVE_042
   target: procedure:common-docs-page-authoring
   relation: requires
   when: creating, moving, or updating a documentation page or ADR
-  reason: Places pages in the Common Docs root with lifecycle metadata in frontmatter, files ADRs by era, and retires stale
-    pages.
+  reason: Places pages in the Common Docs root with lifecycle metadata in frontmatter, files ADRs by era, and retires stale pages.
 - source: directive:DIRECTIVE_042
   target: procedure:declare-page-audience
   relation: requires
   when: a change touches a documentation page
-  reason: Adds the audience field the standard requires to every touched page, as machine-checkable frontmatter rather than
-    prose.
+  reason: Adds the audience field the standard requires to every touched page, as machine-checkable frontmatter rather than prose.
 - source: directive:DIRECTIVE_042
   target: styleguide:common-docs
   relation: suggests
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-find
   relation: suggests
-  when: finding the page that owns a topic through charter context, the project's docs tree and page frontmatter before
-    writing a new one
+  when: finding the page that owns a topic through charter context, the project's docs tree and page frontmatter before writing a new one
 - source: directive:DIRECTIVE_042
   target: tactic:common-docs-scaffold
   relation: suggests
@@ -61,8 +56,7 @@ edges:
   target: toolguide:common-docs-structural-lint
   relation: suggests
   when: running the structural lint that DIRECTIVE_042 names as its mechanical gate
-  reason: The toolguide tells the agent how to resolve the lint script and its policy file, which flags to pass and how to
-    read the exit code.
+  reason: The toolguide tells the agent how to resolve the lint script and its policy file, which flags to pass and how to read the exit code.
 - source: directive:DIRECTIVE_047
   target: directive:DIRECTIVE_042
   relation: suggests
@@ -70,14 +64,12 @@ edges:
   target: procedure:audience-oriented-drafting
   relation: requires
   when: drafting an artifact for human readers
-  reason: Names the target reader before drafting, calibrates content to that reader, and splits into variants when audiences
-    genuinely differ.
+  reason: Names the target reader before drafting, calibrates content to that reader, and splits into variants when audiences genuinely differ.
 - source: directive:DIRECTIVE_047
   target: procedure:declare-page-audience
   relation: requires
   when: the artifact is a documentation page under the Common Docs root
-  reason: Records the named audience on a documentation page as machine-checkable `audience:` frontmatter, so the audience
-    choice can be verified.
+  reason: Records the named audience on a documentation page as machine-checkable `audience:` frontmatter, so the audience choice can be verified.
 - source: directive:DIRECTIVE_047
   target: styleguide:common-docs
   relation: suggests
@@ -88,5 +80,4 @@ edges:
   target: procedure:minutes-self-sufficiency-check
   relation: requires
   when: extracting or reviewing meeting notes
-  reason: Applies the missed-the-meeting test to each note, naming things, decisions and owners and adding missing context,
-    so minutes read on their own without becoming verbose.
+  reason: Applies the missed-the-meeting test to each note, naming things, decisions and owners and adding missing context, so minutes read on their own without becoming verbose.

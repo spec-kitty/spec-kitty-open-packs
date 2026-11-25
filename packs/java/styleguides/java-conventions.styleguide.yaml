@@ -1,176 +1,166 @@
-schema_version: "1.0"
 id: java-conventions
+schema_version: '1.0'
 title: Java Conventions Styleguide
 scope: code
-applies_to_languages:
-  - java
-
 principles:
-  - name: "Naming conventions"
-    description: "Naming conventions: classes and interfaces in PascalCase; methods, fields, and local variables in camelCase; constants in UPPER_SNAKE_CASE; packages in lowercase dot-separated segments."
-  - name: "Null safety"
-    description: "Null safety: never return null from public methods — use Optional<T> for absent values. Fail fast with Objects.requireNonNull on constructor and method parameters."
-  - name: "Manage resources with try-with-resources"
-    description: "Try-with-resources: always use try-with-resources for Closeable/AutoCloseable resources. Never rely on manual close() calls in finally blocks."
-  - name: "Explicit encoding"
-    description: "Explicit encoding: always specify StandardCharsets.UTF_8 (or an explicit Charset) when constructing readers, writers, or String conversions. Never rely on platform default encoding."
-  - name: "Decimal money with an explicit MathContext"
-    description: "Decimal money: money and other exact decimals use BigDecimal with an explicit MathContext or scale and RoundingMode; never double or float. Build from String or valueOf(long), not new BigDecimal(double); compare with compareTo."
-  - name: "Decode coded values through a checked factory"
-    description: "Coded values: turn a stored or wire code into an enum through a static fromCode/fromByte factory that throws a named exception on an unknown value. Never index values() by ordinal or fall back to a silent default."
-  - name: "Keep the wire codec out of the persistence model"
-    description: "Wire codec: a positional or wire-format layout is read and written by its own codec into a plain record; an explicit mapper builds the domain or JPA entity. Never put @Entity straight over a wire or record layout."
-  - name: "Specific exception types"
-    description: "Specific exception types: catch and declare the most specific exception type applicable. Never catch Exception or Throwable unless at a top-level boundary."
-  - name: "Quad-A test structure"
-    description: "Quad-A test structure: test methods follow the testing pack's quad-a-test-structure asset; in Java the assumption check is an assertThat on the precondition."
-  - name: "Test Data Builder pattern"
-    description: "Test Data Builder pattern: use static factory methods or builder classes to create test objects. Never scatter new SomeEntity(...) constructor calls across test methods."
-  - name: "AssertJ for assertions"
-    description: "AssertJ for assertions: use AssertJ (assertThat(...).isEqualTo(...)) rather than JUnit assertEquals. Prefer chained fluent assertions for readability."
-  - name: "One assertion focus per test"
-    description: "One assertion focus per test: each test validates a single behavior. Use @ParameterizedTest for variations."
-
+- name: Naming conventions
+  description: 'Naming conventions: classes and interfaces in PascalCase; methods, fields, and local variables in camelCase; constants in UPPER_SNAKE_CASE; packages in lowercase dot-separated segments.'
+- name: Null safety
+  description: 'Null safety: never return null from public methods — use Optional<T> for absent values. Fail fast with Objects.requireNonNull on constructor and method parameters.'
+- name: Manage resources with try-with-resources
+  description: 'Try-with-resources: always use try-with-resources for Closeable/AutoCloseable resources. Never rely on manual close() calls in finally blocks.'
+- name: Explicit encoding
+  description: 'Explicit encoding: always specify StandardCharsets.UTF_8 (or an explicit Charset) when constructing readers, writers, or String conversions. Never rely on platform default encoding.'
+- name: Decimal money with an explicit MathContext
+  description: 'Decimal money: money and other exact decimals use BigDecimal with an explicit MathContext or scale and RoundingMode; never double or float. Build from String or valueOf(long), not new BigDecimal(double); compare with compareTo.'
+- name: Decode coded values through a checked factory
+  description: 'Coded values: turn a stored or wire code into an enum through a static fromCode/fromByte factory that throws a named exception on an unknown value. Never index values() by ordinal or fall back to a silent default.'
+- name: Keep the wire codec out of the persistence model
+  description: 'Wire codec: a positional or wire-format layout is read and written by its own codec into a plain record; an explicit mapper builds the domain or JPA entity. Never put @Entity straight over a wire or record layout.'
+- name: Specific exception types
+  description: 'Specific exception types: catch and declare the most specific exception type applicable. Never catch Exception or Throwable unless at a top-level boundary.'
+- name: Quad-A test structure
+  description: 'Quad-A test structure: test methods follow the testing pack''s quad-a-test-structure asset; in Java the assumption check is an assertThat on the precondition.'
+- name: Test Data Builder pattern
+  description: 'Test Data Builder pattern: use static factory methods or builder classes to create test objects. Never scatter new SomeEntity(...) constructor calls across test methods.'
+- name: AssertJ for assertions
+  description: 'AssertJ for assertions: use AssertJ (assertThat(...).isEqualTo(...)) rather than JUnit assertEquals. Prefer chained fluent assertions for readability.'
+- name: One assertion focus per test
+  description: 'One assertion focus per test: each test validates a single behavior. Use @ParameterizedTest for variations.'
 patterns:
-  - name: Optional for Absent Values
-    description: "Return Optional<T> from methods that may produce no result instead of returning null."
-    bad_example: |
-      public User findById(long id) {
-          return repository.get(id); // may return null
-      }
-    good_example: |
-      public Optional<User> findById(long id) {
-          return Optional.ofNullable(repository.get(id));
-      }
+- name: Optional for Absent Values
+  description: Return Optional<T> from methods that may produce no result instead of returning null.
+  bad_example: |
+    public User findById(long id) {
+        return repository.get(id); // may return null
+    }
+  good_example: |
+    public Optional<User> findById(long id) {
+        return Optional.ofNullable(repository.get(id));
+    }
+- name: Try-with-resources
+  description: Wrap any Closeable resource in try-with-resources so it is closed even when an exception is thrown.
+  bad_example: |
+    BufferedReader reader = new BufferedReader(new FileReader(file));
+    try {
+        return reader.readLine();
+    } finally {
+        reader.close();
+    }
+  good_example: |
+    try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+        return reader.readLine();
+    }
+- name: Explicit Encoding
+  description: Always pass an explicit Charset when reading or writing text. UTF-8 is the project standard unless the context requires otherwise.
+  bad_example: |
+    new FileReader(file)              // platform default — breaks on non-UTF-8 systems
+    new String(bytes)                 // platform default
+    Files.newBufferedWriter(path)     // platform default
+  good_example: |
+    new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)
+    new String(bytes, StandardCharsets.UTF_8)
+    Files.newBufferedWriter(path, StandardCharsets.UTF_8)
+- name: Decimal Money with an Explicit MathContext
+  description: Money is a BigDecimal whose precision and rounding are stated where the arithmetic happens. Division and percentage maths name a MathContext (or setScale with a RoundingMode), so the result does not depend on a default or throw on a non-terminating expansion.
+  bad_example: |
+    double sum = 0.10 + 0.20;                          // 0.30000000000000004
+    double gross = 19.99 * 1.21;                       // rounding left to the caller
+    BigDecimal share = BigDecimal.TEN.divide(BigDecimal.valueOf(3)); // ArithmeticException: non-terminating
+    BigDecimal price = new BigDecimal("10.00");
+    boolean same = price.equals(new BigDecimal("10.0"));             // false: the scales differ
+  good_example: |
+    // HALF_EVEN by default; use the rounding mode your domain or regulator mandates
+    private static final MathContext MONEY = new MathContext(19, RoundingMode.HALF_EVEN);
 
-  - name: Try-with-resources
-    description: "Wrap any Closeable resource in try-with-resources so it is closed even when an exception is thrown."
-    bad_example: |
-      BufferedReader reader = new BufferedReader(new FileReader(file));
-      try {
-          return reader.readLine();
-      } finally {
-          reader.close();
-      }
-    good_example: |
-      try (BufferedReader reader = new BufferedReader(
-              new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-          return reader.readLine();
-      }
+    BigDecimal net = new BigDecimal("19.99");
+    BigDecimal gross = net.multiply(new BigDecimal("1.21"), MONEY)
+            .setScale(2, RoundingMode.HALF_EVEN);       // 24.19
+    BigDecimal share = BigDecimal.TEN.divide(BigDecimal.valueOf(3), MONEY)
+            .setScale(2, RoundingMode.HALF_EVEN);       // 3.33
+    BigDecimal price = new BigDecimal("10.00");
+    boolean same = price.compareTo(new BigDecimal("10.0")) == 0;   // true
+- name: Checked Decoding of Coded Values
+  description: Each enum that crosses a storage or wire boundary carries its external code and a static factory that maps the code back. An unknown code is a named, catchable failure at the boundary, not a wrong constant deep in the domain.
+  bad_example: |
+    enum AccountStatus { ACTIVE, FROZEN, CLOSED }
 
-  - name: Explicit Encoding
-    description: "Always pass an explicit Charset when reading or writing text. UTF-8 is the project standard unless the context requires otherwise."
-    bad_example: |
-      new FileReader(file)              // platform default — breaks on non-UTF-8 systems
-      new String(bytes)                 // platform default
-      Files.newBufferedWriter(path)     // platform default
-    good_example: |
-      new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)
-      new String(bytes, StandardCharsets.UTF_8)
-      Files.newBufferedWriter(path, StandardCharsets.UTF_8)
+    // the stored byte is an ordinal: reordering the enum changes meaning, a bad byte throws AIOOBE
+    AccountStatus status = AccountStatus.values()[record[12]];
 
-  - name: Decimal Money with an Explicit MathContext
-    description: "Money is a BigDecimal whose precision and rounding are stated where the arithmetic happens. Division and percentage maths name a MathContext (or setScale with a RoundingMode), so the result does not depend on a default or throw on a non-terminating expansion."
-    bad_example: |
-      double sum = 0.10 + 0.20;                          // 0.30000000000000004
-      double gross = 19.99 * 1.21;                       // rounding left to the caller
-      BigDecimal share = BigDecimal.TEN.divide(BigDecimal.valueOf(3)); // ArithmeticException: non-terminating
-      BigDecimal price = new BigDecimal("10.00");
-      boolean same = price.equals(new BigDecimal("10.0"));             // false: the scales differ
-    good_example: |
-      // HALF_EVEN by default; use the rounding mode your domain or regulator mandates
-      private static final MathContext MONEY = new MathContext(19, RoundingMode.HALF_EVEN);
+    byte code = record[27];
+    AccountStatus other = switch (code) {
+        case 'A' -> AccountStatus.ACTIVE;
+        case 'F' -> AccountStatus.FROZEN;
+        default -> AccountStatus.CLOSED;                  // a corrupt byte closes the account
+    };
+  good_example: |
+    final class UnknownCodeException extends IllegalArgumentException {
+        UnknownCodeException(String type, byte code) { super("unknown " + type + " code: " + code); }
+    }
 
-      BigDecimal net = new BigDecimal("19.99");
-      BigDecimal gross = net.multiply(new BigDecimal("1.21"), MONEY)
-              .setScale(2, RoundingMode.HALF_EVEN);       // 24.19
-      BigDecimal share = BigDecimal.TEN.divide(BigDecimal.valueOf(3), MONEY)
-              .setScale(2, RoundingMode.HALF_EVEN);       // 3.33
-      BigDecimal price = new BigDecimal("10.00");
-      boolean same = price.compareTo(new BigDecimal("10.0")) == 0;   // true
+    enum AccountStatus {
+        ACTIVE((byte) 'A'), FROZEN((byte) 'F'), CLOSED((byte) 'C');
 
-  - name: Checked Decoding of Coded Values
-    description: "Each enum that crosses a storage or wire boundary carries its external code and a static factory that maps the code back. An unknown code is a named, catchable failure at the boundary, not a wrong constant deep in the domain."
-    bad_example: |
-      enum AccountStatus { ACTIVE, FROZEN, CLOSED }
+        private final byte code;
+        AccountStatus(byte code) { this.code = code; }
 
-      // the stored byte is an ordinal: reordering the enum changes meaning, a bad byte throws AIOOBE
-      AccountStatus status = AccountStatus.values()[record[12]];
+        byte code() { return code; }
 
-      byte code = record[27];
-      AccountStatus other = switch (code) {
-          case 'A' -> AccountStatus.ACTIVE;
-          case 'F' -> AccountStatus.FROZEN;
-          default -> AccountStatus.CLOSED;                  // a corrupt byte closes the account
-      };
-    good_example: |
-      final class UnknownCodeException extends IllegalArgumentException {
-          UnknownCodeException(String type, byte code) { super("unknown " + type + " code: " + code); }
-      }
-
-      enum AccountStatus {
-          ACTIVE((byte) 'A'), FROZEN((byte) 'F'), CLOSED((byte) 'C');
-
-          private final byte code;
-          AccountStatus(byte code) { this.code = code; }
-
-          byte code() { return code; }
-
-          static AccountStatus fromByte(byte code) {
-              for (AccountStatus status : values()) {
-                  if (status.code == code) return status;
-              }
-              throw new UnknownCodeException("AccountStatus", code);
-          }
-      }
-
-  - name: Test Data Builder
-    description: "Centralise test object construction in a dedicated builder/fixture class. Keeps test methods readable and makes structural changes easy to propagate."
-    bad_example: |
-      @Test
-      void shouldCalculateTotalPrice() {
-          Order order = new Order("ORD-001", OrderType.STANDARD,
-                  LocalDate.now(), List.of(new LineItem("SKU-A", 3, BigDecimal.valueOf(10))));
-          assertThat(pricer.calculate(order)).isEqualByComparingTo("30.00");
-      }
-    good_example: |
-      @Test
-      void shouldCalculateTotalPrice() {
-          Order order = OrderFixtures.standardOrder().withLineItem("SKU-A", 3, 10).build();
-          assertThat(pricer.calculate(order)).isEqualByComparingTo("30.00");
-      }
-
-  - name: Quad-A Test Structure
-    description: "The phases are defined in the testing pack's quad-a-test-structure asset; this is the JUnit and AssertJ shape of them."
-    bad_example: |
-      @Test
-      void shouldRejectInvalidEmail() {
-          User user = new User("bad-email");
-          assertThatThrownBy(() -> validator.validate(user))
-                  .isInstanceOf(ValidationException.class);
-      }
-    good_example: |
-      @Test
-      void shouldRejectInvalidEmail() {
-          // Arrange
-          User user = UserFixtures.withEmail("bad-email").build();
-          // Assumption check
-          assertThat(user.getEmail()).doesNotContain("@");
-          // Act + Assert
-          assertThatThrownBy(() -> validator.validate(user))
-                  .isInstanceOf(ValidationException.class)
-                  .hasMessageContaining("email");
-      }
-
+        static AccountStatus fromByte(byte code) {
+            for (AccountStatus status : values()) {
+                if (status.code == code) return status;
+            }
+            throw new UnknownCodeException("AccountStatus", code);
+        }
+    }
+- name: Test Data Builder
+  description: Centralise test object construction in a dedicated builder/fixture class. Keeps test methods readable and makes structural changes easy to propagate.
+  bad_example: |
+    @Test
+    void shouldCalculateTotalPrice() {
+        Order order = new Order("ORD-001", OrderType.STANDARD,
+                LocalDate.now(), List.of(new LineItem("SKU-A", 3, BigDecimal.valueOf(10))));
+        assertThat(pricer.calculate(order)).isEqualByComparingTo("30.00");
+    }
+  good_example: |
+    @Test
+    void shouldCalculateTotalPrice() {
+        Order order = OrderFixtures.standardOrder().withLineItem("SKU-A", 3, 10).build();
+        assertThat(pricer.calculate(order)).isEqualByComparingTo("30.00");
+    }
+- name: Quad-A Test Structure
+  description: The phases are defined in the testing pack's quad-a-test-structure asset; this is the JUnit and AssertJ shape of them.
+  bad_example: |
+    @Test
+    void shouldRejectInvalidEmail() {
+        User user = new User("bad-email");
+        assertThatThrownBy(() -> validator.validate(user))
+                .isInstanceOf(ValidationException.class);
+    }
+  good_example: |
+    @Test
+    void shouldRejectInvalidEmail() {
+        // Arrange
+        User user = UserFixtures.withEmail("bad-email").build();
+        // Assumption check
+        assertThat(user.getEmail()).doesNotContain("@");
+        // Act + Assert
+        assertThatThrownBy(() -> validator.validate(user))
+                .isInstanceOf(ValidationException.class)
+                .hasMessageContaining("email");
+    }
 tooling:
-  build: "Maven (mvn)"
-  test_runner: "JUnit 5 (via mvn test)"
-  assertions: "AssertJ"
-  style_checker: "Checkstyle"
-  static_analysis: "SpotBugs"
-  coverage: "JaCoCo"
-  architecture_tests: "ArchUnit"
-  mutation_testing: "PIT (pitest)"
-  dependency_audit: "OWASP Dependency-Check"
-
-quality_test: "Can a new contributor read one test method and understand what behavior it validates, what preconditions it requires, and what a failure means — without reading the production code?"
+  build: Maven (mvn)
+  test_runner: JUnit 5 (via mvn test)
+  assertions: AssertJ
+  style_checker: Checkstyle
+  static_analysis: SpotBugs
+  coverage: JaCoCo
+  architecture_tests: ArchUnit
+  mutation_testing: PIT (pitest)
+  dependency_audit: OWASP Dependency-Check
+quality_test: Can a new contributor read one test method and understand what behavior it validates, what preconditions it requires, and what a failure means — without reading the production code?
+applies_to_languages:
+- java

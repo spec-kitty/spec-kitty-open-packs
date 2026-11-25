@@ -43,14 +43,11 @@ edges:
 - source: styleguide:common-docs
   target: asset:common-docs-structural-lint
   relation: requires
-  reason: 'The common-docs styleguide''s tooling rows and quality_test name the structural lint as their enforcing gate, and
-    the asset loads its policy from the structural_lint_config: block of its own config file; activating the styleguide requires
-    the shipped lint asset.'
+  reason: 'The common-docs styleguide''s tooling rows and quality_test name the structural lint as their enforcing gate, and the asset loads its policy from the structural_lint_config: block of its own config file; activating the styleguide requires the shipped lint asset.'
 - source: styleguide:common-docs
   target: tactic:common-docs-find
   relation: suggests
-  when: reading the frontmatter fields (section, doc_status, related:) of the project's own pages to find the page that owns
-    a topic
+  when: reading the frontmatter fields (section, doc_status, related:) of the project's own pages to find the page that owns a topic
 - source: styleguide:common-docs
   target: tactic:common-docs-scaffold
   relation: suggests

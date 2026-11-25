@@ -3,5 +3,4 @@ id: arming-auto-merge-before-the-fix-is-complete
 title: Arming auto-merge before the fix is complete
 description: Auto-merge fires on the first green, so commits pushed afterwards miss the merge.
 severity: breaking
-bad_example: Auto-merge is armed while the second half of the fix is still being written, and the first green merges half
-  a fix.
+bad_example: Auto-merge is armed while the second half of the fix is still being written, and the first green merges half a fix.

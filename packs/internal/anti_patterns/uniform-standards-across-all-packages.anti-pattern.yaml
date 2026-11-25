@@ -1,9 +1,7 @@
 schema_version: '1.0'
 id: uniform-standards-across-all-packages
 title: Uniform Standards Across All Packages
-description: Applying the same coverage and duplication targets to CLI shells and shims as to the status reducer or merge
-  executor creates false confidence and wastes effort. CLI shells are best covered by integration tests; demanding 90% unit
-  coverage there produces mock-heavy tests that obscure real behaviour.
+description: Applying the same coverage and duplication targets to CLI shells and shims as to the status reducer or merge executor creates false confidence and wastes effort. CLI shells are best covered by integration tests; demanding 90% unit coverage there produces mock-heavy tests that obscure real behaviour.
 severity: severe
 bad_example: |-
   # CI enforces 90% coverage on every module equally, including cli/commands/
