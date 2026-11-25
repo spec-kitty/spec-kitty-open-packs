@@ -15,6 +15,21 @@ pipeline. `/spec-kitty.specify` adopts this file when the mission is created.
   this session: no claim is made beyond its public reputation). Evidence:
   [research/source-register.csv](research/source-register.csv).
 
+## Operator rulings (2026-11-25, relayed by the dispatcher)
+
+The operator approved the recommendations, with benchmarks dropped:
+
+- **Sources.** Primary: models.dev at a pinned commit (A1). Authority: the provider docs (A2), cited
+  and not scraped. Cross-check: LiteLLM (A3). A disagreement is flagged in the PR and is never
+  auto-resolved.
+- **Benchmarks.** Not in v1. Section 2b and recommendation 4 are recorded for a later version only.
+- **Schedule.** Weekly on Monday, early UTC, plus `workflow_dispatch`.
+- **Token.** Reuse `PR_CREATION_TOKEN`, held only by the final step, the one that opens the PR.
+- **Pending.** The canonical decimal form for ADR-0080 decision 10 (R5, open question 5). The
+  dispatcher is having it quoted from a charter session.
+- **Sequencing.** The spec follows the open-packs pack-doctor alignment mission, which touches the
+  same pin tooling. No PR until the dispatcher confirms the order.
+
 ## 1. What the catalog holds today
 
 `packs/foundation/routing_catalogs/default.routing-catalog.yaml` (561 lines, `generated_at`
