@@ -115,7 +115,8 @@
         "- 2026-11-25T17:28:38Z – claude::implementer-ivan – shell_pid=607 – Rows: 80 (testing 32 clusters, writing 39; 9 merged rows), matching the merge map's per-home counts recorded in WP03 T014.",
         "- 2026-11-25T17:28:41Z – claude::implementer-ivan – shell_pid=607 – T022: 5 operator questions sent to the dispatcher in one batch (severity, no outcome in the text): #273 Assuming Reader Knowledge, #271 Circular Definition, #272 Implementation Leaking Into Definition, #261 One-Size-Fits-None Document (proposed smell); #254 Narrating existing state as a decision (proposed severe).",
         "- 2026-11-25T17:28:43Z – claude::implementer-ivan – shell_pid=607 – T023 (pack-doctor from charter 4b95b9151; scratch, ledger 00 + A + B, questions cleared on the copy only). Before B (after A): artifact_schema_error 57. After B: 197 = artifact_schema_error 36, manifest_membership 108, manifest_stale 25, round_trip_red 19, round_trip_written_unpaired 7, substep_delegation_unresolved 2. After a scratch remediate of foundation, refactoring, testing and writing: 64, the manifest codes gone, nothing new. 25 inline blocks deleted, 8 kept for later batches; a second apply writes nothing. --check: only later batches (36 blocks, 161 map members).",
-        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860: the planning-artifact evidence window looks at feat/pack-doctor-alignment; the work lives on the coordination branch). Files: curation/ledger-b-testing-writing.yaml (80 rows), and a WP02-tool fix (the 'default' guard ignores quoted source text; for re-review). Five severity questions open with the operator. Read every authored bad example (25)."
+        "Ready for review. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860: the planning-artifact evidence window looks at feat/pack-doctor-alignment; the work lives on the coordination branch). Files: curation/ledger-b-testing-writing.yaml (80 rows), and a WP02-tool fix (the 'default' guard ignores quoted source text; for re-review). Five severity questions open with the operator. Read every authored bad example (25).",
+        "- 2026-11-25T17:38:01Z – claude::implementer-ivan – Review cycle 1 folded (R1 verbatim member examples, R2 bare quoted default). On the reviewer's count note: the 57 'before' figure was the ledger A-only run, where foundation's 4 blocks were already gone (61 -> 57). The 00+A+B run deletes 25 blocks: foundation 4, testing 9, writing 12. So 61 -> 36 is the full 25, and 57 -> 36 is the 21 of ledger B."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
@@ -129,11 +130,11 @@
       "shell_pid": null,
       "shell_pid_created_at": null,
       "subtasks": {
-        "T019": "planned",
-        "T020": "planned",
-        "T021": "planned",
-        "T022": "planned",
-        "T023": "planned"
+        "T019": "done",
+        "T020": "done",
+        "T021": "done",
+        "T022": "done",
+        "T023": "done"
       }
     },
     "WP05": {
