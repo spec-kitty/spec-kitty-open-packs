@@ -111,10 +111,22 @@
       "last_event_id": "01M89VNTQGBK11G1QQYSK3WTZ1",
       "last_transition_at": "2026-11-25T17:22:26.565278+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "- 2026-11-25T17:28:38Z – claude::implementer-ivan – shell_pid=607 – Rows: 80 (testing 32 clusters, writing 39; 9 merged rows), matching the merge map's per-home counts recorded in WP03 T014.",
+        "- 2026-11-25T17:28:41Z – claude::implementer-ivan – shell_pid=607 – T022: 5 operator questions sent to the dispatcher in one batch (severity, no outcome in the text): #273 Assuming Reader Knowledge, #271 Circular Definition, #272 Implementation Leaking Into Definition, #261 One-Size-Fits-None Document (proposed smell); #254 Narrating existing state as a decision (proposed severe).",
+        "- 2026-11-25T17:28:43Z – claude::implementer-ivan – shell_pid=607 – T023 (pack-doctor from charter 4b95b9151; scratch, ledger 00 + A + B, questions cleared on the copy only). Before B (after A): artifact_schema_error 57. After B: 197 = artifact_schema_error 36, manifest_membership 108, manifest_stale 25, round_trip_red 19, round_trip_written_unpaired 7, substep_delegation_unresolved 2. After a scratch remediate of foundation, refactoring, testing and writing: 64, the manifest codes gone, nothing new. 25 inline blocks deleted, 8 kept for later batches; a second apply writes nothing. --check: only later batches (36 blocks, 161 map members)."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 607,
-      "shell_pid_created_at": "1795627339.9"
+      "shell_pid_created_at": "1795627339.9",
+      "subtasks": {
+        "T019": "done",
+        "T020": "done",
+        "T021": "done",
+        "T022": "done",
+        "T023": "done"
+      }
     },
     "WP05": {
       "actor": "finalize-tasks",
