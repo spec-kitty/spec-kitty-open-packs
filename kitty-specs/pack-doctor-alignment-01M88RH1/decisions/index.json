@@ -238,6 +238,78 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T15:58:03.221632Z",
+      "decision_id": "01M89PV9YNGP5YCABX4HJ8Y1MW",
+      "final_answer": "merge into the planning-analysis meta-tracker-as-canonical-parent cluster (operator ruling 2026-11-25, relayed by the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "merge_m3_parent_or_checklist",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "merge into meta-tracker-as-canonical-parent",
+        "merge into child-ticket-checklist-in-the-epic-body",
+        "its own file"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "internal \"Parenting under a meta-tracker or in a body checklist\" names two practices: merge into meta-tracker-as-canonical-parent, into child-ticket-checklist-in-the-epic-body, or keep its own file?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T15:58:06.078864Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.m3",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T15:58:08.513217Z",
+      "decision_id": "01M89PVF41V2X1DRNZ5N7PM4YB",
+      "final_answer": "split it across the test foundations: enhance the foundation assert-on-mock-interactions file with its content; a curation subagent assesses which parts fit there and which need their own testing-foundation entry, the assessment and reasoning are recorded in the merge map, and doubts are raised as questions (operator ruling 2026-11-25, relayed by the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "merge_m4_implementation_details",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "own testing file",
+        "merge into the foundation file",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "testing \"Asserting Implementation Details\" overlaps foundation assert-on-mock-interactions on call counts but also covers internal field values: own testing file, or merge into foundation?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T15:58:11.199741Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.m4",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-25T15:58:13.814796Z",
+      "decision_id": "01M89PVM9PJBPPE46BSHQN1P0M",
+      "final_answer": "the 4 foundation files get authored language-agnostic titles and descriptions, marked authored in the ledger; the stack-specific texts stay as bad examples (operator ruling 2026-11-25, relayed by the dispatcher session_019C2Tk6DpTSEBeTcn9F6smy)",
+      "input_key": "cross_language_wording",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "keep verbatim first-member text",
+        "author language-agnostic text, marked authored",
+        "Other"
+      ],
+      "origin_flow": "plan",
+      "other_answer": true,
+      "question": "The 4 cross-language foundation files: keep the earliest member's language-specific verbatim text, or author language-agnostic text?",
+      "rationale": null,
+      "resolved_at": "2026-11-25T15:58:16.531480Z",
+      "resolved_by": "operator (via dispatcher)",
+      "slot_key": "plan.curation.m2_wording",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",

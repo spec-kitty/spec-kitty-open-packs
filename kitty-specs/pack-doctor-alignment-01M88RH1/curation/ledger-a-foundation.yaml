@@ -123,42 +123,47 @@ entries:
   pack: java
   owner: styleguide:java-conventions
   home_pack: foundation
-  id: entity-over-a-wire-layout
+  id: storage-or-wire-format-on-domain-types
   merged_into: null
   merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
     model and the wire format together: a field added to one breaks the others"'
-  title: Entity over a Wire Layout
-  description: 'Annotating a fixed-width or positional record as a JPA @Entity ties the database schema, the domain model
-    and the wire format together: a field added to one breaks the others, and offsets, padding and sign handling leak into
-    persistence code. Keep a codec for the layout and map explicitly.'
+  title: Storage or Wire Format on Domain Types
+  description: Binding a core domain type directly to a storage schema or a wire format, through serialization or ORM attributes
+    or an entity mapped onto a fixed record layout, so a change to one format silently changes business behaviour or breaks
+    the others.
   severity: breaking
   severity_grounding: '"a field added to one breaks the others": a wrong result -> breaking; the rust member says "a wire-format
     change silently changes business behaviour"'
-  bad_example: "@Entity\n@Table(name = \"payment\")\npublic class PaymentRecord {               // also parsed from a fixed-width\
-    \ import file\n    @Id @Column(length = 16) String reference;   // bytes 0-15, space padded\n    @Column(length = 11)\
-    \ String amountCents;     // bytes 16-26, signed digits\n    @Column(length = 1) char statusCode;         // byte 27\n\
-    }"
-  bad_example_source: bad_example
-  good_example: "record PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing else\n\n\
-    final class PaymentLineCodec {\n    PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling live here\
-    \ */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {          \
-    \             // PaymentStatus follows the fromByte pattern above\n    Payment toDomain(PaymentLine line) {\n        return\
-    \ new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(), 2),\n                PaymentStatus.fromByte(line.status()));\n\
-    \    }\n\n    PaymentEntity toEntity(Payment payment) { /* field by field, no layout knowledge */ }\n}\n\n@Entity\nclass\
-    \ PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING) PaymentStatus status; }"
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  bad_example: "// java: Entity over a Wire Layout\n@Entity\n@Table(name = \"payment\")\npublic class PaymentRecord {    \
+    \           // also parsed from a fixed-width import file\n    @Id @Column(length = 16) String reference;   // bytes 0-15,\
+    \ space padded\n    @Column(length = 11) String amountCents;     // bytes 16-26, signed digits\n    @Column(length = 1)\
+    \ char statusCode;         // byte 27\n}\n\n// rust: Storage Attributes on Domain Types\n#[derive(Serialize, Deserialize,\
+    \ sqlx::FromRow)]\npub struct Account {\n    #[serde(default)] // a missing field now means 0 to the business rules\n\
+    \    pub balance: i64,\n}"
+  bad_example_source: bad_example of each member, verbatim, labelled by language
+  good_example: "// java\nrecord PaymentLine(String reference, long amountCents, byte status) {}   // the layout, nothing\
+    \ else\n\nfinal class PaymentLineCodec {\n    PaymentLine read(ByteBuffer line) { /* offsets, padding and sign handling\
+    \ live here */ }\n    void write(PaymentLine payment, ByteBuffer out) { /* ... */ }\n}\n\nfinal class PaymentMapper {\
+    \                       // PaymentStatus follows the fromByte pattern above\n    Payment toDomain(PaymentLine line) {\n\
+    \        return new Payment(line.reference().strip(),\n                BigDecimal.valueOf(line.amountCents(), 2),\n  \
+    \              PaymentStatus.fromByte(line.status()));\n    }\n\n    PaymentEntity toEntity(Payment payment) { /* field\
+    \ by field, no layout knowledge */ }\n}\n\n@Entity\nclass PaymentEntity { @Id String reference; BigDecimal amount; @Enumerated(EnumType.STRING)\
+    \ PaymentStatus status; }\n\n// rust\npub struct Account { balance: Money }          // domain\n\n#[derive(Deserialize)]\n\
+    struct AccountRow { balance_minor: i64, currency: String } // adapter\n\nimpl TryFrom<AccountRow> for Account { /* validate\
+    \ and convert */ }"
+  title_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M)
+  description_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M), from the members' shared claim
+  operator_question: null
 - source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
   source_title: Storage Attributes on Domain Types
   pack: rust
   owner: styleguide:rust-conventions
   home_pack: foundation
-  id: entity-over-a-wire-layout
-  merged_into: foundation::anti_pattern:entity-over-a-wire-layout
+  id: storage-or-wire-format-on-domain-types
+  merged_into: foundation::anti_pattern:storage-or-wire-format-on-domain-types
   merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
     model and the wire format together: a field added to one breaks the others"'
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
 - source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/0
   source_title: Example theater
   pack: foundation
@@ -180,68 +185,82 @@ entries:
   pack: go
   owner: styleguide:go-conventions
   home_pack: foundation
-  id: fire-and-forget-goroutine
+  id: unowned-asynchronous-work
   merged_into: null
   merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
     it … and its errors vanish"'
-  title: Fire-and-Forget Goroutine
-  description: Starting a goroutine with no way to stop it and nobody waiting for it. It leaks on shutdown, races with tests,
-    and its errors vanish.
+  title: Unowned Asynchronous Work
+  description: Starting asynchronous work that nothing awaits or handles. Its failures vanish, it can outlive its caller,
+    and the caller continues as if the work had finished.
   severity: severe
   severity_grounding: '"its errors vanish": failures go unseen, the guidance''s purpose is defeated -> severe; the javascript
     member says "swallows its rejection"'
-  bad_example: go sendAuditEvent(evt) // error ignored, may outlive the request
-  bad_example_source: bad_example
-  good_example: '// Work that must outlive the request: context.WithoutCancel(ctx) (Go 1.21+), still owned and awaited.
-
-    g.Go(func() error { return sendAuditEvent(ctx, evt) })
-
-    // ... later
-
-    if err := g.Wait(); err != nil { /* handle */ }'
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  bad_example: "// go: Fire-and-Forget Goroutine\ngo sendAuditEvent(evt) // error ignored, may outlive the request\n\n// javascript:\
+    \ Floating Promise\nfunction onSave(draft: Draft): void {\n  repository.save(draft);\n  notify('Saved');\n}"
+  bad_example_source: bad_example of each member, verbatim, labelled by language
+  good_example: "// go\n// Work that must outlive the request: context.WithoutCancel(ctx) (Go 1.21+), still owned and awaited.\n\
+    g.Go(func() error { return sendAuditEvent(ctx, evt) })\n// ... later\nif err := g.Wait(); err != nil { /* handle */ }\n\
+    \n// javascript\nasync function onSave(draft: Draft): Promise<void> {\n  await repository.save(draft);\n  notify('Saved');\n\
+    }"
+  title_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M)
+  description_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M), from the members' shared claim
+  operator_question: null
 - source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/2
   source_title: Floating Promise
   pack: javascript
   owner: styleguide:typescript-conventions
   home_pack: foundation
-  id: fire-and-forget-goroutine
-  merged_into: foundation::anti_pattern:fire-and-forget-goroutine
+  id: unowned-asynchronous-work
+  merged_into: foundation::anti_pattern:unowned-asynchronous-work
   merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
     it … and its errors vanish"'
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
 - source: styleguides/go-conventions.styleguide.yaml#/anti_patterns/0
   source_title: float64 Money
   pack: go
   owner: styleguide:go-conventions
   home_pack: foundation
-  id: float64-money
+  id: floating-point-money
   merged_into: null
   merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
     fail" / "Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail"'
-  title: float64 Money
-  description: Holding currency in float32 or float64. Binary floating point cannot represent most decimal fractions, so totals
-    drift and equality checks fail.
+  title: Floating-Point Money
+  description: Holding currency in a binary floating-point type. Binary floating point cannot represent most decimal fractions,
+    so totals drift and comparisons fail.
   severity: breaking
   severity_grounding: '"totals drift and equality checks fail": a wrong result -> breaking (the rubric''s own example)'
-  bad_example: type Invoice struct{ Total float64 }
-  bad_example_source: bad_example
-  good_example: type Invoice struct{ Total Money } // minor units + currency, or a decimal type
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  bad_example: '// go: float64 Money
+
+    type Invoice struct{ Total float64 }
+
+
+    // rust: Float Money
+
+    struct Invoice { total: f64 }
+
+    if invoice.total == 0.3 { /* never true for 0.1 + 0.2 */ }'
+  bad_example_source: bad_example of each member, verbatim, labelled by language
+  good_example: '// go
+
+    type Invoice struct{ Total Money } // minor units + currency, or a decimal type
+
+
+    // rust
+
+    struct Invoice { total: Money } // minor units + currency, or rust_decimal::Decimal'
+  title_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M)
+  description_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M), from the members' shared claim
+  operator_question: null
 - source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/0
   source_title: Float Money
   pack: rust
   owner: styleguide:rust-conventions
   home_pack: foundation
-  id: float64-money
-  merged_into: foundation::anti_pattern:float64-money
+  id: floating-point-money
+  merged_into: foundation::anti_pattern:floating-point-money
   merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
     fail" / "Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail"'
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
 - source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/2
   source_title: Happy-path only
   pack: foundation
@@ -331,34 +350,44 @@ entries:
   pack: javascript
   owner: styleguide:typescript-conventions
   home_pack: foundation
-  id: non-null-assertion-as-error-handling
+  id: asserting-instead-of-handling-a-missing-or-invalid-value
   merged_into: null
   merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
     input becomes a crash instead of an error the caller can handle"'
-  title: Non-Null Assertion as Error Handling
-  description: '`!` tells the compiler a value exists without checking it; the crash moves to runtime, far from the cause.'
+  title: Asserting Instead of Handling a Missing or Invalid Value
+  description: Telling the compiler or the runtime that a value exists or is valid without checking it, as a non-null assertion
+    or an unwrap on input does. A missing or malformed value becomes a crash at runtime, far from its cause, instead of an
+    error the caller can handle.
   severity: breaking
   severity_grounding: '"the crash moves to runtime, far from the cause": a crash is a wrong outcome -> breaking; the rust
     member says "A malformed input becomes a crash"'
-  bad_example: 'const user = users.find((u) => u.id === id)!;
+  bad_example: '// javascript: Non-Null Assertion as Error Handling
 
-    greet(user.name);'
-  bad_example_source: bad_example
-  good_example: "const user = users.find((u) => u.id === id);\nif (user === undefined) {\n  throw new Error(`Unknown user:\
-    \ ${id}`);\n}\ngreet(user.name);"
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+    const user = users.find((u) => u.id === id)!;
+
+    greet(user.name);
+
+
+    // rust: unwrap on Input
+
+    let port: u16 = std::env::var("PORT").unwrap().parse().unwrap();'
+  bad_example_source: bad_example of each member, verbatim, labelled by language
+  good_example: "// javascript\nconst user = users.find((u) => u.id === id);\nif (user === undefined) {\n  throw new Error(`Unknown\
+    \ user: ${id}`);\n}\ngreet(user.name);\n\n// rust\nlet port: u16 = std::env::var(\"PORT\")\n    .context(\"PORT is not\
+    \ set\")?\n    .parse()\n    .context(\"PORT is not a valid port number\")?;"
+  title_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M)
+  description_source: authored (decision 01M89PVM9PJBPPE46BSHQN1P0M), from the members' shared claim
+  operator_question: null
 - source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3
   source_title: unwrap on Input
   pack: rust
   owner: styleguide:rust-conventions
   home_pack: foundation
-  id: non-null-assertion-as-error-handling
-  merged_into: foundation::anti_pattern:non-null-assertion-as-error-handling
+  id: asserting-instead-of-handling-a-missing-or-invalid-value
+  merged_into: foundation::anti_pattern:asserting-instead-of-handling-a-missing-or-invalid-value
   merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
     input becomes a crash instead of an error the caller can handle"'
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
 - source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/0
   source_title: Persona without profile
   pack: foundation

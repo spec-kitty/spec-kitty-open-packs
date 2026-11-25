@@ -59,7 +59,7 @@ clusters:
     source: styleguides/boring-code-review.styleguide.yaml#/anti_patterns/2
   depends_on_added: []
   operator_question: null
-- cluster: entity-over-a-wire-layout
+- cluster: storage-or-wire-format-on-domain-types
   home_pack: foundation
   merge_reason: 'both: "so a wire-format change silently changes business behaviour" / "ties the database schema, the domain
     model and the wire format together: a field added to one breaks the others"'
@@ -69,8 +69,9 @@ clusters:
   - pack: rust
     source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/8
   depends_on_added: []
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
 - cluster: example-theater
   home_pack: foundation
   merge_reason: null
@@ -79,7 +80,7 @@ clusters:
     source: procedures/example-mapping-workshop.procedure.yaml#/anti_patterns/0
   depends_on_added: []
   operator_question: null
-- cluster: fire-and-forget-goroutine
+- cluster: unowned-asynchronous-work
   home_pack: foundation
   merge_reason: 'both: "swallows its rejection, and the caller continues as if the work had finished" / "nobody waiting for
     it … and its errors vanish"'
@@ -89,9 +90,10 @@ clusters:
   - pack: javascript
     source: styleguides/typescript-conventions.styleguide.yaml#/anti_patterns/2
   depends_on_added: []
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
-- cluster: float64-money
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
+- cluster: floating-point-money
   home_pack: foundation
   merge_reason: 'both: "Binary floating point cannot represent most decimal fractions, so totals drift and equality checks
     fail" / "Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail"'
@@ -101,8 +103,9 @@ clusters:
   - pack: rust
     source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/0
   depends_on_added: []
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
 - cluster: happy-path-only
   home_pack: foundation
   merge_reason: null
@@ -143,7 +146,7 @@ clusters:
     source: procedures/adversarial-squad-deployment.procedure.yaml#/anti_patterns/6
   depends_on_added: []
   operator_question: null
-- cluster: non-null-assertion-as-error-handling
+- cluster: asserting-instead-of-handling-a-missing-or-invalid-value
   home_pack: foundation
   merge_reason: 'both: "tells the compiler a value exists without checking it; the crash moves to runtime" / "A malformed
     input becomes a crash instead of an error the caller can handle"'
@@ -153,8 +156,9 @@ clusters:
   - pack: rust
     source: styleguides/rust-conventions.styleguide.yaml#/anti_patterns/3
   depends_on_added: []
-  operator_question: 'M2 ruled one foundation file (decision 01M89KEEMM7KCSSER3S8RY9G78); open: keep the earliest member''s
-    language-specific verbatim text (U3), or author language-agnostic text'
+  operator_question: null
+  text: authored language-agnostic title and description (decision 01M89PVM9PJBPPE46BSHQN1P0M); the members' stack-specific
+    examples are kept, labelled by language
 - cluster: persona-without-profile
   home_pack: foundation
   merge_reason: null
@@ -1090,7 +1094,8 @@ clusters:
   home_pack: planning-analysis
   merge_reason: 'all: a release/go-no-go rollup as the canonical parent of work tickets — "Making a release/go-no-go/stabilization
     rollup the canonical parent of functional tickets" / "Making a release or go/no-go rollup the canonical parent of work
-    tickets" / "Parenting under a meta-tracker"'
+    tickets" / "Parenting under a meta-tracker" (internal#78 also names the body checklist; the operator ruled it into this
+    cluster, decision 01M89PV9YNGP5YCABX4HJ8Y1MW)'
   members:
   - pack: internal
     source: procedures/issue-triage-pass.procedure.yaml#/anti_patterns/4
@@ -1099,8 +1104,7 @@ clusters:
   - pack: planning-analysis
     source: styleguides/planning-and-tracking.styleguide.yaml#/anti_patterns/0
   depends_on_added: []
-  operator_question: 'internal#78 "Parenting under a meta-tracker or in a body checklist" names two practices: (a) merge here
-    (meta-tracker), (b) merge into child-ticket-checklist-in-the-epic-body, (c) keep it a file of its own'
+  operator_question: null
 - cluster: multiple-active-state-labels
   home_pack: planning-analysis
   merge_reason: null
