@@ -227,6 +227,9 @@
       "last_event_id": "01M89Z0R4PYE026ETXMSPPZ8MQ",
       "last_transition_at": "2026-11-25T18:20:50.198889+00:00",
       "model": "__resolved_model_absent__",
+      "notes": [
+        "Ledger E in ca7a039; 13 operator questions (E1-E13) open with the operator. --force per decision 01M89KESM0WJJCFZQNTMEN0YYP (spec-kitty/spec-kitty#7860)."
+      ],
       "provider": "__resolved_provider_absent__",
       "role": "implementer",
       "shell_pid": 223,
