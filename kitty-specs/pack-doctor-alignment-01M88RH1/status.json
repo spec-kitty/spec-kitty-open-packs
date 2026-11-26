@@ -357,7 +357,7 @@
     },
     "WP10": {
       "actor": "claude",
-      "agent": null,
+      "agent": "claude::implementer-ivan",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -373,7 +373,8 @@
         "- 2026-11-26T16:17:26Z – claude::implementer-ivan – Review cycle 1 folded in 67e72665 (lane-d):\n- R1: a target step without prompt_path declares no slot, so the C38 house rule fires. Only a written prompt_path with an unreadable file is left to pack-doctor. A unit test and a real-jar test (the jar accepts both packs) fail on the old code.\n- N2: the --cross-pack help separates the house rules from the parts not judged at the pin.\n- N3 / decision 01M8BMA8KVQH0CXKAT05RW7Z9X:\n  - unlisted_constituents and MANIFEST_CONSTITUENT_SCHEMAS are retired;\n  - unlisted_nodes is kept with a house-rule comment (manifest_membership misses a graph node no file declares; checked against ManifestRules.membership);\n  - real-jar tests: an unlisted anti-pattern file is refused by the jar as manifest_membership at pack-manifest.yaml, and a fileless tactic node is accepted by the jar while only unlisted_nodes names it.\n- N4: classify comment.\n- N5: the unreadable-prompt test asserts the only problem; the profile-references pin has a directive-references: 5 control (artifact_schema_error).\n- N1: the stale docs go to WP11 (decision 01M8BMAEVPGZ2C3JTH6TKBTRY6).\n- Results: pytest tests/ci tests/docs 373 passed, 13 skipped. Real jar: test_charter_pack_doctor.py 58 passed; unittest RealPackDoctor 13 OK. validate-packs.sh exit 0; charter_pack_doctor.py exit 0; pack-check grep empty.\n- The charter issue on profile references is sent to the charter triage session for filing (operator approved).",
         "Review cycle 1 folded in 67e72665.",
         "Changes requested: R1, N1 (review-cycle-2)",
-        "- 2026-11-26T16:28:23Z – claude::implementer-ivan – Review cycle 2 folded in 234a5639: unlisted_nodes names only a node no file of the pack declares (file-backed nodes are manifest_membership, decision 01M8BMA8KVQH0CXKAT05RW7Z9X); the classify comment names the kept rules reading through it. pytest tests/ci tests/docs 373 passed; real jar 58 passed; validate-packs.sh exit 0; the new assertions fail without the fix (2 failed)."
+        "- 2026-11-26T16:28:23Z – claude::implementer-ivan – Review cycle 2 folded in 234a5639: unlisted_nodes names only a node no file of the pack declares (file-backed nodes are manifest_membership, decision 01M8BMA8KVQH0CXKAT05RW7Z9X); the classify comment names the kept rules reading through it. pytest tests/ci tests/docs 373 passed; real jar 58 passed; validate-packs.sh exit 0; the new assertions fail without the fix (2 failed).",
+        "Review cycle 2 folded in 234a5639."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
