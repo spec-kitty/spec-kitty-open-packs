@@ -1,7 +1,7 @@
 {
-  "event_count": 78,
-  "last_event_id": "01M8ACG8C76FWGTR6AV0ZQ9V6Z",
-  "materialized_at": "2026-11-25T22:16:29.831695+00:00",
+  "event_count": 79,
+  "last_event_id": "01M8B4AGC4NZBNKCX0FCT0JKQ1",
+  "materialized_at": "2026-11-26T05:12:47.236456+00:00",
   "mission_number": "",
   "mission_slug": "pack-doctor-alignment-01M88RH1",
   "mission_type": "software-dev",
@@ -12,9 +12,9 @@
     "canceled": 0,
     "claimed": 0,
     "done": 0,
-    "for_review": 1,
+    "for_review": 0,
     "in_progress": 0,
-    "in_review": 0,
+    "in_review": 1,
     "planned": 2
   },
   "work_packages": {
@@ -321,23 +321,24 @@
     },
     "WP09": {
       "actor": "claude",
-      "agent": "claude::implementer-ivan",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 0,
       "implementer_of_record": "claude::implementer-ivan",
-      "lane": "for_review",
-      "last_event_id": "01M8ACG8C76FWGTR6AV0ZQ9V6Z",
-      "last_transition_at": "2026-11-25T22:16:29.831695+00:00",
+      "lane": "in_review",
+      "last_event_id": "01M8B4AGC4NZBNKCX0FCT0JKQ1",
+      "last_transition_at": "2026-11-26T05:12:47.236456+00:00",
       "model": "__resolved_model_absent__",
       "notes": [
         "- 2026-11-25T22:16:17Z – claude::implementer-ivan – shell_pid=2591 – WP09 on lane-c (base: WP01 and WP08 approved; charter pin f6f21e4c).\nT044:\n- jar: scripts/ci/charter_pack_doctor_jar.sh (built :pack-doctor:packDoctorJar at the pin).\n- LC_ALL=C.UTF-8 java -jar <jar> remediate packs/* tests/fixtures/valid/* (directories only), from the root: exit 0, 20 packs \"rewritten\", 0 quoted numbers repaired.\n- Follow-up validate --round-trip --full: exit 0, checks [PACK, CLOSURE, REFERENCES, ROUND_TRIP], skipped [], 0 violations, 19 warnings (baseline 19).\n- Commit 1, 257cfd42: the 20 pack-manifest.yaml files only.\nT045:\n- Commit 2, 2796e4d2: the other 601 files remediate rewrote, all YAML.\n- Proof (decision 01M8A5ZNJTETCBFCC4H5G0VHQ6): load each file at HEAD~1 and HEAD with yaml.safe_load, drop null and empty values (None, \"\", [], {}) recursively, compare. Comments never load. Result: \"601 files, 0 differences\".\n- Without normalisation, 54 files differ, only by dropped null and empty defaults.\n- The script is kept in the scratchpad, not the repo; its logic is in the commit message.\n- The pack.yaml headers that called the descriptors \"authored, hand-edited data (never machine-rewritten)\" are gone with the comments, so that claim no longer holds. The PR text must say so.\nT046: a second remediate run gives every pack \"unchanged\" (20/20), and git status is clean.\nT047 (7fa0e0e9): gen_pack_reference.py lists anti_patterns after procedures, with a test. 19 pages regenerated; --check reports no drift; tests/docs OK.\nT048 (f23f3498): pack_digest.py --update; check-pack-digests.sh is green.\nT049:\n- charter_pack_doctor.py --jar <jar> --report-dir: exit 0, \"ok: pack-doctor passes every pack (PACK, CLOSURE, REFERENCES, ROUND_TRIP; 19 file_not_held notices)\"; all 5 invalid fixtures refused as expected.\n- WP01's expectedFailure is removed (007e4c97, a recorded one-line edit of WP01's file). PACK_DOCTOR_JAR=<jar> pytest tests/ci/test_charter_pack_doctor.py: 49 passed, 54 subtests passed in 46.20s; unittest RealPackDoctor OK.\n- charter_service_jar.sh built deployable-0.1.0-SNAPSHOT.jar at the pin. charter_service_check.py --jar <it>: exit 0. All 20 packs compose (GET /offering), every org pack registers and reads back, and non-vacuity holds; \"the charter service accepts every pack and refuses every invalid fixture\".\nTest follow-ups in 007e4c97 (recorded out-of-map edits):\n- test_pack_digest pins built-in's restamped digest.\n- test_prompt_fragments' schema_version mutation no longer matched the canonical '1.0' line, so the test had gone vacuous. It now removes the line in any quoting and asserts it did.\nenv -u GITHUB_TOKEN pytest tests/ci tests/docs: 380 passed, 4 skipped, 781 subtests passed in 24.63s.",
-        "Restamped, proven, gate and service check green; history has the outputs."
+        "Restamped, proven, gate and service check green; history has the outputs.",
+        "- 2026-11-26T05:12:41Z – claude::reviewer-renata – shell_pid=2591 – Recording approved by the operator in the implementer session (for WP09-WP11). Review (claude::reviewer-renata, in-session reviewer subagent per decision 01M8A5ZTVXJ59PNN56PC3WGR3Z): APPROVED at 007e4c97. Two nits, both folded.\n- Verified by reproduction:\n  - remediate over a git-archive export of 59dbf272 is byte-identical to 2796e4d2;\n  - commit 1 holds the 20 manifests only;\n  - own T045 script: 601 files, 0 differences normalised. The 55 strict removals are 20 x parent_pack: null and 35 x an empty list; no value, type, list order or key was added;\n  - a second remediate is unchanged 20/20;\n  - the gate passes; real-jar tests 49 passed, no xfail; tests/ci + tests/docs 380 passed;\n  - pages show no drift; digests ok; the charter service check is green;\n  - no other test went vacuous.\n- Nit 1, folded in d20c7e42: packs/built-in/README.md said pack.yaml is \"never regenerated\". It now says remediate rewrites it canonically. built-in's digest, its pinned test value and its page follow. The gate and suites are re-run green.\n- Nit 2, a correction of the record (the pushed commit 007e4c97 is not rewritten): the old test_a_missing_schema_version_is_refused did not \"pass vacuously and then fail\". On the restamped tree its replace matched nothing, so the test simply failed. The fix stands: it removes the line in any quoting and asserts it did."
       ],
       "provider": "__resolved_provider_absent__",
-      "role": "implementer",
-      "shell_pid": 2591,
-      "shell_pid_created_at": "1795644237.63",
+      "role": "reviewer",
+      "shell_pid": 183,
+      "shell_pid_created_at": "1795669956.85",
       "subtasks": {
         "T044": "done",
         "T045": "done",
