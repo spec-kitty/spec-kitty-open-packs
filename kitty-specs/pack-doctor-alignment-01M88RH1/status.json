@@ -357,7 +357,7 @@
     },
     "WP10": {
       "actor": "claude",
-      "agent": "claude::implementer-ivan",
+      "agent": "claude::reviewer-renata",
       "agent_profile": "__resolved_profile_absent__",
       "agent_profile_version": "__resolved_profile_version_absent__",
       "force_count": 2,
@@ -375,7 +375,8 @@
         "Changes requested: R1, N1 (review-cycle-2)",
         "- 2026-11-26T16:28:23Z – claude::implementer-ivan – Review cycle 2 folded in 234a5639: unlisted_nodes names only a node no file of the pack declares (file-backed nodes are manifest_membership, decision 01M8BMA8KVQH0CXKAT05RW7Z9X); the classify comment names the kept rules reading through it. pytest tests/ci tests/docs 373 passed; real jar 58 passed; validate-packs.sh exit 0; the new assertions fail without the fix (2 failed).",
         "Review cycle 2 folded in 234a5639.",
-        "- 2026-11-26T16:38:25Z – claude::reviewer-renata – Review cycle 3 (claude::reviewer-renata, in-session reviewer subagent; recording approved by the operator in the implementer session, decision 01M8B4C025XD9WQKSBWBFP6GSH): APPROVED at 234a5639, no Required findings.\n- R1 is fixed. Probes on scratch copies:\n  - a dropped manifest entry is refused by the jar as manifest_membership and named by nothing in Python, for tactic, directive, skill, step_enhancement, routing_catalog, asset, anti_pattern, agent_profile and glossary;\n  - a fileless node (tactic, paradigm, agent_profile, glossary) is accepted by the jar and named by unlisted_nodes;\n  - a node whose id belongs to a file of another kind is named, correctly;\n  - the kind mapping agrees across held_artifacts, declared_nodes and the manifest;\n  - reverting the fix fails the new tests.\n- N1 is fixed: the classify comment names the right callers.\n- Cycle-1 items have no regression.\n- Two nits are folded in 3db36a20: the module and validate_pack docstrings say \"a graph node no file of the pack declares\", and the ghost-node real-jar test uses the production call shape.\n- Tests: tests/ci + tests/docs 373 passed; real jar 58 passed; validate-packs.sh exit 0; gate exit 0; pack-check grep empty."
+        "- 2026-11-26T16:38:25Z – claude::reviewer-renata – Review cycle 3 (claude::reviewer-renata, in-session reviewer subagent; recording approved by the operator in the implementer session, decision 01M8B4C025XD9WQKSBWBFP6GSH): APPROVED at 234a5639, no Required findings.\n- R1 is fixed. Probes on scratch copies:\n  - a dropped manifest entry is refused by the jar as manifest_membership and named by nothing in Python, for tactic, directive, skill, step_enhancement, routing_catalog, asset, anti_pattern, agent_profile and glossary;\n  - a fileless node (tactic, paradigm, agent_profile, glossary) is accepted by the jar and named by unlisted_nodes;\n  - a node whose id belongs to a file of another kind is named, correctly;\n  - the kind mapping agrees across held_artifacts, declared_nodes and the manifest;\n  - reverting the fix fails the new tests.\n- N1 is fixed: the classify comment names the right callers.\n- Cycle-1 items have no regression.\n- Two nits are folded in 3db36a20: the module and validate_pack docstrings say \"a graph node no file of the pack declares\", and the ghost-node real-jar test uses the production call shape.\n- Tests: tests/ci + tests/docs 373 passed; real jar 58 passed; validate-packs.sh exit 0; gate exit 0; pack-check grep empty.",
+        "Approved at 234a5639; nits folded in 3db36a20."
       ],
       "provider": "__resolved_provider_absent__",
       "review": null,
