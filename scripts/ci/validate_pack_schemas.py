@@ -21,9 +21,9 @@ It fails closed. Exit status:
 
 A pack's manifest is the charter's: pack-doctor judges its hashes (``manifest_stale``) and its membership
 (``manifest_membership``), and ``pack-doctor remediate <pack>`` writes it (#347, #348). This script derives,
-restamps and verifies no manifest; it only reports a declared graph node that a manifest does not list (#182), a
-house rule: ``manifest_membership`` derives its lists from the files a pack holds, so it misses a node no file
-declares. An unlisted file is ``manifest_membership``'s alone (decision 01M8BMA8).
+restamps and verifies no manifest; it only reports a graph node no file of the pack declares that a manifest does not
+list (#182), a house rule: ``manifest_membership`` derives its lists from the files a pack holds, so it misses such a
+node. An unlisted file, and the node of a file, are ``manifest_membership``'s alone (decision 01M8BMA8).
 
 Needs ``pyyaml`` and ``jsonschema`` (Draft 2020-12). The contract is fetched from the
 pinned charter commit (``charter.lock.yaml``) unless ``--contract DIR`` (a directory holding
@@ -915,7 +915,8 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     """Validate every file of one pack directory; violations are sorted and path-relative.
 
     A manifest's hashes and its full membership are pack-doctor's (``manifest_stale``, ``manifest_membership``) and
-    ``pack-doctor remediate`` writes it (#347): only an unlisted graph node is reported here (a house rule)."""
+    ``pack-doctor remediate`` writes it (#347): only an unlisted graph node no file of the pack declares is reported
+    here (a house rule, decision 01M8BMA8)."""
     if not pack_dir.is_dir():
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)

@@ -793,7 +793,10 @@ class RealPackDoctor(unittest.TestCase):
         self.assert_clean(self.judge("ghost", ghost))
         pack = self.scratch() / "ghost" / "example-pack"
         manifest = schema_pass().yaml.safe_load((pack / "pack-manifest.yaml").read_text(encoding="utf-8"))
-        self.assertEqual(schema_pass().unlisted_nodes(manifest, schema_pass().declared_nodes(pack)), ["tactic:ghost"])
+        contract = schema_pass().contract_for(None)
+        # The production call shape (validate_pack): the files the pack holds are passed, and still hold no ghost.
+        self.assertEqual(schema_pass().unlisted_nodes(manifest, schema_pass().declared_nodes(pack),
+                                                     schema_pass().held_artifacts(pack, contract)), ["tactic:ghost"])
 
     # ------------------------------------------------------------------ profile_reference_violations: kept (WP10 finding)
 
