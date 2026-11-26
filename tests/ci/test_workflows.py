@@ -294,44 +294,84 @@ class CharterServiceJob(unittest.TestCase):
         java = [step for step in job["steps"] if str(step.get("uses", "")).startswith("actions/setup-java@")]
         self.assertEqual([step["with"]["java-version"] for step in java], ["25"])
 
-    def test_it_gates_every_pack_on_pack_check_from_the_pin_and_keeps_the_report(self) -> None:
-        # #252: the charter's whole-pack check, pack-check, from the pinned release (digest-checked), replaces driftTest.
+    def test_it_gates_every_pack_on_pack_doctor_from_the_pin_and_keeps_the_report(self) -> None:
+        # #252, #345: the charter's whole-pack check, pack-doctor, from the pinned release (digest-checked), replaces
+        # driftTest.
         _, job = job_named(self.workflow, "Charter service validation")
         steps = job["steps"]
         runs = "\n".join(str(step.get("run", "")) for step in steps)
-        check = next(step for step in steps if "charter_pack_check.py" in str(step.get("run", "")))
-        self.assertEqual(check.get("id"), "pack_check")
+        check = next(step for step in steps if "charter_pack_doctor.py" in str(step.get("run", "")))
+        self.assertEqual(check.get("id"), "pack_doctor")
         self.assertNotIn("continue-on-error", check)
         self.assertIn("!cancelled()", check["if"])  # it runs even when obtaining the service jar failed
         # Obtaining the jar and running it are one step under `set -e`: a jar that cannot be had fails the gate.
         self.assertIn("set -euo pipefail", check["run"])
-        self.assertLess(check["run"].index("charter_pack_check_jar.sh"), check["run"].index("charter_pack_check.py --jar"))
-        self.assertIn("tests.ci.test_charter_pack_check.RealPackCheck", check["run"])
+        self.assertLess(check["run"].index("charter_pack_doctor_jar.sh"), check["run"].index("charter_pack_doctor.py --jar"))
+        self.assertIn("tests.ci.test_charter_pack_doctor.RealPackDoctor", check["run"])
+        self.assertIn('PACK_DOCTOR_JAR="$jar"', check["run"])
         upload = next(step for step in steps if str(step.get("uses", "")).startswith("actions/upload-artifact@"))
         self.assertGreater(steps.index(upload), steps.index(check))
         self.assertIn("always()", upload["if"])
-        self.assertEqual(upload["with"]["name"], "charter-pack-check-report")
-        self.assertEqual(upload["with"]["path"], "${{ runner.temp }}/pack-check-report")
+        self.assertEqual(upload["with"]["name"], "charter-pack-doctor-report")
+        self.assertEqual(upload["with"]["path"], "${{ runner.temp }}/pack-doctor-report")
         self.assertEqual(check["env"]["REPORT_DIR"], upload["with"]["path"])
-        # The service check still runs when pack-check is red, so one run reports both.
+        # The service check still runs when pack-doctor is red, so one run reports both.
         self.assertIn("!cancelled()", steps[-1]["if"])
+
+    def test_java_25_is_set_up_before_the_pin_moves(self) -> None:
+        # #347: apply restamps every pack with pack-doctor remediate, a Java 25 jar. A move without Java fails and
+        # every later step is skipped, so no check runs.
+        for name in ("Charter Pack validation", "Charter service validation"):
+            with self.subTest(job=name):
+                _, job = job_named(self.workflow, name)
+                assert_java_before_apply(self, job["steps"])
 
     def test_gradle_is_set_up_only_for_a_commit_pin(self) -> None:
         # A release pin downloads both jars; only a commit pin builds them from the pinned source.
         _, job = job_named(self.workflow, "Charter service validation")
         steps = job["steps"]
-        gradle = next(step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@"))
+        gradles = [step for step in steps if str(step.get("uses", "")).startswith("gradle/actions/setup-gradle@")]
+        self.assertEqual(len(gradles), 2)
+        for_move, for_pin = gradles
+        move = next(i for i, step in enumerate(steps) if step.get("id") == "move")
         pin = next(i for i, step in enumerate(steps) if step.get("id") == "pin")
-        self.assertGreater(steps.index(gradle), pin)
-        for release_tag, expected in (("", True), ("service-v0.1.0-rc.3", False)):
+        self.assertLess(steps.index(for_move), move)
+        self.assertGreater(steps.index(for_pin), pin)
+        # (the target's commit and release tag, the pin's release tag) -> (Gradle before the move, Gradle after it).
+        # Exactly one runs whenever anything is built: a move to a main target, or a commit pin on the PR gate.
+        cases = {("", "", ""): (False, True), ("", "", "service-v0.1.0-rc.3"): (False, False),
+                 ("d" * 40, "", ""): (True, False), ("d" * 40, "service-v9.0.0", "service-v9.0.0"): (False, False)}
+        for (commit, target_tag, pin_tag), expected in cases.items():
             ctx = contexts(pr_event())
-            ctx["steps"] = {"pin": {"outputs": {"release_tag": release_tag}}}
-            with self.subTest(release_tag=release_tag):
-                self.assertEqual(gh_expr.evaluate_if(gradle["if"], ctx), expected)
+            ctx["inputs"] = {"charter_commit": commit, "charter_release_tag": target_tag}
+            ctx["steps"] = {"pin": {"outputs": {"release_tag": pin_tag}}}
+            with self.subTest(commit=commit, target=target_tag, pin=pin_tag):
+                self.assertEqual((gh_expr.evaluate_if(for_move["if"], ctx), gh_expr.evaluate_if(for_pin["if"], ctx)),
+                                 expected)
+
+    def test_only_the_check_jobs_move_the_pin_with_allow_red(self) -> None:
+        # A red restamp is judged and reported by the checks; the bump, which commits the tree, never allows one.
+        for name in ("Charter Pack validation", "Charter service validation"):
+            with self.subTest(job=name):
+                _, job = job_named(self.workflow, name)
+                move = next(step for step in job["steps"] if step.get("id") == "move")
+                self.assertIn("--allow-red", move["run"])
+
+def assert_java_before_apply(case: unittest.TestCase, steps: list) -> None:
+    """A step running ``charter_pin.py apply`` follows a setup-java step for Java 25 in the same job, under the same
+    condition or none."""
+    apply = next((i for i, step in enumerate(steps) if "charter_pin.py apply" in str(step.get("run", ""))), None)
+    case.assertIsNotNone(apply, "the job has no step that runs charter_pin.py apply")
+    java = [i for i, step in enumerate(steps[:apply]) if str(step.get("uses", "")).startswith("actions/setup-java@")]
+    case.assertTrue(java, "no setup-java before the step that runs charter_pin.py apply")
+    setup = steps[java[-1]]
+    case.assertEqual(setup["with"]["java-version"], "25")
+    case.assertIn(setup.get("if"), (None, steps[apply].get("if")))
+
 
 TRACK = "charter-track.yml"
 TARGET = {"charter_commit": "d" * 40, "charter_release_tag": "service-v9.0.0", "charter_jar_sha256": "e" * 64,
-          "charter_pack_check_sha256": "f" * 64}
+          "charter_pack_doctor_sha256": "f" * 64}
 
 
 RELEASE_CRON = "41 5 * * *"
@@ -457,6 +497,12 @@ class CharterTrack(unittest.TestCase):
             with self.subTest(event=name):
                 ctx = track_contexts(event, {})
                 self.assertEqual(gh_expr.evaluate_if(self.jobs["resolve"]["if"], ctx, strict_event=True), runs)
+
+    def test_the_bump_sets_up_java_25_before_it_moves_the_pin(self) -> None:
+        assert_java_before_apply(self, self.jobs["bump"]["steps"])
+
+    def test_the_bump_never_carries_a_red_restamp(self) -> None:
+        self.assertNotIn("--allow-red", yaml.safe_dump(self.jobs["bump"]))
 
     def test_its_checks_are_the_required_checks_own_jobs_moved_to_the_target(self) -> None:
         checks = self.jobs["checks"]

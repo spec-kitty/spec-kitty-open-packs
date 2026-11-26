@@ -55,7 +55,7 @@ class ReleaseOrder(unittest.TestCase):
 class NewestRelease(unittest.TestCase):
     def run_main(self, current: str, tags: list[str]) -> dict[str, str]:
         lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else "",
-                "pack_check_sha256": DIGEST if current else ""}
+                "pack_doctor_sha256": DIGEST if current else ""}
         out = io.StringIO()
         with mock.patch.object(charter_lock, "read", return_value=lock), \
              mock.patch.object(charter_pin, "release_tags", return_value=tags), redirect_stdout(out):
@@ -76,7 +76,7 @@ class NewestRelease(unittest.TestCase):
 class AtOrPast(unittest.TestCase):
     def run_main(self, current: str, tag: str) -> int:
         lock = {"commit": COMMIT, "release_tag": current, "jar_sha256": DIGEST if current else "",
-                "pack_check_sha256": DIGEST if current else ""}
+                "pack_doctor_sha256": DIGEST if current else ""}
         with mock.patch.object(charter_lock, "read", return_value=lock):
             return charter_pin.main(["at-or-past", tag])
 
@@ -118,25 +118,25 @@ class ReleaseListing(unittest.TestCase):
                  self.assertRaises(charter_pin.PinError):
                 charter_pin.jar_digest("service-v1.0.0")
 
-    def test_the_pack_check_digest_comes_from_its_own_asset_and_must_name_its_jar(self) -> None:
-        # #252: the gate's pack-check jar is pinned by the digest the release's pack-check-<version>.jar.sha256 states.
+    def test_the_pack_doctor_digest_comes_from_its_own_asset_and_must_name_its_jar(self) -> None:
+        # #345: the gate's pack-doctor jar is pinned by the digest the release's pack-doctor-<version>.jar.sha256 states.
         urls = []
         def fake(url: str, *, api: bool) -> bytes:
             urls.append(url)
-            return f"{PACK_DIGEST}  pack-check-1.0.0.jar\n".encode()
+            return f"{PACK_DIGEST}  pack-doctor-1.0.0.jar\n".encode()
         with mock.patch.object(charter_pin, "_request", side_effect=fake):
-            self.assertEqual(charter_pin.jar_digest("service-v1.0.0", charter_pin.PACK_CHECK_JAR), PACK_DIGEST)
+            self.assertEqual(charter_pin.jar_digest("service-v1.0.0", charter_pin.PACK_DOCTOR_JAR), PACK_DIGEST)
         self.assertEqual(urls, ["https://github.com/spec-kitty/spec-kitty-charter/releases/download/service-v1.0.0/"
-                                "pack-check-1.0.0.jar.sha256"])
+                                "pack-doctor-1.0.0.jar.sha256"])
         with mock.patch.object(charter_pin, "_request",
                                return_value=f"{PACK_DIGEST}  spec-kitty-charter-service-1.0.0.jar\n".encode()), \
              self.assertRaises(charter_pin.PinError):
-            charter_pin.jar_digest("service-v1.0.0", charter_pin.PACK_CHECK_JAR)
+            charter_pin.jar_digest("service-v1.0.0", charter_pin.PACK_DOCTOR_JAR)
 
-    def test_resolve_release_emits_both_digests_and_a_release_without_pack_check_cannot_resolve(self) -> None:
+    def test_resolve_release_emits_both_digests_and_a_release_without_pack_doctor_cannot_resolve(self) -> None:
         def fake(url: str, *, api: bool) -> bytes:
-            if url.endswith("/pack-check-1.0.0.jar.sha256"):
-                return f"{PACK_DIGEST}  pack-check-1.0.0.jar\n".encode()
+            if url.endswith("/pack-doctor-1.0.0.jar.sha256"):
+                return f"{PACK_DIGEST}  pack-doctor-1.0.0.jar\n".encode()
             return f"{DIGEST}  spec-kitty-charter-service-1.0.0.jar\n".encode()
         out = io.StringIO()
         with mock.patch.object(charter_pin, "_request", side_effect=fake), \
@@ -144,9 +144,9 @@ class ReleaseListing(unittest.TestCase):
             self.assertEqual(charter_pin.main(["resolve-release", "service-v1.0.0"]), 0)
         values = dict(line.split("=", 1) for line in out.getvalue().splitlines())
         self.assertEqual(values, {"commit": COMMIT, "release_tag": "service-v1.0.0", "jar_sha256": DIGEST,
-                                  "pack_check_sha256": PACK_DIGEST})
+                                  "pack_doctor_sha256": PACK_DIGEST})
         def missing(url: str, *, api: bool) -> bytes:
-            if "pack-check" in url:
+            if "pack-doctor" in url:
                 raise charter_pin.PinError("404")
             return fake(url, api=api)
         with mock.patch.object(charter_pin, "_request", side_effect=missing), \
@@ -190,22 +190,22 @@ class WriteLock(unittest.TestCase):
         charter_pin.write_lock(COMMIT, "service-v9.0.0-rc.1", DIGEST, PACK_DIGEST)
         self.assertEqual(charter_lock.read(self.lock),
                          {"commit": COMMIT, "release_tag": "service-v9.0.0-rc.1", "jar_sha256": DIGEST,
-                          "pack_check_sha256": PACK_DIGEST})
+                          "pack_doctor_sha256": PACK_DIGEST})
         charter_pin.write_lock(COMMIT, "", "", "")
         self.assertEqual(charter_lock.read(self.lock),
-                         {"commit": COMMIT, "release_tag": "", "jar_sha256": "", "pack_check_sha256": ""})
+                         {"commit": COMMIT, "release_tag": "", "jar_sha256": "", "pack_doctor_sha256": ""})
         kept = [line for line in self.lock.read_text(encoding="utf-8").splitlines() if line.startswith("#")]
         self.assertEqual(kept, comments)
 
     def test_a_malformed_pin_is_refused_and_the_file_is_left_alone(self) -> None:
         before = self.lock.read_text(encoding="utf-8")
-        for commit, tag, digest, pack_check in (
+        for commit, tag, digest, pack_doctor in (
                 ("main", "", "", ""), (COMMIT, "v1.0.0", DIGEST, PACK_DIGEST), (COMMIT, "service-v1.0.0", "", ""),
                 (COMMIT, "service-v1.0.0", "x" * 64, PACK_DIGEST), (COMMIT, "service-v1.0.0", DIGEST, ""),
                 (COMMIT, "service-v1.0.0", DIGEST, "x" * 64), (COMMIT, "", "", PACK_DIGEST)):
-            with self.subTest(commit=commit, tag=tag, digest=digest, pack_check=pack_check), \
+            with self.subTest(commit=commit, tag=tag, digest=digest, pack_doctor=pack_doctor), \
                  self.assertRaises(charter_pin.PinError):
-                charter_pin.write_lock(commit, tag, digest, pack_check)
+                charter_pin.write_lock(commit, tag, digest, pack_doctor)
         self.assertEqual(self.lock.read_text(encoding="utf-8"), before)
 
 
@@ -268,7 +268,164 @@ class CommitPayload(unittest.TestCase):
             charter_pin.commit_payload("charter/x", head, "headline", "body")
 
 
+#: A stand-in ``java`` for ``java -jar <jar> remediate <pack>...``: records its argv, working directory and locale in
+#: $JAVA_LOG, then answers as the charter's Remediate does: one outcome line per pack on standard output (alpha
+#: rewritten with a repaired quoted number, the others unchanged), then the JSON report; $JAVA_EXIT=1 refuses alpha
+#: (its faults indented below), $JAVA_EXIT=2 is a usage fault with nothing on standard output.
+FAKE_JAVA = """#!/usr/bin/env python3
+import json, os, sys
+open(os.environ["JAVA_LOG"], "w").write(json.dumps({"argv": sys.argv[1:], "cwd": os.getcwd(),
+                                                     "lc_all": os.environ.get("LC_ALL")}))
+code = int(os.environ.get("JAVA_EXIT", "0"))
+if code == 2:
+    print("pack-doctor: remediate: no pack given", file=sys.stderr)
+    sys.exit(2)
+for pack in sys.argv[4:]:
+    if pack.endswith("alpha"):
+        print(f"{pack}: refused" if code else f"{pack}: rewritten, 1 quoted number repaired")
+        if code:
+            print("  pack.yaml#/pack_version: pack_version_invalid: 'nope' is not a PEP 440 version")
+    else:
+        print(f"{pack}: unchanged")
+print(json.dumps({"tool": {"name": "pack-doctor"}, "repairs": []}))
+print("warning: beta: file_not_held notes.txt: not held", file=sys.stderr)
+sys.exit(code)
+"""
+
+
+class Rederive(unittest.TestCase):
+    """#347: ``apply`` restamps every pack with the pinned jar's ``remediate``, not the schema pass's derivation."""
+
+    def setUp(self) -> None:
+        self.tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp)
+        for pack in ("packs/alpha", "packs/beta", "tests/fixtures/valid/example"):
+            (self.tmp / pack).mkdir(parents=True)
+            (self.tmp / pack / "pack.yaml").write_text("pack_version: 1.0.0\n")
+        (self.tmp / "packs" / "notes").mkdir()  # no pack.yaml: not a pack
+        self.bin = self.tmp / "bin"
+        self.bin.mkdir()
+        (self.bin / "java").write_text(FAKE_JAVA)
+        (self.bin / "java").chmod(0o755)
+        self.log = self.tmp / "java.json"
+        env = {"PATH": f"{self.bin}:{os_environ()['PATH']}", "JAVA_LOG": str(self.log), "LC_ALL": "C"}
+        self.ran: list[tuple[str, ...]] = []
+        for patcher in (mock.patch.object(charter_pin, "ROOT", self.tmp),
+                        mock.patch.object(charter_pin, "_run", side_effect=lambda *c: self.ran.append(c)),
+                        mock.patch.dict("os.environ", env), mock.patch.dict("os.environ", {}, clear=False)):
+            patcher.start()
+            self.addCleanup(patcher.stop)
+        os_unset("JAVA_HOME")
+
+    def test_remediate_runs_once_over_every_pack_from_the_root_under_a_utf8_locale(self) -> None:
+        with redirect_stderr(io.StringIO()) as err:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        seen = json.loads(self.log.read_text())
+        self.assertEqual(seen["argv"], ["-jar", "/jars/pack-doctor.jar", "remediate", "packs/alpha", "packs/beta",
+                                        "tests/fixtures/valid/example"])
+        self.assertEqual(Path(seen["cwd"]).resolve(), self.tmp.resolve())
+        self.assertEqual(seen["lc_all"], "C.UTF-8")
+        # The charter's own line for a pack with a repaired quoted number is a rewrite, not a missing outcome.
+        self.assertIn("packs/alpha: rewritten", err.getvalue())
+        self.assertIn("packs/beta: unchanged", err.getvalue())
+        self.assertNotIn("::warning::", err.getvalue())
+        # The schema pass no longer derives manifests: the digests and the pack pages follow remediate.
+        self.assertEqual([c[1:] for c in self.ran], [("scripts/ci/pack_digest.py", "--update"),
+                                                     ("scripts/docs/gen_pack_reference.py",)])
+        self.assertFalse(any("validate_pack_schemas.py" in part for command in self.ran for part in command))
+
+    def test_every_outcome_line_the_charter_prints_is_read(self) -> None:
+        for line, outcome in (("packs/a: unchanged", "unchanged"), ("packs/a: rewritten", "rewritten"),
+                              ("packs/a: rewritten, 1 quoted number repaired", "rewritten"),
+                              ("packs/a: rewritten, 12 quoted numbers repaired", "rewritten"),
+                              ("packs/a: refused", "refused")):
+            with self.subTest(line=line):
+                self.assertEqual(charter_pin.REMEDIATE_OUTCOME.match(line)["outcome"], outcome)
+        for line in ("packs/a: rewritten, some", "  pack.yaml: pack_version_invalid", "warning: a: file_not_held x"):
+            with self.subTest(line=line):
+                self.assertIsNone(charter_pin.REMEDIATE_OUTCOME.match(line))
+
+    def test_a_red_restamp_fails_the_derive_unless_red_is_allowed(self) -> None:
+        # Exit 1 (a pack refused): a bump or a hand-run apply never carries a red tree, so the derive fails...
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err, \
+             self.assertRaises(charter_pin.PinError) as raised:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertIn("exited 1 (refused: packs/alpha)", str(raised.exception))
+        self.assertIn("pack_version_invalid", err.getvalue())
+        self.assertEqual(self.ran, [])
+        # ...while the gate's check jobs (apply --allow-red) go on, and their pack-doctor step judges and reports it.
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "1"}), redirect_stderr(io.StringIO()) as err:
+            charter_pin.rederive("/jars/pack-doctor.jar", allow_red=True)
+        self.assertIn("::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: packs/alpha)", err.getvalue())
+        self.assertEqual(len(self.ran), 2)
+
+    def test_apply_passes_allow_red_through(self) -> None:
+        with mock.patch.object(charter_pin, "write_lock"), mock.patch.object(charter_pin, "rederive") as rederive:
+            charter_pin.main(["apply", "--commit", COMMIT])
+            charter_pin.main(["apply", "--commit", COMMIT, "--allow-red"])
+        self.assertEqual([c.kwargs for c in rederive.call_args_list], [{"allow_red": False}, {"allow_red": True}])
+
+    def test_pack_doctors_own_stderr_is_passed_on(self) -> None:
+        # Its warnings, and its "delete it" for an old copy of a rewritten pack that could not be removed.
+        with redirect_stderr(io.StringIO()) as err:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertIn("warning: beta: file_not_held notes.txt: not held", err.getvalue())
+
+    def test_a_usage_fault_fails_the_derive_and_prints_its_output(self) -> None:
+        with mock.patch.dict("os.environ", {"JAVA_EXIT": "2"}), redirect_stderr(io.StringIO()) as err, \
+             self.assertRaises(charter_pin.PinError) as raised:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertIn("remediate exited 2", str(raised.exception))
+        self.assertIn("no pack given", err.getvalue())
+        self.assertEqual(self.ran, [])  # nothing after a restamp that judged nothing
+
+    def test_a_pack_without_an_outcome_line_fails_the_derive(self) -> None:
+        (self.bin / "java").write_text(FAKE_JAVA.replace('print(f"{pack}: unchanged")', 'pass'))
+        with redirect_stderr(io.StringIO()), self.assertRaises(charter_pin.PinError) as raised:
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertIn("no outcome for packs/beta, tests/fixtures/valid/example", str(raised.exception))
+
+    def test_java_home_is_honoured(self) -> None:
+        home = self.tmp / "jdk"
+        (home / "bin").mkdir(parents=True)
+        shutil.copy2(self.bin / "java", home / "bin" / "java")
+        (self.bin / "java").write_text("#!/bin/sh\nexit 3\n")  # the PATH java must not run
+        with mock.patch.dict("os.environ", {"JAVA_HOME": str(home)}), redirect_stderr(io.StringIO()):
+            charter_pin.rederive("/jars/pack-doctor.jar")
+        self.assertTrue(self.log.is_file())
+
+    def test_the_jar_work_dir_is_the_gate_steps_and_never_the_repository(self) -> None:
+        with mock.patch.dict("os.environ", {"RUNNER_TEMP": "/runner/tmp"}):
+            os_unset("CHARTER_WORK_DIR")
+            self.assertEqual(charter_pin._work_dir("/scratch"), "/runner/tmp/charter-service")
+            with mock.patch.dict("os.environ", {"CHARTER_WORK_DIR": "/w"}):
+                self.assertEqual(charter_pin._work_dir("/scratch"), "/w")
+        os_unset("RUNNER_TEMP")
+        os_unset("CHARTER_WORK_DIR")
+        self.assertEqual(charter_pin._work_dir("/scratch"), "/scratch")
+
+
+def os_unset(name: str) -> None:
+    import os
+    os.environ.pop(name, None)
+
+
+def os_environ() -> dict:
+    import os
+    return dict(os.environ)
+
+
 class Cli(unittest.TestCase):
+    def test_the_retired_pack_check_key_and_flag_are_refused(self) -> None:
+        # FR-002: a lock still holding pack_check_sha256 is refused as an unknown key, and so is the old flag.
+        with self.assertRaises(charter_lock.LockError) as raised:
+            charter_lock.check(charter_lock.parse(f"commit: {COMMIT}\npack_check_sha256: {PACK_DIGEST}\n"))
+        self.assertIn("pack_check_sha256", str(raised.exception))
+        with redirect_stderr(io.StringIO()) as err, self.assertRaises(SystemExit) as exited:
+            charter_pin.main(["apply", "--commit", COMMIT, "--pack-check-sha256", PACK_DIGEST])
+        self.assertEqual(exited.exception.code, 2)
+        self.assertIn("--pack-check-sha256", err.getvalue())
+
     def test_an_unresolvable_target_exits_2_with_an_annotation(self) -> None:
         err = io.StringIO()
         with redirect_stderr(err):

@@ -37,8 +37,8 @@ on:
         description: "The SHA-256 the release jar must have; set with charter_release_tag"
         type: string
         default: ""
-      charter_pack_check_sha256:
-        description: "The SHA-256 the release's pack-check jar must have; set with charter_release_tag"
+      charter_pack_doctor_sha256:
+        description: "The SHA-256 the release's pack-doctor jar must have; set with charter_release_tag"
         type: string
         default: ""
 
@@ -76,6 +76,13 @@ jobs:
           python-version: "3.12"
       - name: Install the validator and scanner dependencies
         run: pip install "pyyaml==6.0.3" "jsonschema==4.26.0" "tree-sitter==0.25.2" "tree-sitter-java==0.23.5"
+      # The move restamps every pack with the target's pack-doctor remediate (scripts/ci/charter_pin.py apply, #347),
+      # a Java 25 jar: downloaded on a release target, built from the target's source on a main target.
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        if: ${{ inputs.charter_commit }}
+        with:
+          distribution: temurin
+          java-version: "25"
       # Called against another charter target (charter-track.yml) only: move the pin and re-derive.
       - name: Move the pin to the charter target
         id: move
@@ -84,10 +91,10 @@ jobs:
           COMMIT: ${{ inputs.charter_commit }}
           RELEASE_TAG: ${{ inputs.charter_release_tag }}
           JAR_SHA256: ${{ inputs.charter_jar_sha256 }}
-          PACK_CHECK_SHA256: ${{ inputs.charter_pack_check_sha256 }}
+          PACK_DOCTOR_SHA256: ${{ inputs.charter_pack_doctor_sha256 }}
         run: |
           set -euo pipefail
-          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-check-sha256 "$PACK_CHECK_SHA256"
+          python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-doctor-sha256 "$PACK_DOCTOR_SHA256" --allow-red
           {
             echo "### The pin moved to the charter target"
             echo
@@ -138,10 +145,10 @@ jobs:
   # The charter service is the authority on composition and on whole-pack registration (charter
   # ADR-0070): this job starts it at the commit pinned in charter.lock.yaml and asks it to compose every
   # pack, register every org and project pack, and refuse every invalid fixture with the code its
-  # expected-code file names. It also gates every pack on the charter's whole-pack check, pack-check (#252):
-  # each pack, the closure and the round trip, from the jar the pinned release ships. The per-pack schema pass
-  # above stays as the fast pre-check, and keeps the rules pack-check is weaker on (the preset checks) and the
-  # stale-hash pre-check (docs/guides/validate-a-pack.md). A stray file only warns (R34, #331).
+  # expected-code file names. It also gates every pack on the charter's whole-pack check, pack-doctor (#345):
+  # `validate --round-trip --full`, each pack, the closure, the references and the round trip, from the jar the pinned
+  # release ships. The per-pack schema pass above stays as the fast pre-check and keeps only the house rules
+  # (docs/guides/validate-a-pack.md). A stray file only warns (R34, #331).
   charter-service:
     name: Charter service validation
     # Skipped on a paused pull request; the gate then fails.
@@ -161,6 +168,15 @@ jobs:
         # Wheels only, so no setup script runs (a block scalar: `:all:` is not plain-scalar safe).
         run: |
           pip install --only-binary :all: "pyyaml==6.0.3" "jsonschema==4.26.0"
+      # Java 25 runs the charter service, pack-doctor and the move's remediate, so it is set up before the move; a
+      # move to a main target builds pack-doctor, so Gradle is set up before it too (the release_tag of the target).
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "25"
+      - name: Set up Gradle for the move
+        if: ${{ inputs.charter_commit && inputs.charter_release_tag == '' }}
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       # Called against another charter target (charter-track.yml) only: the same move as the job above.
       - name: Move the pin to the charter target
         id: move
@@ -169,8 +185,8 @@ jobs:
           COMMIT: ${{ inputs.charter_commit }}
           RELEASE_TAG: ${{ inputs.charter_release_tag }}
           JAR_SHA256: ${{ inputs.charter_jar_sha256 }}
-          PACK_CHECK_SHA256: ${{ inputs.charter_pack_check_sha256 }}
-        run: python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-check-sha256 "$PACK_CHECK_SHA256"
+          PACK_DOCTOR_SHA256: ${{ inputs.charter_pack_doctor_sha256 }}
+        run: python3 scripts/ci/charter_pin.py apply --commit "$COMMIT" --release-tag "$RELEASE_TAG" --jar-sha256 "$JAR_SHA256" --pack-doctor-sha256 "$PACK_DOCTOR_SHA256" --allow-red
       # Fails closed unless the pin is a full commit (never a branch) and a release pin has its digest.
       - name: Read the charter pin
         id: pin
@@ -180,13 +196,10 @@ jobs:
           release_tag="$(python3 scripts/ci/charter_lock.py release_tag)"
           echo "commit=$commit" >> "$GITHUB_OUTPUT"
           echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
-      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
-        with:
-          distribution: temurin
-          java-version: "25"
-      # Only a commit pin builds anything: a release pin downloads both jars.
+      # Only a commit pin builds anything: a release pin downloads both jars. Once only: a move to a main target set
+      # Gradle up above.
       - name: Set up Gradle
-        if: ${{ steps.pin.outputs.release_tag == '' }}
+        if: ${{ steps.pin.outputs.release_tag == '' && !(inputs.charter_commit && inputs.charter_release_tag == '') }}
         uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       # A release jar (checked against jar_sha256) when the pin names a service-v* release, else the
       # pinned commit built with ./gradlew :deployable:bootJar. The same script runs on a developer machine.
@@ -196,31 +209,31 @@ jobs:
           set -euo pipefail
           jar="$(scripts/ci/charter_service_jar.sh "$RUNNER_TEMP/charter-service")"
           echo "jar=$jar" >> "$GITHUB_OUTPUT"
-      # The charter's whole-pack check over every pack, built-in-level ones included (#252; charter ADR-0075 decision 9,
-      # ADR-0070 decision 4 as amended 2026-11-13): each pack, the closure of the set, and the round trip by meaning.
-      # It replaces the driftTest build from the pinned source: the same production round trip and rule. The jar is the
-      # pinned release's pack-check, checked against pack_check_sha256 (never "latest"), or, on a commit pin, built from
-      # the pinned source. Obtaining it and running it are one step, so a jar that cannot be had fails the gate.
-      # Any exit but 0 fails it, exit 2 included (pack-check crashes with exit 2 on a malformed pack_version,
-      # spec-kitty-charter#624: a failure, never a skip). So does any warning but file_not_held, a skipped check or a
-      # pack left out; every invalid fixture must be refused as its expected-code's `pack-check:` line says.
-      - name: Check every pack with the charter's pack-check
-        id: pack_check
+      # The charter's whole-pack check over every pack, built-in-level ones included (#345; charter ADR-0075 decision 9,
+      # ADR-0083, ADR-0070 decision 4 as amended 2026-11-13): `pack-doctor validate --round-trip --full`, each pack, the
+      # closure of the set, the references over depends_on, and the round trip by meaning. The jar is the pinned
+      # release's pack-doctor, checked against pack_doctor_sha256 (never "latest"), or, on a commit pin, built from the
+      # pinned source. Obtaining it and running it are one step, so a jar that cannot be had fails the gate.
+      # Any exit but 0 fails it, exit 2 included (a usage fault or an I/O failure: nothing judged, never a skip). So does
+      # any warning but file_not_held, a skipped check, a report the gate cannot read or a pack left out; every invalid
+      # fixture must be refused as its expected-code's `pack-doctor:` line says.
+      - name: Check every pack with the charter's pack-doctor
+        id: pack_doctor
         if: ${{ !cancelled() && steps.move.outcome != 'failure' }}
         env:
-          REPORT_DIR: ${{ runner.temp }}/pack-check-report
+          REPORT_DIR: ${{ runner.temp }}/pack-doctor-report
         run: |
           set -euo pipefail
-          jar="$(scripts/ci/charter_pack_check_jar.sh "$RUNNER_TEMP/charter-service")"
-          python3 scripts/ci/charter_pack_check.py --jar "$jar" --report-dir "$REPORT_DIR"
-          # The charter#624 case and this checkout's packs, against the real jar of the pin.
-          PACK_CHECK_JAR="$jar" python3 -m unittest tests.ci.test_charter_pack_check.RealPackCheck
-      - name: Upload the pack-check report
-        if: ${{ always() && steps.pack_check.outcome != 'skipped' }}
+          jar="$(scripts/ci/charter_pack_doctor_jar.sh "$RUNNER_TEMP/charter-service")"
+          python3 scripts/ci/charter_pack_doctor.py --jar "$jar" --report-dir "$REPORT_DIR"
+          # The invalid fixtures and this checkout's packs, against the real jar of the pin.
+          PACK_DOCTOR_JAR="$jar" python3 -m unittest tests.ci.test_charter_pack_doctor.RealPackDoctor
+      - name: Upload the pack-doctor report
+        if: ${{ always() && steps.pack_doctor.outcome != 'skipped' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: charter-pack-check-report
-          path: ${{ runner.temp }}/pack-check-report
+          name: charter-pack-doctor-report
+          path: ${{ runner.temp }}/pack-doctor-report
           if-no-files-found: warn
           retention-days: 14
       - name: Compose, register and refuse through the charter service
