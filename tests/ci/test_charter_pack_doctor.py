@@ -8,6 +8,7 @@ the real tool there.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -539,6 +540,13 @@ BASE_ID, TOP_ID, OTHER_ID = "01M6MF4FV4Y48NTGPEDEG5DQPS", "01M6MF4FV4Y48NTGPEDEG
 DIRECTIVE = "id: {id}\nschema_version: '1.0'\ntitle: A rule\nintent: Say what the rule is for.\nenforcement: required\n"
 
 
+def schema_pass():
+    """``validate_pack_schemas`` (the schema pass), imported only where needed: it needs pyyaml and jsonschema."""
+    import validate_pack_schemas
+
+    return validate_pack_schemas
+
+
 @unittest.skipUnless(os.environ.get("PACK_DOCTOR_JAR"), "PACK_DOCTOR_JAR names no pack-doctor jar")
 class RealPackDoctor(unittest.TestCase):
     """Against the real jar of the pin (the Charter service validation job sets PACK_DOCTOR_JAR)."""
@@ -668,11 +676,14 @@ class RealPackDoctor(unittest.TestCase):
 
     # ------------------------------------------------------------------ the target parts of prompt_fragment_composition
 
-    def enhanced(self, step: str = "specify", prompt: bool = True, slot: str = "x:block") -> list[Path]:
-        """``base`` defines mission type ``dev`` with step ``specify``; ``top`` depends on it and enhances ``step``."""
+    def enhanced(self, step: str = "specify", prompt: bool = True, slot: str = "x:block",
+                 prompt_path: bool = True) -> list[Path]:
+        """``base`` defines mission type ``dev`` with step ``specify`` (writing its ``prompt_path`` when ``prompt_path``);
+        ``top`` depends on it and enhances ``step``."""
+        written = "  prompt_path: steps/specify.prompt.md\n" if prompt_path else ""
         files = {
             "missions/dev/dev.mission-type.yaml": "schema_version: '1.0'\nid: dev\ntitle: Dev\ndescription: Develop.\n"
-                                                  "steps:\n- id: specify\n  title: Specify\n  prompt_path: steps/specify.prompt.md\n",
+                                                  f"steps:\n- id: specify\n  title: Specify\n{written}",
             "drg/fragment.yaml": "nodes:\n- {id: dev, kind: mission_types, title: Dev, body_path: missions/dev/dev.mission-type.yaml}\n"
                                  "- {id: dev/specify, kind: actions, title: Specify}\n"
                                  "edges:\n- {source: 'mission_type:dev', target: 'action:dev/specify', relation: requires}\n",
@@ -705,22 +716,96 @@ class RealPackDoctor(unittest.TestCase):
         self.assertEqual(result.exit_code, 1, result.stderr[-2000:])
         self.assertEqual(gate.report_faults(result), [])
         violations = [(v["code"], v["pointer"], v["detail"]) for p in result.report["problems"] for v in p.get("violations") or []]
-        self.assertIn(("artifact_schema_error", "missions/dev/dev.mission-type.yaml",
-                       "missions/dev/dev.mission-type.yaml: step 'specify' names steps/specify.prompt.md: missing"), violations)
+        self.assertEqual(violations, [("artifact_schema_error", "missions/dev/dev.mission-type.yaml",
+                                       "missions/dev/dev.mission-type.yaml: step 'specify' names steps/specify.prompt.md: missing")],
+                         gate.problem_lines(result.report))  # caused by the missing prompt alone
+        self.assertEqual(len(result.report["problems"]), 1, gate.problem_lines(result.report))
+
+    def test_a_target_step_without_a_prompt_path_is_left_to_open_packs(self) -> None:
+        # A step that writes no prompt_path has no prompt (the pinned mission-type schema derives none), so the jar
+        # accepts a fragment aimed at it, with or without a file at steps/specify.prompt.md. Only the C38 house rule of
+        # validate_pack_schemas.py refuses it (prompt_slot_missing), so that rule must not fall back to a default path.
+        for case, prompt in (("no-prompt-path", False), ("no-prompt-path-file-beside", True)):
+            with self.subTest(case):
+                self.assert_clean(self.judge(case, lambda: self.enhanced(prompt=prompt, prompt_path=False)))
+                packs = [self.scratch() / case / "base", self.scratch() / case / "top"]
+                self.assertEqual(schema_pass().prompt_fragment_composition_violations(packs), [
+                    "top/missions/dev/enhancements/enh.step-enhancement.yaml: prompt_slot_missing at "
+                    "/prompt_fragments/0/slot: target 'base::action:dev/specify' declares no slot 'x:block'"])
 
     def test_an_undeclared_prompt_slot_is_left_to_open_packs(self) -> None:
         # The house rule (C38): the charter refuses an undeclared slot only for a stored activation that has it in force.
         self.assert_clean(self.judge("no-slot", lambda: self.enhanced(slot="x:other")))
 
+    # ------------------------------------------------------------------ unlisted_constituents: retired (decision 01M8BMA8)
+
+    ANTI_PATTERN = ("schema_version: '1.0'\nid: secret-in-repo\ntitle: A secret in the repository\n"
+                    "description: Credentials committed beside the code.\nseverity: breaking\n"
+                    "bad_example: An API key in config.yaml.\n")
+
+    def anti_patterned(self, listed: bool) -> list[Path]:
+        """The valid example pack with an anti-pattern file and its node, its manifest stamped as the charter derives it
+        (content hashes of the bytes, manifest_hash of the RFC 8785 JSON), listing the anti-pattern when ``listed``."""
+        pack = self.scratch() / self.case / "example-pack"
+        shutil.copytree(ROOT / "tests" / "fixtures" / "valid" / "example-pack", pack)
+        path = "anti_patterns/secret-in-repo.anti-pattern.yaml"
+        (pack / path).parent.mkdir()
+        (pack / path).write_text(self.ANTI_PATTERN, encoding="utf-8")
+        fragment = pack / "drg" / "fragment.yaml"
+        fragment.write_text(fragment.read_text(encoding="utf-8").replace(
+            "edges:\n", f"- id: secret-in-repo\n  kind: anti_patterns\n  title: A secret\n  body_path: {path}\nedges:\n", 1),
+            encoding="utf-8")
+        yaml = schema_pass().yaml
+        manifest = yaml.safe_load((pack / "pack-manifest.yaml").read_text(encoding="utf-8"))
+        del manifest["manifest_hash"]
+        if listed:
+            digest = hashlib.sha256((pack / path).read_bytes()).hexdigest()
+            manifest["constituents"].append({"kind": "anti_pattern", "id": "secret-in-repo", "path": path, "content_hash": digest})
+        canonical = json.dumps(manifest, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+        manifest = {"schema_version": manifest.pop("schema_version"),
+                    "manifest_hash": hashlib.sha256(canonical).hexdigest(), **manifest}
+        (pack / "pack-manifest.yaml").write_text(yaml.safe_dump(manifest, sort_keys=False), encoding="utf-8")
+        return [pack]
+
+    def test_an_anti_pattern_file_the_manifest_does_not_list_is_manifest_membership(self) -> None:
+        # The retired Python unlisted_constituents (#182) is a strict subset of pack-doctor's manifest_membership, which
+        # compares the manifest's lists with those derived from the files the pack holds (decision 01M8BMA8). An
+        # anti-pattern file is a constituent (#348 (f), T050), so a manifest that leaves it out is refused here.
+        self.assert_clean(self.judge("anti-pattern-listed", lambda: self.anti_patterned(listed=True)))
+        report = self.judge("anti-pattern-unlisted", lambda: self.anti_patterned(listed=False))
+        self.assertEqual([(p["code"], [(v["code"], v["pointer"], v["detail"]) for v in p["violations"]]) for p in report["problems"]],
+                         [("validation_failed", [("manifest_membership", "pack-manifest.yaml",
+                                                  "pack-manifest.yaml: leaves out constituent anti_pattern:secret-in-repo at "
+                                                  "anti_patterns/secret-in-repo.anti-pattern.yaml, which the pack holds")])])
+        self.assertEqual(report["summary"]["exit_code"], 1)
+
+    def test_a_graph_node_no_file_declares_is_left_to_open_packs(self) -> None:
+        # The kept unlisted_nodes (decision 01M8BMA8): manifest_membership derives its lists from the files the pack
+        # holds, so a tactic node that no file declares is not in them and the jar accepts the pack. Only the schema
+        # pass names it. When this fails, the pinned pack-doctor judges it: retire unlisted_nodes.
+        def ghost() -> list[Path]:
+            pack = self.scratch() / self.case / "example-pack"
+            shutil.copytree(ROOT / "tests" / "fixtures" / "valid" / "example-pack", pack)
+            fragment = pack / "drg" / "fragment.yaml"
+            fragment.write_text(fragment.read_text(encoding="utf-8").replace(
+                "edges:\n", "- id: ghost\n  kind: tactics\n  title: A ghost\nedges:\n", 1), encoding="utf-8")
+            return [pack]
+        self.assert_clean(self.judge("ghost", ghost))
+        pack = self.scratch() / "ghost" / "example-pack"
+        manifest = schema_pass().yaml.safe_load((pack / "pack-manifest.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(schema_pass().unlisted_nodes(manifest, schema_pass().declared_nodes(pack)), ["tactic:ghost"])
+
     # ------------------------------------------------------------------ profile_reference_violations: kept (WP10 finding)
 
-    def profiled(self, reference: str) -> list[Path]:
-        """``top`` depends on ``base`` (not on ``other``); its agent profile names ``reference`` as a directive code."""
+    def profiled(self, reference: str, references: str | None = None) -> list[Path]:
+        """``top`` depends on ``base`` (not on ``other``); its agent profile names ``reference`` as a directive code, or
+        writes ``references`` as its whole ``directive-references`` value when given."""
         base = self.pack("base", BASE_ID, {"directives/b.directive.yaml": DIRECTIVE.format(id="B_001")})
         other = self.pack("other", OTHER_ID, {"directives/o.directive.yaml": DIRECTIVE.format(id="O_001")})
+        if references is None:
+            references = f"\n- code: {reference}\n  name: A rule\n  rationale: Why it applies."
         profile = ("profile-id: tester\nname: Tester\nrole: implementer\npurpose: Tests things.\n"
-                   f"specialization:\n  primary-focus: tests\ndirective-references:\n- code: {reference}\n"
-                   "  name: A rule\n  rationale: Why it applies.\n")
+                   f"specialization:\n  primary-focus: tests\ndirective-references: {references}\n")
         top = self.pack("top", TOP_ID, {"directives/t.directive.yaml": DIRECTIVE.format(id="T_001"),
                                         "agent_profiles/tester.agent.yaml": profile}, depends_on=(BASE_ID,))
         return [base, other, top]
@@ -736,6 +821,17 @@ class RealPackDoctor(unittest.TestCase):
                                 ("held-by-no-pack", "NOWHERE_001"), ("own-pack-qualifier", "top::T_001")):
             with self.subTest(case):
                 self.assert_clean(self.judge(case, lambda: self.profiled(reference)))
+        # The control: the jar reads the profile file, since a directive-references that is not a list is refused there.
+        # The pack is refused at PACK, so CLOSURE and REFERENCES are skipped for the set: that is the answer.
+        self.case = "not-a-list"
+        packs = self.profiled("B_001", references="5")
+        result = gate.run(gate.java_command(None), Path(os.environ["PACK_DOCTOR_JAR"]), packs, self.scratch() / "not-a-list.yaml")
+        self.assertEqual(result.exit_code, 1, result.stderr[-2000:])
+        self.assertEqual(gate.report_faults(result), [])
+        self.assertEqual([(p["code"], [(v["code"], v["pointer"], v["detail"]) for v in p["violations"]])
+                          for p in result.report["problems"]],
+                         [("validation_failed", [("artifact_schema_error", "agent_profiles/tester.agent.yaml#/directive-references",
+                                                  "agent_profiles/tester.agent.yaml directive-references: expected a list")])])
         # The same three faults written as a graph edge's endpoint are refused, so the packs above are judged in full.
         self.case = "edge"
         base = self.pack("base", BASE_ID, {"directives/b.directive.yaml": DIRECTIVE.format(id="B_001")})

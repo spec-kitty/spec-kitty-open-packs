@@ -21,8 +21,9 @@ It fails closed. Exit status:
 
 A pack's manifest is the charter's: pack-doctor judges its hashes (``manifest_stale``) and its membership
 (``manifest_membership``), and ``pack-doctor remediate <pack>`` writes it (#347, #348). This script derives,
-restamps and verifies no manifest; it only reports a file-backed artifact or a declared graph node that a manifest
-does not list (#182).
+restamps and verifies no manifest; it only reports a declared graph node that a manifest does not list (#182), a
+house rule: ``manifest_membership`` derives its lists from the files a pack holds, so it misses a node no file
+declares. An unlisted file is ``manifest_membership``'s alone (decision 01M8BMA8).
 
 Needs ``pyyaml`` and ``jsonschema`` (Draft 2020-12). The contract is fetched from the
 pinned charter commit (``charter.lock.yaml``) unless ``--contract DIR`` (a directory holding
@@ -70,16 +71,6 @@ KNOWN_KIND_TOKENS = frozenset(
 )  # fmt: skip
 
 EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
-#: The schemas of file-backed doctrine artifacts a pack's manifest lists (#182). Every file one of
-#: these rules classifies must be a manifest constituent, or the manifest under-reports the pack:
-#: the git-flow and execution-lanes files shipped unlisted that way. An anti-pattern is a file,
-#: ``anti_patterns/<id>.anti-pattern.yaml`` (charter ADR-0053 decision 30), so it is a constituent like any other
-#: (#348 (f)). Actions have no file. Mission types and templates are exempt from this older check only;
-#: pack-doctor's ``manifest_membership`` holds every manifest to the full membership the charter derives.
-MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
-    "agent-profile", "anti-pattern", "asset", "directive", "glossary", "guard", "lifecycle", "paradigm",
-    "procedure", "skill", "styleguide", "tactic", "toolguide",
-})
 #: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` is graph-only: no file backs it.
 #: Mission types and templates are exempt here and judged by pack-doctor's ``manifest_membership`` instead. An
 #: ``anti_pattern`` node is no longer exempt: its file declares it and the manifest lists that file (#348 (f)). Any
@@ -341,13 +332,10 @@ def load_yaml(text: str) -> Any:
 MANIFEST_NAME = "pack-manifest.yaml"
 
 
-def unlisted_constituents(manifest: dict[str, Any], files: set[str]) -> list[str]:
-    """The file-backed doctrine files of a pack its manifest does not list (#182), sorted. A listed
-    file that is missing is pack-doctor's to report (``manifest_stale``)."""
-    listed = {entry.get("path") for entry in manifest.get("constituents") or [] if isinstance(entry, dict)}
-    return sorted(files - listed)
-
-
+# House rule (not a charter rule): the #182 residual, kept by decision 01M8BMA8. Pack-doctor's manifest_membership
+# compares a manifest's lists with those derived from the files the pack holds, so it does not catch a graph node
+# that no file declares (RealPackDoctor pins that the jar accepts one). An unlisted file is manifest_membership's
+# alone: the Python unlisted_constituents, a strict subset of it, is retired.
 def unlisted_nodes(manifest: dict[str, Any], nodes: set[tuple[str, str]]) -> list[str]:
     """The declared graph nodes of a pack its manifest does not list as constituents (#182 residual),
     sorted ``kind:id``; nodes of an exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
@@ -689,6 +677,7 @@ def kind_mapped(contract: Contract, token: str) -> bool:
     return any(rule.match.endswith(f".{token}.yaml") for rule in contract.files)
 
 
+# Kept, not retired with the rules pack-doctor judges (#348 comment 3): the schema pass needs it to pick each file's schema.
 def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     """The charter's classification of a path relative to the directory holding the packs.
 
@@ -915,7 +904,7 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     """Validate every file of one pack directory; violations are sorted and path-relative.
 
     A manifest's hashes and its full membership are pack-doctor's (``manifest_stale``, ``manifest_membership``) and
-    ``pack-doctor remediate`` writes it (#347): only an unlisted file-backed artifact or graph node is reported here."""
+    ``pack-doctor remediate`` writes it (#347): only an unlisted graph node is reported here (a house rule)."""
     if not pack_dir.is_dir():
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
@@ -924,7 +913,6 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     manifest: dict[str, Any] | None = None
     payloads: set[str] = set()
     sidecars: list[tuple[str, str]] = []
-    constituent_files: set[str] = set()
     claimed = companion_claims(pack_dir, contract)
     fixture = is_invalid_fixture(pack_dir)
     stray: list[str] = []
@@ -998,8 +986,6 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
             report.violations += [f"{relative}: {problem}" for problem in _step_enhancement_violations(path, document)]
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
-        if rule.schema in MANIFEST_CONSTITUENT_SCHEMAS:
-            constituent_files.add(inside)
         if rule.schema == "asset" and isinstance(document, dict) and isinstance(document.get("path"), str):
             sidecars.append((relative, document["path"]))
         # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
@@ -1014,11 +1000,6 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     # The charter's SidecarPayloads rule: a sidecar names, exactly, an asset payload the pack holds.
     report.violations += [f"{file}: payload assets/{named} does not exist" for file, named in sidecars if named not in payloads]
     if manifest is not None:
-        report.violations += [
-            f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: {unlisted} is not a constituent; "
-            f"run `{REMEDIATE_COMMAND} {pack_dir}`"
-            for unlisted in unlisted_constituents(manifest, constituent_files)
-        ]
         report.violations += [
             f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: graph node {node} is not a constituent; "
             f"declare it in a file the pack holds, or drop the node, then run `{REMEDIATE_COMMAND} {pack_dir}`"
@@ -1294,7 +1275,8 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
     Only the slot is judged here. The target is pack-doctor's (#348): a target step that does not exist is
     ``pack_reference_artifact_missing`` (or ``pack_reference_pack_missing``) at ``REFERENCES``, and a step whose prompt
     cannot be read is ``artifact_schema_error`` at the target's mission type file (``step '<id>' names <prompt path>:
-    missing``), so both pass silently here. What the charter refuses besides is not repeated either: an enhancement
+    missing``), so both pass silently here. A target step with no ``prompt_path`` has no prompt (the pinned
+    mission-type schema: ``prompt_path`` is "present when the step has a prompt"), so it declares no slot and every fragment aimed at it is refused here. What the charter refuses besides is not repeated either: an enhancement
     without exactly one ``enhances`` edge, and a target that is not ``action:<type>/<step>``.
 
     Sibling enhancements are deliberately not a conflict. The graph's ``enhances`` edge
@@ -1344,12 +1326,15 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
             step = next((item for item in steps if isinstance(item, dict) and item.get("id") == step_id), None)
             if step is None:
                 continue  # pack-doctor refuses a target step that does not exist (pack_reference_artifact_missing)
-            prompt_path = step.get("prompt_path", f"steps/{step_id}.prompt.md")
-            prompt = target_pack / "missions" / mission_id / prompt_path
-            try:
-                slots = declared_prompt_slots(prompt.read_text(encoding="utf-8"))
-            except OSError:
-                continue  # pack-doctor refuses a step whose prompt cannot be read (artifact_schema_error)
+            prompt_path = step.get("prompt_path")
+            if prompt_path is None:
+                slots: set[str] = set()  # no prompt_path, no prompt (the pinned schema has no default path): no slot
+            else:
+                prompt = target_pack / "missions" / mission_id / str(prompt_path)
+                try:
+                    slots = declared_prompt_slots(prompt.read_text(encoding="utf-8"))
+                except OSError:
+                    continue  # pack-doctor refuses a prompt_path whose file cannot be read (artifact_schema_error)
             # House rule (not a charter rule): C38: the charter refuses an undeclared slot only for a stored activation
             # that has the enhancement in force; open-packs refuses it in every pack, activated or not (#348).
             for index, fragment in enumerate(fragments):
@@ -1476,10 +1461,12 @@ def main(argv: list[str] | None = None) -> int:
                         help="also check the given packs together for the house rules, what the charter does not judge "
                              "by ruling: an id re-declared at another level, a bare DRG edge endpoint that resolves to no "
                              "node, a prompt-fragment slot the target prompt does not declare, a specializes_from cycle, "
-                             "and the agent-profile references (a bare reference held only by another pack or by none, "
-                             "one qualified with the profile's own pack, outside its depends_on closure or not held by "
-                             "the named pack). Everything else across packs (composition, preset items, graph references, "
-                             "step-enhancement targets, manifests) is pack-doctor's: scripts/ci/charter_pack_doctor.py")
+                             "and two agent-profile references (a bare one no pack holds, one qualified with the "
+                             "profile's own pack). Also, until pack-doctor judges them (it does not at the pin), three "
+                             "more agent-profile references: a bare one only another pack holds, one outside the "
+                             "depends_on closure, one the named pack does not hold. Everything else across packs "
+                             "(composition, preset items, graph references, step-enhancement targets, manifests) is "
+                             "pack-doctor's: scripts/ci/charter_pack_doctor.py")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
     if not args.packs and not args.expect_invalid:

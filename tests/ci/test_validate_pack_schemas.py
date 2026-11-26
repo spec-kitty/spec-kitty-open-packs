@@ -147,27 +147,19 @@ class ValidatorExitCodes(unittest.TestCase):
                     self.assertEqual(code, validator.EXIT_INVALID, output)
                     self.assertIn(f"pack/assets/kept/held.txt.asset.yaml: payload assets/{named} does not exist", output)
 
-    def test_a_doctrine_file_the_manifest_does_not_list_fails_naming_the_file(self) -> None:
-        """#182: a pack with a manifest lists every file-backed doctrine artifact it holds."""
+    def test_a_doctrine_file_the_manifest_does_not_list_is_left_to_pack_doctor(self) -> None:
+        """Decision 01M8BMA8: an unlisted file is pack-doctor's manifest_membership alone (RealPackDoctor proves it on
+        the jar with an anti-pattern file); the Python unlisted_constituents, a strict subset of it, is retired."""
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
             pack = self.manifest_pack(root, ["tactics/t.tactic.yaml"],
                                       {"tactics/t.tactic.yaml": "id: t\n", "tactics/u.tactic.yaml": "id: u\n"})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            line = next(line for line in output.splitlines() if "incomplete manifest" in line)
-            self.assertIn("tactics/u.tactic.yaml is not a constituent", line)
-            self.assertNotIn("tactics/t.tactic.yaml", line)
-            # The remedy is the charter's writer, not a Python derivation (#347).
-            self.assertIn(f"run `pack-doctor remediate {pack}`", line)
-
-            # Listing it clears the finding: the positive control. Its hashes are pack-doctor's (manifest_stale), so the
-            # zero hashes manifest_pack writes are not judged here.
-            pack.joinpath("pack-manifest.yaml").unlink()
-            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/u.tactic.yaml"],
-                                      {"tactics/t.tactic.yaml": "id: t\n", "tactics/u.tactic.yaml": "id: u\n"})
-            self.assertEqual(self.run_validator(root, str(pack))[0], validator.EXIT_OK)
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("incomplete manifest", output)
+        for name in ("unlisted_constituents", "MANIFEST_CONSTITUENT_SCHEMAS"):
+            self.assertFalse(hasattr(validator, name), name)
 
     def test_manifest_hashes_and_a_listed_file_that_is_missing_are_left_to_pack_doctor(self) -> None:
         """#347, #348: pack-doctor judges a manifest's hashes and its listed files (manifest_stale, manifest_membership);
@@ -212,6 +204,8 @@ class ValidatorExitCodes(unittest.TestCase):
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID, output)
             self.assertIn("incomplete manifest: graph node tactic:ghost is not a constituent", output)
+            # The remedy is the charter's writer, not a Python derivation (#347).
+            self.assertIn(f"run `pack-doctor remediate {pack}`", output)
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root, self.GRAPH_RULES)
@@ -260,13 +254,6 @@ class ValidatorExitCodes(unittest.TestCase):
         nodes = {("tactic", "a"), ("tactic", "b"), ("action", "x")}
         self.assertEqual(validator.unlisted_nodes(manifest, nodes), ["tactic:b"])
         self.assertEqual(validator.unlisted_nodes({"constituents": [{"kind": "tactic", "id": "b"}]}, nodes - {("tactic", "a")}), [])
-
-    def test_only_file_backed_doctrine_kinds_are_constituents(self) -> None:
-        self.assertIn("tactic", validator.MANIFEST_CONSTITUENT_SCHEMAS)
-        self.assertIn("anti-pattern", validator.MANIFEST_CONSTITUENT_SCHEMAS)  # #348 (f): the file is a constituent
-        for exempt in ("preset", "pack-manifest", "pack-descriptor", "mission-type", "graph-shard"):
-            self.assertNotIn(exempt, validator.MANIFEST_CONSTITUENT_SCHEMAS)
-        self.assertEqual(validator.unlisted_constituents({"constituents": [{"path": "a"}]}, {"a", "b"}), ["b"])
 
     def test_a_carriage_return_in_markdown_is_refused_not_read_as_a_newline(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1040,7 +1027,7 @@ class CompositionChecks(unittest.TestCase):
 class AntiPatternFilesOnThePinnedContract(unittest.TestCase):
     """#348 (f), FR-017: an anti-pattern is a file, ``anti_patterns/<id>.anti-pattern.yaml``, classified through the
     pinned ``file-kinds.yaml`` (data, not code), validated against the pinned ``anti-pattern.schema.json`` and listed
-    in the manifest as a constituent, so this job and pack-doctor agree on it."""
+    in the manifest as a constituent (its membership judged by pack-doctor), so this job and pack-doctor agree on it."""
 
     ANTI_PATTERN = (
         "schema_version: '1.0'\nid: secret-in-repo\ntitle: A secret in the repository\n"
@@ -1085,11 +1072,13 @@ class AntiPatternFilesOnThePinnedContract(unittest.TestCase):
         self.assertIn("anti_patterns/secret-in-repo.anti-pattern.yaml: anti-pattern schema at /: 'severity' is a required property",
                       found)
 
-    def test_the_file_is_a_manifest_constituent_and_its_node_is_not_exempt(self) -> None:
+    def test_its_unlisted_node_is_named_and_its_unlisted_file_left_to_pack_doctor(self) -> None:
+        # The file's membership is pack-doctor's manifest_membership (decision 01M8BMA8; RealPackDoctor proves the jar
+        # refuses this pack); the schema pass still names its graph node, which is not exempt.
         with tempfile.TemporaryDirectory() as tmp:
-            found = "\n".join(validator.validate_pack(self.pack(tmp, listed=False), self.contract).violations)
-        self.assertIn("incomplete manifest: anti_patterns/secret-in-repo.anti-pattern.yaml is not a constituent", found)
-        self.assertIn("incomplete manifest: graph node anti_pattern:secret-in-repo is not a constituent", found)
+            found = validator.validate_pack(self.pack(tmp, listed=False), self.contract).violations
+        self.assertEqual(len(found), 1, found)
+        self.assertIn("incomplete manifest: graph node anti_pattern:secret-in-repo is not a constituent", found[0])
 
 
 class ClassifierConformance(unittest.TestCase):

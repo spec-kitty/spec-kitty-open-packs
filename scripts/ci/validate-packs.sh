@@ -54,7 +54,8 @@ mapfile -t invalid < <(find tests/fixtures/invalid -mindepth 1 -maxdepth 1 -type
 (( ${#packs[@]} > 0 )) || { echo "::error::no pack found under packs/ or tests/fixtures/valid/; the validation would prove nothing"; exit 1; }
 (( ${#invalid[@]} > 0 )) || { echo "::error::tests/fixtures/invalid/ holds no fixture; the non-vacuity check would prove nothing"; exit 1; }
 
-# A manifest's membership and hashes are pack-doctor's (manifest_membership, manifest_stale), not this pass's (#347).
+# A manifest's membership and hashes are pack-doctor's (manifest_membership, manifest_stale), not this pass's (#347);
+# the pass names only a graph node no file declares that the manifest leaves out (a house rule, decision 01M8BMA8).
 args=(--cross-pack "${packs[@]}")
 service_only=()
 for pack in "${invalid[@]}"; do
