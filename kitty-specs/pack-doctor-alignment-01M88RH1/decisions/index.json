@@ -660,6 +660,77 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-26T09:52:10.191789Z",
+      "decision_id": "01M8BMA2EFXXS3DGD8CHGGBR2J",
+      "final_answer": "Keep + charter issue: the three parts stay (C-003) with comments and a real-jar test that fails once pack-doctor judges them; the implementer drafts a spec-kitty-charter issue on the guide/jar disagreement for the operator to file. #348 stays open for these three rows. (operator answer in the implementer session, 2026-11-26)",
+      "input_key": "profile_refs_not_judged",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "Keep + charter issue",
+        "Keep, no issue",
+        "Retire anyway"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "The pinned jar (f6f21e4c) does not judge agent-profile references, though #348 maps three profile_reference_violations parts to pack_reference_* and the charter guide check-packs.md says they are checked. Retire them?",
+      "rationale": null,
+      "resolved_at": "2026-11-26T09:52:13.310782Z",
+      "resolved_by": "operator (in the implementer session)",
+      "slot_key": "plan.retire.profile_refs",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-26T09:52:16.507204Z",
+      "decision_id": "01M8BMA8KVQH0CXKAT05RW7Z9X",
+      "final_answer": "Retire it in the WP10 fold; pack-doctor's manifest_membership covers it. unlisted_nodes (a graph node with no file) stays: pack-doctor does not catch that. (operator answer in the implementer session, 2026-11-26)",
+      "input_key": "unlisted_constituents",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "Retire it",
+        "Keep as house rule"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "unlisted_constituents (#182) is a strict subset of pack-doctor's manifest_membership and is not in #348's table. Keep or retire?",
+      "rationale": null,
+      "resolved_at": "2026-11-26T09:52:19.593612Z",
+      "resolved_by": "operator (in the implementer session)",
+      "slot_key": "plan.retire.unlisted_constituents",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
+    },
+    {
+      "created_at": "2026-11-26T09:52:22.902288Z",
+      "decision_id": "01M8BMAEVPGZ2C3JTH6TKBTRY6",
+      "final_answer": "Fold into WP11: WP11 fixes all three as recorded out-of-map edits. (operator answer in the implementer session, 2026-11-26)",
+      "input_key": "stale_derive_docs",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "Fold into WP11",
+        "Fold into WP10",
+        "Leave"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "packs/README.md:49, docs/guides/author-a-charter-pack.md:65 and docs/contracts/index.md:66-70 describe the retired --derive-manifest / --regenerate-manifest; no WP owns them. Who fixes them?",
+      "rationale": null,
+      "resolved_at": "2026-11-26T09:52:26.191114Z",
+      "resolved_by": "operator (in the implementer session)",
+      "slot_key": "plan.docs.stale_derive",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
