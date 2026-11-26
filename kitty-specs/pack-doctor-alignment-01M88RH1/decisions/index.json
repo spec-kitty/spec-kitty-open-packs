@@ -636,6 +636,30 @@
       "status": "resolved",
       "step_id": null,
       "summary_json": null
+    },
+    {
+      "created_at": "2026-11-26T05:13:36.069743Z",
+      "decision_id": "01M8B4C025XD9WQKSBWBFP6GSH",
+      "final_answer": "Allow for WP09-WP11: the implementer session records the in-session reviewer subagent's verdicts for WP09, WP10 and WP11 under claude::reviewer-renata (operator answer in the implementer session, 2026-11-26; WP01's was approved the same way on 2026-11-25)",
+      "input_key": "approval_recording",
+      "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
+      "mission_slug": "pack-doctor-alignment-01M88RH1",
+      "opened_by": "claude::implementer-ivan",
+      "options": [
+        "Allow WP09 now",
+        "Allow for WP09-WP11",
+        "Separate reviewer"
+      ],
+      "origin_flow": "plan",
+      "other_answer": false,
+      "question": "The implementer session records an in-session reviewer subagent's approval under claude::reviewer-renata; the permission checker refuses it as undermining oversight. How are WP09-WP11 approvals recorded?",
+      "rationale": null,
+      "resolved_at": "2026-11-26T05:13:38.733412Z",
+      "resolved_by": "operator (in the implementer session)",
+      "slot_key": "plan.review.recording",
+      "status": "resolved",
+      "step_id": null,
+      "summary_json": null
     }
   ],
   "mission_id": "01M88RH1WRS5YA0FC3G7M3JJ49",
