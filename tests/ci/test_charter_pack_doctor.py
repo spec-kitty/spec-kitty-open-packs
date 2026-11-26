@@ -534,6 +534,11 @@ CURATION_CODES = {"validation_failed", "artifact_schema_error", "drg_schema_erro
                   "round_trip_red", "round_trip_written_unpaired"}
 
 
+#: Descriptor ids of the in-test packs below (any well-formed ULID; the packs are judged under their directory names).
+BASE_ID, TOP_ID, OTHER_ID = "01M6MF4FV4Y48NTGPEDEG5DQPS", "01M6MF4FV4Y48NTGPEDEG5DQPT", "01M6MF4FV4Y48NTGPEDEG5DQPV"
+DIRECTIVE = "id: {id}\nschema_version: '1.0'\ntitle: A rule\nintent: Say what the rule is for.\nenforcement: required\n"
+
+
 @unittest.skipUnless(os.environ.get("PACK_DOCTOR_JAR"), "PACK_DOCTOR_JAR names no pack-doctor jar")
 class RealPackDoctor(unittest.TestCase):
     """Against the real jar of the pin (the Charter service validation job sets PACK_DOCTOR_JAR)."""
@@ -588,6 +593,159 @@ class RealPackDoctor(unittest.TestCase):
     def test_the_gate_passes_this_checkout(self) -> None:
         done = self.gate_over_this_checkout()
         self.assertEqual(done.returncode, 0, done.stdout[-4000:])
+
+    # ------------------------------------------------------------------ WP10: the retired rules, proven against the jar
+    # (#346, #348, C-003). Each Python rule retired from validate_pack_schemas.py is paired with an in-test pack that this
+    # jar refuses with the charter's code, beside the same pack without the defect, which it accepts. A rule #348 lists
+    # that the jar does not fire stays in Python; its test here pins that answer, so a pin whose pack-doctor starts
+    # judging it turns red and says the Python copy can go. A recorded out-of-map addition of WP10.
+
+    def scratch(self) -> Path:
+        """A temporary directory for this test, made on first use and removed after it."""
+        if not hasattr(self, "root"):
+            temporary = tempfile.TemporaryDirectory()
+            self.addCleanup(temporary.cleanup)
+            self.root = Path(temporary.name)
+        return self.root
+
+    def pack(self, name: str, pack_id: str, files: dict[str, str], depends_on: tuple[str, ...] = ()) -> Path:
+        """``root/<case>/<name>``: a well-formed org pack holding ``files``, with an empty graph unless they give one."""
+        descriptor = (f"schema_version: '1.0'\npack_id: {pack_id}\npack_version: 1.0.0\nname: {name}\n"
+                      "pack_level: org\npack_drg: drg/fragment.yaml\n")
+        if depends_on:
+            descriptor += "depends_on:\n" + "".join(f"- pack_id: {dep}\n  range: '>=1.0,<2'\n" for dep in depends_on)
+        pack = self.scratch() / self.case / name
+        for relative, text in {"pack.yaml": descriptor, "drg/fragment.yaml": "nodes: []\nedges: []\n", **files}.items():
+            (pack / relative).parent.mkdir(parents=True, exist_ok=True)
+            (pack / relative).write_text(text, encoding="utf-8")
+        return pack
+
+    def judge(self, case: str, build) -> dict:
+        """The report of ``pack-doctor validate --round-trip --full`` over the packs ``build()`` makes under ``case``."""
+        self.case = case
+        packs = build()
+        result = gate.run(gate.java_command(None), Path(os.environ["PACK_DOCTOR_JAR"]), packs, self.scratch() / f"{case}.yaml")
+        self.assertIn(result.exit_code, (0, 1), result.stderr[-2000:])
+        self.assertIsNotNone(result.report, result.stderr[-2000:])
+        self.assertEqual(gate.report_faults(result), [])
+        self.assertEqual(result.report["checks"], ALL_CHECKS, result.report.get("skipped"))  # nothing skipped: judged
+        return result.report
+
+    def assert_clean(self, report: dict) -> None:
+        self.assertEqual(report["problems"], [], gate.problem_lines(report))
+        self.assertEqual(report["summary"]["exit_code"], 0)
+
+    def assert_refused(self, report: dict, code: str, detail: str, pointer: str | None = None) -> None:
+        problems = [p for p in report["problems"] if p.get("code") == code]
+        self.assertEqual(len(problems), 1, gate.problem_lines(report))
+        self.assertEqual(len(report["problems"]), 1, gate.problem_lines(report))  # caused by the defect alone
+        self.assertIn(detail, problems[0]["detail"])
+        if pointer is not None:
+            self.assertEqual([(v["code"], v["pointer"]) for v in problems[0]["violations"]], [(code, pointer)])
+        self.assertEqual(report["summary"]["exit_code"], 1)
+
+    # ------------------------------------------------------------------ #346: the preset rules of cross_pack_violations
+
+    def preset_pack(self, items: str) -> list[Path]:
+        return [self.pack("a", BASE_ID, {
+            "directives/d.directive.yaml": DIRECTIVE.format(id="D_001"),
+            "drg/fragment.yaml": "nodes:\n- {id: D_001, kind: directives, title: A rule, body_path: directives/d.directive.yaml}\n"
+                                 "- {id: NODE_ONLY, kind: directives, title: Only a node}\nedges: []\n",
+            "presets/p.yaml": f"schema_version: '1.0'\nid: p\ndescription: A preset.\nactivated_directives:\n{items}",
+        })]
+
+    def test_a_preset_item_no_pack_of_its_closure_declares_is_preset_item_undeclared(self) -> None:
+        self.assert_clean(self.judge("declared", lambda: self.preset_pack("- id: D_001\n- id: NODE_ONLY\n")))
+        self.assert_refused(self.judge("undeclared", lambda: self.preset_pack("- id: D_001\n- id: NOWHERE\n")),
+                            "preset_item_undeclared", "activates directive:NOWHERE",
+                            "presets/p.yaml#/activated_directives/1")
+
+    def test_a_must_have_item_no_pack_of_its_closure_holds_as_a_file_is_preset_item_not_held(self) -> None:
+        self.assert_clean(self.judge("held", lambda: self.preset_pack("- {id: D_001, must_have: true}\n")))
+        self.assert_refused(self.judge("not-held", lambda: self.preset_pack("- {id: NODE_ONLY, must_have: true}\n")),
+                            "preset_item_not_held", "requires directive:NODE_ONLY (must_have)",
+                            "presets/p.yaml#/activated_directives/0")
+
+    # ------------------------------------------------------------------ the target parts of prompt_fragment_composition
+
+    def enhanced(self, step: str = "specify", prompt: bool = True, slot: str = "x:block") -> list[Path]:
+        """``base`` defines mission type ``dev`` with step ``specify``; ``top`` depends on it and enhances ``step``."""
+        files = {
+            "missions/dev/dev.mission-type.yaml": "schema_version: '1.0'\nid: dev\ntitle: Dev\ndescription: Develop.\n"
+                                                  "steps:\n- id: specify\n  title: Specify\n  prompt_path: steps/specify.prompt.md\n",
+            "drg/fragment.yaml": "nodes:\n- {id: dev, kind: mission_types, title: Dev, body_path: missions/dev/dev.mission-type.yaml}\n"
+                                 "- {id: dev/specify, kind: actions, title: Specify}\n"
+                                 "edges:\n- {source: 'mission_type:dev', target: 'action:dev/specify', relation: requires}\n",
+        }
+        if prompt:
+            files["missions/dev/steps/specify.prompt.md"] = "# Specify\n\n<!-- x:block:start -->\n<!-- x:block:end -->\n"
+        base = self.pack("base", BASE_ID, files)
+        top = self.pack("top", TOP_ID, {
+            "missions/dev/enhancements/enh.step-enhancement.yaml":
+                f"schema_version: '1.0'\nid: enh\nprompt_fragments:\n- slot: '{slot}'\n  path: enh.prompt-fragment.md\n",
+            "missions/dev/enhancements/enh.prompt-fragment.md": "# Guidance\n\nDo the thing.\n",
+            "drg/fragment.yaml": "nodes:\n- {id: enh, kind: step_enhancements, title: Enh, "
+                                 "body_path: missions/dev/enhancements/enh.step-enhancement.yaml}\n"
+                                 f"edges:\n- {{source: 'step_enhancement:enh', target: 'base::action:dev/{step}', relation: enhances}}\n",
+        }, depends_on=(BASE_ID,))
+        return [base, top]
+
+    def test_an_enhancement_whose_target_step_does_not_exist_is_pack_reference_artifact_missing(self) -> None:
+        self.assert_clean(self.judge("step", self.enhanced))
+        self.assert_refused(self.judge("no-step", lambda: self.enhanced(step="gone")),
+                            "pack_reference_artifact_missing", "enhances `base::action:dev/gone`")
+
+    def test_a_target_step_whose_prompt_cannot_be_read_is_artifact_schema_error(self) -> None:
+        report = self.judge("no-prompt-yet", self.enhanced)
+        self.assert_clean(report)
+        self.case = "no-prompt"
+        packs = self.enhanced(prompt=False)
+        result = gate.run(gate.java_command(None), Path(os.environ["PACK_DOCTOR_JAR"]), packs, self.scratch() / "no-prompt.yaml")
+        # The target's own pack is refused at PACK, so CLOSURE and REFERENCES are skipped for the set: that is the answer.
+        self.assertEqual(result.exit_code, 1, result.stderr[-2000:])
+        self.assertEqual(gate.report_faults(result), [])
+        violations = [(v["code"], v["pointer"], v["detail"]) for p in result.report["problems"] for v in p.get("violations") or []]
+        self.assertIn(("artifact_schema_error", "missions/dev/dev.mission-type.yaml",
+                       "missions/dev/dev.mission-type.yaml: step 'specify' names steps/specify.prompt.md: missing"), violations)
+
+    def test_an_undeclared_prompt_slot_is_left_to_open_packs(self) -> None:
+        # The house rule (C38): the charter refuses an undeclared slot only for a stored activation that has it in force.
+        self.assert_clean(self.judge("no-slot", lambda: self.enhanced(slot="x:other")))
+
+    # ------------------------------------------------------------------ profile_reference_violations: kept (WP10 finding)
+
+    def profiled(self, reference: str) -> list[Path]:
+        """``top`` depends on ``base`` (not on ``other``); its agent profile names ``reference`` as a directive code."""
+        base = self.pack("base", BASE_ID, {"directives/b.directive.yaml": DIRECTIVE.format(id="B_001")})
+        other = self.pack("other", OTHER_ID, {"directives/o.directive.yaml": DIRECTIVE.format(id="O_001")})
+        profile = ("profile-id: tester\nname: Tester\nrole: implementer\npurpose: Tests things.\n"
+                   f"specialization:\n  primary-focus: tests\ndirective-references:\n- code: {reference}\n"
+                   "  name: A rule\n  rationale: Why it applies.\n")
+        top = self.pack("top", TOP_ID, {"directives/t.directive.yaml": DIRECTIVE.format(id="T_001"),
+                                        "agent_profiles/tester.agent.yaml": profile}, depends_on=(BASE_ID,))
+        return [base, other, top]
+
+    def test_pack_doctor_does_not_yet_judge_agent_profile_references(self) -> None:
+        # #348 maps the first three to pack_reference_unqualified, pack_reference_pack_missing and
+        # pack_reference_artifact_missing at REFERENCES. The jar of the pin accepts all of them: it reads graph edges and
+        # guard and glossary relationships as references (CharterArtifact.writtenReferences), never an agent profile's.
+        # So validate_pack_schemas.py keeps every part of profile_reference_violations. When this fails, the pinned
+        # pack-doctor judges them: retire the matching Python branches.
+        for case, reference in (("held-only-by-another", "B_001"), ("outside-the-closure", "other::O_001"),
+                                ("not-held-by-the-named-pack", "base::B_404"),
+                                ("held-by-no-pack", "NOWHERE_001"), ("own-pack-qualifier", "top::T_001")):
+            with self.subTest(case):
+                self.assert_clean(self.judge(case, lambda: self.profiled(reference)))
+        # The same three faults written as a graph edge's endpoint are refused, so the packs above are judged in full.
+        self.case = "edge"
+        base = self.pack("base", BASE_ID, {"directives/b.directive.yaml": DIRECTIVE.format(id="B_001")})
+        top = self.pack("top", TOP_ID, {
+            "directives/t.directive.yaml": DIRECTIVE.format(id="T_001"),
+            "drg/fragment.yaml": "nodes:\n- {id: T_001, kind: directives, title: T, body_path: directives/t.directive.yaml}\n"
+                                 "edges:\n- {source: 'directive:T_001', target: 'directive:B_001', relation: requires}\n",
+        }, depends_on=(BASE_ID,))
+        result = gate.run(gate.java_command(None), Path(os.environ["PACK_DOCTOR_JAR"]), [base, top], self.scratch() / "edge.yaml")
+        self.assert_refused(result.report, "pack_reference_unqualified", "writes the bare reference `directive:B_001`")
 
 
 if __name__ == "__main__":
