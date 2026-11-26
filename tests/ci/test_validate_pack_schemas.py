@@ -254,6 +254,8 @@ class ValidatorExitCodes(unittest.TestCase):
         nodes = {("tactic", "a"), ("tactic", "b"), ("action", "x")}
         self.assertEqual(validator.unlisted_nodes(manifest, nodes), ["tactic:b"])
         self.assertEqual(validator.unlisted_nodes({"constituents": [{"kind": "tactic", "id": "b"}]}, nodes - {("tactic", "a")}), [])
+        # A node a file of the pack declares is manifest_membership's (decision 01M8BMA8): only a fileless node is named.
+        self.assertEqual(validator.unlisted_nodes(manifest, nodes, {("tactic", "b")}), [])
 
     def test_a_carriage_return_in_markdown_is_refused_not_read_as_a_newline(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1072,13 +1074,12 @@ class AntiPatternFilesOnThePinnedContract(unittest.TestCase):
         self.assertIn("anti_patterns/secret-in-repo.anti-pattern.yaml: anti-pattern schema at /: 'severity' is a required property",
                       found)
 
-    def test_its_unlisted_node_is_named_and_its_unlisted_file_left_to_pack_doctor(self) -> None:
-        # The file's membership is pack-doctor's manifest_membership (decision 01M8BMA8; RealPackDoctor proves the jar
-        # refuses this pack); the schema pass still names its graph node, which is not exempt.
+    def test_an_unlisted_file_and_its_node_are_left_to_pack_doctor(self) -> None:
+        # The file's membership, and so its node's, is pack-doctor's manifest_membership (decision 01M8BMA8;
+        # RealPackDoctor proves the jar refuses this pack): the schema pass names only a node no file declares.
         with tempfile.TemporaryDirectory() as tmp:
             found = validator.validate_pack(self.pack(tmp, listed=False), self.contract).violations
-        self.assertEqual(len(found), 1, found)
-        self.assertIn("incomplete manifest: graph node anti_pattern:secret-in-repo is not a constituent", found[0])
+        self.assertEqual(found, [])
 
 
 class ClassifierConformance(unittest.TestCase):

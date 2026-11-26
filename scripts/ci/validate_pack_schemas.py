@@ -73,8 +73,9 @@ KNOWN_KIND_TOKENS = frozenset(
 EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
 #: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` is graph-only: no file backs it.
 #: Mission types and templates are exempt here and judged by pack-doctor's ``manifest_membership`` instead. An
-#: ``anti_pattern`` node is no longer exempt: its file declares it and the manifest lists that file (#348 (f)). Any
-#: other declared node must be a constituent; a new kind fails closed until it is listed here.
+#: ``anti_pattern`` node is no longer exempt (#348 (f)). Of any other kind, a node no file of the pack declares must be
+#: a constituent (``unlisted_nodes``); a node a file declares is pack-doctor's ``manifest_membership``. A new kind fails
+#: closed until it is listed here.
 MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "template", "mission_type"})
 #: The node kind of an artifact kind whose URN token differs from it (contracts/packs/file-kinds.yaml at the pin): a
 #: glossary is the glossary context ``glossary_context:<id>`` (charter ADR-0053 decision 13). Any other artifact
@@ -334,17 +335,25 @@ MANIFEST_NAME = "pack-manifest.yaml"
 
 # House rule (not a charter rule): the #182 residual, kept by decision 01M8BMA8. Pack-doctor's manifest_membership
 # compares a manifest's lists with those derived from the files the pack holds, so it does not catch a graph node
-# that no file declares (RealPackDoctor pins that the jar accepts one). An unlisted file is manifest_membership's
-# alone: the Python unlisted_constituents, a strict subset of it, is retired.
-def unlisted_nodes(manifest: dict[str, Any], nodes: set[tuple[str, str]]) -> list[str]:
-    """The declared graph nodes of a pack its manifest does not list as constituents (#182 residual),
-    sorted ``kind:id``; nodes of an exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
+# that no file declares (RealPackDoctor pins that the jar accepts one). Only such a node is named here: an unlisted
+# file, or the node of a file, is manifest_membership's alone (the Python unlisted_constituents, a strict subset of
+# it, is retired).
+def unlisted_nodes(
+    manifest: dict[str, Any], nodes: set[tuple[str, str]], file_backed: set[tuple[str, str]] | frozenset = frozenset()
+) -> list[str]:
+    """The declared graph nodes of a pack that no file of the pack declares (``file_backed``: the ``(kind, id)`` its
+    files hold) and that its manifest does not list as constituents (#182 residual), sorted ``kind:id``; nodes of an
+    exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
     listed = {
         (NODE_KIND_BY_ARTIFACT_KIND.get(entry.get("kind"), entry.get("kind")), entry.get("id"))
         for entry in manifest.get("constituents") or []
         if isinstance(entry, dict)
     }
-    return sorted(f"{kind}:{node_id}" for kind, node_id in nodes if kind not in MANIFEST_EXEMPT_NODE_KINDS and (kind, node_id) not in listed)
+    return sorted(
+        f"{kind}:{node_id}"
+        for kind, node_id in nodes
+        if kind not in MANIFEST_EXEMPT_NODE_KINDS and (kind, node_id) not in listed | file_backed
+    )
 
 
 # --------------------------------------------------------------------------- Markdown model
@@ -677,7 +686,9 @@ def kind_mapped(contract: Contract, token: str) -> bool:
     return any(rule.match.endswith(f".{token}.yaml") for rule in contract.files)
 
 
-# Kept, not retired with the rules pack-doctor judges (#348 comment 3): the schema pass needs it to pick each file's schema.
+# Kept, not retired with the rules pack-doctor judges (#348 comment 3): the schema pass needs it to pick each file's
+# schema, and the kept house rules read through it: unlisted_nodes (via held_artifacts), the agent-profile reference
+# rules (via held_artifacts and profile_references), and charter_service_check.py's file_not_held policy.
 def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     """The charter's classification of a path relative to the directory holding the packs.
 
@@ -1003,7 +1014,7 @@ def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
         report.violations += [
             f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: graph node {node} is not a constituent; "
             f"declare it in a file the pack holds, or drop the node, then run `{REMEDIATE_COMMAND} {pack_dir}`"
-            for node in unlisted_nodes(manifest, declared_nodes(pack_dir))
+            for node in unlisted_nodes(manifest, declared_nodes(pack_dir), held_artifacts(pack_dir, contract))
         ]
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
