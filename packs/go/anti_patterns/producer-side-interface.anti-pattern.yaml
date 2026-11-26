@@ -1,0 +1,15 @@
+schema_version: '1.0'
+id: producer-side-interface
+title: Producer-side Interface
+description: A package exporting an interface next to its only implementation, mirroring every method. Consumers depend on more than they use, and the interface changes with each new method.
+severity: smell
+bad_example: |-
+  package store
+  type Store interface { Get(...); Put(...); Delete(...); List(...); Migrate(...) }
+  type PGStore struct{ /* ... */ }
+good_example: |-
+  package billing
+  // Only what billing calls.
+  type accountGetter interface {
+      Get(ctx context.Context, id AccountID) (*Account, error)
+  }

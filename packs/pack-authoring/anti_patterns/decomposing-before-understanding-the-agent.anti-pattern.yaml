@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: decomposing-before-understanding-the-agent
+title: Decomposing before understanding the agent
+description: Jumping to artifact authoring before the owner has been interviewed, the available documentation gathered, and the agent's purpose confirmed back to the owner. Converting an agent you do not fully understand produces artifacts that misrepresent its behaviour. Gather the source material and confirm understanding first.
+severity: breaking
+bad_example: The owner's 400-line system prompt is split into directives on the first read, before anyone asks what the agent is for.

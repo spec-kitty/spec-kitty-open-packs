@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: claiming-unread-progress
+title: Claiming unread progress
+description: Reporting a runner's outcome before reading it back from the session.
+severity: severe
+bad_example: The dispatcher reports "WP02 done, tests green" from the runner's plan, before reading the runner's final message.

@@ -1,0 +1,18 @@
+schema_version: '1.0'
+id: floating-point-money
+title: Floating-Point Money
+description: Holding currency in a binary floating-point type. Binary floating point cannot represent most decimal fractions, so totals drift and comparisons fail.
+severity: breaking
+bad_example: |-
+  // go: float64 Money
+  type Invoice struct{ Total float64 }
+
+  // rust: Float Money
+  struct Invoice { total: f64 }
+  if invoice.total == 0.3 { /* never true for 0.1 + 0.2 */ }
+good_example: |-
+  // go
+  type Invoice struct{ Total Money } // minor units + currency, or a decimal type
+
+  // rust
+  struct Invoice { total: Money } // minor units + currency, or rust_decimal::Decimal

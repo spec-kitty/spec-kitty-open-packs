@@ -1,0 +1,10 @@
+schema_version: '1.0'
+id: boolean-parameters
+title: Boolean Parameters
+description: Functions taking bare bools whose meaning is invisible at the call site, and which cannot grow a third case.
+severity: smell
+bad_example: export(&report, true, false); // which flag is which?
+good_example: |-
+  enum Format { Csv, Json }
+  enum Compression { None, Gzip }
+  export(&report, Format::Csv, Compression::None);

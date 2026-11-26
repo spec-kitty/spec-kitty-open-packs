@@ -1,63 +1,75 @@
 schema_version: '1.0'
-manifest_hash: 68feaf1e6ba20f194cd1fc35272e41d9c90b9d3d4dce774b5f36179ec13015fe
+manifest_hash: 715b93f4dfb960bc33c7790070a907be733b58c3bad7ed97929f90f1553d6954
 constituents:
+- kind: anti_pattern
+  id: command-named-as-an-event
+  path: anti_patterns/command-named-as-an-event.anti-pattern.yaml
+  content_hash: a6e6a15c4c2d24483b7cf5af62a27017b506202591815576f2caf57045c1efa2
+- kind: anti_pattern
+  id: crud-event-with-a-field-bag
+  path: anti_patterns/crud-event-with-a-field-bag.anti-pattern.yaml
+  content_hash: 29d4eaeb18c3006c1d7248c97ae2850063dfc17d9974632c8483a823b514f84d
+- kind: anti_pattern
+  id: version-inferred-from-shape
+  path: anti_patterns/version-inferred-from-shape.anti-pattern.yaml
+  content_hash: 10af5bc4f12654467f2c3a051a9b77156466d936ee9d4e4d9097c3de0e90c7cb
 - kind: asset
   id: evd-worked-example-lane-board
   path: assets/event_sourced_lane_board.md.asset.yaml
-  content_hash: 17743d350cc593dd4f754b68f0a0b0359ec303eeff4d494d642dcb81d10c68d1
+  content_hash: ff1cf239ec25247c66d524775f001023ec7251829ff70ece94a4c41ef50a9225
 - kind: directive
   id: EVD_001
   path: directives/evd-001-events-carry-schema-version.directive.yaml
-  content_hash: c3415788d82c35242864550a527ff376251ae3ec5d9b9d1d4917b1192908574e
+  content_hash: c589b6bb6038d03463f0679872c51f18b8823bd57556c667de2e5ecc212df274
 - kind: directive
   id: EVD_002
   path: directives/evd-002-one-canonical-writer-per-stream.directive.yaml
-  content_hash: e3a8371872269a72f62355923dab5d82d636a27e0ce33ea7ac51df07a86266f8
+  content_hash: 9d5263d282581902c705c41aae7fd97281d4e592efb7f8b0274ccf83b83348b1
 - kind: directive
   id: EVD_003
   path: directives/evd-003-events-are-immutable-past-tense-facts.directive.yaml
-  content_hash: 234b13ee99ca537774306fb6b401f472dee8df51ad9be1c5ff25464e1ebf9752
+  content_hash: 3cf8a36f8bad151899ddc5a78742efd8efd2335e90e38453bfac74c5ad62d9bc
 - kind: directive
   id: EVD_004
   path: directives/evd-004-producers-emit-latest-consumers-declare-versions.directive.yaml
-  content_hash: 157a40a01e06cf3130bab7e5047622656bdd4af87596ac4dfcf110debaae7b30
+  content_hash: b7fccb71048d834b4316bd91ab37c406c3f34c2e9d93ef3462e0d0772c1e868d
 - kind: directive
   id: EVD_005
   path: directives/evd-005-side-effects-live-in-consumers.directive.yaml
-  content_hash: 7a0079587c0165f24ef1f303c1f8f6d4d62342ef81599a81b0532eb7f2b580bf
+  content_hash: 26375ee4e6b54c506060e7e1eb9e9040b60d4cc614e6164d4280267f685949d5
 - kind: directive
   id: EVD_006
   path: directives/evd-006-share-only-published-event-contracts.directive.yaml
-  content_hash: bb2a68a5ad02380f0ca6206f7a7dd62e5772b4c485df8862714555c4db57af4d
+  content_hash: d3a2482f58be634b820f85eb60d9a38629ca91b4535fc637abb74d7126cece83
 - kind: glossary
   id: evd-glossary
   path: glossaries/evd-glossary.glossary.yaml
-  content_hash: 96d04cf958db9ba8bf536f20a8f8461475993be1c0a6dacf4719358254018a03
+  content_hash: de509ab3374868dcf6fe7419fabb925ad3e5d91fd592940606a4855ca86da323
 - kind: paradigm
   id: evd-event-sourced-design
   path: paradigms/evd-event-sourced-design.paradigm.yaml
-  content_hash: 22dd306dfa4d0568761adf8cc7dd9d9bd12c15fdea57f94321c5ef7219c4da87
+  content_hash: 742f4f69b47dabb39e0e864fdede487de2e26a8ce6bfe1779471733d171a4f5b
 - kind: styleguide
   id: evd-event-naming-and-payload
   path: styleguides/evd-event-naming-and-payload.styleguide.yaml
-  content_hash: 33d1c4d012daba519b8bc7952eee7816066182b39210a52dd3c9cb0d3d535337
+  content_hash: 917e510782323f19bd8708315f9df010ca8feefed3189466ed083d112198ad55
 - kind: tactic
   id: evd-event-bridge-port
   path: tactics/evd-event-bridge-port.tactic.yaml
-  content_hash: 591ae0318dc1763285cc4fa5cb17c104071328f1cd6d071558d36ca0eee92ce5
+  content_hash: cb2a23821f20fa00e5909220a9e09b0ddd21c86a0f43d2ea738d989d48e616aa
 - kind: tactic
   id: evd-event-versioning-and-upcasting
   path: tactics/evd-event-versioning-and-upcasting.tactic.yaml
-  content_hash: 1db76c6cb8426c1ee76c8960e26de76b493cb2054b96825c175e97f2ea99c4fe
+  content_hash: fe1032cd7003893e59d99ff4710beff0f83792070ff01dab8cc2f7e51deeb1bb
 - kind: tactic
   id: evd-idempotent-consumer
   path: tactics/evd-idempotent-consumer.tactic.yaml
-  content_hash: 00f152caaadc09e730aee86386ab9e6f5810033d2c486f713244c41a7483c90f
+  content_hash: ad1c0127d4e7a9803d5abd5292c7d5908c4800295566c0d3f2ba6adb9cbe6e83
 - kind: tactic
   id: evd-projection-replay
   path: tactics/evd-projection-replay.tactic.yaml
-  content_hash: e7c44923402ebee907be6fd7b344633be5341a9cc1ba89cce69d59f5d32deb43
+  content_hash: a7d026a58f91076d71c315200799fd6a8656669fa2c742f90d6d64981c1d5cd0
 presets:
 - id: event-driven
   path: presets/event-driven.yaml
-  content_hash: 2643b3876980d29d1bde8eafaba37349e872098e90a9c57f8fd83b0296cace95
+  content_hash: 1e4158afe19eca83d242f448030739dd268bf9baa47fb247f65ab0a8f7b04b32

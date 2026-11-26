@@ -1,17 +1,17 @@
-schema_version: "1.0"
 id: reasons-canvas-writing
+schema_version: '1.0'
 title: REASONS Canvas Writing Styleguide
 scope: docs
 principles:
-  - name: Summary sentence, then bullets
-    description: Lead each section with a one-sentence summary, then bullet specifics.
-  - name: Capture intent, not code
-    description: Use the canvas to capture intent, not to mirror code.
-  - name: Link to source artifacts
-    description: Link to source artifacts (spec, plan, tasks, contracts) instead of duplicating them.
-  - name: Distinguish must, should, may
-    description: Distinguish "must" (Safeguard), "should" (Norm), and "may" (Approach option).
-  - name: Keep WP summaries to 200 words or fewer
-    description: Keep WP summaries to 200 words or fewer.
-  - name: Record deviations in a subsection
-    description: Record deviations in a "Deviations" subsection rather than rewriting prior approved content.
+- name: Summary sentence, then bullets
+  description: Lead each section with a one-sentence summary, then bullet specifics.
+- name: Capture intent, not code
+  description: Use the canvas to capture intent, not to mirror code.
+- name: Link to source artifacts
+  description: Link to source artifacts (spec, plan, tasks, contracts) instead of duplicating them.
+- name: Distinguish must, should, may
+  description: Distinguish "must" (Safeguard), "should" (Norm), and "may" (Approach option).
+- name: Keep WP summaries to 200 words or fewer
+  description: Keep WP summaries to 200 words or fewer.
+- name: Record deviations in a subsection
+  description: Record deviations in a "Deviations" subsection rather than rewriting prior approved content.

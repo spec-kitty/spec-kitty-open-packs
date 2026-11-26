@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: duplicated-fact-with-no-canonical-home
+title: Duplicated fact with no canonical home
+description: Copying the same fact into several pages creates rival sources of truth that drift. Keep one canonical page and link to it from the rest.
+severity: severe
+bad_example: |-
+  The retention window "30 days" is stated verbatim in the tutorial, the
+  how-to, and two reference pages; a policy change updates only one.
+good_example: |-
+  The retention window is stated once in docs/api/retention.md; the
+  tutorial and how-to link to it. One change updates every reader.

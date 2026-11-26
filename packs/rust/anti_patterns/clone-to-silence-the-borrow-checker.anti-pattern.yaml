@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: clone-to-silence-the-borrow-checker
+title: Clone to Silence the Borrow Checker
+description: Adding .clone() until the code compiles. It hides an ownership design problem and copies data on every call.
+severity: smell
+bad_example: |-
+  for item in items.clone() {
+      process(item.clone(), config.clone());
+  }
+good_example: |-
+  for item in &items {
+      process(item, &config);
+  }

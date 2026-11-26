@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: budgetless-spike
+title: Budgetless Spike
+description: Starting an investigation with no agreed stop rule, so the spike silently expands into open-ended work that competes with delivery.
+severity: severe
+bad_example: '"Look into replacing the ORM" starts with no time box or stop rule and is still open three sprints later.'

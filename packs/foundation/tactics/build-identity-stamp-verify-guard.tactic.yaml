@@ -1,113 +1,45 @@
-schema_version: "1.0"
 id: build-identity-stamp-verify-guard
-name: "Build Identity: Stamp, Verify, Guard"
-purpose: >
-  Wire a product's build identity (DIRECTIVE_055) in the order that cannot
-  block a release by accident: stamp the build object at build time with a
-  live-git fallback, prove the stamp on a real tag or deploy, and only then add
-  the fail-loud guard. Covers both form factors: a distributed tool, binary or
-  library, and a deployed service, and how peer products read the result.
+schema_version: '1.0'
+name: 'Build Identity: Stamp, Verify, Guard'
+purpose: |
+  Wire a product's build identity (DIRECTIVE_055) in the order that cannot block a release by accident: stamp the build object at build time with a live-git fallback, prove the stamp on a real tag or deploy, and only then add the fail-loud guard. Covers both form factors: a distributed tool, binary or library, and a deployed service, and how peer products read the result.
 steps:
-  - title: Name the form factor and the surfaces
-    description: >
-      Decide whether the product is distributed (a command-line tool, a binary,
-      a library) or deployed (a service), because that fixes where the guard
-      lives and how peers read the identity. List the product's current
-      version output and any existing field that holds a build or SHA value.
-      An existing identifier that means something else, such as a domain
-      aggregate or a session id named build, stays as it is: add the build
-      object beside it, and never reuse that identifier for build identity.
-    examples:
-      - "Command-line tool: `--version` and `-v` print the human line; `--version --json`, or an equivalent structured flag, returns the build object."
-      - "Library: importable attributes stamped at package build (in Python, `__version__`, `__commit_sha__`, `__build_date__`); the hosting product reports it under components."
-      - "Deployed service: a build identity HTTP endpoint that returns the build object, with the CI pipeline passing the commit SHA to the deploy."
-  - title: Inject the stamp at build time, with a live-git fallback
-    description: >
-      At build or link time, write version as the semantic version from
-      source (the release version on a tagged build), commit_sha from the
-      commit being built, with a -dirty suffix when tracked files have
-      uncommitted changes, and build_date as the current UTC time with the Z
-      designator. Check for uncommitted changes before the build writes any
-      stamp file of its own. For a service, have the CI pipeline pass the
-      commit SHA to the deploy; never take the platform's tree id. When the
-      product runs unstamped from its own source checkout, read commit_sha
-      from a live `git rev-parse` and report build_date as unknown, since git
-      holds no build time; a local or editable install may report `0.0.0-dev` as its
-      version. Read git only in the product's own repository; anywhere else,
-      including a product installed inside another repository, report
-      unknown for commit_sha.
-    examples:
-      - "commit_sha: `git rev-parse --short HEAD` gives a1b2c3d; append -dirty when `git status --porcelain --untracked-files=no` prints anything."
-      - "build_date: `date -u +%Y-%m-%dT%H:%M:%SZ` gives 2026-11-21T09:14:03Z."
-  - title: Expose the human line and the structured surface
-    description: >
-      Print a human line that begins with the product name and version and
-      appends the build segment. Expose the build object on the structured
-      surface, so no consumer parses the human line. A product that embeds
-      libraries nests each one under components, each with its own build
-      object, and reports unknown for any component value it cannot vouch for.
-      Put a service's build identity endpoint behind authentication, give it
-      a tier or instance discriminator, and timestamp each read in its
-      payload.
-    examples:
-      - "Human line: `acme-cli version 1.4.0 build a1b2c3d`."
-      - "Structured: `{\"build\": {\"version\": \"1.4.0\", \"commit_sha\": \"a1b2c3d\", \"build_date\": \"2026-11-21T09:14:03Z\"}}`."
-  - title: Verify the stamp on a real tag or deploy
-    description: >
-      Before any guard exists, run the release path the guard will sit on:
-      cut a real tag that triggers it, or run a real deploy. Read the
-      structured surface of the result, and check that version matches the
-      release the tag names, commit_sha matches the commit and build_date is
-      a plausible UTC
-      time. Also build once from an untagged tree with uncommitted changes and
-      check that it reports the version from source and a commit_sha with the
-      -dirty suffix. Record what was read as evidence, and link it from the
-      change that adds the guard. A product with no CI stands CI up first:
-      there is no release path to verify without it.
-  - title: Add the fail-loud guard last
-    description: >
-      Only after verification, add the guard. For a distributed product, a
-      build step that runs only on a release tag fails when commit_sha was not
-      injected, so it is blank, unknown or a sentinel; non-release builds are
-      exempt. For a deployed service, the deploy pipeline owns an integrity
-      check that reads the deployed structured surface and fails or alarms
-      when the stamp is a sentinel or a non-commit value such as a platform
-      tree id. It is a gate, so it reads more than once,
-      until the rollout settles, and fails or alarms if any read shows a
-      sentinel or a non-commit value.
-  - title: Read peers through their structured surface
-    description: >
-      A consumer runs a command-line peer and reads its structured output, or
-      calls a service peer's endpoint, and gates compatibility on version
-      alone. A read of a hosted peer is a sample at a timestamp, not an
-      authority: do not gate a dependency on a single hosted read, because
-      during a rolling deploy the next call may reach an instance running
-      another build. A collector lists a product it cannot
-      reach with reachable: false and never omits it, and puts each product
-      in one envelope (collected_at, then per
-      product: product, form_factor, transport, build, and where they apply
-      endpoint, reachable and components).
-    examples:
-      - "Envelope: `{\"collected_at\": \"2026-07-16T14:40:00Z\", \"products\": [{\"product\": \"acme-cli\", \"form_factor\": \"cli\", \"transport\": \"exec\", \"build\": {\"version\": \"1.4.0\", \"commit_sha\": \"a1b2c3d\", \"build_date\": \"2026-07-16T14:32:05Z\"}, \"components\": [{\"product\": \"acme-core\", \"form_factor\": \"library\", \"build\": {\"version\": \"2.0.1\", \"commit_sha\": \"unknown\", \"build_date\": \"unknown\"}}]}]}`."
+- title: Name the form factor and the surfaces
+  description: |
+    Decide whether the product is distributed (a command-line tool, a binary, a library) or deployed (a service), because that fixes where the guard lives and how peers read the identity. List the product's current version output and any existing field that holds a build or SHA value. An existing identifier that means something else, such as a domain aggregate or a session id named build, stays as it is: add the build object beside it, and never reuse that identifier for build identity.
+  examples:
+  - 'Command-line tool: `--version` and `-v` print the human line; `--version --json`, or an equivalent structured flag, returns the build object.'
+  - 'Library: importable attributes stamped at package build (in Python, `__version__`, `__commit_sha__`, `__build_date__`); the hosting product reports it under components.'
+  - 'Deployed service: a build identity HTTP endpoint that returns the build object, with the CI pipeline passing the commit SHA to the deploy.'
+- title: Inject the stamp at build time, with a live-git fallback
+  description: |
+    At build or link time, write version as the semantic version from source (the release version on a tagged build), commit_sha from the commit being built, with a -dirty suffix when tracked files have uncommitted changes, and build_date as the current UTC time with the Z designator. Check for uncommitted changes before the build writes any stamp file of its own. For a service, have the CI pipeline pass the commit SHA to the deploy; never take the platform's tree id. When the product runs unstamped from its own source checkout, read commit_sha from a live `git rev-parse` and report build_date as unknown, since git holds no build time; a local or editable install may report `0.0.0-dev` as its version. Read git only in the product's own repository; anywhere else, including a product installed inside another repository, report unknown for commit_sha.
+  examples:
+  - 'commit_sha: `git rev-parse --short HEAD` gives a1b2c3d; append -dirty when `git status --porcelain --untracked-files=no` prints anything.'
+  - 'build_date: `date -u +%Y-%m-%dT%H:%M:%SZ` gives 2026-11-21T09:14:03Z.'
+- title: Expose the human line and the structured surface
+  description: |
+    Print a human line that begins with the product name and version and appends the build segment. Expose the build object on the structured surface, so no consumer parses the human line. A product that embeds libraries nests each one under components, each with its own build object, and reports unknown for any component value it cannot vouch for. Put a service's build identity endpoint behind authentication, give it a tier or instance discriminator, and timestamp each read in its payload.
+  examples:
+  - 'Human line: `acme-cli version 1.4.0 build a1b2c3d`.'
+  - 'Structured: `{"build": {"version": "1.4.0", "commit_sha": "a1b2c3d", "build_date": "2026-11-21T09:14:03Z"}}`.'
+- title: Verify the stamp on a real tag or deploy
+  description: |
+    Before any guard exists, run the release path the guard will sit on: cut a real tag that triggers it, or run a real deploy. Read the structured surface of the result, and check that version matches the release the tag names, commit_sha matches the commit and build_date is a plausible UTC time. Also build once from an untagged tree with uncommitted changes and check that it reports the version from source and a commit_sha with the -dirty suffix. Record what was read as evidence, and link it from the change that adds the guard. A product with no CI stands CI up first: there is no release path to verify without it.
+- title: Add the fail-loud guard last
+  description: |
+    Only after verification, add the guard. For a distributed product, a build step that runs only on a release tag fails when commit_sha was not injected, so it is blank, unknown or a sentinel; non-release builds are exempt. For a deployed service, the deploy pipeline owns an integrity check that reads the deployed structured surface and fails or alarms when the stamp is a sentinel or a non-commit value such as a platform tree id. It is a gate, so it reads more than once, until the rollout settles, and fails or alarms if any read shows a sentinel or a non-commit value.
+- title: Read peers through their structured surface
+  description: |
+    A consumer runs a command-line peer and reads its structured output, or calls a service peer's endpoint, and gates compatibility on version alone. A read of a hosted peer is a sample at a timestamp, not an authority: do not gate a dependency on a single hosted read, because during a rolling deploy the next call may reach an instance running another build. A collector lists a product it cannot reach with reachable: false and never omits it, and puts each product in one envelope (collected_at, then per product: product, form_factor, transport, build, and where they apply endpoint, reachable and components).
+  examples:
+  - 'Envelope: `{"collected_at": "2026-07-16T14:40:00Z", "products": [{"product": "acme-cli", "form_factor": "cli", "transport": "exec", "build": {"version": "1.4.0", "commit_sha": "a1b2c3d", "build_date": "2026-07-16T14:32:05Z"}, "components": [{"product": "acme-core", "form_factor": "library", "build": {"version": "2.0.1", "commit_sha": "unknown", "build_date": "unknown"}}]}]}`.'
 failure_modes:
-  - "Guard first: adding the tag-gated guard before stamping is proven, so the
-    first real release fails on a missing stamp and the release is blocked
-    for a reason unrelated to its content."
-  - "Plausible lies: an unstamped build that reports the last release's
-    version, a placeholder SHA, or the HEAD of whatever repository it happens
-    to be installed in, instead of a sentinel."
-  - "Platform id as commit: a service that reports its hosting platform's
-    tree or deploy id in commit_sha because CI never passed the commit SHA to
-    the deploy."
-  - "False dirty: a dirty check that counts untracked build output or the
-    build's own stamp file, so every build reports -dirty and the suffix
-    stops meaning anything."
-  - "Wrong identifier: a content hash, tree hash or build-system run id in
-    commit_sha, which cannot be traced to a commit."
-  - "Parsing the human line: a consumer that splits the version string
-    instead of reading the structured surface, and breaks when the line
-    changes."
-  - "Gating on commit_sha: a peer that compares SHAs for compatibility, which
-    refuses every rebuild of a compatible release."
-  - "Reusing an existing identifier: a domain or session field named build
-    used for build identity, so two meanings share one name."
+- 'Guard first: adding the tag-gated guard before stamping is proven, so the first real release fails on a missing stamp and the release is blocked for a reason unrelated to its content.'
+- 'Plausible lies: an unstamped build that reports the last release''s version, a placeholder SHA, or the HEAD of whatever repository it happens to be installed in, instead of a sentinel.'
+- 'Platform id as commit: a service that reports its hosting platform''s tree or deploy id in commit_sha because CI never passed the commit SHA to the deploy.'
+- 'False dirty: a dirty check that counts untracked build output or the build''s own stamp file, so every build reports -dirty and the suffix stops meaning anything.'
+- 'Wrong identifier: a content hash, tree hash or build-system run id in commit_sha, which cannot be traced to a commit.'
+- 'Parsing the human line: a consumer that splits the version string instead of reading the structured surface, and breaks when the line changes.'
+- 'Gating on commit_sha: a peer that compares SHAs for compatibility, which refuses every rebuild of a compatible release.'
+- 'Reusing an existing identifier: a domain or session field named build used for build identity, so two meanings share one name.'

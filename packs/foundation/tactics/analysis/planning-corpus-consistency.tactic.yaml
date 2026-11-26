@@ -1,97 +1,64 @@
-schema_version: "1.0"
 id: planning-corpus-consistency
+schema_version: '1.0'
 name: Planning Corpus Consistency
-purpose: >
-  Planning produces more than a spec, a plan and tasks: research decisions, a
-  data model, contracts, quickstart scenarios, checklists, a bulk-edit
-  occurrence map, and the intent recorded when the Mission was created. If one
-  of them contradicts the tasks, or the tasks leave out what it implies, an
-  implementation agent faithfully builds the wrong thing. This tactic checks
-  the whole corpus against the tasks and the work package prompts. It reads and
-  judges; it never edits.
+purpose: |
+  Planning produces more than a spec, a plan and tasks: research decisions, a data model, contracts, quickstart scenarios, checklists, a bulk-edit occurrence map, and the intent recorded when the Mission was created. If one of them contradicts the tasks, or the tasks leave out what it implies, an implementation agent faithfully builds the wrong thing. This tactic checks the whole corpus against the tasks and the work package prompts. It reads and judges; it never edits.
 steps:
-  - title: Load the corpus from the inventory
-    description: |
-      The inputs are:
-      - Every `artifact_files` and `artifact_dirs` entry that `check-prerequisites` prints and whose path has not already been loaded, except `feature_dir` (the mission directory itself, not an artifact).
-      - `<mission_dir>/meta.json` for `purpose_tldr`, `purpose_context` and `source_description`. It is not in the inventory. State which fields were absent; `source_description` usually is. A missing meta.json is stated, never fatal.
-      - `<mission_dir>/occurrence_map.yaml` when present, and, when present, the recorded decisions: list `<mission_dir>/decisions/` and read the decision records it holds (not `index.json`). Neither is inventoried; both are canonical fixed paths.
-      A directory whose files are already loaded (the work package prompt directory, `tasks_dir`) counts as loaded. Use no glob and no hard-coded key list. Load headings first (for a directory: its file list, then each file's headings); read a body section only when a check below needs it.
-    examples:
-      - "Inventory lists research.md, data-model.md and contracts/. Load their headings; meta.json has purpose_tldr only, so report purpose_context and source_description as absent; occurrence_map.yaml does not exist, so skip it."
-  - title: Check decision continuity
-    description: >
-      Every material decision in research.md, plan.md and the recorded
-      decisions (a "Decision:" line, a chosen alternative) and every
-      deferred-decision marker ("[NEEDS CLARIFICATION: ...]", "deferred", a
-      decision id) is either implemented by a named task or work package,
-      explicitly deferred with a reason, or flagged as open. A decision in none
-      of the three is a finding. A task that implements the rejected
-      alternative is a contradiction.
-    examples:
-      - "Inferred: research.md (Decision: event log) is contradicted by WP03, which implements polling (tasks/WP03, Subtask T012)."
-  - title: Check the data model
-    description: >
-      Each entity, invariant and state transition in data-model.md is
-      consistent with the spec, the contracts and the tasks and work packages.
-      The work that enforces an invariant or a transition has a task.
-    examples:
-      - "Inferred: data-model.md states 'an order is never both shipped and cancelled'; no task and no test enforces it."
-  - title: Check the contracts
-    description: >
-      Each operation, message or schema under contracts/ maps to a user action
-      in the spec, agrees with the data model, appears in a quickstart scenario
-      where one exists, and is built by a task.
-    examples:
-      - "Inferred: 'cancel' in contracts/orders.yaml is built by no task or work package."
-  - title: Check the quickstart
-    description: >
-      Each validation scenario in quickstart.md is covered by a task or by a
-      work package's acceptance or validation section.
-    examples:
-      - "Inferred: quickstart.md scenario 3 (re-run after a failed import) appears in no work package's validation section."
-  - title: Check the occurrence map
-    description: >
-      For a bulk-edit Mission, each category's action in occurrence_map.yaml
-      (rename, keep, manual review) is reflected in the work packages that own
-      those files. A category with an action and no owning work package is a
-      finding.
-    examples:
-      - "Inferred: occurrence_map.yaml marks category 'docs' as rename; no work package owns the docs files."
-  - title: Read any other inventory artifact
-    description: >
-      An artifact no step above names is still read headings first and
-      cross-checked. Content it states that no task or work package reflects is
-      a finding. It is never skipped silently.
-    examples:
-      - "Inferred: checklists/security.md requires an audit-log entry per login; no task mentions an audit log."
-  - title: Find ungrounded behaviour
-    description: >
-      A task or work package mapped to a requirement, where neither that
-      requirement, the plan, a planning artifact nor the creation intent asks
-      for the behaviour it builds, is a finding. A task or work package mapped
-      to no requirement is already reported by the finalize validation or the
-      coverage pass: cite that finding, do not raise a second one. Behaviour
-      that does trace to a source but goes beyond what the intent needs is
-      overbuild, which the product-coherence-review tactic judges, not this
-      one.
-    examples:
-      - "Inferred: Subtask T019 is mapped to FR-003 (export a monthly report) but also adds a CSV import; no requirement, plan decision, planning artifact or recorded intent asks for an import (tasks/WP02, Subtask T019)."
-  - title: Phrase each finding
-    description: >
-      Name the artifact location (file:Lnn, or a heading when no stable line
-      exists) and the task or work package where the item should appear. Quote
-      the decision or element. A finding reached by judgement starts with
-      "Inferred:".
-    examples:
-      - "Inferred: research.md:L42 'Decision: retry with backoff' should appear in WP02 (tasks/WP02, Subtask T007); no task mentions retries."
+- title: Load the corpus from the inventory
+  description: |
+    The inputs are:
+    - Every `artifact_files` and `artifact_dirs` entry that `check-prerequisites` prints and whose path has not already been loaded, except `feature_dir` (the mission directory itself, not an artifact).
+    - `<mission_dir>/meta.json` for `purpose_tldr`, `purpose_context` and `source_description`. It is not in the inventory. State which fields were absent; `source_description` usually is. A missing meta.json is stated, never fatal.
+    - `<mission_dir>/occurrence_map.yaml` when present, and, when present, the recorded decisions: list `<mission_dir>/decisions/` and read the decision records it holds (not `index.json`). Neither is inventoried; both are canonical fixed paths.
+    A directory whose files are already loaded (the work package prompt directory, `tasks_dir`) counts as loaded. Use no glob and no hard-coded key list. Load headings first (for a directory: its file list, then each file's headings); read a body section only when a check below needs it.
+  examples:
+  - Inventory lists research.md, data-model.md and contracts/. Load their headings; meta.json has purpose_tldr only, so report purpose_context and source_description as absent; occurrence_map.yaml does not exist, so skip it.
+- title: Check decision continuity
+  description: |
+    Every material decision in research.md, plan.md and the recorded decisions (a "Decision:" line, a chosen alternative) and every deferred-decision marker ("[NEEDS CLARIFICATION: ...]", "deferred", a decision id) is either implemented by a named task or work package, explicitly deferred with a reason, or flagged as open. A decision in none of the three is a finding. A task that implements the rejected alternative is a contradiction.
+  examples:
+  - 'Inferred: research.md (Decision: event log) is contradicted by WP03, which implements polling (tasks/WP03, Subtask T012).'
+- title: Check the data model
+  description: |
+    Each entity, invariant and state transition in data-model.md is consistent with the spec, the contracts and the tasks and work packages. The work that enforces an invariant or a transition has a task.
+  examples:
+  - 'Inferred: data-model.md states ''an order is never both shipped and cancelled''; no task and no test enforces it.'
+- title: Check the contracts
+  description: |
+    Each operation, message or schema under contracts/ maps to a user action in the spec, agrees with the data model, appears in a quickstart scenario where one exists, and is built by a task.
+  examples:
+  - 'Inferred: ''cancel'' in contracts/orders.yaml is built by no task or work package.'
+- title: Check the quickstart
+  description: |
+    Each validation scenario in quickstart.md is covered by a task or by a work package's acceptance or validation section.
+  examples:
+  - 'Inferred: quickstart.md scenario 3 (re-run after a failed import) appears in no work package''s validation section.'
+- title: Check the occurrence map
+  description: |
+    For a bulk-edit Mission, each category's action in occurrence_map.yaml (rename, keep, manual review) is reflected in the work packages that own those files. A category with an action and no owning work package is a finding.
+  examples:
+  - 'Inferred: occurrence_map.yaml marks category ''docs'' as rename; no work package owns the docs files.'
+- title: Read any other inventory artifact
+  description: |
+    An artifact no step above names is still read headings first and cross-checked. Content it states that no task or work package reflects is a finding. It is never skipped silently.
+  examples:
+  - 'Inferred: checklists/security.md requires an audit-log entry per login; no task mentions an audit log.'
+- title: Find ungrounded behaviour
+  description: |
+    A task or work package mapped to a requirement, where neither that requirement, the plan, a planning artifact nor the creation intent asks for the behaviour it builds, is a finding. A task or work package mapped to no requirement is already reported by the finalize validation or the coverage pass: cite that finding, do not raise a second one. Behaviour that does trace to a source but goes beyond what the intent needs is overbuild, which the product-coherence-review tactic judges, not this one.
+  examples:
+  - 'Inferred: Subtask T019 is mapped to FR-003 (export a monthly report) but also adds a CSV import; no requirement, plan decision, planning artifact or recorded intent asks for an import (tasks/WP02, Subtask T019).'
+- title: Phrase each finding
+  description: |
+    Name the artifact location (file:Lnn, or a heading when no stable line exists) and the task or work package where the item should appear. Quote the decision or element. A finding reached by judgement starts with "Inferred:".
+  examples:
+  - 'Inferred: research.md:L42 ''Decision: retry with backoff'' should appear in WP02 (tasks/WP02, Subtask T007); no task mentions retries.'
 failure_modes:
-  - "Loading every artifact whole instead of headings first."
-  - "Re-reporting a defect another pass already owns."
-  - "Treating feature_dir as an artifact."
-  - "Hard-coding the artifact list instead of reading the inventory."
-  - "Flagging a decision that is explicitly deferred."
-  - "Editing a planning file to 'fix' a finding."
-notes: >
-  This tactic defines what to check and how to phrase a finding. The step that
-  cites it (analyze) decides severities, finding ids and report layout.
+- Loading every artifact whole instead of headings first.
+- Re-reporting a defect another pass already owns.
+- Treating feature_dir as an artifact.
+- Hard-coding the artifact list instead of reading the inventory.
+- Flagging a decision that is explicitly deferred.
+- Editing a planning file to 'fix' a finding.
+notes: |
+  This tactic defines what to check and how to phrase a finding. The step that cites it (analyze) decides severities, finding ids and report layout.

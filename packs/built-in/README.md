@@ -15,6 +15,7 @@ It has no `parent_pack` (it is the root of every lineage chain).
 
 ## Authored and generated files
 
-This README and its sibling `pack.yaml` are **authored**: hand-edited data that is never
-regenerated. The generated `pack-manifest.yaml` next to it is machine-written only and must
-never be hand-edited.
+This README and its sibling `pack.yaml` are **authored**: their content is edited by hand.
+`pack-doctor remediate` rewrites `pack.yaml` in the charter's canonical form when a pack is
+restamped (#347), dropping comments and empty defaults but never changing what it says. The
+generated `pack-manifest.yaml` next to it is machine-written only and must never be hand-edited.

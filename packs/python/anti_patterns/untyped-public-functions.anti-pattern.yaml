@@ -1,0 +1,17 @@
+schema_version: '1.0'
+id: untyped-public-functions
+title: Untyped Public Functions
+description: Missing type annotations on public function signatures. Prevents static analysis from catching interface drift.
+severity: severe
+bad_example: |-
+  def load_tasks(directory, lane=None):
+      results = []
+      for f in directory.iterdir():
+          results.append(parse(f))
+      return results
+good_example: |-
+  def load_tasks(directory: Path, lane: str | None = None) -> list[dict[str, Any]]:
+      results: list[dict[str, Any]] = []
+      for f in directory.iterdir():
+          results.append(parse(f))
+      return results

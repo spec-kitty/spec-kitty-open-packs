@@ -1,0 +1,15 @@
+schema_version: '1.0'
+id: business-logic-in-the-module-file
+title: Business Logic in the Module File
+description: The .module file routes hooks to injected services; it never carries business logic itself.
+severity: severe
+bad_example: |-
+  function my_module_entity_presave(EntityInterface $entity): void {
+    if ($entity->bundle() === 'article') {
+      // 40 lines of validation, notification, and audit logic inline.
+    }
+  }
+good_example: |-
+  function my_module_entity_presave(EntityInterface $entity): void {
+    \Drupal::service('my_module.article_presave_handler')->handle($entity);
+  }

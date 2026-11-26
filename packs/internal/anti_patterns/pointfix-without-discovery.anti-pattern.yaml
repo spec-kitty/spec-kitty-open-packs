@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: pointfix-without-discovery
+title: Pointfix without discovery
+description: Fixing only the exact surface the ticket names and skipping the discovery squads, so sibling surfaces that share the defect stay broken and duplicate or superseding tickets go unlinked. The discovery verdict — similar surfaces with their disposition, related issues with their disposition — is part of grounding, not an optional extra, and "no related work" is stated explicitly.
+severity: severe
+bad_example: The runner fixes the date parsing in `export.py` only; `import.py` has the same parser and stays broken.

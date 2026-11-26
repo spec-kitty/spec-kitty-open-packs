@@ -1,262 +1,77 @@
-schema_version: "1.0"
 id: test-desiderata-and-boundaries
+schema_version: '1.0'
 title: Test Desiderata and Clear Test Boundaries
 scope: testing
-applies_to_languages: []
-
-# Sources (traceable adoption):
-#   - Kent Beck, "Test Desiderata" — https://testdesiderata.com/
-#   - Stijn Dejongh, "Define Test Boundaries" —
-#     https://patterns.sddevelopment.be/practices/define_test_boundaries/
-# Complements the broader `testing-principles` styleguide; this artifact focuses
-# on (a) the desiderata as properties to trade off deliberately and (b) drawing
-# the test boundary by functional responsibility so infrastructure is stubbed at
-# a real seam rather than mocked ad hoc.
-
 principles:
-  # — Kent Beck's twelve test desiderata: properties to optimize through deliberate
-  #   trade-offs. The checklist asset lists them; this styleguide keeps how to use them.
-  - name: "Desiderata are trade-offs"
-    description: "Desiderata are trade-offs: choose which properties a given test optimizes; do not pretend one test maximizes all twelve at once."
-  - name: "The twelve desiderata"
-    description: "The twelve properties (Isolated, Composable, Deterministic, Fast, Writable, Readable, Behavioral, Structure-insensitive, Automated, Specific, Predictive, Inspiring) are defined once, in the testing pack's test-desiderata-checklist asset."
-  # — Clear Test Boundaries (Define Test Boundaries):
-  - name: "Boundary by responsibility, not by layer"
-    description: "Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary."
-  - name: "Infrastructure sits outside the boundary"
-    description: "Infrastructure sits outside the boundary: DIRECTIVE_054's allow-listed seams (filesystem, database, network to external services, clock, randomness, git and other external processes) may be replaced by doubles or pure inputs; 054 owns the list."
-  - name: "Assert observable outcomes, not mechanisms"
-    description: "Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive."
-  - name: "Heavy scaffolding signals a wrong boundary"
-    description: "Heavy setup or a double of owned logic means the boundary is wrong: extract a pure seam that takes domain inputs. Real IO itself is allowed (DIRECTIVE_054); it is not the smell."
-  # — Detect as far left as possible: every desideratum a machine can check is
-  #   checked before a human (or a slow suite) has to notice it.
-  - name: "Shift detection left"
-    description: "Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run."
-  - name: "Behavioral is proven, not assumed"
-    description: "Behavioral is proven, not assumed: a test guarding a contract shows it can go red (plant the break and watch it fail). A test asserting on data it built itself, or on a stub's return value, is not Behavioral however green."
-  - name: "Test name is the contract"
-    description: "The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test."
-
+- name: Desiderata are trade-offs
+  description: 'Desiderata are trade-offs: choose which properties a given test optimizes; do not pretend one test maximizes all twelve at once.'
+- name: The twelve desiderata
+  description: The twelve properties (Isolated, Composable, Deterministic, Fast, Writable, Readable, Behavioral, Structure-insensitive, Automated, Specific, Predictive, Inspiring) are defined once, in the testing pack's test-desiderata-checklist asset.
+- name: Boundary by responsibility, not by layer
+  description: 'Boundary by responsibility, not by layer: include exactly the components responsible for the behavior under test; everything else is outside the boundary.'
+- name: Infrastructure sits outside the boundary
+  description: 'Infrastructure sits outside the boundary: DIRECTIVE_054''s allow-listed seams (filesystem, database, network to external services, clock, randomness, git and other external processes) may be replaced by doubles or pure inputs; 054 owns the list.'
+- name: Assert observable outcomes, not mechanisms
+  description: 'Assert observable outcomes, not mechanisms: test the behavior crossing the boundary, not internal call counts or field values, to stay structure-insensitive.'
+- name: Heavy scaffolding signals a wrong boundary
+  description: 'Heavy setup or a double of owned logic means the boundary is wrong: extract a pure seam that takes domain inputs. Real IO itself is allowed (DIRECTIVE_054); it is not the smell.'
+- name: Shift detection left
+  description: 'Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run.'
+- name: Behavioral is proven, not assumed
+  description: 'Behavioral is proven, not assumed: a test guarding a contract shows it can go red (plant the break and watch it fail). A test asserting on data it built itself, or on a stub''s return value, is not Behavioral however green.'
+- name: Test name is the contract
+  description: 'The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named ''does not leak X'' that asserts X is present, or ''exits non-zero on Y'' that accepts any exit, is a defect in the test.'
 patterns:
-  - name: Map each desideratum to its earliest detector
-    description: >
-      For every property, know where a violation is caught first, and move the
-      check as far left as the tooling allows. In a Python/pytest codebase:
-      Specific can be linted (ruff PT018 composite assertions, one behaviour per
-      test); Behavioral is partly linted (ruff PT011/PT030 broad raises or warns
-      without match=, PT017 assertion inside an except, PT012/PT031 multi-statement
-      raises or warns blocks) and otherwise proven by a planted-break self-test;
-      Isolated and Deterministic are checked statically (banned wall-clock and
-      global-state APIs) before they surface as flaky reruns; Realistic data is
-      checked by a static literal-shape scan of identifiers in fixtures;
-      Structure-insensitive is checked by a census of internal patches and
-      private-name imports per test. Review is for judgement a machine cannot
-      make: whether the assertion matches the name, whether a stub hides the path
-      under test.
-    bad_example: |
-      # Found three reviews later, by a human:
-      with pytest.raises(Exception):   # passes on ANY failure, including a typo
-          run(bad_input)
-    good_example: |
-      # pyproject.toml: rejected by the linter, before any test runs
-      [tool.ruff.lint]
-      select = [..., "PT011", "PT012", "PT017", "PT030"]
-      # Legacy hits are frozen per file in a shrink-only baseline, with a guard
-      # test that fails on growth, on stale entries, and on a planted violation.
-
-  - name: Draw the boundary by functional responsibility
-    description: >
-      Pick the behavior to validate, identify the components responsible for it,
-      and place the test boundary around exactly those. Infrastructure (IO, a database, external services) may be replaced with
-      simple inputs or doubles at the allow-listed seams of DIRECTIVE_054. This keeps tests Fast, Isolated, Writable, and
-      Structure-insensitive (Define Test Boundaries; Beck's desiderata).
-    bad_example: |
-      # The unit reaches the filesystem + git directly, so the "unit" test needs
-      # many patches to run: a smell about the patches, not about real files.
-      def test_overlap_rejected(tmp_path):
-          _write_order_dir(tmp_path)
-          with patch("...find_config_root"), \
-               patch("...save_order"), patch("...run_command"), \
-               patch("...load_initial_state"):    # infra scaffolding
-              schedule_deliveries(order="o-1", validate_only=True)
-          # assertion buried behind subprocess/JSON parsing
-    good_example: |
-      # A pure seam takes domain inputs; the behavior is validated with plain
-      # stubs — no files, no git, no command mocking. The IO stays outside.
-      def test_overlap_rejected():
-          plan = build_delivery_plan({
-              "D1": slot(window=("09:00", "11:00")),
-              "D2": slot(window=("10:00", "12:00")),   # overlapping, narrow
-          })
-          assert not validate_slots(plan).passed
-
-  - name: Resolve desiderata tension by design, not by accepting brittleness
-    description: >
-      When two desiderata appear to conflict (e.g. Predictive vs Fast,
-      Behavioral vs Structure-insensitive), prefer a design change — a clearer
-      boundary, a pure function, composition — over a brittle test. A pure seam
-      at the boundary usually recovers Fast + Isolated + Specific simultaneously.
-    good_example: |
-      # Behavioral AND structure-insensitive: assert the outcome that crosses the
-      # boundary, regardless of which internal helper produced it.
-      assert resolve_shipping(order, "o-1").carrier == expected
-  - name: "Shift detection left"
-    description: >
-      Shift detection left: catch each violation at the earliest, cheapest point
-      that can see it. What a formatter, linter, or static check can reject never
-      waits for a test run; what a unit test can catch never waits for an
-      integration or end-to-end run; what a lint-time check can catch never waits
-      for review.
-  - name: "Behavioral is proven, not assumed"
-    description: >
-      Behavioral is proven, not assumed: a test that guards a contract shows it
-      can go red — plant the break (or run against the unfixed code) and watch it
-      fail. A test that asserts on data it built itself, or on a stub's return
-      value, is not Behavioral however green it is.
-  - name: "Test name is the contract"
-    description: >
-      The name is the contract: Readable and Specific require that the body
-      asserts exactly what the name promises. A test named 'does not leak X' that
-      asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a
-      defect in the test. Sources: https://testdesiderata.com/;
-      https://patterns.sddevelopment.be/practices/define_test_boundaries/.
-
-anti_patterns:
-  - name: Infrastructure as untyped shared mutable state
-    description: >
-      When production code reads and writes infrastructure (the filesystem,
-      database, git) DIRECTLY from many surfaces instead of through an owning
-      application boundary, that infrastructure becomes un-owned shared mutable
-      state. Two consequences follow: (1) surfaces can disagree about the same
-      on-disk state (read/write forks, staleness); (2) tests cannot exercise the
-      logic without standing up the infrastructure or mocking many seams. The
-      mock/stub scaffolding in tests is a symptom, not the disease — the cure is an
-      owning boundary (a port / aggregate / pure resolver) the logic routes
-      through, which the test then drives with simple inputs.
-    bad_example: |
-      # Direct, scattered filesystem access — every caller re-reads/re-writes
-      # order state, and every test must reconstruct that state on disk.
-      order_dir = data_root / "orders" / order_id
-      events = (order_dir / "status.events.jsonl").read_text()
-      ...
-      (order_dir / "status.events.jsonl").write_text(updated)   # another surface
-    good_example: |
-      # One owning boundary mediates the state; logic and tests depend on it,
-      # not on the filesystem. The IO lives in one place behind the seam.
-      status = OrderStatus.load(data_root, order_id)   # owns read+write
-      status.transition(line_id="L1", to_state="picking")
-      # tests drive OrderStatus / plan_shipments with stub inputs — no files
-
-  - name: Over-mocking to compensate for a missing boundary
-    description: >
-      Patching five infrastructure functions to test one behavior means the test
-      is fighting the absence of a seam. Substitute only at the allow-listed seams of
-      DIRECTIVE_054; if you find yourself doubling owned logic, extract the boundary instead. Heavy mocking also makes
-      tests pass when the real integration is broken (loss of Predictive).
-    bad_example: |
-      with patch("a.find_config_root"), patch("a.save_order"), \
-           patch("a.run_command"), patch("a.load_initial_state"), \
-           patch("a.check_permissions"):
-          run_command_under_test()   # nothing real is exercised
-    good_example: |
-      # Extract the decision into a pure function; mock nothing.
-      result = decide(domain_inputs)
-      assert result == expected
-
-  - name: Stubbing a new gate out of an old harness
-    description: >
-      A new safety gate lands, an older mock-heavy test goes red because the gate
-      now runs in its flow, and the "fix" patches the gate out of that test's
-      fixture so it stays green. Each such stub makes the test check less than it
-      did before the gate existed (loss of Predictive). The pressure comes from a
-      harness that is not Writable: when adding one real step costs another patch,
-      people stub. Move the test onto a real (git, filesystem) fixture that is
-      cheap to extend, or retire it and name the test that already covers its
-      contract.
-    bad_example: |
-      # Commit message: "stub the new verification gate in the release fixtures"
-      stack.enter_context(patch("pkg.releaser._verify_new_gate", return_value=None))
-      # ... 25 other releaser internals patched ...
-      assert git_write_spy.call_args.kwargs["files"] == expected_files  # a spy on the git write itself is fine (DIRECTIVE_054); the patched releaser internals above are the smell
-    good_example: |
-      # Drive the real command against a real temp repo; the new gate runs too.
-      result = run_cli(repo, "release", "--version", "1.2.0")
-      assert result.exit_code == 0
-      assert read_committed_file(repo, "main", "VERSION") == "1.2.0\n"
-
-  - name: Self-constructed oracle (an "injection proof" that never injects)
-    description: >
-      A test meant to prove a gate or ratchet goes red builds two divergent
-      inputs and asserts they differ, without ever calling the gate. It is green
-      whatever the product does, so it is not Behavioral. A non-vacuity proof
-      invokes the real check on the planted input and asserts the check fails.
-    bad_example: |
-      primary_state = reduce(read_events(primary_log))
-      replica_state = reduce(read_events(replica_log))     # data the test wrote
-      assert primary_state != replica_state                # never runs the gate
-    good_example: |
-      plant_divergence(replica_log)
-      with pytest.raises(AssertionError, match="replica parity"):
-          assert_replica_parity(primary, replica)          # the real check goes red
-
-  - name: Gold plating as a licence to double owned logic
-    description: >
-      "Avoid gold plating" (build only what is needed now) is sometimes read as
-      permission to substitute owned logic because running it for real costs
-      setup. It is not. The rare cheap substitutes the allow-list permits
-      (DIRECTIVE_054: schema-only validation by a library, an outbound
-      notification) are boundary seams; logic the behavior depends on runs for
-      real. If the real slice is too heavy, extract a pure seam instead.
-    bad_example: |
-      # "Running the discount rules for real is overkill here."
-      with patch("shop.pricing.apply_discount_rules", return_value=Decimal("90")):
-          assert checkout(cart).total == Decimal("90")    # tests the stub, not pricing
-    good_example: |
-      # The discount rules are owned logic: run them; seed a cart that triggers one.
-      cart = cart_with(items=[book(price="100")], coupon="TEN_OFF")
-      assert checkout(cart).total == Decimal("90")
-  - name: Forgetting that a stub is a second copy of the contract
-    description: >
-      A stub restates its collaborator's contract by hand, so when the real
-      dependency changes the test stays green for a world that no longer exists
-      (the foundation paradigm tests-as-scaffold-not-friction explains why). Keep
-      stubs at allow-listed seams and make them honor the real contract.
-    bad_example: |
-      stub_rates.get_rate.return_value = Decimal("1.1")   # the real service now raises on stale rates
-      assert convert(100, "EUR", "USD", rates=stub_rates) == Decimal("110")   # stays green anyway
-    good_example: |
-      # A fake at the network seam that keeps the real contract, failure branch included.
-      @pytest.fixture
-      def rates():
-          return FakeRateService(rates={"EUR/USD": Decimal("1.1")}, stale={"EUR/GBP"})
-
-      def test_converts_at_the_current_rate(rates):
-          assert convert(100, "EUR", "USD", rates=rates) == Decimal("110")
-
-      def test_refuses_a_stale_rate(rates):
-          with pytest.raises(StaleRateError):
-              convert(100, "EUR", "GBP", rates=rates)
-  - name: Development-assist scaffolding left in the suite
-    description: >
-      Characterization oracles, before/after parity checks, per-WP shape or
-      `hasattr` pins, and red-first repro variants are legitimate while a mission
-      slice is in flight. Once it lands they become inert (both sides of the
-      oracle now run the same code), duplicative (the same truth table in several
-      files), or structure-sensitive (they fight the next refactor). They cost
-      Fast, Structure-insensitive and Inspiring for no Predictive gain. Judge them
-      at mission wrap-up with the development-assist-test-cleanup procedure, and
-      strip WP/T/FR/issue labels from the tests you keep.
-    bad_example: |
-      def test_wp03_before_after_parity():
-          assert new_resolver(x) == old_resolver(x)   # old_resolver now delegates to new
-    good_example: |
-      def test_router_sends_express_orders_to_the_priority_queue():
-          assert route(express_order).queue == priority_queue(express_order)
-
-quality_test: >
-  Can the behavior under test be validated with plain in-memory inputs or real
-  files and a real git repo in a temp dir, with doubles only at allow-listed seams
-  (DIRECTIVE_054)? If the test needs several patched infrastructure functions or
-  a double of logic the unit owns, the boundary is in the wrong place — extract a
-  pure seam before adding the test.
+- name: Map each desideratum to its earliest detector
+  description: |
+    For every property, know where a violation is caught first, and move the check as far left as the tooling allows. In a Python/pytest codebase: Specific can be linted (ruff PT018 composite assertions, one behaviour per test); Behavioral is partly linted (ruff PT011/PT030 broad raises or warns without match=, PT017 assertion inside an except, PT012/PT031 multi-statement raises or warns blocks) and otherwise proven by a planted-break self-test; Isolated and Deterministic are checked statically (banned wall-clock and global-state APIs) before they surface as flaky reruns; Realistic data is checked by a static literal-shape scan of identifiers in fixtures; Structure-insensitive is checked by a census of internal patches and private-name imports per test. Review is for judgement a machine cannot make: whether the assertion matches the name, whether a stub hides the path under test.
+  bad_example: |
+    # Found three reviews later, by a human:
+    with pytest.raises(Exception):   # passes on ANY failure, including a typo
+        run(bad_input)
+  good_example: |
+    # pyproject.toml: rejected by the linter, before any test runs
+    [tool.ruff.lint]
+    select = [..., "PT011", "PT012", "PT017", "PT030"]
+    # Legacy hits are frozen per file in a shrink-only baseline, with a guard
+    # test that fails on growth, on stale entries, and on a planted violation.
+- name: Draw the boundary by functional responsibility
+  description: |
+    Pick the behavior to validate, identify the components responsible for it, and place the test boundary around exactly those. Infrastructure (IO, a database, external services) may be replaced with simple inputs or doubles at the allow-listed seams of DIRECTIVE_054. This keeps tests Fast, Isolated, Writable, and Structure-insensitive (Define Test Boundaries; Beck's desiderata).
+  bad_example: |
+    # The unit reaches the filesystem + git directly, so the "unit" test needs
+    # many patches to run: a smell about the patches, not about real files.
+    def test_overlap_rejected(tmp_path):
+        _write_order_dir(tmp_path)
+        with patch("...find_config_root"), \
+             patch("...save_order"), patch("...run_command"), \
+             patch("...load_initial_state"):    # infra scaffolding
+            schedule_deliveries(order="o-1", validate_only=True)
+        # assertion buried behind subprocess/JSON parsing
+  good_example: |
+    # A pure seam takes domain inputs; the behavior is validated with plain
+    # stubs — no files, no git, no command mocking. The IO stays outside.
+    def test_overlap_rejected():
+        plan = build_delivery_plan({
+            "D1": slot(window=("09:00", "11:00")),
+            "D2": slot(window=("10:00", "12:00")),   # overlapping, narrow
+        })
+        assert not validate_slots(plan).passed
+- name: Resolve desiderata tension by design, not by accepting brittleness
+  description: |
+    When two desiderata appear to conflict (e.g. Predictive vs Fast, Behavioral vs Structure-insensitive), prefer a design change — a clearer boundary, a pure function, composition — over a brittle test. A pure seam at the boundary usually recovers Fast + Isolated + Specific simultaneously.
+  good_example: |
+    # Behavioral AND structure-insensitive: assert the outcome that crosses the
+    # boundary, regardless of which internal helper produced it.
+    assert resolve_shipping(order, "o-1").carrier == expected
+- name: Shift detection left
+  description: |
+    Shift detection left: catch each violation at the earliest, cheapest point that can see it. What a formatter, linter, or static check can reject never waits for a test run; what a unit test can catch never waits for an integration or end-to-end run; what a lint-time check can catch never waits for review.
+- name: Behavioral is proven, not assumed
+  description: |
+    Behavioral is proven, not assumed: a test that guards a contract shows it can go red — plant the break (or run against the unfixed code) and watch it fail. A test that asserts on data it built itself, or on a stub's return value, is not Behavioral however green it is.
+- name: Test name is the contract
+  description: |
+    The name is the contract: Readable and Specific require that the body asserts exactly what the name promises. A test named 'does not leak X' that asserts X is present, or 'exits non-zero on Y' that accepts any exit, is a defect in the test. Sources: https://testdesiderata.com/; https://patterns.sddevelopment.be/practices/define_test_boundaries/.
+quality_test: |
+  Can the behavior under test be validated with plain in-memory inputs or real files and a real git repo in a temp dir, with doubles only at allow-listed seams (DIRECTIVE_054)? If the test needs several patched infrastructure functions or a double of logic the unit owns, the boundary is in the wrong place — extract a pure seam before adding the test.

@@ -85,19 +85,3 @@ steps:
 - title: Follow-up hygiene
   description: |
     Close your claim comments, file a tracked issue the same day for every deferred item (parented under a functional epic, never a meta-tracker), and leave the landing queue in a state the next maintainer can read. Run a triage pass on the new issues so the next landing pass starts from a clean queue.
-anti_patterns:
-- title: Landing a draft PR without asking
-  content: |
-    A draft has not been handed off to the maintainers. Ask the operator first.
-- title: Rewriting history to make every commit green
-  content: |
-    Per-commit green is not the bar (mission-wrap-up-sequence's compaction step). Rewrite only for readability or to remove personal data, and always run the tree check before a force-push.
-- title: Arming auto-merge before the fix is complete
-  content: |
-    Auto-merge fires on the first green, so commits pushed afterwards miss the merge.
-- title: Tests for the sake of tests
-  content: |
-    A landing test that duplicates an existing assertion, pins code shape, or is inert once the fix lands adds cost and no protection.
-- title: Recapturing a CI-owned file during a landing
-  content: |
-    A scheduled CI job owns it; a local recapture costs time for a drift that cannot block the PR.

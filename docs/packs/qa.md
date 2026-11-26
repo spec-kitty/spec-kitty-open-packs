@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/qa`
 - **Pack level:** `org`
 - **Declared version:** `5.2.0`
-- **Content checksum (sha256):** `df4ca250167839dae4ac825bb783febc324322fa4975e01a710baa7306fad33b`
+- **Content checksum (sha256):** `64def1478f70ee2d2248d31b1602fa575645ddb647e8c873582de9e6c884cc62`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -58,13 +58,14 @@ cover and how honestly they report.
 | `styleguides` | 1 |
 | `toolguides` | 8 |
 | `procedures` | 5 |
+| `anti_patterns` | 2 |
 | `agent_profiles` | 5 |
 | `assets` | 6 |
 | `glossaries` | 1 |
 | `drg` | 1 |
 | `missions` | 19 |
 | `presets` | 1 |
-| **Total files** | **66** |
+| **Total files** | **68** |
 
 ### Full listing
 
@@ -125,6 +126,14 @@ cover and how honestly they report.
 - `qa-description-to-acceptance-ci.procedure.yaml`
 - `qa-go-no-go-readiness-review.procedure.yaml`
 - `qa-test-plan-review-workshop.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (2)</summary>
+
+- `rubber-stamp-sign-off.anti-pattern.yaml`
+- `silent-acceptance-without-traceability-check.anti-pattern.yaml`
 
 </details>
 

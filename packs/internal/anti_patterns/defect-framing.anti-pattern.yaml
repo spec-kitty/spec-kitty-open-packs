@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: defect-framing
+title: Defect framing
+description: Tagging a scenario @defect or writing it as a bug reproduction. The .feature layer describes what the system should do for a user; defect linkage and reproductions live in the Python/regression tier.
+severity: smell
+bad_example: '"@defect:4941 Scenario: reproduce the lost-rejection bug when the clock is skewed."'
+good_example: '"@promise:PR-CHARTER-GOVERNANCE-003 Scenario: a rejection recorded after an approval sends the work package back."'

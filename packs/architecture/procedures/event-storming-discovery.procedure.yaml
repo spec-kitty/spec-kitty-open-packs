@@ -41,16 +41,3 @@ steps:
 - title: Capture structured output
   description: |
     Record all discovered elements (events, commands, aggregates, policies, read models, bounded contexts) in a structured format. Link unresolved questions to follow-up tasks. The output feeds directly into bounded context identification, context mapping, and aggregate boundary design.
-anti_patterns:
-- title: No domain expert validation
-  content: |
-    Completing the entire discovery without human validation, producing a model that reflects technical assumptions rather than business reality.
-- title: Premature structure
-  content: |
-    Jumping to aggregate design before completing event discovery, missing events that reveal important domain behaviour.
-- title: Scope creep
-  content: |
-    Attempting to model the entire enterprise in one pass instead of focusing on a specific subdomain.
-- title: Solution mode
-  content: |
-    Discussing technical implementation during discovery instead of focusing on domain behaviour and business flows.

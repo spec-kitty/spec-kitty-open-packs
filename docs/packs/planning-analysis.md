@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/planning-analysis`
 - **Pack level:** `built-in`
 - **Declared version:** `3.7.0`
-- **Content checksum (sha256):** `6fb47b07ba92c57c3f8eb7212d405b37b92f7350008d21ceff9ff412559419c7`
+- **Content checksum (sha256):** `ae60ef2cf20a3244e5a268f64f936a063bcb3e14138c95740cd0cd69a4cfb1d4`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,9 +39,10 @@ Planning, research and brownfield analysis: the planner and researcher profiles,
 | `styleguides` | 1 |
 | `paradigms` | 1 |
 | `procedures` | 5 |
+| `anti_patterns` | 19 |
 | `agent_profiles` | 3 |
 | `drg` | 1 |
-| **Total files** | **16** |
+| **Total files** | **35** |
 
 ### Full listing
 
@@ -75,6 +76,31 @@ Planning, research and brownfield analysis: the planner and researcher profiles,
 - `legacy-codebase-triage.procedure.yaml`
 - `situational-assessment.procedure.yaml`
 - `spike-timebox-policy.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (19)</summary>
+
+- `batch-questioning.anti-pattern.yaml`
+- `blocking-on-the-optional-steps.anti-pattern.yaml`
+- `budgetless-spike.anti-pattern.yaml`
+- `child-ticket-checklist-in-the-epic-body.anti-pattern.yaml`
+- `closing-a-community-duplicate-before-migrating-its-evidence.anti-pattern.yaml`
+- `implementation-coupled-briefs.anti-pattern.yaml`
+- `memory-only-rejection.anti-pattern.yaml`
+- `meta-tracker-as-canonical-parent.anti-pattern.yaml`
+- `multiple-active-state-labels.anti-pattern.yaml`
+- `over-interviewing.anti-pattern.yaml`
+- `over-reading-squash-merged-history.anti-pattern.yaml`
+- `premature-decision-records.anti-pattern.yaml`
+- `rationalised-outcome.anti-pattern.yaml`
+- `skipping-the-exclusion-list.anti-pattern.yaml`
+- `substituting-triage-for-deeper-investigation.anti-pattern.yaml`
+- `terminology-policing.anti-pattern.yaml`
+- `treating-triage-as-a-verdict.anti-pattern.yaml`
+- `unwritten-finding.anti-pattern.yaml`
+- `vague-needs-info-questions.anti-pattern.yaml`
 
 </details>
 

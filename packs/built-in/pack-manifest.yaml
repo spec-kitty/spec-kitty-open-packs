@@ -1,10 +1,10 @@
 schema_version: '1.0'
-manifest_hash: 859d097fba8423b5bb8c7946c8f6056e183a1188df7135adeaf1a4501269cdbc
+manifest_hash: da396cc8aaa19520451f51f525df87ca216fd6926a8d04723c44f4c1ecfdb3ef
 constituents: []
 presets:
 - id: default
   path: presets/default.yaml
-  content_hash: de82d6eb74ee9de22b348989138ab331645698c28967f5da9d306836ec4559c3
+  content_hash: aadc257bf00b308336658c95c47366cd6034c04e1675f2230c6399d943999e3d
 - id: minimal
   path: presets/minimal.yaml
-  content_hash: 7493667bc5a5bf3944a5646aec29fcff15fe3c3787e778eeffa68fd9d92704e5
+  content_hash: 71b5dedc4c971dd71223f09e9cc1f35172fb6936e1357791b8dbe4f79e4e6117

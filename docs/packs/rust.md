@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/rust`
 - **Pack level:** `org`
 - **Declared version:** `1.1.1`
-- **Content checksum (sha256):** `2887067843c46d848dc730aadbe13600bdda5279b3ae034d74c2eabbf97b94bc`
+- **Content checksum (sha256):** `5212fbed80f67aafe7eaf433bb73c72023ae8f653a179efeb4cc91492e840c02`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -48,10 +48,11 @@ Kitty.
 | --- | --- |
 | `styleguides` | 1 |
 | `toolguides` | 2 |
+| `anti_patterns` | 6 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **9** |
+| **Total files** | **15** |
 
 ### Full listing
 
@@ -67,6 +68,18 @@ Kitty.
 
 - `rust-review-checks.guide.md`
 - `rust-review-checks.toolguide.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (6)</summary>
+
+- `anyhow-in-a-library-api.anti-pattern.yaml`
+- `bare-integer-codes.anti-pattern.yaml`
+- `boolean-parameters.anti-pattern.yaml`
+- `clone-to-silence-the-borrow-checker.anti-pattern.yaml`
+- `stringly-typed-domain.anti-pattern.yaml`
+- `wildcard-match-on-a-domain-enum.anti-pattern.yaml`
 
 </details>
 

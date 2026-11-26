@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: concluding-flake-without-running-ci-only-shards-locally
+title: Concluding flake without running CI-only shards locally
+description: Dismissing a CI-only failure as a flake without first reproducing the failing CI-only tests locally. CI-only shards reveal real failures that never appear in the fast local tier.
+severity: severe
+bad_example: A failure seen only in the CI integration shard is labelled a flake without running that shard's tests locally.

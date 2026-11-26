@@ -1,0 +1,17 @@
+schema_version: '1.0'
+id: cleanup-in-test-body
+title: Cleanup In Test Body
+description: Manual teardown at end of test instead of using pytest fixtures with yield or tmp_path. Cleanup is skipped on failure.
+severity: severe
+bad_example: |-
+  def test_write_output():
+      out = Path("/tmp/test_output.yaml")
+      write_output(out, {"key": "value"})
+      assert out.exists()
+      out.unlink()  # skipped if assertion fails
+good_example: |-
+  def test_write_output(tmp_path):
+      out = tmp_path / "test_output.yaml"
+      write_output(out, {"key": "value"})
+      assert out.exists()
+      # tmp_path fixture handles cleanup automatically

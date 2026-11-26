@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/writing`
 - **Pack level:** `built-in`
 - **Declared version:** `3.7.0`
-- **Content checksum (sha256):** `c9c6ef5ae786cf48200273be862472ce92aa051e41d648be05cc56d81b903305`
+- **Content checksum (sha256):** `369fb00adb6b9902e7f7c3252f1f1820af48fcca3e4ffc10dc79a11311063804`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -45,11 +45,12 @@ assets.
 | `styleguides` | 12 |
 | `toolguides` | 8 |
 | `procedures` | 8 |
+| `anti_patterns` | 39 |
 | `agent_profiles` | 7 |
 | `assets` | 14 |
 | `missions` | 29 |
 | `templates` | 2 |
-| **Total files** | **106** |
+| **Total files** | **146** |
 
 ### Full listing
 
@@ -121,6 +122,51 @@ assets.
 - `glossary-maintenance-workflow.procedure.yaml`
 - `meeting-minutes-pipeline.procedure.yaml`
 - `minutes-self-sufficiency-check.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (39)</summary>
+
+- `aspirational-documentation-ahead-of-the-code.anti-pattern.yaml`
+- `assuming-reader-knowledge.anti-pattern.yaml`
+- `bare-sha-citation.anti-pattern.yaml`
+- `buried-contradiction.anti-pattern.yaml`
+- `buzzword-soup.anti-pattern.yaml`
+- `calling-the-llm-from-inside-the-optional-publish-step.anti-pattern.yaml`
+- `circular-definition.anti-pattern.yaml`
+- `citation-laundering.anti-pattern.yaml`
+- `confidence-inflation.anti-pattern.yaml`
+- `drifting-line-citation.anti-pattern.yaml`
+- `duplicated-fact-with-no-canonical-home.anti-pattern.yaml`
+- `em-dash-sprawl-and-buzzword-fog.anti-pattern.yaml`
+- `empty-or-ownerless-action-items-in-discussion-notes.anti-pattern.yaml`
+- `forcing-a-discussion-meeting-into-the-decision-table.anti-pattern.yaml`
+- `freshness-date-bumped-without-re-verifying-content.anti-pattern.yaml`
+- `hand-patching-a-generated-page-to-look-current.anti-pattern.yaml`
+- `implementation-leaking-into-definition.anti-pattern.yaml`
+- `jargon-aimed-at-the-wrong-audience.anti-pattern.yaml`
+- `meaning-carried-only-by-colour-or-only-by-a-diagram.anti-pattern.yaml`
+- `missing-or-wrong-section-order.anti-pattern.yaml`
+- `narrating-existing-state-as-a-decision.anti-pattern.yaml`
+- `one-size-fits-none-document.anti-pattern.yaml`
+- `passive-hedged-filler-laden-instruction.anti-pattern.yaml`
+- `publishing-without-the-validated-markdown-in-this-chat.anti-pattern.yaml`
+- `reference-page-carrying-narrative-rationale.anti-pattern.yaml`
+- `rendering-without-selecting-a-format.anti-pattern.yaml`
+- `requiring-an-api-key-for-an-already-running-chat-agent.anti-pattern.yaml`
+- `returning-final-minutes-while-attribution-gaps-remain.anti-pattern.yaml`
+- `second-documentation-root.anti-pattern.yaml`
+- `sidecar-metadata-ssot.anti-pattern.yaml`
+- `silent-fact-drift.anti-pattern.yaml`
+- `skipped-or-size-driven-heading-levels.anti-pattern.yaml`
+- `transcript-level-detail-in-notes.anti-pattern.yaml`
+- `treating-json-or-wiki-publish-as-mandatory-delivery.anti-pattern.yaml`
+- `treating-truncation-silently.anti-pattern.yaml`
+- `tutorial-that-branches-on-reader-choices.anti-pattern.yaml`
+- `unattributed-action-items.anti-pattern.yaml`
+- `undefined-audience.anti-pattern.yaml`
+- `unsourced-assertion.anti-pattern.yaml`
 
 </details>
 

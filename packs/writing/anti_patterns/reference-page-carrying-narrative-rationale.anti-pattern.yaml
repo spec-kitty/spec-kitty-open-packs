@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: reference-page-carrying-narrative-rationale
+title: Reference page carrying narrative rationale
+description: Reference must be scannable and neutral. Folding the "why" into a reference entry bloats it and buries the fact the reader came to look up. Move rationale to an explanation page and link to it.
+severity: smell
+bad_example: |-
+  ### `--force`
+  Forces the transition. We added this in 2026 after a long debate about
+  whether terminal lanes should ever be re-openable; the team decided...
+good_example: |-
+  ### `--force`
+  Overrides the terminal-lane guard, permitting a transition out of `done`
+  or `canceled`. See Explanation: Terminal lane semantics for the rationale.

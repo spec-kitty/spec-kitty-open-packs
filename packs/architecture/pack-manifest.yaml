@@ -1,30 +1,78 @@
 schema_version: '1.0'
-manifest_hash: 5bd3dc376fd828d5eb7c2bc8174cb672aa5201b050779e83a21e6a06afcc1fca
+manifest_hash: dab0723ccfd1143c982259331240b89f24f45b27c3ade7c20668719093b54025
 constituents:
 - kind: agent_profile
   id: architect-alphonso
   path: agent_profiles/architect-alphonso.agent.yaml
-  content_hash: b4be59eee4f5afef9660cc0f99f19237c1d2047ed98d81affde00275d031fa1f
+  content_hash: aa0df438887aa3f4e3e2004a4f26b78f4f136ff63b989874c5b81ec15aaaac2f
 - kind: agent_profile
   id: paula-patterns
   path: agent_profiles/paula-patterns.agent.yaml
-  content_hash: c269b18b74903cf2d62107cd41aad8aa07f6c75f8060a1f11d52d19b094dfddd
+  content_hash: 0f4861b5205f5fcc28c3ed2e9dabee197b0e28ff3bbd647aa842951d04a19218
+- kind: anti_pattern
+  id: anemic-domain-model
+  path: anti_patterns/anemic-domain-model.anti-pattern.yaml
+  content_hash: 8302ecba69f0262c0364f386c59e6c1ab49a36c21a863c6549d35d078988799d
+- kind: anti_pattern
+  id: big-ball-of-mud
+  path: anti_patterns/big-ball-of-mud.anti-pattern.yaml
+  content_hash: 40d2883cc7031ce0c92c207bb3abc27ad3b5d836c3eb0056d331cde2ff3e8e0f
+- kind: anti_pattern
+  id: big-upfront-design
+  path: anti_patterns/big-upfront-design.anti-pattern.yaml
+  content_hash: bbdd7953b855dd435619140b19d51e118a2f2118a3732506b8b132ac03c92cc6
+- kind: anti_pattern
+  id: code-is-the-documentation
+  path: anti_patterns/code-is-the-documentation.anti-pattern.yaml
+  content_hash: b6601ba6c7b087d279841417ec91567c5901ed73f32b14d5befdc5f6b4774ab5
+- kind: anti_pattern
+  id: database-driven-design
+  path: anti_patterns/database-driven-design.anti-pattern.yaml
+  content_hash: 66143f4e0546900ebd6c97bc824bd9e1548455aa79521f2efc3450b9a99171eb
+- kind: anti_pattern
+  id: direct-object-references
+  path: anti_patterns/direct-object-references.anti-pattern.yaml
+  content_hash: 36fdf3c9a659bbd1eb13b768d0fe6181348689c6f08478e65bf8a68e5da5a830
+- kind: anti_pattern
+  id: no-domain-expert-validation
+  path: anti_patterns/no-domain-expert-validation.anti-pattern.yaml
+  content_hash: 8eb5977a09122662468bca8f03bfbbeb7bb96f173bac9df6876585e280708ba6
+- kind: anti_pattern
+  id: premature-structure
+  path: anti_patterns/premature-structure.anti-pattern.yaml
+  content_hash: 930a17a75fe4ce8fd20cf7caf6fe915d3474b576064bb2ddcfa2fad1912fd3e0
+- kind: anti_pattern
+  id: scope-creep
+  path: anti_patterns/scope-creep.anti-pattern.yaml
+  content_hash: 5b90cd96306212e27f5524a367a49216c81dc3dbfaf73059be432871b0e1dd4c
+- kind: anti_pattern
+  id: single-diagram-architecture
+  path: anti_patterns/single-diagram-architecture.anti-pattern.yaml
+  content_hash: d85d20043a64750e75ca1f577c6add307fe2627d1cf37b8322bfd512c067fbd9
+- kind: anti_pattern
+  id: solution-mode
+  path: anti_patterns/solution-mode.anti-pattern.yaml
+  content_hash: d4bf5fc33494e5f83bc3bde2e6fbde2590a8fe540ebb994b08a0954d4fef5462
+- kind: anti_pattern
+  id: transaction-spanning
+  path: anti_patterns/transaction-spanning.anti-pattern.yaml
+  content_hash: bbdd12a894975b06f01ec3fa7466878287ed6e05f2a16595d0f9def404bf5fd7
 - kind: directive
   id: USE_C4_MODEL_TECHNIQUES
   path: directives/use-c4-model-techniques.directive.yaml
-  content_hash: e5228254a19a4bbfb71ff56895c230aa3576afa7d4c5bb62062b97be26b71529
+  content_hash: f80df2cf1bc2dfcaf3fa8687b7ece5a5be9fa8ed1029888ae94a9e8da26c59a1
 - kind: paradigm
   id: c4-incremental-detail-modeling
   path: paradigms/c4-incremental-detail-modeling.paradigm.yaml
-  content_hash: d230849a6a6d3faf19a76584f923c181ca30c8ff8cb92dc7b54c4eee31ed9510
+  content_hash: bc844106b576847fe61a12a861831537b5dd7678ea733be2c4f63d35a6e1b996
 - kind: paradigm
   id: deep-module-design
   path: paradigms/deep-module-design.paradigm.yaml
-  content_hash: e0808260c30cabc0455de7f93c2c95ae5c8b2d9149de42fae89560b28b239e02
+  content_hash: bd4d9f2030d6728636f8e12ac18f6030944ca2d775af9abfdb73e571702c2959
 - kind: paradigm
   id: domain-driven-design
   path: paradigms/domain-driven-design.paradigm.yaml
-  content_hash: e5f8206c57fd952acb51488b8bc7b3e040d6c85adc3dc39db3c3e3df6ff5f31b
+  content_hash: 806951636c3e4ad7f00c891d7d12d9c78e4fcf605ad5fb44012a60b0074bbeb4
 - kind: procedure
   id: c4-diagram-authoring
   path: procedures/c4-diagram-authoring.procedure.yaml
@@ -36,64 +84,64 @@ constituents:
 - kind: procedure
   id: event-storming-discovery
   path: procedures/event-storming-discovery.procedure.yaml
-  content_hash: b6ae3b26efd065b7dc8f9e5eeb5aec0a81c08fee0ba4f4d8c531ee555cdb7407
+  content_hash: b869fee1fd344a03c845281b622ff56d72e4c237506a2bb32380a00502eef24c
 - kind: styleguide
   id: aggregate-design-rules
   path: styleguides/aggregate-design-rules.styleguide.yaml
-  content_hash: 8ccaf90febe29715a901212c2294d61d7752e1f8a4ecee0e1469f011ddbaa1a8
+  content_hash: 43ed35d5f9e30a8f1e6b940e1c21dbe65ef2060a0ac5aeffb4582686123c765f
 - kind: tactic
   id: ammerse-impact-analysis
   path: tactics/analysis/ammerse-impact-analysis.tactic.yaml
-  content_hash: d48be5aeec84aab28350803cf4f4a16289f0a4fd27ccfef4d1f687fdf78c4bd4
+  content_hash: 2ddaef2a1fb7643e0a064586525f426fd7564c5a68ee750826b1d47c839e7467
 - kind: tactic
   id: bounded-context-canvas-fill
   path: tactics/analysis/bounded-context-canvas-fill.tactic.yaml
-  content_hash: 278f643e1a201296e6858e3968da9740d97e9b7f09789d51c8407dcd6e583ba4
+  content_hash: 2f0401f779f7625ec2f16cf0ac9f2d4b111a24a0731ef8e8c9b3087760bba076
 - kind: tactic
   id: connascence-analysis
   path: tactics/analysis/connascence-analysis.tactic.yaml
-  content_hash: a07ba10542dc8a908fad478af75937d9e359c6383b7630b60f2bca3360819bd1
+  content_hash: af28ea25b0568a084f4feec3893ecec4b84f92dedb189e8124edf1150ff07254
 - kind: tactic
   id: context-mapping-classification
   path: tactics/analysis/context-mapping-classification.tactic.yaml
-  content_hash: 0560d9dd2d78b19d1e5b89128aa59e10ec6cf8c6b4d7f42bb489da586a7cc5fe
+  content_hash: 148f50d75997f7856ab03bc436bc1e1d888017e0a106aa3f900853d1d2226356
 - kind: tactic
   id: entity-value-object-classification
   path: tactics/analysis/entity-value-object-classification.tactic.yaml
-  content_hash: 842a7be17b65c1cebee79e3afbe9c382186a90962a74245d532b004da7dcdd75
+  content_hash: 7e8650bf078a251f6827689e07d9cc5d34d4b2dadb0889da5594835244f43650
 - kind: tactic
   id: strategic-domain-classification
   path: tactics/analysis/strategic-domain-classification.tactic.yaml
-  content_hash: fd00c257fd999b279a0d91279c151233005779d767fe6b66002f1492d7f963b8
+  content_hash: a785e9acb4212454ee52b84b6edc264f912ef6aa71fda929aec513e7f3091ffb
 - kind: tactic
   id: aggregate-boundary-design
   path: tactics/architecture/aggregate-boundary-design.tactic.yaml
-  content_hash: 515066eb8d8679859e08bf490e68d6550b4f165abe377be65e37a8ee5de6b9c0
+  content_hash: 0dc1cb1c7e6d329c757c99ea99626a28ec882014b06261d71ac66c0e4ec64803
 - kind: tactic
   id: anti-corruption-layer
   path: tactics/architecture/anti-corruption-layer.tactic.yaml
-  content_hash: bfa0b062718906193f5ad231083a79c8c375fda3617f914d4f5e67939de556d0
+  content_hash: c2ef8b88263ce012b33427356f74a0d55845a615a6be161d564542e137b9fcfe
 - kind: tactic
   id: architecture-diagram-review-checklist
   path: tactics/architecture/architecture-diagram-review-checklist.tactic.yaml
-  content_hash: 2b2573e285f919a40f13e405655e4e7d4828b4c219fa3d8e5a7a705f124ba2e9
+  content_hash: 85c0fb11243b6aa8987ca4afd5d311b4062724c342a758977fc4f2173019bae1
 - kind: tactic
   id: c4-zoom-in-architecture-documentation
   path: tactics/architecture/c4-zoom-in-architecture-documentation.tactic.yaml
-  content_hash: cf40caebe5465e989e8334fb9c9d32368dbcbc21c027fd7cbb75c79464e3e369
+  content_hash: fded9b7e145467c560e6094d84e3e35dbe9008c69074d902e5449f7c6a10c226
 - kind: tactic
   id: development-bdd
   path: tactics/architecture/development-bdd.tactic.yaml
-  content_hash: a235ada9aeb22e969d4f936bb7ea99ab5da428646224d2cd20e0989d1dc600a4
+  content_hash: 61cfd8e030d30f446d9d5634fcb3ef3393e051b9d8cc494a092f1824b12b2f0a
 - kind: tactic
   id: domain-event-capture
   path: tactics/architecture/domain-event-capture.tactic.yaml
-  content_hash: 8545fad4846e7592c7cc6c35efd8e4b1f706b122cb6d76f215dfccac1f097640
+  content_hash: 2fb294571ce6dbf047d5983216c7c731d10c7c0179900406b400e004de6669a1
 - kind: tactic
   id: paula-patterns-architecture-scout-review
   path: tactics/architecture/paula-patterns-architecture-scout-review.tactic.yaml
-  content_hash: 5ae9cd000221a7d5b700246a0b6f5b5f539fbaf8d1ace9ead2104111e31388c8
+  content_hash: 9d2bd26aeb7ef5450377da27c51710b0c2f72b353370f2a24b9266193e03a65f
 - kind: tactic
   id: reference-architectural-patterns
   path: tactics/architecture/reference-architectural-patterns.tactic.yaml
-  content_hash: 2c2d6673266178d960ad912ee612a5b1d32beba833740eb47e99980f0e05cbcc
+  content_hash: 2f2b8a865d5e67f8b7dc980f9458c19f1b61637f4ffd6628e1744ee0258bec65

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: treating-triage-as-a-verdict
+title: Treating triage as a verdict
+description: The buckets are an action plan, not a judgement on the team or the codebase. Files in 'fix this week' are not bad; they are load-bearing and fragile, which is information about how to invest, not a moral claim.
+severity: smell
+bad_example: The triage's 'fix this week' list is circulated as the list of the team's worst code.

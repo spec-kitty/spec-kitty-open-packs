@@ -1,29 +1,29 @@
-schema_version: "1.0"
 id: acceptance-test-first
+schema_version: '1.0'
 name: Acceptance Test Driven Development (ATDD)
 purpose: Anchor implementation work in externally observable behavior before internal coding begins, for behavior with a lasting regression risk (DIRECTIVE_034).
 steps:
-  - title: Define acceptance behavior first
-    description: Capture the intended user-visible outcome as an executable acceptance test before implementation starts.
-    examples:
-      - "Add a CLI integration test that describes expected command output before editing command handlers."
-  - title: Attach traceability metadata
-    description: Link each acceptance scenario to the governing task, ticket, or requirement identifier.
-    examples:
-      - "Include the work package ID in the test name or fixture metadata."
-  - title: Keep acceptance checks black-box
-    description: Exercise real workflows through public interfaces instead of internal seams.
-    examples:
-      - "Validate HTTP behavior via endpoint calls rather than internal service mocks."
-  - title: Balance acceptance coverage
-    description: Keep acceptance tests few but meaningful, then push detail into lower test layers.
-    examples:
-      - "One end-to-end scenario per capability plus focused unit tests for decision logic."
-  - title: Handoff to code-level TDD
-    description: "After acceptance tests fail for the right reason, continue with red-green cycles for implementation detail (tactic tdd-red-green-refactor), restructuring in green mode. Run each new acceptance test on the base and record its failure text: it must fail on its assertion for the intended reason, not on a missing symbol, a collection error or a schema or version check tripped by a bump the change has not staged yet (DIRECTIVE_034 owns the red shape; procedure `red-first-bug-reproduction` holds the recording rule and the inversion of a test that pins a defect)."
-    examples:
-      - "Use failing acceptance test as the outer guard while adding unit-level TDD increments."
-  - title: Document manual fallbacks
-    description: When automation is not feasible, record the fallback procedure and rationale for review. Where a real run or existing gate is the evidence (configuration and glue work), record it under `[evidenced-by-run]` instead of writing an acceptance test (tactic `acceptance-criteria-non-vacuity`).
-    examples:
-      - "Capture hardware-vendor limitation and manual verification checklist in the task log."
+- title: Define acceptance behavior first
+  description: Capture the intended user-visible outcome as an executable acceptance test before implementation starts.
+  examples:
+  - Add a CLI integration test that describes expected command output before editing command handlers.
+- title: Attach traceability metadata
+  description: Link each acceptance scenario to the governing task, ticket, or requirement identifier.
+  examples:
+  - Include the work package ID in the test name or fixture metadata.
+- title: Keep acceptance checks black-box
+  description: Exercise real workflows through public interfaces instead of internal seams.
+  examples:
+  - Validate HTTP behavior via endpoint calls rather than internal service mocks.
+- title: Balance acceptance coverage
+  description: Keep acceptance tests few but meaningful, then push detail into lower test layers.
+  examples:
+  - One end-to-end scenario per capability plus focused unit tests for decision logic.
+- title: Handoff to code-level TDD
+  description: 'After acceptance tests fail for the right reason, continue with red-green cycles for implementation detail (tactic tdd-red-green-refactor), restructuring in green mode. Run each new acceptance test on the base and record its failure text: it must fail on its assertion for the intended reason, not on a missing symbol, a collection error or a schema or version check tripped by a bump the change has not staged yet (DIRECTIVE_034 owns the red shape; procedure `red-first-bug-reproduction` holds the recording rule and the inversion of a test that pins a defect).'
+  examples:
+  - Use failing acceptance test as the outer guard while adding unit-level TDD increments.
+- title: Document manual fallbacks
+  description: When automation is not feasible, record the fallback procedure and rationale for review. Where a real run or existing gate is the evidence (configuration and glue work), record it under `[evidenced-by-run]` instead of writing an acceptance test (tactic `acceptance-criteria-non-vacuity`).
+  examples:
+  - Capture hardware-vendor limitation and manual verification checklist in the task log.

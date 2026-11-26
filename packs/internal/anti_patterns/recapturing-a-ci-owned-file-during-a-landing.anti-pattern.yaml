@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: recapturing-a-ci-owned-file-during-a-landing
+title: Recapturing a CI-owned file during a landing
+description: A scheduled CI job owns it; a local recapture costs time for a drift that cannot block the PR.
+severity: smell
+bad_example: During a landing, the runner recaptures the test-shard timing file that a scheduled CI job owns and commits it.

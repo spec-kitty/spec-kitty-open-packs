@@ -29,16 +29,3 @@ steps:
     When a business requirement changes, update the Gherkin scenario first, run it red, then update the implementation. A scenario that silently passes after a requirement change (without being updated) indicates the step definition is too loosely coupled to the application contract.
   on_failure: |
     If scenarios cannot be kept current due to scope, mark them @wip and assign an owner. A permanently @wip scenario is a documentation debt — escalate.
-anti_patterns:
-- title: Imperative Gherkin
-  content: |
-    Scenarios that describe UI clicks and form fills rather than business intent. "Click the Submit button" is imperative. "Complete the order" is declarative. Imperative scenarios break when the UI changes, even if the behavior is unchanged.
-- title: Rubber-stamp scenarios
-  content: |
-    Scenarios written after the implementation passes to satisfy a process requirement. These scenarios always start green and provide no regression protection — they cannot fail because the code was not written to make them fail first.
-- title: Shared mutable state between scenarios
-  content: |
-    Scenario B relying on data created by Scenario A. When Scenario A is skipped or fails, Scenario B fails for the wrong reason. Each scenario must establish its own preconditions via Given steps.
-- title: Orphaned step definitions
-  content: |
-    Step definitions with no matching feature file step. Accumulate silently as scenarios evolve. Run `cucumber --dry-run` (or equivalent) regularly to detect them.

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: scope-creep
+title: Scope creep
+description: Attempting to model the entire enterprise in one pass instead of focusing on a specific subdomain.
+severity: smell
+bad_example: The first event-storming session tries to cover sales, billing, logistics and HR at once on one wall.

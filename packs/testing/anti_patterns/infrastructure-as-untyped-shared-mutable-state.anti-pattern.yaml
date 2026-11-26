@@ -1,0 +1,18 @@
+schema_version: '1.0'
+id: infrastructure-as-untyped-shared-mutable-state
+title: Infrastructure as untyped shared mutable state
+description: 'When production code reads and writes infrastructure (the filesystem, database, git) DIRECTLY from many surfaces instead of through an owning application boundary, that infrastructure becomes un-owned shared mutable state. Two consequences follow: (1) surfaces can disagree about the same on-disk state (read/write forks, staleness); (2) tests cannot exercise the logic without standing up the infrastructure or mocking many seams. The mock/stub scaffolding in tests is a symptom, not the disease — the cure is an owning boundary (a port / aggregate / pure resolver) the logic routes through, which the test then drives with simple inputs.'
+severity: severe
+bad_example: |-
+  # Direct, scattered filesystem access — every caller re-reads/re-writes
+  # order state, and every test must reconstruct that state on disk.
+  order_dir = data_root / "orders" / order_id
+  events = (order_dir / "status.events.jsonl").read_text()
+  ...
+  (order_dir / "status.events.jsonl").write_text(updated)   # another surface
+good_example: |-
+  # One owning boundary mediates the state; logic and tests depend on it,
+  # not on the filesystem. The IO lives in one place behind the seam.
+  status = OrderStatus.load(data_root, order_id)   # owns read+write
+  status.transition(line_id="L1", to_state="picking")
+  # tests drive OrderStatus / plan_shipments with stub inputs — no files

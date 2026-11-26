@@ -1,63 +1,21 @@
-schema_version: "1.0"
 id: DIRECTIVE_054
+schema_version: '1.0'
 title: Mock Only at the Responsibility Boundary
-intent: >
-  A test substitutes a collaborator only where control leaves the system under
-  test: at its responsibility boundary, or border. Everything the system under
-  test owns for the behavior under test runs for real, and assertions target
-  observable outcomes. A double of owned logic couples the test to an
-  implementation shape, and it can manufacture a state the real code path never
-  reaches, so the test raises false alarms or gives false confidence.
+intent: |
+  A test substitutes a collaborator only where control leaves the system under test: at its responsibility boundary, or border. Everything the system under test owns for the behavior under test runs for real, and assertions target observable outcomes. A double of owned logic couples the test to an implementation shape, and it can manufacture a state the real code path never reaches, so the test raises false alarms or gives false confidence.
 enforcement: required
-scope: >
-  Applies to all automated tests at every level (unit, integration, acceptance)
-  that use test doubles: mocks, stubs, fakes, spies and monkeypatches. The
-  boundary is drawn by responsibility for the behavior under test, not by
-  layer, module or class; the tactic test-boundaries-by-responsibility says how
-  to draw it. The rules bind the tests a change adds or modifies. An existing
-  test that does not conform, and that a change touches without modifying its
-  doubles, is remediated or recorded as a tracked follow-up; it does not make
-  unrelated work non-conforming. A test whose doubles a change modifies must
-  conform.
+scope: |
+  Applies to all automated tests at every level (unit, integration, acceptance) that use test doubles: mocks, stubs, fakes, spies and monkeypatches. The boundary is drawn by responsibility for the behavior under test, not by layer, module or class; the tactic test-boundaries-by-responsibility says how to draw it. The rules bind the tests a change adds or modifies. An existing test that does not conform, and that a change touches without modifying its doubles, is remediated or recorded as a tracked follow-up; it does not make unrelated work non-conforming. A test whose doubles a change modifies must conform.
 integrity_rules:
-  - "The allow-list is exhaustive. A test may substitute only: another domain or
-    bounded context (a domain-contract seam); the filesystem; a database; the
-    network to external APIs or services the system does not own; the clock; randomness; git and other
-    processes or subprocesses the system under test does not own (a subprocess
-    that runs the system's own code is owned logic); sending a hook or notification (an outbound
-    message whose delivery is outside the system under test); and schema-only
-    validation of a data-transfer object by a library the system does not own,
-    carrying no rule of the behavior under test (a validation rule the behavior
-    depends on runs for real). Everything else inside the boundary runs for
-    real."
-  - "A seam is allow-listed by what sits behind it, not by the transport: code the system under test owns, reached over the network or run as a subprocess, runs for real; another bounded context is reached through its published contract (DIRECTIVE_031)."
-  - "Another domain or bounded context (DIRECTIVE_031) has its own model and is
-    reached only through a published contract: an API, a port interface or a
-    message schema. A sibling module, package or class that shares the model is
-    not another bounded context; it runs for real."
-  - "The allow-list permits a substitute; it never requires one. Running a real
-    collaborator from the list (a temporary directory, an in-memory database, a
-    real git repository in a temp dir) is always allowed."
-  - "A test must not mock, stub, patch or spy on code the system under test owns.
-    The commonest form, asserting which helper was called, how often or with
-    which arguments, is called pinning a call contract on owned logic."
-  - "A substitute at the boundary preserves the observable contract of the real
-    dependency, including the states it can and cannot produce. A substitute
-    shaped only for the one scenario the author imagined moves the anti-pattern
-    one step out."
-  - "When a test seems to need a double of owned logic, the boundary is drawn
-    wrong: widen the slice to include the collaborator, or extract a pure seam
-    that takes domain inputs. Do not add the double."
-  - "Assertions target observable outcomes (returned values, persisted state,
-    written files, emitted events or messages), not the call graph of owned
-    collaborators. A spy on an allow-listed seam may assert what crossed the
-    boundary, for example the set of paths handed to a git write, because that
-    is an outcome at the boundary."
+- 'The allow-list is exhaustive. A test may substitute only: another domain or bounded context (a domain-contract seam); the filesystem; a database; the network to external APIs or services the system does not own; the clock; randomness; git and other processes or subprocesses the system under test does not own (a subprocess that runs the system''s own code is owned logic); sending a hook or notification (an outbound message whose delivery is outside the system under test); and schema-only validation of a data-transfer object by a library the system does not own, carrying no rule of the behavior under test (a validation rule the behavior depends on runs for real). Everything else inside the boundary runs for real.'
+- 'A seam is allow-listed by what sits behind it, not by the transport: code the system under test owns, reached over the network or run as a subprocess, runs for real; another bounded context is reached through its published contract (DIRECTIVE_031).'
+- 'Another domain or bounded context (DIRECTIVE_031) has its own model and is reached only through a published contract: an API, a port interface or a message schema. A sibling module, package or class that shares the model is not another bounded context; it runs for real.'
+- The allow-list permits a substitute; it never requires one. Running a real collaborator from the list (a temporary directory, an in-memory database, a real git repository in a temp dir) is always allowed.
+- A test must not mock, stub, patch or spy on code the system under test owns. The commonest form, asserting which helper was called, how often or with which arguments, is called pinning a call contract on owned logic.
+- A substitute at the boundary preserves the observable contract of the real dependency, including the states it can and cannot produce. A substitute shaped only for the one scenario the author imagined moves the anti-pattern one step out.
+- 'When a test seems to need a double of owned logic, the boundary is drawn wrong: widen the slice to include the collaborator, or extract a pure seam that takes domain inputs. Do not add the double.'
+- Assertions target observable outcomes (returned values, persisted state, written files, emitted events or messages), not the call graph of owned collaborators. A spy on an allow-listed seam may assert what crossed the boundary, for example the set of paths handed to a git write, because that is an outcome at the boundary.
 validation_criteria:
-  - "Every test double in a new or changed test sits on an allow-listed seam,
-    and the test (name, docstring or an adjacent comment) makes it possible to
-    tell which collaborators run for real and which are substituted."
-  - "No new or changed test asserts on the call count, call order or call
-    arguments of a collaborator the system under test owns."
-  - "An over-mocked test found during the change is remediated with
-    unfake-an-over-mocked-test or recorded as a tracked follow-up."
+- Every test double in a new or changed test sits on an allow-listed seam, and the test (name, docstring or an adjacent comment) makes it possible to tell which collaborators run for real and which are substituted.
+- No new or changed test asserts on the call count, call order or call arguments of a collaborator the system under test owns.
+- An over-mocked test found during the change is remediated with unfake-an-over-mocked-test or recorded as a tracked follow-up.

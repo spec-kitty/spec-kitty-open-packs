@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: starting-from-a-stale-or-wrong-remote
+title: Starting from a stale or wrong remote
+description: A fork's `origin/main` can lag the canonical repository. Ground on the canonical remote, and push nothing to `main`.
+severity: severe
+bad_example: The runner branches from its fork's origin/main, three weeks behind the canonical repository.

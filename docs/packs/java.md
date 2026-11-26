@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/java`
 - **Pack level:** `org`
 - **Declared version:** `2.3.0`
-- **Content checksum (sha256):** `cec5ac841e2e7fd5d2d9f4312e2f40ff2cea4993d441bee07e0342f5fcca0b2a`
+- **Content checksum (sha256):** `0346c174d91b2f9fb6188760677de9523f896348798cd0ba730ce64803487d63`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -37,9 +37,10 @@ The Java stack: the Java Jenny profile, Java conventions, Maven review checks an
 | --- | --- |
 | `styleguides` | 1 |
 | `toolguides` | 4 |
+| `anti_patterns` | 5 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **10** |
+| **Total files** | **15** |
 
 ### Full listing
 
@@ -57,6 +58,17 @@ The Java stack: the Java Jenny profile, Java conventions, Maven review checks an
 - `java-supply-chain.toolguide.yaml`
 - `maven-review-checks.guide.md`
 - `maven-review-checks.toolguide.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (5)</summary>
+
+- `catching-broad-exception-types.anti-pattern.yaml`
+- `constructor-sprawl-in-tests.anti-pattern.yaml`
+- `jqwik-as-a-test-dependency.anti-pattern.yaml`
+- `platform-dependent-encoding.anti-pattern.yaml`
+- `returning-null.anti-pattern.yaml`
 
 </details>
 

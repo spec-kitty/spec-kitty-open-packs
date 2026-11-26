@@ -1,0 +1,9 @@
+schema_version: '1.0'
+id: passive-hedged-filler-laden-instruction
+title: Passive, hedged, filler-laden instruction
+description: Passive voice plus hedging plus filler turns a one-line instruction into a paragraph that hides who does what. Rewrite in the active voice, drop the hedges, and address the reader directly.
+severity: smell
+bad_example: |-
+  It should be noted that, in order to proceed, the configuration file will
+  need to be simply edited so that the value can be updated appropriately.
+good_example: 'Edit `config.yaml` and set `timeout: 30`.'

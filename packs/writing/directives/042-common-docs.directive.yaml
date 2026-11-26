@@ -1,62 +1,20 @@
-schema_version: "1.0"
 id: DIRECTIVE_042
+schema_version: '1.0'
 title: Common Docs Documentation Standard
-intent: >
-  Documentation is governed, single-source-of-truth content, not a wiki. Every
-  documentation file lives under the single Common Docs root, declares its own
-  lifecycle metadata in in-file frontmatter, and is curated under a delete-stale
-  policy. This directive carries those conventions so a shipped check or a named
-  review item enforces each one, rather than an author's memory.
+intent: |
+  Documentation is governed, single-source-of-truth content, not a wiki. Every documentation file lives under the single Common Docs root, declares its own lifecycle metadata in in-file frontmatter, and is curated under a delete-stale policy. This directive carries those conventions so a shipped check or a named review item enforces each one, rather than an author's memory.
 enforcement: required
-scope: >
-  Applies whenever a documentation file under the Common Docs root is created,
-  moved, renamed, or its lifecycle metadata changes; whenever an Architecture
-  Decision Record is authored or migrated; and during review of any change that
-  adds, relocates, or deletes documentation.
+scope: |
+  Applies whenever a documentation file under the Common Docs root is created, moved, renamed, or its lifecycle metadata changes; whenever an Architecture Decision Record is authored or migrated; and during review of any change that adds, relocates, or deletes documentation.
 integrity_rules:
-  - There is exactly one documentation root; a second root or a per-version
-    shadow tree is a red-line violation.
-  - In-file frontmatter is the single source of truth for per-page metadata. If
-    the project keeps a second store of the same datum, such as a page inventory,
-    it is generated from frontmatter, never edited by hand.
-  - A page's lifecycle state is held in one frontmatter key, with the values
-    the project's docs styleguide defines. Where `status` already means
-    something else in the project, use a namespaced key such as `doc_status`,
-    which the structural lint shipped with this pack reads by default. ADR
-    frontmatter is exempt — it uses `status` for the MADR decision status
-    (Proposed / Accepted / Deprecated / Superseded).
-  - Every `related:` entry is the slug of a page in the docs tree (its path
-    under the docs root without `.md`, or an object with `ref` and an optional
-    `note`) and must resolve to that page. Links outside the docs tree go under
-    `external_references:`. Repo-relative `.md` paths in `related:` are the
-    legacy form.
-  - Every touched page declares its readers as `audience:` entries, each with
-    a `profile` and a `guidance_text`. Where the project defines persona pages,
-    each `profile` names one of them, and a profile that names none is a
-    violation on that page. Where it defines none, the profile names the reader
-    in plain words and the gap is recorded. `audience:` is required on touched
-    pages only, so untouched legacy pages are never failed for lacking it.
+- There is exactly one documentation root; a second root or a per-version shadow tree is a red-line violation.
+- In-file frontmatter is the single source of truth for per-page metadata. If the project keeps a second store of the same datum, such as a page inventory, it is generated from frontmatter, never edited by hand.
+- A page's lifecycle state is held in one frontmatter key, with the values the project's docs styleguide defines. Where `status` already means something else in the project, use a namespaced key such as `doc_status`, which the structural lint shipped with this pack reads by default. ADR frontmatter is exempt — it uses `status` for the MADR decision status (Proposed / Accepted / Deprecated / Superseded).
+- Every `related:` entry is the slug of a page in the docs tree (its path under the docs root without `.md`, or an object with `ref` and an optional `note`) and must resolve to that page. Links outside the docs tree go under `external_references:`. Repo-relative `.md` paths in `related:` are the legacy form.
+- Every touched page declares its readers as `audience:` entries, each with a `profile` and a `guidance_text`. Where the project defines persona pages, each `profile` names one of them, and a profile that names none is a violation on that page. Where it defines none, the profile names the reader in plain words and the gap is recorded. `audience:` is required on touched pages only, so untouched legacy pages are never failed for lacking it.
 validation_criteria:
-  - The common-docs-structural-lint asset (the structural lint shipped with
-    this pack) is the mechanical gate. The common-docs-structural-lint
-    toolguide says how to resolve and run it. Its checks cover index
-    completeness for curated-complete sections (architecture/ by default),
-    point-in-time file placement (allowlist adr/** and plans/** by default),
-    the no-shadow-tree rule (no shared non-nav content basename across
-    section subtrees) and required frontmatter on in-scope pages. Run with
-    --extended, it also flags a page outside the sanctioned sections and a
-    directory with two competing index pages. A second root or per-version
-    shadow tree is a red-line violation, caught at review and by the
-    extended lint.
-  - If the project keeps a generated page inventory, its own freshness check
-    confirms the inventory matches a fresh regeneration from frontmatter.
-  - Every page's lifecycle state uses the project's one lifecycle key and its
-    defined values; ADR frontmatter retains `status` for the MADR decision status
-    by design.
-  - Every `related:` slug resolves. A docsite build that reads the slug shape
-    (doc-kitty fails on a miss) or the project's own `related:` validator
-    confirms it, or review does where neither exists.
-  - Every touched page carries `audience:` entries with a `profile` and a
-    `guidance_text`; where the project defines persona pages, a check or review
-    confirms each profile names one; otherwise the plain-word profile and the
-    recorded gap are present.
+- The common-docs-structural-lint asset (the structural lint shipped with this pack) is the mechanical gate. The common-docs-structural-lint toolguide says how to resolve and run it. Its checks cover index completeness for curated-complete sections (architecture/ by default), point-in-time file placement (allowlist adr/** and plans/** by default), the no-shadow-tree rule (no shared non-nav content basename across section subtrees) and required frontmatter on in-scope pages. Run with --extended, it also flags a page outside the sanctioned sections and a directory with two competing index pages. A second root or per-version shadow tree is a red-line violation, caught at review and by the extended lint.
+- If the project keeps a generated page inventory, its own freshness check confirms the inventory matches a fresh regeneration from frontmatter.
+- Every page's lifecycle state uses the project's one lifecycle key and its defined values; ADR frontmatter retains `status` for the MADR decision status by design.
+- Every `related:` slug resolves. A docsite build that reads the slug shape (doc-kitty fails on a miss) or the project's own `related:` validator confirms it, or review does where neither exists.
+- Every touched page carries `audience:` entries with a `profile` and a `guidance_text`; where the project defines persona pages, a check or review confirms each profile names one; otherwise the plain-word profile and the recorded gap are present.

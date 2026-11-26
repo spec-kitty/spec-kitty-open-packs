@@ -1,78 +1,34 @@
-schema_version: "1.0"
 id: reviewer-implementer-role-separation
+schema_version: '1.0'
 name: Reviewer/Implementer Role Separation
-purpose: >
-  Ensure that the agent or session that implements a work package is never
-  the same agent or session that reviews it. Role separation prevents review
-  bias, preserves the independence of the review gate, and ensures that the
-  governing doctrine profile switches correctly between the implement and
-  review phases.
+purpose: |
+  Ensure that the agent or session that implements a work package is never the same agent or session that reviews it. Role separation prevents review bias, preserves the independence of the review gate, and ensures that the governing doctrine profile switches correctly between the implement and review phases.
 steps:
-  - title: Identify the implementing and reviewing roles
-    description: >
-      Every work package needs an implementer and a reviewer, and they must
-      be different agents or sessions. A mission type's step names the role
-      it needs (implementer for implement, reviewer for review), never a
-      profile. The project's activation preset decides which profiles are
-      active, and Spec Kitty picks a profile for each role (charter
-      ADR-0032). This pack ships implementer-ivan for the implementer role
-      and reviewer-renata for the reviewer role; an installed language pack
-      may add a specialist implementer (for example the python pack's
-      python-pedro). This tactic gives the rationale
-      and the constraint; it adds no role or profile wiring.
-  - title: Do not review your own implementation
-    description: >
-      An agent or session that implemented a WP must not load the reviewer
-      profile and perform the review of that same WP. If the same operator
-      must continue, open a new session, load the reviewer profile explicitly
-      via /spk-charter-profile-load, and treat the prior implementation as
-      external work to be reviewed with fresh eyes.
-    examples:
-      - "Wrong: same Claude session implements WP04 then immediately loads reviewer-renata and reviews WP04."
-      - "Correct: implementation session moves WP04 to for_review; a separate session or context loads reviewer-renata."
-  - title: Switch the WP's role in the frontmatter before handoff
-    description: >
-      Before moving a WP to for_review, set role to reviewer in the WP
-      prompt frontmatter and clear any agent_profile override, so the
-      reviewing agent selects a reviewer profile and loads the right
-      governance context. Before moving a WP back to in_progress after a
-      rejection, set role back to implementer. Name the role, never a
-      profile id: which profile fills the role is the preset's choice.
-    examples:
-      - "Pre-review handoff: set role: reviewer and an empty agent_profile in the WP frontmatter."
-      - "Post-rejection: set role: implementer and an empty agent_profile in the WP frontmatter."
-  - title: Never manufacture or self-certify an approved artifact
-    description: >
-      Two-party-review integrity is the rationale that makes role separation
-      matter beyond process hygiene: an `approved` review-cycle artifact is a
-      claim that an independent second party actually reviewed the work. Hand
-      -authoring, copying, or otherwise manufacturing an `approved` artifact
-      without a real independent review — including an implementer writing
-      their own approval to unblock a merge — is a self-approval and trips the
-      self-approval classifier described in "Do not review your own
-      implementation" above; that step covers the same-session case, this
-      step covers the artifact-forgery case regardless of session boundary.
-      If an approval is found to be self-certified after the fact, the
-      recovery is a fresh independent review — not a backfilled rationale for
-      the existing artifact.
-    examples:
-      - "Wrong: implementer hand-writes a review-cycle artifact with outcome: approved to move a blocked WP forward."
-      - "Correct: implementer stops at for_review; a genuinely separate reviewer session runs the review step and emits the approved artifact."
+- title: Identify the implementing and reviewing roles
+  description: |
+    Every work package needs an implementer and a reviewer, and they must be different agents or sessions. A mission type's step names the role it needs (implementer for implement, reviewer for review), never a profile. The project's activation preset decides which profiles are active, and Spec Kitty picks a profile for each role (charter ADR-0032). This pack ships implementer-ivan for the implementer role and reviewer-renata for the reviewer role; an installed language pack may add a specialist implementer (for example the python pack's python-pedro). This tactic gives the rationale and the constraint; it adds no role or profile wiring.
+- title: Do not review your own implementation
+  description: |
+    An agent or session that implemented a WP must not load the reviewer profile and perform the review of that same WP. If the same operator must continue, open a new session, load the reviewer profile explicitly via /spk-charter-profile-load, and treat the prior implementation as external work to be reviewed with fresh eyes.
+  examples:
+  - 'Wrong: same Claude session implements WP04 then immediately loads reviewer-renata and reviews WP04.'
+  - 'Correct: implementation session moves WP04 to for_review; a separate session or context loads reviewer-renata.'
+- title: Switch the WP's role in the frontmatter before handoff
+  description: |
+    Before moving a WP to for_review, set role to reviewer in the WP prompt frontmatter and clear any agent_profile override, so the reviewing agent selects a reviewer profile and loads the right governance context. Before moving a WP back to in_progress after a rejection, set role back to implementer. Name the role, never a profile id: which profile fills the role is the preset's choice.
+  examples:
+  - 'Pre-review handoff: set role: reviewer and an empty agent_profile in the WP frontmatter.'
+  - 'Post-rejection: set role: implementer and an empty agent_profile in the WP frontmatter.'
+- title: Never manufacture or self-certify an approved artifact
+  description: |
+    Two-party-review integrity is the rationale that makes role separation matter beyond process hygiene: an `approved` review-cycle artifact is a claim that an independent second party actually reviewed the work. Hand -authoring, copying, or otherwise manufacturing an `approved` artifact without a real independent review — including an implementer writing their own approval to unblock a merge — is a self-approval and trips the self-approval classifier described in "Do not review your own implementation" above; that step covers the same-session case, this step covers the artifact-forgery case regardless of session boundary. If an approval is found to be self-certified after the fact, the recovery is a fresh independent review — not a backfilled rationale for the existing artifact.
+  examples:
+  - 'Wrong: implementer hand-writes a review-cycle artifact with outcome: approved to move a blocked WP forward.'
+  - 'Correct: implementer stops at for_review; a genuinely separate reviewer session runs the review step and emits the approved artifact.'
 failure_modes:
-  - "The same session implements and reviews a WP — the review carries zero independence and misses the bias-correction the reviewer profile provides."
-  - "The role field is left as implementer (or an implementer agent_profile override is left in place) when the WP moves to for_review, causing the reviewer to load the wrong governance context."
-  - "Adding role or profile wiring in this tactic that conflicts with or duplicates the mission type or the preset. A step's role belongs in the mission-type file, and which profiles are active belongs in the activation preset (or in a derived pack that pins a profile to a role), not here."
-  - "Self-certified approval: an approved review-cycle artifact is manufactured or hand-authored rather than produced by a genuine independent review, defeating the two-party-review integrity that role separation exists to protect. Recovery is a fresh independent review, not a rationale for the existing artifact."
-notes: >
-  Role and profile wiring lives outside this tactic. A step in a mission type
-  names the role it needs: in the software-dev mission type
-  (mission_type:software-dev) the implement step names the implementer role
-  and the review step names the reviewer role. The
-  activation preset decides which profiles are active, and Spec Kitty selects
-  a profile for the role (charter ADR-0032); a derived pack may pin a profile
-  to a role. The software-dev implement and review step prompts carry the
-  role handoff in the WP frontmatter.
-  This tactic adds the doctrine-layer rationale and constraint. It does NOT
-  introduce role or profile wiring: change a step's role in the mission-type
-  file, and change which profile fills a role in the preset or in a derived
-  pack's pin, not here.
+- The same session implements and reviews a WP — the review carries zero independence and misses the bias-correction the reviewer profile provides.
+- The role field is left as implementer (or an implementer agent_profile override is left in place) when the WP moves to for_review, causing the reviewer to load the wrong governance context.
+- Adding role or profile wiring in this tactic that conflicts with or duplicates the mission type or the preset. A step's role belongs in the mission-type file, and which profiles are active belongs in the activation preset (or in a derived pack that pins a profile to a role), not here.
+- 'Self-certified approval: an approved review-cycle artifact is manufactured or hand-authored rather than produced by a genuine independent review, defeating the two-party-review integrity that role separation exists to protect. Recovery is a fresh independent review, not a rationale for the existing artifact.'
+notes: |
+  Role and profile wiring lives outside this tactic. A step in a mission type names the role it needs: in the software-dev mission type (mission_type:software-dev) the implement step names the implementer role and the review step names the reviewer role. The activation preset decides which profiles are active, and Spec Kitty selects a profile for the role (charter ADR-0032); a derived pack may pin a profile to a role. The software-dev implement and review step prompts carry the role handoff in the WP frontmatter. This tactic adds the doctrine-layer rationale and constraint. It does NOT introduce role or profile wiring: change a step's role in the mission-type file, and change which profile fills a role in the preset or in a derived pack's pin, not here.

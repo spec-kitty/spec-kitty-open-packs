@@ -25,7 +25,3 @@ steps:
   description: |
     Write down the decision and the specific reasoning behind it so a later reader understands why the release proceeded or was held.
   role: operator
-anti_patterns:
-- title: Rubber-stamp sign-off
-  content: |
-    Recording a go decision without reporting actual status against each exit criterion turns the review into a formality rather than a real readiness check.

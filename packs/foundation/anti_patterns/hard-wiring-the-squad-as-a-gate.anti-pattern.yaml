@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: hard-wiring-the-squad-as-a-gate
+title: Hard-wiring the squad as a gate
+description: 'Turning the squad into a required mission gate instead of optional, charter- or memory-activated enrichment. Bad: a status transition blocked until squad evidence is present, e.g. a work package that cannot be claimed until a squad report is attached. Good: the squad runs at the point-cut as guidance and the work proceeds independently of the squad''s outcome. The squad enriches; it never blocks.'
+severity: severe
+bad_example: 'Block a status transition until squad evidence is present: raise a StatusGateError before a work package can be claimed.'

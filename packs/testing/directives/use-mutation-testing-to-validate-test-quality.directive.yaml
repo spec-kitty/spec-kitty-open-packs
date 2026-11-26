@@ -1,57 +1,19 @@
-schema_version: "1.0"
 id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
+schema_version: '1.0'
 title: Use Mutation Testing to Validate Test Quality
-intent: >
-  Line and branch coverage prove a test executed a piece of code; they do not
-  prove a test would notice if that code were wrong. Mutation testing closes
-  that gap: it introduces small, deliberate faults (mutants) into the code under
-  test and asks whether the existing tests fail. A surviving mutant is a
-  concrete, located piece of evidence that some assertion does not actually pin
-  the behaviour it appears to cover — the tests run the line but do not constrain
-  its outcome. Use mutation testing to find those hollow assertions and
-  strengthen them until the mutant is killed. Treat the mutation score as a
-  QUALITY SIGNAL that points at weak spots, never as a target to be gamed: a
-  number driven up by suppressing awkward mutants, over-fitting tests to
-  implementation detail, or asserting on incidental output teaches nothing and
-  rots the suite. Because a full-suite mutation run is expensive, run it on the
-  CHANGED SCOPE under review — the modules a work package touched — rather than
-  the whole tree, so the signal is timely and the survivors it surfaces are the
-  ones a reviewer can act on now. This directive is an extensible HUB for
-  mutation-testing technique: the run/triage workflow, the mutation-aware
-  test-design conventions, and the language-specific mutation toolguides all
-  hang off it.
+intent: |
+  Line and branch coverage prove a test executed a piece of code; they do not prove a test would notice if that code were wrong. Mutation testing closes that gap: it introduces small, deliberate faults (mutants) into the code under test and asks whether the existing tests fail. A surviving mutant is a concrete, located piece of evidence that some assertion does not actually pin the behaviour it appears to cover — the tests run the line but do not constrain its outcome. Use mutation testing to find those hollow assertions and strengthen them until the mutant is killed. Treat the mutation score as a QUALITY SIGNAL that points at weak spots, never as a target to be gamed: a number driven up by suppressing awkward mutants, over-fitting tests to implementation detail, or asserting on incidental output teaches nothing and rots the suite. Because a full-suite mutation run is expensive, run it on the CHANGED SCOPE under review — the modules a work package touched — rather than the whole tree, so the signal is timely and the survivors it surfaces are the ones a reviewer can act on now. This directive is an extensible HUB for mutation-testing technique: the run/triage workflow, the mutation-aware test-design conventions, and the language-specific mutation toolguides all hang off it.
 enforcement: lenient-adherence
-scope: >
-  Applies whenever the QUALITY of a test suite is in question rather than merely
-  its existence — reviewing tests for a changed module, hardening the coverage of
-  a core piece of business logic, or investigating why a bug slipped past a green
-  suite. It governs HOW to establish that tests genuinely constrain behaviour;
-  the concrete run/triage steps, the design conventions that make mutants
-  killable, and the tools that generate mutants are its suggested members. It
-  does not mandate a mutation run for every change, and it does not apply to
-  generated code, throwaway spikes, or trivial glue with no behavioural contract
-  to pin.
+scope: |
+  Applies whenever the QUALITY of a test suite is in question rather than merely its existence — reviewing tests for a changed module, hardening the coverage of a core piece of business logic, or investigating why a bug slipped past a green suite. It governs HOW to establish that tests genuinely constrain behaviour; the concrete run/triage steps, the design conventions that make mutants killable, and the tools that generate mutants are its suggested members. It does not mandate a mutation run for every change, and it does not apply to generated code, throwaway spikes, or trivial glue with no behavioural contract to pin.
 integrity_rules:
-  - "A surviving non-equivalent mutant is resolved by strengthening the test that
-    should have caught it, never by removing the mutant, weakening the tool's
-    scope, or asserting on implementation detail to force a kill."
-  - "The mutation score is reported as a quality signal with its survivors, not
-    as a gate number optimised in isolation; a score raised without killing a
-    real survivor is not progress."
-  - "Equivalent mutants are annotated with a stated reason, so the equivalent set
-    is auditable and cannot silently absorb awkward-but-real survivors."
+- A surviving non-equivalent mutant is resolved by strengthening the test that should have caught it, never by removing the mutant, weakening the tool's scope, or asserting on implementation detail to force a kill.
+- The mutation score is reported as a quality signal with its survivors, not as a gate number optimised in isolation; a score raised without killing a real survivor is not progress.
+- Equivalent mutants are annotated with a stated reason, so the equivalent set is auditable and cannot silently absorb awkward-but-real survivors.
 validation_criteria:
-  - "For the changed scope under review, surviving non-equivalent mutants are
-    either killed by a strengthened assertion or explicitly recorded, with none
-    left silently tolerated."
-  - "Reviewers can point to the assertion that now kills each previously
-    surviving mutant, or to the recorded reason a survivor is equivalent."
-  - "The mutation run is scoped to the change under review, so it completes
-    inside a normal review cycle rather than requiring a whole-suite pass."
+- For the changed scope under review, surviving non-equivalent mutants are either killed by a strengthened assertion or explicitly recorded, with none left silently tolerated.
+- Reviewers can point to the assertion that now kills each previously surviving mutant, or to the recorded reason a survivor is equivalent.
+- The mutation run is scoped to the change under review, so it completes inside a normal review cycle rather than requiring a whole-suite pass.
 explicit_allowances:
-  - "A whole-suite mutation run is not required per change; scoping to the
-    touched modules is the norm, and a full run is reserved for periodic health
-    checks or for a core module whose contract has materially changed."
-  - "Generated code, throwaway spikes, and trivial glue with no behavioural
-    contract to pin are out of scope; a low or absent mutation score there is not
-    a finding to act on."
+- A whole-suite mutation run is not required per change; scoping to the touched modules is the norm, and a full run is reserved for periodic health checks or for a core module whose contract has materially changed.
+- Generated code, throwaway spikes, and trivial glue with no behavioural contract to pin are out of scope; a low or absent mutation score there is not a finding to act on.

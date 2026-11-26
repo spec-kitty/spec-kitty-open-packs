@@ -1,34 +1,18 @@
-schema_version: "1.0"
 id: OPERATOR_SIGNAL_CONTRACT
+schema_version: '1.0'
 title: Operator-Signal Contract — A Path That Decides Must Also Signal
-intent: >
-  Whenever a code path reaches a correct machine-readable outcome — a correct
-  error_code, a byte-stable file, a truthy return, a completed state transition —
-  it MUST also emit the human-readable half of that outcome through an existing
-  operator-visible surface. The machine half landing intact while the human half
-  is dropped, discarded, or never emitted is the "silent-drop / fake-green"
-  defect that epics #3410 (charter/doctrine silent-drop) and #3549 (event-log
-  integrity) name and own the vocabulary for. This directive makes that
-  discipline a citable named contract for maintainers: a decision without an
-  operator-visible signal is only half-finished, and the fake-green half is the
-  half that costs a subsequent agent hours of misattribution. Do NOT mint new
-  vocabulary; adopt the existing operator-signal / fail-loud / silent-drop terms.
+intent: |
+  Whenever a code path reaches a correct machine-readable outcome — a correct error_code, a byte-stable file, a truthy return, a completed state transition — it MUST also emit the human-readable half of that outcome through an existing operator-visible surface. The machine half landing intact while the human half is dropped, discarded, or never emitted is the "silent-drop / fake-green" defect that epics #3410 (charter/doctrine silent-drop) and #3549 (event-log integrity) name and own the vocabulary for. This directive makes that discipline a citable named contract for maintainers: a decision without an operator-visible signal is only half-finished, and the fake-green half is the half that costs a subsequent agent hours of misattribution. Do NOT mint new vocabulary; adopt the existing operator-signal / fail-loud / silent-drop terms.
 enforcement: required
-scope: >
-  Applies to code paths that decide — any path that computes a correct verdict,
-  writes a stable artifact, returns a meaningful value, or drives a state
-  transition — and to the interfaces that report those outcomes to operators
-  (CLI output, doctor/status JSON, event logs, exit codes, and equivalent
-  operator-visible sinks). Does not apply to purely internal intermediate values
-  that no operator is ever meant to observe, provided their eventual
-  operator-facing rollup still signals.
+scope: |
+  Applies to code paths that decide — any path that computes a correct verdict, writes a stable artifact, returns a meaningful value, or drives a state transition — and to the interfaces that report those outcomes to operators (CLI output, doctor/status JSON, event logs, exit codes, and equivalent operator-visible sinks). Does not apply to purely internal intermediate values that no operator is ever meant to observe, provided their eventual operator-facing rollup still signals.
 integrity_rules:
-  - A code path that produces a correct machine-readable outcome while its operator-visible human signal is dropped, discarded, or never emitted is non-compliant — this is the silent-drop / fake-green defect epics #3410 and #3549 name.
-  - Introducing a new signal sink that is not already operator-visible, in place of an existing watched surface, is non-compliant — the new sink can be swallowed as silently as no signal at all.
-  - A regression test that asserts only on the machine half (error_code, exit status, byte-stable file) without asserting on the emitted human-readable signal is non-compliant — it cannot catch the drop it is meant to guard.
-  - Emitting a machine signal with no paired human sentence stating what happened and what to do is non-compliant.
+- A code path that produces a correct machine-readable outcome while its operator-visible human signal is dropped, discarded, or never emitted is non-compliant — this is the silent-drop / fake-green defect epics
+- Introducing a new signal sink that is not already operator-visible, in place of an existing watched surface, is non-compliant — the new sink can be swallowed as silently as no signal at all.
+- A regression test that asserts only on the machine half (error_code, exit status, byte-stable file) without asserting on the emitted human-readable signal is non-compliant — it cannot catch the drop it is meant to guard.
+- Emitting a machine signal with no paired human sentence stating what happened and what to do is non-compliant.
 validation_criteria:
-  - For every deciding path, an operator can observe the outcome on an existing operator-visible surface (CLI, doctor/status JSON, event log, or exit code), not merely infer it from machine state.
-  - Every machine-readable signal is accompanied by a human-readable sentence naming what happened and the operator's next action.
-  - Each guarded path has a red-first regression that asserts on the emitted signal and fails when the human half is dropped while the machine half stays intact.
-  - No operator-facing outcome depends on a newly introduced sink that is not already watched by operators.
+- For every deciding path, an operator can observe the outcome on an existing operator-visible surface (CLI, doctor/status JSON, event log, or exit code), not merely infer it from machine state.
+- Every machine-readable signal is accompanied by a human-readable sentence naming what happened and the operator's next action.
+- Each guarded path has a red-first regression that asserts on the emitted signal and fails when the human half is dropped while the machine half stays intact.
+- No operator-facing outcome depends on a newly introduced sink that is not already watched by operators.

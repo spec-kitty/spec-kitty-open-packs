@@ -19,7 +19,7 @@ import pack_digest as pd  # noqa: E402
 
 sys.path.insert(0, str(SCRIPTS.parent / "release"))
 
-BUILT_IN_DIGEST = "39b79575672c97c0562ac2751cc754defbda387a3509e8ace214953a76169e3d"
+BUILT_IN_DIGEST = "a1e986a61fd39da2353a15f82e3a8bbdeee9ab32a323284d8889422898289747"
 FIXTURE = {"a.txt": b"x", "sub/b.txt": b"yz", "pack-manifest.yaml": b"m"}
 
 

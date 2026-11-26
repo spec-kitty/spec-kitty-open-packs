@@ -1,0 +1,23 @@
+schema_version: '1.0'
+id: hover-only-interaction
+title: Hover-Only Interaction
+description: Content revealed only on hover cannot be reached on touch screens; show interactive features by default and add hover effects only where hover exists.
+severity: severe
+bad_example: |-
+  .card .actions {
+    display: none;
+  }
+
+  .card:hover .actions {
+    display: flex;
+  }
+good_example: |-
+  .card .actions {
+    display: flex;
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      box-shadow: 0 0 0 2px #06c;
+    }
+  }

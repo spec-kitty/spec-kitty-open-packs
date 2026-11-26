@@ -1,14 +1,34 @@
 schema_version: '1.0'
-manifest_hash: 7576932a3857f8f95e4929f24d47e7be5b8f8341869f90341f4b71fe48cf4b4f
+manifest_hash: c48311dec5b091bd64eff3cfa83db377314df86f28a1a6d8ec9b89af6979d8fc
 constituents:
 - kind: agent_profile
   id: java-jenny
   path: agent_profiles/java-jenny.agent.yaml
-  content_hash: 8c961d8eabeb5bb1bc0d0a1ef57c57ca01dd7f7550ee06acf04a2658bd7592bc
+  content_hash: 87c70486e657ea230d560965eb09b8f5c5cbd26d9c99af08db88067bb77b7001
+- kind: anti_pattern
+  id: catching-broad-exception-types
+  path: anti_patterns/catching-broad-exception-types.anti-pattern.yaml
+  content_hash: 767fb0cb3bfca9cdfe0751a9598f27600447c958a784b5c81ffcbed152758a93
+- kind: anti_pattern
+  id: constructor-sprawl-in-tests
+  path: anti_patterns/constructor-sprawl-in-tests.anti-pattern.yaml
+  content_hash: a56f6d1b64db93eb7a352edd827630e5ff6b7df7982972eea3c5648fa7de8e91
+- kind: anti_pattern
+  id: jqwik-as-a-test-dependency
+  path: anti_patterns/jqwik-as-a-test-dependency.anti-pattern.yaml
+  content_hash: 745197ebad67900bba29f2fd3aa38df9a248b8d69cc5fe66108b7f9eecc394e0
+- kind: anti_pattern
+  id: platform-dependent-encoding
+  path: anti_patterns/platform-dependent-encoding.anti-pattern.yaml
+  content_hash: b8dd5a2a04bf0c731aadee671241a9565bc8858ae90cb693b57ac0b60c8bf361
+- kind: anti_pattern
+  id: returning-null
+  path: anti_patterns/returning-null.anti-pattern.yaml
+  content_hash: 6aa1904b951b0dd396d959603dccdb8ae62a7273642a3ba1092d892b15c7d3d0
 - kind: styleguide
   id: java-conventions
   path: styleguides/java-conventions.styleguide.yaml
-  content_hash: 6576b4e1052f7a010028e2bb4c9450b63c27f1c803c6fc902d7645f896204ed9
+  content_hash: 188673747e500e4303b1f9ac8d93d506dfd90d49fcd2f7e4cad2153e32e7181b
 - kind: toolguide
   id: java-supply-chain
   path: toolguides/java-supply-chain.toolguide.yaml

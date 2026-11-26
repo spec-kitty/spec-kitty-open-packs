@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: blocking-on-the-optional-steps
+title: Blocking on the optional steps
+description: The domain-classification overlay (step 4) and the security overlay (step 5) are explicitly optional. Treat them as enrichments, not gates. A triage with a clean audit and a sound bucket plan is decision-grade even without either overlay.
+severity: smell
+bad_example: The triage report is held for a week until the optional security overlay is done, though the audit and bucket plan are already sound.

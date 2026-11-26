@@ -1,35 +1,17 @@
-schema_version: "1.0"
 id: SPEC_KITTY_DOCS_CONVENTIONS
+schema_version: '1.0'
 title: Spec Kitty Documentation Conventions (repository specifics)
-intent: >
-  Binds the built-in DIRECTIVE_042 (Common Docs Documentation Standard) and
-  DIRECTIVE_047 (Audience-Oriented Writing) to the docs layout that each
-  repository's own charter defines: where its audience personas live, the
-  sanctioned frontmatter keys and where its ADRs go.
+intent: |
+  Binds the built-in DIRECTIVE_042 (Common Docs Documentation Standard) and DIRECTIVE_047 (Audience-Oriented Writing) to the docs layout that each repository's own charter defines: where its audience personas live, the sanctioned frontmatter keys and where its ADRs go.
 enforcement: required
-scope: >
-  Applies in every repository whose closure holds this pack, wherever the
-  built-in DIRECTIVE_042 or DIRECTIVE_047 applies to a documentation page.
-  The repository's charter or docs set the layout: the persona location, the
-  ADR location and the docs checks.
+scope: |
+  Applies in every repository whose closure holds this pack, wherever the built-in DIRECTIVE_042 or DIRECTIVE_047 applies to a documentation page. The repository's charter or docs set the layout: the persona location, the ADR location and the docs checks.
 integrity_rules:
-  - The lifecycle key is `doc_status`, with the values draft / active /
-    deprecated / superseded / durable. A bare `status` key is prohibited on a
-    page because it collides with the work package lane status; ADR frontmatter
-    keeps `status` for the MADR decision status.
-  - Where the repository's charter or docs define audience personas, every
-    `audience:` entry on a touched page must resolve to an existing persona
-    file in the location they name; a dangling audience reference is a
-    red-line violation on that page. `audience:` is required on touched pages
-    only and is never made a required field for every page.
-  - ADRs go where the repository's charter puts them, flat or in era folders,
-    and follow the naming of the existing ADRs there.
+- The lifecycle key is `doc_status`, with the values draft / active / deprecated / superseded / durable. A bare `status` key is prohibited on a page because it collides with the work package lane status; ADR frontmatter keeps `status` for the MADR decision status.
+- Where the repository's charter or docs define audience personas, every `audience:` entry on a touched page must resolve to an existing persona file in the location they name; a dangling audience reference is a red-line violation on that page. `audience:` is required on touched pages only and is never made a required field for every page.
+- ADRs go where the repository's charter puts them, flat or in era folders, and follow the naming of the existing ADRs there.
 validation_criteria:
-  - Every touched page under the docs root uses the sanctioned frontmatter
-    keys and, where the repository defines personas, declares `audience:`
-    personas from the location its charter or docs name.
-  - Where the repository has an `audience:` path check, it confirms every
-    audience reference on a touched page resolves to an existing persona, and
-    it fails when it examines no page.
-  - No documentation frontmatter uses a bare `status` key for the doc lifecycle.
-  - Every new ADR sits in the location the repository's charter names.
+- Every touched page under the docs root uses the sanctioned frontmatter keys and, where the repository defines personas, declares `audience:` personas from the location its charter or docs name.
+- Where the repository has an `audience:` path check, it confirms every audience reference on a touched page resolves to an existing persona, and it fails when it examines no page.
+- No documentation frontmatter uses a bare `status` key for the doc lifecycle.
+- Every new ADR sits in the location the repository's charter names.

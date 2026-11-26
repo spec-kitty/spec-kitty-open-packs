@@ -1,22 +1,14 @@
-schema_version: "1.0"
 id: SPEC_KITTY_RED_MAIN_POLICY
+schema_version: '1.0'
 title: Spec Kitty Red-Main Policy (repository specifics)
-intent: >
-  Binds the built-in RED_MAIN_RELEASE_DISCIPLINE directive to Spec Kitty's own
-  governance: the consensus policy (CEO/product owner, QA lead, maintainers),
-  the governing decision ADR 2026-07-17-1
-  (docs/adr/3.x/2026-07-17-1-red-main-is-honest-ci-is-release-authority.md),
-  the operational guide docs/development/reference/red-main-and-release-readiness.md,
-  and the landing-pass red classification in docs/development/how-to/pr-landing.md.
+intent: |
+  Binds the built-in RED_MAIN_RELEASE_DISCIPLINE directive to Spec Kitty's own governance: the consensus policy (CEO/product owner, QA lead, maintainers), the governing decision ADR 2026-07-17-1 (docs/adr/3.x/2026-07-17-1-red-main-is-honest-ci-is-release-authority.md), the operational guide docs/development/reference/red-main-and-release-readiness.md, and the landing-pass red classification in docs/development/how-to/pr-landing.md.
 enforcement: required
-scope: >
-  Applies in the Spec Kitty repository wherever the built-in
-  RED_MAIN_RELEASE_DISCIPLINE directive applies.
+scope: |
+  Applies in the Spec Kitty repository wherever the built-in RED_MAIN_RELEASE_DISCIPLINE directive applies.
 integrity_rules:
-  - >
-    Every red on main traces to a `priority:P0` issue. A red that cannot be
-    traced to one is a defect to triage, not an acceptable resting state.
+- |
+  Every red on main traces to a `priority:P0` issue. A red that cannot be traced to one is a defect to triage, not an acceptable resting state.
 validation_criteria:
-  - >
-    The built-in RED_MAIN_RELEASE_DISCIPLINE validation criteria hold, and every
-    red on main is traceable to a `priority:P0` issue on spec-kitty/spec-kitty.
+- |
+  The built-in RED_MAIN_RELEASE_DISCIPLINE validation criteria hold, and every red on main is traceable to a `priority:P0` issue on spec-kitty/spec-kitty.

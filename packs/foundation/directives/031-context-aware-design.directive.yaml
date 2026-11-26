@@ -1,24 +1,16 @@
-schema_version: "1.0"
 id: DIRECTIVE_031
+schema_version: '1.0'
 title: Context-Aware Design
-intent: >
-  Every design decision must be made with explicit awareness of the bounded context
-  it belongs to. Code, terminology, and abstractions must align with the context's
-  ubiquitous language. Crossing a context boundary requires an explicit translation
-  layer; implicit coupling across boundaries is prohibited.
+intent: |
+  Every design decision must be made with explicit awareness of the bounded context it belongs to. Code, terminology, and abstractions must align with the context's ubiquitous language. Crossing a context boundary requires an explicit translation layer; implicit coupling across boundaries is prohibited.
 enforcement: required
-scope: >
-  Applies when creating or modifying modules, packages, services, interfaces,
-  data models, or naming conventions. Applies during code review whenever
-  cross-context interactions are introduced or changed.
+scope: |
+  Applies when creating or modifying modules, packages, services, interfaces, data models, or naming conventions. Applies during code review whenever cross-context interactions are introduced or changed.
 integrity_rules:
-  - No direct object references across bounded context boundaries. Integration
-    must occur through well-defined interfaces or events.
-  - Domain terms must be consistent with the context glossary. Deviations require
-    a documented rationale.
-  - Shared mutable state between contexts is not permitted without an explicit
-    Shared Kernel agreement and documented coordination protocol.
+- No direct object references across bounded context boundaries. Integration must occur through well-defined interfaces or events.
+- Domain terms must be consistent with the context glossary. Deviations require a documented rationale.
+- Shared mutable state between contexts is not permitted without an explicit Shared Kernel agreement and documented coordination protocol.
 validation_criteria:
-  - The design document or code review identifies which bounded context is in scope.
-  - All identifiers in new or changed code use the context's ubiquitous language.
-  - Cross-context integrations are mediated by an explicit translation layer.
+- The design document or code review identifies which bounded context is in scope.
+- All identifiers in new or changed code use the context's ubiquitous language.
+- Cross-context integrations are mediated by an explicit translation layer.

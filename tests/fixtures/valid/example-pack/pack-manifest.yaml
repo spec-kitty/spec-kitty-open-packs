@@ -1,15 +1,15 @@
 schema_version: '1.0'
-manifest_hash: 5f6bba7dfd4724f9676c79c1a4897426b4e40e4472f75d2da60567763ddf91c0
+manifest_hash: 5f657b68faec247b7c4c31727996e56d0917f8ee3df66cf3a4d2f99614b2b8d3
 constituents:
 - kind: directive
   id: EXAMPLE_001_SECRET_HANDLING
   path: directives/example-001-secret-handling.directive.yaml
-  content_hash: b989d102a704d8b953f0876931994d903f4a09648dae38c0f5a1d5459b71dec2
+  content_hash: 0083bf377ce093590033a4cbca107a6eaae6871ee24d05c96ccc727a123f5c9d
 - kind: tactic
   id: example-tac-001-scan-staged
   path: tactics/example-tac-001.tactic.yaml
-  content_hash: 82b14edad720128223690491dfe428fca5fda2d0df9285800170bff0f49dec8d
+  content_hash: d0cdfcd52de27b148fb998a8f1e7b07f59304ec7414c30c91e6f570ac4e095f9
 presets:
 - id: example
   path: presets/example.yaml
-  content_hash: 77e8d30bb98af408b5a2d39ebc341fbc5bee517e5b330909dc4fa3572209f70d
+  content_hash: ebcf9d2942b8e365170bc343ec2afa484e1b119c272a2e42a4c889f34ccd96ae

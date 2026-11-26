@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: work-stranded-under-a-closed-epic
+title: Work stranded under a closed epic
+description: Open tickets parented under a closed or split epic look tracked but are invisible to planning.
+severity: severe
+bad_example: Five open tickets stay parented under the closed "Search v1" epic.

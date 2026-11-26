@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: multiple-active-state-labels
+title: Multiple active state labels
+description: Conflicting states make ownership and next action ambiguous.
+severity: severe
+bad_example: An issue carries both `ready-for-agent` and `needs-info`, and two maintainers act on different ones.

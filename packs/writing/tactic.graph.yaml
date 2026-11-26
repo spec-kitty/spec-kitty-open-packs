@@ -45,8 +45,7 @@ edges:
 - source: tactic:common-docs-scaffold
   target: asset:common-docs-structural-lint
   relation: requires
-  reason: The common-docs scaffold tactic relies on the structural lint's index_completeness check to enforce section-index
-    scaffolding; activating the tactic requires the shipped lint asset.
+  reason: The common-docs scaffold tactic relies on the structural lint's index_completeness check to enforce section-index scaffolding; activating the tactic requires the shipped lint asset.
 - source: tactic:common-docs-scaffold
   target: toolguide:common-docs-structural-lint
   relation: suggests
@@ -54,8 +53,7 @@ edges:
 - source: tactic:common-docs-write
   target: asset:common-docs-structural-lint
   relation: requires
-  reason: The common-docs write tactic's run-the-live-gates step directs the agent to run the structural lint before handoff;
-    activating the tactic requires the shipped lint asset.
+  reason: The common-docs write tactic's run-the-live-gates step directs the agent to run the structural lint before handoff; activating the tactic requires the shipped lint asset.
 - source: tactic:common-docs-write
   target: toolguide:common-docs-structural-lint
   relation: suggests
@@ -83,9 +81,7 @@ edges:
 - source: foundation::tactic:problem-decomposition
   target: tactic:stakeholder-alignment
   relation: suggests
-  when: When enumeration of contributing factors reveals that stakeholder concerns or organisational dynamics are a significant
-    source of the problem. Run stakeholder alignment before clustering so that social and political factors are visible in
-    the decomposition.
+  when: When enumeration of contributing factors reveals that stakeholder concerns or organisational dynamics are a significant source of the problem. Run stakeholder alignment before clustering so that social and political factors are visible in the decomposition.
 - source: tactic:terminology-extraction-mapping
   target: tactic:code-documentation-analysis
   relation: suggests
@@ -93,12 +89,8 @@ edges:
 - source: tactic:terminology-extraction-mapping
   target: foundation::tactic:glossary-curation-interview
   relation: suggests
-  when: feeding the extracted, relationship-mapped, validated terms into the operator-led curation rounds that promote them into
-    the living glossary
-  reason: 'The extraction-mapping tactic''s OWN purpose is to build ''a comprehensive, maintainable glossary'' and its final
-    step publishes the validated terms as ''the authoritative source for the project ubiquitous language'' -- the input the
-    glossary-curation-interview curation rounds consume. INERT: terminology-extraction-mapping is action-unreachable. (Its
-    sibling edge to `tactic:language-driven-design` is OMITTED here -- it already exists as an extractor-minted edge.)'
+  when: feeding the extracted, relationship-mapped, validated terms into the operator-led curation rounds that promote them into the living glossary
+  reason: 'The extraction-mapping tactic''s OWN purpose is to build ''a comprehensive, maintainable glossary'' and its final step publishes the validated terms as ''the authoritative source for the project ubiquitous language'' -- the input the glossary-curation-interview curation rounds consume. INERT: terminology-extraction-mapping is action-unreachable. (Its sibling edge to `tactic:language-driven-design` is OMITTED here -- it already exists as an extractor-minted edge.)'
 - source: tactic:terminology-extraction-mapping
   target: foundation::tactic:language-driven-design
   relation: suggests

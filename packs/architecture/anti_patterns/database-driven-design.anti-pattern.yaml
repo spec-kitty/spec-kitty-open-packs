@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: database-driven-design
+title: Database-Driven Design
+description: 'Starting from a database schema and generating code around it inverts the DDD priority: the domain model should drive persistence, not the other way around. Schema-first thinking produces models shaped by storage constraints rather than business rules.'
+severity: severe
+bad_example: The domain classes are generated from the `ORDERS` and `ORDER_LINES` tables, so `Order` has a `status_cd CHAR(1)` field and no `cancel()` method.

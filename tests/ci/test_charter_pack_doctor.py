@@ -585,7 +585,6 @@ class RealPackDoctor(unittest.TestCase):
         if done.returncode == 1:
             self.assertIn("pack-doctor refused the packs (exit 1)", done.stdout)
 
-    @unittest.expectedFailure  # the set's known red: cleared by WP08/WP09, and WP09 removes this marker
     def test_the_gate_passes_this_checkout(self) -> None:
         done = self.gate_over_this_checkout()
         self.assertEqual(done.returncode, 0, done.stdout[-4000:])

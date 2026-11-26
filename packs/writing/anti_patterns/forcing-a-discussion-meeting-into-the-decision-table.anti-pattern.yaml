@@ -1,0 +1,15 @@
+schema_version: '1.0'
+id: forcing-a-discussion-meeting-into-the-decision-table
+title: Forcing a discussion meeting into the decision table
+description: Cramming a discussion- or knowledge-sharing meeting into the five-column Minutes table, leaving most Decisions and Action cells empty, produces a sparse record that reads worse than a topic summary. When the meeting was about exploring topics rather than reaching decisions, select the discussion-notes format instead of half-filling the decision table.
+severity: smell
+bad_example: |-
+  | # | Agenda Item | Notes | Decisions | Presenter |
+  | 1 | Container overview | scales to zero | | Alex |
+  | 2 | Hosting tiers | discussed options | | Jordan |
+  — Wrong: a discussion recap squeezed into the decision table with empty Decisions.
+good_example: |-
+  ### Managed container overview
+  - Apps run on a managed container service — no VM upkeep
+  - Services scale to zero when idle, so idle tools cost nothing
+  - Cold-start latency is the main trade-off of scale-to-zero

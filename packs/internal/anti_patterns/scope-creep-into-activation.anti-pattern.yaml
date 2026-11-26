@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: scope-creep-into-activation
+title: Scope creep into activation
+description: Writing activate/deactivate/cascade scenarios into the offering suite. Activation is a separate layer that extracts later; mixing it in makes the offering conformance net not match the unit being extracted first.
+severity: severe
+bad_example: 'The offering suite gains `Scenario: cascade deactivation removes dependent packs`.'

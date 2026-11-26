@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: any-leakage
+title: Any Leakage
+description: An `any` parameter or return type spreads unchecked values through every caller; the compiler stops catching interface drift.
+severity: severe
+bad_example: |-
+  function total(items: any): any {
+    return items.reduce((sum: any, item: any) => sum + item.price, 0);
+  }
+good_example: |-
+  function total(items: readonly LineItem[]): number {
+    return items.reduce((sum, item) => sum + item.price, 0);
+  }

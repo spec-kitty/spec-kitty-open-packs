@@ -1,10 +1,238 @@
 schema_version: '1.0'
-manifest_hash: 7af18fb040e06ce423c378b1e2a1c3526bc1bfd3e370ab1d43f6fc276a5535c8
+manifest_hash: ffeda929055e81de64e8a4d674dbf06f9a51f95a343ce2642544fb0c89f44c16
 constituents:
+- kind: anti_pattern
+  id: a-report-with-no-ask
+  path: anti_patterns/a-report-with-no-ask.anti-pattern.yaml
+  content_hash: 1ce67e46724b97b501014b16f10c942c814284f93195c77a5756467869361609
+- kind: anti_pattern
+  id: agent-merges-the-mainline
+  path: anti_patterns/agent-merges-the-mainline.anti-pattern.yaml
+  content_hash: 5f6f84542e96ae1c0552f1533935d9ece216bb0ebe6f53c8cdf5533ab7e2209e
+- kind: anti_pattern
+  id: arming-auto-merge-before-the-fix-is-complete
+  path: anti_patterns/arming-auto-merge-before-the-fix-is-complete.anti-pattern.yaml
+  content_hash: 5e9125a0abc71bc4326f8fcda4a65bcf55fcfe76d467988271cd65677b0f8d76
+- kind: anti_pattern
+  id: catch-all-root
+  path: anti_patterns/catch-all-root.anti-pattern.yaml
+  content_hash: e0c1828281a1021c55908828f490e5d9c5e4e8d46c3dd9cb3a54b7275490e1cd
+- kind: anti_pattern
+  id: claiming-unread-progress
+  path: anti_patterns/claiming-unread-progress.anti-pattern.yaml
+  content_hash: ce804a0c61b9d970c7f532e7389f8569b1148059c6e7e4c6d1529dd7851f10e6
+- kind: anti_pattern
+  id: command-named-steps
+  path: anti_patterns/command-named-steps.anti-pattern.yaml
+  content_hash: d3ee5fb7ff135a9247b97ead82524ee00052a526177f1032e10a868a7aa00c82
+- kind: anti_pattern
+  id: crud-affordance-echo
+  path: anti_patterns/crud-affordance-echo.anti-pattern.yaml
+  content_hash: 2b8492bc0dd0cad67aaab035e24ec21d0f7bb4ad3f13626d179da4b633e72d88
+- kind: anti_pattern
+  id: dark-chrome-or-a-white-print-margin
+  path: anti_patterns/dark-chrome-or-a-white-print-margin.anti-pattern.yaml
+  content_hash: 0a244435e6ff77637a4f5ba5e4ccc606994a7f05067e70877c796835d11e5c85
+- kind: anti_pattern
+  id: deciding-silently
+  path: anti_patterns/deciding-silently.anti-pattern.yaml
+  content_hash: a2a5818db9553528fc891cb860f0238deadd2f40bd11520cdfb7817dde8ea9e3
+- kind: anti_pattern
+  id: decision-drip
+  path: anti_patterns/decision-drip.anti-pattern.yaml
+  content_hash: 27ecca8b1cbf4b4207184acf4ef79906e331c79b1a1fd1ee2c0bcc15afc62417
+- kind: anti_pattern
+  id: defect-framing
+  path: anti_patterns/defect-framing.anti-pattern.yaml
+  content_hash: 1b5e808e44f09f0e7f2b55e5510f2f005481b9a02f6157eabd356e6c71939d15
+- kind: anti_pattern
+  id: deferring-instead-of-finishing
+  path: anti_patterns/deferring-instead-of-finishing.anti-pattern.yaml
+  content_hash: 631215ee944a5c66ab23382180d63b75fd8313268d6245ccb2738eaaacd0d40a
+- kind: anti_pattern
+  id: dispatching-from-a-title
+  path: anti_patterns/dispatching-from-a-title.anti-pattern.yaml
+  content_hash: 8a4df8cc2311db86fee772655a857c018ab491e0b5768ceb2933ce55e0fb2744
+- kind: anti_pattern
+  id: environment-improvisation
+  path: anti_patterns/environment-improvisation.anti-pattern.yaml
+  content_hash: 83f92df8893820c0f3a4c9e2dbb21e13de250b9e0657b2baa27f611a61a4d6f4
+- kind: anti_pattern
+  id: flipping-a-red-or-still-changing-pr-to-ready-for-review
+  path: anti_patterns/flipping-a-red-or-still-changing-pr-to-ready-for-review.anti-pattern.yaml
+  content_hash: bfe05115ba57d4d6f4b00100e3395ffe9ce9d54efadd969227f00a1a40d9694b
+- kind: anti_pattern
+  id: forking-a-near-duplicate-epic
+  path: anti_patterns/forking-a-near-duplicate-epic.anti-pattern.yaml
+  content_hash: 208f51d71b09b7e6db610b396fb070693e64ac66643fe3c308a26fa30cd2a35e
+- kind: anti_pattern
+  id: full-auto-drift
+  path: anti_patterns/full-auto-drift.anti-pattern.yaml
+  content_hash: 57c2ed40bb58063f9eccefed9a129fc6345568c14c1141723c14816a24d73f64
+- kind: anti_pattern
+  id: gating-instead-of-discipline
+  path: anti_patterns/gating-instead-of-discipline.anti-pattern.yaml
+  content_hash: 3ccd8fd328ee5a323667e6e322bd250c568fc4a8aa493ab5e92b333c89a86048
+- kind: anti_pattern
+  id: greening-by-erasure
+  path: anti_patterns/greening-by-erasure.anti-pattern.yaml
+  content_hash: 657518c25f31620d8c5bbe6f93184ecdb73575941e52b1021deee1d1b64f721b
+- kind: anti_pattern
+  id: grounding-prompt-without-discovery
+  path: anti_patterns/grounding-prompt-without-discovery.anti-pattern.yaml
+  content_hash: 7ad607204ae048329d7138845276fda8aa842634d2082f25ca99cab1c96ef5d5
+- kind: anti_pattern
+  id: hand-built-chrome
+  path: anti_patterns/hand-built-chrome.anti-pattern.yaml
+  content_hash: 20409fe5a1a353d762f5571d8ed51632d814a325eff9899c55b49cc4a12a3f08
+- kind: anti_pattern
+  id: hand-counted-or-invented-figures
+  path: anti_patterns/hand-counted-or-invented-figures.anti-pattern.yaml
+  content_hash: 5a40dd8c61dc1522e252f8b85af229dbdb2c4870364666cd7550d5422cfe6c27
+- kind: anti_pattern
+  id: hiding-pre-existing-debt-in-new-work
+  path: anti_patterns/hiding-pre-existing-debt-in-new-work.anti-pattern.yaml
+  content_hash: d00edd95711168138edd4e4121d554cebd3045fc22c8925230056a3f7e1fe3a1
+- kind: anti_pattern
+  id: importing-core-logic-from-scripting-packages
+  path: anti_patterns/importing-core-logic-from-scripting-packages.anti-pattern.yaml
+  content_hash: 13ab7b330dd653b598f5ca53c0e872860724150cd200a8c428e13a575321d48a
+- kind: anti_pattern
+  id: judging-liveness-against-a-stale-origin
+  path: anti_patterns/judging-liveness-against-a-stale-origin.anti-pattern.yaml
+  content_hash: 1b27e3880cdefda728c26ee88f93b5033f044d45d745c99705e6ee961cb939a2
+- kind: anti_pattern
+  id: keyword-only-triage
+  path: anti_patterns/keyword-only-triage.anti-pattern.yaml
+  content_hash: 0ead93780b10163635f48ea353b49b3a542aefdfdfba775b3a254f84589221d2
+- kind: anti_pattern
+  id: landing-a-draft-pr-without-asking
+  path: anti_patterns/landing-a-draft-pr-without-asking.anti-pattern.yaml
+  content_hash: e6ce574ecf0773dde65032c927f8f6dbcb700d3c048371dc5aacede724d51076
+- kind: anti_pattern
+  id: merge-commits-instead-of-a-linear-history
+  path: anti_patterns/merge-commits-instead-of-a-linear-history.anti-pattern.yaml
+  content_hash: 4f40786396f27f3b23aa56322cd387de3ff5d19126b11fa88ec9f2d7a4a214be
+- kind: anti_pattern
+  id: one-pr-for-unrelated-domains
+  path: anti_patterns/one-pr-for-unrelated-domains.anti-pattern.yaml
+  content_hash: d03c7891b4ae3789b11d8623713ce2e44be656cf17f9b5c3f2efb8dcebe894c9
+- kind: anti_pattern
+  id: over-broad-uncheckable-scenarios
+  path: anti_patterns/over-broad-uncheckable-scenarios.anti-pattern.yaml
+  content_hash: 3e29cb060b1390fcf15bf6364394b597623e054a1dee8e5313136b98b3b39604
+- kind: anti_pattern
+  id: over-length-entries
+  path: anti_patterns/over-length-entries.anti-pattern.yaml
+  content_hash: c2604335a2280f9e3763e6277005225a677f7313a579680918be17488f41acca
+- kind: anti_pattern
+  id: per-wp-green-treated-as-the-final-gate
+  path: anti_patterns/per-wp-green-treated-as-the-final-gate.anti-pattern.yaml
+  content_hash: bf05e947568ea94003d7f89dd29fe74b39b4ff1431fe4c5de2d431f270602598
+- kind: anti_pattern
+  id: placeholder-prompts
+  path: anti_patterns/placeholder-prompts.anti-pattern.yaml
+  content_hash: 0a4eeef1b2067b77aaa0e0f515bcc09d4a4a1fcb7558e6b727500b44150919b4
+- kind: anti_pattern
+  id: pointfix-without-discovery
+  path: anti_patterns/pointfix-without-discovery.anti-pattern.yaml
+  content_hash: 924afa4f551687186e1f53fafc93683542da373a5007314b1f75f63abc8477e7
+- kind: anti_pattern
+  id: reading-the-corpus-in-commit-order
+  path: anti_patterns/reading-the-corpus-in-commit-order.anti-pattern.yaml
+  content_hash: 27c76ec41e46411b5f038438acc2ab1de62d923747a52beb446c393b16e4ae4c
+- kind: anti_pattern
+  id: recapturing-a-ci-owned-file-during-a-landing
+  path: anti_patterns/recapturing-a-ci-owned-file-during-a-landing.anti-pattern.yaml
+  content_hash: 32d7d13ed903ae76de35c9af0cc3c85c4d0fc77b385fb44856e0d3de6f4d6dbc
+- kind: anti_pattern
+  id: restating-report-writing-here
+  path: anti_patterns/restating-report-writing-here.anti-pattern.yaml
+  content_hash: fd5218f345358ecf7e28059719583bc1f1563ab7930bf0abe92f8333de5757f4
+- kind: anti_pattern
+  id: retroactive-fill-in
+  path: anti_patterns/retroactive-fill-in.anti-pattern.yaml
+  content_hash: f2fdffc7834e2c0b9594e7fed527e07ca922a5d4c6fe1d99e7c4ee47fe0e3824
+- kind: anti_pattern
+  id: rewriting-history-to-make-every-commit-green
+  path: anti_patterns/rewriting-history-to-make-every-commit-green.anti-pattern.yaml
+  content_hash: 7418f5699c2ba6208385b36ca6e4b24a107ef0119301b8974130a5d7727cdff2
+- kind: anti_pattern
+  id: running-the-heavy-suites-in-mission
+  path: anti_patterns/running-the-heavy-suites-in-mission.anti-pattern.yaml
+  content_hash: 5950d59b58ee4b6ebf36736557d5accfd10483218025e30daebb498ee8f82cdf
+- kind: anti_pattern
+  id: running-the-suite-to-find-weak-tests
+  path: anti_patterns/running-the-suite-to-find-weak-tests.anti-pattern.yaml
+  content_hash: 1ebd7637aa854fd9eb9b39e038fa15a3a2518b1ad68864afd18d6b2463508300
+- kind: anti_pattern
+  id: scope-creep-into-activation
+  path: anti_patterns/scope-creep-into-activation.anti-pattern.yaml
+  content_hash: 897160635b314a743229c4ea36005ed04af32c934906a4ba842d167aeb410a96
+- kind: anti_pattern
+  id: setting-priority-p0-silently
+  path: anti_patterns/setting-priority-p0-silently.anti-pattern.yaml
+  content_hash: f1a72ced4c9348018726f79f33aca7d106a09105ebaf1f28361a87fec14d1c37
+- kind: anti_pattern
+  id: skipping-the-assess-step
+  path: anti_patterns/skipping-the-assess-step.anti-pattern.yaml
+  content_hash: cd4712913e367162f45ad233ed31ddfb7e3f18e1314c33914df101c162d7ecb1
+- kind: anti_pattern
+  id: specifying-before-grounding
+  path: anti_patterns/specifying-before-grounding.anti-pattern.yaml
+  content_hash: 6e40740d3208105abbe9c84e1ff2089cdfcf1caa296a40d81c67caca9f79820e
+- kind: anti_pattern
+  id: specifying-before-the-claim
+  path: anti_patterns/specifying-before-the-claim.anti-pattern.yaml
+  content_hash: 706456c64178c60bb2cbd1c61ca87c8d42429124978f48bdf93eff40709150e5
+- kind: anti_pattern
+  id: starting-from-a-stale-or-wrong-remote
+  path: anti_patterns/starting-from-a-stale-or-wrong-remote.anti-pattern.yaml
+  content_hash: 19f50c134ef03203ab9a091b29d5d0a427f841491790c75766abac1be117f9a4
+- kind: anti_pattern
+  id: technical-first-burial
+  path: anti_patterns/technical-first-burial.anti-pattern.yaml
+  content_hash: 6665056cd9120f37ab4670ae1653b51953ccaa208e5ce549feea2134c8b5a84b
+- kind: anti_pattern
+  id: tests-for-the-sake-of-tests
+  path: anti_patterns/tests-for-the-sake-of-tests.anti-pattern.yaml
+  content_hash: 3f9c8fbdaf4aa9dc5e8bb310baa9ef43b9099d423428e6c59978a256926d820f
+- kind: anti_pattern
+  id: touching-workflow-state-leases
+  path: anti_patterns/touching-workflow-state-leases.anti-pattern.yaml
+  content_hash: a2351df1b296a086ebac3919151f40b3d66527223b70e39933a158c33f5ee2e7
+- kind: anti_pattern
+  id: transcribing-the-e2e-mechanism
+  path: anti_patterns/transcribing-the-e2e-mechanism.anti-pattern.yaml
+  content_hash: 05ad1427a01f116d8e940298b3ec58423e8337592785bed292ed9ffacb625b5a
+- kind: anti_pattern
+  id: treating-a-static-flag-as-a-verdict
+  path: anti_patterns/treating-a-static-flag-as-a-verdict.anti-pattern.yaml
+  content_hash: b6403f912ab0264a2c05e0847080b4e0d991878d8ae55f49233f7403a2a0a2cb
+- kind: anti_pattern
+  id: unbounded-or-colliding-dispatch
+  path: anti_patterns/unbounded-or-colliding-dispatch.anti-pattern.yaml
+  content_hash: eaaa35f85eb6ad5423c6fcb8478a1a098549940bcb34e6510601a6f6cd83ba1a
+- kind: anti_pattern
+  id: uniform-standards-across-all-packages
+  path: anti_patterns/uniform-standards-across-all-packages.anti-pattern.yaml
+  content_hash: 8032d6c710c5074a820be1fc9c4d686a1abf99073f3640d5b53f1f0c2b18c683
+- kind: anti_pattern
+  id: unresolved-issue-verdicts-at-close
+  path: anti_patterns/unresolved-issue-verdicts-at-close.anti-pattern.yaml
+  content_hash: e6ff265187657a75d2f46c3abe244483357a769b16f1a2bb91ddf8fd66cc27eb
+- kind: anti_pattern
+  id: work-stranded-under-a-closed-epic
+  path: anti_patterns/work-stranded-under-a-closed-epic.anti-pattern.yaml
+  content_hash: 9500132886da18630213cab7c9539b89b1071cd1916f3c7cfed4557cf1dfc375
+- kind: anti_pattern
+  id: writing-to-an-issue-that-closed-mid-pass
+  path: anti_patterns/writing-to-an-issue-that-closed-mid-pass.anti-pattern.yaml
+  content_hash: 7e60b3d9cd300dba9a8df8c84a14cb562e61fc36be2c6a910e307d6d71a2d56f
 - kind: asset
   id: writing-audience-agentic-framework-core-team
   path: assets/audiences/agentic-framework-core-team.md.asset.yaml
-  content_hash: adee0d2ff4a8977a47a9b351325f9f26b13eea988866658b8f1c2c317c90dc08
+  content_hash: 787d6778f31548caa32553ede9802db8b953e8a8cb2dc3963bd79310cabe0222
 - kind: asset
   id: debrief-collector
   path: assets/debrief/collect-debrief.py.asset.yaml
@@ -48,39 +276,39 @@ constituents:
 - kind: directive
   id: CLOUD_SESSION_ORCHESTRATION
   path: directives/cloud-session-orchestration.directive.yaml
-  content_hash: 424c01b633e027ef508d0b95b385a98b9c8ddb2bd33b11b8e400f1be3e39a494
+  content_hash: 2fb23ec02c5c4b175a32d5ff23a1e281b94f25220f9e450212fed389d65ac989
 - kind: directive
   id: NO_FULL_HEAVY_SUITES_IN_MISSION
   path: directives/no-full-heavy-suites-in-mission.directive.yaml
-  content_hash: 8994d606ced1f6f857dd42c95e512ce13c5ffdea56cab5d162570a9e546d7a09
+  content_hash: 1d13022c3bcbdfd6dd760fa0f825d048cdcf86b069e0128f8e335f4c784e377d
 - kind: directive
   id: OPERATOR_SIGNAL_CONTRACT
   path: directives/operator-signal-contract.directive.yaml
-  content_hash: 5c0402990c3f71c20598b9a4e2ca8af10ead9e504c00f7f1057c63176cbe972f
+  content_hash: 320e078ce9ed7f4a5dfdac2e05f21cd3f9f2a9ad38b9b3832855ce7d0267a509
 - kind: directive
   id: SPEC_KITTY_BUILD_IDENTITY
   path: directives/spec-kitty-build-identity.directive.yaml
-  content_hash: 4fdec83fb7c14bbfa9560acf337b5a41e269ba0c4555781a315227a3d16d57dc
+  content_hash: bd7abb6ee8d1cb7df061621b29c702579d2f560383e221b4813b27ab06d0dfa7
 - kind: directive
   id: SPEC_KITTY_DOCS_CONVENTIONS
   path: directives/spec-kitty-docs-conventions.directive.yaml
-  content_hash: 465496272e111f05d0e2ccfdb60b490a0e75b6b4ec4e1238f847ffd907aa13f5
+  content_hash: 902d9688abaf4cb5365a6469b5567c06652bcb8df7bab9280618b5e5e733af03
 - kind: directive
   id: SPEC_KITTY_RED_MAIN_POLICY
   path: directives/spec-kitty-red-main-policy.directive.yaml
-  content_hash: af0afc525a1f7fe50f6344ea5bee5194cb4929a163f7acc16c427c24ced578b6
+  content_hash: ba00807bdffc83f3eb0dcb914a901fb68d7adc62dc72b83eeeb91839073f2ced
 - kind: glossary
   id: spk-internal-glossary
   path: glossaries/spk-internal-glossary.glossary.yaml
-  content_hash: dd5fbedd37421bfe9da2324741c9a4001bc5d8aa0e5d377701ffbc83f6642443
+  content_hash: 1d73a216238c55afe646060cc14549568a941090ed21a53837268a0be2684886
 - kind: procedure
   id: charter-offering-scenario-extraction
   path: procedures/charter-offering-scenario-extraction.procedure.yaml
-  content_hash: 25091f5862f83c7ace976002206d8b9934e0c76243cec9f3af64da3f0ae83e1c
+  content_hash: bcd4b96605d1d3ef8851e600edc9ac439a71cc6b57c73b6304f02218f48a2d07
 - kind: procedure
   id: cloud-session-dispatch
   path: procedures/cloud-session-dispatch.procedure.yaml
-  content_hash: 228f9f84fdb7d9d24eb0d662fc2d9c6d660cba2c4729e95dc52a2bfa2d93115d
+  content_hash: bff0463cf1632b15d9d4edfef71cfe2c9035b341da46e1be99000cfbdc9936b3
 - kind: procedure
   id: executive-debrief-generation
   path: procedures/executive-debrief-generation.procedure.yaml
@@ -88,15 +316,15 @@ constituents:
 - kind: procedure
   id: issue-to-mission-delivery
   path: procedures/issue-to-mission-delivery.procedure.yaml
-  content_hash: 240a5c608e014979725a64d340fe0aa895b07685d767a2496d655bd9f3f3e7de
+  content_hash: bc3f224e48f087d3ce7b4af1a344537b6108a3eb6a41386c9af31599554b90c5
 - kind: procedure
   id: issue-triage-pass
   path: procedures/issue-triage-pass.procedure.yaml
-  content_hash: 5b0dbacedd9133725e9c745b887f4efa5ccf379d661fdb210224078224cf0ef2
+  content_hash: 519d862c17afc66415acdd1b58d00b2bb4b6e767e826d52d78fb3efb31e196ee
 - kind: procedure
   id: landing-contributor-prs
   path: procedures/landing-contributor-prs.procedure.yaml
-  content_hash: 5836410f2db6abc5c7ba8484ce29050c334806051412304c47ec41a62519da31
+  content_hash: 22e8507530ab1a5601f54718d9497f0344cd659fecc7da9920eda5e7d0a75e0c
 - kind: procedure
   id: memory-curation-and-escalation
   path: procedures/memory-curation-and-escalation.procedure.yaml
@@ -104,11 +332,11 @@ constituents:
 - kind: procedure
   id: mission-tracer-files
   path: procedures/mission-tracer-files.procedure.yaml
-  content_hash: a96405e64c8211e96ddc6e8fd67c8ad89818c7db62bdafa341241e01489021d1
+  content_hash: 5ec8333d0275ee9b22ba21b391cd892d1c944e06925130746d4a13366c0d84c3
 - kind: procedure
   id: mission-wrap-up-sequence
   path: procedures/mission-wrap-up-sequence.procedure.yaml
-  content_hash: 36440504eb39b9cfdac277b8ec7c8504f2136b92c87ebfc67669afde87c8297f
+  content_hash: d20d91e790df921d3d5a065b3c1fc42701247d580c9b2a43d0c3ac206010053f
 - kind: procedure
   id: operator-signal-emission
   path: procedures/operator-signal-emission.procedure.yaml
@@ -120,7 +348,7 @@ constituents:
 - kind: procedure
   id: semi-auto-delivery
   path: procedures/semi-auto-delivery.procedure.yaml
-  content_hash: bcd0dede99d4fda6f2487978ee17883b27c9728bcedd8cfd75dca4507cb090ae
+  content_hash: 67e8bc5da2d53e3311dcb3ce2d69a556cb5465671f0eaab0bcf0b39ca7718794
 - kind: procedure
   id: spec-kitty-arch-gate-adjudication
   path: procedures/spec-kitty-arch-gate-adjudication.procedure.yaml
@@ -144,83 +372,83 @@ constituents:
 - kind: procedure
   id: test-suite-quality-assessment
   path: procedures/test-suite-quality-assessment.procedure.yaml
-  content_hash: ea66b24a35f47eaf6f1c0e6c079ab0e4e3e7c7e20f66fd7d2e403825fd31bf76
+  content_hash: 5df849d3be1faaec39259f34c00b23d23da53aafe3a29ff78deec1fd00bbef89
 - kind: procedure
   id: tracker-organisation-workflow
   path: procedures/tracker-organisation-workflow.procedure.yaml
-  content_hash: 5b00fb0865d1730401e40064a5133dc8eab411c07a716e909baf28ce1bc19ba2
+  content_hash: 128d9151719652f36a951f429970be3930e935eda2053bb56d1c2e096c86b682
 - kind: skill
   id: issue-triage
   path: skills/issue-triage.skill.yaml
-  content_hash: 4778296e039dd729e25a271a8855bb021829f9002079b257fb48f8cd4324019d
+  content_hash: 605941d06dd85cf446a24cf46d81acdd2643d7cd88ba08c423aab1336ac4171e
 - kind: skill
   id: land-pr
   path: skills/land-pr.skill.yaml
-  content_hash: 8993cb6affdbd3383287576a754c70b8a3240613e1cb5f758d6196a1777a25fe
+  content_hash: 8da61ddad3e7340431093c5e4988d3db8671732bf7c6096b547da78355c767a3
 - kind: skill
   id: mission-from-issue
   path: skills/mission-from-issue.skill.yaml
-  content_hash: a78c992b73d493f2aaa796c01d7beb2882e95fed56b9f7738ee8fe1a7a80ae4b
+  content_hash: 9ade8072cc431969e2f5b52ad2b8eb6dd20361499e26ea105a5ced726e0d195f
 - kind: skill
   id: report-debrief
   path: skills/report-debrief.skill.yaml
-  content_hash: 7e584dca17cec7625a63fc0999f38788d7b1fcd7de962fe99f4f8bd49eb80d07
+  content_hash: 869ece5844728faf111893247b1380b6ae87008db7db651badd031cb5bb8e787
 - kind: skill
   id: semi-auto
   path: skills/semi-auto.skill.yaml
-  content_hash: 8d99cc14310c4f4e32ac5a6834e19341c9502f4ed4279fb46be610d603d79589
+  content_hash: 5d22bf1dfced8fcb657f2ec068b3c5dd678d166afcc6d352f900e9f5839ffd3f
 - kind: styleguide
   id: executive-debrief
   path: styleguides/executive-debrief.styleguide.yaml
-  content_hash: 148066d719165b8559431c255d86c1c97b60077f31c21242ae414e90386cba7a
+  content_hash: 7c9020361a748075ba4398ac454805b21b3d6eecec85a75e39756fa1497da098
 - kind: styleguide
   id: feature-and-scenario-authoring
   path: styleguides/feature-and-scenario-authoring.styleguide.yaml
-  content_hash: 52fb1da7d24f44fbd58d769ea4d1bb8327cdb8b9e4cc8bb7bf22efdcd9c720cf
+  content_hash: 05c74517bb6ef017ffdfa0b253841bbed395eccbd5d442cf7701848598755ef6
 - kind: styleguide
   id: report-writing
   path: styleguides/report-writing.styleguide.yaml
-  content_hash: 1997b2e1ca726f8616245100682a5793003c9d5ab1932886179d71518df96a21
+  content_hash: c8ab375d13db0c2fad834fe999d783fc4134176b4389b4f21df8c95976059940
 - kind: styleguide
   id: spec-kitty-docs-lint-config
   path: styleguides/spec-kitty-docs-lint-config.styleguide.yaml
-  content_hash: 8646398554bd04c06afc50b0c6a8bbcc3c2a745e96c9a7ac0a69880aa22b8cd1
+  content_hash: 1d330b1b892fbfc47c7632e81f856ad1d4e4cdfdb4647b2fce8ddeb2780f977a
 - kind: styleguide
   id: spec-kitty-package-tiers
   path: styleguides/spec-kitty-package-tiers.styleguide.yaml
-  content_hash: 3bbeb30b922cd01f5f25ffc93165fff4c0cc754d10c23f1e9dc50a50ac842ec2
+  content_hash: d6cadb7817944d14795b4b288239ba0e7da593685845962ba42b33380a571435
 - kind: styleguide
   id: spec-kitty-tracker-labels
   path: styleguides/spec-kitty-tracker-labels.styleguide.yaml
-  content_hash: de37c5a5a198b1319c1e1f55ccb00ea20b05b3cfbde3b8999c80bf5e78941480
+  content_hash: c9b6072b59cf3dc4ad4b1e68b5bdeb93a3cfd1406d3e1590f7b58f76546bde91
 - kind: styleguide
   id: tiered-standards
   path: styleguides/tiered-standards.styleguide.yaml
-  content_hash: 6e19afcc4ccdca065289d3903292d5e6dc9a3bf2e9c4a0572eca4e95c9742796
+  content_hash: 61ecb0d9c19be664f55c84752b0473d40bf7e3902de4d9170bd1bb0d5f6f2d79
 - kind: tactic
   id: branded-deliverable
   path: tactics/branded-deliverable.tactic.yaml
-  content_hash: 20463dbbc3dd8d3dff3d558ace0586de0528277edbe4fe224324b18b6813c09a
+  content_hash: 839dacb7be5d32400413585715d0b0c071c9a57c2a982be058d7b1793c3e645c
 - kind: tactic
   id: spec-kitty-ci-workflow-evidence-exemplar
   path: tactics/spec-kitty-ci-workflow-evidence-exemplar.tactic.yaml
-  content_hash: 04f99aaf66099ee8d3a79ab99c74a8cdd11caa28d4876ecc3d669b7dd116cbbe
+  content_hash: e926ff7367dd146f83f206dbd924fcbefb11d7066d129cff1f597d4e9b7e4b23
 - kind: tactic
   id: spec-kitty-gate-non-vacuity-exemplar
   path: tactics/spec-kitty-gate-non-vacuity-exemplar.tactic.yaml
-  content_hash: 3431cbd59dbea4f3632bea3b7827f7944fc341a1b5d33435dae78b26f19dd033
+  content_hash: b955a5dea65b9a4d3ed7cc615d77270eefc1b523724ff6b3e5317d25a0b40812
 - kind: tactic
   id: spec-kitty-mock-boundary-exemplar
   path: tactics/spec-kitty-mock-boundary-exemplar.tactic.yaml
-  content_hash: f70bd0441256ceeb4f37989421b3cb530368ab3d5850b2330af0dc9c956b19ef
+  content_hash: f222e0c0ab739aeda084944d0d8666fa355b381815ef0e3c82be5739a324b4f3
 - kind: tactic
   id: spec-kitty-ratchet-cost
   path: tactics/spec-kitty-ratchet-cost.tactic.yaml
-  content_hash: d25177257e74a1ea6fd87b78acfa301ebc1920b209d16d84fe7c8382df4f4615
+  content_hash: 3c3617357fa6dcb3d005234293cc8c3d56ac92a4fd66f4900ebc318a46b5b8d2
 - kind: tactic
   id: tracker-backlog-iterative-deepening
   path: tactics/tracker-backlog-iterative-deepening.tactic.yaml
-  content_hash: 42bd2c2f098a95145ce1fe98b0a23dd6882d897a26d26eae5c576af1af0f5888
+  content_hash: 21fc71c88d2b54542113f077d90b593a585a4c508fa44472c5f52c7f5800c677
 - kind: toolguide
   id: branded-document-generation
   path: toolguides/branded-document-generation.toolguide.yaml
@@ -236,4 +464,4 @@ constituents:
 presets:
 - id: base
   path: presets/base.yaml
-  content_hash: 0d2ed58d2d3fa1dc3547a6f524498bd10d6f16c040732e7366a616939754f55e
+  content_hash: e95503f807f6d9c2053397c1548bb3614715a0253b155677e74ab2ea22d0a401

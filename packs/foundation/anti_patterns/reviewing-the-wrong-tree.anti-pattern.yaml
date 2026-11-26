@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: reviewing-the-wrong-tree
+title: Reviewing the wrong tree
+description: Dispatching a read-only delegate that cannot run `git` without putting the review target's diff in its prompt, so it reads whatever checkout is on disk (often `main`) and reports on code the change does not contain.
+severity: breaking
+bad_example: A read-only delegate gets only the PR's title and number in its prompt, reads the `main` checkout on disk, and approves code the PR never touched.

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: vague-needs-info-questions
+title: Vague needs-info questions
+description: Questions like 'please provide more detail' do not help the reporter unblock triage.
+severity: smell
+bad_example: The triage comment asks the reporter to "please provide more detail" and nothing else.

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: per-wp-green-treated-as-the-final-gate
+title: Per-WP green treated as the final gate
+description: Skipping the aggregate review because every work package already passed. The WPs only coexist after consolidation; the aggregate diff is where cross-WP integration breaks surface.
+severity: severe
+bad_example: The mission is handed off once each work package's review passed, without a review of the consolidated diff.

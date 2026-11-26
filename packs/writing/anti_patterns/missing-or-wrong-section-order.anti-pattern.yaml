@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: missing-or-wrong-section-order
+title: Missing or wrong section order
+description: 'Decision minutes: omitting a section or changing the order violates the format contract and makes the chat response harder to scan. When optionally published, the wrong order also breaks wiki task roll-up. Discussion notes have their own fixed order — Attendance, Topics Discussed, then an OPTIONAL Action Items section — where omitting Action Items is correct when nothing actionable arose (it is not a missing section). Reordering or renaming the mandatory sections is still a violation in either format.'
+severity: severe
+bad_example: |-
+  Decision minutes — Sections: Action Items / Attendance / Minutes
+  Discussion notes — Sections: Topics Discussed / Attendance
+good_example: |-
+  Decision minutes — Sections: Attendance / Minutes / Action Items
+  Discussion notes — Sections: Attendance / Topics Discussed [/ Action Items if any]

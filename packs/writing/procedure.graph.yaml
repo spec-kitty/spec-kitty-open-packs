@@ -68,3 +68,31 @@ edges:
   target: styleguide:research-citation-discipline
   relation: suggests
   when: citing the code and changes a first-hand check reproduced, so the check survives a branch rewrite
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:calling-the-llm-from-inside-the-optional-publish-step
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:publishing-without-the-validated-markdown-in-this-chat
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:rendering-without-selecting-a-format
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:requiring-an-api-key-for-an-already-running-chat-agent
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:returning-final-minutes-while-attribution-gaps-remain
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:treating-json-or-wiki-publish-as-mandatory-delivery
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern
+- source: procedure:meeting-minutes-pipeline
+  target: anti_pattern:treating-truncation-silently
+  relation: rejects
+  reason: the procedure meeting-minutes-pipeline names this anti-pattern

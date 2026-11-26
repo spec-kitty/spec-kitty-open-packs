@@ -42,22 +42,3 @@ steps:
 - title: Closeout the canonical way
   description: |
     A Mission closes through mission-wrap-up-sequence end to end. An Op closes lighter: it has no accept, issue verdicts, aggregate review or consolidation, so it enters that procedure at its compaction step. In both shapes mission-wrap-up-sequence owns the closeout rules: clean history and the tree check, the rebase, the changelog and generated docs, the pre-PR review squad scaled to the work and its deferral bar, the PR-body contract, the draft PR, CI to green, the flip to ready for review with a handover comment, and commit attribution. The grounding step's discovery verdicts go in the PR body's Discovery section. The operator merges.
-anti_patterns:
-- title: Deciding silently
-  content: |
-    Resolving an escalation-class decision — a regression-vs-stale-test verdict, a contract or boundary change, a test-expectation edit, a scope widening — without surfacing it to the operator. The operator cannot steer what was never signalled, and the fake-green half is the half that misleads the next agent.
-- title: Specifying before grounding
-  content: |
-    Writing a spec or plan before the read-only grounding run. It commits the run to assumptions the code does not hold.
-- title: Pointfix without discovery
-  content: |
-    Fixing only the exact surface the ticket names and skipping the discovery squads, so sibling surfaces that share the defect stay broken and duplicate or superseding tickets go unlinked. The discovery verdict — similar surfaces with their disposition, related issues with their disposition — is part of grounding, not an optional extra, and "no related work" is stated explicitly.
-- title: Greening by erasure
-  content: |
-    Skipping, disabling, xfailing or quarantining a test, or retrying to green, instead of a real root-cause fix or an honestly classified red (a strict expected failure on a reproduction whose fix lands in a named sibling work package is not this failure).
-- title: Running the heavy suites in-mission
-  content: |
-    Sweeping a heavy suite whole (for example a whole architectural directory or a full-suite make target) locally during the run. CI owns the heavy and full suites at the draft PR; the run targets the specific gate files it implicates.
-- title: Full-auto drift
-  content: |
-    Widening scope, crossing an architectural boundary, or changing a contract because it looked obviously needed, without the pause. Autonomy is bounded by the agreed scope; past it, escalate.

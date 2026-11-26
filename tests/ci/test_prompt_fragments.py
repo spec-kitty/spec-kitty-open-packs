@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import contextlib
 import io
 import shutil
@@ -184,9 +185,11 @@ class SpddEnhancementsOnThePinnedContract(unittest.TestCase):
     def test_a_missing_schema_version_is_refused(self) -> None:
         def mutate(pack: Path) -> None:
             target = pack / "missions" / "software-dev" / "enhancements" / "spdd-specify.step-enhancement.yaml"
-            target.write_text(
-                target.read_text(encoding="utf-8").replace('schema_version: "1.0"\n', ""), encoding="utf-8"
-            )
+            # The line in any quoting (pack-doctor remediate writes it canonically, #347); a mutation that matches
+            # nothing would make the test vacuous, so it must remove exactly one line.
+            text, removed = re.subn(r"^schema_version:.*\n", "", target.read_text(encoding="utf-8"), flags=re.M)
+            assert removed == 1, removed
+            target.write_text(text, encoding="utf-8")
 
         found = self.mutated(mutate)
         self.assertIn("spdd-specify.step-enhancement.yaml: step-enhancement schema", found)

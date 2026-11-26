@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: aria-overriding-native-semantics
+title: ARIA Overriding Native Semantics
+description: ARIA in HTML advises against restating an element's implicit role, and changing a heading into presentation removes it from the outline; the native element already carries the right role and behaviour.
+severity: severe
+bad_example: |-
+  <button role="button" aria-label="button">Save</button>
+  <h2 role="presentation">Billing</h2>
+good_example: |-
+  <button type="button">Save</button>
+  <h2>Billing</h2>

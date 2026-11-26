@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: meta-tracker-as-canonical-parent
+title: Meta-tracker as canonical parent
+description: 'Making a release/go-no-go/stabilization rollup the canonical parent of functional tickets hides real ownership: the work appears tracked but its true functional home is unknown, and closing the release issue orphans everything beneath it. Release gating belongs in milestones or labels.'
+severity: severe
+bad_example: |-
+  "3.2.0 release tracker" set as the native parent of a CLI bug and a
+  runtime refactor.
+good_example: |-
+  Bug parented under the CLI-UX functional epic; refactor under the
+  runtime epic; both referenced from the release rollup by checklist, and
+  the rollup titled `META-TRACKER: 3.2.0 release`.

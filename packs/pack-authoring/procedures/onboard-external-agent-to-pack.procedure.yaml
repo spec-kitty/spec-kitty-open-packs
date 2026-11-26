@@ -149,31 +149,3 @@ steps:
     Run the full verification suite for the chosen tier: the tier's validation command from the first step (expect zero errors), then spec-kitty doctor charter-packs (expect the pack installed with matching counts, for an org pack). For the project tier, confirm the artifacts are active with spec-kitty charter list, check the graph with spec-kitty charter lint, and, if a profile was created, inspect it with spec-kitty profiles show <profile-id>. If spec-kitty doctor charter-packs is unavailable, verify manually that there are no duplicate ids within a kind and that each new artifact has a DRG node and at least one edge.
     Summarise the final artifact set using the onboarded-artifact-set-template: how many artifacts of each kind were created, whether a profile was added, and the final validation counts. Hand the result back to the agent owner for review before the change is proposed for promotion into shared doctrine.
   role: operator
-anti_patterns:
-- title: Decomposing before understanding the agent
-  content: |
-    Jumping to artifact authoring before the owner has been interviewed, the available documentation gathered, and the agent's purpose confirmed back to the owner. Converting an agent you do not fully understand produces artifacts that misrepresent its behaviour. Gather the source material and confirm understanding first.
-- title: Lifting the whole prompt into a single artifact
-  content: |
-    Copying an entire system prompt or rules file verbatim into one directive or one agent profile. A source agent almost always contains several distinct kinds of knowledge — rules, techniques, tool usage, and conventions. Decompose it into the correct artifact kinds so each piece is independently governable and reusable, rather than trapping everything in one opaque blob.
-- title: Embedding the workflow inside the agent profile
-  content: |
-    Pasting the agent's step-by-step operating instructions into the specialization block of the agent profile YAML. This hides a testable workflow inside a container not meant to hold procedural content. Extract the workflow as a procedure or tactic and link it from the profile via a DRG edge.
-- title: Creating an agent profile by default
-  content: |
-    Authoring a new agent profile for every onboarded agent without checking whether the behaviour is already covered by the extracted directives, tactics, and toolguides wired to an existing profile. New profiles add routing and maintenance surface; only create one when the agent is a distinct reusable role.
-- title: Authoring lineage as an inline profile field
-  content: |
-    Adding specializes-from directly on the agent profile YAML. The profile validator rejects this field. Express lineage and augmentation exclusively as specializes_from edges in the DRG.
-- title: Leaving new project-tier artifacts unactivated
-  content: |
-    Authoring project-tier artifacts and validating them, but never running spec-kitty charter activate --cascade all. Validation passes, yet the project graph never gains the new nodes or edges, so the artifacts are not part of the active charter and no action loads them. Activate them, then confirm with spec-kitty charter list.
-- title: Skipping the existing-artifact overlap audit
-  content: |
-    Id-only deduplication without a semantic read: declaring two artifacts non-overlapping because their ids and titles differ, without reading their intent or enforcement fields. Two directives with different ids can have identical enforcement targets — the duplicate creates governance noise and splits authority. Always read intent, scope, and enforcement before concluding no overlap exists.
-- title: Citing file paths instead of artifact ids
-  content: |
-    Writing an artifact's file path in another artifact's prose instead of the canonical id. File paths are not validated by the DRG and are fragile to reorganisation; the DRG only tracks id-to-id edges.
-- title: Ignoring external references
-  content: |
-    Authoring an artifact that assumes availability of an external tool, API, or platform and proceeding without the owner explicitly acknowledging that dependency. The content-DRG consistency step requires the owner to decide whether to author a toolguide or document the dependency — do not treat silence as acceptance.

@@ -1,13 +1,9 @@
-schema_version: "1.0"
 id: qa-pairwise-test-reduction
+schema_version: '1.0'
 name: Pairwise Test Reduction
-purpose: >-
-  Reduce a combinatorial input-parameter space to a pairwise-covering test set: rather than
-  testing every combination of every parameter's values, construct the smallest set of test
-  cases such that every pair of parameter values appears together in at least one case (per
-  this pack's `pairwise testing` glossary term, `qa-glossary`).
+purpose: 'Reduce a combinatorial input-parameter space to a pairwise-covering test set: rather than testing every combination of every parameter''s values, construct the smallest set of test cases such that every pair of parameter values appears together in at least one case (per this pack''s `pairwise testing` glossary term, `qa-glossary`).'
 steps:
-  - title: Identify every parameter and its distinct candidate values
-  - title: Construct the candidate set with a greedy pairwise-covering algorithm — repeatedly add the test case that covers the most not-yet-covered value pairs until none remain uncovered
-  - title: Check the generated set for any uncovered pair and add cases to close the gap
-  - title: Confirm the final set is smaller than full combinatorial enumeration before adoption
+- title: Identify every parameter and its distinct candidate values
+- title: Construct the candidate set with a greedy pairwise-covering algorithm — repeatedly add the test case that covers the most not-yet-covered value pairs until none remain uncovered
+- title: Check the generated set for any uncovered pair and add cases to close the gap
+- title: Confirm the final set is smaller than full combinatorial enumeration before adoption

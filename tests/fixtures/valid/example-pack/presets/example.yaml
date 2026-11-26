@@ -1,5 +1,5 @@
-schema_version: "1.0"
+schema_version: '1.0'
 id: example
 description: Turn on the example rules.
 activated_directives:
-  - id: EXAMPLE_001_SECRET_HANDLING
+- id: EXAMPLE_001_SECRET_HANDLING

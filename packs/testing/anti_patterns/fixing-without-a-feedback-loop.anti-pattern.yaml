@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: fixing-without-a-feedback-loop
+title: Fixing without a feedback loop
+description: Changing production code before a repeatable signal exists turns debugging into guessing.
+severity: severe
+bad_example: The retry timeout is raised from 5 s to 30 s on a hunch, with no test or reproduction that fails before the change.
