@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import contextlib
-import hashlib
 import io
 import json
 import os
+import shutil
 import sys
 import tempfile
 import unittest
@@ -118,34 +118,6 @@ class ValidatorExitCodes(unittest.TestCase):
             self.assertEqual(self.run_validator(root, "--expect-invalid", str(good))[0], validator.EXIT_INVALID)
             self.assertEqual(self.run_validator(root, str(unmapped))[0], validator.EXIT_GATE)
 
-    def test_manifest_hashes_are_verified_and_the_regenerate_mode_restores_them(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            # Membership is authored; the hashes are what the regenerate mode derives.
-            zero = "0" * 64
-            manifest = (
-                "schema_version: '1.0'\n"
-                f"manifest_hash: {zero}\n"
-                "constituents:\n"
-                f"- {{kind: tactic, id: t, path: tactics/t.tactic.yaml, content_hash: {zero}}}\n"
-                "presets:\n"
-                f"- {{id: p, path: presets/p.yaml, content_hash: {zero}}}\n"
-            )
-            pack = self.write_pack(root, {"presets/p.yaml": "id: p\n", "pack.yaml": "pack_id: x\n", "pack-manifest.yaml": manifest})
-            code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("constituents{tactics/t.tactic.yaml}.content_hash", output)
-            self.assertIn("manifest_hash", output)
-
-            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack), str(pack))[0], validator.EXIT_OK)
-            self.assertEqual(self.run_validator(root, str(pack))[0], validator.EXIT_OK)
-
-            (pack / "presets" / "p.yaml").write_text("id: p\nextra: 1\n", encoding="utf-8")  # edited, manifest not
-            code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("presets{presets/p.yaml}.content_hash", output)
-
     def manifest_pack(self, root: Path, paths: list[str], files: dict[str, str] | None = None, name: str = "pack") -> Path:
         """A pack `root/name` whose zero-hash manifest lists the tactics at `paths`; `files` are written too."""
         zero = "'" + "0" * 64 + "'"
@@ -175,67 +147,6 @@ class ValidatorExitCodes(unittest.TestCase):
                     self.assertEqual(code, validator.EXIT_INVALID, output)
                     self.assertIn(f"pack/assets/kept/held.txt.asset.yaml: payload assets/{named} does not exist", output)
 
-    def test_content_hash_reads_crlf_and_lone_cr_as_lf(self) -> None:
-        def sha(data: bytes) -> str:
-            return hashlib.sha256(data).hexdigest()
-
-        self.assertEqual(validator.content_hash(b"a\r\nb\rc\n"), sha(b"a\nb\nc\n"))
-        self.assertEqual(validator.content_hash(b"a\r\r\nb"), sha(b"a\n\nb"))  # CRLF first, then the lone CR
-        self.assertNotEqual(validator.content_hash(b"a\r\nb"), sha(b"a\r\nb"))
-        self.assertNotEqual(validator.content_hash(b"a\n"), validator.content_hash(b"a"))
-
-    def test_regenerate_and_verify_hash_crlf_lf_and_lone_cr_copies_alike(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml"], {"tactics/t.tactic.yaml": "id: t\r\nname: x\r\n"})
-            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack))[0], validator.EXIT_OK)
-            entry = validator.load_yaml((pack / "pack-manifest.yaml").read_text(encoding="utf-8"))["constituents"][0]
-            self.assertEqual(entry["content_hash"], hashlib.sha256(b"id: t\nname: x\n").hexdigest())
-            for body in (b"id: t\r\nname: x\r\n", b"id: t\nname: x\n", b"id: t\rname: x\r"):
-                (pack / "tactics" / "t.tactic.yaml").write_bytes(body)
-                code, output = self.run_validator(root, str(pack))
-                self.assertEqual(code, validator.EXIT_OK, output)
-
-    def test_regenerate_alone_refuses_a_listed_file_that_is_missing_and_writes_nothing(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/gone.tactic.yaml"])
-            before = (pack / "pack-manifest.yaml").read_bytes()
-            code, output = self.run_validator(root, "--regenerate-manifest", str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID, output)
-            self.assertIn("::error", output)
-            self.assertIn("tactics/gone.tactic.yaml", output)
-            self.assertIn("not regenerated:", output)
-            self.assertFalse([line for line in output.splitlines() if line.startswith("regenerated:")])
-            self.assertEqual((pack / "pack-manifest.yaml").read_bytes(), before)
-
-    def test_regenerate_of_several_packs_keeps_a_miss_in_the_first(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            broken = self.manifest_pack(root, ["tactics/gone.tactic.yaml"], name="broken")
-            clean = self.manifest_pack(root, ["tactics/t.tactic.yaml"], name="clean")
-            code, output = self.run_validator(root, "--regenerate-manifest", str(broken), "--regenerate-manifest", str(clean), str(clean))
-            self.assertEqual(code, validator.EXIT_INVALID, output)
-            self.assertIn(f"regenerated: {clean / 'pack-manifest.yaml'}", output)
-            self.assertIn(f"ok: {clean}", output)
-
-    def test_validation_reports_a_listed_file_that_is_missing_with_a_remedy_that_fixes_it(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/u.tactic.yaml"], {"tactics/u.tactic.yaml": "id: u\n"})
-            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack), str(pack))[0], validator.EXIT_OK)
-            (pack / "tactics" / "u.tactic.yaml").unlink()
-            code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            missing_line = next(line for line in output.splitlines() if "stale manifest: missing: tactics/u.tactic.yaml" in line)
-            self.assertIn("restore the file or remove its entry", missing_line)
-            self.assertNotIn("--regenerate-manifest", missing_line)
-            self.assertNotIn("u.tactic.yaml}.content_hash", output)
-
     def test_a_doctrine_file_the_manifest_does_not_list_fails_naming_the_file(self) -> None:
         """#182: a pack with a manifest lists every file-backed doctrine artifact it holds."""
         with tempfile.TemporaryDirectory() as tmp:
@@ -243,28 +154,37 @@ class ValidatorExitCodes(unittest.TestCase):
             self.write_contract(root)
             pack = self.manifest_pack(root, ["tactics/t.tactic.yaml"],
                                       {"tactics/t.tactic.yaml": "id: t\n", "tactics/u.tactic.yaml": "id: u\n"})
-            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack))[0], validator.EXIT_OK)
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID)
             line = next(line for line in output.splitlines() if "incomplete manifest" in line)
             self.assertIn("tactics/u.tactic.yaml is not a constituent", line)
             self.assertNotIn("tactics/t.tactic.yaml", line)
+            # The remedy is the charter's writer, not a Python derivation (#347).
+            self.assertIn(f"run `pack-doctor remediate {pack}`", line)
 
-            # Listing it (and restamping) clears the finding: the positive control.
+            # Listing it clears the finding: the positive control. Its hashes are pack-doctor's (manifest_stale), so the
+            # zero hashes manifest_pack writes are not judged here.
             pack.joinpath("pack-manifest.yaml").unlink()
             pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/u.tactic.yaml"],
                                       {"tactics/t.tactic.yaml": "id: t\n", "tactics/u.tactic.yaml": "id: u\n"})
-            self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack), str(pack))[0], validator.EXIT_OK)
+            self.assertEqual(self.run_validator(root, str(pack))[0], validator.EXIT_OK)
 
-    def test_a_listed_constituent_with_no_file_still_fails_as_stale_not_as_incomplete(self) -> None:
+    def test_manifest_hashes_and_a_listed_file_that_is_missing_are_left_to_pack_doctor(self) -> None:
+        """#347, #348: pack-doctor judges a manifest's hashes and its listed files (manifest_stale, manifest_membership);
+        the schema pass no longer verifies them, and the manifest modes are gone."""
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_contract(root)
             pack = self.manifest_pack(root, ["tactics/t.tactic.yaml", "tactics/gone.tactic.yaml"], {"tactics/t.tactic.yaml": "id: t\n"})
             code, output = self.run_validator(root, str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("stale manifest: missing: tactics/gone.tactic.yaml", output)
-            self.assertNotIn("incomplete manifest", output)
+            self.assertEqual(code, validator.EXIT_OK, output)
+            self.assertNotIn("stale", output)
+            for retired in ("--regenerate-manifest", "--derive-manifest", "--derived-manifests"):
+                with self.subTest(retired), self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
+                    self.run_validator(root, retired, str(pack))
+            for name in ("stale_manifest_fields", "regenerate_manifest", "derived_manifest", "derive_manifest",
+                         "membership_mismatch", "REGENERATE_COMMAND", "DERIVE_COMMAND"):
+                self.assertFalse(hasattr(validator, name), name)
 
     def test_a_pack_without_a_manifest_is_not_held_to_one(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -278,11 +198,9 @@ class ValidatorExitCodes(unittest.TestCase):
     GRAPH_RULES = '  - match: "*/drg/fragment.yaml"\n    schema: pack-descriptor\n  - match: "*/*.graph.yaml"\n    schema: pack-descriptor\n'
 
     def node_pack(self, root: Path, files: dict[str, str], constituents: bool = False) -> Path:
-        """A manifest-bearing pack with a tactic file, `files` and (optionally) a `tactic:ghost` entry; hashes regenerated."""
+        """A manifest-bearing pack with a tactic file, `files` and (optionally) a `tactic:ghost` entry."""
         paths = ["tactics/t.tactic.yaml"] + (["tactics/ghost.tactic.yaml"] if constituents else [])
-        pack = self.manifest_pack(root, paths, {"tactics/t.tactic.yaml": "id: t\n", **files})
-        self.assertEqual(self.run_validator(root, "--regenerate-manifest", str(pack))[0], validator.EXIT_OK)
-        return pack
+        return self.manifest_pack(root, paths, {"tactics/t.tactic.yaml": "id: t\n", **files})
 
     def test_a_graph_node_the_manifest_does_not_list_fails_naming_the_node(self) -> None:
         """#182 residual: a node of drg/fragment.yaml with no constituent is reported; listing it clears it."""
@@ -313,7 +231,7 @@ class ValidatorExitCodes(unittest.TestCase):
     def test_exempt_graph_node_kinds_need_no_constituent_but_an_unknown_kind_does(self) -> None:
         exempt = "nodes:\n" + "".join(
             f"- {{kind: {k}, id: x}}\n"
-            for k in ("actions", "templates", "mission_types", "anti_patterns")
+            for k in ("actions", "templates", "mission_types")
         )
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -330,6 +248,12 @@ class ValidatorExitCodes(unittest.TestCase):
             code, output = self.run_validator(root, str(pack))
             self.assertEqual(code, validator.EXIT_INVALID, output)
             self.assertIn("graph node mission_step_contract:x is not a constituent", output)
+            # #348 (f): an anti-pattern is a file now, so its node is no longer exempt: unlisted, it is reported.
+            (pack / "drg" / "fragment.yaml").write_text(exempt + "- {kind: anti_patterns, id: x}\n", encoding="utf-8")
+            code, output = self.run_validator(root, str(pack))
+            self.assertEqual(code, validator.EXIT_INVALID, output)
+            self.assertIn("graph node anti_pattern:x is not a constituent", output)
+        self.assertNotIn("anti_pattern", validator.MANIFEST_EXEMPT_NODE_KINDS)
 
     def test_unlisted_nodes_is_exact_and_skips_exempt_kinds(self) -> None:
         manifest = {"constituents": [{"kind": "tactic", "id": "a"}, "junk"]}
@@ -339,6 +263,7 @@ class ValidatorExitCodes(unittest.TestCase):
 
     def test_only_file_backed_doctrine_kinds_are_constituents(self) -> None:
         self.assertIn("tactic", validator.MANIFEST_CONSTITUENT_SCHEMAS)
+        self.assertIn("anti-pattern", validator.MANIFEST_CONSTITUENT_SCHEMAS)  # #348 (f): the file is a constituent
         for exempt in ("preset", "pack-manifest", "pack-descriptor", "mission-type", "graph-shard"):
             self.assertNotIn(exempt, validator.MANIFEST_CONSTITUENT_SCHEMAS)
         self.assertEqual(validator.unlisted_constituents({"constituents": [{"path": "a"}]}, {"a", "b"}), ["b"])
@@ -742,50 +667,47 @@ class ValidatorExitCodes(unittest.TestCase):
             found = validator.cross_pack_violations([pack], contract)
             self.assertEqual(found, ["g/drg/fragment.yaml: edge target 'term:core/bar' resolves to no node of any pack"])
 
-    def test_cross_pack_checks_catch_a_missing_preset_id_a_dangling_bare_edge_and_an_id_shared_across_levels(self) -> None:
-        def pack(root: Path, name: str, nodes: str, edges: str = "[]", preset: str = "", level: str = "org") -> Path:
+    def test_cross_pack_rules_catch_a_dangling_bare_edge_and_an_id_shared_across_levels(self) -> None:
+        def pack(root: Path, name: str, nodes: str, edges: str = "[]", level: str = "org") -> Path:
             (root / name / "drg").mkdir(parents=True)
             (root / name / "pack.yaml").write_text(f"pack_id: {name}\nname: {name}\npack_level: {level}\n", encoding="utf-8")
             (root / name / "drg" / "fragment.yaml").write_text(f"nodes:\n{nodes}edges: {edges}\n", encoding="utf-8")
-            if preset:
-                (root / name / "presets").mkdir()
-                (root / name / "presets" / "p.yaml").write_text(preset, encoding="utf-8")
             return root / name
 
         node = "  - {id: D_1, kind: directives}\n"
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             clean = pack(root, "a", node + "  - {id: D_2, kind: directives}\n",
-                         "[{source: 'directive:D_1', target: 'directive:D_2', relation: requires}]",
-                         "activated_directives:\n  - id: D_1\n")
+                         "[{source: 'directive:D_1', target: 'directive:D_2', relation: requires}]")
             self.assertEqual(validator.cross_pack_violations([clean]), [])
-            bad = pack(root, "b", "  - {id: D_2, kind: directives}\n", "[{source: 'directive:D_2', target: 'tactic:T_9'}]",
-                       "activated_directives:\n  - id: DIRECTIVE_999\n")
+            bad = pack(root, "b", "  - {id: D_2, kind: directives}\n", "[{source: 'directive:D_2', target: 'tactic:T_9'}]")
             twin = pack(root, "c", node, level="built-in")
             found = "\n".join(validator.cross_pack_violations([clean, bad, twin]))
-            for expected in ("'DIRECTIVE_999'", "'tactic:T_9'", "directive:D_1: declared by packs of different levels (a [org], c [built-in])"):
+            for expected in ("b/drg/fragment.yaml: edge target 'tactic:T_9' resolves to no node of any pack",
+                             "directive:D_1: declared by packs of different levels (a [org], c [built-in])"):
                 self.assertIn(expected, found)
             # Artifact files declare ids too, by the kind their schema names (needs the contract).
-            # A glossary file declares the node glossary_context:<id>, which the preset key activated_glossaries
-            # and the fragment plural glossaries name too (file-kinds.yaml, charter ADR-0053 decision 13).
+            # A glossary file declares the node glossary_context:<id>, which the fragment plural glossaries names too
+            # (file-kinds.yaml, charter ADR-0053 decision 13).
             contract = validator.Contract(
                 files=[validator.Rule(validator.glob_to_regex("**/*.glossary.yaml"), "**/*.glossary.yaml", schema="glossary")],
                 exclusions=[], retired=[], payloads=[],
             )
-            filed = pack(root, "e", node, preset="activated_glossaries:\n  - id: qa-terms\n")
+            to_terms = "[{source: 'directive:D_1', target: 'glossary_context:qa-terms', relation: vocabulary}]"
+            filed = pack(root, "e", node, to_terms)
             (filed / "glossaries").mkdir()
             (filed / "glossaries" / "qa-terms.glossary.yaml").write_text("id: qa-terms\n", encoding="utf-8")
-            self.assertEqual(validator.cross_pack_violations([filed], contract), [])  # a file-only id satisfies the preset
+            self.assertEqual(validator.cross_pack_violations([filed], contract), [])  # a file-only id resolves the end
             self.assertTrue(validator.cross_pack_violations([filed]))  # ...but only when the contract classifies files
             # A file and a node for one id of one pack are a single declaration, not a collision.
             (filed / "glossaries" / "d1.glossary.yaml").write_text("id: D_1\n", encoding="utf-8")
             (filed / "drg" / "fragment.yaml").write_text("nodes:\n  - {id: D_1, kind: glossaries}\nedges: []\n", encoding="utf-8")
             self.assertEqual(validator.cross_pack_violations([filed], contract), [])
-            # The right id of the wrong kind does not satisfy a preset: D_1 is a directive in `a`, not a glossary.
-            wrong = pack(root, "f", "", preset="activated_glossaries:\n  - id: D_1\n")
-            (wrong / "drg" / "fragment.yaml").write_text("nodes: []\nedges: []\n", encoding="utf-8")
+            # The right id of the wrong kind does not resolve an end: D_1 is a directive in `a`, not a glossary.
+            wrong = pack(root, "f", "  - {id: D_4, kind: directives}\n",
+                         "[{source: 'directive:D_4', target: 'glossary_context:D_1', relation: vocabulary}]")
             found = "\n".join(validator.cross_pack_violations([clean, wrong], contract))
-            self.assertIn("names 'D_1', which no pack declares as a glossary_context", found)
+            self.assertIn("edge target 'glossary_context:D_1' resolves to no node of any pack", found)
             # A file-only id shared by two packs is a collision.
             other = pack(root, "g", "  - {id: D_3, kind: directives}\n", level="built-in")
             (other / "glossaries").mkdir()
@@ -797,6 +719,20 @@ class ValidatorExitCodes(unittest.TestCase):
             with self.assertRaises(validator.GateError):  # an empty id index must not pass
                 validator.cross_pack_violations([empty])
 
+    def test_preset_items_are_left_to_pack_doctor(self) -> None:
+        """#346, #348: pack-doctor judges every preset item against its pack's own closure (preset_item_undeclared,
+        preset_item_not_held, RealPackDoctor proves both against the jar), so the cross-pack rules no longer do."""
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = Path(tmp) / "a"
+            (pack / "drg").mkdir(parents=True)
+            (pack / "presets").mkdir()
+            (pack / "pack.yaml").write_text("pack_id: a\nname: a\npack_level: org\n", encoding="utf-8")
+            (pack / "drg" / "fragment.yaml").write_text("nodes:\n  - {id: NODE_ONLY, kind: directives}\nedges: []\n",
+                                                       encoding="utf-8")
+            (pack / "presets" / "p.yaml").write_text(
+                "schema_version: '1.0'\nid: p\nactivated_directives:\n  - {id: NOWHERE}\n  - {id: NODE_ONLY, must_have: true}\n",
+                encoding="utf-8")
+            self.assertEqual(validator.cross_pack_violations([pack]), [])
 
 BUILT_IN = "01ARWG13C000000000000000FG"
 OTHER = "01ARWG13C000000000000000XX"
@@ -876,29 +812,6 @@ class CompositionChecks(unittest.TestCase):
         self.assertEqual(self.found(built_in, sibling).count("different levels"), 1)
         self.assertNotIn("different levels", self.found(org, sibling))
 
-    def test_a_must_have_id_resolves_within_the_presets_closure_and_another_id_anywhere(self) -> None:
-        # The charter's requiredNotHeld: a governing preset's must-have item is held by the preset's pack or a
-        # pack its depends_on reaches. A plain activation keeps the any-pack check.
-        built_in = self.built_in()
-        stranger = self.write("stranger", {"pack.yaml": self.descriptor(OTHER, "stranger"),
-                                           "tactics/far.tactic.yaml": "id: far\n"})
-        preset = ("schema_version: '1.0'\nid: p\nactivated_tactics:\n  - {id: held, must_have: true}\n"
-                  "  - {id: own, must_have: true}\n  - {id: far}\n")
-        inside = self.consumer(files={"presets/p.yaml": preset})
-        self.assertNotIn("must_have", self.found(built_in, stranger, inside))
-        outside = self.consumer(files={"presets/p.yaml": preset + "  - {id: far, must_have: true}\n"}, directory="outside")
-        found = self.found(built_in, stranger, outside)
-        self.assertIn("outside/presets/p.yaml: activated_tactics names 'far' as must_have, but no pack in its "
-                      "depends_on closure (outside, built-in) holds it as a tactic", found)
-        self.assertEqual(found.count("must_have"), 1)
-        # A node of the closure's graph with no file is held by nobody (the charter's RequiredFloor reads held items).
-        ghost = self.consumer(files={"presets/p.yaml": "schema_version: '1.0'\nid: p\nactivated_tactics:\n  - {id: ghost, must_have: true}\n",
-                                     "drg/fragment.yaml": "nodes:\n  - {id: ghost, kind: tactics}\nedges: []\n"}, directory="ghost")
-        self.assertIn("ghost/presets/p.yaml: activated_tactics names 'ghost' as must_have, but no pack in its depends_on closure "
-                      "(ghost, built-in) holds it as a tactic", self.found(built_in, ghost))
-        orphan = self.consumer(files={"presets/p.yaml": preset}, depends_on=(), directory="orphan")
-        self.assertIn("orphan/presets/p.yaml: activated_tactics names 'held' as must_have", self.found(built_in, stranger, orphan))
-
     def test_a_bare_dangling_edge_end_fails_and_composition_defects_are_left_to_the_service(self) -> None:
         built_in = self.built_in()
         self.assertIn("edge target 'tactic:nowhere' resolves to no node of any pack",
@@ -920,6 +833,37 @@ class CompositionChecks(unittest.TestCase):
                 for fragment in ("outside this pack's depends_on closure", "does not hold", "joins", "missing", "declared by more than one",
                                  "resolves to no pack", "depends_on cycle"):
                     self.assertNotIn(fragment, found)
+
+    def test_cross_pack_runs_every_house_rule(self) -> None:
+        """--cross-pack (cross_pack_violations) runs each house rule of #348, one pack set with one fault of each."""
+        built_in = self.write("built-in", {
+            "pack.yaml": self.descriptor(BUILT_IN, "built-in", level="built-in"),
+            "tactics/held.tactic.yaml": "id: held\n",
+            "missions/dev/dev.mission-type.yaml": "id: dev\nsteps:\n- id: plan\n  prompt_path: steps/plan.prompt.md\n",
+            "missions/dev/steps/plan.prompt.md": "<!-- x:block:start -->\n<!-- x:block:end -->\n",
+            "drg/fragment.yaml": "nodes: []\nedges: []\n",
+        })
+        consumer = self.consumer(
+            "[{source: 'tactic:own', target: 'tactic:nowhere', relation: requires}, "
+            "{source: 'agent_profile:a', target: 'agent_profile:b', relation: specializes_from}, "
+            "{source: 'agent_profile:b', target: 'agent_profile:a', relation: specializes_from}, "
+            "{source: 'step_enhancement:enh', target: 'built-in::action:dev/plan', relation: enhances}]",
+            files={
+                "pack.yaml": self.descriptor(CONSUMER, "consumer", (BUILT_IN,), level="org"),
+                "tactics/again.tactic.yaml": "id: held\n",
+                "agent_profiles/p.agent.yaml": self.profile_file(tactic_id="nowhere-held"),
+                "missions/dev/enhancements/enh.step-enhancement.yaml": "id: enh\nprompt_fragments:\n- {slot: 'x:other', path: f.md}\n",
+            })
+        found = self.found(built_in, consumer)
+        for expected in (
+            "tactic:held: declared by packs of different levels",  # ADR-0053 decision 6
+            "consumer/drg/fragment.yaml: edge target 'tactic:nowhere' resolves to no node of any pack",  # DIV-007
+            "prompt_slot_missing at /prompt_fragments/0/slot",  # C38
+            "specializes_from cycle among agent profiles: a -> b -> a",  # ruling R-s remainder
+            "bare tactic reference 'nowhere-held' resolves to no artifact of any pack",  # rule-coverage.md row 6
+        ):
+            with self.subTest(expected):
+                self.assertIn(expected, found)
 
     def test_a_node_with_no_file_is_held_by_nobody(self) -> None:
         graph = "nodes:\n- {urn: 'procedure:shard-node', kind: procedure}\nedges: []\n"
@@ -952,14 +896,25 @@ class CompositionChecks(unittest.TestCase):
         self.assertIn(("template", "held.md"), held)
         self.assertNotIn(("template", "stray.md"), held)
 
-    def test_an_anti_pattern_node_is_held_in_either_graph_document_shape(self) -> None:
+    def test_an_anti_pattern_is_held_by_its_file_only(self) -> None:
+        """#348 (f): an anti-pattern is held by anti_patterns/<id>.anti-pattern.yaml, never by its graph node alone
+        (charter check-packs.md: "An anti-pattern is held only by its file")."""
+        contract = validator.Contract(
+            files=[*self.CONTRACT.files, validator.Rule(validator.glob_to_regex("**/*.anti-pattern.yaml"),
+                                                        "**/*.anti-pattern.yaml", schema="anti-pattern")],
+            exclusions=[], retired=[], payloads=[],
+        )
         built_in = self.built_in()
         self.write("built-in", {
-            "drg/fragment.yaml": "nodes:\n  - {id: in-fragment, kind: anti_patterns}\nedges: []\n",
+            "anti_patterns/filed.anti-pattern.yaml": "id: filed\n",
+            "drg/fragment.yaml": "nodes:\n  - {id: filed, kind: anti_patterns}\n  - {id: in-fragment, kind: anti_patterns}\nedges: []\n",
             "anti_pattern.graph.yaml": "nodes:\n- {urn: 'anti_pattern:in-shard', kind: anti_pattern}\nedges: []\n",
         })
-        held = validator.held_artifacts(built_in, self.CONTRACT)
-        self.assertLessEqual({("anti_pattern", "in-fragment"), ("anti_pattern", "in-shard")}, held)
+        held = validator.held_artifacts(built_in, contract)
+        self.assertIn(("anti_pattern", "filed"), held)
+        self.assertNotIn(("anti_pattern", "in-fragment"), held)
+        self.assertNotIn(("anti_pattern", "in-shard"), held)
+        self.assertIn(("anti_pattern", "filed"), validator.declared_nodes(built_in, contract))  # the file declares it
 
     def test_a_template_directory_holds_only_what_the_contract_classifies_as_a_payload(self) -> None:
         built_in = self.built_in()
@@ -1082,127 +1037,59 @@ class CompositionChecks(unittest.TestCase):
                 self.assertIn(expected, found)
 
 
-class DerivedManifests(unittest.TestCase):
-    """#255: every pack carries the manifest the charter derives (ManifestMembership at the pin); the generator writes
-    it and the check refuses any other membership, as the charter's round trip and registration do."""
+class AntiPatternFilesOnThePinnedContract(unittest.TestCase):
+    """#348 (f), FR-017: an anti-pattern is a file, ``anti_patterns/<id>.anti-pattern.yaml``, classified through the
+    pinned ``file-kinds.yaml`` (data, not code), validated against the pinned ``anti-pattern.schema.json`` and listed
+    in the manifest as a constituent, so this job and pack-doctor agree on it."""
 
-    run_validator = ValidatorExitCodes.run_validator
-    write_pack = ValidatorExitCodes.write_pack
-
-    # The kinds a derived manifest lists beyond the base rules: profiles, glossaries, mission types and the
-    # template payloads, with a skill whose body is its companion and an excluded note beside the templates.
-    EXTRA = (
-        '  - match: "**/*.agent.yaml"\n    schema: agent-profile\n'
-        '  - match: "**/*.glossary.yaml"\n    schema: glossary\n'
-        '  - match: "**/*.mission-type.yaml"\n    schema: mission-type\n'
-        'exclusions:\n  - match: "*/missions/*/templates/**/README.md"\n    reason: notes\n'
-        'payloads:\n  - match: "*/templates/**/*"\n    kind: template\n    content_form: bytes\n'
-        '  - match: "*/missions/*/templates/**/*"\n    kind: template\n    content_form: bytes\n'
+    ANTI_PATTERN = (
+        "schema_version: '1.0'\nid: secret-in-repo\ntitle: A secret in the repository\n"
+        "description: Credentials committed beside the code.\nseverity: breaking\n"
+        "bad_example: An API key in config.yaml.\n"
     )
-    FILES = {
-        "pack.yaml": "pack_id: x\n",
-        "presets/b.yaml": "schema_version: '1.0'\nid: b\n",
-        "presets/a.yaml": "schema_version: '1.0'\nid: a\n",
-        "agent_profiles/ann.agent.yaml": "profile-id: annie\n",
-        "missions/dev/dev.mission-type.yaml": "id: dev\n",
-        "missions/dev/templates/plan.md": "# plan\n",
-        "missions/dev/templates/README.md": "# notes\n",
-        "glossaries/plan.glossary.yaml": "id: plan\n",
-        "templates/writing/notes.md": "# notes\n",
-        "skills/s.skill.yaml": "id: s\nbody_path: s.body.md\n",
-        "skills/s.body.md": "# body\n",
-        "tactics/T.tactic.yaml": "id: upper\n",  # upper case sorts before lower case in UTF-16 order
-    }
+    ENTRY = ("- kind: anti_pattern\n  id: secret-in-repo\n  path: anti_patterns/secret-in-repo.anti-pattern.yaml\n"
+             "  content_hash: '" + "0" * 64 + "'\n")
 
-    def write_contract(self, root: Path) -> None:
-        ValidatorExitCodes.write_contract(self, root, self.EXTRA)  # type: ignore[arg-type]
-        for name in ("agent-profile", "glossary", "mission-type"):
-            (root / "contract" / "schemas" / f"{name}.schema.json").write_text(json.dumps(OPEN_SCHEMA), encoding="utf-8")
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.contract = validator.contract_for(None)
 
-    def test_the_derived_lists_hold_every_artifact_file_and_preset_in_path_order(self) -> None:
+    def pack(self, tmp: str, *, listed: bool = True, text: str | None = None) -> Path:
+        """The valid example pack with one anti-pattern file and its node; the manifest lists it when ``listed``."""
+        pack = Path(tmp) / "example-pack"
+        shutil.copytree(Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "valid" / "example-pack", pack)
+        (pack / "anti_patterns").mkdir()
+        (pack / "anti_patterns" / "secret-in-repo.anti-pattern.yaml").write_text(text or self.ANTI_PATTERN, encoding="utf-8")
+        fragment = pack / "drg" / "fragment.yaml"
+        fragment.write_text(fragment.read_text(encoding="utf-8").replace(
+            "edges:\n", "- id: secret-in-repo\n  kind: anti_patterns\n  title: A secret in the repository\nedges:\n", 1),
+            encoding="utf-8")
+        if listed:
+            manifest = pack / "pack-manifest.yaml"
+            manifest.write_text(manifest.read_text(encoding="utf-8").replace("presets:\n", self.ENTRY + "presets:\n", 1),
+                                encoding="utf-8")
+        return pack
+
+    def test_the_file_is_classified_by_the_pinned_contract_and_validates(self) -> None:
+        kind, rule = validator.classify(self.contract, "example-pack/anti_patterns/secret-in-repo.anti-pattern.yaml")
+        self.assertEqual((kind, rule.schema if rule else None), ("file", "anti-pattern"))
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.write_pack(root, self.FILES)
-            derived = validator.derived_manifest(pack, validator.load_contract(root / "contract"))
-            self.assertEqual(
-                [(e["kind"], e["id"], e["path"]) for e in derived["constituents"]],
-                [
-                    ("agent_profile", "annie", "agent_profiles/ann.agent.yaml"),
-                    ("glossary", "plan", "glossaries/plan.glossary.yaml"),
-                    ("mission_type", "dev", "missions/dev/dev.mission-type.yaml"),
-                    ("template", "dev/plan.md", "missions/dev/templates/plan.md"),
-                    ("skill", "s", "skills/s.skill.yaml"),
-                    ("tactic", "upper", "tactics/T.tactic.yaml"),
-                    ("tactic", "t", "tactics/t.tactic.yaml"),
-                    ("template", "writing/notes.md", "templates/writing/notes.md"),
-                ],
-            )
-            self.assertEqual([(e["id"], e["path"]) for e in derived["presets"]], [("a", "presets/a.yaml"), ("b", "presets/b.yaml")])
+            report = validator.validate_pack(self.pack(tmp), self.contract)
+        self.assertEqual(report.violations, [])
+        self.assertEqual(report.warnings, [])
 
-    def test_the_generator_writes_a_manifest_the_check_accepts_and_the_check_refuses_drift(self) -> None:
+    def test_a_missing_severity_fails_against_the_pinned_schema(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.write_pack(root, self.FILES)
-            code, output = self.run_validator(root, "--derived-manifests", str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("pack/pack-manifest.yaml: missing: every pack carries the manifest the charter derives", output)
+            text = self.ANTI_PATTERN.replace("severity: breaking\n", "")
+            found = "\n".join(validator.validate_pack(self.pack(tmp, text=text), self.contract).violations)
+        self.assertIn("anti_patterns/secret-in-repo.anti-pattern.yaml: anti-pattern schema at /: 'severity' is a required property",
+                      found)
 
-            code, output = self.run_validator(root, "--derive-manifest", str(pack), "--derived-manifests", str(pack))
-            self.assertEqual(code, validator.EXIT_OK, output)
-            self.assertNotIn("manifest_hash", output)  # stamped: the hash check agrees
-
-            (pack / "tactics" / "new.tactic.yaml").write_text("id: new\n", encoding="utf-8")
-            (pack / "presets" / "a.yaml").unlink()
-            code, output = self.run_validator(root, "--derived-manifests", str(pack))
-            self.assertEqual(code, validator.EXIT_INVALID)
-            self.assertIn("manifest_membership: lists preset a at presets/a.yaml, which the pack does not hold", output)
-            self.assertIn("manifest_membership: leaves out constituent tactic:new at tactics/new.tactic.yaml, which the pack holds", output)
-            self.assertIn("--derive-manifest", output)
-            # Without the flag the membership is not judged (an authored manifest stays the older checks' to judge).
-            self.assertNotIn("manifest_membership", self.run_validator(root, str(pack))[1])
-
-    def test_an_invalid_fixture_is_not_held_to_a_derived_manifest(self) -> None:
+    def test_the_file_is_a_manifest_constituent_and_its_node_is_not_exempt(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n"})
-            fixture = root / "fixtures" / "invalid" / "f"
-            fixture.parent.mkdir(parents=True)
-            pack.rename(fixture)
-            code, output = self.run_validator(root, "--derived-manifests", str(fixture))
-            self.assertEqual(code, validator.EXIT_OK, output)
-            self.assertNotIn("missing: every pack", output)
-
-    def test_mismatch_is_worded_and_ordered_like_the_charter(self) -> None:
-        def manifest(constituents: list[tuple[str, str, str]], presets: list[tuple[str, str]]) -> dict:
-            return {"constituents": [{"kind": k, "id": i, "path": p} for k, i, p in constituents],
-                    "presets": [{"id": i, "path": p} for i, p in presets]}
-
-        listed = manifest([("tactic", "a", "a.yaml"), ("tactic", "x", "x.yaml"), ("tactic", "a", "a.yaml")], [("p", "presets/p.yaml")])
-        derived = manifest([("tactic", "a", "a.yaml"), ("tactic", "b", "b.yaml")], [("q", "presets/q.yaml")])
-        self.assertEqual(validator.membership_mismatch(listed, derived), [
-            "lists constituent tactic:x at x.yaml, which the pack does not hold",
-            "lists preset p at presets/p.yaml, which the pack does not hold",
-            "lists constituent tactic:a at a.yaml twice",
-            "leaves out constituent tactic:b at b.yaml, which the pack holds",
-            "leaves out preset q at presets/q.yaml, which the pack holds",
-        ])
-        self.assertEqual(validator.membership_mismatch(derived, derived), [])
-
-    def test_the_generator_refuses_to_write_through_a_link(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.write_contract(root)
-            pack = self.write_pack(root, {"pack.yaml": "pack_id: x\n"})
-            (pack / "pack-manifest.yaml").symlink_to(root / "elsewhere.yaml")
-            self.assertEqual(self.run_validator(root, "--derive-manifest", str(pack))[0], validator.EXIT_GATE)
-            self.assertFalse((root / "elsewhere.yaml").exists())
-
-
-if __name__ == "__main__":
-    unittest.main()
+            found = "\n".join(validator.validate_pack(self.pack(tmp, listed=False), self.contract).violations)
+        self.assertIn("incomplete manifest: anti_patterns/secret-in-repo.anti-pattern.yaml is not a constituent", found)
+        self.assertIn("incomplete manifest: graph node anti_pattern:secret-in-repo is not a constituent", found)
 
 
 class ClassifierConformance(unittest.TestCase):

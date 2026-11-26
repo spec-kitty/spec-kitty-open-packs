@@ -221,10 +221,10 @@ class SpddEnhancementsOnThePinnedContract(unittest.TestCase):
             text = source.read_text(encoding="utf-8").replace("id: spdd-specify", f"id: {long_id}")
             source.unlink()
             (directory / f"{long_id}.step-enhancement.yaml").write_text(text, encoding="utf-8")
-            # A whole rename: the graph and preset follow the id, and the manifest is re-derived (#255).
-            for named in (pack / "drg" / "fragment.yaml", pack / "presets" / "spdd.yaml"):
+            # A whole rename: the graph, preset and manifest entry follow the id. The manifest's hashes are
+            # pack-doctor's to judge (manifest_stale, #347), so only its membership needs to follow here.
+            for named in (pack / "drg" / "fragment.yaml", pack / "presets" / "spdd.yaml", pack / "pack-manifest.yaml"):
                 named.write_text(named.read_text(encoding="utf-8").replace("spdd-specify", long_id), encoding="utf-8")
-            validator.derive_manifest(pack, self.contract)
 
         found = self.mutated(lambda pack: with_id_length(pack, 65))
         self.assertIn("step-enhancement schema at /id", found)
@@ -275,9 +275,15 @@ class PromptFragmentComposition(unittest.TestCase):
         self.enhancement.write_text(self.enhancement.read_text().replace("spdd:reasons-block", "spdd:other"), encoding="utf-8")
         self.assertIn("prompt_slot_missing", self.found())
 
-    def test_a_missing_step_is_refused(self) -> None:
+    def test_a_missing_step_or_an_unreadable_prompt_is_left_to_pack_doctor(self) -> None:
+        # Pack-doctor refuses a target step that does not exist (pack_reference_artifact_missing) and a step whose
+        # prompt cannot be read (artifact_schema_error), so the schema pass no longer judges either (#348;
+        # RealPackDoctor in test_charter_pack_doctor.py proves both against the jar).
         self.fragment.write_text(self.fragment.read_text().replace("software-dev/specify", "software-dev/gone"), encoding="utf-8")
-        self.assertIn("pack_reference_artifact_missing", self.found())
+        self.assertEqual(self.found(), "")
+        self.fragment.write_text(self.fragment.read_text().replace("software-dev/gone", "software-dev/specify"), encoding="utf-8")
+        (self.base / "missions" / "software-dev" / "steps" / "specify.prompt.md").unlink()
+        self.assertEqual(self.found(), "")
 
     def test_what_the_service_refuses_is_not_judged_here(self) -> None:
         # A target that is not action:<type>/<step> and an enhancement without exactly one enhances edge are
