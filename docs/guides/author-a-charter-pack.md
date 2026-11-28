@@ -2,7 +2,7 @@
 title: Author a Charter Pack
 description: Lay out a Spec Kitty 4.x Charter Pack, write schema-valid artifacts, namespace IDs, add a DRG fragment, and optionally ship presets, a governing preset and a policy.yaml.
 doc_status: wip
-updated: '2026-11-20'
+updated: '2026-11-28'
 related:
 - guides/validate-a-pack
 - guides/publish-a-pack
@@ -61,9 +61,11 @@ Four pack-root files are easy to confuse, so keep their roles apart:
 
 > **Do not hand-write `pack-manifest.yaml`.** The charter derives its lists from the pack: every
 > artifact file and every preset, in path order. It refuses a manifest with any other lists
-> (`manifest_membership`). In this repository, generate it with
-> `python3 scripts/ci/validate_pack_schemas.py --derive-manifest packs/<name>`; CI fails a pack whose
-> manifest is missing or differs (see [Validate a pack](validate-a-pack.md#derived-pack-manifests)).
+> (`manifest_membership`) and one whose hashes do not match the files (`manifest_stale`). In this
+> repository, the pinned charter's `pack-doctor remediate` writes it, and the gate's pack-doctor run fails a
+> pack whose manifest is missing or differs. `remediate` also rewrites every file the charter models in
+> canonical form, so comments in those files do not survive (see
+> [Validate a pack](validate-a-pack.md#pack-manifests)).
 
 ## 2. Write artifacts — one rule per file
 

@@ -2,7 +2,7 @@
 title: Contracts
 description: "The machine contracts a Charter Pack meets: pack, README, preset, policy, manifest and DRG files, registration, commands and charter seams."
 doc_status: draft
-updated: '2026-11-11'
+updated: '2026-11-28'
 related:
 - artefacts
 - organisations
@@ -63,16 +63,12 @@ Machine-written inventory of the pack: `schema_version`, a `manifest_hash`, a `c
 list of `{kind, id, path, content_hash}` and, when the pack ships presets, a `presets` list of
 `{id, path, content_hash}`. Both hashes are derived: `content_hash` is the SHA-256 of the file's
 bytes with CRLF and lone CR read as LF, and `manifest_hash` is the SHA-256 of the manifest's
-RFC 8785 canonical JSON without `manifest_hash`. The pack gate fails on a stale hash or a listed
-file that is missing. After changing a listed file, restamp the hashes (membership is kept) with
-
-```bash
-python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest packs/foundation
-```
-
-The command only restamps; it validates nothing unless the pack is also passed as a positional
-argument. If the manifest lists a file that is missing, it leaves the manifest untouched and exits 1:
-restore the file or remove its entry. Never edit the hashes by hand.
+RFC 8785 canonical JSON without `manifest_hash`. The charter's pack-doctor judges the manifest in the
+pack gate: a stale hash is `manifest_stale`, and lists that differ from those the pack's files derive are
+`manifest_membership`. After adding, removing or changing a listed file, restamp the manifests with the
+pinned charter's `pack-doctor remediate`, which derives the lists and stamps the hashes; see
+[Validate a pack](../guides/validate-a-pack.md#pack-manifests) for the command. Never edit the hashes by
+hand.
 
 ## `packs/<name>.source.yaml` — recorded tree digest
 
