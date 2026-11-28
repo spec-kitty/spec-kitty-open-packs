@@ -10,6 +10,9 @@ requirement_refs:
 planning_base_branch: feat/pack-doctor-alignment
 merge_target_branch: feat/pack-doctor-alignment
 branch_strategy: Planning artifacts for this mission were generated on feat/pack-doctor-alignment. During /spec-kitty.implement this WP may branch from a dependency-specific base, but completed changes must merge back into feat/pack-doctor-alignment unless the human explicitly redirects the landing branch.
+base_branch: kitty/mission-pack-doctor-alignment-01M88RH1
+base_commit: a674574b083aeeb2cd1ec9734e99fe77b86c91a2
+created_at: '2026-11-28T06:28:46.674014+00:00'
 subtasks:
 - T057
 - T058
