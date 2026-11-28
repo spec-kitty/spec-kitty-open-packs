@@ -2,7 +2,7 @@
 title: Charter artefacts
 description: "The structure of every charter artefact kind a Charter Pack can carry: directory, file naming and key fields."
 doc_status: draft
-updated: '2026-11-18'
+updated: '2026-11-28'
 related:
 - contracts
 - guides/author-a-charter-pack
@@ -33,7 +33,7 @@ tier, uses the same layout. Field lists below are taken from real files under `p
 | Asset | `assets/` | `<file>.asset.yaml` + the file | A file shipped with the pack (scripts, gate code). |
 | Glossary | `glossaries/` | `<id>.glossary.yaml` | A glossary context: a bounded set of canonical terms. |
 | Skill | `skills/` | `<id>.skill.yaml` + body | A parameterised entry point rendered for agent tools. |
-| Anti-pattern | inside other artefacts / the DRG | — | A named failure mode; not a standalone file. |
+| Anti-pattern | `anti_patterns/` | `<id>.anti-pattern.yaml` | A named practice that guidance rejects: its own file, declared by a graph node and rejected by `rejects` edges. |
 
 Packs may also carry `missions/` and `presets/` (see [Contracts](../contracts/index.md)). A
 mission type lives in `missions/<type>/<type>.mission-type.yaml`, which holds its steps in run
@@ -65,7 +65,8 @@ Key fields: `id`, `name`, `purpose`, `steps`, `failure_modes`.
 
 Key fields: `id`, `title`, `scope`, `applies_to_languages`, `principles` (a list of
 `{name, description}` items; names are unique within the list ignoring case and
-surrounding whitespace, ADR-0067), `patterns`, `anti_patterns`, `tooling`, `quality_test`.
+surrounding whitespace, ADR-0067), `patterns`, `tooling`, `quality_test`. A styleguide names the
+anti-patterns it rejects with `rejects` edges, never in the file (see [Anti-pattern](#anti-pattern)).
 
 ## Toolguide
 
@@ -84,8 +85,9 @@ belong together. They are not rules or steps and do not restate the paradigm's t
 ## Procedure
 
 Key fields: `id`, `title`, `description`, `entry_condition`, `exit_condition`, `steps` (each with a
-title, description and optional `role`), `anti_patterns`. Older packs used `name`, `purpose` and
-`actor` for `title`, `description` and `role`.
+title, description and optional `role`). Older packs used `name`, `purpose` and
+`actor` for `title`, `description` and `role`. Like a styleguide, a procedure rejects anti-patterns with
+`rejects` edges.
 
 ## Agent profile
 
@@ -128,6 +130,28 @@ Key fields: `id`, `title`, `description`, `triggers`, `form`, `body_path`, `para
 `invocation`, `version`, `maintainers`. The charter model has no skill namespace: how a skill's
 directory is named when it is rendered (for example core's `kitty-<id>/SKILL.md` for the
 `internal` pack) is the consumer's rendering.
+
+## Anti-pattern
+
+```yaml
+schema_version: '1.0'
+id: assert-on-internal-field-values
+title: Assert on internal field values
+description: Tests that assert internal field values break during refactoring even when observable behavior is unchanged. Test outcomes, not mechanisms.
+severity: severe
+bad_example: |-
+  cart.add(book);
+  assertThat(ReflectionTestUtils.getField(cart, "lines")).isEqualTo(List.of(book));
+```
+
+A recognisable practice that guidance rejects, one file per anti-pattern, at
+`anti_patterns/<id>.anti-pattern.yaml`; the file stem is its `id` (charter ADR-0052, as amended by ADR-0053).
+Key fields: `id`, `title`, `description`, `severity` (`smell`, `severe` or `breaking`, always written: there is
+no default), `bad_example`, and optional `good_example`. The file carries no relationship fields. A node
+`anti_pattern:<id>` in the pack's graph documents declares it, and the guidance that rejects it, such as a
+directive, a styleguide or a procedure, points at it with a `rejects` edge. Across packs, the edge's target is
+qualified with the anti-pattern's pack (`foundation::anti_pattern:<id>`), which must be in the `depends_on`
+closure. Activating the guidance never activates the anti-pattern.
 
 ## How artefacts connect
 
