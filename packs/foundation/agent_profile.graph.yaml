@@ -31,20 +31,17 @@ edges:
   target: directive:DIRECTIVE_030
   relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
-  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:generic-agent
   target: directive:DIRECTIVE_034
   relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
-  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
-    channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:generic-agent
   target: directive:DIRECTIVE_041
   relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
-  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:generic-agent
   target: directive:DIRECTIVE_054
   relation: suggests
@@ -54,8 +51,7 @@ edges:
   target: directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
-  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
-    under today''s traversal, authored per the #3063 family-B operator attestation.'
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only under today''s traversal, authored per the #3063 family-B operator attestation.'
 - source: agent_profile:implementer-ivan
   target: directive:DIRECTIVE_010
   relation: requires
@@ -63,20 +59,17 @@ edges:
   target: directive:DIRECTIVE_030
   relation: suggests
   when: when assessing whether tests meet the quality gate they must pass
-  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:implementer-ivan
   target: directive:DIRECTIVE_034
   relation: suggests
   when: when writing or reviewing the tests that accompany an implementation
-  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
-    channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:implementer-ivan
   target: directive:DIRECTIVE_041
   relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
-  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:implementer-ivan
   target: directive:DIRECTIVE_043
   relation: requires
@@ -98,19 +91,16 @@ edges:
   target: directive:DIRECTIVE_055
   relation: suggests
   when: when changing how a product reports its version or build, or how it reads a peer's
-  reason: An implementer-role profile should reach the build identity contract when touching a product's version or build
-    surfaces.
+  reason: An implementer-role profile should reach the build identity contract when touching a product's version or build surfaces.
 - source: agent_profile:implementer-ivan
   target: directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
-  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
-    under today''s traversal, authored per the #3063 family-B operator attestation.'
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only under today''s traversal, authored per the #3063 family-B operator attestation.'
 - source: agent_profile:implementer-ivan
   target: tactic:dependency-hygiene
   relation: requires
-  reason: Pin and audit dependencies, restrict resolution to approved registries, and regenerate the SBOM after any change;
-    for install-time supply-chain safety, run the supply-chain-install-safety tactic's checklist alongside these steps.
+  reason: Pin and audit dependencies, restrict resolution to approved registries, and regenerate the SBOM after any change; for install-time supply-chain safety, run the supply-chain-install-safety tactic's checklist alongside these steps.
 - source: agent_profile:reviewer-renata
   target: directive:DIRECTIVE_001
   relation: requires
@@ -121,8 +111,7 @@ edges:
   target: directive:DIRECTIVE_030
   relation: requires
   when: when assessing the quality of the tests under review
-  reason: 'The reviewer profile should reach the test-quality-gate hub when assessing the tests under review. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'The reviewer profile should reach the test-quality-gate hub when assessing the tests under review. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:reviewer-renata
   target: directive:DIRECTIVE_032
   relation: requires
@@ -135,8 +124,7 @@ edges:
   target: directive:DIRECTIVE_041
   relation: requires
   when: when assessing whether the tests under review are a clear scaffold rather than friction
-  reason: 'The reviewer profile should reach the tests-as-scaffold hub when assessing the tests under review. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'The reviewer profile should reach the tests-as-scaffold hub when assessing the tests under review. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:reviewer-renata
   target: directive:DIRECTIVE_054
   relation: requires
@@ -152,9 +140,7 @@ edges:
 - source: agent_profile:reviewer-renata
   target: tactic:delete-the-assertion-not-the-test
   relation: requires
-  reason: When remediating a friction test (passes for the wrong reason, false-reds a correct change, or asserts an implementation
-    detail), replace the wrong assertion with a contract-pinned red-first one while preserving the test's setup and excavated
-    edge-cases. Reserve outright deletion for provably zero-coverage or superseded tests — delete the assertion, not the test.
+  reason: When remediating a friction test (passes for the wrong reason, false-reds a correct change, or asserts an implementation detail), replace the wrong assertion with a contract-pinned red-first one while preserving the test's setup and excavated edge-cases. Reserve outright deletion for provably zero-coverage or superseded tests — delete the assertion, not the test.
 - source: agent_profile:reviewer-renata
   target: tactic:language-driven-design
   relation: requires
@@ -166,20 +152,15 @@ edges:
 - source: agent_profile:reviewer-renata
   target: tactic:supply-chain-install-safety
   relation: requires
-  reason: Require the checklist, per DIRECTIVE_051, as review evidence for any dependency-touching change, and disposition
-    every adversarial-squad or reviewer challenge to a supply-chain finding explicitly, per the adversarial-squad-deployment
-    procedure's findings-disposition contract, each traceable to an evidence_location — a contested finding may never be dropped
-    silently.
+  reason: Require the checklist, per DIRECTIVE_051, as review evidence for any dependency-touching change, and disposition every adversarial-squad or reviewer challenge to a supply-chain finding explicitly, per the adversarial-squad-deployment procedure's findings-disposition contract, each traceable to an evidence_location — a contested finding may never be dropped silently.
 - source: agent_profile:reviewer-renata
   target: tactic:test-readability-clarity-check
   relation: requires
-  reason: 'Apply the dual-perspective reconstruction check during review: read only the test suite and attempt to reconstruct
-    system behavior, then compare against the specification. Tests that fail reconstruction are documentation gaps.'
+  reason: 'Apply the dual-perspective reconstruction check during review: read only the test suite and attempt to reconstruct system behavior, then compare against the specification. Tests that fail reconstruction are documentation gaps.'
 - source: agent_profile:reviewer-renata
   target: tactic:test-scaffolding-as-design-smell
   relation: requires
-  reason: Treat heavy test setup or many doubles, or any double of owned logic (DIRECTIVE_054), in a diff as a design smell to
-    flag, not accept — request a pure boundary/seam instead of more doubles.
+  reason: Treat heavy test setup or many doubles, or any double of owned logic (DIRECTIVE_054), in a diff as a design smell to flag, not accept — request a pure boundary/seam instead of more doubles.
 - source: agent_profile:reviewer-renata
   target: procedure:adversarial-squad-deployment
   relation: requires

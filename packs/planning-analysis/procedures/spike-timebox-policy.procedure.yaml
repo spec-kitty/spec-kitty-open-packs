@@ -32,13 +32,3 @@ steps:
     Convert the spike into a documented decision: confirmed, refuted, or abandoned as inconclusive. Record the hypothesis, the budget spent, the observations, the decision, any residual uncertainty, and the recommended follow-up as evidence. A spike whose finding is not written down has not retired its uncertainty for anyone but its author.
   on_success: |
     The finding is captured as evidence and linked from the mission's research output. The retired (or explicitly deferred) uncertainty feeds the next scoping, synthesis, or decision step.
-anti_patterns:
-- title: Budgetless Spike
-  content: |
-    Starting an investigation with no agreed stop rule, so the spike silently expands into open-ended work that competes with delivery.
-- title: Rationalised Outcome
-  content: |
-    Deciding what the spike "proved" after the fact because no exit criteria were written in advance, turning an investigation into confirmation of a pre-held belief.
-- title: Unwritten Finding
-  content: |
-    Reaching a conclusion in the investigator's head and moving on without recording the hypothesis, evidence, and decision, so the uncertainty is only retired for one person.

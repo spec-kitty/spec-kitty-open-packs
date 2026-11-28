@@ -54,28 +54,6 @@ steps:
 - title: Hand off to the operator
   description: |
     Report the PR link, the issues it closes, what shipped, what each review round changed, (for a Mission) which development-assist tests were retired / split / kept-and-renamed, any files the tree check recorded as deliberately removed, every check still failing with the reason it is not caused by this PR, and open follow-ups. Capture durable learnings in memory (and, for a Mission, its retrospective). Then stop: the operator merges.
-anti_patterns:
-- title: Per-WP green treated as the final gate
-  content: |
-    Skipping the aggregate review because every work package already passed. The WPs only coexist after consolidation; the aggregate diff is where cross-WP integration breaks surface.
-- title: Merge commits instead of a linear history
-  content: |
-    Landing the mission as a tangle of merge/status commits rather than a compacted, rebased, linear branch. Readability and bisectability are lost.
-- title: Per-commit green as a requirement
-  content: |
-    Rewriting history only to make each commit pass a gate. The merge bar is the PR head.
-- title: Deferring instead of finishing
-  content: |
-    Punting genuinely small remaining work to a follow-up to close the mission faster. Only the exceptions in the deferral bar ("Review the rebased branch and fold every finding") are deferred; the rest is completed before hand-off.
-- title: Flipping a red or still-changing PR to ready for review
-  content: |
-    The flip hands the PR to the maintainers. Do it only when the PR is green and complete.
-- title: Agent merges the mainline
-  content: |
-    Merging to the protected mainline or arming auto-merge on the agent's own initiative. The agent flips a green PR to ready for review and stops; the operator merges.
-- title: Unresolved issue verdicts at close
-  content: |
-    Leaving in-mission or empty verdicts in the issue matrix at hand-off. Every referenced issue must reach a terminal verdict before done.
 notes: |
   Standing close-out sequence for the SDD flow. It is the "last mile" companion to
   the per-work-package implement/review loop: the loop makes each WP correct, this

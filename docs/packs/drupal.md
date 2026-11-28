@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/drupal`
 - **Pack level:** `org`
 - **Declared version:** `2.2.0`
-- **Content checksum (sha256):** `909d06a4ccf4e594c69fd0e2def61c27de740bf57c0bd00e0a902f964b2a001e`
+- **Content checksum (sha256):** `ec967f48bbf1f231c28de16f070cbf79ccd8cff126bedc28799d3edbf19eeed7`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -37,9 +37,10 @@ The Drupal stack: the Drupal Dries profile, Drupal conventions, security and per
 | --- | --- |
 | `styleguides` | 2 |
 | `toolguides` | 2 |
+| `anti_patterns` | 14 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **9** |
+| **Total files** | **23** |
 
 ### Full listing
 
@@ -56,6 +57,26 @@ The Drupal stack: the Drupal Dries profile, Drupal conventions, security and per
 
 - `drupal-review-checks.guide.md`
 - `drupal-review-checks.toolguide.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (14)</summary>
+
+- `business-logic-in-the-module-file.anti-pattern.yaml`
+- `calling-removed-entity-loaders.anti-pattern.yaml`
+- `configuration-stored-in-state.anti-pattern.yaml`
+- `credentials-in-version-control.anti-pattern.yaml`
+- `entity-query-without-an-explicit-access-check.anti-pattern.yaml`
+- `fetching-services-via-drupal-inside-a-class.anti-pattern.yaml`
+- `hardcoded-ids-and-paths.anti-pattern.yaml`
+- `markup-for-untrusted-text.anti-pattern.yaml`
+- `raw-sql-instead-of-entity-query.anti-pattern.yaml`
+- `reading-superglobals-instead-of-the-injected-request.anti-pattern.yaml`
+- `render-array-without-cache-metadata.anti-pattern.yaml`
+- `sprawling-form-alter.anti-pattern.yaml`
+- `twig-raw-filter-on-user-input.anti-pattern.yaml`
+- `views-data-without-table-aliases.anti-pattern.yaml`
 
 </details>
 

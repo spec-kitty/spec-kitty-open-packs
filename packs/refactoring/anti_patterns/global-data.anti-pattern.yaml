@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: global-data
+title: Global Data
+description: a widely-accessed module-level or global variable read and written from many locations with no single chokepoint for monitoring, validation, or a later change of type
+severity: smell
+bad_example: 'default_owner = {''first_name'': ''Martin'', ''last_name'': ''Fowler''} imported in 8 modules.'

@@ -1,20 +1,16 @@
-schema_version: "1.0"
 id: DIRECTIVE_035
+schema_version: '1.0'
 title: Bulk Edit Occurrence Classification
-intent: >
-  Codebase-wide renames, terminology migrations, and bulk string changes
-  must classify string occurrences by semantic context before edits begin.
-  Different contexts (code symbols, imports, filesystem paths, serialized keys,
-  CLI commands, docs, tests, logs) may have different change rules.
+intent: |
+  Codebase-wide renames, terminology migrations, and bulk string changes must classify string occurrences by semantic context before edits begin. Different contexts (code symbols, imports, filesystem paths, serialized keys, CLI commands, docs, tests, logs) may have different change rules.
 enforcement: required
-scope: >
+scope: |
   Applies to any mission marked with change_mode: bulk_edit.
 integrity_rules:
 - Every occurrence category in the map must have an explicit action assignment.
 - Categories marked do_not_change must not be modified without updating the map.
 - The occurrence map is the sole authority for what categories may change.
 validation_criteria:
-- Implementation is blocked when change_mode is bulk_edit and 
-  occurrence_map.yaml is missing or invalid.
+- Implementation is blocked when change_mode is bulk_edit and occurrence_map.yaml is missing or invalid.
 - Review rejects work that lacks an admissible occurrence map.
 - The occurrence map covers at least 3 distinct categories.

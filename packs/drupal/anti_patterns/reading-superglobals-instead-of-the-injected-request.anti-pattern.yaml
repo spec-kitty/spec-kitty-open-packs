@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: reading-superglobals-instead-of-the-injected-request
+title: Reading Superglobals Instead of the Injected Request
+description: Superglobals bypass Symfony's request stack and make handlers untestable; inject the current Request instead.
+severity: severe
+bad_example: $id = $_GET['id'];
+good_example: |-
+  public function __construct(protected RequestStack $requestStack) {}
+  public function content(): array {
+    return ['id' => $this->requestStack->getCurrentRequest()->query->get('id')];
+  }

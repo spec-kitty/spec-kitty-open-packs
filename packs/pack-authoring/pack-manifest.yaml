@@ -1,10 +1,66 @@
 schema_version: '1.0'
-manifest_hash: d9423916ca03023fefe007bb0d76062121f571e9289bbe917c5f14a65d93b3d2
+manifest_hash: 82a13fea6d883ca70c145bbb5c38e012143c20fd0c7d680e5dadeaf57f73ffcd
 constituents:
 - kind: agent_profile
   id: doctrine-daphne
   path: agent_profiles/doctrine-daphne.agent.yaml
-  content_hash: 6a95ec45e1854c56613fab8ed8397bc0f3b49f360498642baadc2bcb66d35af6
+  content_hash: 4614ead6e01c674249b48a110df936fd7bebfdfad1983d6b0d1f906709903c4c
+- kind: anti_pattern
+  id: ambiguous-trigger-surface
+  path: anti_patterns/ambiguous-trigger-surface.anti-pattern.yaml
+  content_hash: cd28e7bf42ad7c225e3c976419cf513fbe0f08fe82650522926d08f24b4c1153
+- kind: anti_pattern
+  id: authoring-lineage-as-an-inline-profile-field
+  path: anti_patterns/authoring-lineage-as-an-inline-profile-field.anti-pattern.yaml
+  content_hash: 555c75f2aa876f3266a4b83fcca8aa85f85176337a3ce91259e04c2a26803309
+- kind: anti_pattern
+  id: citing-file-paths-instead-of-artifact-ids
+  path: anti_patterns/citing-file-paths-instead-of-artifact-ids.anti-pattern.yaml
+  content_hash: fd274219a9f7339035df245180334b5ef64f6ce6a1b2a9058618956cbbd77bb4
+- kind: anti_pattern
+  id: context-dump-skill
+  path: anti_patterns/context-dump-skill.anti-pattern.yaml
+  content_hash: 3b2811f446479b58d6335706097275726085e5d8859f4e26d1abfa975395c116
+- kind: anti_pattern
+  id: creating-an-agent-profile-by-default
+  path: anti_patterns/creating-an-agent-profile-by-default.anti-pattern.yaml
+  content_hash: 54396b594beceb644be0ab673bb10198054607b2c461e8c8f50610cc184eec26
+- kind: anti_pattern
+  id: decomposing-before-understanding-the-agent
+  path: anti_patterns/decomposing-before-understanding-the-agent.anti-pattern.yaml
+  content_hash: 1f526a35dae83aa97746b213d3079056d7072fc825aeb9443a4ac444cfbbe6a2
+- kind: anti_pattern
+  id: embedding-the-workflow-inside-the-agent-profile
+  path: anti_patterns/embedding-the-workflow-inside-the-agent-profile.anti-pattern.yaml
+  content_hash: 932ca270ac13c9019675f357123cb5d8fcd4a6e33f72cc97c01dab29b1085eb7
+- kind: anti_pattern
+  id: host-specific-assumptions
+  path: anti_patterns/host-specific-assumptions.anti-pattern.yaml
+  content_hash: cda0286d40741cb764159cf4f879419dbd164134032b4ef72a6157b9fee07b1f
+- kind: anti_pattern
+  id: ignoring-external-references
+  path: anti_patterns/ignoring-external-references.anti-pattern.yaml
+  content_hash: 26b5b5c12976fe5f59cb1e52b765e78631ae90ea5222a6c7e1198e42e90bf855
+- kind: anti_pattern
+  id: leaving-new-project-tier-artifacts-unactivated
+  path: anti_patterns/leaving-new-project-tier-artifacts-unactivated.anti-pattern.yaml
+  content_hash: b0b240725fd895566ec99b2505aaa80cbb4d87b47ae61765e67757f7c2a65479
+- kind: anti_pattern
+  id: lifting-the-whole-prompt-into-a-single-artifact
+  path: anti_patterns/lifting-the-whole-prompt-into-a-single-artifact.anti-pattern.yaml
+  content_hash: c85cd23c2a94d25a15d9ac001f26ddff42e2934e147e42f36f776eec7873cbd9
+- kind: anti_pattern
+  id: local-values-as-canonical-rules
+  path: anti_patterns/local-values-as-canonical-rules.anti-pattern.yaml
+  content_hash: 6a0f45b57808204f7fb8edb62aca5c3147f96a2a302ef026790be8b2e32b064d
+- kind: anti_pattern
+  id: skipping-the-existing-artifact-overlap-audit
+  path: anti_patterns/skipping-the-existing-artifact-overlap-audit.anti-pattern.yaml
+  content_hash: 6b83c624c092b6e391f7a80531fa16683bff6568f64e93810bef40008698b644
+- kind: anti_pattern
+  id: unsourced-operating-rule
+  path: anti_patterns/unsourced-operating-rule.anti-pattern.yaml
+  content_hash: 17666db55a50ff4c7dc9c43a89e1acd49e70c2bb14dd1c134453a92779c2df5a
 - kind: procedure
   id: migrate-project-guidance-to-spec-kitty-charter
   path: procedures/migrate-project-guidance-to-spec-kitty-charter.procedure.yaml
@@ -12,12 +68,12 @@ constituents:
 - kind: procedure
   id: onboard-external-agent-to-pack
   path: procedures/onboard-external-agent-to-pack.procedure.yaml
-  content_hash: 8899952eff14d476efc354be719d46a30af690a370ef8e0afc2af63dd8eaf562
+  content_hash: 1597cfdef2b861cb8e368a0ebdafc64de7563bc405ec2cee6e0e08d28427a227
 - kind: styleguide
   id: deployable-skill-authoring
   path: styleguides/deployable-skill-authoring.styleguide.yaml
-  content_hash: 521fd2540b489e987e70e85d773d05b57d650144125672cf99fdfafc7e73fec5
+  content_hash: f61df23b0558bc5ff148b3ed8d6feb9c36ba4fc252aa00871346f37289c509a5
 - kind: styleguide
   id: doctrine-instruction-voice
   path: styleguides/doctrine-instruction-voice.styleguide.yaml
-  content_hash: 732d769312d082e8a4c2b74582b5b77aa623f48f0bfbf8a4a966955b048326d7
+  content_hash: 071e28699907c037742487fbdc69df1a25867c9ea66930b522193c2384da9695

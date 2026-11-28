@@ -1,14 +1,46 @@
 schema_version: '1.0'
-manifest_hash: 91b1472416feabd1af933cf65050b0ed5fc2067a9f08fbd6bf214d26006cdd7b
+manifest_hash: 92ff98e05f948012c4e3a3c7daaaa98412f6ee89c6a7a0b28edf2ab8e50fe308
 constituents:
 - kind: agent_profile
   id: go-gwen
   path: agent_profiles/go-gwen.agent.yaml
-  content_hash: 90a934af0bea9a06920e4cb5919797b5e91312e2ff76b46592f91b4c116670de
+  content_hash: 1c733dd75756fc5786fbfe1a432e14cbe094a87de9418a3ab68535ba74bbce09
+- kind: anti_pattern
+  id: backward-goto-and-fall-through-flow
+  path: anti_patterns/backward-goto-and-fall-through-flow.anti-pattern.yaml
+  content_hash: 28f0151caa1669fe18466ac96a3b17736e8ccaa5cbb8aaae54d1d7111c40cbee
+- kind: anti_pattern
+  id: context-stored-in-a-struct
+  path: anti_patterns/context-stored-in-a-struct.anti-pattern.yaml
+  content_hash: 44c8e0151009fae2b64f37ab4e904b5e0daabcc98de4d717d09935c986cdbee1
+- kind: anti_pattern
+  id: copying-a-struct-with-a-mutex
+  path: anti_patterns/copying-a-struct-with-a-mutex.anti-pattern.yaml
+  content_hash: 09cfe9eaf5377c57469bc5dd3f993518cf2b6508580336e5f68c371bb56efcf5
+- kind: anti_pattern
+  id: error-string-matching
+  path: anti_patterns/error-string-matching.anti-pattern.yaml
+  content_hash: cb76e495d665068ec3fc397b1e49c610834a4bd1fb2c4bdabc44cf5d9b7676ae
+- kind: anti_pattern
+  id: package-level-mutable-globals
+  path: anti_patterns/package-level-mutable-globals.anti-pattern.yaml
+  content_hash: 38b74c93b1518379a1e8559f9a50fd714406fc560a4ec2baf7714a2a5d3a95c0
+- kind: anti_pattern
+  id: producer-side-interface
+  path: anti_patterns/producer-side-interface.anti-pattern.yaml
+  content_hash: 22b096c5dd78799f7ba8e1bfd8664874f7b3a95600ae5ea2549ac0a1c49d462f
+- kind: anti_pattern
+  id: typed-nil-error
+  path: anti_patterns/typed-nil-error.anti-pattern.yaml
+  content_hash: 4c410daf92e1a77d104d24f4f5d2dbbe18ac9455af5d37e6d4cd7b7d2c147ca4
+- kind: anti_pattern
+  id: unchecked-conversion-into-a-typed-set
+  path: anti_patterns/unchecked-conversion-into-a-typed-set.anti-pattern.yaml
+  content_hash: 00237a490e322698d263a3361e14296cd320a346dc8a21b28b2c95c2cba7ede3
 - kind: styleguide
   id: go-conventions
   path: styleguides/go-conventions.styleguide.yaml
-  content_hash: 883d02a8be52ddeb2ff68ac50c6ba26c6537b7d7ddcb4a80edc3274da215752e
+  content_hash: 035a5a4dda6e74c05ba0146688efbd72c5c691bff4cef711691ef1c223578ba5
 - kind: toolguide
   id: go-review-checks
   path: toolguides/go-review-checks.toolguide.yaml
@@ -16,4 +48,4 @@ constituents:
 presets:
 - id: go
   path: presets/go.yaml
-  content_hash: 9c7143319f76aab53dd881de7fae7a5d9212d6221e4816b888ae38d70e3d924d
+  content_hash: 3ae7d73829a71bd139d580d219903320b3e56d07b1caee1f07e9175a8bcc6874

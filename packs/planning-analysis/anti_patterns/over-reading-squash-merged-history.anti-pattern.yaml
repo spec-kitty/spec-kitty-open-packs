@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: over-reading-squash-merged-history
+title: Over-reading squash-merged history
+description: Repositories that squash every PR collapse multi-commit work into single events; the audit recipes will undercount activity. The triage must note the merge strategy and corroborate with PR metadata or issue-tracker data before drawing strong conclusions.
+severity: severe
+bad_example: The triage reports one commit by the payments team in a quarter, from a repository that squashes every PR, without checking the PR count.

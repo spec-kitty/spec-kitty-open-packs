@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: unsourced-operating-rule
+title: Unsourced operating rule
+description: A skill that encodes policy without pointing to doctrine, charter, ADR, or project source makes governance hard to audit.
+severity: smell
+bad_example: Never use feature flags here.
+good_example: Apply DIRECTIVE_024 and ADR-2026-04-11 before adding a new flag.

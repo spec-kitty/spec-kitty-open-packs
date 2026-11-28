@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: constructor-sprawl-in-tests
+title: Constructor Sprawl in Tests
+description: Calling new SomeEntity(a, b, c, ...) in every test binds tests to the constructor signature. Any structural change requires updating every test.
+severity: smell
+bad_example: |-
+  Order o1 = new Order("ORD-001", STANDARD, start, customerId, 50000L);
+  Order o2 = new Order("ORD-002", EXPRESS, start, customerId, 10000L);
+good_example: |-
+  Order o1 = OrderFixtures.standardOrder().withAmount(50000L).build();
+  Order o2 = OrderFixtures.expressOrder().withAmount(10000L).build();

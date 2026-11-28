@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: calling-the-llm-from-inside-the-optional-publish-step
+title: Calling the LLM from inside the optional publish step
+description: Optional publication is deterministic. The validated Markdown is the authoritative input. Merging extraction and publishing removes the validation gate between them.
+severity: severe
+bad_example: The wiki publish step calls the LLM again on the transcript and publishes that fresh output instead of the Markdown the user validated.

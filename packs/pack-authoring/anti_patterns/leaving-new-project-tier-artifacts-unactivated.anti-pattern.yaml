@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: leaving-new-project-tier-artifacts-unactivated
+title: Leaving new project-tier artifacts unactivated
+description: Authoring project-tier artifacts and validating them, but never running spec-kitty charter activate --cascade all. Validation passes, yet the project graph never gains the new nodes or edges, so the artifacts are not part of the active charter and no action loads them. Activate them, then confirm with spec-kitty charter list.
+severity: breaking
+bad_example: Three new project-tier tactics pass validation and are committed, but `spec-kitty charter activate --cascade all` is never run, so no action ever loads them.

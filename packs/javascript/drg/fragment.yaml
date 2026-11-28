@@ -1,7 +1,3 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
-# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
-# <pack-name>::<urn> and must sit in this pack's depends_on closure.
 nodes:
 - id: designer-dagmar
   kind: agent_profiles
@@ -55,6 +51,45 @@ nodes:
   kind: toolguides
   title: TypeScript Mutation Testing with Stryker
   body_path: toolguides/typescript-mutation-tools.toolguide.yaml
+- id: any-leakage
+  kind: anti_patterns
+  title: Any Leakage
+- id: aria-overriding-native-semantics
+  kind: anti_patterns
+  title: ARIA Overriding Native Semantics
+- id: deprecated-media-types
+  kind: anti_patterns
+  title: Deprecated Media Types
+- id: desktop-first-overrides
+  kind: anti_patterns
+  title: Desktop-First Overrides
+- id: device-named-breakpoints
+  kind: anti_patterns
+  title: Device-Named Breakpoints
+- id: div-as-button
+  kind: anti_patterns
+  title: Div as Button
+- id: hover-only-interaction
+  kind: anti_patterns
+  title: Hover-Only Interaction
+- id: inline-style-and-handlers
+  kind: anti_patterns
+  title: Inline Style and Handlers
+- id: layout-table
+  kind: anti_patterns
+  title: Layout Table
+- id: leaked-subscription
+  kind: anti_patterns
+  title: Leaked Subscription
+- id: missing-or-redundant-alt-text
+  kind: anti_patterns
+  title: Missing or Redundant Alt Text
+- id: specificity-escalation
+  kind: anti_patterns
+  title: Specificity Escalation
+- id: suppressed-type-error
+  kind: anti_patterns
+  title: Suppressed Type Error
 edges:
 - source: agent_profile:designer-dagmar
   target: foundation::directive:DIRECTIVE_031
@@ -75,20 +110,17 @@ edges:
   target: foundation::directive:DIRECTIVE_030
   relation: requires
   when: when assessing whether tests meet the quality gate they must pass
-  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:frontend-freddy
   target: foundation::directive:DIRECTIVE_034
   relation: requires
   when: when writing or reviewing the tests that accompany an implementation
-  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
-    channel (walks requires/specializes_from only), authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel (walks requires/specializes_from only), authored per the #3063 family-D operator attestation.'
 - source: agent_profile:frontend-freddy
   target: foundation::directive:DIRECTIVE_041
   relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
-  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:frontend-freddy
   target: foundation::directive:DIRECTIVE_051
   relation: requires
@@ -96,53 +128,43 @@ edges:
   target: foundation::directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
-  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
-    under today''s traversal (the profile channel walks requires/specializes_from only), authored per the #3063 family-B operator
-    attestation.'
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only under today''s traversal (the profile channel walks requires/specializes_from only), authored per the #3063 family-B operator attestation.'
 - source: agent_profile:frontend-freddy
   target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
-  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:frontend-freddy
   target: testing::procedure:test-first-bug-fixing
   relation: requires
 - source: agent_profile:frontend-freddy
   target: testing::tactic:bdd-scenario-formulation
   relation: requires
-  reason: BDD scenarios define acceptance criteria for browser components; wire Cucumber-JS/Playwright e2e scenarios as acceptance
-    tests before implementation
+  reason: BDD scenarios define acceptance criteria for browser components; wire Cucumber-JS/Playwright e2e scenarios as acceptance tests before implementation
 - source: agent_profile:frontend-freddy
   target: foundation::tactic:dependency-hygiene
   relation: requires
-  reason: Pin and audit npm/yarn/pnpm dependencies (build tooling, component libraries, bundlers); run the supply-chain-install-safety
-    tactic's checklist alongside these steps for every dependency change.
+  reason: Pin and audit npm/yarn/pnpm dependencies (build tooling, component libraries, bundlers); run the supply-chain-install-safety tactic's checklist alongside these steps for every dependency change.
 - source: agent_profile:frontend-freddy
   target: foundation::tactic:supply-chain-install-safety
   relation: requires
-  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed npm dependency, using the javascript-supply-chain
-    toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed npm dependency, using the javascript-supply-chain toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
 - source: agent_profile:frontend-freddy
   target: foundation::tactic:tdd-red-green-refactor
   relation: requires
-  reason: Drives frontend implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it
-    names a tactic, not a procedure).
+  reason: Drives frontend implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
 - source: agent_profile:frontend-freddy
   target: styleguide:css-conventions
   relation: requires
-  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (css); operator
-    ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (css); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
 - source: agent_profile:frontend-freddy
   target: styleguide:html-conventions
   relation: requires
-  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (html); operator
-    ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (html); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
 - source: agent_profile:frontend-freddy
   target: styleguide:typescript-conventions
   relation: requires
-  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript);
-    operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
 - source: agent_profile:node-norris
   target: foundation::agent_profile:implementer-ivan
   relation: specializes_from
@@ -159,20 +181,17 @@ edges:
   target: foundation::directive:DIRECTIVE_030
   relation: requires
   when: when assessing whether tests meet the quality gate they must pass
-  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:node-norris
   target: foundation::directive:DIRECTIVE_034
   relation: requires
   when: when writing or reviewing the tests that accompany an implementation
-  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
-    channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:node-norris
   target: foundation::directive:DIRECTIVE_041
   relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
-  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:node-norris
   target: foundation::directive:DIRECTIVE_051
   relation: requires
@@ -180,14 +199,12 @@ edges:
   target: foundation::directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
-  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
-    under today''s traversal, authored per the #3063 family-B operator attestation.'
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only under today''s traversal, authored per the #3063 family-B operator attestation.'
 - source: agent_profile:node-norris
   target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
-  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:node-norris
   target: testing::procedure:test-first-bug-fixing
   relation: requires
@@ -198,29 +215,24 @@ edges:
 - source: agent_profile:node-norris
   target: foundation::tactic:dependency-hygiene
   relation: requires
-  reason: Pin and audit npm/yarn/pnpm dependencies; run the supply-chain-install-safety tactic's checklist alongside these
-    steps for every dependency change.
+  reason: Pin and audit npm/yarn/pnpm dependencies; run the supply-chain-install-safety tactic's checklist alongside these steps for every dependency change.
 - source: agent_profile:node-norris
   target: foundation::tactic:supply-chain-install-safety
   relation: requires
-  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed npm dependency, using the javascript-supply-chain
-    toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed npm dependency, using the javascript-supply-chain toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
 - source: agent_profile:node-norris
   target: foundation::tactic:tdd-red-green-refactor
   relation: requires
-  reason: Drives Node.js implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it
-    names a tactic, not a procedure).
+  reason: Drives Node.js implementation through red-green-refactor; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
 - source: agent_profile:node-norris
   target: styleguide:typescript-conventions
   relation: requires
-  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript);
-    operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (typescript); operator ruling on spec-kitty-charter#405, styleguide authored per spec-kitty-open-packs#131.
 - source: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   target: toolguide:typescript-mutation-tools
   relation: suggests
   when: running mutation testing on TypeScript/JavaScript code with Stryker
-  reason: The mutation hub suggests the TypeScript/JavaScript mutation toolguide (Stryker) as the generator for that stack;
-    the `when` is the toolguide's own scope. Inert under today's traversal.
+  reason: The mutation hub suggests the TypeScript/JavaScript mutation toolguide (Stryker) as the generator for that stack; the `when` is the toolguide's own scope. Inert under today's traversal.
 - source: styleguide:html-conventions
   target: styleguide:css-conventions
   relation: suggests
@@ -271,3 +283,63 @@ edges:
   target: testing::asset:quad-a-test-structure
   relation: requires
   when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
+- source: styleguide:typescript-conventions
+  target: foundation::anti_pattern:unowned-asynchronous-work
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: foundation::anti_pattern:asserting-instead-of-handling-a-missing-or-invalid-value
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: anti_pattern:any-leakage
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:aria-overriding-native-semantics
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:deprecated-media-types
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:desktop-first-overrides
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:device-named-breakpoints
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:div-as-button
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:hover-only-interaction
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:inline-style-and-handlers
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:layout-table
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: anti_pattern:leaked-subscription
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern
+- source: styleguide:html-conventions
+  target: anti_pattern:missing-or-redundant-alt-text
+  relation: rejects
+  reason: the styleguide html-conventions names this anti-pattern
+- source: styleguide:css-conventions
+  target: anti_pattern:specificity-escalation
+  relation: rejects
+  reason: the styleguide css-conventions names this anti-pattern
+- source: styleguide:typescript-conventions
+  target: anti_pattern:suppressed-type-error
+  relation: rejects
+  reason: the styleguide typescript-conventions names this anti-pattern

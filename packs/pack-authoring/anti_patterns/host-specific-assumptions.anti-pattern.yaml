@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: host-specific-assumptions
+title: Host-specific assumptions
+description: A deployable skill should not silently assume one agent product's paths, commands, or tool names when Spec Kitty distributes it across multiple hosts.
+severity: severe
+bad_example: Always edit .claude/settings.json.
+good_example: Resolve the active host surface first, then edit the host-specific settings file if that host supports one.

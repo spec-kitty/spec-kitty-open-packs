@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: jargon-aimed-at-the-wrong-audience
+title: Jargon aimed at the wrong audience
+description: Using unglossed domain jargon in a page written for beginners locks out exactly the reader the page exists to serve. Match vocabulary to the named audience; gloss or link the first occurrence.
+severity: severe
+bad_example: |-
+  # In a first-run tutorial:
+  Reduce the DRG over the activation set, then materialize the snapshot from
+  the append-only event log before you emit the transition.
+good_example: |-
+  # In a first-run tutorial:
+  Run `spec-kitty agent tasks status` to see where each work package is. (Under the
+  hood this reads an event log; you do not need to know the details yet.)

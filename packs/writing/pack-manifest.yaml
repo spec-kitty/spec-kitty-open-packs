@@ -1,50 +1,206 @@
 schema_version: '1.0'
-manifest_hash: 546525265eb05476be42bd05d9cc1f1709aabe590c56d7fd9f2d1af39a7093dc
+manifest_hash: 40c63451660873f874c9feaf8d8b7b5d8786a99ececb277fa8c1388894967c13
 constituents:
 - kind: agent_profile
   id: comms-cleo
   path: agent_profiles/comms-cleo.agent.yaml
-  content_hash: 3085642dcc1a32c9e7120c96934525fc4899bfe3c9b5f4538b648e804a1643f8
+  content_hash: ef7bee339266e2ed146aed2a3c91d20de6e790348ac769f6f63f2f4d9b7a5a3b
 - kind: agent_profile
   id: curator-carla
   path: agent_profiles/curator-carla.agent.yaml
-  content_hash: 3cec0055d9e00df371b52d64f7c2c374d04f0f76ec67b958284e8c5ab673009e
+  content_hash: 7baaaa4645508934bfcf4aefb3484960c60d0b842a1a1231c0eaef45c98e6ce5
 - kind: agent_profile
   id: diagram-daisy
   path: agent_profiles/diagram-daisy.agent.yaml
-  content_hash: 8375af85ec5cb44050b66f0d5318a5ec37bb1dfdab3689f9cdba63c0a16c2e75
+  content_hash: a6f04e7d61682d00852fc4959e14135e50dc6d5e9677d52bc8cd3be063837148
 - kind: agent_profile
   id: lexical-larry
   path: agent_profiles/lexical-larry.agent.yaml
-  content_hash: 750084aad86f5740d6b3a934b3a8a20b27ff44f9b3d109094a0011334a7b72e8
+  content_hash: 56d7f015ef46f9aac4667f297469909273fd70d138458d877873af8c7865204d
 - kind: agent_profile
   id: minutes-mahad
   path: agent_profiles/minutes-mahad.agent.yaml
-  content_hash: 8c9035b4074c19aa9282fdce5e63b2a12a558b7b2135fd1f4d4a42179f93125d
+  content_hash: 8ed818d068b96c2c0703af62cd7f59d123285b08248d8faf14ee22a561d1caff
 - kind: agent_profile
   id: scribe-sally
   path: agent_profiles/scribe-sally.agent.yaml
-  content_hash: d7171688944e77654b8c34983a3b553942783d1c5154530dd1b9699ee25d4215
+  content_hash: aa33039ed7d1acf54f21e823ffead219236888995984d69d824b5a87907e3989
 - kind: agent_profile
   id: synthesizer-sam
   path: agent_profiles/synthesizer-sam.agent.yaml
-  content_hash: 896d8f14590d1f4fe1bb00e467ad74dad1ecceba0380d94e49f1c4d8c8f47040
+  content_hash: 5560bc7ed7e813cf940b082feab83b8ae9f506461f93acc45f608176718a935b
+- kind: anti_pattern
+  id: aspirational-documentation-ahead-of-the-code
+  path: anti_patterns/aspirational-documentation-ahead-of-the-code.anti-pattern.yaml
+  content_hash: f263afbf999d1bec66605e866b3a2379e6d3c6e0290d8870ed83cb5903e908f2
+- kind: anti_pattern
+  id: assuming-reader-knowledge
+  path: anti_patterns/assuming-reader-knowledge.anti-pattern.yaml
+  content_hash: bc982799a3f8bf59ac1ff7423e09a9c4664772c4236535f0b447f42378843371
+- kind: anti_pattern
+  id: bare-sha-citation
+  path: anti_patterns/bare-sha-citation.anti-pattern.yaml
+  content_hash: 8ab5f3df6df7c7cfd585a0e8de94653ddb1bf9bf7e735501a140d31dbe6d1657
+- kind: anti_pattern
+  id: buried-contradiction
+  path: anti_patterns/buried-contradiction.anti-pattern.yaml
+  content_hash: cdce1c11777491d0618865e6746465c7f69437b05846cdca7ef028c26aeb2191
+- kind: anti_pattern
+  id: buzzword-soup
+  path: anti_patterns/buzzword-soup.anti-pattern.yaml
+  content_hash: e43c51dd4cfb6ddb9759e788bb4ccef2bf07309c20686e024f28644c0337a78a
+- kind: anti_pattern
+  id: calling-the-llm-from-inside-the-optional-publish-step
+  path: anti_patterns/calling-the-llm-from-inside-the-optional-publish-step.anti-pattern.yaml
+  content_hash: 4bcdd7efbbda2d5766476525b3144673f2392fd18172b303e26ce9a0b45f526c
+- kind: anti_pattern
+  id: circular-definition
+  path: anti_patterns/circular-definition.anti-pattern.yaml
+  content_hash: 39e282d0444eefbbe6e2d85778bcd07d3d67506341d1bf11acb98536abe36302
+- kind: anti_pattern
+  id: citation-laundering
+  path: anti_patterns/citation-laundering.anti-pattern.yaml
+  content_hash: bc7e0f285355cb459897ba873e579d9464e4120ddacf9bf616e2269de79ce684
+- kind: anti_pattern
+  id: confidence-inflation
+  path: anti_patterns/confidence-inflation.anti-pattern.yaml
+  content_hash: eea10469dc4a0ef59b00c4f2b57df7836d45c19ce50a13667c10ef04e7519f52
+- kind: anti_pattern
+  id: drifting-line-citation
+  path: anti_patterns/drifting-line-citation.anti-pattern.yaml
+  content_hash: e2fd7e45727cf947ee383d194e8e78754473535f8fb6208b1091f79b4a295f42
+- kind: anti_pattern
+  id: duplicated-fact-with-no-canonical-home
+  path: anti_patterns/duplicated-fact-with-no-canonical-home.anti-pattern.yaml
+  content_hash: faf1412e367ba4ca0414a7f109d02d092c2c49b61bfd8b780ac83aed3e53d776
+- kind: anti_pattern
+  id: em-dash-sprawl-and-buzzword-fog
+  path: anti_patterns/em-dash-sprawl-and-buzzword-fog.anti-pattern.yaml
+  content_hash: 7a370a0e1b9596a0dad0b30a756cd816cb35445571e234605d9427c5af46b6e0
+- kind: anti_pattern
+  id: empty-or-ownerless-action-items-in-discussion-notes
+  path: anti_patterns/empty-or-ownerless-action-items-in-discussion-notes.anti-pattern.yaml
+  content_hash: 13b31d7a4e97e08c6049c9525497b1a9663640ccd4473941fda8a88925e705e9
+- kind: anti_pattern
+  id: forcing-a-discussion-meeting-into-the-decision-table
+  path: anti_patterns/forcing-a-discussion-meeting-into-the-decision-table.anti-pattern.yaml
+  content_hash: ff7618c16aa035263379839b60b1e62a274df8a2e0a89ec40c6e62baf309c157
+- kind: anti_pattern
+  id: freshness-date-bumped-without-re-verifying-content
+  path: anti_patterns/freshness-date-bumped-without-re-verifying-content.anti-pattern.yaml
+  content_hash: 514ab7de838fd7c74c3d7d34a8b4d2904d1162cc01b38b7110c98c0749bd3d48
+- kind: anti_pattern
+  id: hand-patching-a-generated-page-to-look-current
+  path: anti_patterns/hand-patching-a-generated-page-to-look-current.anti-pattern.yaml
+  content_hash: c30b05b398d417f1c1006faf66f7f0cfcb7b8f2f270a7e3ecfe3864bf9567e27
+- kind: anti_pattern
+  id: implementation-leaking-into-definition
+  path: anti_patterns/implementation-leaking-into-definition.anti-pattern.yaml
+  content_hash: 0fcdd09274c7f613c8861d8c99d72515779c48d258eed6c5b2d3120331b1f278
+- kind: anti_pattern
+  id: jargon-aimed-at-the-wrong-audience
+  path: anti_patterns/jargon-aimed-at-the-wrong-audience.anti-pattern.yaml
+  content_hash: 0afd567393bc76264e7832390c5fe62686c3b38be633bf3492539ee184b52e60
+- kind: anti_pattern
+  id: meaning-carried-only-by-colour-or-only-by-a-diagram
+  path: anti_patterns/meaning-carried-only-by-colour-or-only-by-a-diagram.anti-pattern.yaml
+  content_hash: 41ed9b3db6e4331f7dd0f1dea50d7c192e4505f56c4f9ec75e881cb4c28ed01d
+- kind: anti_pattern
+  id: missing-or-wrong-section-order
+  path: anti_patterns/missing-or-wrong-section-order.anti-pattern.yaml
+  content_hash: 4ced3885566d406d09c71001fcf263722259d9267d42854717e10936f23d6e68
+- kind: anti_pattern
+  id: narrating-existing-state-as-a-decision
+  path: anti_patterns/narrating-existing-state-as-a-decision.anti-pattern.yaml
+  content_hash: 2cf76619b919986e78c0b1892cbdca61caf229f7da43ad191cef7ee2bf247d99
+- kind: anti_pattern
+  id: one-size-fits-none-document
+  path: anti_patterns/one-size-fits-none-document.anti-pattern.yaml
+  content_hash: 696925fae9e73fcd157ad95d2f5e3d3e4431ba500ea318f13300232a5ceee518
+- kind: anti_pattern
+  id: passive-hedged-filler-laden-instruction
+  path: anti_patterns/passive-hedged-filler-laden-instruction.anti-pattern.yaml
+  content_hash: 9b3ac3999acf3d005147b7c98e56879ca7c71482b434e9dd8d28cc2ed9cd027f
+- kind: anti_pattern
+  id: publishing-without-the-validated-markdown-in-this-chat
+  path: anti_patterns/publishing-without-the-validated-markdown-in-this-chat.anti-pattern.yaml
+  content_hash: a0adabfddbba97d4faa33940c10ffd9817b1daee8d3eaa13314afca7b327af03
+- kind: anti_pattern
+  id: reference-page-carrying-narrative-rationale
+  path: anti_patterns/reference-page-carrying-narrative-rationale.anti-pattern.yaml
+  content_hash: 6f7a71bbfa60847f0f39fe8324bda55309262e37ae4da73c23662673bf6a17eb
+- kind: anti_pattern
+  id: rendering-without-selecting-a-format
+  path: anti_patterns/rendering-without-selecting-a-format.anti-pattern.yaml
+  content_hash: a55e3b3e967c2b1f7fc4ae34398f921f22df3cabb372c07deb64f1a1ec05b3d5
+- kind: anti_pattern
+  id: requiring-an-api-key-for-an-already-running-chat-agent
+  path: anti_patterns/requiring-an-api-key-for-an-already-running-chat-agent.anti-pattern.yaml
+  content_hash: e9b8ece5dd8295161f0056878dc84fe3213202fc6e5767d252cb6193eeff0d42
+- kind: anti_pattern
+  id: returning-final-minutes-while-attribution-gaps-remain
+  path: anti_patterns/returning-final-minutes-while-attribution-gaps-remain.anti-pattern.yaml
+  content_hash: cbb2e4a10c487ed54cbaa34b174a8297852d12a5470aaf8d65350853bb891538
+- kind: anti_pattern
+  id: second-documentation-root
+  path: anti_patterns/second-documentation-root.anti-pattern.yaml
+  content_hash: a178736e0a2c433805ae1c18744a1508feb203e68cdb903b98ef75e868634f04
+- kind: anti_pattern
+  id: sidecar-metadata-ssot
+  path: anti_patterns/sidecar-metadata-ssot.anti-pattern.yaml
+  content_hash: 4d73243c76881a5812c46f8cdeabe545f32dd2a08cd442a588cb940560ebebe0
+- kind: anti_pattern
+  id: silent-fact-drift
+  path: anti_patterns/silent-fact-drift.anti-pattern.yaml
+  content_hash: 7b64e6d3d412c6c12d4a9e240356bac08ea85bfefb348082d2bdf1495e840f57
+- kind: anti_pattern
+  id: skipped-or-size-driven-heading-levels
+  path: anti_patterns/skipped-or-size-driven-heading-levels.anti-pattern.yaml
+  content_hash: 2ebe758917737a1ca9a84d2ac6f9a7d062445e0add29118a1136262c889e3517
+- kind: anti_pattern
+  id: transcript-level-detail-in-notes
+  path: anti_patterns/transcript-level-detail-in-notes.anti-pattern.yaml
+  content_hash: dd537d112272fd68f001d64963e3daeed1d3d8662c5f14f5e382787a2e334eb6
+- kind: anti_pattern
+  id: treating-json-or-wiki-publish-as-mandatory-delivery
+  path: anti_patterns/treating-json-or-wiki-publish-as-mandatory-delivery.anti-pattern.yaml
+  content_hash: 83cbf13ac1780831635725e14c3fda1bfe7b05ef56186929749fbae2c452f874
+- kind: anti_pattern
+  id: treating-truncation-silently
+  path: anti_patterns/treating-truncation-silently.anti-pattern.yaml
+  content_hash: 6786057db4abe1472c4f9badb007ba165ad8ba9cf9b7dbfbbe3c71441bc6f535
+- kind: anti_pattern
+  id: tutorial-that-branches-on-reader-choices
+  path: anti_patterns/tutorial-that-branches-on-reader-choices.anti-pattern.yaml
+  content_hash: b77ad7670660dcf9ce1bdfb452e2355c405013f7399f79bb36454fe245fe8b4f
+- kind: anti_pattern
+  id: unattributed-action-items
+  path: anti_patterns/unattributed-action-items.anti-pattern.yaml
+  content_hash: d9e60c79d3a0e55650088a423ff0ea997a37d4ae196ad856577d670dcca6458d
+- kind: anti_pattern
+  id: undefined-audience
+  path: anti_patterns/undefined-audience.anti-pattern.yaml
+  content_hash: d75f2e3d140d00ccd9494e521d30edd99cc01e4d9510a6fabe251d6cc23f446d
+- kind: anti_pattern
+  id: unsourced-assertion
+  path: anti_patterns/unsourced-assertion.anti-pattern.yaml
+  content_hash: fc72a680d9ca2dd228f9cad36b0977a865b55556baf768b4479cebf57d7be84c
 - kind: asset
   id: writing-audience-automation-agent
   path: assets/audiences/automation_agent.md.asset.yaml
-  content_hash: bcf2778df5ee0697b4af4e5382d95f5c31fc7021571d9edd9cda0e6ade923716
+  content_hash: c8ba146834fb3a5af048167b82e016b114b1af880893e326db38aad65060a5a1
 - kind: asset
   id: writing-audience-line-manager
   path: assets/audiences/line_manager.md.asset.yaml
-  content_hash: 29b263033375b4cd71dc1db79ae4420890dc435cea1730fcb64d88d793f96429
+  content_hash: cbeb1214f2f8445596945860ddd63d9013d07eae449e67a52228684b530d2880
 - kind: asset
   id: writing-audience-nontech-educator
   path: assets/audiences/nontech_educator.md.asset.yaml
-  content_hash: 3dab2aad97d5e94684323a8f5da563b73a67c92160d275aaac0a33e3ab81504c
+  content_hash: cf73fb0b277735379e517ea817da8d312417fbbeaca1d8273e50bba9db697bfb
 - kind: asset
   id: writing-audience-software-engineer
   path: assets/audiences/software_engineer.md.asset.yaml
-  content_hash: 43bff173e04f682ec21b842458947f3bf0b2a43709cb876bdb7da1a9abcd8166
+  content_hash: 7feb95022005a8d84e05cd02fae4d13af6bfaa6db84bf4b4a563951a4c3d9b32
 - kind: asset
   id: common-docs-structural-lint-config
   path: assets/docs_structural_lint.config.yaml.asset.yaml
@@ -56,19 +212,19 @@ constituents:
 - kind: directive
   id: DIRECTIVE_042
   path: directives/042-common-docs.directive.yaml
-  content_hash: a8743d936f2723425ff1a92c68c328203b71b59b147ac853c4e5862058f76391
+  content_hash: ec1cda7206e6e1f8988e65ca2876ca6609505a1fdd6bbedf6b0172b4b848d6e9
 - kind: directive
   id: DIRECTIVE_047
   path: directives/047-audience-oriented-writing.directive.yaml
-  content_hash: 7d6c4e13ad09abe516af56dc690684aae5255f49e524422911ff6383e64d18f7
+  content_hash: ae488223a696b2a4aa871e2ba9c92e6c613f0003d9ea9a41b5009222a8dfc5a1
 - kind: directive
   id: ACTION_ITEM_ATTRIBUTION
   path: directives/action-item-attribution.directive.yaml
-  content_hash: cb8edaad8d21b759f2d50dcae56521301ded12df6a3e74f57962f9b70fb0ac94
+  content_hash: 464ef1fbd7749eb9b8e65a3e1aa7617e1ca423d9879ab78c64ac113121dd5bf4
 - kind: directive
   id: MINUTES_STAND_ALONE
   path: directives/minutes-stand-alone.directive.yaml
-  content_hash: 20e035b3deb6223650f57cdeac84506a38d4f65f65c7674082c8ec5d91f863b0
+  content_hash: 861dbdd9682f6c1781386393e72c82311be43745ffd53c19f3daae03ff73494a
 - kind: mission_type
   id: documentation
   path: missions/documentation/documentation.mission-type.yaml
@@ -136,7 +292,7 @@ constituents:
 - kind: procedure
   id: meeting-minutes-pipeline
   path: procedures/meeting-minutes-pipeline.procedure.yaml
-  content_hash: bb4605798e1c98a4471714210ea3d4a03663b826bade1d4d9ae6ea174c138fb9
+  content_hash: c22695978745ce535e9dedbb94b8080bb132aaa6a3941a603b9b1b659a46ca77
 - kind: procedure
   id: minutes-self-sufficiency-check
   path: procedures/minutes-self-sufficiency-check.procedure.yaml
@@ -144,83 +300,83 @@ constituents:
 - kind: styleguide
   id: ai-writing-tells
   path: styleguides/ai-writing-tells.styleguide.yaml
-  content_hash: 32ad50fa49129857a3272da9e6cc0c18ad9f50a7feacce09ee436fbcef865510
+  content_hash: b6bff7185c635443a6a3bee9ef30f9292ee62cc42d218b50eb4ecb83cdfcbbdc
 - kind: styleguide
   id: common-docs
   path: styleguides/common-docs.styleguide.yaml
-  content_hash: bd4c0e407353979b96c9589b6590c023fbe6dae560e2367ba376f812c2268a7e
+  content_hash: 9306251ba2d8fb473d552e02bdb7940fa4e5e7020c35b3b0b32e73f3e1c399ec
 - kind: styleguide
   id: divio-type-discipline
   path: styleguides/divio-type-discipline.styleguide.yaml
-  content_hash: d1db19089b401ec34f7a5159649d8f89fe486dc2175373501381ced87db89e52
+  content_hash: 85e440a7555193d92cbce430fe248c592fe11e4666a88eeb4e0a222c98c1719c
 - kind: styleguide
   id: docs-accessibility
   path: styleguides/docs-accessibility.styleguide.yaml
-  content_hash: 94f580254480a4fb15e4a45e29be3a286c89a6d8f92393051d691db1aef7da1d
+  content_hash: 6edba266df9159f863e312ca827618445e4e162ea7356407becb48dc379538c2
 - kind: styleguide
   id: docs-freshness-sla
   path: styleguides/docs-freshness-sla.styleguide.yaml
-  content_hash: 312d10fb073d874ac15ce7b69b90610a095cdf9f745cd7196f216bb1aff036a8
+  content_hash: c69d97a2e12a148d6c01a6ae4e30500138b988d05c705be3d1add26067e44819
 - kind: styleguide
   id: meeting-minutes-format
   path: styleguides/meeting-minutes-format.styleguide.yaml
-  content_hash: 801417c803ac069892a031fee3bc894b84df5636a93626785c5979832c9a384e
+  content_hash: fadadffba53b291a296dba90d140cabbbde60015164dac9f469ef1b331221d24
 - kind: styleguide
   id: plain-language
   path: styleguides/plain-language.styleguide.yaml
-  content_hash: 14ef687d628e0dabcad8673b0505f9e965cb53c7aa95a12b148b76c54b3c5d4b
+  content_hash: b7ee9bca70126838d24682cf41acac2b98ab7237816f185a0771ae8585aa1a07
 - kind: styleguide
   id: professional-communications
   path: styleguides/professional-communications.styleguide.yaml
-  content_hash: b890087a771bf7768eaebe163dbfe265a26ae7297f56b05d49f24ab40fae1796
+  content_hash: 2d77a79444cd3607bf6d9c5436619b1bc4a6e8eedaaccd9399d53732c4759843
 - kind: styleguide
   id: publication-authority
   path: styleguides/publication-authority.styleguide.yaml
-  content_hash: 0c331e51e59836c790df86bde213ed818a45917df825d6ec0a693ebd6cd33197
+  content_hash: 69b5de84a2876f70017d8992f66623d7db731019fbf64c2811b7df32e972cce4
 - kind: styleguide
   id: research-citation-discipline
   path: styleguides/research-citation-discipline.styleguide.yaml
-  content_hash: 0e2a045e01ef97712522d266cabc943b6c6e9257b66f5ea81c572823a55d19d0
+  content_hash: 6f4eb2de283a0aee88670d6b046b90cd9068e4ec3527c5f4dca12d9ae980f823
 - kind: styleguide
   id: kitty-glossary-writing
   path: styleguides/writing/kitty-glossary-writing.styleguide.yaml
-  content_hash: 9b6274188522daec881ba761668edbba912fe629572d992d952fa12642c66018
+  content_hash: 4d1a624688bacdc4e6ebecd766bc077f4b51fef533133b9076bafbe625cf93a1
 - kind: tactic
   id: code-documentation-analysis
   path: tactics/analysis/code-documentation-analysis.tactic.yaml
-  content_hash: 8e8ff318a159eac21d85c79cfc5a23a10dfc923fd7a85e05c348f1cbd1c73229
+  content_hash: 0fa21316f17763b1dd691156e5f748ec4f945da2b8c29a84b8a307ae58197352
 - kind: tactic
   id: context-boundary-inference
   path: tactics/analysis/context-boundary-inference.tactic.yaml
-  content_hash: a47c397f689a0fd9d9f07afb177afafa1bc063c7433536f9283fc7be02816a8a
+  content_hash: ca9a0f4291d3aec05c0dd0fbe31347a8a44d72d58244af2925e36619c9b9fbf3
 - kind: tactic
   id: terminology-extraction-mapping
   path: tactics/analysis/terminology-extraction-mapping.tactic.yaml
-  content_hash: a31bc3c3b1f40e5d305b11e20439ff9fd0942a6fd9200c3eb4dc61b8ceb09869
+  content_hash: 36bc33ef342f4f00a064938e54e83e76de5d881314c1f4faf104f631d15b34f3
 - kind: tactic
   id: common-docs-find
   path: tactics/common-docs-find.tactic.yaml
-  content_hash: 9ac89df404b78dcf3996460eb398d6991b7a188a4dc08160701a9131afead0dc
+  content_hash: 7827cacc9da8f211d780985d7e86e4e5c582104ea0df26b5c07b549ae6231135
 - kind: tactic
   id: common-docs-scaffold
   path: tactics/common-docs-scaffold.tactic.yaml
-  content_hash: 814852acd387b00b82ed8de9530bb19d78de8cca8ecb369e1c5c8be1fdc4b726
+  content_hash: 6f149b48997ba3d5b02b3e03bc1191db89106d4ad0891a76a80eb738625db22e
 - kind: tactic
   id: common-docs-write
   path: tactics/common-docs-write.tactic.yaml
-  content_hash: a98027e0c1df7a204bc639e06bb37c69c4c1c08bb26cd074ccad96ffedc57f59
+  content_hash: 8f5c41642a47c81c06142f9f32fbdb5e258f08d650d86ef75c43bb4b812304a9
 - kind: tactic
   id: documentation-curation-audit
   path: tactics/communication/documentation-curation-audit.tactic.yaml
-  content_hash: 9794fbe55c3fb3431c0ca04b264fe6183e0d82a43bf34d24c0cbf1413e825aa4
+  content_hash: fc07fff74a55821250ab4290b386560d5186394a0cb7c0f4eb951674e24e3135
 - kind: tactic
   id: stakeholder-alignment
   path: tactics/communication/stakeholder-alignment.tactic.yaml
-  content_hash: 08d248d7b8eaf035d1a4c6109f503195391c2f21e7aa9f8652cc7363f7a55419
+  content_hash: 67927f79f442532145c5c1d86221461862640f0dc0bd4ae8517bafaf04c669a8
 - kind: tactic
   id: writing-audience-catalog
   path: tactics/communication/writing-audience-catalog.tactic.yaml
-  content_hash: 9c432f93fde2e800d0736308d9ed0a01eefeeb1145da060178a5c637aa7a1973
+  content_hash: a743c52530e6d2487d0d269027cac7093d79f739f65b5e9583de115769b6aedc
 - kind: template
   id: writing/meeting-discussion-notes.md
   path: templates/writing/meeting-discussion-notes.md

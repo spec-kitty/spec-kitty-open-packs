@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: side-script-investigation
+title: Side-Script Investigation
+description: Building ad-hoc scripts to reproduce the bug instead of writing a proper test. Scripts rot; tests live.
+severity: smell
+bad_example: The bug is reproduced with `scratch/repro_412.py`, which never becomes a test and stops running after the next schema change.

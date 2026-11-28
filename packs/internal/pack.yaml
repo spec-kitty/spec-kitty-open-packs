@@ -1,31 +1,16 @@
-# Authored pack descriptor for the Spec Kitty internal (org-tier) Charter Pack.
-# This repository is the CANONICAL home of spec-kitty-internal (see the
-# Provenance section of README.md): the in-house / maintainer org pack,
-# registered for this repo's own governance via .kittify/config.yaml ->
-# charter_packs.org.packs.
-#
-# Authored, hand-edited data (never machine-rewritten). This pack is UNSHARDED:
-# it carries a single drg/fragment.yaml, so it declares the org pack_level and
-# the DRG pointer explicitly. No pack-manifest.yaml.
-#
-# pack_id is the canonical identity, minted and owned here; downstream repos
-# (e.g. spec-kitty-charter) mirror it verbatim and must not re-mint or diverge it.
 pack_id: 01M4P01D5TWB5FKZGNNQG3943R
 pack_version: 4.5.0
-parent_pack: null
 name: spec-kitty-internal
 pack_level: org
 pack_drg: drg/fragment.yaml
-# Its DRG fragment references foundation, writing and the testing, refactoring and
-# planning-analysis bundles (#73 split built-in into these packs).
 depends_on:
-  - pack_id: 01M75HSYR9S9KPA372PHGT0EX3  # foundation
-    range: ">=3.7,<4"
-  - pack_id: 01M75PCTEKGDXQW59TGSFQQ9QT  # planning-analysis
-    range: ">=2.0,<4"
-  - pack_id: 01M75PCTD0V3AFZA9EAXDJ894D  # refactoring
-    range: ">=2.0,<4"
-  - pack_id: 01M75PCTC6HS38NX8HJGT26VTP  # testing
-    range: ">=3.6,<4"
-  - pack_id: 01M75HSYS69RYRFPB4WCC5AC9D  # writing
-    range: ">=3.4,<4"
+- pack_id: 01M75HSYR9S9KPA372PHGT0EX3
+  range: '>=3.7,<4'
+- pack_id: 01M75PCTEKGDXQW59TGSFQQ9QT
+  range: '>=2.0,<4'
+- pack_id: 01M75PCTD0V3AFZA9EAXDJ894D
+  range: '>=2.0,<4'
+- pack_id: 01M75PCTC6HS38NX8HJGT26VTP
+  range: '>=3.6,<4'
+- pack_id: 01M75HSYS69RYRFPB4WCC5AC9D
+  range: '>=3.4,<4'

@@ -1,42 +1,170 @@
 schema_version: '1.0'
-manifest_hash: e1efbd0e41a78054e4da259a711b860aa62942bd61192b2091b13775c88266ba
+manifest_hash: c0741017999de3afdb15054ff39448afc64f32859693f994b9956c37b2d19032
 constituents:
 - kind: agent_profile
   id: debugger-debbie
   path: agent_profiles/debugger-debbie.agent.yaml
-  content_hash: 136320cda231e1efd60b28f4357d2d03fd5b73dcc47583762954016c33334f1b
+  content_hash: 22c8fe44e1cf854681f4c138a8891a55580515828601c867a944d07558e68fb5
+- kind: anti_pattern
+  id: delete-a-mega-file-wholesale
+  path: anti_patterns/delete-a-mega-file-wholesale.anti-pattern.yaml
+  content_hash: 98ee569a770e9e0d9fbf37ee322fab1a402a1696c68160ac27c1a1a90e228896
+- kind: anti_pattern
+  id: exception-only-assertion
+  path: anti_patterns/exception-only-assertion.anti-pattern.yaml
+  content_hash: f9a205af972b18e4b0751520de3078b8614fa820511c1e363d58ac9a5bc815de
+- kind: anti_pattern
+  id: fabricated-unrealistic-test-data
+  path: anti_patterns/fabricated-unrealistic-test-data.anti-pattern.yaml
+  content_hash: de80a4f97c1492dd0e96eb018fe747bc107a912e0458ce8f90bbabefb2efca6f
+- kind: anti_pattern
+  id: fixing-without-a-feedback-loop
+  path: anti_patterns/fixing-without-a-feedback-loop.anti-pattern.yaml
+  content_hash: 2e6550168de61b63be291707e3645ae862d9501f23e276cf28c3f5724d1492af
+- kind: anti_pattern
+  id: forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  path: anti_patterns/forgetting-that-a-stub-is-a-second-copy-of-the-contract.anti-pattern.yaml
+  content_hash: 940439b9d05f581488ed0a02f839aa7dea67b9f521340f3d167f80b9c09a6a38
+- kind: anti_pattern
+  id: full-application-restart
+  path: anti_patterns/full-application-restart.anti-pattern.yaml
+  content_hash: d6d22911789914ab96e48c5815fb97b42547ee7c3dd704c54d29b2773c6e9319
+- kind: anti_pattern
+  id: gold-plating-as-a-licence-to-double-owned-logic
+  path: anti_patterns/gold-plating-as-a-licence-to-double-owned-logic.anti-pattern.yaml
+  content_hash: 79ec6f56ecc52eb4a99ff3afe617c25e8db9c7f2a88e1c6fe7528941b44c74c7
+- kind: anti_pattern
+  id: identity-value-inputs
+  path: anti_patterns/identity-value-inputs.anti-pattern.yaml
+  content_hash: c33492071350ad42e7d13c1284b24c7a6be289285745e9e2df26b4583665bf28
+- kind: anti_pattern
+  id: imperative-gherkin
+  path: anti_patterns/imperative-gherkin.anti-pattern.yaml
+  content_hash: 894afd0d7272d2ae9931f3a3a632a5375dfedf5d090892b97f2d07c508023c68
+- kind: anti_pattern
+  id: infrastructure-as-untyped-shared-mutable-state
+  path: anti_patterns/infrastructure-as-untyped-shared-mutable-state.anti-pattern.yaml
+  content_hash: 7de02f6f0d5d66137d016fcfae0e2753d673ab0f8ef6920d68bb2977a8cb17d1
+- kind: anti_pattern
+  id: keep-the-wp-nfr-label-on-a-promoted-test
+  path: anti_patterns/keep-the-wp-nfr-label-on-a-promoted-test.anti-pattern.yaml
+  content_hash: 45fb3626c544ee66ecb7e38232f3576276aafa7aab3d32be9a8cd83d01284320
+- kind: anti_pattern
+  id: leaving-debug-artifacts-behind
+  path: anti_patterns/leaving-debug-artifacts-behind.anti-pattern.yaml
+  content_hash: a39ec67310dd899cdda1147e3d5cad0e7408ec3a43c3f5c8f16c53e7e1dd4455
+- kind: anti_pattern
+  id: logging-everything
+  path: anti_patterns/logging-everything.anti-pattern.yaml
+  content_hash: af1161dc37ffb4237b871a38ce40e8962080f88cb3e061f55ab4d9a26fb9b6d4
+- kind: anti_pattern
+  id: merge-the-scaffolding-clean-it-up-later
+  path: anti_patterns/merge-the-scaffolding-clean-it-up-later.anti-pattern.yaml
+  content_hash: 45f46dad3fa99e6960212e7a2c1a433db87ea8b082456e22a1274ae50dec18d5
+- kind: anti_pattern
+  id: missing-assumption-check
+  path: anti_patterns/missing-assumption-check.anti-pattern.yaml
+  content_hash: 26d9d4f4bd7267b775487ae61581b52206a7bd135ad78cd10571fce46b0d5376
+- kind: anti_pattern
+  id: multiple-whens-in-one-scenario
+  path: anti_patterns/multiple-whens-in-one-scenario.anti-pattern.yaml
+  content_hash: 7139fbc9d7b8d6d46d0a70b6a5d361921f889eb608e2b41c871c35dc3a9b8612
+- kind: anti_pattern
+  id: orphaned-step-definitions
+  path: anti_patterns/orphaned-step-definitions.anti-pattern.yaml
+  content_hash: 840a7ac646e3f3ce7610a3712c8120d5c03b2b4e3e2bd262af996854b3021182
+- kind: anti_pattern
+  id: over-mocking-to-compensate-for-a-missing-boundary
+  path: anti_patterns/over-mocking-to-compensate-for-a-missing-boundary.anti-pattern.yaml
+  content_hash: 04cb6eba5d24e30edffd0f2a9fb6629180fb5d29db9c5818aabaa820105ef2b9
+- kind: anti_pattern
+  id: refactoring-beyond-the-fix
+  path: anti_patterns/refactoring-beyond-the-fix.anti-pattern.yaml
+  content_hash: 6dc6c7fdf0424b126dca36a93f996e973e801b12a667e4ab8cf9d417aca5cb70
+- kind: anti_pattern
+  id: retire-coverage-disguised-as-a-duplicate
+  path: anti_patterns/retire-coverage-disguised-as-a-duplicate.anti-pattern.yaml
+  content_hash: 852eda6914525ad8e62bf28cd92b7d4b94e72e54da6ec8c31a6fd34f4e6a2753
+- kind: anti_pattern
+  id: rubber-stamp-scenarios
+  path: anti_patterns/rubber-stamp-scenarios.anti-pattern.yaml
+  content_hash: 07b81da7317a7e40fecc76b260de935d9122fa744e90a8f860d3f49d51ee95c6
+- kind: anti_pattern
+  id: self-constructed-oracle-an-injection-proof-that-never-injects
+  path: anti_patterns/self-constructed-oracle-an-injection-proof-that-never-injects.anti-pattern.yaml
+  content_hash: 4cd973fce56b3dd99fbeddf550a8b70d258d6afa6eb4a1df19fa4ac56526496c
+- kind: anti_pattern
+  id: shared-mutable-state-between-scenarios
+  path: anti_patterns/shared-mutable-state-between-scenarios.anti-pattern.yaml
+  content_hash: d5b6517f6b53c22d52603d427efc7fba56f696245aed1020f58061632f898fa4
+- kind: anti_pattern
+  id: side-script-investigation
+  path: anti_patterns/side-script-investigation.anti-pattern.yaml
+  content_hash: 25d44252601c70f73a2837a551a2a9f436f0ede1817170c1a3b7a5416839bb13
+- kind: anti_pattern
+  id: single-branch-condition
+  path: anti_patterns/single-branch-condition.anti-pattern.yaml
+  content_hash: 6dec554f003c6b349815c64704c2c15464df3197d682567cb4fe88e5aea860d0
+- kind: anti_pattern
+  id: single-hypothesis-anchoring
+  path: anti_patterns/single-hypothesis-anchoring.anti-pattern.yaml
+  content_hash: 7b863107bf3e07aefaced026123891302c197281bc57b3bc184b38c067d4baa5
+- kind: anti_pattern
+  id: stubbing-a-new-gate-out-of-an-old-harness
+  path: anti_patterns/stubbing-a-new-gate-out-of-an-old-harness.anti-pattern.yaml
+  content_hash: 0f106a3a745c1f65b529d80aa05109197631a4f7314f44eeb0466c527080b6cc
+- kind: anti_pattern
+  id: substring-case-insensitive-message-assertion
+  path: anti_patterns/substring-case-insensitive-message-assertion.anti-pattern.yaml
+  content_hash: 07657c02d3b8f0158486797876b0f15efff845016835535d6c9be803e4f0f806
+- kind: anti_pattern
+  id: sweep-the-whole-suite-in-the-landing-pr
+  path: anti_patterns/sweep-the-whole-suite-in-the-landing-pr.anti-pattern.yaml
+  content_hash: 7adf5e85697b11ba72d6173e346ef139aa758792e8f46ce1f6e63ee00642e41d
+- kind: anti_pattern
+  id: test-passes-immediately
+  path: anti_patterns/test-passes-immediately.anti-pattern.yaml
+  content_hash: 672a59169810b8c3a1ee726c1701c4f27b7cc0bd1e9e11edba41776cc8201dbd
+- kind: anti_pattern
+  id: the-literal-scan-trap
+  path: anti_patterns/the-literal-scan-trap.anti-pattern.yaml
+  content_hash: 2679336418e60ac556c59ac721aeace494650d98a5798338c62fdcef9bf027f5
+- kind: anti_pattern
+  id: wrong-failure-reproduction
+  path: anti_patterns/wrong-failure-reproduction.anti-pattern.yaml
+  content_hash: bddb7a781afe144f777224a6864e1aaea0150a477c5c1c33beaecaf639f5e608
 - kind: asset
   id: quad-a-test-structure
   path: assets/quad-a-test-structure.md.asset.yaml
-  content_hash: 94963d41ff810fe20670fc0ebb9eb2a3afc7c250d973c11f5a0329dc805f0b2d
+  content_hash: 60b6814eedd98a1c2b9c94d57feded4c0580ff4092167b790ec510df55eac55d
 - kind: asset
   id: test-desiderata-checklist
   path: assets/test-desiderata-checklist.md.asset.yaml
-  content_hash: a4d1bad2c1f687256a19e440c744528238491833eb1c3c9955d470e5096fc8d8
+  content_hash: db1b346c0ab46293b0e1e8a6d0453b64d5f0a675838d08b5296380dbe3df0a0e
 - kind: directive
   id: USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   path: directives/use-mutation-testing-to-validate-test-quality.directive.yaml
-  content_hash: 65385e27fc08689f9d6a0d48fbf8b4a0062ebc5057a5131542618364e8c5e3e7
+  content_hash: d4f8627e73a1f5649ca75fd3d58421ecc53da583a9c2dbabec7f510753d7b7a6
 - kind: paradigm
   id: behaviour-driven-development
   path: paradigms/behaviour-driven-development.paradigm.yaml
-  content_hash: d13b9e3e0c8f2f28a6c194de1377dd6bcd8d61387e97460b9b6c3de840445b5c
+  content_hash: 0be05d50cf118410dacc2a504bba1a05cea27c75ef7ea66d164d9285b691e2fa
 - kind: paradigm
   id: specification-by-example
   path: paradigms/specification-by-example.paradigm.yaml
-  content_hash: 725bae78038296ac4d7a0f15349e95b0c9232bab52040fc0f6ab675df1854beb
+  content_hash: f25775851570b7b4f2580bb07de53b6625d1e32f96178df466e881a825bd1b9a
 - kind: procedure
   id: bdd-scenario-lifecycle
   path: procedures/bdd-scenario-lifecycle.procedure.yaml
-  content_hash: 97b3cedc58c17444cc8dd1bf89c12e4c659fbdebd9f7008d7cec8cf291822661
+  content_hash: e95cb2bd2d36f387164c87293b4b6ff33c35678e8cfaa849d201bfdcf54b245e
 - kind: procedure
   id: development-assist-test-cleanup
   path: procedures/development-assist-test-cleanup.procedure.yaml
-  content_hash: fc0812097dc34c353149682a0c9f506b74c116659d33faf99f550a46d5953f86
+  content_hash: ce96990f2be97bf6354972acbe987bf76f5224058ab7cb9bad00ab715aebcdbb
 - kind: procedure
   id: disciplined-defect-diagnosis
   path: procedures/disciplined-defect-diagnosis.procedure.yaml
-  content_hash: 55db360230d34468965d03aca6056689130c13b3fcb4e16417a4216f4d277d46
+  content_hash: 9803c63504fabf4702ae1a15294d58f170e03c2aef96bcfbf5de8f2b6ba96849
 - kind: procedure
   id: mutation-testing-review
   path: procedures/mutation-testing-review.procedure.yaml
@@ -44,67 +172,67 @@ constituents:
 - kind: procedure
   id: test-first-bug-fixing
   path: procedures/test-first-bug-fixing.procedure.yaml
-  content_hash: 40ee11f4d38a4c8c535b03136b9d02625fe6435bc1af35796cb04585664dd5b8
+  content_hash: 60b5e59ea02300f820f9c2a271915fbb03c4737249db5f1b1b1c5066c40efed2
 - kind: styleguide
   id: given-when-then-authoring
   path: styleguides/given-when-then-authoring.styleguide.yaml
-  content_hash: 3576eb936e503646fe60bbe53d6f1bd5db5a94c2d48cc0438016aeba9f6744b8
+  content_hash: e560fb650d8baf1ed855c8b649dd81edab5ca4990f594073d63a417dce20b973
 - kind: styleguide
   id: mutation-aware-test-design
   path: styleguides/mutation-aware-test-design.styleguide.yaml
-  content_hash: e42077f80bb6c570f84a992688a8c3bc60ae8527346fab6ccff984ee50941714
+  content_hash: f76a393ea38d3d4a1740243042a0aac3686d0e95ebfca94d9a925396e484dfde
 - kind: styleguide
   id: quadruple-a-test-format
   path: styleguides/quadruple-a-test-format.styleguide.yaml
-  content_hash: 5e5a5e0c2e9423ea63f6027462eb54b202399aa377e91729b460e8d466038d32
+  content_hash: 10cff912493b31e69437a372500f4b6efd97d059261fa242990f2e28d938f75d
 - kind: styleguide
   id: test-desiderata-and-boundaries
   path: styleguides/test-desiderata-and-boundaries.styleguide.yaml
-  content_hash: d859606856bafe3f87615e67674914783af760d398f60ac49e33df481c6cc594
+  content_hash: 177dd6ab84063516e41d31f15182804447cdd1c8f5c092601193ba0875072e21
 - kind: styleguide
   id: testing-principles
   path: styleguides/testing-principles.styleguide.yaml
-  content_hash: 73aa2b0206c6b3fd6d0aa3ceced41f69d229cda6839eeb76713d17c617e8c229
+  content_hash: f93a6a3fc39587847c2d8fb6756c9fc7931ec0c8cf67c58880d3edb1acecdbe3
 - kind: tactic
   id: atdd-adversarial-acceptance
   path: tactics/testing/atdd-adversarial-acceptance.tactic.yaml
-  content_hash: c78308cd9ebd2bc37e418ab3cd22acec294eed34346dee889448919d77856604
+  content_hash: aaf3f71ed6397f2488550a9173f58c99c8de71512588bcf87261f5586e147446
 - kind: tactic
   id: bdd-scenario-formulation
   path: tactics/testing/bdd-scenario-formulation.tactic.yaml
-  content_hash: 5a1dccc80ba88c94af8ec3c8ecda9d1677700e20dceb9659d00ba8ee44e9143a
+  content_hash: 85c51b8fd677846d9c88a75aec0aaeaa10c27568f60f28384c72bbe90d3dd025
 - kind: tactic
   id: formalized-constraint-testing
   path: tactics/testing/formalized-constraint-testing.tactic.yaml
-  content_hash: d15e0b8d2fff3f58e25a5310009ec100b1e57181badbb553607e67e37b41d1a0
+  content_hash: 87c42ed48bc799f20a862504f1d1bcd6e0aabc8d3834e38371e18a242d4114fb
 - kind: tactic
   id: mutation-testing-workflow
   path: tactics/testing/mutation-testing-workflow.tactic.yaml
-  content_hash: 1dcdd91d2d79d1b938ace41edd0973b8c011fc6b5ec7cce41454ce952316d4c3
+  content_hash: 6779e8000d4e89529330b82c7db94b2cf645fa82ea633d41116107434b42e6af
 - kind: tactic
   id: no-parallel-duplicate-test-runs
   path: tactics/testing/no-parallel-duplicate-test-runs.tactic.yaml
-  content_hash: 6c3dd67e04db5c9265260b2f0229c37544c506c3162d2d5527094f661b84e2a2
+  content_hash: 94c87e70660ecafdb983060b1ba8fd807663896b5cc4931efaa99185df4aaafc
 - kind: tactic
   id: shared-machine-test-measurement
   path: tactics/testing/shared-machine-test-measurement.tactic.yaml
-  content_hash: 7a1594bb66026d10796a0d1c1e3250fea9a0aa286d0906b2df054d2d63569794
+  content_hash: c4289b082d71090a0eb9955facf6d3ca5e5146418a246e02c585bfe997f51bc3
 - kind: tactic
   id: test-minimisation
   path: tactics/testing/test-minimisation.tactic.yaml
-  content_hash: fb1492f9965ae537eb58cf40733b0d802e68c04614c3328690f96887dad1f78b
+  content_hash: bc794a40b2e3921f3ea5cab1f6c66f4e111619142dd84c7149e111e4ea54ce27
 - kind: tactic
   id: test-pyramid-progression
   path: tactics/testing/test-pyramid-progression.tactic.yaml
-  content_hash: 300193b9f508da13302f1712fc61f2b2c50dac494dcc0071731537a35e4e1dd6
+  content_hash: 9e6b76d05ea6ffa428de108a0e9cdf413bd9bfd88ff4c811e304b758c5ddd769
 - kind: tactic
   id: test-to-system-reconstruction
   path: tactics/testing/test-to-system-reconstruction.tactic.yaml
-  content_hash: 4b62ec1fd8a168ed17b467802852ccbfe42c8ba01a05769ce117b9341eefdf8f
+  content_hash: 21296fb1ca5693ada91e534806026f4548f46496c9474e5aa2bd59f300c691c0
 - kind: tactic
   id: zombies-tdd
   path: tactics/testing/zombies-tdd.tactic.yaml
-  content_hash: f27ab7877173224a6b8ed7fb4c4845e880b1e33852130214aca0e4065107a842
+  content_hash: 840a48d16f2cb9cae7e968511eefe4f723eb0a5e0dc584751fdc3cfb2d9548e7
 - kind: toolguide
   id: gherkin
   path: toolguides/gherkin.toolguide.yaml

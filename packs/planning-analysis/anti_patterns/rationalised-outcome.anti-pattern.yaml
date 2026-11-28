@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: rationalised-outcome
+title: Rationalised Outcome
+description: Deciding what the spike "proved" after the fact because no exit criteria were written in advance, turning an investigation into confirmation of a pre-held belief.
+severity: severe
+bad_example: The caching spike's report says it "proved caching is the bottleneck", a claim chosen after the results came in.

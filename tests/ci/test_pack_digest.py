@@ -19,7 +19,7 @@ import pack_digest as pd  # noqa: E402
 
 sys.path.insert(0, str(SCRIPTS.parent / "release"))
 
-BUILT_IN_DIGEST = "39b79575672c97c0562ac2751cc754defbda387a3509e8ace214953a76169e3d"
+BUILT_IN_DIGEST = "a1e986a61fd39da2353a15f82e3a8bbdeee9ab32a323284d8889422898289747"
 FIXTURE = {"a.txt": b"x", "sub/b.txt": b"yz", "pack-manifest.yaml": b"m"}
 
 
@@ -204,7 +204,7 @@ class CheckTests(PackFixture):
         self.stamp()
         self.assertEqual(run(pd.check, self.packs, None)[0], 0)
 
-    def test_orphan_fails_all_pack_check_only(self) -> None:
+    def test_an_orphan_sidecar_fails_the_check_of_every_pack_only(self) -> None:
         self.stamp()
         (self.packs / "ghost.source.yaml").write_text("x: 1\n", encoding="utf-8")
         code, out = run(pd.check, self.packs, None)

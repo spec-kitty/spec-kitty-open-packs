@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: silent-fact-drift
+title: Silent Fact Drift
+description: Editing for tone or clarity in a way that quietly changes what was actually claimed.
+severity: breaking
+bad_example: Rewriting 'the migration reduced latency by roughly 20%' to 'the migration eliminated latency issues' during a tone pass.
+good_example: Keeping the original claim's precision ('roughly 20%') while only adjusting sentence structure for readability.

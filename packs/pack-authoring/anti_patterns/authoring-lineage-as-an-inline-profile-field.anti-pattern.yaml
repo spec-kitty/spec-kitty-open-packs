@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: authoring-lineage-as-an-inline-profile-field
+title: Authoring lineage as an inline profile field
+description: Adding specializes-from directly on the agent profile YAML. The profile validator rejects this field. Express lineage and augmentation exclusively as specializes_from edges in the DRG.
+severity: breaking
+bad_example: 'The profile YAML gets `specializes-from: architect-alphonso` among its own keys, and validation rejects the profile.'

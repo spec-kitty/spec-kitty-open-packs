@@ -1,0 +1,24 @@
+schema_version: '1.0'
+id: entity-query-without-an-explicit-access-check
+title: Entity Query Without an Explicit Access Check
+description: Implicit access checking on content entity queries was deprecated in Drupal 9.2.0 and throws an error from Drupal 10.0.0 -- on any supported Drupal (10/11) an entity query without an explicit `accessCheck()` fails outright, so this is a correctness requirement, not a lint. `accessCheck(FALSE)` remains legitimate for genuinely internal, non-user-facing queries (a cron sweep that must see every entity regardless of permissions) but must be explicit and commented, never the default because nobody set it. See drupal-conventions' Entity Query pattern for the injected-service shape this call sits inside; this entry owns only the access-check argument.
+severity: breaking
+bad_example: |-
+  <?php
+  $nids = $this->entityTypeManager->getStorage('node')
+    ->getQuery()
+    ->condition('status', 1)
+    ->execute();
+good_example: |-
+  <?php
+  $nids = $this->entityTypeManager->getStorage('node')
+    ->getQuery()
+    ->condition('status', 1)
+    ->accessCheck(TRUE)
+    ->execute();
+  // Cron-only sweep: no user session to check against, so bypassing
+  // access control is deliberate and documented, not an oversight.
+  $all_nids = $this->entityTypeManager->getStorage('node')
+    ->getQuery()
+    ->accessCheck(FALSE)
+    ->execute();

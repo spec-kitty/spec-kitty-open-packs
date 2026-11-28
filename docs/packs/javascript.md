@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/javascript`
 - **Pack level:** `org`
 - **Declared version:** `2.2.0`
-- **Content checksum (sha256):** `88e73fd4c79b2a4bd449b2002cbb61ac83725e1722d890a85f46634dd336712a`
+- **Content checksum (sha256):** `4d178becb0f415152b2287bc1da6e16091cff221ca3753d684736bc7b2192226`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -39,9 +39,10 @@ The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HT
 | `styleguides` | 3 |
 | `toolguides` | 4 |
 | `paradigms` | 1 |
+| `anti_patterns` | 13 |
 | `agent_profiles` | 3 |
 | `drg` | 1 |
-| **Total files** | **19** |
+| **Total files** | **32** |
 
 ### Full listing
 
@@ -78,6 +79,25 @@ The JavaScript and web stack: Node, frontend and design profiles, TypeScript, HT
 <summary><code>paradigms</code> (1)</summary>
 
 - `atomic-design.paradigm.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (13)</summary>
+
+- `any-leakage.anti-pattern.yaml`
+- `aria-overriding-native-semantics.anti-pattern.yaml`
+- `deprecated-media-types.anti-pattern.yaml`
+- `desktop-first-overrides.anti-pattern.yaml`
+- `device-named-breakpoints.anti-pattern.yaml`
+- `div-as-button.anti-pattern.yaml`
+- `hover-only-interaction.anti-pattern.yaml`
+- `inline-style-and-handlers.anti-pattern.yaml`
+- `layout-table.anti-pattern.yaml`
+- `leaked-subscription.anti-pattern.yaml`
+- `missing-or-redundant-alt-text.anti-pattern.yaml`
+- `specificity-escalation.anti-pattern.yaml`
+- `suppressed-type-error.anti-pattern.yaml`
 
 </details>
 

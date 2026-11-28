@@ -125,23 +125,19 @@ nodes:
 - urn: procedure:post-merge-arch-gate-adjudication
   kind: procedure
   label: Post-Merge Arch-Gate Adjudication
-
 edges:
 - source: procedure:change-scope-tension-resolution
   target: procedure:keep-change-local
   relation: reconciles_tension
-  reason: Its fixed order lets Locality of Change brake any growth of the file set while the Boy Scout Rule cleans inside
-    it, and its record step makes the outcome reviewable.
+  reason: Its fixed order lets Locality of Change brake any growth of the file set while the Boy Scout Rule cleans inside it, and its record step makes the outcome reviewable.
 - source: procedure:change-scope-tension-resolution
   target: procedure:touched-area-cleanup
   relation: reconciles_tension
-  reason: Its fixed order licenses touched-area cleanup strictly inside the file set chosen by smallest viable diff, which
-    Locality of Change then holds fixed.
+  reason: Its fixed order licenses touched-area cleanup strictly inside the file set chosen by smallest viable diff, which Locality of Change then holds fixed.
 - source: procedure:change-scope-tension-resolution
   target: procedure:tidy-first-campsite-clean
   relation: reconciles_tension
-  reason: Its carve-out step lands an opening tidy-first cleanup as its own behavior-preserving step before the functional
-    change, so the cleanup never enlarges the file set the resolution order fixes.
+  reason: Its carve-out step lands an opening tidy-first cleanup as its own behavior-preserving step before the functional change, so the cleanup never enlarges the file set the resolution order fixes.
 - source: procedure:example-mapping-workshop
   target: directive:DIRECTIVE_037
   relation: requires
@@ -153,8 +149,7 @@ edges:
 - source: procedure:example-mapping-workshop
   target: tactic:reverse-speccing
   relation: suggests
-  reason: 'Use when approaching a legacy area: reconstructing behaviour from existing tests yields the starting example set
-    that the workshop then validates and curates with stakeholders.'
+  reason: 'Use when approaching a legacy area: reconstructing behaviour from existing tests yields the starting example set that the workshop then validates and curates with stakeholders.'
 - source: procedure:example-mapping-workshop
   target: tactic:usage-examples-sync
   relation: requires
@@ -171,23 +166,19 @@ edges:
 - source: procedure:failing-test-triage
   target: procedure:read-intent-before-high-risk-operation
   relation: tension
-  reason: Failing-test triage deletes a patchwork test on its verdict alone, while the intent check treats deleting a test
-    as a high-risk operation that needs explicitly confirmed intent.
+  reason: Failing-test triage deletes a patchwork test on its verdict alone, while the intent check treats deleting a test as a high-risk operation that needs explicitly confirmed intent.
 - source: procedure:keep-change-local
   target: procedure:tech-debt-point-cut-triage
   relation: tension
-  reason: Change locality keeps opportunistic cleanup out of functional work, while point-cut triage folds debt matching the
-    mission's domain into its scope.
+  reason: Change locality keeps opportunistic cleanup out of functional work, while point-cut triage folds debt matching the mission's domain into its scope.
 - source: procedure:keep-change-local
   target: procedure:tidy-first-campsite-clean
   relation: tension
-  reason: Change locality confines edits to files serving the stated goal and requires a rationale for any wider reach, while
-    the tidy-first campsite clean deliberately opens its own surfaces for preparatory cleanup before the functional change.
+  reason: Change locality confines edits to files serving the stated goal and requires a rationale for any wider reach, while the tidy-first campsite clean deliberately opens its own surfaces for preparatory cleanup before the functional change.
 - source: procedure:keep-change-local
   target: procedure:touched-area-cleanup
   relation: tension
-  reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures
-    and minor clutter in every touched file the default.
+  reason: Change locality keeps opportunistic cleanup out of functional work, while touched-area cleanup makes fixing failures and minor clutter in every touched file the default.
 - source: procedure:red-first-bug-reproduction
   target: tactic:delete-the-assertion-not-the-test
   relation: suggests
@@ -232,11 +223,88 @@ edges:
 - source: procedure:post-merge-arch-gate-adjudication
   target: directive:DIRECTIVE_043
   relation: requires
-  reason: 'This procedure operationalises the close-by-construction requirement from DIRECTIVE_043: gate failures that are
-    pre-existing must be tracked and structurally resolved, not ignored; regression failures must be fixed before further
-    merging proceeds.'
+  reason: 'This procedure operationalises the close-by-construction requirement from DIRECTIVE_043: gate failures that are pre-existing must be tracked and structurally resolved, not ignored; regression failures must be fixed before further merging proceeds.'
 - source: procedure:post-merge-arch-gate-adjudication
   target: tactic:architectural-gate-non-vacuity
   relation: requires
-  reason: The architectural gate non-vacuity tactic describes how to author gates that cannot silently pass; this procedure
-    describes what to do when those gates fire after a merge and the root cause (pre-existing vs. regression) must be determined.
+  reason: The architectural gate non-vacuity tactic describes how to author gates that cannot silently pass; this procedure describes what to do when those gates fire after a merge and the root cause (pre-existing vs. regression) must be determined.
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:averaging-divergent-verdicts
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:blocking-a-merge-on-a-confirmed-pre-existing-failure
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:casting-by-habit
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:comparing-against-the-lane-base-instead-of-the-mission-base
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:concluding-flake-without-running-ci-only-shards-locally
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:example-theater
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:happy-path-only
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:hard-wiring-the-squad-as-a-gate
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:implementation-leakage
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:model-tier-mismatch
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:persona-without-profile
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:resolved-on-paper
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:reviewing-the-wrong-tree
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:ruling-on-an-unreachable-test
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:silently-dropped-finding
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:single-shard-inspection
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:post-merge-arch-gate-adjudication
+  target: anti_pattern:skipping-the-activity-log-record
+  relation: rejects
+  reason: the procedure post-merge-arch-gate-adjudication names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:trusting-a-biased-delegate
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:adversarial-squad-deployment
+  target: anti_pattern:unbounded-squad
+  relation: rejects
+  reason: the procedure adversarial-squad-deployment names this anti-pattern
+- source: procedure:example-mapping-workshop
+  target: anti_pattern:unvalidated-examples
+  relation: rejects
+  reason: the procedure example-mapping-workshop names this anti-pattern

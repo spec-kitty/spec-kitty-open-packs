@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: hand-built-chrome
+title: Hand-built chrome
+description: Building a cover, page footer or table styling by hand for a long-form debrief produces a near-copy of the house look that drifts from it. The branded generator already draws all of it from the design tokens; write Markdown and pass the cover fields as arguments.
+severity: smell
+bad_example: A one-off HTML template and stylesheet written beside the report.
+good_example: One Markdown file rendered with spec-kitty-branded-pdf, cover set through --title, --subtitle, --lede and --meta.

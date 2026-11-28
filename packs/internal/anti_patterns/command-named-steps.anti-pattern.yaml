@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: command-named-steps
+title: Command-named steps
+description: Steps that assert "the command printed <...>" instead of the governed outcome. The scenario should hold regardless of which command surfaces the result.
+severity: severe
+bad_example: '"Then the command prints ''Activated: skill:acme-triage''."'
+good_example: '"Then the acme-triage skill is in force for the project."'

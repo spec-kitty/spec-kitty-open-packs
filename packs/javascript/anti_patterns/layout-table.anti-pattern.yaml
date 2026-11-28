@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: layout-table
+title: Layout Table
+description: A table used for page layout is announced as data, with rows and columns, and does not reflow on narrow screens.
+severity: severe
+bad_example: <table><tr><td>Sidebar</td><td>Content</td></tr></table>
+good_example: |-
+  <div class="layout">
+    <aside>Sidebar</aside>
+    <main>Content</main>
+  </div>

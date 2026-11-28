@@ -1,62 +1,38 @@
-schema_version: "1.0"
 id: test-scaffolding-as-design-smell
+schema_version: '1.0'
 name: Test Setup Scaffolding as a Design Smell
-purpose: >
-  Read the cost and shape of test setup as a signal about production design.
-  When a unit test needs heavy scaffolding (many mocks or patches, elaborate
-  setup), that scaffolding is evidence of a missing boundary in the code under
-  test: the unit reaches infrastructure directly instead of depending on a pure
-  seam. A double of logic the unit owns is evidence of a misdrawn test
-  boundary (DIRECTIVE_054). A real dependency (files, git,
-  a database in a temporary location) is not the smell in itself; it is a
-  problem only when it makes the test slow or flaky, and then the remedy is a
-  pure seam or a substitute at an allow-listed seam of DIRECTIVE_054. The remedy
-  for the scaffolding is to extract the behavior under test as a function of
-  domain inputs, then test it directly. The mock scaffolding is the symptom; the
-  missing boundary is the disease.
+purpose: |
+  Read the cost and shape of test setup as a signal about production design. When a unit test needs heavy scaffolding (many mocks or patches, elaborate setup), that scaffolding is evidence of a missing boundary in the code under test: the unit reaches infrastructure directly instead of depending on a pure seam. A double of logic the unit owns is evidence of a misdrawn test boundary (DIRECTIVE_054). A real dependency (files, git, a database in a temporary location) is not the smell in itself; it is a problem only when it makes the test slow or flaky, and then the remedy is a pure seam or a substitute at an allow-listed seam of DIRECTIVE_054. The remedy for the scaffolding is to extract the behavior under test as a function of domain inputs, then test it directly. The mock scaffolding is the symptom; the missing boundary is the disease.
 steps:
-  - title: Notice the scaffolding
-    description: >
-      Before accepting an expensive test, quantify the setup: how many
-      infrastructure functions are mocked/patched, and how much real on-disk or
-      external state must be constructed. A unit test that patches several infrastructure seams, or doubles logic it
-      owns, is a signal, not a norm. Real fixtures on disk are allowed
-      (DIRECTIVE_054).
-    examples:
-      - "A single command test mocks find_project_root, commit_changes, run_command, bootstrap, and the validator, then writes a real project directory to tmp_path."
-  - title: Locate the coupling
-    description: >
-      Find the exact production lines where the behavior under test reaches
-      infrastructure directly (filesystem read/write, git, network, time,
-      randomness) rather than receiving the data it needs as an argument.
-    examples:
-      - "finalize logic reads kitty-specs/<mission>/* and commits via git inside the same function that decides ownership overlap."
-  - title: Name the behavior as a function of domain inputs
-    description: >
-      State the behavior under test as pure inputs to outputs, independent of
-      where the inputs came from. This is the seam to extract.
-    examples:
-      - "Given a set of work-package frontmatters, decide whether ownership overlaps — independent of how the frontmatter was read."
-  - title: Extract the pure seam
-    description: >
-      Move infrastructure to the caller/boundary; the behavior takes domain
-      objects and returns a result. Production routes through the seam; the seam
-      itself does no IO.
-    examples:
-      - "build_wp_manifests(frontmatters) -> manifests, then validate_ownership(manifests); the filesystem read stays in the command, outside the decision."
-  - title: Re-test through the seam, keep one thin boundary test
-    description: >
-      Test the behavior through the seam with plain stub inputs (no mocks). Keep
-      exactly one thin integration test that exercises the real boundary
-      (wiring + IO) so predictive coverage at the edge is not lost.
-  - title: Verify the desiderata recovered
-    description: >
-      Confirm the new tests are Fast, Isolated, Specific, and
-      Structure-insensitive, and that the heavy mock scaffolding is gone. If a test still needs many patches or a double of owned logic, the boundary
-      is still in the wrong place.
+- title: Notice the scaffolding
+  description: |
+    Before accepting an expensive test, quantify the setup: how many infrastructure functions are mocked/patched, and how much real on-disk or external state must be constructed. A unit test that patches several infrastructure seams, or doubles logic it owns, is a signal, not a norm. Real fixtures on disk are allowed (DIRECTIVE_054).
+  examples:
+  - A single command test mocks find_project_root, commit_changes, run_command, bootstrap, and the validator, then writes a real project directory to tmp_path.
+- title: Locate the coupling
+  description: |
+    Find the exact production lines where the behavior under test reaches infrastructure directly (filesystem read/write, git, network, time, randomness) rather than receiving the data it needs as an argument.
+  examples:
+  - finalize logic reads kitty-specs/<mission>/* and commits via git inside the same function that decides ownership overlap.
+- title: Name the behavior as a function of domain inputs
+  description: |
+    State the behavior under test as pure inputs to outputs, independent of where the inputs came from. This is the seam to extract.
+  examples:
+  - Given a set of work-package frontmatters, decide whether ownership overlaps — independent of how the frontmatter was read.
+- title: Extract the pure seam
+  description: |
+    Move infrastructure to the caller/boundary; the behavior takes domain objects and returns a result. Production routes through the seam; the seam itself does no IO.
+  examples:
+  - build_wp_manifests(frontmatters) -> manifests, then validate_ownership(manifests); the filesystem read stays in the command, outside the decision.
+- title: Re-test through the seam, keep one thin boundary test
+  description: |
+    Test the behavior through the seam with plain stub inputs (no mocks). Keep exactly one thin integration test that exercises the real boundary (wiring + IO) so predictive coverage at the edge is not lost.
+- title: Verify the desiderata recovered
+  description: |
+    Confirm the new tests are Fast, Isolated, Specific, and Structure-insensitive, and that the heavy mock scaffolding is gone. If a test still needs many patches or a double of owned logic, the boundary is still in the wrong place.
 failure_modes:
-  - "Symptom-fighting: adding more mocks/patches to make the expensive test pass instead of extracting the missing boundary."
-  - "Over-extraction: creating a seam that carries no behavior, trading a real test for an indirection."
-  - "Dropping the boundary test entirely: losing predictive coverage that the real IO wiring works."
-  - "Mocking collaborators inside the functional slice: testing doubles instead of the logic the test claims to cover."
-  - "Reading scaffolding as inevitable for 'integration-y' code: most command logic has a pure decision core that can be lifted out."
+- 'Symptom-fighting: adding more mocks/patches to make the expensive test pass instead of extracting the missing boundary.'
+- 'Over-extraction: creating a seam that carries no behavior, trading a real test for an indirection.'
+- 'Dropping the boundary test entirely: losing predictive coverage that the real IO wiring works.'
+- 'Mocking collaborators inside the functional slice: testing doubles instead of the logic the test claims to cover.'
+- 'Reading scaffolding as inevitable for ''integration-y'' code: most command logic has a pure decision core that can be lifted out.'

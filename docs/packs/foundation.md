@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/foundation`
 - **Pack level:** `built-in`
 - **Declared version:** `3.7.0`
-- **Content checksum (sha256):** `ddfec5c61937bfc57e4247ed370fbe90d030f32eecb4aca65811f3c136cbe3a7`
+- **Content checksum (sha256):** `76df07ff4fab37f221245dcb269fe397e97653ec051ac9a9942deb18f7bee367`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -45,6 +45,7 @@ glossary.
 | `toolguides` | 12 |
 | `paradigms` | 2 |
 | `procedures` | 41 |
+| `anti_patterns` | 30 |
 | `agent_profiles` | 6 |
 | `assets` | 4 |
 | `glossaries` | 1 |
@@ -52,7 +53,7 @@ glossary.
 | `lifecycles` | 1 |
 | `missions` | 60 |
 | `routing_catalogs` | 1 |
-| **Total files** | **248** |
+| **Total files** | **278** |
 
 ### Full listing
 
@@ -242,6 +243,42 @@ glossary.
 - `touched-area-cleanup.procedure.yaml`
 - `unfake-an-over-mocked-test.procedure.yaml`
 - `version-freshness-check.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (30)</summary>
+
+- `assert-on-internal-field-values.anti-pattern.yaml`
+- `assert-on-mock-interactions.anti-pattern.yaml`
+- `asserting-instead-of-handling-a-missing-or-invalid-value.anti-pattern.yaml`
+- `averaging-divergent-verdicts.anti-pattern.yaml`
+- `blocking-a-merge-on-a-confirmed-pre-existing-failure.anti-pattern.yaml`
+- `casting-by-habit.anti-pattern.yaml`
+- `clever-over-direct.anti-pattern.yaml`
+- `comparing-against-the-lane-base-instead-of-the-mission-base.anti-pattern.yaml`
+- `concluding-flake-without-running-ci-only-shards-locally.anti-pattern.yaml`
+- `duplicated-business-rules-called-acceptable-repetition.anti-pattern.yaml`
+- `example-theater.anti-pattern.yaml`
+- `floating-point-money.anti-pattern.yaml`
+- `happy-path-only.anti-pattern.yaml`
+- `hard-wiring-the-squad-as-a-gate.anti-pattern.yaml`
+- `implementation-leakage.anti-pattern.yaml`
+- `indirection-to-remove-a-few-repeated-lines.anti-pattern.yaml`
+- `mock-owned-logic-to-pin-a-call-contract.anti-pattern.yaml`
+- `model-tier-mismatch.anti-pattern.yaml`
+- `persona-without-profile.anti-pattern.yaml`
+- `resolved-on-paper.anti-pattern.yaml`
+- `reviewing-the-wrong-tree.anti-pattern.yaml`
+- `ruling-on-an-unreachable-test.anti-pattern.yaml`
+- `silently-dropped-finding.anti-pattern.yaml`
+- `single-shard-inspection.anti-pattern.yaml`
+- `skipping-the-activity-log-record.anti-pattern.yaml`
+- `storage-or-wire-format-on-domain-types.anti-pattern.yaml`
+- `trusting-a-biased-delegate.anti-pattern.yaml`
+- `unbounded-squad.anti-pattern.yaml`
+- `unowned-asynchronous-work.anti-pattern.yaml`
+- `unvalidated-examples.anti-pattern.yaml`
 
 </details>
 

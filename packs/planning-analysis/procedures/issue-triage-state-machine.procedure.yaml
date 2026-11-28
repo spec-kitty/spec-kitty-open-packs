@@ -29,14 +29,5 @@ steps:
 - title: Resume from prior triage state
   description: |
     When a reporter replies or a maintainer reopens discussion, continue from the prior triage notes rather than re-asking resolved questions.
-anti_patterns:
-- title: Multiple active state labels
-  content: Conflicting states make ownership and next action ambiguous.
-- title: Implementation-coupled briefs
-  content: Briefs that mention line numbers or current file paths decay quickly and constrain agents unnecessarily.
-- title: Vague needs-info questions
-  content: Questions like 'please provide more detail' do not help the reporter unblock triage.
-- title: Memory-only rejection
-  content: Closing an enhancement without a persistent concept record causes future duplicate requests to be relitigated.
 notes: |
   Adapted from the mattpocock/skills github-triage, qa, and triage-issue workflows at commit 49cec7be019bc408e87b77670f3d442f536da254.

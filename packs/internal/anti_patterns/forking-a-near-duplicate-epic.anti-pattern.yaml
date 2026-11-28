@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: forking-a-near-duplicate-epic
+title: Forking a near-duplicate epic
+description: Spawning a sibling epic when an existing canonical epic already covers the domain; nest a slice under it instead.
+severity: smell
+bad_example: A new epic "Docs search v2" is opened beside the open canonical "Docs search" epic.

@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: buried-contradiction
+title: Buried Contradiction
+description: Presenting only the sources that support the conclusion while omitting a known contradicting source.
+severity: severe
+bad_example: Benchmarks show approach A is faster.
+good_example: Benchmark X favours approach A by 20%; benchmark Y (different workload) favours B by 15%. A wins for our read-heavy profile; see the workload comparison in the source register.

@@ -1,18 +1,18 @@
-schema_version: "1.0"
 id: semantic-compression-behavioral-boundary-mapping
+schema_version: '1.0'
 name: Semantic Compression Behavioral Boundary Mapping
 purpose: Define the behavior that must survive a reduction before simplifying code.
 steps:
-  - title: State the invariant question
-    description: Ask what must not change before asking how the code can be made smaller.
-  - title: Capture observable surfaces
-    description: Record inputs, outputs, side effects, persistence changes, API responses, events, logs, and timing constraints that matter to callers.
-  - title: Build characterization evidence
-    description: Add or locate characterization tests, regression tests, snapshots, API contracts, integration traces, or telemetry baselines for the target surface.
-  - title: Mark negotiable internals
-    description: Separate protected observable behavior from implementation details that can change during compression.
-  - title: Publish the behavioral envelope
-    description: Hand off a short boundary note naming sacred behavior, negotiable internals, and evidence gaps.
+- title: State the invariant question
+  description: Ask what must not change before asking how the code can be made smaller.
+- title: Capture observable surfaces
+  description: Record inputs, outputs, side effects, persistence changes, API responses, events, logs, and timing constraints that matter to callers.
+- title: Build characterization evidence
+  description: Add or locate characterization tests, regression tests, snapshots, API contracts, integration traces, or telemetry baselines for the target surface.
+- title: Mark negotiable internals
+  description: Separate protected observable behavior from implementation details that can change during compression.
+- title: Publish the behavioral envelope
+  description: Hand off a short boundary note naming sacred behavior, negotiable internals, and evidence gaps.
 failure_modes:
-  - "Simplifying before the boundary is known changes behavior by accident."
-  - "Treating implementation details as sacred prevents useful compression."
+- Simplifying before the boundary is known changes behavior by accident.
+- Treating implementation details as sacred prevents useful compression.

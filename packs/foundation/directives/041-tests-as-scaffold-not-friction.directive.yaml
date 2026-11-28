@@ -1,22 +1,19 @@
-schema_version: "1.0"
 id: DIRECTIVE_041
+schema_version: '1.0'
 title: Tests as Scaffold, Not Friction
-intent: >
-  The rules a test must meet to stay scaffold for change rather than friction.
-  The reasons behind them (why a test exists, false confidence and false
-  friction) live in the paradigm tests-as-scaffold-not-friction.
+intent: |
+  The rules a test must meet to stay scaffold for change rather than friction. The reasons behind them (why a test exists, false confidence and false friction) live in the paradigm tests-as-scaffold-not-friction.
 enforcement: required
-scope: >
-  Applies to all test code — new tests, and existing tests touched by a change to
-  the surface they cover.
+scope: |
+  Applies to all test code — new tests, and existing tests touched by a change to the surface they cover.
 integrity_rules:
-  - A green test that would stay green if the code under test regressed provides no coverage and must be fixed, not trusted.
-  - A test that goes red on a correct, behavior-neutral change is friction; fix the test's coupling, do not revert the correct change.
-  - Deleting a test deletes its coverage; never delete a test to dodge a failure — replace the assertion red-first with coverage preserved. A change-detector test (it restates configuration and guards no lasting behavior) may be retired once the real-run or gate evidence that replaces it is recorded (DIRECTIVE_034); retiring it is not dodging a failure.
-  - Duplicate test knowledge (the same contract asserted in many drifting places) has one source of truth, not N hand-synced copies.
-  - A valid, current test that goes red is never silenced, retried-to-green, or deleted to pass CI — its red is a real product finding to fix or file.
+- A green test that would stay green if the code under test regressed provides no coverage and must be fixed, not trusted.
+- A test that goes red on a correct, behavior-neutral change is friction; fix the test's coupling, do not revert the correct change.
+- Deleting a test deletes its coverage; never delete a test to dodge a failure — replace the assertion red-first with coverage preserved. A change-detector test (it restates configuration and guards no lasting behavior) may be retired once the real-run or gate evidence that replaces it is recorded (DIRECTIVE_034); retiring it is not dodging a failure.
+- Duplicate test knowledge (the same contract asserted in many drifting places) has one source of truth, not N hand-synced copies.
+- A valid, current test that goes red is never silenced, retried-to-green, or deleted to pass CI — its red is a real product finding to fix or file.
 validation_criteria:
-  - New tests assert observable contracts and are shown to fail when those contracts are violated (anti-vacuity).
-  - No new xfail or skip masks a known defect (the strict expected failure of procedure `red-first-bug-reproduction` is not a mask), and no new file.py:NNN-keyed ratchet entries are introduced.
-  - Touched test fixtures resolve through the production creation seam rather than a parallel hand-roll.
-  - A remediated failing test carries an explicit verdict (stale-intent remediated / stub deleted / valid → product fixed), justified by code-path coupling rather than git-blame archaeology.
+- New tests assert observable contracts and are shown to fail when those contracts are violated (anti-vacuity).
+- No new xfail or skip masks a known defect (the strict expected failure of procedure `red-first-bug-reproduction` is not a mask), and no new file.py:NNN-keyed ratchet entries are introduced.
+- Touched test fixtures resolve through the production creation seam rather than a parallel hand-roll.
+- A remediated failing test carries an explicit verdict (stale-intent remediated / stub deleted / valid → product fixed), justified by code-path coupling rather than git-blame archaeology.

@@ -21,14 +21,20 @@
 #      says `precheck: accepted` is well formed file by file and refused only by the service
 #      (a dependency no pack holds); it is left to the service job.
 #
-#   3. Cross-pack (--cross-pack, all packs together), only what the charter service does not check:
-#      a preset naming an id no pack declares (or a must_have id no pack of the preset pack's depends_on
-#      closure holds as a file, the charter's requiredNotHeld), a bare DRG fragment edge endpoint that resolves to no
-#      node, an id re-declared by a pack of another level, an agent-profile reference that is bare but
-#      held by another pack or by none, qualified with the profile's own pack, outside its depends_on
-#      closure or not held by the named pack, and a prompt fragment whose target step or slot does not
-#      exist. Descriptors, depends_on, sibling conflicts and the references of graph edges are the
-#      service's, and are no longer judged here.
+#   3. Cross-pack (--cross-pack, all packs together): only the house rules, what the charter does not judge by
+#      ruling (#348; C-005, ADR-0083 decision 18), each named in validate_pack_schemas.py with its ruling:
+#      - an id re-declared by a pack of another level (ADR-0053 decision 6: the charter takes it as a layer override);
+#      - a bare DRG fragment edge endpoint that resolves to no node of any pack (DIV-007);
+#      - a prompt-fragment slot the target step's prompt does not declare (C38);
+#      - a cycle among the agent profiles' specializes_from edges (the ruling R-s remainder, until charter #636);
+#      - the agent-profile references: a bare one no pack holds and one qualified with the profile's own pack (not
+#        charter rules, charter research/rule-coverage.md row 6), and a bare one only another pack holds, one outside
+#        the depends_on closure or not held by the named pack (pack-doctor does not judge a profile's references at
+#        the pin; kept until it does).
+#      Everything else across packs is pack-doctor's (`validate --round-trip --full`, scripts/ci/charter_pack_doctor.py,
+#      charter docs/guides/check-packs.md): composition, the preset items (preset_item_undeclared, preset_item_not_held),
+#      the graph references, the step enhancements' targets and the manifests (manifest_stale, manifest_membership;
+#      `pack-doctor remediate <pack>` writes a manifest).
 #
 # The validator fails closed (exit 2) on an unloadable schema, a known-kind file with no schema
 # mapping, or a pack with zero files checked.
@@ -48,8 +54,9 @@ mapfile -t invalid < <(find tests/fixtures/invalid -mindepth 1 -maxdepth 1 -type
 (( ${#packs[@]} > 0 )) || { echo "::error::no pack found under packs/ or tests/fixtures/valid/; the validation would prove nothing"; exit 1; }
 (( ${#invalid[@]} > 0 )) || { echo "::error::tests/fixtures/invalid/ holds no fixture; the non-vacuity check would prove nothing"; exit 1; }
 
-# Every pack and valid fixture carries the manifest the charter derives (#255); invalid fixtures are exempt.
-args=(--cross-pack --derived-manifests "${packs[@]}")
+# A manifest's membership and hashes are pack-doctor's (manifest_membership, manifest_stale), not this pass's (#347);
+# the pass names only a graph node no file declares that the manifest leaves out (a house rule, decision 01M8BMA8).
+args=(--cross-pack "${packs[@]}")
 service_only=()
 for pack in "${invalid[@]}"; do
   [[ -f "$pack/expected-code" ]] || { echo "::error::$pack has no expected-code file; an invalid fixture must name the code the service refuses it with"; exit 1; }

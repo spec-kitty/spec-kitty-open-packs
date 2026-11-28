@@ -22,22 +22,6 @@ steps:
 - title: Scope the residue — file the suite-wide audit rather than sweep it
   description: |
     The same spent pattern is usually copy-pasted across sibling files beyond this mission's diff. Do not sweep the whole suite inside the landing PR — that inflates the diff and re-triggers review of unrelated files. File a tracked issue for the suite-wide audit (verdict per candidate: keep-and-rename or retire), referencing this procedure and the test-suite-friction epic, and note in the hand-off which candidates are in-mission (done here) versus deferred to that audit.
-anti_patterns:
-- title: Merge the scaffolding, clean it up "later"
-  content: |
-    Landing a mission's development-assist tests as-is and trusting a future pass to retire them. The friction compounds: inert self-compares and duplicated shape checks accumulate as permanent suite bloat, and the "later" audit rarely comes. Judge at the point-cut where the scaffolding was created.
-- title: Delete a mega-file wholesale
-  content: |
-    Treating a mixed mission test file as all-scaffold and deleting it to remove the friction, dropping the genuine functional and arch invariants buried in it. Split by kind and keep those; only the spent cases are retired.
-- title: Retire coverage disguised as a duplicate
-  content: |
-    Deleting a per-WP check as "duplicative" when the family-wide guard does not actually assert the same contract. Confirm the standing guard covers it before deleting; if it does not, the test is not a duplicate — keep and rename it.
-- title: Keep the WP/NFR label on a promoted test
-  content: |
-    Leaving a WP##/NFR-### label on a test promoted to standing status. The label signals "belongs to a finished slice," inviting the same audit churn next time and misrepresenting a durable guard as disposable.
-- title: Sweep the whole suite in the landing PR
-  content: |
-    Auditing and rewriting every sibling file that shares the pattern inside the mission's own PR, inflating the diff far past the mission's scope. The in-mission cleanup covers the tests the mission created; the wider sweep is a tracked follow-up.
 notes: |
   Trigger point-cut: mission close, after acceptance and before merge. This
   procedure is proactive (audit passing dev-assist tests at close) where DIRECTIVE_041 is reactive (judge a test when it goes red);

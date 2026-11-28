@@ -1,7 +1,3 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
-# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
-# <pack-name>::<urn> and must sit in this pack's depends_on closure.
 nodes:
 - id: java-jenny
   kind: agent_profiles
@@ -19,6 +15,21 @@ nodes:
   kind: toolguides
   title: Maven Review Checks
   body_path: toolguides/maven-review-checks.toolguide.yaml
+- id: catching-broad-exception-types
+  kind: anti_patterns
+  title: Catching Broad Exception Types
+- id: constructor-sprawl-in-tests
+  kind: anti_patterns
+  title: Constructor Sprawl in Tests
+- id: jqwik-as-a-test-dependency
+  kind: anti_patterns
+  title: jqwik as a Test Dependency
+- id: platform-dependent-encoding
+  kind: anti_patterns
+  title: Platform-Dependent Encoding
+- id: returning-null
+  kind: anti_patterns
+  title: Returning Null
 edges:
 - source: agent_profile:java-jenny
   target: foundation::agent_profile:implementer-ivan
@@ -36,20 +47,17 @@ edges:
   target: foundation::directive:DIRECTIVE_030
   relation: requires
   when: when assessing whether tests meet the quality gate they must pass
-  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only
-    in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-quality-gate hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:java-jenny
   target: foundation::directive:DIRECTIVE_034
   relation: requires
   when: when writing or reviewing the tests that accompany an implementation
-  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile
-    channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the test-first hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:java-jenny
   target: foundation::directive:DIRECTIVE_041
   relation: suggests
   when: when keeping the tests they write a clear scaffold rather than friction
-  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the tests-as-scaffold hub when writing tests. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:java-jenny
   target: foundation::directive:DIRECTIVE_051
   relation: requires
@@ -57,47 +65,39 @@ edges:
   target: foundation::directive:DISCIPLINED_REFACTORING
   relation: suggests
   when: when tidying code, encountering long classes/methods, or discovering convoluted logic
-  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only
-    under today''s traversal, authored per the #3063 family-B operator attestation.'
+  reason: 'An implementer-role profile should reach the disciplined-refactoring directive when restructuring code. Composition-only under today''s traversal, authored per the #3063 family-B operator attestation.'
 - source: agent_profile:java-jenny
   target: testing::directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
-  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:java-jenny
   target: testing::procedure:test-first-bug-fixing
   relation: requires
 - source: agent_profile:java-jenny
   target: foundation::tactic:acceptance-test-first
   relation: requires
-  reason: ATDD outside-in from acceptance criteria; migrated from a misfiled operating-procedures entry (it names a tactic,
-    not a procedure).
+  reason: ATDD outside-in from acceptance criteria; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
 - source: agent_profile:java-jenny
   target: testing::tactic:bdd-scenario-formulation
   relation: requires
-  reason: BDD scenarios define acceptance criteria for Java features. Wire Gherkin scenarios via Cucumber-JVM as acceptance
-    tests before implementing production code.
+  reason: BDD scenarios define acceptance criteria for Java features. Wire Gherkin scenarios via Cucumber-JVM as acceptance tests before implementing production code.
 - source: agent_profile:java-jenny
   target: foundation::tactic:dependency-hygiene
   relation: requires
-  reason: Pin direct dependency versions in the Maven properties block, restrict resolution to Maven Central, exclude vulnerable
-    transitives with a documented reason, and regenerate the SBOM after any dependency change.
+  reason: Pin direct dependency versions in the Maven properties block, restrict resolution to Maven Central, exclude vulnerable transitives with a documented reason, and regenerate the SBOM after any dependency change.
 - source: agent_profile:java-jenny
   target: foundation::tactic:supply-chain-install-safety
   relation: requires
-  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed Maven/Gradle dependency, using the java-supply-chain
-    toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
+  reason: Run the checklist, per DIRECTIVE_051, before accepting a new or changed Maven/Gradle dependency, using the java-supply-chain toolguide for exact commands, and record the evidence rather than an aspirational statement of intent.
 - source: agent_profile:java-jenny
   target: foundation::tactic:tdd-red-green-refactor
   relation: requires
-  reason: Unit-level red-green-refactor discipline; migrated from a misfiled operating-procedures entry (it names a tactic,
-    not a procedure).
+  reason: Unit-level red-green-refactor discipline; migrated from a misfiled operating-procedures entry (it names a tactic, not a procedure).
 - source: agent_profile:java-jenny
   target: styleguide:java-conventions
   relation: requires
-  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (java); operator
-    ruling on spec-kitty-charter#405.
+  reason: A language-specialist profile requires the conventions styleguide of each of its applies_to_languages (java); operator ruling on spec-kitty-charter#405.
 - source: styleguide:java-conventions
   target: foundation::directive:DIRECTIVE_030
   relation: suggests
@@ -122,3 +122,27 @@ edges:
   target: testing::asset:quad-a-test-structure
   relation: requires
   when: writing a test in the Quad-A shape; the asset holds the language-neutral skeleton and checklist
+- source: styleguide:java-conventions
+  target: foundation::anti_pattern:storage-or-wire-format-on-domain-types
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:catching-broad-exception-types
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:constructor-sprawl-in-tests
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:jqwik-as-a-test-dependency
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:platform-dependent-encoding
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern
+- source: styleguide:java-conventions
+  target: anti_pattern:returning-null
+  relation: rejects
+  reason: the styleguide java-conventions names this anti-pattern

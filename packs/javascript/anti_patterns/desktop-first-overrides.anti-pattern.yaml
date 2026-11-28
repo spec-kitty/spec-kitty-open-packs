@@ -1,0 +1,27 @@
+schema_version: '1.0'
+id: desktop-first-overrides
+title: Desktop-First Overrides
+description: Desktop styles undone by narrower queries make every small screen pay for the large layout and multiply overrides.
+severity: smell
+bad_example: |-
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+  }
+
+  @media (max-width: 768px) {
+    .layout {
+      display: block;
+    }
+  }
+good_example: |-
+  .layout {
+    display: block;
+  }
+
+  @media (width >= 48em) {
+    .layout {
+      display: grid;
+      grid-template-columns: 18.75rem 1fr;
+    }
+  }

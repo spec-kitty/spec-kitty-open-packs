@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: undefined-audience
+title: Undefined Audience
+description: Drafting content without a named target persona, producing prose that over-explains to experts and under-explains to newcomers simultaneously.
+severity: smell
+bad_example: This document describes the new workflow.
+good_example: This document describes the new workflow for engineering leads evaluating whether to adopt it for their team.

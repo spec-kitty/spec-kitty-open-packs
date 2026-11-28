@@ -1,26 +1,34 @@
 schema_version: '1.0'
-manifest_hash: d1f2f7f86e46c47a260ee76daca5407a89498ed342b757862a141be000d7c7ef
+manifest_hash: d63a73bc473aee81be8edef374065cbc21ccc7a050fc5dd195ea7eed1fde532e
 constituents:
 - kind: agent_profile
   id: qa-defect-triager-dmitri
   path: agent_profiles/qa-defect-triager-dmitri.agent.yaml
-  content_hash: 809441106856c7b03dbcad0e2759a08f7df6a0eb163a5ba0e7e8cdb3e72bdaa4
+  content_hash: ab2f868f429b43727e3fbd7ad25753d07113ff329bd3f9e7282e6b09c23b6d09
 - kind: agent_profile
   id: qa-reporter-rhea
   path: agent_profiles/qa-reporter-rhea.agent.yaml
-  content_hash: 7327df40cff7c6a978e2d2fbf84bf12bb924d26cc9203beecc1b80658bb858df
+  content_hash: 729e1db733bd3932451a392a1652b8f1354e0931ac1a34f7c7595491ec373754
 - kind: agent_profile
   id: qa-strategist-quinn
   path: agent_profiles/qa-strategist-quinn.agent.yaml
-  content_hash: 13cf5dc13a9c75b367e0c2c9f56942620d9f09a9baf401b77d2b3a7b38fc6f53
+  content_hash: 19270d50d8964c44fde7341a6923abc1a939d580c45cdfe22e3e100365f81f9d
 - kind: agent_profile
   id: qa-test-designer-tessa
   path: agent_profiles/qa-test-designer-tessa.agent.yaml
-  content_hash: 37cb54385d9bd0a2557ac021b9e80f6984d0d451e3e543893f52f4b82270b112
+  content_hash: 66ebf91d9d27012dc2c3e9988fea2869bd434dacc3e370eadb912cfaa8bec689
 - kind: agent_profile
   id: qa-test-executor-elena
   path: agent_profiles/qa-test-executor-elena.agent.yaml
-  content_hash: 7d9e8bfb208c85fa50ccd2d85dd9a0d25701d569eb0203de2d6d3c9e8cf91359
+  content_hash: 099bc9ef9a57a74fe1ae9133556aa0679ca1bfa7fcd8e7559ae46a0a6c06a173
+- kind: anti_pattern
+  id: rubber-stamp-sign-off
+  path: anti_patterns/rubber-stamp-sign-off.anti-pattern.yaml
+  content_hash: e57749794fb7a027a78c908ac67ec066e4a49d6c8b2e091ec0f3ca1857d97776
+- kind: anti_pattern
+  id: silent-acceptance-without-traceability-check
+  path: anti_patterns/silent-acceptance-without-traceability-check.anti-pattern.yaml
+  content_hash: 4519d458899b3b3b17e7ad996de0daebb03748fa46b9b5587f887ae8b9ee9034
 - kind: asset
   id: qa-traceability-lint
   path: assets/qa_carrier_lint.py.asset.yaml
@@ -36,39 +44,39 @@ constituents:
 - kind: directive
   id: QA_001
   path: directives/qa-001-traceability-mandatory.directive.yaml
-  content_hash: d665f9915cf1db82b37955c38b363ba7a8e5128c1b15dc8b2c0b8f96d54e7d1e
+  content_hash: ed6966ebb89f5b9ce6d9520a7494835e8f02634506f43e64268ff669846028cd
 - kind: directive
   id: QA_002
   path: directives/qa-002-defect-report-quality.directive.yaml
-  content_hash: 78bc4e8aeb1914896d564ab4a0ae4755b5419965ae46645d8cc1a2c935abb07f
+  content_hash: 381283e4b8f1172e2af20446a8daa41de42c23b0d3db509b53a4fd87a4221788
 - kind: directive
   id: QA_003
   path: directives/qa-003-no-fake-green.directive.yaml
-  content_hash: 1ce281ad9d7d58544cf1113b1218b7f6919cba17d106bb7a602ac1bdb69d6493
+  content_hash: c61ad97fac8ecf50547259b9c3a7601b8dcb38e1709461e3e42c7540ac816918
 - kind: directive
   id: QA_004
   path: directives/qa-004-exit-criteria-precede-execution.directive.yaml
-  content_hash: 7d92b75cd74ae813e14e5d09759983c075d0620b5dccb6502df72aacee92834e
+  content_hash: a4ea877ca25d81cb8013df0016b037ecb3a2964cef4ed4b255c2b3d0988a76a6
 - kind: directive
   id: QA_005
   path: directives/qa-005-risk-based-prioritization.directive.yaml
-  content_hash: 3c3bf7829f8789b09bd99d9c53e340b3f2104d84a5872b22ca9a2bd44357b943
+  content_hash: 3818809e7a2ccaab99b88c8c18aa0c76da2316821b48a4fa1273685df6e89921
 - kind: directive
   id: QA_006
   path: directives/qa-006-exploratory-charters-timeboxed.directive.yaml
-  content_hash: 852d2cd519e3e8d47ad5813e5f295ecadda97a9cba6aec5105f18066fae8e3e6
+  content_hash: 571c2d0937033a20cc0a88989d6657e1df96ce9547fa61db439386370ea79114
 - kind: directive
   id: QA_007
   path: directives/qa-007-promise-traceability.directive.yaml
-  content_hash: bd3e25c5f9d849556a0ba37b617a2777cdaceb2e33618d9b76340cfd0e7c64f4
+  content_hash: a0ef2a86567f2527c953d61fc0df51ede7ca039456fe82837f7560cde7fe6f13
 - kind: directive
   id: QA_008
   path: directives/qa-008-reproductions-gate-releases.directive.yaml
-  content_hash: bb31be4e4970cc63be1e05ab36d8915d15d752857c5024daf66fbe27934c9279
+  content_hash: e2d85e1321910d353940255b274926dc47a93381648e7b64d2b658a8306c36c7
 - kind: glossary
   id: qa-glossary
   path: glossaries/qa-glossary.glossary.yaml
-  content_hash: 8f116a30e6c3a5db82ce3d967583adf9bcd35f8fa63bb3dc27cfdd038861b6d2
+  content_hash: 9e2dbf8022d5a0f18190dcb847f5c12c8bdb005286db3dfffe6767d8e67f4981
 - kind: mission_type
   id: qa
   path: missions/qa/qa.mission-type.yaml
@@ -124,47 +132,47 @@ constituents:
 - kind: procedure
   id: qa-go-no-go-readiness-review
   path: procedures/qa-go-no-go-readiness-review.procedure.yaml
-  content_hash: 9436d964b6795d560450c80d6a979f391e11d18f7af387634fafa4befd034859
+  content_hash: 4d3b87a6dbd8b5654616b7b1a6d9d6d2389bde557be6797226bf995691a9caf1
 - kind: procedure
   id: qa-test-plan-review-workshop
   path: procedures/qa-test-plan-review-workshop.procedure.yaml
-  content_hash: 6d5d95a21725ff5a8b7216e842ea9b546a3bb0cfa01d215d93381a43f24e4ca8
+  content_hash: 45605927324012417fe37f71b4121a0604af4c763a91dbeac26af0b2008e3fb8
 - kind: styleguide
   id: qa-promise-page
   path: styleguides/qa-promise-page.styleguide.yaml
-  content_hash: bb9c0050352162fce63e137062d56297d2633545a2f5c7eb60fb7c28251474b1
+  content_hash: 43108d33e9557fd002113757f20c99b90d6cadf8811ea949695fa764e2301e73
 - kind: tactic
   id: qa-boundary-equivalence-partitioning
   path: tactics/qa-boundary-equivalence-partitioning.tactic.yaml
-  content_hash: 67d5c153154ebeff25b5dd1e4282c301d59cb20f93de45060872752eeddd2bec
+  content_hash: 7f4a78f8bbef71dc5c016203b58dc0f52951b6bb286768b708616c42b5d4feaf
 - kind: tactic
   id: qa-exploratory-charter-writing
   path: tactics/qa-exploratory-charter-writing.tactic.yaml
-  content_hash: bfbf4c0f9df841c185f59295bc6424e3f810b99b30ee7500c58bfdf300d6cba0
+  content_hash: 7f6d5707a7abe9f170c06d275be80a021d1a497c1f78350e4bea27081b4e3549
 - kind: tactic
   id: qa-flaky-test-quarantine
   path: tactics/qa-flaky-test-quarantine.tactic.yaml
-  content_hash: 712f1cf144381e82c28245233aa56fd99b2a1e7ff88513bb0fc528d4b0fb6fb0
+  content_hash: c865487612810528b1244052fa538b43f6fc2474772936ea6eaeb61710c0bbea
 - kind: tactic
   id: qa-pairwise-test-reduction
   path: tactics/qa-pairwise-test-reduction.tactic.yaml
-  content_hash: cae86c9fa400a326a295fedff614933e6749537bfa17b4fe27f49fcc73ad15b4
+  content_hash: 8858aa6b646f049a6b9f98807a287ede1c41295d83ebc850c1ea610ce37db656
 - kind: tactic
   id: qa-promise-elicitation
   path: tactics/qa-promise-elicitation.tactic.yaml
-  content_hash: dfd0804a11f7ab5fee175860b939baec1315666c11190a23acd781619b314517
+  content_hash: 4752269c59bf4643d08b782ce83f47905fad3d9913e68f012c03b457d909e801
 - kind: tactic
   id: qa-regression-suite-selection
   path: tactics/qa-regression-suite-selection.tactic.yaml
-  content_hash: f1281d939b872bd7f158ba823dc2d88600d7510f526e349eaf1cdc3e0f7b6cf8
+  content_hash: 3bcd77f9c99dc9af6eee3faf983be565e3fcb1418dfc3d3dab4e184e131bd60c
 - kind: tactic
   id: qa-risk-based-test-prioritization
   path: tactics/qa-risk-based-test-prioritization.tactic.yaml
-  content_hash: a0efd5a18c247f0259422af0c977cda9b2c3e991269edac33be83e573ec2b4a6
+  content_hash: d1ba2aefedcc7c02c7198a229c7399ac1e1df2361c0475c8bf3cc06dad9dc99f
 - kind: tactic
   id: qa-test-data-minimization
   path: tactics/qa-test-data-minimization.tactic.yaml
-  content_hash: 44593f5a1ef11ce8b686653419f2ae6ab3f8af6a6da8ac6155d3fbe3d83e9f54
+  content_hash: 11f398262eed9df09e969603353cc5d3ce02939aa692f64581deecbb256ee059
 - kind: toolguide
   id: qa-carrier-lint
   path: toolguides/qa-carrier-lint.toolguide.yaml
@@ -184,4 +192,4 @@ constituents:
 presets:
 - id: qa
   path: presets/qa.yaml
-  content_hash: 9f3b2807ece211d0e5f0ed656c120b9c22bea500ed8f0caeb40e9965fa843fd8
+  content_hash: 93e563eb7b4a178d9d1ad03294e181883f4e7ce0e0d690ba24295fb7d64b847d

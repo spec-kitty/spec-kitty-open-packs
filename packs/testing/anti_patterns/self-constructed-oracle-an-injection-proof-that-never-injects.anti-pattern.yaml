@@ -1,0 +1,13 @@
+schema_version: '1.0'
+id: self-constructed-oracle-an-injection-proof-that-never-injects
+title: Self-constructed oracle (an "injection proof" that never injects)
+description: A test meant to prove a gate or ratchet goes red builds two divergent inputs and asserts they differ, without ever calling the gate. It is green whatever the product does, so it is not Behavioral. A non-vacuity proof invokes the real check on the planted input and asserts the check fails.
+severity: breaking
+bad_example: |-
+  primary_state = reduce(read_events(primary_log))
+  replica_state = reduce(read_events(replica_log))     # data the test wrote
+  assert primary_state != replica_state                # never runs the gate
+good_example: |-
+  plant_divergence(replica_log)
+  with pytest.raises(AssertionError, match="replica parity"):
+      assert_replica_parity(primary, replica)          # the real check goes red

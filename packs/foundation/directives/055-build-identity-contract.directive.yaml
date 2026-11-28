@@ -1,116 +1,28 @@
-schema_version: "1.0"
 id: DIRECTIVE_055
+schema_version: '1.0'
 title: Build Identity Contract
-intent: >
-  Every product a team ships says which build is running, in one shared shape:
-  a structured build object with version, commit_sha and build_date, plus a
-  copyable human line. Three readers depend on it: a person filing or
-  answering a support request copies one line; a collector reads the same
-  structured schema from every product; and a peer product checks
-  compatibility at run time, for which the field names are a frozen API and
-  version is the ordered field to compare. A real-looking but wrong
-  identity is never acceptable: it sends the diagnosis to the wrong commit.
+intent: |
+  Every product a team ships says which build is running, in one shared shape: a structured build object with version, commit_sha and build_date, plus a copyable human line. Three readers depend on it: a person filing or answering a support request copies one line; a collector reads the same structured schema from every product; and a peer product checks compatibility at run time, for which the field names are a frozen API and version is the ordered field to compare. A real-looking but wrong identity is never acceptable: it sends the diagnosis to the wrong commit.
 enforcement: required
-scope: >
-  Applies to every product a team distributes or deploys, on every surface it
-  has: a command-line tool, a deployed service and a library are form factors
-  of a (product, surface) pair, and a product conforms on each surface it
-  exposes. It governs the product's own identity surfaces and how collectors
-  and peer products read them. It does not change a product's versioning
-  scheme, mandate a shared implementation library (conformance is shared, not
-  code), mandate a CI system or build backend, overload an existing
-  identifier such as a session or checkout build_id, specify a collector
-  application or a service authentication mechanism, or define support and
-  self-reporting pipelines. Boundary with DIRECTIVE_018 and DIRECTIVE_048:
-  those govern the versions of doctrine and documents an agent authors or
-  reads; this one governs the identity of the running software artifact. The
-  tactic build-identity-stamp-verify-guard says how to wire it per form
-  factor.
+scope: |
+  Applies to every product a team distributes or deploys, on every surface it has: a command-line tool, a deployed service and a library are form factors of a (product, surface) pair, and a product conforms on each surface it exposes. It governs the product's own identity surfaces and how collectors and peer products read them. It does not change a product's versioning scheme, mandate a shared implementation library (conformance is shared, not code), mandate a CI system or build backend, overload an existing identifier such as a session or checkout build_id, specify a collector application or a service authentication mechanism, or define support and self-reporting pipelines. Boundary with DIRECTIVE_018 and DIRECTIVE_048: those govern the versions of doctrine and documents an agent authors or reads; this one governs the identity of the running software artifact. The tactic build-identity-stamp-verify-guard says how to wire it per form factor.
 integrity_rules:
-  - "The structured surface carries a build object with three fields, under
-    these exact names: version, commit_sha and build_date. The names are a
-    hard API contract so a peer check never meets field drift: commit_sha,
-    never sha, git_sha or commit."
-  - "version is the released semantic version, or an honest non-release
-    sentinel. It is the comparable field: cross-product dependency checks gate
-    on version, never on commit_sha."
-  - "commit_sha is commit-traceable: a short or full SHA that can be checked
-    out or looked up on the Git host. It is the exact-pin and diagnostic
-    field. A content hash, a tree hash or a build-system or platform id does
-    not satisfy it. A build whose tracked files differ from the commit reflects
-    it with the -dirty suffix of the `git describe --dirty` convention, for
-    example a1b2c3d-dirty."
-  - "build_date is the build or deploy time in ISO 8601 / RFC 3339 form, in
-    UTC with the Z designator, for example 2026-07-16T14:32:05Z. It is not
-    derived from the commit, because a rebuild or a redeploy of the same
-    commit has its own time."
-  - "The human surface is one copyable line that begins with the product name
-    and version and appends a build segment, for example
-    `acme-cli version 1.4.0 build a1b2c3d`. The structured surface carries the
-    build object, and a consumer reads it without parsing the human line."
-  - "Each form factor has its surfaces. A command-line tool prints the human
-    line for `--version` and `-v` and returns the build object as JSON for
-    `--version --json` or an equivalent structured flag, stamped at build or
-    link time, with a live-git fallback for a source checkout. A deployed
-    service serves the build object from a build identity HTTP endpoint, with
-    the CI pipeline passing the commit SHA to the deploy, never the platform's
-    tree id. A library exposes importable attributes, stamped when the
-    package is built (in Python, `__version__`, `__commit_sha__` and
-    `__build_date__`), and is reported nested under the product that hosts
-    it."
-  - "A deployed service's structured build identity surface should be
-    authenticated, so a credentialed collector can read it and the public
-    cannot. The authentication mechanism is out of scope."
-  - "A build reports honest sentinels (dev, none, unknown) for what it cannot
-    vouch for, never a real-looking but wrong value, and a build that cannot
-    prove its commit says so. By install kind: a tagged release reports the
-    real semantic version and the real SHA; an install from main, a branch or
-    git reports the semantic version from source and the real SHA; a local or
-    editable install reports `0.0.0-dev` or the semantic version from source,
-    with the SHA from a live `git rev-parse` where git is available and
-    unknown otherwise; an unstamped build without git reports the same
-    version and unknown for the SHA. Where no build time was stamped, as in an
-    unstamped source checkout, build_date is unknown."
-  - "A release never ships a blank, unknown or sentinel commit_sha. A
-    tagged release build of a distributed tool, binary or library fails when
-    commit_sha was not injected. Non-release builds are exempt."
-  - "A deployed service's deploy pipeline owns an integrity check that fails
-    the deploy, or raises an alarm, when the stamp is a sentinel or a
-    non-commit value such as a platform tree id."
-  - "A product lands its guard in a fixed order: stamp injection with a
-    live-git fallback first, then verification on a real tag or deploy, and
-    only then the guard. A product without CI sets up CI first."
-  - "A collector gathers identities into one envelope: collected_at, and a
-    list of products, each with product, form_factor, transport and build,
-    and, where they apply, endpoint, reachable and components. Each component
-    entry carries product, form_factor library and its own build object. A
-    component that is present but cannot prove its commit reports
-    commit_sha unknown; it is never omitted and never invented."
-  - "A peer reads the structured surface idiomatic to the form factor:
-    execution and structured standard output for a command-line tool, the
-    HTTP endpoint for a service. A hosted read is a sample at a timestamp, not
-    an authority: its payload carries the time of the read. The service
-    structured surface should carry a tier or instance discriminator, because
-    during a rolling deploy a read returns whichever instance answered. A peer
-    does not gate a dependency on a single hosted read: during a rolling
-    deploy the next call may reach an instance running another build."
-  - "A build or health surface that fails reports the true cause, never a
-    misleading one; a payload-too-large error, for example, does not surface
-    as not authenticated. A collected envelope lists a product it cannot reach
-    with reachable: false and never omits it."
+- 'The structured surface carries a build object with three fields, under these exact names: version, commit_sha and build_date. The names are a hard API contract so a peer check never meets field drift: commit_sha, never sha, git_sha or commit.'
+- 'version is the released semantic version, or an honest non-release sentinel. It is the comparable field: cross-product dependency checks gate on version, never on commit_sha.'
+- 'commit_sha is commit-traceable: a short or full SHA that can be checked out or looked up on the Git host. It is the exact-pin and diagnostic field. A content hash, a tree hash or a build-system or platform id does not satisfy it. A build whose tracked files differ from the commit reflects it with the -dirty suffix of the `git describe --dirty` convention, for example a1b2c3d-dirty.'
+- build_date is the build or deploy time in ISO 8601 / RFC 3339 form, in UTC with the Z designator, for example 2026-07-16T14:32:05Z. It is not derived from the commit, because a rebuild or a redeploy of the same commit has its own time.
+- The human surface is one copyable line that begins with the product name and version and appends a build segment, for example `acme-cli version 1.4.0 build a1b2c3d`. The structured surface carries the build object, and a consumer reads it without parsing the human line.
+- Each form factor has its surfaces. A command-line tool prints the human line for `--version` and `-v` and returns the build object as JSON for `--version --json` or an equivalent structured flag, stamped at build or link time, with a live-git fallback for a source checkout. A deployed service serves the build object from a build identity HTTP endpoint, with the CI pipeline passing the commit SHA to the deploy, never the platform's tree id. A library exposes importable attributes, stamped when the package is built (in Python, `__version__`, `__commit_sha__` and `__build_date__`), and is reported nested under the product that hosts it.
+- A deployed service's structured build identity surface should be authenticated, so a credentialed collector can read it and the public cannot. The authentication mechanism is out of scope.
+- 'A build reports honest sentinels (dev, none, unknown) for what it cannot vouch for, never a real-looking but wrong value, and a build that cannot prove its commit says so. By install kind: a tagged release reports the real semantic version and the real SHA; an install from main, a branch or git reports the semantic version from source and the real SHA; a local or editable install reports `0.0.0-dev` or the semantic version from source, with the SHA from a live `git rev-parse` where git is available and unknown otherwise; an unstamped build without git reports the same version and unknown for the SHA. Where no build time was stamped, as in an unstamped source checkout, build_date is unknown.'
+- A release never ships a blank, unknown or sentinel commit_sha. A tagged release build of a distributed tool, binary or library fails when commit_sha was not injected. Non-release builds are exempt.
+- A deployed service's deploy pipeline owns an integrity check that fails the deploy, or raises an alarm, when the stamp is a sentinel or a non-commit value such as a platform tree id.
+- 'A product lands its guard in a fixed order: stamp injection with a live-git fallback first, then verification on a real tag or deploy, and only then the guard. A product without CI sets up CI first.'
+- 'A collector gathers identities into one envelope: collected_at, and a list of products, each with product, form_factor, transport and build, and, where they apply, endpoint, reachable and components. Each component entry carries product, form_factor library and its own build object. A component that is present but cannot prove its commit reports commit_sha unknown; it is never omitted and never invented.'
+- 'A peer reads the structured surface idiomatic to the form factor: execution and structured standard output for a command-line tool, the HTTP endpoint for a service. A hosted read is a sample at a timestamp, not an authority: its payload carries the time of the read. The service structured surface should carry a tier or instance discriminator, because during a rolling deploy a read returns whichever instance answered. A peer does not gate a dependency on a single hosted read: during a rolling deploy the next call may reach an instance running another build.'
+- 'A build or health surface that fails reports the true cause, never a misleading one; a payload-too-large error, for example, does not surface as not authenticated. A collected envelope lists a product it cannot reach with reachable: false and never omits it.'
 validation_criteria:
-  - "Every surface the product exposes conforms for its form factor, and the
-    structured surface carries version, commit_sha and build_date by those
-    names and in the stated formats."
-  - "Each install kind reports the version and commit_sha the sentinel rules
-    give it, and a build whose tracked files differ from the commit carries
-    the -dirty suffix."
-  - "A tagged release build without an injected commit_sha fails, a service
-    deploy whose stamp is a sentinel or a non-commit value fails or alarms,
-    and the guard was added only after the stamp was verified on a real tag
-    or deploy."
-  - "Every peer compatibility check reads version, not commit_sha, and does
-    not gate a dependency on a single hosted read, because during a rolling
-    deploy the next call may reach an instance running another build; every
-    collected envelope lists each unreachable product with
-    reachable: false and each component with its own build object."
+- Every surface the product exposes conforms for its form factor, and the structured surface carries version, commit_sha and build_date by those names and in the stated formats.
+- Each install kind reports the version and commit_sha the sentinel rules give it, and a build whose tracked files differ from the commit carries the -dirty suffix.
+- A tagged release build without an injected commit_sha fails, a service deploy whose stamp is a sentinel or a non-commit value fails or alarms, and the guard was added only after the stamp was verified on a real tag or deploy.
+- 'Every peer compatibility check reads version, not commit_sha, and does not gate a dependency on a single hosted read, because during a rolling deploy the next call may reach an instance running another build; every collected envelope lists each unreachable product with reachable: false and each component with its own build object.'

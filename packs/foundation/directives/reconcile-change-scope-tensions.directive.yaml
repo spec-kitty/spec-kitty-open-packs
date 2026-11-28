@@ -1,47 +1,17 @@
-schema_version: "1.0"
 id: RECONCILE_CHANGE_SCOPE_TENSIONS
+schema_version: '1.0'
 title: Reconciling Change-Scope Tensions
-intent: >
-  Locality of Change (DIRECTIVE_024), the Boy Scout Rule (DIRECTIVE_025), and
-  the Change Apply Smallest Viable Diff tactic each bound the size of a
-  change from a different angle, and by design they are not fully
-  compatible: Locality of Change minimizes blast radius, Boy Scout Rule
-  licenses opportunistic in-place improvement of touched areas, and
-  smallest-viable-diff minimizes the diff itself. This directive gives an
-  operator or agent a single place to weigh the three together on a given
-  change, instead of applying each in isolation, so the default doctrine
-  pack stays coherent even though the underlying tension between the three
-  rules is real and intentionally left unresolved at the rule level.
+intent: |
+  Locality of Change (DIRECTIVE_024), the Boy Scout Rule (DIRECTIVE_025), and the Change Apply Smallest Viable Diff tactic each bound the size of a change from a different angle, and by design they are not fully compatible: Locality of Change minimizes blast radius, Boy Scout Rule licenses opportunistic in-place improvement of touched areas, and smallest-viable-diff minimizes the diff itself. This directive gives an operator or agent a single place to weigh the three together on a given change, instead of applying each in isolation, so the default doctrine pack stays coherent even though the underlying tension between the three rules is real and intentionally left unresolved at the rule level.
 enforcement: lenient-adherence
-scope: >
-  Applies whenever a change is evaluated against DIRECTIVE_024, DIRECTIVE_025,
-  or tactic:change-apply-smallest-viable-diff -- in practice, any code, test,
-  or documentation change that must decide how far to extend beyond its
-  stated goal. Also applies once DIRECTIVE_052's root-cause diagnosis is
-  complete: DIRECTIVE_052 governs the DEPTH of diagnosis for a fix, never its
-  size, and this directive resolves the SIZE of the resulting remediation.
+scope: |
+  Applies whenever a change is evaluated against DIRECTIVE_024, DIRECTIVE_025, or tactic:change-apply-smallest-viable-diff -- in practice, any code, test, or documentation change that must decide how far to extend beyond its stated goal. Also applies once DIRECTIVE_052's root-cause diagnosis is complete: DIRECTIVE_052 governs the DEPTH of diagnosis for a fix, never its size, and this directive resolves the SIZE of the resulting remediation.
 integrity_rules:
-  - Boy Scout Rule cleanup performed under this directive never expands the
-    file set chosen by smallest-viable-diff; it only improves files already
-    inside that set.
-  - A genuinely broad refactor surfaced while applying Boy Scout Rule is
-    deferred to a dedicated task with a one-line rationale, never folded
-    into the current diff on this directive's authority alone.
-  - This directive resolves the tension for a given change; it does not
-    retire, weaken, or supersede DIRECTIVE_024, DIRECTIVE_025, or
-    tactic:change-apply-smallest-viable-diff -- all three remain
-    independently valid, co-activatable rules.
+- Boy Scout Rule cleanup performed under this directive never expands the file set chosen by smallest-viable-diff; it only improves files already inside that set.
+- A genuinely broad refactor surfaced while applying Boy Scout Rule is deferred to a dedicated task with a one-line rationale, never folded into the current diff on this directive's authority alone.
+- This directive resolves the tension for a given change; it does not retire, weaken, or supersede DIRECTIVE_024, DIRECTIVE_025, or tactic:change-apply-smallest-viable-diff -- all three remain independently valid, co-activatable rules.
 validation_criteria:
-  - "Reviewers can trace each changed file to either the stated goal
-    (smallest-viable-diff) or a touched-area fix/cleanup (Boy Scout Rule)
-    without needing to guess which rule licensed it."
-  - Any change that grew beyond the touched area carries an explicit
-    rationale connecting it to the stated goal (Locality of Change).
+- Reviewers can trace each changed file to either the stated goal (smallest-viable-diff) or a touched-area fix/cleanup (Boy Scout Rule) without needing to guess which rule licensed it.
+- Any change that grew beyond the touched area carries an explicit rationale connecting it to the stated goal (Locality of Change).
 explicit_allowances:
-  - When the three source rules would each pick a different file set for a
-    genuinely small change, applying this directive's own default
-    resolution order (its change-scope-tension-resolution procedure) without a separate written
-    trade-off analysis is an acceptable allowance in its
-    arbiter role, provided the resolution itself (what was folded in, what
-    was deferred, and why) is still recorded per this directive's own
-    procedure.
+- When the three source rules would each pick a different file set for a genuinely small change, applying this directive's own default resolution order (its change-scope-tension-resolution procedure) without a separate written trade-off analysis is an acceptable allowance in its arbiter role, provided the resolution itself (what was folded in, what was deferred, and why) is still recorded per this directive's own procedure.

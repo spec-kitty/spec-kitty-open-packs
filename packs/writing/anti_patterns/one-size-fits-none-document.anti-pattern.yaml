@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: one-size-fits-none-document
+title: One-Size-Fits-None Document
+description: Trying to serve an executive summary and a deep technical audience in the same document without structural separation.
+severity: smell
+bad_example: A single flat document mixing business-impact framing and implementation-level detail throughout.
+good_example: An executive-summary section up top, with technical detail in clearly separated sections or a linked companion document.

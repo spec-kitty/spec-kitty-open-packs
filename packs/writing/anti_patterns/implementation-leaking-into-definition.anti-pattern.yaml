@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: implementation-leaking-into-definition
+title: Implementation Leaking Into Definition
+description: Including code-level details (class names, method signatures, file paths) in the definition body rather than in metadata fields.
+severity: smell
+bad_example: ArtifactClassEnum with six values defined in models.py.
+good_example: 'Classification of an artifact''s role in the mission lifecycle. Six values: input, workflow, output, evidence, policy, runtime.'

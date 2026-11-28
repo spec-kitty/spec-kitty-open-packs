@@ -30,16 +30,3 @@ steps:
 - title: Publish traceable outputs
   description: |
     Record the approved examples, their linked requirement or task IDs, and the chosen verification approach so later implementation and review work can follow the chain.
-anti_patterns:
-- title: Example theater
-  content: |
-    Producing many examples that are never used for acceptance or review, turning the workshop into documentation overhead instead of a delivery aid.
-- title: Implementation leakage
-  content: |
-    Writing examples in terms of database fields, internal services, or UI widgets rather than observable business behavior.
-- title: Happy-path only
-  content: |
-    Capturing only success stories and missing the boundaries, exceptions, and rejection cases that actually define the contract.
-- title: Unvalidated examples
-  content: |
-    Treating agent-generated examples as authoritative without stakeholder or source validation.

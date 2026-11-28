@@ -1,21 +1,16 @@
-schema_version: "1.0"
 id: DIRECTIVE_033
+schema_version: '1.0'
 title: Targeted Staging Policy
-intent: >
-  Agent-authored commits must stage only the expected deliverables for the
-  current work package. Blanket staging commands that could inadvertently
-  include unrelated changes, secrets, or build artefacts are prohibited.
+intent: |
+  Agent-authored commits must stage only the expected deliverables for the current work package. Blanket staging commands that could inadvertently include unrelated changes, secrets, or build artefacts are prohibited.
 enforcement: required
-scope: >
-  Applies to all agent-authored git commits during implementation,
-  specification, planning, review remediation, or any workflow step that
-  produces a commit.
+scope: |
+  Applies to all agent-authored git commits during implementation, specification, planning, review remediation, or any workflow step that produces a commit.
 integrity_rules:
-  - Blanket staging commands (`git add -A`, `git add .`, `git add --all`) are prohibited in agent-authored workflows.
-  - Staged content must be limited to files explicitly produced by the current work package.
+- Blanket staging commands (`git add -A`, `git add .`, `git add --all`) are prohibited in agent-authored workflows.
+- Staged content must be limited to files explicitly produced by the current work package.
 validation_criteria:
-  - Agent guidance explicitly lists deliverable paths to stage rather than wildcards.
-  - No blanket staging commands appear in agent instructions or examples.
-  - A pre-commit diff review step is present before the commit is finalised.
-  - Boy Scout improvements found during a WP are committed as a separate
-    targeted commit, not mixed into the WP deliverable commit.
+- Agent guidance explicitly lists deliverable paths to stage rather than wildcards.
+- No blanket staging commands appear in agent instructions or examples.
+- A pre-commit diff review step is present before the commit is finalised.
+- Boy Scout improvements found during a WP are committed as a separate targeted commit, not mixed into the WP deliverable commit.

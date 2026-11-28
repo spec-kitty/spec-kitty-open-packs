@@ -1,12 +1,9 @@
-schema_version: "1.0"
+schema_version: '1.0'
 id: rust
-description: >-
-  Put the Rust stack doctrine in force: the rust-conventions styleguide, the
-  rust-review-checks toolguide and the rust-ruben implementer profile.
-  Registering the pack activates nothing, so this preset is the opt-in.
+description: 'Put the Rust stack doctrine in force: the rust-conventions styleguide, the rust-review-checks toolguide and the rust-ruben implementer profile. Registering the pack activates nothing, so this preset is the opt-in.'
 activated_styleguides:
-  - id: rust-conventions
+- id: rust-conventions
 activated_toolguides:
-  - id: rust-review-checks
+- id: rust-review-checks
 activated_agent_profiles:
-  - id: rust-ruben
+- id: rust-ruben

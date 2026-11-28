@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: circular-definition
+title: Circular Definition
+description: Defining a term using itself or equally opaque synonyms.
+severity: smell
+bad_example: Parity baseline is a baseline for parity tracking.
+good_example: A saved parity hash representing the last accepted state of a dossier. Drift is detected by comparing the current parity hash against this baseline.

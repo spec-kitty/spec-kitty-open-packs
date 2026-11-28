@@ -33,16 +33,3 @@ steps:
 - title: Land the follow-through where it shrinks the debt
   description: |
     Turn verdicts into changes in small, domain-scoped PRs: fixes and retirements with the planted-break evidence in the PR body, new lint-time detectors where a pattern recurs, and shrink-only baseline entries for what cannot be fixed yet, so the debt can only go down. File an issue for anything larger than one domain PR. Report back per domain in a few lines: files reviewed, verdict counts, and the links.
-anti_patterns:
-- title: Reading the corpus in commit order
-  content: |
-    Splitting the work by date range instead of by domain makes every squad reload the context of every subsystem, and it hides the covering guard that decides whether a test is redundant.
-- title: Treating a static flag as a verdict
-  content: |
-    Filing or deleting on the scanner's word alone. The flags rank what to read; the verdict comes from reading the test against its behaviour and proving it with a planted break.
-- title: Running the suite to find weak tests
-  content: |
-    A weak oracle passes, so running the suite cannot find it. Detection belongs at the leftmost layer that can see it: the linter, then the static scan, then a human or agent read, and only then a planted break.
-- title: Retiring without a named guard
-  content: |
-    Deleting a development-assist test because its Mission closed, without naming and proving the broader test that still covers the behaviour.

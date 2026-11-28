@@ -24,7 +24,3 @@ steps:
   description: |
     A human stakeholder accepts the plan as reviewed, or confirms the revision points before the next review cycle.
   role: operator
-anti_patterns:
-- title: Silent acceptance without traceability check
-  content: |
-    Approving a plan without confirming its test-area-to-requirement traceability defeats the purpose of the review.

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: agent-merges-the-mainline
+title: Agent merges the mainline
+description: Merging to the protected mainline or arming auto-merge on the agent's own initiative. The agent flips a green PR to ready for review and stops; the operator merges.
+severity: breaking
+bad_example: The agent arms auto-merge on its own PR to main once CI turns green.

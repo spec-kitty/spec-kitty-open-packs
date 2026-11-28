@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: leaving-debug-artifacts-behind
+title: Leaving debug artifacts behind
+description: Temporary logs, harnesses, trace files, and flags must either be deleted or promoted into named diagnostics.
+severity: severe
+bad_example: A `print("DEBUG state=", state)` line and a `repro_issue_412.py` harness ship in the fix's commit.

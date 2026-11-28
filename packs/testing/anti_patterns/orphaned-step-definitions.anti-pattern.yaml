@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: orphaned-step-definitions
+title: Orphaned step definitions
+description: Step definitions with no matching feature file step. Accumulate silently as scenarios evolve. Run `cucumber --dry-run` (or equivalent) regularly to detect them.
+severity: smell
+bad_example: '`steps/checkout_steps.py` still defines `Given a guest cart with {n} items`, which no feature file has used since the cart scenarios were rewritten.'

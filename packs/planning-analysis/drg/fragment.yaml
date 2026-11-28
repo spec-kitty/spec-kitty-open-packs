@@ -1,7 +1,3 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
-# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
-# <pack-name>::<urn> and must sit in this pack's depends_on closure.
 nodes:
 - id: planner-priti
   kind: agent_profiles
@@ -66,6 +62,63 @@ nodes:
   kind: tactics
   title: Vertical Skeleton First
   body_path: tactics/analysis/vertical-skeleton-first.tactic.yaml
+- id: batch-questioning
+  kind: anti_patterns
+  title: Batch questioning
+- id: blocking-on-the-optional-steps
+  kind: anti_patterns
+  title: Blocking on the optional steps
+- id: budgetless-spike
+  kind: anti_patterns
+  title: Budgetless Spike
+- id: child-ticket-checklist-in-the-epic-body
+  kind: anti_patterns
+  title: Child-ticket checklist in the epic body
+- id: closing-a-community-duplicate-before-migrating-its-evidence
+  kind: anti_patterns
+  title: Closing a community duplicate before migrating its evidence
+- id: implementation-coupled-briefs
+  kind: anti_patterns
+  title: Implementation-coupled briefs
+- id: memory-only-rejection
+  kind: anti_patterns
+  title: Memory-only rejection
+- id: meta-tracker-as-canonical-parent
+  kind: anti_patterns
+  title: Meta-tracker as canonical parent
+- id: multiple-active-state-labels
+  kind: anti_patterns
+  title: Multiple active state labels
+- id: over-interviewing
+  kind: anti_patterns
+  title: Over-interviewing
+- id: over-reading-squash-merged-history
+  kind: anti_patterns
+  title: Over-reading squash-merged history
+- id: premature-decision-records
+  kind: anti_patterns
+  title: Premature decision records
+- id: rationalised-outcome
+  kind: anti_patterns
+  title: Rationalised Outcome
+- id: skipping-the-exclusion-list
+  kind: anti_patterns
+  title: Skipping the exclusion list
+- id: substituting-triage-for-deeper-investigation
+  kind: anti_patterns
+  title: Substituting triage for deeper investigation
+- id: terminology-policing
+  kind: anti_patterns
+  title: Terminology policing
+- id: treating-triage-as-a-verdict
+  kind: anti_patterns
+  title: Treating triage as a verdict
+- id: unwritten-finding
+  kind: anti_patterns
+  title: Unwritten Finding
+- id: vague-needs-info-questions
+  kind: anti_patterns
+  title: Vague needs-info questions
 edges:
 - source: writing::action:documentation/retrospect
   target: agent_profile:retrospective-facilitator
@@ -154,17 +207,13 @@ edges:
 - source: paradigm:brownfield-onboarding
   target: foundation::tactic:reverse-speccing
   relation: suggests
-  when: reconstructing system understanding purely from test code and comparing it against the implementation and design docs
-    to reveal under-documented behaviour
-  reason: Brownfield onboarding suggests reverse-speccing as the technique for recovering intent from an existing system's
-    tests; the `when` is the tactic's own stated purpose. Delivered at d=2 per the family-D ACCEPT-DELIVERY ruling.
+  when: reconstructing system understanding purely from test code and comparing it against the implementation and design docs to reveal under-documented behaviour
+  reason: Brownfield onboarding suggests reverse-speccing as the technique for recovering intent from an existing system's tests; the `when` is the tactic's own stated purpose. Delivered at d=2 per the family-D ACCEPT-DELIVERY ruling.
 - source: paradigm:brownfield-onboarding
   target: testing::tactic:test-to-system-reconstruction
   relation: suggests
-  when: scoring how effectively a legacy system's tests serve as executable specifications, identifying where they fail to
-    communicate behavioural, architectural, or operational intent
-  reason: Brownfield onboarding suggests test-to-system reconstruction as the scored dual-agent validation of a legacy suite's
-    specification quality; the `when` is the tactic's own stated purpose. Delivered at d=2.
+  when: scoring how effectively a legacy system's tests serve as executable specifications, identifying where they fail to communicate behavioural, architectural, or operational intent
+  reason: Brownfield onboarding suggests test-to-system reconstruction as the scored dual-agent validation of a legacy suite's specification quality; the `when` is the tactic's own stated purpose. Delivered at d=2.
 - source: procedure:domain-aware-decision-interview
   target: procedure:situational-assessment
   relation: requires
@@ -204,8 +253,7 @@ edges:
 - source: procedure:legacy-codebase-triage
   target: foundation::directive:DIRECTIVE_001
   relation: suggests
-  reason: Triage findings that surface load-bearing complexity or single-author critical modules feed architectural-integrity
-    decisions.
+  reason: Triage findings that surface load-bearing complexity or single-author critical modules feed architectural-integrity decisions.
 - source: procedure:legacy-codebase-triage
   target: foundation::directive:DIRECTIVE_028
   relation: requires
@@ -213,13 +261,11 @@ edges:
 - source: procedure:legacy-codebase-triage
   target: procedure:situational-assessment
   relation: requires
-  reason: When the triage uncovers questions larger than its scope, escalate into a full situational assessment to establish
-    shared context before design.
+  reason: When the triage uncovers questions larger than its scope, escalate into a full situational assessment to establish shared context before design.
 - source: procedure:legacy-codebase-triage
   target: architecture::tactic:connascence-analysis
   relation: suggests
-  reason: After triage identifies refactor priorities, connascence analysis classifies the coupling that drives the hotspot
-    status.
+  reason: After triage identifies refactor priorities, connascence analysis classifies the coupling that drives the hotspot status.
 - source: procedure:legacy-codebase-triage
   target: foundation::tactic:eisenhower-prioritisation
   relation: requires
@@ -266,18 +312,15 @@ edges:
 - source: procedure:spike-timebox-policy
   target: foundation::directive:DIRECTIVE_003
   relation: requires
-  reason: The spike terminates in a documented decision-or-abandon outcome; the decision-documentation requirement governs
-    how that finding is recorded.
+  reason: The spike terminates in a documented decision-or-abandon outcome; the decision-documentation requirement governs how that finding is recorded.
 - source: procedure:spike-timebox-policy
   target: foundation::tactic:safe-to-fail-experiment
   relation: requires
-  reason: 'A timeboxed spike is a safe-to-fail experiment: bounded, reversible, and run in a throwaway space so a failed hypothesis
-    costs only the budget.'
+  reason: 'A timeboxed spike is a safe-to-fail experiment: bounded, reversible, and run in a throwaway space so a failed hypothesis costs only the budget.'
 - source: styleguide:planning-and-tracking
   target: foundation::tactic:ownership-map-leeway
   relation: suggests
-  when: setting up or reviewing task decomposition to understand the ownership-map constraints and leeway principles that
-    govern WP isolation
+  when: setting up or reviewing task decomposition to understand the ownership-map constraints and leeway principles that govern WP isolation
 - source: styleguide:planning-and-tracking
   target: foundation::tactic:reviewer-implementer-role-separation
   relation: suggests
@@ -304,13 +347,8 @@ edges:
 - source: writing::tactic:terminology-extraction-mapping
   target: paradigm:brownfield-onboarding
   relation: suggests
-  when: recovering a shared vocabulary from an existing system's source code and documentation (as a follow-up to code-documentation-analysis)
-    so the terminology latent in the codebase is named before it is changed
-  reason: The tactic's OWN text extracts domain terms from 'source code (class/method names), documentation ... as a follow-up
-    to code-documentation-analysis' -- recovering terminology from an existing system, which is exactly the 'terminology aliases
-    ... inferred from the code' durable artefact brownfield-onboarding's own summary names. INBOUND to the brownfield paradigm
-    from an action-unreachable source, so composition-only under today's traversal.
-# Vertical skeleton first: the mission-scale tracer bullet for cross-owner missions.
+  when: recovering a shared vocabulary from an existing system's source code and documentation (as a follow-up to code-documentation-analysis) so the terminology latent in the codebase is named before it is changed
+  reason: The tactic's OWN text extracts domain terms from 'source code (class/method names), documentation ... as a follow-up to code-documentation-analysis' -- recovering terminology from an existing system, which is exactly the 'terminology aliases ... inferred from the code' durable artefact brownfield-onboarding's own summary names. INBOUND to the brownfield paradigm from an action-unreachable source, so composition-only under today's traversal.
 - source: foundation::action:software-dev/plan
   target: tactic:vertical-skeleton-first
   relation: scope
@@ -339,3 +377,79 @@ edges:
   target: foundation::directive:DIRECTIVE_036
   relation: suggests
   when: the composed smoke exercises the system through its external interfaces
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:batch-questioning
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:blocking-on-the-optional-steps
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:spike-timebox-policy
+  target: anti_pattern:budgetless-spike
+  relation: rejects
+  reason: the procedure spike-timebox-policy names this anti-pattern
+- source: styleguide:planning-and-tracking
+  target: anti_pattern:child-ticket-checklist-in-the-epic-body
+  relation: rejects
+  reason: the styleguide planning-and-tracking names this anti-pattern
+- source: styleguide:planning-and-tracking
+  target: anti_pattern:closing-a-community-duplicate-before-migrating-its-evidence
+  relation: rejects
+  reason: the styleguide planning-and-tracking names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:implementation-coupled-briefs
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:memory-only-rejection
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern
+- source: styleguide:planning-and-tracking
+  target: anti_pattern:meta-tracker-as-canonical-parent
+  relation: rejects
+  reason: the styleguide planning-and-tracking names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:multiple-active-state-labels
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:over-interviewing
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:over-reading-squash-merged-history
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:premature-decision-records
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:spike-timebox-policy
+  target: anti_pattern:rationalised-outcome
+  relation: rejects
+  reason: the procedure spike-timebox-policy names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:skipping-the-exclusion-list
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:substituting-triage-for-deeper-investigation
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:domain-aware-decision-interview
+  target: anti_pattern:terminology-policing
+  relation: rejects
+  reason: the procedure domain-aware-decision-interview names this anti-pattern
+- source: procedure:legacy-codebase-triage
+  target: anti_pattern:treating-triage-as-a-verdict
+  relation: rejects
+  reason: the procedure legacy-codebase-triage names this anti-pattern
+- source: procedure:spike-timebox-policy
+  target: anti_pattern:unwritten-finding
+  relation: rejects
+  reason: the procedure spike-timebox-policy names this anti-pattern
+- source: procedure:issue-triage-state-machine
+  target: anti_pattern:vague-needs-info-questions
+  relation: rejects
+  reason: the procedure issue-triage-state-machine names this anti-pattern

@@ -7,7 +7,7 @@ The PR gate, the scheduled release run and the on-demand run share this tool and
     python3 scripts/ci/charter_pin.py newest-release        # the newest service-v* release or pre-release
     python3 scripts/ci/charter_pin.py resolve-release TAG   # its commit and the digests its two .sha256 assets state
     python3 scripts/ci/charter_pin.py resolve-ref REF       # a branch, tag, pull/N/head or commit of the charter
-    python3 scripts/ci/charter_pin.py apply --commit C [--release-tag T --jar-sha256 S --pack-check-sha256 P]
+    python3 scripts/ci/charter_pin.py apply --commit C [--release-tag T --jar-sha256 S --pack-doctor-sha256 P] [--allow-red]
     python3 scripts/ci/charter_pin.py at-or-past TAG        # exit 0 when the lock's release_tag is TAG or later
     python3 scripts/ci/charter_pin.py changelog --release-tag T --commit C --previous P --date YYYY-MM-DD
     python3 scripts/ci/charter_pin.py commit-payload --branch B --head-oid OID --headline TEXT
@@ -19,13 +19,16 @@ version precedence, than the lock's ``release_tag``; a lock without one (a chart
 demand) is left alone, ``newer=false``, so the scheduled run never replaces a deliberate main pin.
 
 ``apply`` writes the four pin values into the lock (comments kept), then re-derives what the pin decides
-here: every pack's ``pack-manifest.yaml`` (the derived membership and hashes, against the target's contract),
-every ``packs/<name>.source.yaml`` digest and the generated pack pages. The checks then judge the tree a bump
+here: every pack, restamped by the pinned charter's ``pack-doctor remediate`` (#347), which writes each pack's
+``pack-manifest.yaml`` (the membership and hashes) and rewrites every modelled file of the pack in canonical form,
+dropping comments and null or empty defaults (operator ruling 01M8A5ZNJTETCBFCC4H5G0VHQ6); every
+``packs/<name>.source.yaml`` digest; and the generated pack pages. The checks then judge the tree a bump
 pull request would carry. ``commit-payload`` prints the ``createCommitOnBranch`` input for the working tree's
 changes, so the bump commit is made, and signed, by GitHub.
 
 Network: the GitHub API (``GH_TOKEN`` or ``GITHUB_TOKEN`` is sent when set), github.com release downloads and
-``git ls-remote``. Exit 0 on success, 2 when nothing can be judged (a malformed answer, a missing asset).
+``git ls-remote``; ``apply`` also obtains the pack-doctor jar through ``charter_pack_doctor_jar.sh`` (a download on a
+release pin, a build of the pinned commit on a main pin: Java 25 and the Gradle repositories). Exit 0 on success, 2 when nothing can be judged (a malformed answer, a missing asset).
 """
 
 from __future__ import annotations
@@ -37,6 +40,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from pathlib import Path
 
@@ -132,7 +136,7 @@ def tag_commit(tag: str) -> str:
 
 #: The two jars of a ``service-v<version>`` release the lock pins, each beside a ``<jar>.sha256`` asset.
 SERVICE_JAR = "spec-kitty-charter-service-{version}.jar"
-PACK_CHECK_JAR = "pack-check-{version}.jar"  # the pack-check CLI (#252), on every release from service-v0.1.0-rc.3
+PACK_DOCTOR_JAR = "pack-doctor-{version}.jar"  # the pack-doctor CLI (#345), on every release from service-v<next>
 
 
 def jar_digest(tag: str, jar: str = SERVICE_JAR) -> str:
@@ -168,7 +172,7 @@ def resolve_ref(ref: str) -> str:
 
 # ------------------------------------------------------------------------------------------------ apply
 
-def write_lock(commit: str, release_tag: str, jar_sha256: str, pack_check_sha256: str = "") -> None:
+def write_lock(commit: str, release_tag: str, jar_sha256: str, pack_doctor_sha256: str = "") -> None:
     """Set the four pin values in ``charter.lock.yaml``, comments kept. The new text is checked with the lock's own
     rules before it is written, so a refused pin leaves the lock as it was."""
     if not charter_lock.COMMIT.fullmatch(commit):
@@ -177,15 +181,15 @@ def write_lock(commit: str, release_tag: str, jar_sha256: str, pack_check_sha256
         raise PinError(f"release_tag must be empty or service-vX.Y.Z[-pre], got {release_tag!r}")
     if jar_sha256 and not charter_lock.SHA256.fullmatch(jar_sha256):
         raise PinError(f"jar_sha256 must be empty or 64 lowercase hex characters, got {jar_sha256!r}")
-    if pack_check_sha256 and not charter_lock.SHA256.fullmatch(pack_check_sha256):
-        raise PinError(f"pack_check_sha256 must be empty or 64 lowercase hex characters, got {pack_check_sha256!r}")
+    if pack_doctor_sha256 and not charter_lock.SHA256.fullmatch(pack_doctor_sha256):
+        raise PinError(f"pack_doctor_sha256 must be empty or 64 lowercase hex characters, got {pack_doctor_sha256!r}")
     values = {"commit": commit, "release_tag": release_tag, "jar_sha256": jar_sha256,
-              "pack_check_sha256": pack_check_sha256}
+              "pack_doctor_sha256": pack_doctor_sha256}
     lock_file = charter_lock.LOCK_FILE
     lines = lock_file.read_text(encoding="utf-8").splitlines(keepends=True)
     seen: set[str] = set()
     for index, line in enumerate(lines):
-        match = re.match(r"(commit|release_tag|jar_sha256|pack_check_sha256):", line)
+        match = re.match(r"(commit|release_tag|jar_sha256|pack_doctor_sha256):", line)
         if match:
             key = match.group(1)
             seen.add(key)
@@ -211,14 +215,92 @@ def _run(*command: str) -> None:
         raise PinError(f"{' '.join(command)} exited {done.returncode}")
 
 
-def rederive() -> None:
-    """Re-derive every pin-derived file: the pack manifests, the pack digests, then the pack pages."""
+#: One outcome line of ``pack-doctor remediate`` on standard output, one per pack given (charter ``Remediate.java``):
+#: ``<pack dir>: unchanged``, ``<pack dir>: rewritten``, ``<pack dir>: rewritten, <n> quoted number(s) repaired``, or
+#: ``<pack dir>: refused`` (its faults follow, indented).
+REMEDIATE_OUTCOME = re.compile(
+    r"^(?P<pack>\S.*?): (?P<outcome>unchanged|refused|rewritten)(?:, (?P<repaired>\d+) quoted numbers? repaired)?$")
+
+
+def _work_dir(scratch: str) -> str:
+    """Where ``charter_pack_doctor_jar.sh`` keeps its download or its checkout and build: ``$CHARTER_WORK_DIR`` when set,
+    else ``$RUNNER_TEMP/charter-service`` (the directory the gate's own step uses, so a main pin is built once per
+    job), else ``scratch``. Never inside the repository, whose working tree a bump commit carries whole."""
+    if os.environ.get("CHARTER_WORK_DIR"):
+        return os.environ["CHARTER_WORK_DIR"]
+    if os.environ.get("RUNNER_TEMP"):
+        return str(Path(os.environ["RUNNER_TEMP"]) / "charter-service")
+    return scratch
+
+
+def pack_doctor_jar(work: str) -> str:
+    """The pinned pack-doctor jar, obtained by ``charter_pack_doctor_jar.sh`` into ``work`` (the last line it prints)."""
+    done = subprocess.run(["bash", str(ROOT / "scripts" / "ci" / "charter_pack_doctor_jar.sh"), work], cwd=ROOT,
+                          check=False, stdout=subprocess.PIPE, text=True)
+    lines = done.stdout.strip().splitlines()
+    if done.returncode != 0 or not lines:
+        raise PinError(f"charter_pack_doctor_jar.sh exited {done.returncode} without a jar")
+    return lines[-1]
+
+
+def java_command() -> str:
+    """The java to run pack-doctor with: ``$JAVA_HOME/bin/java`` when ``JAVA_HOME`` is set, else ``java`` on the PATH."""
+    home = os.environ.get("JAVA_HOME")
+    return str(Path(home) / "bin" / "java") if home else "java"
+
+
+#: What the JVM prints on stderr when JAVA_TOOL_OPTIONS or _JAVA_OPTIONS is set; not pack-doctor's.
+JVM_NOISE = ("Picked up ",)
+
+
+def remediate(jar: str, packs: list[str], allow_red: bool = False) -> dict[str, str]:
+    """Run ``java -jar <jar> remediate <pack>...`` once over every pack, from the repository root (a pack holding the
+    working directory is exit 2) under ``LC_ALL=C.UTF-8``; return each pack's outcome. pack-doctor's own stderr (its
+    warnings, and "delete it" when an old copy of a rewritten pack could not be removed) is always passed on.
+
+    Exit 0 restamped every pack. Exit 1 means a pack was refused, or the tree remediate wrote still has problems: it
+    fails the derive, unless ``allow_red`` (``apply --allow-red``, which only the gate's two check jobs pass): then the
+    derive goes on with a warning naming the refused packs, and the gate's own steps judge the tree and keep its report
+    (a red tree must be reported, not skipped). A bump, or a hand-run ``apply``, never carries a red tree. Any other
+    exit, or a pack with no outcome line, fails the derive and prints the tool's output."""
+    command = [java_command(), "-jar", jar, "remediate", *packs]
+    print("+ " + " ".join(command), file=sys.stderr, flush=True)
+    done = subprocess.run(command, cwd=ROOT, check=False, env={**os.environ, "LC_ALL": "C.UTF-8"},
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    own = "\n".join(line for line in done.stderr.splitlines() if not line.startswith(JVM_NOISE))
+    if done.returncode not in (0, 1):
+        print(done.stdout, own, sep="\n", file=sys.stderr)
+        raise PinError(f"pack-doctor remediate exited {done.returncode}")
+    if own:
+        print(own, file=sys.stderr)
+    outcomes = {match["pack"]: match["outcome"] for line in done.stdout.splitlines()
+                if (match := REMEDIATE_OUTCOME.match(line.rstrip()))}
+    missing = [pack for pack in packs if pack not in outcomes]
+    if missing:
+        print(done.stdout, file=sys.stderr)
+        raise PinError(f"pack-doctor remediate gave no outcome for {', '.join(missing)}")
+    if done.returncode == 1:
+        refused = sorted(pack for pack, outcome in outcomes.items() if outcome == "refused")
+        print(done.stdout, file=sys.stderr)
+        if not allow_red:
+            raise PinError(f"pack-doctor remediate exited 1 (refused: {', '.join(refused) or 'none'}): the restamped "
+                           "tree is red. The new lock and the other packs' restamp are already written: restore the "
+                           "tree with `git checkout -- . && git clean -fd packs tests/fixtures/valid` before retrying")
+        print(f"::warning::charter_pin.py: pack-doctor remediate exited 1 (refused: {', '.join(refused) or 'none'}); "
+              "the gate judges the tree it left", file=sys.stderr)
+    return outcomes
+
+
+def rederive(jar: str | None = None, allow_red: bool = False) -> None:
+    """Re-derive every pin-derived file: every pack restamped by ``pack-doctor remediate`` (#347), the pack digests,
+    then the pack pages. ``allow_red``: see :func:`remediate`."""
     packs = sorted(str(path.relative_to(ROOT)) for base in PACK_ROOTS for path in (ROOT / base).iterdir()
                    if path.is_dir() and (path / "pack.yaml").is_file())
     if not packs:
         raise PinError("no pack found under packs/ or tests/fixtures/valid/")
-    derive = [arg for pack in packs for arg in ("--derive-manifest", pack)]
-    _run(sys.executable, "scripts/ci/validate_pack_schemas.py", *derive)
+    with tempfile.TemporaryDirectory(prefix="charter-pack-doctor-") as scratch:
+        for pack, outcome in remediate(jar or pack_doctor_jar(_work_dir(scratch)), packs, allow_red).items():
+            print(f"{pack}: {outcome}", file=sys.stderr)
     _run(sys.executable, "scripts/ci/pack_digest.py", "--update")
     _run(sys.executable, "scripts/docs/gen_pack_reference.py")
 
@@ -243,7 +325,7 @@ def changelog_entry(release_tag: str, commit: str, previous: str, date: str, pat
     entry = [
         f"- **The packs are pinned to charter release `{release_tag}`** (#253, opened by `charter-track.yml`).",
         f"  `charter.lock.yaml` moves from `{previous or 'a main pin'}` to `{release_tag}`, its commit",
-        f"  `{commit}` and the digests its service and pack-check `.sha256` assets state. Every pack manifest, digest and pack",
+        f"  `{commit}` and the digests its service and pack-doctor `.sha256` assets state. Every pack manifest, digest and pack",
         "  page is re-derived at the new pin; the scheduled run proved the whole gate green on that tree.",
     ]
     heading = next((i for i in range(start + 1, end) if lines[i] == CHANGED), None)
@@ -305,7 +387,9 @@ def main(argv: list[str] | None = None) -> int:
     apply.add_argument("--commit", required=True)
     apply.add_argument("--release-tag", default="")
     apply.add_argument("--jar-sha256", default="")
-    apply.add_argument("--pack-check-sha256", default="")
+    apply.add_argument("--pack-doctor-sha256", default="")
+    apply.add_argument("--allow-red", action="store_true",
+                       help="go on when remediate leaves a red tree (exit 1), for the gate's own check jobs to judge")
     sub.add_parser("at-or-past", help="exit 0 when the lock's release is TAG or later, 1 when not").add_argument("tag")
     log = sub.add_parser("changelog", help="record the bump in the changelog's Unreleased section")
     log.add_argument("--release-tag", required=True)
@@ -330,12 +414,12 @@ def main(argv: list[str] | None = None) -> int:
             if not VERSION.fullmatch(args.tag):
                 raise PinError(f"{args.tag!r} is not a service-v* tag")
             _emit(commit=tag_commit(args.tag), release_tag=args.tag, jar_sha256=jar_digest(args.tag),
-                  pack_check_sha256=jar_digest(args.tag, PACK_CHECK_JAR))
+                  pack_doctor_sha256=jar_digest(args.tag, PACK_DOCTOR_JAR))
         elif args.command == "resolve-ref":
-            _emit(commit=resolve_ref(args.ref), release_tag="", jar_sha256="", pack_check_sha256="")
+            _emit(commit=resolve_ref(args.ref), release_tag="", jar_sha256="", pack_doctor_sha256="")
         elif args.command == "apply":
-            write_lock(args.commit, args.release_tag, args.jar_sha256, args.pack_check_sha256)
-            rederive()
+            write_lock(args.commit, args.release_tag, args.jar_sha256, args.pack_doctor_sha256)
+            rederive(allow_red=args.allow_red)
         elif args.command == "at-or-past":
             current = charter_lock.read()["release_tag"]
             return 0 if current and precedence(current) >= precedence(args.tag) else 1

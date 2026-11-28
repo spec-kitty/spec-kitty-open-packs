@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: restating-report-writing-here
+title: Restating report-writing here
+description: Voice, progressive disclosure and number attribution are report-writing's job, and em-dash rationing and buzzword avoidance belong to the shared ai-writing-tells styleguide that report-writing points to. Duplicating them here would drift them apart. Reference report-writing and add only debrief shape.
+severity: severe
+bad_example: Re-listing "ration the em-dash" and "drop the LLM buzzwords" in this file.
+good_example: '"Follow report-writing for voice and anti-AI-prose; this file governs the debrief''s structure, readers, ref check and print treatment."'

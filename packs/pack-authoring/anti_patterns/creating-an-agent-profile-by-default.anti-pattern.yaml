@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: creating-an-agent-profile-by-default
+title: Creating an agent profile by default
+description: Authoring a new agent profile for every onboarded agent without checking whether the behaviour is already covered by the extracted directives, tactics, and toolguides wired to an existing profile. New profiles add routing and maintenance surface; only create one when the agent is a distinct reusable role.
+severity: smell
+bad_example: Onboarding a lint-fixing agent creates `lint-larry.agent.yaml`, though the extracted toolguide and directives already attach to the existing implementer profile.

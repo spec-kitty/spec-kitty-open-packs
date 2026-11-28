@@ -1,0 +1,12 @@
+schema_version: '1.0'
+id: exception-only-assertion
+title: Exception-Only Assertion
+description: Test verifies only that no exception is raised. An empty function body also passes — no mutant can be killed.
+severity: breaking
+bad_example: |-
+  def test_process_order():
+      process_order(order)  # No assertion — empty function also passes
+good_example: |-
+  def test_process_order():
+      process_order(order)
+      assert order_repository.find(order.id).status == "processed"

@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: decision-drip
+title: Decision drip
+description: Sending choices one at a time, acting irreversibly on a recommendation, or re-deciding a settled convention independently in each runner.
+severity: severe
+bad_example: The runner asks the operator three questions in three messages over an hour, and drops the legacy `orders_v1` table on its own recommendation for the first before the answer comes.

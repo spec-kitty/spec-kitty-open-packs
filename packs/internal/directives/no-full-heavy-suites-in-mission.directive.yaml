@@ -1,57 +1,18 @@
-schema_version: "1.0"
 id: NO_FULL_HEAVY_SUITES_IN_MISSION
+schema_version: '1.0'
 title: No Full Runs of Computationally Heavy Suites in Mission Work
-intent: >
-  During mission work — implement, review, fold/rework, and closeout/pre-PR —
-  never run a full-directory or whole-repo sweep of a computationally heavy
-  test suite, as the repository's charter or docs name its heavy suites: for
-  example an architectural suite run as a whole directory, an end-to-end suite
-  or a full integration sweep, a performance/stress/timing run (a marker run or
-  the nightly tier), or a full-suite make target. These runs take many minutes
-  per lane, contend with other parallel lanes on the same machine, and
-  duplicate a run CI already owns authoritatively (its test matrix, its
-  nightly run and its aggregate gate). Run the targeted
-  set instead: the tests for the files the change touches, the SPECIFIC
-  architectural gate files that guard the change (named, not the whole
-  directory), and the owning module's fast tier — then record the exact
-  commands and pass/fail counts in the PR. This directive supersedes any
-  guidance that reads as "run the architectural suite in full for
-  cross-cutting changes" when the actor is doing mission work (implement/review/fold/
-  closeout); that guidance is retargeted to CI's cross-cutting lane, not to a
-  mission agent's local validation pass.
+intent: |
+  During mission work — implement, review, fold/rework, and closeout/pre-PR — never run a full-directory or whole-repo sweep of a computationally heavy test suite, as the repository's charter or docs name its heavy suites: for example an architectural suite run as a whole directory, an end-to-end suite or a full integration sweep, a performance/stress/timing run (a marker run or the nightly tier), or a full-suite make target. These runs take many minutes per lane, contend with other parallel lanes on the same machine, and duplicate a run CI already owns authoritatively (its test matrix, its nightly run and its aggregate gate). Run the targeted set instead: the tests for the files the change touches, the SPECIFIC architectural gate files that guard the change (named, not the whole directory), and the owning module's fast tier — then record the exact commands and pass/fail counts in the PR. This directive supersedes any guidance that reads as "run the architectural suite in full for cross-cutting changes" when the actor is doing mission work (implement/review/fold/ closeout); that guidance is retargeted to CI's cross-cutting lane, not to a mission agent's local validation pass.
 enforcement: required
-scope: >
-  Applies to the orchestrator AND to every dispatched implementer/reviewer
-  subagent while performing mission work: implement, review, fold/rework, and
-  closeout/pre-PR validation. Applies to dispatch briefs and WP prompts that
-  instruct an agent to validate a change. Does not apply to CI itself (its
-  test matrix, nightly and aggregate workflows own the full, cross-cutting,
-  and nightly runs authoritatively) and does not apply when the
-  operator explicitly asks for a full run of a named heavy suite.
+scope: |
+  Applies to the orchestrator AND to every dispatched implementer/reviewer subagent while performing mission work: implement, review, fold/rework, and closeout/pre-PR validation. Applies to dispatch briefs and WP prompts that instruct an agent to validate a change. Does not apply to CI itself (its test matrix, nightly and aggregate workflows own the full, cross-cutting, and nightly runs authoritatively) and does not apply when the operator explicitly asks for a full run of a named heavy suite.
 integrity_rules:
-  - A mission-work test invocation that runs one of the repository's heavy
-    suites as a whole (a whole architectural or end-to-end directory, a full
-    integration sweep, a performance/stress/timing run, or a full-suite make
-    target), without an explicit operator request for
-    that exact run, is non-compliant.
-  - A dispatch brief or WP prompt that instructs a subagent to run a full
-    heavy-suite sweep (or that is silent on scope in a way that resolves to
-    one) is non-compliant; it must name the specific gate files and targeted
-    directories instead.
-  - A parallel-lane test invocation with an unbounded worker count (for
-    example pytest-xdist `-n auto`) on a shared machine during mission work is
-    non-compliant; the worker count must be explicitly bounded.
-  - Treating a red result outside the current change's blast radius as
-    something to fix by broadening the local run (rather than classifying it
-    per the baseline-red gotcha and leaving it to CI) is non-compliant.
+- A mission-work test invocation that runs one of the repository's heavy suites as a whole (a whole architectural or end-to-end directory, a full integration sweep, a performance/stress/timing run, or a full-suite make target), without an explicit operator request for that exact run, is non-compliant.
+- A dispatch brief or WP prompt that instructs a subagent to run a full heavy-suite sweep (or that is silent on scope in a way that resolves to one) is non-compliant; it must name the specific gate files and targeted directories instead.
+- A parallel-lane test invocation with an unbounded worker count (for example pytest-xdist `-n auto`) on a shared machine during mission work is non-compliant; the worker count must be explicitly bounded.
+- Treating a red result outside the current change's blast radius as something to fix by broadening the local run (rather than classifying it per the baseline-red gotcha and leaving it to CI) is non-compliant.
 validation_criteria:
-  - Every mission-work test command recorded in the PR body targets
-    specific files/directories the change touches, or the fast tier plus
-    named architectural gate files — never a bare heavy-suite directory or a
-    full-suite make target.
-  - Every dispatch brief and WP prompt authored during the mission names
-    specific gate files rather than instructing a full heavy-suite run.
-  - Any parallel-lane invocation on a shared machine shows a bounded worker
-    count (for example `-n <N>`), never an unbounded one.
-  - The one exception on record for a full heavy-suite run in mission work is
-    an explicit operator request, cited in the PR or mission trace.
+- Every mission-work test command recorded in the PR body targets specific files/directories the change touches, or the fast tier plus named architectural gate files — never a bare heavy-suite directory or a full-suite make target.
+- Every dispatch brief and WP prompt authored during the mission names specific gate files rather than instructing a full heavy-suite run.
+- Any parallel-lane invocation on a shared machine shows a bounded worker count (for example `-n <N>`), never an unbounded one.
+- The one exception on record for a full heavy-suite run in mission work is an explicit operator request, cited in the PR or mission trace.

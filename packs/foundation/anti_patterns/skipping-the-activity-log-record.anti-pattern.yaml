@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: skipping-the-activity-log-record
+title: Skipping the activity log record
+description: Adjudicating a failure verbally or in chat without recording the classification and evidence in the PR or activity log. Future reviewers must be able to reconstruct the adjudication from written artifacts.
+severity: severe
+bad_example: The failure is classified pre-existing in a chat thread; the PR and the activity log hold no classification or evidence.

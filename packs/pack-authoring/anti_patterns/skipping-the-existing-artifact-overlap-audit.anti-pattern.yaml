@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: skipping-the-existing-artifact-overlap-audit
+title: Skipping the existing-artifact overlap audit
+description: 'Id-only deduplication without a semantic read: declaring two artifacts non-overlapping because their ids and titles differ, without reading their intent or enforcement fields. Two directives with different ids can have identical enforcement targets — the duplicate creates governance noise and splits authority. Always read intent, scope, and enforcement before concluding no overlap exists.'
+severity: severe
+bad_example: A project-tier `DIRECTIVE_117` ("Keep Pull Requests Small") is added because no id or title matches, though the project's `DIRECTIVE_101` ("Pull Request Size Cap") already caps PR size at the same limit.

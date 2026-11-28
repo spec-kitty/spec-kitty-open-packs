@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: merge-commits-instead-of-a-linear-history
+title: Merge commits instead of a linear history
+description: Landing the mission as a tangle of merge/status commits rather than a compacted, rebased, linear branch. Readability and bisectability are lost.
+severity: severe
+bad_example: The mission lands with 34 commits, eleven of them merges of status updates.

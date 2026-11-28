@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: drifting-line-citation
+title: Drifting line citation
+description: Citing code by line numbers alone, or quoting a count with no way to reproduce it. The lines move with the next edit and the count cannot be checked.
+severity: severe
+bad_example: The retry loop at billing/retry.py:120-140 handles 14 call sites.
+good_example: billing/retry.py::RetryPolicy.next_delay handles the retry loop; 14 call sites (git grep -n "next_delay(" -- . ":!billing/retry.py" | wc -l, on 2026-11-21).

@@ -1,0 +1,11 @@
+schema_version: '1.0'
+id: sidecar-metadata-ssot
+title: Sidecar metadata SSOT
+description: Treating a sidecar inventory as the metadata source of truth forces authors to keep a remembered rollup in sync and leaves the published site reading a different store than the one being edited.
+severity: breaking
+bad_example: |-
+  # A hand-maintained page-inventory.yaml treated as SSOT;
+  # frontmatter generated from it.
+good_example: |-
+  # Frontmatter is SSOT. If the project keeps page-inventory.yaml,
+  # it is generated from frontmatter and checked for drift.

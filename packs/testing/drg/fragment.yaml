@@ -1,7 +1,3 @@
-# The pack's DRG fragment, the only DRG file an org Charter Pack may ship.
-# Carved from packs/built-in by #73 (kitty-specs/foundation-writing-split-01M75HV3).
-# Edge endpoints are URNs (<kind>:<id>); endpoints held by another pack are qualified
-# <pack-name>::<urn> and must sit in this pack's depends_on closure.
 nodes:
 - id: debugger-debbie
   kind: agent_profiles
@@ -101,16 +97,112 @@ nodes:
   body_path: toolguides/gherkin.toolguide.yaml
 - id: test-desiderata-checklist
   kind: assets
-  title: "Test desiderata checklist (after Kent Beck)"
+  title: Test desiderata checklist (after Kent Beck)
   body_path: assets/test-desiderata-checklist.md.asset.yaml
 - id: quad-a-test-structure
   kind: assets
-  title: "Quad-A test structure: skeleton and review checklist"
+  title: 'Quad-A test structure: skeleton and review checklist'
   body_path: assets/quad-a-test-structure.md.asset.yaml
 - id: shared-machine-test-measurement
   kind: tactics
   title: Shared-Machine Test Measurement
   body_path: tactics/testing/shared-machine-test-measurement.tactic.yaml
+- id: delete-a-mega-file-wholesale
+  kind: anti_patterns
+  title: Delete a mega-file wholesale
+- id: exception-only-assertion
+  kind: anti_patterns
+  title: Exception-Only Assertion
+- id: fabricated-unrealistic-test-data
+  kind: anti_patterns
+  title: Fabricated / Unrealistic Test Data
+- id: fixing-without-a-feedback-loop
+  kind: anti_patterns
+  title: Fixing without a feedback loop
+- id: forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  kind: anti_patterns
+  title: Forgetting that a stub is a second copy of the contract
+- id: full-application-restart
+  kind: anti_patterns
+  title: Full Application Restart
+- id: gold-plating-as-a-licence-to-double-owned-logic
+  kind: anti_patterns
+  title: Gold plating as a licence to double owned logic
+- id: identity-value-inputs
+  kind: anti_patterns
+  title: Identity Value Inputs
+- id: imperative-gherkin
+  kind: anti_patterns
+  title: Imperative Gherkin
+- id: infrastructure-as-untyped-shared-mutable-state
+  kind: anti_patterns
+  title: Infrastructure as untyped shared mutable state
+- id: keep-the-wp-nfr-label-on-a-promoted-test
+  kind: anti_patterns
+  title: Keep the WP/NFR label on a promoted test
+- id: leaving-debug-artifacts-behind
+  kind: anti_patterns
+  title: Leaving debug artifacts behind
+- id: logging-everything
+  kind: anti_patterns
+  title: Logging everything
+- id: merge-the-scaffolding-clean-it-up-later
+  kind: anti_patterns
+  title: Merge the scaffolding, clean it up "later"
+- id: missing-assumption-check
+  kind: anti_patterns
+  title: Missing Assumption Check
+- id: multiple-whens-in-one-scenario
+  kind: anti_patterns
+  title: Multiple Whens in One Scenario
+- id: orphaned-step-definitions
+  kind: anti_patterns
+  title: Orphaned step definitions
+- id: over-mocking-to-compensate-for-a-missing-boundary
+  kind: anti_patterns
+  title: Over-mocking to compensate for a missing boundary
+- id: refactoring-beyond-the-fix
+  kind: anti_patterns
+  title: Refactoring Beyond the Fix
+- id: retire-coverage-disguised-as-a-duplicate
+  kind: anti_patterns
+  title: Retire coverage disguised as a duplicate
+- id: rubber-stamp-scenarios
+  kind: anti_patterns
+  title: Rubber-stamp scenarios
+- id: self-constructed-oracle-an-injection-proof-that-never-injects
+  kind: anti_patterns
+  title: Self-constructed oracle (an "injection proof" that never injects)
+- id: shared-mutable-state-between-scenarios
+  kind: anti_patterns
+  title: Shared mutable state between scenarios
+- id: side-script-investigation
+  kind: anti_patterns
+  title: Side-Script Investigation
+- id: single-branch-condition
+  kind: anti_patterns
+  title: Single-Branch Condition
+- id: single-hypothesis-anchoring
+  kind: anti_patterns
+  title: Single-hypothesis anchoring
+- id: stubbing-a-new-gate-out-of-an-old-harness
+  kind: anti_patterns
+  title: Stubbing a new gate out of an old harness
+- id: substring-case-insensitive-message-assertion
+  kind: anti_patterns
+  title: Substring/Case-Insensitive Message Assertion
+- id: sweep-the-whole-suite-in-the-landing-pr
+  kind: anti_patterns
+  title: Sweep the whole suite in the landing PR
+- id: test-passes-immediately
+  kind: anti_patterns
+  title: Test Passes Immediately
+- id: the-literal-scan-trap
+  kind: anti_patterns
+  title: The Literal-Scan Trap
+- id: wrong-failure-reproduction
+  kind: anti_patterns
+  title: Wrong-failure reproduction
 edges:
 - source: foundation::action:software-dev/implement
   target: procedure:disciplined-defect-diagnosis
@@ -140,8 +232,7 @@ edges:
   target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests around a defect actually constrain the behaviour that broke
-  reason: 'The investigator/reviewer profile should reach the mutation hub when checking that the tests around a defect genuinely
-    pin the behaviour. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'The investigator/reviewer profile should reach the mutation hub when checking that the tests around a defect genuinely pin the behaviour. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: agent_profile:debugger-debbie
   target: foundation::tactic:code-review-incremental
   relation: requires
@@ -153,14 +244,12 @@ edges:
 - source: agent_profile:debugger-debbie
   target: foundation::tactic:review-intent-and-risk-first
   relation: requires
-  reason: The structural-fix plan must be evaluated for intent (does this close the class?) and risk (what is the blast radius
-    of the structural change?) before handoff
+  reason: The structural-fix plan must be evaluated for intent (does this close the class?) and risk (what is the blast radius of the structural change?) before handoff
 - source: foundation::agent_profile:implementer-ivan
   target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests around a change actually constrain its behaviour
-  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the
-    profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'An implementer-role profile should reach the mutation hub when assessing test quality. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: foundation::agent_profile:implementer-ivan
   target: procedure:test-first-bug-fixing
   relation: requires
@@ -168,8 +257,7 @@ edges:
   target: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   relation: suggests
   when: when assessing whether the tests under review actually constrain behaviour
-  reason: 'The reviewer profile should reach the mutation hub when assessing test quality under review. Composition-only in
-    the profile channel, authored per the #3063 family-D operator attestation.'
+  reason: 'The reviewer profile should reach the mutation hub when assessing test quality under review. Composition-only in the profile channel, authored per the #3063 family-D operator attestation.'
 - source: styleguide:test-desiderata-and-boundaries
   target: foundation::directive:DIRECTIVE_054
   relation: suggests
@@ -191,55 +279,41 @@ edges:
 - source: foundation::directive:DIRECTIVE_030
   target: styleguide:test-desiderata-and-boundaries
   relation: suggests
-  when: assessing tests against the test desiderata (Kent Beck) and drawing each test's boundary by functional responsibility,
-    with infrastructure stubbed outside it
-  reason: The quality gate suggests the test-desiderata-and-boundaries styleguide as the finer-grained bar for a good test;
-    the `when` is the styleguide's own subject. Delivered at implement/review.
+  when: assessing tests against the test desiderata (Kent Beck) and drawing each test's boundary by functional responsibility, with infrastructure stubbed outside it
+  reason: The quality gate suggests the test-desiderata-and-boundaries styleguide as the finer-grained bar for a good test; the `when` is the styleguide's own subject. Delivered at implement/review.
 - source: foundation::directive:DIRECTIVE_030
   target: styleguide:testing-principles
   relation: suggests
-  when: judging whether a test suite is fast, isolated, repeatable, self-validating, thorough and truthful — the properties
-    the quality gate exists to protect
-  reason: The quality gate suggests the testing-principles styleguide as the properties a suite must have to pass it; the
-    `when` is the styleguide's own subject. Delivered at implement/review.
+  when: judging whether a test suite is fast, isolated, repeatable, self-validating, thorough and truthful — the properties the quality gate exists to protect
+  reason: The quality gate suggests the testing-principles styleguide as the properties a suite must have to pass it; the `when` is the styleguide's own subject. Delivered at implement/review.
 - source: foundation::directive:DIRECTIVE_030
   target: tactic:no-parallel-duplicate-test-runs
   relation: suggests
 - source: foundation::directive:DIRECTIVE_034
   target: styleguide:given-when-then-authoring
   relation: suggests
-  when: writing behavioural scenarios as Given (precondition) / When (single trigger) / Then (observable outcome) in domain
-    language, runner-agnostic
-  reason: Test-first development suggests the Given-When-Then authoring conventions for writing the scenarios; the `when`
-    is the new styleguide's own scope. Delivered at implement/review.
+  when: writing behavioural scenarios as Given (precondition) / When (single trigger) / Then (observable outcome) in domain language, runner-agnostic
+  reason: Test-first development suggests the Given-When-Then authoring conventions for writing the scenarios; the `when` is the new styleguide's own scope. Delivered at implement/review.
 - source: foundation::directive:DIRECTIVE_034
   target: tactic:atdd-adversarial-acceptance
   relation: suggests
-  when: hardening acceptance criteria by deliberately exploring how a feature could fail and turning selected failure modes
-    into adversarial acceptance tests
-  reason: Test-first development suggests adversarial acceptance-test definition as the technique for strengthening acceptance
-    criteria; the `when` is the tactic's own stated purpose. Delivered at implement/review.
+  when: hardening acceptance criteria by deliberately exploring how a feature could fail and turning selected failure modes into adversarial acceptance tests
+  reason: Test-first development suggests adversarial acceptance-test definition as the technique for strengthening acceptance criteria; the `when` is the tactic's own stated purpose. Delivered at implement/review.
 - source: foundation::directive:DIRECTIVE_034
   target: tactic:formalized-constraint-testing
   relation: suggests
-  when: verifying mathematical invariants and structural contracts (round-trip symmetry, equality/hash-code alignment, sparse
-    serialization) with property-based rather than example-based checks
-  reason: Test-first development suggests formalized constraint testing when the behaviour to pin is an invariant/contract
-    better checked by property patterns than by examples; the `when` is the tactic's own stated purpose. Delivered at implement/review.
+  when: verifying mathematical invariants and structural contracts (round-trip symmetry, equality/hash-code alignment, sparse serialization) with property-based rather than example-based checks
+  reason: Test-first development suggests formalized constraint testing when the behaviour to pin is an invariant/contract better checked by property patterns than by examples; the `when` is the tactic's own stated purpose. Delivered at implement/review.
 - source: foundation::directive:DIRECTIVE_034
   target: toolguide:gherkin
   relation: suggests
-  when: expressing those scenarios in the Gherkin DSL (Feature / Scenario / Given-When-Then / Examples), independent of any
-    runner
-  reason: Test-first development suggests the Gherkin toolguide as the notation for the scenarios; the `when` is the new toolguide's
-    own scope (language only, not a runner). Delivered at implement/review.
+  when: expressing those scenarios in the Gherkin DSL (Feature / Scenario / Given-When-Then / Examples), independent of any runner
+  reason: Test-first development suggests the Gherkin toolguide as the notation for the scenarios; the `when` is the new toolguide's own scope (language only, not a runner). Delivered at implement/review.
 - source: foundation::directive:DIRECTIVE_041
   target: styleguide:quadruple-a-test-format
   relation: suggests
-  when: structuring each test as Arrange / Assumption-check / Act / Assert so one behaviour is pinned and a wrong fixture
-    fails at the assumption check rather than masquerading as a behaviour failure
-  reason: Tests-as-scaffold suggests the new Quadruple-A test-format styleguide as the single-behaviour skeleton that keeps
-    tests clear; the `when` is the new styleguide's own subject. Inert (041 is not action-scoped).
+  when: structuring each test as Arrange / Assumption-check / Act / Assert so one behaviour is pinned and a wrong fixture fails at the assumption check rather than masquerading as a behaviour failure
+  reason: Tests-as-scaffold suggests the new Quadruple-A test-format styleguide as the single-behaviour skeleton that keeps tests clear; the `when` is the new styleguide's own subject. Inert (041 is not action-scoped).
 - source: foundation::directive:DIRECTIVE_041
   target: styleguide:testing-principles
   relation: suggests
@@ -247,27 +321,22 @@ edges:
   target: tactic:zombies-tdd
   relation: suggests
   when: driving implementation through tiny behaviour increments (ZOMBIES) with failing tests to control complexity
-  reason: Tests-as-scaffold suggests ZOMBIES TDD as the increment-sized way to let tests scaffold the implementation; the
-    `when` is the tactic's own stated purpose. Inert (041 is not action-scoped).
+  reason: Tests-as-scaffold suggests ZOMBIES TDD as the increment-sized way to let tests scaffold the implementation; the `when` is the tactic's own stated purpose. Inert (041 is not action-scoped).
 - source: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   target: procedure:mutation-testing-review
   relation: requires
   when: assessing a work package's tests with a mutation tool
-  reason: Scopes the mutation run to the change, treats each survivor as a located weak assertion, annotates true equivalents,
-    and reads the score as a signal.
+  reason: Scopes the mutation run to the change, treats each survivor as a located weak assertion, annotates true equivalents, and reads the score as a signal.
 - source: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   target: styleguide:mutation-aware-test-design
   relation: suggests
   when: designing tests so common mutants (boundary, logic, membership, aggregate) are killed rather than tolerated
-  reason: The mutation hub suggests the mutation-aware test-design conventions as the design discipline that makes mutants
-    killable; the `when` is the styleguide's own scope. Inert under today's traversal.
+  reason: The mutation hub suggests the mutation-aware test-design conventions as the design discipline that makes mutants killable; the `when` is the styleguide's own scope. Inert under today's traversal.
 - source: directive:USE_MUTATION_TESTING_TO_VALIDATE_TEST_QUALITY
   target: tactic:mutation-testing-workflow
   relation: suggests
-  when: running mutation testing to verify tests detect real bugs rather than merely execute code, and triaging the surviving
-    mutants
-  reason: The mutation hub suggests the run/triage workflow as its concrete step-by-step technique; the `when` is the tactic's
-    own stated purpose. Inert under today's traversal (the new hub directive is not action-scoped).
+  when: running mutation testing to verify tests detect real bugs rather than merely execute code, and triaging the surviving mutants
+  reason: The mutation hub suggests the run/triage workflow as its concrete step-by-step technique; the `when` is the tactic's own stated purpose. Inert under today's traversal (the new hub directive is not action-scoped).
 - source: paradigm:behaviour-driven-development
   target: foundation::directive:DIRECTIVE_034
   relation: requires
@@ -319,9 +388,8 @@ edges:
 - source: procedure:bdd-scenario-lifecycle
   target: styleguide:given-when-then-authoring
   relation: requires
-  reason: 'Gherkin scenarios (step 1) are authored per this styleguide''s Given/When/Then conventions.
-
-    '
+  reason: |
+    Gherkin scenarios (step 1) are authored per this styleguide's Given/When/Then conventions.
 - source: procedure:bdd-scenario-lifecycle
   target: foundation::tactic:acceptance-test-first
   relation: requires
@@ -337,19 +405,15 @@ edges:
 - source: procedure:development-assist-test-cleanup
   target: foundation::directive:DIRECTIVE_025
   relation: suggests
-  reason: DIRECTIVE_025 (Boy Scout Rule) governs pre-existing debt in a touched area; this procedure governs debt the current
-    mission itself created as scaffolding. The identify step defers to 025 for anything that predates the mission.
+  reason: DIRECTIVE_025 (Boy Scout Rule) governs pre-existing debt in a touched area; this procedure governs debt the current mission itself created as scaffolding. The identify step defers to 025 for anything that predates the mission.
 - source: procedure:development-assist-test-cleanup
   target: foundation::directive:DIRECTIVE_041
   relation: requires
-  reason: This procedure applies DIRECTIVE_041's keep-vs-delete axis and its duplicate-test-knowledge-has-one-source rule
-    at a different trigger point — a proactive wrap-up audit of passing dev-assist tests, versus 041's reactive judgment of
-    a failing test (whose STALE / PATCHWORK / VALID provenance labels are a distinct classification).
+  reason: This procedure applies DIRECTIVE_041's keep-vs-delete axis and its duplicate-test-knowledge-has-one-source rule at a different trigger point — a proactive wrap-up audit of passing dev-assist tests, versus 041's reactive judgment of a failing test (whose STALE / PATCHWORK / VALID provenance labels are a distinct classification).
 - source: procedure:development-assist-test-cleanup
   target: foundation::tactic:delete-the-assertion-not-the-test
   relation: requires
-  reason: The execute step retires spent assertions and folds duplicates into the standing guard following this tactic — excise
-    the spent assertion, never coverage of a live contract.
+  reason: The execute step retires spent assertions and folds duplicates into the standing guard following this tactic — excise the spent assertion, never coverage of a live contract.
 - source: procedure:disciplined-defect-diagnosis
   target: foundation::directive:DIRECTIVE_030
   relation: requires
@@ -368,13 +432,11 @@ edges:
 - source: foundation::procedure:example-mapping-workshop
   target: tactic:atdd-adversarial-acceptance
   relation: suggests
-  reason: Run after a candidate example set is drafted to probe failure modes and promote selected adversarial scenarios into
-    additional canonical examples and rejection rules.
+  reason: Run after a candidate example set is drafted to probe failure modes and promote selected adversarial scenarios into additional canonical examples and rejection rules.
 - source: procedure:test-first-bug-fixing
   target: foundation::directive:DIRECTIVE_025
   relation: requires
-  reason: Owns the tidy-first / enabler-sequencing rule — campsite-clean the surfaces this fix will touch in a separate, behaviour-preserving
-    commit BEFORE the red reproduction test, whenever doing so de-risks or simplifies the fix.
+  reason: Owns the tidy-first / enabler-sequencing rule — campsite-clean the surfaces this fix will touch in a separate, behaviour-preserving commit BEFORE the red reproduction test, whenever doing so de-risks or simplifies the fix.
 - source: procedure:test-first-bug-fixing
   target: foundation::directive:DIRECTIVE_030
   relation: requires
@@ -382,16 +444,14 @@ edges:
 - source: procedure:test-first-bug-fixing
   target: foundation::directive:DIRECTIVE_034
   relation: requires
-  reason: Reproduce the bug through the pre-existing (stable) entry point, never through the fix's not-yet-written API — the
-    reproduction test is the red phase of the test-first cycle DIRECTIVE_034 requires.
+  reason: Reproduce the bug through the pre-existing (stable) entry point, never through the fix's not-yet-written API — the reproduction test is the red phase of the test-first cycle DIRECTIVE_034 requires.
 - source: procedure:test-first-bug-fixing
   target: foundation::directive:DIRECTIVE_052
   relation: suggests
 - source: procedure:test-first-bug-fixing
   target: foundation::directive:RED_MAIN_RELEASE_DISCIPLINE
   relation: requires
-  reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on
-    the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
+  reason: States the commit-topology carve-out this procedure honors — when a failing reproduction test already landed on the mainline as an honest red signal, the fix commit turns it green rather than re-bundling test and fix.
 - source: procedure:test-first-bug-fixing
   target: foundation::tactic:tdd-red-green-refactor
   relation: requires
@@ -535,8 +595,7 @@ edges:
 - source: foundation::tactic:test-scaffolding-as-design-smell
   target: styleguide:test-desiderata-and-boundaries
   relation: suggests
-  when: The styleguide this tactic operationalizes — desiderata as trade-offs and infrastructure-as-shared-state as the anti-pattern
-    this tactic detects
+  when: The styleguide this tactic operationalizes — desiderata as trade-offs and infrastructure-as-shared-state as the anti-pattern this tactic detects
 - source: tactic:test-to-system-reconstruction
   target: foundation::directive:DIRECTIVE_034
   relation: suggests
@@ -565,7 +624,6 @@ edges:
   target: tactic:test-minimisation
   relation: suggests
   when: Redundant test removal is only safe after the completion validation confirms coverage is intact
-# Reference assets of the tests-as-scaffold series: checklists the styleguides require; the foundation paradigm pulls in its styleguide.
 - source: styleguide:test-desiderata-and-boundaries
   target: asset:test-desiderata-checklist
   relation: requires
@@ -590,7 +648,6 @@ edges:
   target: foundation::procedure:disciplined-refactoring-cycle
   relation: suggests
   when: tidying the fix in green mode once the reproduction test passes
-# Measurement discipline for shared machines.
 - source: tactic:no-parallel-duplicate-test-runs
   target: tactic:shared-machine-test-measurement
   relation: suggests
@@ -615,3 +672,159 @@ edges:
   target: tactic:shared-machine-test-measurement
   relation: scope
   when: judging whether a reported test result is a measurement and which change a red belongs to
+- source: styleguide:testing-principles
+  target: foundation::anti_pattern:assert-on-internal-field-values
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: styleguide:testing-principles
+  target: foundation::anti_pattern:assert-on-mock-interactions
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:delete-a-mega-file-wholesale
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:exception-only-assertion
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: styleguide:testing-principles
+  target: anti_pattern:fabricated-unrealistic-test-data
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:fixing-without-a-feedback-loop
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:fixing-without-a-feedback-loop
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:forgetting-that-a-stub-is-a-second-copy-of-the-contract
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:full-application-restart
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:gold-plating-as-a-licence-to-double-owned-logic
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:identity-value-inputs
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:imperative-gherkin
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:given-when-then-authoring
+  target: anti_pattern:imperative-gherkin
+  relation: rejects
+  reason: the styleguide given-when-then-authoring names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:infrastructure-as-untyped-shared-mutable-state
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:keep-the-wp-nfr-label-on-a-promoted-test
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:leaving-debug-artifacts-behind
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:logging-everything
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:merge-the-scaffolding-clean-it-up-later
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:merge-the-scaffolding-clean-it-up-later
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: styleguide:quadruple-a-test-format
+  target: anti_pattern:missing-assumption-check
+  relation: rejects
+  reason: the styleguide quadruple-a-test-format names this anti-pattern
+- source: styleguide:given-when-then-authoring
+  target: anti_pattern:multiple-whens-in-one-scenario
+  relation: rejects
+  reason: the styleguide given-when-then-authoring names this anti-pattern
+- source: styleguide:quadruple-a-test-format
+  target: anti_pattern:multiple-whens-in-one-scenario
+  relation: rejects
+  reason: the styleguide quadruple-a-test-format names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:orphaned-step-definitions
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:over-mocking-to-compensate-for-a-missing-boundary
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:refactoring-beyond-the-fix
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:retire-coverage-disguised-as-a-duplicate
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:rubber-stamp-scenarios
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:self-constructed-oracle-an-injection-proof-that-never-injects
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: procedure:bdd-scenario-lifecycle
+  target: anti_pattern:shared-mutable-state-between-scenarios
+  relation: rejects
+  reason: the procedure bdd-scenario-lifecycle names this anti-pattern
+- source: styleguide:testing-principles
+  target: anti_pattern:shared-mutable-state-between-scenarios
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:side-script-investigation
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:single-branch-condition
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:single-hypothesis-anchoring
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern
+- source: styleguide:test-desiderata-and-boundaries
+  target: anti_pattern:stubbing-a-new-gate-out-of-an-old-harness
+  relation: rejects
+  reason: the styleguide test-desiderata-and-boundaries names this anti-pattern
+- source: styleguide:mutation-aware-test-design
+  target: anti_pattern:substring-case-insensitive-message-assertion
+  relation: rejects
+  reason: the styleguide mutation-aware-test-design names this anti-pattern
+- source: procedure:development-assist-test-cleanup
+  target: anti_pattern:sweep-the-whole-suite-in-the-landing-pr
+  relation: rejects
+  reason: the procedure development-assist-test-cleanup names this anti-pattern
+- source: procedure:test-first-bug-fixing
+  target: anti_pattern:test-passes-immediately
+  relation: rejects
+  reason: the procedure test-first-bug-fixing names this anti-pattern
+- source: styleguide:testing-principles
+  target: anti_pattern:the-literal-scan-trap
+  relation: rejects
+  reason: the styleguide testing-principles names this anti-pattern
+- source: procedure:disciplined-defect-diagnosis
+  target: anti_pattern:wrong-failure-reproduction
+  relation: rejects
+  reason: the procedure disciplined-defect-diagnosis names this anti-pattern

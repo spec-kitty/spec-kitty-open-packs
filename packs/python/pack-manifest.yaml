@@ -1,14 +1,30 @@
 schema_version: '1.0'
-manifest_hash: 670d8db8d2b3268d0e4fc6e866c392357c6da27b2bce876b02fea653c6440e44
+manifest_hash: 4a9d9a256746a2d8e6bfa48cea549a31d180fe0b0c38b4edecbd6f52ec0e683e
 constituents:
 - kind: agent_profile
   id: python-pedro
   path: agent_profiles/python-pedro.agent.yaml
-  content_hash: 05f7a8825f44957c0bd3f8f09c251eba1fc4a1a56a17317f55e9eca284df9b0f
+  content_hash: 5cb497761f8b4c170360c7b36cd7a322079d3cc6b1229c073708af00250084a9
+- kind: anti_pattern
+  id: cleanup-in-test-body
+  path: anti_patterns/cleanup-in-test-body.anti-pattern.yaml
+  content_hash: 025f36a597c17ab0c93029653054855e3b92941fa8591c7c570bee4474d77d43
+- kind: anti_pattern
+  id: nested-conditional-logic
+  path: anti_patterns/nested-conditional-logic.anti-pattern.yaml
+  content_hash: a322f3692e7b429767abb115971858d92e00c7a7d27ca62e5cbf0d8508b74668
+- kind: anti_pattern
+  id: string-path-manipulation
+  path: anti_patterns/string-path-manipulation.anti-pattern.yaml
+  content_hash: c47c9bb78e22c3a907f1b57a49c0c03604f4be59c9a4f1e25772f9a2414ecddf
+- kind: anti_pattern
+  id: untyped-public-functions
+  path: anti_patterns/untyped-public-functions.anti-pattern.yaml
+  content_hash: d67de5b4e2466f0b2e325d815ab525cb19c365f4cdcde1bd4c2f5d3e9881a89e
 - kind: styleguide
   id: python-conventions
   path: styleguides/python-conventions.styleguide.yaml
-  content_hash: 92ddd2a5ea72350ff27128ada1bfa92283df0d3459d6ee671be07a14bd9195b7
+  content_hash: 8b3db61033823fc87f07dd1b7f26f6a90c97770e17b3eed8867ca7d24ceb5375
 - kind: toolguide
   id: python-mutation-tools
   path: toolguides/python-mutation-tools.toolguide.yaml

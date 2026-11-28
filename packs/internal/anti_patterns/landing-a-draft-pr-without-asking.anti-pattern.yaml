@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: landing-a-draft-pr-without-asking
+title: Landing a draft PR without asking
+description: A draft has not been handed off to the maintainers. Ask the operator first.
+severity: breaking
+bad_example: A contributor's draft PR is rebased and two landing fixes are pushed to its branch without asking the operator.

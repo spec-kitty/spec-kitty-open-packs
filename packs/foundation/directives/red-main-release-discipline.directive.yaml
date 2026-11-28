@@ -1,40 +1,22 @@
-schema_version: "1.0"
 id: RED_MAIN_RELEASE_DISCIPLINE
+schema_version: '1.0'
 title: Red Main & Release Discipline
-intent: >
-  Keep the mainline CI signal honest and authoritative for release. A red main
-  is a true signal of known release-blocking (P0) defects, never something to
-  hide by reverting an honest failure or declining a bug's reproduction test.
-  Mainline CI status is the single authoritative release gate; expensive QA and
-  manual testing are not spent on a known-broken base; and red main is worked
-  down as top priority. Adopt it as a team-wide agreement (product owner, QA,
-  and maintainers) and record the project's own decision and runbook alongside
-  it.
+intent: |
+  Keep the mainline CI signal honest and authoritative for release. A red main is a true signal of known release-blocking (P0) defects, never something to hide by reverting an honest failure or declining a bug's reproduction test. Mainline CI status is the single authoritative release gate; expensive QA and manual testing are not spent on a known-broken base; and red main is worked down as top priority. Adopt it as a team-wide agreement (product owner, QA, and maintainers) and record the project's own decision and runbook alongside it.
 enforcement: required
-scope: >
-  Applies while a development mission is running, when a P0 bug is filed or
-  accepted, when a release is being considered, and whenever mainline CI goes
-  red.
-  It governs how a red main is read, recorded, gated on and worked down; how a
-  failing test is fixed is the subject of the testing pack's test-first-bug-fixing
-  procedure, when installed.
+scope: |
+  Applies while a development mission is running, when a P0 bug is filed or accepted, when a release is being considered, and whenever mainline CI goes red. It governs how a red main is read, recorded, gated on and worked down; how a failing test is fixed is the subject of the testing pack's test-first-bug-fixing procedure, when installed.
 integrity_rules:
-  - >
-    Do NOT green-wash: never revert an honest red or decline to merge a bug's
-    reproduction test just to keep main green. A false green moves the defect
-    downstream and destroys trust in CI.
-  - >
-    Do not cut a release while mainline CI is red. There is no "known-red, ship
-    anyway" path.
-  - >
-    Do not run expensive QA suites or internal manual testing against a red
-    mainline build.
-  - >
-    A red main is not an acceptable resting state, and fixing it does not
-    bypass the normal PR flow.
+- |
+  Do NOT green-wash: never revert an honest red or decline to merge a bug's reproduction test just to keep main green. A false green moves the defect downstream and destroys trust in CI.
+- |
+  Do not cut a release while mainline CI is red. There is no "known-red, ship anyway" path.
+- |
+  Do not run expensive QA suites or internal manual testing against a red mainline build.
+- |
+  A red main is not an acceptable resting state, and fixing it does not bypass the normal PR flow.
 validation_criteria:
-  - >
-    Either main is green, or its red is traceable to an accepted P0 with a filed
-    issue (ideally a failing reproduction test).
-  - No release has been cut while mainline CI is red.
-  - Expensive QA / manual testing has been deferred until main is green.
+- |
+  Either main is green, or its red is traceable to an accepted P0 with a filed issue (ideally a failing reproduction test).
+- No release has been cut while mainline CI is red.
+- Expensive QA / manual testing has been deferred until main is green.

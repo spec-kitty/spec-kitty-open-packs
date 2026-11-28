@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: wrong-failure-reproduction
+title: Wrong-failure reproduction
+description: A loop that fails for a nearby setup error or different behavior validates the wrong fix.
+severity: breaking
+bad_example: The reproduction fails with a missing-fixture error, not with the reported rounding bug, and the rounding fix is declared verified when it goes green.

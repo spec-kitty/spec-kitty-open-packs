@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/python`
 - **Pack level:** `org`
 - **Declared version:** `2.3.0`
-- **Content checksum (sha256):** `33a65d84c79ac059108ba51b04a5612a22e252f1f1ddd357a422af024ebdfafa`
+- **Content checksum (sha256):** `23377944edc72526d789eb6c6441f3118c790ea004bfe1eab4c0e702ed861520`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -37,9 +37,10 @@ The Python stack: the Python Pedro profile, Python conventions, review checks, s
 | --- | --- |
 | `styleguides` | 1 |
 | `toolguides` | 6 |
+| `anti_patterns` | 4 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **12** |
+| **Total files** | **16** |
 
 ### Full listing
 
@@ -59,6 +60,16 @@ The Python stack: the Python Pedro profile, Python conventions, review checks, s
 - `python-review-checks.toolguide.yaml`
 - `python-supply-chain.guide.md`
 - `python-supply-chain.toolguide.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (4)</summary>
+
+- `cleanup-in-test-body.anti-pattern.yaml`
+- `nested-conditional-logic.anti-pattern.yaml`
+- `string-path-manipulation.anti-pattern.yaml`
+- `untyped-public-functions.anti-pattern.yaml`
 
 </details>
 

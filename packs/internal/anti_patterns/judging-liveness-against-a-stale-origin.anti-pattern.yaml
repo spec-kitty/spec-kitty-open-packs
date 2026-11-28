@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: judging-liveness-against-a-stale-origin
+title: Judging liveness against a stale origin
+description: A lagging fork makes shipped work look missing and new code look removed. Check against the canonical remote's main and require positive presence of the fix.
+severity: breaking
+bad_example: 'The triage marks the fix for #412 as missing because the fork''s origin/main is three weeks behind the canonical repository.'

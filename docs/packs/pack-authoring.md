@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/pack-authoring`
 - **Pack level:** `org`
 - **Declared version:** `1.4.0`
-- **Content checksum (sha256):** `d2924dc6c3189383a459970bf9483d1cdce78d9f1edb8b40e75a101920a1a19a`
+- **Content checksum (sha256):** `2bf9111fcbb8a91487a3d69601f5090a8fcf87578bd2e3973be26a15157e388f`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -37,9 +37,10 @@ Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external ag
 | --- | --- |
 | `styleguides` | 2 |
 | `procedures` | 2 |
+| `anti_patterns` | 14 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
-| **Total files** | **9** |
+| **Total files** | **23** |
 
 ### Full listing
 
@@ -56,6 +57,26 @@ Doctrine and pack authoring: the Doctrine Daphne profile, onboarding external ag
 
 - `migrate-project-guidance-to-spec-kitty-charter.procedure.yaml`
 - `onboard-external-agent-to-pack.procedure.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (14)</summary>
+
+- `ambiguous-trigger-surface.anti-pattern.yaml`
+- `authoring-lineage-as-an-inline-profile-field.anti-pattern.yaml`
+- `citing-file-paths-instead-of-artifact-ids.anti-pattern.yaml`
+- `context-dump-skill.anti-pattern.yaml`
+- `creating-an-agent-profile-by-default.anti-pattern.yaml`
+- `decomposing-before-understanding-the-agent.anti-pattern.yaml`
+- `embedding-the-workflow-inside-the-agent-profile.anti-pattern.yaml`
+- `host-specific-assumptions.anti-pattern.yaml`
+- `ignoring-external-references.anti-pattern.yaml`
+- `leaving-new-project-tier-artifacts-unactivated.anti-pattern.yaml`
+- `lifting-the-whole-prompt-into-a-single-artifact.anti-pattern.yaml`
+- `local-values-as-canonical-rules.anti-pattern.yaml`
+- `skipping-the-existing-artifact-overlap-audit.anti-pattern.yaml`
+- `unsourced-operating-rule.anti-pattern.yaml`
 
 </details>
 

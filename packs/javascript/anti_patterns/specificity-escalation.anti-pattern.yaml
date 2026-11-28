@@ -1,0 +1,15 @@
+schema_version: '1.0'
+id: specificity-escalation
+title: Specificity Escalation
+description: ID selectors and `!important` win today and force a stronger selector tomorrow; the stylesheet becomes order-fragile.
+severity: smell
+bad_example: |-
+  #checkout .button.primary {
+    background: #00f !important;
+  }
+good_example: |-
+  @layer components {
+    .button-primary {
+      background: #00f;
+    }
+  }

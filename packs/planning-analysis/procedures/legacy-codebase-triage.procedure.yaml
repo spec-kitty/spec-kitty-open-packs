@@ -37,22 +37,6 @@ steps:
   role: operator
   on_success: |
     The triage is complete. The accepted report is the canonical input to the planning conversation that follows. When the brownfield-investigation skill (issue #665/#666) becomes available, this triage feeds into it as the first-pass evidence base; until then, the triage stands on its own as the decision-grade output of the procedure.
-anti_patterns:
-- title: Treating triage as a verdict
-  content: |
-    The buckets are an action plan, not a judgement on the team or the codebase. Files in 'fix this week' are not bad; they are load-bearing and fragile, which is information about how to invest, not a moral claim.
-- title: Skipping the exclusion list
-  content: |
-    Without the vanity-file exclusion list agreed in step 1, the churn and bug-hotspot tables will be dominated by lockfiles and generated bundles. Any triage that omits the exclusion list is invalid and must be re-run.
-- title: Blocking on the optional steps
-  content: |
-    The domain-classification overlay (step 4) and the security overlay (step 5) are explicitly optional. Treat them as enrichments, not gates. A triage with a clean audit and a sound bucket plan is decision-grade even without either overlay.
-- title: Substituting triage for deeper investigation
-  content: |
-    This procedure produces a first-pass evidence base. It is not the brownfield-investigation skill (issue #665/#666), is not a default gate on any mission, and does not replace event storming, context discovery, threat modelling, or full architecture review where those are warranted. Cite this triage as input to those activities; do not let it stand in for them.
-- title: Over-reading squash-merged history
-  content: |
-    Repositories that squash every PR collapse multi-commit work into single events; the audit recipes will undercount activity. The triage must note the merge strategy and corroborate with PR metadata or issue-tracker data before drawing strong conclusions.
 notes: |
   Out of scope.
 

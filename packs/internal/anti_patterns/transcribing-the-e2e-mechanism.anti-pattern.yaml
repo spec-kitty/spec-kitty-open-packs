@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: transcribing-the-e2e-mechanism
+title: Transcribing the e2e mechanism
+description: Copying an e2e's internal-state assertions, file-layout checks or sequencing into a scenario. The e2e proves the mechanism; the scenario states the consumer outcome. Use the e2e as evidence and a fixture source, decoupled from implementation.
+severity: severe
+bad_example: '"Then .kittify/charter/synthesis-manifest.yaml lists 12 nodes and the DRG fragment has an edge agent_profile:a -> agent_profile:b."'
+good_example: '"Then the specialised profile''s governance applies on top of the one it specialises."'

@@ -8,4 +8,88 @@ nodes:
 - urn: anti_pattern:mock-owned-logic-to-pin-a-call-contract
   kind: anti_pattern
   label: Mock owned logic to pin a call contract
+- urn: anti_pattern:averaging-divergent-verdicts
+  kind: anti_pattern
+  label: Averaging divergent verdicts
+- urn: anti_pattern:blocking-a-merge-on-a-confirmed-pre-existing-failure
+  kind: anti_pattern
+  label: Blocking a merge on a confirmed pre-existing failure
+- urn: anti_pattern:casting-by-habit
+  kind: anti_pattern
+  label: Casting by habit
+- urn: anti_pattern:clever-over-direct
+  kind: anti_pattern
+  label: Clever over direct
+- urn: anti_pattern:comparing-against-the-lane-base-instead-of-the-mission-base
+  kind: anti_pattern
+  label: Comparing against the lane base instead of the mission base
+- urn: anti_pattern:concluding-flake-without-running-ci-only-shards-locally
+  kind: anti_pattern
+  label: Concluding flake without running CI-only shards locally
+- urn: anti_pattern:duplicated-business-rules-called-acceptable-repetition
+  kind: anti_pattern
+  label: Duplicated business rules called acceptable repetition
+- urn: anti_pattern:storage-or-wire-format-on-domain-types
+  kind: anti_pattern
+  label: Storage or Wire Format on Domain Types
+- urn: anti_pattern:example-theater
+  kind: anti_pattern
+  label: Example theater
+- urn: anti_pattern:unowned-asynchronous-work
+  kind: anti_pattern
+  label: Unowned Asynchronous Work
+- urn: anti_pattern:floating-point-money
+  kind: anti_pattern
+  label: Floating-Point Money
+- urn: anti_pattern:happy-path-only
+  kind: anti_pattern
+  label: Happy-path only
+- urn: anti_pattern:hard-wiring-the-squad-as-a-gate
+  kind: anti_pattern
+  label: Hard-wiring the squad as a gate
+- urn: anti_pattern:implementation-leakage
+  kind: anti_pattern
+  label: Implementation leakage
+- urn: anti_pattern:indirection-to-remove-a-few-repeated-lines
+  kind: anti_pattern
+  label: Indirection to remove a few repeated lines
+- urn: anti_pattern:model-tier-mismatch
+  kind: anti_pattern
+  label: Model-tier mismatch
+- urn: anti_pattern:asserting-instead-of-handling-a-missing-or-invalid-value
+  kind: anti_pattern
+  label: Asserting Instead of Handling a Missing or Invalid Value
+- urn: anti_pattern:persona-without-profile
+  kind: anti_pattern
+  label: Persona without profile
+- urn: anti_pattern:resolved-on-paper
+  kind: anti_pattern
+  label: Resolved on paper
+- urn: anti_pattern:reviewing-the-wrong-tree
+  kind: anti_pattern
+  label: Reviewing the wrong tree
+- urn: anti_pattern:ruling-on-an-unreachable-test
+  kind: anti_pattern
+  label: Ruling on an unreachable test
+- urn: anti_pattern:silently-dropped-finding
+  kind: anti_pattern
+  label: Silently dropped finding
+- urn: anti_pattern:single-shard-inspection
+  kind: anti_pattern
+  label: Single-shard inspection
+- urn: anti_pattern:skipping-the-activity-log-record
+  kind: anti_pattern
+  label: Skipping the activity log record
+- urn: anti_pattern:trusting-a-biased-delegate
+  kind: anti_pattern
+  label: Trusting a biased delegate
+- urn: anti_pattern:unbounded-squad
+  kind: anti_pattern
+  label: Unbounded squad
+- urn: anti_pattern:unvalidated-examples
+  kind: anti_pattern
+  label: Unvalidated examples
+- urn: anti_pattern:assert-on-internal-field-values
+  kind: anti_pattern
+  label: Assert on internal field values
 edges: []

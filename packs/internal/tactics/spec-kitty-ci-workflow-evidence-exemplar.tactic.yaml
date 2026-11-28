@@ -1,63 +1,44 @@
-schema_version: "1.0"
 id: spec-kitty-ci-workflow-evidence-exemplar
+schema_version: '1.0'
 name: Spec Kitty CI Workflow Evidence Exemplar
-purpose: >
-  Shows, on a Spec Kitty CI change, which proposed pins are change detectors
-  to drop and which tests guard lasting behavior, applying the carve-out of
-  DIRECTIVE_034 and the `[evidenced-by-run]` label of
-  `acceptance-criteria-non-vacuity`.
+purpose: |
+  Shows, on a Spec Kitty CI change, which proposed pins are change detectors to drop and which tests guard lasting behavior, applying the carve-out of DIRECTIVE_034 and the `[evidenced-by-run]` label of `acceptance-criteria-non-vacuity`.
 steps:
-  - title: Classify each proposed test by the long-term-value question
-    description: |
-      Worked example: a docs-site build mission added a shared docs-site build
-      job and a router gate to the CI workflows. Its first test plan pinned the
-      shape of the new workflow files. Apply the long-term-value question of
-      `acceptance-criteria-non-vacuity` to each proposed test.
+- title: Classify each proposed test by the long-term-value question
+  description: |
+    Worked example: a docs-site build mission added a shared docs-site build
+    job and a router gate to the CI workflows. Its first test plan pinned the
+    shape of the new workflow files. Apply the long-term-value question of
+    `acceptance-criteria-non-vacuity` to each proposed test.
 
-      Drop these as change detectors; the first real run of the workflow is
-      the evidence, recorded in the mission's `workflow-evidence.md`:
-      - a pin on the router job's reusable-workflow `uses:` target;
-      - a pin on the build job's name, `runs-on`, timeout and command
-        substrings;
-      - a pin on the upload step's `if:` expressions.
+    Drop these as change detectors; the first real run of the workflow is
+    the evidence, recorded in the mission's `workflow-evidence.md`:
+    - a pin on the router job's reusable-workflow `uses:` target;
+    - a pin on the build job's name, `runs-on`, timeout and command
+      substrings;
+    - a pin on the upload step's `if:` expressions.
 
-      Keep these, because each guards lasting regression risk:
-      - the router gate's behavior tests, driving its main entry point with
-        real inputs;
-      - the path-to-job routing cases;
-      - the invariant "no automated trigger, no secrets, read-only
-        permissions", which is security and fork-safety policy.
-  - title: Prove workflow shape with a real run
-    description: >
-      For the workflow's shape, push to a draft pull request and record the
-      first successful run on a real runner in `workflow-evidence.md`, as the
-      implement step's workflow-evidence rule requires. A green run of the job
-      is the evidence; no test restates the job's configuration.
-  - title: Write red-first tests for the scripts the workflow calls
-    description: >
-      The scripts a workflow calls, such as the router gate, are product logic
-      with a lasting regression risk. Write their tests red-first through the
-      script's main entry point, with real inputs.
-  - title: Express permission and secret policy as one repository-wide check
-    description: >
-      The invariant "no automated trigger, no secrets, read-only permissions"
-      is better expressed as one general workflow-policy check over every
-      workflow than as a pin in each workflow's own test module. A new
-      workflow is then covered without a new test, and the policy cannot drift
-      file by file.
-  - title: Label the requirement rows accordingly
-    description: >
-      Label the requirement for the job's shape `[evidenced-by-run]` and name
-      the run. Label the routing and gate requirements `[build]` or
-      `[ratchet]` as they apply, each with its test. Label the policy
-      requirement with the repository-wide check that carries it: `[build]` (a
-      new check) or `[folded]` (naming the existing check), never
-      `[evidenced-by-run]`.
+    Keep these, because each guards lasting regression risk:
+    - the router gate's behavior tests, driving its main entry point with
+      real inputs;
+    - the path-to-job routing cases;
+    - the invariant "no automated trigger, no secrets, read-only
+      permissions", which is security and fork-safety policy.
+- title: Prove workflow shape with a real run
+  description: |
+    For the workflow's shape, push to a draft pull request and record the first successful run on a real runner in `workflow-evidence.md`, as the implement step's workflow-evidence rule requires. A green run of the job is the evidence; no test restates the job's configuration.
+- title: Write red-first tests for the scripts the workflow calls
+  description: |
+    The scripts a workflow calls, such as the router gate, are product logic with a lasting regression risk. Write their tests red-first through the script's main entry point, with real inputs.
+- title: Express permission and secret policy as one repository-wide check
+  description: |
+    The invariant "no automated trigger, no secrets, read-only permissions" is better expressed as one general workflow-policy check over every workflow than as a pin in each workflow's own test module. A new workflow is then covered without a new test, and the policy cannot drift file by file.
+- title: Label the requirement rows accordingly
+  description: |
+    Label the requirement for the job's shape `[evidenced-by-run]` and name the run. Label the routing and gate requirements `[build]` or `[ratchet]` as they apply, each with its test. Label the policy requirement with the repository-wide check that carries it: `[build]` (a new check) or `[folded]` (naming the existing check), never `[evidenced-by-run]`.
 failure_modes:
-  - "Per-file policy pin: the permission and secret invariant restated in each workflow's own test, so a new workflow escapes it until someone remembers to add the pin."
-  - "Shape pin passed off as behavior: a test of the job's name, runner or timeout presented as a regression guard, when it only fails on an intentional edit."
-  - "Evidence by assertion: a requirement labelled `[evidenced-by-run]` with no recorded run behind it."
-notes: >
-  The general rule lives in foundation DIRECTIVE_034 and the
-  `acceptance-criteria-non-vacuity` tactic; this tactic is the Spec Kitty house
-  example only.
+- 'Per-file policy pin: the permission and secret invariant restated in each workflow''s own test, so a new workflow escapes it until someone remembers to add the pin.'
+- 'Shape pin passed off as behavior: a test of the job''s name, runner or timeout presented as a regression guard, when it only fails on an intentional edit.'
+- 'Evidence by assertion: a requirement labelled `[evidenced-by-run]` with no recorded run behind it.'
+notes: |
+  The general rule lives in foundation DIRECTIVE_034 and the `acceptance-criteria-non-vacuity` tactic; this tactic is the Spec Kitty house example only.

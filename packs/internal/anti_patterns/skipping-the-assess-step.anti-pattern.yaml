@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: skipping-the-assess-step
+title: Skipping the assess step
+description: Treating the tracer files as write-only and never reviewing them at mission close. The assess step is what converts the raw log into actionable tracker items and retrospective inputs.
+severity: severe
+bad_example: The mission closes with three tracer files that nobody reads, and no tracker items come out of them.

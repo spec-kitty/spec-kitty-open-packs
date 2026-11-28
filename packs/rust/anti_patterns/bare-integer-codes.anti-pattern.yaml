@@ -1,0 +1,21 @@
+schema_version: '1.0'
+id: bare-integer-codes
+title: Bare Integer Codes
+description: Passing status, kind or mode values as raw integers or chars. Any value type-checks, unknown codes are accepted silently, and the meaning lives in comments.
+severity: severe
+bad_example: 'fn set_status(id: u64, status: u8) { /* 1 = open, 2 = settled, 9 = ??? */ }'
+good_example: |-
+  #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+  enum Status { Open, Settled, Cancelled }
+
+  impl TryFrom<u8> for Status {
+      type Error = ParseError;
+      fn try_from(code: u8) -> Result<Self, Self::Error> {
+          match code {
+              1 => Ok(Status::Open),
+              2 => Ok(Status::Settled),
+              3 => Ok(Status::Cancelled),
+              other => Err(ParseError::UnknownStatus(other)),
+          }
+      }
+  }

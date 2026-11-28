@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: buzzword-soup
+title: Buzzword Soup
+description: Stacking technical jargon into dense, unreadable sentences.
+severity: smell
+bad_example: Deterministic SHA256 computed from sorted artifact content hashes enabling identity-independent comparison and parity computation.
+good_example: Checksum computed from all artifact content hashes in a dossier, sorted to guarantee the same result regardless of scan order. If any artifact's content changes, the parity hash changes too.

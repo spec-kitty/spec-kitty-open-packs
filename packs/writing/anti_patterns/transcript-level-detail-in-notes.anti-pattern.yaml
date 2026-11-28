@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: transcript-level-detail-in-notes
+title: Transcript-level detail in notes
+description: Copying discussion play-by-play into the notes column. Minutes are a summary, not a transcript. If the full discussion is needed, link to the recording — do not reproduce it as notes.
+severity: smell
+bad_example: 'Notes: "First Jordan raised the question of whether to use PAT or OAuth. Alex said they preferred PAT because it is simpler. Jordan agreed but noted that OAuth might be needed later. After some back and forth they decided to go with PAT for now."'
+good_example: 'Notes: "API-first approach chosen / PAT auth preferred for V1 — OAuth deferred"'

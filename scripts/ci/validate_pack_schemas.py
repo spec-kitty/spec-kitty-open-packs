@@ -13,16 +13,17 @@ that model against the rule's structure schema.
 
 It fails closed. Exit status:
 
-* 0  every pack is valid (its ``pack-manifest.yaml``, when it has one, carries the hashes of the
-     files it lists: ``--regenerate-manifest PACK`` restamps them) and every ``--expect-invalid`` pack has schema violations;
-     ``--regenerate-manifest`` without a pack to validate only restamps, it validates nothing;
-     ``--derive-manifest PACK`` writes the manifest the charter derives (membership and hashes); with
-     ``--derived-manifests`` every validated pack must carry exactly that membership (#255);
-* 1  a schema violation or a retired-layout file in a pack, an ``--expect-invalid``
-     pack that came out clean, or a ``--regenerate-manifest`` pack whose manifest lists a missing file
-     (that manifest is left as it was, like the charter's refused write);
+* 0  every pack is valid and every ``--expect-invalid`` pack has schema violations;
+* 1  a schema violation or a retired-layout file in a pack, or an ``--expect-invalid``
+     pack that came out clean;
 * 2  the gate cannot judge: unloadable contract or schema, a file of a known kind with no
      schema mapping, a pack with zero files checked, or an unreadable file.
+
+A pack's manifest is the charter's: pack-doctor judges its hashes (``manifest_stale``) and its membership
+(``manifest_membership``), and ``pack-doctor remediate <pack>`` writes it (#347, #348). This script derives,
+restamps and verifies no manifest; it only reports a graph node no file of the pack declares that a manifest does not
+list (#182), a house rule: ``manifest_membership`` derives its lists from the files a pack holds, so it misses such a
+node. An unlisted file, and the node of a file, are ``manifest_membership``'s alone (decision 01M8BMA8).
 
 Needs ``pyyaml`` and ``jsonschema`` (Draft 2020-12). The contract is fetched from the
 pinned charter commit (``charter.lock.yaml``) unless ``--contract DIR`` (a directory holding
@@ -34,7 +35,6 @@ from __future__ import annotations
 import argparse
 import difflib
 import functools
-import hashlib
 import json
 import os
 import re
@@ -42,7 +42,7 @@ import sys
 import tempfile
 import unicodedata
 import urllib.request
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -71,26 +71,18 @@ KNOWN_KIND_TOKENS = frozenset(
 )  # fmt: skip
 
 EXIT_OK, EXIT_INVALID, EXIT_GATE = 0, 1, 2
-#: The schemas of file-backed doctrine artifacts a pack's manifest lists (#182). Every file one of
-#: these rules classifies must be a manifest constituent, or the manifest under-reports the pack:
-#: the git-flow and execution-lanes files shipped unlisted that way. Graph-only kinds (actions,
-#: anti-patterns) have no file. Mission types and templates are exempt from this
-#: older check only; ``--derived-manifests`` holds every manifest to the full derived lists, which
-#: list them (#255, charter #542).
-MANIFEST_CONSTITUENT_SCHEMAS = frozenset({
-    "agent-profile", "asset", "directive", "glossary", "guard", "lifecycle", "paradigm", "procedure",
-    "skill", "styleguide", "tactic", "toolguide",
-})
-#: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` and ``anti_pattern``
-#: are graph-only: no file backs them. Mission types and templates are exempt here
-#: and judged by the derived membership instead (see above). Any other declared node must be a
-#: constituent; a new kind fails closed until it is listed here.
-MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "anti_pattern", "template", "mission_type"})
+#: Graph-node kinds a manifest does not list (#182 residual, #194). ``action`` is graph-only: no file backs it.
+#: Mission types and templates are exempt here and judged by pack-doctor's ``manifest_membership`` instead. An
+#: ``anti_pattern`` node is no longer exempt (#348 (f)). Of any other kind, a node no file of the pack declares must be
+#: a constituent (``unlisted_nodes``); a node a file declares is pack-doctor's ``manifest_membership``. A new kind fails
+#: closed until it is listed here.
+MANIFEST_EXEMPT_NODE_KINDS = frozenset({"action", "template", "mission_type"})
 #: The node kind of an artifact kind whose URN token differs from it (contracts/packs/file-kinds.yaml at the pin): a
 #: glossary is the glossary context ``glossary_context:<id>`` (charter ADR-0053 decision 13). Any other artifact
 #: kind is its own node kind.
 NODE_KIND_BY_ARTIFACT_KIND = {"glossary": "glossary_context"}
-REGENERATE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --regenerate-manifest"
+#: The remedy a manifest finding names: the charter's own writer restamps and re-derives a pack's manifest (#347).
+REMEDIATE_COMMAND = "pack-doctor remediate"
 
 
 class GateError(Exception):
@@ -339,213 +331,29 @@ def load_yaml(text: str) -> Any:
 # --------------------------------------------------------------------------- manifest
 
 MANIFEST_NAME = "pack-manifest.yaml"
-#: The ``pack-manifest.yaml`` entry lists that carry a ``content_hash``.
-MANIFEST_LISTS = ("constituents", "presets")
 
 
-def content_hash(data: bytes) -> str:
-    """SHA-256 (lowercase hex) of a file's bytes after every CRLF, then every lone CR, becomes LF."""
-    return hashlib.sha256(data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")).hexdigest()
-
-
-def manifest_hash(manifest: dict[str, Any]) -> str:
-    """SHA-256 of the RFC 8785 canonical JSON of the manifest without ``manifest_hash``.
-
-    Narrow like the charter's recipe (PackManifests.canonicalJson): every value is a string, a list
-    or an object of the manifest's fixed keys, so no number output is needed, and the keys are
-    ASCII, so sorting them by code point equals sorting them by UTF-16 code unit. ``presets`` is
-    left out when the manifest lists none.
-    """
-    body: dict[str, Any] = {"schema_version": manifest["schema_version"]}
-    for name in MANIFEST_LISTS:
-        if name == "constituents" or manifest.get(name):
-            body[name] = [
-                {key: entry[key] for key in ("content_hash", "id", "kind", "path") if key in entry}
-                for entry in manifest.get(name, [])
-            ]
-    canonical = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
-
-
-def _bytes_reader(pack_dir: Path) -> Callable[[str], bytes | None]:
-    """The bytes of a pack-relative path; ``None`` for a missing file, a symlink or a path leaving the pack."""
-
-    def read(relative: str) -> bytes | None:
-        target = pack_dir / relative
-        try:
-            inside = target.resolve().is_relative_to(pack_dir.resolve())
-            return target.read_bytes() if inside and not target.is_symlink() and target.is_file() else None
-        except OSError:
-            return None
-
-    return read
-
-
-def stale_manifest_fields(manifest: dict[str, Any], read: Callable[[str], bytes | None]) -> list[str]:
-    """The derived fields of ``manifest`` that do not verify, as the charter names them (PackManifests.stale)."""
-    stale, missing = [], []
-    for name in MANIFEST_LISTS:
-        for entry in manifest.get(name) or []:
-            data = read(entry["path"])
-            if data is None:
-                missing.append(entry["path"])
-            elif entry["content_hash"] != content_hash(data):
-                stale.append(f"{name}{{{entry['path']}}}.content_hash")
-    if manifest["manifest_hash"] != manifest_hash(manifest):
-        stale.append("manifest_hash")
-    return [*stale, *(f"missing: {path}" for path in missing)]
-
-
-def unlisted_constituents(manifest: dict[str, Any], files: set[str]) -> list[str]:
-    """The file-backed doctrine files of a pack its manifest does not list (#182), sorted. A listed
-    file that is missing is ``stale_manifest_fields``'s to report."""
-    listed = {entry.get("path") for entry in manifest.get("constituents") or [] if isinstance(entry, dict)}
-    return sorted(files - listed)
-
-
-def unlisted_nodes(manifest: dict[str, Any], nodes: set[tuple[str, str]]) -> list[str]:
-    """The declared graph nodes of a pack its manifest does not list as constituents (#182 residual),
-    sorted ``kind:id``; nodes of an exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
+# House rule (not a charter rule): the #182 residual, kept by decision 01M8BMA8. Pack-doctor's manifest_membership
+# compares a manifest's lists with those derived from the files the pack holds, so it does not catch a graph node
+# that no file declares (RealPackDoctor pins that the jar accepts one). Only such a node is named here: an unlisted
+# file, or the node of a file, is manifest_membership's alone (the Python unlisted_constituents, a strict subset of
+# it, is retired).
+def unlisted_nodes(
+    manifest: dict[str, Any], nodes: set[tuple[str, str]], file_backed: set[tuple[str, str]] | frozenset = frozenset()
+) -> list[str]:
+    """The declared graph nodes of a pack that no file of the pack declares (``file_backed``: the ``(kind, id)`` its
+    files hold) and that its manifest does not list as constituents (#182 residual), sorted ``kind:id``; nodes of an
+    exempt kind (``MANIFEST_EXEMPT_NODE_KINDS``) are not held to it."""
     listed = {
         (NODE_KIND_BY_ARTIFACT_KIND.get(entry.get("kind"), entry.get("kind")), entry.get("id"))
         for entry in manifest.get("constituents") or []
         if isinstance(entry, dict)
     }
-    return sorted(f"{kind}:{node_id}" for kind, node_id in nodes if kind not in MANIFEST_EXEMPT_NODE_KINDS and (kind, node_id) not in listed)
-
-
-def regenerate_manifest(pack_dir: Path) -> list[str]:
-    """Restamp every derived field of ``pack_dir``/pack-manifest.yaml from the files; membership is kept.
-
-    Returns the listed paths that have no regular file inside the pack; when there are any, nothing is
-    written (the charter refuses such a write with ``pack_unreadable`` before it reaches the target).
-    """
-    path = pack_dir / MANIFEST_NAME
-    try:
-        manifest = load_yaml(path.read_bytes().decode("utf-8"))
-        read = _bytes_reader(pack_dir)
-        missing = []
-        for name in MANIFEST_LISTS:
-            for entry in manifest.get(name) or []:
-                data = read(entry["path"])
-                if data is None:
-                    missing.append(entry["path"])
-                else:
-                    entry["content_hash"] = content_hash(data)
-        if missing:
-            return missing
-        manifest["manifest_hash"] = manifest_hash(manifest)
-        path.write_text(yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
-    except (OSError, UnicodeDecodeError, yaml.YAMLError, KeyError, TypeError, AttributeError) as exc:
-        raise GateError(f"{path}: cannot regenerate the manifest: {exc!r}") from exc
-    return missing
-
-
-# --------------------------------------------------------------------------- derived manifest membership
-
-#: The schemas whose files are the artifacts the charter's whole-pack load holds, with the kind token a manifest
-#: constituent carries (``ArtifactKind.token`` at the pin). Graph-only kinds (``action``, ``anti_pattern``) have no
-#: file, so no constituent. Templates are payloads, not schema files: ``derived_manifest`` adds them by path.
-CONSTITUENT_KIND_BY_SCHEMA = {
-    "agent-profile": "agent_profile", "asset": "asset", "directive": "directive",
-    "glossary": "glossary", "guard": "guard", "lifecycle": "lifecycle",
-    "mission-type": "mission_type", "paradigm": "paradigm",
-    "procedure": "procedure", "routing-catalog": "routing_catalog", "skill": "skill",
-    "step-enhancement": "step_enhancement",
-    "styleguide": "styleguide", "tactic": "tactic", "toolguide": "toolguide",
-}  # fmt: skip
-DERIVE_COMMAND = "python3 scripts/ci/validate_pack_schemas.py --derive-manifest"
-
-
-def _path_order(path: str) -> list[int]:
-    """The charter's path order: the order of the path's UTF-16 code units (``String.compareTo``)."""
-    data = path.encode("utf-16-be")
-    return [int.from_bytes(data[i : i + 2], "big") for i in range(0, len(data), 2)]
-
-
-def derived_manifest(pack_dir: Path, contract: Contract) -> dict[str, Any]:
-    """The manifest lists the charter derives for ``pack_dir`` (``ManifestMembership.derived``), hashes empty.
-
-    One constituent per artifact file the pack holds (kind token, id, pack-relative path) and one preset entry per
-    ``presets/<id>.yaml``, each list in path order. An artifact's id is its document's ``id`` (an agent profile's
-    ``profile-id``); a template's is its path under ``templates/``, prefixed with its mission type under
-    ``missions/<type>/templates/``. A file the charter leaves out (excluded, ignored, a skill's body) is not listed."""
-    constituents: list[dict[str, str]] = []
-    presets: list[dict[str, str]] = []
-    claimed = companion_claims(pack_dir, contract)
-    for path in sorted(pack_dir.rglob("*")):
-        if path.is_symlink() or not path.is_file():
-            continue
-        inside = path.relative_to(pack_dir).as_posix()
-        if inside in claimed:
-            continue
-        category, rule = classify(contract, f"{pack_dir.name}/{inside}")
-        template = TEMPLATE_PATH.fullmatch(inside) if category == "payload" else None
-        if template:
-            template_id = "/".join(part for part in template.groups() if part)
-            constituents.append({"kind": "template", "id": template_id, "path": inside, "content_hash": ""})
-            continue
-        if category != "file" or rule is None:
-            continue
-        if rule.schema == "preset":
-            presets.append({"id": path.stem, "path": inside, "content_hash": ""})
-            continue
-        kind = CONSTITUENT_KIND_BY_SCHEMA.get(rule.schema or "")
-        document = _load_or_none(path) if kind else None
-        if not isinstance(document, dict):
-            continue
-        artifact_id = document.get("profile-id", document.get("id"))
-        if isinstance(artifact_id, str):
-            constituents.append({"kind": kind, "id": artifact_id, "path": inside, "content_hash": ""})
-    constituents.sort(key=lambda entry: _path_order(entry["path"]))
-    presets.sort(key=lambda entry: _path_order(entry["path"]))
-    manifest: dict[str, Any] = {"schema_version": "1.0", "manifest_hash": "", "constituents": constituents}
-    if presets:
-        manifest["presets"] = presets
-    return manifest
-
-
-def _membership(manifest: dict[str, Any], name: str) -> list[str]:
-    entries = [entry for entry in manifest.get(name) or [] if isinstance(entry, dict)]
-    if name == "constituents":
-        return [f"{e.get('kind')}:{e.get('id')} at {e.get('path')}" for e in entries]
-    return [f"{e.get('id')} at {e.get('path')}" for e in entries]
-
-
-def membership_mismatch(listed: dict[str, Any], derived: dict[str, Any]) -> list[str]:
-    """Each difference between a manifest's lists and the derived ones, worded and ordered as the charter's
-    ``ManifestMembership.mismatch`` words them: listed but not held, listed twice, then held but left out. Entry order
-    and the derived hashes are not judged."""
-    out: list[str] = []
-    lists = {name: (_membership(listed, name), _membership(derived, name)) for name in MANIFEST_LISTS}
-    for name, (have, want) in lists.items():
-        out += [f"lists {name[:-1]} {entry}, which the pack does not hold" for entry in dict.fromkeys(have) if entry not in want]
-    for name, (have, _) in lists.items():
-        for entry in dict.fromkeys(have):
-            count = have.count(entry)
-            if count > 1:
-                out.append(f"lists {name[:-1]} {entry}" + (" twice" if count == 2 else f" {count} times"))
-    for name, (have, want) in lists.items():
-        out += [f"leaves out {name[:-1]} {entry}, which the pack holds" for entry in want if entry not in have]
-    return out
-
-
-def derive_manifest(pack_dir: Path, contract: Contract) -> None:
-    """Write ``pack_dir``/pack-manifest.yaml from the derived lists and stamp every derived field, replacing the
-    manifest the pack held or creating it, as the charter's ``ManifestMembership.stamp`` does on every write."""
-    path = pack_dir / MANIFEST_NAME
-    if path.is_symlink() or (path.exists() and not path.is_file()):
-        raise GateError(f"{path}: not a regular file; refusing to write through it")
-    manifest = derived_manifest(pack_dir, contract)
-    read = _bytes_reader(pack_dir)
-    for name in MANIFEST_LISTS:
-        for entry in manifest.get(name) or []:
-            data = read(entry["path"])
-            if data is None:
-                raise GateError(f"{path}: would list {entry['path']}, which the pack does not hold as a file")
-            entry["content_hash"] = content_hash(data)
-    manifest["manifest_hash"] = manifest_hash(manifest)
-    path.write_text(yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
+    return sorted(
+        f"{kind}:{node_id}"
+        for kind, node_id in nodes
+        if kind not in MANIFEST_EXEMPT_NODE_KINDS and (kind, node_id) not in listed | file_backed
+    )
 
 
 # --------------------------------------------------------------------------- Markdown model
@@ -878,6 +686,9 @@ def kind_mapped(contract: Contract, token: str) -> bool:
     return any(rule.match.endswith(f".{token}.yaml") for rule in contract.files)
 
 
+# Kept, not retired with the rules pack-doctor judges (#348 comment 3): the schema pass needs it to pick each file's
+# schema, and the kept house rules read through it: unlisted_nodes (via held_artifacts), the agent-profile reference
+# rules (via held_artifacts and profile_references), and charter_service_check.py's file_not_held policy.
 def classify(contract: Contract, relative: str) -> tuple[str, Rule | None]:
     """The charter's classification of a path relative to the directory holding the packs.
 
@@ -1015,10 +826,10 @@ def misspelled_companions(pack_dir: Path, contract: Contract, stray: list[str]) 
     Every artifact that names a companion the pack lacks is annotated, which also covers a stem typo that still
     matches a ``files`` rule (``implemnet.prompt.md``). A stray file beside such a missing companion, with a similar
     name, is annotated as its probable misspelling; else a stray file whose suffix is close to a companion suffix.
-    Annotations only: R34 keeps every stray file a warning, and pack-check refuses a missing companion."""
+    Annotations only: R34 keeps every stray file a warning, and pack-doctor refuses a missing companion."""
     missing = missing_references(pack_dir, contract)
     tokens = companion_tokens(contract)
-    found = [(artifact, MISSING, f"{artifact} names {meant} as {key}, and no such file exists; pack-check refuses the "
+    found = [(artifact, MISSING, f"{artifact} names {meant} as {key}, and no such file exists; pack-doctor refuses the "
                                  "pack with '<ref>: missing'.")
              for meant, (artifact, key) in sorted(missing.items())]
     for inside in stray:
@@ -1100,11 +911,12 @@ def _step_enhancement_violations(path: Path, document: dict[str, Any]) -> list[s
     return problems
 
 
-def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool = False) -> PackReport:
+def validate_pack(pack_dir: Path, contract: Contract) -> PackReport:
     """Validate every file of one pack directory; violations are sorted and path-relative.
 
-    With ``derived_manifests`` the pack must also carry a ``pack-manifest.yaml`` whose lists are the ones the charter
-    derives (``derived_manifest``): the charter refuses any other with ``manifest_membership`` (#255)."""
+    A manifest's hashes and its full membership are pack-doctor's (``manifest_stale``, ``manifest_membership``) and
+    ``pack-doctor remediate`` writes it (#347): only an unlisted graph node no file of the pack declares is reported
+    here (a house rule, decision 01M8BMA8)."""
     if not pack_dir.is_dir():
         raise GateError(f"{pack_dir} is not a directory")
     report = PackReport(pack=pack_dir.name)
@@ -1113,7 +925,6 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
     manifest: dict[str, Any] | None = None
     payloads: set[str] = set()
     sidecars: list[tuple[str, str]] = []
-    constituent_files: set[str] = set()
     claimed = companion_claims(pack_dir, contract)
     fixture = is_invalid_fixture(pack_dir)
     stray: list[str] = []
@@ -1187,8 +998,6 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
             report.violations += [f"{relative}: {problem}" for problem in _step_enhancement_violations(path, document)]
         if inside == MANIFEST_NAME and rule.schema == "pack-manifest" and not errors:
             manifest = document
-        if rule.schema in MANIFEST_CONSTITUENT_SCHEMAS:
-            constituent_files.add(inside)
         if rule.schema == "asset" and isinstance(document, dict) and isinstance(document.get("path"), str):
             sidecars.append((relative, document["path"]))
         # The charter's rule (spec pack-level-files FR-003): a preset's id is its file stem.
@@ -1202,42 +1011,19 @@ def validate_pack(pack_dir: Path, contract: Contract, *, derived_manifests: bool
         )
     # The charter's SidecarPayloads rule: a sidecar names, exactly, an asset payload the pack holds.
     report.violations += [f"{file}: payload assets/{named} does not exist" for file, named in sidecars if named not in payloads]
-    # The charter judges membership only on a load with no other violation (WholePackStore.loadStaged).
-    clean_load = not report.violations
     if manifest is not None:
-        for stale in stale_manifest_fields(manifest, _bytes_reader(pack_dir)):
-            remedy = (
-                "restore the file or remove its entry" if stale.startswith("missing: ")
-                else f"run `{REGENERATE_COMMAND} {pack_dir}`"
-            )
-            report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: stale manifest: {stale}; {remedy}")
-        report.violations += [
-            f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: {unlisted} is not a constituent; "
-            f"run `{DERIVE_COMMAND} {pack_dir}`"
-            for unlisted in unlisted_constituents(manifest, constituent_files)
-        ]
         report.violations += [
             f"{pack_dir.name}/{MANIFEST_NAME}: incomplete manifest: graph node {node} is not a constituent; "
-            f"declare it in a file the pack holds, or drop the node, then run `{DERIVE_COMMAND} {pack_dir}`"
-            for node in unlisted_nodes(manifest, declared_nodes(pack_dir))
+            f"declare it in a file the pack holds, or drop the node, then run `{REMEDIATE_COMMAND} {pack_dir}`"
+            for node in unlisted_nodes(manifest, declared_nodes(pack_dir), held_artifacts(pack_dir, contract))
         ]
-    if derived_manifests and not fixture:
-        derive = f"run `{DERIVE_COMMAND} {pack_dir}`"
-        if not (pack_dir / MANIFEST_NAME).is_file():
-            report.violations.append(f"{pack_dir.name}/{MANIFEST_NAME}: missing: every pack carries the manifest the "
-                                     f"charter derives; {derive}")
-        elif manifest is not None and clean_load:
-            report.violations += [
-                f"{pack_dir.name}/{MANIFEST_NAME}: manifest_membership: {reason}; {derive}"
-                for reason in membership_mismatch(manifest, derived_manifest(pack_dir, contract))
-            ]
     if report.checked == 0:
         raise GateError(f"{pack_dir}: no pack file was checked; the gate would prove nothing")
     report.suspects = misspelled_companions(pack_dir, contract, stray)
     return report
 
 
-# --------------------------------------------------------------------------- cross-pack checks
+# --------------------------------------------------------------------------- cross-pack house rules
 
 
 #: A fragment kind plural that is not its node kind plus ``s`` (the contract's ``fragment_kinds``).
@@ -1270,7 +1056,7 @@ def _load_or_none(path: Path) -> Any:
 ARTIFACT_SCHEMAS = frozenset(
     {
         "directive", "tactic", "styleguide", "toolguide", "paradigm", "procedure",
-        "agent-profile", "asset", "glossary", "skill",
+        "agent-profile", "anti-pattern", "asset", "glossary", "skill",
         "step-enhancement", "routing-catalog",
     }
 )  # fmt: skip
@@ -1312,9 +1098,11 @@ TEMPLATE_PATH = re.compile(r"(?:missions/([^/]+)/)?templates/(.+)")
 
 def held_artifacts(pack_dir: Path, contract: Contract | None) -> set[tuple[str, str]]:
     """The ``(kind, id)`` pairs a pack holds, in the charter's sense (``compositionFacts``): its
-    artifact files, its ``anti_pattern`` nodes and the terms of its glossaries (``term``, ``<context-id>/<term-id>``:
-    never declared, the target of a ``vocabulary`` edge). Any other node without a file is held by nobody."""
-    held = {key for key in declared_nodes(pack_dir) if key[0] == "anti_pattern"}
+    artifact files (an anti-pattern's ``anti_patterns/<id>.anti-pattern.yaml`` among them) and the terms of its
+    glossaries (``term``, ``<context-id>/<term-id>``: never declared, the target of a ``vocabulary`` edge). A node
+    without a file, an ``anti_pattern`` node included, is held by nobody (charter ``check-packs.md``: "An anti-pattern
+    is held only by its file"; #348 (f))."""
+    held: set[tuple[str, str]] = set()
     for path in sorted(pack_dir.rglob("*")) if contract is not None else []:
         if path.is_symlink() or not path.is_file():
             continue
@@ -1440,10 +1228,12 @@ def profile_reference_violations(
     qualified with the profile's own pack is refused, because references inside one pack stay bare; a
     qualified one must name a pack of the closure that holds it.
 
-    Kept because the charter service does not make these checks: a scratch pack with each of these
-    defects composes (``GET /offering``) and registers (``PUT /packs/{packId}``) without a refusal
-    (``docs/guides/validate-a-pack.md``, "What the service owns and what stays here"). The composition
-    rules the service does make (descriptors, ``depends_on``, edge ends) are not repeated here."""
+    Every part is kept. Two are house rules by open-packs' call (charter ``research/rule-coverage.md`` row 6): the
+    bare reference no pack holds and the reference qualified with the profile's own pack. #348 lists the other three
+    (the bare reference only another pack holds, the qualifier outside the closure, the named pack not holding it) as
+    judged by pack-doctor at ``REFERENCES``; at the pin it does not judge any of them, so they stay until it does (C-003,
+    the charter's answer is the rule; see the comment on each branch). The composition rules the charter does make
+    (descriptors, ``depends_on``, graph edge ends) are not repeated here."""
     descriptors = _descriptors(pack_dirs)
     by_id = {d["pack_id"]: pack for pack, d in descriptors.items() if isinstance(d.get("pack_id"), str)}
     by_name = {d["name"]: pack for pack, d in descriptors.items() if isinstance(d.get("name"), str)}
@@ -1456,8 +1246,15 @@ def profile_reference_violations(
             if qualifier is None:
                 holder = next((other.name for other, nodes in held.items() if any(key in nodes for key in keys)), None)
                 if holder is None:
+                    # House rule (not a charter rule): the charter accepts a bare reference that no pack holds (charter
+                    # research/rule-coverage.md row 6, the same family as the unheld bare DRG endpoint, DIV-007);
+                    # open-packs refuses it by its own call (#348).
                     violations.append(f"{file}: bare {kind} reference {ref_id!r} resolves to no artifact of any pack")
                 elif not any(key in held[pack] for key in keys):
+                    # Not yet judged by pack-doctor (WP10 finding): #348 maps this to pack_reference_unqualified at
+                    # REFERENCES, but the pinned jar reads only graph edges and guard/glossary relationships as
+                    # references (CharterArtifact.writtenReferences), never an agent profile's. Retire it when
+                    # RealPackDoctor.test_pack_doctor_does_not_yet_judge_agent_profile_references turns red.
                     violations.append(
                         f"{file}: bare {kind} reference {ref_id!r} is held only by {holder}; qualify it with that pack's name"
                     )
@@ -1467,25 +1264,32 @@ def profile_reference_violations(
                 # a pack qualifies itself, `qa::x` in the pack of packs/qa): references inside
                 # one pack stay bare, so no qualifier may name it
                 if named is pack or (named is None and qualifier == pack.name):
+                    # House rule (not a charter rule): the charter allows a reference qualified with its own pack
+                    # (charter research/rule-coverage.md row 6); open-packs keeps references inside one pack bare (#348).
                     violations.append(
                         f"{file}: reference '{qualifier}::{ref_id}' names this profile's own pack; "
                         "references inside one pack stay bare"
                     )
                 elif named not in closure:
+                    # Not yet judged by pack-doctor (WP10 finding): #348 maps this to pack_reference_pack_missing, which
+                    # the pinned jar does not fire for an agent profile's reference (see the bare branch above).
                     violations.append(f"{file}: reference '{qualifier}::{ref_id}' names a pack outside this pack's depends_on closure")
                 elif not any(key in held[named] for key in keys):
+                    # Not yet judged by pack-doctor (WP10 finding): #348 maps this to pack_reference_artifact_missing,
+                    # which the pinned jar does not fire for an agent profile's reference (see the bare branch above).
                     violations.append(f"{file}: reference '{qualifier}::{ref_id}': {qualifier} does not hold {kind} {ref_id!r}")
     return violations
 
 
 def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
-    """Resolve every fragment's target step and slot, independently of activation (ADR-0066 d8).
+    """Each fragment slot the target step's prompt does not declare, independently of activation (ADR-0066 d8).
 
-    Kept because the charter service resolves neither: an enhancement whose ``enhances`` target names
-    a step the mission does not have, or whose fragment names a slot the step's prompt does not
-    declare, composes and registers without a refusal. What the service does refuse is not repeated:
-    an enhancement without exactly one ``enhances`` edge, and a target that is not ``action:<type>/<step>``
-    (both ``pack_unreadable`` at composition, ``validation_failed`` at registration).
+    Only the slot is judged here. The target is pack-doctor's (#348): a target step that does not exist is
+    ``pack_reference_artifact_missing`` (or ``pack_reference_pack_missing``) at ``REFERENCES``, and a step whose prompt
+    cannot be read is ``artifact_schema_error`` at the target's mission type file (``step '<id>' names <prompt path>:
+    missing``), so both pass silently here. A target step with no ``prompt_path`` has no prompt (the pinned
+    mission-type schema: ``prompt_path`` is "present when the step has a prompt"), so it declares no slot and every fragment aimed at it is refused here. What the charter refuses besides is not repeated either: an enhancement
+    without exactly one ``enhances`` edge, and a target that is not ``action:<type>/<step>``.
 
     Sibling enhancements are deliberately not a conflict. The graph's ``enhances`` edge
     is the only target field; no target or activation key is read from the enhancement.
@@ -1533,15 +1337,18 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
                 steps = [*(mission.get("steps") or []), *(mission.get("on_demand_steps") or [])]
             step = next((item for item in steps if isinstance(item, dict) and item.get("id") == step_id), None)
             if step is None:
-                problems.append(f"{file}: pack_reference_artifact_missing: target {target!r} does not resolve to a step")
-                continue
-            prompt_path = step.get("prompt_path", f"steps/{step_id}.prompt.md")
-            prompt = target_pack / "missions" / mission_id / prompt_path
-            try:
-                slots = declared_prompt_slots(prompt.read_text(encoding="utf-8"))
-            except OSError:
-                problems.append(f"{file}: pack_reference_artifact_missing: target {target!r} has no readable prompt at {prompt_path}")
-                continue
+                continue  # pack-doctor refuses a target step that does not exist (pack_reference_artifact_missing)
+            prompt_path = step.get("prompt_path")
+            if prompt_path is None:
+                slots: set[str] = set()  # no prompt_path, no prompt (the pinned schema has no default path): no slot
+            else:
+                prompt = target_pack / "missions" / mission_id / str(prompt_path)
+                try:
+                    slots = declared_prompt_slots(prompt.read_text(encoding="utf-8"))
+                except OSError:
+                    continue  # pack-doctor refuses a prompt_path whose file cannot be read (artifact_schema_error)
+            # House rule (not a charter rule): C38: the charter refuses an undeclared slot only for a stored activation
+            # that has the enhancement in force; open-packs refuses it in every pack, activated or not (#348).
             for index, fragment in enumerate(fragments):
                 slot = fragment.get("slot") if isinstance(fragment, dict) else None
                 if isinstance(slot, str) and slot not in slots:
@@ -1549,6 +1356,9 @@ def prompt_fragment_composition_violations(pack_dirs: list[Path]) -> list[str]:
     return problems
 
 
+# House rule (not a charter rule): the ruling R-s remainder. Pack-doctor does not judge a specializes_from cycle until
+# charter epic #636 slices 2-4; retire this when a charter release lists it under REFERENCES (#348). It pools every
+# pack's edges, which is stricter than registration's per-closure specialization_cycle.
 def specialization_cycle_violations(pack_dirs: list[Path]) -> list[str]:
     """Each cycle among the ``specializes_from`` edges between agent profiles of ``pack_dirs`` (#286; charter ADR-0078
     decision 2: a role's candidates are ranked by their longest in-force chain, so the edges must be acyclic). A
@@ -1592,27 +1402,21 @@ def specialization_cycle_violations(pack_dirs: list[Path]) -> list[str]:
 
 
 def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = None) -> list[str]:
-    """The checks across all packs together that the charter service does not make. The service is
-    the authority on composition (descriptors, ``depends_on``, edge ends, sibling conflicts) and runs
-    in its own job (``scripts/ci/charter_service_check.py``); what is left here is what a scratch pack
-    run through it showed it accepts:
+    """The house rules across all packs together: what the charter does not judge, by ruling (C-005, ADR-0083
+    decision 18; #348). Everything else is pack-doctor's (``validate --round-trip --full``, run by
+    ``scripts/ci/charter_pack_doctor.py``): composition, the preset items (``preset_item_undeclared``,
+    ``preset_item_not_held``), the graph references and the step enhancements' targets. Kept here:
 
-    * an id declared by two packs of different levels: the service takes it as a layer override, this
-      repository does not allow an org pack to re-declare a built-in id (the same id in two packs of
-      one level is the service's ``pack_sibling_conflict``);
-    * a preset ``activated_<kinds>`` entry naming an id no pack declares (checked against the
-      declared ``(kind, id)`` pairs of all packs, so an id of another kind does not satisfy it);
-      a ``must_have: true`` entry must be held (a file, not just a graph node) within the preset
-      pack's ``depends_on`` closure (the charter's ``requiredNotHeld``), not merely by some pack;
-    * a DRG edge endpoint written bare (``<kind>:<id>``) in a pack's fragment that resolves to no node
-      of any pack (a qualified endpoint is the service's ``pack_reference_*``);
+    * an id declared by two packs of different levels (the same id in two packs of one level is the charter's
+      ``pack_sibling_conflict``);
+    * a DRG edge endpoint written bare (``<kind>:<id>``) in a pack's fragment that resolves to no node of any pack (a
+      qualified endpoint is pack-doctor's ``pack_reference_*``);
     * the agent-profile references of ``profile_reference_violations``;
-    * the prompt-fragment resolution of ``prompt_fragment_composition_violations``;
-    * a cycle among the agent profiles' ``specializes_from`` edges (``specialization_cycle_violations``), which the
-      charter refuses at registration (``422 specialization_cycle``, ADR-0078 decision 2) only for the closure it
-      registers.
+    * the undeclared prompt-fragment slot of ``prompt_fragment_composition_violations``;
+    * a cycle among the agent profiles' ``specializes_from`` edges (``specialization_cycle_violations``).
 
-    With ``contract``, artifact files count as declarations too (``declared_nodes``).
+    Each names its ruling in a comment. With ``contract``, artifact files count as declarations too
+    (``declared_nodes``).
 
     Fails closed (GateError) when no pack declares any node.
     """
@@ -1623,41 +1427,16 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
         for key in declared_nodes(pack, contract):
             owners.setdefault(key, []).append(pack)
     if not owners:
-        raise GateError("cross-pack checks: no pack declares any DRG node; the id index is empty and would prove nothing")
+        raise GateError("cross-pack rules: no pack declares any DRG node; the id index is empty and would prove nothing")
+    # House rule (not a charter rule): ADR-0053 decision 6: the charter takes an id re-declared at another level as a
+    # layer override (C-005, ADR-0083 decision 18); open-packs does not let an org pack re-declare a built-in id.
     violations = [
         f"{kind}:{node_id}: declared by packs of different levels "
         f"({', '.join(sorted(f'{pack.name} [{levels[pack]}]' for pack in packs))}); a pack re-declaring another level's id is not allowed here"
         for (kind, node_id), packs in sorted(owners.items())
         if len({levels[pack] for pack in packs}) > 1
     ]
-    descriptors = _descriptors(pack_dirs)
-    by_id = {d["pack_id"]: pack for pack, d in descriptors.items() if isinstance(d.get("pack_id"), str)}
     for pack in pack_dirs:
-        closure = _depends_on_closure(pack, descriptors, by_id)
-        for preset in sorted((pack / "presets").glob("*.yaml")):
-            document = _load_or_none(preset)
-            if not isinstance(document, dict):
-                continue
-            for key, entries in sorted(document.items()):
-                if not key.startswith("activated_") or not isinstance(entries, list):
-                    continue
-                kind = _singular(key.removeprefix("activated_"))
-                for entry in entries:
-                    entry_id = entry.get("id") if isinstance(entry, dict) else None
-                    if not isinstance(entry_id, str):
-                        continue
-                    if (kind, entry_id) not in owners:
-                        violations.append(
-                            f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r}, which no pack declares as a {kind}"
-                        )
-                    elif entry.get("must_have") is True and not any((kind, entry_id) in held[member] for member in closure):
-                        # The charter's RequiredFloor takes a must-have item only from what the closure holds
-                        # (its files; a graph node without one is held by nobody).
-                        reached = ", ".join([pack.name, *sorted(p.name for p in closure if p != pack)])
-                        violations.append(
-                            f"{pack.name}/presets/{preset.name}: {key} names {entry_id!r} as must_have, but no pack in its "
-                            f"depends_on closure ({reached}) holds it as a {kind}"
-                        )
         fragment = _load_or_none(pack / "drg" / "fragment.yaml")
         for edge in (fragment.get("edges") or []) if isinstance(fragment, dict) else []:
             if not isinstance(edge, dict):
@@ -1668,6 +1447,8 @@ def cross_pack_violations(pack_dirs: list[Path], contract: Contract | None = Non
                     continue
                 qualifier, rest = split_qualifier(urn)
                 kind, _, node_id = rest.partition(":")
+                # House rule (not a charter rule): DIV-007: the charter accepts a bare edge endpoint that resolves to
+                # no node; open-packs refuses it, across every pack given (#348).
                 if qualifier is None and (kind, node_id) not in owners and not any((kind, node_id) in nodes for nodes in held.values()):
                     violations.append(
                         f"{pack.name}/drg/fragment.yaml: edge {end} {urn!r} resolves to no node of any pack"
@@ -1688,48 +1469,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("packs", nargs="*", type=Path, help="pack directories that must validate")
     parser.add_argument("--expect-invalid", action="append", default=[], type=Path, metavar="PACK",
                         help="a pack directory that must produce schema violations (non-vacuity)")
-    parser.add_argument("--regenerate-manifest", action="append", default=[], type=Path, metavar="PACK",
-                        help="restamp the content_hash and manifest_hash fields of PACK/pack-manifest.yaml "
-                             "(membership is kept); refused, exit 1, if a listed file is missing. Validates only the "
-                             "packs also given as positional arguments")
-    parser.add_argument("--derive-manifest", action="append", default=[], type=Path, metavar="PACK",
-                        help="write PACK/pack-manifest.yaml from the lists the charter derives (every artifact file and "
-                             "preset the pack holds, in path order) and stamp its hashes, replacing or creating it")
-    parser.add_argument("--derived-manifests", action="store_true",
-                        help="also require every given pack to carry a pack-manifest.yaml whose lists are the derived "
-                             "ones (the charter refuses any other with manifest_membership)")
     parser.add_argument("--cross-pack", action="store_true",
-                        help="also check the given packs together, for what the charter service does not "
-                             "(scripts/ci/charter_service_check.py): preset ids, bare DRG edge endpoints, an id re-declared "
-                             "at another level, agent-profile references and prompt-fragment targets and slots")
+                        help="also check the given packs together for the house rules, what the charter does not judge "
+                             "by ruling: an id re-declared at another level, a bare DRG edge endpoint that resolves to no "
+                             "node, a prompt-fragment slot the target prompt does not declare, a specializes_from cycle, "
+                             "and two agent-profile references (a bare one no pack holds, one qualified with the "
+                             "profile's own pack). Also, until pack-doctor judges them (it does not at the pin), three "
+                             "more agent-profile references: a bare one only another pack holds, one outside the "
+                             "depends_on closure, one the named pack does not hold. Everything else across packs "
+                             "(composition, preset items, graph references, step-enhancement targets, manifests) is "
+                             "pack-doctor's: scripts/ci/charter_pack_doctor.py")
     parser.add_argument("--contract", type=Path, help="directory holding file-kinds.yaml and schemas/")
     args = parser.parse_args(argv)
-    if not args.packs and not args.expect_invalid and not args.regenerate_manifest and not args.derive_manifest:
+    if not args.packs and not args.expect_invalid:
         parser.error("give at least one pack directory")
     try:
         status = EXIT_OK
-        for pack in args.regenerate_manifest:
-            missing = regenerate_manifest(pack)
-            for path in missing:
-                print(f"::error file={pack}::{path} is listed in {MANIFEST_NAME} but is missing, not a regular file "
-                      "or outside the pack; restore it or remove its entry")
-            if missing:
-                print(f"not regenerated: {pack / MANIFEST_NAME} ({len(missing)} listed files missing)")
-                status = EXIT_INVALID
-            else:
-                print(f"regenerated: {pack / MANIFEST_NAME}")
-        if not args.packs and not args.expect_invalid and not args.derive_manifest:
-            return status
         contract = contract_for(args.contract)
-        for pack in args.derive_manifest:
-            derive_manifest(pack, contract)
-            print(f"derived: {pack / MANIFEST_NAME}")
-        if not args.packs and not args.expect_invalid:
-            return status
         print(f"charter contract: {args.contract or os.environ.get('CHARTER_CONTRACT_DIR') or charter_commit()}; "
               f"{len(contract.validators)} schemas loaded")
         for pack in args.packs:
-            report = validate_pack(pack, contract, derived_manifests=args.derived_manifests)
+            report = validate_pack(pack, contract)
             for line in report.warnings:
                 print(f"::warning file={pack}::{line}")
             for inside, title, message in report.suspects:  # R38: a PR annotation on the file itself, never a failure
@@ -1743,7 +1503,7 @@ def main(argv: list[str] | None = None) -> int:
             found = cross_pack_violations(args.packs, contract)
             for line in found:
                 print(f"::error::cross-pack: {line}")
-            print(f"{'ok' if not found else 'FAIL'}: cross-pack checks over {len(args.packs)} packs ({len(found)} violations)")
+            print(f"{'ok' if not found else 'FAIL'}: cross-pack rules over {len(args.packs)} packs ({len(found)} violations)")
             status = status or (EXIT_OK if not found else EXIT_INVALID)
         for pack in args.expect_invalid:
             report = validate_pack(pack, contract)

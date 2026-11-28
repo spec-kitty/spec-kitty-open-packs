@@ -72,6 +72,17 @@ class GeneratorDeterminismTest(unittest.TestCase):
             checksum = gen.compute_checksum(root / "packs" / "built-in")
             self.assertIn(checksum, first)
 
+    def test_anti_patterns_are_a_canonical_kind_after_procedures(self) -> None:
+        # #350: anti-patterns are files of their own kind, listed in doctrine order, not among the extra directories.
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = Path(tmp)
+            for kind in ("zz-extra", "agent_profiles", "anti_patterns", "procedures"):
+                (pack / kind).mkdir()
+                (pack / kind / "x.yaml").write_text("id: x\n", encoding="utf-8")
+            counts, _, total = gen.build_inventory(pack)
+            self.assertEqual([kind for kind, _ in counts], ["procedures", "anti_patterns", "agent_profiles", "zz-extra"])
+            self.assertEqual(total, 4)
+
     def test_check_gate_fails_closed_on_orphaned_generated_page(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

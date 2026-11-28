@@ -1,0 +1,28 @@
+schema_version: '1.0'
+id: the-literal-scan-trap
+title: The Literal-Scan Trap
+description: Pinning a test to the literal text of production code — function names, class names, module paths, docstring wording — couples the test to implementation shape, not behavior. Every cleanup or rename forces a re-pin, teaching contributors that tests are friction to work around. A literal-symbol scan that has been re-pinned twice on shape-only changes is retired with proof that integration paths still cover the behavior; a line-count ceiling on a single file is replaced by a project-wide metric that does not gate on one file's momentary size.
+severity: severe
+bad_example: |-
+  # Asserts a specific class name appears verbatim in the source file.
+  # Must be re-pinned every time the class is renamed or the file is reorganised —
+  # even when no behavior changed. Two re-pins = one deletion waiting to happen.
+  def test_domain_object_present():
+      src = Path("src/myproject/orders/domain.py").read_text()
+      assert "class Order" in src  # shape pin, not a behavioral contract
+
+  # LOC gate: fails for the contributor who added a docstring;
+  # passes for the one who doubled a neighboring file not under the gate.
+  def test_orders_module_not_too_large():
+      lines = Path("src/myproject/cli/orders.py").read_text().splitlines()
+      assert len(lines) <= 500, f"orders.py too large: {len(lines)} lines"
+good_example: |-
+  # Behavioral contract through the public surface — survives any internal reorganisation.
+  def test_order_rejects_empty_customer_id():
+      with pytest.raises(ValueError, match="customer_id"):
+          Order(customer_id="", total_cents=1200)
+
+  # Size metric delegated to Sonar / ruff; pytest asserts the behavioral contract only.
+  def test_orders_command_lists_all_orders(runner, tmp_store):
+      result = runner.invoke(app, ["orders", "list", "--store", tmp_store])
+      assert result.exit_code == 0

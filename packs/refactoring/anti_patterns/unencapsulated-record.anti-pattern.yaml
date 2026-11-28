@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: unencapsulated-record
+title: Unencapsulated Record
+description: a raw data record accessed by field name from many call sites, where the direct access blocks adding validation, renaming fields, or changing the internal representation
+severity: smell
+bad_example: 'organization = {''name'': ''Acme'', ''country'': ''GB''} accessed as organization[''name''] in 12 places.'

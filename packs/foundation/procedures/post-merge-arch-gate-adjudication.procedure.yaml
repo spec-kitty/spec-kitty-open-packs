@@ -58,21 +58,5 @@ steps:
     In both cases, write the classification rationale into the PR description or work-package activity log so reviewers can verify the adjudication without re-running the steps.
   on_failure: |
     If classification is ambiguous (the test is flaky on the mission base branch or the mission base cannot be reached), escalate to the human with the specific evidence collected in Steps 1–3. Do not resolve ambiguity by defaulting to "pre-existing."
-anti_patterns:
-- title: Single-shard inspection
-  content: |
-    Running only the failing CI shard and declaring the investigation complete. Sibling gate failures with the same root cause are missed, and the full failure inventory is wrong.
-- title: Comparing against the lane base instead of the mission base
-  content: |
-    In coord topology, lane bases are intermediate commits that may already include other lanes' changes. Comparing a failing test against the lane base (rather than the true mission base branch) gives an incorrect pre-existing verdict when the failure was in fact introduced by an earlier lane.
-- title: Concluding flake without running CI-only shards locally
-  content: |
-    Dismissing a CI-only failure as a flake without first reproducing the failing CI-only tests locally. CI-only shards reveal real failures that never appear in the fast local tier.
-- title: Blocking a merge on a confirmed pre-existing failure
-  content: |
-    Treating a gate failure that existed on the mission base branch as a regression blocker. Pre-existing failures should be tracked and scheduled for remediation, not used to block merges that did not introduce them.
-- title: Skipping the activity log record
-  content: |
-    Adjudicating a failure verbally or in chat without recording the classification and evidence in the PR or activity log. Future reviewers must be able to reconstruct the adjudication from written artifacts.
 notes: |
   The key distinction this procedure enforces is "mission base branch" vs. "lane base branch." In coord-topology missions, lane worktrees branch from an intermediate branch (the mission branch, e.g. `kitty/mission-<slug>-<mid8>-lane-<id>`), not from `main` or the final coordination target. The `target_branch` in `meta.json` is the mission base; the lane's own `base` field in `lanes.json` is the lane base. These may differ. Always use `meta.json`'s `target_branch` as the pre-existing baseline.

@@ -1,50 +1,20 @@
-schema_version: "1.0"
 id: DISCIPLINED_REFACTORING
+schema_version: '1.0'
 title: Disciplined Refactoring
-intent: >
-  Refactoring is behaviour-preserving restructuring, and it stays safe only when
-  it is disciplined. Change the shape of the code in small, individually
-  reversible steps while a green test suite holds behaviour constant; never fold
-  a behaviour change into the same step as a structural move. Before touching the
-  code, name the smell the move addresses — feature envy, a long method, a data
-  clump, duplicated logic, a conditional switching on state — so the improvement
-  is aimed at a stated problem rather than at taste. Apply exactly one
-  transformation at a time and re-run the tests after each, so that when a step
-  goes red the cause is unambiguous and the step can be reverted on its own. This
-  directive governs HOW to restructure once a smell is identified; the concrete
-  moves it recommends (extract, encapsulate, move, replace-conditional-with-
-  polymorphism, incremental replacement) are the refactoring tactics, each chosen
-  by the specific smell it resolves.
+intent: |
+  Refactoring is behaviour-preserving restructuring, and it stays safe only when it is disciplined. Change the shape of the code in small, individually reversible steps while a green test suite holds behaviour constant; never fold a behaviour change into the same step as a structural move. Before touching the code, name the smell the move addresses — feature envy, a long method, a data clump, duplicated logic, a conditional switching on state — so the improvement is aimed at a stated problem rather than at taste. Apply exactly one transformation at a time and re-run the tests after each, so that when a step goes red the cause is unambiguous and the step can be reverted on its own. This directive governs HOW to restructure once a smell is identified; the concrete moves it recommends (extract, encapsulate, move, replace-conditional-with- polymorphism, incremental replacement) are the refactoring tactics, each chosen by the specific smell it resolves.
 enforcement: lenient-adherence
-scope: >
-  Applies whenever code is being restructured without an intended change in
-  observable behaviour — tidying a surface before a functional change, paying
-  down a code smell, decomposing an over-long class or method, or untangling
-  convoluted logic. It does not govern authoring new behaviour; restructuring
-  code just written, once the tests covering the surface are green, is in scope (green mode). Nor
-  does it license changing behaviour under cover of a refactor: a refactor
-  and a behaviour change are separate steps with separate commits.
+scope: |
+  Applies whenever code is being restructured without an intended change in observable behaviour — tidying a surface before a functional change, paying down a code smell, decomposing an over-long class or method, or untangling convoluted logic. It does not govern authoring new behaviour; restructuring code just written, once the tests covering the surface are green, is in scope (green mode). Nor does it license changing behaviour under cover of a refactor: a refactor and a behaviour change are separate steps with separate commits.
 integrity_rules:
-  - "Behaviour is preserved across every refactoring step: the existing tests
-    pass before and after each move without being weakened to accommodate it."
-  - "Each step is independently revertible. Moves are small enough that a single
-    red step can be undone on its own without unwinding unrelated work."
-  - "A test that only asserts on internal structure the refactor deliberately
-    changes is updated to assert on behaviour, not deleted to make the step pass."
-  - "The refactor is aimed at a named smell; restructuring for personal taste
-    with no stated problem is out of scope for this directive."
+- 'Behaviour is preserved across every refactoring step: the existing tests pass before and after each move without being weakened to accommodate it.'
+- Each step is independently revertible. Moves are small enough that a single red step can be undone on its own without unwinding unrelated work.
+- A test that only asserts on internal structure the refactor deliberately changes is updated to assert on behaviour, not deleted to make the step pass.
+- The refactor is aimed at a named smell; restructuring for personal taste with no stated problem is out of scope for this directive.
 validation_criteria:
-  - "Every restructuring step names the smell it resolves and leaves the tests covering the surface green and no other test newly red."
-  - "No commit mixes a behaviour change with a structural move; reviewers can
-    classify each diff as behaviour-preserving or behaviour-changing without
-    guessing."
-  - "Where behaviour coverage was missing, characterization tests were added
-    before the first move rather than after."
+- Every restructuring step names the smell it resolves and leaves the tests covering the surface green and no other test newly red.
+- No commit mixes a behaviour change with a structural move; reviewers can classify each diff as behaviour-preserving or behaviour-changing without guessing.
+- Where behaviour coverage was missing, characterization tests were added before the first move rather than after.
 explicit_allowances:
-  - "On a throwaway spike or exploratory branch whose output will be discarded,
-    the small-step discipline may be relaxed, since nothing produced there is
-    merged."
-  - "A purely mechanical, tool-driven rename or signature change applied
-    atomically across the codebase by a reliable refactoring tool may be taken in
-    a single step, provided the tool guarantees behaviour preservation and the
-    suite is green afterward."
+- On a throwaway spike or exploratory branch whose output will be discarded, the small-step discipline may be relaxed, since nothing produced there is merged.
+- A purely mechanical, tool-driven rename or signature change applied atomically across the codebase by a reliable refactoring tool may be taken in a single step, provided the tool guarantees behaviour preservation and the suite is green afterward.

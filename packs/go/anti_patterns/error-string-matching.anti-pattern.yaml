@@ -1,0 +1,7 @@
+schema_version: '1.0'
+id: error-string-matching
+title: Error String Matching
+description: Deciding on an error by comparing or searching its message. Messages change, wrapping changes them, and the check silently stops matching.
+severity: breaking
+bad_example: if err != nil && err.Error() == "record not found" { /* ... */ }
+good_example: if errors.Is(err, ErrNotFound) { /* ... */ }

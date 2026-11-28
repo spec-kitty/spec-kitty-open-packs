@@ -1,0 +1,23 @@
+schema_version: '1.0'
+id: nested-conditional-logic
+title: Nested Conditional Logic
+description: Deep if/else nesting instead of early-return guard clauses. Increases cognitive load and hides the happy path.
+severity: smell
+bad_example: |-
+  def process(path: Path) -> dict:
+      if path.exists():
+          if path.is_file():
+              with open(path) as f:
+                  return yaml.safe_load(f)
+          else:
+              raise ValueError("Not a file")
+      else:
+          raise FileNotFoundError(str(path))
+good_example: |-
+  def process(path: Path) -> dict:
+      if not path.exists():
+          raise FileNotFoundError(str(path))
+      if not path.is_file():
+          raise ValueError(f"Not a file: {path}")
+      with open(path) as f:
+          return yaml.safe_load(f)

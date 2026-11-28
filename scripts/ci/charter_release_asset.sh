@@ -1,4 +1,4 @@
-# Sourced by charter_pack_check_jar.sh and charter_service_jar.sh: the two checks every release jar of the charter
+# Sourced by charter_pack_doctor_jar.sh and charter_service_jar.sh: the two checks every release jar of the charter
 # passes before a later step runs it. #252. Not run on its own; the sourcing script sets `set -euo pipefail`.
 
 # require_tag_at_commit <repository> <tag> <commit>

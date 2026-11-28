@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: anemic-domain-model
+title: Anemic Domain Model
+description: Anemic Domain Models strip behaviour from domain objects, reducing them to data bags with external procedural services. This defeats the purpose of a rich, expressive domain model and scatters invariant enforcement across service layers.
+severity: severe
+bad_example: '`Order` holds only fields with getters and setters, while `OrderService.cancel(order)` checks the status, refunds the payment and sets `order.status` itself.'

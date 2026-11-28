@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/go`
 - **Pack level:** `org`
 - **Declared version:** `1.1.1`
-- **Content checksum (sha256):** `dcc202d286ba8e726cc7e44555e1178fe0a042911df8d008305584d7b6f4b5a7`
+- **Content checksum (sha256):** `3c28393944d65cc4a6fc447e15ebe5733b2fdb1a3074836faac51975ecc4b4fb`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -48,10 +48,11 @@ An opt-in org stack pack with general-purpose Go doctrine for teams that build i
 | --- | --- |
 | `styleguides` | 1 |
 | `toolguides` | 2 |
+| `anti_patterns` | 8 |
 | `agent_profiles` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **9** |
+| **Total files** | **17** |
 
 ### Full listing
 
@@ -67,6 +68,20 @@ An opt-in org stack pack with general-purpose Go doctrine for teams that build i
 
 - `go-review-checks.guide.md`
 - `go-review-checks.toolguide.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (8)</summary>
+
+- `backward-goto-and-fall-through-flow.anti-pattern.yaml`
+- `context-stored-in-a-struct.anti-pattern.yaml`
+- `copying-a-struct-with-a-mutex.anti-pattern.yaml`
+- `error-string-matching.anti-pattern.yaml`
+- `package-level-mutable-globals.anti-pattern.yaml`
+- `producer-side-interface.anti-pattern.yaml`
+- `typed-nil-error.anti-pattern.yaml`
+- `unchecked-conversion-into-a-typed-set.anti-pattern.yaml`
 
 </details>
 

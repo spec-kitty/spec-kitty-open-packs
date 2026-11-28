@@ -1,0 +1,6 @@
+schema_version: '1.0'
+id: logging-everything
+title: Logging everything
+description: Broad untagged logging creates noise, hides the discriminating signal, and leaves cleanup debt.
+severity: smell
+bad_example: Every function in the sync module logs its arguments at INFO while one ordering bug is chased, and the lines stay.

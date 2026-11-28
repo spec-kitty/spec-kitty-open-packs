@@ -22,7 +22,7 @@ generated:
 - **Pack directory:** `packs/event-driven`
 - **Pack level:** `org`
 - **Declared version:** `4.0.1`
-- **Content checksum (sha256):** `60dbfd0642fe41376ea6cc1fdeb84bb9aacf3567de2e2e5766e2106ca6f39f7e`
+- **Content checksum (sha256):** `5191781a5d5ae85168541daefefabcff4c39f95b7eb023a6f6d47820fb3172f6`
 - **Checksum recipe:** sha256 over the sorted `(relative-path + NUL + bytes + LF)` of every file in the pack directory. Re-hash a downloaded pack with the same recipe to verify integrity.
 
 ## Purpose
@@ -52,11 +52,12 @@ ledger as much as an event store does.
 | `tactics` | 4 |
 | `styleguides` | 1 |
 | `paradigms` | 1 |
+| `anti_patterns` | 3 |
 | `assets` | 2 |
 | `glossaries` | 1 |
 | `drg` | 1 |
 | `presets` | 1 |
-| **Total files** | **20** |
+| **Total files** | **23** |
 
 ### Full listing
 
@@ -93,6 +94,15 @@ ledger as much as an event store does.
 <summary><code>paradigms</code> (1)</summary>
 
 - `evd-event-sourced-design.paradigm.yaml`
+
+</details>
+
+<details>
+<summary><code>anti_patterns</code> (3)</summary>
+
+- `command-named-as-an-event.anti-pattern.yaml`
+- `crud-event-with-a-field-bag.anti-pattern.yaml`
+- `version-inferred-from-shape.anti-pattern.yaml`
 
 </details>
 
