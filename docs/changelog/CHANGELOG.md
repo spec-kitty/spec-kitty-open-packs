@@ -2,7 +2,7 @@
 title: Changelog
 description: Canonical changelog for the Spec Kitty Open Packs repository, following Keep a Changelog and Semantic Versioning.
 doc_status: wip
-updated: '2026-11-21'
+updated: '2026-11-28'
 ---
 # Changelog
 
@@ -20,6 +20,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### 💥 Breaking
+
+- **The gate runs the charter's pack-doctor, and the packs follow charter `main` at `f6f21e4c`** (#345,
+  #349, #343; charter ADR-0083). `charter.lock.yaml` moves from the `service-v0.1.0-rc.3` release to
+  `f6f21e4c086cb37d42c7b93b903725e11bcaad8b`, charter `main`, pinned on demand by operator ruling
+  (2026-11-25): no `service-v*` release carries pack-doctor yet. The charter renamed its whole-pack
+  checker from pack-check to pack-doctor, with no alias, and this repository follows, one name per tool.
+  The `Charter service validation` job runs `pack-doctor validate --round-trip --full` over every pack
+  and valid fixture (`scripts/ci/charter_pack_doctor.py`, with the jar from
+  `scripts/ci/charter_pack_doctor_jar.sh`), reads its `PackDoctorReport` and uploads it as the
+  `charter-pack-doctor-report` artifact. The lock key `pack_check_sha256` is now `pack_doctor_sha256`, and an
+  invalid fixture's `expected-code` names its code in a `pack-doctor:` line. **Upgrade:** rename the lock key
+  and the `expected-code` line, and read the charter's `docs/guides/check-packs.md` for the CLI, the report
+  and the exit codes.
+  - **Anti-patterns are files** (#350; charter ADR-0052, ADR-0053). The 273 inline `anti_patterns` entries
+    of styleguides and procedures and the 15 file-less `anti_pattern` nodes are curated, merged by meaning,
+    into 265 files `anti_patterns/<id>.anti-pattern.yaml`, each with a `severity` and a `bad_example`. The
+    guidance that held an entry rejects the anti-pattern with a `rejects` edge, pack-qualified across
+    packs. **Upgrade:** a styleguide or procedure carrying `anti_patterns` is refused; move each entry to
+    its own file and add the `rejects` edge.
+  - **Manifests are stamped by `pack-doctor remediate`** (#347). `scripts/ci/charter_pin.py apply`
+    restamps every pack with the pinned charter's `remediate`, which also rewrites every modelled file in
+    canonical form: comments, the `pack.yaml` headers among them, are gone (operator ruling
+    `01M8A5ZNJTETCBFCC4H5G0VHQ6`). pack-doctor judges the manifests (`manifest_membership`,
+    `manifest_stale`).
+  - **The Python rules the charter judges are retired; the house rules are kept** (#346, #348).
+    `validate_pack_schemas.py` no longer judges the preset items, a step enhancement's target, or a
+    manifest's hashes and file membership, and derives no manifest; it still names a graph node no file
+    declares that a manifest leaves out. `--cross-pack` keeps only what the charter does not judge by
+    ruling, each rule beside its ruling (`docs/guides/validate-a-pack.md`, "The house rules").
+  - **Deferred.** The release pin waits on the first `service-v*` release that carries pack-doctor; the
+    release track does not replace a `main` pin, so that move is made by hand (#345, #350). Three
+    agent-profile reference rules stay in Python until a pinned pack-doctor judges them (#348 stays open
+    for them; #356). #343 closes on the next green nightly run against charter `main`.
 
 - **The packs follow charter `main` at `33f3ad4`** (epic #287; #316, #309, #313). `charter.lock.yaml`
   moves from the `service-v0.1.0-rc.1` release to `33f3ad46e9e33e895d4cd3a077d928d91b4f025f`, charter
