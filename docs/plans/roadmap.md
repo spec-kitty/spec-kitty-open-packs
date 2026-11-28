@@ -62,8 +62,9 @@ builds on the charter commit this repository pins; moving that pin first keeps l
 
 **Exit criteria:**
 
-- `charter.lock.yaml` pins a charter release or pre-release tag (`service-v*`), its commit and its
-  jar digest, and every pack validates against it; charter `main` HEAD is pinned only on demand.
+- `charter.lock.yaml` pins a charter release or pre-release tag (`service-v*`), its commit and the
+  digests of its service and pack-doctor jars, and every pack validates against it; charter `main` HEAD
+  is pinned only on demand.
 - A scheduled job proposes the next lock bump when the charter publishes a release and the gates
   are green, so pin moves stay small; charter `main` is checked nightly and never bumps the lock.
 - The local schema-validation bridge is retired once the charter ships a validator this repository
@@ -71,10 +72,11 @@ builds on the charter commit this repository pins; moving that pin first keeps l
 - The decisions behind the pin policy and the ownership split are recorded as ADRs
   ([ADR 2026-11-19-3](../architecture/adr/2026-11-19-3-pin-charter-releases-and-charter-owns-pack-logic.md)).
 
-**Waits on:** a charter release that includes the `tension` relation spelling, the
-`file_not_held` ruling (charter #554) and the routing catalog (charter ADR-0080). Until then
-the nightly check against charter `main` stays red. The tracker records which issues must
-land before that check goes green.
+**Waits on:** the first charter `service-v*` release that carries pack-doctor. The charter cuts no
+release before the work that brings pack-doctor lands (charter ruling R-w), so the packs are pinned to
+charter `main` on demand until then (operator ruling, 2026-11-25). The move to that release, and what
+in the alignment needs a release pin, waits on it. The tracker records which issues remain open until
+then.
 
 ## Pack content quality
 
